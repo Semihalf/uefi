@@ -27,12 +27,7 @@ mkdir -p cisco
 	--csr cn63xx,octcsr_cn63xxp2.txt \
 	--csr cn68xx,octcsr_cn68xxp1.txt
 
-OUT=files
-rm -rf files
-mkdir -p ${OUT}/executive
-mv cisco ${OUT}/
-
-mv bdk-csrs.h ${OUT}/executive/
-mv cvmx-csr-db.c ${OUT}/executive/
-mv cvmx-error-init-*.c ${OUT}/executive/
+mv bdk-csrs.h ../libbdk-arch/
+#mv cvmx-csr-db.c ../libbdk-hal/
+#mv cvmx-error-init-*.c ../libbdk-hal/
 

@@ -21,6 +21,11 @@ libbdk-hal/
 	Library and C files providing a API for interfacing with Octeon II
 	hardware. This is similar to the "executive" in the Octeon SDK.
 
+libbdk/
+	This is a combined library and single header file for using all of
+	the libbdk-* features. Normally, this contains the only C header
+	and library that applications should ever reference.
+
 eLua/
 	This is a nearly boot environment based on the Lua scripting
 	language.
