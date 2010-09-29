@@ -1,0 +1,38 @@
+#!/bin/bash
+
+rm -rdf html
+mkdir -p html
+rm -rdf cisco
+mkdir -p cisco
+
+#
+# WARNING: The order of these chips in this list is hard coded into
+# cvmx-csr-db-support.c. Be sure the order here and the select
+# case statements there match!
+#
+
+./csr-tool.py --html \
+	--csr cn38xxp2,octcsr_cn38xxp2.txt \
+	--csr cn31xx,octcsr_cn31xxp1.txt \
+	--csr cn30xx,octcsr_cn30xxp1.txt \
+	--csr cn38xx,octcsr_cn38xxp3.txt \
+	--csr cn58xxp1,octcsr_cn58xxp1.txt \
+	--csr cn58xx,octcsr_cn58xxp2.txt \
+	--csr cn56xxp1,octcsr_cn56xxp1.txt \
+	--csr cn56xx,octcsr_cn56xxp2.txt \
+	--csr cn50xx,octcsr_cn50xxp1.txt \
+	--csr cn52xxp1,octcsr_cn52xxp1.txt \
+	--csr cn52xx,octcsr_cn52xxp2.txt \
+	--csr cn63xxp1,octcsr_cn63xxp1.txt \
+	--csr cn63xx,octcsr_cn63xxp2.txt \
+	--csr cn68xx,octcsr_cn68xxp1.txt
+
+OUT=files
+rm -rf files
+mkdir -p ${OUT}/executive
+mv cisco ${OUT}/
+
+mv bdk-csrs.h ${OUT}/executive/
+mv cvmx-csr-db.c ${OUT}/executive/
+mv cvmx-error-init-*.c ${OUT}/executive/
+
