@@ -70,17 +70,21 @@ def writeAddress(out, csr, pci_alias):
 
     if num_params == 0:
         out.write("#define %s %s_FUNC()\n" % (name, name))
-        out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure))\n" % name)
-        warning = "%s(\"%s not supported on this chip\\n\", offset, block_id);" % (WARN_FUNCTION, name)
+        out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure));\n" % name)
+        out.write("static inline uint64_t %s_FUNC(void)\n" % name)
+        warning = "%s(\"%s not supported on this chip\\n\");" % (WARN_FUNCTION, name)
     elif num_params == 1:
         if ("offset" in csr["s"].getAddressEquation()):
-            out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure))\n" % name)
+            out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure));\n" % name)
+            out.write("static inline uint64_t %s(unsigned long offset)\n" % name)
             warning = "%s(\"%s(%%lu) is invalid on this chip\\n\", offset);" % (WARN_FUNCTION, name)
         else:
-            out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure))\n" % name)
+            out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure));\n" % name)
+            out.write("static inline uint64_t %s(unsigned long block_id)\n" % name)
             warning = "%s(\"%s(%%lu) is invalid on this chip\\n\", block_id);" % (WARN_FUNCTION, name)
     elif num_params == 2:
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure))\n" % name)
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id)\n" % name)
         warning = "%s(\"%s(%%lu,%%lu) is invalid on this chip\\n\", offset, block_id);" % (WARN_FUNCTION, name)
     else:
         raise Exception("Unexpected number of parameters")
