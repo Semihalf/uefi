@@ -105,7 +105,7 @@ static int doargs(int argc, char* argv[])
   else if (IS("-cci")) /* target integer size */
   {
    int s = target.sizeof_int = atoi(argv[++i])/8;
-   if (!(s==1 || s==2 || s==4)) fatal(LUA_QL("-cci") " must be 8, 16 or 32");
+   if (!(s==1 || s==2 || s==4 || s==8)) fatal(LUA_QL("-cci") " must be 8, 16, 32, or 64");
   }
   else if (IS("-ccn")) /* target lua_Number type and size */
   {
@@ -119,7 +119,7 @@ static int doargs(int argc, char* argv[])
    }
    else fatal(LUA_QL("-ccn") " type must be " LUA_QL("int") " or " LUA_QL("float") " or " LUA_QL("float_arm"));
    int s = target.sizeof_lua_Number = atoi(argv[++i])/8;
-   if (target.lua_Number_integral && !(s==1 || s==2 || s==4)) fatal(LUA_QL("-ccn") " size must be 8, 16, or 32 for int");
+   if (target.lua_Number_integral && !(s==1 || s==2 || s==4 || s==8)) fatal(LUA_QL("-ccn") " size must be 8, 16, 32, or 64 for int");
    if (!target.lua_Number_integral && !(s==4 || s==8)) fatal(LUA_QL("-ccn") " size must be 32 or 64 for float");
   }
   else if (IS("-cce")) /* target endianness */
