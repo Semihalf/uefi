@@ -1,3 +1,4 @@
+#include <bdk.h>
 #include "platform.h"
 #include "common.h"
 
@@ -30,7 +31,7 @@ void platform_uart_send( unsigned id, u8 data )
     /* Spin until there is room */
     do
     {
-        lsrval = *(volatile u64*)0x8001180000000828ull;
+        lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(0));
     } while ((lsrval & (1<<5)) == 0);
     /* Write the byte */
     *(volatile u64*)0x8001180000000840ull = data;
@@ -38,16 +39,20 @@ void platform_uart_send( unsigned id, u8 data )
 
 int platform_s_uart_recv( unsigned id, s32 timeout )
 {
+    u64 lsrval;
     volatile u64 *lsr_ptr = (volatile u64 *)0x8001180000000828ull;
     volatile u64 *rbr_ptr = (volatile u64 *)0x8001180000000800ull;
 
     if (timeout == PLATFORM_UART_INFINITE_TIMEOUT)
     {
-        while ((*lsr_ptr & 1) == 0) {}
-        return *rbr_ptr;
+        do
+        {
+            lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(0));
+        } while ((lsrval & 1) == 0);
+        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(0));
     }
-    else if (*lsr_ptr & 1)
-        return *rbr_ptr;
+    else if (BDK_CSR_READ(BDK_MIO_UARTX_LSR(0)) & 1)
+        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(0));
     else
         return -1;
 }

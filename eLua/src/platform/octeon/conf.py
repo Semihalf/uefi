@@ -1,5 +1,6 @@
 # Configuration file for the linux backend
 
+BDK_ROOT = "/home/creese/work/bdk"
 specific_files = "boot.s platform.c"
 
 # Prepend with path
@@ -7,9 +8,10 @@ specific_files = " ".join( [ "src/platform/%s/%s" % ( platform, f ) for f in spe
 
 
 # Standard GCC Flags
-comp.Append(CCFLAGS = ['-W', '-Wall', '-Wno-unused-parameter', '-g', '-ffunction-sections','-fdata-sections'])
-comp.Append(LINKFLAGS = ['-nostartfiles' , '-Wl,--allow-multiple-definition', '-Wl,--gc-sections'])
+comp.Append(CCFLAGS = ['-W', '-Wall', '-Wno-unused-parameter', '-g', '-ffunction-sections','-fdata-sections', '-I' + BDK_ROOT])
+comp.Append(LINKFLAGS = ['-nostartfiles' , '-Wl,--allow-multiple-definition', '-Wl,--gc-sections', '-L' + BDK_ROOT])
 comp.Append(ASFLAGS = ['-g', '-c', '-x','assembler-with-cpp','-Wall','$_CPPDEFFLAGS'])
+comp.Append(LIBS = ['bdk'])
 if comp[ 'target' ] == 'lua':
     comp.Append(LIBS = ['m'])
 

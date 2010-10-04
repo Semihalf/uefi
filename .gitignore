@@ -1,4 +1,6 @@
 *.o
+*.a
+*.d
 *.pyc
 *.elf
 eLua/.sconsign.dblite
