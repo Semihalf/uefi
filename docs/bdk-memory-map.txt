@@ -1,0 +1,71 @@
+
+Bootbus Memory Map
+------------------
+1FC0 0000	Reset init boot code. Never copied to L2/DRAM. (Error EPC)
+1FC0 0200	TLB (EPC)
+1FC0 0280	XTLB (EPC)
+1FC0 0300	Cache Error (Error EPC)
+1FC0 0380	General Exception (EPC)
+1FC0 0400	Interrupt (EPC)
+1FC0 0480	EJTAG Debug (DEPC)
+1FC0 0500	Zero padding
+...
+1FC0 n280	Data starting after Exception Vectors
+...
+1FCx x000	Code 4K Aligned
+
+
+L2/DRAM Memory Map
+------------------
+Physical	Virtual		Description
+0000 0000	8000 0000 	(kseg0) Core 0 - TLB (EPC)
+0000 0080	8000 0080	(kseg0) Core 0 - XTLB (EPC)
+0000 0100	A000 0100	(kseg1) Core 0 - Cache Error (ErrorEPC)
+0000 0180	8000 0180	(kseg0) Core 0 - General Exception (EPC)
+0000 0200	8000 0200	(kseg0) Core 0 - Interrupt (EPC)
+0000 1000	8000 1000	(kseg0) Core 1 - TLB (EPC)
+0000 1080	8000 1080	(kseg0) Core 1 - XTLB (EPC)
+0000 1100	A000 1100	(kseg1) Core 1 - Cache Error (Error EPC)
+0000 1180	8000 1180	(kseg0) Core 1 - General Exception (EPC)
+0000 1200	8000 1200	(kseg0) Core 1 - Interrupt (EPC)
+...
+0000 n000	8000 n000	(kseg0) Core n - TLB (EPC)
+0000 n080	8000 n080	(kseg0) Core n - XTLB (EPC)
+0000 n100	A000 n100	(kseg1) Core n - Cache Error (Error EPC)
+0000 n180	8000 n180	(kseg0) Core n - General Exception (EPC)
+0000 n200	8000 n200	(kseg0) Core n - Interrupt (EPC)
+
+0000 n280	C000 n280	(ksseg) Data starting after Exception Vectors
+...
+0xxx x000	Exxx x000	(kseg3) Code 4K Aligned
+...
+0xxx xxxx	XKPHYS		(xkphys) Start of heap
+1000 0000	A000 0000	(kseg1) Bootbus
+2000 0000	xkphys		(xkphys) Rest of memory
+
+
+TLB
+---
+Need 32 pages to map code in 4MB chunks.
+Need 32 pages to map data in 4MB chunks.
+
+Virtual		Physical	Size	Description
+E000 0000	0x17c00000..   	4MB	Early init to run code from flash.
+E000 0000	1000 0000	128MB	After flash size set and BEV=0
+E000 0000	0000 0000	128MB	Code in L2/DRAM
+C000 0000	1000 0000	128MB	After flash size set and BEV=0
+C000 0000	0000 0000	128MB	Data in L2/DRAM
+
+Notes
+-----
+* For "n" above, n = MAX_CORES-1.
+* Init code in 0x1FC00000-0x1FC001ff needs to move flash to 0x1FC00000
+	minus 128MB. First 4MB aliases to 0x1FC00000. Maybe setup TLB too?
+* Later code neesto set flash start will be at 0x1FC00000 minus the flash
+	size.
+* Uboot compatible environment stored at the top of flash. Location based on
+	flash erase size.
+* Max supported flash is 128MB (256MB - 4MB for window, rounded down to a
+	power of 2).
+* Install bootbus region on reset vector to report reset/NMI. A real chip
+	reset will move it out of the way automatically.
