@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 void bdk_warn(const char *format, ...)
 {
