@@ -1,0 +1,8 @@
+*.o
+*.pyc
+*.elf
+eLua/.sconsign.dblite
+eLua/config.log
+eLua/inc/romfiles.h
+eLua/luarpc
+
