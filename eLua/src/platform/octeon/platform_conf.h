@@ -25,6 +25,7 @@
 
 #define TERM_LINES    25
 #define TERM_COLS     80
+#define CON_UART_SPEED 115200
 
 // *****************************************************************************
 // Auxiliary libraries that will be compiled for this platform
@@ -56,8 +57,8 @@
 // Number of resources (0 if not available/not implemented)
 #define NUM_PIO               0
 #define NUM_SPI               0
-#define NUM_UART              0
-#define NUM_TIMER             0
+#define NUM_UART              2
+#define NUM_TIMER             1
 #define NUM_PWM               0
 #define NUM_ADC               0
 #define NUM_CAN               0
