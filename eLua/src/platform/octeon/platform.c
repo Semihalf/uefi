@@ -31,28 +31,25 @@ void platform_uart_send( unsigned id, u8 data )
     /* Spin until there is room */
     do
     {
-        lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(0));
+        lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
     } while ((lsrval & (1<<5)) == 0);
     /* Write the byte */
-    *(volatile u64*)0x8001180000000840ull = data;
+    BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), data);
 }
 
 int platform_s_uart_recv( unsigned id, s32 timeout )
 {
-    u64 lsrval;
-    volatile u64 *lsr_ptr = (volatile u64 *)0x8001180000000828ull;
-    volatile u64 *rbr_ptr = (volatile u64 *)0x8001180000000800ull;
-
     if (timeout == PLATFORM_UART_INFINITE_TIMEOUT)
     {
+        u64 lsrval;
         do
         {
-            lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(0));
+            lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
         } while ((lsrval & 1) == 0);
-        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(0));
+        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
     }
-    else if (BDK_CSR_READ(BDK_MIO_UARTX_LSR(0)) & 1)
-        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(0));
+    else if (BDK_CSR_READ(BDK_MIO_UARTX_LSR(id)) & 1)
+        return BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
     else
         return -1;
 }
@@ -71,7 +68,7 @@ static inline u64 octeon_get_clock_rate(void)
 
     if (!rate_eclk)
     {
-        u64 mio_rst_boot = *(volatile u64*)0x8001180000001600ull;
+        u64 mio_rst_boot = BDK_CSR_READ(BDK_MIO_RST_BOOT);
         rate_eclk =  REF_CLOCK * ((mio_rst_boot>>30) & 0x3f);
     }
     return rate_eclk;
