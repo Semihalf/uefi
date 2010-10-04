@@ -14,10 +14,17 @@ src := $(wildcard $(src))
 objs = $(src:%.c=%.o)
 deps = $(src:%.c=%.d)
 
+$(BDK_ROOT)/libbdk.a: $(BDK_ROOT)/bdk.pch $(BDK_ROOT)/libbdk.a($(objs))
 
-$(BDK_ROOT)/libbdk.a: $(BDK_ROOT)/libbdk.a($(objs))
+deps += $(BDK_ROOT)/bdk.d
+$(BDK_ROOT)/bdk.pch: $(BDK_ROOT)/bdk.h
+	$(CC) -o $@ $(BDK_ROOT)/bdk.h
+$(BDK_ROOT)/bdk.d: $(BDK_ROOT)/bdk.h
+	$(CC) -M $(CPPFLAGS) $< > $@
+	sed -i "s,^bdk.o,$(basename $@).pch,g" $@
 
-%.o: %.d
+%.pch: %.d
+%.o: %.d $(BDK_ROOT)/bdk.pch
 %.d: %.c
 	$(CC) -M $(CPPFLAGS) $< > $@
 	sed -i "s,^\(.*[.]o\),$(basename $@).o,g" $@
