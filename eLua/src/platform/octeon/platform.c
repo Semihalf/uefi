@@ -38,24 +38,70 @@ void platform_uart_send( unsigned id, u8 data )
 
 int platform_s_uart_recv( unsigned id, s32 timeout )
 {
-    u64 lsrval = *(volatile u64*)0x8001180000000828ull;
+    volatile u64 *lsr_ptr = (volatile u64 *)0x8001180000000828ull;
+    volatile u64 *rbr_ptr = (volatile u64 *)0x8001180000000800ull;
 
-    if (lsrval & 1)
-        return *(volatile u64*)0x8001180000000800ull;
+    if (timeout == PLATFORM_UART_INFINITE_TIMEOUT)
+    {
+        while ((*lsr_ptr & 1) == 0) {}
+        return *rbr_ptr;
+    }
+    else if (*lsr_ptr & 1)
+        return *rbr_ptr;
     else
-        return 0;
+        return -1;
 }
 
-// ****************************************************************************
-// "Dummy" timer functions
+static inline u64 octeon_get_clock_count(void)
+{
+    u64 cycle;
+    asm volatile ("rdhwr %0, $31" : "=r" (cycle));
+    return cycle;
+}
+
+static inline u64 octeon_get_clock_rate(void)
+{
+    const u64 REF_CLOCK = 50000000;
+    static u64 rate_eclk = 0;
+
+    if (!rate_eclk)
+    {
+        u64 mio_rst_boot = *(volatile u64*)0x8001180000001600ull;
+        rate_eclk =  REF_CLOCK * ((mio_rst_boot>>30) & 0x3f);
+    }
+    return rate_eclk;
+}
 
 void platform_s_timer_delay( unsigned id, u32 delay_us )
 {
+    u64 delay = octeon_get_clock_rate() * delay_us / 1000000;
+    u64 finish = octeon_get_clock_count() + delay;
+    while (octeon_get_clock_count() < finish) {}
 }
 
 u32 platform_s_timer_op( unsigned id, int op, u32 data )
 {
-  return 0;
+    switch( op )
+    {
+        case PLATFORM_TIMER_OP_START:
+            return (u32)octeon_get_clock_count();
+
+        case PLATFORM_TIMER_OP_READ:
+            return (u32)octeon_get_clock_count();
+
+        case PLATFORM_TIMER_OP_GET_MAX_DELAY:
+            return platform_timer_get_diff_us( id, 0, 0xFFFFFFFF );
+
+        case PLATFORM_TIMER_OP_GET_MIN_DELAY:
+            return platform_timer_get_diff_us( id, 0, 1 );
+
+        case PLATFORM_TIMER_OP_SET_CLOCK:
+            return octeon_get_clock_rate();
+
+        case PLATFORM_TIMER_OP_GET_CLOCK:
+            return octeon_get_clock_rate();
+    }
+    return 0;
 }
 
 u32 platform_pwm_op( unsigned id, int op, u32 data )
