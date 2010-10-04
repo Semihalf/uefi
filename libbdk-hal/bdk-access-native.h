@@ -233,7 +233,6 @@ static inline void *bdk_phys_to_ptr(uint64_t physical_address)
     BDK_BUILD_WRITE64. This macro is used to build a store operation to
     a full 64bit address. With a 64bit ABI, this can be done with a simple
     pointer access. 32bit ABIs require more complicated assembly */
-#if defined(BDK_ABI_N64) || defined(BDK_ABI_EABI)
 
 /* We have a full 64bit ABI. Writing to a 64bit address can be done with
     a simple volatile pointer */
@@ -243,29 +242,10 @@ static inline void bdk_write64_##TYPE(uint64_t addr, TYPE##_t val)     \
     *CASTPTR(volatile TYPE##_t, addr) = val;                            \
 }
 
-#elif defined(BDK_ABI_N32)
-
-/* The N32 ABI passes all 64bit quantities in a single register, so it is
-    possible to use the arguments directly. We have to use inline assembly
-    for the actual store since a pointer would truncate the address */
-#define BDK_BUILD_WRITE64(TYPE, ST)                                    \
-static inline void bdk_write64_##TYPE(uint64_t addr, TYPE##_t val)     \
-{                                                                       \
-    asm volatile (ST " %[v], 0(%[c])" ::[v] "r" (val), [c] "r" (addr)); \
-}
-
-#else
-
-/* cvmx-abi.h didn't recognize the ABI. Force the compile to fail. */
-#error: Unsupported ABI
-
-#endif
-
 /* The following #if controls the definition of the macro
     BDK_BUILD_READ64. This macro is used to build a load operation from
     a full 64bit address. With a 64bit ABI, this can be done with a simple
     pointer access. 32bit ABIs require more complicated assembly */
-#if defined(BDK_ABI_N64) || defined(BDK_ABI_EABI)
 
 /* We have a full 64bit ABI. Writing to a 64bit address can be done with
     a simple volatile pointer */
@@ -274,26 +254,6 @@ static inline TYPE##_t bdk_read64_##TYPE(uint64_t addr)                \
 {                                                                       \
     return *CASTPTR(volatile TYPE##_t, addr);                           \
 }
-
-#elif defined(BDK_ABI_N32)
-
-/* The N32 ABI passes all 64bit quantities in a single register, so it is
-    possible to use the arguments directly. We have to use inline assembly
-    for the actual store since a pointer would truncate the address */
-#define BDK_BUILD_READ64(TYPE, LT)                                     \
-static inline TYPE##_t bdk_read64_##TYPE(uint64_t addr)                \
-{                                                                       \
-    TYPE##_t val;                                                       \
-    asm volatile (LT " %[v], 0(%[c])": [v] "=r" (val) : [c] "r" (addr));\
-    return val;                                                         \
-}
-
-#else
-
-/* cvmx-abi.h didn't recognize the ABI. Force the compile to fail. */
-#error: Unsupported ABI
-
-#endif
 
 /* The following defines 8 functions for writing to a 64bit address. Each
     takes two arguments, the address and the value to write.
@@ -457,6 +417,6 @@ static inline void bdk_reset_octeon(void)
     bdk_ciu_soft_rst_t ciu_soft_rst;
     ciu_soft_rst.u64 = 0;
     ciu_soft_rst.s.soft_rst = 1;
-    bdk_write_csr(BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
+    BDK_CSR_WRITE(BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
 }
 

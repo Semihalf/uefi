@@ -18,6 +18,7 @@
 #include "bdk-asm.h"
 #include "bdk-model.h"
 #include "bdk-csr.h"
+#include "bdk-warn.h"
 #include "bdk-csrs.h"
 #include "bdk-fuse.h"
 #include "bdk-feature.h"

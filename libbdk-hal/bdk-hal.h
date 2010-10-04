@@ -63,5 +63,6 @@
 #include "bdk-usbd.h"
 #include "bdk-usb.h"
 #include "bdk-zip.h"
+#include "bdk-access-native.h"
 
 #endif
