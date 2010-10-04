@@ -120,7 +120,7 @@ static void DumpNumber(lua_Number x, DumpState* D)
 {
  if (D->target.lua_Number_integral)
  {
-  if (((float)(int)x)!=x) D->status=LUA_ERR_CC_NOTINTEGER;
+  if (((lua_Number)(int)x)!=x) D->status=LUA_ERR_CC_NOTINTEGER;
   DumpIntWithSize(x,D->target.sizeof_lua_Number,D);
  }
  else
@@ -129,12 +129,12 @@ static void DumpNumber(lua_Number x, DumpState* D)
   {
    /* do we need bounds checking? */
    case 4: {
-    float y=x;
+    lua_Number y=x;
     MaybeByteSwap((char*)&y,4,D);
     DumpVar(y,D);
    } break;
    case 8: {
-    double y=x;
+    lua_Number y=x;
     // ARM FPA mode: keep endianness, but swap high and low parts of the 
     // memory representation. This is the default compilation mode for ARM 
     // targets (at least with GCC)
