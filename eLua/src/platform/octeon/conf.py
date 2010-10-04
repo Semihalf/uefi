@@ -16,6 +16,8 @@ comp.Append(CCFLAGS = ['-W', '-Wall', '-Wno-unused-parameter', '-g', '-ffunction
 comp.Append(LINKFLAGS = ['-nostartfiles' , '-Wl,--allow-multiple-definition', '-Wl,--gc-sections'])
 comp.Append(ASFLAGS = ['-g', '-c', '-x','assembler-with-cpp','-Wall','$_CPPDEFFLAGS'])
 #comp.Append(LIBS = ['c','gcc','m'])
+if comp[ 'target' ] == 'lua':
+    comp.Append(LIBS = ['m'])
 
 TARGET_FLAGS = ['-g', '-march=octeon']
 
