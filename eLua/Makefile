@@ -11,5 +11,8 @@ clean:
 run:
 	oct-sim elua_$(LUA_TARGET)_cn6xxx.elf -uart0=2020 -quiet
 
+tftp: default
+	mipsisa64-octeon-elf-strip -o /tftpboot/elua elua_$(LUA_TARGET)_cn6xxx.elf
+
 luac.cross:
 	scons -f cross-lua.py
