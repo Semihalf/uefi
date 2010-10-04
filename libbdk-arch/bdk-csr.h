@@ -55,6 +55,7 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
         case BDK_CSR_TYPE_SRIOMAINT:
             break;
     }
+    return 0;
 }
 
 

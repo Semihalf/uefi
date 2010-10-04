@@ -211,5 +211,6 @@ static int OCTEON_IS_MODEL(uint32_t arg_model)
             return (chip_model & OCTEON_58XX_MODEL_MASK) < (arg_model & OCTEON_58XX_MODEL_MASK);
         }
     }
+    return 0;
 }
 
