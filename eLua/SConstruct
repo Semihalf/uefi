@@ -58,6 +58,16 @@ toolchain_list = {
     'cross_cpumode' : 'little',
     'cross_lua' : 'float 64',
     'cross_lualong' : 'int 32'
+  },
+  'mipsisa64-octeon-elf' : {
+    'compile' : 'mipsisa64-octeon-elf-gcc',
+    'link' : 'mipsisa64-octeon-elf-ld',
+    'asm' : 'mipsisa64-octeon-elf-gcc',
+    'bin' : 'mipsisa64-octeon-elfobjcopy',
+    'size' : 'mipsisa64-octeon-elfsize',
+    'cross_cpumode' : 'big',
+    'cross_lua' : 'int 64',
+    'cross_lualong' : 'int 64'
   }
 }
 
@@ -78,7 +88,8 @@ platform_list = {
   'stm32' : { 'cpus' : [ 'STM32F103ZE', 'STM32F103RE' ], 'toolchains' : [ 'arm-gcc', 'codesourcery', 'devkitarm', 'arm-eabi-gcc' ] },
   'avr32' : { 'cpus' : [ 'AT32UC3A0512', 'AT32UC3A0128', 'AT32UC3B0256' ], 'toolchains' : [ 'avr32-gcc' ] },
   'lpc24xx' : { 'cpus' : [ 'LPC2468' ], 'toolchains' : [ 'arm-gcc', 'codesourcery', 'devkitarm', 'arm-eabi-gcc' ] },
-  'lpc17xx' : { 'cpus' : [ 'LPC1768' ], 'toolchains' : [ 'arm-gcc', 'codesourcery', 'devkitarm', 'arm-eabi-gcc' ] }
+  'lpc17xx' : { 'cpus' : [ 'LPC1768' ], 'toolchains' : [ 'arm-gcc', 'codesourcery', 'devkitarm', 'arm-eabi-gcc' ] },
+  'octeon' : { 'cpus' : [ 'CN5XXX', 'CN6XXX' ], 'toolchains' : [ 'mipsisa64-octeon-elf' ] }
 }
 
 # List of board/CPU combinations
@@ -101,6 +112,7 @@ board_list = { 'SAM7-EX256' : [ 'AT91SAM7X256', 'AT91SAM7X512' ],
                'ELUA-PUC' : ['LPC2468' ],
                'MBED' : ['LPC1768'],
                'MIZAR32' : [ 'AT32UC3A0128' ],
+	       'OCTEON-EVB' : ['CN6XXX' ],
             }
 
 cpu_list = sum([board_list[i] for i in board_list],[])
@@ -154,6 +166,7 @@ file_list = { 'SAM7-EX256' : [ 'bisect', 'hangman' , 'led', 'piano', 'hello', 'i
               'ELUA-PUC' : [ 'bisect', 'hangman', 'led', 'hello', 'info', 'pwmled', 'adcscope', 'adcpoll', 'inttest' ],
               'MBED' : [ 'bisect', 'hangman', 'hello', 'info', 'led', 'pwmled', 'dualpwm', 'life', 'adcscope', 'adcpoll' ],
               'MIZAR32' : [ ],
+              'OCTEON-EVB' : [ 'bisect', 'hangman', 'hello', 'info', 'life' ],
 }
 
 comp = Environment( tools = [],
