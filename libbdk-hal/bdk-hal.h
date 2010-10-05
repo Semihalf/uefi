@@ -13,7 +13,6 @@
 #include "bdk-cmd-queue.h"
 #include "bdk-compactflash.h"
 #include "bdk-core.h"
-#include "bdk-crypto.h"
 #include "bdk-dma-engine.h"
 #include "bdk-fau.h"
 #include "bdk-flash.h"
