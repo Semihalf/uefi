@@ -130,7 +130,7 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
  * This macro makes it easy to define a variable and initialize it
  * with a CSR.
  */
-#define BDK_CSR_INIT(name, csr) typedef_##csr name = {.u64 = BDK_CSR_READ(csr)}
+#define BDK_CSR_INIT(name, csr) typedef_##csr name = {.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}
 
 /**
  * Macro to read a CSR
