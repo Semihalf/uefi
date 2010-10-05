@@ -101,11 +101,7 @@ static inline void bdk_ipd_enable(void)
         bdk_dprintf("Warning: Enabling IPD when IPD already enabled.\n");
     }
     ipd_reg.s.ipd_en = 1;
-    #if  BDK_ENABLE_LEN_M8_FIX
-    if(!OCTEON_IS_MODEL(OCTEON_CN38XX_PASS2)) {
-        ipd_reg.s.len_m8 = 1;
-    }
-    #endif
+    ipd_reg.s.len_m8 = 1;
     BDK_CSR_WRITE(BDK_IPD_CTL_STATUS, ipd_reg.u64);
 }
 
@@ -134,7 +130,7 @@ static inline void bdk_ipd_disable(void)
 static inline void __bdk_ipd_free_ptr(void)
 {
     /* Only CN38XXp{1,2} cannot read pointer out of the IPD */
-    if (!OCTEON_IS_MODEL(OCTEON_CN38XX_PASS2)) {
+    if (1) {
 	int no_wptr = 0;
 	bdk_ipd_ptr_count_t ipd_ptr_count;
 	ipd_ptr_count.u64 = BDK_CSR_READ(BDK_IPD_PTR_COUNT);

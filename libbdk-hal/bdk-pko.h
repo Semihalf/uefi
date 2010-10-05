@@ -36,7 +36,7 @@
 #define BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST (1)
 
 #define BDK_PKO_MAX_OUTPUT_QUEUES_STATIC 256
-#define BDK_PKO_MAX_OUTPUT_QUEUES      ((OCTEON_IS_MODEL(OCTEON_CN31XX) || OCTEON_IS_MODEL(OCTEON_CN30XX) || OCTEON_IS_MODEL(OCTEON_CN50XX)) ? 32 : (OCTEON_IS_MODEL(OCTEON_CN58XX) || OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 256 : 128)
+#define BDK_PKO_MAX_OUTPUT_QUEUES      256
 #define BDK_PKO_NUM_OUTPUT_PORTS       ((OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 44 : 40)
 #define BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID 63 /* use this for queues that are not used */
 #define BDK_PKO_QUEUE_STATIC_PRIORITY  9
@@ -457,22 +457,11 @@ static inline void bdk_pko_get_port_status(uint64_t port_num, uint64_t clear, bd
         BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, pko_mem_count1.u64);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN3XXX))
-    {
-        bdk_pko_mem_debug9_t debug9;
-        pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
-        BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-        debug9.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG9);
-        status->doorbell = debug9.cn38xx.doorbell;
-    }
-    else
-    {
-        bdk_pko_mem_debug8_t debug8;
-        pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
-        BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-        debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
-        status->doorbell = debug8.cn58xx.doorbell;
-    }
+    bdk_pko_mem_debug8_t debug8;
+    pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
+    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
+    status->doorbell = debug8.cn56xx.doorbell;
 }
 
 

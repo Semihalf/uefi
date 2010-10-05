@@ -21,30 +21,11 @@
  */
 static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN3XXX))
-    {
-	uint32_t tmp;
-
-        __asm__ __volatile__(
-        ".set noreorder         \n"
-        "1: ll   %[tmp], %[val] \n"
-        "   addu %[tmp], %[inc] \n"
-        "   sc   %[tmp], %[val] \n"
-        "   beqz %[tmp], 1b     \n"
-        "   nop                 \n"
-        ".set reorder           \n"
-        : [val] "+m" (*ptr), [tmp] "=&r" (tmp)
-        : [inc] "r" (incr)
-        : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-        "   saa %[inc], (%[base]) \n"
-        : "+m" (*ptr)
-        : [inc] "r" (incr), [base] "r" (ptr)
-        : "memory");
-    }
+    __asm__ __volatile__(
+    "   saa %[inc], (%[base]) \n"
+    : "+m" (*ptr)
+    : [inc] "r" (incr), [base] "r" (ptr)
+    : "memory");
 }
 
 /**
@@ -102,29 +83,11 @@ static inline int32_t bdk_atomic_get32(int32_t *ptr)
  */
 static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN3XXX))
-    {
-	uint64_t tmp;
-        __asm__ __volatile__(
-        ".set noreorder         \n"
-        "1: lld  %[tmp], %[val] \n"
-        "   daddu %[tmp], %[inc] \n"
-        "   scd  %[tmp], %[val] \n"
-        "   beqz %[tmp], 1b     \n"
-        "   nop                 \n"
-        ".set reorder           \n"
-        : [val] "+m" (*ptr), [tmp] "=&r" (tmp)
-        : [inc] "r" (incr)
-        : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-        "   saad %[inc], (%[base])  \n"
-        : "+m" (*ptr)
-        : [inc] "r" (incr), [base] "r" (ptr)
-        : "memory");
-    }
+    __asm__ __volatile__(
+    "   saad %[inc], (%[base])  \n"
+    : "+m" (*ptr)
+    : [inc] "r" (incr), [base] "r" (ptr)
+    : "memory");
 }
 
 /**

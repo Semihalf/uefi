@@ -9,9 +9,6 @@
 typedef enum
 {
     BDK_HELPER_INTERFACE_MODE_DISABLED,
-    BDK_HELPER_INTERFACE_MODE_RGMII,
-    BDK_HELPER_INTERFACE_MODE_GMII,
-    BDK_HELPER_INTERFACE_MODE_SPI,
     BDK_HELPER_INTERFACE_MODE_PCIE,
     BDK_HELPER_INTERFACE_MODE_XAUI,
     BDK_HELPER_INTERFACE_MODE_SGMII,
@@ -32,25 +29,6 @@ typedef union
         uint64_t    speed           : 18;   /**< Speed of the link in Mbps */
     } s;
 } bdk_helper_link_info_t;
-
-/**
- * bdk_override_pko_queue_priority(int ipd_port, uint64_t
- * priorities[16]) is a function pointer. It is meant to allow
- * customization of the PKO queue priorities based on the port
- * number. Users should set this pointer to a function before
- * calling any cvmx-helper operations.
- */
-extern void (*bdk_override_pko_queue_priority)(int pko_port, uint64_t priorities[16]);
-
-/**
- * bdk_override_ipd_port_setup(int ipd_port) is a function
- * pointer. It is meant to allow customization of the IPD port
- * setup before packet input/output comes online. It is called
- * after cvmx-helper does the default IPD configuration, but
- * before IPD is enabled. Users should set this pointer to a
- * function before calling any cvmx-helper operations.
- */
-extern void (*bdk_override_ipd_port_setup)(int ipd_port);
 
 /**
  * This function enables the IPD and also enables the packet interfaces.

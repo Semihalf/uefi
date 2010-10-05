@@ -34,10 +34,10 @@ static inline int octeon_has_feature(octeon_feature_t feature)
     switch (feature)
     {
         case OCTEON_FEATURE_SAAD:
-            return !OCTEON_IS_MODEL(OCTEON_CN3XXX);
+            return 1;
 
         case OCTEON_FEATURE_ZIP:
-            if (OCTEON_IS_MODEL(OCTEON_CN30XX) || OCTEON_IS_MODEL(OCTEON_CN50XX) || OCTEON_IS_MODEL(OCTEON_CN52XX))
+            if (OCTEON_IS_MODEL(OCTEON_CN52XX))
                 return 0;
             else
                 return !bdk_fuse_read(121);
@@ -75,13 +75,13 @@ static inline int octeon_has_feature(octeon_feature_t feature)
 	    return (OCTEON_IS_MODEL(OCTEON_CN6XXX));
 
         case OCTEON_FEATURE_KEY_MEMORY:
-            return OCTEON_IS_MODEL(OCTEON_CN38XX) || OCTEON_IS_MODEL(OCTEON_CN58XX) || OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX);
+            return OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX);
 
         case OCTEON_FEATURE_LED_CONTROLLER:
-            return OCTEON_IS_MODEL(OCTEON_CN38XX) || OCTEON_IS_MODEL(OCTEON_CN58XX) || OCTEON_IS_MODEL(OCTEON_CN56XX);
+            return OCTEON_IS_MODEL(OCTEON_CN56XX);
 
         case OCTEON_FEATURE_TRA:
-            return !(OCTEON_IS_MODEL(OCTEON_CN30XX) || OCTEON_IS_MODEL(OCTEON_CN50XX));
+            return 1;
         case OCTEON_FEATURE_MGMT_PORT:
             return OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX);
 
@@ -89,20 +89,17 @@ static inline int octeon_has_feature(octeon_feature_t feature)
             return OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX);
 
         case OCTEON_FEATURE_USB:
-            return !(OCTEON_IS_MODEL(OCTEON_CN38XX) || OCTEON_IS_MODEL(OCTEON_CN58XX));
+            return 1;
 
         case OCTEON_FEATURE_NO_WPTR:
             return (OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX)) &&
                     !OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X) && !OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X);
 
         case OCTEON_FEATURE_DFA:
-            if (!OCTEON_IS_MODEL(OCTEON_CN38XX) && !OCTEON_IS_MODEL(OCTEON_CN31XX) && !OCTEON_IS_MODEL(OCTEON_CN58XX))
-                return 0;
-            else
-                return !bdk_fuse_read(120);
+            return 0;
 
         case OCTEON_FEATURE_MDIO_CLAUSE_45:
-            return !(OCTEON_IS_MODEL(OCTEON_CN3XXX) || OCTEON_IS_MODEL(OCTEON_CN58XX) || OCTEON_IS_MODEL(OCTEON_CN50XX));
+            return 1;
 
         case OCTEON_FEATURE_NPEI:
             return (OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX));

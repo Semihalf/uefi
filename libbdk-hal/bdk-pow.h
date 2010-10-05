@@ -1400,39 +1400,35 @@ static inline void bdk_pow_set_group_mask(uint64_t core_num, uint64_t mask)
  */
 static inline void bdk_pow_set_priority(uint64_t core_num, const uint8_t priority[])
 {
-    /* POW priorities are supported on CN5xxx and later */
-    if (!OCTEON_IS_MODEL(OCTEON_CN3XXX))
+    bdk_pow_pp_grp_mskx_t grp_msk;
+
+    grp_msk.u64 = BDK_CSR_READ(BDK_POW_PP_GRP_MSKX(core_num));
+    grp_msk.s.qos0_pri = priority[0];
+    grp_msk.s.qos1_pri = priority[1];
+    grp_msk.s.qos2_pri = priority[2];
+    grp_msk.s.qos3_pri = priority[3];
+    grp_msk.s.qos4_pri = priority[4];
+    grp_msk.s.qos5_pri = priority[5];
+    grp_msk.s.qos6_pri = priority[6];
+    grp_msk.s.qos7_pri = priority[7];
+
+    /* Detect gaps between priorities and flag error */
     {
-        bdk_pow_pp_grp_mskx_t grp_msk;
+        int i;
+        uint32_t prio_mask = 0;
 
-        grp_msk.u64 = BDK_CSR_READ(BDK_POW_PP_GRP_MSKX(core_num));
-        grp_msk.s.qos0_pri = priority[0];
-        grp_msk.s.qos1_pri = priority[1];
-        grp_msk.s.qos2_pri = priority[2];
-        grp_msk.s.qos3_pri = priority[3];
-        grp_msk.s.qos4_pri = priority[4];
-        grp_msk.s.qos5_pri = priority[5];
-        grp_msk.s.qos6_pri = priority[6];
-        grp_msk.s.qos7_pri = priority[7];
+        for(i=0; i<8; i++)
+           if (priority[i] != 0xF)
+               prio_mask |= 1<<priority[i];
 
-        /* Detect gaps between priorities and flag error */
+        if ( prio_mask ^ ((1<<bdk_pop(prio_mask)) - 1))
         {
-            int i;
-            uint32_t prio_mask = 0;
-
-            for(i=0; i<8; i++)
-               if (priority[i] != 0xF)
-		   prio_mask |= 1<<priority[i];
-
-            if ( prio_mask ^ ((1<<bdk_pop(prio_mask)) - 1))
-            {
-                bdk_dprintf("ERROR: POW static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
-                return;
-            }
+            bdk_dprintf("ERROR: POW static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
+            return;
         }
-
-        BDK_CSR_WRITE(BDK_POW_PP_GRP_MSKX(core_num), grp_msk.u64);
     }
+
+    BDK_CSR_WRITE(BDK_POW_PP_GRP_MSKX(core_num), grp_msk.u64);
 }
 
 /**

@@ -128,9 +128,10 @@ static inline uint32_t bdk_tlb_size_limit(void)
 {
 	uint32_t tlb_size_limit = 0;
 
-	if      (OCTEON_IS_MODEL(OCTEON_CN63XX))  tlb_size_limit = 128;
-	else if (OCTEON_IS_MODEL(OCTEON_CN5XXX))  tlb_size_limit =  64;
-	else if (OCTEON_IS_MODEL(OCTEON_CN3XXX))  tlb_size_limit =  32;
+        if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
+            tlb_size_limit =  64;
+        else
+            tlb_size_limit = 128;
 
 	return tlb_size_limit;
 }

@@ -22,17 +22,11 @@ uint64_t bdk_clock_get_rate(bdk_clock_t clock)
             rate_eclk =  REF_CLOCK * npei_dbg_data.s.c_mul;
             rate_sclk = rate_eclk;
         }
-        else if (octeon_has_feature(OCTEON_FEATURE_PCIE))
+        else
         {
             BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
             rate_eclk =  REF_CLOCK * mio_rst_boot.s.c_mul;
             rate_sclk = REF_CLOCK * mio_rst_boot.s.pnr_mul;
-        }
-        else
-        {
-            BDK_CSR_INIT(dbg_data, BDK_DBG_DATA);
-            rate_eclk =  REF_CLOCK * dbg_data.s.c_mul;
-            rate_sclk = rate_eclk;
         }
     }
 

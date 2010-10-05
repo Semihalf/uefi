@@ -346,35 +346,6 @@ static inline void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bd
 
 
 /**
- * Configure the hardware CRC engine
- *
- * @param interface Interface to configure (0 or 1)
- * @param invert_result
- *                 Invert the result of the CRC
- * @param reflect  Reflect
- * @param initialization_vector
- *                 CRC initialization vector
- */
-static inline void bdk_pip_config_crc(uint64_t interface, uint64_t invert_result, uint64_t reflect, uint32_t initialization_vector)
-{
-    if ((OCTEON_IS_MODEL(OCTEON_CN38XX) || OCTEON_IS_MODEL(OCTEON_CN58XX)))
-    {
-        bdk_pip_crc_ctlx_t config;
-        bdk_pip_crc_ivx_t pip_crc_ivx;
-
-        config.u64 = 0;
-        config.s.invres = invert_result;
-        config.s.reflect = reflect;
-        BDK_CSR_WRITE(BDK_PIP_CRC_CTLX(interface), config.u64);
-
-        pip_crc_ivx.u64 = 0;
-        pip_crc_ivx.s.iv = initialization_vector;
-        BDK_CSR_WRITE(BDK_PIP_CRC_IVX(interface), pip_crc_ivx.u64);
-    }
-}
-
-
-/**
  * Clear all bits in a tag mask. This should be called on
  * startup before any calls to bdk_pip_tag_mask_set. Each bit
  * set in the final mask represent a byte used in the packet for
