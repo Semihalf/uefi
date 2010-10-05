@@ -8,11 +8,6 @@
  *
  */
 
-#define BDK_L2_ASSOC     bdk_l2c_get_num_assoc()   /* Deprecated macro, use function */
-#define BDK_L2_SET_BITS  bdk_l2c_get_set_bits()    /* Deprecated macro, use function */
-#define BDK_L2_SETS      bdk_l2c_get_num_sets()    /* Deprecated macro, use function */
-
-
 #define BDK_L2C_IDX_ADDR_SHIFT 7  /* based on 128 byte cache line size */
 #define BDK_L2C_IDX_MASK       (bdk_l2c_get_num_sets() - 1)
 
@@ -277,14 +272,6 @@ int bdk_l2c_unlock_mem_region(uint64_t start, uint64_t len);
  * @return l2c tag structure for line requested.
  */
 bdk_l2c_tag_t bdk_l2c_get_tag(uint32_t association, uint32_t index);
-
-/* Wrapper providing a deprecated old function name */
-static inline bdk_l2c_tag_t bdk_get_l2c_tag(uint32_t association, uint32_t index) __attribute__((deprecated));
-static inline bdk_l2c_tag_t bdk_get_l2c_tag(uint32_t association, uint32_t index)
-{
-    return bdk_l2c_get_tag(association, index);
-}
-
 
 /**
  * Returns the cache index for a given physical address

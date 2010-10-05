@@ -693,17 +693,3 @@ static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
     return (ret);
 }
 
-/**
- * This atomic operation is now named bdk_atomic_compare_and_store32_nosync
- * and the (deprecated) macro is provided for backward compatibility.
- * @deprecated
- */
-#define bdk_atomic_compare_and_store_nosync32 bdk_atomic_compare_and_store32_nosync
-
-/**
- * This atomic operation is now named bdk_atomic_compare_and_store64_nosync
- * and the (deprecated) macro is provided for backward compatibility.
- * @deprecated
- */
-#define bdk_atomic_compare_and_store_nosync64 bdk_atomic_compare_and_store64_nosync
-

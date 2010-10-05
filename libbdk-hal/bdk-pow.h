@@ -885,13 +885,13 @@ static inline void bdk_pow_tag_sw_wait(void)
 {
     const uint64_t MAX_CYCLES = 1ull<<31;
     uint64_t switch_complete;
-    uint64_t start_cycle = bdk_get_cycle();
+    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     while (1)
     {
         BDK_MF_CHORD(switch_complete);
         if (bdk_unlikely(switch_complete))
             break;
-        if (bdk_unlikely(bdk_get_cycle() > start_cycle + MAX_CYCLES))
+        if (bdk_unlikely(bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + MAX_CYCLES))
         {
             bdk_dprintf("WARNING: Tag switch is taking a long time, possible deadlock\n");
             start_cycle = -MAX_CYCLES-1;

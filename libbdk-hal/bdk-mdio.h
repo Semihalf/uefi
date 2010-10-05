@@ -295,13 +295,13 @@ static inline void __bdk_mdio_set_clause22_mode(int bus_id)
 static inline bdk_smix_rd_dat_t __bdk_mdio_read_rd_dat(int bus_id)
 {
     bdk_smix_rd_dat_t smi_rd;
-    uint64_t done = bdk_get_cycle() + (uint64_t)BDK_MDIO_TIMEOUT *
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)BDK_MDIO_TIMEOUT *
                        bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
     do
     {
         bdk_wait(1000);
         smi_rd.u64 = BDK_CSR_READ(BDK_SMIX_RD_DAT(bus_id));
-    } while (smi_rd.s.pending && (bdk_get_cycle() < done));
+    } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_CORE) < done));
     return smi_rd;
 }
 

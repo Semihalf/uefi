@@ -103,27 +103,6 @@ BDK_FUNCTION uint32_t bdk_pop(uint32_t val);
 BDK_FUNCTION int bdk_dpop(uint64_t val);
 
 /**
- * @deprecated
- * Provide current cycle counter as a return value. Deprecated, use
- * bdk_clock_get_count(BDK_CLOCK_CORE) to get cycle counter.
- *
- * @return current cycle counter
- */
-BDK_FUNCTION uint64_t bdk_get_cycle(void);
-
-/**
- * @deprecated
- * Reads a chip global cycle counter.  This counts SCLK cycles since
- * chip reset.  The counter is 64 bit. This function is deprecated as the rate
- * of the global cycle counter is different between Octeon+ and Octeon2, use
- * bdk_clock_get_count(BDK_CLOCK_SCLK) instead. For Octeon2, the clock rate
- * of SCLK may be differnet than the core clock.
- *
- * @return Global chip cycle count since chip reset.
- */
-BDK_FUNCTION uint64_t bdk_get_cycle_global(void) __attribute__((deprecated));
-
-/**
  * Wait for the specified number of core clock cycles
  *
  * @param cycles
