@@ -149,3 +149,33 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
  */
 #define BDK_CSR_MODIFY(name, csr, ...) do { BDK_CSR_INIT(name, csr); __VARGS__; BDK_CSR_WRITE(csr, name);} while (0)
 
+/**
+ * This macro spins on a field waiting for it to reach a value. It
+ * is common in code to need to wait for a specific field in a CSR
+ * to match a specific value. Conceptually this macro expands to:
+ *
+ * 1) read csr at "address" with a csr typedef of "type"
+ * 2) Check if ("type".s."field" "op" "value")
+ * 3) If #2 isn't true loop to #1 unless too much time has passed.
+ */
+#define BDK_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)     \
+    ({int result;                                                       \
+    do {                                                                \
+        uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)timeout_usec * \
+                        bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;   \
+        typedef_##csr c;                                                \
+        while (1)                                                       \
+        {                                                               \
+            c.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
+            if ((c.s.field) op (value)) {                               \
+                result = 0;                                             \
+                break;                                                  \
+            } else if (bdk_clock_get_count(BDK_CLOCK_CORE) > done) {    \
+                result = -1;                                            \
+                break;                                                  \
+            } else                                                      \
+                bdk_wait(100);                                          \
+        }                                                               \
+    } while (0);                                                        \
+    result;})
+

@@ -319,22 +319,6 @@ static inline bdk_smix_rd_dat_t __bdk_mdio_read_rd_dat(int bus_id)
  */
 static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
 {
-#if defined(BDK_BUILD_FOR_LINUX_KERNEL) && defined(CONFIG_PHYLIB)
-	struct mii_bus *bus;
-	int rv;
-
-	BUG_ON(bus_id > 1 || bus_id < 0);
-
-	bus = octeon_mdiobuses[bus_id];
-	if (bus == NULL)
-		return -1;
-
-	rv = mdiobus_read(bus, phy_id, location);
-
-	if (rv < 0)
-		return -1;
-	return rv;
-#else
     bdk_smix_cmd_t smi_cmd;
     bdk_smix_rd_dat_t smi_rd;
 
@@ -352,7 +336,6 @@ static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
         return smi_rd.s.dat;
     else
         return -1;
-#endif
 }
 
 
@@ -371,22 +354,6 @@ static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
  */
 static inline int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
 {
-#if defined(BDK_BUILD_FOR_LINUX_KERNEL) && defined(CONFIG_PHYLIB)
-	struct mii_bus *bus;
-	int rv;
-
-	BUG_ON(bus_id > 1 || bus_id < 0);
-
-	bus = octeon_mdiobuses[bus_id];
-	if (bus == NULL)
-		return -1;
-
-	rv = mdiobus_write(bus, phy_id, location, (u16)val);
-
-	if (rv < 0)
-		return -1;
-	return 0;
-#else
      bdk_smix_cmd_t smi_cmd;
     bdk_smix_wr_dat_t smi_wr;
 
@@ -403,15 +370,12 @@ static inline int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
     smi_cmd.s.reg_adr = location;
     BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
 
-    if (BDK_WAIT_FOR_FIELD64(BDK_SMIX_WR_DAT(bus_id),
-        bdk_smix_wr_dat_t, pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     return 0;
-#endif
 }
 
-#ifndef BDK_BUILD_FOR_LINUX_KERNEL
 /**
  * Perform an IEEE 802.3 clause 45 MII read. This function is used to read PHY
  * registers controlling auto negotiation.
@@ -446,8 +410,7 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
     smi_cmd.s.reg_adr = device;
     BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
 
-    if (BDK_WAIT_FOR_FIELD64(BDK_SMIX_WR_DAT(bus_id),
-        bdk_smix_wr_dat_t, pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
     {
         bdk_dprintf ("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(address)\n", bus_id, phy_id, device, location);
         return -1;
@@ -510,8 +473,7 @@ static inline int bdk_mdio_45_write(int bus_id, int phy_id, int device, int loca
     smi_cmd.s.reg_adr = device;
     BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
 
-    if (BDK_WAIT_FOR_FIELD64(BDK_SMIX_WR_DAT(bus_id),
-        bdk_smix_wr_dat_t, pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     smi_wr.u64 = 0;
@@ -524,11 +486,10 @@ static inline int bdk_mdio_45_write(int bus_id, int phy_id, int device, int loca
     smi_cmd.s.reg_adr = device;
     BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
 
-    if (BDK_WAIT_FOR_FIELD64(BDK_SMIX_WR_DAT(bus_id),
-        bdk_smix_wr_dat_t, pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     return 0;
 }
-#endif
+
 
