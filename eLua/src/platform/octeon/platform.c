@@ -5,7 +5,6 @@
 char memory[1<<20];
 void *memory_start_address;
 void *memory_end_address;
-//void *__cvmx_pci_console_write_ptr = NULL;
 
 int platform_init()
 {
@@ -54,31 +53,9 @@ int platform_s_uart_recv( unsigned id, s32 timeout )
         return -1;
 }
 
-static inline u64 octeon_get_clock_count(void)
-{
-    u64 cycle;
-    asm volatile ("rdhwr %0, $31" : "=r" (cycle));
-    return cycle;
-}
-
-static inline u64 octeon_get_clock_rate(void)
-{
-    const u64 REF_CLOCK = 50000000;
-    static u64 rate_eclk = 0;
-
-    if (!rate_eclk)
-    {
-        u64 mio_rst_boot = BDK_CSR_READ(BDK_MIO_RST_BOOT);
-        rate_eclk =  REF_CLOCK * ((mio_rst_boot>>30) & 0x3f);
-    }
-    return rate_eclk;
-}
-
 void platform_s_timer_delay( unsigned id, u32 delay_us )
 {
-    u64 delay = octeon_get_clock_rate() * delay_us / 1000000;
-    u64 finish = octeon_get_clock_count() + delay;
-    while (octeon_get_clock_count() < finish) {}
+    bdk_wait(delay_us);
 }
 
 u32 platform_s_timer_op( unsigned id, int op, u32 data )
@@ -86,10 +63,10 @@ u32 platform_s_timer_op( unsigned id, int op, u32 data )
     switch( op )
     {
         case PLATFORM_TIMER_OP_START:
-            return (u32)octeon_get_clock_count();
+            return (u32)bdk_clock_get_count(BDK_CLOCK_CORE);
 
         case PLATFORM_TIMER_OP_READ:
-            return (u32)octeon_get_clock_count();
+            return (u32)bdk_clock_get_count(BDK_CLOCK_CORE);
 
         case PLATFORM_TIMER_OP_GET_MAX_DELAY:
             return platform_timer_get_diff_us( id, 0, 0xFFFFFFFF );
@@ -98,10 +75,10 @@ u32 platform_s_timer_op( unsigned id, int op, u32 data )
             return platform_timer_get_diff_us( id, 0, 1 );
 
         case PLATFORM_TIMER_OP_SET_CLOCK:
-            return octeon_get_clock_rate();
+            return bdk_clock_get_rate(BDK_CLOCK_CORE);
 
         case PLATFORM_TIMER_OP_GET_CLOCK:
-            return octeon_get_clock_rate();
+            return bdk_clock_get_rate(BDK_CLOCK_CORE);
     }
     return 0;
 }

@@ -7,7 +7,7 @@ RANLIB=$(CROSS)ranlib
 CPPFLAGS = -I $(BDK_ROOT)
 CFLAGS = -W -Wall -Wno-unused-parameter -O3 -g
 
-dirs = libbdk-arch
+dirs = libbdk-arch libbdk-hal
 
 src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[cSs])
 src := $(wildcard $(src))

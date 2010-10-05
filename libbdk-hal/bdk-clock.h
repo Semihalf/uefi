@@ -66,8 +66,6 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
             else
                 return ((BDK_CSR_READ(BDK_LMCX_DCLK_CNT_HI(0)) << 32) | BDK_CSR_READ(BDK_LMCX_DCLK_CNT_LO(0)));
     }
-
-    bdk_dprintf("bdk_clock_get_count: Unknown clock type\n");
     return 0;
 }
 
