@@ -4,6 +4,7 @@
 *.pch
 *.pyc
 *.elf
+*.pickle
 eLua/.sconsign.dblite
 eLua/config.log
 eLua/inc/romfiles.h
