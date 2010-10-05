@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include "libbdk-arch/bdk-arch.h"
 #include "libbdk-hal/bdk-hal.h"
 
