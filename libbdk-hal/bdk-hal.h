@@ -46,7 +46,6 @@
 #include "bdk-npi.h"
 #include "bdk-raid.h"
 #include "bdk-rng.h"
-#include "bdk-rwlock.h"
 #include "bdk-spinlock.h"
 #include "bdk-srio.h"
 #include "bdk-swap.h"
