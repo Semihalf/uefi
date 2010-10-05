@@ -14,6 +14,9 @@ wget -O octcsr_cn63xxp2.txt http://${host}/Docs/O63/Specs/o63csr.txt
 wget -O octcsr_cn68xxp1.txt http://${host}/Docs/O68/Specs/o68csr.txt
 fi
 
+sed -i "s/[ ][ ]*$//g" octcsr_*.txt
+dos2unix -q octcsr_*.txt
+
 sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" octcsr_cn56xxp1.txt octcsr_cn56xxp2.txt octcsr_cn52xxp1.txt octcsr_cn52xxp2.txt
 sed -i "s/MIO_BOOT_REG_TIM(1..7)/MIO_BOOT_REG_TIM(0..7)/g" octcsr_cn56xxp1.txt octcsr_cn56xxp2.txt octcsr_cn52xxp1.txt octcsr_cn52xxp2.txt
 
@@ -64,6 +67,9 @@ sed -i "s/^USBC1_DOEPTSIZ0  /USBC1_DOEPTSIZ000/g" octcsr_cn52xxp1.txt octcsr_cn5
 # Change TRA_ to TRA(0)_ for all the older chips
 sed -i "s/^TRA_/TRA0_/g" octcsr_cn5*.txt
 sed -i "s/TRA_/TRA(0)_/g" octcsr_cn5*.txt
+
+# Rename POW to SSO
+sed -i "s/POW_/SSO_/g" octcsr_cn5*.txt octcsr_cn63*.txt
 
 # Fixups for CN63XX
 sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt

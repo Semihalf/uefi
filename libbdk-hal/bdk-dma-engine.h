@@ -111,7 +111,7 @@ typedef union
         uint64_t    addr            : 40;   /**< PTR ­ Pointer, either a work-queue-entry pointer (when WQP = 1) or a local
                                                 memory pointer (WQP = 0).
                                                 When WQP = 1 and PTR  0x0, the hardware inserts the work-queue entry
-                                                indicated by PTR into a POW input queue after the PCI DMA operation is
+                                                indicated by PTR into a SSO input queue after the PCI DMA operation is
                                                 complete. (Section 5.4 describes the work queue entry requirements in this
                                                 case.) When WQP = 1, PTR<2:0> must be 0x0.
                                                 When WQP = 0 and PTR  0x0, the hardware writes the single byte in local

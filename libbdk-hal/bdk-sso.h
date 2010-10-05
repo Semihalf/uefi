@@ -3,14 +3,14 @@
  *
  * Interface to the hardware Packet Order / Work unit.
  *
- * New, starting with SDK 1.7.0, cvmx-pow supports a number of
+ * New, starting with SDK 1.7.0, cvmx-sso supports a number of
  * extended consistency checks. The define
- * BDK_ENABLE_POW_CHECKS controls the runtime insertion of POW
+ * BDK_ENABLE_SSO_CHECKS controls the runtime insertion of SSO
  * internal state checks to find common programming errors. If
- * BDK_ENABLE_POW_CHECKS is not defined, checks are by default
- * enabled. For example, cvmx-pow will check for the following
- * program errors or POW state inconsistency.
- * - Requesting a POW operation with an active tag switch in
+ * BDK_ENABLE_SSO_CHECKS is not defined, checks are by default
+ * enabled. For example, cvmx-sso will check for the following
+ * program errors or SSO state inconsistency.
+ * - Requesting a SSO operation with an active tag switch in
  *   progress.
  * - Waiting for a tag switch to complete for an excessively
  *   long period. This is normally a sign of an error in locking
@@ -19,14 +19,14 @@
  * - Illegal tag switches from NULL.
  * - Illegal deschedule request.
  * - WQE pointer not matching the one attached to the core by
- *   the POW.
+ *   the SSO.
  *
  * <hr>$Revision: 49448 $<hr>
  */
 
-/* Default to having all POW constancy checks turned on */
-#ifndef BDK_ENABLE_POW_CHECKS
-#define BDK_ENABLE_POW_CHECKS 1
+/* Default to having all SSO constancy checks turned on */
+#ifndef BDK_ENABLE_SSO_CHECKS
+#define BDK_ENABLE_SSO_CHECKS 1
 #endif
 
 /**
@@ -34,51 +34,51 @@
  */
 typedef enum
 {
-    BDK_POW_TAG_TYPE_ORDERED   = 0L,   /**< Tag ordering is maintained */
-    BDK_POW_TAG_TYPE_ATOMIC    = 1L,   /**< Tag ordering is maintained, and at most one PP has the tag */
-    BDK_POW_TAG_TYPE_NULL      = 2L,   /**< The work queue entry from the order
+    BDK_SSO_TAG_TYPE_ORDERED   = 0L,   /**< Tag ordering is maintained */
+    BDK_SSO_TAG_TYPE_ATOMIC    = 1L,   /**< Tag ordering is maintained, and at most one PP has the tag */
+    BDK_SSO_TAG_TYPE_NULL      = 2L,   /**< The work queue entry from the order
                                             - NEVER tag switch from NULL to NULL */
-    BDK_POW_TAG_TYPE_NULL_NULL = 3L    /**< A tag switch to NULL, and there is no space reserved in POW
+    BDK_SSO_TAG_TYPE_NULL_NULL = 3L    /**< A tag switch to NULL, and there is no space reserved in SSO
                                             - NEVER tag switch to NULL_NULL
                                             - NEVER tag switch from NULL_NULL
                                             - NULL_NULL is entered at the beginning of time and on a deschedule.
                                             - NULL_NULL can be exited by a new work request. A NULL_SWITCH load can also switch the state to NULL */
-} bdk_pow_tag_type_t;
+} bdk_sso_tag_type_t;
 
 #include "bdk-wqe.h"
 
 /**
- * Wait flag values for pow functions.
+ * Wait flag values for sso functions.
  */
 typedef enum
 {
-    BDK_POW_WAIT = 1,
-    BDK_POW_NO_WAIT = 0,
-} bdk_pow_wait_t;
+    BDK_SSO_WAIT = 1,
+    BDK_SSO_NO_WAIT = 0,
+} bdk_sso_wait_t;
 
 /**
- *  POW tag operations.  These are used in the data stored to the POW.
+ *  SSO tag operations.  These are used in the data stored to the SSO.
  */
 typedef enum
 {
-    BDK_POW_TAG_OP_SWTAG = 0L,         /**< switch the tag (only) for this PP
+    BDK_SSO_TAG_OP_SWTAG = 0L,         /**< switch the tag (only) for this PP
                                             - the previous tag should be non-NULL in this case
                                             - tag switch response required
                                             - fields used: op, type, tag */
-    BDK_POW_TAG_OP_SWTAG_FULL = 1L,    /**< switch the tag for this PP, with full information
+    BDK_SSO_TAG_OP_SWTAG_FULL = 1L,    /**< switch the tag for this PP, with full information
                                             - this should be used when the previous tag is NULL
                                             - tag switch response required
                                             - fields used: address, op, grp, type, tag */
-    BDK_POW_TAG_OP_SWTAG_DESCH = 2L,   /**< switch the tag (and/or group) for this PP and de-schedule
+    BDK_SSO_TAG_OP_SWTAG_DESCH = 2L,   /**< switch the tag (and/or group) for this PP and de-schedule
                                             - OK to keep the tag the same and only change the group
                                             - fields used: op, no_sched, grp, type, tag */
-    BDK_POW_TAG_OP_DESCH = 3L,         /**< just de-schedule
+    BDK_SSO_TAG_OP_DESCH = 3L,         /**< just de-schedule
                                             - fields used: op, no_sched */
-    BDK_POW_TAG_OP_ADDWQ = 4L,         /**< create an entirely new work queue entry
+    BDK_SSO_TAG_OP_ADDWQ = 4L,         /**< create an entirely new work queue entry
                                             - fields used: address, op, qos, grp, type, tag */
-    BDK_POW_TAG_OP_UPDATE_WQP_GRP = 5L,/**< just update the work queue pointer and grp for this PP
+    BDK_SSO_TAG_OP_UPDATE_WQP_GRP = 5L,/**< just update the work queue pointer and grp for this PP
                                             - fields used: address, op, grp */
-    BDK_POW_TAG_OP_SET_NSCHED = 6L,    /**< set the no_sched bit on the de-schedule list
+    BDK_SSO_TAG_OP_SET_NSCHED = 6L,    /**< set the no_sched bit on the de-schedule list
                                             - does nothing if the selected entry is not on the de-schedule list
                                             - does nothing if the stored work queue pointer does not match the address field
                                             - fields used: address, index, op
@@ -88,7 +88,7 @@ typedef enum
                                             and swdone bit for SW polling. After issuing a *_NSCHED operation,
                                             SW must guarantee that the set/clr NSCHED is complete before
                                             any subsequent operations. */
-    BDK_POW_TAG_OP_CLR_NSCHED = 7L,    /**< clears the no_sched bit on the de-schedule list
+    BDK_SSO_TAG_OP_CLR_NSCHED = 7L,    /**< clears the no_sched bit on the de-schedule list
                                             - does nothing if the selected entry is not on the de-schedule list
                                             - does nothing if the stored work queue pointer does not match the address field
                                             - fields used: address, index, op
@@ -98,11 +98,11 @@ typedef enum
                                             and swdone bit for SW polling. After issuing a *_NSCHED operation,
                                             SW must guarantee that the set/clr NSCHED is complete before
                                             any subsequent operations. */
-    BDK_POW_TAG_OP_NOP = 15L           /**< do nothing */
-} bdk_pow_tag_op_t;
+    BDK_SSO_TAG_OP_NOP = 15L           /**< do nothing */
+} bdk_sso_tag_op_t;
 
 /**
- * This structure defines the store data on a store to POW
+ * This structure defines the store data on a store to SSO
  */
 typedef union
 {
@@ -110,31 +110,31 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t              no_sched  : 1; /**< don't reschedule this entry. no_sched is used for BDK_POW_TAG_OP_SWTAG_DESCH and BDK_POW_TAG_OP_DESCH */
+        uint64_t              no_sched  : 1; /**< don't reschedule this entry. no_sched is used for BDK_SSO_TAG_OP_SWTAG_DESCH and BDK_SSO_TAG_OP_DESCH */
         uint64_t                unused  : 2;
-        uint64_t                 index  :13; /**< contains index of entry for a BDK_POW_TAG_OP_*_NSCHED */
-        bdk_pow_tag_op_t          op   : 4; /**< the operation to perform */
+        uint64_t                 index  :13; /**< contains index of entry for a BDK_SSO_TAG_OP_*_NSCHED */
+        bdk_sso_tag_op_t          op   : 4; /**< the operation to perform */
         uint64_t                unused2 : 2;
-        uint64_t                   qos  : 3; /**< the QOS level for the packet. qos is only used for BDK_POW_TAG_OP_ADDWQ */
-        uint64_t                   grp  : 4; /**< the group that the work queue entry will be scheduled to grp is used for BDK_POW_TAG_OP_ADDWQ, BDK_POW_TAG_OP_SWTAG_FULL, BDK_POW_TAG_OP_SWTAG_DESCH, and BDK_POW_TAG_OP_UPDATE_WQP_GRP */
-        bdk_pow_tag_type_t        type : 3; /**< the type of the tag. type is used for everything except BDK_POW_TAG_OP_DESCH, BDK_POW_TAG_OP_UPDATE_WQP_GRP, and BDK_POW_TAG_OP_*_NSCHED */
-        uint64_t                   tag  :32; /**< the actual tag. tag is used for everything except BDK_POW_TAG_OP_DESCH, BDK_POW_TAG_OP_UPDATE_WQP_GRP, and BDK_POW_TAG_OP_*_NSCHED */
+        uint64_t                   qos  : 3; /**< the QOS level for the packet. qos is only used for BDK_SSO_TAG_OP_ADDWQ */
+        uint64_t                   grp  : 4; /**< the group that the work queue entry will be scheduled to grp is used for BDK_SSO_TAG_OP_ADDWQ, BDK_SSO_TAG_OP_SWTAG_FULL, BDK_SSO_TAG_OP_SWTAG_DESCH, and BDK_SSO_TAG_OP_UPDATE_WQP_GRP */
+        bdk_sso_tag_type_t        type : 3; /**< the type of the tag. type is used for everything except BDK_SSO_TAG_OP_DESCH, BDK_SSO_TAG_OP_UPDATE_WQP_GRP, and BDK_SSO_TAG_OP_*_NSCHED */
+        uint64_t                   tag  :32; /**< the actual tag. tag is used for everything except BDK_SSO_TAG_OP_DESCH, BDK_SSO_TAG_OP_UPDATE_WQP_GRP, and BDK_SSO_TAG_OP_*_NSCHED */
 #else
         uint64_t                   tag  :32;
-        bdk_pow_tag_type_t        type : 3;
+        bdk_sso_tag_type_t        type : 3;
         uint64_t                   grp  : 4;
         uint64_t                   qos  : 3;
         uint64_t                unused2 : 2;
-        bdk_pow_tag_op_t          op   : 4;
+        bdk_sso_tag_op_t          op   : 4;
         uint64_t                 index  :13;
         uint64_t                unused  : 2;
         uint64_t              no_sched  : 1;
 #endif
     } s;
-} bdk_pow_tag_req_t;
+} bdk_sso_tag_req_t;
 
 /**
- * This structure describes the address to load stuff from POW
+ * This structure describes the address to load stuff from SSO
  */
 typedef union
 {
@@ -149,7 +149,7 @@ typedef union
         uint64_t    mem_region      : 2;    /**< Mips64 address region. Should be BDK_IO_SEG */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< the ID of POW -- did<2:0> == 0 in this case */
+        uint64_t    did             : 8;    /**< the ID of SSO -- did<2:0> == 0 in this case */
         uint64_t    reserved_4_39   : 36;   /**< Must be zero */
         uint64_t    wait            : 1;    /**< If set, don't return load response until work is available */
         uint64_t    reserved_0_2    : 3;    /**< Must be zero */
@@ -165,7 +165,7 @@ typedef union
     } swork;
 
     /**
-     * Address for loads to get POW internal status
+     * Address for loads to get SSO internal status
      */
     struct
     {
@@ -173,7 +173,7 @@ typedef union
         uint64_t    mem_region      : 2;    /**< Mips64 address region. Should be BDK_IO_SEG */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< the ID of POW -- did<2:0> == 1 in this case */
+        uint64_t    did             : 8;    /**< the ID of SSO -- did<2:0> == 1 in this case */
         uint64_t    reserved_10_39  : 30;   /**< Must be zero */
         uint64_t    coreid          : 4;    /**< The core id to get status for */
         uint64_t    get_rev         : 1;    /**< If set and get_cur is set, return reverse tag-list pointer rather than forward tag-list pointer */
@@ -195,7 +195,7 @@ typedef union
     } sstatus;
 
     /**
-     * Address for memory loads to get POW internal state
+     * Address for memory loads to get SSO internal state
      */
     struct
     {
@@ -203,9 +203,9 @@ typedef union
         uint64_t    mem_region      : 2;    /**< Mips64 address region. Should be BDK_IO_SEG */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< the ID of POW -- did<2:0> == 2 in this case */
+        uint64_t    did             : 8;    /**< the ID of SSO -- did<2:0> == 2 in this case */
         uint64_t    reserved_16_39  : 24;   /**< Must be zero */
-        uint64_t    index           : 11;   /**< POW memory index */
+        uint64_t    index           : 11;   /**< SSO memory index */
         uint64_t    get_des         : 1;    /**< If set, return deschedule information rather than the standard
                                                 response for work-queue index (invalid if the work-queue entry is not on the
                                                 deschedule list). */
@@ -233,10 +233,10 @@ typedef union
         uint64_t    mem_region      : 2;    /**< Mips64 address region. Should be BDK_IO_SEG */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< the ID of POW -- did<2:0> == 3 in this case */
+        uint64_t    did             : 8;    /**< the ID of SSO -- did<2:0> == 3 in this case */
         uint64_t    reserved_9_39   : 31;   /**< Must be zero */
         uint64_t    qosgrp          : 4;    /**< when {get_rmt ==0 AND get_des_get_tail == 0}, this field selects one of
-                                                eight POW internal-input queues (0-7), one per QOS level; values 8-15 are
+                                                eight SSO internal-input queues (0-7), one per QOS level; values 8-15 are
                                                 illegal in this case;
                                                 when {get_rmt ==0 AND get_des_get_tail == 1}, this field selects one of
                                                 16 deschedule lists (per group);
@@ -271,8 +271,8 @@ typedef union
     /**
      * address for NULL_RD request (did<2:0> == 4)
      * when this is read, HW attempts to change the state to NULL if it is NULL_NULL
-     * (the hardware cannot switch from NULL_NULL to NULL if a POW entry is not available -
-     * software may need to recover by finishing another piece of work before a POW
+     * (the hardware cannot switch from NULL_NULL to NULL if a SSO entry is not available -
+     * software may need to recover by finishing another piece of work before a SSO
      * entry can ever become available.)
      */
     struct
@@ -281,7 +281,7 @@ typedef union
         uint64_t    mem_region      : 2;    /**< Mips64 address region. Should be BDK_IO_SEG */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< the ID of POW -- did<2:0> == 4 in this case */
+        uint64_t    did             : 8;    /**< the ID of SSO -- did<2:0> == 4 in this case */
         uint64_t    reserved_0_39   : 40;   /**< Must be zero */
 #else
         uint64_t    reserved_0_39   : 40;
@@ -291,10 +291,10 @@ typedef union
         uint64_t    mem_region      : 2;
 #endif
     } snull_rd;
-} bdk_pow_load_addr_t;
+} bdk_sso_load_addr_t;
 
 /**
- * This structure defines the response to a load/SENDSINGLE to POW (except CSR reads)
+ * This structure defines the response to a load/SENDSINGLE to SSO (except CSR reads)
  */
 typedef union
 {
@@ -325,14 +325,14 @@ typedef union
     } s_work;
 
     /**
-     * Result for a POW Status Load (when get_cur==0 and get_wqp==0)
+     * Result for a SSO Status Load (when get_cur==0 and get_wqp==0)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
         uint64_t    pend_switch     : 1;    /**< Set when there is a pending non-NULL SWTAG or
-                                                SWTAG_FULL, and the POW entry has not left the list for the original tag. */
+                                                SWTAG_FULL, and the SSO entry has not left the list for the original tag. */
         uint64_t    pend_switch_full: 1;    /**< Set when SWTAG_FULL and pend_switch is set. */
         uint64_t    pend_switch_null: 1;    /**< Set when there is a pending NULL SWTAG, or an implicit switch to NULL. */
         uint64_t    pend_desched    : 1;    /**< Set when there is a pending DESCHED or SWTAG_DESCHED. */
@@ -370,14 +370,14 @@ typedef union
     } s_sstatus0;
 
     /**
-     * Result for a POW Status Load (when get_cur==0 and get_wqp==1)
+     * Result for a SSO Status Load (when get_cur==0 and get_wqp==1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
         uint64_t    pend_switch     : 1;    /**< Set when there is a pending non-NULL SWTAG or
-                                                SWTAG_FULL, and the POW entry has not left the list for the original tag. */
+                                                SWTAG_FULL, and the SSO entry has not left the list for the original tag. */
         uint64_t    pend_switch_full: 1;    /**< Set when SWTAG_FULL and pend_switch is set. */
         uint64_t    pend_switch_null: 1;    /**< Set when there is a pending NULL SWTAG, or an implicit switch to NULL. */
         uint64_t    pend_desched    : 1;    /**< Set when there is a pending DESCHED or SWTAG_DESCHED. */
@@ -411,19 +411,19 @@ typedef union
     } s_sstatus1;
 
     /**
-     * Result for a POW Status Load (when get_cur==1, get_wqp==0, and get_rev==0)
+     * Result for a SSO Status Load (when get_cur==1, get_wqp==0, and get_rev==0)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
-        uint64_t    link_index      : 11;    /**< Points to the next POW entry in the tag list when tail == 0 (and
+        uint64_t    link_index      : 11;    /**< Points to the next SSO entry in the tag list when tail == 0 (and
                                                 tag_type is not NULL or NULL_NULL). */
-        uint64_t    index           : 11;   /**< The POW entry attached to the core. */
+        uint64_t    index           : 11;   /**< The SSO entry attached to the core. */
         uint64_t    grp             : 4;    /**< The group attached to the core (updated when new tag list entered on SWTAG_FULL). */
-        uint64_t    head            : 1;    /**< Set when this POW entry is at the head of its tag list (also set when in
+        uint64_t    head            : 1;    /**< Set when this SSO entry is at the head of its tag list (also set when in
                                                 the NULL or NULL_NULL state). */
-        uint64_t    tail            : 1;    /**< Set when this POW entry is at the tail of its tag list (also set when in the
+        uint64_t    tail            : 1;    /**< Set when this SSO entry is at the tail of its tag list (also set when in the
                                                 NULL or NULL_NULL state). */
         uint64_t    tag_type        : 2;    /**< The tag type attached to the core (updated when new tag list
                                                 entered on SWTAG, SWTAG_FULL, or SWTAG_DESCHED). */
@@ -442,20 +442,20 @@ typedef union
     } s_sstatus2;
 
     /**
-     * Result for a POW Status Load (when get_cur==1, get_wqp==0, and get_rev==1)
+     * Result for a SSO Status Load (when get_cur==1, get_wqp==0, and get_rev==1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
-        uint64_t    revlink_index   : 11;   /**< Points to the prior POW entry in the tag list when head == 0
+        uint64_t    revlink_index   : 11;   /**< Points to the prior SSO entry in the tag list when head == 0
                                                 (and tag_type is not NULL or NULL_NULL). This field is unpredictable
                                                 when the core's state is NULL or NULL_NULL. */
-        uint64_t    index           : 11;   /**< The POW entry attached to the core. */
+        uint64_t    index           : 11;   /**< The SSO entry attached to the core. */
         uint64_t    grp             : 4;    /**< The group attached to the core (updated when new tag list entered on SWTAG_FULL). */
-        uint64_t    head            : 1;    /**< Set when this POW entry is at the head of its tag list (also set when in
+        uint64_t    head            : 1;    /**< Set when this SSO entry is at the head of its tag list (also set when in
                                                 the NULL or NULL_NULL state). */
-        uint64_t    tail            : 1;    /**< Set when this POW entry is at the tail of its tag list (also set when in the
+        uint64_t    tail            : 1;    /**< Set when this SSO entry is at the tail of its tag list (also set when in the
                                                 NULL or NULL_NULL state). */
         uint64_t    tag_type        : 2;    /**< The tag type attached to the core (updated when new tag list
                                                 entered on SWTAG, SWTAG_FULL, or SWTAG_DESCHED). */
@@ -474,15 +474,15 @@ typedef union
     } s_sstatus3;
 
     /**
-     * Result for a POW Status Load (when get_cur==1, get_wqp==1, and get_rev==0)
+     * Result for a SSO Status Load (when get_cur==1, get_wqp==1, and get_rev==0)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
-        uint64_t    link_index      : 11;    /**< Points to the next POW entry in the tag list when tail == 0 (and
+        uint64_t    link_index      : 11;    /**< Points to the next SSO entry in the tag list when tail == 0 (and
                                                 tag_type is not NULL or NULL_NULL). */
-        uint64_t    index           : 11;   /**< The POW entry attached to the core. */
+        uint64_t    index           : 11;   /**< The SSO entry attached to the core. */
         uint64_t    grp             : 4;    /**< The group attached to the core (updated when new tag list entered on SWTAG_FULL). */
         uint64_t    wqp             : 36;   /**< The wqp attached to the core (updated when new tag list entered on SWTAG_FULL). */
 #else
@@ -495,16 +495,16 @@ typedef union
     } s_sstatus4;
 
     /**
-     * Result for a POW Status Load (when get_cur==1, get_wqp==1, and get_rev==1)
+     * Result for a SSO Status Load (when get_cur==1, get_wqp==1, and get_rev==1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_62_63  : 2;
-        uint64_t    revlink_index   : 11;   /**< Points to the prior POW entry in the tag list when head == 0
+        uint64_t    revlink_index   : 11;   /**< Points to the prior SSO entry in the tag list when head == 0
                                                 (and tag_type is not NULL or NULL_NULL). This field is unpredictable
                                                 when the core's state is NULL or NULL_NULL. */
-        uint64_t    index           : 11;   /**< The POW entry attached to the core. */
+        uint64_t    index           : 11;   /**< The SSO entry attached to the core. */
         uint64_t    grp             : 4;    /**< The group attached to the core (updated when new tag list entered on SWTAG_FULL). */
         uint64_t    wqp             : 36;   /**< The wqp attached to the core (updated when new tag list entered on SWTAG_FULL). */
 #else
@@ -517,7 +517,7 @@ typedef union
     } s_sstatus5;
 
     /**
-     * Result For POW Memory Load (get_des == 0 and get_wqp == 0)
+     * Result For SSO Memory Load (get_des == 0 and get_wqp == 0)
      */
     struct
     {
@@ -525,12 +525,12 @@ typedef union
         uint64_t    reserved_51_63  : 13;
         uint64_t    next_index      : 11;    /**< The next entry in the input, free, descheduled_head list
                                                 (unpredictable if entry is the tail of the list). */
-        uint64_t    grp             : 4;    /**< The group of the POW entry. */
+        uint64_t    grp             : 4;    /**< The group of the SSO entry. */
         uint64_t    reserved_35     : 1;
-        uint64_t    tail            : 1;    /**< Set when this POW entry is at the tail of its tag list (also set when in the
+        uint64_t    tail            : 1;    /**< Set when this SSO entry is at the tail of its tag list (also set when in the
                                                 NULL or NULL_NULL state). */
-        uint64_t    tag_type        : 2;    /**< The tag type of the POW entry. */
-        uint64_t    tag             : 32;   /**< The tag of the POW entry. */
+        uint64_t    tag_type        : 2;    /**< The tag type of the SSO entry. */
+        uint64_t    tag             : 32;   /**< The tag of the SSO entry. */
 #else
         uint64_t    tag             : 32;
         uint64_t    tag_type        : 2;
@@ -543,7 +543,7 @@ typedef union
     } s_smemload0;
 
     /**
-     * Result For POW Memory Load (get_des == 0 and get_wqp == 1)
+     * Result For SSO Memory Load (get_des == 0 and get_wqp == 1)
      */
     struct
     {
@@ -551,8 +551,8 @@ typedef union
         uint64_t    reserved_51_63  : 13;
         uint64_t    next_index      : 11;    /**< The next entry in the input, free, descheduled_head list
                                                 (unpredictable if entry is the tail of the list). */
-        uint64_t    grp             : 4;    /**< The group of the POW entry. */
-        uint64_t    wqp             : 36;   /**< The WQP held in the POW entry. */
+        uint64_t    grp             : 4;    /**< The group of the SSO entry. */
+        uint64_t    wqp             : 36;   /**< The WQP held in the SSO entry. */
 #else
         uint64_t    wqp             : 36;
         uint64_t    grp             : 4;
@@ -562,15 +562,15 @@ typedef union
     } s_smemload1;
 
     /**
-     * Result For POW Memory Load (get_des == 1)
+     * Result For SSO Memory Load (get_des == 1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_51_63  : 13;
         uint64_t    fwd_index       : 11;   /**< The next entry in the tag list connected to the descheduled head. */
-        uint64_t    grp             : 4;    /**< The group of the POW entry. */
-        uint64_t    nosched         : 1;    /**< The nosched bit for the POW entry. */
+        uint64_t    grp             : 4;    /**< The group of the SSO entry. */
+        uint64_t    nosched         : 1;    /**< The nosched bit for the SSO entry. */
         uint64_t    pend_switch     : 1;    /**< There is a pending tag switch */
         uint64_t    pend_type       : 2;    /**< The next tag type for the new tag list when pend_switch is set. */
         uint64_t    pend_tag        : 32;   /**< The next tag for the new tag list when pend_switch is set. */
@@ -586,20 +586,20 @@ typedef union
     } s_smemload2;
 
     /**
-     * Result For POW Index/Pointer Load (get_rmt == 0/get_des_get_tail == 0)
+     * Result For SSO Index/Pointer Load (get_rmt == 0/get_des_get_tail == 0)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_52_63  : 12;
-        uint64_t    free_val        : 1;    /**< - set when there is one or more POW entries on the free list. */
-        uint64_t    free_one        : 1;    /**< - set when there is exactly one POW entry on the free list. */
+        uint64_t    free_val        : 1;    /**< - set when there is one or more SSO entries on the free list. */
+        uint64_t    free_one        : 1;    /**< - set when there is exactly one SSO entry on the free list. */
         uint64_t    reserved_49     : 1;
         uint64_t    free_head       : 11;   /**< - when free_val is set, indicates the first entry on the free list. */
         uint64_t    reserved_37     : 1;
         uint64_t    free_tail       : 11;   /**< - when free_val is set, indicates the last entry on the free list. */
-        uint64_t    loc_val         : 1;    /**< - set when there is one or more POW entries on the input Q list selected by qosgrp. */
-        uint64_t    loc_one         : 1;    /**< - set when there is exactly one POW entry on the input Q list selected by qosgrp. */
+        uint64_t    loc_val         : 1;    /**< - set when there is one or more SSO entries on the input Q list selected by qosgrp. */
+        uint64_t    loc_one         : 1;    /**< - set when there is exactly one SSO entry on the input Q list selected by qosgrp. */
         uint64_t    reserved_23     : 1;
         uint64_t    loc_head        : 11;   /**< - when loc_val is set, indicates the first entry on the input Q list selected by qosgrp. */
         uint64_t    reserved_11     : 1;
@@ -622,14 +622,14 @@ typedef union
     } sindexload0;
 
     /**
-     * Result For POW Index/Pointer Load (get_rmt == 0/get_des_get_tail == 1)
+     * Result For SSO Index/Pointer Load (get_rmt == 0/get_des_get_tail == 1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_52_63  : 12;
-        uint64_t    nosched_val     : 1;    /**< - set when there is one or more POW entries on the nosched list. */
-        uint64_t    nosched_one     : 1;    /**< - set when there is exactly one POW entry on the nosched list. */
+        uint64_t    nosched_val     : 1;    /**< - set when there is one or more SSO entries on the nosched list. */
+        uint64_t    nosched_one     : 1;    /**< - set when there is exactly one SSO entry on the nosched list. */
         uint64_t    reserved_49     : 1;
         uint64_t    nosched_head    : 11;    /**< - when nosched_val is set, indicates the first entry on the nosched list. */
         uint64_t    reserved_37     : 1;
@@ -658,16 +658,16 @@ typedef union
     } sindexload1;
 
     /**
-     * Result For POW Index/Pointer Load (get_rmt == 1/get_des_get_tail == 0)
+     * Result For SSO Index/Pointer Load (get_rmt == 1/get_des_get_tail == 0)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_39_63  : 25;
         uint64_t    rmt_is_head     : 1;    /**< Set when this DRAM list is the current head (i.e. is the next to
-                                                be reloaded when the POW hardware reloads a POW entry from DRAM). The
-                                                POW hardware alternates between the two DRAM lists associated with a QOS
-                                                level when it reloads work from DRAM into the POW unit. */
+                                                be reloaded when the SSO hardware reloads a SSO entry from DRAM). The
+                                                SSO hardware alternates between the two DRAM lists associated with a QOS
+                                                level when it reloads work from DRAM into the SSO unit. */
         uint64_t    rmt_val         : 1;    /**< Set when the DRAM portion of the input Q list selected by qosgrp
                                                 contains one or more pieces of work. */
         uint64_t    rmt_one         : 1;    /**< Set when the DRAM portion of the input Q list selected by qosgrp
@@ -684,16 +684,16 @@ typedef union
     } sindexload2;
 
     /**
-     * Result For POW Index/Pointer Load (get_rmt == 1/get_des_get_tail == 1)
+     * Result For SSO Index/Pointer Load (get_rmt == 1/get_des_get_tail == 1)
      */
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    reserved_39_63  : 25;
         uint64_t    rmt_is_head     : 1;    /**< - set when this DRAM list is the current head (i.e. is the next to
-                                                be reloaded when the POW hardware reloads a POW entry from DRAM). The
-                                                POW hardware alternates between the two DRAM lists associated with a QOS
-                                                level when it reloads work from DRAM into the POW unit. */
+                                                be reloaded when the SSO hardware reloads a SSO entry from DRAM). The
+                                                SSO hardware alternates between the two DRAM lists associated with a QOS
+                                                level when it reloads work from DRAM into the SSO unit. */
         uint64_t    rmt_val         : 1;    /**< - set when the DRAM portion of the input Q list selected by qosgrp
                                                 contains one or more pieces of work. */
         uint64_t    rmt_one         : 1;    /**< - set when the DRAM portion of the input Q list selected by qosgrp
@@ -716,36 +716,36 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t    unused  : 62;
-        uint64_t    state    : 2;  /**< of type bdk_pow_tag_type_t. state is one of the following:
-                                        - BDK_POW_TAG_TYPE_ORDERED
-                                        - BDK_POW_TAG_TYPE_ATOMIC
-                                        - BDK_POW_TAG_TYPE_NULL
-                                        - BDK_POW_TAG_TYPE_NULL_NULL */
+        uint64_t    state    : 2;  /**< of type bdk_sso_tag_type_t. state is one of the following:
+                                        - BDK_SSO_TAG_TYPE_ORDERED
+                                        - BDK_SSO_TAG_TYPE_ATOMIC
+                                        - BDK_SSO_TAG_TYPE_NULL
+                                        - BDK_SSO_TAG_TYPE_NULL_NULL */
 #else
         uint64_t    state    : 2;
         uint64_t    unused  : 62;
 #endif
     } s_null_rd;
 
-} bdk_pow_tag_load_resp_t;
+} bdk_sso_tag_load_resp_t;
 
 /**
- * This structure describes the address used for stores to the POW.
- *  The store address is meaningful on stores to the POW.  The hardware assumes that an aligned
+ * This structure describes the address used for stores to the SSO.
+ *  The store address is meaningful on stores to the SSO.  The hardware assumes that an aligned
  *  64-bit store was used for all these stores.
  *  Note the assumption that the work queue entry is aligned on an 8-byte
  *  boundary (since the low-order 3 address bits must be zero).
  *  Note that not all fields are used by all operations.
  *
  *  NOTE: The following is the behavior of the pending switch bit at the PP
- *       for POW stores (i.e. when did<7:3> == 0xc)
+ *       for SSO stores (i.e. when did<7:3> == 0xc)
  *     - did<2:0> == 0      => pending switch bit is set
  *     - did<2:0> == 1      => no affect on the pending switch bit
  *     - did<2:0> == 3      => pending switch bit is cleared
  *     - did<2:0> == 7      => no affect on the pending switch bit
  *     - did<2:0> == others => must not be used
  *     - No other loads/stores have an affect on the pending switch bit
- *     - The switch bus from POW can clear the pending switch bit
+ *     - The switch bus from SSO can clear the pending switch bit
  *
  *  NOTE: did<2:0> == 2 is used by the HW for a special single-cycle ADDWQ command
  *  that only contains the pointer). SW must never use did<2:0> == 2.
@@ -763,7 +763,7 @@ typedef union
         uint64_t    mem_reg         : 2;    /**< Memory region.  Should be BDK_IO_SEG in most cases */
         uint64_t    reserved_49_61  : 13;   /**< Must be zero */
         uint64_t    is_io           : 1;    /**< Must be one */
-        uint64_t    did             : 8;    /**< Device ID of POW.  Note that different sub-dids are used. */
+        uint64_t    did             : 8;    /**< Device ID of SSO.  Note that different sub-dids are used. */
         uint64_t    reserved_36_39  : 4;    /**< Must be zero */
         uint64_t    addr            : 36;   /**< Address field. addr<2:0> must be zero */
 #else
@@ -775,10 +775,10 @@ typedef union
         uint64_t    mem_reg         : 2;
 #endif
     } stag;
-} bdk_pow_tag_store_addr_t;
+} bdk_sso_tag_store_addr_t;
 
 /**
- * decode of the store data when an IOBDMA SENDSINGLE is sent to POW
+ * decode of the store data when an IOBDMA SENDSINGLE is sent to SSO
  */
 typedef union
 {
@@ -803,25 +803,25 @@ typedef union
 #endif
     } s;
 
-} bdk_pow_iobdma_store_t;
+} bdk_sso_iobdma_store_t;
 
 
-/* CSR typedefs have been moved to cvmx-pow-defs.h */
+/* CSR typedefs have been moved to cvmx-sso-defs.h */
 
 /**
- * Get the POW tag for this core. This returns the current
- * tag type, tag, group, and POW entry index associated with
+ * Get the SSO tag for this core. This returns the current
+ * tag type, tag, group, and SSO entry index associated with
  * this core. Index is only valid if the tag type isn't NULL_NULL.
  * If a tag switch is pending this routine returns the tag before
  * the tag switch, not after.
  *
  * @return Current tag
  */
-static inline bdk_pow_tag_req_t bdk_pow_get_current_tag(void)
+static inline bdk_sso_tag_req_t bdk_sso_get_current_tag(void)
 {
-    bdk_pow_load_addr_t load_addr;
-    bdk_pow_tag_load_resp_t load_resp;
-    bdk_pow_tag_req_t result;
+    bdk_sso_load_addr_t load_addr;
+    bdk_sso_tag_load_resp_t load_resp;
+    bdk_sso_tag_req_t result;
 
     load_addr.u64 = 0;
     load_addr.sstatus.mem_region = BDK_IO_SEG;
@@ -833,22 +833,22 @@ static inline bdk_pow_tag_req_t bdk_pow_get_current_tag(void)
     result.u64 = 0;
     result.s.grp = load_resp.s_sstatus2.grp;
     result.s.index = load_resp.s_sstatus2.index;
-    result.s.type = (bdk_pow_tag_type_t)load_resp.s_sstatus2.tag_type;
+    result.s.type = (bdk_sso_tag_type_t)load_resp.s_sstatus2.tag_type;
     result.s.tag = load_resp.s_sstatus2.tag;
     return result;
 }
 
 
 /**
- * Get the POW WQE for this core. This returns the work queue
+ * Get the SSO WQE for this core. This returns the work queue
  * entry currently associated with this core.
  *
  * @return WQE pointer
  */
-static inline bdk_wqe_t *bdk_pow_get_current_wqp(void)
+static inline bdk_wqe_t *bdk_sso_get_current_wqp(void)
 {
-    bdk_pow_load_addr_t load_addr;
-    bdk_pow_tag_load_resp_t load_resp;
+    bdk_sso_load_addr_t load_addr;
+    bdk_sso_tag_load_resp_t load_resp;
 
     load_addr.u64 = 0;
     load_addr.sstatus.mem_region = BDK_IO_SEG;
@@ -868,7 +868,7 @@ static inline bdk_wqe_t *bdk_pow_get_current_wqp(void)
  *
  * @param function Function name checking for a pending tag switch
  */
-static inline void __bdk_pow_warn_if_pending_switch(const char *function)
+static inline void __bdk_sso_warn_if_pending_switch(const char *function)
 {
     uint64_t switch_complete;
     BDK_MF_CHORD(switch_complete);
@@ -881,7 +881,7 @@ static inline void __bdk_pow_warn_if_pending_switch(const char *function)
  * Note that switches to NULL complete immediately and do not need
  * to be waited for.
  */
-static inline void bdk_pow_tag_sw_wait(void)
+static inline void bdk_sso_tag_sw_wait(void)
 {
     const uint64_t MAX_CYCLES = 1ull<<31;
     uint64_t switch_complete;
@@ -901,22 +901,22 @@ static inline void bdk_pow_tag_sw_wait(void)
 
 
 /**
- * Synchronous work request.  Requests work from the POW.
+ * Synchronous work request.  Requests work from the SSO.
  * This function does NOT wait for previous tag switches to complete,
  * so the caller must ensure that there is not a pending tag switch.
  *
  * @param wait   When set, call stalls until work becomes avaiable, or times out.
  *               If not set, returns immediately.
  *
- * @return Returns the WQE pointer from POW. Returns NULL if no work was available.
+ * @return Returns the WQE pointer from SSO. Returns NULL if no work was available.
  */
-static inline bdk_wqe_t * bdk_pow_work_request_sync_nocheck(bdk_pow_wait_t wait)
+static inline bdk_wqe_t * bdk_sso_work_request_sync_nocheck(bdk_sso_wait_t wait)
 {
-    bdk_pow_load_addr_t ptr;
-    bdk_pow_tag_load_resp_t result;
+    bdk_sso_load_addr_t ptr;
+    bdk_sso_tag_load_resp_t result;
 
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     ptr.u64 = 0;
     ptr.swork.mem_region = BDK_IO_SEG;
@@ -934,44 +934,44 @@ static inline bdk_wqe_t * bdk_pow_work_request_sync_nocheck(bdk_pow_wait_t wait)
 
 
 /**
- * Synchronous work request.  Requests work from the POW.
+ * Synchronous work request.  Requests work from the SSO.
  * This function waits for any previous tag switch to complete before
  * requesting the new work.
  *
  * @param wait   When set, call stalls until work becomes avaiable, or times out.
  *               If not set, returns immediately.
  *
- * @return Returns the WQE pointer from POW. Returns NULL if no work was available.
+ * @return Returns the WQE pointer from SSO. Returns NULL if no work was available.
  */
-static inline bdk_wqe_t * bdk_pow_work_request_sync(bdk_pow_wait_t wait)
+static inline bdk_wqe_t * bdk_sso_work_request_sync(bdk_sso_wait_t wait)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Must not have a switch pending when requesting work */
-    bdk_pow_tag_sw_wait();
-    return(bdk_pow_work_request_sync_nocheck(wait));
+    bdk_sso_tag_sw_wait();
+    return(bdk_sso_work_request_sync_nocheck(wait));
 
 }
 
 
 /**
- * Synchronous null_rd request.  Requests a switch out of NULL_NULL POW state.
+ * Synchronous null_rd request.  Requests a switch out of NULL_NULL SSO state.
  * This function waits for any previous tag switch to complete before
  * requesting the null_rd.
  *
- * @return Returns the POW state of type bdk_pow_tag_type_t.
+ * @return Returns the SSO state of type bdk_sso_tag_type_t.
  */
-static inline bdk_pow_tag_type_t bdk_pow_work_request_null_rd(void)
+static inline bdk_sso_tag_type_t bdk_sso_work_request_null_rd(void)
 {
-    bdk_pow_load_addr_t ptr;
-    bdk_pow_tag_load_resp_t result;
+    bdk_sso_load_addr_t ptr;
+    bdk_sso_tag_load_resp_t result;
 
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Must not have a switch pending when requesting work */
-    bdk_pow_tag_sw_wait();
+    bdk_sso_tag_sw_wait();
 
     ptr.u64 = 0;
     ptr.snull_rd.mem_region = BDK_IO_SEG;
@@ -980,13 +980,13 @@ static inline bdk_pow_tag_type_t bdk_pow_work_request_null_rd(void)
 
     result.u64 = bdk_read64_uint64(ptr.u64);
 
-    return (bdk_pow_tag_type_t)result.s_null_rd.state;
+    return (bdk_sso_tag_type_t)result.s_null_rd.state;
 }
 
 
 /**
- * Asynchronous work request.  Work is requested from the POW unit, and should later
- * be checked with function bdk_pow_work_response_async.
+ * Asynchronous work request.  Work is requested from the SSO unit, and should later
+ * be checked with function bdk_sso_work_response_async.
  * This function does NOT wait for previous tag switches to complete,
  * so the caller must ensure that there is not a pending tag switch.
  *
@@ -996,12 +996,12 @@ static inline bdk_pow_tag_type_t bdk_pow_work_request_null_rd(void)
  * @param wait      1 to cause response to wait for work to become available (or timeout)
  *                  0 to cause response to return immediately
  */
-static inline void bdk_pow_work_request_async_nocheck(int scr_addr, bdk_pow_wait_t wait)
+static inline void bdk_sso_work_request_async_nocheck(int scr_addr, bdk_sso_wait_t wait)
 {
-    bdk_pow_iobdma_store_t data;
+    bdk_sso_iobdma_store_t data;
 
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* scr_addr must be 8 byte aligned */
     data.s.scraddr = scr_addr >> 3;
@@ -1011,8 +1011,8 @@ static inline void bdk_pow_work_request_async_nocheck(int scr_addr, bdk_pow_wait
     bdk_send_single(data.u64);
 }
 /**
- * Asynchronous work request.  Work is requested from the POW unit, and should later
- * be checked with function bdk_pow_work_response_async.
+ * Asynchronous work request.  Work is requested from the SSO unit, and should later
+ * be checked with function bdk_sso_work_response_async.
  * This function waits for any previous tag switch to complete before
  * requesting the new work.
  *
@@ -1022,14 +1022,14 @@ static inline void bdk_pow_work_request_async_nocheck(int scr_addr, bdk_pow_wait
  * @param wait      1 to cause response to wait for work to become available (or timeout)
  *                  0 to cause response to return immediately
  */
-static inline void bdk_pow_work_request_async(int scr_addr, bdk_pow_wait_t wait)
+static inline void bdk_sso_work_request_async(int scr_addr, bdk_sso_wait_t wait)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Must not have a switch pending when requesting work */
-    bdk_pow_tag_sw_wait();
-    bdk_pow_work_request_async_nocheck(scr_addr, wait);
+    bdk_sso_tag_sw_wait();
+    bdk_sso_work_request_async_nocheck(scr_addr, wait);
 }
 
 
@@ -1041,9 +1041,9 @@ static inline void bdk_pow_work_request_async(int scr_addr, bdk_pow_wait_t wait)
  *                  Byte address, must be 8 byte aligned.
  * @return Returns the WQE from the scratch register, or NULL if no work was available.
  */
-static inline bdk_wqe_t * bdk_pow_work_response_async(int scr_addr)
+static inline bdk_wqe_t * bdk_sso_work_response_async(int scr_addr)
 {
-    bdk_pow_tag_load_resp_t result;
+    bdk_sso_tag_load_resp_t result;
 
     BDK_SYNCIOBDMA;
     result.u64 = bdk_scratch_read64(scr_addr);
@@ -1060,12 +1060,12 @@ static inline bdk_wqe_t * bdk_pow_work_response_async(int scr_addr)
  * request is valid.  It may be invalid due to no work
  * being available or due to a timeout.
  *
- * @param wqe_ptr pointer to a work queue entry returned by the POW
+ * @param wqe_ptr pointer to a work queue entry returned by the SSO
  *
  * @return 0 if pointer is valid
  *         1 if invalid (no work was returned)
  */
-static inline uint64_t bdk_pow_work_invalid(bdk_wqe_t *wqe_ptr)
+static inline uint64_t bdk_sso_work_invalid(bdk_wqe_t *wqe_ptr)
 {
     return (wqe_ptr == NULL);
 }
@@ -1083,7 +1083,7 @@ static inline uint64_t bdk_pow_work_invalid(bdk_wqe_t *wqe_ptr)
  * hardware.
  *
  * NOTE: This should not be used when switching from a NULL tag.  Use
- * bdk_pow_tag_sw_full() instead.
+ * bdk_sso_tag_sw_full() instead.
  *
  * This function does no checks, so the caller must ensure that any previous tag
  * switch has completed.
@@ -1091,23 +1091,23 @@ static inline uint64_t bdk_pow_work_invalid(bdk_wqe_t *wqe_ptr)
  * @param tag      new tag value
  * @param tag_type new tag type (ordered or atomic)
  */
-static inline void bdk_pow_tag_sw_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_type)
+static inline void bdk_sso_tag_sw_nocheck(uint32_t tag, bdk_sso_tag_type_t tag_type)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
-    if (BDK_ENABLE_POW_CHECKS)
+    if (BDK_ENABLE_SSO_CHECKS)
     {
-        bdk_pow_tag_req_t current_tag;
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
-        current_tag = bdk_pow_get_current_tag();
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL, "%s called with NULL tag\n", __FUNCTION__);
+        bdk_sso_tag_req_t current_tag;
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
+        current_tag = bdk_sso_get_current_tag();
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL, "%s called with NULL tag\n", __FUNCTION__);
         bdk_warn_if((current_tag.s.type == tag_type) && (current_tag.s.tag == tag), "%s called to perform a tag switch to the same tag\n", __FUNCTION__);
-        bdk_warn_if(tag_type == BDK_POW_TAG_TYPE_NULL, "%s called to perform a tag switch to NULL. Use bdk_pow_tag_sw_null() instead\n", __FUNCTION__);
+        bdk_warn_if(tag_type == BDK_SSO_TAG_TYPE_NULL, "%s called to perform a tag switch to NULL. Use bdk_sso_tag_sw_null() instead\n", __FUNCTION__);
     }
 
-    /* Note that WQE in DRAM is not updated here, as the POW does not read from DRAM
+    /* Note that WQE in DRAM is not updated here, as the SSO does not read from DRAM
     ** once the WQE is in flight.  See hardware manual for complete details.
     ** It is the application's responsibility to keep track of the current tag
     ** value if that is important.
@@ -1115,7 +1115,7 @@ static inline void bdk_pow_tag_sw_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_t
 
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_SWTAG;
+    tag_req.s.op = BDK_SSO_TAG_OP_SWTAG;
     tag_req.s.tag = tag;
     tag_req.s.type = tag_type;
 
@@ -1124,7 +1124,7 @@ static inline void bdk_pow_tag_sw_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_t
     ptr.sio.is_io = 1;
     ptr.sio.did = BDK_OCT_DID_TAG_SWTAG;
 
-    /* once this store arrives at POW, it will attempt the switch
+    /* once this store arrives at SSO, it will attempt the switch
        software must wait for the switch to complete separately */
     bdk_write64_uint64(ptr.u64, tag_req.u64);
 }
@@ -1141,7 +1141,7 @@ static inline void bdk_pow_tag_sw_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_t
  * hardware.
  *
  * NOTE: This should not be used when switching from a NULL tag.  Use
- * bdk_pow_tag_sw_full() instead.
+ * bdk_sso_tag_sw_full() instead.
  *
  * This function waits for any previous tag switch to complete, and also
  * displays an error on tag switches to NULL.
@@ -1149,12 +1149,12 @@ static inline void bdk_pow_tag_sw_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_t
  * @param tag      new tag value
  * @param tag_type new tag type (ordered or atomic)
  */
-static inline void bdk_pow_tag_sw(uint32_t tag, bdk_pow_tag_type_t tag_type)
+static inline void bdk_sso_tag_sw(uint32_t tag, bdk_sso_tag_type_t tag_type)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
-    /* Note that WQE in DRAM is not updated here, as the POW does not read from DRAM
+    /* Note that WQE in DRAM is not updated here, as the SSO does not read from DRAM
     ** once the WQE is in flight.  See hardware manual for complete details.
     ** It is the application's responsibility to keep track of the current tag
     ** value if that is important.
@@ -1162,8 +1162,8 @@ static inline void bdk_pow_tag_sw(uint32_t tag, bdk_pow_tag_type_t tag_type)
 
     /* Ensure that there is not a pending tag switch, as a tag switch cannot be started
     ** if a previous switch is still pending.  */
-    bdk_pow_tag_sw_wait();
-    bdk_pow_tag_sw_nocheck(tag, tag_type);
+    bdk_sso_tag_sw_wait();
+    bdk_sso_tag_sw_nocheck(tag, tag_type);
 }
 
 
@@ -1187,31 +1187,31 @@ static inline void bdk_pow_tag_sw(uint32_t tag, bdk_pow_tag_type_t tag_type)
  * @param tag_type type of tag
  * @param group      group value for the work queue entry.
  */
-static inline void bdk_pow_tag_sw_full_nocheck(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag_type_t tag_type, uint64_t group)
+static inline void bdk_sso_tag_sw_full_nocheck(bdk_wqe_t *wqp, uint32_t tag, bdk_sso_tag_type_t tag_type, uint64_t group)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
-    if (BDK_ENABLE_POW_CHECKS)
+    if (BDK_ENABLE_SSO_CHECKS)
     {
-        bdk_pow_tag_req_t current_tag;
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
-        current_tag = bdk_pow_get_current_tag();
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
+        bdk_sso_tag_req_t current_tag;
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
+        current_tag = bdk_sso_get_current_tag();
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
         bdk_warn_if((current_tag.s.type == tag_type) && (current_tag.s.tag == tag), "%s called to perform a tag switch to the same tag\n", __FUNCTION__);
-        bdk_warn_if(tag_type == BDK_POW_TAG_TYPE_NULL, "%s called to perform a tag switch to NULL. Use bdk_pow_tag_sw_null() instead\n", __FUNCTION__);
+        bdk_warn_if(tag_type == BDK_SSO_TAG_TYPE_NULL, "%s called to perform a tag switch to NULL. Use bdk_sso_tag_sw_null() instead\n", __FUNCTION__);
         if (wqp != bdk_phys_to_ptr(0x80))
-            bdk_warn_if(wqp != bdk_pow_get_current_wqp(), "%s passed WQE(%p) doesn't match the address in the POW(%p)\n", __FUNCTION__, wqp, bdk_pow_get_current_wqp());
+            bdk_warn_if(wqp != bdk_sso_get_current_wqp(), "%s passed WQE(%p) doesn't match the address in the SSO(%p)\n", __FUNCTION__, wqp, bdk_sso_get_current_wqp());
     }
 
-    /* Note that WQE in DRAM is not updated here, as the POW does not read from DRAM
+    /* Note that WQE in DRAM is not updated here, as the SSO does not read from DRAM
     ** once the WQE is in flight.  See hardware manual for complete details.
     ** It is the application's responsibility to keep track of the current tag
     ** value if that is important.
     */
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_SWTAG_FULL;
+    tag_req.s.op = BDK_SSO_TAG_OP_SWTAG_FULL;
     tag_req.s.tag = tag;
     tag_req.s.type = tag_type;
     tag_req.s.grp = group;
@@ -1222,7 +1222,7 @@ static inline void bdk_pow_tag_sw_full_nocheck(bdk_wqe_t *wqp, uint32_t tag, bdk
     ptr.sio.did = BDK_OCT_DID_TAG_SWTAG;
     ptr.sio.offset = CAST64(wqp);
 
-    /* once this store arrives at POW, it will attempt the switch
+    /* once this store arrives at SSO, it will attempt the switch
        software must wait for the switch to complete separately */
     bdk_write64_uint64(ptr.u64, tag_req.u64);
 }
@@ -1248,43 +1248,43 @@ static inline void bdk_pow_tag_sw_full_nocheck(bdk_wqe_t *wqp, uint32_t tag, bdk
  * @param tag_type type of tag
  * @param group      group value for the work queue entry.
  */
-static inline void bdk_pow_tag_sw_full(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag_type_t tag_type, uint64_t group)
+static inline void bdk_sso_tag_sw_full(bdk_wqe_t *wqp, uint32_t tag, bdk_sso_tag_type_t tag_type, uint64_t group)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Ensure that there is not a pending tag switch, as a tag switch cannot be started
     ** if a previous switch is still pending.  */
-    bdk_pow_tag_sw_wait();
-    bdk_pow_tag_sw_full_nocheck(wqp, tag, tag_type, group);
+    bdk_sso_tag_sw_wait();
+    bdk_sso_tag_sw_full_nocheck(wqp, tag, tag_type, group);
 }
 
 
 /**
  * Switch to a NULL tag, which ends any ordering or
- * synchronization provided by the POW for the current
+ * synchronization provided by the SSO for the current
  * work queue entry.  This operation completes immediatly,
  * so completetion should not be waited for.
  * This function does NOT wait for previous tag switches to complete,
  * so the caller must ensure that any previous tag switches have completed.
  */
-static inline void bdk_pow_tag_sw_null_nocheck(void)
+static inline void bdk_sso_tag_sw_null_nocheck(void)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
-    if (BDK_ENABLE_POW_CHECKS)
+    if (BDK_ENABLE_SSO_CHECKS)
     {
-        bdk_pow_tag_req_t current_tag;
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
-        current_tag = bdk_pow_get_current_tag();
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL, "%s called when we already have a NULL tag\n", __FUNCTION__);
+        bdk_sso_tag_req_t current_tag;
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
+        current_tag = bdk_sso_get_current_tag();
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL, "%s called when we already have a NULL tag\n", __FUNCTION__);
     }
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_SWTAG;
-    tag_req.s.type = BDK_POW_TAG_TYPE_NULL;
+    tag_req.s.op = BDK_SSO_TAG_OP_SWTAG;
+    tag_req.s.type = BDK_SSO_TAG_TYPE_NULL;
 
 
     ptr.u64 = 0;
@@ -1300,21 +1300,21 @@ static inline void bdk_pow_tag_sw_null_nocheck(void)
 
 /**
  * Switch to a NULL tag, which ends any ordering or
- * synchronization provided by the POW for the current
+ * synchronization provided by the SSO for the current
  * work queue entry.  This operation completes immediatly,
  * so completetion should not be waited for.
  * This function waits for any pending tag switches to complete
  * before requesting the switch to NULL.
  */
-static inline void bdk_pow_tag_sw_null(void)
+static inline void bdk_sso_tag_sw_null(void)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Ensure that there is not a pending tag switch, as a tag switch cannot be started
     ** if a previous switch is still pending.  */
-    bdk_pow_tag_sw_wait();
-    bdk_pow_tag_sw_null_nocheck();
+    bdk_sso_tag_sw_wait();
+    bdk_sso_tag_sw_null_nocheck();
 
     /* switch to NULL completes immediately */
 }
@@ -1333,10 +1333,10 @@ static inline void bdk_pow_tag_sw_null(void)
  * @param qos      Input queue to add to.
  * @param grp      group value for the work queue entry.
  */
-static inline void bdk_pow_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag_type_t tag_type, uint64_t qos, uint64_t grp)
+static inline void bdk_sso_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_sso_tag_type_t tag_type, uint64_t qos, uint64_t grp)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
     wqp->qos = qos;
     wqp->tag = tag;
@@ -1344,7 +1344,7 @@ static inline void bdk_pow_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag
     wqp->grp = grp;
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_ADDWQ;
+    tag_req.s.op = BDK_SSO_TAG_OP_ADDWQ;
     tag_req.s.type = tag_type;
     tag_req.s.tag = tag;
     tag_req.s.qos = qos;
@@ -1358,7 +1358,7 @@ static inline void bdk_pow_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag
     ptr.sio.offset = bdk_ptr_to_phys(wqp);
 
     /* SYNC write to memory before the work submit.  This is necessary
-    ** as POW may read values from DRAM at this time */
+    ** as SSO may read values from DRAM at this time */
     BDK_SYNCWS;
     bdk_write64_uint64(ptr.u64, tag_req.u64);
 }
@@ -1376,33 +1376,33 @@ static inline void bdk_pow_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_pow_tag
  *               Each 1 bit in the mask enables the core to accept work from
  *               the corresponding group.
  */
-static inline void bdk_pow_set_group_mask(uint64_t core_num, uint64_t mask)
+static inline void bdk_sso_set_group_mask(uint64_t core_num, uint64_t mask)
 {
-    bdk_pow_pp_grp_mskx_t grp_msk;
+    bdk_sso_pp_grp_mskx_t grp_msk;
 
-    grp_msk.u64 = BDK_CSR_READ(BDK_POW_PP_GRP_MSKX(core_num));
+    grp_msk.u64 = BDK_CSR_READ(BDK_SSO_PP_GRP_MSKX(core_num));
     grp_msk.s.grp_msk = mask;
-    BDK_CSR_WRITE(BDK_POW_PP_GRP_MSKX(core_num), grp_msk.u64);
+    BDK_CSR_WRITE(BDK_SSO_PP_GRP_MSKX(core_num), grp_msk.u64);
 }
 
 /**
- * This function sets POW static priorities for a core. Each input queue has
+ * This function sets SSO static priorities for a core. Each input queue has
  * an associated priority value.
  *
  * @param core_num   core to apply priorities to
- * @param priority   Vector of 8 priorities, one per POW Input Queue (0-7).
+ * @param priority   Vector of 8 priorities, one per SSO Input Queue (0-7).
  *                   Highest priority is 0 and lowest is 7. A priority value
- *                   of 0xF instructs POW to skip the Input Queue when
+ *                   of 0xF instructs SSO to skip the Input Queue when
  *                   scheduling to this specific core.
  *                   NOTE: priorities should not have gaps in values, meaning
  *                         {0,1,1,1,1,1,1,1} is a valid configuration while
  *                         {0,2,2,2,2,2,2,2} is not.
  */
-static inline void bdk_pow_set_priority(uint64_t core_num, const uint8_t priority[])
+static inline void bdk_sso_set_priority(uint64_t core_num, const uint8_t priority[])
 {
-    bdk_pow_pp_grp_mskx_t grp_msk;
+    bdk_sso_pp_grp_mskx_t grp_msk;
 
-    grp_msk.u64 = BDK_CSR_READ(BDK_POW_PP_GRP_MSKX(core_num));
+    grp_msk.u64 = BDK_CSR_READ(BDK_SSO_PP_GRP_MSKX(core_num));
     grp_msk.s.qos0_pri = priority[0];
     grp_msk.s.qos1_pri = priority[1];
     grp_msk.s.qos2_pri = priority[2];
@@ -1423,12 +1423,12 @@ static inline void bdk_pow_set_priority(uint64_t core_num, const uint8_t priorit
 
         if ( prio_mask ^ ((1<<bdk_pop(prio_mask)) - 1))
         {
-            bdk_dprintf("ERROR: POW static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
+            bdk_dprintf("ERROR: SSO static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
             return;
         }
     }
 
-    BDK_CSR_WRITE(BDK_POW_PP_GRP_MSKX(core_num), grp_msk.u64);
+    BDK_CSR_WRITE(BDK_SSO_PP_GRP_MSKX(core_num), grp_msk.u64);
 }
 
 /**
@@ -1472,23 +1472,23 @@ static inline void bdk_pow_set_priority(uint64_t core_num, const uint8_t priorit
  *                 - 1 : don't schedule this work
  *                 - 0 : allow this work to be scheduled.
  */
-static inline void bdk_pow_tag_sw_desched_nocheck(uint32_t tag, bdk_pow_tag_type_t tag_type, uint64_t group, uint64_t no_sched)
+static inline void bdk_sso_tag_sw_desched_nocheck(uint32_t tag, bdk_sso_tag_type_t tag_type, uint64_t group, uint64_t no_sched)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
-    if (BDK_ENABLE_POW_CHECKS)
+    if (BDK_ENABLE_SSO_CHECKS)
     {
-        bdk_pow_tag_req_t current_tag;
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
-        current_tag = bdk_pow_get_current_tag();
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL, "%s called with NULL tag. Deschedule not allowed from NULL state\n", __FUNCTION__);
-        bdk_warn_if((current_tag.s.type != BDK_POW_TAG_TYPE_ATOMIC) && (tag_type != BDK_POW_TAG_TYPE_ATOMIC), "%s called where neither the before or after tag is ATOMIC\n", __FUNCTION__);
+        bdk_sso_tag_req_t current_tag;
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
+        current_tag = bdk_sso_get_current_tag();
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL, "%s called with NULL tag. Deschedule not allowed from NULL state\n", __FUNCTION__);
+        bdk_warn_if((current_tag.s.type != BDK_SSO_TAG_TYPE_ATOMIC) && (tag_type != BDK_SSO_TAG_TYPE_ATOMIC), "%s called where neither the before or after tag is ATOMIC\n", __FUNCTION__);
     }
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_SWTAG_DESCH;
+    tag_req.s.op = BDK_SSO_TAG_OP_SWTAG_DESCH;
     tag_req.s.tag = tag;
     tag_req.s.type = tag_type;
     tag_req.s.grp = group;
@@ -1542,17 +1542,17 @@ static inline void bdk_pow_tag_sw_desched_nocheck(uint32_t tag, bdk_pow_tag_type
  *                 - 1 : don't schedule this work
  *                 - 0 : allow this work to be scheduled.
  */
-static inline void bdk_pow_tag_sw_desched(uint32_t tag, bdk_pow_tag_type_t tag_type, uint64_t group, uint64_t no_sched)
+static inline void bdk_sso_tag_sw_desched(uint32_t tag, bdk_sso_tag_type_t tag_type, uint64_t group, uint64_t no_sched)
 {
-    if (BDK_ENABLE_POW_CHECKS)
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
+    if (BDK_ENABLE_SSO_CHECKS)
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Need to make sure any writes to the work queue entry are complete */
     BDK_SYNCWS;
     /* Ensure that there is not a pending tag switch, as a tag switch cannot be started
     ** if a previous switch is still pending.  */
-    bdk_pow_tag_sw_wait();
-    bdk_pow_tag_sw_desched_nocheck(tag, tag_type, group, no_sched);
+    bdk_sso_tag_sw_wait();
+    bdk_sso_tag_sw_desched_nocheck(tag, tag_type, group, no_sched);
 }
 
 
@@ -1565,25 +1565,25 @@ static inline void bdk_pow_tag_sw_desched(uint32_t tag, bdk_pow_tag_type_t tag_t
  * @param no_sched no schedule flag value to be set on the work queue entry.  If this is set
  *                 the entry will not be rescheduled.
  */
-static inline void bdk_pow_desched(uint64_t no_sched)
+static inline void bdk_sso_desched(uint64_t no_sched)
 {
     bdk_addr_t ptr;
-    bdk_pow_tag_req_t tag_req;
+    bdk_sso_tag_req_t tag_req;
 
-    if (BDK_ENABLE_POW_CHECKS)
+    if (BDK_ENABLE_SSO_CHECKS)
     {
-        bdk_pow_tag_req_t current_tag;
-        __bdk_pow_warn_if_pending_switch(__FUNCTION__);
-        current_tag = bdk_pow_get_current_tag();
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
-        bdk_warn_if(current_tag.s.type == BDK_POW_TAG_TYPE_NULL, "%s called with NULL tag. Deschedule not expected from NULL state\n", __FUNCTION__);
+        bdk_sso_tag_req_t current_tag;
+        __bdk_sso_warn_if_pending_switch(__FUNCTION__);
+        current_tag = bdk_sso_get_current_tag();
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL_NULL, "%s called with NULL_NULL tag\n", __FUNCTION__);
+        bdk_warn_if(current_tag.s.type == BDK_SSO_TAG_TYPE_NULL, "%s called with NULL tag. Deschedule not expected from NULL state\n", __FUNCTION__);
     }
 
     /* Need to make sure any writes to the work queue entry are complete */
     BDK_SYNCWS;
 
     tag_req.u64 = 0;
-    tag_req.s.op = BDK_POW_TAG_OP_DESCH;
+    tag_req.s.op = BDK_SSO_TAG_OP_DESCH;
     tag_req.s.no_sched = no_sched;
 
     ptr.u64 = 0;
@@ -1643,7 +1643,7 @@ static inline void bdk_pow_desched(uint64_t no_sched)
  *
  * @return 32 bit value of the combined hw and sw bits.
  */
-static inline uint32_t bdk_pow_tag_compose(uint64_t sw_bits, uint64_t hw_bits)
+static inline uint32_t bdk_sso_tag_compose(uint64_t sw_bits, uint64_t hw_bits)
 {
     return((((sw_bits & bdk_build_mask(BDK_TAG_SW_BITS)) << BDK_TAG_SW_SHIFT) | (hw_bits & bdk_build_mask(32 - BDK_TAG_SW_BITS))));
 }
@@ -1654,7 +1654,7 @@ static inline uint32_t bdk_pow_tag_compose(uint64_t sw_bits, uint64_t hw_bits)
  *
  * @return N bit software tag value, where N is configurable with the BDK_TAG_SW_BITS define
  */
-static inline uint32_t bdk_pow_tag_get_sw_bits(uint64_t tag)
+static inline uint32_t bdk_sso_tag_get_sw_bits(uint64_t tag)
 {
     return((tag >> (32 - BDK_TAG_SW_BITS)) & bdk_build_mask(BDK_TAG_SW_BITS));
 }
@@ -1666,13 +1666,13 @@ static inline uint32_t bdk_pow_tag_get_sw_bits(uint64_t tag)
  *
  * @return (32 - N) bit software tag value, where N is configurable with the BDK_TAG_SW_BITS define
  */
-static inline uint32_t bdk_pow_tag_get_hw_bits(uint64_t tag)
+static inline uint32_t bdk_sso_tag_get_hw_bits(uint64_t tag)
 {
     return(tag & bdk_build_mask(32 - BDK_TAG_SW_BITS));
 }
 
 /**
- * Store the current POW internal state into the supplied
+ * Store the current SSO internal state into the supplied
  * buffer. It is recommended that you pass a buffer of at least
  * 128KB. The format of the capture may change based on SDK
  * version and Octeon chip.
@@ -1683,21 +1683,21 @@ static inline uint32_t bdk_pow_tag_get_hw_bits(uint64_t tag)
  *
  * @return Zero on sucess, negative on failure
  */
-extern int bdk_pow_capture(void *buffer, int buffer_size);
+extern int bdk_sso_capture(void *buffer, int buffer_size);
 
 /**
- * Dump a POW capture to the console in a human readable format.
+ * Dump a SSO capture to the console in a human readable format.
  *
- * @param buffer POW capture from bdk_pow_capture()
+ * @param buffer SSO capture from bdk_sso_capture()
  * @param buffer_size
  *               Size of the buffer
  */
-extern void bdk_pow_display(void *buffer, int buffer_size);
+extern void bdk_sso_display(void *buffer, int buffer_size);
 
 /**
- * Return the number of POW entries supported by this chip
+ * Return the number of SSO entries supported by this chip
  *
- * @return Number of POW entries
+ * @return Number of SSO entries
  */
-extern int bdk_pow_get_num_entries(void);
+extern int bdk_sso_get_num_entries(void);
 

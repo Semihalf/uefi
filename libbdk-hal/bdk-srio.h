@@ -196,7 +196,7 @@ typedef struct
                                     is clear, WORD1[QOS] becomes the QOS value
                                     in the work queue entry created by PIP. The
                                     QOS value in the work queue entry determines
-                                    the priority that SSO/POW will schedule the
+                                    the priority that SSO will schedule the
                                     work, and can also control how/if the sRIO
                                     message gets dropped by PIP/IPD. The 256-entry
                                     table is unique to each sRIO core, but

@@ -109,7 +109,7 @@ bdk_helper_interface_mode_t bdk_helper_interface_get_mode(int interface)
 /**
  * @INTERNAL
  * Configure the IPD/PIP tagging and QoS options for a specific
- * port. This function determines the POW work queue entry
+ * port. This function determines the SSO work queue entry
  * contents for a port. The setup performed here is controlled by
  * the defines in executive-config.h.
  *
@@ -126,7 +126,7 @@ static int __bdk_helper_port_setup_ipd(int ipd_port)
     port_config.u64 = BDK_CSR_READ(BDK_PIP_PRT_CFGX(ipd_port));
     tag_config.u64 = BDK_CSR_READ(BDK_PIP_PRT_TAGX(ipd_port));
 
-    /* Have each port go to a different POW queue */
+    /* Have each port go to a different SSO queue */
     port_config.s.qos = ipd_port & 0x7;
 
     /* Process the headers and place the IP header in the work queue */
@@ -727,8 +727,8 @@ int bdk_helper_shutdown_packet_io_global(void)
         }
     }
 
-    /* Step 4: Retrieve all packets from the POW and free them */
-    while ((work = bdk_pow_work_request_sync(BDK_POW_WAIT)))
+    /* Step 4: Retrieve all packets from the SSO and free them */
+    while ((work = bdk_sso_work_request_sync(BDK_SSO_WAIT)))
     {
         bdk_helper_free_packet_data(work);
         bdk_fpa_free(work, BDK_FPA_WQE_POOL, 0);

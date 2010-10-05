@@ -19,14 +19,14 @@ typedef union
         uint64_t            g :     1;      /**< Gather list is used */
         uint64_t            dlengsz : 14;   /**< Data length / Gather list size */
         uint64_t            fsz     : 6;    /**< Front data size */
-        uint64_t            qos     : 3;    /**< POW QoS queue */
-        uint64_t            grp     : 4;    /**< POW Group */
+        uint64_t            qos     : 3;    /**< SSO QoS queue */
+        uint64_t            grp     : 4;    /**< SSO Group */
         uint64_t            rs      : 1;    /**< Real short */
-        bdk_pow_tag_type_t tt      : 2;    /**< POW Tag type */
-        uint64_t            tag     : 32;   /**< POW 32 bit tag */
+        bdk_sso_tag_type_t tt      : 2;    /**< SSO Tag type */
+        uint64_t            tag     : 32;   /**< SSO 32 bit tag */
 #else
 	uint64_t            tag     : 32;
-	bdk_pow_tag_type_t tt      : 2;
+	bdk_sso_tag_type_t tt      : 2;
 	uint64_t            rs      : 1;
 	uint64_t            grp     : 4;
 	uint64_t            qos     : 3;

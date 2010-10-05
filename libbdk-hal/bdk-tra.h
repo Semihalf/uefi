@@ -169,7 +169,7 @@
  * 8   = RNG (load/IOBDMA operations)
  * 10  = PKO (doorbell operations)
  * 11  = illegal
- * 12  = POW (get work, add work, status/memory/index loads, NULLrd load operations, CSR operations)
+ * 12  = SSO (get work, add work, status/memory/index loads, NULLrd load operations, CSR operations)
  * 13-31 = illegal
  * @endverbatim
  *
@@ -265,7 +265,7 @@ typedef enum
     BDK_TRA_SID_PP15     = 1ull<<15, /**< Enable tracing from PP15 with matching sourceID */
     BDK_TRA_SID_PKI      = 1ull<<16, /**< Enable tracing of write requests from PIP/IPD */
     BDK_TRA_SID_PKO      = 1ull<<17, /**< Enable tracing of write requests from PKO */
-    BDK_TRA_SID_IOBREQ   = 1ull<<18, /**< Enable tracing of write requests from FPA,TIM,DFA,PCI,ZIP,POW, and PKO (writes) */
+    BDK_TRA_SID_IOBREQ   = 1ull<<18, /**< Enable tracing of write requests from FPA,TIM,DFA,PCI,ZIP,SSO, and PKO (writes) */
     BDK_TRA_SID_DWB      = 1ull<<19, /**< Enable tracing of write requests from IOB DWB engine */
     BDK_TRA_SID_ALL      = -1ull     /**< Enable tracing all the above source commands */
 } bdk_tra_sid_t;
@@ -286,7 +286,7 @@ typedef enum
     BDK_TRA_DID_RNG      = 1ull<<8,  /**< Enable tracing of requests to RNG */
     BDK_TRA_DID_IPD      = 1ull<<9,  /**< Enable tracing of IPD CSR accesses */
     BDK_TRA_DID_PKO      = 1ull<<10, /**< Enable tracing of PKO accesses (doorbells) */
-    BDK_TRA_DID_POW      = 1ull<<12, /**< Enable tracing of requests to RNG */
+    BDK_TRA_DID_SSO      = 1ull<<12, /**< Enable tracing of requests to RNG */
     BDK_TRA_DID_USB0     = 1ull<<13, /**< Enable tracing of USB0 accesses (UAHC0 EHCI and OHCI NCB CSRs) */
     BDK_TRA_DID_RAD      = 1ull<<14, /**< Enable tracing of RAD accesses (doorbells) */
     BDK_TRA_DID_DPI      = 1ull<<27, /**< Enable tracing of DPI accesses (DPI NCD CSRs) */

@@ -204,7 +204,7 @@ typedef struct
     /**
      * the type of the tag (ORDERED, ATOMIC, NULL)
      */
-    bdk_pow_tag_type_t        tag_type      : 3;
+    bdk_sso_tag_type_t        tag_type      : 3;
     /**
      * the synchronization/ordering tag
      */

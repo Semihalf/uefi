@@ -5,7 +5,7 @@
  *
  * Starting with SDK 1.7.0, the PKO output functions now support
  * two types of locking. BDK_PKO_LOCK_ATOMIC_TAG continues to
- * function similarly to previous SDKs by using POW atomic tags
+ * function similarly to previous SDKs by using SSO atomic tags
  * to preserve ordering and exclusivity. As a new option, you
  * can now pass BDK_PKO_LOCK_CMD_QUEUE which uses a ll/sc
  * memory based locking instead. This locking has the advantage
@@ -217,7 +217,7 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
  *          memory based ll/sc. This is the most portable
  *          locking mechanism.
  *
- * NOTE: If atomic locking is used, the POW entry CANNOT be
+ * NOTE: If atomic locking is used, the SSO entry CANNOT be
  * descheduled, as it does not contain a valid WQE pointer.
  *
  * @param port   Port to send it on
@@ -229,13 +229,13 @@ static inline void bdk_pko_send_packet_prepare(uint64_t port, uint64_t queue, bd
 {
     if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
     {
-        /* Must do a full switch here to handle all cases.  We use a fake WQE pointer, as the POW does
+        /* Must do a full switch here to handle all cases.  We use a fake WQE pointer, as the SSO does
         ** not access this memory.  The WQE pointer and group are only used if this work is descheduled,
         ** which is not supported by the bdk_pko_send_packet_prepare/bdk_pko_send_packet_finish combination.
         ** Note that this is a special case in which these fake values can be used - this is not a general technique.
         */
         uint32_t tag = BDK_TAG_SW_BITS_INTERNAL << BDK_TAG_SW_SHIFT | BDK_TAG_SUBGROUP_PKO  << BDK_TAG_SUBGROUP_SHIFT | (BDK_TAG_SUBGROUP_MASK & queue);
-        bdk_pow_tag_sw_full((bdk_wqe_t *)bdk_phys_to_ptr(0x80), tag, BDK_POW_TAG_TYPE_ATOMIC, 0);
+        bdk_sso_tag_sw_full((bdk_wqe_t *)bdk_phys_to_ptr(0x80), tag, BDK_SSO_TAG_TYPE_ATOMIC, 0);
     }
 }
 
@@ -261,7 +261,7 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish(uint64_t port, uint64_
 {
     bdk_cmd_queue_result_t result;
     if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
-        bdk_pow_tag_sw_wait();
+        bdk_sso_tag_sw_wait();
     result = bdk_cmd_queue_write2(BDK_CMD_QUEUE_PKO(queue),
                                    (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
                                    pko_command.u64,
@@ -304,7 +304,7 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64
 {
     bdk_cmd_queue_result_t result;
     if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
-        bdk_pow_tag_sw_wait();
+        bdk_sso_tag_sw_wait();
     result = bdk_cmd_queue_write3(BDK_CMD_QUEUE_PKO(queue),
                                    (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
                                    pko_command.u64,

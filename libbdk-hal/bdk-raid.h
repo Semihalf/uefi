@@ -49,7 +49,7 @@ typedef union
         uint64_t    wqe             :  1;   /**< Indicates whether RAD submits a work queue entry or writes an L2/DRAM byte to
                                                 zero after completing the instruction.
                                                 When CWORD[WQE] is set and RESP[PTR]!=0, RAD adds the work queue entry
-                                                indicated by RESP[PTR] to the selected POW input queue after completing the
+                                                indicated by RESP[PTR] to the selected SSO input queue after completing the
                                                 instruction.
                                                 When CWORD[WQE] is clear and RESP[PTR]!=0, RAD writes the L2/DRAM byte
                                                 indicated by RESP[PTR] to zero after completing the instruction. */

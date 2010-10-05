@@ -3,28 +3,28 @@
 
 /**
  * @INTERNAL
- * This structure stores the internal POW state captured by
- * bdk_pow_capture(). It is purposely not exposed to the user
+ * This structure stores the internal SSO state captured by
+ * bdk_sso_capture(). It is purposely not exposed to the user
  * since the format may change without notice.
  */
 typedef struct
 {
-    bdk_pow_tag_load_resp_t sstatus[16][8];
-    bdk_pow_tag_load_resp_t smemload[2048][3];
-    bdk_pow_tag_load_resp_t sindexload[16][4];
-} __bdk_pow_dump_t;
+    bdk_sso_tag_load_resp_t sstatus[16][8];
+    bdk_sso_tag_load_resp_t smemload[2048][3];
+    bdk_sso_tag_load_resp_t sindexload[16][4];
+} __bdk_sso_dump_t;
 
 typedef enum
 {
-    BDK_POW_LIST_UNKNOWN=0,
-    BDK_POW_LIST_FREE=1,
-    BDK_POW_LIST_INPUT=2,
-    BDK_POW_LIST_CORE=BDK_POW_LIST_INPUT+8,
-    BDK_POW_LIST_DESCHED=BDK_POW_LIST_CORE+16,
-    BDK_POW_LIST_NOSCHED=BDK_POW_LIST_DESCHED+16,
-} __bdk_pow_list_types_t;
+    BDK_SSO_LIST_UNKNOWN=0,
+    BDK_SSO_LIST_FREE=1,
+    BDK_SSO_LIST_INPUT=2,
+    BDK_SSO_LIST_CORE=BDK_SSO_LIST_INPUT+8,
+    BDK_SSO_LIST_DESCHED=BDK_SSO_LIST_CORE+16,
+    BDK_SSO_LIST_NOSCHED=BDK_SSO_LIST_DESCHED+16,
+} __bdk_sso_list_types_t;
 
-static const char *__bdk_pow_list_names[] = {
+static const char *__bdk_sso_list_names[] = {
     "Unknown",
     "Free List",
     "Queue 0", "Queue 1", "Queue 2", "Queue 3",
@@ -43,17 +43,17 @@ static const char *__bdk_pow_list_names[] = {
     "Nosched 12", "Nosched 13", "Nosched 14", "Nosched 15"
 };
 
-#define OCT_TAG_TYPE_STRING(x) (((x) == BDK_POW_TAG_TYPE_ORDERED) ?  "ORDERED" : \
-                                (((x) == BDK_POW_TAG_TYPE_ATOMIC) ?  "ATOMIC" : \
-                                (((x) == BDK_POW_TAG_TYPE_NULL) ?  "NULL" : \
+#define OCT_TAG_TYPE_STRING(x) (((x) == BDK_SSO_TAG_TYPE_ORDERED) ?  "ORDERED" : \
+                                (((x) == BDK_SSO_TAG_TYPE_ATOMIC) ?  "ATOMIC" : \
+                                (((x) == BDK_SSO_TAG_TYPE_NULL) ?  "NULL" : \
                                 "NULL_NULL")))
 
 /**
- * Return the number of POW entries supported by this chip
+ * Return the number of SSO entries supported by this chip
  *
- * @return Number of POW entries
+ * @return Number of SSO entries
  */
-int bdk_pow_get_num_entries(void)
+int bdk_sso_get_num_entries(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN52XX))
         return 512;
@@ -65,7 +65,7 @@ int bdk_pow_get_num_entries(void)
 
 
 /**
- * Store the current POW internal state into the supplied
+ * Store the current SSO internal state into the supplied
  * buffer. It is recommended that you pass a buffer of at least
  * 128KB. The format of the capture may change based on SDK
  * version and Octeon chip.
@@ -76,18 +76,18 @@ int bdk_pow_get_num_entries(void)
  *
  * @return Zero on sucess, negative on failure
  */
-int bdk_pow_capture(void *buffer, int buffer_size)
+int bdk_sso_capture(void *buffer, int buffer_size)
 {
-    __bdk_pow_dump_t *dump = (__bdk_pow_dump_t*)buffer;
+    __bdk_sso_dump_t *dump = (__bdk_sso_dump_t*)buffer;
     int num_cores;
-    int num_pow_entries = bdk_pow_get_num_entries();
+    int num_sso_entries = bdk_sso_get_num_entries();
     int core;
     int index;
     int bits;
 
-    if (buffer_size < (int)sizeof(__bdk_pow_dump_t))
+    if (buffer_size < (int)sizeof(__bdk_sso_dump_t))
     {
-        bdk_dprintf("bdk_pow_capture: Buffer too small\n");
+        bdk_dprintf("bdk_sso_capture: Buffer too small\n");
         return -1;
     }
 
@@ -96,7 +96,7 @@ int bdk_pow_capture(void *buffer, int buffer_size)
     /* Read all core related state */
     for (core=0; core<num_cores; core++)
     {
-        bdk_pow_load_addr_t load_addr;
+        bdk_sso_load_addr_t load_addr;
         load_addr.u64 = 0;
         load_addr.sstatus.mem_region = BDK_IO_SEG;
         load_addr.sstatus.is_io = 1;
@@ -114,10 +114,10 @@ int bdk_pow_capture(void *buffer, int buffer_size)
         }
     }
 
-    /* Read all internal POW entries */
-    for (index=0; index<num_pow_entries; index++)
+    /* Read all internal SSO entries */
+    for (index=0; index<num_sso_entries; index++)
     {
-        bdk_pow_load_addr_t load_addr;
+        bdk_sso_load_addr_t load_addr;
         load_addr.u64 = 0;
         load_addr.smemload.mem_region = BDK_IO_SEG;
         load_addr.smemload.is_io = 1;
@@ -134,7 +134,7 @@ int bdk_pow_capture(void *buffer, int buffer_size)
     /* Read all group and queue pointers */
     for (index=0; index<16; index++)
     {
-        bdk_pow_load_addr_t load_addr;
+        bdk_sso_load_addr_t load_addr;
         load_addr.u64 = 0;
         load_addr.sindexload.mem_region = BDK_IO_SEG;
         load_addr.sindexload.is_io = 1;
@@ -158,7 +158,7 @@ int bdk_pow_capture(void *buffer, int buffer_size)
 
 
 /**
- * Function to display a POW internal queue to the user
+ * Function to display a SSO internal queue to the user
  *
  * @param name       User visible name for the queue
  * @param name_param Parameter for printf in creating the name
@@ -167,7 +167,7 @@ int bdk_pow_capture(void *buffer, int buffer_size)
  * @param head       The head pointer
  * @param tail       The tail pointer
  */
-static void __bdk_pow_display_list(const char *name, int name_param, int valid, int has_one, uint64_t head, uint64_t tail)
+static void __bdk_sso_display_list(const char *name, int name_param, int valid, int has_one, uint64_t head, uint64_t tail)
 {
     printf(name, name_param);
     printf(": ");
@@ -184,8 +184,8 @@ static void __bdk_pow_display_list(const char *name, int name_param, int valid, 
 
 
 /**
- * Mark which list a POW entry is on. Print a warning message if the
- * entry is already on a list. This happens if the POW changed while
+ * Mark which list a SSO entry is on. Print a warning message if the
+ * entry is already on a list. This happens if the SSO changed while
  * the capture was running.
  *
  * @param entry_num  Entry number to mark
@@ -194,7 +194,7 @@ static void __bdk_pow_display_list(const char *name, int name_param, int valid, 
  *
  * @return Zero on success, negative if already on a list
  */
-static int __bdk_pow_entry_mark_list(int entry_num, __bdk_pow_list_types_t entry_type, uint8_t entry_list[])
+static int __bdk_sso_entry_mark_list(int entry_num, __bdk_sso_list_types_t entry_type, uint8_t entry_list[])
 {
     if (entry_list[entry_num] == 0)
     {
@@ -204,7 +204,7 @@ static int __bdk_pow_entry_mark_list(int entry_num, __bdk_pow_list_types_t entry
     else
     {
         printf("\nWARNING: Entry %d already on list %s, but we tried to add it to %s\n",
-               entry_num, __bdk_pow_list_names[entry_list[entry_num]], __bdk_pow_list_names[entry_type]);
+               entry_num, __bdk_sso_list_names[entry_list[entry_num]], __bdk_sso_list_names[entry_type]);
         return -1;
     }
 }
@@ -215,65 +215,65 @@ static int __bdk_pow_entry_mark_list(int entry_num, __bdk_pow_list_types_t entry
  * the list.
  *
  * @param entry_type Type of the list to display and mark
- * @param dump       POW capture data
+ * @param dump       SSO capture data
  * @param entry_list Array to store marks in
  * @param valid      Set if the queue contains any elements
  * @param has_one    Set if the queue contains exactly one element
  * @param head       The head pointer
  * @param tail       The tail pointer
  */
-static void __bdk_pow_display_list_and_walk(__bdk_pow_list_types_t entry_type,
-                                             __bdk_pow_dump_t *dump, uint8_t entry_list[],
+static void __bdk_sso_display_list_and_walk(__bdk_sso_list_types_t entry_type,
+                                             __bdk_sso_dump_t *dump, uint8_t entry_list[],
                                              int valid, int has_one, uint64_t head, uint64_t tail)
 {
-    __bdk_pow_display_list(__bdk_pow_list_names[entry_type], 0, valid, has_one, head, tail);
+    __bdk_sso_display_list(__bdk_sso_list_names[entry_type], 0, valid, has_one, head, tail);
     if (valid)
     {
         if (has_one)
-            __bdk_pow_entry_mark_list(head, entry_type, entry_list);
+            __bdk_sso_entry_mark_list(head, entry_type, entry_list);
         else
         {
             while (head != tail)
             {
-                if (__bdk_pow_entry_mark_list(head, entry_type, entry_list))
+                if (__bdk_sso_entry_mark_list(head, entry_type, entry_list))
                     break;
                 head = dump->smemload[head][0].s_smemload0.next_index;
             }
-            __bdk_pow_entry_mark_list(tail, entry_type, entry_list);
+            __bdk_sso_entry_mark_list(tail, entry_type, entry_list);
         }
     }
 }
 
 
 /**
- * Dump a POW capture to the console in a human readable format.
+ * Dump a SSO capture to the console in a human readable format.
  *
- * @param buffer POW capture from bdk_pow_capture()
+ * @param buffer SSO capture from bdk_sso_capture()
  * @param buffer_size
  *               Size of the buffer
  */
-void bdk_pow_display(void *buffer, int buffer_size)
+void bdk_sso_display(void *buffer, int buffer_size)
 {
-    __bdk_pow_dump_t *dump = (__bdk_pow_dump_t*)buffer;
-    int num_pow_entries = bdk_pow_get_num_entries();
+    __bdk_sso_dump_t *dump = (__bdk_sso_dump_t*)buffer;
+    int num_sso_entries = bdk_sso_get_num_entries();
     int num_cores;
     int core;
     int index;
     uint8_t entry_list[2048];
 
-    if (buffer_size < (int)sizeof(__bdk_pow_dump_t))
+    if (buffer_size < (int)sizeof(__bdk_sso_dump_t))
     {
-        bdk_dprintf("bdk_pow_dump: Buffer too small\n");
+        bdk_dprintf("bdk_sso_dump: Buffer too small\n");
         return;
     }
 
     memset(entry_list, 0, sizeof(entry_list));
     num_cores = bdk_octeon_num_cores();
 
-    printf("POW Display Start\n");
+    printf("SSO Display Start\n");
 
     /* Print the free list info */
-    __bdk_pow_display_list_and_walk(BDK_POW_LIST_FREE, dump, entry_list,
+    __bdk_sso_display_list_and_walk(BDK_SSO_LIST_FREE, dump, entry_list,
                                      dump->sindexload[0][0].sindexload0.free_val,
                                      dump->sindexload[0][0].sindexload0.free_one,
                                      dump->sindexload[0][0].sindexload0.free_head,
@@ -288,9 +288,9 @@ void bdk_pow_display(void *buffer, int buffer_size)
         printf("Core %d State:  tag=%s,0x%08x", core,
                OCT_TAG_TYPE_STRING(dump->sstatus[core][bit_cur].s_sstatus2.tag_type),
                dump->sstatus[core][bit_cur].s_sstatus2.tag);
-        if (dump->sstatus[core][bit_cur].s_sstatus2.tag_type != BDK_POW_TAG_TYPE_NULL_NULL)
+        if (dump->sstatus[core][bit_cur].s_sstatus2.tag_type != BDK_SSO_TAG_TYPE_NULL_NULL)
         {
-            __bdk_pow_entry_mark_list(dump->sstatus[core][bit_cur].s_sstatus2.index, BDK_POW_LIST_CORE + core, entry_list);
+            __bdk_sso_entry_mark_list(dump->sstatus[core][bit_cur].s_sstatus2.index, BDK_SSO_LIST_CORE + core, entry_list);
             printf(" grp=%d",                   dump->sstatus[core][bit_cur].s_sstatus2.grp);
             printf(" wqp=0x%016llx",            CAST64(dump->sstatus[core][bit_cur|bit_wqp].s_sstatus4.wqp));
             printf(" index=%d",                 dump->sstatus[core][bit_cur].s_sstatus2.index);
@@ -348,14 +348,14 @@ void bdk_pow_display(void *buffer, int buffer_size)
     }
 
     /* Print out the state of the nosched list and the 16 deschedule lists. */
-    __bdk_pow_display_list_and_walk(BDK_POW_LIST_NOSCHED, dump, entry_list,
+    __bdk_sso_display_list_and_walk(BDK_SSO_LIST_NOSCHED, dump, entry_list,
                             dump->sindexload[0][2].sindexload1.nosched_val,
                             dump->sindexload[0][2].sindexload1.nosched_one,
                             dump->sindexload[0][2].sindexload1.nosched_head,
                             dump->sindexload[0][2].sindexload1.nosched_tail);
     for (index=0; index<16; index++)
     {
-        __bdk_pow_display_list_and_walk(BDK_POW_LIST_DESCHED + index, dump, entry_list,
+        __bdk_sso_display_list_and_walk(BDK_SSO_LIST_DESCHED + index, dump, entry_list,
                                 dump->sindexload[index][2].sindexload1.des_val,
                                 dump->sindexload[index][2].sindexload1.des_one,
                                 dump->sindexload[index][2].sindexload1.des_head,
@@ -365,7 +365,7 @@ void bdk_pow_display(void *buffer, int buffer_size)
     /* Print out the state of the 8 internal input queues */
     for (index=0; index<8; index++)
     {
-        __bdk_pow_display_list_and_walk(BDK_POW_LIST_INPUT + index, dump, entry_list,
+        __bdk_sso_display_list_and_walk(BDK_SSO_LIST_INPUT + index, dump, entry_list,
                                 dump->sindexload[index][0].sindexload0.loc_val,
                                 dump->sindexload[index][0].sindexload0.loc_one,
                                 dump->sindexload[index][0].sindexload0.loc_head,
@@ -380,7 +380,7 @@ void bdk_pow_display(void *buffer, int buffer_size)
             name = "Queue %da Memory (is head)";
         else
             name = "Queue %da Memory";
-        __bdk_pow_display_list(name, index,
+        __bdk_sso_display_list(name, index,
                                 dump->sindexload[index][1].sindexload2.rmt_val,
                                 dump->sindexload[index][1].sindexload2.rmt_one,
                                 dump->sindexload[index][1].sindexload2.rmt_head,
@@ -389,20 +389,20 @@ void bdk_pow_display(void *buffer, int buffer_size)
             name = "Queue %db Memory (is head)";
         else
             name = "Queue %db Memory";
-        __bdk_pow_display_list(name, index,
+        __bdk_sso_display_list(name, index,
                                 dump->sindexload[index+8][1].sindexload2.rmt_val,
                                 dump->sindexload[index+8][1].sindexload2.rmt_one,
                                 dump->sindexload[index+8][1].sindexload2.rmt_head,
                                 dump->sindexload[index+8][3].sindexload3.rmt_tail);
     }
 
-    /* Print out each of the internal POW entries. Each entry has a tag, group,
+    /* Print out each of the internal SSO entries. Each entry has a tag, group,
         wqe, and possibly a next pointer. The next pointer is only valid if this
         entry isn't make as a tail */
-    for (index=0; index<num_pow_entries; index++)
+    for (index=0; index<num_sso_entries; index++)
     {
         printf("Entry %d(%-10s): tag=%s,0x%08x grp=%d wqp=0x%016llx", index,
-               __bdk_pow_list_names[entry_list[index]],
+               __bdk_sso_list_names[entry_list[index]],
                OCT_TAG_TYPE_STRING(dump->smemload[index][0].s_smemload0.tag_type),
                dump->smemload[index][0].s_smemload0.tag,
                dump->smemload[index][0].s_smemload0.grp,
@@ -411,7 +411,7 @@ void bdk_pow_display(void *buffer, int buffer_size)
             printf(" tail");
         else
             printf(" next=%d", dump->smemload[index][0].s_smemload0.next_index);
-        if (entry_list[index] >= BDK_POW_LIST_DESCHED)
+        if (entry_list[index] >= BDK_SSO_LIST_DESCHED)
         {
             printf(" prev=%d", dump->smemload[index][1].s_smemload2.fwd_index);
             printf(" nosched=%d", dump->smemload[index][1].s_smemload2.nosched);
@@ -425,6 +425,6 @@ void bdk_pow_display(void *buffer, int buffer_size)
         printf("\n");
     }
 
-    printf("POW Display End\n");
+    printf("SSO Display End\n");
 }
 

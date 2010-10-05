@@ -19,7 +19,7 @@
 #include "bdk-gmx.h"
 #include "bdk-gpio.h"
 #include "bdk-packet.h"
-#include "bdk-pow.h"
+#include "bdk-sso.h"
 #include "bdk-helper.h"
 #include "bdk-helper-board.h"
 #include "bdk-helper-check-defines.h"
