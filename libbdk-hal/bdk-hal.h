@@ -4,10 +4,8 @@
 #define BDK_ENABLE_PARAMETER_CHECKING 1
 
 #include "bdk-access.h"
-//#include "bdk-access-native.h"
 #include "bdk-address.h"
 #include "bdk-utils.h"
-#include "bdk-warn.h"
 #include "bdk-atomic.h"
 #include "bdk-clock.h"
 #include "bdk-scratch.h"
