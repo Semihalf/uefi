@@ -238,9 +238,9 @@ static inline void __bdk_cmd_queue_unlock(__bdk_cmd_queue_state_t *qptr)
     uint8_t ns;
 
     ns = qptr->now_serving + 1;
-    BDK_SYNCWS; /* Order queue manipulation with respect to the unlock.  */
+    BDK_SYNCW; /* Order queue manipulation with respect to the unlock.  */
     qptr->now_serving = ns;
-    BDK_SYNCWS; /* nudge out the unlock. */
+    BDK_SYNCW; /* nudge out the unlock. */
 }
 
 

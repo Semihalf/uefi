@@ -209,7 +209,7 @@ int bdk_helper_interface_probe(int interface)
     interface_port_count[interface] = __bdk_helper_board_interface_probe(interface, interface_port_count[interface]);
 
     /* Make sure all global variables propagate to other cores */
-    BDK_SYNCWS;
+    BDK_SYNCW;
 
     return 0;
 }

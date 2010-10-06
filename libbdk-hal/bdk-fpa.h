@@ -177,7 +177,7 @@ static inline void bdk_fpa_free(void *ptr, uint64_t pool, uint64_t num_cache_lin
     /* Make sure that any previous writes to memory go out before we free this buffer.
     ** This also serves as a barrier to prevent GCC from reordering operations to after
     ** the free. */
-    BDK_SYNCWS;
+    BDK_SYNCW;
     /* value written is number of cache lines not written back */
     bdk_write64_uint64(newptr.u64, num_cache_lines);
 }

@@ -269,7 +269,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         else
             config.s.buf_ptr = 0;
 
-        BDK_SYNCWS;
+        BDK_SYNCW;
 
         BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_PTRS1, config1.u64);
         BDK_CSR_WRITE(BDK_PKO_MEM_QUEUE_PTRS, config.u64);

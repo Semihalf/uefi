@@ -196,7 +196,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
         oring1.u64 = 0;
         oring1.s.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
         oring1.s.osize = BDK_MGMT_PORT_NUM_TX_BUFFERS;
-        BDK_SYNCWS;
+        BDK_SYNCW;
         BDK_CSR_WRITE(BDK_MIXX_ORING1(port), oring1.u64);
 
         /* Setup the RX ring */
@@ -211,7 +211,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
         iring1.u64 = 0;
         iring1.s.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
         iring1.s.isize = BDK_MGMT_PORT_NUM_RX_BUFFERS;
-        BDK_SYNCWS;
+        BDK_SYNCW;
         BDK_CSR_WRITE(BDK_MIXX_IRING1(port), iring1.u64);
         BDK_CSR_WRITE(BDK_MIXX_IRING2(port), BDK_MGMT_PORT_NUM_RX_BUFFERS);
 
@@ -462,7 +462,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_send(int port, int packet_len, void *buffer
         /* Increment our TX index */
         state->tx_write_index = (state->tx_write_index + 1) % BDK_MGMT_PORT_NUM_TX_BUFFERS;
         /* Ring the doorbell, sending the packet */
-        BDK_SYNCWS;
+        BDK_SYNCW;
         BDK_CSR_WRITE(BDK_MIXX_ORING2(port), 1);
         if (BDK_CSR_READ(BDK_MIXX_ORCNT(port)))
             BDK_CSR_WRITE(BDK_MIXX_ORCNT(port), BDK_CSR_READ(BDK_MIXX_ORCNT(port)));
@@ -537,7 +537,7 @@ int bdk_mgmt_port_receive(int port, int buffer_len, void *buffer)
             state->rx_read_index = (state->rx_read_index + 1) % BDK_MGMT_PORT_NUM_RX_BUFFERS;
             /* Zero the beginning of the buffer for use by the errata check */
             *zero_check = 0;
-            BDK_SYNCWS;
+            BDK_SYNCW;
             /* Increment the number of RX buffers */
             BDK_CSR_WRITE(BDK_MIXX_IRING2(port), 1);
             source = state->rx_buffers[state->rx_read_index];
@@ -578,7 +578,7 @@ int bdk_mgmt_port_receive(int port, int buffer_len, void *buffer)
         state->rx_read_index = (state->rx_read_index + 1) % BDK_MGMT_PORT_NUM_RX_BUFFERS;
         /* Zero the beginning of the buffer for use by the errata check */
         *zero_check = 0;
-        BDK_SYNCWS;
+        BDK_SYNCW;
         /* Increment the number of RX buffers */
         BDK_CSR_WRITE(BDK_MIXX_IRING2(port), 1);
         /* Decrement the pending RX count */

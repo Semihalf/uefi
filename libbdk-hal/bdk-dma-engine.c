@@ -213,10 +213,10 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
         entries */
     __bdk_cmd_queue_lock(BDK_CMD_QUEUE_DMA(engine), __bdk_cmd_queue_get_state(BDK_CMD_QUEUE_DMA(engine)));
     result = bdk_cmd_queue_write(BDK_CMD_QUEUE_DMA(engine), 0, cmd_count, cmds);
-    /* This SYNCWS is needed since the command queue didn't do locking, which
-        normally implies the SYNCWS. This one makes sure the command queue
+    /* This SYNCW is needed since the command queue didn't do locking, which
+        normally implies the SYNCW. This one makes sure the command queue
         updates make it to L2 before we ring the doorbell */
-    BDK_SYNCWS;
+    BDK_SYNCW;
     /* A syncw isn't needed here since the command queue did one as part of the queue unlock */
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {

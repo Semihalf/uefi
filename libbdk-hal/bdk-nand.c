@@ -1063,7 +1063,7 @@ static inline void __bdk_nand_setup_dma(int chip, int is_write, uint64_t buffer_
     ndf_dma_cfg.s.clr = 0;
     ndf_dma_cfg.s.size = ((buffer_length + 7) >> 3) - 1;
     ndf_dma_cfg.s.adr = buffer_address;
-    BDK_SYNCWS;
+    BDK_SYNCW;
     BDK_CSR_WRITE(BDK_MIO_NDF_DMA_CFG, ndf_dma_cfg.u64);
     BDK_NAND_RETURN_NOTHING();
 }

@@ -232,7 +232,7 @@ static inline bdk_tim_status_t bdk_tim_add_entry(bdk_wqe_t *work_entry, uint64_t
         delete_info->timer_entry_ptr = (uint64_t *)tim_entry_ptr;  /* Cast to non-volatile type */
     }
 
-    BDK_SYNCWS; /* Make sure the hardware timer unit can access valid data from L2 */
+    BDK_SYNCW; /* Make sure the hardware timer unit can access valid data from L2 */
 
     return BDK_TIM_STATUS_SUCCESS;
 }

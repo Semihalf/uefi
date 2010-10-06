@@ -54,9 +54,9 @@ static inline int bdk_spinlock_locked(bdk_spinlock_t *lock)
  */
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
-    BDK_SYNCWS;
+    BDK_SYNCW;
     lock->value = 0;
-    BDK_SYNCWS;
+    BDK_SYNCW;
 }
 
 
@@ -203,9 +203,9 @@ static inline unsigned int bdk_spinlock_bit_trylock(uint32_t *word)
  */
 static inline void bdk_spinlock_bit_unlock(uint32_t *word)
 {
-    BDK_SYNCWS;
+    BDK_SYNCW;
     *word &= ~(1UL << 31) ;
-    BDK_SYNCWS;
+    BDK_SYNCW;
 }
 
 

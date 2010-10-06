@@ -79,7 +79,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
             bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Queue already initialized with different FPA pool size (%u).\n", (qstate->pool_size_m1+1)<<3);
             return BDK_CMD_QUEUE_INVALID_PARAM;
         }
-        BDK_SYNCWS;
+        BDK_SYNCW;
         return BDK_CMD_QUEUE_ALREADY_SETUP;
     }
     else
@@ -107,7 +107,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
         qstate->base_ptr_div128 = bdk_ptr_to_phys(buffer) / 128;
         /* We zeroed the now serving field so we need to also zero the ticket */
         __bdk_cmd_queue_state_ptr->ticket[__bdk_cmd_queue_get_index(queue_id)] = 0;
-        BDK_SYNCWS;
+        BDK_SYNCW;
         return BDK_CMD_QUEUE_SUCCESS;
     }
 }

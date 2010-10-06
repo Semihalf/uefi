@@ -1359,7 +1359,7 @@ static inline void bdk_sso_work_submit(bdk_wqe_t *wqp, uint32_t tag, bdk_sso_tag
 
     /* SYNC write to memory before the work submit.  This is necessary
     ** as SSO may read values from DRAM at this time */
-    BDK_SYNCWS;
+    BDK_SYNCW;
     bdk_write64_uint64(ptr.u64, tag_req.u64);
 }
 
@@ -1548,7 +1548,7 @@ static inline void bdk_sso_tag_sw_desched(uint32_t tag, bdk_sso_tag_type_t tag_t
         __bdk_sso_warn_if_pending_switch(__FUNCTION__);
 
     /* Need to make sure any writes to the work queue entry are complete */
-    BDK_SYNCWS;
+    BDK_SYNCW;
     /* Ensure that there is not a pending tag switch, as a tag switch cannot be started
     ** if a previous switch is still pending.  */
     bdk_sso_tag_sw_wait();
@@ -1580,7 +1580,7 @@ static inline void bdk_sso_desched(uint64_t no_sched)
     }
 
     /* Need to make sure any writes to the work queue entry are complete */
-    BDK_SYNCWS;
+    BDK_SYNCW;
 
     tag_req.u64 = 0;
     tag_req.s.op = BDK_SSO_TAG_OP_DESCH;

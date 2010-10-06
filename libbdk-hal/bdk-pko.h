@@ -172,7 +172,7 @@ extern bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, 
  * Ring the packet output doorbell. This tells the packet
  * output hardware that "len" command words have been added
  * to its pending list.  This command includes the required
- * BDK_SYNCWS before the doorbell ring.
+ * BDK_SYNCW before the doorbell ring.
  *
  * @param port   Port the packet is for
  * @param queue  Queue the packet is for
@@ -188,7 +188,7 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
    ptr.s.is_io      = 1;
    ptr.s.port       = port;
    ptr.s.queue      = queue;
-   BDK_SYNCWS;  /* Need to make sure output queue data is in DRAM before doorbell write */
+   BDK_SYNCW;  /* Need to make sure output queue data is in DRAM before doorbell write */
    bdk_write64_uint64(ptr.u64, len);
 }
 
