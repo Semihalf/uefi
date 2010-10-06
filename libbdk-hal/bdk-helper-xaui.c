@@ -14,25 +14,21 @@ int __bdk_helper_xaui_probe(int interface)
 {
     int i;
     bdk_gmxx_hg2_control_t gmx_hg2_control;
-    bdk_gmxx_inf_mode_t mode;
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
     {
-        bdk_ciu_qlm2_t ciu_qlm;
-        ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM2);
-        ciu_qlm.s.txbypass = 1;
-        ciu_qlm.s.txdeemph = 0x5;
-        ciu_qlm.s.txmargin = 0x1a;
-        BDK_CSR_WRITE(BDK_CIU_QLM2, ciu_qlm.u64);
+        BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+            ciu_qlm.s.txbypass = 1;
+            ciu_qlm.s.txdeemph = 0x5;
+            ciu_qlm.s.txmargin = 0x1a);
     }
 
     /* Due to errata GMX-700 on CN56XXp1.x and CN52XXp1.x, the interface
         needs to be enabled before IPD otherwise per port backpressure
         may not work properly */
-    mode.u64 = BDK_CSR_READ(BDK_GMXX_INF_MODE(interface));
-    mode.s.en = 1;
-    BDK_CSR_WRITE(BDK_GMXX_INF_MODE(interface), mode.u64);
+    BDK_CSR_MODIFY(mode, BDK_GMXX_INF_MODE(interface),
+        mode.s.en = 1);
 
     __bdk_helper_setup_gmx(interface, 1);
 
@@ -75,17 +71,14 @@ int __bdk_helper_xaui_probe(int interface)
 int __bdk_helper_xaui_enable(int interface)
 {
     bdk_gmxx_prtx_cfg_t          gmx_cfg;
-    bdk_pcsxx_control1_reg_t     xauiCtl;
     bdk_pcsxx_misc_ctl_reg_t     xauiMiscCtl;
-    bdk_gmxx_tx_xaui_ctl_t       gmxXauiTxCtl;
     bdk_helper_link_info_t       link_info;
 
     /* (1) Interface has already been enabled. */
 
     /* (2) Disable GMX. */
-    xauiMiscCtl.u64 = BDK_CSR_READ(BDK_PCSXX_MISC_CTL_REG(interface));
-    xauiMiscCtl.s.gmxeno = 1;
-    BDK_CSR_WRITE (BDK_PCSXX_MISC_CTL_REG(interface), xauiMiscCtl.u64);
+    BDK_CSR_MODIFY(xauiMiscCtl, BDK_PCSXX_MISC_CTL_REG(interface),
+        xauiMiscCtl.s.gmxeno = 1);
 
     /* (3) Disable GMX and PCSX interrupts. */
     BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(0,interface), 0x0);
@@ -95,16 +88,14 @@ int __bdk_helper_xaui_enable(int interface)
     /* (4) Bring up the PCSX and GMX reconciliation layer. */
     /* (4)a Set polarity and lane swapping. */
     /* (4)b */
-    gmxXauiTxCtl.u64 = BDK_CSR_READ (BDK_GMXX_TX_XAUI_CTL(interface));
-    gmxXauiTxCtl.s.dic_en = 1; /* Enable better IFG packing and improves performance */
-    gmxXauiTxCtl.s.uni_en = 0;
-    BDK_CSR_WRITE (BDK_GMXX_TX_XAUI_CTL(interface), gmxXauiTxCtl.u64);
+    BDK_CSR_MODIFY(gmxXauiTxCtl, BDK_GMXX_TX_XAUI_CTL(interface),
+        gmxXauiTxCtl.s.dic_en = 1; /* Enable better IFG packing and improves performance */
+        gmxXauiTxCtl.s.uni_en = 0);
 
     /* (4)c Aply reset sequence */
-    xauiCtl.u64 = BDK_CSR_READ (BDK_PCSXX_CONTROL1_REG(interface));
-    xauiCtl.s.lo_pwr = 0;
-    xauiCtl.s.reset  = 1;
-    BDK_CSR_WRITE (BDK_PCSXX_CONTROL1_REG(interface), xauiCtl.u64);
+    BDK_CSR_MODIFY(xauiCtl, BDK_PCSXX_CONTROL1_REG(interface),
+        xauiCtl.s.lo_pwr = 0;
+        xauiCtl.s.reset  = 1);
 
     /* Wait for PCS to come out of reset */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_CONTROL1_REG(interface), reset, ==, 0, 10000))
@@ -117,9 +108,8 @@ int __bdk_helper_xaui_enable(int interface)
         return -1;
 
     /* (6) Configure GMX */
-    gmx_cfg.u64 = BDK_CSR_READ(BDK_GMXX_PRTX_CFG(0, interface));
-    gmx_cfg.s.en = 0;
-    BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(0, interface), gmx_cfg.u64);
+    BDK_CSR_MODIFY(gmx_cfg, BDK_GMXX_PRTX_CFG(0, interface),
+        gmx_cfg.s.en = 0);
 
     /* Wait for GMX RX to be idle */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(0, interface), rx_idle, ==, 1, 10000))
@@ -150,9 +140,8 @@ int __bdk_helper_xaui_enable(int interface)
     xauiMiscCtl.s.gmxeno = 0;
     BDK_CSR_WRITE (BDK_PCSXX_MISC_CTL_REG(interface), xauiMiscCtl.u64);
 
-    gmx_cfg.u64 = BDK_CSR_READ(BDK_GMXX_PRTX_CFG(0, interface));
-    gmx_cfg.s.en = 1;
-    BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(0, interface), gmx_cfg.u64);
+    BDK_CSR_MODIFY(gmx_cfg, BDK_GMXX_PRTX_CFG(0, interface),
+        gmx_cfg.s.en = 1);
 
     link_info = bdk_helper_link_autoconf(bdk_helper_get_ipd_port(interface, 0));
     if (!link_info.s.link_up)
@@ -256,18 +245,14 @@ int __bdk_helper_xaui_link_set(int ipd_port, bdk_helper_link_info_t link_info)
 extern int __bdk_helper_xaui_configure_loopback(int ipd_port, int enable_internal, int enable_external)
 {
     int interface = bdk_helper_get_interface_num(ipd_port);
-    bdk_pcsxx_control1_reg_t pcsxx_control1_reg;
-    bdk_gmxx_xaui_ext_loopback_t gmxx_xaui_ext_loopback;
 
     /* Set the internal loop */
-    pcsxx_control1_reg.u64 = BDK_CSR_READ(BDK_PCSXX_CONTROL1_REG(interface));
-    pcsxx_control1_reg.s.loopbck1 = enable_internal;
-    BDK_CSR_WRITE(BDK_PCSXX_CONTROL1_REG(interface), pcsxx_control1_reg.u64);
+    BDK_CSR_MODIFY(pcsxx_control1_reg, BDK_PCSXX_CONTROL1_REG(interface),
+        pcsxx_control1_reg.s.loopbck1 = enable_internal);
 
     /* Set the external loop */
-    gmxx_xaui_ext_loopback.u64 = BDK_CSR_READ(BDK_GMXX_XAUI_EXT_LOOPBACK(interface));
-    gmxx_xaui_ext_loopback.s.en = enable_external;
-    BDK_CSR_WRITE(BDK_GMXX_XAUI_EXT_LOOPBACK(interface), gmxx_xaui_ext_loopback.u64);
+    BDK_CSR_MODIFY(gmxx_xaui_ext_loopback, BDK_GMXX_XAUI_EXT_LOOPBACK(interface),
+        gmxx_xaui_ext_loopback.s.en = enable_external);
 
     /* Take the link through a reset */
     return __bdk_helper_xaui_enable(interface);

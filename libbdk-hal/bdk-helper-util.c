@@ -219,16 +219,12 @@ int bdk_helper_setup_red(int pass_thresh, int drop_thresh)
  */
 int __bdk_helper_setup_gmx(int interface, int num_ports)
 {
-    bdk_gmxx_tx_prts_t gmx_tx_prts;
-    bdk_gmxx_rx_prts_t gmx_rx_prts;
-    bdk_pko_reg_gmx_port_mode_t pko_mode;
     bdk_gmxx_txx_thresh_t gmx_tx_thresh;
     int index;
 
     /* Tell GMX the number of TX ports on this interface */
-    gmx_tx_prts.u64 = BDK_CSR_READ(BDK_GMXX_TX_PRTS(interface));
-    gmx_tx_prts.s.prts = num_ports;
-    BDK_CSR_WRITE(BDK_GMXX_TX_PRTS(interface), gmx_tx_prts.u64);
+    BDK_CSR_MODIFY(gmx_tx_prts, BDK_GMXX_TX_PRTS(interface),
+        gmx_tx_prts.s.prts = num_ports);
 
     /* Tell GMX the number of RX ports on this interface.  This only
     ** applies to *GMII and XAUI ports */
@@ -241,41 +237,39 @@ int __bdk_helper_setup_gmx(int interface, int num_ports)
             return(-1);
         }
 
-        gmx_rx_prts.u64 = BDK_CSR_READ(BDK_GMXX_RX_PRTS(interface));
-        gmx_rx_prts.s.prts = num_ports;
-        BDK_CSR_WRITE(BDK_GMXX_RX_PRTS(interface), gmx_rx_prts.u64);
+        BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(interface),
+            gmx_rx_prts.s.prts = num_ports);
     }
 
     {
         /* Tell PKO the number of ports on this interface */
-        pko_mode.u64 = BDK_CSR_READ(BDK_PKO_REG_GMX_PORT_MODE);
-        if (interface == 0)
-        {
-            if (num_ports == 1)
-                pko_mode.s.mode0 = 4;
-            else if (num_ports == 2)
-                pko_mode.s.mode0 = 3;
-            else if (num_ports <= 4)
-                pko_mode.s.mode0 = 2;
-            else if (num_ports <= 8)
-                pko_mode.s.mode0 = 1;
+        BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
+            if (interface == 0)
+            {
+                if (num_ports == 1)
+                    pko_mode.s.mode0 = 4;
+                else if (num_ports == 2)
+                    pko_mode.s.mode0 = 3;
+                else if (num_ports <= 4)
+                    pko_mode.s.mode0 = 2;
+                else if (num_ports <= 8)
+                    pko_mode.s.mode0 = 1;
+                else
+                    pko_mode.s.mode0 = 0;
+            }
             else
-                pko_mode.s.mode0 = 0;
-        }
-        else
-        {
-            if (num_ports == 1)
-                pko_mode.s.mode1 = 4;
-            else if (num_ports == 2)
-                pko_mode.s.mode1 = 3;
-            else if (num_ports <= 4)
-                pko_mode.s.mode1 = 2;
-            else if (num_ports <= 8)
-                pko_mode.s.mode1 = 1;
-            else
-                pko_mode.s.mode1 = 0;
-        }
-        BDK_CSR_WRITE(BDK_PKO_REG_GMX_PORT_MODE, pko_mode.u64);
+            {
+                if (num_ports == 1)
+                    pko_mode.s.mode1 = 4;
+                else if (num_ports == 2)
+                    pko_mode.s.mode1 = 3;
+                else if (num_ports <= 4)
+                    pko_mode.s.mode1 = 2;
+                else if (num_ports <= 8)
+                    pko_mode.s.mode1 = 1;
+                else
+                    pko_mode.s.mode1 = 0;
+            });
     }
 
     /* Set GMX to buffer as much data as possible before starting transmit.

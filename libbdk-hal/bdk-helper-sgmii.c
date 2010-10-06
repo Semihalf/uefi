@@ -14,12 +14,10 @@ static int __bdk_helper_sgmii_hardware_init_one_time(int interface, int index)
     const uint64_t clock_mhz = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 1000000;
     bdk_pcsx_miscx_ctl_reg_t pcsx_miscx_ctl_reg;
     bdk_pcsx_linkx_timer_count_reg_t pcsx_linkx_timer_count_reg;
-    bdk_gmxx_prtx_cfg_t gmxx_prtx_cfg;
 
     /* Disable GMX */
-    gmxx_prtx_cfg.u64 = BDK_CSR_READ(BDK_GMXX_PRTX_CFG(index, interface));
-    gmxx_prtx_cfg.s.en = 0;
-    BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(index, interface), gmxx_prtx_cfg.u64);
+    BDK_CSR_MODIFY(gmxx_prtx_cfg, BDK_GMXX_PRTX_CFG(index, interface),
+        gmxx_prtx_cfg.s.en = 0);
 
     /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
         value. 1000BASE-X specifies a 10ms interval. SGMII specifies a 1.6ms
@@ -47,25 +45,21 @@ static int __bdk_helper_sgmii_hardware_init_one_time(int interface, int index)
     if (pcsx_miscx_ctl_reg.s.mode)
     {
         /* 1000BASE-X */
-        bdk_pcsx_anx_adv_reg_t pcsx_anx_adv_reg;
-        pcsx_anx_adv_reg.u64 = BDK_CSR_READ(BDK_PCSX_ANX_ADV_REG(index, interface));
-        pcsx_anx_adv_reg.s.rem_flt = 0;
-        pcsx_anx_adv_reg.s.pause = 3;
-        pcsx_anx_adv_reg.s.hfd = 1;
-        pcsx_anx_adv_reg.s.fd = 1;
-        BDK_CSR_WRITE(BDK_PCSX_ANX_ADV_REG(index, interface), pcsx_anx_adv_reg.u64);
+        BDK_CSR_MODIFY(pcsx_anx_adv_reg, BDK_PCSX_ANX_ADV_REG(index, interface),
+            pcsx_anx_adv_reg.s.rem_flt = 0;
+            pcsx_anx_adv_reg.s.pause = 3;
+            pcsx_anx_adv_reg.s.hfd = 1;
+            pcsx_anx_adv_reg.s.fd = 1);
     }
     else
     {
         if (pcsx_miscx_ctl_reg.s.mac_phy)
         {
             /* PHY Mode */
-            bdk_pcsx_sgmx_an_adv_reg_t pcsx_sgmx_an_adv_reg;
-            pcsx_sgmx_an_adv_reg.u64 = BDK_CSR_READ(BDK_PCSX_SGMX_AN_ADV_REG(index, interface));
-            pcsx_sgmx_an_adv_reg.s.link = 1;
-            pcsx_sgmx_an_adv_reg.s.dup = 1;
-            pcsx_sgmx_an_adv_reg.s.speed= 2;
-            BDK_CSR_WRITE(BDK_PCSX_SGMX_AN_ADV_REG(index, interface), pcsx_sgmx_an_adv_reg.u64);
+            BDK_CSR_MODIFY(pcsx_sgmx_an_adv_reg, BDK_PCSX_SGMX_AN_ADV_REG(index, interface),
+                pcsx_sgmx_an_adv_reg.s.link = 1;
+                pcsx_sgmx_an_adv_reg.s.dup = 1;
+                pcsx_sgmx_an_adv_reg.s.speed= 2);
         }
         else
         {
@@ -237,12 +231,10 @@ static int __bdk_helper_sgmii_hardware_init(int interface, int num_ports)
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
     {
-        bdk_ciu_qlm2_t ciu_qlm;
-        ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM2);
-        ciu_qlm.s.txbypass = 1;
-        ciu_qlm.s.txdeemph = 0xf;
-        ciu_qlm.s.txmargin = 0xd;
-        BDK_CSR_WRITE(BDK_CIU_QLM2, ciu_qlm.u64);
+        BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+            ciu_qlm.s.txbypass = 1;
+            ciu_qlm.s.txdeemph = 0xf;
+            ciu_qlm.s.txmargin = 0xd);
     }
 
     __bdk_helper_setup_gmx(interface, num_ports);
@@ -271,14 +263,11 @@ static int __bdk_helper_sgmii_hardware_init(int interface, int num_ports)
  */
 int __bdk_helper_sgmii_probe(int interface)
 {
-    bdk_gmxx_inf_mode_t mode;
-
     /* Due to errata GMX-700 on CN56XXp1.x and CN52XXp1.x, the interface
         needs to be enabled before IPD otherwise per port backpressure
         may not work properly */
-    mode.u64 = BDK_CSR_READ(BDK_GMXX_INF_MODE(interface));
-    mode.s.en = 1;
-    BDK_CSR_WRITE(BDK_GMXX_INF_MODE(interface), mode.u64);
+    BDK_CSR_MODIFY(mode, BDK_GMXX_INF_MODE(interface),
+        mode.s.en = 1);
     return 4;
 }
 
@@ -302,10 +291,8 @@ int __bdk_helper_sgmii_enable(int interface)
 
     for (index=0; index<num_ports; index++)
     {
-        bdk_gmxx_prtx_cfg_t gmxx_prtx_cfg;
-        gmxx_prtx_cfg.u64 = BDK_CSR_READ(BDK_GMXX_PRTX_CFG(index, interface));
-        gmxx_prtx_cfg.s.en = 1;
-        BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(index, interface), gmxx_prtx_cfg.u64);
+        BDK_CSR_MODIFY(gmxx_prtx_cfg, BDK_GMXX_PRTX_CFG(index, interface),
+            gmxx_prtx_cfg.s.en = 1);
     }
     return 0;
 }
@@ -444,16 +431,12 @@ int __bdk_helper_sgmii_configure_loopback(int ipd_port, int enable_internal, int
 {
     int interface = bdk_helper_get_interface_num(ipd_port);
     int index = bdk_helper_get_interface_index_num(ipd_port);
-    bdk_pcsx_mrx_control_reg_t pcsx_mrx_control_reg;
-    bdk_pcsx_miscx_ctl_reg_t pcsx_miscx_ctl_reg;
 
-    pcsx_mrx_control_reg.u64 = BDK_CSR_READ(BDK_PCSX_MRX_CONTROL_REG(index, interface));
-    pcsx_mrx_control_reg.s.loopbck1 = enable_internal;
-    BDK_CSR_WRITE(BDK_PCSX_MRX_CONTROL_REG(index, interface), pcsx_mrx_control_reg.u64);
+    BDK_CSR_MODIFY(pcsx_mrx_control_reg, BDK_PCSX_MRX_CONTROL_REG(index, interface),
+        pcsx_mrx_control_reg.s.loopbck1 = enable_internal);
 
-    pcsx_miscx_ctl_reg.u64 = BDK_CSR_READ(BDK_PCSX_MISCX_CTL_REG(index, interface));
-    pcsx_miscx_ctl_reg.s.loopbck2 = enable_external;
-    BDK_CSR_WRITE(BDK_PCSX_MISCX_CTL_REG(index, interface), pcsx_miscx_ctl_reg.u64);
+    BDK_CSR_MODIFY(pcsx_miscx_ctl_reg, BDK_PCSX_MISCX_CTL_REG(index, interface),
+        pcsx_miscx_ctl_reg.s.loopbck2 = enable_external);
 
     __bdk_helper_sgmii_hardware_init_link(interface, index);
     return 0;

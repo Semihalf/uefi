@@ -42,15 +42,12 @@ int __bdk_helper_srio_enable(int interface)
     int num_ports = bdk_helper_ports_on_interface(interface);
     int index;
     bdk_sriomaintx_core_enables_t sriomaintx_core_enables;
-    bdk_sriox_imsg_ctrl_t sriox_imsg_ctrl;
-    bdk_dpi_ctl_t dpi_ctl;
 
     /* All SRIO ports have a bdk_srio_rx_message_header_t header
         on them that must be skipped by IPD */
     for (index=0; index<num_ports; index++)
     {
         bdk_pip_prt_cfgx_t port_config;
-        bdk_sriox_omsg_portx_t sriox_omsg_portx;
         bdk_sriox_omsg_sp_mrx_t sriox_omsg_sp_mrx;
         bdk_sriox_omsg_fmp_mrx_t sriox_omsg_fmp_mrx;
         bdk_sriox_omsg_nmp_mrx_t sriox_omsg_nmp_mrx;
@@ -64,10 +61,9 @@ int __bdk_helper_srio_enable(int interface)
         }
 
         /* Enable TX with PKO */
-        sriox_omsg_portx.u64 = BDK_CSR_READ(BDK_SRIOX_OMSG_PORTX(index, interface - 4));
-        sriox_omsg_portx.s.port = (interface - 4) * 2 + index;
-        sriox_omsg_portx.s.enable = 1;
-        BDK_CSR_WRITE(BDK_SRIOX_OMSG_PORTX(index, interface - 4), sriox_omsg_portx.u64);
+        BDK_CSR_MODIFY(sriox_omsg_portx, BDK_SRIOX_OMSG_PORTX(index, interface - 4),
+            sriox_omsg_portx.s.port = (interface - 4) * 2 + index;
+            sriox_omsg_portx.s.enable = 1);
 
         /* Allow OMSG controller to send regardless of the state of any other
             controller. Allow messages to different IDs and MBOXes to go in
@@ -113,16 +109,14 @@ int __bdk_helper_srio_enable(int interface)
     }
 
     /* Choose the receive controller based on the mailbox */
-    sriox_imsg_ctrl.u64 = BDK_CSR_READ(BDK_SRIOX_IMSG_CTRL(interface - 4));
-    sriox_imsg_ctrl.s.prt_sel = 0;
-    sriox_imsg_ctrl.s.mbox = 0xa;
-    BDK_CSR_WRITE(BDK_SRIOX_IMSG_CTRL(interface - 4), sriox_imsg_ctrl.u64);
+    BDK_CSR_MODIFY(sriox_imsg_ctrl, BDK_SRIOX_IMSG_CTRL(interface - 4),
+        sriox_imsg_ctrl.s.prt_sel = 0;
+        sriox_imsg_ctrl.s.mbox = 0xa);
 
     /* DPI must be enabled for us to RX messages */
-    dpi_ctl.u64 = BDK_CSR_READ(BDK_DPI_CTL);
-    dpi_ctl.s.clk = 1;
-    dpi_ctl.s.en = 1;
-    BDK_CSR_WRITE(BDK_DPI_CTL, dpi_ctl.u64);
+    BDK_CSR_MODIFY(dpi_ctl, BDK_DPI_CTL,
+        dpi_ctl.s.clk = 1;
+        dpi_ctl.s.en = 1);
 
     /* Enable RX */
     if (!bdk_srio_config_read32(interface - 4, 0, -1, 0, 0,
