@@ -2,7 +2,7 @@
 LUA_TARGET=lualong
 SCONS_OPTIONS=target=$(LUA_TARGET) board=OCTEON-EVB optram=false romfs=verbatim #boot=luarpc
 
-default: luac.cross luarpc
+default: luac.cross.elf luarpc
 	scons $(SCONS_OPTIONS) -s
 
 clean:
@@ -14,7 +14,7 @@ run:
 tftp: default
 	mipsisa64-octeon-elf-strip -o /tftpboot/elua elua_$(LUA_TARGET)_cn6xxx.elf
 
-luac.cross:
+luac.cross.elf:
 	scons -s -f cross-lua.py
 luarpc:
 	scons -s -f rpc-lua.py
