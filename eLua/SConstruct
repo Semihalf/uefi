@@ -143,7 +143,8 @@ romfs = { 'bisect' : [ 'bisect.lua' ],
           'snake' : [ 'snake.lua' ],
           'dataflash' : [ 'dataflash.lua' ],
           'pachube' : [ 'pachube_demo.lua' ],
-          'inttest' : [ 'inttest.lua' ]
+          'inttest' : [ 'inttest.lua' ],
+          'show-modules' : [ 'show-modules.lua' ]
         }
 
 # List of board/romfs data combinations
@@ -166,7 +167,7 @@ file_list = { 'SAM7-EX256' : [ 'bisect', 'hangman' , 'led', 'piano', 'hello', 'i
               'ELUA-PUC' : [ 'bisect', 'hangman', 'led', 'hello', 'info', 'pwmled', 'adcscope', 'adcpoll', 'inttest' ],
               'MBED' : [ 'bisect', 'hangman', 'hello', 'info', 'led', 'pwmled', 'dualpwm', 'life', 'adcscope', 'adcpoll' ],
               'MIZAR32' : [ ],
-              'OCTEON-EVB' : [ 'bisect', 'hangman', 'hello', 'info', 'life' ],
+              'OCTEON-EVB' : [ 'bisect', 'hangman', 'hello', 'info', 'life', 'show-modules' ],
 }
 
 comp = Environment( tools = [],
