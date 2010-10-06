@@ -38,7 +38,7 @@
     _ROM(AUXLIB_PD, luaopen_pd, pd_map) \
     _ROM(AUXLIB_UART, luaopen_uart, uart_map) \
     _ROM(AUXLIB_TERM, luaopen_term, term_map) \
-    _ROM(AUXLIB_PWM, luaopen_pwm, pwm_map) \
+    /* _ROM(AUXLIB_PWM, luaopen_pwm, pwm_map) */ \
     _ROM(AUXLIB_PACK, luaopen_pack, pack_map) \
     _ROM(AUXLIB_BIT, luaopen_bit, bit_map) \
     _ROM(AUXLIB_NET, luaopen_net, net_map) \
