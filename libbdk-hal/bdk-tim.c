@@ -180,7 +180,7 @@ void bdk_tim_shutdown(void)
             uint64_t chunk_addr;
             uint64_t next_chunk_addr;
             bdk_tim_bucket_entry_t *bucket_ptr = bdk_tim.bucket + timer_id * bdk_tim.num_buckets + bucket;
-            BDK_PREFETCH128(CAST64(bucket_ptr));  /* prefetch the next cacheline for future buckets */
+            BDK_PREFETCH(CAST64(bucket_ptr), 128);  /* prefetch the next cacheline for future buckets */
 
             /* Each bucket contains a list of chunks */
             chunk_addr = bucket_ptr->first_chunk_addr;

@@ -276,7 +276,7 @@ static inline void bdk_spinlock_rec_unlock(bdk_spinlock_rec_t *lock)
 		".set  noreorder                 \n"
 		"     addi  %[tmp], %[pid], 0x80 \n"
 		"     sw    %[tmp], %[lid]       # set lid to invalid value\n"
-                BDK_SYNCWS_STR
+                "     syncw                      \n"
 		"1:   ll    %[tmp], %[val]       \n"
 		"     addu  %[res], %[tmp], -1   # decrement lock count\n"
 		"     sc    %[res], %[val]       \n"
@@ -285,8 +285,8 @@ static inline void bdk_spinlock_rec_unlock(bdk_spinlock_rec_t *lock)
 		"     beq   %[tmp], %[res], 2f   # res is 1 on successful sc       \n"
 		"     nop                        \n"
 		"     sw   %[pid], %[lid]        # set lid to pid, only if lock still held\n"
-		"2:                         \n"
-                BDK_SYNCWS_STR
+		"2:                              \n"
+                "     syncw                      \n"
 		".set  reorder                   \n"
 		: [res] "=&r" (result), [tmp] "=&r" (temp), [val] "+m" (lock->value), [lid] "+m" (lock->core_num)
 		: [pid] "r" (core_num)
@@ -350,7 +350,7 @@ static inline void bdk_spinlock_rec_lock(bdk_spinlock_rec_t *lock)
 		"   addu %[tmp], %[tmp], 1    \n"
 		"   sw   %[tmp], %[val]       # update the count\n"
 		"3: sw   %[pid], %[lid]       # store the core_num\n"
-                BDK_SYNCWS_STR
+                "     syncw                   \n"
 		".set  reorder                \n"
 		: [tmp] "=&r" (tmp), [val] "+m" (lock->value), [lid] "+m" (lock->core_num)
 		: [pid] "r" (core_num)

@@ -68,95 +68,21 @@
 #define BDK_TMP_STR(x) BDK_TMP_STR2(x)
 #define BDK_TMP_STR2(x) #x
 
-/* Since sync is required for Octeon2. */
-#ifdef _MIPS_ARCH_OCTEON2
-#define BDK_CAVIUM_OCTEON2   1
-#endif
-
 /* other useful stuff */
-#define BDK_BREAK asm volatile ("break")
-#define BDK_SYNC asm volatile ("sync" : : :"memory")
-/* String version of SYNCW macro for using in inline asm constructs */
-#define BDK_SYNCW_STR_OCTEON2 "syncw\n"
-#ifdef BDK_CAVIUM_OCTEON2
- #define BDK_SYNCW_STR BDK_SYNCW_STR_OCTEON2
-#else
- #define BDK_SYNCW_STR "syncw\nsyncw\n"
-#endif /* BDK_CAVIUM_OCTEON2 */
+#define BDK_SYNC        asm volatile ("sync"        : : :"memory")
+#define BDK_SYNCW       asm volatile ("syncw"       : : :"memory")
+#define BDK_SYNCIOBDMA  asm volatile ("synciobdma"  : : :"memory")
+#define BDK_SYNCS       asm volatile ("syncs"       : : :"memory")
+#define BDK_SYNCWS      asm volatile ("syncws"      : : :"memory")
 
-#ifdef __OCTEON__
-    #define BDK_SYNCIO asm volatile ("nop")   /* Deprecated, will be removed in future release */
-    #define BDK_SYNCIOBDMA asm volatile ("synciobdma" : : :"memory")
-    #define BDK_SYNCIOALL asm volatile ("nop")   /* Deprecated, will be removed in future release */
-    /* We actually use two syncw instructions in a row when we need a write
-        memory barrier. This is because the CN3XXX series of Octeons have
-        errata Core-401. This can cause a single syncw to not enforce
-        ordering under very rare conditions. Even if it is rare, better safe
-        than sorry */
-    #define BDK_SYNCW_OCTEON2 asm volatile ("syncw\n" : : :"memory")
-    #ifdef BDK_CAVIUM_OCTEON2
-     #define BDK_SYNCW BDK_SYNCW_OCTEON2
-    #else
-     #define BDK_SYNCW asm volatile ("syncw\nsyncw\n" : : :"memory")
-    #endif /* BDK_CAVIUM_OCTEON2 */
-#if defined(VXWORKS) || defined(__linux__)
-        /* Define new sync instructions to be normal SYNC instructions for
-           operating systems that use threads */
-        #define BDK_SYNCWS BDK_SYNCW
-        #define BDK_SYNCS  BDK_SYNC
-        #define BDK_SYNCWS_STR BDK_SYNCW_STR
-        #define BDK_SYNCWS_OCTEON2 BDK_SYNCW_OCTEON2
-        #define BDK_SYNCWS_STR_OCTEON2 BDK_SYNCW_STR_OCTEON2
-#else
-    #if defined(BDK_BUILD_FOR_TOOLCHAIN)
-        /* While building simple exec toolchain, always use syncw to
-           support all Octeon models. */
-        #define BDK_SYNCWS BDK_SYNCW
-        #define BDK_SYNCS  BDK_SYNC
-        #define BDK_SYNCWS_STR BDK_SYNCW_STR
-        #define BDK_SYNCWS_OCTEON2 BDK_SYNCW_OCTEON2
-        #define BDK_SYNCWS_STR_OCTEON2 BDK_SYNCW_STR_OCTEON2
-    #else
-        /* Again, just like syncw, we may need two syncws instructions in a row due
-           errata Core-401. Only one syncws is required for Octeon2 models */
-        #define BDK_SYNCS asm volatile ("syncs" : : :"memory")
-        #define BDK_SYNCWS_OCTEON2 asm volatile ("syncws\n" : : :"memory")
-        #define BDK_SYNCWS_STR_OCTEON2 "syncws\n"
-        #ifdef BDK_CAVIUM_OCTEON2
-          #define BDK_SYNCWS BDK_SYNCWS_OCTEON2
-          #define BDK_SYNCWS_STR BDK_SYNCWS_STR_OCTEON2
-        #else
-          #define BDK_SYNCWS asm volatile ("syncws\nsyncws\n" : : :"memory")
-          #define BDK_SYNCWS_STR "syncws\nsyncws\n"
-        #endif /* BDK_CAVIUM_OCTEON2 */
-    #endif
-#endif
-#else /* !__OCTEON__ */
-    /* Not using a Cavium compiler, always use the slower sync so the assembler stays happy */
-    #define BDK_SYNCIO asm volatile ("nop")   /* Deprecated, will be removed in future release */
-    #define BDK_SYNCIOBDMA asm volatile ("sync" : : :"memory")
-    #define BDK_SYNCIOALL asm volatile ("nop")   /* Deprecated, will be removed in future release */
-    #define BDK_SYNCW asm volatile ("sync" : : :"memory")
-    #define BDK_SYNCWS BDK_SYNCW
-    #define BDK_SYNCS  BDK_SYNC
-    #define BDK_SYNCWS_STR BDK_SYNCW_STR
-    #define BDK_SYNCWS_OCTEON2 BDK_SYNCW
-    #define BDK_SYNCWS_STR_OCTEON2 BDK_SYNCW_STR
-#endif
 #define BDK_SYNCI(address, offset) asm volatile ("synci " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
-#define BDK_PREFETCH0(address) BDK_PREFETCH(address, 0)
-#define BDK_PREFETCH128(address) BDK_PREFETCH(address, 128)
-// a normal prefetch
-#define BDK_PREFETCH(address, offset) BDK_PREFETCH_PREF0(address, offset)
+
 // normal prefetches that use the pref instruction
 #define BDK_PREFETCH_PREFX(X, address, offset) asm volatile ("pref %[type], %[off](%[rbase])" : : [rbase] "d" (address), [off] "I" (offset), [type] "n" (X))
-#define BDK_PREFETCH_PREF0(address, offset) BDK_PREFETCH_PREFX(0, address, offset)
-#define BDK_PREFETCH_PREF1(address, offset) BDK_PREFETCH_PREFX(1, address, offset)
-#define BDK_PREFETCH_PREF6(address, offset) BDK_PREFETCH_PREFX(6, address, offset)
-#define BDK_PREFETCH_PREF7(address, offset) BDK_PREFETCH_PREFX(7, address, offset)
+// a normal prefetch
+#define BDK_PREFETCH(address, offset) BDK_PREFETCH_PREFX(0, address, offset)
 // prefetch into L1, do not put the block in the L2
 #define BDK_PREFETCH_NOTL2(address, offset) BDK_PREFETCH_PREFX(4, address, offset)
-#define BDK_PREFETCH_NOTL22(address, offset) BDK_PREFETCH_PREFX(5, address, offset)
 // prefetch into L2, do not put the block in the L1
 #define BDK_PREFETCH_L2(address, offset) BDK_PREFETCH_PREFX(28, address, offset)
 // BDK_PREPARE_FOR_STORE makes each byte of the block unpredictable (actually old value or zero) until
@@ -169,9 +95,9 @@
 // used.
 #define BDK_DONT_WRITE_BACK(address, offset) BDK_PREFETCH_PREFX(29, address, offset)
 
-#define BDK_ICACHE_INVALIDATE  { BDK_SYNC; asm volatile ("synci 0($0)" : : ); }    // flush stores, invalidate entire icache
-#define BDK_ICACHE_INVALIDATE2 { BDK_SYNC; asm volatile ("cache 0, 0($0)" : : ); } // flush stores, invalidate entire icache
-#define BDK_DCACHE_INVALIDATE  { BDK_SYNC; asm volatile ("cache 9, 0($0)" : : ); } // complete prefetches, invalidate entire dcache
+#define BDK_ICACHE_INVALIDATE  { asm volatile ("synci 0($0)" : : ); }    // flush stores, invalidate entire icache
+#define BDK_ICACHE_INVALIDATE2 { asm volatile ("cache 0, 0($0)" : : ); } // flush stores, invalidate entire icache
+#define BDK_DCACHE_INVALIDATE  { asm volatile ("cache 9, 0($0)" : : ); } // complete prefetches, invalidate entire dcache
 
 #define BDK_CACHE(op, address, offset) asm volatile ("cache " BDK_TMP_STR(op) ", " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
 #define BDK_CACHE_LCKL2(address, offset) BDK_CACHE(31, address, offset) // fetch and lock the state.
@@ -248,41 +174,8 @@
 #define BDK_POP(result, input) asm ("pop %[rd],%[rs]" : [rd] "=d" (result) : [rs] "d" (input))
 #define BDK_DPOP(result, input) asm ("dpop %[rd],%[rs]" : [rd] "=d" (result) : [rs] "d" (input))
 
-#ifdef BDK_ABI_O32
-
-  /* rdhwr $31 is the 64 bit cmvcount register, it needs to be split
-     into one or two (depending on the width of the result) properly
-     sign extended registers.  All other registers are 32 bits wide
-     and already properly sign extended. */
-#  define BDK_RDHWRX(result, regstr, ASM_STMT) ({			\
-  if (regstr == 31) {							\
-    if (sizeof(result) == 8) {						\
-      ASM_STMT (".set\tpush\n"						\
-		"\t.set\tmips64r2\n"					\
-		"\trdhwr\t%L0,$31\n"					\
-		"\tdsra\t%M0,%L0,32\n"					\
-		"\tsll\t%L0,%L0,0\n"					\
-		"\t.set\tpop": "=d"(result));				\
-    } else {								\
-      unsigned long _v;							\
-      ASM_STMT ("rdhwr\t%0,$31\n"					\
-		"\tsll\t%0,%0,0" : "=d"(_v));				\
-      result = (typeof(result))_v;					\
-    }									\
-  } else {								\
-    unsigned long _v;							\
-    ASM_STMT ("rdhwr\t%0,$" BDK_TMP_STR(regstr) : "=d"(_v));		\
-    result = (typeof(result))_v;					\
-  }})
-
-
-
-#  define BDK_RDHWR(result, regstr) BDK_RDHWRX(result, regstr, asm volatile)
-#  define BDK_RDHWRNV(result, regstr) BDK_RDHWRX(result, regstr, asm)
-#else
 #  define BDK_RDHWR(result, regstr) asm volatile ("rdhwr %[rt],$" BDK_TMP_STR(regstr) : [rt] "=d" (result))
 #  define BDK_RDHWRNV(result, regstr) asm ("rdhwr %[rt],$" BDK_TMP_STR(regstr) : [rt] "=d" (result))
-#endif
 
 // some new cop0-like stuff
 #define BDK_DI(result) asm volatile ("di %[rt]" : [rt] "=d" (result))
@@ -513,17 +406,9 @@
 #define BDK_MT_SMS4_RESINP(val,pos)	asm volatile ("dmtc2 %[rt],0x0100+"BDK_TMP_STR(pos) : : [rt] "d" (val))
 
 /* check_ordering stuff */
-#if 0
-#define BDK_MF_CHORD(dest)         asm volatile ("dmfc2 %[rt],0x400" : [rt] "=d" (dest) : )
-#else
 #define BDK_MF_CHORD(dest)         BDK_RDHWR(dest, 30)
-#endif
 
-#if 0
-#define BDK_MF_CYCLE(dest)         asm volatile ("dmfc0 %[rt],$9,6" : [rt] "=d" (dest) : ) // Use (64-bit) CvmCount register rather than Count
-#else
 #define BDK_MF_CYCLE(dest)         BDK_RDHWR(dest, 31) /* reads the current (64-bit) CvmCount value */
-#endif
 
 #define BDK_MT_CYCLE(src)         asm volatile ("dmtc0 %[rt],$9,6" :: [rt] "d" (src))
 
