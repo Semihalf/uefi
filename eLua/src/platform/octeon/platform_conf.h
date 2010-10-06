@@ -82,7 +82,7 @@
 #define VTMR_NUM_TIMERS       0
 
 // Number of resources (0 if not available/not implemented)
-#define NUM_PIO               0
+#define NUM_PIO               1
 #define NUM_SPI               0
 #define NUM_UART              2
 #define NUM_TIMER             2
