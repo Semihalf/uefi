@@ -40,8 +40,13 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
                 return *(volatile uint64_t *)address;
 
         case BDK_CSR_TYPE_PCI_NCB:
-        case BDK_CSR_TYPE_PEXP_NCB:
             break;
+        case BDK_CSR_TYPE_PEXP_NCB:
+            address |= 0x80011F0000008000ull;
+            if (size == 4)
+                return *(volatile uint32_t *)(address ^ 4);
+            else
+                return *(volatile uint64_t *)address;
 
         case BDK_CSR_TYPE_PCI:
         case BDK_CSR_TYPE_PEXP:
@@ -96,7 +101,13 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
             break;
 
         case BDK_CSR_TYPE_PCI_NCB:
+            break;
         case BDK_CSR_TYPE_PEXP_NCB:
+            address |= 0x80011F0000008000ull;
+            if (size == 4)
+                *(volatile uint32_t *)(address ^ 4) = value;
+            else
+                *(volatile uint64_t *)address = value;
             break;
 
         case BDK_CSR_TYPE_PCI:
