@@ -6,10 +6,6 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
-#ifndef BDK_ENABLE_LEN_M8_FIX
-#define BDK_ENABLE_LEN_M8_FIX 0
-#endif
-
 typedef enum {
    BDK_IPD_OPC_MODE_STT = 0LL,   /* All blocks DRAM, not cached in L2 */
    BDK_IPD_OPC_MODE_STF = 1LL,   /* All blocks into L2 */

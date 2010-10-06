@@ -78,27 +78,11 @@ typedef struct
  * Array indexed by bootbus chip select with information
  * about NAND devices.
  */
-#if defined(BDK_BUILD_FOR_UBOOT) && CONFIG_OCTEON_NAND_STAGE2
-/* For u-boot nand boot we need to play some tricks to be able
-** to use this early in boot.  We put them in a special section that is merged
-** with the text segment.  (Using the text segment directly results in an assembler warning.)
-*/
-#define USE_DATA_IN_TEXT
-#endif
-
-#ifdef USE_DATA_IN_TEXT
-static uint8_t bdk_nand_buffer[BDK_NAND_MAX_PAGE_AND_OOB_SIZE] __attribute__((aligned(8)))  __attribute__ ((section (".data_in_text")));
-static bdk_nand_state_t bdk_nand_state[8] __attribute__ ((section (".data_in_text")));
-static bdk_nand_state_t bdk_nand_default __attribute__ ((section (".data_in_text")));
-static bdk_nand_initialize_flags_t bdk_nand_flags __attribute__ ((section (".data_in_text")));
-static int debug_indent __attribute__ ((section (".data_in_text")));
-#else
 static bdk_nand_state_t bdk_nand_state[8];
 static bdk_nand_state_t bdk_nand_default;
 static bdk_nand_initialize_flags_t bdk_nand_flags;
 static uint8_t bdk_nand_buffer[BDK_NAND_MAX_PAGE_AND_OOB_SIZE];
 static int debug_indent = 0;
-#endif
 
 static const char *bdk_nand_opcode_labels[] =
 {

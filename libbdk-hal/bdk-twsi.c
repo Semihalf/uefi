@@ -1,14 +1,5 @@
 #include <bdk.h>
 
-//#define PRINT_TWSI_CONFIG
-#ifdef PRINT_TWSI_CONFIG
-#define twsi_printf printf
-#else
-#define twsi_printf(...)
-#define bdk_csr_db_decode(...)
-#endif
-
-
 /**
  * Do a twsi read from a 7 bit device address using an (optional) internal address.
  * Up to 8 bytes can be read at a time.
@@ -54,12 +45,9 @@ retry:
 		BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
 	}
 
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
 		bdk_wait(1000);
-	twsi_printf("Results:\n");
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	if (!sw_twsi_val.s.r)
         {
             /* Check the reason for the failure.  We may need to retry to handle multi-master
@@ -122,12 +110,9 @@ retry:
 	sw_twsi_val.s.sovr = 1;
 	sw_twsi_val.s.size = num_bytes - 1;
 
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
             bdk_wait(1000);
-	twsi_printf("Results:\n");
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	if (!sw_twsi_val.s.r)
             if (!sw_twsi_val.s.r)
             {
@@ -198,12 +183,9 @@ int bdk_twsix_write(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t data)
 		twsi_ext.s.d = data >> 32;
 		BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
 	}
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
 		;
-	twsi_printf("Results:\n");
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	if (!sw_twsi_val.s.r)
 		return -1;
 
@@ -257,16 +239,10 @@ int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
 	if (num_bytes > 4)
 		twsi_ext.s.d = data >> 32;
 
-	twsi_printf("%s: twsi_id=%x, dev_addr=%x, internal_addr=%x\n\tnum_bytes=%d, ia_width_bytes=%d, data=%lx\n",
-		    __FUNCTION__, twsi_id, dev_addr, internal_addr, num_bytes, ia_width_bytes, data);
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
 	BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 	while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
 		;
-	twsi_printf("Results:\n");
-	bdk_csr_db_decode(bdk_get_proc_id(), BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
 
 	/* Poll until reads succeed, or polling times out */
 	to = 100;

@@ -24,11 +24,6 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
-/* Default to having all SSO constancy checks turned on */
-#ifndef BDK_ENABLE_SSO_CHECKS
-#define BDK_ENABLE_SSO_CHECKS 1
-#endif
-
 /**
  * Tag type definitions
  */

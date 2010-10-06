@@ -13,14 +13,9 @@
  */
 static inline uint32_t bdk_get_proc_id(void)
 {
-#ifdef BDK_BUILD_FOR_LINUX_USER
-    extern uint32_t bdk_app_init_processor_id;
-    return bdk_app_init_processor_id;
-#else
     uint32_t id;
     asm ("mfc0 %0, $15,0" : "=r" (id));
     return id;
-#endif
 }
 
 /**
@@ -35,73 +30,6 @@ static inline uint64_t bdk_ptr_to_phys(void *ptr)
 {
     if (BDK_ENABLE_PARAMETER_CHECKING)
         bdk_warn_if(ptr==NULL, "bdk_ptr_to_phys() passed a NULL pointer\n");
-
-#ifdef BDK_BUILD_FOR_UBOOT
-    uint64_t uboot_tlb_ptr_to_phys(void *ptr);
-
-    if (((uint32_t)ptr) < 0x80000000)
-    {
-        /* Handle useg (unmapped due to ERL) here*/
-        return(CAST64(ptr) & 0x7FFFFFFF);
-    }
-    else if (((uint32_t)ptr) < 0xC0000000)
-    {
-        /* Here we handle KSEG0/KSEG1 _pointers_.  We know we are dealing
-        ** with 32 bit only values, so we treat them that way.  Note that
-        ** a bdk_phys_to_ptr(bdk_ptr_to_phys(X)) will not return X in this case,
-        ** but the physical address of the KSEG0/KSEG1 address. */
-        return(CAST64(ptr) & 0x1FFFFFFF);
-    }
-    else
-        return(uboot_tlb_ptr_to_phys(ptr));   /* Should not get get here in !TLB case */
-
-#endif
-
-#ifdef __linux__
-    if (sizeof(void*) == 8)
-    {
-        /* We're running in 64 bit mode. Normally this means that we can use
-            40 bits of address space (the hardware limit). Unfortunately there
-            is one case were we need to limit this to 30 bits, sign extended
-            32 bit. Although these are 64 bits wide, only 30 bits can be used */
-        if ((CAST64(ptr) >> 62) == 3)
-            return CAST64(ptr) & bdk_build_mask(30);
-        else
-            return CAST64(ptr) & bdk_build_mask(40);
-    }
-    else
-    {
-#ifdef __KERNEL__
-	return (long)(ptr) & 0x1fffffff;
-#else
-        extern uint64_t linux_mem32_offset;
-        if (bdk_likely(ptr))
-            return CAST64(ptr) - linux_mem32_offset;
-        else
-            return 0;
-#endif
-    }
-#elif defined(_WRS_KERNEL)
-	return (long)(ptr) & 0x7fffffff;
-#elif defined(VXWORKS_USER_MAPPINGS)
-    /* This mapping mode is used in vxWorks 5.5 to support 2GB of ram. The
-        2nd 256MB is mapped at 0x10000000 and the rest of memory is 1:1 */
-    uint64_t address = (long)ptr;
-    if (address & 0x80000000)
-        return address & 0x1fffffff;    /* KSEG pointers directly map the lower 256MB and bootbus */
-    else if ((address >= 0x10000000) && (address < 0x20000000))
-        return address + 0x400000000ull;   /* 256MB-512MB is a virtual mapping for the 2nd 256MB */
-    else
-        return address; /* Looks to be a 1:1 mapped userspace pointer */
-#else
-#if BDK_USE_1_TO_1_TLB_MAPPINGS
-    /* We are assumung we're running the Simple Executive standalone. In this
-        mode the TLB is setup to perform 1:1 mapping and 32 bit sign extended
-        addresses are never used. Since we know all this, save the masking
-        cycles and do nothing */
-    return CAST64(ptr);
-#else
-
     if (sizeof(void*) == 8)
     {
         /* We're running in 64 bit mode. Normally this means that we can use
@@ -115,9 +43,6 @@ static inline uint64_t bdk_ptr_to_phys(void *ptr)
     }
     else
 	return (long)(ptr) & 0x7fffffff;
-
-#endif
-#endif
 }
 
 
@@ -134,105 +59,13 @@ static inline void *bdk_phys_to_ptr(uint64_t physical_address)
     if (BDK_ENABLE_PARAMETER_CHECKING)
         bdk_warn_if(physical_address==0, "bdk_phys_to_ptr() passed a zero address\n");
 
-#ifdef BDK_BUILD_FOR_UBOOT
-#if !CONFIG_OCTEON_UBOOT_TLB
-    if (physical_address >= 0x80000000)
-        return NULL;
-    else
-        return CASTPTR(void, (physical_address & 0x7FFFFFFF));
-#endif
-
-    /* U-boot is a special case, as it is running in 32 bit mode, using the TLB to map code/data
-    ** which can have a physical address above the 32 bit address space.  1-1 mappings are used
-    ** to allow the low 2 GBytes to be accessed as in error level.
-    **
-    ** NOTE:  This conversion can cause problems in u-boot, as users may want to enter addresses
-    ** like 0xBFC00000 (kseg1 boot bus address), which is a valid 64 bit physical address,
-    ** but is likely intended to be a boot bus address. */
-
-    if (physical_address < 0x80000000)
-    {
-        /* Handle useg here.  ERL is set, so useg is unmapped.  This is the only physical
-        ** address range that is directly addressable by u-boot. */
-        return CASTPTR(void, physical_address);
-    }
-    else
-    {
-	DECLARE_GLOBAL_DATA_PTR;
-        extern char uboot_start;
-        /* Above 0x80000000 we can only support one case - a physical address
-        ** that is mapped for u-boot code/data.  We check against the u-boot mem range,
-        ** and return NULL if it is out of this range.
-        */
-        if (physical_address >= gd->bd->bi_uboot_ram_addr
-            && physical_address < gd->bd->bi_uboot_ram_addr + gd->bd->bi_uboot_ram_used_size)
-        {
-            return ((char *)&uboot_start + (physical_address - gd->bd->bi_uboot_ram_addr));
-        }
-        else
-            return(NULL);
-    }
-
-    if (physical_address >= 0x80000000)
-        return NULL;
-    else
-#endif
-
-#ifdef __linux__
-    if (sizeof(void*) == 8)
-    {
-        /* Just set the top bit, avoiding any TLB uglyness */
-        return CASTPTR(void, BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, physical_address));
-    }
-    else
-    {
-#ifdef __KERNEL__
-	return CASTPTR(void, BDK_ADD_SEG32(BDK_MIPS32_SPACE_KSEG0, physical_address));
-#else
-        extern uint64_t linux_mem32_offset;
-        if (bdk_likely(physical_address))
-            return CASTPTR(void, physical_address + linux_mem32_offset);
-        else
-            return NULL;
-#endif
-    }
-#elif defined(_WRS_KERNEL)
-	return CASTPTR(void, BDK_ADD_SEG32(BDK_MIPS32_SPACE_KSEG0, physical_address));
-#elif defined(VXWORKS_USER_MAPPINGS)
-    /* This mapping mode is used in vxWorks 5.5 to support 2GB of ram. The
-        2nd 256MB is mapped at 0x10000000 and the rest of memory is 1:1 */
-    if ((physical_address >= 0x10000000) && (physical_address < 0x20000000))
-        return CASTPTR(void, BDK_ADD_SEG32(BDK_MIPS32_SPACE_KSEG0, physical_address));
-    else if (!OCTEON_IS_MODEL(OCTEON_CN6XXX) && (physical_address >= 0x410000000ull) &&
-                                                       (physical_address < 0x420000000ull))
-        return CASTPTR(void, physical_address - 0x400000000ull);
-    else
-        return CASTPTR(void, physical_address);
-#else
-
-#if BDK_USE_1_TO_1_TLB_MAPPINGS
-        /* We are assumung we're running the Simple Executive standalone. In this
-            mode the TLB is setup to perform 1:1 mapping and 32 bit sign extended
-            addresses are never used. Since we know all this, save bit insert
-            cycles and do nothing */
-    return CASTPTR(void, physical_address);
-#else
     /* Set the XKPHYS/KSEG0 bit as appropriate based on ABI */
     if (sizeof(void*) == 8)
         return CASTPTR(void, BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, physical_address));
     else
 	return CASTPTR(void, BDK_ADD_SEG32(BDK_MIPS32_SPACE_KSEG0, physical_address));
-
-#endif
-
-#endif
 }
 
-
-/* The following #if controls the definition of the macro
-    BDK_BUILD_WRITE64. This macro is used to build a store operation to
-    a full 64bit address. With a 64bit ABI, this can be done with a simple
-    pointer access. 32bit ABIs require more complicated assembly */
 
 /* We have a full 64bit ABI. Writing to a 64bit address can be done with
     a simple volatile pointer */
@@ -241,11 +74,6 @@ static inline void bdk_write64_##TYPE(uint64_t addr, TYPE##_t val)     \
 {                                                                       \
     *CASTPTR(volatile TYPE##_t, addr) = val;                            \
 }
-
-/* The following #if controls the definition of the macro
-    BDK_BUILD_READ64. This macro is used to build a load operation from
-    a full 64bit address. With a 64bit ABI, this can be done with a simple
-    pointer access. 32bit ABIs require more complicated assembly */
 
 /* We have a full 64bit ABI. Writing to a 64bit address can be done with
     a simple volatile pointer */

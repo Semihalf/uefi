@@ -336,22 +336,6 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64
  */
 static inline int bdk_pko_get_base_queue_per_core(int port, int core)
 {
-#ifndef BDK_HELPER_PKO_MAX_PORTS_INTERFACE0
-    #define BDK_HELPER_PKO_MAX_PORTS_INTERFACE0 16
-#endif
-#ifndef BDK_HELPER_PKO_MAX_PORTS_INTERFACE1
-    #define BDK_HELPER_PKO_MAX_PORTS_INTERFACE1 16
-#endif
-#ifndef BDK_PKO_QUEUES_PER_PORT_SRIO0
-    /* We use two queues per port for SRIO0. Having two queues per
-        port with two ports gives us four queues, one for each mailbox */
-    #define BDK_PKO_QUEUES_PER_PORT_SRIO0 2
-#endif
-#ifndef BDK_PKO_QUEUES_PER_PORT_SRIO1
-    /* We use two queues per port for SRIO1. Having two queues per
-        port with two ports gives us four queues, one for each mailbox */
-    #define BDK_PKO_QUEUES_PER_PORT_SRIO1 2
-#endif
     if (port < BDK_PKO_MAX_PORTS_INTERFACE0)
         return port * BDK_PKO_QUEUES_PER_PORT_INTERFACE0 + core;
     else if (port >=16 && port < 16 + BDK_PKO_MAX_PORTS_INTERFACE1)

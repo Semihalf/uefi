@@ -10,11 +10,7 @@
     compiled on a non Octeon Mips that is acting as a PCI/PCIe host. In this
     case this assumption will be wrong and cause issues We can't key off of
     __octeon__ since some people use stock gcc toolchains */
-#if defined(__mips__) && !defined(BDK_BUILD_FOR_LINUX_HOST)
-    #define BDK_FUNCTION static inline
-#else
-    #define BDK_FUNCTION extern
-#endif
+#define BDK_FUNCTION static inline
 
 /**
  * This function performs some default initialization of the Octeon executive.
