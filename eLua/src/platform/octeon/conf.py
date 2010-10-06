@@ -1,6 +1,7 @@
 # Configuration file for the linux backend
 
-BDK_ROOT = "/home/creese/work/bdk"
+BDK_ROOT = os.getenv("BDK_ROOT")
+assert BDK_ROOT, "Define BDK_ROOT in the environment"
 specific_files = "boot.s platform.c"
 
 # Prepend with path
