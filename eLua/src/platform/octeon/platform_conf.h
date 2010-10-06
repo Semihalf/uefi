@@ -33,7 +33,7 @@
 #define LUA_PLATFORM_LIBS_ROM \
     _ROM(AUXLIB_PIO, luaopen_pio, pio_map) \
     _ROM(AUXLIB_SPI, luaopen_spi, spi_map) \
-    _ROM(AUXLIB_CAN, luaopen_can, can_map) \
+    /* _ROM(AUXLIB_CAN, luaopen_can, can_map) */ \
     _ROM(AUXLIB_TMR, luaopen_tmr, tmr_map) \
     _ROM(AUXLIB_PD, luaopen_pd, pd_map) \
     _ROM(AUXLIB_UART, luaopen_uart, uart_map) \
