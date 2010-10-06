@@ -9,10 +9,6 @@
 #define MAX_USB_HUB_PORT    15  /* The highest valid port number on a hub */
 #define MAX_TRANSFER_BYTES  ((1<<19)-1) /* The low level hardware can transfer a maximum of this number of bytes in each transfer. The field is 19 bits wide */
 #define MAX_TRANSFER_PACKETS ((1<<10)-1) /* The low level hardware can transfer a maximum of this number of packets in each transfer. The field is 10 bits wide */
-#define ALLOW_CSR_DECODES   0   /* CSR decoding when BDK_USB_INITIALIZE_FLAGS_DEBUG_CSRS is set
-                                    enlarges the code a lot. This define overrides the ability to do CSR
-                                    decoding since it isn't necessary 99% of the time. Change this to a
-                                    one if you need CSR decoding */
 
 /* These defines disable the normal read and write csr. This is so I can add
     extra debug stuff to the usb specific version and I won't use the normal
@@ -222,13 +218,6 @@ static inline uint32_t __bdk_usb_read_csr32(bdk_usb_internal_state_t *usb,
                                              uint64_t address)
 {
     uint32_t result = bdk_read64_uint32(address ^ 4);
-#if ALLOW_CSR_DECODES
-    if (bdk_unlikely(usb->init_flags & BDK_USB_INITIALIZE_FLAGS_DEBUG_CSRS))
-    {
-        bdk_dprintf("Read: ");
-        bdk_csr_db_decode(bdk_get_proc_id(), address, result);
-    }
-#endif
     return result;
 }
 
@@ -246,13 +235,6 @@ static inline uint32_t __bdk_usb_read_csr32(bdk_usb_internal_state_t *usb,
 static inline void __bdk_usb_write_csr32(bdk_usb_internal_state_t *usb,
                                           uint64_t address, uint32_t value)
 {
-#if ALLOW_CSR_DECODES
-    if (bdk_unlikely(usb->init_flags & BDK_USB_INITIALIZE_FLAGS_DEBUG_CSRS))
-    {
-        bdk_dprintf("Write: ");
-        bdk_csr_db_decode(bdk_get_proc_id(), address, value);
-    }
-#endif
     bdk_write64_uint32(address ^ 4, value);
     bdk_read64_uint64(BDK_USBNX_DMA0_INB_CHN0(usb->index));
 }
@@ -272,13 +254,6 @@ static inline uint64_t __bdk_usb_read_csr64(bdk_usb_internal_state_t *usb,
                                              uint64_t address)
 {
     uint64_t result = bdk_read64_uint64(address);
-#if ALLOW_CSR_DECODES
-    if (bdk_unlikely(usb->init_flags & BDK_USB_INITIALIZE_FLAGS_DEBUG_CSRS))
-    {
-        bdk_dprintf("Read: ");
-        bdk_csr_db_decode(bdk_get_proc_id(), address, result);
-    }
-#endif
     return result;
 }
 
@@ -295,13 +270,6 @@ static inline uint64_t __bdk_usb_read_csr64(bdk_usb_internal_state_t *usb,
 static inline void __bdk_usb_write_csr64(bdk_usb_internal_state_t *usb,
                                           uint64_t address, uint64_t value)
 {
-#if ALLOW_CSR_DECODES
-    if (bdk_unlikely(usb->init_flags & BDK_USB_INITIALIZE_FLAGS_DEBUG_CSRS))
-    {
-        bdk_dprintf("Write: ");
-        bdk_csr_db_decode(bdk_get_proc_id(), address, value);
-    }
-#endif
     bdk_write64_uint64(address, value);
 }
 
@@ -793,9 +761,6 @@ bdk_usb_status_t bdk_usb_initialize(bdk_usb_state_t *state,
         /* Steps 4-15 from the manual are done later in the port enable */
     }
 
-#ifdef __BDK_ERROR_H__
-    bdk_error_enable_group(BDK_ERROR_GROUP_USB, usb->index);
-#endif
     BDK_USB_RETURN(BDK_USB_SUCCESS);
 }
 
@@ -826,10 +791,6 @@ bdk_usb_status_t bdk_usb_shutdown(bdk_usb_state_t *state)
         usb->active_pipes[BDK_USB_TRANSFER_CONTROL].head ||
         usb->active_pipes[BDK_USB_TRANSFER_BULK].head)
         BDK_USB_RETURN(BDK_USB_BUSY);
-
-#ifdef __BDK_ERROR_H__
-    bdk_error_disable_group(BDK_ERROR_GROUP_USB, usb->index);
-#endif
 
     /* Disable the clocks and put them in power on reset */
     usbn_clk_ctl.u64 = __bdk_usb_read_csr64(usb, BDK_USBNX_CLK_CTL(usb->index));
