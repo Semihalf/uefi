@@ -31,28 +31,9 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
         case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
         {
-#ifndef __mips__
-            return BDK_CSR_READ(BDK_IPD_CLK_COUNT);
-#elif defined(BDK_ABI_O32)
-            uint32_t tmp_low, tmp_hi;
-
-            asm volatile (
-               "   .set push                    \n"
-               "   .set mips64r2                \n"
-               "   .set noreorder               \n"
-               "   rdhwr %[tmpl], $31           \n"
-               "   dsrl  %[tmph], %[tmpl], 32   \n"
-               "   sll   %[tmpl], 0             \n"
-               "   sll   %[tmph], 0             \n"
-               "   .set pop                 \n"
-                  : [tmpl] "=&r" (tmp_low), [tmph] "=&r" (tmp_hi) : );
-
-            return(((uint64_t)tmp_hi << 32) + tmp_low);
-#else
             uint64_t cycle;
             BDK_RDHWR(cycle, 31);
             return(cycle);
-#endif
         }
 
         case BDK_CLOCK_SCLK:
