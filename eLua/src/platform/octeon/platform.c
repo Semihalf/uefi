@@ -155,3 +155,57 @@ void platform_can_recv( unsigned id, u32 *canid, u8 *idtype, u8 *len, u8 *data )
 {
 }
 
+
+void platform_eth_send_packet( const void* src, u32 size )
+{
+}
+
+u32 platform_eth_get_packet_nb( void* buf, u32 maxlen )
+{
+    return 0;
+}
+
+void platform_eth_force_interrupt()
+{
+}
+
+u32 platform_eth_get_elapsed_time()
+{
+    return 0;
+}
+
+
+
+int platform_i2c_exists( unsigned id )
+{
+    return 0;
+}
+
+u32 platform_i2c_setup( unsigned id, u32 speed )
+{
+    return 0;
+}
+
+void platform_i2c_send_start( unsigned id )
+{
+}
+
+void platform_i2c_send_stop( unsigned id )
+{
+}
+
+int platform_i2c_send_address( unsigned id, u16 address, int direction )
+{
+    return 0;
+}
+
+int platform_i2c_send_byte( unsigned id, u8 data )
+{
+    return 0;
+}
+
+int platform_i2c_recv_byte( unsigned id, int ack )
+{
+    return 0;
+}
+

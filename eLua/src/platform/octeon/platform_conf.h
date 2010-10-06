@@ -15,9 +15,9 @@
 #define BUILD_ROMFS
 //#define BUILD_MMCFS
 #define BUILD_TERM
-//#define BUILD_UIP
-//#define BUILD_DHCPC
-//#define BUILD_DNS
+#define BUILD_UIP
+#define BUILD_DHCPC
+#define BUILD_DNS
 #define BUILD_CON_GENERIC
 //#define BUILD_ADC
 #define BUILD_RPC
@@ -30,19 +30,25 @@
 // *****************************************************************************
 // Auxiliary libraries that will be compiled for this platform
 
-#define LUA_PLATFORM_LIBS_ROM\
-  _ROM( AUXLIB_PIO, luaopen_pio, pio_map )\
-  _ROM( AUXLIB_TMR, luaopen_tmr, tmr_map )\
-  _ROM( AUXLIB_PD, luaopen_pd, pd_map )\
-  _ROM( AUXLIB_UART, luaopen_uart, uart_map )\
-  _ROM( AUXLIB_TERM, luaopen_term, term_map )\
-  _ROM( AUXLIB_PACK, luaopen_pack, pack_map )\
-  _ROM( AUXLIB_BIT, luaopen_bit, bit_map )\
-  _ROM( AUXLIB_CPU, luaopen_cpu, cpu_map)\
-  _ROM( AUXLIB_CPU, luaopen_elua, elua_map)\
-  _ROM( AUXLIB_RPC, luaopen_rpc, rpc_map )\
-  _ROM( AUXLIB_PWM, luaopen_pwm, pwm_map)\
-  _ROM( LUA_MATHLIBNAME, luaopen_math, math_map )
+#define LUA_PLATFORM_LIBS_ROM \
+    _ROM(AUXLIB_PIO, luaopen_pio, pio_map) \
+    _ROM(AUXLIB_SPI, luaopen_spi, spi_map) \
+    _ROM(AUXLIB_CAN, luaopen_can, can_map) \
+    _ROM(AUXLIB_TMR, luaopen_tmr, tmr_map) \
+    _ROM(AUXLIB_PD, luaopen_pd, pd_map) \
+    _ROM(AUXLIB_UART, luaopen_uart, uart_map) \
+    _ROM(AUXLIB_TERM, luaopen_term, term_map) \
+    _ROM(AUXLIB_PWM, luaopen_pwm, pwm_map) \
+    _ROM(AUXLIB_PACK, luaopen_pack, pack_map) \
+    _ROM(AUXLIB_BIT, luaopen_bit, bit_map) \
+    _ROM(AUXLIB_NET, luaopen_net, net_map) \
+    _ROM(AUXLIB_CPU, luaopen_cpu, cpu_map) \
+    /* _ROM(AUXLIB_ADC, luaopen_adc, adc_map) */ \
+    _ROM(AUXLIB_RPC, luaopen_rpc, rpc_map) \
+    _ROM(AUXLIB_BITARRAY, luaopen_bitarray, bitarray_map) \
+    _ROM(AUXLIB_ELUA, luaopen_elua, elua_map) \
+    _ROM(AUXLIB_I2C, luaopen_i2c, i2c_map) \
+    _ROM( LUA_MATHLIBNAME, luaopen_math, math_map )
 
 // Bogus defines for common.c
 #define CON_UART_ID           0
@@ -50,6 +56,27 @@
 
 // *****************************************************************************
 // Configuration data
+
+// Static TCP/IP configuration
+#define ELUA_CONF_IPADDR0     10
+#define ELUA_CONF_IPADDR1     0
+#define ELUA_CONF_IPADDR2     0
+#define ELUA_CONF_IPADDR3     2
+
+#define ELUA_CONF_NETMASK0    255
+#define ELUA_CONF_NETMASK1    255
+#define ELUA_CONF_NETMASK2    255
+#define ELUA_CONF_NETMASK3    0
+
+#define ELUA_CONF_DEFGW0      10
+#define ELUA_CONF_DEFGW1      0
+#define ELUA_CONF_DEFGW2      0
+#define ELUA_CONF_DEFGW3      1
+
+#define ELUA_CONF_DNS0        10
+#define ELUA_CONF_DNS1        0
+#define ELUA_CONF_DNS2        0
+#define ELUA_CONF_DNS3        1
 
 // Virtual timers (0 if not used)
 #define VTMR_NUM_TIMERS       0
