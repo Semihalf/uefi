@@ -492,7 +492,6 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
         case CFI_CMDSET_INTEL_STANDARD:
         case CFI_CMDSET_INTEL_EXTENDED:
         {
-bdk_dprintf("%s:%d len=%d\n", __FUNCTION__, __LINE__, len);
             /* Loop through one byte at a time */
             while (len--)
             {
@@ -527,7 +526,6 @@ bdk_dprintf("%s:%d len=%d\n", __FUNCTION__, __LINE__, len);
                 ptr++;
                 offset++;
             }
-bdk_dprintf("%s:%d\n", __FUNCTION__, __LINE__);
 
             __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip */
             bdk_spinlock_unlock(&flash_lock);
