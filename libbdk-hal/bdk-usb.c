@@ -2822,7 +2822,7 @@ static int __bdk_usb_poll_channel(bdk_usb_internal_state_t *usb, int channel)
     if (!pipe)
         BDK_USB_RETURN(0);
     transaction = pipe->head;
-    BDK_PREFETCH0(transaction);
+    BDK_PREFETCH(transaction, 0);
 
     /* Disconnect this pipe from the HW channel. Later the schedule function will
         figure out which pipe needs to go */
