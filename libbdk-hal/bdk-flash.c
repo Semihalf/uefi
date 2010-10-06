@@ -26,7 +26,7 @@ typedef struct
 } bdk_flash_t;
 
 static bdk_flash_t flash_info[MAX_NUM_FLASH_CHIPS];
-static bdk_spinlock_t flash_lock = BDK_SPINLOCK_UNLOCKED_INITIALIZER;
+static bdk_spinlock_t flash_lock;
 
 
 /**
