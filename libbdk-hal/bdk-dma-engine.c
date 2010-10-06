@@ -31,7 +31,7 @@ int bdk_dma_engine_initialize(void)
     {
         bdk_cmd_queue_result_t result;
         result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_DMA(engine),
-                                           0, BDK_FPA_OUTPUT_BUFFER_POOL,
+                                           BDK_FPA_OUTPUT_BUFFER_POOL,
                                            bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
         if (result != BDK_CMD_QUEUE_SUCCESS)
             return -1;

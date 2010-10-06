@@ -47,15 +47,6 @@
  */
 
 /**
- * By default we disable the max depth support. Most programs
- * don't use it and it slows down the command queue processing
- * significantly.
- */
-#ifndef BDK_CMD_QUEUE_ENABLE_MAX_DEPTH
-#define BDK_CMD_QUEUE_ENABLE_MAX_DEPTH 0
-#endif
-
-/**
  * Enumeration representing all hardware blocks that use command
  * queues. Each hardware block has up to 65536 sub identifiers for
  * multiple command queues. Not all chips support all hardware
@@ -120,13 +111,12 @@ typedef struct
  * new command queue.
  *
  * @param queue_id  Hardware command queue to initialize.
- * @param max_depth Maximum outstanding commands that can be queued.
  * @param fpa_pool  FPA pool the command queues should come from.
  * @param pool_size Size of each buffer in the FPA pool (bytes)
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int max_depth, int fpa_pool, int pool_size);
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int fpa_pool, int pool_size);
 
 /**
  * Shutdown a queue a free it's command buffers to the FPA. The
@@ -299,19 +289,6 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_id_t queu
     if (bdk_likely(use_locking))
         __bdk_cmd_queue_lock(queue_id, qptr);
 
-    /* If a max queue length was specified then make sure we don't
-        exceed it. If any part of the command would be below the limit
-        we allow it */
-    if (BDK_CMD_QUEUE_ENABLE_MAX_DEPTH && bdk_unlikely(qptr->max_depth))
-    {
-        if (bdk_unlikely(bdk_cmd_queue_length(queue_id) > (int)qptr->max_depth))
-        {
-            if (bdk_likely(use_locking))
-                __bdk_cmd_queue_unlock(qptr);
-            return BDK_CMD_QUEUE_FULL;
-        }
-    }
-
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + cmd_count < qptr->pool_size_m1))
     {
@@ -385,19 +362,6 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_id_t que
     /* Make sure nobody else is updating the same queue */
     if (bdk_likely(use_locking))
         __bdk_cmd_queue_lock(queue_id, qptr);
-
-    /* If a max queue length was specified then make sure we don't
-        exceed it. If any part of the command would be below the limit
-        we allow it */
-    if (BDK_CMD_QUEUE_ENABLE_MAX_DEPTH && bdk_unlikely(qptr->max_depth))
-    {
-        if (bdk_unlikely(bdk_cmd_queue_length(queue_id) > (int)qptr->max_depth))
-        {
-            if (bdk_likely(use_locking))
-                __bdk_cmd_queue_unlock(qptr);
-            return BDK_CMD_QUEUE_FULL;
-        }
-    }
 
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + 2 < qptr->pool_size_m1))
@@ -475,19 +439,6 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_id_t que
     /* Make sure nobody else is updating the same queue */
     if (bdk_likely(use_locking))
         __bdk_cmd_queue_lock(queue_id, qptr);
-
-    /* If a max queue length was specified then make sure we don't
-        exceed it. If any part of the command would be below the limit
-        we allow it */
-    if (BDK_CMD_QUEUE_ENABLE_MAX_DEPTH && bdk_unlikely(qptr->max_depth))
-    {
-        if (bdk_unlikely(bdk_cmd_queue_length(queue_id) > (int)qptr->max_depth))
-        {
-            if (bdk_likely(use_locking))
-                __bdk_cmd_queue_unlock(qptr);
-            return BDK_CMD_QUEUE_FULL;
-        }
-    }
 
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + 3 < qptr->pool_size_m1))

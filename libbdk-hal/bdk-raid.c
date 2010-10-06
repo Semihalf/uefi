@@ -14,8 +14,7 @@ int bdk_raid_initialize(bdk_rad_reg_polynomial_t polynomial)
 
     BDK_CSR_WRITE(BDK_RAD_REG_POLYNOMIAL, polynomial.u64);
 
-    result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_RAID, 0,
-                                       BDK_FPA_OUTPUT_BUFFER_POOL,
+    result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_RAID, BDK_FPA_OUTPUT_BUFFER_POOL,
                                        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
     if (result != BDK_CMD_QUEUE_SUCCESS)
         return -1;

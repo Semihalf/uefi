@@ -41,7 +41,6 @@
 #define BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID 63 /* use this for queues that are not used */
 #define BDK_PKO_QUEUE_STATIC_PRIORITY  9
 #define BDK_PKO_ILLEGAL_QUEUE  0xFFFF
-#define BDK_PKO_MAX_QUEUE_DEPTH 0
 
 typedef enum
 {

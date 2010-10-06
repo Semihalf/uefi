@@ -243,7 +243,6 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         if (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID)
         {
             bdk_cmd_queue_result_t cmd_res = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_PKO(base_queue + queue),
-                                                                        BDK_PKO_MAX_QUEUE_DEPTH,
                                                                         BDK_FPA_OUTPUT_BUFFER_POOL,
                                                                         bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) - BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST*8);
             if (cmd_res != BDK_CMD_QUEUE_SUCCESS)

@@ -9,8 +9,7 @@ int bdk_zip_initialize(void)
 {
     bdk_zip_cmd_buf_t zip_cmd_buf;
     bdk_cmd_queue_result_t result;
-    result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_ZIP, 0,
-                                       BDK_FPA_OUTPUT_BUFFER_POOL,
+    result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_ZIP, BDK_FPA_OUTPUT_BUFFER_POOL,
                                        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
     if (result != BDK_CMD_QUEUE_SUCCESS)
         return -1;

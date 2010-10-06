@@ -30,13 +30,12 @@ static bdk_cmd_queue_result_t __bdk_cmd_queue_init_state_ptr(void)
  * new command queue.
  *
  * @param queue_id  Hardware command queue to initialize.
- * @param max_depth Maximum outstanding commands that can be queued.
  * @param fpa_pool  FPA pool the command queues should come from.
  * @param pool_size Size of each buffer in the FPA pool (bytes)
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int max_depth, int fpa_pool, int pool_size)
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int fpa_pool, int pool_size)
 {
     __bdk_cmd_queue_state_t *qstate;
     bdk_cmd_queue_result_t result = __bdk_cmd_queue_init_state_ptr();
@@ -47,15 +46,6 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
     if (qstate == NULL)
         return BDK_CMD_QUEUE_INVALID_PARAM;
 
-    /* We artificially limit max_depth to 1<<20 words. It is an arbitrary limit */
-    if (BDK_CMD_QUEUE_ENABLE_MAX_DEPTH)
-    {
-        if ((max_depth < 0) || (max_depth > 1<<20))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-    }
-    else if (max_depth != 0)
-        return BDK_CMD_QUEUE_INVALID_PARAM;
-
     if ((fpa_pool < 0) || (fpa_pool > 7))
         return BDK_CMD_QUEUE_INVALID_PARAM;
     if ((pool_size < 128) || (pool_size > 65536))
@@ -64,11 +54,6 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
     /* See if someone else has already initialized the queue */
     if (qstate->base_ptr_div128)
     {
-        if (max_depth != (int)qstate->max_depth)
-        {
-            bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Queue already initialized with different max_depth (%d).\n", (int)qstate->max_depth);
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-        }
         if (fpa_pool != qstate->fpa_pool)
         {
             bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Queue already initialized with different FPA pool (%u).\n", qstate->fpa_pool);
@@ -101,7 +86,6 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
         }
 
         memset(qstate, 0, sizeof(*qstate));
-        qstate->max_depth = max_depth;
         qstate->fpa_pool = fpa_pool;
         qstate->pool_size_m1 = (pool_size>>3)-1;
         qstate->base_ptr_div128 = bdk_ptr_to_phys(buffer) / 128;
