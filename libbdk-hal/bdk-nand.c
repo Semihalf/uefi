@@ -265,7 +265,7 @@ static bdk_nand_onfi_param_page_t *__bdk_nand_onfi_process(bdk_nand_onfi_param_p
     return param_page + index;
 }
 
-void __set_onfi_timing_mode(int *tim_par, int clocks_us, int mode)
+static void __set_onfi_timing_mode(int *tim_par, int clocks_us, int mode)
 {
     const onfi_speed_mode_desc_t *mp = &onfi_speed_modes[mode];  /* use shorter name to fill in timing array */
     int margin;
