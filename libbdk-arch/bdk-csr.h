@@ -143,11 +143,15 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_CSR_WRITE(csr, value) bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
 
 /**
- * Macro to make a read, modify, and write sequence easy. The "..."
- * should be replaced with a comma seperated list of
+ * Macro to make a read, modify, and write sequence easy. The "code_block"
+ * should be replaced with a C code block or a comma seperated list of
  * "name.s.field = value", without the quotes.
  */
-#define BDK_CSR_MODIFY(name, csr, ...) do { BDK_CSR_INIT(name, csr); __VARGS__; BDK_CSR_WRITE(csr, name);} while (0)
+#define BDK_CSR_MODIFY(name, csr, code_block) do { \
+        typedef_##csr name = {.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
+        code_block; \
+        bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u64); \
+    } while (0)
 
 /**
  * This macro spins on a field waiting for it to reach a value. It

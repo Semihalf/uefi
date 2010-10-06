@@ -587,10 +587,8 @@ extern void bdk_tra_display(void);
  */
 static inline void bdk_tra_enable(int enable)
 {
-    bdk_trax_ctl_t control;
-    control.u64 = BDK_CSR_READ(BDK_TRAX_CTL(0));
-    control.s.ena = enable;
-    BDK_CSR_WRITE(BDK_TRAX_CTL(0), control.u64);
+    BDK_CSR_MODIFY(c, BDK_TRAX_CTL(0),
+            c.s.ena = enable);
     BDK_CSR_READ(BDK_TRAX_CTL(0));
 }
 
