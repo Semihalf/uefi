@@ -61,6 +61,7 @@ def writeAddress(out, csr, pci_alias):
             return
     else:
         if not pci_alias:
+            return # Leave this code as we might need it someday
             if csr["s"].type == "PEXP_NCB":
                 name = "PEXP_" + name
             elif (csr["s"].type == "PCICONFIG") or (csr["s"].type == "PCI_NCB"):
