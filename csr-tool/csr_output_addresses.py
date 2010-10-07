@@ -89,10 +89,10 @@ def writeAddress(out, csr, pci_alias):
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")
-    out.write("\t")
     chips = csr.keys()
     chips.sort()
     chips.reverse()
+    address_list = []
     for chip in chips:
         if chip == "s":
             continue
@@ -105,13 +105,32 @@ def writeAddress(out, csr, pci_alias):
                 range_check = " && (%s)" % createRangeCheck("block_id", csr[chip].range[0])
         else:
             range_check = " && (%s) && (%s)" % (createRangeCheck("block_id", csr[chip].range[0]), createRangeCheck("offset", csr[chip].range[1]))
-        out.write("if (OCTEON_IS_MODEL(%s)%s)\n" % (CHIP_TO_MODEL[chip], range_check))
-        out.write("\t\treturn %s;\n" % csr[chip].getAddressEquation(pci_alias=pci_alias))
-        out.write("\telse ")
-    out.write("{\n")
-    out.write("\t\t%s\n" % warning);
-    out.write("\t\treturn %s;\n" % csr["s"].getAddressEquation(pci_alias=pci_alias))
-    out.write("\t}\n");
+        address_list.append((chip, range_check, csr[chip].getAddressEquation(pci_alias=pci_alias)))
+    all_same = 1
+    for line in address_list[1:]:
+        if (line[1] != address_list[0][1]) or (line[2] != address_list[0][2]):
+            all_same = 0
+    if all_same:
+        range_check = address_list[0][1]
+        if range_check:
+            out.write("\tif (%s)\n" % (range_check[4:]))
+            out.write("\t\treturn %s;\n" % address_list[0][2])
+            out.write("\telse {\n")
+            out.write("\t\t%s\n" % warning);
+            out.write("\t\treturn %s;\n" % csr["s"].getAddressEquation(pci_alias=pci_alias))
+            out.write("\t}\n");
+        else:
+            out.write("\treturn %s;\n" % address_list[0][2])
+    else:
+        out.write("\t")
+        for line in address_list:
+            out.write("if (OCTEON_IS_MODEL(%s)%s)\n" % (CHIP_TO_MODEL[line[0]], line[1]))
+            out.write("\t\treturn %s;\n" % line[2])
+            out.write("\telse ")
+        out.write("{\n")
+        out.write("\t\t%s\n" % warning);
+        out.write("\t\treturn %s;\n" % csr["s"].getAddressEquation(pci_alias=pci_alias))
+        out.write("\t}\n");
     out.write("}\n");
 
 def write(out, csr):
