@@ -5,8 +5,10 @@
 *.pyc
 *.elf
 *.pickle
-eLua/.sconsign.dblite
-eLua/config.log
-eLua/inc/romfiles.h
-eLua/luarpc
+/eLua/.sconsign.dblite
+/eLua/config.log
+/eLua/inc/romfiles.h
+/eLua/luarpc
+/csr-tool/cisco
+/csr-tool/html
 
