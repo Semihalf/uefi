@@ -131,13 +131,15 @@ class Csr:
         field_keys.sort()
         return self.fields[field_keys[-1]].stop_bit + 1
 
-    def getSignature(self):
+    def getSignature(self, include_all=0):
         signature = ""
         field_keys = self.fields.keys()
         field_keys.sort()
         for bit in field_keys:
             field = self.fields[bit]
             signature += "+" + str(field.start_bit) + "-" + str(field.stop_bit) + "," + field.c_type + "," + field.name
+            if include_all:
+                signature += "+%s,%s,%s" % (field.type, str(field.reset_value), str(field.typical_value))
         return signature
 
     def validateRange(self):

@@ -7,6 +7,7 @@ BG_NEW = "lightgreen"
 BG_MOVED = "lightblue"
 BG_SIZED = "yellow"
 BG_DELETED = "lightpink"
+BG_CHANGED = "cyan"
 
 BEGIN_TABLE = "<table cellspacing=1 cellpadding=1 bgcolor=black>\n"
 
@@ -262,7 +263,12 @@ def diffField(field, old_csr, missing_is_new):
         if field.name == oldf.name:
             if field.start_bit == oldf.start_bit:
                 if field.stop_bit == oldf.stop_bit:
-                    return None
+                    if ((field.type != oldf.type) or
+                        (field.reset_value != oldf.reset_value) or
+                        (field.typical_value != oldf.typical_value)):
+                        return BG_CHANGED
+                    else:
+                        return None
                 else:
                     return BG_SIZED
             else:
@@ -322,6 +328,7 @@ def writeDiffCsr(old_chip, old_csr, new_chip, new_csr):
     out.write("<tr>%s%s</tr>\n" % (TD("&nbsp&nbsp&nbsp", bgcolor=BG_DELETED), TD("Deleted fields")))
     out.write("<tr>%s%s</tr>\n" % (TD("&nbsp&nbsp&nbsp", bgcolor=BG_SIZED), TD("Resized fields")))
     out.write("<tr>%s%s</tr>\n" % (TD("&nbsp&nbsp&nbsp", bgcolor=BG_MOVED), TD("Moved fields")))
+    out.write("<tr>%s%s</tr>\n" % (TD("&nbsp&nbsp&nbsp", bgcolor=BG_CHANGED), TD("Changed fields")))
     out.write("<tr>%s%s</tr>\n" % (TD("&nbsp&nbsp&nbsp"), TD("Unchanged fields")))
     out.write("</table>\n")
     out.write("</body>\n")
@@ -360,7 +367,7 @@ def writeChipDiff(combined_list, old_chip, new_chip):
         new_csr = csr.get(new_chip, None)
         if old_csr:
             if new_csr:
-                if old_csr.getSignature() != new_csr.getSignature():
+                if old_csr.getSignature(include_all=1) != new_csr.getSignature(include_all=1):
                     modified_csrs.append(new_csr)
                     writeDiffCsr(old_chip, old_csr, new_chip, new_csr)
                 else:
