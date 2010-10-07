@@ -110,7 +110,10 @@ def writeCombinedCsr(out, combined_list):
             chip_csr = combined_list[chip]
             sig = chip_csr.getSignature()
             if sig in signatures:
-                out.write(("\tstruct " + signatures[sig]).ljust(38) + " " + chip + ";\n")
+                if signatures[sig].endswith("_s"):
+                    out.write(("\t/* struct " + signatures[sig]).ljust(38) + " " + chip + "; */\n")
+                else:
+                    out.write(("\tstruct " + signatures[sig]).ljust(38) + " " + chip + ";\n")
             else:
                 writeStruct(out, chip, chip_csr, showDescr=1)
                 signatures[sig] = typedef_base + "_" + chip

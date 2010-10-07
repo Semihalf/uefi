@@ -227,9 +227,9 @@ int bdk_usbd_initialize(bdk_usbd_state_t *usb,
             source at USB_XO. USB_XI should be tied to GND.
             Most Octeon evaluation boards require this setting */
         if (OCTEON_IS_MODEL(OCTEON_CN56XX))
-            usbn_clk_ctl.cn56xx.p_rtype = 2; /* From CN56XX,CN50XX manual */
+            usbn_clk_ctl.s.p_rtype = 2; /* From CN56XX,CN50XX manual */
         else
-            usbn_clk_ctl.cn52xx.p_rtype = 1; /* From CN52XX manual */
+            usbn_clk_ctl.s.p_rtype = 1; /* From CN52XX manual */
 
         switch (usb->init_flags & BDK_USBD_INITIALIZE_FLAGS_CLOCK_MHZ_MASK)
         {
@@ -249,9 +249,9 @@ int bdk_usbd_initialize(bdk_usbd_state_t *usb,
         /* The USB port uses a 12MHz crystal as clock source
             at USB_XO and USB_XI */
         if (OCTEON_IS_MODEL(OCTEON_CN56XX))
-            usbn_clk_ctl.cn56xx.p_rtype = 0; /* From CN56XX,CN50XX manual */
+            usbn_clk_ctl.s.p_rtype = 0; /* From CN56XX,CN50XX manual */
         else
-            usbn_clk_ctl.cn52xx.p_rtype = 0; /* From CN52XX manual */
+            usbn_clk_ctl.s.p_rtype = 0; /* From CN52XX manual */
 
         usbn_clk_ctl.s.p_c_sel = 0;
     }
