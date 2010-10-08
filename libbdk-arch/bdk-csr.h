@@ -118,8 +118,6 @@ static inline void bdk_send_single(uint64_t data)
     *(volatile uint64_t *)0xffffffffffffa200ull = data;
 }
 
-extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
-
 /**
  * This macro makes it easy to define a variable of the correct
  * type for a CSR.
