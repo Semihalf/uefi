@@ -28,8 +28,7 @@ static inline uint32_t bdk_get_proc_id(void)
  */
 static inline uint64_t bdk_ptr_to_phys(void *ptr)
 {
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-        bdk_warn_if(ptr==NULL, "bdk_ptr_to_phys() passed a NULL pointer\n");
+    bdk_warn_if(ptr==NULL, "bdk_ptr_to_phys() passed a NULL pointer\n");
     if (sizeof(void*) == 8)
     {
         /* We're running in 64 bit mode. Normally this means that we can use
@@ -56,8 +55,7 @@ static inline uint64_t bdk_ptr_to_phys(void *ptr)
  */
 static inline void *bdk_phys_to_ptr(uint64_t physical_address)
 {
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-        bdk_warn_if(physical_address==0, "bdk_phys_to_ptr() passed a zero address\n");
+    bdk_warn_if(physical_address==0, "bdk_phys_to_ptr() passed a zero address\n");
 
     /* Set the XKPHYS/KSEG0 bit as appropriate based on ABI */
     if (sizeof(void*) == 8)

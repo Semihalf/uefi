@@ -245,13 +245,10 @@ static inline void __bdk_cmd_queue_unlock(__bdk_cmd_queue_state_t *qptr)
 static inline __bdk_cmd_queue_state_t *__bdk_cmd_queue_get_state(bdk_cmd_queue_id_t queue_id)
 {
     extern __bdk_cmd_queue_all_state_t *__bdk_cmd_queue_state_ptr;
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-    {
-        if (bdk_unlikely(queue_id >= BDK_CMD_QUEUE_END))
-            return NULL;
-        if (bdk_unlikely((queue_id & 0xffff) >= 256))
-            return NULL;
-    }
+    if (bdk_unlikely(queue_id >= BDK_CMD_QUEUE_END))
+        return NULL;
+    if (bdk_unlikely((queue_id & 0xffff) >= 256))
+        return NULL;
     return &__bdk_cmd_queue_state_ptr->state[__bdk_cmd_queue_get_index(queue_id)];
 }
 
@@ -275,15 +272,12 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_id_t queu
 {
     __bdk_cmd_queue_state_t *qptr = __bdk_cmd_queue_get_state(queue_id);
 
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-    {
-        if (bdk_unlikely(qptr == NULL))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-        if (bdk_unlikely((cmd_count < 1) || (cmd_count > 32)))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-        if (bdk_unlikely(cmds == NULL))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-    }
+    if (bdk_unlikely(qptr == NULL))
+        return BDK_CMD_QUEUE_INVALID_PARAM;
+    if (bdk_unlikely((cmd_count < 1) || (cmd_count > 32)))
+        return BDK_CMD_QUEUE_INVALID_PARAM;
+    if (bdk_unlikely(cmds == NULL))
+        return BDK_CMD_QUEUE_INVALID_PARAM;
 
     /* Make sure nobody else is updating the same queue */
     if (bdk_likely(use_locking))
@@ -353,11 +347,8 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_id_t que
 {
     __bdk_cmd_queue_state_t *qptr = __bdk_cmd_queue_get_state(queue_id);
 
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-    {
-        if (bdk_unlikely(qptr == NULL))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-    }
+    if (bdk_unlikely(qptr == NULL))
+        return BDK_CMD_QUEUE_INVALID_PARAM;
 
     /* Make sure nobody else is updating the same queue */
     if (bdk_likely(use_locking))
@@ -430,11 +421,8 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_id_t que
 {
     __bdk_cmd_queue_state_t *qptr = __bdk_cmd_queue_get_state(queue_id);
 
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-    {
-        if (bdk_unlikely(qptr == NULL))
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-    }
+    if (bdk_unlikely(qptr == NULL))
+        return BDK_CMD_QUEUE_INVALID_PARAM;
 
     /* Make sure nobody else is updating the same queue */
     if (bdk_likely(use_locking))

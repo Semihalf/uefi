@@ -143,11 +143,8 @@ bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_id_t queue_id)
  */
 int bdk_cmd_queue_length(bdk_cmd_queue_id_t queue_id)
 {
-    if (BDK_ENABLE_PARAMETER_CHECKING)
-    {
-        if (__bdk_cmd_queue_get_state(queue_id) == NULL)
-            return BDK_CMD_QUEUE_INVALID_PARAM;
-    }
+    if (__bdk_cmd_queue_get_state(queue_id) == NULL)
+        return BDK_CMD_QUEUE_INVALID_PARAM;
 
     /* The cast is here so gcc with check that all values in the
         bdk_cmd_queue_id_t enumeration are here */

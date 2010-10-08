@@ -1,8 +1,6 @@
 #ifndef __BDK_HAL_H__
 #define __BDK_HAL_H__
 
-#define BDK_ENABLE_PARAMETER_CHECKING 1
-
 #include "bdk-access.h"
 #include "bdk-address.h"
 #include "bdk-utils.h"
