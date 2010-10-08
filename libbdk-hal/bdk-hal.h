@@ -6,6 +6,7 @@
 #include "bdk-access.h"
 #include "bdk-address.h"
 #include "bdk-utils.h"
+#include "bdk-config.h"
 #include "bdk-atomic.h"
 #include "bdk-clock.h"
 #include "bdk-scratch.h"
