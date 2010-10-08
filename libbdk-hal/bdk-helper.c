@@ -128,29 +128,15 @@ static int __bdk_helper_port_setup_ipd(int ipd_port)
 
     /* Have each port go to a different SSO queue */
     port_config.s.qos = ipd_port & 0x7;
+    port_config.s.mode = bdk_config_get(BDK_CONFIG_INPUT_PORT_SKIP_MODE, BDK_PIP_PORT_CFG_MODE_SKIPL2);
 
     /* Process the headers and place the IP header in the work queue */
-    port_config.s.mode = BDK_HELPER_INPUT_PORT_SKIP_MODE;
-#warning Fix BDK_HELPER_INPUT_TAG_*
-#if 0 // FIXME
-    tag_config.s.ip6_src_flag  = BDK_HELPER_INPUT_TAG_IPV6_SRC_IP;
-    tag_config.s.ip6_dst_flag  = BDK_HELPER_INPUT_TAG_IPV6_DST_IP;
-    tag_config.s.ip6_sprt_flag = BDK_HELPER_INPUT_TAG_IPV6_SRC_PORT;
-    tag_config.s.ip6_dprt_flag = BDK_HELPER_INPUT_TAG_IPV6_DST_PORT;
-    tag_config.s.ip6_nxth_flag = BDK_HELPER_INPUT_TAG_IPV6_NEXT_HEADER;
-    tag_config.s.ip4_src_flag  = BDK_HELPER_INPUT_TAG_IPV4_SRC_IP;
-    tag_config.s.ip4_dst_flag  = BDK_HELPER_INPUT_TAG_IPV4_DST_IP;
-    tag_config.s.ip4_sprt_flag = BDK_HELPER_INPUT_TAG_IPV4_SRC_PORT;
-    tag_config.s.ip4_dprt_flag = BDK_HELPER_INPUT_TAG_IPV4_DST_PORT;
-    tag_config.s.ip4_pctl_flag = BDK_HELPER_INPUT_TAG_IPV4_PROTOCOL;
-    tag_config.s.inc_prt_flag  = BDK_HELPER_INPUT_TAG_INPUT_PORT;
-    tag_config.s.tcp6_tag_type = BDK_HELPER_INPUT_TAG_TYPE;
-    tag_config.s.tcp4_tag_type = BDK_HELPER_INPUT_TAG_TYPE;
-    tag_config.s.ip6_tag_type = BDK_HELPER_INPUT_TAG_TYPE;
-    tag_config.s.ip4_tag_type = BDK_HELPER_INPUT_TAG_TYPE;
-    tag_config.s.non_tag_type = BDK_HELPER_INPUT_TAG_TYPE;
-#endif
-    /* Put all packets in group 0. Other groups can be used by the app */
+    tag_config.s.inc_prt_flag  = 1;
+    tag_config.s.tcp6_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE, BDK_SSO_TAG_TYPE_ORDERED);
+    tag_config.s.tcp4_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE, BDK_SSO_TAG_TYPE_ORDERED);
+    tag_config.s.ip6_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE, BDK_SSO_TAG_TYPE_ORDERED);
+    tag_config.s.ip4_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE, BDK_SSO_TAG_TYPE_ORDERED);
+    tag_config.s.non_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE, BDK_SSO_TAG_TYPE_ORDERED);
     tag_config.s.grp = 0;
 
     bdk_pip_config_port(ipd_port, port_config, tag_config);
@@ -249,12 +235,14 @@ static int __bdk_helper_interface_setup_ipd(int interface)
  */
 static int __bdk_helper_global_setup_ipd(void)
 {
+    int first_skip = bdk_config_get(BDK_CONFIG_FIRST_MBUFF_SKIP, 0);
+    int other_skip = bdk_config_get(BDK_CONFIG_NOT_FIRST_MBUFF_SKIP, 0);
+
     /* Setup the global packet input options */
     bdk_ipd_config(bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL)/8,
-                    BDK_HELPER_FIRST_MBUFF_SKIP/8,
-                    BDK_HELPER_NOT_FIRST_MBUFF_SKIP/8,
-                    (BDK_HELPER_FIRST_MBUFF_SKIP+8) / 128, /* The +8 is to account for the next ptr */
-                    (BDK_HELPER_NOT_FIRST_MBUFF_SKIP+8) / 128, /* The +8 is to account for the next ptr */
+                    first_skip/8, other_skip/8,
+                    (first_skip+8) / 128, /* The +8 is to account for the next ptr */
+                    (other_skip+8) / 128, /* The +8 is to account for the next ptr */
                     BDK_FPA_WQE_POOL,
                     BDK_IPD_OPC_MODE_STT,
                     1);
