@@ -4,9 +4,6 @@
 typedef enum {
    BDK_CSR_TYPE_RSL,        /**< Octeon internal address, but indirect and slow (not used for addresses) */
    BDK_CSR_TYPE_NCB,        /**< Octeon internal address */
-   BDK_CSR_TYPE_PCI_NCB,    /**< Can be accessed through PCI BAR0, also an NCB alias (not used for addresses) */
-   BDK_CSR_TYPE_PCICONFIG,  /**< PCI Config, also an NCB alias */
-   BDK_CSR_TYPE_PCI,        /**< PCI BAR0 (only) */
    BDK_CSR_TYPE_PEXP,       /**< PCIe BAR 0 address only */
    BDK_CSR_TYPE_PEXP_NCB,   /**< NCB-direct and PCIe BAR0 address */
    BDK_CSR_TYPE_PCICONFIGEP,/**< PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
@@ -39,8 +36,6 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
             else
                 return *(volatile uint64_t *)address;
 
-        case BDK_CSR_TYPE_PCI_NCB:
-            break;
         case BDK_CSR_TYPE_PEXP_NCB:
             address |= 0x80011F0000008000ull;
             if (size == 4)
@@ -48,11 +43,9 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
             else
                 return *(volatile uint64_t *)address;
 
-        case BDK_CSR_TYPE_PCI:
         case BDK_CSR_TYPE_PEXP:
             break;
 
-        case BDK_CSR_TYPE_PCICONFIG:
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
             break;
@@ -100,8 +93,6 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
                 *(volatile uint64_t *)address = value;
             break;
 
-        case BDK_CSR_TYPE_PCI_NCB:
-            break;
         case BDK_CSR_TYPE_PEXP_NCB:
             address |= 0x80011F0000008000ull;
             if (size == 4)
@@ -110,11 +101,9 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
                 *(volatile uint64_t *)address = value;
             break;
 
-        case BDK_CSR_TYPE_PCI:
         case BDK_CSR_TYPE_PEXP:
             break;
 
-        case BDK_CSR_TYPE_PCICONFIG:
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
             break;
