@@ -146,7 +146,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
 
         /* Set the PHY address and mode of the interface (RGMII/MII mode). */
         {
-            int phy_addr = port; //FIXME
+            int phy_addr = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + port, port);
             if (phy_addr != -1)
             {
                 bdk_mdio_phy_reg_status_t phy_status;
