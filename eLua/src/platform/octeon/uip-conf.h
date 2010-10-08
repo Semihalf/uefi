@@ -123,7 +123,7 @@ typedef unsigned short uip_stats_t;
 //
 // CPU byte order.
 //
-#define UIP_CONF_BYTE_ORDER         LITTLE_ENDIAN
+#define UIP_CONF_BYTE_ORDER         UIP_BIG_ENDIAN
 
 //
 // Here we include the header file for the application we are using in
