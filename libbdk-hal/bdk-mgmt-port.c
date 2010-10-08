@@ -423,7 +423,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_disable(int port)
  *
  * @return BDK_MGMT_PORT_SUCCESS or an error code
  */
-bdk_mgmt_port_result_t bdk_mgmt_port_send(int port, int packet_len, void *buffer)
+bdk_mgmt_port_result_t bdk_mgmt_port_send(int port, int packet_len, const void *buffer)
 {
     bdk_mgmt_port_state_t *state;
     bdk_mixx_oring2_t mix_oring2;

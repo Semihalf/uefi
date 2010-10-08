@@ -77,7 +77,7 @@ extern bdk_mgmt_port_result_t bdk_mgmt_port_disable(int port);
  *
  * @return BDK_MGMT_PORT_SUCCESS or an error code
  */
-extern bdk_mgmt_port_result_t bdk_mgmt_port_send(int port, int packet_len, void *buffer);
+extern bdk_mgmt_port_result_t bdk_mgmt_port_send(int port, int packet_len, const void *buffer);
 
 /**
  * Receive a packet from the management port.
