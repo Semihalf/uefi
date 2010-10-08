@@ -18,6 +18,7 @@ STRIP=$(CROSS)strip
 #
 CPPFLAGS = -I $(BDK_ROOT)
 CFLAGS = -W -Wall -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-sections
+ASFLAGS = $(CFLAGS)
 
 #
 # These are the directories where source files are found
