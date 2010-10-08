@@ -10,18 +10,23 @@
 // *****************************************************************************
 // Define here what components you want for this platform
 
-#define BUILD_XMODEM
 #define BUILD_SHELL
 #define BUILD_ROMFS
 //#define BUILD_MMCFS
-#define BUILD_TERM
-#define BUILD_UIP
-//#define BUILD_DHCPC
-#define BUILD_DNS
-#define BUILD_CON_GENERIC
 //#define BUILD_ADC
-#define BUILD_RPC
-//#define BUILD_CON_TCP
+#define BUILD_UIP
+#ifdef BUILD_UIP
+    #define BUILD_DNS
+    #define BUILD_RPC
+    //#define BUILD_DHCPC
+    //#define BUILD_CON_TCP
+#endif
+#ifndef BUILD_CON_TCP
+    /* These don't work with a TCP console */
+    #define BUILD_XMODEM
+    #define BUILD_TERM
+    #define BUILD_CON_GENERIC
+#endif
 
 #define TERM_LINES    25
 #define TERM_COLS     80
