@@ -7,9 +7,7 @@
  *
  */
 
-#define BDK_FPA_NUM_POOLS      8
-#define BDK_FPA_MIN_BLOCK_SIZE 128
-#define BDK_FPA_ALIGNMENT      128
+#define BDK_FPA_NUM_POOLS 8
 
 typedef enum
 {
@@ -20,53 +18,13 @@ typedef enum
 } bdk_fpa_pool_t;
 
 /**
- * Structure describing the data format used for stores to the FPA.
- */
-typedef union
-{
-    uint64_t        u64;
-    struct {
-        uint64_t    scraddr : 8;    /**< the (64-bit word) location in scratchpad to write to (if len != 0) */
-        uint64_t    len     : 8;    /**< the number of words in the response (0 => no response) */
-        uint64_t    did     : 8;    /**< the ID of the device on the non-coherent bus */
-        uint64_t    addr    :40;    /**< the address that will appear in the first tick on the NCB bus */
-    } s;
-} bdk_fpa_iobdma_data_t;
-
-/**
- * Structure describing the current state of a FPA pool.
- */
-typedef struct
-{
-    const char *name;                   /**< Name it was created under */
-    uint64_t    size;                   /**< Size of each block */
-    void *      base;                   /**< The base memory address of whole block */
-    uint64_t    starting_element_count; /**< The number of elements in the pool at creation */
-} bdk_fpa_pool_info_t;
-
-/**
- * Current state of all the pools. Use access functions
- * instead of using it directly.
- */
-extern bdk_fpa_pool_info_t bdk_fpa_pool_info[BDK_FPA_NUM_POOLS];
-
-/**
  * Enable the FPA for use. Must be performed after any CSR
  * configuration but before any other FPA functions.
  */
 static inline void bdk_fpa_enable(void)
 {
-    bdk_fpa_ctl_status_t status;
-
-    status.u64 = BDK_CSR_READ(BDK_FPA_CTL_STATUS);
-    if (status.s.enb)
-    {
-        bdk_dprintf("Warning: Enabling FPA when FPA already enabled.\n");
-    }
-
-    status.u64 = 0;
-    status.s.enb = 1;
-    BDK_CSR_WRITE(BDK_FPA_CTL_STATUS, status.u64);
+    BDK_CSR_MODIFY(status, BDK_FPA_CTL_STATUS,
+        status.s.enb = 1);
 }
 
 /**
@@ -75,7 +33,7 @@ static inline void bdk_fpa_enable(void)
  * @param pool   Pool to get the block from
  * @return Pointer to the block or NULL on failure
  */
-static inline void *bdk_fpa_alloc(uint64_t pool)
+static inline void *bdk_fpa_alloc(bdk_fpa_pool_t pool)
 {
     uint64_t address;
 
@@ -103,9 +61,17 @@ static inline void *bdk_fpa_alloc(uint64_t pool)
  *                  but must be 8 byte aligned.
  * @param pool      Pool to get the block from
  */
-static inline void bdk_fpa_async_alloc(uint64_t scr_addr, uint64_t pool)
+static inline void bdk_fpa_async_alloc(int scr_addr, bdk_fpa_pool_t pool)
 {
-   bdk_fpa_iobdma_data_t data;
+    union {
+        uint64_t        u64;
+        struct {
+            uint64_t scraddr : 8;
+            uint64_t len     : 8;
+            uint64_t did     : 8;
+            uint64_t addr    :40;
+        } s;
+    } data;
 
    /* Hardware only uses 64 bit alligned locations, so convert from byte address
    ** to 64-bit index
@@ -128,7 +94,7 @@ static inline void bdk_fpa_async_alloc(uint64_t scr_addr, uint64_t pool)
  *
  * @return Pointer to the block or NULL on failure
  */
-static inline void *bdk_fpa_async_alloc_finish(uint64_t scr_addr, uint64_t pool)
+static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool)
 {
     uint64_t address;
 
@@ -150,7 +116,7 @@ static inline void *bdk_fpa_async_alloc_finish(uint64_t scr_addr, uint64_t pool)
  * @param num_cache_lines
  *               Cache lines to invalidate
  */
-static inline void bdk_fpa_free_nosync(void *ptr, uint64_t pool, uint64_t num_cache_lines)
+static inline void bdk_fpa_free_nosync(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
 {
     bdk_addr_t newptr;
     newptr.u64 = bdk_ptr_to_phys(ptr);
@@ -169,55 +135,32 @@ static inline void bdk_fpa_free_nosync(void *ptr, uint64_t pool, uint64_t num_ca
  * @param num_cache_lines
  *               Cache lines to invalidate
  */
-static inline void bdk_fpa_free(void *ptr, uint64_t pool, uint64_t num_cache_lines)
+static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
 {
-    bdk_addr_t newptr;
-    newptr.u64 = bdk_ptr_to_phys(ptr);
-    newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));
-    /* Make sure that any previous writes to memory go out before we free this buffer.
-    ** This also serves as a barrier to prevent GCC from reordering operations to after
-    ** the free. */
     BDK_SYNCW;
-    /* value written is number of cache lines not written back */
-    bdk_write64_uint64(newptr.u64, num_cache_lines);
+    bdk_fpa_free_nosync(ptr, pool, num_cache_lines);
 }
 
 /**
- * Setup a FPA pool to control a new block of memory.
- * This can only be called once per pool. Make sure proper
- * locking enforces this.
+ * Fill a pool with buffers
  *
  * @param pool       Pool to initialize
  *                   0 <= pool < 8
- * @param name       Constant character string to name this pool.
- *                   String is not copied.
- * @param buffer     Pointer to the block of memory to use. This must be
- *                   accessable by all processors and external hardware.
- * @param block_size Size for each block controlled by the FPA
  * @param num_blocks Number of blocks
  *
  * @return 0 on Success,
  *         -1 on failure
  */
-extern int bdk_fpa_setup_pool(uint64_t pool, const char *name, void *buffer,
-                                uint64_t block_size, uint64_t num_blocks);
+extern int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks);
 
 /**
- * Shutdown a Memory pool and validate that it had all of
- * the buffers originally placed in it. This should only be
- * called by one processor after all hardware has finished
- * using the pool. Most like you will want to have called
- * bdk_helper_shutdown_packet_io_global() before this
- * function to make sure all FPA buffers are out of the packet
- * IO hardware.
+ * Empty an FPA pool and free() all buffers
  *
- * @param pool   Pool to shutdown
+ * @param pool   Pool to empty
  *
- * @return Zero on success
- *         - Positive is count of missing buffers
- *         - Negative is too many buffers or corrupted pointers
+ * @return Zero on success, negative on failure
  */
-extern uint64_t bdk_fpa_shutdown_pool(uint64_t pool);
+extern int bdk_fpa_empty_pool(bdk_fpa_pool_t pool);
 
 /**
  * Get the size of blocks controlled by the pool
@@ -226,5 +169,5 @@ extern uint64_t bdk_fpa_shutdown_pool(uint64_t pool);
  * @param pool   Pool to access
  * @return Size of the block in bytes
  */
-uint64_t bdk_fpa_get_block_size(uint64_t pool);
+int bdk_fpa_get_block_size(bdk_fpa_pool_t pool);
 

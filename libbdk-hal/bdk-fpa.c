@@ -1,67 +1,35 @@
 #include <bdk.h>
+#include <malloc.h>
 
 /**
- * Current state of all the pools. Use access functions
- * instead of using it directly.
- */
-bdk_fpa_pool_info_t bdk_fpa_pool_info[BDK_FPA_NUM_POOLS];
-
-
-/**
- * Setup a FPA pool to control a new block of memory. The
- * buffer pointer must be a physical address.
+ * Fill a pool with buffers
  *
  * @param pool       Pool to initialize
  *                   0 <= pool < 8
- * @param name       Constant character string to name this pool.
- *                   String is not copied.
- * @param buffer     Pointer to the block of memory to use. This must be
- *                   accessable by all processors and external hardware.
- * @param block_size Size for each block controlled by the FPA
  * @param num_blocks Number of blocks
  *
  * @return 0 on Success,
  *         -1 on failure
  */
-int bdk_fpa_setup_pool(uint64_t pool, const char *name, void *buffer,
-                         uint64_t block_size, uint64_t num_blocks)
+int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
 {
-    char *ptr;
-    if (!buffer)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_setup_pool: NULL buffer pointer!\n");
-        return -1;
-    }
-    if (pool >= BDK_FPA_NUM_POOLS)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_setup_pool: Illegal pool!\n");
-        return -1;
-    }
+    int size = bdk_fpa_get_block_size(pool);
 
-    if (block_size < BDK_FPA_MIN_BLOCK_SIZE)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_setup_pool: Block size too small.\n");
-        return -1;
-    }
+    if (!size)
+        return -num_blocks;
 
-    if (((unsigned long)buffer & (BDK_FPA_ALIGNMENT-1)) != 0)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_setup_pool: Buffer not aligned properly.\n");
-        return -1;
-    }
+    if (size & BDK_CACHE_LINE_MASK)
+        return -num_blocks;
 
-    bdk_fpa_pool_info[pool].name = name;
-    bdk_fpa_pool_info[pool].size = block_size;
-    bdk_fpa_pool_info[pool].starting_element_count = num_blocks;
-    bdk_fpa_pool_info[pool].base = buffer;
-
-    ptr = (char*)buffer;
     while (num_blocks--)
     {
-        bdk_fpa_free(ptr, pool, 0);
-        ptr += block_size;
+        void *buf = memalign(BDK_CACHE_LINE_SIZE, size);
+        if (buf)
+            bdk_fpa_free(buf, pool, 0);
+        else
+            break;
     }
-    return 0;
+    return -num_blocks;
 }
 
 /**
@@ -79,80 +47,31 @@ int bdk_fpa_setup_pool(uint64_t pool, const char *name, void *buffer,
  *         - Positive is count of missing buffers
  *         - Negative is too many buffers or corrupted pointers
  */
-uint64_t bdk_fpa_shutdown_pool(uint64_t pool)
+int bdk_fpa_empty_pool(bdk_fpa_pool_t pool)
 {
-    int errors = 0;
-    int count  = 0;
-    int expected_count = bdk_fpa_pool_info[pool].starting_element_count;
-    uint64_t base   = bdk_ptr_to_phys(bdk_fpa_pool_info[pool].base);
-    uint64_t finish = base + bdk_fpa_pool_info[pool].size * expected_count;
-
-    count = 0;
     while (1)
     {
-        uint64_t address;
         void *ptr = bdk_fpa_alloc(pool);
-        if (!ptr)
-            break;
-
-        address = bdk_ptr_to_phys(ptr);
-        if ((address >= base) && (address < finish) &&
-            (((address - base) % bdk_fpa_pool_info[pool].size) == 0))
-        {
-            count++;
-        }
+        if (ptr)
+            free(ptr);
         else
-        {
-            bdk_dprintf("ERROR: bdk_fpa_shutdown_pool: Illegal address 0x%llx in pool %s(%d)\n",
-                   (unsigned long long)address, bdk_fpa_pool_info[pool].name, (int)pool);
-            errors++;
-        }
+            break;
     }
-
-    if (count < expected_count)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_shutdown_pool: Pool %s(%d) missing %d buffers\n",
-               bdk_fpa_pool_info[pool].name, (int)pool, expected_count - count);
-    }
-    else if (count > expected_count)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_shutdown_pool: Pool %s(%d) had %d duplicate buffers\n",
-               bdk_fpa_pool_info[pool].name, (int)pool, count - expected_count);
-    }
-
-    if (errors)
-    {
-        bdk_dprintf("ERROR: bdk_fpa_shutdown_pool: Pool %s(%d) started at 0x%llx, ended at 0x%llx, with a step of 0x%x\n",
-               bdk_fpa_pool_info[pool].name, (int)pool, (unsigned long long)base, (unsigned long long)finish, (int)bdk_fpa_pool_info[pool].size);
-        return -errors;
-    }
-    else
-        return expected_count - count;
+    return 0;
 }
 
-uint64_t bdk_fpa_get_block_size(uint64_t pool)
+int bdk_fpa_get_block_size(bdk_fpa_pool_t pool)
 {
     switch (pool)
     {
-#warning Fix bdk_fpa_get_block_size
-#if 0 // FIXME
-        case 0:
-	    return BDK_FPA_POOL_0_SIZE;
-        case 1:
-	    return BDK_FPA_POOL_1_SIZE;
-        case 2:
-	    return BDK_FPA_POOL_2_SIZE;
-        case 3:
-	    return BDK_FPA_POOL_3_SIZE;
-        case 4:
-	    return BDK_FPA_POOL_4_SIZE;
-        case 5:
-	    return BDK_FPA_POOL_5_SIZE;
-        case 6:
-	    return BDK_FPA_POOL_6_SIZE;
-        case 7:
-	    return BDK_FPA_POOL_7_SIZE;
-#endif
+        case 0: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0, 2048);
+        case 1: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE1, 128);
+        case 2: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE2, 1024);
+        case 3: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE3, 0);
+        case 4: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE4, 0);
+        case 5: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE5, 0);
+        case 6: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE6, 0);
+        case 7: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE7, 0);
         default:
 	    return 0;
     }
