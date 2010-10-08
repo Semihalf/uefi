@@ -28,14 +28,14 @@ dirs += libbdk-hal
 #
 # Create a list of all source files
 #
-src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[cSs])
+src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[cS])
 src := $(wildcard $(src))
 
 #
 # Create a list of all objects and depends files
 #
-objs = $(src:%.c=%.o)
-deps = $(src:%.c=%.d)
+objs = $(addsuffix .o, $(basename $(src)))
+deps = $(addsuffix .d, $(basename $(src)))
 
 #
 # The library depends on the precompiled header and all the object files
