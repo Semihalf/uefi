@@ -1,10 +1,10 @@
 #include <bdk.h>
+#include <malloc.h>
 
 /**
  * This application uses this pointer to access the global queue
  * state. It points to a bootmem named block.
  */
-__bdk_cmd_queue_all_state_t __bdk_cmd_queue_state;
 __bdk_cmd_queue_all_state_t *__bdk_cmd_queue_state_ptr;
 
 /**
@@ -18,7 +18,9 @@ static bdk_cmd_queue_result_t __bdk_cmd_queue_init_state_ptr(void)
     if (bdk_likely(__bdk_cmd_queue_state_ptr))
         return BDK_CMD_QUEUE_SUCCESS;
 
-    __bdk_cmd_queue_state_ptr = &__bdk_cmd_queue_state;
+    __bdk_cmd_queue_state_ptr = memalign(BDK_CACHE_LINE_SIZE, sizeof(*__bdk_cmd_queue_state_ptr));
+    if (__bdk_cmd_queue_state_ptr == NULL)
+        return BDK_CMD_QUEUE_NO_MEMORY;
     memset(__bdk_cmd_queue_state_ptr, 0, sizeof(*__bdk_cmd_queue_state_ptr));
     return BDK_CMD_QUEUE_SUCCESS;
 }
