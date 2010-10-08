@@ -17,7 +17,7 @@ STRIP=$(CROSS)strip
 # Setup the compile flags
 #
 CPPFLAGS = -I $(BDK_ROOT)
-CFLAGS = -W -Wall -Wno-unused-parameter -O3 -g
+CFLAGS = -W -Wall -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-sections
 
 #
 # These are the directories where source files are found
