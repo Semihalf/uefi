@@ -40,7 +40,8 @@ deps = $(addsuffix .d, $(basename $(src)))
 #
 # The library depends on the precompiled header and all the object files
 #
-$(BDK_ROOT)/libbdk.a: $(BDK_ROOT)/bdk.pch $(BDK_ROOT)/libbdk.a($(objs))
+$(BDK_ROOT)/libbdk.a: $(BDK_ROOT)/bdk.pch $(objs)
+	$(AR) qc $@ $(objs)
 
 #
 # These are needed to make bdk.pch
