@@ -44,8 +44,15 @@ static void device_driver_send()
     platform_eth_send_packet( uip_buf, uip_len );
   else
   {
+#ifdef __mips__
+    char buf[uip_len];
+    memcpy(buf, uip_buf, TOTAL_HEADER_LENGTH);
+    memcpy(buf + TOTAL_HEADER_LENGTH, uip_appdata, uip_len - TOTAL_HEADER_LENGTH);
+    platform_eth_send_packet( buf, uip_len );
+#else
     platform_eth_send_packet( uip_buf, TOTAL_HEADER_LENGTH );
     platform_eth_send_packet( ( u8* )uip_appdata, uip_len - TOTAL_HEADER_LENGTH );
+#endif
   }
 }
 
