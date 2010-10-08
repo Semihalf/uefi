@@ -34,7 +34,6 @@ typedef struct
     bdk_spinlock_t             lock;           /* Used for exclusive access to this structure */
     int                         tx_write_index; /* Where the next TX will write in the tx_ring and tx_buffers */
     int                         rx_read_index;  /* Where the next RX will be in the rx_ring and rx_buffers */
-    int                         port;           /* Port to use.  (This is the 'fake' IPD port number */
     uint64_t                    mac;            /* Our MAC address */
     bdk_mgmt_port_ring_entry_t tx_ring[BDK_MGMT_PORT_NUM_TX_BUFFERS];
     bdk_mgmt_port_ring_entry_t rx_ring[BDK_MGMT_PORT_NUM_RX_BUFFERS];
@@ -46,8 +45,7 @@ typedef struct
 /**
  * Pointers to each mgmt port's state
  */
-static bdk_mgmt_port_state_t bdk_mgmt_port_state;
-static bdk_mgmt_port_state_t *bdk_mgmt_port_state_ptr = NULL;
+static bdk_mgmt_port_state_t *bdk_mgmt_port_state_ptr;
 
 
 /**
@@ -82,8 +80,12 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
     if ((port < 0) || (port >= __bdk_mgmt_port_num_ports()))
         return BDK_MGMT_PORT_INVALID_PARAM;
 
-    bdk_mgmt_port_state_ptr = &bdk_mgmt_port_state;
-    memset(bdk_mgmt_port_state_ptr, 0, BDK_MGMT_PORT_NUM_PORTS * sizeof(bdk_mgmt_port_state_t));
+    if (!bdk_mgmt_port_state_ptr)
+    {
+        bdk_mgmt_port_state_ptr = calloc(BDK_MGMT_PORT_NUM_PORTS, sizeof(bdk_mgmt_port_state_t));
+        if (!bdk_mgmt_port_state_ptr)
+            return BDK_MGMT_PORT_NO_MEMORY;
+    }
 
     /* Reset the MIX block if the previous user had a different TX ring size, or if
     ** we allocated a new (and blank) state structure. */
@@ -144,8 +146,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
 
         /* Set the PHY address and mode of the interface (RGMII/MII mode). */
         {
-            int port_num = BDK_HELPER_BOARD_MGMT_IPD_PORT + port;
-            int phy_addr = bdk_helper_board_get_mii_address(port_num);
+            int phy_addr = port; //FIXME
             if (phy_addr != -1)
             {
                 bdk_mdio_phy_reg_status_t phy_status;
@@ -164,7 +165,6 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
                 bdk_dprintf("ERROR: bdk_mgmt_port_initialize: Not able to read the PHY on MIX%d\n", port);
                 return BDK_MGMT_PORT_INVALID_PARAM;
             }
-            state->port = port_num;
         }
 
         /* All interfaces should be configured in same mode */
@@ -744,13 +744,13 @@ bdk_helper_link_info_t bdk_mgmt_port_link_get(int port)
         return result;
     }
 
-    if (state->port != -1)
-        return __bdk_helper_board_link_get(state->port);
+    if (0) // FIXME PHY
+        return result;
     else // Simulator does not have PHY, use some defaults.
     {
         result.s.full_duplex = 1;
         result.s.link_up = 1;
-        result.s.speed = 100;
+        result.s.speed = 1000;
         return result;
     }
     return result;

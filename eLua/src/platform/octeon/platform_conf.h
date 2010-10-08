@@ -16,7 +16,7 @@
 //#define BUILD_MMCFS
 #define BUILD_TERM
 #define BUILD_UIP
-#define BUILD_DHCPC
+//#define BUILD_DHCPC
 #define BUILD_DNS
 #define BUILD_CON_GENERIC
 //#define BUILD_ADC
