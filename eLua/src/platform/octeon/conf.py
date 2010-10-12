@@ -11,6 +11,11 @@ specific_files = " ".join( [ "src/platform/%s/%s" % ( platform, f ) for f in spe
 # Standard GCC Flags
 comp.Append(CCFLAGS = ['-W', '-Wall', '-Wno-unused-parameter', '-g', '-ffunction-sections','-fdata-sections', '-I' + BDK_ROOT])
 comp.Append(LINKFLAGS = ['-nostartfiles' , '-Wl,--allow-multiple-definition', '-Wl,--gc-sections', '-L' + BDK_ROOT])
+comp.Append(LINKFLAGS = ['-e __start'])
+comp.Append(LINKFLAGS = ['-Wl,--section-start', '-Wl,.init=0xffffffffBFC00000'])
+comp.Append(LINKFLAGS = ['-Wl,--section-start', '-Wl,.data=0xffffffffC0000500'])
+comp.Append(LINKFLAGS = ['-Wl,--section-start', '-Wl,.text=0xffffffffE0003000'])
+
 comp.Append(ASFLAGS = ['-g', '-c', '-x','assembler-with-cpp','-Wall','$_CPPDEFFLAGS'])
 comp.Append(LIBS = ['bdk'])
 if comp[ 'target' ] == 'lua':

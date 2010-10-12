@@ -1,0 +1,1 @@
+bootcmd=go 0x400000
