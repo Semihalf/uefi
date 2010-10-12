@@ -37,7 +37,7 @@ int bdk_zip_shutdown(void)
 
     if (bdk_cmd_queue_length(BDK_CMD_QUEUE_ZIP))
     {
-        bdk_dprintf("ERROR: bdk_zip_shutdown: ZIP not idle.\n");
+        bdk_error("bdk_zip_shutdown: ZIP not idle.\n");
         return -1;
     }
 

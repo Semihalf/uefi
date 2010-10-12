@@ -87,7 +87,7 @@ int bdk_sso_capture(void *buffer, int buffer_size)
 
     if (buffer_size < (int)sizeof(__bdk_sso_dump_t))
     {
-        bdk_dprintf("bdk_sso_capture: Buffer too small\n");
+        bdk_error("bdk_sso_capture: Buffer too small\n");
         return -1;
     }
 
@@ -263,7 +263,7 @@ void bdk_sso_display(void *buffer, int buffer_size)
 
     if (buffer_size < (int)sizeof(__bdk_sso_dump_t))
     {
-        bdk_dprintf("bdk_sso_dump: Buffer too small\n");
+        bdk_error("bdk_sso_dump: Buffer too small\n");
         return;
     }
 

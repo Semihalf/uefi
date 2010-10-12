@@ -41,7 +41,7 @@ int bdk_raid_shutdown(void)
 
     if (bdk_cmd_queue_length(BDK_CMD_QUEUE_RAID))
     {
-        bdk_dprintf("ERROR: bdk_raid_shutdown: RAID not idle.\n");
+        bdk_error("bdk_raid_shutdown: RAID not idle.\n");
         return -1;
     }
 

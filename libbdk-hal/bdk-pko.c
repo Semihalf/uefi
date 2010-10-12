@@ -64,7 +64,7 @@ void bdk_pko_enable(void)
 
     flags.u64 = BDK_CSR_READ(BDK_PKO_REG_FLAGS);
     if (flags.s.ena_pko)
-        bdk_dprintf("Warning: Enabling PKO when PKO already enabled.\n");
+        bdk_warn("Enabling PKO when PKO already enabled.\n");
 
     flags.s.ena_dwb = 1;
     flags.s.ena_pko = 1;
@@ -157,13 +157,13 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
 
     if ((port >= BDK_PKO_NUM_OUTPUT_PORTS) && (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID))
     {
-        bdk_dprintf("ERROR: bdk_pko_config_port: Invalid port %llu\n", (unsigned long long)port);
+        bdk_error("bdk_pko_config_port: Invalid port %llu\n", (unsigned long long)port);
         return BDK_PKO_INVALID_PORT;
     }
 
     if (base_queue + num_queues > BDK_PKO_MAX_OUTPUT_QUEUES)
     {
-        bdk_dprintf("ERROR: bdk_pko_config_port: Invalid queue range %llu\n", (unsigned long long)(base_queue + num_queues));
+        bdk_error("bdk_pko_config_port: Invalid queue range %llu\n", (unsigned long long)(base_queue + num_queues));
         return BDK_PKO_INVALID_QUEUE;
     }
 
@@ -185,13 +185,13 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
             ** static priorites not starting at queue 0. */
             if (static_priority_end != -1 && (int)queue > static_priority_end && priority[queue] == BDK_PKO_QUEUE_STATIC_PRIORITY)
             {
-                bdk_dprintf("ERROR: bdk_pko_config_port: Static priority queues aren't contiguous or don't start at base queue. q: %d, eq: %d\n", (int)queue, static_priority_end);
+                bdk_error("bdk_pko_config_port: Static priority queues aren't contiguous or don't start at base queue. q: %d, eq: %d\n", (int)queue, static_priority_end);
                 return BDK_PKO_INVALID_PRIORITY;
             }
         }
         if (static_priority_base > 0)
         {
-            bdk_dprintf("ERROR: bdk_pko_config_port: Static priority queues don't start at base queue. sq: %d\n", static_priority_base);
+            bdk_error("bdk_pko_config_port: Static priority queues don't start at base queue. sq: %d\n", static_priority_base);
             return BDK_PKO_INVALID_PRIORITY;
         }
     }
@@ -234,7 +234,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
                 config.s.qos_mask = 0xff;
                 break;
             default:
-                bdk_dprintf("ERROR: bdk_pko_config_port: Invalid priority %llu\n", (unsigned long long)priority[queue]);
+                bdk_error("bdk_pko_config_port: Invalid priority %llu\n", (unsigned long long)priority[queue]);
                 config.s.qos_mask = 0xff;
                 result_code = BDK_PKO_INVALID_PRIORITY;
                 break;
@@ -250,14 +250,14 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
 	        switch (cmd_res)
 		{
 		    case BDK_CMD_QUEUE_NO_MEMORY:
-                        bdk_dprintf("ERROR: bdk_pko_config_port: Unable to allocate output buffer.\n");
+                        bdk_error("bdk_pko_config_port: Unable to allocate output buffer.\n");
                         return(BDK_PKO_NO_MEMORY);
 		    case BDK_CMD_QUEUE_ALREADY_SETUP:
-                        bdk_dprintf("ERROR: bdk_pko_config_port: Port already setup.\n");
+                        bdk_error("bdk_pko_config_port: Port already setup.\n");
                         return(BDK_PKO_PORT_ALREADY_SETUP);
 		    case BDK_CMD_QUEUE_INVALID_PARAM:
 		    default:
-                        bdk_dprintf("ERROR: bdk_pko_config_port: Command queue initialization failed.\n");
+                        bdk_error("bdk_pko_config_port: Command queue initialization failed.\n");
                         return(BDK_PKO_CMD_QUEUE_INIT_ERROR);
 		}
             }

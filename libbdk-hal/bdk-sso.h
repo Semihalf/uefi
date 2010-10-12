@@ -888,7 +888,7 @@ static inline void bdk_sso_tag_sw_wait(void)
             break;
         if (bdk_unlikely(bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + MAX_CYCLES))
         {
-            bdk_dprintf("WARNING: Tag switch is taking a long time, possible deadlock\n");
+            bdk_warn("Tag switch is taking a long time, possible deadlock\n");
             start_cycle = -MAX_CYCLES-1;
         }
     }
@@ -1418,7 +1418,7 @@ static inline void bdk_sso_set_priority(uint64_t core_num, const uint8_t priorit
 
         if ( prio_mask ^ ((1<<bdk_pop(prio_mask)) - 1))
         {
-            bdk_dprintf("ERROR: SSO static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
+            bdk_error("SSO static priorities should be contiguous (0x%llx)\n", (unsigned long long)prio_mask);
             return;
         }
     }

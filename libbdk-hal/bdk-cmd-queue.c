@@ -58,12 +58,12 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
     {
         if (fpa_pool != qstate->fpa_pool)
         {
-            bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Queue already initialized with different FPA pool (%u).\n", qstate->fpa_pool);
+            bdk_error("bdk_cmd_queue_initialize: Queue already initialized with different FPA pool (%u).\n", qstate->fpa_pool);
             return BDK_CMD_QUEUE_INVALID_PARAM;
         }
         if ((pool_size>>3)-1 != qstate->pool_size_m1)
         {
-            bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Queue already initialized with different FPA pool size (%u).\n", (qstate->pool_size_m1+1)<<3);
+            bdk_error("bdk_cmd_queue_initialize: Queue already initialized with different FPA pool size (%u).\n", (qstate->pool_size_m1+1)<<3);
             return BDK_CMD_QUEUE_INVALID_PARAM;
         }
         BDK_SYNCW;
@@ -77,13 +77,13 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
         status.u64 = BDK_CSR_READ(BDK_FPA_CTL_STATUS);
         if (!status.s.enb)
         {
-            bdk_dprintf("ERROR: bdk_cmd_queue_initialize: FPA is not enabled.\n");
+            bdk_error("bdk_cmd_queue_initialize: FPA is not enabled.\n");
             return BDK_CMD_QUEUE_NO_MEMORY;
         }
         buffer = bdk_fpa_alloc(fpa_pool);
         if (buffer == NULL)
         {
-            bdk_dprintf("ERROR: bdk_cmd_queue_initialize: Unable to allocate initial buffer.\n");
+            bdk_error("bdk_cmd_queue_initialize: Unable to allocate initial buffer.\n");
             return BDK_CMD_QUEUE_NO_MEMORY;
         }
 
@@ -113,13 +113,13 @@ bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_id_t queue_id)
     __bdk_cmd_queue_state_t *qptr = __bdk_cmd_queue_get_state(queue_id);
     if (qptr == NULL)
     {
-        bdk_dprintf("ERROR: bdk_cmd_queue_shutdown: Unable to get queue information.\n");
+        bdk_error("bdk_cmd_queue_shutdown: Unable to get queue information.\n");
         return BDK_CMD_QUEUE_INVALID_PARAM;
     }
 
     if (bdk_cmd_queue_length(queue_id) > 0)
     {
-        bdk_dprintf("ERROR: bdk_cmd_queue_shutdown: Queue still has data in it.\n");
+        bdk_error("bdk_cmd_queue_shutdown: Queue still has data in it.\n");
         return BDK_CMD_QUEUE_FULL;
     }
 

@@ -253,7 +253,7 @@ void bdk_flash_initialize(void)
     }
 
     if (chip_id == 0)
-        bdk_dprintf("bdk-flash: No CFI chips found\n");
+        bdk_warn("bdk-flash: No CFI chips found\n");
 }
 
 
@@ -351,7 +351,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
                         /* Check if the erase in progress bit is toggling */
                         if (toggle & (1<<6))
                         {
-                            bdk_dprintf("bdk-flash: Hardware timeout erasing block\n");
+                            bdk_error("bdk-flash: Hardware timeout erasing block\n");
                             bdk_spinlock_unlock(&flash_lock);
                             return -1;
                         }
@@ -364,7 +364,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
 
                 if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].erase_timeout)
                 {
-                    bdk_dprintf("bdk-flash: Timeout erasing block\n");
+                    bdk_error("bdk-flash: Timeout erasing block\n");
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
@@ -389,7 +389,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
             {
                 if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].erase_timeout)
                 {
-                    bdk_dprintf("bdk-flash: Timeout erasing block\n");
+                    bdk_error("bdk-flash: Timeout erasing block\n");
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
@@ -399,7 +399,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
             /* Check the final status */
             if (status & 0x7f)
             {
-                bdk_dprintf("bdk-flash: Hardware failure erasing block\n");
+                bdk_error("bdk-flash: Hardware failure erasing block\n");
                 bdk_spinlock_unlock(&flash_lock);
                 return -1;
             }
@@ -410,7 +410,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
         }
     }
 
-    bdk_dprintf("bdk-flash: Unsupported flash vendor\n");
+    bdk_error("bdk-flash: Unsupported flash vendor\n");
     bdk_spinlock_unlock(&flash_lock);
     return -1;
 }
@@ -466,7 +466,7 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
                             break;  /* Data matches, this byte is done */
                         else
                         {
-                            bdk_dprintf("bdk-flash: Hardware write timeout\n");
+                            bdk_error("bdk-flash: Hardware write timeout\n");
                             bdk_spinlock_unlock(&flash_lock);
                             return -1;
                         }
@@ -474,7 +474,7 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
 
                     if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].write_timeout)
                     {
-                        bdk_dprintf("bdk-flash: Timeout writing block\n");
+                        bdk_error("bdk-flash: Timeout writing block\n");
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
@@ -507,7 +507,7 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
                 {
                     if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].write_timeout)
                     {
-                        bdk_dprintf("bdk-flash: Timeout writing block\n");
+                        bdk_error("bdk-flash: Timeout writing block\n");
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
@@ -517,7 +517,7 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
                 /* Check the final status */
                 if (status & 0x7f)
                 {
-                    bdk_dprintf("bdk-flash: Hardware failure erasing block\n");
+                    bdk_error("bdk-flash: Hardware failure erasing block\n");
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
@@ -533,7 +533,7 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
         }
     }
 
-    bdk_dprintf("bdk-flash: Unsupported flash vendor\n");
+    bdk_error("bdk-flash: Unsupported flash vendor\n");
     bdk_spinlock_unlock(&flash_lock);
     return -1;
 }
@@ -562,7 +562,7 @@ int bdk_flash_write(void *address, const void *data, int len)
 
     if (chip_id == MAX_NUM_FLASH_CHIPS)
     {
-        bdk_dprintf("bdk-flash: Unable to find chip that contains address %p\n", address);
+        bdk_error("bdk-flash: Unable to find chip that contains address %p\n", address);
         return -1;
     }
 
@@ -583,7 +583,7 @@ int bdk_flash_write(void *address, const void *data, int len)
     /* Require all writes to start on block boundries */
     if (address != region_base + block*flash->region[region].block_size)
     {
-        bdk_dprintf("bdk-flash: Write address not aligned on a block boundry\n");
+        bdk_error("bdk-flash: Write address not aligned on a block boundry\n");
         return -1;
     }
 

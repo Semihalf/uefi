@@ -131,7 +131,7 @@ int bdk_dma_engine_shutdown(void)
     {
         if (bdk_cmd_queue_length(BDK_CMD_QUEUE_DMA(engine)))
         {
-            bdk_dprintf("ERROR: bdk_dma_engine_shutdown: Engine not idle.\n");
+            bdk_error("bdk_dma_engine_shutdown: Engine not idle.\n");
             return -1;
         }
     }
@@ -195,7 +195,7 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
         /* Check for Errata PCIe-604 */
         if ((header.s.nfst > 11) || (header.s.nlst > 11) || (header.s.nfst + header.s.nlst > 15))
         {
-            bdk_dprintf("DMA engine submit too large\n");
+            bdk_error("DMA engine submit too large\n");
             return -1;
         }
     }

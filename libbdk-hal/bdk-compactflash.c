@@ -93,7 +93,7 @@ uint64_t bdk_compactflash_generate_dma_tim(int tim_mult, uint16_t *ident_data, i
 		    dma_tim.s.tim_mult = 3;
 		    break;
 		default:
-		    bdk_dprintf("ERROR: invalid boot bus dma tim_mult setting\n");
+		    bdk_error("Invalid boot bus dma tim_mult setting\n");
 		    break;
 	}
 
@@ -157,7 +157,7 @@ uint64_t bdk_compactflash_generate_dma_tim(int tim_mult, uint16_t *ident_data, i
 		case 1:
 		case 0:
 		default:
-			bdk_dprintf("ERROR: Unsupported DMA mode: %d\n", mwdma_mode);
+			bdk_error("Unsupported DMA mode: %d\n", mwdma_mode);
 			return(-1);
 			break;
 	}

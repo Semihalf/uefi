@@ -412,7 +412,7 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
 
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
     {
-        bdk_dprintf ("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(address)\n", bus_id, phy_id, device, location);
+        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(address)\n", bus_id, phy_id, device, location);
         return -1;
     }
 
@@ -425,7 +425,7 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
     smi_rd = __bdk_mdio_read_rd_dat(bus_id);
     if (smi_rd.s.pending)
     {
-        bdk_dprintf ("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(data)\n", bus_id, phy_id, device, location);
+        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(data)\n", bus_id, phy_id, device, location);
         return -1;
     }
 
@@ -433,7 +433,7 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
         return smi_rd.s.dat;
     else
     {
-        bdk_dprintf ("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   INVALID READ\n", bus_id, phy_id, device, location);
+        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   INVALID READ\n", bus_id, phy_id, device, location);
         return -1;
     }
 }

@@ -286,14 +286,14 @@ int bdk_l2c_lock_line(uint64_t addr)
         /* Check if a valid line is found */
         if (way >= assoc)
         {
-            //bdk_dprintf("ERROR: bdk_l2c_lock_line: line not found for locking at 0x%llx address\n", (unsigned long long)addr);
+            //bdk_error("bdk_l2c_lock_line: line not found for locking at 0x%llx address\n", (unsigned long long)addr);
             return -1;
         }
 
         /* Check if lock bit is not set */
         if (!l2c_tadx_tag.s.lock)
         {
-            //bdk_dprintf("ERROR: bdk_l2c_lock_line: Not able to lock at 0x%llx address\n", (unsigned long long)addr);
+            //bdk_error("bdk_l2c_lock_line: Not able to lock at 0x%llx address\n", (unsigned long long)addr);
             return -1;
         }
 
@@ -582,12 +582,12 @@ bdk_l2c_tag_t bdk_l2c_get_tag(uint32_t association, uint32_t index)
 
     if ((int)association >= bdk_l2c_get_num_assoc())
     {
-        bdk_dprintf("ERROR: bdk_l2c_get_tag association out of range\n");
+        bdk_error("bdk_l2c_get_tag association out of range\n");
         return(tag);
     }
     if ((int)index >= bdk_l2c_get_num_sets())
     {
-        bdk_dprintf("ERROR: bdk_l2c_get_tag index out of range (arg: %d, max: %d)\n", (int)index, bdk_l2c_get_num_sets());
+        bdk_error("bdk_l2c_get_tag index out of range (arg: %d, max: %d)\n", (int)index, bdk_l2c_get_num_sets());
         return(tag);
     }
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
@@ -634,7 +634,7 @@ bdk_l2c_tag_t bdk_l2c_get_tag(uint32_t association, uint32_t index)
         }
         else
         {
-            bdk_dprintf("Unsupported OCTEON Model in %s\n", __FUNCTION__);
+            bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
         }
     }
 
@@ -696,7 +696,7 @@ int bdk_l2c_get_set_bits(void)
         l2_set_bits =  9; /* 512 sets */
     else
     {
-        bdk_dprintf("Unsupported OCTEON Model in %s\n", __FUNCTION__);
+        bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
         l2_set_bits =  11; /* 2048 sets */
     }
     return(l2_set_bits);
@@ -720,7 +720,7 @@ int bdk_l2c_get_num_assoc(void)
         l2_assoc =  16;
     else
     {
-        bdk_dprintf("Unsupported OCTEON Model in %s\n", __FUNCTION__);
+        bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
         l2_assoc =  8;
     }
 
@@ -777,14 +777,14 @@ void bdk_l2c_flush_line(uint32_t assoc, uint32_t index)
     /* Check the range of the index. */
     if (index > (uint32_t)bdk_l2c_get_num_sets())
     {
-        bdk_dprintf("ERROR: bdk_l2c_flush_line index out of range.\n");
+        bdk_error("bdk_l2c_flush_line index out of range.\n");
         return;
     }
 
     /* Check the range of association. */
     if (assoc > (uint32_t)bdk_l2c_get_num_assoc())
     {
-        bdk_dprintf("ERROR: bdk_l2c_flush_line association out of range.\n");
+        bdk_error("bdk_l2c_flush_line association out of range.\n");
         return;
     }
 

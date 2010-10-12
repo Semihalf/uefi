@@ -54,7 +54,7 @@ int bdk_core_add_fixed_tlb_mapping_bits(uint64_t vaddr, uint64_t page0_addr, uin
         || ((page0_addr & ~0x7ULL) & ((page_mask | 0x7ff) >> 1))
         || ((page1_addr & ~0x7ULL) & ((page_mask | 0x7ff) >> 1)))
     {
-        bdk_dprintf("Error adding tlb mapping: invalid address alignment at vaddr: 0x%llx\n", (unsigned long long)vaddr);
+        bdk_error("Adding tlb mapping: invalid address alignment at vaddr: 0x%llx\n", (unsigned long long)vaddr);
         return(-1);
     }
 

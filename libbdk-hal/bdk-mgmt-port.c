@@ -123,11 +123,11 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
         /* Make sure BIST passed */
         mix_bist.u64 = BDK_CSR_READ(BDK_MIXX_BIST(port));
         if (mix_bist.u64)
-            bdk_dprintf("WARNING: bdk_mgmt_port_initialize: Managment port MIX failed BIST (0x%016llx) on MIX%d\n", CAST64(mix_bist.u64), port);
+            bdk_warn("bdk_mgmt_port_initialize: Managment port MIX failed BIST (0x%016llx) on MIX%d\n", CAST64(mix_bist.u64), port);
 
         agl_gmx_bist.u64 = BDK_CSR_READ(BDK_AGL_GMX_BIST);
         if (agl_gmx_bist.u64)
-            bdk_dprintf("WARNING: bdk_mgmt_port_initialize: Managment port AGL failed BIST (0x%016llx) on MIX%d\n", CAST64(agl_gmx_bist.u64), port);
+            bdk_warn("bdk_mgmt_port_initialize: Managment port AGL failed BIST (0x%016llx) on MIX%d\n", CAST64(agl_gmx_bist.u64), port);
 
         /* Clear all state information */
         memset(state, 0, sizeof(*state));
@@ -140,7 +140,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
         /* Read until reset == 0.  Timeout should never happen... */
         if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIXX_CTL(port), reset, ==, 0, 300000000))
         {
-            bdk_dprintf("ERROR: bdk_mgmt_port_initialize: Timeout waiting for MIX(%d) reset.\n", port);
+            bdk_error("bdk_mgmt_port_initialize: Timeout waiting for MIX(%d) reset.\n", port);
             return BDK_MGMT_PORT_INIT_ERROR;
         }
 
@@ -162,7 +162,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
             }
             else
             {
-                bdk_dprintf("ERROR: bdk_mgmt_port_initialize: Not able to read the PHY on MIX%d\n", port);
+                bdk_error("bdk_mgmt_port_initialize: Not able to read the PHY on MIX%d\n", port);
                 return BDK_MGMT_PORT_INVALID_PARAM;
             }
         }
@@ -174,9 +174,9 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
                 && bdk_mgmt_port_state_ptr[i].mode != BDK_MGMT_PORT_NONE
                 && bdk_mgmt_port_state_ptr[i].mode != state->mode)
             {
-                bdk_dprintf("ERROR: bdk_mgmt_port_initialize: All ports in MIX interface are not configured in same mode.\n \
-	Port %d is configured as %d\n \
-	And Port %d is configured as %d\n", port, state->mode, i, bdk_mgmt_port_state_ptr[i].mode);
+                bdk_error("bdk_mgmt_port_initialize: All ports in MIX interface are not configured in same mode.\n"
+                    "\tPort %d is configured as %d\n"
+                    "\tAnd Port %d is configured as %d\n", port, state->mode, i, bdk_mgmt_port_state_ptr[i].mode);
                 return BDK_MGMT_PORT_INVALID_PARAM;
             }
         }
@@ -243,7 +243,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
                 agl_prtx_ctl.s.mode = 1;
             else
             {
-                bdk_dprintf("ERROR: bdk_mgmt_port_initialize: Invalid mode for MIX(%d)\n", port);
+                bdk_error("bdk_mgmt_port_initialize: Invalid mode for MIX(%d)\n", port);
                 return BDK_MGMT_PORT_INVALID_PARAM;
             }
 
@@ -556,13 +556,13 @@ int bdk_mgmt_port_receive(int port, int buffer_len, void *buffer)
             else
             {
                 /* Not enough room for the packet */
-                bdk_dprintf("ERROR: bdk_mgmt_port_receive: Packet (%d) larger than supplied buffer (%d)\n", state->rx_ring[state->rx_read_index].s.len, buffer_len);
+                bdk_error("bdk_mgmt_port_receive: Packet (%d) larger than supplied buffer (%d)\n", state->rx_ring[state->rx_read_index].s.len, buffer_len);
                 result = BDK_MGMT_PORT_NO_MEMORY;
             }
         }
         else
         {
-            bdk_dprintf("ERROR: bdk_mgmt_port_receive: Receive error code %d. Packet dropped(Len %d), \n",
+            bdk_error("bdk_mgmt_port_receive: Receive error code %d. Packet dropped(Len %d), \n",
                          state->rx_ring[state->rx_read_index].s.code, state->rx_ring[state->rx_read_index].s.len + result);
             result = -state->rx_ring[state->rx_read_index].s.code;
 
@@ -740,7 +740,7 @@ bdk_helper_link_info_t bdk_mgmt_port_link_get(int port)
 
     if (port > __bdk_mgmt_port_num_ports())
     {
-        bdk_dprintf("WARNING: Invalid port %d\n", port);
+        bdk_error("Invalid port %d\n", port);
         return result;
     }
 
@@ -783,7 +783,7 @@ int bdk_mgmt_port_link_set(int port, bdk_helper_link_info_t link_info)
         if (BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), rx_idle, ==, 1, one_second)
             || BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), tx_idle, ==, 1, one_second))
         {
-            bdk_dprintf("MIX%d: Timeout waiting for GMX to be idle\n", port);
+            bdk_error("MIX%d: Timeout waiting for GMX to be idle\n", port);
             return -1;
         }
     }
