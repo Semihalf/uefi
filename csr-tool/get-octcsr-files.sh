@@ -14,8 +14,8 @@ wget -O octcsr_cn63xxp2.txt http://${host}/Docs/O63/Specs/o63csr.txt
 wget -O octcsr_cn68xxp1.txt http://${host}/Docs/O68/Specs/o68csr.txt
 fi
 
-sed -i "s/[ ][ ]*$//g" octcsr_*.txt
 dos2unix -q octcsr_*.txt
+sed -i "s/[ \\t][ \\t]*$//g" octcsr_*.txt
 
 sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" octcsr_cn56xxp1.txt octcsr_cn56xxp2.txt octcsr_cn52xxp1.txt octcsr_cn52xxp2.txt
 sed -i "s/MIO_BOOT_REG_TIM(1..7)/MIO_BOOT_REG_TIM(0..7)/g" octcsr_cn56xxp1.txt octcsr_cn56xxp2.txt octcsr_cn52xxp1.txt octcsr_cn52xxp2.txt

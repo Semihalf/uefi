@@ -25035,7 +25035,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:4> NS        RAZ       NS          NS      Reserved				            |
+ <63:4>  NS        RAZ       NS          NS      Reserved				            |
  <3>     NS        RAZ       NS          NS      Reserved				            |
  <2:1>   FLIP_SYND R/W       0x0         0       Testing feature. Flip Syndrom to generate single or|
 						 double bit error.                                  |
@@ -25383,6 +25383,7 @@ Note: This register is only reset by cold reset.
 ----------------------------------------------------------------------------------------------------
 ===
 
+
      ==============================================================
      CIU_QLM1 Type=NCB
      ==============================================================
@@ -25408,6 +25409,7 @@ Pos      Name    Type     Value     Value       Description
 Note: This register is only reset by cold reset.
 ----------------------------------------------------------------------------------------------------
 ===
+
 
      ==============================================================
      CIU_QLM2 Type=NCB
@@ -25435,6 +25437,7 @@ Note: This register is only reset by cold reset.
 ----------------------------------------------------------------------------------------------------
 ===
 
+
      ==============================================================
      CIU_QLM3 Type=NCB
      ==============================================================
@@ -25461,6 +25464,7 @@ Note: This register is only reset by cold reset.
 ----------------------------------------------------------------------------------------------------
 ===
 
+
      ==============================================================
      CIU_QLM4 Type=NCB
      ==============================================================
@@ -25484,10 +25488,9 @@ Pos      Name    Type     Value     Value       Description
  <3:0>   LANE_EN  R/W      0xf         NS        QLMx lane enable mask                              |
 
 Note: This register is only reset by cold reset.
-
-
 ----------------------------------------------------------------------------------------------------
 ===
+
 
      ==============================================================
      CIU_INT_DBG_SEL Type=NCB
@@ -25524,10 +25527,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS       RAZ      NS          NS        Reserved				            |
+ <63:32> NS       RAZ      NS          NS        Reserved                                           |
  <31:0>  PP_BIST  RO       0           NS        Physical PP BIST status                            |
 ----------------------------------------------------------------------------------------------------
 ===
+
  *
  *                  MIX_ORING1 = MIX Outbound Ring Register #1
  *
