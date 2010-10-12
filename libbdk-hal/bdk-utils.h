@@ -17,9 +17,6 @@
 #define bdk_likely(x)      __builtin_expect(!!(x), 1)
 #define bdk_unlikely(x)    __builtin_expect(!!(x), 0)
 
-extern void bdk_dvprintf(const char *format, va_list ap);
-extern void bdk_dprintf(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
-
 #define CAST64(v) ((long long)(long)(v)) // use only when 'v' is a pointer
 #define CASTPTR(type, v) ((type *)(long)(v))
 #define BDK_CACHE_LINE_SIZE    (128)   // In bytes
