@@ -9,7 +9,7 @@ clean:
 	scons $(SCONS_OPTIONS) -s -c
 
 run:
-	oct-sim elua_$(LUA_TARGET)_cn6xxx.elf -uart0=2020 -quiet
+	oct-sim elua_$(LUA_TARGET)_cn6xxx.elf -uart0=2020 -quiet -ld0x30000000:0x10000000
 
 tftp: default
 	mipsisa64-octeon-elf-strip -o /tftpboot/elua elua_$(LUA_TARGET)_cn6xxx.elf
