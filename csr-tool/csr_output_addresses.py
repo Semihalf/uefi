@@ -18,7 +18,7 @@ CHIP_TO_MODEL = {
     "cn68xx":   "OCTEON_CN68XX",
 }
 
-WARN_FUNCTION = "bdk_warn"
+FATAL_FUNCTION = "bdk_fatal"
 
 def toHex(v, digits=0):
     if digits == 0:
@@ -73,20 +73,20 @@ def writeAddress(out, csr, pci_alias):
         out.write("#define %s %s_FUNC()\n" % (name, name))
         out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure));\n" % name)
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
-        warning = "%s(\"%s not supported on this chip\\n\");" % (WARN_FUNCTION, name)
+        error_message = "%s(\"%s not supported on this chip\\n\");" % (FATAL_FUNCTION, name)
     elif num_params == 1:
         if ("offset" in csr["s"].getAddressEquation()):
             out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure));\n" % name)
             out.write("static inline uint64_t %s(unsigned long offset)\n" % name)
-            warning = "%s(\"%s(%%lu) is invalid on this chip\\n\", offset);" % (WARN_FUNCTION, name)
+            error_message = "%s(\"%s(%%lu) is invalid on this chip\\n\", offset);" % (FATAL_FUNCTION, name)
         else:
             out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure));\n" % name)
             out.write("static inline uint64_t %s(unsigned long block_id)\n" % name)
-            warning = "%s(\"%s(%%lu) is invalid on this chip\\n\", block_id);" % (WARN_FUNCTION, name)
+            error_message = "%s(\"%s(%%lu) is invalid on this chip\\n\", block_id);" % (FATAL_FUNCTION, name)
     elif num_params == 2:
         out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure));\n" % name)
         out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id)\n" % name)
-        warning = "%s(\"%s(%%lu,%%lu) is invalid on this chip\\n\", offset, block_id);" % (WARN_FUNCTION, name)
+        error_message = "%s(\"%s(%%lu,%%lu) is invalid on this chip\\n\", offset, block_id);" % (FATAL_FUNCTION, name)
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")
@@ -117,8 +117,7 @@ def writeAddress(out, csr, pci_alias):
             out.write("\tif (%s)\n" % (range_check[4:]))
             out.write("\t\treturn %s;\n" % address_list[0][2])
             out.write("\telse {\n")
-            out.write("\t\t%s\n" % warning);
-            out.write("\t\treturn %s;\n" % csr["s"].getAddressEquation(pci_alias=pci_alias))
+            out.write("\t\t%s /* No return */\n" % error_message);
             out.write("\t}\n");
         else:
             out.write("\treturn %s;\n" % address_list[0][2])
@@ -129,8 +128,7 @@ def writeAddress(out, csr, pci_alias):
             out.write("\t\treturn %s;\n" % line[2])
             out.write("\telse ")
         out.write("{\n")
-        out.write("\t\t%s\n" % warning);
-        out.write("\t\treturn %s;\n" % csr["s"].getAddressEquation(pci_alias=pci_alias))
+        out.write("\t\t%s /* No return */\n" % error_message);
         out.write("\t}\n");
     out.write("}\n");
 
