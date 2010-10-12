@@ -108,7 +108,7 @@ static int __bdk_srio_alloc_s2m(int srio_port, bdk_sriox_s2m_typex_t s2m)
                 bdk_atomic_add32(&__bdk_srio_state[srio_port].s2m_ref_count[s2m_index], -2);
         }
     }
-    bdk_dprintf("SRIO%d: Unable to find free SRIOX_S2M_TYPEX\n", srio_port);
+    bdk_error("SRIO%d: Unable to find free SRIOX_S2M_TYPEX\n", srio_port);
     return -1;
 }
 
@@ -161,7 +161,7 @@ static int __bdk_srio_alloc_subid(bdk_sli_mem_access_subidx_t subid)
                 bdk_atomic_add32(&__bdk_srio_state[0].subidx_ref_count[mem_index-12], -1);
         }
     }
-    bdk_dprintf("SRIO: Unable to find free SLI_MEM_ACCESS_SUBIDX\n");
+    bdk_error("SRIO: Unable to find free SLI_MEM_ACCESS_SUBIDX\n");
     return -1;
 }
 
@@ -201,7 +201,7 @@ static int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *res
     /* Make sure SRIO isn't already busy */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_MAINT_OP(srio_port), pending, ==, 0, BDK_SRIO_CONFIG_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Pending bit stuck before config read\n", srio_port);
+        bdk_error("SRIO%d: Pending bit stuck before config read\n", srio_port);
         return -1;
     }
 
@@ -211,7 +211,7 @@ static int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *res
     /* Wait for the hardware to complete the operation */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_MAINT_OP(srio_port), pending, ==, 0, BDK_SRIO_CONFIG_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Config read timeout\n", srio_port);
+        bdk_error("SRIO%d: Config read timeout\n", srio_port);
         return -1;
     }
 
@@ -219,14 +219,14 @@ static int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *res
     maint_op.u64 = BDK_CSR_READ(BDK_SRIOX_MAINT_OP(srio_port));
     if (maint_op.s.fail)
     {
-        bdk_dprintf("SRIO%d: Config read addressing error (offset=0x%x)\n", srio_port, (unsigned int)offset);
+        bdk_error("SRIO%d: Config read addressing error (offset=0x%x)\n", srio_port, (unsigned int)offset);
         return -1;
     }
 
     /* Wait for the read data to become valid */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_MAINT_RD_DATA(srio_port), valid, ==, 1, BDK_SRIO_CONFIG_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Config read data timeout\n", srio_port);
+        bdk_error("SRIO%d: Config read data timeout\n", srio_port);
         return -1;
     }
 
@@ -257,7 +257,7 @@ static int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t dat
     /* Make sure SRIO isn't already busy */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_MAINT_OP(srio_port), pending, ==, 0, BDK_SRIO_CONFIG_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Pending bit stuck before config write\n", srio_port);
+        bdk_error("SRIO%d: Pending bit stuck before config write\n", srio_port);
         return -1;
     }
 
@@ -267,7 +267,7 @@ static int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t dat
     /* Wait for the hardware to complete the operation */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_MAINT_OP(srio_port), pending, ==, 0, BDK_SRIO_CONFIG_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Config write timeout\n", srio_port);
+        bdk_error("SRIO%d: Config write timeout\n", srio_port);
         return -1;
     }
 
@@ -275,7 +275,7 @@ static int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t dat
     maint_op.u64 = BDK_CSR_READ(BDK_SRIOX_MAINT_OP(srio_port));
     if (maint_op.s.fail)
     {
-        bdk_dprintf("SRIO%d: Config write addressing error (offset=0x%x)\n", srio_port, (unsigned int)offset);
+        bdk_error("SRIO%d: Config write addressing error (offset=0x%x)\n", srio_port, (unsigned int)offset);
         return -1;
     }
     return 0;
@@ -306,7 +306,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(srio_port));
     if (!sriox_status_reg.s.srio)
     {
-        bdk_dprintf("SRIO%d: Initialization called on a port not in SRIO mode\n", srio_port);
+        bdk_error("SRIO%d: Initialization called on a port not in SRIO mode\n", srio_port);
         return -1;
     }
 
@@ -791,7 +791,7 @@ int bdk_srio_config_write32(int srio_port, int srcid_index, int destid,
             return_code = 0;
         else
         {
-            bdk_dprintf("SRIO%d: Remote write failed\n", srio_port);
+            bdk_error("SRIO%d: Remote write failed\n", srio_port);
             return_code = -1;
         }
 
@@ -842,7 +842,7 @@ int bdk_srio_send_doorbell(int srio_port, int srcid_index, int destid, int is16b
     /* Make sure the previous doorbell has completed */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_TX_BELL(srio_port), pending, ==, 0, BDK_SRIO_DOORBELL_TIMEOUT))
     {
-        bdk_dprintf("SRIO%d: Pending bit stuck before doorbell\n", srio_port);
+        bdk_error("SRIO%d: Pending bit stuck before doorbell\n", srio_port);
         return -1;
     }
 
@@ -1040,7 +1040,7 @@ uint64_t bdk_srio_physical_map(int srio_port, bdk_srio_write_mode_t write_op,
         likely to be needed */
     if (((base+size-1)>>34) != (base>>34))
     {
-        bdk_dprintf("SRIO%d: Failed to map range 0x%llx-0x%llx spanning a 34bit boundary\n",
+        bdk_error("SRIO%d: Failed to map range 0x%llx-0x%llx spanning a 34bit boundary\n",
             srio_port, (ULL)base, (ULL)base+size-1);
         return 0;
     }
@@ -1079,12 +1079,12 @@ uint64_t bdk_srio_physical_map(int srio_port, bdk_srio_write_mode_t write_op,
     {
         if (destid>>8)
         {
-            bdk_dprintf("SRIO%d: Attempt to map 16bit device ID 0x%x using 66bit addressing\n", srio_port, destid);
+            bdk_error("SRIO%d: Attempt to map 16bit device ID 0x%x using 66bit addressing\n", srio_port, destid);
             return 0;
         }
         if (base>>50)
         {
-            bdk_dprintf("SRIO%d: Attempt to map address 0x%llx using 66bit addressing\n", srio_port, (ULL)base);
+            bdk_error("SRIO%d: Attempt to map address 0x%llx using 66bit addressing\n", srio_port, (ULL)base);
             return 0;
         }
         needed_subid.cn63xx.ba = (base>>34) & 0xffff;

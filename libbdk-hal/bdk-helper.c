@@ -337,7 +337,6 @@ static int __bdk_helper_global_setup_backpressure(void)
                 break;
         }
     }
-    //bdk_dprintf("Disabling backpressure\n");
 
     return 0;
 }
@@ -507,7 +506,6 @@ int bdk_helper_ipd_and_packet_input_enable(void)
     {
         if (bdk_helper_ports_on_interface(interface) > 0)
         {
-            //bdk_dprintf("Enabling packet I/O on interface %d\n", interface);
             __bdk_helper_packet_hardware_enable(interface);
         }
     }
@@ -581,10 +579,6 @@ int bdk_helper_initialize_packet_io_global(void)
     bdk_pko_initialize_global();
     for (interface=0; interface<num_interfaces; interface++)
     {
-        if (bdk_helper_ports_on_interface(interface) > 0)
-            bdk_dprintf("Interface %d has %d ports (%s)\n",
-                     interface, bdk_helper_ports_on_interface(interface),
-                     bdk_helper_interface_mode_to_string(bdk_helper_interface_get_mode(interface)));
         result |= __bdk_helper_interface_setup_ipd(interface);
         result |= __bdk_helper_interface_setup_pko(interface);
     }
@@ -661,7 +655,7 @@ int bdk_helper_shutdown_packet_io_global(void)
                 }
                 if (count)
                 {
-                    bdk_dprintf("PKO port %d, queue %d, timeout waiting for idle\n",
+                    bdk_error("PKO port %d, queue %d, timeout waiting for idle\n",
                         pko_port, queue);
                     result = -1;
                 }
@@ -702,12 +696,12 @@ int bdk_helper_shutdown_packet_io_global(void)
                     BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(index, interface), gmx_cfg.u64);
                     if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(index, interface), rx_idle, ==, 1, timeout*1000000))
                     {
-                        bdk_dprintf("GMX RX path timeout waiting for idle\n");
+                        bdk_error("GMX RX path timeout waiting for idle\n");
                         result = -1;
                     }
                     if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(index, interface), tx_idle, ==, 1, timeout*1000000))
                     {
-                        bdk_dprintf("GMX TX path timeout waiting for idle\n");
+                        bdk_error("GMX TX path timeout waiting for idle\n");
                         result = -1;
                     }
                 }
@@ -811,7 +805,7 @@ int bdk_helper_shutdown_packet_io_global(void)
                     bdk_dprintf("Completed aligning per port backpressure counters (%d loops).\n", loop);
                 else
                 {
-                    bdk_dprintf("ERROR: unable to align per port backpressure counters.\n");
+                    bdk_error("Unable to align per port backpressure counters.\n");
                     /* For now, don't hang.... */
                 }
             }

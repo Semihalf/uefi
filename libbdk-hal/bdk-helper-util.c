@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 /**
  * Convert a interface mode into a human readable string
@@ -39,10 +40,10 @@ int bdk_helper_dump_packet(bdk_wqe_t *work)
     uint8_t *       data_address;
     uint8_t *       end_of_data;
 
-    bdk_dprintf("Packet Length:   %u\n", work->len);
-    bdk_dprintf("    Input Port:  %u\n", work->ipprt);
-    bdk_dprintf("    QoS:         %u\n", work->qos);
-    bdk_dprintf("    Buffers:     %u\n", work->word2.s.bufs);
+    printf("Packet Length:   %u\n", work->len);
+    printf("    Input Port:  %u\n", work->ipprt);
+    printf("    QoS:         %u\n", work->qos);
+    printf("    Buffers:     %u\n", work->word2.s.bufs);
 
     if (work->word2.s.bufs == 0)
     {
@@ -76,14 +77,14 @@ int bdk_helper_dump_packet(bdk_wqe_t *work)
     while (remaining_bytes)
     {
         start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        bdk_dprintf("    Buffer Start:%llx\n", (unsigned long long)start_of_buffer);
-        bdk_dprintf("    Buffer I   : %u\n", buffer_ptr.s.i);
-        bdk_dprintf("    Buffer Back: %u\n", buffer_ptr.s.back);
-        bdk_dprintf("    Buffer Pool: %u\n", buffer_ptr.s.pool);
-        bdk_dprintf("    Buffer Data: %llx\n", (unsigned long long)buffer_ptr.s.addr);
-        bdk_dprintf("    Buffer Size: %u\n", buffer_ptr.s.size);
+        printf("    Buffer Start:%llx\n", (unsigned long long)start_of_buffer);
+        printf("    Buffer I   : %u\n", buffer_ptr.s.i);
+        printf("    Buffer Back: %u\n", buffer_ptr.s.back);
+        printf("    Buffer Pool: %u\n", buffer_ptr.s.pool);
+        printf("    Buffer Data: %llx\n", (unsigned long long)buffer_ptr.s.addr);
+        printf("    Buffer Size: %u\n", buffer_ptr.s.size);
 
-        bdk_dprintf("\t\t");
+        printf("\t\t");
         data_address = (uint8_t *)bdk_phys_to_ptr(buffer_ptr.s.addr);
         end_of_data = data_address + buffer_ptr.s.size;
         count = 0;
@@ -93,17 +94,17 @@ int bdk_helper_dump_packet(bdk_wqe_t *work)
                 break;
             else
                 remaining_bytes--;
-            bdk_dprintf("%02x", (unsigned int)*data_address);
+            printf("%02x", (unsigned int)*data_address);
             data_address++;
             if (remaining_bytes && (count == 7))
             {
-                bdk_dprintf("\n\t\t");
+                printf("\n\t\t");
                 count = 0;
             }
             else
                 count++;
         }
-        bdk_dprintf("\n");
+        printf("\n");
 
         if (remaining_bytes)
             buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
@@ -233,7 +234,7 @@ int __bdk_helper_setup_gmx(int interface, int num_ports)
     {
         if (num_ports > 4)
         {
-            bdk_dprintf("__bdk_helper_setup_gmx: Illegal num_ports\n");
+            bdk_error("__bdk_helper_setup_gmx: Illegal num_ports\n");
             return(-1);
         }
 
@@ -343,7 +344,7 @@ int bdk_helper_get_interface_num(int ipd_port)
     else if (ipd_port < 44)
 	return 5;
     else
-        bdk_dprintf("bdk_helper_get_interface_num: Illegal IPD port number\n");
+        bdk_error("bdk_helper_get_interface_num: Illegal IPD port number\n");
 
     return -1;
 }
@@ -366,7 +367,7 @@ int bdk_helper_get_interface_index_num(int ipd_port)
     else if (ipd_port < 44)
 	return ipd_port & 1;
     else
-        bdk_dprintf("bdk_helper_get_interface_index_num: Illegal IPD port number\n");
+        bdk_error("bdk_helper_get_interface_index_num: Illegal IPD port number\n");
 
     return -1;
 }

@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 static const char *TYPE_ARRAY[] = {
     "DWB - Don't write back",
@@ -283,7 +284,7 @@ void bdk_tra_setup(bdk_trax_ctl_t control, bdk_tra_filt_t filter,
         && ((filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
         && address_mask != 0)
     {
-        bdk_dprintf("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
+        bdk_warn("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
         filt_cmd.u64 &= ~(BDK_TRA_FILT_IOBDMA);
     }
 
@@ -333,7 +334,7 @@ void bdk_tra_trig_setup(uint64_t trigger, bdk_tra_filt_t filter,
         && ((tra_filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
         && address_mask != 0)
     {
-        bdk_dprintf("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
+        bdk_warn("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
         tra_filt_cmd.u64 &= ~(BDK_TRA_FILT_IOBDMA);
     }
 
@@ -414,7 +415,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case 3:  /* LDD */
             case 4:  /* LDI */
             case 5:  /* LDT */
-                bdk_dprintf("0x%016llx %c%+10d %s %s 0x%016llx\n",
+                printf("0x%016llx %c%+10d %s %s 0x%016llx\n",
                     (unsigned long long)data.u128.data,
                     (data.cmn.discontinuity) ? 'D' : ' ',
                     data.cmn.timestamp << (tra_ctl.s.time_grn*3),
@@ -427,7 +428,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case 8:  /* STP */
             case 9:  /* STT */
             case 16: /* SAA */
-                bdk_dprintf("0x%016llx %c%+10d %s %s mask=0x%02x 0x%016llx\n",
+                printf("0x%016llx %c%+10d %s %s mask=0x%02x 0x%016llx\n",
                    (unsigned long long)data.u128.data,
                    (data.cmn.discontinuity) ? 'D' : ' ',
                    data.cmn.timestamp << (tra_ctl.s.time_grn*3),
@@ -441,7 +442,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case 12:  /* IOBLD32 */
             case 13:  /* IOBLD64 */
             case 14:  /* IOBST */
-                bdk_dprintf("0x%016llx %c%+10d %s %s->%s subdid=0x%x 0x%016llx\n",
+                printf("0x%016llx %c%+10d %s %s->%s subdid=0x%x 0x%016llx\n",
                    (unsigned long long)data.u128.data,
                    (data.cmn.discontinuity) ? 'D' : ' ',
                    data.cmn.timestamp << (tra_ctl.s.time_grn*3),
@@ -452,7 +453,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
                    (unsigned long long)data.iobld.address);
                 break;
             case 15:  /* IOBDMA */
-                bdk_dprintf("0x%016llx %c%+10d %s %s->%s len=0x%x 0x%016llx\n",
+                printf("0x%016llx %c%+10d %s %s->%s len=0x%x 0x%016llx\n",
                    (unsigned long long)data.u128.data,
                    (data.cmn.discontinuity) ? 'D' : ' ',
                    data.cmn.timestamp << (tra_ctl.s.time_grn*3),
@@ -463,7 +464,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
                    (unsigned long long)data.iob.address << 3);
                 break;
             default:
-                bdk_dprintf("0x%016llx %c%+10d Unknown format\n",
+                printf("0x%016llx %c%+10d Unknown format\n",
                    (unsigned long long)data.u128.data,
                    (data.cmn.discontinuity) ? 'D' : ' ',
                    data.cmn.timestamp << (tra_ctl.s.time_grn*3));
@@ -500,7 +501,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case BDK_TRA_FILT_PL2:
             case BDK_TRA_FILT_LDI:
             case BDK_TRA_FILT_LDT:
-                bdk_dprintf("0x%016llx%016llx %c%+10d %s %s 0x%016llx%llx\n",
+                printf("0x%016llx%016llx %c%+10d %s %s 0x%016llx%llx\n",
                    (unsigned long long)data.u128.datahi, (unsigned long long)data.u128.data,
                    (data.cmn2.discontinuity) ? 'D' : ' ',
                    data.cmn2.timestamp << (tra_ctl.s.time_grn*3),
@@ -521,7 +522,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case BDK_TRA_FILT_STF:
             case BDK_TRA_FILT_STP:
             case BDK_TRA_FILT_STT:
-                bdk_dprintf("0x%016llx%016llx %c%+10d %s %s mask=0x%02x 0x%016llx%llx\n",
+                printf("0x%016llx%016llx %c%+10d %s %s mask=0x%02x 0x%016llx%llx\n",
                    (unsigned long long)data.u128.datahi, (unsigned long long)data.u128.data,
                    (data.cmn2.discontinuity) ? 'D' : ' ',
                    data.cmn2.timestamp << (tra_ctl.s.time_grn*3),
@@ -539,7 +540,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
             case BDK_TRA_FILT_IOBLD32:
             case BDK_TRA_FILT_IOBLD16:
             case BDK_TRA_FILT_IOBLD8:
-                bdk_dprintf("0x%016llx%016llx %c%+10d %s %s->%s subdid=0x%x 0x%016llx%llx\n",
+                printf("0x%016llx%016llx %c%+10d %s %s->%s subdid=0x%x 0x%016llx%llx\n",
                    (unsigned long long)data.u128.datahi, (unsigned long long)data.u128.data,
                    (data.cmn2.discontinuity) ? 'D' : ' ',
                    data.cmn2.timestamp << (tra_ctl.s.time_grn*3),
@@ -551,7 +552,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
                    (unsigned long long)data.iobld2.addresslo);
                 break;
             case BDK_TRA_FILT_IOBDMA:
-                bdk_dprintf("0x%016llx%016llx %c%+10d %s %s->%s len=0x%x 0x%016llx%llx\n",
+                printf("0x%016llx%016llx %c%+10d %s %s->%s len=0x%x 0x%016llx%llx\n",
                    (unsigned long long)data.u128.datahi, (unsigned long long)data.u128.data,
                    (data.iob2.discontinuity) ? 'D' : ' ',
                    data.iob2.timestamp << (tra_ctl.s.time_grn*3),
@@ -563,7 +564,7 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
                    (unsigned long long)data.iob2.addresslo << 3);
                 break;
             default:
-                bdk_dprintf("0x%016llx%016llx %c%+10d Unknown format\n",
+                printf("0x%016llx%016llx %c%+10d Unknown format\n",
                    (unsigned long long)data.u128.datahi, (unsigned long long)data.u128.data,
                    (data.cmn2.discontinuity) ? 'D' : ' ',
                    data.cmn2.timestamp << (tra_ctl.s.time_grn*3));
