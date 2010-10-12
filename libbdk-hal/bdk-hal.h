@@ -48,7 +48,6 @@
 #include "bdk-swap.h"
 #include "bdk-tra.h"
 #include "bdk-twsi.h"
-#include "bdk-usbd.h"
 #include "bdk-usb.h"
 #include "bdk-zip.h"
 #include "bdk-access-native.h"
