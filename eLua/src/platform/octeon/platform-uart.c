@@ -25,6 +25,9 @@ u32 platform_uart_setup( unsigned id, u32 baud, int databits, int parity, int st
         u.s.en = 1);
 
     int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / baud / 16;
+    if (bdk_is_simulation())
+        divisor = 1;
+
     BDK_CSR_WRITE(BDK_MIO_UARTX_DLH(id), divisor>>8);
     BDK_CSR_WRITE(BDK_MIO_UARTX_DLL(id), divisor & 0xff);
 

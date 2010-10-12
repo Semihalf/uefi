@@ -107,3 +107,39 @@ static inline int octeon_has_feature(octeon_feature_t feature)
     return 0;
 }
 
+static inline int bdk_is_simulation(void)
+{
+    static int is_simulation = -1;
+
+    if (is_simulation == -1)
+    {
+        int sim;
+        if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
+        {
+            BDK_CSR_INIT(dbg, BDK_NPEI_DBG_SELECT);
+            BDK_CSR_DEFINE(tmp, BDK_NPEI_DBG_SELECT);
+            tmp = dbg;
+            tmp.s.dbg_sel = 1;
+            BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, tmp.u64);
+            tmp.u64 = BDK_CSR_READ(BDK_NPEI_DBG_SELECT);
+            BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, dbg.u64);
+
+            sim = (tmp.s.dbg_sel == 0);
+        }
+        else
+        {
+            BDK_CSR_INIT(dbg, BDK_SLI_DBG_SELECT);
+            BDK_CSR_DEFINE(tmp, BDK_SLI_DBG_SELECT);
+            tmp = dbg;
+            tmp.s.dbg_sel = 1;
+            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, tmp.u64);
+            tmp.u64 = BDK_CSR_READ(BDK_SLI_DBG_SELECT);
+            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, dbg.u64);
+
+            sim = (tmp.s.dbg_sel == 0);
+        }
+        is_simulation = sim;
+        return sim;
+    }
+    return is_simulation;
+}
