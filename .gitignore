@@ -4,6 +4,7 @@
 *.pch
 *.pyc
 *.elf
+*.bin
 *.pickle
 /eLua/.sconsign.dblite
 /eLua/config.log
