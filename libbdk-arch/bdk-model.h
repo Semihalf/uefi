@@ -45,13 +45,13 @@
 #define OCTEON_CN5XXX           OM_MATCH_5XXX_FAMILY_MODELS
 #define OCTEON_CN6XXX           OM_MATCH_6XXX_FAMILY_MODELS
 
-static int __OCTEON_MATCH_MASK__(uint32_t x, uint32_t y, uint32_t z)
+static inline int __OCTEON_MATCH_MASK__(uint32_t x, uint32_t y, uint32_t z)
 {
     return (x & z) == (y & z);
 }
 
-static int OCTEON_IS_MODEL(uint32_t arg_model) __attribute__ ((pure));
-static int OCTEON_IS_MODEL(uint32_t arg_model)
+static inline int OCTEON_IS_MODEL(uint32_t arg_model) __attribute__ ((pure));
+static inline int OCTEON_IS_MODEL(uint32_t arg_model)
 {
     /* The revision byte (low byte) has two different encodings.
     **     <7>:   reserved (0)
