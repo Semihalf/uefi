@@ -13,20 +13,6 @@
 #define BDK_FUNCTION static inline
 
 /**
- * This function performs some default initialization of the Octeon executive.
- * It initializes the bdk_bootmem memory allocator with the list of physical
- * memory provided by the bootloader, and creates 1-1 TLB mappings for this
- * memory. This function should be called on all cores that will use either the
- * bootmem allocator or the 1-1 TLB mappings. Applications which require a
- * different configuration can replace this function with a suitable application
- * specific one.
- *
- * @return 0 on success
- *         -1 on failure
- */
-extern int bdk_user_app_init(void);
-
-/**
  * Returns the Octeon processor ID.
  *
  * @return Octeon processor ID from COP0

@@ -385,7 +385,9 @@ bdk_helper_link_info_t __bdk_helper_sgmii_link_get(int ipd_port)
         }
         else /* MAC Mode */
         {
+#if 0 // FIXME
             result = __bdk_helper_board_link_get(ipd_port);
+#endif
         }
     }
     return result;

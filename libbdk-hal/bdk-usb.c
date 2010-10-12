@@ -358,7 +358,7 @@ int bdk_usb_get_num_ports(void)
     else
         arch_ports = 0;
 
-    return __bdk_helper_board_usb_get_num_ports(arch_ports);
+    return arch_ports;
 }
 
 
@@ -511,7 +511,7 @@ bdk_usb_status_t bdk_usb_initialize(bdk_usb_state_t *state,
     if ((flags & (BDK_USB_INITIALIZE_FLAGS_CLOCK_XO_XI |
                   BDK_USB_INITIALIZE_FLAGS_CLOCK_XO_GND)) == 0)
     {
-        if (__bdk_helper_board_usb_get_clock_type() == USB_CLOCK_TYPE_CRYSTAL_12)
+        if (USB_CLOCK_TYPE_CRYSTAL_12 == USB_CLOCK_TYPE_CRYSTAL_12)
             flags |= BDK_USB_INITIALIZE_FLAGS_CLOCK_XO_XI;  /* Only 12 MHZ crystals are supported */
         else
             flags |= BDK_USB_INITIALIZE_FLAGS_CLOCK_XO_GND;
@@ -521,7 +521,7 @@ bdk_usb_status_t bdk_usb_initialize(bdk_usb_state_t *state,
     {
         /* Check for auto ref clock frequency */
         if (!(flags & BDK_USB_INITIALIZE_FLAGS_CLOCK_MHZ_MASK))
-            switch (__bdk_helper_board_usb_get_clock_type())
+            switch (USB_CLOCK_TYPE_REF_12)
             {
                 case USB_CLOCK_TYPE_REF_12:
                     flags |= BDK_USB_INITIALIZE_FLAGS_CLOCK_12MHZ;

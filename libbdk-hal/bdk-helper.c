@@ -192,8 +192,6 @@ int bdk_helper_interface_probe(int interface)
 	    break;
     }
 
-    interface_port_count[interface] = __bdk_helper_board_interface_probe(interface, interface_port_count[interface]);
-
     /* Make sure all global variables propagate to other cores */
     BDK_SYNCW;
 
@@ -480,7 +478,6 @@ static int __bdk_helper_packet_hardware_enable(int interface)
 	    result = __bdk_helper_srio_enable(interface);
 	    break;
     }
-    result |= __bdk_helper_board_hardware_enable(interface);
     return result;
 }
 
