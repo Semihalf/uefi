@@ -23758,8 +23758,8 @@ Pos      Name    Type     Value     Value       Description
  <63:17> NS       RAZ      NS          NS        Reserved				            |
  <16:15> SYNCE_SEL R/W     0x0         0         Selects the QLM clock output			    |	
 						  x0=Normal GPIO output				    |
-						  01=GPIO QLM clock selected by GPIO_CLK_QLM0	    |
-						  11=GPIO QLM clock selected by GPIO_CLK_QLM1	    |
+						  01=GPIO QLM clock selected by CSR GPIO_CLK_QLM0   |
+						  11=GPIO QLM clock selected by CSR GPIO_CLK_QLM1   |
  <14>    CLK_GEN  R/W      0x0         0         When TX_OE is set, GPIO pin becomes a clock	    |	
  <13:12> CLK_SEL  R/W      0x0         0         Selects which of the 4 GPIO clock generators	    |	
  <11:8>  FIL_SEL  R/W      0x0         0         Global counter bit-select (controls sample rate)   |
@@ -35608,8 +35608,16 @@ Pos      Name    Type     Value     Value       Description
                                                  performance.                                       |
  <15:14> NS       RAZ      NS          NS        Reserved                                           |
  <13:8>  MAX_P1   R/W      0x30        NS        Sets max number of open vports in port 1           |
+                                                 A setting of 0x3F disables vport limit             |
+                                                 checking for this message port.  This port should  |
+                                                 be disabled if timeouts or other message format    |
+                                                 errors are detected.                               |
  <7:6>   NS       RAZ      NS          NS        Reserved                                           |
  <5:0>   MAX_P0   R/W      0x30        NS        Sets max number of open vports in port 0           |
+                                                 A setting of 0x3F disables vport limit             |
+                                                 checking for this message port.  This port should  |
+                                                 be disabled if timeouts or other message format    |
+                                                 errors are detected.                               |
                                                                                                     |
 Notes:                                                                                              |
 SRIO0_IMSG_VPORT_THR.MAX_TOT must be >= SRIO0_IMSG_VPORT_THR.BUF_THR + SRIO1_IMSG_VPORT_THR.BUF_THR |
@@ -42199,8 +42207,8 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:43> NS       RAZ       NS          NS       RESERVED
- <42:4>  ZIP_CORE RO        X           0        BiST result of the ZIP_CORE memories
+ <63:57> NS       RAZ       NS          NS       RESERVED
+ <56:4>  ZIP_CORE RO        X           0        BiST result of the ZIP_CORE memories
  <3:0>   ZIP_CTL  RO        X           0        BiST result of the ZIP_CTL  memories
 
 Notes:

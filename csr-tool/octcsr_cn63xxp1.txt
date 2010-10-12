@@ -23140,8 +23140,8 @@ Pos      Name    Type     Value     Value       Description
  <63:17> NS       RAZ      NS          NS        Reserved				            |
  <16:15> SYNCE_SEL R/W     0x0         0         Selects the QLM clock output			    |	
 						  x0=Normal GPIO output				    |
-						  01=GPIO QLM clock selected by GPIO_CLK_QLM0	    |
-						  11=GPIO QLM clock selected by GPIO_CLK_QLM1	    |
+						  01=GPIO QLM clock selected by CSR GPIO_CLK_QLM0   |
+						  11=GPIO QLM clock selected by CSR GPIO_CLK_QLM1   |
  <14>    CLK_GEN  R/W      0x0         0         When TX_OE is set, GPIO pin becomes a clock	    |	
  <13:12> CLK_SEL  R/W      0x0         0         Selects which of the 4 GPIO clock generators	    |	
  <11:8>  FIL_SEL  R/W      0x0         0         Global counter bit-select (controls sample rate)   |
