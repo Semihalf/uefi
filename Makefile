@@ -25,6 +25,7 @@ ASFLAGS = $(CFLAGS)
 #
 dirs  = libbdk-arch
 dirs += libbdk-hal
+dirs += libbdk-os
 
 #
 # Create a list of all source files
