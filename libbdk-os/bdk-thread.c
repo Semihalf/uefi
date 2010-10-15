@@ -105,7 +105,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
 {
     extern void _gp;
     bdk_thread_t *thread;
-    int stack_size = 8192; // FIXME bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE, 8192);
+    int stack_size = 16384; // FIXME bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE, 8192);
 
     thread = calloc(1, sizeof(bdk_thread_t) + stack_size);
     if (thread == NULL)
@@ -128,6 +128,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
     if (bdk_thread_tail)
     {
         bdk_thread_tail->next = thread;
+        bdk_thread_tail = thread;
     }
     else
     {
@@ -147,8 +148,7 @@ void bdk_thread_destroy(void)
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
     // FIXME
-    bdk_error("bdk_thread_destroy() not implemented\n");
-    while (1) {}
+    bdk_fatal("bdk_thread_destroy() not implemented\n");
 }
 
 
