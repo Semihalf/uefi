@@ -48,8 +48,6 @@
 #include <ctype.h>
 #include <malloc.h>
 
-#define TRAFFICGEN_SCR_WORK 0
-
 #define CACHE_LINE_ALIGN __attribute__ ((aligned(128)))
 #define CYCLE_SHIFT         12
 #define ETHERNET_CRC        4       /* Gigabit ethernet CRC in bytes */
@@ -59,10 +57,6 @@
 #define PIP_IP_OFFSET       4       /* Number of dwords to reserve before IP packets */
 
 #define MAX_INSERT 8
-
-/* Use our version of printf instead of the C libraries. We don't
-    want the per core banners */
-#define printf(format, ...) do { uart_printf(0, format, ##__VA_ARGS__);  } while (0)
 
 #define GOTO_TOP  "\033[1;1H"   /* ESC[1;1H begins output at the top of the terminal (line 1) */
 #define GOTO_BOTTOM "\033[100;1H"   /* ESC[1;1H begins output at the bottom of the terminal (actually line 100) */
@@ -929,9 +923,8 @@ typedef struct
     int                     validate;
     int                     respect_backpressure;
     int                     higig; /* Number of HiGig bytes to include before L2 */
-    bdk_higig_header_t     higig_header; /* The HiGig header included if "higig" is set */
+    bdk_higig_header_t      higig_header; /* The HiGig header included if "higig" is set */
     bdk_srio_tx_message_header_t srio;
-    int                     port_valid;
 } port_setup_t;
 
 port_state_t    port_state[BDK_PIP_NUM_INPUT_PORTS];
@@ -974,30 +967,6 @@ static row_state_t row_state[MAX_ROW] = {{0,0,0},};
 
 
 /**
- * Put a single byte to uart port.
- *
- * @param uart_index Uart to write to (0 or 1)
- * @param ch         Byte to write
- */
-static inline void uart_write_byte(int uart_index, uint8_t ch)
-{
-    bdk_mio_uartx_lsr_t lsrval;
-
-    /* Spin until there is room */
-    do
-    {
-        lsrval.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_index));
-        if ((lsrval.s.thre == 0) && !bdk_is_simulation())
-            bdk_wait(10000);   /* Just to reduce the load on the system */
-    }
-    while (lsrval.s.thre == 0);
-
-    /* Write the byte */
-    BDK_CSR_WRITE(BDK_MIO_UARTX_THR(uart_index), ch);
-}
-
-
-/**
  * Wait for the TX buffer to be empty
  *
  * @param uart_index Uart to check
@@ -1007,43 +976,12 @@ static void uart_wait_idle(int uart_index)
     bdk_mio_uartx_lsr_t lsrval;
 
     /* Spin until there is room */
-    do
     {
         lsrval.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_index));
-        if ((lsrval.s.temt == 0) && !bdk_is_simulation())
-            bdk_wait(10000);   /* Just to reduce the load on the system */
+        if (lsrval.s.temt == 0)
+            bdk_thread_yield();
     }
     while (lsrval.s.temt == 0);
-}
-
-
-/**
- * Version of printf for direct uart output. This bypasses the
- * normal per core banner processing.
- *
- * @param uart_index Uart to write to
- * @param format     printf format string
- * @return Number of characters written
- */
-static int uart_printf(int uart_index, const char *format, ...) __attribute__ ((format(printf, 2, 3)));
-static int uart_printf(int uart_index, const char *format, ...)
-{
-    char buffer[1024];
-    va_list args;
-    va_start(args, format);
-    int result = vsnprintf(buffer, sizeof(buffer), format, args);
-    va_end(args);
-    int i = result;
-    char *ptr = buffer;
-    while (i > 0)
-    {
-        if (*ptr == '\n')
-            uart_write_byte(uart_index, '\r');
-        uart_write_byte(uart_index, *ptr);
-        ptr++;
-        i--;
-    }
-    return result;
 }
 
 
@@ -1058,6 +996,9 @@ static inline uint8_t uart_read_byte(int uart_index)
     /* Read and return the data. Zero will be returned if there is
         no data */
     bdk_mio_uartx_lsr_t lsrval;
+
+    fflush(NULL);
+
     lsrval.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_index));
     if (lsrval.s.dr)
         return BDK_CSR_READ(BDK_MIO_UARTX_RBR(uart_index));
@@ -3859,14 +3800,14 @@ void process_input_commit_character(char ch) {
             }
             cmd[cmd_pos++] = ch;
             cmd_len++;
-            uart_write_byte(0, ch);
+            putchar(ch);
         }
     }
     else {      /* overwrite mode */
         if (cmd_pos < MAX_COMMAND-1) {
             cmd[cmd_pos++] = ch;
             if (cmd_pos > cmd_len) cmd_len = cmd_pos;
-            uart_write_byte(0, ch);
+            putchar(ch);
         }
     }
 }
@@ -5113,14 +5054,15 @@ static void update_rgmii_speed(void)
 static uint64_t next_update = 0;
 static void periodic_update(int show_command_line)
 {
+    uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
 
-    if (bdk_clock_get_count(BDK_CLOCK_CORE) >= next_update)
+    if (cycle >= next_update)
     {
         if (next_update == 0)
-            next_update = bdk_clock_get_count(BDK_CLOCK_CORE);
+            next_update = cycle;
         next_update += cpu_clock_hz;
-        if (next_update < bdk_clock_get_count(BDK_CLOCK_CORE))
-            next_update = bdk_clock_get_count(BDK_CLOCK_CORE) + cpu_clock_hz;
+        if (next_update < cycle)
+            next_update = cycle + cpu_clock_hz;
 
         update_statistics();
         update_rgmii_speed();
@@ -5477,13 +5419,13 @@ static void dump_packet(bdk_wqe_t *work)
     uint8_t *       data_address;
     uint8_t *       end_of_data;
 
-    uart_printf(0, GOTO_BOTTOM);
-    uart_printf(0, "Packet Length:   %u\n", work->len);
-    uart_printf(0, "    Input Port:  %u\n", work->ipprt);
-    uart_printf(0, "    QoS:         %u\n", work->qos);
-    uart_printf(0, "    Buffers:     %u\n", work->word2.s.bufs);
+    printf(GOTO_BOTTOM);
+    printf("Packet Length:   %u\n", work->len);
+    printf("    Input Port:  %u\n", work->ipprt);
+    printf("    QoS:         %u\n", work->qos);
+    printf("    Buffers:     %u\n", work->word2.s.bufs);
     if (work->word2.s.rcv_error)
-        uart_printf(0, "    Error code:  %u\n", work->word2.s.err_code);
+        printf("    Error code:  %u\n", work->word2.s.err_code);
 
     buffer_ptr = get_packet_buffer_ptr(work);
     remaining_bytes = work->len;
@@ -5491,9 +5433,9 @@ static void dump_packet(bdk_wqe_t *work)
     while (remaining_bytes)
     {
         start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        uart_printf(0, "    Pool:        %u\n", buffer_ptr.s.pool);
-        uart_printf(0, "    Address:     0x%llx\n", (ULL)buffer_ptr.s.addr);
-        uart_printf(0, "                 ");
+        printf("    Pool:        %u\n", buffer_ptr.s.pool);
+        printf("    Address:     0x%llx\n", (ULL)buffer_ptr.s.addr);
+        printf("                 ");
         data_address = (uint8_t *)bdk_phys_to_ptr(buffer_ptr.s.addr);
         end_of_data = data_address + buffer_ptr.s.size;
         count = 0;
@@ -5503,17 +5445,17 @@ static void dump_packet(bdk_wqe_t *work)
                 break;
             else
                 remaining_bytes--;
-            uart_printf(0, "%02x", (unsigned int)*data_address);
+            printf("%02x", (unsigned int)*data_address);
             data_address++;
             if (remaining_bytes && (count == 7))
             {
-                uart_printf(0, "\n                 ");
+                printf("\n                 ");
                 count = 0;
             }
             else
                 count++;
         }
-        uart_printf(0, "\n");
+        printf("\n");
 
         if (remaining_bytes)
             buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
@@ -5695,149 +5637,70 @@ static packet_free_t fastpath_receive(bdk_wqe_t *work)
  * core. Transmit rate is controlled by the global structure
  * port_setup.
  *
- * @param low_port First port under control by this thread. low_port+1 will
- *                 also be controlled by this thread.
+ * @param port Port under control by this thread.
  */
-static void packet_transmitter(int low_port)
+static void packet_transmitter(int port)
 {
     bdk_pko_command_word0_t    pko_command;
-    bdk_buf_ptr_t              hw_buffer1;
-    bdk_buf_ptr_t              hw_buffer2;
-    uint64_t                    output_cycle1;
-    uint64_t                    output_cycle2;
-    uint64_t                    count1 = 0;
-    uint64_t                    count2 = 0;
-    const uint64_t              queue1 = bdk_pko_get_base_queue(low_port);
-    const uint64_t              queue2 = bdk_pko_get_base_queue(low_port+1);
-    bdk_wqe_t *                work = NULL;
+    bdk_buf_ptr_t              hw_buffer;
+    uint64_t                   output_cycle;
+    uint64_t                   count = 0;
+    const uint64_t             queue = bdk_pko_get_base_queue(port);
+    port_setup_t *             port_tx = port_setup + port;
 
     /* Build the PKO buffer pointer */
-    hw_buffer1.u64 = 0;
-    hw_buffer1.s.pool = BDK_FPA_PACKET_POOL;
-    hw_buffer1.s.size = 0xffff;
-    hw_buffer1.s.back = 0;
-    hw_buffer1.s.addr = bdk_ptr_to_phys(port_setup[low_port].output_data);
-    hw_buffer2 = hw_buffer1;
-    hw_buffer2.s.addr = bdk_ptr_to_phys(port_setup[low_port+1].output_data);
+    hw_buffer.u64 = 0;
+    hw_buffer.s.pool = BDK_FPA_PACKET_POOL;
+    hw_buffer.s.size = 0xffff;
+    hw_buffer.s.back = 0;
+    hw_buffer.s.addr = bdk_ptr_to_phys(port_tx->output_data);
 
     /* Build the PKO command */
     pko_command.u64 = 0;
     pko_command.s.dontfree =1;
     pko_command.s.segs = 1;
 
-    /* Setup scratch registers used to prefetch output queue buffers for packet output */
-    bdk_helper_initialize_packet_io_local();
-
-    output_cycle1 = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    output_cycle2 = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-
-    bdk_scratch_write64(TRAFFICGEN_SCR_WORK, 0);
-    bdk_sso_work_request_async_nocheck(TRAFFICGEN_SCR_WORK, BDK_SSO_NO_WAIT);
+    output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
     while (1)
     {
-        int port = low_port;
-        port_setup_t *port_tx = port_setup + port;
-        if (bdk_likely(port_tx->port_valid && port_tx->output_enable && port_tx->output_cycle_gap))
+        if (bdk_likely(port_tx->output_enable && port_tx->output_cycle_gap))
         {
-            if (bdk_likely(bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT >= output_cycle1))
+            uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+            if (bdk_likely(cycle >= output_cycle))
             {
-                bdk_pko_send_packet_prepare(port, queue1, BDK_PKO_LOCK_NONE);
+                bdk_pko_send_packet_prepare(port, queue, BDK_PKO_LOCK_NONE);
                 packet_incrementer(port, port_tx->output_data);
-                output_cycle1 += port_tx->output_cycle_gap;
+                output_cycle += port_tx->output_cycle_gap;
                 pko_command.s.total_bytes = port_tx->output_packet_size + get_size_pre_l2(port);
                 if (port_tx->do_checksum)
                     pko_command.s.ipoffp1 = get_end_l2(port) + 1;
                 else
                     pko_command.s.ipoffp1 = 0;
                 /* We don't care if the send fails */
-                bdk_pko_send_packet_finish(port, queue1, pko_command, hw_buffer1, BDK_PKO_LOCK_NONE);
+                bdk_pko_send_packet_finish(port, queue, pko_command, hw_buffer, BDK_PKO_LOCK_NONE);
 
                 /* If we aren't keeping up, start send 4 more packets per iteration */
-                if (bdk_unlikely(bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT > output_cycle1 + 500) && (count1>4))
+                if (bdk_unlikely(cycle > output_cycle + 500) && (count>4))
                 {
-                    uint64_t words[8] = {pko_command.u64, hw_buffer1.u64, pko_command.u64, hw_buffer1.u64, pko_command.u64, hw_buffer1.u64, pko_command.u64, hw_buffer1.u64};
-                    output_cycle1 += port_tx->output_cycle_gap*4;
-                    count1 -= 4;
-                    if (bdk_likely(bdk_cmd_queue_write(BDK_CMD_QUEUE_PKO(queue1), 0, 8, words) == BDK_CMD_QUEUE_SUCCESS))
-                        bdk_pko_doorbell(port, queue1, 8);
+                    uint64_t words[8] = {pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64};
+                    output_cycle += port_tx->output_cycle_gap*4;
+                    count -= 4;
+                    if (bdk_likely(bdk_cmd_queue_write(BDK_CMD_QUEUE_PKO(queue), 0, 8, words) == BDK_CMD_QUEUE_SUCCESS))
+                        bdk_pko_doorbell(port, queue, 8);
                 }
 
-                if (bdk_unlikely(--count1 == 0))
+                if (bdk_unlikely(--count == 0))
                 {
                     port_tx->output_enable = 0;
-                    count1 = port_tx->output_count;
+                    count = port_tx->output_count;
                     BDK_SYNCW;
                 }
-                continue; /* Skip the rest of the processing so priority is given to TX */
             }
         }
         else
         {
-            output_cycle1 = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-            count1 = port_tx->output_count;
-        }
-
-        port++;
-        port_tx++;
-        if (bdk_likely(port_tx->port_valid && port_tx->output_enable && port_tx->output_cycle_gap))
-        {
-            if (bdk_likely((bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT >= output_cycle2)))
-            {
-                bdk_pko_send_packet_prepare(port, queue2, BDK_PKO_LOCK_NONE);
-                packet_incrementer(port, port_tx->output_data);
-                output_cycle2 += port_tx->output_cycle_gap;
-                pko_command.s.total_bytes = port_tx->output_packet_size + get_size_pre_l2(port);
-                if (port_tx->do_checksum)
-                    pko_command.s.ipoffp1 = get_end_l2(port) + 1;
-                else
-                    pko_command.s.ipoffp1 = 0;
-                /* We don't care if the send fails */
-                bdk_pko_send_packet_finish(port, queue2, pko_command, hw_buffer2, BDK_PKO_LOCK_NONE);
-
-                /* If we aren't keeping up, start send 4 more packets per iteration */
-                if (bdk_unlikely(bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT > output_cycle2 + 500) && (count2>4))
-                {
-                    uint64_t words[8] = {pko_command.u64, hw_buffer2.u64, pko_command.u64, hw_buffer2.u64, pko_command.u64, hw_buffer2.u64, pko_command.u64, hw_buffer2.u64};
-                    output_cycle2 += port_tx->output_cycle_gap*4;
-                    count2 -= 4;
-                    if (bdk_likely(bdk_cmd_queue_write(BDK_CMD_QUEUE_PKO(queue2), 0, 8, words) == BDK_CMD_QUEUE_SUCCESS))
-                        bdk_pko_doorbell(port, queue2, 8);
-                }
-
-                if (bdk_unlikely(--count2 == 0))
-                {
-                    port_tx->output_enable = 0;
-                    count2 = port_tx->output_count;
-                    BDK_SYNCW;
-                }
-                continue; /* Skip the rest of the processing so priority is given to TX */
-            }
-        }
-        else
-        {
-            output_cycle2 = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-            count2 = port_tx->output_count;
-        }
-
-        /* If we have work from the previous loop, the prefetch should be done */
-        if (work)
-        {
-            process_work(work);
-            work = NULL;
-        }
-
-        /* Don't use the normal get work routines to avoid a SYNCIOBDMA */
-        bdk_sso_tag_load_resp_t result;
-        result.u64 = bdk_scratch_read64(TRAFFICGEN_SCR_WORK);
-        if (result.u64)
-        {
-            bdk_scratch_write64(TRAFFICGEN_SCR_WORK, 0);
-            if (!result.s_work.no_work)
-            {
-                work = (bdk_wqe_t*)bdk_phys_to_ptr(result.s_work.addr);
-                BDK_PREFETCH(work, 0);
-            }
-            bdk_sso_work_request_async_nocheck(TRAFFICGEN_SCR_WORK, BDK_SSO_NO_WAIT);
+            output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+            count = port_tx->output_count;
         }
         bdk_thread_yield();
     }
@@ -5852,32 +5715,7 @@ static void packet_transmitter(int low_port)
 int main(void)
 {
     int port;
-    extern struct _reent *_impure_ptr;
-    _impure_ptr = _global_impure_ptr;
 
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(0),
-        u.s.dlab = 1; /* Divisor Latch Address bit */
-        u.s.eps = 0; /* Even Parity Select bit */
-        u.s.pen = 0; /* Parity Enable bit */
-        u.s.stop = 0; /* Stop Control bit */
-        u.s.cls = 3); /* Character Length Select */
-
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_FCR(0),
-        u.s.en = 1);
-
-    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 115200 / 16;
-    if (bdk_is_simulation())
-        divisor = 1;
-
-    BDK_CSR_WRITE(BDK_MIO_UARTX_DLH(0), divisor>>8);
-    BDK_CSR_WRITE(BDK_MIO_UARTX_DLL(0), divisor & 0xff);
-
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(0),
-        u.s.dlab = 0); /* Divisor Latch Address bit */
-    BDK_CSR_READ(BDK_MIO_UARTX_LCR(0));
-    bdk_wait_usec(1);
-
-    if (1)
     {
         printf("\n\nOcteon Traffic Generator\n");
 #if 0 // FIXME
@@ -5888,10 +5726,8 @@ int main(void)
         {
             printf("About to enable flow control.\nThis may hang if the terminal program is configured incorrectly\n");
             printf("Enabling UART flow control...\n");
-            bdk_mio_uartx_mcr_t mcr;
-            mcr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_MCR(0));
-            mcr.s.afce = 1;
-            BDK_CSR_WRITE(BDK_MIO_UARTX_MCR(0), mcr.u64);
+            BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
+                mcr.s.afce = 1);
         }
         else
         {
@@ -5923,7 +5759,6 @@ int main(void)
         /* Set the number of packet and WQE entries to be 16 less than the
             number of SSO entries. This way we never spill to ram */
         int num_packet_buffers = bdk_sso_get_num_entries() - 16;
-        //num_packet_buffers =128; // FIXME
         bdk_fpa_enable();
         bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
         bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
@@ -5985,7 +5820,6 @@ int main(void)
                 int ipd_port = bdk_helper_get_ipd_port(interface, port);
                 port_state[ipd_port].imode = imode;
                 port_state[ipd_port].display = do_display;
-                port_setup[ipd_port].port_valid = 1;
                 if (imode == BDK_HELPER_INTERFACE_MODE_SRIO)
                 {
                     port_setup[ipd_port].srio.s.prio = 0;
@@ -5999,17 +5833,12 @@ int main(void)
                     port_setup[ipd_port].srio.s.lns = 0;
                     port_setup[ipd_port].srio.s.intr = 0;
                 }
+                if (port_state[ipd_port].imode != BDK_HELPER_INTERFACE_MODE_DISABLED)
+                    bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, ipd_port, NULL);
             }
         }
         process_cmd_reset(0, BDK_PIP_NUM_INPUT_PORTS-1);
         printf("Initialization Complete\n");
-    }
-
-    int start_port;
-    for (start_port = 0; start_port < BDK_PIP_NUM_INPUT_PORTS; start_port+=2)
-    {
-        if (port_state[start_port].imode != BDK_HELPER_INTERFACE_MODE_DISABLED)
-            bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, start_port, NULL);
     }
 
     statistics_gatherer();
