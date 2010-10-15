@@ -73,7 +73,7 @@ caddr_t sbrk(int incr)
     if (next == NULL)
     {
         next = bdk_phys_to_ptr(0x30000000);
-        end = next + (1<<20);
+        end = next + (10<<20);
     }
 
     caddr_t result = next;
