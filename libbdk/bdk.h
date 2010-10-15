@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include "libbdk-arch/bdk-arch.h"
-#include "libbdk-hal/bdk-hal.h"
-#include "libbdk-os/bdk-os.h"
+#include "../libbdk-arch/bdk-arch.h"
+#include "../libbdk-hal/bdk-hal.h"
+#include "../libbdk-os/bdk-os.h"
 
 #endif
