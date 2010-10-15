@@ -169,5 +169,5 @@ extern int bdk_fpa_empty_pool(bdk_fpa_pool_t pool);
  * @param pool   Pool to access
  * @return Size of the block in bytes
  */
-int bdk_fpa_get_block_size(bdk_fpa_pool_t pool);
+int bdk_fpa_get_block_size(bdk_fpa_pool_t pool) __attribute__ ((pure));
 
