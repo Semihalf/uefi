@@ -12,7 +12,7 @@ clean:
 	scons $(SCONS_OPTIONS) -s -c
 
 run: $(TARGET:%.elf=%.bin)
-	cn63xx-simulator64 -ld0x1fc00000:$(TARGET) -ld0x1fc00000:$(TARGET:%.elf=%.bin) -ld0:0x280 -ld0x30000000:0x10000000 -modes=fastboot -uart0=2020 -quiet
+	cn63xx-simulator64 -ld0x1fc00000:$(TARGET) -ld0x1fc00000:$(TARGET:%.elf=%.bin) -ld0:0x10000000 -ld0x30000000:0x10000000 -modes=fastboot -uart0=2020 -quiet
 
 run-ub: $(TARGET:%.elf=%.bin)
 	oct-sim u-boot-env -ld0x100000:$(TARGET) -ld0x400000:$(TARGET:%.elf=%.bin) -ld0x30000000:0x10000000 -uart0=2020 -envfile=u-boot-env -memsize=4 -quiet
