@@ -28,20 +28,14 @@ static inline uint32_t bdk_get_proc_id(void)
  */
 static inline uint64_t bdk_ptr_to_phys(void *ptr)
 {
-    bdk_warn_if(ptr==NULL, "bdk_ptr_to_phys() passed a NULL pointer\n");
-    if (sizeof(void*) == 8)
-    {
-        /* We're running in 64 bit mode. Normally this means that we can use
-            40 bits of address space (the hardware limit). Unfortunately there
-            is one case were we need to limit this to 30 bits, sign extended
-            32 bit. Although these are 64 bits wide, only 30 bits can be used */
-        if ((CAST64(ptr) >> 62) == 3)
-            return CAST64(ptr) & bdk_build_mask(30);
-        else
-            return CAST64(ptr) & bdk_build_mask(40);
-    }
+    extern uint64_t __bdk_ptr_to_phys_slow(void *ptr);
+    uint64_t address = (long)ptr;
+
+    /* Kernel Unmapped */
+    if (bdk_likely(address >> 62 == 2))
+        return address & bdk_build_mask(49);
     else
-	return (long)(ptr) & 0x7fffffff;
+        return __bdk_ptr_to_phys_slow(ptr);
 }
 
 
@@ -56,12 +50,7 @@ static inline uint64_t bdk_ptr_to_phys(void *ptr)
 static inline void *bdk_phys_to_ptr(uint64_t physical_address)
 {
     bdk_warn_if(physical_address==0, "bdk_phys_to_ptr() passed a zero address\n");
-
-    /* Set the XKPHYS/KSEG0 bit as appropriate based on ABI */
-    if (sizeof(void*) == 8)
-        return CASTPTR(void, BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, physical_address));
-    else
-	return CASTPTR(void, BDK_ADD_SEG32(BDK_MIPS32_SPACE_KSEG0, physical_address));
+    return (void*)(physical_address | (1ull<<63));
 }
 
 
