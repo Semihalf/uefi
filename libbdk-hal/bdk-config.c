@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 uint8_t __bdk_config_is_valid[__BDK_CONFIG_END];
-uint8_t __bdk_config_cache[__BDK_CONFIG_END];
+uint64_t __bdk_config_cache[__BDK_CONFIG_END];
 
 #define AS_STRING(e) [e] = #e
 static const char *__bdk_config_get_name[__BDK_CONFIG_END] =
