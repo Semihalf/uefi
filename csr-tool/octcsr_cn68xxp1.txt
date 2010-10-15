@@ -12974,8 +12974,8 @@ Pos      Name    Type     Value     Value       Description
 <47:32>  BRST_LIMIT           R/W      0x400    NS       Size of token bucket, also the maximum quantity of data that   |
                                                          may be burst across the interface before invoking rate limiting|
                                                          logic.                                                         |
-<50:48>  GRNLRTY              R/W      0x0      NS       Granularity of a token, where 1 token equal (1<<GRNLRTY) bytes.|
-<63:51>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<49:48>  GRNLRTY              R/W      0x0      NS       Granularity of a token, where 1 token equal (1<<GRNLRTY) bytes.|
+<63:50>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23396,13 +23396,13 @@ Pos      Name    Type     Value     Value       Description
  <29>    RAD      RO       0x0         0         RAD interrupt                                      |
                                                   See RAD_REG_ERROR                                 |
  <28>    TIM      RO       0x0         0         TIM interrupt                                      |
-                                                  See TIM_REG_ERROR                                 |
+                                                  See TIM_INT_ECCERR, TIM_INT0_EVENT                |
  <27:25> NS       RAZ      NS          NS        Reserved for ZIP expansion                         |
  <24>    ZIP      RO       0x0         0         ZIP interrupt                                      |
-                                                  See ZIP_ERROR                                     |
+                                                  See ZIP_INT_REG                                   |
  <23:17> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <16>    SSO      RO       0x0         0         SSO err interrupt                                  |
-                                                  See SSO_ECC_ERR                                   |
+                                                  See SSO_ERR                                       |
  <15:8>  NS       RAZ      NS          NS        Reserved for future expansion                      |
  <7>     PKO      RO       0x0         0         PKO interrupt                                      |
                                                   See PKO_REG_ERROR                                 |
@@ -24892,9 +24892,6 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
-
-
-
      ==============================================================
      CIU2_WDOG(0..31) Type=NCB
      ==============================================================
@@ -25026,7 +25023,6 @@ Pos      Name    Type     Value     Value       Description
 
 
 
-
      ==============================================================
      CIU2_INTR_RAM_ECC_CTL Type=NCB
      ==============================================================
@@ -25047,6 +25043,7 @@ Pos      Name    Type     Value     Value       Description
 						 detect Double Bit error.
 ----------------------------------------------------------------------------------------------------
 ===
+
 
 
      ==============================================================
@@ -25070,16 +25067,6 @@ Pos      Name    Type     Value     Value       Description
  <0>     SBE       R/W1C     0x0         0       Single bit error observed. Write '1' to clear      |
 ----------------------------------------------------------------------------------------------------
 ===
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -25531,7 +25518,6 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  PP_BIST  RO       0           NS        Physical PP BIST status                            |
 ----------------------------------------------------------------------------------------------------
 ===
-
  *
  *                  MIX_ORING1 = MIX Outbound Ring Register #1
  *
@@ -30028,6 +30014,22 @@ Notes:
 
 
      ==============================================================
+     PKO_REG_DEBUG4 Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  ASSERTS  RO       0           0         Various assertion checks
+
+Notes:
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+     ==============================================================
      PKO_REG_QUEUE_PREEMPT Type=RSL
      ==============================================================
 
@@ -30807,6 +30809,42 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko.out.sta.state[22:0]
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ CSR read operations to this address can be performed.
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     PKO_MEM_DEBUG12 Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  STATE    RO        NS          NS       Internal state
+
+Notes:
+ Internal per-port state intended for debug use only - pko.out.ctl.out_rdat_5a[63:0]
+ This CSR is a memory of 160 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ CSR read operations to this address can be performed.
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     PKO_MEM_DEBUG13 Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  STATE    RO        NS          NS       Internal state
+
+Notes:
+ Internal per-port state intended for debug use only - pko.out.ctl.out_rdat_5a[127:64]
+ This CSR is a memory of 160 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -65721,6 +65759,8 @@ PKO_MEM_DEBUG8                 0x0001180050001140  RSL
 PKO_MEM_DEBUG9                 0x0001180050001148  RSL
 PKO_MEM_DEBUG10                0x0001180050001150  RSL
 PKO_MEM_DEBUG11                0x0001180050001158  RSL
+PKO_MEM_DEBUG12                0x0001180050001160  RSL
+PKO_MEM_DEBUG13                0x0001180050001168  RSL
 PKO_MEM_IPORT_PTRS             0x0001180050001030  RSL
 PKO_MEM_IPORT_QOS              0x0001180050001038  RSL
 PKO_MEM_IQUEUE_PTRS            0x0001180050001040  RSL
@@ -65735,6 +65775,7 @@ PKO_REG_DEBUG0                 0x0001180050000098  RSL
 PKO_REG_DEBUG1                 0x00011800500000A0  RSL
 PKO_REG_DEBUG2                 0x00011800500000A8  RSL
 PKO_REG_DEBUG3                 0x00011800500000B0  RSL
+PKO_REG_DEBUG4                 0x00011800500000B8  RSL
 PKO_REG_ENGINE_INFLIGHT        0x0001180050000050  RSL
 PKO_REG_ENGINE_INFLIGHT1       0x0001180050000318  RSL
 PKO_REG_ENGINE_STORAGE0        0x0001180050000300  RSL
