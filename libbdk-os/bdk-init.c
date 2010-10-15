@@ -5,6 +5,28 @@ void bdk_init(void)
     extern int main(int argc, const char *argv);
     extern void _gp;
 
+    /* Setup the UART */
+    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(0),
+        u.s.dlab = 1; /* Divisor Latch Address bit */
+        u.s.eps = 0; /* Even Parity Select bit */
+        u.s.pen = 0; /* Parity Enable bit */
+        u.s.stop = 0; /* Stop Control bit */
+        u.s.cls = 3); /* Character Length Select */
+
+    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_FCR(0),
+        u.s.en = 1);
+
+    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 115200 / 16;
+    if (bdk_is_simulation())
+        divisor = 1;
+
+    BDK_CSR_WRITE(BDK_MIO_UARTX_DLH(0), divisor>>8);
+    BDK_CSR_WRITE(BDK_MIO_UARTX_DLL(0), divisor & 0xff);
+
+    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(0),
+        u.s.dlab = 0); /* Divisor Latch Address bit */
+    BDK_CSR_READ(BDK_MIO_UARTX_LCR(0));
+
     uint64_t data_physical = 0x1fc00000; // FIXME bdk_ptr_to_phys(&gp);
 
     /* We must rlocate our data section if it is on the bootbus */
