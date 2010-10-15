@@ -13,6 +13,7 @@
 #define COP0_ENTRYLO0	$2,0	/* TLB entryLo0 */
 #define COP0_ENTRYLO1	$3,0	/* TLB entryLo1 */
 #define COP0_CONTEXT	$4,0	/* Context */
+#define COP0_USERLOCAL  $4,2    /* User local (Octeon 2) */
 #define COP0_PAGEMASK	$5,0	/* TLB pagemask */
 #define COP0_PAGEGRAIN	$5,1	/* TLB config for max page sizes */
 #define COP0_WIRED	$6,0	/* TLB number of wired entries */
