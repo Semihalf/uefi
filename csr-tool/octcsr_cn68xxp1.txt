@@ -12787,16 +12787,16 @@ Pos      Name    Type     Value     Value       Description
 <52>     CAL_ENA              R/W      0x0      NS       Enable Tx calendar, else default calendar used:                |
                                                               First control word:                                       |
                                                                Entry 0  = link                                          |
-                                                               Entry 1  = port-kind 0                                   |
-                                                               Entry 2  = port-kind 1                                   |
+                                                               Entry 1  = backpressue id 0                              |
+                                                               Entry 2  = backpressue id 1                              |
                                                                ...etc.                                                  |
                                                             Second control word:                                        |
                                                                Entry 15 = link                                          |
-                                                               Entry 16 = port-kind 15                                  |
-                                                               Entry 17 = port-kind 16                                  |
+                                                               Entry 16 = backpressue id 15                             |
+                                                               Entry 17 = backpressue id 16                             |
                                                                ...etc.                                                  |
-                                                         Continues until status for all port-kinds transmitted, then    |
-                                                         repeats.                                                       |
+                                                         Continues until status for all backpressue ids transmitted,    |
+                                                         then repeats.                                                  |
 <53>     MLTUSE_FC_ENA        R/W      0x0      NS       When set, the multi-use field of control words will contain    |
                                                          flow control status.  Otherwise, the multi-use field will      |
                                                          contain ILK_TX@_CFG1[TX_MLTUSE]                                |
@@ -12988,9 +12988,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   STATUS               RO       0x0      NS       IPD flow control status for port-kind 63-0, where a 1 indicates|
-                                                         the presence of backpressure (ie. XOFF) and 0 indicates the    |
-                                                         absence of backpressure (ie. XON)                              |
+<63:0>   STATUS               RO       0x0      NS       IPD flow control status for backpressue id 63-0, where a 1     |
+                                                         indicates the presence of backpressure (ie. XOFF) and 0        |
+                                                         indicates the absence of backpressure (ie. XON)                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13036,35 +13036,35 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<5:0>    PORT_KIND0           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+0 (unused|
-                                                         if ENTRY_CTL0 != 0)                                            |
+<5:0>    BPID0                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+0   |
+                                                         (unused if ENTRY_CTL0 != 0)                                    |
 <6>      NS                   RAZ      0x0      NS       Reserved                                                       |
 <8:7>    ENTRY_CTL0           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+0                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<14:9>   PORT_KIND1           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+1 (unused|
-                                                         if ENTRY_CTL1 != 0)                                            |
+<14:9>   BPID1                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+1   |
+                                                         (unused if ENTRY_CTL1 != 0)                                    |
 <15>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <17:16>  ENTRY_CTL1           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+1                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<23:18>  PORT_KIND2           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+2 (unused|
-                                                         if ENTRY_CTL2 != 0)                                            |
+<23:18>  BPID2                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+2   |
+                                                         (unused if ENTRY_CTL2 != 0)                                    |
 <24>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <26:25>  ENTRY_CTL2           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+2                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<32:27>  PORT_KIND3           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+3 (unused|
-                                                         if ENTRY_CTL3 != 0)                                            |
+<32:27>  BPID3                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+3   |
+                                                         (unused if ENTRY_CTL3 != 0)                                    |
 <33>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <35:34>  ENTRY_CTL3           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+3                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
@@ -13090,35 +13090,35 @@ Notes:                                                                          
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<5:0>    PORT_KIND4           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+4 (unused|
-                                                         if ENTRY_CTL4 != 0)                                            |
+<5:0>    BPID4                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+4   |
+                                                         (unused if ENTRY_CTL4 != 0)                                    |
 <6>      NS                   RAZ      0x0      NS       Reserved                                                       |
 <8:7>    ENTRY_CTL4           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+4                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<14:9>   PORT_KIND5           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+5 (unused|
-                                                         if ENTRY_CTL5 != 0)                                            |
+<14:9>   BPID5                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+5   |
+                                                         (unused if ENTRY_CTL5 != 0)                                    |
 <15>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <17:16>  ENTRY_CTL5           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+5                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<23:18>  PORT_KIND6           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+6 (unused|
-                                                         if ENTRY_CTL6 != 0)                                            |
+<23:18>  BPID6                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+6   |
+                                                         (unused if ENTRY_CTL6 != 0)                                    |
 <24>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <26:25>  ENTRY_CTL6           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+6                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
-<32:27>  PORT_KIND7           R/W      0x0      NS       Select IPD port-kind for calendar table entry (IDX*8)+7 (unused|
-                                                         if ENTRY_CTL7 != 0)                                            |
+<32:27>  BPID7                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+7   |
+                                                         (unused if ENTRY_CTL7 != 0)                                    |
 <33>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <35:34>  ENTRY_CTL7           R/W      0x0      NS       Select source of XON/XOFF for entry (IDX*8)+7                  |
-                                                             0: IPD port-kind                                           |
+                                                             0: IPD backpressue id                                      |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
@@ -13748,7 +13748,6 @@ Pos      Name    Type     Value     Value       Description
                                                          some large packets may not be flagged or truncated.            |
                                                                                                                         |
                                                          NOTE: CNT must be 8-byte aligned such that CNT[2:0] == 0       |
-                                                                                                                        |
 <63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
