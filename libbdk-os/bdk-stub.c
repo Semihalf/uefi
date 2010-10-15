@@ -117,6 +117,17 @@ int write(int file, const char *ptr, int len)
 
     while (l--)
     {
+        if (*p =='\n')
+        {
+            /* Spin until there is room */
+            do
+            {
+                lsrval = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+            } while ((lsrval & (1<<5)) == 0);
+            /* Write the byte */
+            BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), '\r');
+        }
+
         /* Spin until there is room */
         do
         {
