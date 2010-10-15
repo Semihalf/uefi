@@ -24,7 +24,7 @@ LDFLAGS  = -nostdlib -nostartfiles --allow-multiple-definition --gc-sections
 LDFLAGS += -Wl,--section-start -Wl,.init=0xffffffffBFC00000
 LDFLAGS += -Wl,--section-start -Wl,.data=0xffffffffC0000500
 LDFLAGS += -Wl,--section-start -Wl,.text=0xffffffffE0044000
-LDFLAGS += -L $(BDK_ROOT)/libbdk
+LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDLIBS = -lbdk -lgcc
 
 INIT_SECTIONS=.init
