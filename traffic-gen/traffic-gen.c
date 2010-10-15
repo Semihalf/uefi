@@ -967,25 +967,6 @@ static row_state_t row_state[MAX_ROW] = {{0,0,0},};
 
 
 /**
- * Wait for the TX buffer to be empty
- *
- * @param uart_index Uart to check
- */
-static void uart_wait_idle(int uart_index)
-{
-    bdk_mio_uartx_lsr_t lsrval;
-
-    /* Spin until there is room */
-    {
-        lsrval.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_index));
-        if (lsrval.s.temt == 0)
-            bdk_thread_yield();
-    }
-    while (lsrval.s.temt == 0);
-}
-
-
-/**
  * Get a single byte from serial port.
  *
  * @param uart_index Uart to read from (0 or 1)
@@ -1003,7 +984,10 @@ static inline uint8_t uart_read_byte(int uart_index)
     if (lsrval.s.dr)
         return BDK_CSR_READ(BDK_MIO_UARTX_RBR(uart_index));
     else
+    {
+        bdk_thread_yield();
         return 0;
+    }
 }
 
 static inline int get_size_wire_overhead(int port)
@@ -2074,10 +2058,8 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
 
         /* We need to wait here due to a race condition between the packet
             count being updated and TX enable. Without this wait the last port
-            may mistakenly use a count of zero and get stuck transmitting. The
-            delay of 500 cycles should be enough without affecting performance
-            much */
-        bdk_wait(500);
+            may mistakenly use a count of zero and get stuck transmitting */
+        bdk_wait_usec(1);
 
         /* Start the TX */
         for (port=tx_port1; port<=tx_port2; port++)
@@ -3144,8 +3126,6 @@ static uint64_t process_command(const char *cmd, int newline)
         else if (strcasecmp(command, "reboot") == 0) {
             /* Turn off the scrolling region so the full terminal is used after the reboot */
             printf(CURSOR_OFF SCROLL_FULL GOTO_BOTTOM CURSOR_ON);
-            /* Wait for the uart to be done */
-            uart_wait_idle(0);
             /* Perform a chip wide soft reset */
             bdk_reset_octeon();
         }
@@ -5112,7 +5092,6 @@ static void statistics_gatherer(void)
 
     while (1)
     {
-        bdk_thread_yield();
         {
             /* Check for a character over the serial port */
             int c = uart_read_byte(0);
