@@ -174,21 +174,6 @@ static inline void bdk_wait(uint64_t cycles)
 
 
 /**
- * Wait for the specified number of micro seconds
- *
- * @param usec   micro seconds to wait
- */
-static inline void bdk_wait_usec(uint64_t usec)
-{
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
-    while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
-    {
-        /* Spin */
-    }
-}
-
-
-/**
  * Wait for the specified number of io clock cycles
  *
  * @param cycles
@@ -201,19 +186,5 @@ static inline void bdk_wait_io(uint64_t cycles)
     {
         /* Spin */
     }
-}
-
-
-/**
- * Perform a soft reset of Octeon
- *
- * @return
- */
-static inline void bdk_reset_octeon(void)
-{
-    bdk_ciu_soft_rst_t ciu_soft_rst;
-    ciu_soft_rst.u64 = 0;
-    ciu_soft_rst.s.soft_rst = 1;
-    BDK_CSR_WRITE(BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
 }
 

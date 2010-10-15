@@ -96,7 +96,7 @@ BDK_FUNCTION void bdk_wait(uint64_t cycles);
  *
  * @param usec   micro seconds to wait
  */
-BDK_FUNCTION void bdk_wait_usec(uint64_t usec);
+extern void bdk_wait_usec(uint64_t usec);
 
 /**
  * Wait for the specified number of io clock cycles
@@ -110,7 +110,7 @@ BDK_FUNCTION void bdk_wait_io(uint64_t cycles);
  *
  * @return
  */
-BDK_FUNCTION void bdk_reset_octeon(void);
+extern void bdk_reset_octeon(void);
 
 #undef BDK_FUNCTION
 
