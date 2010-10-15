@@ -4,8 +4,8 @@
 static void __bdk_output(const char *prefix, const char *format, va_list args)
 {
     if (prefix)
-        puts(prefix);
-    vprintf(format, args);
+        fputs(prefix, stderr);
+    vfprintf(stderr, format, args);
     fflush(NULL);
 }
 
