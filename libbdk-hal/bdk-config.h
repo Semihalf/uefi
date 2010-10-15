@@ -19,6 +19,8 @@ typedef enum
     BDK_CONFIG_PHY_MGMT_PORT0,
     BDK_CONFIG_PHY_MGMT_PORT1,
 
+    BDK_CONFIG_THREAD_STACK_SIZE,
+
     __BDK_CONFIG_END
 } bdk_config_t;
 
