@@ -12,4 +12,5 @@
 /eLua/luarpc
 /csr-tool/cisco
 /csr-tool/html
-
+/libc/build
+/libc/mipsisa64-octeon-elf
