@@ -2158,7 +2158,7 @@ static void process_cmd_clear(int start_port, int stop_port)
 static void process_cmd_reset(int start_port, int stop_port)
 {
     int port;
-    uint64_t mac_addr_base = 0; // FIXME
+    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS, 0xdeadbeef00);
 
     for (port=start_port; port<=stop_port; port++)
     {
@@ -5687,6 +5687,23 @@ static void packet_transmitter(int port)
 
 
 /**
+ * Loops forever reading input packets
+ */
+static void packet_receiver(void)
+{
+    bdk_wqe_t *work;
+    while (1)
+    {
+        work = bdk_sso_work_request_sync(BDK_SSO_NO_WAIT);
+        if (work)
+            process_work(work);
+        else
+            bdk_thread_yield();
+    }
+}
+
+
+/**
  * Main entry point
  *
  * @return exit code
@@ -5817,6 +5834,7 @@ int main(void)
             }
         }
         process_cmd_reset(0, BDK_PIP_NUM_INPUT_PORTS-1);
+        bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL);
         printf("Initialization Complete\n");
     }
 
