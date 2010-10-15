@@ -20,7 +20,7 @@ CPPFLAGS = -isystem $(BDK_ROOT)/libbdk -isystem $(BDK_ROOT)/libc/mipsisa64-octeo
 CFLAGS = -W -Wall -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-sections
 ASFLAGS = $(CFLAGS)
 
-LDFLAGS  = -nostdlib -nostartfiles --allow-multiple-definition --gc-sections
+LDFLAGS  = -nostdlib -nostartfiles -Wl,--allow-multiple-definition -Wl,--gc-sections
 LDFLAGS += -Wl,--section-start -Wl,.init=0xffffffffBFC00000
 LDFLAGS += -Wl,--section-start -Wl,.data=0xffffffffC0000500
 LDFLAGS += -Wl,--section-start -Wl,.text=0xffffffffE0044000
@@ -45,6 +45,17 @@ TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 # Convert an ELF file into a binary
 #
 %.bin: %
+	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary init.tmp
+	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
+	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
+	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=4096 count=68 &> /dev/null
+	cat init+data.tmp text.tmp > $@
+	rm init.tmp data.tmp init+data.tmp text.tmp
+
+#
+# Convert an ELF file into a binary
+#
+%.bin: %.elf
 	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary init.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
