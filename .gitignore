@@ -14,3 +14,4 @@
 /csr-tool/html
 /libc/build
 /libc/mipsisa64-octeon-elf
+/docs/*.html
