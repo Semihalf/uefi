@@ -2646,7 +2646,7 @@ static uint64_t process_command(const char *cmd, int newline)
             char *p = strrchr(cmd,' ');                                         \
             if (p) {                                                            \
                 p++;                                                            \
-                if (isalpha(*p)) argc--;                                        \
+                if (isalpha((int)*p)) argc--;                                   \
                                                                                 \
                 switch (argc)                                                   \
                 {                                                               \
@@ -2707,7 +2707,7 @@ static uint64_t process_command(const char *cmd, int newline)
             if (p)                                                             \
             {                                                                  \
                 p++;                                                           \
-                if (!isalpha(*p)) p=NULL;                                      \
+                if (!isalpha((int)*p)) p=NULL;                                 \
             }                                                                  \
             printf(GOTO_TOP ERASE_EOS);                                        \
             switch (argc) {                                                    \
@@ -3429,7 +3429,7 @@ static uint64_t process_command(const char *cmd, int newline)
             uint32_t ip_addr = args[2].number;
             bdk_pko_command_word0_t pko_command;
 
-            if ((argc != 3) || isalpha(args[2].str[0])) {
+            if ((argc != 3) || isalpha((int)args[2].str[0])) {
                 printf("ERROR:  require %s <port> <ip address>\n",command);
                 goto arp_request_done;
             }
@@ -3623,13 +3623,13 @@ arp_request_done: ;
                 if (argc > 2) {
                     max_help_lines = args[1].number;    /* assume first argument is lines */
 
-                    if (isdigit(help_prefix[0])) {      /* if last argument is numeric */
+                    if (isdigit((int)help_prefix[0])) {      /* if last argument is numeric */
                         max_help_lines = args[argc-1].number;   /* assume last argument is lines */
                         help_prefix = args[1].str;      /* assume first argument is prefix */
                     }
                 }
                 else if (argc == 2) {
-                    if (isdigit(help_prefix[0])) {      /* if first (only) argument is numeric */
+                    if (isdigit((int)help_prefix[0])) {      /* if first (only) argument is numeric */
                         max_help_lines = args[1].number;        /* assume first argument is lines */
                         help_prefix="";                 /* assume only lines given */
                     }
@@ -4147,7 +4147,7 @@ static void process_input(int c)
                     goto parse_input;   /* parse this as a normal character */
             }
         }
-        else if (isdigit(escape_saw_char) && isdigit(c)) {
+        else if (isdigit((int)escape_saw_char) && isdigit(c)) {
 #define TWO_DIGIT_ESC_CODE(first,second) (0x200 + ((first) - '0')*10 + (second) - '0')
             escape_saw_char = TWO_DIGIT_ESC_CODE(escape_saw_char,c);
         }
@@ -4270,8 +4270,8 @@ static void process_input(int c)
                     cmd_pos=0;
                     goto parse_input;   /* parse this as a normal character */
                 case '~':
-                    if (islower(cmd[cmd_pos])) cmd[cmd_pos] = toupper(cmd[cmd_pos]);
-                    else if (isupper(cmd[cmd_pos])) cmd[cmd_pos] = tolower(cmd[cmd_pos]);
+                    if (islower((int)cmd[cmd_pos])) cmd[cmd_pos] = toupper((int)cmd[cmd_pos]);
+                    else if (isupper((int)cmd[cmd_pos])) cmd[cmd_pos] = tolower((int)cmd[cmd_pos]);
                     process_input_right();
                     break;
                 case 'c':
