@@ -5764,8 +5764,7 @@ int main(void)
         {
             port_state[port].imode = BDK_HELPER_INTERFACE_MODE_DISABLED;
             /* Allocate a TX buffer for this port */
-            //port_setup[port].output_data = memalign(128, 65536);
-            port_setup[port].output_data = memalign(128, 256);
+            port_setup[port].output_data = memalign(128, 65536);
             if (port_setup[port].output_data == NULL)
             {
                 printf("Failed to allocate packet buffer for port %d\n", port);
