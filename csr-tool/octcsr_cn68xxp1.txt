@@ -14843,7 +14843,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:7>  NS       RAZ     NS          NS        Reserved			                    |
- <6:0>   CRD      R/W     8          NS        Number of credits for DID. Writing this field will  |
+ <6:0>   CRD      R/W     16          NS        Number of credits for DID. Writing this field will  |
                                                 casuse the credits to be set to the value written.  |
                                                 Reading this field will give the number of credits  |
 						PRESENTLY available.                                |
@@ -29435,7 +29435,6 @@ Note: FCS is not checked on the PCI ports 32..35.
 ----------------------------------------------------------------------------------------------------
 ===
 
- * CISCO-SPECIFIC CSR
  * PIP_STAT10_PKND = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
 
      ==============================================================
@@ -29463,7 +29462,6 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * CISCO-SPECIFIC CSR
  * PIP_STAT11_PKND = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
 
      ==============================================================
@@ -30045,7 +30043,6 @@ Pos      Name    Type     Value     Value       Description
                                                  1 QID can have this bit set.
 
 Notes:
- CISCO-SPECIFIC CSR
  Per QID, setting both PREEMPTER=1 and PREEMPTEE=1 is illegal and sets only PREEMPTER=1.
  This CSR is used with PKO_MEM_IQUEUE_PTRS.  When programming queues, the
  programming sequence must first write PKO_REG_QUEUE_PREEMPT and then
@@ -30073,7 +30070,6 @@ Pos      Name    Type     Value     Value       Description
                                                  Only packets which have at least MIN_SIZE bytes
                                                  remaining to be read can be preempted.
 Notes:
- CISCO-SPECIFIC CSR
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30535,7 +30531,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.cmnd[63:0]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30557,7 +30553,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.curr[63:0]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30580,7 +30576,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.head[63:0]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30599,7 +30595,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.resp[63:0]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30630,7 +30626,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.state[63:0]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30645,7 +30641,7 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:57> NS        RAZ      NS          NS       RESERVED
+ <63:57> NS        RO       NS          NS       RESERVED
  <56:56> UID_2     RO       X           0        Internal state
  <55:55> PTP       RO       X           0        Internal state
  <54:54> MAJOR_3   RO       X           0        Internal state
@@ -30655,7 +30651,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.state[127:64]
- This CSR is a memory of 12 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30725,10 +30721,10 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:37> NS        RAZ      NS          NS       RESERVED
+ <63:37> NS        RO       NS          NS       RESERVED
  <36>    PREEMPTER RO       X           0        Preempter
  <35:16> DOORBELL  RO       X           0        Doorbell count
- <15:9>  NS        RAZ      NS          NS       RESERVED
+ <15:9>  NS        RO       NS          NS       RESERVED
  <8>     PREEMPTEE RO       X           0        Preemptee
  <7>     STATIC_P  RO       X           0        Static priority
  <6>     S_TAIL    RO       X           0        Static tail
@@ -30752,14 +30748,14 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:49> NS       RAZ       NS          NS       RESERVED
+ <63:49> NS       RO        NS          NS       RESERVED
  <48:32> PTRS0    RO        X           0        Internal state
- <31:17> NS       RAZ       NS          NS       RESERVED
+ <31:17> NS       RO        NS          NS       RESERVED
  <16:0>  PTRS3    RO        X           0        Internal state
 
 Notes:
  Internal per-port state intended for debug use only - pko.dat.ptr.ptrs0, pko.dat.ptr.ptrs3
- This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30774,14 +30770,14 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:49> NS       RAZ       NS          NS       RESERVED
+ <63:49> NS       RO        NS          NS       RESERVED
  <48:32> PTRS1    RO        X           0        Internal state
- <31:17> NS       RAZ       NS          NS       RESERVED
+ <31:17> NS       RO        NS          NS       RESERVED
  <16:0>  PTRS2    RO        X           0        Internal state
 
 Notes:
  Internal per-port state intended for debug use only - pko.dat.ptr.ptrs1, pko.dat.ptr.ptrs2
- This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30796,7 +30792,7 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:23> NS       RAZ       NS          NS       RESERVED
+ <63:23> NS       RO        NS          NS       RESERVED
  <22:22> MAJ      RO        X           0        Internal state
  <21:19> UID      RO        X           0        Internal state
  <18:18> SOP      RO        X           0        Internal state
@@ -30807,7 +30803,7 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko.out.sta.state[22:0]
- This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
  CSR read operations to this address can be performed.
 ----------------------------------------------------------------------------------------------------
 ===

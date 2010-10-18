@@ -28301,7 +28301,6 @@ Note: FCS is not checked on the PCI ports 32..35.
 ===
 
  * PIP_STAT10_PRT@ = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
- * CISCO-SPECIFIC CSR
 
      ==============================================================
      PIP_STAT10_PRT(0..3,32..35,36..39) Type=RSL
@@ -28329,7 +28328,6 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  * PIP_STAT11_PRT@ = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
- * CISCO-SPECIFIC CSR
 
      ==============================================================
      PIP_STAT11_PRT(0..3,32..35,36..39) Type=RSL
@@ -28531,7 +28529,6 @@ Note: FCS is not checked on the PCI ports 32..35.
 ===
 
  * PIP_XSTAT10_PRT@ = PIP_XSTAT_L2_MCAST / PIP_XSTAT_L2_BCAST
- * CISCO-SPECIFIC CSR
 
      ==============================================================
      PIP_XSTAT10_PRT(40..43) Type=RSL
@@ -28559,7 +28556,6 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  * PIP_XSTAT11_PRT@ = PIP_XSTAT_L3_MCAST / PIP_XSTAT_L3_BCAST
- * CISCO-SPECIFIC CSR
 
      ==============================================================
      PIP_XSTAT11_PRT(40..43) Type=RSL
@@ -29075,7 +29071,6 @@ Pos      Name    Type     Value     Value       Description
                                                  1 QID can have this bit set.
 
 Notes:
- CISCO-SPECIFIC CSR
  Per QID, setting both PREEMPTER=1 and PREEMPTEE=1 is illegal and sets only PREEMPTER=1.
  This CSR is used with PKO_MEM_QUEUE_PTRS and PKO_REG_QUEUE_PTRS1.  When programming queues, the
  programming sequence must first write PKO_REG_QUEUE_PREEMPT, then PKO_REG_QUEUE_PTRS1 and then
@@ -29103,8 +29098,6 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  MIN_SIZE R/W      0            0        Threshhold for packet preemption, measured in bytes.
                                                  Only packets which have at least MIN_SIZE bytes
                                                  remaining to be read can be preempted.
-Notes:
- CISCO-SPECIFIC CSR
 ----------------------------------------------------------------------------------------------------
 ===
 
