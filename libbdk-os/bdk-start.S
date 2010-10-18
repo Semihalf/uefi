@@ -18,63 +18,11 @@ exception_\label:
     #
     .section .init
     .ent __start
+    .set push
+    .set noreorder
 __start:
-    dmfc0   t0, COP0_CVMCTL
-    or      t0, 1<<12           /* Use unaligned instructions */
-    or      t0, 1<<14           /* Fix unaligned accesses */
-    dmtc0   t0, COP0_CVMCTL
-
-    li      t0, 7<<29           /* Enable RI/XI and large physical addresses */
-    mtc0    t0, COP0_PAGEGRAIN
-    li      t0, (4<<(20+1))-1   /* Use 4MB pages */
-    mtc0    t0, COP0_PAGEMASK
-
-    # Get my current location in memory
-    bal     1f
-1:
-    dla     t0, 1b
-    and     t0, 0xffff
-    dsubu   a0, ra, t0
-    and     a0, 0x1fffffff
-
-    # Convert the PA to an EntryLo
-    dsrl    a0, 6
-    or      a0, 3               /* Set Valid and Global */
-
-    # Add TLB for Text
-    dmtc0   a0, COP0_ENTRYLO0
-    li      t0, 1
-    dmtc0   t0, COP0_ENTRYLO1
-    li      t0, 0xe0000000
-    dmtc0   t0, COP0_ENTRYHI
-    dmtc0   $0, COP0_INDEX
-    tlbwi
-
-    # Add TLB for Data
-    or      a0, 4 /* Set dirty */
-    dmtc0   a0, COP0_ENTRYLO0
-    li      t0, 1
-    dmtc0   t0, COP0_ENTRYLO1
-    dmtc0   t0, COP0_INDEX
-    li      t0, 0xc0000000
-    dmtc0   t0, COP0_ENTRYHI
-    tlbwi
-
-    # Set wired to be two entries
-    li      t0, 2
-    dmtc0   t0, COP0_WIRED
-
-    # Clear cause
-    mtc0    $0, COP0_CAUSE
-
-    # Disable ERL, EXL, and IE
-    mfc0    t0, COP0_STATUS
-    and     t0, ~(0xff<<8)      /* Clear IM enables */
-    and     t0, ~(3<<3)         /* Set kernel mode */
-    and     t0, ~(1<<2)         /* Disable ERL */
-    and     t0, ~(1<<1)         /* Disable EXL */
-    and     t0, ~(1<<0)         /* Disable IE */
-    mtc0    t0, COP0_STATUS
+    # Initialise gp
+    dla     gp, _gp
 
     # Setup stack in scratch so we can jump to C code
     dmfc0   t0, COP0_CVMMEMCTL
@@ -83,14 +31,23 @@ __start:
     dmtc0   t0, COP0_CVMMEMCTL
     li      sp, -32768 + STACK_CACHE_LINES * 128
 
-    dla     gp,_gp          # initialise $gp
-    move    ra, zero
-
-    # Jump to C code
-    dla     t0, bdk_init
-    jal     t0
+    # Convert bdk_init into an address based on my current location
+    li      t0, 0x1fffffff  /* 512MB mask */
+    dla     a0, bdk_init    /* Virtual address of bdk_init */
+    and     a0, t0          /* Offset from zero of bdk_init in image */
+    dla     t1, 1f          /* Address of the upcomming label when image was linked */
+    dla     t0, __start     /* Virtual address of __start */
+    bgezal  $0, 1f          /* Jump to label, saving or PC in RA */
+     dsubu  t1, t0          /* T1 is the offset of the label from the beginning of the image */
+1:  dsubu   ra, t1          /* RA is the current location of __start */
+    daddu   a0, ra          /* Add RA to A0, getting the current address of bdk_init() */
+    jal     a0              /* Call bdk_init(). Its address is in A0 */
      nop
+    .set pop
 
+    #
+    # Exception handlers
+    #
     .set push
     .set noat
 .org 0x200
