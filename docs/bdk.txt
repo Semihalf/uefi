@@ -1,0 +1,56 @@
+
+Bringup and Diagnostic Kit
+==========================
+
+This directory contains the "Bringup and Diagnostic Kit" (BDK).  These
+files support chip bringup, board bringup, and the creation of
+diagnostics. The basic layout is as follows:
+
+.libbdk-arch/
+	Library and C files related to Octeon II architecture. This
+	contains the minimal code needed to write any code for Octeon II
+	with the minimal amount of abstractions as possible. This contains
+	CSR and assembly defines and access functions . Higher level APIs
+	are not part of this library.
+
+.libbdk-dram/
+	Library and C files related to Octeon II DRAM initialization. These
+	files are meant to be shared by all loaders and early diagnostics
+	that need to setup DRAM.
+
+.libbdk-hal/
+	Library and C files providing a API for interfacing with Octeon II
+	hardware. This is similar to the "executive" in the Octeon SDK.
+
+.libbdk/
+	This is a combined library and single header file for using all of
+	the libbdk-* features. Normally, this contains the only C header
+	and library that applications should ever reference. Make sure bdk.h
+	is the very first line in C files to make sure the precompiled header
+	works properly.
+
+.eLua/
+	This is a nearly boot environment based on the Lua scripting
+	language.
+
+Creating a standalone application
+---------------------------------
+
+The compiler command lines for creating BDK applications is quite
+complex.  To simplify the use of the BDK, a include file for 'make' is
+included.  Once this file is included inside your 'Makefile', building
+the application is very easy.
+
+.Sample Makefile for Traffic-gen
+[source,sh]
+----
+include $(BDK_ROOT)/libbdk/bdk.mk
+
+traffic-gen.bin: traffic-gen
+traffic-gen: traffic-gen.o $(BDK_ROOT)/libbdk/libbdk.a
+
+clean:
+	rm -f *.o traffic-gen traffic-gen.bin
+----
+
+FIXME
