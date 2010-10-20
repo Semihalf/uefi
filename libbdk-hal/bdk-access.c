@@ -8,8 +8,10 @@
 void bdk_wait_usec(uint64_t usec)
 {
     uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
-    while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
+    do
+    {
         bdk_thread_yield();
+    } while (bdk_clock_get_count(BDK_CLOCK_CORE) < done);
 }
 
 /**
