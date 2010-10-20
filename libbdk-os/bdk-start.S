@@ -5,6 +5,7 @@
 #define STACK_CACHE_LINES 54      /* Number of cache lines to use in scratch for a stack */
 
     .globl __start
+    .globl bdk_init_trampoline
 
     .macro exception_stub label
 exception_\label:
@@ -69,7 +70,19 @@ __init:
      nop
 .org 0x580
     .set pop
-
     .end __start
+
+    .section .text
+    .ent bdk_init_trampoline
+    .set push
+    .set noreorder
+bdk_init_trampoline:
+    dli     t0, 0x8001180000000000
+    sd      a0,0(t0)
+    ld      a0,0(t0)
+    j       a1
+     nop
+    .set pop
+    .end bdk_init_trampoline
 
 
