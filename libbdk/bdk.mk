@@ -22,7 +22,7 @@ ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles -Wl,--allow-multiple-definition -Wl,--gc-sections
 LDFLAGS += -Wl,--section-start -Wl,.init=0xffffffffBFC00000
-LDFLAGS += -Wl,--section-start -Wl,.data=0xffffffffC0000500
+LDFLAGS += -Wl,--section-start -Wl,.data=0xffffffffC0000580
 LDFLAGS += -Wl,--section-start -Wl,.text=0xffffffffE0044000
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDLIBS = -lbdk -lgcc
@@ -51,7 +51,7 @@ TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=4096 count=68 &> /dev/null
 	cat init+data.tmp text.tmp > $@
 	rm init.tmp data.tmp init+data.tmp text.tmp
-
+	$(OCTEON_ROOT)/bootloader/u-boot/tools/update_octeon_header $@ generic --text_base=0xffffffffE0000000
 #
 # Convert an ELF file into a binary
 #

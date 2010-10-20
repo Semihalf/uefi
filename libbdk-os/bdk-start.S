@@ -18,9 +18,33 @@ exception_\label:
     #
     .section .init
     .ent __start
+__start:
+    b   __init
+     nop
+
+    #
+    # Exception handlers
+    #
+    .set push
+    .set noat
+.org 0x200
+     exception_stub tlb
+.org 0x280
+     exception_stub xtlb
+.org 0x300
+     exception_stub cache
+.org 0x380
+     exception_stub general
+.org 0x400
+     exception_stub interrupt
+.org 0x480
+     exception_stub ejtag
+    .set pop
+
     .set push
     .set noreorder
-__start:
+.org 0x500
+__init:
     # Initialise gp
     dla     gp, _gp
 
@@ -43,27 +67,9 @@ __start:
     daddu   a0, ra          /* Add RA to A0, getting the current address of bdk_init() */
     jal     a0              /* Call bdk_init(). Its address is in A0 */
      nop
+.org 0x580
     .set pop
 
-    #
-    # Exception handlers
-    #
-    .set push
-    .set noat
-.org 0x200
-     exception_stub tlb
-.org 0x280
-     exception_stub xtlb
-.org 0x300
-     exception_stub cache
-.org 0x380
-     exception_stub general
-.org 0x400
-     exception_stub interrupt
-.org 0x480
-     exception_stub ejtag
-.org 0x500
-    .set pop
     .end __start
 
 
