@@ -51,7 +51,7 @@ __init:
     # Setup stack in scratch so we can jump to C code
     dmfc0   t0, COP0_CVMMEMCTL
     and     t0, -64
-    or      t0, STACK_CACHE_LINES | (1<<8)
+    or      t0, STACK_CACHE_LINES | (7<<6)
     dmtc0   t0, COP0_CVMMEMCTL
     li      sp, -32768 + STACK_CACHE_LINES * 128
 
