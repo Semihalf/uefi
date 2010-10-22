@@ -54,4 +54,5 @@ extern bdk_helper_link_info_t (*bdk_override_board_link_get)(int ipd_port);
  */
 int bdk_helper_board_link_set_phy(int phy_addr, bdk_helper_board_set_phy_link_flags_types_t link_flags,
                                    bdk_helper_link_info_t link_info);
+extern bdk_helper_link_info_t bdk_helper_board_link_get_phy(int phy_addr);
 
