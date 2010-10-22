@@ -15026,25 +15026,25 @@ Pos      Name    Type     Value     Value       Description
 						 the packet data (and initial next buffer pointer)
 						 are written to the L2 cache, all remaining cache
 						 blocks are not written to the L2 cache.
- <3>     PBP_EN   R/W      0           0         BPID back pressure enable. When set '1' enables
+ <3>     PBP_EN   R/W      0           0         BPID enable. When set '1' enables
                                                  the sending of BPID level backpressure to the
-                                                 Octane input-pkinds. The application should NOT
+                                                 Octane inputs. The application should NOT
                                                  de-assert this bit after asserting it. The
                                                  receivers of this bit may have been put into
                                                  backpressure mode and can only be released by
                                                  IPD informing them that the backpressure has
                                                  been released.
 						 GMXX_INF_MODE[EN] must be set to '1' for each
-						 packet interface which requires pkind back pressure
+						 packet interface which requires BPID
 						 prior to setting PBP_EN to '1'.
  <4>     WQE_LEND R/W      0           0         Changes WQE to little endian writes to L2C
  <5>     PKT_LEND R/W      0           0         Changes PKT to little endian writes to L2C
  <6>     NADDBUF  R/W      0           0         When IPD_CTL_STATUS[NADDBUF] is set,
-                                                 IPD_PKIND_BP_COUNTER@(BPID)[CNT_VAL],
+                                                 IPD_BPID_BP_COUNTER@(BPID)[CNT_VAL],
                                                  WILL NOT be incremented when IPD allocates a
                                                  buffer for a packet on the BPID.
  <7>     ADDPKT   R/W      0           0         When IPD_CTL_STATUS[ADDPKT] is set,
-                                                 IPD_PKIND_BP_COUNTER@(BPID)[CNT_VAL],
+                                                 IPD_BPID_BP_COUNTER@(BPID)[CNT_VAL],
                                                  WILL be incremented by one for every work
                                                  queue entry that is sent to POW.
  <8>     RESET    R/W      0           0         When set '1' causes a reset of the IPD, except
@@ -15125,7 +15125,7 @@ Pos      Name    Type     Value     Value       Description
  * be the 2's complement of the value that needs to be subtracted. Users add 2's complement values to the
  * BPID-mbuf-count register to return (lower the count) mbufs to the counter in order to avoid BPID-level
  * backpressure being applied to the BPID. Backpressure is applied when the MBUF used count of a BPID exceeds the
- * value in the IPD_PKIND@_MBUF_TH.
+ * value in the IPD_BPID@_MBUF_TH.
  *
  * This register can't be written from the PCI via a window write.
  *
@@ -16283,13 +16283,13 @@ Pos      Name    Type     Value     Value       Description
 
 // 0x2000 2FFF
  *
- *                  IPD_PKIND@_MBUF_TH = IPD BPID  MBUFF Threshold
+ *                  IPD_BPID@_MBUF_TH = IPD BPID  MBUFF Threshold
  *
  * The number of MBUFFs in use by the BPID, that when exceeded, backpressure will be applied to the BPID.
  *
 
      ==============================================================
-     IPD_PKIND(0..63)_MBUF_TH Type=NCB
+     IPD_BPID(0..63)_MBUF_TH Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -16302,7 +16302,7 @@ Pos      Name    Type     Value     Value       Description
                                                  This value is in 256 page-pointer increments,
                                                  (i.e. 0 = 0-page-ptrs, 1 = 256-page-ptrs,..)
  <17>    BP_ENB   R/W      0x0         0         When set '1' BP will be applied, if '0' BP will
-                                                 not be applied to pkind.
+                                                 not be applied to bpid.
  <63:18> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -16313,11 +16313,11 @@ Pos      Name    Type     Value     Value       Description
 
 // 0x3000 0x3ffff
  *
- * IPD_PKIND_BP_COUNTER@ = MBUF BPID Counters used to generate Back Pressure Per BPID.
+ * IPD_BPID_BP_COUNTER@ = MBUF BPID Counters used to generate Back Pressure Per BPID.
  *
 
      ==============================================================
-     IPD_PKIND_BP_COUNTER(0..63) Type=NCB
+     IPD_BPID_BP_COUNTER(0..63) Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -16358,19 +16358,19 @@ Pos      Name    Type     Value     Value       Description
                                                  when BPID level backpressure is applied to that
                                                  BPID.  The applying of BPID-level backpressure for
                                                  this dropping does not take into consideration the
-                                                 value of IPD_PKIND@_MBUF_TH[BP_ENB], nor
+                                                 value of IPD_BPID@_MBUF_TH[BP_ENB], nor
                                                  IPD_RED_PORT_ENABLE[PRT_ENB].
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  IPD_RED_PKIND_ENABLE = IPD RED BPID Enable
+ *                  IPD_RED_BPID_ENABLE = IPD RED BPID Enable
  *
  * Set the pass-drop marks for qos level.
  *
 
      ==============================================================
-     IPD_RED_PKIND_ENABLE(0..0) Type=NCB
+     IPD_RED_BPID_ENABLE(0..0) Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -35314,10 +35314,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:47> NS          RAZ      NS     NS     RESERVED                                      	    |
 <46>    ENA         R/W      0      0      Ring timer enable                                        |
-<45:44> INTC	    R/W      0      2      Interval count for Error. Defines how many intervals     |
+<45:44> INTC	    R/W      0      0      Interval count for Error. Defines how many intervals     |
 					   could elapse from bucket expiration till actual          |
 					   bucket traversal before HW asserts an error.		    |
-                                           Typical value is 1-3.                                    |
+                                           Typical value is 0,1,2.                                    |
 <43:22> TIMERCOUNT  R/W      0      0      Timer Count represents the ring offset; how many timer   |
 					   ticks have left till the interval expiration.	    |
 					   Typical initialization value should be Interval/Constant,|
@@ -44803,6 +44803,134 @@ IPD_1ST_MBUFF_SKIP             0x00014F0000000000  NCB
 IPD_1st_NEXT_PTR_BACK          0x00014F0000000150  NCB
 IPD_2nd_NEXT_PTR_BACK          0x00014F0000000158  NCB
 IPD_BIST_STATUS                0x00014F00000007F8  NCB
+IPD_BPID0_MBUF_TH              0x00014F0000002000  NCB
+IPD_BPID1_MBUF_TH              0x00014F0000002008  NCB
+IPD_BPID2_MBUF_TH              0x00014F0000002010  NCB
+IPD_BPID3_MBUF_TH              0x00014F0000002018  NCB
+IPD_BPID4_MBUF_TH              0x00014F0000002020  NCB
+IPD_BPID5_MBUF_TH              0x00014F0000002028  NCB
+IPD_BPID6_MBUF_TH              0x00014F0000002030  NCB
+IPD_BPID7_MBUF_TH              0x00014F0000002038  NCB
+IPD_BPID8_MBUF_TH              0x00014F0000002040  NCB
+IPD_BPID9_MBUF_TH              0x00014F0000002048  NCB
+IPD_BPID10_MBUF_TH             0x00014F0000002050  NCB
+IPD_BPID11_MBUF_TH             0x00014F0000002058  NCB
+IPD_BPID12_MBUF_TH             0x00014F0000002060  NCB
+IPD_BPID13_MBUF_TH             0x00014F0000002068  NCB
+IPD_BPID14_MBUF_TH             0x00014F0000002070  NCB
+IPD_BPID15_MBUF_TH             0x00014F0000002078  NCB
+IPD_BPID16_MBUF_TH             0x00014F0000002080  NCB
+IPD_BPID17_MBUF_TH             0x00014F0000002088  NCB
+IPD_BPID18_MBUF_TH             0x00014F0000002090  NCB
+IPD_BPID19_MBUF_TH             0x00014F0000002098  NCB
+IPD_BPID20_MBUF_TH             0x00014F00000020A0  NCB
+IPD_BPID21_MBUF_TH             0x00014F00000020A8  NCB
+IPD_BPID22_MBUF_TH             0x00014F00000020B0  NCB
+IPD_BPID23_MBUF_TH             0x00014F00000020B8  NCB
+IPD_BPID24_MBUF_TH             0x00014F00000020C0  NCB
+IPD_BPID25_MBUF_TH             0x00014F00000020C8  NCB
+IPD_BPID26_MBUF_TH             0x00014F00000020D0  NCB
+IPD_BPID27_MBUF_TH             0x00014F00000020D8  NCB
+IPD_BPID28_MBUF_TH             0x00014F00000020E0  NCB
+IPD_BPID29_MBUF_TH             0x00014F00000020E8  NCB
+IPD_BPID30_MBUF_TH             0x00014F00000020F0  NCB
+IPD_BPID31_MBUF_TH             0x00014F00000020F8  NCB
+IPD_BPID32_MBUF_TH             0x00014F0000002100  NCB
+IPD_BPID33_MBUF_TH             0x00014F0000002108  NCB
+IPD_BPID34_MBUF_TH             0x00014F0000002110  NCB
+IPD_BPID35_MBUF_TH             0x00014F0000002118  NCB
+IPD_BPID36_MBUF_TH             0x00014F0000002120  NCB
+IPD_BPID37_MBUF_TH             0x00014F0000002128  NCB
+IPD_BPID38_MBUF_TH             0x00014F0000002130  NCB
+IPD_BPID39_MBUF_TH             0x00014F0000002138  NCB
+IPD_BPID40_MBUF_TH             0x00014F0000002140  NCB
+IPD_BPID41_MBUF_TH             0x00014F0000002148  NCB
+IPD_BPID42_MBUF_TH             0x00014F0000002150  NCB
+IPD_BPID43_MBUF_TH             0x00014F0000002158  NCB
+IPD_BPID44_MBUF_TH             0x00014F0000002160  NCB
+IPD_BPID45_MBUF_TH             0x00014F0000002168  NCB
+IPD_BPID46_MBUF_TH             0x00014F0000002170  NCB
+IPD_BPID47_MBUF_TH             0x00014F0000002178  NCB
+IPD_BPID48_MBUF_TH             0x00014F0000002180  NCB
+IPD_BPID49_MBUF_TH             0x00014F0000002188  NCB
+IPD_BPID50_MBUF_TH             0x00014F0000002190  NCB
+IPD_BPID51_MBUF_TH             0x00014F0000002198  NCB
+IPD_BPID52_MBUF_TH             0x00014F00000021A0  NCB
+IPD_BPID53_MBUF_TH             0x00014F00000021A8  NCB
+IPD_BPID54_MBUF_TH             0x00014F00000021B0  NCB
+IPD_BPID55_MBUF_TH             0x00014F00000021B8  NCB
+IPD_BPID56_MBUF_TH             0x00014F00000021C0  NCB
+IPD_BPID57_MBUF_TH             0x00014F00000021C8  NCB
+IPD_BPID58_MBUF_TH             0x00014F00000021D0  NCB
+IPD_BPID59_MBUF_TH             0x00014F00000021D8  NCB
+IPD_BPID60_MBUF_TH             0x00014F00000021E0  NCB
+IPD_BPID61_MBUF_TH             0x00014F00000021E8  NCB
+IPD_BPID62_MBUF_TH             0x00014F00000021F0  NCB
+IPD_BPID63_MBUF_TH             0x00014F00000021F8  NCB
+IPD_BPID_BP_COUNTER0           0x00014F0000003000  NCB
+IPD_BPID_BP_COUNTER1           0x00014F0000003008  NCB
+IPD_BPID_BP_COUNTER2           0x00014F0000003010  NCB
+IPD_BPID_BP_COUNTER3           0x00014F0000003018  NCB
+IPD_BPID_BP_COUNTER4           0x00014F0000003020  NCB
+IPD_BPID_BP_COUNTER5           0x00014F0000003028  NCB
+IPD_BPID_BP_COUNTER6           0x00014F0000003030  NCB
+IPD_BPID_BP_COUNTER7           0x00014F0000003038  NCB
+IPD_BPID_BP_COUNTER8           0x00014F0000003040  NCB
+IPD_BPID_BP_COUNTER9           0x00014F0000003048  NCB
+IPD_BPID_BP_COUNTER10          0x00014F0000003050  NCB
+IPD_BPID_BP_COUNTER11          0x00014F0000003058  NCB
+IPD_BPID_BP_COUNTER12          0x00014F0000003060  NCB
+IPD_BPID_BP_COUNTER13          0x00014F0000003068  NCB
+IPD_BPID_BP_COUNTER14          0x00014F0000003070  NCB
+IPD_BPID_BP_COUNTER15          0x00014F0000003078  NCB
+IPD_BPID_BP_COUNTER16          0x00014F0000003080  NCB
+IPD_BPID_BP_COUNTER17          0x00014F0000003088  NCB
+IPD_BPID_BP_COUNTER18          0x00014F0000003090  NCB
+IPD_BPID_BP_COUNTER19          0x00014F0000003098  NCB
+IPD_BPID_BP_COUNTER20          0x00014F00000030A0  NCB
+IPD_BPID_BP_COUNTER21          0x00014F00000030A8  NCB
+IPD_BPID_BP_COUNTER22          0x00014F00000030B0  NCB
+IPD_BPID_BP_COUNTER23          0x00014F00000030B8  NCB
+IPD_BPID_BP_COUNTER24          0x00014F00000030C0  NCB
+IPD_BPID_BP_COUNTER25          0x00014F00000030C8  NCB
+IPD_BPID_BP_COUNTER26          0x00014F00000030D0  NCB
+IPD_BPID_BP_COUNTER27          0x00014F00000030D8  NCB
+IPD_BPID_BP_COUNTER28          0x00014F00000030E0  NCB
+IPD_BPID_BP_COUNTER29          0x00014F00000030E8  NCB
+IPD_BPID_BP_COUNTER30          0x00014F00000030F0  NCB
+IPD_BPID_BP_COUNTER31          0x00014F00000030F8  NCB
+IPD_BPID_BP_COUNTER32          0x00014F0000003100  NCB
+IPD_BPID_BP_COUNTER33          0x00014F0000003108  NCB
+IPD_BPID_BP_COUNTER34          0x00014F0000003110  NCB
+IPD_BPID_BP_COUNTER35          0x00014F0000003118  NCB
+IPD_BPID_BP_COUNTER36          0x00014F0000003120  NCB
+IPD_BPID_BP_COUNTER37          0x00014F0000003128  NCB
+IPD_BPID_BP_COUNTER38          0x00014F0000003130  NCB
+IPD_BPID_BP_COUNTER39          0x00014F0000003138  NCB
+IPD_BPID_BP_COUNTER40          0x00014F0000003140  NCB
+IPD_BPID_BP_COUNTER41          0x00014F0000003148  NCB
+IPD_BPID_BP_COUNTER42          0x00014F0000003150  NCB
+IPD_BPID_BP_COUNTER43          0x00014F0000003158  NCB
+IPD_BPID_BP_COUNTER44          0x00014F0000003160  NCB
+IPD_BPID_BP_COUNTER45          0x00014F0000003168  NCB
+IPD_BPID_BP_COUNTER46          0x00014F0000003170  NCB
+IPD_BPID_BP_COUNTER47          0x00014F0000003178  NCB
+IPD_BPID_BP_COUNTER48          0x00014F0000003180  NCB
+IPD_BPID_BP_COUNTER49          0x00014F0000003188  NCB
+IPD_BPID_BP_COUNTER50          0x00014F0000003190  NCB
+IPD_BPID_BP_COUNTER51          0x00014F0000003198  NCB
+IPD_BPID_BP_COUNTER52          0x00014F00000031A0  NCB
+IPD_BPID_BP_COUNTER53          0x00014F00000031A8  NCB
+IPD_BPID_BP_COUNTER54          0x00014F00000031B0  NCB
+IPD_BPID_BP_COUNTER55          0x00014F00000031B8  NCB
+IPD_BPID_BP_COUNTER56          0x00014F00000031C0  NCB
+IPD_BPID_BP_COUNTER57          0x00014F00000031C8  NCB
+IPD_BPID_BP_COUNTER58          0x00014F00000031D0  NCB
+IPD_BPID_BP_COUNTER59          0x00014F00000031D8  NCB
+IPD_BPID_BP_COUNTER60          0x00014F00000031E0  NCB
+IPD_BPID_BP_COUNTER61          0x00014F00000031E8  NCB
+IPD_BPID_BP_COUNTER62          0x00014F00000031F0  NCB
+IPD_BPID_BP_COUNTER63          0x00014F00000031F8  NCB
 IPD_CLK_COUNT                  0x00014F0000000338  NCB
 IPD_CREDITS                    0x00014F0000004410  NCB
 IPD_CTL_STATUS                 0x00014F0000000018  NCB
@@ -44817,134 +44945,6 @@ IPD_NEXT_WQE_PTR               0x00014F00000007A8  NCB
 IPD_NOT_1ST_MBUFF_SKIP         0x00014F0000000008  NCB
 IPD_ON_BP_DROP_PKT0            0x00014F0000004100  NCB
 IPD_PACKET_MBUFF_SIZE          0x00014F0000000010  NCB
-IPD_PKIND0_MBUF_TH             0x00014F0000002000  NCB
-IPD_PKIND1_MBUF_TH             0x00014F0000002008  NCB
-IPD_PKIND2_MBUF_TH             0x00014F0000002010  NCB
-IPD_PKIND3_MBUF_TH             0x00014F0000002018  NCB
-IPD_PKIND4_MBUF_TH             0x00014F0000002020  NCB
-IPD_PKIND5_MBUF_TH             0x00014F0000002028  NCB
-IPD_PKIND6_MBUF_TH             0x00014F0000002030  NCB
-IPD_PKIND7_MBUF_TH             0x00014F0000002038  NCB
-IPD_PKIND8_MBUF_TH             0x00014F0000002040  NCB
-IPD_PKIND9_MBUF_TH             0x00014F0000002048  NCB
-IPD_PKIND10_MBUF_TH            0x00014F0000002050  NCB
-IPD_PKIND11_MBUF_TH            0x00014F0000002058  NCB
-IPD_PKIND12_MBUF_TH            0x00014F0000002060  NCB
-IPD_PKIND13_MBUF_TH            0x00014F0000002068  NCB
-IPD_PKIND14_MBUF_TH            0x00014F0000002070  NCB
-IPD_PKIND15_MBUF_TH            0x00014F0000002078  NCB
-IPD_PKIND16_MBUF_TH            0x00014F0000002080  NCB
-IPD_PKIND17_MBUF_TH            0x00014F0000002088  NCB
-IPD_PKIND18_MBUF_TH            0x00014F0000002090  NCB
-IPD_PKIND19_MBUF_TH            0x00014F0000002098  NCB
-IPD_PKIND20_MBUF_TH            0x00014F00000020A0  NCB
-IPD_PKIND21_MBUF_TH            0x00014F00000020A8  NCB
-IPD_PKIND22_MBUF_TH            0x00014F00000020B0  NCB
-IPD_PKIND23_MBUF_TH            0x00014F00000020B8  NCB
-IPD_PKIND24_MBUF_TH            0x00014F00000020C0  NCB
-IPD_PKIND25_MBUF_TH            0x00014F00000020C8  NCB
-IPD_PKIND26_MBUF_TH            0x00014F00000020D0  NCB
-IPD_PKIND27_MBUF_TH            0x00014F00000020D8  NCB
-IPD_PKIND28_MBUF_TH            0x00014F00000020E0  NCB
-IPD_PKIND29_MBUF_TH            0x00014F00000020E8  NCB
-IPD_PKIND30_MBUF_TH            0x00014F00000020F0  NCB
-IPD_PKIND31_MBUF_TH            0x00014F00000020F8  NCB
-IPD_PKIND32_MBUF_TH            0x00014F0000002100  NCB
-IPD_PKIND33_MBUF_TH            0x00014F0000002108  NCB
-IPD_PKIND34_MBUF_TH            0x00014F0000002110  NCB
-IPD_PKIND35_MBUF_TH            0x00014F0000002118  NCB
-IPD_PKIND36_MBUF_TH            0x00014F0000002120  NCB
-IPD_PKIND37_MBUF_TH            0x00014F0000002128  NCB
-IPD_PKIND38_MBUF_TH            0x00014F0000002130  NCB
-IPD_PKIND39_MBUF_TH            0x00014F0000002138  NCB
-IPD_PKIND40_MBUF_TH            0x00014F0000002140  NCB
-IPD_PKIND41_MBUF_TH            0x00014F0000002148  NCB
-IPD_PKIND42_MBUF_TH            0x00014F0000002150  NCB
-IPD_PKIND43_MBUF_TH            0x00014F0000002158  NCB
-IPD_PKIND44_MBUF_TH            0x00014F0000002160  NCB
-IPD_PKIND45_MBUF_TH            0x00014F0000002168  NCB
-IPD_PKIND46_MBUF_TH            0x00014F0000002170  NCB
-IPD_PKIND47_MBUF_TH            0x00014F0000002178  NCB
-IPD_PKIND48_MBUF_TH            0x00014F0000002180  NCB
-IPD_PKIND49_MBUF_TH            0x00014F0000002188  NCB
-IPD_PKIND50_MBUF_TH            0x00014F0000002190  NCB
-IPD_PKIND51_MBUF_TH            0x00014F0000002198  NCB
-IPD_PKIND52_MBUF_TH            0x00014F00000021A0  NCB
-IPD_PKIND53_MBUF_TH            0x00014F00000021A8  NCB
-IPD_PKIND54_MBUF_TH            0x00014F00000021B0  NCB
-IPD_PKIND55_MBUF_TH            0x00014F00000021B8  NCB
-IPD_PKIND56_MBUF_TH            0x00014F00000021C0  NCB
-IPD_PKIND57_MBUF_TH            0x00014F00000021C8  NCB
-IPD_PKIND58_MBUF_TH            0x00014F00000021D0  NCB
-IPD_PKIND59_MBUF_TH            0x00014F00000021D8  NCB
-IPD_PKIND60_MBUF_TH            0x00014F00000021E0  NCB
-IPD_PKIND61_MBUF_TH            0x00014F00000021E8  NCB
-IPD_PKIND62_MBUF_TH            0x00014F00000021F0  NCB
-IPD_PKIND63_MBUF_TH            0x00014F00000021F8  NCB
-IPD_PKIND_BP_COUNTER0          0x00014F0000003000  NCB
-IPD_PKIND_BP_COUNTER1          0x00014F0000003008  NCB
-IPD_PKIND_BP_COUNTER2          0x00014F0000003010  NCB
-IPD_PKIND_BP_COUNTER3          0x00014F0000003018  NCB
-IPD_PKIND_BP_COUNTER4          0x00014F0000003020  NCB
-IPD_PKIND_BP_COUNTER5          0x00014F0000003028  NCB
-IPD_PKIND_BP_COUNTER6          0x00014F0000003030  NCB
-IPD_PKIND_BP_COUNTER7          0x00014F0000003038  NCB
-IPD_PKIND_BP_COUNTER8          0x00014F0000003040  NCB
-IPD_PKIND_BP_COUNTER9          0x00014F0000003048  NCB
-IPD_PKIND_BP_COUNTER10         0x00014F0000003050  NCB
-IPD_PKIND_BP_COUNTER11         0x00014F0000003058  NCB
-IPD_PKIND_BP_COUNTER12         0x00014F0000003060  NCB
-IPD_PKIND_BP_COUNTER13         0x00014F0000003068  NCB
-IPD_PKIND_BP_COUNTER14         0x00014F0000003070  NCB
-IPD_PKIND_BP_COUNTER15         0x00014F0000003078  NCB
-IPD_PKIND_BP_COUNTER16         0x00014F0000003080  NCB
-IPD_PKIND_BP_COUNTER17         0x00014F0000003088  NCB
-IPD_PKIND_BP_COUNTER18         0x00014F0000003090  NCB
-IPD_PKIND_BP_COUNTER19         0x00014F0000003098  NCB
-IPD_PKIND_BP_COUNTER20         0x00014F00000030A0  NCB
-IPD_PKIND_BP_COUNTER21         0x00014F00000030A8  NCB
-IPD_PKIND_BP_COUNTER22         0x00014F00000030B0  NCB
-IPD_PKIND_BP_COUNTER23         0x00014F00000030B8  NCB
-IPD_PKIND_BP_COUNTER24         0x00014F00000030C0  NCB
-IPD_PKIND_BP_COUNTER25         0x00014F00000030C8  NCB
-IPD_PKIND_BP_COUNTER26         0x00014F00000030D0  NCB
-IPD_PKIND_BP_COUNTER27         0x00014F00000030D8  NCB
-IPD_PKIND_BP_COUNTER28         0x00014F00000030E0  NCB
-IPD_PKIND_BP_COUNTER29         0x00014F00000030E8  NCB
-IPD_PKIND_BP_COUNTER30         0x00014F00000030F0  NCB
-IPD_PKIND_BP_COUNTER31         0x00014F00000030F8  NCB
-IPD_PKIND_BP_COUNTER32         0x00014F0000003100  NCB
-IPD_PKIND_BP_COUNTER33         0x00014F0000003108  NCB
-IPD_PKIND_BP_COUNTER34         0x00014F0000003110  NCB
-IPD_PKIND_BP_COUNTER35         0x00014F0000003118  NCB
-IPD_PKIND_BP_COUNTER36         0x00014F0000003120  NCB
-IPD_PKIND_BP_COUNTER37         0x00014F0000003128  NCB
-IPD_PKIND_BP_COUNTER38         0x00014F0000003130  NCB
-IPD_PKIND_BP_COUNTER39         0x00014F0000003138  NCB
-IPD_PKIND_BP_COUNTER40         0x00014F0000003140  NCB
-IPD_PKIND_BP_COUNTER41         0x00014F0000003148  NCB
-IPD_PKIND_BP_COUNTER42         0x00014F0000003150  NCB
-IPD_PKIND_BP_COUNTER43         0x00014F0000003158  NCB
-IPD_PKIND_BP_COUNTER44         0x00014F0000003160  NCB
-IPD_PKIND_BP_COUNTER45         0x00014F0000003168  NCB
-IPD_PKIND_BP_COUNTER46         0x00014F0000003170  NCB
-IPD_PKIND_BP_COUNTER47         0x00014F0000003178  NCB
-IPD_PKIND_BP_COUNTER48         0x00014F0000003180  NCB
-IPD_PKIND_BP_COUNTER49         0x00014F0000003188  NCB
-IPD_PKIND_BP_COUNTER50         0x00014F0000003190  NCB
-IPD_PKIND_BP_COUNTER51         0x00014F0000003198  NCB
-IPD_PKIND_BP_COUNTER52         0x00014F00000031A0  NCB
-IPD_PKIND_BP_COUNTER53         0x00014F00000031A8  NCB
-IPD_PKIND_BP_COUNTER54         0x00014F00000031B0  NCB
-IPD_PKIND_BP_COUNTER55         0x00014F00000031B8  NCB
-IPD_PKIND_BP_COUNTER56         0x00014F00000031C0  NCB
-IPD_PKIND_BP_COUNTER57         0x00014F00000031C8  NCB
-IPD_PKIND_BP_COUNTER58         0x00014F00000031D0  NCB
-IPD_PKIND_BP_COUNTER59         0x00014F00000031D8  NCB
-IPD_PKIND_BP_COUNTER60         0x00014F00000031E0  NCB
-IPD_PKIND_BP_COUNTER61         0x00014F00000031E8  NCB
-IPD_PKIND_BP_COUNTER62         0x00014F00000031F0  NCB
-IPD_PKIND_BP_COUNTER63         0x00014F00000031F8  NCB
 IPD_PKT_ERR                    0x00014F00000003F0  NCB
 IPD_PORT_PTR_FIFO_CTL          0x00014F0000000798  NCB
 IPD_PORT_QOS_0_CNT             0x00014F0000000888  NCB
@@ -45486,8 +45486,8 @@ IPD_QOS5_RED_MARKS             0x00014F00000001A0  NCB
 IPD_QOS6_RED_MARKS             0x00014F00000001A8  NCB
 IPD_QOS7_RED_MARKS             0x00014F00000001B0  NCB
 IPD_QUE0_FREE_PAGE_CNT         0x00014F0000000330  NCB
+IPD_RED_BPID_ENABLE0           0x00014F0000004200  NCB
 IPD_RED_DELAY                  0x00014F0000004300  NCB
-IPD_RED_PKIND_ENABLE0          0x00014F0000004200  NCB
 IPD_RED_QUE0_PARAM             0x00014F00000002E0  NCB
 IPD_RED_QUE1_PARAM             0x00014F00000002E8  NCB
 IPD_RED_QUE2_PARAM             0x00014F00000002F0  NCB
