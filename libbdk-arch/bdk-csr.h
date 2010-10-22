@@ -162,7 +162,7 @@ static inline void bdk_send_single(uint64_t data)
                 result = -1;                                            \
                 break;                                                  \
             } else                                                      \
-                bdk_wait(100);                                          \
+                bdk_thread_yield();                                     \
         }                                                               \
     } while (0);                                                        \
     result;})
