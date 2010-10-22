@@ -148,12 +148,25 @@ def combine(csr_lists):
                 conflict = 0
                 # The following loop checks all chips and makes sure a field
                 # of the same name doesn't exist in a different spot. If it does,
-                # then we must mark this asa conflict
+                # then we must mark this as a conflict
                 for chip2 in chips:
                     for start_bit2 in csr_by_chip[chip2].fields:
                         # Conflict occurs if two chips have the same field name at
                         # differnet bit positions
                         if (csr_by_chip[chip2].fields[start_bit2].name == field.name) and (start_bit != start_bit2):
+                            conflict = 1
+                            # Mark all bits in this field as conflicting
+                            for b in xrange(start_bit, field.stop_bit+1):
+                                used_bits[b] = "conflict"
+                                field_type[b] = "RAZ"
+                                reset_value[b] = "X"
+                                typical_value[b] = "X"
+                                description[b] = []
+                                c_type[b] = None
+                            break
+                        if ((not csr_by_chip[chip2].fields[start_bit2].name.startswith("reserve")) and
+                            (csr_by_chip[chip2].fields[start_bit2].name != field.name) and
+                            (start_bit == start_bit2)):
                             conflict = 1
                             # Mark all bits in this field as conflicting
                             for b in xrange(start_bit, field.stop_bit+1):
