@@ -24,6 +24,7 @@ static void __bdk_init_uart(int uart)
     BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(uart),
         u.s.dlab = 0); /* Divisor Latch Address bit */
     BDK_CSR_READ(BDK_MIO_UARTX_LCR(uart));
+    bdk_wait(1000);
 }
 
 static void __bdk_init_exception(void)
