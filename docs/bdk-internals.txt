@@ -2,12 +2,131 @@
 // This is a asciidoc document. Edit here, but view the HTML
 //
 
+Bringup and Diagnostic Kit (BDK) Internals
+==========================================
+
+Overview
+--------
+
+This document goes through the internal details of the BDK.  Its
+purpose is to help people writing applications understand how the BDK
+works.  Users of the BDK's binary applications do not need these
+details.  The BDK supplies a standard C programming environment with
+as few hardware requirements as possible.  BDK applications can be run
+directly from flash without any other software.  DRAM is optional.
+
+=== Key Aspects of the BDK Programming Environment
+* Full C library supplied using newlib.
+* Run from flash and L2 before DRAM is available.
+* Threaded programming model.
+* Stack, globals, and heap variables can be used for DMA.
+* Standard C file operations are used to present a simple filesystem.
+* Single library (libbdk.a) needed for linking.
+* Full 64bit programming model.
+* One single file, bdh.h, defines all API functions.
+* Complex makefile details abstracted out into a common include (bdk.mk).
+
+
+Memory Management
+-----------------
+
+The BDK does all memory management using the standard C library.  No
+special functions are needed for allocating DMA buffers, or other
+large block of memory.  The most useful library functions are:
+
+=== Memory Functions
+* void *memalign(size_t boundary, size_t size);
+* void *calloc(size_t nmemb, size_t size);
+* void *malloc(size_t size);
+* void free(void *ptr);
+
+The function "memalign" should be used for most DMA buffer
+allocations.  The convenient FPA functions use it internally.
+Conversion between pointers an Octeon physical address are done using
+*bdk_ptr_to_phys()* and *bdk_phys_to_ptr()*.
+
+uint64_t bdk_ptr_to_phys(void *ptr)::
+
+Convert a C pointer into an Octeon physical address.  This works on
+stack data, global variables, heap data, and even code.  Note that
+there is a performance impact for using the function on global
+variables and code.  It is fastest when used with stack and heap data.
+
+void *bdk_phys_to_ptr(uint64_t physical_address)::
+
+Convert an Octeon physical address into a C pointer.  This function is
+quite fast as all it does is translate the address into XKPHYS.  Note
+that "*bdk_phys_to_ptr(bdk_ptr_to_phys(foo))*" may not be equal to the
+original address of "foo".  The result of
+"*bdk_ptr_to_phys(bdk_phys_to_ptr(paddr))*" is guaranteed to be "*paddr*".
+
+
+Threading
+---------
+
+The BDK takes a major departure from the Octeon SDK by choosing a
+multi-threaded model of execution versus a forked model.  Threads are
+implemented on a low overhead cooperative threading scheme.  A thread
+only yields execution specifically with a call to *bdk_thread_yield()*.
+Most functions that stall in the BDK automatically yield for you.  In
+a multi-core environment, threads will be schedule simultaneously on all
+available cores.  Each core runs the next available thread in round
+robin fashion.  You can specify a core mask to control which cores a
+thread can run on, but you normally specify zero and let the scheduler
+figure it out.
+
+CAUTION: Multi-core is not implemented yet. (FIXME)
+
+=== Thead Functions
+void bdk_thread_yield(void)::
+
+Yield execution to another thread.
+
+int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1);::
+
+Create a new thread running 'func(arg0, arg1)'. Both 'arg0' and 'arg1' can be
+anthing the application wants. The thread will run on the next 'yield'.
+
+void bdk_thread_destroy(void);::
+
+Kill the current thread of execution. Normally a thread automatically
+dies when its initial function returns. This allows premature
+termination of thread.
+
 
 Creating a standalone application
 ---------------------------------
 
+Code
+~~~~
+
+Your C code needs have the following line as the first line. The BDK include must be
+first to make sure the GCC precompiled header support is triggered. This allows
+us to save compile time as the BDK headers are quite long.
+
+.Required Include
+[source,c]
+----
+#include <bdk.h>
+----
+
+.The classic Hello World application
+[source,c]
+----
+#include <bdk.h>
+#include <stdio.h>
+int main(int argc, const char *argv[])
+{
+    printf("Hello World\n");
+    return 0;
+}
+----
+
+Make
+~~~~
+
 The compiler command lines for creating BDK applications is quite
-complex.  To simplify the use of the BDK, a include file for 'make' is
+complex.  To simplify the use of the BDK, an include file for 'make' is
 included.  Once this file is included inside your 'Makefile', building
 the application is very easy.
 
@@ -23,40 +142,180 @@ clean:
 	rm -f *.o traffic-gen traffic-gen.bin
 ----
 
+The make system attempts to handle dependencies automatically.
+
+TIP: The environment variable *BDK_ROOT* must be defined to the top level
+	BDK directory.
+
+
+Running an Application
+~~~~~~~~~~~~~~~~~~~~~~
+
+.Ways you can run an application
+* Burn it to the beginning of flash
+* Burn it using the bootloader.  A BDK image can be burned using the
+	standard Uboot 'bootloaderupdate' command.  It will replace the normal
+	bootloader, but the failsafe image will still be there.
+* Jump directly to the code. Use the bootloader 'go' command to execute the
+	image from anywhere.
+
+TIP: Currently BDK applications must be aligned on a 4MB boundary.
+	This may change in the future. Uboot's 'go' command doesn't
+	work for addresses above 256MB.
+
+
+The BDK API
+-----------
+
+The BDK contains many functions to support Octeon code development.
+Here is a short list of the major areas:
+
+CAUTION: TBD (FIXME)
+
+CSRs
+~~~~
+
+.Useful CSR related defines and functions
+BDK_CSR_DEFINE(name, csr)::
+
+This macro makes it easy to define a variable of the correct type for a CSR.
+
+BDK_CSR_INIT(name, csr)::
+
+This macro makes it easy to define a variable and initialize it with a CSR.
+
+BDK_CSR_READ(csr)::
+
+Macro to read a CSR. Does the right thing for 'all' types of CSRs (32bit, 64bit, config, etc).
+
+BDK_CSR_WRITE(csr, value)::
+
+Macro to write a CSR. Does the right thing for 'all' types of CSRs (32bit, 64bit, config, etc).
+
+BDK_CSR_MODIFY(name, csr, code_block)::
+
+Macro to make a read, modify, and write sequence easy. The 'code_block'
+should be replaced with a C code block or a comma seperated list of
+'name.s.field = value'.
+
+BDK_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)::
+
+This macro spins on a field waiting for it to reach a value. It
+is common in code to need to wait for a specific field in a CSR
+to match a specific value. Conceptually this macro expands to:
+. Read csr
+. Check if ('csr'.s.'field' 'op' 'value')
+. If #2 isn't true loop to #1 unless too much time has passed.
+
+Signalling Errors
+~~~~~~~~~~~~~~~~~
+
+The BDK supplies a few function to make error reporting more standardized.
+
+.Error reporting
+* void bdk_fatal(const char *format, ...);
+* void bdk_error(const char *format, ...);
+* void bdk_warn(const char *format, ...);
+* bdk_warn_if(expression, format, ...);
+
+
+
+Boot Sequence
+-------------
+__start(bdk-start.S)::
+
+Main entry point for the code.  Can be installed at the reset vector,
+chain loaded from an 64KB aligned address in flash, or jump to in
+memory.  This is just a branch it *__init* so the first part of the
+image can use a standard bootloader image header.
+
+__init(bdk-start.S)::
+
+First real code.  Setup CVMSEG to act as a stack and jump into the C
+function *bdk_init()*.  Note that the first argument for bdk_init is the
+actual run address if the function.  This will be different from the
+functions link address as the TLB has not been setup.
+
+bdk_init(bdk-init.c)::
+
+First C code run.  This function can only use a limited subset of the
+C language since it is running from a different address than it was
+linked at.  At a low level, the 'code must not contain jump
+instructions'. The codes finishes the low level initialization enough
+that normal C code is capable of running. It does the following:
+* Sets up early COP0 requirements.
+* Flushes the TLB.
+* Sets up the TLB for running C code.
+* Flushes the Icache.
+* If running from flash, relocates chip select 0 such that the image
+is aligned properly in memory to match the TLB.
+* Jumps through *bdk_init_trampoline* to transfer out of the bootbus.
+
+bdk_init_trampoline(bdk-start.S)::
+
+Low level assembly function used to program the bootbus chip select
+zero and jump to the real C code *bdk_init_stage2*.  The trampoline is
+needed as you can't change the bootbus configuration while you are
+running from it.
+
+bdk_init_stage2(bdk-init.c)::
+
+This is the first C code running where the text segment is fully
+setup.  Function calls now work as expected.  These steps are performed:
+* Uart0 is initialized.
+* The BDK banner is displayed.
+* Exception handlers are installed.
+* Global data banner is displayed.
+* The data segment is relocated to L2/DRAM.
+* Clearing BSS banner is displayed.
+* BSS segment is zeroed.
+* Display a message about the main thread.
+* Initialize threading and create a thread for *main()*.
+* Display the scheduler banner.
+* Do any final COP0 setup by calling *__bdk_init_cop0()*.
+* Transfer control to the main thread.
+
+__bdk_thread_body(bdk-thread.c)::
+
+This function takes control right before *main()* is run. It does the
+common initialization needed by all threads.
+
+main(int argc, const char*argv[])::
+
+Control transfers to the normal C main.
+
 
 Bootbus Memory Map
-------------------
+~~~~~~~~~~~~~~~~~~
 
 The following table details the layout of a BDK application in NOR
 flash.  The table assumes the application is installed at the reset
 vector.  Since the BDK dynamically maps itself, applications can be
 located anywhere in flash.
 
-TIP: Currently BDK applications must be aligned on a 4MB boundary.
-	This may change in the future.
-
 .Flash Physical Layout
 [options="header"]
 |==========================================================================
 |Address	|Description
-|1FC0 0000	|Reset init boot code. Never copied to L2/DRAM. (Error EPC)
-|1FC0 0200	|TLB (EPC)
-|1FC0 0280	|XTLB (EPC)
-|1FC0 0300	|Cache Error (Error EPC)
-|1FC0 0380	|General Exception (EPC)
-|1FC0 0400	|Interrupt (EPC)
-|1FC0 0480	|EJTAG Debug (DEPC)
-|1FC0 0500	|Data starting after Exception Vectors
+|1FC0 0000	|Reset code and image header
+|1FC0 0200	|TLB
+|1FC0 0280	|XTLB
+|1FC0 0300	|Cache Error
+|1FC0 0380	|General Exception
+|1FC0 0400	|Interrupt
+|1FC0 0480	|EJTAG Debug
+|1FC0 0500	|Init boot code
+|1FC0 0580	|Data starting after Exception Vectors
 |...            |
 |1FCx x000	|Code 4K Aligned
 |==========================================================================
 
 
 L2/DRAM Memory Map
-------------------
+~~~~~~~~~~~~~~~~~~
 
 After a BDK application relocates into DRAM, the following table describes
-the physical and virutal layout.
+the physical and virtual layout.
 
 * Exception vectors use KSEG0, Kernel unmapped
 * Data uses KSSEG, Supervisor mapped
@@ -72,7 +331,8 @@ the physical and virutal layout.
 |0000 0180	|8000 0180	|(kseg0) General Exception (EPC)
 |0000 0200	|8000 0200	|(kseg0) Interrupt (EPC)
 |0000 0280	|8000 0280	|Zero padding to the beginning of data
-|0000 0500	|C000 0500	|(ksseg) Data starting after Exception Vectors
+|0000 0500	|8000 0500	|(kseg0) Init code
+|0000 0580	|C000 0580	|(ksseg) Data starting after init code
 |...            |               |
 |0xxx x000	|Exxx x000	|(kseg3) Code 4K Aligned
 |...            |               |
@@ -83,7 +343,10 @@ the physical and virutal layout.
 
 
 TLB
----
+~~~
+
+CAUTION: This section still in flux (FIXME)
+
 * Need 32 pages to map code in 4MB chunks.
 * Need 32 pages to map data in 4MB chunks.
 
@@ -98,7 +361,7 @@ TLB
 |==========================================================================
 
 Notes
------
+~~~~~
 * Init code in 0x1FC00000-0x1FC001ff needs to move flash to 0x1FC00000
 	minus 128MB. First 4MB aliases to 0x1FC00000. Maybe setup TLB too?
 * Later code needs to set flash start will be at 0x1FC00000 minus the flash
