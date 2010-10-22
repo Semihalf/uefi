@@ -1,6 +1,6 @@
 
 
-default: bdk.html bdk-memory-map.html
+default: bdk.html bdk-internals.html
 
 clean:
 	rm *.html

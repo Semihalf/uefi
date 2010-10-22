@@ -33,24 +33,3 @@ diagnostics. The basic layout is as follows:
 	This is a nearly boot environment based on the Lua scripting
 	language.
 
-Creating a standalone application
----------------------------------
-
-The compiler command lines for creating BDK applications is quite
-complex.  To simplify the use of the BDK, a include file for 'make' is
-included.  Once this file is included inside your 'Makefile', building
-the application is very easy.
-
-.Sample Makefile for Traffic-gen
-[source,sh]
-----
-include $(BDK_ROOT)/libbdk/bdk.mk
-
-traffic-gen.bin: traffic-gen
-traffic-gen: traffic-gen.o $(BDK_ROOT)/libbdk/libbdk.a
-
-clean:
-	rm -f *.o traffic-gen traffic-gen.bin
-----
-
-FIXME
