@@ -73,15 +73,9 @@ uint64_t __bdk_config_get_slow(bdk_config_t cfg)
 
 extern void bdk_config_set(bdk_config_t cfg, uint64_t value)
 {
-    const bdk_config_entry_t *entry = &__bdk_config_table[cfg];
-    char buffer[19];
-
     __bdk_config_cache[cfg] = value;
     BDK_SYNCW;
     __bdk_config_is_valid[cfg] = 1;
     BDK_SYNCW;
-
-    sprintf(buffer, "0x%llu", (unsigned long long)value);
-    setenv(entry->name, buffer, 1);
 }
 
