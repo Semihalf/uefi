@@ -18,10 +18,8 @@ int bdk_helper_get_number_of_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
 	return 6;
-    else if (OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX))
-        return 4;
     else
-        return 3;
+        return 6; /* FIXME for CN68XX */
 }
 
 
@@ -57,14 +55,9 @@ bdk_helper_interface_mode_t bdk_helper_interface_get_mode(int interface)
         return BDK_HELPER_INTERFACE_MODE_NPI;
 
     if (interface == 3)
-    {
-        if (OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN6XXX))
-            return BDK_HELPER_INTERFACE_MODE_LOOP;
-        else
-            return BDK_HELPER_INTERFACE_MODE_DISABLED;
-    }
+        return BDK_HELPER_INTERFACE_MODE_LOOP;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX) && (interface == 4 || interface == 5))
+    if (interface == 4 || interface == 5)
     {
         bdk_sriox_status_reg_t sriox_status_reg;
         sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(interface-4));
@@ -75,34 +68,16 @@ bdk_helper_interface_mode_t bdk_helper_interface_get_mode(int interface)
     }
 
     /* Interface 1 is always disabled on CN31XX and CN30XX */
-    if ((interface == 1) && (OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN63XX)))
+    if ((interface == 1) && OCTEON_IS_MODEL(OCTEON_CN63XX))
         return BDK_HELPER_INTERFACE_MODE_DISABLED;
 
     mode.u64 = BDK_CSR_READ(BDK_GMXX_INF_MODE(interface));
 
-    if (OCTEON_IS_MODEL(OCTEON_CN56XX) || OCTEON_IS_MODEL(OCTEON_CN52XX))
+    switch(mode.cn63xx.mode)
     {
-        switch(mode.cn56xx.mode)
-        {
-            case 0: return BDK_HELPER_INTERFACE_MODE_DISABLED;
-            case 1: return BDK_HELPER_INTERFACE_MODE_XAUI;
-            case 2: return BDK_HELPER_INTERFACE_MODE_SGMII;
-            case 3: return BDK_HELPER_INTERFACE_MODE_PICMG;
-            default:return BDK_HELPER_INTERFACE_MODE_DISABLED;
-        }
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-	switch(mode.cn63xx.mode)
-	{
-	    case 0: return BDK_HELPER_INTERFACE_MODE_SGMII;
-	    case 1: return BDK_HELPER_INTERFACE_MODE_XAUI;
-	    default: return BDK_HELPER_INTERFACE_MODE_DISABLED;
-	}
-    }
-    else
-    {
-        return BDK_HELPER_INTERFACE_MODE_DISABLED;
+        case 0: return BDK_HELPER_INTERFACE_MODE_SGMII;
+        case 1: return BDK_HELPER_INTERFACE_MODE_XAUI;
+        default: return BDK_HELPER_INTERFACE_MODE_DISABLED;
     }
 }
 
@@ -339,6 +314,7 @@ static int __bdk_helper_global_setup_backpressure(void)
     return 0;
 }
 
+#if 0
 /**
  * @INTERNAL
  * Verify the per port IPD backpressure is aligned properly.
@@ -389,7 +365,7 @@ int __bdk_helper_backpressure_is_misaligned(void)
         case BDK_HELPER_INTERFACE_MODE_XAUI:
         case BDK_HELPER_INTERFACE_MODE_SGMII:
         case BDK_HELPER_INTERFACE_MODE_PICMG:
-            BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, 0x0e00);
+            FIXME: BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, 0x0e00);
             bp_status0 = 0xffff & BDK_CSR_READ(BDK_NPEI_DBG_DATA);
             break;
         default:
@@ -431,6 +407,7 @@ int __bdk_helper_backpressure_is_misaligned(void)
 
     return ((bp_status0 != 1ull<<port0) || (bp_status1 != 1ull<<(port1-16)));
 }
+#endif
 
 
 /**
@@ -526,32 +503,17 @@ int bdk_helper_initialize_packet_io_global(void)
 {
     int result = 0;
     int interface;
-    bdk_l2c_cfg_t l2c_cfg;
     bdk_smix_en_t smix_en;
     const int num_interfaces = bdk_helper_get_number_of_interfaces();
-
-    /* CN52XX pass 1: Due to a bug in 2nd order CDR, it needs to be disabled */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_0))
-        __bdk_helper_errata_qlm_disable_2nd_order_cdr(1);
 
     /* Tell L2 to give the IOB statically higher priority compared to the
         cores. This avoids conditions where IO blocks might be starved under
         very high L2 loads */
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-    {
-        bdk_l2c_ctl_t l2c_ctl;
-        l2c_ctl.u64 = BDK_CSR_READ(BDK_L2C_CTL);
-        l2c_ctl.s.rsp_arb_mode = 1;
-        l2c_ctl.s.xmc_arb_mode = 0;
-        BDK_CSR_WRITE(BDK_L2C_CTL, l2c_ctl.u64);
-    }
-    else
-    {
-        l2c_cfg.u64 = BDK_CSR_READ(BDK_L2C_CFG);
-        l2c_cfg.s.lrf_arb_mode = 0;
-        l2c_cfg.s.rfb_arb_mode = 0;
-        BDK_CSR_WRITE(BDK_L2C_CFG, l2c_cfg.u64);
-    }
+    bdk_l2c_ctl_t l2c_ctl;
+    l2c_ctl.u64 = BDK_CSR_READ(BDK_L2C_CTL);
+    l2c_ctl.s.rsp_arb_mode = 1;
+    l2c_ctl.s.xmc_arb_mode = 0;
+    BDK_CSR_WRITE(BDK_L2C_CTL, l2c_ctl.u64);
 
     {
         /* Make sure SMI/MDIO is enabled so we can query PHYs */
@@ -780,7 +742,7 @@ int bdk_helper_shutdown_packet_io_global(void)
         ipd_ctl_status.s.reset = 1;
         BDK_CSR_WRITE(BDK_IPD_CTL_STATUS, ipd_ctl_status.u64);
 
-        if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
+        if (0) // FIXME: IPD shutdown
         {
             /* only try 1000 times.  Normally if this works it will happen in
             ** the first 50 loops. */

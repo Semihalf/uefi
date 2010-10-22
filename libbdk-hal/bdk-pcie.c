@@ -90,16 +90,8 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
     {
         bdk_pciercx_cfg030_t pciercx_cfg030;
         pciercx_cfg030.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG030(pcie_port));
-        if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-        {
-            pciercx_cfg030.s.mps = MPS_CN5XXX;
-            pciercx_cfg030.s.mrrs = MRRS_CN5XXX;
-        }
-        else
-        {
-            pciercx_cfg030.s.mps = MPS_CN6XXX;
-            pciercx_cfg030.s.mrrs = MRRS_CN6XXX;
-        }
+        pciercx_cfg030.s.mps = MPS_CN6XXX;
+        pciercx_cfg030.s.mrrs = MRRS_CN6XXX;
         pciercx_cfg030.s.ro_en = 1; /* Enable relaxed order processing. This will allow devices to affect read response ordering */
         pciercx_cfg030.s.ns_en = 1; /* Enable no snoop processing. Not used by Octeon */
         pciercx_cfg030.s.ce_en = 1; /* Correctable error reporting enable. */
@@ -109,22 +101,6 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG030(pcie_port), pciercx_cfg030.u32);
     }
 
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        /* Max Payload Size (NPEI_CTL_STATUS2[MPS]) must match PCIE*_CFG030[MPS] */
-        /* Max Read Request Size (NPEI_CTL_STATUS2[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
-        bdk_npei_ctl_status2_t npei_ctl_status2;
-        npei_ctl_status2.u64 = BDK_CSR_READ(BDK_NPEI_CTL_STATUS2);
-        npei_ctl_status2.s.mps = MPS_CN5XXX; /* Max payload size = 128 bytes for best Octeon DMA performance */
-        npei_ctl_status2.s.mrrs = MRRS_CN5XXX; /* Max read request size = 128 bytes for best Octeon DMA performance */
-        if (pcie_port)
-            npei_ctl_status2.s.c1_b1_s = 3; /* Port1 BAR1 Size 256MB */
-        else
-            npei_ctl_status2.s.c0_b1_s = 3; /* Port0 BAR1 Size 256MB */
-
-        BDK_CSR_WRITE(BDK_NPEI_CTL_STATUS2, npei_ctl_status2.u64);
-    }
-    else
     {
         /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
         /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
@@ -255,467 +231,6 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         pciercx_cfg034.s.ccint_en = 1; /* Command completed interrupt enable. */
         bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG034(pcie_port), pciercx_cfg034.u32);
     }
-}
-
-/**
- * @INTERNAL
- * Initialize a host mode PCIe gen 1 link. This function takes a PCIe
- * port from reset to a link up state. Software can then begin
- * configuring the rest of the link.
- *
- * @param pcie_port PCIe port to initialize
- *
- * @return Zero on success
- */
-static int __bdk_pcie_rc_initialize_link_gen1(int pcie_port)
-{
-    uint64_t start_cycle;
-    bdk_pescx_ctl_status_t pescx_ctl_status;
-    bdk_pciercx_cfg452_t pciercx_cfg452;
-    bdk_pciercx_cfg032_t pciercx_cfg032;
-    bdk_pciercx_cfg448_t pciercx_cfg448;
-
-    /* Set the lane width */
-    pciercx_cfg452.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG452(pcie_port));
-    pescx_ctl_status.u64 = BDK_CSR_READ(BDK_PESCX_CTL_STATUS(pcie_port));
-    if (pescx_ctl_status.s.qlm_cfg == 0)
-    {
-        /* We're in 8 lane (56XX) or 4 lane (54XX) mode */
-        pciercx_cfg452.s.lme = 0xf;
-    }
-    else
-    {
-        /* We're in 4 lane (56XX) or 2 lane (52XX) mode */
-        pciercx_cfg452.s.lme = 0x7;
-    }
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG452(pcie_port), pciercx_cfg452.u32);
-
-    /* CN52XX pass 1.x has an errata where length mismatches on UR responses can
-        cause bus errors on 64bit memory reads. Turning off length error
-        checking fixes this */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-    {
-        bdk_pciercx_cfg455_t pciercx_cfg455;
-        pciercx_cfg455.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG455(pcie_port));
-        pciercx_cfg455.s.m_cpl_len_err = 1;
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG455(pcie_port), pciercx_cfg455.u32);
-    }
-
-    /* Lane swap needs to be manually enabled for CN52XX */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX) && (pcie_port == 1))
-    {
-      pescx_ctl_status.s.lane_swp = 1;
-      BDK_CSR_WRITE(BDK_PESCX_CTL_STATUS(pcie_port),pescx_ctl_status.u64);
-    }
-
-    /* Bring up the link */
-    pescx_ctl_status.u64 = BDK_CSR_READ(BDK_PESCX_CTL_STATUS(pcie_port));
-    pescx_ctl_status.s.lnk_enb = 1;
-    BDK_CSR_WRITE(BDK_PESCX_CTL_STATUS(pcie_port), pescx_ctl_status.u64);
-
-    /* CN52XX pass 1.0: Due to a bug in 2nd order CDR, it needs to be disabled */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_0))
-        __bdk_helper_errata_qlm_disable_2nd_order_cdr(0);
-
-    /* Wait for the link to come up */
-    start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-    do
-    {
-        if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > 2*bdk_clock_get_rate(BDK_CLOCK_CORE))
-        {
-            bdk_dprintf("PCIe: Port %d link timeout\n", pcie_port);
-            return -1;
-        }
-        bdk_wait(10000);
-        pciercx_cfg032.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG032(pcie_port));
-    } while (pciercx_cfg032.s.dlla == 0);
-
-    /* Clear all pending errors */
-    BDK_CSR_WRITE(BDK_NPEI_INT_SUM, BDK_CSR_READ(BDK_NPEI_INT_SUM));
-
-    /* Update the Replay Time Limit. Empirically, some PCIe devices take a
-        little longer to respond than expected under load. As a workaround for
-        this we configure the Replay Time Limit to the value expected for a 512
-        byte MPS instead of our actual 256 byte MPS. The numbers below are
-        directly from the PCIe spec table 3-4 */
-    pciercx_cfg448.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG448(pcie_port));
-    switch (pciercx_cfg032.s.nlw)
-    {
-        case 1: /* 1 lane */
-            pciercx_cfg448.s.rtl = 1677;
-            break;
-        case 2: /* 2 lanes */
-            pciercx_cfg448.s.rtl = 867;
-            break;
-        case 4: /* 4 lanes */
-            pciercx_cfg448.s.rtl = 462;
-            break;
-        case 8: /* 8 lanes */
-            pciercx_cfg448.s.rtl = 258;
-            break;
-    }
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG448(pcie_port), pciercx_cfg448.u32);
-
-    return 0;
-}
-
-
-/**
- * Initialize a PCIe gen 1 port for use in host(RC) mode. It doesn't enumerate
- * the bus.
- *
- * @param pcie_port PCIe port to initialize
- *
- * @return Zero on success
- */
-static int __bdk_pcie_rc_initialize_gen1(int pcie_port)
-{
-    int i;
-    int base;
-    uint64_t addr_swizzle;
-    bdk_ciu_soft_prst_t ciu_soft_prst;
-    bdk_pescx_bist_status_t pescx_bist_status;
-    bdk_pescx_bist_status2_t pescx_bist_status2;
-    bdk_npei_ctl_status_t npei_ctl_status;
-    bdk_npei_mem_access_ctl_t npei_mem_access_ctl;
-    bdk_npei_mem_access_subidx_t mem_access_subid;
-    bdk_npei_dbg_data_t npei_dbg_data;
-    bdk_pescx_ctl_status2_t pescx_ctl_status2;
-    bdk_pciercx_cfg032_t pciercx_cfg032;
-    bdk_npei_bar1_indexx_t bar1_index;
-
-retry:
-    /* Make sure we aren't trying to setup a target mode interface in host mode */
-    npei_ctl_status.u64 = BDK_CSR_READ(BDK_NPEI_CTL_STATUS);
-    if ((pcie_port==0) && !npei_ctl_status.s.host_mode)
-    {
-        bdk_dprintf("PCIe: Port %d in endpoint mode\n", pcie_port);
-        return -1;
-    }
-
-    /* Make sure a CN52XX isn't trying to bring up port 1 when it is disabled */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX))
-    {
-        npei_dbg_data.u64 = BDK_CSR_READ(BDK_NPEI_DBG_DATA);
-        if ((pcie_port==1) && npei_dbg_data.cn52xx.qlm0_link_width)
-        {
-            bdk_dprintf("PCIe: ERROR: bdk_pcie_rc_initialize() called on port1, but port1 is disabled\n");
-            return -1;
-        }
-    }
-
-    /* PCIe switch arbitration mode. '0' == fixed priority NPEI, PCIe0, then PCIe1. '1' == round robin. */
-    npei_ctl_status.s.arb = 1;
-    /* Allow up to 0x20 config retries */
-    npei_ctl_status.s.cfg_rtry = 0x20;
-    /* CN52XX pass1.x has an errata where P0_NTAGS and P1_NTAGS don't reset */
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-    {
-        npei_ctl_status.s.p0_ntags = 0x20;
-        npei_ctl_status.s.p1_ntags = 0x20;
-    }
-    BDK_CSR_WRITE(BDK_NPEI_CTL_STATUS, npei_ctl_status.u64);
-
-    /* Bring the PCIe out of reset */
-    if (0) //(bdk_sysinfo_get()->board_type == BDK_BOARD_TYPE_EBH5200)
-    {
-        /* The EBH5200 board swapped the PCIe reset lines on the board. As a
-            workaround for this bug, we bring both PCIe ports out of reset at
-            the same time instead of on separate calls. So for port 0, we bring
-            both out of reset and do nothing on port 1 */
-        if (pcie_port == 0)
-        {
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST);
-            /* After a chip reset the PCIe will also be in reset. If it isn't,
-                most likely someone is trying to init it again without a proper
-                PCIe reset */
-            if (ciu_soft_prst.s.soft_prst == 0)
-            {
-		/* Reset the ports */
-		ciu_soft_prst.s.soft_prst = 1;
-		BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-		ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
-		ciu_soft_prst.s.soft_prst = 1;
-		BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-		/* Wait until pcie resets the ports. */
-		bdk_wait_usec(2000);
-            }
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
-            ciu_soft_prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST);
-            ciu_soft_prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-        }
-    }
-    else
-    {
-        /* The normal case: The PCIe ports are completely separate and can be
-            brought out of reset independently */
-        if (pcie_port)
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
-        else
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST);
-        /* After a chip reset the PCIe will also be in reset. If it isn't,
-            most likely someone is trying to init it again without a proper
-            PCIe reset */
-        if (ciu_soft_prst.s.soft_prst == 0)
-        {
-	    /* Reset the port */
-	    ciu_soft_prst.s.soft_prst = 1;
-	    if (pcie_port)
-		BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
- 	    else
-		BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-	    /* Wait until pcie resets the ports. */
-	    bdk_wait_usec(2000);
-        }
-        if (pcie_port)
-        {
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
-            ciu_soft_prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-        }
-        else
-        {
-            ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST);
-            ciu_soft_prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-        }
-    }
-
-    /* Wait for PCIe reset to complete. Due to errata PCIE-700, we don't poll
-       PESCX_CTL_STATUS2[PCIERST], but simply wait a fixed number of cycles */
-    bdk_wait(400000);
-
-    /* PESCX_BIST_STATUS2[PCLK_RUN] was missing on pass 1 of CN56XX and
-        CN52XX, so we only probe it on newer chips */
-    if (!OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X) && !OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-    {
-        /* Clear PCLK_RUN so we can check if the clock is running */
-        pescx_ctl_status2.u64 = BDK_CSR_READ(BDK_PESCX_CTL_STATUS2(pcie_port));
-        pescx_ctl_status2.s.pclk_run = 1;
-        BDK_CSR_WRITE(BDK_PESCX_CTL_STATUS2(pcie_port), pescx_ctl_status2.u64);
-        /* Now that we cleared PCLK_RUN, wait for it to be set again telling
-            us the clock is running */
-        if (BDK_CSR_WAIT_FOR_FIELD(BDK_PESCX_CTL_STATUS2(pcie_port), pclk_run, ==, 1, 10000))
-        {
-            bdk_dprintf("PCIe: Port %d isn't clocked, skipping.\n", pcie_port);
-            return -1;
-        }
-    }
-
-    /* Check and make sure PCIe came out of reset. If it doesn't the board
-        probably hasn't wired the clocks up and the interface should be
-        skipped */
-    pescx_ctl_status2.u64 = BDK_CSR_READ(BDK_PESCX_CTL_STATUS2(pcie_port));
-    if (pescx_ctl_status2.s.pcierst)
-    {
-        bdk_dprintf("PCIe: Port %d stuck in reset, skipping.\n", pcie_port);
-        return -1;
-    }
-
-    /* Check BIST2 status. If any bits are set skip this interface. This
-        is an attempt to catch PCIE-813 on pass 1 parts */
-    pescx_bist_status2.u64 = BDK_CSR_READ(BDK_PESCX_BIST_STATUS2(pcie_port));
-    if (pescx_bist_status2.u64)
-    {
-        bdk_dprintf("PCIe: Port %d BIST2 failed. Most likely this port isn't hooked up, skipping.\n", pcie_port);
-        return -1;
-    }
-
-    /* Check BIST status */
-    pescx_bist_status.u64 = BDK_CSR_READ(BDK_PESCX_BIST_STATUS(pcie_port));
-    if (pescx_bist_status.u64)
-        bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016llx)\n", pcie_port, CAST64(pescx_bist_status.u64));
-
-    /* Initialize the config space CSRs */
-    __bdk_pcie_rc_initialize_config_space(pcie_port);
-
-    /* Bring the link up */
-    if (__bdk_pcie_rc_initialize_link_gen1(pcie_port))
-    {
-        bdk_dprintf("PCIe: Failed to initialize port %d, probably the slot is empty\n", pcie_port);
-        return -1;
-    }
-
-    /* Store merge control (NPEI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
-    npei_mem_access_ctl.u64 = BDK_CSR_READ(BDK_NPEI_MEM_ACCESS_CTL);
-    npei_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
-    npei_mem_access_ctl.s.timer = 127;      /* Wait up to 127 cycles for more data */
-    BDK_CSR_WRITE(BDK_NPEI_MEM_ACCESS_CTL, npei_mem_access_ctl.u64);
-
-    /* Setup Mem access SubDIDs */
-    mem_access_subid.u64 = 0;
-    mem_access_subid.s.port = pcie_port; /* Port the request is sent to. */
-    mem_access_subid.s.nmerge = 1;  /* Due to an errata on pass 1 chips, no merging is allowed. */
-    mem_access_subid.s.esr = 1;     /* Endian-swap for Reads. */
-    mem_access_subid.s.esw = 1;     /* Endian-swap for Writes. */
-    mem_access_subid.s.nsr = 0;     /* Enable Snooping for Reads. Octeon doesn't care, but devices might want this more conservative setting */
-    mem_access_subid.s.nsw = 0;     /* Enable Snoop for Writes. */
-    mem_access_subid.s.ror = 0;     /* Disable Relaxed Ordering for Reads. */
-    mem_access_subid.s.row = 0;     /* Disable Relaxed Ordering for Writes. */
-    mem_access_subid.s.ba = 0;      /* PCIe Adddress Bits <63:34>. */
-
-    /* Setup mem access 12-15 for port 0, 16-19 for port 1, supplying 36 bits of address space */
-    for (i=12 + pcie_port*4; i<16 + pcie_port*4; i++)
-    {
-        BDK_CSR_WRITE(BDK_NPEI_MEM_ACCESS_SUBIDX(i), mem_access_subid.u64);
-        mem_access_subid.s.ba += 1; /* Set each SUBID to extend the addressable range */
-    }
-
-    /* Disable the peer to peer forwarding register. This must be setup
-        by the OS after it enumerates the bus and assigns addresses to the
-        PCIe busses */
-    for (i=0; i<4; i++)
-    {
-        BDK_CSR_WRITE(BDK_PESCX_P2P_BARX_START(i, pcie_port), -1);
-        BDK_CSR_WRITE(BDK_PESCX_P2P_BARX_END(i, pcie_port), -1);
-    }
-
-    /* Set Octeon's BAR0 to decode 0-16KB. It overlaps with Bar2 */
-    BDK_CSR_WRITE(BDK_PESCX_P2N_BAR0_START(pcie_port), 0);
-
-    /* BAR1 follows BAR2 with a gap so it has the same address as for gen2. */
-    BDK_CSR_WRITE(BDK_PESCX_P2N_BAR1_START(pcie_port), BDK_PCIE_BAR1_RC_BASE);
-
-    bar1_index.u32 = 0;
-    bar1_index.s.addr_idx = (BDK_PCIE_BAR1_PHYS_BASE >> 22);
-    bar1_index.s.ca = 1;       /* Not Cached */
-    bar1_index.s.end_swp = 1;  /* Endian Swap mode */
-    bar1_index.s.addr_v = 1;   /* Valid entry */
-
-    base = pcie_port ? 16 : 0;
-
-    /* Big endian swizzle for 32-bit PEXP_NCB register. */
-#ifdef __MIPSEB__
-    addr_swizzle = 4;
-#else
-    addr_swizzle = 0;
-#endif
-    for (i = 0; i < 16; i++) {
-        bdk_write64_uint32((BDK_NPEI_BAR1_INDEXX(base) ^ addr_swizzle), bar1_index.u32);
-        base++;
-        /* 256MB / 16 >> 22 == 4 */
-        bar1_index.s.addr_idx += (((1ull << 28) / 16ull) >> 22);
-    }
-
-    /* Set Octeon's BAR2 to decode 0-2^39. Bar0 and Bar1 take precedence
-        where they overlap. It also overlaps with the device addresses, so
-        make sure the peer to peer forwarding is set right */
-    BDK_CSR_WRITE(BDK_PESCX_P2N_BAR2_START(pcie_port), 0);
-
-    /* Setup BAR2 attributes */
-    /* Relaxed Ordering (NPEI_CTL_PORTn[PTLP_RO,CTLP_RO, WAIT_COM]) */
-    /* ­ PTLP_RO,CTLP_RO should normally be set (except for debug). */
-    /* ­ WAIT_COM=0 will likely work for all applications. */
-    /* Load completion relaxed ordering (NPEI_CTL_PORTn[WAITL_COM]) */
-    if (pcie_port)
-    {
-        bdk_npei_ctl_port1_t npei_ctl_port;
-        npei_ctl_port.u64 = BDK_CSR_READ(BDK_NPEI_CTL_PORT1);
-        npei_ctl_port.s.bar2_enb = 1;
-        npei_ctl_port.s.bar2_esx = 1;
-        npei_ctl_port.s.bar2_cax = 0;
-        npei_ctl_port.s.ptlp_ro = 1;
-        npei_ctl_port.s.ctlp_ro = 1;
-        npei_ctl_port.s.wait_com = 0;
-        npei_ctl_port.s.waitl_com = 0;
-        BDK_CSR_WRITE(BDK_NPEI_CTL_PORT1, npei_ctl_port.u64);
-    }
-    else
-    {
-        bdk_npei_ctl_port0_t npei_ctl_port;
-        npei_ctl_port.u64 = BDK_CSR_READ(BDK_NPEI_CTL_PORT0);
-        npei_ctl_port.s.bar2_enb = 1;
-        npei_ctl_port.s.bar2_esx = 1;
-        npei_ctl_port.s.bar2_cax = 0;
-        npei_ctl_port.s.ptlp_ro = 1;
-        npei_ctl_port.s.ctlp_ro = 1;
-        npei_ctl_port.s.wait_com = 0;
-        npei_ctl_port.s.waitl_com = 0;
-        BDK_CSR_WRITE(BDK_NPEI_CTL_PORT0, npei_ctl_port.u64);
-    }
-
-    /* Both pass 1 and pass 2 of CN52XX and CN56XX have an errata that causes
-        TLP ordering to not be preserved after multiple PCIe port resets. This
-        code detects this fault and corrects it by aligning the TLP counters
-        properly. Another link reset is then performed. See PCIE-13340 */
-    if (OCTEON_IS_MODEL(OCTEON_CN56XX_PASS2_X) || OCTEON_IS_MODEL(OCTEON_CN52XX_PASS2_X) ||
-        OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X) || OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-    {
-        bdk_npei_dbg_data_t dbg_data;
-        int old_in_fif_p_count;
-        int in_fif_p_count;
-        int out_p_count;
-        int in_p_offset = (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X) || OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X)) ? 4 : 1;
-        int i;
-
-        /* Choose a write address of 1MB. It should be harmless as all bars
-            haven't been setup */
-        uint64_t write_address = (bdk_pcie_get_mem_base_address(pcie_port) + 0x100000) | (1ull<<63);
-
-        /* Make sure at least in_p_offset have been executed before we try and
-            read in_fif_p_count */
-        i = in_p_offset;
-        while (i--)
-        {
-            bdk_write64_uint32(write_address, 0);
-            bdk_wait(10000);
-        }
-
-        /* Read the IN_FIF_P_COUNT from the debug select. IN_FIF_P_COUNT can be
-            unstable sometimes so read it twice with a write between the reads.
-            This way we can tell the value is good as it will increment by one
-            due to the write */
-        BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, (pcie_port) ? 0xd7fc : 0xcffc);
-        BDK_CSR_READ(BDK_NPEI_DBG_SELECT);
-        do
-        {
-            dbg_data.u64 = BDK_CSR_READ(BDK_NPEI_DBG_DATA);
-            old_in_fif_p_count = dbg_data.s.data & 0xff;
-            bdk_write64_uint32(write_address, 0);
-            bdk_wait(10000);
-            dbg_data.u64 = BDK_CSR_READ(BDK_NPEI_DBG_DATA);
-            in_fif_p_count = dbg_data.s.data & 0xff;
-        } while (in_fif_p_count != ((old_in_fif_p_count+1) & 0xff));
-
-        /* Update in_fif_p_count for it's offset with respect to out_p_count */
-        in_fif_p_count = (in_fif_p_count + in_p_offset) & 0xff;
-
-        /* Read the OUT_P_COUNT from the debug select */
-        BDK_CSR_WRITE(BDK_NPEI_DBG_SELECT, (pcie_port) ? 0xd00f : 0xc80f);
-        BDK_CSR_READ(BDK_NPEI_DBG_SELECT);
-        dbg_data.u64 = BDK_CSR_READ(BDK_NPEI_DBG_DATA);
-        out_p_count = (dbg_data.s.data>>1) & 0xff;
-
-        /* Check that the two counters are aligned */
-        if (out_p_count != in_fif_p_count)
-        {
-            bdk_dprintf("PCIe: Port %d aligning TLP counters as workaround to maintain ordering\n", pcie_port);
-            while (in_fif_p_count != 0)
-            {
-                bdk_write64_uint32(write_address, 0);
-                bdk_wait(10000);
-                in_fif_p_count = (in_fif_p_count + 1) & 0xff;
-            }
-            /* The EBH5200 board swapped the PCIe reset lines on the board. This
-                means we must bring both links down and up, which will cause the
-                PCIe0 to need alignment again. Lots of messages will be displayed,
-                but everything should work */
-            if (0 && //(bdk_sysinfo_get()->board_type == BDK_BOARD_TYPE_EBH5200) &&
-                (pcie_port == 1))
-                bdk_pcie_rc_initialize(0);
-            /* Rety bringing this port up */
-            goto retry;
-        }
-    }
-
-    /* Display the link status */
-    pciercx_cfg032.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG032(pcie_port));
-    bdk_dprintf("PCIe: Port %d link active, %d lanes\n", pcie_port, pciercx_cfg032.s.nlw);
-
-    return 0;
 }
 
 
@@ -1018,12 +533,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
  */
 int bdk_pcie_rc_initialize(int pcie_port)
 {
-    int result;
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-        result = __bdk_pcie_rc_initialize_gen1(pcie_port);
-    else
-        result = __bdk_pcie_rc_initialize_gen2(pcie_port);
-    return result;
+    return __bdk_pcie_rc_initialize_gen2(pcie_port);
 }
 
 
@@ -1037,16 +547,8 @@ int bdk_pcie_rc_initialize(int pcie_port)
 int bdk_pcie_rc_shutdown(int pcie_port)
 {
     /* Wait for all pending operations to complete */
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        if (BDK_CSR_WAIT_FOR_FIELD(BDK_PESCX_CPL_LUT_VALID(pcie_port), tag, ==, 0, 2000))
-            bdk_dprintf("PCIe: Port %d shutdown timeout\n", pcie_port);
-    }
-    else
-    {
-        if (BDK_CSR_WAIT_FOR_FIELD(BDK_PEMX_CPL_LUT_VALID(pcie_port), tag, ==, 0, 2000))
-            bdk_dprintf("PCIe: Port %d shutdown timeout\n", pcie_port);
-    }
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PEMX_CPL_LUT_VALID(pcie_port), tag, ==, 0, 2000))
+        bdk_dprintf("PCIe: Port %d shutdown timeout\n", pcie_port);
 
     /* Force reset */
     if (pcie_port)
@@ -1232,24 +734,12 @@ void bdk_pcie_config_write32(int pcie_port, int bus, int dev, int fn, int reg, u
  */
 uint32_t bdk_pcie_cfgx_read(int pcie_port, uint32_t cfg_offset)
 {
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_pescx_cfg_rd_t pescx_cfg_rd;
-        pescx_cfg_rd.u64 = 0;
-        pescx_cfg_rd.s.addr = cfg_offset;
-        BDK_CSR_WRITE(BDK_PESCX_CFG_RD(pcie_port), pescx_cfg_rd.u64);
-        pescx_cfg_rd.u64 = BDK_CSR_READ(BDK_PESCX_CFG_RD(pcie_port));
-        return pescx_cfg_rd.s.data;
-    }
-    else
-    {
-        bdk_pemx_cfg_rd_t pemx_cfg_rd;
-        pemx_cfg_rd.u64 = 0;
-        pemx_cfg_rd.s.addr = cfg_offset;
-        BDK_CSR_WRITE(BDK_PEMX_CFG_RD(pcie_port), pemx_cfg_rd.u64);
-        pemx_cfg_rd.u64 = BDK_CSR_READ(BDK_PEMX_CFG_RD(pcie_port));
-        return pemx_cfg_rd.s.data;
-    }
+    bdk_pemx_cfg_rd_t pemx_cfg_rd;
+    pemx_cfg_rd.u64 = 0;
+    pemx_cfg_rd.s.addr = cfg_offset;
+    BDK_CSR_WRITE(BDK_PEMX_CFG_RD(pcie_port), pemx_cfg_rd.u64);
+    pemx_cfg_rd.u64 = BDK_CSR_READ(BDK_PEMX_CFG_RD(pcie_port));
+    return pemx_cfg_rd.s.data;
 }
 
 
@@ -1263,22 +753,11 @@ uint32_t bdk_pcie_cfgx_read(int pcie_port, uint32_t cfg_offset)
  */
 void bdk_pcie_cfgx_write(int pcie_port, uint32_t cfg_offset, uint32_t val)
 {
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_pescx_cfg_wr_t pescx_cfg_wr;
-        pescx_cfg_wr.u64 = 0;
-        pescx_cfg_wr.s.addr = cfg_offset;
-        pescx_cfg_wr.s.data = val;
-        BDK_CSR_WRITE(BDK_PESCX_CFG_WR(pcie_port), pescx_cfg_wr.u64);
-    }
-    else
-    {
-        bdk_pemx_cfg_wr_t pemx_cfg_wr;
-        pemx_cfg_wr.u64 = 0;
-        pemx_cfg_wr.s.addr = cfg_offset;
-        pemx_cfg_wr.s.data = val;
-        BDK_CSR_WRITE(BDK_PEMX_CFG_WR(pcie_port), pemx_cfg_wr.u64);
-    }
+    bdk_pemx_cfg_wr_t pemx_cfg_wr;
+    pemx_cfg_wr.u64 = 0;
+    pemx_cfg_wr.s.addr = cfg_offset;
+    pemx_cfg_wr.s.data = val;
+    BDK_CSR_WRITE(BDK_PEMX_CFG_WR(pcie_port), pemx_cfg_wr.u64);
 }
 
 
@@ -1291,20 +770,10 @@ void bdk_pcie_cfgx_write(int pcie_port, uint32_t cfg_offset, uint32_t val)
  */
 int bdk_pcie_ep_initialize(int pcie_port)
 {
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_npei_ctl_status_t npei_ctl_status;
-        npei_ctl_status.u64 = BDK_CSR_READ(BDK_NPEI_CTL_STATUS);
-        if (npei_ctl_status.s.host_mode)
-            return -1;
-    }
-    else
-    {
-        bdk_mio_rst_ctlx_t mio_rst_ctl;
-        mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
-        if (mio_rst_ctl.s.host_mode)
-            return -1;
-    }
+    bdk_mio_rst_ctlx_t mio_rst_ctl;
+    mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
+    if (mio_rst_ctl.s.host_mode)
+        return -1;
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
@@ -1339,16 +808,8 @@ int bdk_pcie_ep_initialize(int pcie_port)
     {
         bdk_pcieepx_cfg030_t pcieepx_cfg030;
         pcieepx_cfg030.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIEEPX_CFG030(pcie_port));
-        if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-        {
-            pcieepx_cfg030.s.mps = MPS_CN5XXX;
-            pcieepx_cfg030.s.mrrs = MRRS_CN5XXX;
-        }
-        else
-        {
-            pcieepx_cfg030.s.mps = MPS_CN6XXX;
-            pcieepx_cfg030.s.mrrs = MRRS_CN6XXX;
-        }
+        pcieepx_cfg030.s.mps = MPS_CN6XXX;
+        pcieepx_cfg030.s.mrrs = MRRS_CN6XXX;
         pcieepx_cfg030.s.ro_en = 1; /* Enable relaxed ordering. */
         pcieepx_cfg030.s.ns_en = 1; /* Enable no snoop. */
         pcieepx_cfg030.s.ce_en = 1; /* Correctable error reporting enable. */
@@ -1358,17 +819,6 @@ int bdk_pcie_ep_initialize(int pcie_port)
         bdk_pcie_cfgx_write(pcie_port, BDK_PCIEEPX_CFG030(pcie_port), pcieepx_cfg030.u32);
     }
 
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        /* Max Payload Size (NPEI_CTL_STATUS2[MPS]) must match PCIE*_CFG030[MPS] */
-        /* Max Read Request Size (NPEI_CTL_STATUS2[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
-        bdk_npei_ctl_status2_t npei_ctl_status2;
-        npei_ctl_status2.u64 = BDK_CSR_READ(BDK_NPEI_CTL_STATUS2);
-        npei_ctl_status2.s.mps = MPS_CN5XXX; /* Max payload size = 128 bytes (Limit of most PCs) */
-        npei_ctl_status2.s.mrrs = MRRS_CN5XXX; /* Max read request size = 128 bytes for best Octeon DMA performance */
-        BDK_CSR_WRITE(BDK_NPEI_CTL_STATUS2, npei_ctl_status2.u64);
-    }
-    else
     {
         /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
         /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
@@ -1385,22 +835,6 @@ int bdk_pcie_ep_initialize(int pcie_port)
     }
 
     /* Setup Mem access SubDID 12 to access Host memory */
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_npei_mem_access_subidx_t mem_access_subid;
-        mem_access_subid.u64 = 0;
-        mem_access_subid.s.port = pcie_port; /* Port the request is sent to. */
-        mem_access_subid.s.nmerge = 1;  /* Merging is not allowed in this window. */
-        mem_access_subid.s.esr = 0;     /* Endian-swap for Reads. */
-        mem_access_subid.s.esw = 0;     /* Endian-swap for Writes. */
-        mem_access_subid.s.nsr = 0;     /* Enable Snooping for Reads. Octeon doesn't care, but devices might want this more conservative setting */
-        mem_access_subid.s.nsw = 0;     /* Enable Snoop for Writes. */
-        mem_access_subid.s.ror = 0;     /* Disable Relaxed Ordering for Reads. */
-        mem_access_subid.s.row = 0;     /* Disable Relaxed Ordering for Writes. */
-        mem_access_subid.s.ba = 0;      /* PCIe Adddress Bits <63:34>. */
-        BDK_CSR_WRITE(BDK_NPEI_MEM_ACCESS_SUBIDX(12), mem_access_subid.u64);
-    }
-    else
     {
         bdk_sli_mem_access_subidx_t mem_access_subid;
         mem_access_subid.u64 = 0;
@@ -1428,84 +862,40 @@ int bdk_pcie_ep_initialize(int pcie_port)
  */
 void bdk_pcie_wait_for_pending(int pcie_port)
 {
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
+    bdk_sli_data_out_cnt_t sli_data_out_cnt;
+    int a;
+    int b;
+    int c;
+
+    sli_data_out_cnt.u64 = BDK_CSR_READ(BDK_SLI_DATA_OUT_CNT);
+    if (pcie_port)
     {
-        bdk_npei_data_out_cnt_t npei_data_out_cnt;
-        int a;
-        int b;
-        int c;
-
-        /* See section 9.8, PCIe Core-initiated Requests, in the manual for a
-            description of how this code works */
-        npei_data_out_cnt.u64 = BDK_CSR_READ(BDK_NPEI_DATA_OUT_CNT);
-        if (pcie_port)
-        {
-            if (!npei_data_out_cnt.s.p1_fcnt)
-                return;
-            a = npei_data_out_cnt.s.p1_ucnt;
-            b = (a + npei_data_out_cnt.s.p1_fcnt-1) & 0xffff;
-        }
-        else
-        {
-            if (!npei_data_out_cnt.s.p0_fcnt)
-                return;
-            a = npei_data_out_cnt.s.p0_ucnt;
-            b = (a + npei_data_out_cnt.s.p0_fcnt-1) & 0xffff;
-        }
-
-        while (1)
-        {
-            npei_data_out_cnt.u64 = BDK_CSR_READ(BDK_NPEI_DATA_OUT_CNT);
-            c = (pcie_port) ? npei_data_out_cnt.s.p1_ucnt : npei_data_out_cnt.s.p0_ucnt;
-            if (a<=b)
-            {
-                if ((c<a) || (c>b))
-                    return;
-            }
-            else
-            {
-                if ((c>b) && (c<a))
-                    return;
-            }
-        }
+        if (!sli_data_out_cnt.s.p1_fcnt)
+            return;
+        a = sli_data_out_cnt.s.p1_ucnt;
+        b = (a + sli_data_out_cnt.s.p1_fcnt-1) & 0xffff;
     }
     else
     {
-        bdk_sli_data_out_cnt_t sli_data_out_cnt;
-        int a;
-        int b;
-        int c;
+        if (!sli_data_out_cnt.s.p0_fcnt)
+            return;
+        a = sli_data_out_cnt.s.p0_ucnt;
+        b = (a + sli_data_out_cnt.s.p0_fcnt-1) & 0xffff;
+    }
 
+    while (1)
+    {
         sli_data_out_cnt.u64 = BDK_CSR_READ(BDK_SLI_DATA_OUT_CNT);
-        if (pcie_port)
+        c = (pcie_port) ? sli_data_out_cnt.s.p1_ucnt : sli_data_out_cnt.s.p0_ucnt;
+        if (a<=b)
         {
-            if (!sli_data_out_cnt.s.p1_fcnt)
+            if ((c<a) || (c>b))
                 return;
-            a = sli_data_out_cnt.s.p1_ucnt;
-            b = (a + sli_data_out_cnt.s.p1_fcnt-1) & 0xffff;
         }
         else
         {
-            if (!sli_data_out_cnt.s.p0_fcnt)
+            if ((c>b) && (c<a))
                 return;
-            a = sli_data_out_cnt.s.p0_ucnt;
-            b = (a + sli_data_out_cnt.s.p0_fcnt-1) & 0xffff;
-        }
-
-        while (1)
-        {
-            sli_data_out_cnt.u64 = BDK_CSR_READ(BDK_SLI_DATA_OUT_CNT);
-            c = (pcie_port) ? sli_data_out_cnt.s.p1_ucnt : sli_data_out_cnt.s.p0_ucnt;
-            if (a<=b)
-            {
-                if ((c<a) || (c>b))
-                    return;
-            }
-            else
-            {
-                if ((c>b) && (c<a))
-                    return;
-            }
         }
     }
 }

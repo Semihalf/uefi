@@ -159,25 +159,18 @@ int bdk_cmd_queue_length(bdk_cmd_queue_id_t queue_id)
             BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, queue_id & 0xffff);
             bdk_pko_mem_debug8_t debug8;
             debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
-            return debug8.cn56xx.doorbell;
+            return debug8.cn63xx.doorbell;
         case BDK_CMD_QUEUE_ZIP:
         case BDK_CMD_QUEUE_DFA:
         case BDK_CMD_QUEUE_RAID:
             // FIXME: Implement other lengths
             return 0;
         case BDK_CMD_QUEUE_DMA_BASE:
-            if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-            {
-                bdk_npei_dmax_counts_t dmax_counts;
-                dmax_counts.u64 = BDK_CSR_READ(BDK_NPEI_DMAX_COUNTS(queue_id & 0x7));
-                return dmax_counts.s.dbell;
-            }
-            else
-            {
-                bdk_dpi_dmax_counts_t dmax_counts;
-                dmax_counts.u64 = BDK_CSR_READ(BDK_DPI_DMAX_COUNTS(queue_id & 0x7));
-                return dmax_counts.s.dbell;
-            }
+        {
+            bdk_dpi_dmax_counts_t dmax_counts;
+            dmax_counts.u64 = BDK_CSR_READ(BDK_DPI_DMAX_COUNTS(queue_id & 0x7));
+            return dmax_counts.s.dbell;
+        }
         case BDK_CMD_QUEUE_END:
             return BDK_CMD_QUEUE_INVALID_PARAM;
     }

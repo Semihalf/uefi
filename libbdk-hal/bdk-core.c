@@ -90,8 +90,5 @@ int bdk_core_add_fixed_tlb_mapping(uint64_t vaddr, uint64_t page0_addr, uint64_t
  */
 int bdk_core_get_tlb_entries(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-        return 64;
-    else
-        return 128;
+    return 128;
 }

@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <sys/stat.h>
+#include <sys/times.h>
 #include <errno.h>
 
 #undef errno
@@ -91,7 +92,7 @@ int stat(const char *file, struct stat *st)
     return 0;
 }
 
-int times(struct tms *buf)
+clock_t times(struct tms *buf)
 {
     return -1;
 }

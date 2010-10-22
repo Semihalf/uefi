@@ -131,13 +131,11 @@ static inline void __bdk_ipd_free_ptr(void)
 	bdk_ipd_ptr_count_t ipd_ptr_count;
 	ipd_ptr_count.u64 = BDK_CSR_READ(BDK_IPD_PTR_COUNT);
 
-	/* Handle Work Queue Entry in cn56xx and cn52xx */
-	if (octeon_has_feature(OCTEON_FEATURE_NO_WPTR)) {
-	    bdk_ipd_ctl_status_t ipd_ctl_status;
-	    ipd_ctl_status.u64 = BDK_CSR_READ(BDK_IPD_CTL_STATUS);
-	    if (ipd_ctl_status.s.no_wptr)
-		no_wptr = 1;
-	}
+	/* Handle Work Queue Entry in in packet */
+        bdk_ipd_ctl_status_t ipd_ctl_status;
+        ipd_ctl_status.u64 = BDK_CSR_READ(BDK_IPD_CTL_STATUS);
+        if (ipd_ctl_status.s.no_wptr)
+            no_wptr = 1;
 
 	/* Free the prefetched WQE */
 	if (ipd_ptr_count.s.wqev_cnt) {

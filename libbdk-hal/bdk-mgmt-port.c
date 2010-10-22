@@ -55,12 +55,10 @@ static bdk_mgmt_port_state_t *bdk_mgmt_port_state_ptr;
  */
 int __bdk_mgmt_port_num_ports(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN56XX))
-        return 1;
-    else if (OCTEON_IS_MODEL(OCTEON_CN52XX) || OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 2;
     else
-        return 0;
+        return 1;
 }
 
 
@@ -154,8 +152,7 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
                 phy_status.u16 = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_STATUS);
                 if (phy_status.s.capable_extended_status == 0) // MII mode
                     state->mode = BDK_MGMT_PORT_MII_MODE;
-                else if (OCTEON_IS_MODEL(OCTEON_CN6XXX)
-                         && phy_status.s.capable_extended_status) // RGMII mode
+                else if (phy_status.s.capable_extended_status) // RGMII mode
                     state->mode = BDK_MGMT_PORT_RGMII_MODE;
                 else
                     state->mode = BDK_MGMT_PORT_NONE;
@@ -233,82 +230,56 @@ bdk_mgmt_port_result_t bdk_mgmt_port_initialize(int port)
         BDK_CSR_WRITE(BDK_MIXX_CTL(port), mix_ctl.u64);
 
         /* Select the mode of operation for the interface. */
-        if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+        agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
+
+        if (state->mode == BDK_MGMT_PORT_RGMII_MODE)
+            agl_prtx_ctl.s.mode = 0;
+        else if (state->mode == BDK_MGMT_PORT_MII_MODE)
+            agl_prtx_ctl.s.mode = 1;
+        else
         {
-            agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
+            bdk_error("bdk_mgmt_port_initialize: Invalid mode for MIX(%d)\n", port);
+            return BDK_MGMT_PORT_INVALID_PARAM;
+        }
 
-            if (state->mode == BDK_MGMT_PORT_RGMII_MODE)
-                agl_prtx_ctl.s.mode = 0;
-            else if (state->mode == BDK_MGMT_PORT_MII_MODE)
-                agl_prtx_ctl.s.mode = 1;
-            else
-            {
-                bdk_error("bdk_mgmt_port_initialize: Invalid mode for MIX(%d)\n", port);
-                return BDK_MGMT_PORT_INVALID_PARAM;
-            }
-
-            BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
-	}
+        BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
 
         /* Initialize the physical layer. */
-        if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+        /* MII clocks counts are based on the 125Mhz reference, so our
+            delays need to be scaled to match the core clock rate. The
+            "+1" is to make sure rounding always waits a little too
+            long. */
+        uint64_t clock_scale = bdk_clock_get_rate(BDK_CLOCK_CORE) / 125000000 + 1;
+
+        /* Take the DLL and clock tree out of reset */
+        agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
+        agl_prtx_ctl.s.clkrst = 0;
+        if (state->mode == BDK_MGMT_PORT_RGMII_MODE) // RGMII Initialization
         {
-            /* MII clocks counts are based on the 125Mhz reference, so our
-                delays need to be scaled to match the core clock rate. The
-                "+1" is to make sure rounding always waits a little too
-                long. */
-            uint64_t clock_scale = bdk_clock_get_rate(BDK_CLOCK_CORE) / 125000000 + 1;
-
-            /* Take the DLL and clock tree out of reset */
-            agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
-            agl_prtx_ctl.s.clkrst = 0;
-            if (state->mode == BDK_MGMT_PORT_RGMII_MODE) // RGMII Initialization
-            {
-                agl_prtx_ctl.s.dllrst = 0;
-                agl_prtx_ctl.s.clktx_byp = 0;
-            }
-            BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
-            BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));  /* Force write out before wait */
-
-            /* Wait for the DLL to lock.  External 125 MHz reference clock must be stable at this point. */
-            bdk_wait(256 * clock_scale);
-
-            /* The rest of the config is common between RGMII/MII */
-
-            /* Enable the interface */
-            agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
-            agl_prtx_ctl.s.enable = 1;
-            BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
-
-            /* Read the value back to force the previous write */
-            agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
-
-            /* Enable the componsation controller */
-            agl_prtx_ctl.s.comp = 1;
-            BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
-            BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));  /* Force write out before wait */
-            bdk_wait(1024 * clock_scale); // for componsation state to lock.
+            agl_prtx_ctl.s.dllrst = 0;
+            agl_prtx_ctl.s.clktx_byp = 0;
         }
-        else if (OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X) || OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-        {
-            /* Force compensation values, as they are not determined properly by HW */
-            bdk_agl_gmx_drv_ctl_t drv_ctl;
+        BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
+        BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));  /* Force write out before wait */
 
-            drv_ctl.u64 = BDK_CSR_READ(BDK_AGL_GMX_DRV_CTL);
-            if (port)
-            {
-                drv_ctl.s.byp_en1 = 1;
-                drv_ctl.s.nctl1 = 6;
-                drv_ctl.s.pctl1 = 6;
-            }
-            else
-            {
-                drv_ctl.s.byp_en = 1;
-                drv_ctl.s.nctl = 6;
-                drv_ctl.s.pctl = 6;
-            }
-            BDK_CSR_WRITE(BDK_AGL_GMX_DRV_CTL, drv_ctl.u64);
-        }
+        /* Wait for the DLL to lock.  External 125 MHz reference clock must be stable at this point. */
+        bdk_wait(256 * clock_scale);
+
+        /* The rest of the config is common between RGMII/MII */
+
+        /* Enable the interface */
+        agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
+        agl_prtx_ctl.s.enable = 1;
+        BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
+
+        /* Read the value back to force the previous write */
+        agl_prtx_ctl.u64 = BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));
+
+        /* Enable the componsation controller */
+        agl_prtx_ctl.s.comp = 1;
+        BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(port), agl_prtx_ctl.u64);
+        BDK_CSR_READ(BDK_AGL_PRTX_CTL(port));  /* Force write out before wait */
+        bdk_wait(1024 * clock_scale); // for componsation state to lock.
     }
     return BDK_MGMT_PORT_SUCCESS;
 }
@@ -346,7 +317,6 @@ bdk_mgmt_port_result_t bdk_mgmt_port_shutdown(int port)
 bdk_mgmt_port_result_t bdk_mgmt_port_enable(int port)
 {
     bdk_mgmt_port_state_t *state;
-    bdk_agl_gmx_inf_mode_t agl_gmx_inf_mode;
     bdk_agl_gmx_rxx_frm_ctl_t rxx_frm_ctl;
 
     if ((port < 0) || (port >= __bdk_mgmt_port_num_ports()))
@@ -368,14 +338,6 @@ bdk_mgmt_port_result_t bdk_mgmt_port_enable(int port)
     rxx_frm_ctl.s.pre_strp = 1; /* Strip off the preamble */
     rxx_frm_ctl.s.pre_chk = 1;  /* This port is configured to send PREAMBLE+SFD to begin every frame.  GMX checks that the PREAMBLE is sent correctly */
     BDK_CSR_WRITE(BDK_AGL_GMX_RXX_FRM_CTL(port), rxx_frm_ctl.u64);
-
-    /* Enable the AGL block */
-    if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-    {
-        agl_gmx_inf_mode.u64 = 0;
-        agl_gmx_inf_mode.s.en = 1;
-        BDK_CSR_WRITE(BDK_AGL_GMX_INF_MODE, agl_gmx_inf_mode.u64);
-    }
 
     /* Configure the port duplex and enables */
     bdk_mgmt_port_link_set(port, bdk_mgmt_port_link_get(port));
@@ -509,11 +471,6 @@ int bdk_mgmt_port_receive(int port, int buffer_len, void *buffer)
     {
         void *source = state->rx_buffers[state->rx_read_index];
         uint64_t *zero_check = source;
-        /* CN56XX pass 1 has an errata where packets might start 8 bytes
-            into the buffer instead of at their correct lcoation. If the
-            first 8 bytes is zero we assume this has happened */
-        if (OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X) && (*zero_check == 0))
-            source += 8;
         /* Start off with zero bytes received */
         result = 0;
         /* While the completion code signals more data, copy the buffers
@@ -779,16 +736,13 @@ int bdk_mgmt_port_link_set(int port, bdk_helper_link_info_t link_info)
     agl_gmx_prtx.s.rx_en = 0;
     BDK_CSR_WRITE(BDK_AGL_GMX_PRTX_CFG(port), agl_gmx_prtx.u64);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    uint64_t one_second = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    /* Wait for GMX to be idle */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), rx_idle, ==, 1, one_second)
+        || BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), tx_idle, ==, 1, one_second))
     {
-        uint64_t one_second = bdk_clock_get_rate(BDK_CLOCK_CORE);
-        /* Wait for GMX to be idle */
-        if (BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), rx_idle, ==, 1, one_second)
-            || BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(port), tx_idle, ==, 1, one_second))
-        {
-            bdk_error("MIX%d: Timeout waiting for GMX to be idle\n", port);
-            return -1;
-        }
+        bdk_error("MIX%d: Timeout waiting for GMX to be idle\n", port);
+        return -1;
     }
 
     agl_gmx_prtx.u64 = BDK_CSR_READ(BDK_AGL_GMX_PRTX_CFG(port));
@@ -804,32 +758,23 @@ int bdk_mgmt_port_link_set(int port, bdk_helper_link_info_t link_info)
         case 10:
             agl_gmx_prtx.s.speed = 0;
             agl_gmx_prtx.s.slottime = 0;
-            if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-            {
-                agl_gmx_prtx.s.speed_msb = 1;
-                agl_gmx_prtx.s.burst = 1;
-            }
+            agl_gmx_prtx.s.speed_msb = 1;
+            agl_gmx_prtx.s.burst = 1;
          break;
 
         case 100:
             agl_gmx_prtx.s.speed = 0;
             agl_gmx_prtx.s.slottime = 0;
-            if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-            {
-                agl_gmx_prtx.s.speed_msb = 0;
-                agl_gmx_prtx.s.burst = 1;
-            }
+            agl_gmx_prtx.s.speed_msb = 0;
+            agl_gmx_prtx.s.burst = 1;
             break;
 
         case 1000:
             /* 1000 MBits is only supported on 6XXX chips */
-            if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-            {
-                agl_gmx_prtx.s.speed_msb = 0;
-                agl_gmx_prtx.s.speed = 1;
-                agl_gmx_prtx.s.slottime = 1;  /* Only matters for half-duplex */
-                agl_gmx_prtx.s.burst = agl_gmx_prtx.s.duplex;
-            }
+            agl_gmx_prtx.s.speed_msb = 0;
+            agl_gmx_prtx.s.speed = 1;
+            agl_gmx_prtx.s.slottime = 1;  /* Only matters for half-duplex */
+            agl_gmx_prtx.s.burst = agl_gmx_prtx.s.duplex;
             break;
 
         /* No link */
@@ -844,22 +789,18 @@ int bdk_mgmt_port_link_set(int port, bdk_helper_link_info_t link_info)
     /* Read GMX CFG again to make sure the config is completed. */
     agl_gmx_prtx.u64 = BDK_CSR_READ(BDK_AGL_GMX_PRTX_CFG(port));
 
-
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    bdk_mgmt_port_state_t *state = bdk_mgmt_port_state_ptr + port;
+    bdk_agl_gmx_txx_clk_t agl_clk;
+    agl_clk.u64 = BDK_CSR_READ(BDK_AGL_GMX_TXX_CLK(port));
+    agl_clk.s.clk_cnt = 1;    /* MII (both speeds) and RGMII 1000 setting */
+    if (state->mode == BDK_MGMT_PORT_RGMII_MODE)
     {
-        bdk_mgmt_port_state_t *state = bdk_mgmt_port_state_ptr + port;
-        bdk_agl_gmx_txx_clk_t agl_clk;
-        agl_clk.u64 = BDK_CSR_READ(BDK_AGL_GMX_TXX_CLK(port));
-        agl_clk.s.clk_cnt = 1;    /* MII (both speeds) and RGMII 1000 setting */
-        if (state->mode == BDK_MGMT_PORT_RGMII_MODE)
-        {
-            if (link_info.s.speed == 10)
-                agl_clk.s.clk_cnt = 50;
-            else if (link_info.s.speed == 100)
-                agl_clk.s.clk_cnt = 5;
-        }
-        BDK_CSR_WRITE(BDK_AGL_GMX_TXX_CLK(port), agl_clk.u64);
+        if (link_info.s.speed == 10)
+            agl_clk.s.clk_cnt = 50;
+        else if (link_info.s.speed == 100)
+            agl_clk.s.clk_cnt = 5;
     }
+    BDK_CSR_WRITE(BDK_AGL_GMX_TXX_CLK(port), agl_clk.u64);
 
     /* Enable transmit and receive ports */
     agl_gmx_prtx.s.tx_en = 1;

@@ -16,14 +16,6 @@
 #define BDK_L2C_ALIAS_MASK (BDK_L2C_IDX_MASK << BDK_L2C_TAG_ADDR_ALIAS_SHIFT)
 #define BDK_L2C_MEMBANK_SELECT_SIZE  4096
 
-/* Defines for Virtualizations, valid only from Octeon II onwards. */
-#define BDK_L2C_VRT_MAX_VIRTID_ALLOWED ((OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 64 : 0)
-#define BDK_L2C_VRT_MAX_MEMSZ_ALLOWED ((OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 32 : 0)
-
-  /*------------*/
-  /*  TYPEDEFS  */
-  /*------------*/
-
 typedef union
 {
     uint64_t u64;

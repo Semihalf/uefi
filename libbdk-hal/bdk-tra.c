@@ -1,41 +1,6 @@
 #include <bdk.h>
 #include <stdio.h>
 
-static const char *TYPE_ARRAY[] = {
-    "DWB - Don't write back",
-    "PL2 - Prefetch into L2",
-    "PSL1 - Dcache fill, skip L2",
-    "LDD - Dcache fill",
-    "LDI - Icache/IO fill",
-    "LDT - Icache/IO fill, skip L2",
-    "STF - Store full",
-    "STC - Store conditional",
-    "STP - Store partial",
-    "STT - Store full, skip L2",
-    "IOBLD8 - IOB 8bit load",
-    "IOBLD16 - IOB 16bit load",
-    "IOBLD32 - IOB 32bit load",
-    "IOBLD64 - IOB 64bit load",
-    "IOBST - IOB store",
-    "IOBDMA - Async IOB",
-    "SAA - Store atomic add",
-    "RSVD17",
-    "RSVD18",
-    "RSVD19",
-    "RSVD20",
-    "RSVD21",
-    "RSVD22",
-    "RSVD23",
-    "RSVD24",
-    "RSVD25",
-    "RSVD26",
-    "RSVD27",
-    "RSVD28",
-    "RSVD29",
-    "RSVD30",
-    "RSVD31"
-};
-
 static const char *TYPE_ARRAY2[] = {
     "NOP - None",
     "LDT - Icache/IO fill, skip L2",
@@ -173,7 +138,7 @@ static const char *DEST_ARRAY[] = {
     "RSVD31"
 };
 
-#define BDK_TRA_SOURCE_MASK       (OCTEON_IS_MODEL(OCTEON_CN63XX) ? 0xf00ff : 0xfffff)
+#define BDK_TRA_SOURCE_MASK       0xf00ff
 #define BDK_TRA_DESTINATION_MASK  0xfffffffful
 
 /**
@@ -188,67 +153,16 @@ static uint64_t __bdk_tra_set_filter_cmd_mask(bdk_tra_filt_t filter)
 {
     bdk_trax_filt_cmd_t filter_command;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-    {
-        /* Bit positions of filter commands are different, map it accordingly */
-        uint64_t cmd = 0;
-        if ((filter & BDK_TRA_FILT_ALL) == -1ull)
-        {
-            if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-                cmd = 0x1ffff;
-            else
-                cmd = 0xffff;
-        }
-        if (filter & BDK_TRA_FILT_DWB)
-            cmd |= 1ull<<0;
-        if (filter & BDK_TRA_FILT_PL2)
-            cmd |= 1ull<<1;
-        if (filter & BDK_TRA_FILT_PSL1)
-            cmd |= 1ull<<2;
-        if (filter & BDK_TRA_FILT_LDD)
-            cmd |= 1ull<<3;
-        if (filter & BDK_TRA_FILT_LDI)
-            cmd |= 1ull<<4;
-        if (filter & BDK_TRA_FILT_LDT)
-            cmd |= 1ull<<5;
-        if (filter & BDK_TRA_FILT_STF)
-            cmd |= 1ull<<6;
-        if (filter & BDK_TRA_FILT_STC)
-            cmd |= 1ull<<7;
-        if (filter & BDK_TRA_FILT_STP)
-            cmd |= 1ull<<8;
-        if (filter & BDK_TRA_FILT_STT)
-            cmd |= 1ull<<9;
-        if (filter & BDK_TRA_FILT_IOBLD8)
-            cmd |= 1ull<<10;
-        if (filter & BDK_TRA_FILT_IOBLD16)
-            cmd |= 1ull<<11;
-        if (filter & BDK_TRA_FILT_IOBLD32)
-            cmd |= 1ull<<12;
-        if (filter & BDK_TRA_FILT_IOBLD64)
-            cmd |= 1ull<<13;
-        if (filter & BDK_TRA_FILT_IOBST)
-            cmd |= 1ull<<14;
-        if (filter & BDK_TRA_FILT_IOBDMA)
-            cmd |= 1ull<<15;
-        if (OCTEON_IS_MODEL(OCTEON_CN5XXX) && (filter & BDK_TRA_FILT_SAA))
-            cmd |= 1ull<<16;
-
-        filter_command.u64 = cmd;
-    }
+    if ((filter & BDK_TRA_FILT_ALL) == -1ull)
+        filter_command.u64 = BDK_TRA_FILT_ALL;
     else
-    {
-        if ((filter & BDK_TRA_FILT_ALL) == -1ull)
-            filter_command.u64 = BDK_TRA_FILT_ALL;
-        else
-            filter_command.u64 = filter;
+        filter_command.u64 = filter;
 
-        filter_command.cn63xx.reserved_60_61 = 0;
-        filter_command.cn63xx.reserved_56_57 = 0;
-        filter_command.cn63xx.reserved_27_27 = 0;
-        filter_command.cn63xx.reserved_10_14 = 0;
-        filter_command.cn63xx.reserved_6_7 = 0;
-    }
+    filter_command.s.reserved_60_61 = 0;
+    filter_command.s.reserved_56_57 = 0;
+    filter_command.s.reserved_27_27 = 0;
+    filter_command.s.reserved_10_14 = 0;
+    filter_command.s.reserved_6_7 = 0;
     return filter_command.u64;
 }
 
@@ -280,8 +194,7 @@ void bdk_tra_setup(bdk_trax_ctl_t control, bdk_tra_filt_t filter,
 
     /* Address filtering does not work when IOBDMA filter command is enabled
        because of some caveats.  Disable the IOBDMA filter command. */
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX)
-        && ((filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
+    if (((filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
         && address_mask != 0)
     {
         bdk_warn("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
@@ -330,8 +243,7 @@ void bdk_tra_trig_setup(uint64_t trigger, bdk_tra_filt_t filter,
 
     /* Address filtering does not work when IOBDMA filter command is enabled
        because of some caveats.  Disable the IOBDMA filter command. */
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX)
-        && ((tra_filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
+    if (((tra_filt_cmd.u64 & BDK_TRA_FILT_IOBDMA) == BDK_TRA_FILT_IOBDMA)
         && address_mask != 0)
     {
         bdk_warn("The address-based filtering does not work with IOBDMAs, disabling the filter command.\n");
@@ -374,17 +286,12 @@ bdk_tra_data_t bdk_tra_read(void)
         result.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(0));
         result.u128.datahi = BDK_CSR_READ(BDK_TRAX_READ_DAT(0));
     }
-    else if (!OCTEON_IS_MODEL(OCTEON_CN5XXX))
+    else
     {
         /* OcteonII pass2 uses different trace buffer data register for reading
            lower and upper 64-bit values */
         result.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(0));
         result.u128.datahi = BDK_CSR_READ(BDK_TRAX_READ_DAT_HI(0));
-    }
-    else
-    {
-        result.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(0));
-        result.u128.datahi = 0;
     }
 
     return result;
@@ -398,80 +305,6 @@ bdk_tra_data_t bdk_tra_read(void)
  */
 void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN5XXX))
-    {
-        /* The type is a five bit field for some entries and 4 for other. The four
-           bit entries can be mis-typed if the top is set */
-        int type = data.cmn.type;
-
-        if (type >= 0x1a)
-            type &= 0xf;
-
-        switch (type)
-        {
-            case 0:  /* DWB */
-            case 1:  /* PL2 */
-            case 2:  /* PSL1 */
-            case 3:  /* LDD */
-            case 4:  /* LDI */
-            case 5:  /* LDT */
-                printf("0x%016llx %c%+10d %s %s 0x%016llx\n",
-                    (unsigned long long)data.u128.data,
-                    (data.cmn.discontinuity) ? 'D' : ' ',
-                    data.cmn.timestamp << (tra_ctl.s.time_grn*3),
-                    TYPE_ARRAY[type],
-                    SOURCE_ARRAY[data.cmn.source],
-                    (unsigned long long)data.cmn.address);
-                break;
-            case 6:  /* STF */
-            case 7:  /* STC */
-            case 8:  /* STP */
-            case 9:  /* STT */
-            case 16: /* SAA */
-                printf("0x%016llx %c%+10d %s %s mask=0x%02x 0x%016llx\n",
-                   (unsigned long long)data.u128.data,
-                   (data.cmn.discontinuity) ? 'D' : ' ',
-                   data.cmn.timestamp << (tra_ctl.s.time_grn*3),
-                   TYPE_ARRAY[type],
-                   SOURCE_ARRAY[data.store.source],
-                   (unsigned int)data.store.mask,
-                   (unsigned long long)data.store.address << 3);
-                break;
-            case 10:  /* IOBLD8 */
-            case 11:  /* IOBLD16 */
-            case 12:  /* IOBLD32 */
-            case 13:  /* IOBLD64 */
-            case 14:  /* IOBST */
-                printf("0x%016llx %c%+10d %s %s->%s subdid=0x%x 0x%016llx\n",
-                   (unsigned long long)data.u128.data,
-                   (data.cmn.discontinuity) ? 'D' : ' ',
-                   data.cmn.timestamp << (tra_ctl.s.time_grn*3),
-                   TYPE_ARRAY[type],
-                   SOURCE_ARRAY[data.iobld.source],
-                   DEST_ARRAY[data.iobld.dest],
-                   (unsigned int)data.iobld.subid,
-                   (unsigned long long)data.iobld.address);
-                break;
-            case 15:  /* IOBDMA */
-                printf("0x%016llx %c%+10d %s %s->%s len=0x%x 0x%016llx\n",
-                   (unsigned long long)data.u128.data,
-                   (data.cmn.discontinuity) ? 'D' : ' ',
-                   data.cmn.timestamp << (tra_ctl.s.time_grn*3),
-                   TYPE_ARRAY[type],
-                   SOURCE_ARRAY[data.iob.source],
-                   DEST_ARRAY[data.iob.dest],
-                   (unsigned int)data.iob.mask,
-                   (unsigned long long)data.iob.address << 3);
-                break;
-            default:
-                printf("0x%016llx %c%+10d Unknown format\n",
-                   (unsigned long long)data.u128.data,
-                   (data.cmn.discontinuity) ? 'D' : ' ',
-                   data.cmn.timestamp << (tra_ctl.s.time_grn*3));
-                break;
-        }
-    }
-    else
     {
         int type;
 
@@ -590,9 +423,7 @@ void bdk_tra_display(void)
     do
     {
         data = bdk_tra_read();
-        if ((OCTEON_IS_MODEL(OCTEON_CN5XXX)) && data.cmn.valid)
-            valid = 1;
-        else if (data.cmn2.valid)
+        if (data.cmn2.valid)
             valid = 1;
         else
             valid = 0;

@@ -24,12 +24,10 @@ void bdk_helper_qlm_jtag_init(void)
     jtgc.u64 = 0;
     jtgc.s.clk_div = clock_div;
     jtgc.s.mux_sel = 0;
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX))
-        jtgc.s.bypass = 0x3;
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         jtgc.s.bypass = 0x7;
     else
-        jtgc.s.bypass = 0xf;
+        jtgc.s.bypass = 0xf; /* FIXME: CN68XX */
     BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
     BDK_CSR_READ(BDK_CIU_QLM_JTGC);
 }
@@ -38,8 +36,7 @@ void bdk_helper_qlm_jtag_init(void)
 /**
  * Write up to 32bits into the QLM jtag chain. Bits are shifted
  * into the MSB and out the LSB, so you should shift in the low
- * order bits followed by the high order bits. The JTAG chain for
- * CN52XX and CN56XX is 4 * 268 bits long, or 1072. The JTAG chain
+ * order bits followed by the high order bits.  The JTAG chain
  * for CN63XX is 4 * 300 bits long, or 1200.
  *
  * @param qlm    QLM to shift value into
@@ -66,8 +63,7 @@ uint32_t bdk_helper_qlm_jtag_shift(int qlm, int bits, uint32_t data)
     jtgd.s.shift = 1;
     jtgd.s.shft_cnt = bits-1;
     jtgd.s.shft_reg = data;
-    if (!OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X))
-        jtgd.s.select = 1 << qlm;
+    jtgd.s.select = 1 << qlm;
     BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
     do
     {
@@ -123,8 +119,7 @@ void bdk_helper_qlm_jtag_update(int qlm)
     /* Update the new data */
     jtgd.u64 = 0;
     jtgd.s.update = 1;
-    if (!OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X))
-        jtgd.s.select = 1 << qlm;
+    jtgd.s.select = 1 << qlm;
     BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
     do
     {
@@ -153,8 +148,7 @@ void bdk_helper_qlm_jtag_capture(int qlm)
 
     jtgd.u64 = 0;
     jtgd.s.capture = 1;
-    if (!OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X))
-        jtgd.s.select = 1 << qlm;
+    jtgd.s.select = 1 << qlm;
     BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
     do
     {

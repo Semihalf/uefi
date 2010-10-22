@@ -444,7 +444,7 @@ static inline void bdk_pko_get_port_status(uint64_t port_num, uint64_t clear, bd
     pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
     BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
     debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
-    status->doorbell = debug8.cn56xx.doorbell;
+    status->doorbell = debug8.cn63xx.doorbell;
 }
 
 

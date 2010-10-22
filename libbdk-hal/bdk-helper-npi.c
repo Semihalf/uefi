@@ -13,12 +13,7 @@
 int __bdk_helper_npi_probe(int interface)
 {
 #if BDK_PKO_QUEUES_PER_PORT_PCI > 0
-    if (OCTEON_IS_MODEL(OCTEON_CN56XX) && !OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X))
-        return 4; /* The packet engines didn't exist before pass 2 */
-    else if (OCTEON_IS_MODEL(OCTEON_CN52XX) && !OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-        return 4; /* The packet engines didn't exist before pass 2 */
-    else if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-        return 4;
+    return 4;
 #endif
     return 0;
 }
@@ -36,20 +31,18 @@ int __bdk_helper_npi_probe(int interface)
  */
 int __bdk_helper_npi_enable(int interface)
 {
-    /* On CN50XX, CN52XX, and CN56XX we need to disable length checking
-        so packet < 64 bytes and jumbo frames don't get errors */
+    /* We need to disable length checking so packet < 64 bytes and jumbo
+        frames don't get errors */
+    int num_ports = bdk_helper_ports_on_interface(interface);
+    int port;
+    for (port=0; port<num_ports; port++)
     {
-        int num_ports = bdk_helper_ports_on_interface(interface);
-        int port;
-        for (port=0; port<num_ports; port++)
-        {
-            bdk_pip_prt_cfgx_t port_cfg;
-            int ipd_port = bdk_helper_get_ipd_port(interface, port);
-            port_cfg.u64 = BDK_CSR_READ(BDK_PIP_PRT_CFGX(ipd_port));
-            port_cfg.s.maxerr_en = 0;
-            port_cfg.s.minerr_en = 0;
-            BDK_CSR_WRITE(BDK_PIP_PRT_CFGX(ipd_port), port_cfg.u64);
-        }
+        bdk_pip_prt_cfgx_t port_cfg;
+        int ipd_port = bdk_helper_get_ipd_port(interface, port);
+        port_cfg.u64 = BDK_CSR_READ(BDK_PIP_PRT_CFGX(ipd_port));
+        port_cfg.s.maxerr_en = 0;
+        port_cfg.s.minerr_en = 0;
+        BDK_CSR_WRITE(BDK_PIP_PRT_CFGX(ipd_port), port_cfg.u64);
     }
 
     /* Enables are controlled by the remote host, so nothing to do here */

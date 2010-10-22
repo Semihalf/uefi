@@ -55,9 +55,7 @@ static const char *__bdk_sso_list_names[] = {
  */
 int bdk_sso_get_num_entries(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN52XX))
-        return 512;
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
 	return 1024;
     else
         return 2048;

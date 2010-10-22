@@ -322,8 +322,7 @@ static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
     bdk_smix_cmd_t smi_cmd;
     bdk_smix_rd_dat_t smi_rd;
 
-    if (octeon_has_feature(OCTEON_FEATURE_MDIO_CLAUSE_45))
-        __bdk_mdio_set_clause22_mode(bus_id);
+    __bdk_mdio_set_clause22_mode(bus_id);
 
     smi_cmd.u64 = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_22_READ;
@@ -357,8 +356,7 @@ static inline int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
      bdk_smix_cmd_t smi_cmd;
     bdk_smix_wr_dat_t smi_wr;
 
-    if (octeon_has_feature(OCTEON_FEATURE_MDIO_CLAUSE_45))
-        __bdk_mdio_set_clause22_mode(bus_id);
+    __bdk_mdio_set_clause22_mode(bus_id);
 
     smi_wr.u64 = 0;
     smi_wr.s.dat = val;
@@ -394,9 +392,6 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
     bdk_smix_cmd_t smi_cmd;
     bdk_smix_rd_dat_t smi_rd;
     bdk_smix_wr_dat_t smi_wr;
-
-    if (!octeon_has_feature(OCTEON_FEATURE_MDIO_CLAUSE_45))
-        return -1;
 
     __bdk_mdio_set_clause45_mode(bus_id);
 
@@ -457,9 +452,6 @@ static inline int bdk_mdio_45_write(int bus_id, int phy_id, int device, int loca
 {
     bdk_smix_cmd_t smi_cmd;
     bdk_smix_wr_dat_t smi_wr;
-
-    if (!octeon_has_feature(OCTEON_FEATURE_MDIO_CLAUSE_45))
-        return -1;
 
     __bdk_mdio_set_clause45_mode(bus_id);
 

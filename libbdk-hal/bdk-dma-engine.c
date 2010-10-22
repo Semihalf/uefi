@@ -7,15 +7,7 @@
  */
 int bdk_dma_engine_get_num(void)
 {
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        if (OCTEON_IS_MODEL(OCTEON_CN52XX_PASS1_X))
-            return 4;
-        else
-            return 5;
-    }
-    else
-        return 8;
+    return 8;
 }
 
 /**
@@ -35,83 +27,42 @@ int bdk_dma_engine_initialize(void)
                                            bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
         if (result != BDK_CMD_QUEUE_SUCCESS)
             return -1;
-        if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-        {
-            bdk_npei_dmax_ibuff_saddr_t dmax_ibuff_saddr;
-            dmax_ibuff_saddr.u64 = 0;
-            dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(BDK_CMD_QUEUE_DMA(engine))) >> 7;
-            BDK_CSR_WRITE(BDK_NPEI_DMAX_IBUFF_SADDR(engine), dmax_ibuff_saddr.u64);
-        }
-        else
-        {
-            bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
-            dpi_dmax_ibuff_saddr.u64 = 0;
-            dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
-            dpi_dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(BDK_CMD_QUEUE_DMA(engine))) >> 7;
-            BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
-        }
+
+        bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
+        dpi_dmax_ibuff_saddr.u64 = 0;
+        dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
+        dpi_dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(BDK_CMD_QUEUE_DMA(engine))) >> 7;
+        BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
     }
 
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_npei_dma_control_t dma_control;
-        dma_control.u64 = 0;
-        if (bdk_dma_engine_get_num() >= 5)
-            dma_control.s.dma4_enb = 1;
-        dma_control.s.dma3_enb = 1;
-        dma_control.s.dma2_enb = 1;
-        dma_control.s.dma1_enb = 1;
-        dma_control.s.dma0_enb = 1;
-        dma_control.s.o_mode = 1; /* Pull NS and RO from this register, not the pointers */
-        //dma_control.s.dwb_denb = 1;
-        //dma_control.s.dwb_ichk = BDK_FPA_OUTPUT_BUFFER_POOL_SIZE/128;
-        dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
-        dma_control.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
-        BDK_CSR_WRITE(BDK_NPEI_DMA_CONTROL, dma_control.u64);
-        /* As a workaround for errata PCIE-811 we only allow a single
-            outstanding DMA read over PCIe at a time. This limits performance,
-            but works in all cases. If you need higher performance, remove
-            this code and implement the more complicated workaround documented
-            in the errata. This only affects CN56XX pass 2.0 chips */
-        if (OCTEON_IS_MODEL(OCTEON_CN56XX_PASS2_0))
-        {
-            bdk_npei_dma_pcie_req_num_t pcie_req_num;
-            pcie_req_num.u64 = BDK_CSR_READ(BDK_NPEI_DMA_PCIE_REQ_NUM);
-            pcie_req_num.s.dma_cnt = 1;
-            BDK_CSR_WRITE(BDK_NPEI_DMA_PCIE_REQ_NUM, pcie_req_num.u64);
-        }
-    }
-    else
-    {
-        bdk_dpi_engx_buf_t dpi_engx_buf;
-        bdk_dpi_dma_control_t dma_control;
-        bdk_dpi_ctl_t dpi_ctl;
+    bdk_dpi_engx_buf_t dpi_engx_buf;
+    bdk_dpi_dma_control_t dma_control;
+    bdk_dpi_ctl_t dpi_ctl;
 
-        /* Give engine 0-4 1KB, and 5 3KB. This gives the packet engines better
-            performance. Total must not exceed 8KB */
-        dpi_engx_buf.u64 = 0;
-        dpi_engx_buf.s.blks = 2;
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(0), dpi_engx_buf.u64);
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(1), dpi_engx_buf.u64);
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(2), dpi_engx_buf.u64);
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(3), dpi_engx_buf.u64);
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(4), dpi_engx_buf.u64);
-        dpi_engx_buf.s.blks = 6;
-        BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
+    /* Give engine 0-4 1KB, and 5 3KB. This gives the packet engines better
+        performance. Total must not exceed 8KB */
+    dpi_engx_buf.u64 = 0;
+    dpi_engx_buf.s.blks = 2;
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(0), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(1), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(2), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(3), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(4), dpi_engx_buf.u64);
+    dpi_engx_buf.s.blks = 6;
+    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
 
-        dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
-        dma_control.s.pkt_hp = 1;
-        dma_control.s.pkt_en = 1;
-        dma_control.s.dma_enb = 0x1f;
-        dma_control.s.dwb_denb = 1;
-        dma_control.s.dwb_ichk = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
-        dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
-        dma_control.s.o_mode = 1;
-        BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
-        dpi_ctl.u64 = BDK_CSR_READ(BDK_DPI_CTL);
-        dpi_ctl.s.en = 1;
-        BDK_CSR_WRITE(BDK_DPI_CTL, dpi_ctl.u64);
-    }
+    dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
+    dma_control.s.pkt_hp = 1;
+    dma_control.s.pkt_en = 1;
+    dma_control.s.dma_enb = 0x1f;
+    dma_control.s.dwb_denb = 1;
+    dma_control.s.dwb_ichk = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
+    dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
+    dma_control.s.o_mode = 1;
+    BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
+    dpi_ctl.u64 = BDK_CSR_READ(BDK_DPI_CTL);
+    dpi_ctl.s.en = 1;
+    BDK_CSR_WRITE(BDK_DPI_CTL, dpi_ctl.u64);
 
     return 0;
 }
@@ -136,37 +87,17 @@ int bdk_dma_engine_shutdown(void)
         }
     }
 
-    if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-    {
-        bdk_npei_dma_control_t dma_control;
-        dma_control.u64 = BDK_CSR_READ(BDK_NPEI_DMA_CONTROL);
-        if (bdk_dma_engine_get_num() >= 5)
-            dma_control.s.dma4_enb = 0;
-        dma_control.s.dma3_enb = 0;
-        dma_control.s.dma2_enb = 0;
-        dma_control.s.dma1_enb = 0;
-        dma_control.s.dma0_enb = 0;
-        BDK_CSR_WRITE(BDK_NPEI_DMA_CONTROL, dma_control.u64);
-        /* Make sure the disable completes */
-        BDK_CSR_READ(BDK_NPEI_DMA_CONTROL);
-    }
-    else
-    {
-        bdk_dpi_dma_control_t dma_control;
-        dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
-        dma_control.s.dma_enb = 0;
-        BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
-        /* Make sure the disable completes */
-        BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
-    }
+    bdk_dpi_dma_control_t dma_control;
+    dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
+    dma_control.s.dma_enb = 0;
+    BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
+    /* Make sure the disable completes */
+    BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
 
     for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
     {
         bdk_cmd_queue_shutdown(BDK_CMD_QUEUE_DMA(engine));
-        if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-            BDK_CSR_WRITE(BDK_NPEI_DMAX_IBUFF_SADDR(engine), 0);
-        else
-            BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
+        BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
     }
 
     return 0;
@@ -190,16 +121,6 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
     int cmd_count = 1;
     uint64_t cmds[num_buffers + 1];
 
-    if (OCTEON_IS_MODEL(OCTEON_CN56XX_PASS1_X))
-    {
-        /* Check for Errata PCIe-604 */
-        if ((header.s.nfst > 11) || (header.s.nlst > 11) || (header.s.nfst + header.s.nlst > 15))
-        {
-            bdk_error("DMA engine submit too large\n");
-            return -1;
-        }
-    }
-
     cmds[0] = header.u64;
     while (num_buffers--)
     {
@@ -219,15 +140,8 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
     BDK_SYNCW;
     /* A syncw isn't needed here since the command queue did one as part of the queue unlock */
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
-    {
-        if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-        {
-            /* DMA doorbells are 32bit writes in little endian space. This means we need to xor the address with 4 */
-            bdk_write64_uint32(BDK_NPEI_DMAX_DBELL(engine)^4, cmd_count);
-        }
-        else
-            BDK_CSR_WRITE(BDK_DPI_DMAX_DBELL(engine), cmd_count);
-    }
+        BDK_CSR_WRITE(BDK_DPI_DMAX_DBELL(engine), cmd_count);
+
     /* Here is the unlock for the above errata workaround */
     __bdk_cmd_queue_unlock(__bdk_cmd_queue_get_state(BDK_CMD_QUEUE_DMA(engine)));
     return result;

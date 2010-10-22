@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 /**
  * Wait for the specified number of micro seconds

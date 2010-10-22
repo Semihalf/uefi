@@ -19,18 +19,9 @@ uint64_t bdk_clock_get_rate(bdk_clock_t clock)
         are in flash */
     if (bdk_unlikely(!eclk || !sclk))
     {
-        if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-        {
-            BDK_CSR_INIT(npei_dbg_data, BDK_NPEI_DBG_DATA);
-            eclk =  REF_CLOCK * npei_dbg_data.s.c_mul;
-            sclk = eclk;
-        }
-        else
-        {
-            BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
-            eclk =  REF_CLOCK * mio_rst_boot.s.c_mul;
-            sclk = REF_CLOCK * mio_rst_boot.s.pnr_mul;
-        }
+        BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
+        eclk =  REF_CLOCK * mio_rst_boot.s.c_mul;
+        sclk = REF_CLOCK * mio_rst_boot.s.pnr_mul;
         rate_eclk = eclk;
         rate_sclk = sclk;
     }
@@ -45,9 +36,6 @@ uint64_t bdk_clock_get_rate(bdk_clock_t clock)
         case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
             return eclk;
-
-        case BDK_CLOCK_DDR:
-            return 0;
     }
 
     return 0;

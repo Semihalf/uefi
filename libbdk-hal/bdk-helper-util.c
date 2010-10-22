@@ -195,13 +195,10 @@ int bdk_helper_setup_red(int pass_thresh, int drop_thresh)
     BDK_CSR_WRITE(BDK_IPD_RED_PORT_ENABLE, red_port_enable.u64);
 
     /* Shutoff the dropping of packets based on RED for SRIO ports */
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
-    {
-        bdk_ipd_red_port_enable2_t red_port_enable2;
-        red_port_enable2.u64 = 0;
-        red_port_enable2.s.prt_enb = 0xf0;
-        BDK_CSR_WRITE(BDK_IPD_RED_PORT_ENABLE2, red_port_enable2.u64);
-    }
+    bdk_ipd_red_port_enable2_t red_port_enable2;
+    red_port_enable2.u64 = 0;
+    red_port_enable2.s.prt_enb = 0xf0;
+    BDK_CSR_WRITE(BDK_IPD_RED_PORT_ENABLE2, red_port_enable2.u64);
 
     return 0;
 }

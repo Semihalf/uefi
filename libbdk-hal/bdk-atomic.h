@@ -262,46 +262,28 @@ static inline uint64_t bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t ol
  */
 static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t incr)
 {
-    uint64_t tmp, ret;
+    uint64_t ret;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    BDK_PUSH_OCTEON2;
+    if (__builtin_constant_p(incr) && incr == 1)
     {
-	BDK_PUSH_OCTEON2;
-	if (__builtin_constant_p(incr) && incr == 1)
-	{
-	    __asm__ __volatile__(
-		"laid  %0,(%2)"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
-	}
-	else if (__builtin_constant_p(incr) && incr == -1)
-        {
-	    __asm__ __volatile__(
-		"ladd  %0,(%2)"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
-        }
-        else
-        {
-	    __asm__ __volatile__(
-		"laad  %0,(%2),%3"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr), "r" (incr) : "memory");
-        }
-	BDK_POP_OCTEON2;
+        __asm__ __volatile__(
+            "laid  %0,(%2)"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
+    }
+    else if (__builtin_constant_p(incr) && incr == -1)
+    {
+        __asm__ __volatile__(
+            "ladd  %0,(%2)"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
     }
     else
     {
         __asm__ __volatile__(
-            ".set noreorder          \n"
-            "1: lld   %[tmp], %[val] \n"
-            "   move  %[ret], %[tmp] \n"
-            "   daddu %[tmp], %[inc] \n"
-            "   scd   %[tmp], %[val] \n"
-            "   beqz  %[tmp], 1b     \n"
-            "   nop                  \n"
-            ".set reorder            \n"
-            : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-            : [inc] "r" (incr)
-            : "memory");
+            "laad  %0,(%2),%3"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr), "r" (incr) : "memory");
     }
+    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -343,46 +325,28 @@ static inline int64_t bdk_atomic_fetch_and_add64(int64_t *ptr, int64_t incr)
  */
 static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t incr)
 {
-    uint32_t tmp, ret;
+    uint32_t ret;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    BDK_PUSH_OCTEON2;
+    if (__builtin_constant_p(incr) && incr == 1)
     {
-	BDK_PUSH_OCTEON2;
-	if (__builtin_constant_p(incr) && incr == 1)
-	{
-	    __asm__ __volatile__(
-		"lai  %0,(%2)"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
-	}
-	else if (__builtin_constant_p(incr) && incr == -1)
-        {
-	    __asm__ __volatile__(
-		"lad  %0,(%2)"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
-        }
-        else
-        {
-	    __asm__ __volatile__(
-		"laa  %0,(%2),%3"
-		: "=r" (ret), "+m" (ptr) : "r" (ptr), "r" (incr) : "memory");
-        }
-	BDK_POP_OCTEON2;
+        __asm__ __volatile__(
+            "lai  %0,(%2)"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
+    }
+    else if (__builtin_constant_p(incr) && incr == -1)
+    {
+        __asm__ __volatile__(
+            "lad  %0,(%2)"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr) : "memory");
     }
     else
     {
         __asm__ __volatile__(
-            ".set noreorder         \n"
-            "1: ll   %[tmp], %[val] \n"
-            "   move %[ret], %[tmp] \n"
-            "   addu %[tmp], %[inc] \n"
-            "   sc   %[tmp], %[val] \n"
-            "   beqz %[tmp], 1b     \n"
-            "   nop                 \n"
-            ".set reorder           \n"
-            : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-            : [inc] "r" (incr)
-            : "memory");
+            "laa  %0,(%2),%3"
+            : "=r" (ret), "+m" (ptr) : "r" (ptr), "r" (incr) : "memory");
     }
+    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -555,45 +519,28 @@ static inline uint32_t bdk_atomic_fetch_and_bclr32_nosync(uint32_t *ptr, uint32_
  */
 static inline uint64_t bdk_atomic_swap64_nosync(uint64_t *ptr, uint64_t new_val)
 {
-    uint64_t tmp, ret;
+    uint64_t ret;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    BDK_PUSH_OCTEON2;
+    if (__builtin_constant_p(new_val) && new_val == 0)
     {
-	BDK_PUSH_OCTEON2;
-	if (__builtin_constant_p(new_val) && new_val == 0)
-	{
-	    __asm__ __volatile__(
-		"lacd  %0,(%1)"
-		: "=r" (ret) : "r" (ptr) : "memory");
-	}
-	else if (__builtin_constant_p(new_val) && new_val == ~0ull)
-        {
-	    __asm__ __volatile__(
-		"lasd  %0,(%1)"
-		: "=r" (ret) : "r" (ptr) : "memory");
-        }
-        else
-        {
-	    __asm__ __volatile__(
-		"lawd  %0,(%1),%2"
-		: "=r" (ret) : "r" (ptr), "r" (new_val) : "memory");
-        }
-	BDK_POP_OCTEON2;
+        __asm__ __volatile__(
+            "lacd  %0,(%1)"
+            : "=r" (ret) : "r" (ptr) : "memory");
+    }
+    else if (__builtin_constant_p(new_val) && new_val == ~0ull)
+    {
+        __asm__ __volatile__(
+            "lasd  %0,(%1)"
+            : "=r" (ret) : "r" (ptr) : "memory");
     }
     else
     {
         __asm__ __volatile__(
-            ".set noreorder         \n"
-            "1: lld  %[ret], %[val] \n"
-            "   move %[tmp], %[new_val] \n"
-            "   scd  %[tmp], %[val] \n"
-            "   beqz %[tmp],  1b    \n"
-            "   nop                 \n"
-            ".set reorder           \n"
-            : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-            : [new_val] "r"  (new_val)
-            : "memory");
+            "lawd  %0,(%1),%2"
+            : "=r" (ret) : "r" (ptr), "r" (new_val) : "memory");
     }
+    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -613,45 +560,28 @@ static inline uint64_t bdk_atomic_swap64_nosync(uint64_t *ptr, uint64_t new_val)
  */
 static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
 {
-    uint32_t tmp, ret;
+    uint32_t ret;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN6XXX))
+    BDK_PUSH_OCTEON2;
+    if (__builtin_constant_p(new_val) && new_val == 0)
     {
-	BDK_PUSH_OCTEON2;
-	if (__builtin_constant_p(new_val) && new_val == 0)
-	{
-	    __asm__ __volatile__(
-		"lac  %0,(%1)"
-		: "=r" (ret) : "r" (ptr) : "memory");
-	}
-	else if (__builtin_constant_p(new_val) && new_val == ~0u)
-        {
-	    __asm__ __volatile__(
-		"las  %0,(%1)"
-		: "=r" (ret) : "r" (ptr) : "memory");
-        }
-        else
-        {
-	    __asm__ __volatile__(
-		"law  %0,(%1),%2"
-		: "=r" (ret) : "r" (ptr), "r" (new_val) : "memory");
-        }
-	BDK_POP_OCTEON2;
+        __asm__ __volatile__(
+            "lac  %0,(%1)"
+            : "=r" (ret) : "r" (ptr) : "memory");
+    }
+    else if (__builtin_constant_p(new_val) && new_val == ~0u)
+    {
+        __asm__ __volatile__(
+            "las  %0,(%1)"
+            : "=r" (ret) : "r" (ptr) : "memory");
     }
     else
     {
         __asm__ __volatile__(
-        ".set noreorder         \n"
-        "1: ll   %[ret], %[val] \n"
-        "   move %[tmp], %[new_val] \n"
-        "   sc   %[tmp], %[val] \n"
-        "   beqz %[tmp],  1b    \n"
-        "   nop                 \n"
-        ".set reorder           \n"
-        : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-        : [new_val] "r"  (new_val)
-        : "memory");
+            "law  %0,(%1),%2"
+            : "=r" (ret) : "r" (ptr), "r" (new_val) : "memory");
     }
+    BDK_POP_OCTEON2;
 
     return (ret);
 }
