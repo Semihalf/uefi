@@ -12781,9 +12781,8 @@ Pos      Name    Type     Value     Value       Description
                                                          BRST_SHRT <= 64)                                               |
 <51:39>  MFRM_LEN             R/W      0x400    NS       The quantity of data sent on each lane including one sync word,|
                                                          scrambler state, diag word, zero or more skip words, and the   |
-                                                         data  payload.  Supported range from 7 words to 4096 words (ie.|
-                                                         7 <= MFRM_LEN <= 4096).   NOTE: Must be larger than (3+number  |
-                                                         of skip words).                                                |
+                                                         data  payload.  Must be larger than ILK_TX@_CFG1[SKIP_CNT]+9   |
+                                                         (ie. ILK_TX@_CFG1[SKIP_CNT]+9 < MFRM_LEN <= 4096).             |
 <52>     CAL_ENA              R/W      0x0      NS       Enable Tx calendar, else default calendar used:                |
                                                               First control word:                                       |
                                                                Entry 0  = link                                          |
@@ -15027,8 +15026,8 @@ Pos      Name    Type     Value     Value       Description
 						 the packet data (and initial next buffer pointer)
 						 are written to the L2 cache, all remaining cache
 						 blocks are not written to the L2 cache.
- <3>     PBP_EN   R/W      0           0         Pkind back pressure enable. When set '1' enables
-                                                 the sending of pkind level backpressure to the
+ <3>     PBP_EN   R/W      0           0         BPID back pressure enable. When set '1' enables
+                                                 the sending of BPID level backpressure to the
                                                  Octane input-pkinds. The application should NOT
                                                  de-assert this bit after asserting it. The
                                                  receivers of this bit may have been put into
@@ -15041,11 +15040,11 @@ Pos      Name    Type     Value     Value       Description
  <4>     WQE_LEND R/W      0           0         Changes WQE to little endian writes to L2C
  <5>     PKT_LEND R/W      0           0         Changes PKT to little endian writes to L2C
  <6>     NADDBUF  R/W      0           0         When IPD_CTL_STATUS[NADDBUF] is set,
-                                                 IPD_PKIND_BP_COUNTER@(pkind)[CNT_VAL],
+                                                 IPD_PKIND_BP_COUNTER@(BPID)[CNT_VAL],
                                                  WILL NOT be incremented when IPD allocates a
-                                                 buffer for a packet on the pkind.
+                                                 buffer for a packet on the BPID.
  <7>     ADDPKT   R/W      0           0         When IPD_CTL_STATUS[ADDPKT] is set,
-                                                 IPD_PKIND_BP_COUNTER@(pkind)[CNT_VAL],
+                                                 IPD_PKIND_BP_COUNTER@(BPID)[CNT_VAL],
                                                  WILL be incremented by one for every work
                                                  queue entry that is sent to POW.
  <8>     RESET    R/W      0           0         When set '1' causes a reset of the IPD, except
@@ -15120,12 +15119,12 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IPD_SUB_PORT_BP_PAGE_CNT = IPD Subtract Pkind Backpressure Page Count
+ *                  IPD_SUB_PORT_BP_PAGE_CNT = IPD Subtract BPID Backpressure Page Count
  *
- * Will add the value to the indicated pkind count register, the number of pages supplied. The value added should
+ * Will add the value to the indicated BPID count register, the number of pages supplied. The value added should
  * be the 2's complement of the value that needs to be subtracted. Users add 2's complement values to the
- * pkind-mbuf-count register to return (lower the count) mbufs to the counter in order to avoid pkind-level
- * backpressure being applied to the pkind. Backpressure is applied when the MBUF used count of a pkind exceeds the
+ * BPID-mbuf-count register to return (lower the count) mbufs to the counter in order to avoid BPID-level
+ * backpressure being applied to the BPID. Backpressure is applied when the MBUF used count of a BPID exceeds the
  * value in the IPD_PKIND@_MBUF_TH.
  *
  * This register can't be written from the PCI via a window write.
@@ -15140,9 +15139,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <24:0>  PAGE_CNT R/W      NS          0         The number of page pointers to add to
-                                                 the pkind counter pointed to by the
+                                                 the BPID counter pointed to by the
                                                  PORT Field.
- <30:25> PORT     R/W      NS          0         The pkind to add the PAGE_CNT field to.
+ <30:25> PORT     R/W      NS          0         The BPID to add the PAGE_CNT field to.
  <63:31> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -15280,12 +15279,12 @@ Pos      Name    Type     Value     Value       Description
  <8>     D_COLL   R/W1C    0x0         0         Set when the packet/WQE data to be sent to IOB
 						 collides.
  <9>     BC_OVR   R/W1C    0x0         0         Set when the byte-count to send to IOB overflows.
- <10>    PQ_ADD   R/W1C    0x0         0         Set when a pkind-qos does an add to the count
+ <10>    PQ_ADD   R/W1C    0x0         0         Set when a BPID-qos does an add to the count
                                                  that causes the counter to wrap.
- <11>    PQ_SUB   R/W1C    0x0         0         Set when a pkind-qos does an sub to the count
+ <11>    PQ_SUB   R/W1C    0x0         0         Set when a BPID-qos does an sub to the count
                                                  that causes the counter to wrap.
  <12>    SOP      R/W1C     0           0        Set when a SOP is followed by an SOP for the same
-                                                 pkind for a packet.
+                                                 reasm-id for a packet.
                                                  The first detected error associated with bits [14:12]
                                                  of this register will only be set here. A new bit
                                                  can be set when the previous reported bit is cleared.
@@ -16186,14 +16185,16 @@ Pos      Name    Type     Value     Value       Description
  <18>    PBM4     RO       0x0         0         PBM4Memory Bist Status.
  <19>    IIO0     RO       0x0         0         IPD IOB Dataout MEM0 Bist Status.
  <20>    IIO1     RO       0x0         0         IPD IOB Dataout MEM1 Bist Status.
- <63:21> NS       RAZ      NS          NS        Reserved
+ <21>    IIWO0    RO       0x0         0         IPD IOB WQE Dataout MEM0 Bist Status.
+ <22>    IIWO1    RO       0x0         0         IPD IOB WQE Dataout MEM1 Bist Status.
+ <63:23> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  IPD_SUB_PORT_QOS_CNT = IPD Subtract Pkind QOS Count
+ *                  IPD_SUB_PORT_QOS_CNT = IPD Subtract BPID QOS Count
  *
- * Will add the value (CNT) to the indicated Pkind-QOS register (PORT_QOS). The value added must be
+ * Will add the value (CNT) to the indicated BPID-QOS register (PORT_QOS). The value added must be
  * be the 2's complement of the value that needs to be subtracted.
  *
  *
@@ -16211,7 +16212,7 @@ Pos      Name    Type     Value     Value       Description
  <40:32> PORT_QOS R/W      NS          0         Selects which IPD_PORT_QOS_*_CNT[CNT] CSR field to
                                                  add the CNT field to. The low 3 bits of this field
                                                  select the QOS value, and the remaining upper bits
-                                                 select the PKIND value.
+                                                 select the BPID value.
  <63:41> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -16256,10 +16257,10 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IPD_PORT_QOS_@_CNT = IPD Pkind@ QOS-0 Count
+ *                  IPD_PORT_QOS_@_CNT = IPD BPID@ QOS-0 Count
  *
- * A counter per pkind/qos. Counter are originzed in sequence where the first 8 counter (0-7) belong to Pkind-0
- * QOS 0-7 respectively followed by pkind 1 at (8-15), etc..
+ * A counter per BPID/qos. Counter are originzed in sequence where the first 8 counter (0-7) belong to BPID-0
+ * QOS 0-7 respectively followed by BPID 1 at (8-15), etc..
  *
 
      ==============================================================
@@ -16282,9 +16283,9 @@ Pos      Name    Type     Value     Value       Description
 
 // 0x2000 2FFF
  *
- *                  IPD_PKIND@_MBUF_TH = IPD Pkind Kind MBUFF Threshold
+ *                  IPD_PKIND@_MBUF_TH = IPD BPID  MBUFF Threshold
  *
- * The number of MBUFFs in use by the pkind, that when exceeded, backpressure will be applied to the pkind.
+ * The number of MBUFFs in use by the BPID, that when exceeded, backpressure will be applied to the BPID.
  *
 
      ==============================================================
@@ -16296,8 +16297,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <16:0>  PAGE_CNT R/W      0x0         0         The number of page pointers assigned to
-                                                 the pkind, that when exceeded will cause
-                                                 back-pressure to be applied to the pkind.
+                                                 the BPID, that when exceeded will cause
+                                                 back-pressure to be applied to the BPID.
                                                  This value is in 256 page-pointer increments,
                                                  (i.e. 0 = 0-page-ptrs, 1 = 256-page-ptrs,..)
  <17>    BP_ENB   R/W      0x0         0         When set '1' BP will be applied, if '0' BP will
@@ -16312,7 +16313,7 @@ Pos      Name    Type     Value     Value       Description
 
 // 0x3000 0x3ffff
  *
- * IPD_PKIND_BP_COUNTER@ = MBUF PKind Counters used to generate Back Pressure Per Pkind.
+ * IPD_PKIND_BP_COUNTER@ = MBUF BPID Counters used to generate Back Pressure Per BPID.
  *
 
      ==============================================================
@@ -16324,7 +16325,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:25> NS       RAZ      NS          NS        Reserved				            |
- <24:0>  CNT_VAL  RO       0x0         NS        Number of MBUFs being used by data on this pkind.  |
+ <24:0>  CNT_VAL  RO       0x0         NS        Number of MBUFs being used by data on this BPID.   |
 ----------------------------------------------------------------------------------------------------
 ===
 //
@@ -16333,21 +16334,6 @@ Pos      Name    Type     Value     Value       Description
 
 //
 // RESERVED FOR FORMER IPD_SUB_PKIND_FCS - MOVED TO PIP
-//  *
-//  *                  IPD_SUB_PKIND_FCS = IPD Subtract Pkinds FCS Register
-//  *
-//  * When set '1' the pkind corresponding to the bit set will subtract 4 bytes from the end of
-//  * the packet.
-//  *
-//  $IPD_SUB_PKIND_FCS@ =  (0x4000+(@<<3)) @=(0..0)  RegType=(NCB)
-// -----------------------------------------------------------------------------------------------------------------------------------
-//  Bit     Field     Field    Reset               Typical               Field				   	        Verif
-//  Pos     Name      Type     Value               Value                 Description				        Type
-// ----------------------------------------------------------------------------------------------------------------------+------------
-//  <63:0>  PORT_BIT  R/W      0xffffffffffffffff  0xffffffffffffffff    When set '1', the pkind corresponding to the bit   $PR
-//                                                                       position set, will subtract the FCS for packets
-//                                                                       on that pkind.
-//  ----------------------------------------------------------------------------------------------------------------------------------
 
 //
 // RESERVE 4008 - 40FF
@@ -16355,7 +16341,7 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  IPD_ON_BP_DROP_PKT = IPD On Backpressure Drop Packet
  *
- * When IPD applies backpressure to a Pkind and the corresponding bit in this register is set,
+ * When IPD applies backpressure to a BPID and the corresponding bit in this register is set,
  * then previously received packets will be dropped when processed.
  *
 
@@ -16367,10 +16353,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  PRT_ENB  R/W      0x0         0         The pkind corresponding to the bit position in this
-                                                 field will drop all NON-RAW packets to that pkind
-                                                 when pkind level backpressure is applied to that
-                                                 pkind.  The applying of pkind-level backpressure for
+ <63:0>  PRT_ENB  R/W      0x0         0         The BPID corresponding to the bit position in this
+                                                 field will drop all NON-RAW packets to that BPID
+                                                 when BPID level backpressure is applied to that
+                                                 BPID.  The applying of BPID-level backpressure for
                                                  this dropping does not take into consideration the
                                                  value of IPD_PKIND@_MBUF_TH[BP_ENB], nor
                                                  IPD_RED_PORT_ENABLE[PRT_ENB].
@@ -16378,7 +16364,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IPD_RED_PKIND_ENABLE = IPD RED Pkind Enable
+ *                  IPD_RED_PKIND_ENABLE = IPD RED BPID Enable
  *
  * Set the pass-drop marks for qos level.
  *
@@ -16392,13 +16378,13 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  PRT_ENB  R/W      0x0         0         The bit position will enable the corresponding
-                                                 Pkinds ability to have packets dropped by RED
+                                                 BPIDs ability to have packets dropped by RED
                                      		 probability.
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  IPD_RED_DELAY = IPD RED Pkind Enable
+ *                  IPD_RED_DELAY = IPD RED BPID Enable
  *
  * Set the pass-drop marks for qos level.
  *
@@ -17264,6 +17250,7 @@ Notes:
       18      0       RO          COP0 WatchLo0                                 RW
       19      0       RO          COP0 WatchHi0                                 RW
       22      0       RO          COP0 MultiCoreDebug                           RW
+      22      1                   COP0 VoltageMonitor                           RW
       23      0       RO          COP0 Debug                                    RW
       23      6       RO          COP0 Debug2                                   RO
       24      0       RO          COP0 DEPC                                     RW
@@ -29792,7 +29779,7 @@ Notes:
 
 
      ==============================================================
-     PKO_REG_LOOPBACK Type=RSL
+     PKO_REG_LOOPBACK_PKIND Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29816,6 +29803,38 @@ Pos      Name    Type     Value     Value       Description
  <10>    NS        RAZ      NS          NS        RESERVED
  <9:4>   PKIND0    R/W      0           0         Loopback port 0 port-kind
  <3:0>   NUM_PORTS R/W      0           0         Number of loopback ports, 0 <= NUM_PORTS <= 8
+
+Notes:
+ None.
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     PKO_REG_LOOPBACK_BPID Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:59> NS        RAZ      NS          NS        RESERVED
+ <58:53> BPID7     R/W      0           0         Loopback port 7 backpressure-ID
+ <52>    NS        RAZ      NS          NS        RESERVED
+ <51:46> BPID6     R/W      0           0         Loopback port 6 backpressure-ID
+ <45>    NS        RAZ      NS          NS        RESERVED
+ <44:39> BPID5     R/W      0           0         Loopback port 5 backpressure-ID
+ <38>    NS        RAZ      NS          NS        RESERVED
+ <37:32> BPID4     R/W      0           0         Loopback port 4 backpressure-ID
+ <31>    NS        RAZ      NS          NS        RESERVED
+ <30:25> BPID3     R/W      0           0         Loopback port 3 backpressure-ID
+ <24>    NS        RAZ      NS          NS        RESERVED
+ <23:18> BPID2     R/W      0           0         Loopback port 2 backpressure-ID
+ <17>    NS        RAZ      NS          NS        RESERVED
+ <16:11> BPID1     R/W      0           0         Loopback port 1 backpressure-ID
+ <10>    NS        RAZ      NS          NS        RESERVED
+ <9:4>   BPID0     R/W      0           0         Loopback port 0 backpressure-ID
+ <3:0>   NS        RAZ      NS          NS        RESERVED
 
 Notes:
  None.
@@ -32357,7 +32376,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <5:0>   PKIND    R/W      0x0         NS        Port Kind For this Port.                           |
- <63:6>  NS       RAZ      NS          NS        Reserved					    |
+ <7:6>   NS       RAZ      NS          NS        Reserved					    |
+ <13:8>  BPKIND   R/W      0x0         NS        Back-pressure pkind for this Port.                 |
+ <63:14> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -33038,14 +33059,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   PKT_BP    R/W     0xF         0xF       When set '1' enable the port level backpressure for|
-                                                 PKO ports associated with the bit.                 |
- <4>     RING_EN   R/W     0x0         0x0       When '0' forces "relative Q position" received     |
-						 from PKO to be zero, and replicates the back-      |
-						 pressure indication for the first ring attached    |
-						 to a PKO port across all the rings attached to a   |
-						 PKO port. When '1' backpressure is on a per        |
-						 port/ring.                                         |
+ <3:0>   PKT_BP   RAZ      0x0         0x0       Not used in o68.                                   |
+ <4>     RING_EN  RAZ      0x0         0x0       Not used in o68.                                   |
  <63:5>  NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -33073,12 +33088,31 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   BASE     R/W      0           NS        The mac number.                                    |
  <15:7>  NS       RAZ      NS          NS        Reserved					    |
  <23:16> NUMP     R/W      0           NS        The mac number.                                    |
+                                                 When this value is 4 or less there is a performance|
+                                                 advantage for output packets.                      |
  <63:24> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
+ *
+ *                  SLI_PKT_OUT_BP_EN = SLI Packet Output Backpressure Enable
+ *
+ * Enables sending backpressure to the PKO.
+ *
 
+     ==============================================================
+     SLI_PKT_OUT_BP_EN Type=PEXP_NCB
+     ==============================================================
 
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  BP_EN    R/W      0xFFFFFFFF  0xFFFFFFFF  When set '1' enable the port level backpressure  |
+                                                   for PCIe port associated with the bit.           |
+ <63:32> NS       RAZ      NS          NS          Reserved					    |
+----------------------------------------------------------------------------------------------------
+===
 
 
  *
@@ -65779,7 +65813,8 @@ PKO_REG_ENGINE_THRESH          0x0001180050000058  RSL
 PKO_REG_ERROR                  0x0001180050000088  RSL
 PKO_REG_FLAGS                  0x0001180050000000  RSL
 PKO_REG_INT_MASK               0x0001180050000090  RSL
-PKO_REG_LOOPBACK               0x0001180050000068  RSL
+PKO_REG_LOOPBACK_BPID          0x0001180050000118  RSL
+PKO_REG_LOOPBACK_PKIND         0x0001180050000068  RSL
 PKO_REG_MIN_PKT                0x0001180050000070  RSL
 PKO_REG_PREEMPT                0x0001180050000110  RSL
 PKO_REG_QUEUE_MODE             0x0001180050000048  RSL
@@ -66212,6 +66247,7 @@ SLI_PKT_IN_PCIE_PORT           0x00000000000011B0  PEXP_NCB     0x00011F00000111
 SLI_PKT_IPTR                   0x0000000000001070  PEXP_NCB     0x00011F0000011070  NCB
 SLI_PKT_OUTPUT_WMARK           0x0000000000001180  PEXP_NCB     0x00011F0000011180  NCB
 SLI_PKT_OUT_BMODE              0x00000000000010D0  PEXP_NCB     0x00011F00000110D0  NCB
+SLI_PKT_OUT_BP_EN              0x0000000000001240  PEXP_NCB     0x00011F0000011240  NCB
 SLI_PKT_OUT_ENB                0x0000000000001010  PEXP_NCB     0x00011F0000011010  NCB
 SLI_PKT_PCIE_PORT              0x00000000000010E0  PEXP_NCB     0x00011F00000110E0  NCB
 SLI_PKT_PORT_IN_RST            0x00000000000011F0  PEXP_NCB     0x00011F00000111F0  NCB
