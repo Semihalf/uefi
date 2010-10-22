@@ -7,18 +7,6 @@
 */
 
 /**
- * Returns the Octeon processor ID.
- *
- * @return Octeon processor ID from COP0
- */
-static inline uint32_t bdk_get_proc_id(void)
-{
-    uint32_t id;
-    asm ("mfc0 %0, $15,0" : "=r" (id));
-    return id;
-}
-
-/**
  * Convert a memory pointer (void*) into a hardware compatable
  * memory address (uint64_t). Octeon hardware widgets don't
  * understand logical addresses.
@@ -156,22 +144,6 @@ static inline void bdk_wait(uint64_t cycles)
     uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + cycles;
 
     while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
-    {
-        /* Spin */
-    }
-}
-
-
-/**
- * Wait for the specified number of io clock cycles
- *
- * @param cycles
- */
-static inline void bdk_wait_io(uint64_t cycles)
-{
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_SCLK) + cycles;
-
-    while (bdk_clock_get_count(BDK_CLOCK_SCLK) < done)
     {
         /* Spin */
     }

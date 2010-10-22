@@ -13,13 +13,6 @@
 #define BDK_FUNCTION static inline
 
 /**
- * Returns the Octeon processor ID.
- *
- * @return Octeon processor ID from COP0
- */
-BDK_FUNCTION uint32_t bdk_get_proc_id(void) __attribute__ ((pure));
-
-/**
  * Convert a memory pointer (void*) into a hardware compatable
  * memory address (uint64_t). Octeon hardware widgets don't
  * understand logical addresses.
@@ -97,13 +90,6 @@ BDK_FUNCTION void bdk_wait(uint64_t cycles);
  * @param usec   micro seconds to wait
  */
 extern void bdk_wait_usec(uint64_t usec);
-
-/**
- * Wait for the specified number of io clock cycles
- *
- * @param cycles
- */
-BDK_FUNCTION void bdk_wait_io(uint64_t cycles);
 
 /**
  * Perform a soft reset of Octeon

@@ -22,7 +22,6 @@
 #include "bdk-sso.h"
 #include "bdk-helper.h"
 #include "bdk-helper-board.h"
-#include "bdk-helper-errata.h"
 #include "bdk-helper-jtag.h"
 #include "bdk-helper-loop.h"
 #include "bdk-helper-npi.h"

@@ -39,7 +39,7 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
     const uint32_t OCTEON_FAMILY_MINOR_REV_MASK = 0x00000007;
     uint32_t chip_model;
 
-    BDK_MF_COP0(chip_model, COP0_PRID);
+    asm ("mfc0 %0, $15,0" : "=r" (chip_model));
 
     switch (arg_model & OM_FLAG_MASK)
     {
