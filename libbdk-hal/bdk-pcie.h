@@ -199,50 +199,6 @@ void bdk_pcie_config_write16(int pcie_port, int bus, int dev, int fn, int reg, u
 void bdk_pcie_config_write32(int pcie_port, int bus, int dev, int fn, int reg, uint32_t val);
 
 /**
- * Read a PCIe config space register indirectly. This is used for
- * registers of the form PCIEEP_CFG??? and PCIERC?_CFG???.
- *
- * @param pcie_port  PCIe port to read from
- * @param cfg_offset Address to read
- *
- * @return Value read
- */
-uint32_t bdk_pcie_cfgx_read(int pcie_port, uint32_t cfg_offset);
-
-/**
- * Write a PCIe config space register indirectly. This is used for
- * registers of the form PCIEEP_CFG??? and PCIERC?_CFG???.
- *
- * @param pcie_port  PCIe port to write to
- * @param cfg_offset Address to write
- * @param val        Value to write
- */
-void bdk_pcie_cfgx_write(int pcie_port, uint32_t cfg_offset, uint32_t val);
-
-/**
- * Write a 32bit value to the Octeon NPEI register space
- *
- * @param address Address to write to
- * @param val     Value to write
- */
-static inline void bdk_pcie_npei_write32(uint64_t address, uint32_t val)
-{
-	bdk_write64_uint32(address ^ 4, val);
-	bdk_read64_uint32(address ^ 4);
-}
-
-/**
- * Read a 32bit value from the Octeon NPEI register space
- *
- * @param address Address to read
- * @return The result
- */
-static inline uint32_t bdk_pcie_npei_read32(uint64_t address)
-{
-	return bdk_read64_uint32(address ^ 4);
-}
-
-/**
  * Initialize a PCIe port for use in target(EP) mode.
  *
  * @param pcie_port PCIe port to initialize

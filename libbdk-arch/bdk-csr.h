@@ -26,6 +26,7 @@ typedef enum {
  */
 static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
+    extern uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address);
     switch (type)
     {
         case BDK_CSR_TYPE_RSL:
@@ -42,18 +43,9 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
                 return *(volatile uint32_t *)(address ^ 4);
             else
                 return *(volatile uint64_t *)address;
-
-        case BDK_CSR_TYPE_PEXP:
-            break;
-
-        case BDK_CSR_TYPE_PCICONFIGEP:
-        case BDK_CSR_TYPE_PCICONFIGRC:
-            break;
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-            break;
+        default:
+            return __bdk_csr_read_slow(type, busnum, size, address);
     }
-    return 0;
 }
 
 
@@ -70,6 +62,7 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
  */
 static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
+    extern void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
     switch (type)
     {
         case BDK_CSR_TYPE_RSL:
@@ -101,15 +94,8 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
                 *(volatile uint64_t *)address = value;
             break;
 
-        case BDK_CSR_TYPE_PEXP:
-            break;
-
-        case BDK_CSR_TYPE_PCICONFIGEP:
-        case BDK_CSR_TYPE_PCICONFIGRC:
-            break;
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-            break;
+        default:
+            __bdk_csr_write_slow(type, busnum, size, address, value);
     }
 }
 

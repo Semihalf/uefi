@@ -89,7 +89,7 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
     /* Error Message Enables (PCIE*_CFG030[CE_EN,NFE_EN,FE_EN,UR_EN]) */
     {
         bdk_pciercx_cfg030_t pciercx_cfg030;
-        pciercx_cfg030.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG030(pcie_port));
+        pciercx_cfg030.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG030(pcie_port));
         pciercx_cfg030.s.mps = MPS_CN6XXX;
         pciercx_cfg030.s.mrrs = MRRS_CN6XXX;
         pciercx_cfg030.s.ro_en = 1; /* Enable relaxed order processing. This will allow devices to affect read response ordering */
@@ -98,7 +98,7 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         pciercx_cfg030.s.nfe_en = 1; /* Non-fatal error reporting enable. */
         pciercx_cfg030.s.fe_en = 1; /* Fatal error reporting enable. */
         pciercx_cfg030.s.ur_en = 1; /* Unsupported request reporting enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG030(pcie_port), pciercx_cfg030.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG030(pcie_port), pciercx_cfg030.u32);
     }
 
     {
@@ -119,10 +119,10 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
     /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
     {
         bdk_pciercx_cfg070_t pciercx_cfg070;
-        pciercx_cfg070.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG070(pcie_port));
+        pciercx_cfg070.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG070(pcie_port));
         pciercx_cfg070.s.ge = 1; /* ECRC generation enable. */
         pciercx_cfg070.s.ce = 1; /* ECRC check enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG070(pcie_port), pciercx_cfg070.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG070(pcie_port), pciercx_cfg070.u32);
     }
 
     /* Access Enables (PCIE*_CFG001[MSAE,ME]) */
@@ -131,28 +131,28 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
     /* System Error Message Enable (PCIE*_CFG001[SEE]) */
     {
         bdk_pciercx_cfg001_t pciercx_cfg001;
-        pciercx_cfg001.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG001(pcie_port));
+        pciercx_cfg001.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG001(pcie_port));
         pciercx_cfg001.s.msae = 1; /* Memory space enable. */
         pciercx_cfg001.s.me = 1; /* Bus master enable. */
         pciercx_cfg001.s.i_dis = 1; /* INTx assertion disable. */
         pciercx_cfg001.s.see = 1; /* SERR# enable */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG001(pcie_port), pciercx_cfg001.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG001(pcie_port), pciercx_cfg001.u32);
     }
 
 
     /* Advanced Error Recovery Message Enables */
     /* (PCIE*_CFG066,PCIE*_CFG067,PCIE*_CFG069) */
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG066(pcie_port), 0);
+    BDK_CSR_WRITE(BDK_PCIERCX_CFG066(pcie_port), 0);
     /* Use BDK_PCIERCX_CFG067 hardware default */
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG069(pcie_port), 0);
+    BDK_CSR_WRITE(BDK_PCIERCX_CFG069(pcie_port), 0);
 
 
     /* Active State Power Management (PCIE*_CFG032[ASLPC]) */
     {
         bdk_pciercx_cfg032_t pciercx_cfg032;
-        pciercx_cfg032.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG032(pcie_port));
+        pciercx_cfg032.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG032(pcie_port));
         pciercx_cfg032.s.aslpc = 0; /* Active state Link PM control. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG032(pcie_port), pciercx_cfg032.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG032(pcie_port), pciercx_cfg032.u32);
     }
 
     /* Link Width Mode (PCIERCn_CFG452[LME]) - Set during bdk_pcie_rc_initialize_link() */
@@ -164,7 +164,7 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         pciercx_cfg006.s.pbnum = 1;
         pciercx_cfg006.s.sbnum = 1;
         pciercx_cfg006.s.subbnum = 1;
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG006(pcie_port), pciercx_cfg006.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG006(pcie_port), pciercx_cfg006.u32);
     }
 
     /* Memory-mapped I/O BAR (PCIERCn_CFG008) */
@@ -175,7 +175,7 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         pciercx_cfg008.u32 = 0;
         pciercx_cfg008.s.mb_addr = 0x100;
         pciercx_cfg008.s.ml_addr = 0;
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG008(pcie_port), pciercx_cfg008.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG008(pcie_port), pciercx_cfg008.u32);
     }
 
     /* Prefetchable BAR (PCIERCn_CFG009,PCIERCn_CFG010,PCIERCn_CFG011) */
@@ -186,50 +186,50 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         bdk_pciercx_cfg009_t pciercx_cfg009;
         bdk_pciercx_cfg010_t pciercx_cfg010;
         bdk_pciercx_cfg011_t pciercx_cfg011;
-        pciercx_cfg009.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG009(pcie_port));
-        pciercx_cfg010.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG010(pcie_port));
-        pciercx_cfg011.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG011(pcie_port));
+        pciercx_cfg009.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG009(pcie_port));
+        pciercx_cfg010.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG010(pcie_port));
+        pciercx_cfg011.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG011(pcie_port));
         pciercx_cfg009.s.lmem_base = 0x100;
         pciercx_cfg009.s.lmem_limit = 0;
         pciercx_cfg010.s.umem_base = 0x100;
         pciercx_cfg011.s.umem_limit = 0;
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG009(pcie_port), pciercx_cfg009.u32);
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG010(pcie_port), pciercx_cfg010.u32);
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG011(pcie_port), pciercx_cfg011.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG009(pcie_port), pciercx_cfg009.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG010(pcie_port), pciercx_cfg010.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG011(pcie_port), pciercx_cfg011.u32);
     }
 
     /* System Error Interrupt Enables (PCIERCn_CFG035[SECEE,SEFEE,SENFEE]) */
     /* PME Interrupt Enables (PCIERCn_CFG035[PMEIE]) */
     {
         bdk_pciercx_cfg035_t pciercx_cfg035;
-        pciercx_cfg035.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG035(pcie_port));
+        pciercx_cfg035.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG035(pcie_port));
         pciercx_cfg035.s.secee = 1; /* System error on correctable error enable. */
         pciercx_cfg035.s.sefee = 1; /* System error on fatal error enable. */
         pciercx_cfg035.s.senfee = 1; /* System error on non-fatal error enable. */
         pciercx_cfg035.s.pmeie = 1; /* PME interrupt enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG035(pcie_port), pciercx_cfg035.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG035(pcie_port), pciercx_cfg035.u32);
     }
 
     /* Advanced Error Recovery Interrupt Enables */
     /* (PCIERCn_CFG075[CERE,NFERE,FERE]) */
     {
         bdk_pciercx_cfg075_t pciercx_cfg075;
-        pciercx_cfg075.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG075(pcie_port));
+        pciercx_cfg075.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG075(pcie_port));
         pciercx_cfg075.s.cere = 1; /* Correctable error reporting enable. */
         pciercx_cfg075.s.nfere = 1; /* Non-fatal error reporting enable. */
         pciercx_cfg075.s.fere = 1; /* Fatal error reporting enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG075(pcie_port), pciercx_cfg075.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG075(pcie_port), pciercx_cfg075.u32);
     }
 
     /* HP Interrupt Enables (PCIERCn_CFG034[HPINT_EN], */
     /* PCIERCn_CFG034[DLLS_EN,CCINT_EN]) */
     {
         bdk_pciercx_cfg034_t pciercx_cfg034;
-        pciercx_cfg034.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG034(pcie_port));
+        pciercx_cfg034.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG034(pcie_port));
         pciercx_cfg034.s.hpint_en = 1; /* Hot-plug interrupt enable. */
         pciercx_cfg034.s.dlls_en = 1; /* Data Link Layer state changed enable */
         pciercx_cfg034.s.ccint_en = 1; /* Command completed interrupt enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG034(pcie_port), pciercx_cfg034.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG034(pcie_port), pciercx_cfg034.u32);
     }
 }
 
@@ -263,7 +263,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(int pcie_port)
         if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(BDK_CLOCK_CORE))
             return -1;
         bdk_wait(10000);
-        pciercx_cfg032.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG032(pcie_port));
+        pciercx_cfg032.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG032(pcie_port));
     } while (pciercx_cfg032.s.dlla == 0);
 
     /* Update the Replay Time Limit. Empirically, some PCIe devices take a
@@ -271,7 +271,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(int pcie_port)
         this we configure the Replay Time Limit to the value expected for a 512
         byte MPS instead of our actual 256 byte MPS. The numbers below are
         directly from the PCIe spec table 3-4 */
-    pciercx_cfg448.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG448(pcie_port));
+    pciercx_cfg448.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG448(pcie_port));
     switch (pciercx_cfg032.s.nlw)
     {
         case 1: /* 1 lane */
@@ -287,7 +287,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(int pcie_port)
             pciercx_cfg448.s.rtl = 258;
             break;
     }
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG448(pcie_port), pciercx_cfg448.u32);
+    BDK_CSR_WRITE(BDK_PCIERCX_CFG448(pcie_port), pciercx_cfg448.u32);
 
     return 0;
 }
@@ -418,9 +418,9 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     __bdk_pcie_rc_initialize_config_space(pcie_port);
 
     /* Enable gen2 speed selection */
-    pciercx_cfg515.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG515(pcie_port));
+    pciercx_cfg515.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG515(pcie_port));
     pciercx_cfg515.s.dsc = 1;
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG515(pcie_port), pciercx_cfg515.u32);
+    BDK_CSR_WRITE(BDK_PCIERCX_CFG515(pcie_port), pciercx_cfg515.u32);
 
     /* Bring the link up */
     if (__bdk_pcie_rc_initialize_link_gen2(pcie_port))
@@ -428,9 +428,9 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         /* Some gen1 devices don't handle the gen 2 training correctly. Disable
             gen2 and try again with only gen1 */
         bdk_pciercx_cfg031_t pciercx_cfg031;
-        pciercx_cfg031.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG031(pcie_port));
+        pciercx_cfg031.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG031(pcie_port));
         pciercx_cfg031.s.mls = 1;
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIERCX_CFG031(pcie_port), pciercx_cfg515.u32);
+        BDK_CSR_WRITE(BDK_PCIERCX_CFG031(pcie_port), pciercx_cfg515.u32);
         if (__bdk_pcie_rc_initialize_link_gen2(pcie_port))
         {
             bdk_dprintf("PCIe: Link timeout on port %d, probably the slot is empty\n", pcie_port);
@@ -518,7 +518,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     BDK_CSR_WRITE(BDK_PEMX_CTL_STATUS(pcie_port), pemx_ctl_status.u64);
 
     /* Display the link status */
-    pciercx_cfg032.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG032(pcie_port));
+    pciercx_cfg032.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG032(pcie_port));
     bdk_dprintf("PCIe: Port %d link active, %d lanes, speed gen%d\n", pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);
 
     return 0;
@@ -586,7 +586,7 @@ static inline uint64_t __bdk_pcie_build_config_addr(int pcie_port, int bus, int 
     bdk_pcie_address_t pcie_addr;
     bdk_pciercx_cfg006_t pciercx_cfg006;
 
-    pciercx_cfg006.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIERCX_CFG006(pcie_port));
+    pciercx_cfg006.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG006(pcie_port));
     if ((bus <= pciercx_cfg006.s.pbnum) && (dev != 0))
         return 0;
 
@@ -724,44 +724,6 @@ void bdk_pcie_config_write32(int pcie_port, int bus, int dev, int fn, int reg, u
 
 
 /**
- * Read a PCIe config space register indirectly. This is used for
- * registers of the form PCIEEP_CFG??? and PCIERC?_CFG???.
- *
- * @param pcie_port  PCIe port to read from
- * @param cfg_offset Address to read
- *
- * @return Value read
- */
-uint32_t bdk_pcie_cfgx_read(int pcie_port, uint32_t cfg_offset)
-{
-    bdk_pemx_cfg_rd_t pemx_cfg_rd;
-    pemx_cfg_rd.u64 = 0;
-    pemx_cfg_rd.s.addr = cfg_offset;
-    BDK_CSR_WRITE(BDK_PEMX_CFG_RD(pcie_port), pemx_cfg_rd.u64);
-    pemx_cfg_rd.u64 = BDK_CSR_READ(BDK_PEMX_CFG_RD(pcie_port));
-    return pemx_cfg_rd.s.data;
-}
-
-
-/**
- * Write a PCIe config space register indirectly. This is used for
- * registers of the form PCIEEP_CFG??? and PCIERC?_CFG???.
- *
- * @param pcie_port  PCIe port to write to
- * @param cfg_offset Address to write
- * @param val        Value to write
- */
-void bdk_pcie_cfgx_write(int pcie_port, uint32_t cfg_offset, uint32_t val)
-{
-    bdk_pemx_cfg_wr_t pemx_cfg_wr;
-    pemx_cfg_wr.u64 = 0;
-    pemx_cfg_wr.s.addr = cfg_offset;
-    pemx_cfg_wr.s.data = val;
-    BDK_CSR_WRITE(BDK_PEMX_CFG_WR(pcie_port), pemx_cfg_wr.u64);
-}
-
-
-/**
  * Initialize a PCIe port for use in target(EP) mode.
  *
  * @param pcie_port PCIe port to initialize
@@ -799,7 +761,7 @@ int bdk_pcie_ep_initialize(int pcie_port)
     }
 
     /* Enable bus master and memory */
-    bdk_pcie_cfgx_write(pcie_port, BDK_PCIEEPX_CFG001(pcie_port), 0x6);
+    BDK_CSR_WRITE(BDK_PCIEEPX_CFG001(pcie_port), 0x6);
 
     /* Max Payload Size (PCIE*_CFG030[MPS]) */
     /* Max Read Request Size (PCIE*_CFG030[MRRS]) */
@@ -807,7 +769,7 @@ int bdk_pcie_ep_initialize(int pcie_port)
     /* Error Message Enables (PCIE*_CFG030[CE_EN,NFE_EN,FE_EN,UR_EN]) */
     {
         bdk_pcieepx_cfg030_t pcieepx_cfg030;
-        pcieepx_cfg030.u32 = bdk_pcie_cfgx_read(pcie_port, BDK_PCIEEPX_CFG030(pcie_port));
+        pcieepx_cfg030.u32 = BDK_CSR_READ(BDK_PCIEEPX_CFG030(pcie_port));
         pcieepx_cfg030.s.mps = MPS_CN6XXX;
         pcieepx_cfg030.s.mrrs = MRRS_CN6XXX;
         pcieepx_cfg030.s.ro_en = 1; /* Enable relaxed ordering. */
@@ -816,7 +778,7 @@ int bdk_pcie_ep_initialize(int pcie_port)
         pcieepx_cfg030.s.nfe_en = 1; /* Non-fatal error reporting enable. */
         pcieepx_cfg030.s.fe_en = 1; /* Fatal error reporting enable. */
         pcieepx_cfg030.s.ur_en = 1; /* Unsupported request reporting enable. */
-        bdk_pcie_cfgx_write(pcie_port, BDK_PCIEEPX_CFG030(pcie_port), pcieepx_cfg030.u32);
+        BDK_CSR_WRITE(BDK_PCIEEPX_CFG030(pcie_port), pcieepx_cfg030.u32);
     }
 
     {
