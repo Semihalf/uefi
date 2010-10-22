@@ -2158,7 +2158,7 @@ static void process_cmd_clear(int start_port, int stop_port)
 static void process_cmd_reset(int start_port, int stop_port)
 {
     int port;
-    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS, 0xdeadbeef00);
+    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
 
     for (port=start_port; port<=stop_port; port++)
     {

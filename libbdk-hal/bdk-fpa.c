@@ -64,14 +64,14 @@ int bdk_fpa_get_block_size(bdk_fpa_pool_t pool)
 {
     switch (pool)
     {
-        case 0: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0, 2048);
-        case 1: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE1, 128);
-        case 2: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE2, 1024);
-        case 3: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE3, 0);
-        case 4: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE4, 0);
-        case 5: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE5, 0);
-        case 6: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE6, 0);
-        case 7: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE7, 0);
+        case 0: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0);
+        case 1: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE1);
+        case 2: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE2);
+        case 3: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE3);
+        case 4: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE4);
+        case 5: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE5);
+        case 6: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE6);
+        case 7: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE7);
         default:
 	    return 0;
     }

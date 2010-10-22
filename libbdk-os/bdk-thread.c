@@ -105,7 +105,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
 {
     extern void _gp;
     bdk_thread_t *thread;
-    int stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE, 16384);
+    int stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
 
     thread = calloc(1, sizeof(bdk_thread_t) + stack_size);
     if (thread == NULL)
