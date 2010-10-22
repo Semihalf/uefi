@@ -2,17 +2,6 @@ from csr_output_header import writeCopyrightBanner
 from csr_output_header import getCname
 
 CHIP_TO_MODEL = {
-    "cn38xxp2": "OCTEON_CN38XX_PASS2_X",
-    "cn31xx":   "OCTEON_CN31XX",
-    "cn30xx":   "OCTEON_CN30XX",
-    "cn38xx":   "OCTEON_CN38XX_PASS3_X",
-    "cn58xxp1": "OCTEON_CN58XX_PASS1_X",
-    "cn58xx":   "OCTEON_CN58XX",
-    "cn56xxp1": "OCTEON_CN56XX_PASS1_X",
-    "cn56xx":   "OCTEON_CN56XX_PASS2_X",
-    "cn50xx":   "OCTEON_CN50XX",
-    "cn52xxp1": "OCTEON_CN52XX_PASS1_X",
-    "cn52xx":   "OCTEON_CN52XX_PASS2_X",
     "cn63xxp1": "OCTEON_CN63XX_PASS1_X",
     "cn63xx":   "OCTEON_CN63XX_PASS2_X",
     "cn68xx":   "OCTEON_CN68XX",
@@ -53,7 +42,7 @@ def createRangeCheck(arg, ranges):
     range_check = range_check[4:]
     return range_check
 
-def writeAddress(out, csr, pci_alias):
+def writeAddress(out, csr, pci_alias, chip_list):
     num_params = len(csr["s"].range)
     name = getCname(csr["s"]).upper()
     if csr["s"].pci_alias == -1:
@@ -107,7 +96,7 @@ def writeAddress(out, csr, pci_alias):
         else:
             range_check = " && (%s) && (%s)" % (createRangeCheck("block_id", csr[chip].range[0]), createRangeCheck("offset", csr[chip].range[1]))
         address_list.append((chip, range_check, csr[chip].getAddressEquation(pci_alias=pci_alias)))
-    all_same = 1
+    all_same = (len(chip_list) == len(address_list))
     for line in address_list[1:]:
         if (line[1] != address_list[0][1]) or (line[2] != address_list[0][2]):
             all_same = 0
@@ -132,7 +121,7 @@ def writeAddress(out, csr, pci_alias):
         out.write("\t}\n");
     out.write("}\n");
 
-def write(out, csr):
-    writeAddress(out, csr, pci_alias=0)
-    writeAddress(out, csr, pci_alias=1)
+def write(out, csr, chip_list):
+    writeAddress(out, csr, 0, chip_list)
+    writeAddress(out, csr, 1, chip_list)
 

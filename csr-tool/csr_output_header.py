@@ -142,7 +142,7 @@ def write(file, csr_list, include_cisco_only):
             continue
         writeCombinedCsr(out, csr)
         out.write("\n")
-        csr_output_addresses.write(out, csr)
+        csr_output_addresses.write(out, csr, csr_list.getChipList())
         cname = getCname(csr["s"])
         macro_name = cname.upper()
         if len(csr["s"].range):

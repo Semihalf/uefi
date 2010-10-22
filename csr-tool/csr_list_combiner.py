@@ -3,6 +3,7 @@ from csr import *
 class CombinedCsrList:
     def __init__(self):
         self._csrs = {}
+        self._chips = []
 
     # Returns an individual CSRs with "name" for "chip".
     def get(self, name, chip):
@@ -18,6 +19,10 @@ class CombinedCsrList:
         keys.sort()
         return keys
 
+    # Return a list of chips
+    def getChipList(self):
+        return self._chips
+
     # Return each chip CSR dictionary, one at a time
     def __iter__(self):
         sorted = []
@@ -27,6 +32,8 @@ class CombinedCsrList:
 
     # Add a CSR for a specific chip to the list
     def addCsr(self, chip, csr):
+        if (chip != "s") and (not chip in self._chips):
+            self._chips.append(chip)
         if csr.name in self._csrs:
             self._csrs[csr.name][chip] = csr
         else:
