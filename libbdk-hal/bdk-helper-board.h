@@ -8,13 +8,6 @@
  */
 
 typedef enum {
-    USB_CLOCK_TYPE_REF_12,
-    USB_CLOCK_TYPE_REF_24,
-    USB_CLOCK_TYPE_REF_48,
-    USB_CLOCK_TYPE_CRYSTAL_12,
-} bdk_helper_board_usb_clock_types_t;
-
-typedef enum {
     set_phy_link_flags_autoneg                  = 0x1,
     set_phy_link_flags_flow_control_dont_touch  = 0x0 << 1,
     set_phy_link_flags_flow_control_enable      = 0x1 << 1,
