@@ -302,7 +302,6 @@ secondary_lut_lut_t secondary_lut_lut[] = {
     {"validate", on_off_show_lut},
     {"loopback", loopback_lut},
     {"backpressure", on_off_lut},
-    {"packetio", on_off_lut},
     {0,0}
 };
 
@@ -411,7 +410,6 @@ char *help_commands[] = {
     "validate [<port range>] [on|off|show]     Turn on/off of packet validation using CRC32C.\n",
     "loopback [<port range>] [off|internal|external|internal&external] Control the loopback state of a port.\n",
     "backpressure [<port range>] [on|off]      Set if incomming backpressure packets should slow down transmit\n",
-    "packetio on | off                         Start or stop all packet IO hardware. Warning, debug use only\n",
     "ixf.read <reg_addr>                       Read 16 bit register from IXF18201 (EBT5810 board only)\n",
     "ixf.write <reg_addr> <value>              Write 16 bit register from IXF18201 (EBT5810 board only)\n",
     "ixf.read32 <reg_addr>                     Read 32 bit register from IXF18201 (EBT5810 board only)\n",
@@ -2216,11 +2214,7 @@ static void process_cmd_reset(int start_port, int stop_port)
 static void process_cmd_packetio(int enable)
 {
     if (!enable)
-    {
-        if (bdk_helper_shutdown_packet_io_global())
-            printf("bdk_helper_shutdown_packet_io_global() failed\n");
         return;
-    }
 
     if (bdk_helper_initialize_packet_io_global())
         printf("bdk_helper_initialize_packet_io_global() failed\n");
@@ -3405,20 +3399,6 @@ static uint64_t process_command(const char *cmd, int newline)
                 else if (port_state[port].display)
                     printf("Port %2llu %s: %s\n", (ULL)port, "backpressure", (port_setup[port].respect_backpressure) ? "on" : "off");
             }
-        }
-        else if (strcasecmp(command, "packetio") == 0)
-        {
-            if (argc == 2)
-            {
-                if (strcmp(args[1].str, "on") == 0)
-                    process_cmd_packetio(1);
-                else if (strcmp(args[1].str, "off") == 0)
-                    process_cmd_packetio(0);
-                else
-                    printf("packetio requires a single argument, either \"on\" or \"off\"\n");
-            }
-            else
-                printf("packetio requires a single argument, either \"on\" or \"off\"\n");
         }
         else if (strcasecmp(command, "arp.request") == 0) {
             uint8_t *buf;

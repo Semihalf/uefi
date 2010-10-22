@@ -54,33 +54,6 @@ extern int bdk_helper_ipd_and_packet_input_enable(void);
 extern int bdk_helper_initialize_packet_io_global(void);
 
 /**
- * Does core local initialization for packet io
- *
- * @return Zero on success, non-zero on failure
- */
-extern int bdk_helper_initialize_packet_io_local(void);
-
-/**
- * Undo the initialization performed in
- * bdk_helper_initialize_packet_io_global(). After calling this routine and the
- * local version on each core, packet IO for Octeon will be disabled and placed
- * in the initial reset state. It will then be safe to call the initialize
- * later on. Note that this routine does not empty the FPA pools. It frees all
- * buffers used by the packet IO hardware to the FPA so a function emptying the
- * FPA after shutdown should find all packet buffers in the FPA.
- *
- * @return Zero on success, negative on failure.
- */
-extern int bdk_helper_shutdown_packet_io_global(void);
-
-/**
- * Does core local shutdown of packet io
- *
- * @return Zero on success, non-zero on failure
- */
-extern int bdk_helper_shutdown_packet_io_local(void);
-
-/**
  * Returns the number of ports on the given interface.
  * The interface must be initialized before the port count
  * can be returned.
