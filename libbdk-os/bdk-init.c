@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 #include <unistd.h>
 
 static void __bdk_init_uart(int uart)
@@ -78,33 +79,33 @@ static void bdk_init_stage2(void)
     extern int main(int argc, const char *argv);
     extern void _edata; /* End of .data section, beginning of .bss */
     extern void _end;   /* End of entire .data */
-    const char *BANNER_1 = "Bring and Diagnostic Kit (BDK)\n";
-    const char *BANNER_2 = "Setting up global data\n";
-    const char *BANNER_3 = "Clearing BSS\n";
-    const char *BANNER_4 = "Creating main thread\n";
-    const char *BANNER_5 = "Transfering to thread scheduler\n";
+    const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
+    const char BANNER_2[] = "Setting up global data\n";
+    const char BANNER_3[] = "Clearing BSS\n";
+    const char BANNER_4[] = "Creating main thread\n";
+    const char BANNER_5[] = "Transfering to thread scheduler\n";
 
     if (bdk_get_core_num() == 0)
     {
         __bdk_init_uart(0);
 
-        write(1, BANNER_1, sizeof(BANNER_1));
+        write(1, BANNER_1, sizeof(BANNER_1)-1);
         __bdk_init_exception();
 
-        write(1, BANNER_2, sizeof(BANNER_2));
+        write(1, BANNER_2, sizeof(BANNER_2)-1);
         __bdk_init_relocate_data();
 
         /* Zero BSS */
-        write(1, BANNER_3, sizeof(BANNER_3));
+        write(1, BANNER_3, sizeof(BANNER_3)-1);
         memset(&_edata, 0, &_end - &_edata);
 
-        write(1, BANNER_4, sizeof(BANNER_4));
+        write(1, BANNER_4, sizeof(BANNER_4)-1);
         bdk_thread_initialize();
         if (bdk_thread_create(-1, (bdk_thread_func_t)main, 0, NULL))
             bdk_fatal("Create of main thread failed\n");
     }
 
-    write(1, BANNER_5, sizeof(BANNER_5));
+    write(1, BANNER_5, sizeof(BANNER_5)-1);
     __bdk_init_cop0();
 
     bdk_thread_yield();
