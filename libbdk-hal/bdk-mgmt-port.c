@@ -734,6 +734,7 @@ bdk_helper_link_info_t bdk_mgmt_port_link_get(int port)
 {
     bdk_mgmt_port_state_t *state;
     bdk_helper_link_info_t result;
+    int phy_addr;
 
     state = bdk_mgmt_port_state_ptr + port;
     result.u64 = 0;
@@ -744,14 +745,16 @@ bdk_helper_link_info_t bdk_mgmt_port_link_get(int port)
         return result;
     }
 
-    if (0) // FIXME PHY
-        return result;
-    else // Simulator does not have PHY, use some defaults.
+    phy_addr = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + port);
+    if (phy_addr != -1)
+    {
+        result = bdk_helper_board_link_get_phy(phy_addr);
+    }
+    else
     {
         result.s.full_duplex = 1;
         result.s.link_up = 1;
         result.s.speed = 1000;
-        return result;
     }
     return result;
 }
