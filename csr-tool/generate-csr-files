@@ -17,6 +17,6 @@ mkdir -p cisco
 	--csr cn68xx,octcsr_cn68xxp1.txt
 
 mv bdk-csrs.h ../libbdk-arch/
-#mv cvmx-csr-db.c ../libbdk-hal/
+mv bdk-csrs.c ../libbdk-arch/
 #mv cvmx-error-init-*.c ../libbdk-hal/
 

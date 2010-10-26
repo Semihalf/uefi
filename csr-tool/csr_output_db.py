@@ -1,164 +1,167 @@
-from csr_output_header import writeCopyrightBanner
+from csr_output_addresses import CHIP_TO_MODEL
 
 def toHex(v):
     return hex(v).replace("L","").rjust(18)
 
-def writeValue(out, value):
-    out.write(',\t')
-    out.write(str(value))
+#
+# Given a dictionary, return its keys sorted by the values they point to. This
+# assumes that all values are unique
+#
+def getKeysSorted(dict):
+    swapped = {}
+    for k in dict:
+        swapped[dict[k]] = k
+    keys = swapped.keys()
+    keys.sort()
+    result = []
+    for k in keys:
+        result.append(swapped[k])
+    return result
 
-def writeCsrType(out, csr, field_offset, address_offset):
-    num_addresses = 0
-    for name,address,unused1,unused2 in csr.iterateAddresses():
-        num_addresses += 1
-    out.write(('\t{"cvmx_' + csr.name + '"').ljust(32))  # the base name of the CSR
-    writeValue(out, "CVMX_CSR_DB_TYPE_"+csr.type)   # the type
-    writeValue(out, csr.getNumBits())               # the width of the CSR in bits
-    writeValue(out, address_offset)                 # the position of the first address in cvmx_csr_db_addresses[] (numblocks*indexnum is #)
-    writeValue(out, len(csr.fields.keys()))         # the number of fields in the CSR (and in cvmx_csr_db_fields[])
-    writeValue(out, field_offset)                   # the position of the first field in cvmx_csr_db_fields[]
-    out.write('},\n')
-    return num_addresses
+#
+# Store a string into a global table and return its index
+#
+globalStringTable = {}
+globalStringTableLen = 0
+def getStringTable(str):
+    global globalStringTable
+    global globalStringTableLen
+    str = str.upper()   # Force all strings to upper case
+    if not str in globalStringTable:
+        globalStringTable[str] = globalStringTableLen
+        globalStringTableLen += len(str) + 1
+    return globalStringTable[str]
 
-def writeCsrField(out, csr, field, csr_offset):
-    out.write(('\t{"' + field.name.upper() + '"').ljust(32))  # name of the field
-    writeValue(out, field.start_bit)                # starting bit position of the field
-    writeValue(out, field.stop_bit - field.start_bit + 1)# the size of the field in bits
-    writeValue(out, csr_offset)                     # position of the CSR containing the field in cvmx_csr_db[] (get alias from there)
-    writeValue(out, '"' + field.type + '"')         # the type of the field R/W, R/W1C, ...
-    if isinstance(field.reset_value, str):          # set if the reset value is unknown
-        writeValue(out, 1)
-    else:
-        writeValue(out, 0)
-    if isinstance(field.typical_value, str):        # set if the reset value is unknown
-        writeValue(out, 1)
-    else:
-        writeValue(out, 0)
-    if not isinstance(field.reset_value, str):
-        writeValue(out, str(field.reset_value)+"ull") # the reset value of the field
-    else:
-        writeValue(out, 0)
-    if not isinstance(field.typical_value, str):
-        writeValue(out, str(field.typical_value)+"ull") # the typical value of the field
-    else:
-        writeValue(out, 0)
-    out.write('},\n')
+#
+# Store a CSR field into a global table and return its index
+#
+globalFieldTable = {}
+globalFieldTableLen = 0
+def getFieldTable(field):
+    global globalFieldTable
+    global globalFieldTableLen
+    name_index = getStringTable(field.name)
+    key = "%d,%d,%d" % (name_index, field.start_bit, field.stop_bit)
+    if not key in globalFieldTable:
+        globalFieldTable[key] = globalFieldTableLen
+        globalFieldTableLen += 3
+    return globalFieldTable[key]
 
-def writeCsrAddress(out, csr, name, csr_offset):
-    for name,address,unused1,unused2 in csr.iterateAddresses():
-        out.write(('\t{"' + name + '"').ljust(32))      # CSR name at the supplied address
-        writeValue(out, toHex(address)+"ull")           # Address = octeon internal, PCI BAR0 relative, PCI CONFIG relative
-        writeValue(out, "CVMX_CSR_DB_TYPE_"+csr.type)   # the type
-        writeValue(out, csr.getNumBits())               # the width of the CSR in bits
-        writeValue(out, csr_offset)                     # position of the CSR in cvmx_csr_db[]
-        out.write('},\n')
+#
+# Store a CSR field list into a global table and return its index
+#
+globalFieldListTable = {}
+globalFieldListTableLen = 0
+def getFieldListTable(csr):
+    global globalFieldListTable
+    global globalFieldListTableLen
+    bit_list = csr.fields.keys()
+    bit_list.sort()
+    fieldList = "%d" % len(bit_list)
+    for bit in bit_list:
+        fieldList += ",%d" % getFieldTable(csr.fields[bit])
+    if not fieldList in globalFieldListTable:
+        globalFieldListTable[fieldList] = globalFieldListTableLen
+        globalFieldListTableLen += len(bit_list) + 1
+    return globalFieldListTable[fieldList]
 
+#
+# Store a range into a global table and return its index
+#
+globalRangeTable = {}
+globalRangeTableLen = 0
+def getRangeTable(range):
+    global globalRangeTable
+    global globalRangeTableLen
+    key = "%d" % len(range)
+    for r in range:
+        key += ",%d" % r
+    if not key in globalRangeTable:
+        globalRangeTable[key] = globalRangeTableLen
+        globalRangeTableLen += len(range) + 1
+    return globalRangeTable[key]
+
+#
+# Create a CSR database
+#
 def write(file, separate_chip_lists, include_cisco_only):
     out = open(file, "w")
-    writeCopyrightBanner(out)
-    out.write("/**\n")
-    out.write(" * @file\n")
-    out.write(" *\n")
-    out.write(" * Configuration and status register (CSR) address and type definitions for\n")
-    out.write(" * Octeon.\n")
-    out.write(" *\n")
-    out.write(" * This file is auto generated. Do not edit.\n")
-    out.write(" *\n")
-    out.write(" * <hr>$" + "Revision" + "$<hr>\n")
-    out.write(" *\n")
-    out.write(" */\n")
+    out.write('#include <bdk.h>\n')
     out.write("\n")
-    out.write('#ifdef CVMX_BUILD_FOR_LINUX_KERNEL\n')
-    out.write('#include <asm/octeon/cvmx.h>\n')
-    out.write('#include <asm/octeon/cvmx-csr-db.h>\n')
-    out.write('#else\n')
-    out.write('#include "cvmx-csr-db.h"\n')
-    out.write('#endif\n')
-    out.write("\n")
+    empty_range = getRangeTable([-1,-1])
 
+    #
+    # Write the CSR table
+    #
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
-        #
-        # Write the CSR table
-        #
-        out.write("static const CVMX_CSR_DB_TYPE cvmx_csr_db_" + chip + "[] = {\n")
-        out.write('\t /* name'.ljust(32))     # the base name of the CSR
-        writeValue(out, "---------------type")  # the type
-        writeValue(out, "bits")         # the width of the CSR in bits
-        writeValue(out, "off")          # the position of the first address in cvmx_csr_db_addresses[] (numblocks*indexnum is #)
-        writeValue(out, "#field")       # the number of fields in the CSR (and in cvmx_csr_db_fields[])
-        writeValue(out, "fld of */\n")  # the position of the first field in cvmx_csr_db_fields[]
-        field_offset = 0    # This is the index into cvmx_csr_db_fields where the fields for this CSR start
-        address_offset = 0  # This is the index into cvmx_csr_db_addresses where the addresses for this CSR start
+        out.write("static const bdk_csr_db_type_t bdk_csr_db_%s[] = {\n" % chip)
         for csr in separate_chip_lists[chip_index]:
             if csr.cisco_only and not include_cisco_only:
                 continue
-            address_offset += writeCsrType(out, csr, field_offset, address_offset)
-            field_offset += len(csr.fields.keys())
-        out.write("\t{NULL,0,0,0,0,0}\n")
-        out.write("};\n")
-        #
-        # Write the CSR address table
-        #
-        out.write("static const CVMX_CSR_DB_ADDRESS_TYPE cvmx_csr_db_addresses_" + chip + "[] = {\n")
-        out.write('\t/* name'.ljust(32))        # CSR name at the supplied address
-        writeValue(out, "--------------address")# Address = octeon internal, PCI BAR0 relative, PCI CONFIG relative
-        writeValue(out, "---------------type")  # the type
-        writeValue(out, "bits")                 # the width of the CSR in bits
-        writeValue(out, "csr offset */\n")      # position of the CSR in cvmx_csr_db[]
-        csr_offset=0        # This is the index into cvmx_csr_db where the CSR for this address start
-        address="0x123"
-        for csr in separate_chip_lists[chip_index]:
-            if csr.cisco_only and not include_cisco_only:
-                continue
-            writeCsrAddress(out, csr, csr.name, csr_offset)
-            csr_offset+=1
-        out.write("\t{NULL,0,0,0,0}\n")
-        out.write("};\n")
-        #
-        # Write the CSR field table
-        #
-        out.write("static const CVMX_CSR_DB_FIELD_TYPE cvmx_csr_db_fields_" + chip + "[] = {\n")
-        out.write('\t/* name'.ljust(32))# name of the field
-        writeValue(out, "bit")          # starting bit position of the field
-        writeValue(out, "width")        # the size of the field in bits
-        writeValue(out, "csr")          # position of the CSR containing the field in cvmx_csr_db[] (get alias from there)
-        writeValue(out, "type")         # the type of the field R/W, R/W1C, ...
-        writeValue(out, "rst un")       # set if the reset value is unknown
-        writeValue(out, "typ un")       # set if the typical value is unknown
-        writeValue(out, "reset")        # reset value
-        writeValue(out, "typical */\n") # typical value
-        csr_offset=0        # This is the index into cvmx_csr_db where the CSR for this field start
-        for csr in separate_chip_lists[chip_index]:
-            if csr.cisco_only and not include_cisco_only:
-                continue
-            bit_list = csr.fields.keys()
-            bit_list.sort()
-            for bit in bit_list:
-                writeCsrField(out, csr, csr.fields[bit], csr_offset)
-            csr_offset+=1
-        out.write("\t{NULL,0,0,0,0,0,0,0,0}\n")
-        out.write("};\n")
-    out.write("\n")
-    out.write("\n")
-    out.write("const CVMX_CSR_DB_TYPE *cvmx_csr_db[] = {\n")
+            num_fields = len(csr.fields.keys())
+            range_len = len(csr.range)
+            if range_len == 0:
+                range1 = empty_range
+                range2 = empty_range
+                offset_inc = "0"
+                block_inc = "0"
+            elif range_len == 1:
+                range1 = getRangeTable(csr.range[0])
+                range2 = empty_range
+                offset_inc = toHex(csr.address_offset_inc) + "ull"
+                block_inc = "0"
+            else:
+                range1 = getRangeTable(csr.range[0])
+                range2 = getRangeTable(csr.range[1])
+                offset_inc = toHex(csr.address_offset_inc) + "ull"
+                block_inc = toHex(csr.address_block_inc) + "ull"
+            out.write("    {%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s},\n" %
+                      (getStringTable(csr.name.replace("#", "X")), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
+                       range1, range2, toHex(csr.address_base), offset_inc, block_inc))
+        out.write("    {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}\n")
+        out.write("};\n\n")
+    #
+    # Write the CSR fieldList table
+    #
+    out.write("const uint16_t bdk_csr_db_fieldList[] = {\n")
+    keys = getKeysSorted(globalFieldListTable)
+    for key in keys:
+        out.write("    %s,\n" % key)
+    out.write("};\n\n")
+    #
+    # Write the CSR field table
+    #
+    out.write("const uint16_t bdk_csr_db_field[] = {\n")
+    keys = getKeysSorted(globalFieldTable)
+    for key in keys:
+        out.write("    %s,\n" % key)
+    out.write("};\n\n")
+    #
+    # Write the CSR range table
+    #
+    out.write("const int bdk_csr_db_range[] = {\n")
+    keys = getKeysSorted(globalRangeTable)
+    for key in keys:
+        out.write("    %s,\n" % key)
+    out.write("};\n\n")
+    #
+    # Write the CSR string table
+    #
+    out.write("const char *bdk_csr_db_string = ")
+    keys = getKeysSorted(globalStringTable)
+    for key in keys:
+        out.write("\n    \"%s\\0\"" % key)
+    out.write(";\n\n")
+    #
+    # Write the chip id to CSR table map
+    #
+    out.write("const bdk_csr_db_map_t bdk_csr_db[] = {\n")
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
-        out.write("\tcvmx_csr_db_" + chip + ",\n")
-    out.write("\tNULL\n")
-    out.write("};\n")
-    out.write("const CVMX_CSR_DB_ADDRESS_TYPE *cvmx_csr_db_addresses[] = {\n")
-    for chip_index in range(len(separate_chip_lists)):
-        chip = separate_chip_lists[chip_index].name
-        out.write("\tcvmx_csr_db_addresses_" + chip + ",\n")
-    out.write("\tNULL\n")
-    out.write("};\n")
-    out.write("const CVMX_CSR_DB_FIELD_TYPE *cvmx_csr_db_fields[] = {\n")
-    for chip_index in range(len(separate_chip_lists)):
-        chip = separate_chip_lists[chip_index].name
-        out.write("\tcvmx_csr_db_fields_" + chip + ",\n")
-    out.write("\tNULL\n")
-    out.write("};\n")
+        out.write("    {%s, bdk_csr_db_%s},\n" % (CHIP_TO_MODEL[chip], chip))
+    out.write("    {0, NULL}\n")
+    out.write("};\n\n")
     out.close()
 
 

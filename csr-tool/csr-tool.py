@@ -15,7 +15,7 @@ import csr_output_error_decodes
 #
 
 OUTPUT_FILENAME_TYPEDEFS        = "bdk-csrs.h"
-OUTPUT_FILENAME_DB              = "cvmx-csr-db.c"
+OUTPUT_FILENAME_DB              = "bdk-csrs.c"
 
 csr_files = []          # List of CSR files to load. Each item is a chip,file tuple
 generate_html = 0       # Non zero if HTML output of the CSRs should be generated
