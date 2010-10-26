@@ -6,12 +6,13 @@ include bdk.mk
 dirs  = libbdk-arch
 dirs += libbdk-hal
 dirs += libbdk-os
+dirs += libbdk-dram
 
 #
 # Create a list of all source files
 #
 src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[cS])
-src := $(wildcard $(src))
+src := $(wildcard $(src)) $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c
 
 #
 # Create a list of all objects and depends files
@@ -62,4 +63,8 @@ clean:
 	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp
 mrproper: clean
 	rm -f $(deps)
+
+$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include -Dulong="unsigned long" -Dunix=1
+$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
+	ln -s $(OCTEON_ROOT)/bootloader/u-boot/lib_mips/lib_octeon_shared.c $@
 
