@@ -61,7 +61,7 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 #
 clean:
 	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp
-mrproper: clean
+distclean: clean
 	rm -f $(deps)
 
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include -Dulong="unsigned long" -Dunix=1
