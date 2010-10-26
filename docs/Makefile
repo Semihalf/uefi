@@ -8,3 +8,6 @@ clean:
 %.html: %.txt
 	asciidoc -a toc -a numbered $^
 
+%.pdf: %.txt
+	a2x -f pdf $^
+
