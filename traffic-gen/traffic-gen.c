@@ -250,6 +250,7 @@ char *loopback_lut[] = {
     0
 };
 
+char *csr_name_lut[8192];
 
 char *function_key_commands[] = {
     "F1",       /* F1 */
@@ -302,6 +303,7 @@ secondary_lut_lut_t secondary_lut_lut[] = {
     {"validate", on_off_show_lut},
     {"loopback", loopback_lut},
     {"backpressure", on_off_lut},
+    {"csr", csr_name_lut},
     {0,0}
 };
 
@@ -2290,108 +2292,21 @@ static void process_cmd_packetio(int enable)
         }
     }
 }
-#if 0 // FIXME
+
 static void process_cmd_csr(const char *name, int is_write, uint64_t write_value)
 {
-    const BDK_CSR_DB_ADDRESS_TYPE *csr = bdk_csr_db_get(bdk_get_proc_id(), name);
-    if (!csr)
-    {
-        printf("CSR Not found\n");
-        return;
-    }
-
-    /* We don't support CSRs that aren't in IO space (bit 48 set) */
-    if (((csr->address & (1ull<<48)) == 0) &&
-        (csr->type != BDK_CSR_DB_TYPE_PCICONFIGEP) &&
-        (csr->type != BDK_CSR_DB_TYPE_PCICONFIGRC) &&
-        (csr->type != BDK_CSR_DB_TYPE_SRIOMAINT))
-    {
-        printf("CSR %s: This utility can't access CSRs of this type\n", csr->name);
-        return;
-    }
-
     /* Determine if we're doing a read or a write */
     if (is_write)
     {
-        if ((csr->type == BDK_CSR_DB_TYPE_PCICONFIGEP) || (csr->type == BDK_CSR_DB_TYPE_PCICONFIGRC))
-        {
-            /* Names are of the format "PCIE??#_CFG???". The # is the pcie port number */
-            int pcie_port = (csr->name[6] - '0');
-            if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-            {
-                bdk_pescx_cfg_wr_t pescx_cfg_wr;
-                pescx_cfg_wr.u64 = 0;
-                pescx_cfg_wr.s.addr = csr->address;
-                pescx_cfg_wr.s.data = write_value;
-                BDK_CSR_WRITE(BDK_PESCX_CFG_WR(pcie_port), pescx_cfg_wr.u64);
-            }
-            else
-            {
-                bdk_pemx_cfg_wr_t pemx_cfg_wr;
-                pemx_cfg_wr.u64 = 0;
-                pemx_cfg_wr.s.addr = csr->address;
-                pemx_cfg_wr.s.data = write_value;
-                BDK_CSR_WRITE(BDK_PEMX_CFG_WR(pcie_port), pemx_cfg_wr.u64);
-            }
-        }
-        else if (csr->type == BDK_CSR_DB_TYPE_SRIOMAINT)
-        {
-            /* Names are of the format "SRIOMAINT#_*". The # is the srio port number */
-            int srio_port = (csr->name[9] - '0');
-            if (bdk_srio_config_write32(srio_port, 0, -1, 0, 0, csr->address, write_value))
-                printf("SRIO access failed\n");
-        }
-        else if (csr->widthbits == 32)
-            bdk_write64_uint32((csr->address | (1ull<<63)) ^ 4, write_value);
-        else
-            BDK_CSR_WRITE(csr->address | (1ull<<63), write_value);
+        bdk_csr_write_by_name(name, write_value);
     }
     else
     {
-        uint64_t value;
-        if ((csr->type == BDK_CSR_DB_TYPE_PCICONFIGEP) || (csr->type == BDK_CSR_DB_TYPE_PCICONFIGRC))
-        {
-            /* Names are of the format "PCIE??#_CFG???". The # is the pcie port number */
-            int pcie_port = (csr->name[6] - '0');
-            if (octeon_has_feature(OCTEON_FEATURE_NPEI))
-            {
-                bdk_pescx_cfg_rd_t pescx_cfg_rd;
-                pescx_cfg_rd.u64 = 0;
-                pescx_cfg_rd.s.addr = csr->address;
-                BDK_CSR_WRITE(BDK_PESCX_CFG_RD(pcie_port), pescx_cfg_rd.u64);
-                pescx_cfg_rd.u64 = BDK_CSR_READ(BDK_PESCX_CFG_RD(pcie_port));
-                value = 0xffffffffull & pescx_cfg_rd.s.data;
-            }
-            else
-            {
-                bdk_pemx_cfg_rd_t pemx_cfg_rd;
-                pemx_cfg_rd.u64 = 0;
-                pemx_cfg_rd.s.addr = csr->address;
-                BDK_CSR_WRITE(BDK_PEMX_CFG_RD(pcie_port), pemx_cfg_rd.u64);
-                pemx_cfg_rd.u64 = BDK_CSR_READ(BDK_PEMX_CFG_RD(pcie_port));
-                value = 0xffffffffull & pemx_cfg_rd.s.data;
-            }
-        }
-        else if (csr->type == BDK_CSR_DB_TYPE_SRIOMAINT)
-        {
-            /* Names are of the format "SRIOMAINT#_*". The # is the srio port number */
-            int srio_port = (csr->name[9] - '0');
-            uint32_t result;
-            if (bdk_srio_config_read32(srio_port, 0, -1, 0, 0, csr->address, &result))
-            {
-                printf("SRIO access failed\n");
-                return;
-            }
-            value = result;
-        }
-        else if (csr->widthbits == 32)
-            value = bdk_read64_uint32((csr->address | (1ull<<63)) ^ 4);
-        else
-            value = BDK_CSR_READ(csr->address | (1ull<<63));
-        bdk_csr_db_decode_by_name(bdk_get_proc_id(), csr->name, value);
+        uint64_t value = bdk_csr_read_by_name(name);
+        bdk_csr_decode(name, value);
     }
 }
-#endif
+
 /**
  * Process a command from the user
  *
@@ -3110,9 +3025,7 @@ static uint64_t process_command(const char *cmd, int newline)
         }
         else if (strcasecmp(command, "csr") == 0)
         {
-#if 0 // FIXME
             process_cmd_csr(args[1].str, (argc == 3), args[2].number);
-#endif
         }
         else if (strcasecmp(command, "cls") == 0) {
             printf(GOTO_TOP ERASE_EOS);
@@ -3332,7 +3245,7 @@ static uint64_t process_command(const char *cmd, int newline)
             {
                 if (argc >= 2)
                 {
-                    int phy_addr = 0; // FIXME bdk_helper_board_get_mii_address(port);
+                    int phy_addr = -1; // FIXME bdk_helper_board_get_mii_address(port);
                     if (phy_addr >= 0)
                     {
                         printf("Port %2llu: enable_autoneg=%d, speed=%d, duplex=%d\n", (ULL)port, !!(link_flags & set_phy_link_flags_autoneg), link_info.s.speed, link_info.s.full_duplex);
@@ -5720,16 +5633,16 @@ int main(void)
 
         printf("Initializing...\n");
 
-#if 0 // FIXME
-        int chip = bdk_db_get_chipindex(bdk_get_proc_id());
         int csr_count = 0;
-        while (bdk_csr_db_addresses[chip][csr_count].name)
+        char buffer[32];
+        buffer[0] = 0;
+        while (bdk_csr_get_name((buffer[0]) ? buffer : NULL, buffer) == 0)
         {
-            csr_name_lut[csr_count] = (char*)bdk_csr_db_addresses[chip][csr_count].name;
+            csr_name_lut[csr_count] = strdup(buffer);
             csr_count++;
         }
         csr_name_lut[csr_count] = NULL;
-#endif
+
         memset(&port_state, 0, sizeof(port_state));
         memset(&port_setup, 0, sizeof(port_setup));
         /* Set the number of packet and WQE entries to be 16 less than the

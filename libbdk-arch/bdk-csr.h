@@ -11,6 +11,23 @@ typedef enum {
    BDK_CSR_TYPE_SRIOMAINT   /**< SRIOMAINT - SRIO maintenance registers */
 } bdk_csr_type_t;
 
+typedef struct {
+    uint16_t        name_index;
+    bdk_csr_type_t  type : 8;
+    uint8_t         width;
+    uint16_t        field_index;
+    uint8_t         offset_range;
+    uint8_t         block_range;
+    uint64_t        base;
+    uint64_t        offset_inc;
+    uint64_t        block_inc;
+} bdk_csr_db_type_t;
+
+typedef struct {
+    uint32_t model;
+    const bdk_csr_db_type_t *data;
+} bdk_csr_db_map_t;
+
 
 /**
  * Read a value from a CSR. Normally this function should not be
@@ -103,6 +120,11 @@ static inline void bdk_send_single(uint64_t data)
 {
     *(volatile uint64_t *)0xffffffffffffa200ull = data;
 }
+
+extern int bdk_csr_decode(const char *name, uint64_t value);
+extern uint64_t bdk_csr_read_by_name(const char *name);
+extern int bdk_csr_write_by_name(const char *name, uint64_t value);
+extern int bdk_csr_get_name(const char *last_name, char *buffer);
 
 /**
  * This macro makes it easy to define a variable of the correct
