@@ -8784,6 +8784,37 @@ Pos      Name    Type     Value     Value       Description
 
 
      ==============================================================
+     DPI_REQ_ERR_SKIP_COMP Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:24> NS       RAZ      NS          NS        Reserved				            |
+ <23:16> EN_RST   R/W      0x0         0x0       Indicates which instruction queue should skip the  |
+						  completion  phase once an port reset is	    |
+						  detected as indicated by DPI_REQ_ERR_RST.  All    |
+						  completions to the effected instruction queue	    |
+						  will be skipped as long as			    |
+						  DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or	    |
+						  DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are    |
+						  set.						    |
+ <15:8>  NS       RAZ      NS          NS        Reserved				            |
+ <7:0>   EN_RSP   R/W      0x0         0x0       Indicates which instruction queue should skip the  |
+						  completion  phase once an ErrorResponse is	    |
+						  detected as indicated by DPI_REQ_ERR_RSP.  All    |
+						  completions to the effected instruction queue	    |
+						  will be skipped as long as			    |
+						  DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or	    |
+						  DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are    |
+						  set.						    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+     ==============================================================
      DPI_ENG(0..5)_BUF Type=NCB
      ==============================================================
 
@@ -8966,6 +8997,23 @@ Pos      Name    Type     Value     Value       Description
 						  This interrupt will fire in normal operation	    |
 						  when SW reads a DPI register through the RSL	    |
 						  interface.					    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+     ==============================================================
+     DPI_DMA(0..7)_IFLIGHT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:3> NS       RAZ       NS          NS        Reserved					    |
+ <2:0>  CNT      R/W       0x6         0x6       The number of instructions from a given queue that |
+						  can be inflight at a time. Reset value matches    |
+						  the number of DMA engines.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -17418,7 +17466,7 @@ Pos      Name    Type     Value     Value       Description
 <16:4>   NS       RAZ      NS          NS        RESERVED					    |
 <35:17>  TAG      R/W      0           0         The tag (see notes 1 and 3)                        |
 <39:36>  NS       RAZ      NS          NS        RESERVED					    |
-<45:40>  ECC      R/W      0           NS        The tag ECC					    |
+<45:40>  ECC      R/W      0           NS        The tag ECC (see note 4)			    |
 <63:46>  NS       RAZ      NS          NS        RESERVED					    |
 
 Notes:
@@ -17429,6 +17477,8 @@ Notes:
 (2) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
 
 (3) The tag is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
+
+(4) The ECC field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
 
 ----------------------------------------------------------------------------------------------------
 ===
@@ -19728,12 +19778,13 @@ Pos      Name    Type     Value     Value       Description
 <28>     DLL_FAST    RO     NS      NS      DLL lock
                                             0 = DLL locked
                                             *DON'T PUT IN HRM*
-<36:29>  DCLK90_BYP_SETTING R/W 0x0  0x0    Bypass Setting for DDR90 Delay Line in Clock Tree
-<37>     DCLK90_BYP_SEL     R/W 0x0  0x0    Bypass Mux Select for DDR90 Delay Line in Clock Tree
+<36:29>  DCLK90_BYP_SETTING R/W 0x0  0x0    Bypass Setting for DDR90 Delay Line
+<37>     DCLK90_BYP_SEL     R/W 0x0  0x0    Bypass Setting Select for DDR90 Delay Line
 <38>     DCLK90_RECAL_DIS   R/W 0x0  0x0    Disable periodic recalibration of DDR90 Delay Line in
-                                            Clock Tree
                                             *DON'T PUT IN HRM*
-<63:39>  NS          RAZ    NS      NS      RESERVED
+<39>     DDR_90_DLY_BYP     R/W 0x0  0x0    Bypass DDR90_DLY in Clock Tree
+                                            *DON'T PUT IN HRM*
+<63:40>  NS          RAZ    NS      NS      RESERVED
 
 Notes:
 ----------------------------------------------------------------------------------------------------
@@ -35443,7 +35494,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:51> NS             RAZ    NS     NS     RESERVED                                                |
+<63:56> MEM_ALLOC_REG  RO     0      0      NCB Load Memory Allocation status                       |
+<55:51> NS             RAZ    NS     NS     RESERVED                                                |
 <50:48> GNT_FIFO_LEVEL RO     0      0      NCB GRANT FIFO level                                    |
 <47:45> NS             RAZ    NS     NS     RESERVED                                                |
 <44:40> RWF_FIFO_LEVEL RO     0      0      NCB requests FIFO level                                 |
@@ -39056,6 +39108,30 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
+ *                 ZIP_QUE@_ECC_ERR_STA =  ZIP Queue ECC ERROR STATUS Register
+ *
+ * Description:
+ *   This register contains the first ECC SBE/DBE status for the instruction buffer of a given zip instruction queue.
+ *
+ *
+
+     ==============================================================
+     ZIP_QUE(0..1)_ECC_ERR_STA Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:35> NS        RAZ      NS          NS        RESERVED                                          |
+ <34:32> WNUM      RO       0           0         Index of the first IWORD that DBE happened        |
+                                                  (Valid when ZIP_INT_REG[IBDBE] or [IBSBE] is set).|
+ <31:0>  INUM      RO       0           0         Index of the first instruction that DBE happened  |
+                                                  (Valid when ZIP_INT_REG[IBDBE] or [IBSBE] is set).|
+----------------------------------------------------------------------------------------------------
+===
+
+ *
  *                  ZIP_DBG_QUE@_STA =  ZIP Queue Status Registers
  *
  * Description:
@@ -39079,7 +39155,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  ZIP_CORE@_INST =  ZIP Core Current Instruction Registers
+ *                  ZIP_DBG_CORE@_INST =  ZIP Core Current Instruction Registers
  *
  * Description:
  * This register reflects the status of the current instruction that zip core is executing/ has executed.
@@ -43022,48 +43098,56 @@ DPI_CTL                        0x0001DF0000000040  NCB
 DPI_DMA0_COUNTS                0x0001DF0000000300  NCB
 DPI_DMA0_DBELL                 0x0001DF0000000200  NCB
 DPI_DMA0_IBUFF_SADDR           0x0001DF0000000280  NCB
+DPI_DMA0_IFLIGHT               0x0001DF0000000A00  NCB
 DPI_DMA0_NADDR                 0x0001DF0000000380  NCB
 DPI_DMA0_REQBNK0               0x0001DF0000000400  NCB
 DPI_DMA0_REQBNK1               0x0001DF0000000480  NCB
 DPI_DMA1_COUNTS                0x0001DF0000000308  NCB
 DPI_DMA1_DBELL                 0x0001DF0000000208  NCB
 DPI_DMA1_IBUFF_SADDR           0x0001DF0000000288  NCB
+DPI_DMA1_IFLIGHT               0x0001DF0000000A08  NCB
 DPI_DMA1_NADDR                 0x0001DF0000000388  NCB
 DPI_DMA1_REQBNK0               0x0001DF0000000408  NCB
 DPI_DMA1_REQBNK1               0x0001DF0000000488  NCB
 DPI_DMA2_COUNTS                0x0001DF0000000310  NCB
 DPI_DMA2_DBELL                 0x0001DF0000000210  NCB
 DPI_DMA2_IBUFF_SADDR           0x0001DF0000000290  NCB
+DPI_DMA2_IFLIGHT               0x0001DF0000000A10  NCB
 DPI_DMA2_NADDR                 0x0001DF0000000390  NCB
 DPI_DMA2_REQBNK0               0x0001DF0000000410  NCB
 DPI_DMA2_REQBNK1               0x0001DF0000000490  NCB
 DPI_DMA3_COUNTS                0x0001DF0000000318  NCB
 DPI_DMA3_DBELL                 0x0001DF0000000218  NCB
 DPI_DMA3_IBUFF_SADDR           0x0001DF0000000298  NCB
+DPI_DMA3_IFLIGHT               0x0001DF0000000A18  NCB
 DPI_DMA3_NADDR                 0x0001DF0000000398  NCB
 DPI_DMA3_REQBNK0               0x0001DF0000000418  NCB
 DPI_DMA3_REQBNK1               0x0001DF0000000498  NCB
 DPI_DMA4_COUNTS                0x0001DF0000000320  NCB
 DPI_DMA4_DBELL                 0x0001DF0000000220  NCB
 DPI_DMA4_IBUFF_SADDR           0x0001DF00000002A0  NCB
+DPI_DMA4_IFLIGHT               0x0001DF0000000A20  NCB
 DPI_DMA4_NADDR                 0x0001DF00000003A0  NCB
 DPI_DMA4_REQBNK0               0x0001DF0000000420  NCB
 DPI_DMA4_REQBNK1               0x0001DF00000004A0  NCB
 DPI_DMA5_COUNTS                0x0001DF0000000328  NCB
 DPI_DMA5_DBELL                 0x0001DF0000000228  NCB
 DPI_DMA5_IBUFF_SADDR           0x0001DF00000002A8  NCB
+DPI_DMA5_IFLIGHT               0x0001DF0000000A28  NCB
 DPI_DMA5_NADDR                 0x0001DF00000003A8  NCB
 DPI_DMA5_REQBNK0               0x0001DF0000000428  NCB
 DPI_DMA5_REQBNK1               0x0001DF00000004A8  NCB
 DPI_DMA6_COUNTS                0x0001DF0000000330  NCB
 DPI_DMA6_DBELL                 0x0001DF0000000230  NCB
 DPI_DMA6_IBUFF_SADDR           0x0001DF00000002B0  NCB
+DPI_DMA6_IFLIGHT               0x0001DF0000000A30  NCB
 DPI_DMA6_NADDR                 0x0001DF00000003B0  NCB
 DPI_DMA6_REQBNK0               0x0001DF0000000430  NCB
 DPI_DMA6_REQBNK1               0x0001DF00000004B0  NCB
 DPI_DMA7_COUNTS                0x0001DF0000000338  NCB
 DPI_DMA7_DBELL                 0x0001DF0000000238  NCB
 DPI_DMA7_IBUFF_SADDR           0x0001DF00000002B8  NCB
+DPI_DMA7_IFLIGHT               0x0001DF0000000A38  NCB
 DPI_DMA7_NADDR                 0x0001DF00000003B8  NCB
 DPI_DMA7_REQBNK0               0x0001DF0000000438  NCB
 DPI_DMA7_REQBNK1               0x0001DF00000004B8  NCB
@@ -43089,6 +43173,7 @@ DPI_REQ_ERR_RSP                0x0001DF0000000058  NCB
 DPI_REQ_ERR_RSP_EN             0x0001DF0000000068  NCB
 DPI_REQ_ERR_RST                0x0001DF0000000060  NCB
 DPI_REQ_ERR_RST_EN             0x0001DF0000000070  NCB
+DPI_REQ_ERR_SKIP_COMP          0x0001DF0000000838  NCB
 DPI_REQ_GBL_EN                 0x0001DF0000000050  NCB
 DPI_SLI_PRT0_CFG               0x0001DF0000000900  NCB
 DPI_SLI_PRT0_ERR               0x0001DF0000000920  NCB
@@ -67157,8 +67242,10 @@ ZIP_ECC_CTL                    0x0001180038000568  RSL
 ZIP_INT_ENA                    0x0001180038000580  RSL
 ZIP_INT_REG                    0x0001180038000570  RSL
 ZIP_QUE0_BUF                   0x0001180038000100  RSL
+ZIP_QUE0_ECC_ERR_STA           0x0001180038000590  RSL
 ZIP_QUE0_MAP                   0x0001180038000300  RSL
 ZIP_QUE1_BUF                   0x0001180038000108  RSL
+ZIP_QUE1_ECC_ERR_STA           0x0001180038000598  RSL
 ZIP_QUE1_MAP                   0x0001180038000308  RSL
 ZIP_QUE_ENA                    0x0001180038000500  RSL
 ZIP_QUE_PRI                    0x0001180038000508  RSL
