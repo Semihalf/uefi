@@ -30,7 +30,8 @@ sed -i "s/UCTL#_/UCTL(0)_/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
 sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
 sed -i "s/MIO_BOOT_REG_TIM(1..7)/MIO_BOOT_REG_TIM(0..7)/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
 sed -i "s/IOB_/IOB0_/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
-sed -i "s/PIP_STAT\\([0-9]\\)_PRT/PIP_STAT\\1_PKND/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
+sed -i "s/PIP_STAT\\([0-9]*\\)_PRT/PIP_STAT\\1_PKND/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
+sed -i "s/PIP_STAT_INB_\\([A-Z]*\\)/PIP_STAT_INB_\1_PKND/g" octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt
 
 # Fixups for CN68XX
 sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" octcsr_cn68xxp1.txt

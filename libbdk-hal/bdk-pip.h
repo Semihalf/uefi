@@ -281,9 +281,9 @@ static inline void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bd
     bdk_pip_stat7_pkndx_t stat7;
     bdk_pip_stat8_pkndx_t stat8;
     bdk_pip_stat9_pkndx_t stat9;
-    bdk_pip_stat_inb_pktsx_t pip_stat_inb_pktsx;
-    bdk_pip_stat_inb_octsx_t pip_stat_inb_octsx;
-    bdk_pip_stat_inb_errsx_t pip_stat_inb_errsx;
+    bdk_pip_stat_inb_pkts_pkndx_t pip_stat_inb_pktsx;
+    bdk_pip_stat_inb_octs_pkndx_t pip_stat_inb_octsx;
+    bdk_pip_stat_inb_errs_pkndx_t pip_stat_inb_errsx;
 
     pip_stat_ctl.u64 = 0;
     pip_stat_ctl.s.rdclr = clear;
@@ -315,9 +315,9 @@ static inline void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bd
         stat8.u64 = BDK_CSR_READ(BDK_PIP_STAT8_PKNDX(port_num));
         stat9.u64 = BDK_CSR_READ(BDK_PIP_STAT9_PKNDX(port_num));
     }
-    pip_stat_inb_pktsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_PKTSX(port_num));
-    pip_stat_inb_octsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_OCTSX(port_num));
-    pip_stat_inb_errsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_ERRSX(port_num));
+    pip_stat_inb_pktsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_PKTS_PKNDX(port_num));
+    pip_stat_inb_octsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_OCTS_PKNDX(port_num));
+    pip_stat_inb_errsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_ERRS_PKNDX(port_num));
 
     status->dropped_octets          = stat0.s.drp_octs;
     status->dropped_packets         = stat0.s.drp_pkts;
