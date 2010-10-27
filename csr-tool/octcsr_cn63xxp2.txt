@@ -14187,7 +14187,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_FAU_TIMEOUT Type=RSL
+     IOB0_FAU_TIMEOUT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14217,7 +14217,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_N2C_RSP_PRI_CNT Type=RSL
+     IOB0_N2C_RSP_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14240,7 +14240,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_I2C_PRI_CNT Type=RSL
+     IOB0_I2C_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14263,7 +14263,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_P2C_REQ_PRI_CNT Type=RSL
+     IOB0_P2C_REQ_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14285,7 +14285,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_N2C_L2C_PRI_CNT Type=RSL
+     IOB0_N2C_L2C_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14307,7 +14307,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_DWB_PRI_CNT Type=RSL
+     IOB0_DWB_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14329,7 +14329,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_OUTB_REQ_PRI_CNT Type=RSL
+     IOB0_OUTB_REQ_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14351,7 +14351,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_OUTB_COM_PRI_CNT Type=RSL
+     IOB0_OUTB_COM_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14373,7 +14373,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_OUTB_FPA_PRI_CNT Type=RSL
+     IOB0_OUTB_FPA_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14395,7 +14395,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB_CTL_STATUS Type=RSL
+     IOB0_CTL_STATUS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14419,13 +14419,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_INT_SUM = IOB's Interrupt Summary Register
+ *                  IOB0_INT_SUM = IOB's Interrupt Summary Register
  *
  * Contains the diffrent interrupt summary bits of the IOB. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB_INT_SUM Type=RSL
+     IOB0_INT_SUM Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14468,35 +14468,35 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_INT_ENB = IOB's Interrupt Enable
+ *                  IOB0_INT_ENB = IOB's Interrupt Enable
  *
  * The IOB's interrupt enable register. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB_INT_ENB Type=RSL
+     IOB0_INT_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     NP_SOP   R/W      0           0         When set (1) and bit 0 of the IOB_INT_SUM
+ <0>     NP_SOP   R/W      0           0         When set (1) and bit 0 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <1>     NP_EOP   R/W      0           0         When set (1) and bit 1 of the IOB_INT_SUM
+ <1>     NP_EOP   R/W      0           0         When set (1) and bit 1 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <2>     P_SOP    R/W      0           0         When set (1) and bit 2 of the IOB_INT_SUM
+ <2>     P_SOP    R/W      0           0         When set (1) and bit 2 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <3>     P_EOP    R/W      0           0         When set (1) and bit 3 of the IOB_INT_SUM
+ <3>     P_EOP    R/W      0           0         When set (1) and bit 3 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <4>     NP_DAT   R/W      0           0         When set (1) and bit 4 of the IOB_INT_SUM
+ <4>     NP_DAT   R/W      0           0         When set (1) and bit 4 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <5>     P_DAT    R/W      0           0         When set (1) and bit 5 of the IOB_INT_SUM
+ <5>     P_DAT    R/W      0           0         When set (1) and bit 5 of the IOB0_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
  <63:6>  NS       RAZ      NS          NS        Reserved
@@ -14504,25 +14504,25 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_PKT_ERR = IOB Packet Error Register
+ *                  IOB0_PKT_ERR = IOB Packet Error Register
  *
  * Provides status about the failing packet recevie error. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB_PKT_ERR Type=RSL
+     IOB0_PKT_ERR Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <5:0>   PORT     RO       0x0         NS        When IOB_INT_SUM[3:0] bit is set, this field
+ <5:0>   PORT     RO       0x0         NS        When IOB0_INT_SUM[3:0] bit is set, this field
                                                  latches the failing port associate with the
-                                                 IOB_INT_SUM[3:0] bit set.
- <11:6>  VPORT    RO       0x0         NS        When IOB_INT_SUM[3:0] bit is set, this field
+                                                 IOB0_INT_SUM[3:0] bit set.
+ <11:6>  VPORT    RO       0x0         NS        When IOB0_INT_SUM[3:0] bit is set, this field
                                                  latches the failing vport associate with the
-                                                 IOB_INT_SUM[3:0] bit set.
+                                                 IOB0_INT_SUM[3:0] bit set.
  <63:12> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14530,13 +14530,13 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
- *                  IOB_INB_DATA_MATCH = IOB Inbound Data Match
+ *                  IOB0_INB_DATA_MATCH = IOB Inbound Data Match
  *
  * Match pattern for the inbound data to set the INB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB_INB_DATA_MATCH Type=RSL
+     IOB0_INB_DATA_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14548,13 +14548,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_INB_CONTROL_MATCH = IOB Inbound Control Match
+ *                  IOB0_INB_CONTROL_MATCH = IOB Inbound Control Match
  *
  * Match pattern for the inbound control to set the INB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB_INB_CONTROL_MATCH Type=RSL
+     IOB0_INB_CONTROL_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14570,13 +14570,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_INB_DATA_MATCH_ENB = IOB Inbound Data Match Enable
+ *                  IOB0_INB_DATA_MATCH_ENB = IOB Inbound Data Match Enable
  *
- * Enables the match of the corresponding bit in the IOB_INB_DATA_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB0_INB_DATA_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB_INB_DATA_MATCH_ENB Type=RSL
+     IOB0_INB_DATA_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14588,13 +14588,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_INB_CONTROL_MATCH_ENB = IOB Inbound Control Match Enable
+ *                  IOB0_INB_CONTROL_MATCH_ENB = IOB Inbound Control Match Enable
  *
- * Enables the match of the corresponding bit in the IOB_INB_CONTROL_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB0_INB_CONTROL_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB_INB_CONTROL_MATCH_ENB Type=RSL
+     IOB0_INB_CONTROL_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14610,13 +14610,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_OUTB_DATA_MATCH = IOB Outbound Data Match
+ *                  IOB0_OUTB_DATA_MATCH = IOB Outbound Data Match
  *
  * Match pattern for the outbound data to set the OUTB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB_OUTB_DATA_MATCH Type=RSL
+     IOB0_OUTB_DATA_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14628,13 +14628,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_OUTB_CONTROL_MATCH = IOB Outbound Control Match
+ *                  IOB0_OUTB_CONTROL_MATCH = IOB Outbound Control Match
  *
  * Match pattern for the outbound control to set the OUTB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB_OUTB_CONTROL_MATCH Type=RSL
+     IOB0_OUTB_CONTROL_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14650,13 +14650,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_OUTB_DATA_MATCH_ENB = IOB Outbound Data Match Enable
+ *                  IOB0_OUTB_DATA_MATCH_ENB = IOB Outbound Data Match Enable
  *
- * Enables the match of the corresponding bit in the IOB_OUTB_DATA_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB0_OUTB_DATA_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB_OUTB_DATA_MATCH_ENB Type=RSL
+     IOB0_OUTB_DATA_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14668,13 +14668,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_OUTB_CONTROL_MATCH_ENB = IOB Outbound Control Match Enable
+ *                  IOB0_OUTB_CONTROL_MATCH_ENB = IOB Outbound Control Match Enable
  *
- * Enables the match of the corresponding bit in the IOB_OUTB_CONTROL_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB0_OUTB_CONTROL_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB_OUTB_CONTROL_MATCH_ENB Type=RSL
+     IOB0_OUTB_CONTROL_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14690,13 +14690,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_TO_CMB_CREDITS = IOB To CMB Credits
+ *                  IOB0_TO_CMB_CREDITS = IOB To CMB Credits
  *
  * Controls the number of reads and writes that may be outstanding to the L2C (via the CMB).
  *
 
      ==============================================================
-     IOB_TO_CMB_CREDITS Type=RSL
+     IOB0_TO_CMB_CREDITS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -14714,13 +14714,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB_BIST_STATUS = BIST Status of IOB Memories
+ *                  IOB0_BIST_STATUS = BIST Status of IOB Memories
  *
  * The result of the BIST run on the IOB memories.
  *
 
      ==============================================================
-     IOB_BIST_STATUS Type=RSL
+     IOB0_BIST_STATUS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -22551,7 +22551,7 @@ Pos      Name    Type     Value     Value       Description
  <22>    FPA      RO       0x0         0         FPA interrupt                                      |
                                                  See FPA_INT_SUM                                    |
  <21>    IOB      RO       0x0         0         IOB interrupt                                      |
-                                                 See IOB_INT_SUM                                    |
+                                                 See IOB0_INT_SUM                                    |
  <20>    MIO      RO       0x0         0         MIO boot interrupt                                 |
                                                  See MIO_BOOT_ERR                                   |
  <19>	 NAND	  RO       0           0         NAND Flash Controller interrupt		    |
@@ -23702,7 +23702,7 @@ Pos      Name    Type     Value     Value       Description
                                                  See AGL_GMX_RX*_INT_REG, AGL_GMX_TX_INT_REG        |
  <29>    NS       RAZ      NS          NS        Reserved for LMC1			            |
  <30>    IOB      RO       0x0         0         IOB interrupt                                      |
-                                                 See IOB_INT_SUM                                    |
+                                                 See IOB0_INT_SUM                                    |
  <31>    NS       RAZ      NS          NS        Reserved				            |
  <32>    SRIO0    RO       0x0         0         SRIO0 interrupt                                    |
                                                  See SRIO0_INT_REG, SRIO0_INT2_REG                  |
@@ -43068,29 +43068,29 @@ GPIO_INT_CLR                   0x0001070000000898  NCB
 GPIO_RX_DAT                    0x0001070000000880  NCB
 GPIO_TX_CLR                    0x0001070000000890  NCB
 GPIO_TX_SET                    0x0001070000000888  NCB
-IOB_BIST_STATUS                0x00011800F00007F8  RSL
-IOB_CTL_STATUS                 0x00011800F0000050  RSL
-IOB_DWB_PRI_CNT                0x00011800F0000028  RSL
-IOB_FAU_TIMEOUT                0x00011800F0000000  RSL
-IOB_I2C_PRI_CNT                0x00011800F0000010  RSL
-IOB_INB_CONTROL_MATCH          0x00011800F0000078  RSL
-IOB_INB_CONTROL_MATCH_ENB      0x00011800F0000088  RSL
-IOB_INB_DATA_MATCH             0x00011800F0000070  RSL
-IOB_INB_DATA_MATCH_ENB         0x00011800F0000080  RSL
-IOB_INT_ENB                    0x00011800F0000060  RSL
-IOB_INT_SUM                    0x00011800F0000058  RSL
-IOB_N2C_L2C_PRI_CNT            0x00011800F0000020  RSL
-IOB_N2C_RSP_PRI_CNT            0x00011800F0000008  RSL
-IOB_OUTB_COM_PRI_CNT           0x00011800F0000040  RSL
-IOB_OUTB_CONTROL_MATCH         0x00011800F0000098  RSL
-IOB_OUTB_CONTROL_MATCH_ENB     0x00011800F00000A8  RSL
-IOB_OUTB_DATA_MATCH            0x00011800F0000090  RSL
-IOB_OUTB_DATA_MATCH_ENB        0x00011800F00000A0  RSL
-IOB_OUTB_FPA_PRI_CNT           0x00011800F0000048  RSL
-IOB_OUTB_REQ_PRI_CNT           0x00011800F0000038  RSL
-IOB_P2C_REQ_PRI_CNT            0x00011800F0000018  RSL
-IOB_PKT_ERR                    0x00011800F0000068  RSL
-IOB_TO_CMB_CREDITS             0x00011800F00000B0  RSL
+IOB0_BIST_STATUS                0x00011800F00007F8  RSL
+IOB0_CTL_STATUS                 0x00011800F0000050  RSL
+IOB0_DWB_PRI_CNT                0x00011800F0000028  RSL
+IOB0_FAU_TIMEOUT                0x00011800F0000000  RSL
+IOB0_I2C_PRI_CNT                0x00011800F0000010  RSL
+IOB0_INB_CONTROL_MATCH          0x00011800F0000078  RSL
+IOB0_INB_CONTROL_MATCH_ENB      0x00011800F0000088  RSL
+IOB0_INB_DATA_MATCH             0x00011800F0000070  RSL
+IOB0_INB_DATA_MATCH_ENB         0x00011800F0000080  RSL
+IOB0_INT_ENB                    0x00011800F0000060  RSL
+IOB0_INT_SUM                    0x00011800F0000058  RSL
+IOB0_N2C_L2C_PRI_CNT            0x00011800F0000020  RSL
+IOB0_N2C_RSP_PRI_CNT            0x00011800F0000008  RSL
+IOB0_OUTB_COM_PRI_CNT           0x00011800F0000040  RSL
+IOB0_OUTB_CONTROL_MATCH         0x00011800F0000098  RSL
+IOB0_OUTB_CONTROL_MATCH_ENB     0x00011800F00000A8  RSL
+IOB0_OUTB_DATA_MATCH            0x00011800F0000090  RSL
+IOB0_OUTB_DATA_MATCH_ENB        0x00011800F00000A0  RSL
+IOB0_OUTB_FPA_PRI_CNT           0x00011800F0000048  RSL
+IOB0_OUTB_REQ_PRI_CNT           0x00011800F0000038  RSL
+IOB0_P2C_REQ_PRI_CNT            0x00011800F0000018  RSL
+IOB0_PKT_ERR                    0x00011800F0000068  RSL
+IOB0_TO_CMB_CREDITS             0x00011800F00000B0  RSL
 IPD_1ST_MBUFF_SKIP             0x00014F0000000000  NCB
 IPD_1st_NEXT_PTR_BACK          0x00014F0000000150  NCB
 IPD_2nd_NEXT_PTR_BACK          0x00014F0000000158  NCB

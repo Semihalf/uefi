@@ -272,11 +272,11 @@ static int __bdk_helper_global_setup_pko(void)
 {
     /* Disable tagwait FAU timeout. This needs to be done before anyone might
         start packet output using tags */
-    bdk_iob_fau_timeout_t fau_to;
+    bdk_iob0_fau_timeout_t fau_to;
     fau_to.u64 = 0;
     fau_to.s.tout_val = 0xfff;
     fau_to.s.tout_enb = 0;
-    BDK_CSR_WRITE(BDK_IOB_FAU_TIMEOUT, fau_to.u64);
+    BDK_CSR_WRITE(BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
     return 0;
 }
 
