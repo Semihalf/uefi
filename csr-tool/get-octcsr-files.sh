@@ -41,3 +41,5 @@ sed -i "s/UAHC#_/UAHC(0)_/g" octcsr_cn68xxp1.txt
 sed -i "s/UCTL#_/UCTL(0)_/g" octcsr_cn68xxp1.txt
 sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" octcsr_cn68xxp1.txt
 sed -i "s/MIO_BOOT_REG_TIM(1..7)/MIO_BOOT_REG_TIM(0..7)/g" octcsr_cn68xxp1.txt
+sed -i "s/SMI_\\([0-9(]\\)/SMI\\1/g" octcsr_cn68xxp1.txt
+
