@@ -2,6 +2,16 @@
 #include <malloc.h>
 
 /**
+ * Enable the FPA for use. Must be performed after any CSR
+ * configuration but before any other FPA functions.
+ */
+void bdk_fpa_enable(void)
+{
+    BDK_CSR_MODIFY(status, BDK_FPA_CTL_STATUS,
+        status.s.enb = 1);
+}
+
+/**
  * Fill a pool with buffers
  *
  * @param pool       Pool to initialize

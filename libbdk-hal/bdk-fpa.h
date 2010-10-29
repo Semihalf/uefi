@@ -7,8 +7,6 @@
  *
  */
 
-#define BDK_FPA_NUM_POOLS 8
-
 typedef enum
 {
     BDK_FPA_PACKET_POOL,
@@ -21,11 +19,7 @@ typedef enum
  * Enable the FPA for use. Must be performed after any CSR
  * configuration but before any other FPA functions.
  */
-static inline void bdk_fpa_enable(void)
-{
-    BDK_CSR_MODIFY(status, BDK_FPA_CTL_STATUS,
-        status.s.enb = 1);
-}
+extern void bdk_fpa_enable(void);
 
 /**
  * Get a new block from the FPA
@@ -108,25 +102,6 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
 }
 
 /**
- * Free a block allocated with a FPA pool.
- * Does NOT provide memory ordering in cases where the memory block was modified by the core.
- *
- * @param ptr    Block to free
- * @param pool   Pool to put it in
- * @param num_cache_lines
- *               Cache lines to invalidate
- */
-static inline void bdk_fpa_free_nosync(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
-{
-    bdk_addr_t newptr;
-    newptr.u64 = bdk_ptr_to_phys(ptr);
-    newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));
-    asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
-    /* value written is number of cache lines not written back */
-    bdk_write64_uint64(newptr.u64, num_cache_lines);
-}
-
-/**
  * Free a block allocated with a FPA pool.  Provides required memory
  * ordering in cases where memory block was modified by core.
  *
@@ -137,8 +112,14 @@ static inline void bdk_fpa_free_nosync(void *ptr, bdk_fpa_pool_t pool, int num_c
  */
 static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
 {
+    bdk_addr_t newptr;
+
     BDK_SYNCW;
-    bdk_fpa_free_nosync(ptr, pool, num_cache_lines);
+    newptr.u64 = bdk_ptr_to_phys(ptr);
+    newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));
+    asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
+    /* value written is number of cache lines not written back */
+    bdk_write64_uint64(newptr.u64, num_cache_lines);
 }
 
 /**
