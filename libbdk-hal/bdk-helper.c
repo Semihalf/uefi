@@ -306,8 +306,14 @@ static int __bdk_helper_global_setup_backpressure(void)
                 break;
             case BDK_HELPER_INTERFACE_MODE_SGMII:
             case BDK_HELPER_INTERFACE_MODE_PICMG:
-                bdk_gmx_set_backpressure_override(interface, 0xf);
+            {
+                bdk_gmxx_tx_ovr_bp_t gmxx_tx_ovr_bp;
+                gmxx_tx_ovr_bp.u64 = 0;
+                gmxx_tx_ovr_bp.s.en = 0xf; /* Per port Enable back pressure override */
+                gmxx_tx_ovr_bp.s.ign_full = 0xf; /* Ignore the RX FIFO full when computing BP */
+                BDK_CSR_WRITE(BDK_GMXX_TX_OVR_BP(interface), gmxx_tx_ovr_bp.u64);
                 break;
+            }
         }
     }
 

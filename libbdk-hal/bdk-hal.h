@@ -15,7 +15,6 @@
 #include "bdk-dma-engine.h"
 #include "bdk-fau.h"
 #include "bdk-flash.h"
-#include "bdk-gmx.h"
 #include "bdk-gpio.h"
 #include "bdk-packet.h"
 #include "bdk-helper-check-defines.h"
