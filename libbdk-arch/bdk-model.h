@@ -10,8 +10,11 @@
 
 
 /* Flag bits in top byte */
-#define OM_IGNORE_REVISION        0x01000000      /* Ignores revision in model checks */
-#define OM_IGNORE_MINOR_REVISION  0x08000000      /* Ignores the minor revison on newer parts */
+/** Ignores revision in model checks @ingroup internal  */
+#define OM_IGNORE_REVISION        0x01000000
+/** Ignores the minor revison on newer parts @ingroup internal */
+#define OM_IGNORE_MINOR_REVISION  0x08000000
+/** Octeon model internal flag mask @ingroup internal */
 #define OM_FLAG_MASK              0xff000000
 
 /*
