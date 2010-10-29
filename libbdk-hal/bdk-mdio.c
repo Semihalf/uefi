@@ -2,6 +2,15 @@
 
 #define BDK_MDIO_TIMEOUT   100000 /* 100 millisec */
 
+/* Operating request encodings. */
+#define MDIO_CLAUSE_22_WRITE    0
+#define MDIO_CLAUSE_22_READ     1
+
+#define MDIO_CLAUSE_45_ADDRESS  0
+#define MDIO_CLAUSE_45_WRITE    1
+#define MDIO_CLAUSE_45_READ_INC 2
+#define MDIO_CLAUSE_45_READ     3
+
 /**
  * Helper function to put MDIO interface into clause 45 mode
  *

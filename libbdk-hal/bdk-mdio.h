@@ -240,15 +240,6 @@ typedef union
     } s;
 } bdk_mdio_phy_reg_mmd_address_data_t;
 
-/* Operating request encodings. */
-#define MDIO_CLAUSE_22_WRITE    0
-#define MDIO_CLAUSE_22_READ     1
-
-#define MDIO_CLAUSE_45_ADDRESS  0
-#define MDIO_CLAUSE_45_WRITE    1
-#define MDIO_CLAUSE_45_READ_INC 2
-#define MDIO_CLAUSE_45_READ     3
-
 /* MMD identifiers, mostly for accessing devices withing XENPAK modules. */
 #define BDK_MMD_DEVICE_PMA_PMD      1
 #define BDK_MMD_DEVICE_WIS          2
