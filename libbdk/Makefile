@@ -12,7 +12,13 @@ dirs += libbdk-dram
 # Create a list of all source files
 #
 src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[cS])
-src := $(wildcard $(src)) $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c
+src := $(wildcard $(src))
+ifeq (,$(findstring lib_octeon_shared,$(src)))
+    # The wildcard will find it if the link is already there, otherwise
+    # we must add it
+    src += $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c
+endif
+
 
 #
 # Create a list of all objects and depends files
