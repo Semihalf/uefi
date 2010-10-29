@@ -5,7 +5,7 @@ extern const __bdk_csr_db_map_t __bdk_csr_db[];
 extern const uint16_t __bdk_csr_db_fieldList[];
 extern const uint16_t __bdk_csr_db_field[];
 extern const int __bdk_csr_db_range[];
-extern const char *__bdk_csr_db_string;
+extern const char __bdk_csr_db_string[];
 
 /**
  * Read a slow CSR, not RSL or NCB.

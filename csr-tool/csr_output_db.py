@@ -148,7 +148,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the CSR string table
     #
-    out.write("const char *__bdk_csr_db_string = ")
+    out.write("const char __bdk_csr_db_string[] = ")
     keys = getKeysSorted(globalStringTable)
     for key in keys:
         out.write("\n    \"%s\\0\"" % key)

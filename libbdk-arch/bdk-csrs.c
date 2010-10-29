@@ -9371,7 +9371,7 @@ const int __bdk_csr_db_range[] = {
     2,0,8191,
 };
 
-const char *__bdk_csr_db_string = 
+const char __bdk_csr_db_string[] = 
     "AGL_GMX_BAD_REG\0"
     "RESERVED_0_1\0"
     "OUT_OVR\0"
