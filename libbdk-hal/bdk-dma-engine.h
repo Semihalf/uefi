@@ -194,7 +194,7 @@ typedef union
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_initialize(void);
+extern int bdk_dma_engine_initialize(void);
 
 /**
  * Shutdown all DMA engines. The engeines must be idle when this
@@ -202,14 +202,14 @@ int bdk_dma_engine_initialize(void);
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_shutdown(void);
+extern int bdk_dma_engine_shutdown(void);
 
 /**
  * Return the number of DMA engimes supported by this chip
  *
  * @return Number of DMA engines
  */
-int bdk_dma_engine_get_num(void);
+extern int bdk_dma_engine_get_num(void);
 
 /**
  * Submit a series of DMA comamnd to the DMA engines.
@@ -222,7 +222,7 @@ int bdk_dma_engine_get_num(void);
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[]);
+extern int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[]);
 
 /**
  * Build the first and last pointers based on a DMA engine header
@@ -247,7 +247,7 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
+extern int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
                              uint64_t first_address, uint64_t last_address,
                              int size);
 
@@ -266,12 +266,5 @@ int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
  *
  * @return Zero on success, negative on failure
  */
-static inline int bdk_dma_engine_memcpy(int engine, void *dest, void *source, int length)
-{
-    bdk_dma_engine_header_t header;
-    header.u64 = 0;
-    header.s.type = BDK_DMA_ENGINE_TRANSFER_INTERNAL;
-    return bdk_dma_engine_transfer(engine, header, bdk_ptr_to_phys(source),
-                                    bdk_ptr_to_phys(dest), length);
-}
+extern int bdk_dma_engine_memcpy(int engine, void *dest, void *source, int length);
 
