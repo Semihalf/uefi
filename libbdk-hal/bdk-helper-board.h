@@ -16,16 +16,6 @@ typedef enum {
 } bdk_helper_board_set_phy_link_flags_types_t;
 
 /**
- * bdk_override_board_link_get(int ipd_port) is a function
- * pointer. It is meant to allow customization of the process of
- * talking to a PHY to determine link speed. It is called every
- * time a PHY must be polled for link status. Users should set
- * this pointer to a function before calling any cvmx-helper
- * operations.
- */
-extern bdk_helper_link_info_t (*bdk_override_board_link_get)(int ipd_port);
-
-/**
  * This function as a board specific method of changing the PHY
  * speed, duplex, and autonegotiation. This programs the PHY and
  * not Octeon. This can be used to force Octeon's links to
