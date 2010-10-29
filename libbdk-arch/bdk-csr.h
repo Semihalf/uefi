@@ -31,8 +31,8 @@ typedef struct {
     uint8_t         offset_range;
     uint8_t         block_range;
     uint64_t        base;
-    uint64_t        offset_inc;
-    uint64_t        block_inc;
+    uint32_t        offset_inc;
+    uint32_t        block_inc;
 } __bdk_csr_db_type_t;
 
 typedef struct {
