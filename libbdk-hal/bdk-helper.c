@@ -253,7 +253,7 @@ static int __bdk_helper_interface_setup_pko(int interface)
     int num_ports = interface_port_count[interface];
     while (num_ports--)
     {
-        bdk_pko_config_port(ipd_port, bdk_pko_get_base_queue_per_core(ipd_port, 0),
+        bdk_pko_config_port(ipd_port, bdk_pko_get_base_queue(ipd_port),
                              bdk_pko_get_num_queues(ipd_port), priorities);
         ipd_port++;
     }
@@ -440,7 +440,7 @@ int bdk_helper_initialize_packet_io_global(void)
     for (interface=0; interface<num_interfaces; interface++)
         result |= bdk_helper_interface_probe(interface);
 
-    bdk_pko_initialize_global();
+    bdk_pko_initialize();
     for (interface=0; interface<num_interfaces; interface++)
     {
         result |= __bdk_helper_interface_setup_ipd(interface);

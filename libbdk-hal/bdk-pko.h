@@ -35,7 +35,6 @@
 ** for this are 0 and 1. */
 #define BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST (1)
 
-#define BDK_PKO_MAX_OUTPUT_QUEUES_STATIC 256
 #define BDK_PKO_MAX_OUTPUT_QUEUES      256
 #define BDK_PKO_NUM_OUTPUT_PORTS       ((OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 44 : 40)
 #define BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID 63 /* use this for queues that are not used */
@@ -130,8 +129,7 @@ typedef union
  * Call before any other calls to initialize the packet
  * output system.
  */
-extern void bdk_pko_initialize_global(void);
-extern int bdk_pko_initialize_local(void);
+extern void bdk_pko_initialize(void);
 
 
 /**
@@ -325,22 +323,19 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64
 }
 
 /**
- * Return the pko output queue associated with a port and a specific core.
- * In normal mode (PKO lockless operation is disabled), the value returned
- * is the base queue.
+ * For a given port number, return the base pko output queue
+ * for the port.
  *
  * @param port   Port number
- * @param core   Core to get queue for
- *
- * @return Core-specific output queue
+ * @return Base output queue
  */
-static inline int bdk_pko_get_base_queue_per_core(int port, int core)
+static inline int bdk_pko_get_base_queue(int port)
 {
     if (port < BDK_PKO_MAX_PORTS_INTERFACE0)
-        return port * BDK_PKO_QUEUES_PER_PORT_INTERFACE0 + core;
+        return port * BDK_PKO_QUEUES_PER_PORT_INTERFACE0;
     else if (port >=16 && port < 16 + BDK_PKO_MAX_PORTS_INTERFACE1)
         return BDK_PKO_MAX_PORTS_INTERFACE0 * BDK_PKO_QUEUES_PER_PORT_INTERFACE0 +
-	       (port-16) * BDK_PKO_QUEUES_PER_PORT_INTERFACE1 + core;
+               (port-16) * BDK_PKO_QUEUES_PER_PORT_INTERFACE1;
     else if ((port >= 32) && (port < 36))
         return BDK_PKO_MAX_PORTS_INTERFACE0 * BDK_PKO_QUEUES_PER_PORT_INTERFACE0 +
                BDK_PKO_MAX_PORTS_INTERFACE1 * BDK_PKO_QUEUES_PER_PORT_INTERFACE1 +
@@ -355,32 +350,16 @@ static inline int bdk_pko_get_base_queue_per_core(int port, int core)
                BDK_PKO_MAX_PORTS_INTERFACE1 * BDK_PKO_QUEUES_PER_PORT_INTERFACE1 +
                4 * BDK_PKO_QUEUES_PER_PORT_PCI +
                4 * BDK_PKO_QUEUES_PER_PORT_LOOP +
-	       (port-40) * BDK_PKO_QUEUES_PER_PORT_SRIO0;
+               (port-40) * BDK_PKO_QUEUES_PER_PORT_SRIO0;
     else if ((port >= 42) && (port < 44))
         return BDK_PKO_MAX_PORTS_INTERFACE0 * BDK_PKO_QUEUES_PER_PORT_INTERFACE0 +
                BDK_PKO_MAX_PORTS_INTERFACE1 * BDK_PKO_QUEUES_PER_PORT_INTERFACE1 +
                4 * BDK_PKO_QUEUES_PER_PORT_PCI +
                4 * BDK_PKO_QUEUES_PER_PORT_LOOP +
-	       2 * BDK_PKO_QUEUES_PER_PORT_SRIO0 +
-	       (port-42) * BDK_PKO_QUEUES_PER_PORT_SRIO1;
+               2 * BDK_PKO_QUEUES_PER_PORT_SRIO0 +
+               (port-42) * BDK_PKO_QUEUES_PER_PORT_SRIO1;
     else
-        /* Given the limit on the number of ports we can map to
-         * BDK_MAX_OUTPUT_QUEUES_STATIC queues (currently 256,
-         * divided among all cores), the remaining unmapped ports
-         * are assigned an illegal queue number */
         return BDK_PKO_ILLEGAL_QUEUE;
-}
-
-/**
- * For a given port number, return the base pko output queue
- * for the port.
- *
- * @param port   Port number
- * @return Base output queue
- */
-static inline int bdk_pko_get_base_queue(int port)
-{
-    return bdk_pko_get_base_queue_per_core(port, 0);
 }
 
 /**
@@ -414,39 +393,7 @@ static inline int bdk_pko_get_num_queues(int port)
  * @param clear    Set to 1 to clear the counters after they are read
  * @param status   Where to put the results.
  */
-static inline void bdk_pko_get_port_status(uint64_t port_num, uint64_t clear, bdk_pko_port_status_t *status)
-{
-    bdk_pko_reg_read_idx_t pko_reg_read_idx;
-    bdk_pko_mem_count0_t pko_mem_count0;
-    bdk_pko_mem_count1_t pko_mem_count1;
-
-    pko_reg_read_idx.u64 = 0;
-    pko_reg_read_idx.s.index = port_num;
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-
-    pko_mem_count0.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT0);
-    status->packets = pko_mem_count0.s.count;
-    if (clear)
-    {
-        pko_mem_count0.s.count = port_num;
-        BDK_CSR_WRITE(BDK_PKO_MEM_COUNT0, pko_mem_count0.u64);
-    }
-
-    pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
-    status->octets = pko_mem_count1.s.count;
-    if (clear)
-    {
-        pko_mem_count1.s.count = port_num;
-        BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, pko_mem_count1.u64);
-    }
-
-    bdk_pko_mem_debug8_t debug8;
-    pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-    debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
-    status->doorbell = debug8.cn63xx.doorbell;
-}
-
+extern void bdk_pko_get_port_status(uint64_t port_num, uint64_t clear, bdk_pko_port_status_t *status);
 
 /**
  * Rate limit a PKO port to a max packets/sec. This function is only
