@@ -4,6 +4,9 @@
  * Interface to the hardware Input Packet Data unit.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 typedef enum {
@@ -65,3 +68,4 @@ extern void bdk_ipd_disable(void);
  */
 extern void __bdk_ipd_free_ptr(void);
 
+/** @} */

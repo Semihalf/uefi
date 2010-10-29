@@ -5,7 +5,8 @@
 
  * <hr>$Revision: 53373 $<hr>
  *
- *
+ * @defgroup asm Assembly support
+ * @{
  */
 
 #define COP0_INDEX	$0,0	/* TLB read/write index */
@@ -495,3 +496,4 @@
 
 #endif	/* __ASSEMBLER__ */
 
+/** @} */

@@ -4,6 +4,9 @@
  * Function and structure definitions for random number generator hardware
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -56,3 +59,4 @@ extern uint64_t bdk_rng_get_random64(void);
  */
 extern int bdk_rng_request_random_async(uint64_t scr_addr, uint64_t num_bytes);
 
+/** @} */

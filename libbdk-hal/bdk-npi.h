@@ -4,6 +4,9 @@
  * PCI / PCIe packet engine related structures.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -90,3 +93,4 @@ typedef union
     } dptr3;
 } bdk_npi_dptr_t;
 
+/** @} */

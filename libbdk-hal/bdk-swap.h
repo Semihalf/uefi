@@ -4,6 +4,9 @@
  * Utility functions for endian swapping
  *
  * <hr>$Revision: 32636 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -83,3 +86,4 @@ static inline uint64_t bdk_swap64(uint64_t x)
 #define bdk_be32_to_cpu(x) bdk_cpu_to_be32(x)
 #define bdk_be64_to_cpu(x) bdk_cpu_to_be64(x)
 
+/** @} */

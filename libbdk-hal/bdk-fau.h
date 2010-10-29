@@ -4,6 +4,9 @@
  * Interface to the hardware Fetch and Add Unit.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 typedef int bdk_fau_reg_64_t;
@@ -546,3 +549,4 @@ static inline void bdk_fau_atomic_write8(bdk_fau_reg_8_t reg, int8_t value)
     bdk_write64_int8(__bdk_fau_store_address(1, reg), value);
 }
 
+/** @} */

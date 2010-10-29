@@ -5,6 +5,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -129,3 +131,4 @@ int bdk_core_add_fixed_tlb_mapping_bits(uint64_t vaddr, uint64_t page0_addr, uin
  */
 int bdk_core_get_tlb_entries(void);
 
+/** @} */

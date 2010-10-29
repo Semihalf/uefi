@@ -5,6 +5,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -26,3 +28,4 @@ union bdk_buf_ptr {
 
 typedef union bdk_buf_ptr bdk_buf_ptr_t;
 
+/** @} */

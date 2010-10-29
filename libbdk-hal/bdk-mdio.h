@@ -5,6 +5,9 @@
  * clause 22 and clause 45 operations.
  *
  * <hr>$Revision: 51350 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -311,3 +314,4 @@ extern int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location);
 extern int bdk_mdio_45_write(int bus_id, int phy_id, int device, int location,
                                      int val);
 
+/** @} */

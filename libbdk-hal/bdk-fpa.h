@@ -5,6 +5,8 @@
  *
  * <hr>$Revision: 50048 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
 typedef enum
@@ -152,3 +154,4 @@ extern int bdk_fpa_empty_pool(bdk_fpa_pool_t pool);
  */
 int bdk_fpa_get_block_size(bdk_fpa_pool_t pool) __attribute__ ((pure));
 
+/** @} */

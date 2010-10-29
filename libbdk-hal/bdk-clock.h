@@ -4,7 +4,10 @@
  * Interface to Core, IO and DDR Clock.
  *
  * <hr>$Revision: 45089 $<hr>
-*/
+ *
+ * @addtogroup hal
+ * @{
+ */
 
 /**
  * Enumeration of different Clocks in Octeon.
@@ -45,3 +48,4 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
 
 extern uint64_t bdk_clock_get_rate(bdk_clock_t clock);
 
+/** @} */

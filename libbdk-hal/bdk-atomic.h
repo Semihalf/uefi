@@ -5,7 +5,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
- *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -586,3 +587,4 @@ static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
     return (ret);
 }
 
+/** @} */

@@ -5,6 +5,9 @@
  * on chips with PCI / PCIe.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 typedef enum
@@ -268,3 +271,4 @@ extern int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
  */
 extern int bdk_dma_engine_memcpy(int engine, void *dest, void *source, int length);
 
+/** @} */

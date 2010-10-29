@@ -1,3 +1,13 @@
+/**
+ * @file
+ *
+ * Infastructure to allow standard C file IO to various file systems.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ * @defgroup internal Structures and functions for internal use only
+ * @{
+ */
+
 struct stat;
 
 typedef struct
@@ -19,3 +29,4 @@ typedef struct bdk_fs_ops_s
     int (*write)(bdk_fs_file_t *handle, const void *buffer, int length);
 } bdk_fs_ops_t;
 
+/** @} */

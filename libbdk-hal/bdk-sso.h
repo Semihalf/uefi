@@ -22,6 +22,9 @@
  *   the SSO.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -1696,3 +1699,4 @@ extern void bdk_sso_display(void *buffer, int buffer_size);
  */
 extern int bdk_sso_get_num_entries(void);
 
+/** @} */

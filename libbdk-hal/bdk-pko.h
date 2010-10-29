@@ -28,6 +28,9 @@
  *   bdk_pko_send_packet_finish3().
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /* Adjust the command buffer size by 1 word so that in the case of using only
@@ -421,3 +424,4 @@ extern int bdk_pko_rate_limit_packets(int port, int packets_s, int burst);
  */
 extern int bdk_pko_rate_limit_bits(int port, uint64_t bits_s, int burst);
 
+/** @} */

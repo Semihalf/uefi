@@ -44,6 +44,9 @@
  * bus traffic.
  *
  * <hr> $Revision: 50049 $ <hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -486,3 +489,4 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_id_t que
     return BDK_CMD_QUEUE_SUCCESS;
 }
 
+/** @} */

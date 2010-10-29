@@ -3,6 +3,9 @@
  * Function prototypes for accessing memory and CSRs on Octeon.
  *
  * <hr>$Revision: 38306 $<hr>
+ *
+ * @addtogroup hal
+ * @{
 */
 
 /* We're going to assume that if we are compiling for Mips then we must be
@@ -100,3 +103,4 @@ extern void bdk_reset_octeon(void);
 
 #undef BDK_FUNCTION
 
+/** @} */

@@ -1,4 +1,16 @@
 /**
+ * @file
+ *
+ * Functions and macros for accessing Octeon CSRs.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ *
+ * @defgroup csr CSR support
+ * @{
+ */
+
+
+/**
  * Possible CSR bus types
  */
 typedef enum {
@@ -189,3 +201,4 @@ extern int bdk_csr_get_name(const char *last_name, char *buffer);
     } while (0);                                                        \
     result;})
 
+/** @} */

@@ -4,6 +4,9 @@
  * Interface to the hardware Packet Input Processing unit.
  *
  * <hr>$Revision: 49504 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 #define BDK_PIP_NUM_INPUT_PORTS                44
@@ -278,3 +281,4 @@ extern void bdk_pip_tag_mask_clear(uint64_t mask_index);
  */
 extern void bdk_pip_tag_mask_set(uint64_t mask_index, uint64_t offset, uint64_t len);
 
+/** @} */

@@ -7,7 +7,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
- *
+ * @addtogroup hal
+ * @{
  */
 
 /* Note: This define must be a long, not a long long in order to compile
@@ -103,3 +104,4 @@ static inline void bdk_scratch_write64(uint64_t address, uint64_t value)
     *CASTPTR(volatile uint64_t, BDK_SCRATCH_BASE + address) = value;
 }
 
+/** @} */

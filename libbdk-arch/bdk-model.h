@@ -1,3 +1,14 @@
+/**
+ * @file
+ *
+ * Functions for determining which Octeon chip you are running on.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ * @addtogroup octeon
+ * @{
+ */
+
+
 /* Flag bits in top byte */
 #define OM_IGNORE_REVISION        0x01000000      /* Ignores revision in model checks */
 #define OM_IGNORE_MINOR_REVISION  0x08000000      /* Ignores the minor revison on newer parts */
@@ -53,3 +64,4 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
     return 0;
 }
 
+/** @} */

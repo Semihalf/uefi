@@ -7,6 +7,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
 #define BDK_KEY_MEM_SIZE 8192  /* Size in bytes */
@@ -29,3 +31,4 @@ extern uint64_t bdk_key_read(uint64_t address);
  */
 extern void bdk_key_write(uint64_t address, uint64_t value);
 
+/** @} */

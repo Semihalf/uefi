@@ -4,6 +4,9 @@
  * Interface to RAID block. This is not available on all chips.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -145,3 +148,4 @@ int bdk_raid_shutdown(void);
  */
 int bdk_raid_submit(int num_words, bdk_raid_word_t words[]);
 
+/** @} */

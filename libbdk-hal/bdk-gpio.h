@@ -4,6 +4,9 @@
  * General Purpose IO interface.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -36,3 +39,4 @@ extern void bdk_gpio_clear(uint32_t clear_mask);
  */
 extern void bdk_gpio_set(uint32_t set_mask);
 
+/** @} */

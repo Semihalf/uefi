@@ -4,6 +4,9 @@
  * Interface to PCIe as a host(RC) or target(EP)
  *
  * <hr>$Revision: 51109 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /*
@@ -218,3 +221,4 @@ int bdk_pcie_ep_initialize(int pcie_port);
  */
 void bdk_pcie_wait_for_pending(int pcie_port);
 
+/** @} */

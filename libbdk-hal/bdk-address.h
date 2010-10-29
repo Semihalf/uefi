@@ -3,7 +3,10 @@
  * Typedefs and defines for working with Octeon physical addresses.
  *
  * <hr>$Revision: 38306 $<hr>
-*/
+ *
+ * @addtogroup hal
+ * @{
+ */
 
 typedef enum {
    BDK_MIPS_SPACE_XKSEG = 3LL,
@@ -199,3 +202,4 @@ typedef union {
 #define BDK_OCT_DID_MIS_CSR        BDK_FULL_DID(BDK_OCT_DID_MIS,7ULL)
 #define BDK_OCT_DID_ZIP_CSR        BDK_FULL_DID(BDK_OCT_DID_ZIP,0ULL)
 
+/** @} */

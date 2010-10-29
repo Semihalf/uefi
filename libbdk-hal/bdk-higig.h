@@ -5,6 +5,9 @@
  * XAUI.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 typedef struct
@@ -263,3 +266,4 @@ typedef struct
  */
 extern int bdk_higig_initialize(int interface, int enable_higig2);
 
+/** @} */

@@ -1,3 +1,13 @@
+/**
+ * @file
+ *
+ * Functions for accessing compact flash over the bootbus.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
+ */
 
 /**
  * This function takes values from the compact flash device
@@ -24,3 +34,4 @@ extern uint64_t bdk_compactflash_generate_dma_tim(int tim_mult, uint16_t *ident_
  */
 extern void bdk_compactflash_set_piomode(int cs0, int cs1, int pio_mode);
 
+/** @} */

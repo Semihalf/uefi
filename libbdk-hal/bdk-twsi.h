@@ -7,6 +7,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
     /* Extra TWSI Bus Opcodes */
@@ -219,3 +221,4 @@ extern int bdk_twsi_read8_cur_addr(uint8_t dev_addr);
  */
 extern int bdk_twsi_write8(uint8_t dev_addr, uint8_t internal_addr, uint8_t data);
 
+/** @} */

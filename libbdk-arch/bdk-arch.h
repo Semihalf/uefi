@@ -1,6 +1,15 @@
 #ifndef __BDK_ARCH_H__
 #define __BDK_ARCH_H__
 
+/**
+ * @file
+ *
+ * Master include file for Octeon architecture support. Use bdk.h instead of
+ * including this file directly.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ */
+
 #ifndef __BYTE_ORDER
     #if defined(__BIG_ENDIAN) && !defined(__LITTLE_ENDIAN)
         #define __BYTE_ORDER __BIG_ENDIAN

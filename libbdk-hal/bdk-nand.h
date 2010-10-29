@@ -52,6 +52,9 @@
  * would yield byte 2047 of the page and then 64 bytes of OOB data.
  *
  * <hr>$Revision: 35726 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /* Maxium PAGE + OOB size supported.  This is used to size
@@ -657,3 +660,4 @@ extern void bdk_nand_compute_boot_ecc(unsigned char *block, unsigned char *eccp)
 
 extern int bdk_nand_correct_boot_ecc(uint8_t *block);
 
+/** @} */

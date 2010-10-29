@@ -3,7 +3,10 @@
  * Small utility functions and macros to ease programming of Octeon.
  *
  * <hr>$Revision: 38306 $<hr>
-*/
+ *
+ * @addtogroup hal
+ * @{
+ */
 
 /*
  * The macros bdk_likely and bdk_unlikely use the
@@ -82,3 +85,4 @@ static inline uint32_t bdk_octeon_num_cores(void)
     return bdk_pop(ciu_fuse);
 }
 
+/** @} */

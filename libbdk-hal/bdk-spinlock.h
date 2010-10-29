@@ -4,6 +4,9 @@
  * Implementation of spinlocks.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -106,3 +109,4 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 
 }
 
+/** @} */

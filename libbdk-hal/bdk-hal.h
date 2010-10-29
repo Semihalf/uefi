@@ -1,6 +1,17 @@
 #ifndef __BDK_HAL_H__
 #define __BDK_HAL_H__
 
+/**
+ * @file
+ *
+ * Master include file for Octeon hardware support. Use bdk.h instead of
+ * including this file directly.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ *
+ * @defgroup hal Hardware abstraction layer
+ */
+
 #include "bdk-access.h"
 #include "bdk-address.h"
 #include "bdk-utils.h"

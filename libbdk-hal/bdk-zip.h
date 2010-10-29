@@ -4,6 +4,9 @@
  * Header file for the zip (deflate) block
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 typedef union {
@@ -189,3 +192,4 @@ int bdk_zip_shutdown(void);
  */
 int bdk_zip_submit(bdk_zip_command_t *command);
 
+/** @} */

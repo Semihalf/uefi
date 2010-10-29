@@ -14,7 +14,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
- *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -244,3 +245,4 @@ typedef struct
 
 }  BDK_CACHE_LINE_ALIGNED bdk_wqe_t;
 
+/** @} */

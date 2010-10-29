@@ -174,6 +174,9 @@
  * @endverbatim
  *
  * <hr>$Revision: 53259 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /* The 'saa' filter command is renamed as 'saa64' */
@@ -587,3 +590,4 @@ extern void bdk_tra_display(void);
  */
 extern void bdk_tra_enable(int enable);
 
+/** @} */

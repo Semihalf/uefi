@@ -5,7 +5,8 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
- *
+ * @addtogroup hal
+ * @{
  */
 
 typedef struct
@@ -76,3 +77,4 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data);
  */
 int bdk_flash_write(void *address, const void *data, int len);
 
+/** @} */

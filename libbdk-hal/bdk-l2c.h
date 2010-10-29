@@ -6,6 +6,8 @@
  *
  * <hr>$Revision: 50663 $<hr>
  *
+ * @addtogroup hal
+ * @{
  */
 
 #define BDK_L2C_IDX_ADDR_SHIFT 7  /* based on 128 byte cache line size */
@@ -320,3 +322,4 @@ int bdk_l2c_get_num_assoc(void);
  */
 void bdk_l2c_flush_line(uint32_t assoc, uint32_t index);
 
+/** @} */

@@ -4,6 +4,9 @@
  * Interface to SRIO
  *
  * <hr>$Revision: 41586 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 /**
@@ -470,3 +473,4 @@ uint64_t bdk_srio_physical_map(int srio_port, bdk_srio_write_mode_t write_op,
  */
 int bdk_srio_physical_unmap(uint64_t physical_address, uint64_t size);
 
+/** @} */

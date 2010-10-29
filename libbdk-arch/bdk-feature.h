@@ -1,3 +1,15 @@
+/**
+ * @file
+ *
+ * Functions for determining the current chip features.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ *
+ * @defgroup octeon Octeon chips and features
+ * @{
+ */
+
+
 typedef enum
 {
     OCTEON_FEATURE_ZIP,         /**<  Does this Octeon support the ZIP offload engine? */
@@ -44,6 +56,12 @@ static inline int octeon_has_feature(octeon_feature_t feature)
     return 0;
 }
 
+/**
+ * Return true if the software is currently running on the
+ * Octeon software simulator.
+ *
+ * @return Non zero if simulation
+ */
 static inline int bdk_is_simulation(void)
 {
     static int is_simulation = -1;
@@ -64,3 +82,5 @@ static inline int bdk_is_simulation(void)
     }
     return is_simulation;
 }
+
+/** @} */

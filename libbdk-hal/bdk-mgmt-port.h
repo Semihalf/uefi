@@ -4,6 +4,9 @@
  * Support functions for managing the MII management port
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @addtogroup hal
+ * @{
  */
 
 #define BDK_MGMT_PORT_NUM_PORTS        2       /* Right now we only have one mgmt port */
@@ -155,3 +158,4 @@ extern bdk_helper_link_info_t bdk_mgmt_port_link_get(int port);
  */
 extern int bdk_mgmt_port_link_set(int port, bdk_helper_link_info_t link_info);
 
+/** @} */
