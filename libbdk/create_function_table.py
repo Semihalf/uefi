@@ -25,7 +25,7 @@ def write_function_table(out, table_name, functions):
     for f in functions:
         out.write("extern void %s();\n" % f)
     out.write("\n")
-    out.write("const struct {const char *name; void *func;} %s[] = {\n" % table_name)
+    out.write("const bdk_functions_t %s[] = {\n" % table_name)
     for f in functions:
         out.write("    {\"%s\", %s},\n" % (f, f))
     out.write("    {0, 0}\n")
@@ -42,6 +42,7 @@ bdk_funcs = filter(all_funcs, "bdk_")
 bdk_funcs.sort()
 
 out = open(sys.argv[1], "w")
+out.write("#include \"bdk-functions.h\"\n")
 write_function_table(out, "bdk_functions", bdk_funcs)
 out.close()
 
