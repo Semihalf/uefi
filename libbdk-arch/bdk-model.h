@@ -10,12 +10,9 @@
 
 
 /* Flag bits in top byte */
-/** Ignores revision in model checks @ingroup internal  */
-#define OM_IGNORE_REVISION        0x01000000
-/** Ignores the minor revison on newer parts @ingroup internal */
-#define OM_IGNORE_MINOR_REVISION  0x08000000
-/** Octeon model internal flag mask @ingroup internal */
-#define OM_FLAG_MASK              0xff000000
+#define __OM_IGNORE_REVISION        0x01000000
+#define __OM_IGNORE_MINOR_REVISION  0x08000000
+#define __OM_FLAG_MASK              0xff000000
 
 /*
  * CN6XXX models with new revision encoding
@@ -25,14 +22,14 @@
 #define OCTEON_CN63XX_PASS1_2   0x000d9002
 #define OCTEON_CN63XX_PASS2_0   0x000d9008
 
-#define OCTEON_CN63XX           (OCTEON_CN63XX_PASS1_0 | OM_IGNORE_REVISION)
-#define OCTEON_CN63XX_PASS1_X   (OCTEON_CN63XX_PASS1_0 | OM_IGNORE_MINOR_REVISION)
-#define OCTEON_CN63XX_PASS2_X   (OCTEON_CN63XX_PASS2_0 | OM_IGNORE_MINOR_REVISION)
+#define OCTEON_CN63XX           (OCTEON_CN63XX_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEON_CN63XX_PASS1_X   (OCTEON_CN63XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+#define OCTEON_CN63XX_PASS2_X   (OCTEON_CN63XX_PASS2_0 | __OM_IGNORE_MINOR_REVISION)
 
 #define OCTEON_CN68XX_PASS1_0   0x000d9100
 
-#define OCTEON_CN68XX           (OCTEON_CN68XX_PASS1_0 | OM_IGNORE_REVISION)
-#define OCTEON_CN68XX_PASS1_X   (OCTEON_CN68XX_PASS1_0 | OM_IGNORE_MINOR_REVISION)
+#define OCTEON_CN68XX           (OCTEON_CN68XX_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEON_CN68XX_PASS1_X   (OCTEON_CN68XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
 static inline int __OCTEON_MATCH_MASK__(uint32_t x, uint32_t y, uint32_t z)
 {
@@ -55,11 +52,11 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
 
     asm ("mfc0 %0, $15,0" : "=r" (chip_model));
 
-    switch (arg_model & OM_FLAG_MASK)
+    switch (arg_model & __OM_FLAG_MASK)
     {
-        case OM_IGNORE_REVISION:
+        case __OM_IGNORE_REVISION:
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK);
-        case OM_IGNORE_MINOR_REVISION:
+        case __OM_IGNORE_MINOR_REVISION:
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK | OCTEON_FAMILY_MAJOR_REV_MASK);
         default:
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK | OCTEON_FAMILY_MAJOR_REV_MASK | OCTEON_FAMILY_MINOR_REV_MASK);
