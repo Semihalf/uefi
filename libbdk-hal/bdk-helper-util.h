@@ -84,7 +84,6 @@ extern int __bdk_helper_setup_gmx(int interface, int num_ports);
  */
 extern int bdk_helper_get_ipd_port(int interface, int port);
 
-
 /**
  * Returns the IPD/PKO port number for the first port on the given
  * interface.
@@ -93,10 +92,7 @@ extern int bdk_helper_get_ipd_port(int interface, int port);
  *
  * @return IPD/PKO port number
  */
-static inline int bdk_helper_get_first_ipd_port(int interface)
-{
-    return (bdk_helper_get_ipd_port (interface, 0));
-}
+extern int bdk_helper_get_first_ipd_port(int interface);
 
 /**
  * Returns the IPD/PKO port number for the last port on the given
@@ -106,14 +102,7 @@ static inline int bdk_helper_get_first_ipd_port(int interface)
  *
  * @return IPD/PKO port number
  */
-static inline int bdk_helper_get_last_ipd_port (int interface)
-{
-    extern int bdk_helper_ports_on_interface (int interface);
-
-    return (bdk_helper_get_first_ipd_port (interface) +
-  	    bdk_helper_ports_on_interface (interface) - 1);
-}
-
+extern int bdk_helper_get_last_ipd_port(int interface);
 
 /**
  * Free the packet buffers contained in a work queue entry.
@@ -121,41 +110,7 @@ static inline int bdk_helper_get_last_ipd_port (int interface)
  *
  * @param work   Work queue entry with packet to free
  */
-static inline void bdk_helper_free_packet_data(bdk_wqe_t *work)
-{
-    uint64_t        number_buffers;
-    bdk_buf_ptr_t  buffer_ptr;
-    bdk_buf_ptr_t  next_buffer_ptr;
-    uint64_t        start_of_buffer;
-
-    number_buffers = work->word2.s.bufs;
-    if (number_buffers == 0)
-        return;
-    buffer_ptr = work->packet_ptr;
-
-    /* Since the number of buffers is not zero, we know this is not a dynamic
-        short packet. We need to check if it is a packet received with
-        IPD_CTL_STATUS[NO_WPTR]. If this is true, we need to free all buffers
-        except for the first one. The caller doesn't expect their WQE pointer
-        to be freed */
-    start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-    if (bdk_ptr_to_phys(work) == start_of_buffer)
-    {
-        next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-        buffer_ptr = next_buffer_ptr;
-        number_buffers--;
-    }
-
-    while (number_buffers--)
-    {
-        /* Remember the back pointer is in cache lines, not 64bit words */
-        start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        /* Read pointer to next buffer before we free the current buffer. */
-        next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-        bdk_fpa_free(bdk_phys_to_ptr(start_of_buffer), buffer_ptr.s.pool, 0);
-        buffer_ptr = next_buffer_ptr;
-    }
-}
+extern void bdk_helper_free_packet_data(bdk_wqe_t *work);
 
 /**
  * Returns the interface number for an IPD/PKO port number.
