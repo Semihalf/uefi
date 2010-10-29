@@ -11,7 +11,6 @@
 
 #define BDK_KEY_MEM_SIZE 8192  /* Size in bytes */
 
-
 /**
  * Read from KEY memory
  *
@@ -19,19 +18,7 @@
  *                0 <= address < BDK_KEY_MEM_SIZE
  * @return Value from key memory
  */
-static inline uint64_t bdk_key_read(uint64_t address)
-{
-    bdk_addr_t ptr;
-
-    ptr.u64 = 0;
-    ptr.sio.mem_region  = BDK_IO_SEG;
-    ptr.sio.is_io       = 1;
-    ptr.sio.did         = BDK_OCT_DID_KEY_RW;
-    ptr.sio.offset      = address;
-
-    return bdk_read64_uint64(ptr.u64);
-}
-
+extern uint64_t bdk_key_read(uint64_t address);
 
 /**
  * Write to KEY memory
@@ -40,16 +27,5 @@ static inline uint64_t bdk_key_read(uint64_t address)
  *                0 <= address < BDK_KEY_MEM_SIZE
  * @param value   Value to write to key memory
  */
-static inline void bdk_key_write(uint64_t address, uint64_t value)
-{
-    bdk_addr_t ptr;
-
-    ptr.u64 = 0;
-    ptr.sio.mem_region  = BDK_IO_SEG;
-    ptr.sio.is_io       = 1;
-    ptr.sio.did         = BDK_OCT_DID_KEY_RW;
-    ptr.sio.offset      = address;
-
-    bdk_write64_uint64(ptr.u64, value);
-}
+extern void bdk_key_write(uint64_t address, uint64_t value);
 
