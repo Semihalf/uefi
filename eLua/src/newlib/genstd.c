@@ -7,6 +7,7 @@
 #include "devman.h"
 #include "genstd.h"
 #include <stdio.h>
+#include <string.h>
 #include <errno.h>
 #include <ctype.h>
 #include "utils.h"
@@ -18,6 +19,21 @@ int std_prev_char = -1;
 // 'read'
 static _ssize_t std_read( struct _reent *r, int fd, void* vptr, size_t len )
 {
+    extern const char *bdk_readline(const char *);
+    fflush(NULL);
+    const char *l = bdk_readline("");
+    if (l[0] == '\032')
+        return 0;
+    strncpy(vptr, l, len);
+    size_t l2 = strlen(l);
+    if (l2<len)
+    {
+        ((char*)vptr)[l2] = '\n';
+        return l2+1;
+    }
+    else
+        return len;
+
   int i, c;
   char* ptr = ( char* )vptr;
   
