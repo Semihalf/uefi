@@ -15,6 +15,7 @@
 /libc/build
 /libc/mipsisa64-octeon-elf
 /docs/*.html
+/docs/api-docs
 /libbdk-dram/lib_octeon_shared.c
 /libbdk/bdk-functions.c
 /traffic-gen/traffic-gen

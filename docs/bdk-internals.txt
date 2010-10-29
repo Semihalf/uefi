@@ -170,6 +170,8 @@ The BDK API
 The BDK contains many functions to support Octeon code development.
 Here is a short list of the major areas:
 
+TIP: The doxygen generated link:api-docs/html/files.html[BDK API Reference] can be useful.
+
 CAUTION: TBD (FIXME)
 
 CSRs

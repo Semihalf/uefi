@@ -1,9 +1,9 @@
 
 
-default: bdk.html bdk-internals.html
+default: bdk.html bdk-internals.html api-docs
 
 clean:
-	rm -f *.html
+	rm -rf *.html api-docs
 
 %.html: %.txt
 	asciidoc -a toc -a numbered $^
@@ -11,3 +11,5 @@ clean:
 %.pdf: %.txt
 	a2x -f pdf $^
 
+api-docs: Doxyfile
+	doxygen
