@@ -67,8 +67,9 @@
 #ifndef __ASSEMBLER__
 
 /* turn the variable name into a string */
-#define BDK_TMP_STR(x) BDK_TMP_STR2(x)
-#define BDK_TMP_STR2(x) #x
+#define __BDK_TMP_STR(x) __BDK_TMP_STR2(x)
+#define __BDK_TMP_STR2(x) #x
+#define __BDK_VASTR(...) #__VA_ARGS__
 
 /* other useful stuff */
 #define BDK_SYNC        asm volatile ("sync"        : : :"memory")
@@ -77,7 +78,7 @@
 #define BDK_SYNCS       asm volatile ("syncs"       : : :"memory")
 #define BDK_SYNCWS      asm volatile ("syncws"      : : :"memory")
 
-#define BDK_SYNCI(address, offset) asm volatile ("synci " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
+#define BDK_SYNCI(address, offset) asm volatile ("synci " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
 
 // normal prefetches that use the pref instruction
 #define BDK_PREFETCH_PREFX(X, address, offset) asm volatile ("pref %[type], %[off](%[rbase])" : : [rbase] "d" (address), [off] "I" (offset), [type] "n" (X))
@@ -101,7 +102,7 @@
 #define BDK_ICACHE_INVALIDATE2 { asm volatile ("cache 0, 0($0)" : : ); } // flush stores, invalidate entire icache
 #define BDK_DCACHE_INVALIDATE  { asm volatile ("cache 9, 0($0)" : : ); } // complete prefetches, invalidate entire dcache
 
-#define BDK_CACHE(op, address, offset) asm volatile ("cache " BDK_TMP_STR(op) ", " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
+#define BDK_CACHE(op, address, offset) asm volatile ("cache " __BDK_TMP_STR(op) ", " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
 #define BDK_CACHE_LCKL2(address, offset) BDK_CACHE(31, address, offset) // fetch and lock the state.
 #define BDK_CACHE_WBIL2(address, offset) BDK_CACHE(23, address, offset) // unlock the state.
 #define BDK_CACHE_WBIL2I(address, offset) BDK_CACHE(3, address, offset) // invalidate the cache block and clear the USED bits for the block
@@ -111,9 +112,9 @@
 #define BDK_BADDU(result, input1, input2) asm ("baddu %[rd],%[rs],%[rt]" : [rd] "=d" (result) : [rs] "d" (input1) , [rt] "d" (input2))
 
 // misc v2 stuff
-#define BDK_ROTR(result, input1, shiftconst) asm ("rotr %[rd],%[rs]," BDK_TMP_STR(shiftconst) : [rd] "=d" (result) : [rs] "d" (input1))
+#define BDK_ROTR(result, input1, shiftconst) asm ("rotr %[rd],%[rs]," __BDK_TMP_STR(shiftconst) : [rd] "=d" (result) : [rs] "d" (input1))
 #define BDK_ROTRV(result, input1, input2) asm ("rotrv %[rd],%[rt],%[rs]" : [rd] "=d" (result) : [rt] "d" (input1) , [rs] "d" (input2))
-#define BDK_DROTR(result, input1, shiftconst) asm ("drotr %[rd],%[rs]," BDK_TMP_STR(shiftconst) : [rd] "=d" (result) : [rs] "d" (input1))
+#define BDK_DROTR(result, input1, shiftconst) asm ("drotr %[rd],%[rs]," __BDK_TMP_STR(shiftconst) : [rd] "=d" (result) : [rs] "d" (input1))
 #define BDK_DROTRV(result, input1, input2) asm ("drotrv %[rd],%[rt],%[rs]" : [rd] "=d" (result) : [rt] "d" (input1) , [rs] "d" (input2))
 #define BDK_SEB(result, input1) asm ("seb %[rd],%[rt]" : [rd] "=d" (result) : [rt] "d" (input1))
 #define BDK_SEH(result, input1) asm ("seh %[rd],%[rt]" : [rd] "=d" (result) : [rt] "d" (input1))
@@ -137,36 +138,36 @@
 /* extract and insert - NOTE that pos and len variables must be constants! */
 /* the P variants take len rather than lenm1 */
 /* the M1 variants take lenm1 rather than len */
-#define BDK_EXTS(result,input,pos,lenm1) asm ("exts %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
+#define BDK_EXTS(result,input,pos,lenm1) asm ("exts %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
 #define BDK_EXTSP(result,input,pos,len) BDK_EXTS(result,input,pos,(len)-1)
 
-#define BDK_DEXT(result,input,pos,len) asm ("dext %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(len) : [rt] "=d" (result) : [rs] "d" (input))
+#define BDK_DEXT(result,input,pos,len) asm ("dext %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len) : [rt] "=d" (result) : [rs] "d" (input))
 #define BDK_DEXTM1(result,input,pos,lenm1) BDK_DEXT(result,input,pos,(lenm1)+1)
 
-#define BDK_EXT(result,input,pos,len) asm ("ext %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(len) : [rt] "=d" (result) : [rs] "d" (input))
+#define BDK_EXT(result,input,pos,len) asm ("ext %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len) : [rt] "=d" (result) : [rs] "d" (input))
 #define BDK_EXTM1(result,input,pos,lenm1) BDK_EXT(result,input,pos,(lenm1)+1)
 
 // removed
-// #define BDK_EXTU(result,input,pos,lenm1) asm ("extu %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
+// #define BDK_EXTU(result,input,pos,lenm1) asm ("extu %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
 // #define BDK_EXTUP(result,input,pos,len) BDK_EXTU(result,input,pos,(len)-1)
 
-#define BDK_CINS(result,input,pos,lenm1) asm ("cins %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
+#define BDK_CINS(result,input,pos,lenm1) asm ("cins %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(lenm1) : [rt] "=d" (result) : [rs] "d" (input))
 #define BDK_CINSP(result,input,pos,len) BDK_CINS(result,input,pos,(len)-1)
 
-#define BDK_DINS(result,input,pos,len) asm ("dins %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(len): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
+#define BDK_DINS(result,input,pos,len) asm ("dins %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
 #define BDK_DINSM1(result,input,pos,lenm1) BDK_DINS(result,input,pos,(lenm1)+1)
-#define BDK_DINSC(result,pos,len) asm ("dins %[rt],$0," BDK_TMP_STR(pos) "," BDK_TMP_STR(len): [rt] "=d" (result): "[rt]" (result))
+#define BDK_DINSC(result,pos,len) asm ("dins %[rt],$0," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len): [rt] "=d" (result): "[rt]" (result))
 #define BDK_DINSCM1(result,pos,lenm1) BDK_DINSC(result,pos,(lenm1)+1)
 
-#define BDK_INS(result,input,pos,len) asm ("ins %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(len): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
+#define BDK_INS(result,input,pos,len) asm ("ins %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
 #define BDK_INSM1(result,input,pos,lenm1) BDK_INS(result,input,pos,(lenm1)+1)
-#define BDK_INSC(result,pos,len) asm ("ins %[rt],$0," BDK_TMP_STR(pos) "," BDK_TMP_STR(len): [rt] "=d" (result): "[rt]" (result))
+#define BDK_INSC(result,pos,len) asm ("ins %[rt],$0," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(len): [rt] "=d" (result): "[rt]" (result))
 #define BDK_INSCM1(result,pos,lenm1) BDK_INSC(result,pos,(lenm1)+1)
 
 // removed
-// #define BDK_INS0(result,input,pos,lenm1) asm("ins0 %[rt],%[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(lenm1): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
+// #define BDK_INS0(result,input,pos,lenm1) asm("ins0 %[rt],%[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(lenm1): [rt] "=d" (result): [rs] "d" (input), "[rt]" (result))
 // #define BDK_INS0P(result,input,pos,len) BDK_INS0(result,input,pos,(len)-1)
-// #define BDK_INS0C(result,pos,lenm1) asm ("ins0 %[rt],$0," BDK_TMP_STR(pos) "," BDK_TMP_STR(lenm1) : [rt] "=d" (result) : "[rt]" (result))
+// #define BDK_INS0C(result,pos,lenm1) asm ("ins0 %[rt],$0," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(lenm1) : [rt] "=d" (result) : "[rt]" (result))
 // #define BDK_INS0CP(result,pos,len) BDK_INS0C(result,pos,(len)-1)
 
 #define BDK_CLZ(result, input) asm ("clz %[rd],%[rs]" : [rd] "=d" (result) : [rs] "d" (input))
@@ -176,8 +177,8 @@
 #define BDK_POP(result, input) asm ("pop %[rd],%[rs]" : [rd] "=d" (result) : [rs] "d" (input))
 #define BDK_DPOP(result, input) asm ("dpop %[rd],%[rs]" : [rd] "=d" (result) : [rs] "d" (input))
 
-#  define BDK_RDHWR(result, regstr) asm volatile ("rdhwr %[rt],$" BDK_TMP_STR(regstr) : [rt] "=d" (result))
-#  define BDK_RDHWRNV(result, regstr) asm ("rdhwr %[rt],$" BDK_TMP_STR(regstr) : [rt] "=d" (result))
+#  define BDK_RDHWR(result, regstr) asm volatile ("rdhwr %[rt],$" __BDK_TMP_STR(regstr) : [rt] "=d" (result))
+#  define BDK_RDHWRNV(result, regstr) asm ("rdhwr %[rt],$" __BDK_TMP_STR(regstr) : [rt] "=d" (result))
 
 // some new cop0-like stuff
 #define BDK_DI(result) asm volatile ("di %[rt]" : [rt] "=d" (result))
@@ -201,40 +202,40 @@
 // these are hard to make work because the compiler does not realize that the
 // instruction is a branch so may optimize away the label
 // the labels to these next two macros must not include a ":" at the end
-#define BDK_BBIT1(var, pos, label) asm volatile ("bbit1 %[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(label) : : [rs] "d" (var))
-#define BDK_BBIT0(var, pos, label) asm volatile ("bbit0 %[rs]," BDK_TMP_STR(pos) "," BDK_TMP_STR(label) : : [rs] "d" (var))
+#define BDK_BBIT1(var, pos, label) asm volatile ("bbit1 %[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(label) : : [rs] "d" (var))
+#define BDK_BBIT0(var, pos, label) asm volatile ("bbit0 %[rs]," __BDK_TMP_STR(pos) "," __BDK_TMP_STR(label) : : [rs] "d" (var))
 // the label to this macro must include a ":" at the end
 #define BDK_ASM_LABEL(label) label \
-                             asm volatile (BDK_TMP_STR(label) : : )
+                             asm volatile (__BDK_TMP_STR(label) : : )
 
 //
 // Low-latency memory stuff
 //
 // set can be 0-1
-#define BDK_MT_LLM_READ_ADDR(set,val)    asm volatile ("dmtc2 %[rt],0x0400+(8*(" BDK_TMP_STR(set) "))" : : [rt] "d" (val))
-#define BDK_MT_LLM_WRITE_ADDR_INTERNAL(set,val)   asm volatile ("dmtc2 %[rt],0x0401+(8*(" BDK_TMP_STR(set) "))" : : [rt] "d" (val))
-#define BDK_MT_LLM_READ64_ADDR(set,val)  asm volatile ("dmtc2 %[rt],0x0404+(8*(" BDK_TMP_STR(set) "))" : : [rt] "d" (val))
-#define BDK_MT_LLM_WRITE64_ADDR_INTERNAL(set,val) asm volatile ("dmtc2 %[rt],0x0405+(8*(" BDK_TMP_STR(set) "))" : : [rt] "d" (val))
-#define BDK_MT_LLM_DATA(set,val)         asm volatile ("dmtc2 %[rt],0x0402+(8*(" BDK_TMP_STR(set) "))" : : [rt] "d" (val))
-#define BDK_MF_LLM_DATA(set,val)         asm volatile ("dmfc2 %[rt],0x0402+(8*(" BDK_TMP_STR(set) "))" : [rt] "=d" (val) : )
+#define BDK_MT_LLM_READ_ADDR(set,val)    asm volatile ("dmtc2 %[rt],0x0400+(8*(" __BDK_TMP_STR(set) "))" : : [rt] "d" (val))
+#define BDK_MT_LLM_WRITE_ADDR_INTERNAL(set,val)   asm volatile ("dmtc2 %[rt],0x0401+(8*(" __BDK_TMP_STR(set) "))" : : [rt] "d" (val))
+#define BDK_MT_LLM_READ64_ADDR(set,val)  asm volatile ("dmtc2 %[rt],0x0404+(8*(" __BDK_TMP_STR(set) "))" : : [rt] "d" (val))
+#define BDK_MT_LLM_WRITE64_ADDR_INTERNAL(set,val) asm volatile ("dmtc2 %[rt],0x0405+(8*(" __BDK_TMP_STR(set) "))" : : [rt] "d" (val))
+#define BDK_MT_LLM_DATA(set,val)         asm volatile ("dmtc2 %[rt],0x0402+(8*(" __BDK_TMP_STR(set) "))" : : [rt] "d" (val))
+#define BDK_MF_LLM_DATA(set,val)         asm volatile ("dmfc2 %[rt],0x0402+(8*(" __BDK_TMP_STR(set) "))" : [rt] "=d" (val) : )
 
 
 // load linked, store conditional
-#define BDK_LL(dest, address, offset) asm volatile ("ll %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (dest) : [rbase] "d" (address) )
-#define BDK_LLD(dest, address, offset) asm volatile ("lld %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (dest) : [rbase] "d" (address) )
-#define BDK_SC(srcdest, address, offset) asm volatile ("sc %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
-#define BDK_SCD(srcdest, address, offset) asm volatile ("scd %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_LL(dest, address, offset) asm volatile ("ll %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (dest) : [rbase] "d" (address) )
+#define BDK_LLD(dest, address, offset) asm volatile ("lld %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (dest) : [rbase] "d" (address) )
+#define BDK_SC(srcdest, address, offset) asm volatile ("sc %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_SCD(srcdest, address, offset) asm volatile ("scd %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
 
 // load/store word left/right
-#define BDK_LWR(srcdest, address, offset) asm volatile ("lwr %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
-#define BDK_LWL(srcdest, address, offset) asm volatile ("lwl %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
-#define BDK_LDR(srcdest, address, offset) asm volatile ("ldr %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
-#define BDK_LDL(srcdest, address, offset) asm volatile ("ldl %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_LWR(srcdest, address, offset) asm volatile ("lwr %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_LWL(srcdest, address, offset) asm volatile ("lwl %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_LDR(srcdest, address, offset) asm volatile ("ldr %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
+#define BDK_LDL(srcdest, address, offset) asm volatile ("ldl %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : [rt] "=d" (srcdest) : [rbase] "d" (address), "[rt]" (srcdest) )
 
-#define BDK_SWR(src, address, offset) asm volatile ("swr %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
-#define BDK_SWL(src, address, offset) asm volatile ("swl %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
-#define BDK_SDR(src, address, offset) asm volatile ("sdr %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
-#define BDK_SDL(src, address, offset) asm volatile ("sdl %[rt], " BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
+#define BDK_SWR(src, address, offset) asm volatile ("swr %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
+#define BDK_SWL(src, address, offset) asm volatile ("swl %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
+#define BDK_SDR(src, address, offset) asm volatile ("sdr %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
+#define BDK_SDL(src, address, offset) asm volatile ("sdl %[rt], " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address), [rt] "d" (src) )
 
 
 
@@ -268,33 +269,33 @@
 // MD5 and SHA-1
 
 // pos can be 0-6
-#define BDK_MT_HSH_DAT(val,pos)    asm volatile ("dmtc2 %[rt],0x0040+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
-#define BDK_MT_HSH_DATZ(pos)       asm volatile ("dmtc2    $0,0x0040+" BDK_TMP_STR(pos) :                 :               )
+#define BDK_MT_HSH_DAT(val,pos)    asm volatile ("dmtc2 %[rt],0x0040+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_HSH_DATZ(pos)       asm volatile ("dmtc2    $0,0x0040+" __BDK_TMP_STR(pos) :                 :               )
 // pos can be 0-14
-#define BDK_MT_HSH_DATW(val,pos)   asm volatile ("dmtc2 %[rt],0x0240+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
-#define BDK_MT_HSH_DATWZ(pos)      asm volatile ("dmtc2    $0,0x0240+" BDK_TMP_STR(pos) :                 :               )
+#define BDK_MT_HSH_DATW(val,pos)   asm volatile ("dmtc2 %[rt],0x0240+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_HSH_DATWZ(pos)      asm volatile ("dmtc2    $0,0x0240+" __BDK_TMP_STR(pos) :                 :               )
 #define BDK_MT_HSH_STARTMD5(val)   asm volatile ("dmtc2 %[rt],0x4047"                   :                 : [rt] "d" (val))
 #define BDK_MT_HSH_STARTSHA(val)   asm volatile ("dmtc2 %[rt],0x4057"                   :                 : [rt] "d" (val))
 #define BDK_MT_HSH_STARTSHA256(val)   asm volatile ("dmtc2 %[rt],0x404f"                   :                 : [rt] "d" (val))
 #define BDK_MT_HSH_STARTSHA512(val)   asm volatile ("dmtc2 %[rt],0x424f"                   :                 : [rt] "d" (val))
 // pos can be 0-3
-#define BDK_MT_HSH_IV(val,pos)     asm volatile ("dmtc2 %[rt],0x0048+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_HSH_IV(val,pos)     asm volatile ("dmtc2 %[rt],0x0048+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 // pos can be 0-7
-#define BDK_MT_HSH_IVW(val,pos)     asm volatile ("dmtc2 %[rt],0x0250+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_HSH_IVW(val,pos)     asm volatile ("dmtc2 %[rt],0x0250+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 
 // pos can be 0-6
-#define BDK_MF_HSH_DAT(val,pos)    asm volatile ("dmfc2 %[rt],0x0040+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_HSH_DAT(val,pos)    asm volatile ("dmfc2 %[rt],0x0040+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-14
-#define BDK_MF_HSH_DATW(val,pos)   asm volatile ("dmfc2 %[rt],0x0240+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_HSH_DATW(val,pos)   asm volatile ("dmfc2 %[rt],0x0240+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-3
-#define BDK_MF_HSH_IV(val,pos)     asm volatile ("dmfc2 %[rt],0x0048+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_HSH_IV(val,pos)     asm volatile ("dmfc2 %[rt],0x0048+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-7
-#define BDK_MF_HSH_IVW(val,pos)     asm volatile ("dmfc2 %[rt],0x0250+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_HSH_IVW(val,pos)     asm volatile ("dmfc2 %[rt],0x0250+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 
 // 3DES
 
 // pos can be 0-2
-#define BDK_MT_3DES_KEY(val,pos)   asm volatile ("dmtc2 %[rt],0x0080+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_3DES_KEY(val,pos)   asm volatile ("dmtc2 %[rt],0x0080+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 #define BDK_MT_3DES_IV(val)        asm volatile ("dmtc2 %[rt],0x0084"                   :                 : [rt] "d" (val))
 #define BDK_MT_3DES_ENC_CBC(val)   asm volatile ("dmtc2 %[rt],0x4088"                   :                 : [rt] "d" (val))
 #define BDK_MT_3DES_ENC(val)       asm volatile ("dmtc2 %[rt],0x408a"                   :                 : [rt] "d" (val))
@@ -303,7 +304,7 @@
 #define BDK_MT_3DES_RESULT(val)    asm volatile ("dmtc2 %[rt],0x0098"                   :                 : [rt] "d" (val))
 
 // pos can be 0-2
-#define BDK_MF_3DES_KEY(val,pos)   asm volatile ("dmfc2 %[rt],0x0080+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_3DES_KEY(val,pos)   asm volatile ("dmfc2 %[rt],0x0080+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MF_3DES_IV(val)        asm volatile ("dmfc2 %[rt],0x0084"                   : [rt] "=d" (val) :               )
 #define BDK_MF_3DES_RESULT(val)    asm volatile ("dmfc2 %[rt],0x0088"                   : [rt] "=d" (val) :               )
 
@@ -330,56 +331,56 @@
 #define BDK_MT_AES_DEC0(val)       asm volatile ("dmtc2 %[rt],0x010e"                   :                 : [rt] "d" (val))
 #define BDK_MT_AES_DEC1(val)       asm volatile ("dmtc2 %[rt],0x310f"                   :                 : [rt] "d" (val))
 // pos can be 0-3
-#define BDK_MT_AES_KEY(val,pos)    asm volatile ("dmtc2 %[rt],0x0104+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_AES_KEY(val,pos)    asm volatile ("dmtc2 %[rt],0x0104+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_AES_IV(val,pos)     asm volatile ("dmtc2 %[rt],0x0102+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_AES_IV(val,pos)     asm volatile ("dmtc2 %[rt],0x0102+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 #define BDK_MT_AES_KEYLENGTH(val)  asm volatile ("dmtc2 %[rt],0x0110"                   :                 : [rt] "d" (val)) // write the keylen
 // pos can be 0-1
-#define BDK_MT_AES_RESULT(val,pos) asm volatile ("dmtc2 %[rt],0x0100+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_AES_RESULT(val,pos) asm volatile ("dmtc2 %[rt],0x0100+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 
 // pos can be 0-1
-#define BDK_MF_AES_RESULT(val,pos) asm volatile ("dmfc2 %[rt],0x0100+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_AES_RESULT(val,pos) asm volatile ("dmfc2 %[rt],0x0100+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-1
-#define BDK_MF_AES_IV(val,pos)     asm volatile ("dmfc2 %[rt],0x0102+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_AES_IV(val,pos)     asm volatile ("dmfc2 %[rt],0x0102+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-3
-#define BDK_MF_AES_KEY(val,pos)    asm volatile ("dmfc2 %[rt],0x0104+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_AES_KEY(val,pos)    asm volatile ("dmfc2 %[rt],0x0104+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MF_AES_KEYLENGTH(val)  asm volatile ("dmfc2 %[rt],0x0110"                   : [rt] "=d" (val) :               ) // read the keylen
 #define BDK_MF_AES_DAT0(val)       asm volatile ("dmfc2 %[rt],0x0111"                   : [rt] "=d" (val) :               ) // first piece of input data
 
 // GFM
 
 // pos can be 0-1
-#define BDK_MF_GFM_MUL(val,pos)             asm volatile ("dmfc2 %[rt],0x0258+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_GFM_MUL(val,pos)             asm volatile ("dmfc2 %[rt],0x0258+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MF_GFM_POLY(val)                asm volatile ("dmfc2 %[rt],0x025e"                    : [rt] "=d" (val) :               )
 // pos can be 0-1
-#define BDK_MF_GFM_RESINP(val,pos)          asm volatile ("dmfc2 %[rt],0x025a+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_GFM_RESINP(val,pos)          asm volatile ("dmfc2 %[rt],0x025a+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-1
-#define BDK_MF_GFM_RESINP_REFLECT(val,pos)  asm volatile ("dmfc2 %[rt],0x005a+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_GFM_RESINP_REFLECT(val,pos)  asm volatile ("dmfc2 %[rt],0x005a+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 
 // pos can be 0-1
-#define BDK_MT_GFM_MUL(val,pos)             asm volatile ("dmtc2 %[rt],0x0258+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_GFM_MUL(val,pos)             asm volatile ("dmtc2 %[rt],0x0258+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 #define BDK_MT_GFM_POLY(val)                asm volatile ("dmtc2 %[rt],0x025e"                    :                 : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_GFM_RESINP(val,pos)          asm volatile ("dmtc2 %[rt],0x025a+" BDK_TMP_STR(pos) :                 : [rt] "d" (val))
+#define BDK_MT_GFM_RESINP(val,pos)          asm volatile ("dmtc2 %[rt],0x025a+" __BDK_TMP_STR(pos) :                 : [rt] "d" (val))
 #define BDK_MT_GFM_XOR0(val)                asm volatile ("dmtc2 %[rt],0x025c"                    :                 : [rt] "d" (val))
 #define BDK_MT_GFM_XORMUL1(val)             asm volatile ("dmtc2 %[rt],0x425d"                    :                 : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_GFM_MUL_REFLECT(val,pos)     asm volatile ("dmtc2 %[rt],0x0058+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MT_GFM_MUL_REFLECT(val,pos)     asm volatile ("dmtc2 %[rt],0x0058+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MT_GFM_XOR0_REFLECT(val)        asm volatile ("dmtc2 %[rt],0x005c"                    :                 : [rt] "d" (val))
 #define BDK_MT_GFM_XORMUL1_REFLECT(val)     asm volatile ("dmtc2 %[rt],0x405d"                    :                 : [rt] "d" (val))
 
 // SNOW 3G
 
 // pos can be 0-7
-#define BDK_MF_SNOW3G_LFSR(val,pos)    asm volatile ("dmfc2 %[rt],0x0240+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_SNOW3G_LFSR(val,pos)    asm volatile ("dmfc2 %[rt],0x0240+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-2
-#define BDK_MF_SNOW3G_FSM(val,pos)     asm volatile ("dmfc2 %[rt],0x0251+" BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_SNOW3G_FSM(val,pos)     asm volatile ("dmfc2 %[rt],0x0251+" __BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MF_SNOW3G_RESULT(val)      asm volatile ("dmfc2 %[rt],0x0250"                    : [rt] "=d" (val) :               )
 
 // pos can be 0-7
-#define BDK_MT_SNOW3G_LFSR(val,pos)    asm volatile ("dmtc2 %[rt],0x0240+" BDK_TMP_STR(pos) : : [rt] "d" (val))
+#define BDK_MT_SNOW3G_LFSR(val,pos)    asm volatile ("dmtc2 %[rt],0x0240+" __BDK_TMP_STR(pos) : : [rt] "d" (val))
 // pos can be 0-2
-#define BDK_MT_SNOW3G_FSM(val,pos)     asm volatile ("dmtc2 %[rt],0x0251+" BDK_TMP_STR(pos) : : [rt] "d" (val))
+#define BDK_MT_SNOW3G_FSM(val,pos)     asm volatile ("dmtc2 %[rt],0x0251+" __BDK_TMP_STR(pos) : : [rt] "d" (val))
 #define BDK_MT_SNOW3G_RESULT(val)      asm volatile ("dmtc2 %[rt],0x0250"                    : : [rt] "d" (val))
 #define BDK_MT_SNOW3G_START(val)       asm volatile ("dmtc2 %[rt],0x404d"                    : : [rt] "d" (val))
 #define BDK_MT_SNOW3G_MORE(val)        asm volatile ("dmtc2 %[rt],0x404e"                    : : [rt] "d" (val))
@@ -387,11 +388,11 @@
 // SMS4
 
 // pos can be 0-1
-#define BDK_MF_SMS4_IV(val,pos)	asm volatile ("dmfc2 %[rt],0x0102+"BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_SMS4_IV(val,pos)	asm volatile ("dmfc2 %[rt],0x0102+"__BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-1
-#define BDK_MF_SMS4_KEY(val,pos)	asm volatile ("dmfc2 %[rt],0x0104+"BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_SMS4_KEY(val,pos)	asm volatile ("dmfc2 %[rt],0x0104+"__BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 // pos can be 0-1
-#define BDK_MF_SMS4_RESINP(val,pos)	asm volatile ("dmfc2 %[rt],0x0100+"BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
+#define BDK_MF_SMS4_RESINP(val,pos)	asm volatile ("dmfc2 %[rt],0x0100+"__BDK_TMP_STR(pos) : [rt] "=d" (val) :               )
 #define BDK_MT_SMS4_DEC_CBC0(val)	asm volatile ("dmtc2 %[rt],0x010c"                   : : [rt] "d" (val))
 #define BDK_MT_SMS4_DEC_CBC1(val)	asm volatile ("dmtc2 %[rt],0x311d"      : : [rt] "d" (val))
 #define BDK_MT_SMS4_DEC0(val)		asm volatile ("dmtc2 %[rt],0x010e"      : : [rt] "d" (val))
@@ -401,11 +402,11 @@
 #define BDK_MT_SMS4_ENC0(val)		asm volatile ("dmtc2 %[rt],0x010a"      : : [rt] "d" (val))
 #define BDK_MT_SMS4_ENC1(val)		asm volatile ("dmtc2 %[rt],0x311b"      : : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_SMS4_IV(val,pos)	asm volatile ("dmtc2 %[rt],0x0102+"BDK_TMP_STR(pos) : : [rt] "d" (val))
+#define BDK_MT_SMS4_IV(val,pos)	asm volatile ("dmtc2 %[rt],0x0102+"__BDK_TMP_STR(pos) : : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_SMS4_KEY(val,pos)	asm volatile ("dmtc2 %[rt],0x0104+"BDK_TMP_STR(pos) : : [rt] "d" (val))
+#define BDK_MT_SMS4_KEY(val,pos)	asm volatile ("dmtc2 %[rt],0x0104+"__BDK_TMP_STR(pos) : : [rt] "d" (val))
 // pos can be 0-1
-#define BDK_MT_SMS4_RESINP(val,pos)	asm volatile ("dmtc2 %[rt],0x0100+"BDK_TMP_STR(pos) : : [rt] "d" (val))
+#define BDK_MT_SMS4_RESINP(val,pos)	asm volatile ("dmtc2 %[rt],0x0100+"__BDK_TMP_STR(pos) : : [rt] "d" (val))
 
 /* check_ordering stuff */
 #define BDK_MF_CHORD(dest)         BDK_RDHWR(dest, 30)
@@ -414,10 +415,8 @@
 
 #define BDK_MT_CYCLE(src)         asm volatile ("dmtc0 %[rt],$9,6" :: [rt] "d" (src))
 
-#define VASTR(...) #__VA_ARGS__
-
-#define BDK_MF_COP0(val, cop0)           asm volatile ("dmfc0 %[rt]," VASTR(cop0) : [rt] "=d" (val));
-#define BDK_MT_COP0(val, cop0)           asm volatile ("dmtc0 %[rt]," VASTR(cop0) : : [rt] "d" (val));
+#define BDK_MF_COP0(val, cop0)           asm volatile ("dmfc0 %[rt]," __BDK_VASTR(cop0) : [rt] "=d" (val));
+#define BDK_MT_COP0(val, cop0)           asm volatile ("dmtc0 %[rt]," __BDK_VASTR(cop0) : : [rt] "d" (val));
 
 #define BDK_MF_CACHE_ERR(val)            BDK_MF_COP0(val, COP0_CACHEERRI)
 #define BDK_MF_DCACHE_ERR(val)           BDK_MF_COP0(val, COP0_CACHEERRD)
@@ -464,32 +463,32 @@
 /* we need the hidden argument (__a) so that GCC gets the dependencies right */
 #define BDK_LOADUNA_INT16(result, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("ulh %[rdest], " BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : [rbase] "d" (__a), "m"(__a[offset]), "m"(__a[offset + 1])); }
+	  asm ("ulh %[rdest], " __BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : [rbase] "d" (__a), "m"(__a[offset]), "m"(__a[offset + 1])); }
 #define BDK_LOADUNA_UINT16(result, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("ulhu %[rdest], " BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : [rbase] "d" (__a), "m"(__a[offset + 0]), "m"(__a[offset + 1])); }
+	  asm ("ulhu %[rdest], " __BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : [rbase] "d" (__a), "m"(__a[offset + 0]), "m"(__a[offset + 1])); }
 #define BDK_STOREUNA_INT16(data, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("ush %[rsrc], " BDK_TMP_STR(offset) "(%[rbase])" : "=m"(__a[offset + 0]), "=m"(__a[offset + 1]): [rsrc] "d" (data), [rbase] "d" (__a)); }
+	  asm ("ush %[rsrc], " __BDK_TMP_STR(offset) "(%[rbase])" : "=m"(__a[offset + 0]), "=m"(__a[offset + 1]): [rsrc] "d" (data), [rbase] "d" (__a)); }
 
 #define BDK_LOADUNA_INT32(result, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("ulw %[rdest], " BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : \
+	  asm ("ulw %[rdest], " __BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : \
 	       [rbase] "d" (__a), "m"(__a[offset + 0]), "m"(__a[offset + 1]), "m"(__a[offset + 2]), "m"(__a[offset + 3])); }
 #define BDK_STOREUNA_INT32(data, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("usw %[rsrc], " BDK_TMP_STR(offset) "(%[rbase])" : \
+	  asm ("usw %[rsrc], " __BDK_TMP_STR(offset) "(%[rbase])" : \
 	       "=m"(__a[offset + 0]), "=m"(__a[offset + 1]), "=m"(__a[offset + 2]), "=m"(__a[offset + 3]) : \
 	       [rsrc] "d" (data), [rbase] "d" (__a)); }
 
 #define BDK_LOADUNA_INT64(result, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("uld %[rdest], " BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : \
+	  asm ("uld %[rdest], " __BDK_TMP_STR(offset) "(%[rbase])" : [rdest] "=d" (result) : \
 	       [rbase] "d" (__a), "m"(__a[offset + 0]), "m"(__a[offset + 1]), "m"(__a[offset + 2]), "m"(__a[offset + 3]), \
 	       "m"(__a[offset + 4]), "m"(__a[offset + 5]), "m"(__a[offset + 6]), "m"(__a[offset + 7])); }
 #define BDK_STOREUNA_INT64(data, address, offset) \
 	{ char *__a = (char *)(address); \
-	  asm ("usd %[rsrc], " BDK_TMP_STR(offset) "(%[rbase])" : \
+	  asm ("usd %[rsrc], " __BDK_TMP_STR(offset) "(%[rbase])" : \
 	       "=m"(__a[offset + 0]), "=m"(__a[offset + 1]), "=m"(__a[offset + 2]), "=m"(__a[offset + 3]), \
 	       "=m"(__a[offset + 4]), "=m"(__a[offset + 5]), "=m"(__a[offset + 6]), "=m"(__a[offset + 7]) : \
 	       [rsrc] "d" (data), [rbase] "d" (__a)); }
