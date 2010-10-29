@@ -9,7 +9,7 @@ static void *uart_open(const char *name, int flags)
     return (void*)(id+1);
 }
 
-static int uart_read(bdk_fs_file_t *handle, void *buffer, int length)
+static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int count = 0;
     int id = (long)handle->fs_state - 1;
@@ -31,7 +31,7 @@ static int uart_read(bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
-static int uart_write(bdk_fs_file_t *handle, const void *buffer, int length)
+static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
     int l = length;
@@ -63,7 +63,7 @@ static int uart_write(bdk_fs_file_t *handle, const void *buffer, int length)
     return length;
 }
 
-const bdk_fs_ops_t bdk_fs_uart_ops =
+const __bdk_fs_ops_t bdk_fs_uart_ops =
 {
     .stat = NULL,
     .unlink = NULL,

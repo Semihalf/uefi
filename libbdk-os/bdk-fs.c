@@ -13,10 +13,10 @@
 typedef struct
 {
     const char *prefix;
-    const bdk_fs_ops_t *ops;
+    const __bdk_fs_ops_t *ops;
 } bdk_fs_mount_t;
 
-extern const bdk_fs_ops_t bdk_fs_uart_ops;
+extern const __bdk_fs_ops_t bdk_fs_uart_ops;
 static const bdk_fs_mount_t mount_points[] = {
     {"/dev/uart/", &bdk_fs_uart_ops},
     {NULL, NULL}
@@ -26,7 +26,7 @@ static const bdk_fs_mount_t mount_points[] = {
  * The open file handle table. Handle 0-2 are open to start with
  * connected to uart 0. They can be closed later if needed.
  */
-static bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
+static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
     [0] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
     [1] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
     [2] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
@@ -65,7 +65,7 @@ static int get_mount(const char *name)
  *
  * @return File descriptor or NULL on failure
  */
-static bdk_fs_file_t *get_file(int handle)
+static __bdk_fs_file_t *get_file(int handle)
 {
     if ((handle<0) || (handle>=MAX_FILE_HANDLES))
         return NULL;
@@ -178,7 +178,7 @@ int open(const char *name, int flags, int mode)
 int close(int handle)
 {
     int result = 0;
-    bdk_fs_file_t *file = get_file(handle);
+    __bdk_fs_file_t *file = get_file(handle);
     if (!file)
         return -1;
 
@@ -207,7 +207,7 @@ int close(int handle)
  */
 off_t lseek(int handle, off_t offset, int whence)
 {
-    bdk_fs_file_t *file = get_file(handle);
+    __bdk_fs_file_t *file = get_file(handle);
     if (!file)
         return -1;
 
@@ -243,7 +243,7 @@ off_t lseek(int handle, off_t offset, int whence)
  */
 int read(int handle, void *buffer, int length)
 {
-    bdk_fs_file_t *file = get_file(handle);
+    __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->read)
     {
         int result = file->ops->read(file, buffer, length);
@@ -267,7 +267,7 @@ int read(int handle, void *buffer, int length)
  */
 int write(int handle, const void *buffer, int length)
 {
-    bdk_fs_file_t *file = get_file(handle);
+    __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->write)
     {
         int result = file->ops->write(file, buffer, length);
@@ -290,7 +290,7 @@ int write(int handle, const void *buffer, int length)
  */
 int fstat(int handle, struct stat *st)
 {
-    bdk_fs_file_t *file = get_file(handle);
+    __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->stat)
         return file->ops->stat(file->filename, st);
     else
