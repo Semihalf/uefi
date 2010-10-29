@@ -8296,8 +8296,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:37> NS       RAZ      NS          NS        Reserved				            |
- <36:0>  BIST     RO       0x0         0         BIST Results.                                      |
+ <63:45> NS       RAZ      NS          NS        Reserved				            |
+ <44:0>  BIST     RO       0x0         0         BIST Results.                                      |
                                                   HW sets a bit in BIST for for memory that fails   |
 						  BIST.						    |
 ----------------------------------------------------------------------------------------------------
@@ -8822,21 +8822,25 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS       RAZ      NS          NS        Reserved					    |
- <7:4>   BASE     RO       NS          NS        The base address in 512B blocks of the engine fifo |
- <3:0>   BLKS     R/W      0x2         NS        The size in 512B blocks of the engine fifo	    |
+ <63:37> NS       RAZ      NS          NS        Reserved					    |
+ <36:32> COMPBLKS RO       NS          NS        Computed engine block size			    |
+ <31:9>  NS       RAZ      NS          NS        Reserved					    |
+ <8:4>   BASE     RO       NS          NS        The base address in 512B blocks of the engine fifo |
+ <3:0>   BLKS     R/W      0x2         NS        The size of the engine fifo			    |
 						  Legal values are 0-8.				    |
-						  0 = Engine is disabled			    |
-						  1 = 0.5KB buffer				    |
-						  2 = 1.0KB buffer				    |
-						  3 = 1.5KB buffer				    |
-						  4 = 2.0KB buffer				    |
-						  5 = 2.5KB buffer				    |
-						  6 = 3.0KB buffer				    |
-						  7 = 3.5KB buffer				    |
-						  8 = 4.0KB buffer				    |
+						  0  = Engine is disabled			    |
+						  1  = 0.5KB buffer				    |
+						  2  = 1.0KB buffer				    |
+						  3  = 1.5KB buffer				    |
+						  4  = 2.0KB buffer				    |
+						  5  = 2.5KB buffer				    |
+						  6  = 3.0KB buffer				    |
+						  7  = 3.5KB buffer				    |
+						  8  = 4.0KB buffer				    |
+						  9  = 6.0KB buffer				    |
+						  10 = 8.0KB buffer				    |
  Notes:
- The total amount of storage allocated to the 6 DPI DMA engines (via DPI_ENG*_BUF[BLKS]) must not exceed 8KB.
+ The total amount of storage allocated to the 6 DPI DMA engines (via DPI_ENG*_BUF[BLKS]) must not exceed 16KB.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -9014,6 +9018,28 @@ Pos      Name    Type     Value     Value       Description
  <2:0>  CNT      R/W       0x6         0x6       The number of instructions from a given queue that |
 						  can be inflight at a time. Reset value matches    |
 						  the number of DMA engines.			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+     ==============================================================
+     DPI_DMA(0..7)_ERR_RSP_STATUS Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:6> NS       RAZ       NS          NS        Reserved					    |
+ <5:0>  STATUS   R/W1C     0x0         0x0       QUE captures the ErrorResponse status of the last  |
+						  6 instructions for each instruction queue.	    |
+						  STATUS<5> represents the status for first	    |
+						  instruction in instruction order while STATUS<0>  |
+						  represents the last or most recent instruction.   |
+						  If STATUS<n> is set, then the nth instruction in  |
+						  the given queue experienced an ErrorResponse.	    |
+						  Otherwise, it completed normally.		    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35024,7 +35050,7 @@ Pos      Name    Type     Value     Value       Description
  <37:7>  PTR       R/W      0x0     NS       Head Pointer                                           |
  <6:5>   NS        RAZ      NS      NS       Reserved                                               |
  <4:0>   RCTR      RO       0x0     NS       Index of next WQE entry in fill packet to be           |
-                                             processed
+                                             processed (inbound queues)
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (56): 0xc040..0xc1f8
@@ -35047,7 +35073,9 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:38> NS        RAZ      NS      NS       Reserved                                               |
  <37:7>  PTR       R/W      0x0     NS       Tail Pointer                                           |
- <6:0>   NS        RAZ      NS      NS       Reserved                                               |
+ <6:5>   NS        RAZ      NS      NS       Reserved                                               |
+ <4:0>   RCTR      RO       0x0     NS       Number of entries waiting to be sent out to external   |
+                                             RAM (outbound queues)
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (56): 0xc240..0xc3f8
@@ -35218,9 +35246,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:2>  NS       RAZ       NS          NS       RESERVED                                           |
- <1>   	 RDS      RO        NS          0        BIST result of the RDS memory (0=pass, !0=fail)    |
- <0>   	 NCB      RO        NS          0        BIST result of the NCB memory (0=pass, !0=fail)    |
+ <63:3>  NS        RAZ       NS          NS       RESERVED                                          |
+ <2>   	 WQE_FIFO  RO        NS          0        BIST result of the NCB_WQE FIFO (0=pass, !0=fail) |
+ <1>   	 LSLR_FIFO RO        NS          0        BIST result of the NCB_LSLR FIFO (0=pass, !0=fail)|
+ <0>   	 RDS_MEM   RO        NS          0        BIST result of the RDS memory (0=pass, !0=fail)   |
 												    |
 Notes:												    |
  Access to the internal BiST results								    |
@@ -43097,6 +43126,7 @@ DPI_BIST_STATUS                0x0001DF0000000000  NCB
 DPI_CTL                        0x0001DF0000000040  NCB
 DPI_DMA0_COUNTS                0x0001DF0000000300  NCB
 DPI_DMA0_DBELL                 0x0001DF0000000200  NCB
+DPI_DMA0_ERR_RSP_STATUS        0x0001DF0000000A80  NCB
 DPI_DMA0_IBUFF_SADDR           0x0001DF0000000280  NCB
 DPI_DMA0_IFLIGHT               0x0001DF0000000A00  NCB
 DPI_DMA0_NADDR                 0x0001DF0000000380  NCB
@@ -43104,6 +43134,7 @@ DPI_DMA0_REQBNK0               0x0001DF0000000400  NCB
 DPI_DMA0_REQBNK1               0x0001DF0000000480  NCB
 DPI_DMA1_COUNTS                0x0001DF0000000308  NCB
 DPI_DMA1_DBELL                 0x0001DF0000000208  NCB
+DPI_DMA1_ERR_RSP_STATUS        0x0001DF0000000A88  NCB
 DPI_DMA1_IBUFF_SADDR           0x0001DF0000000288  NCB
 DPI_DMA1_IFLIGHT               0x0001DF0000000A08  NCB
 DPI_DMA1_NADDR                 0x0001DF0000000388  NCB
@@ -43111,6 +43142,7 @@ DPI_DMA1_REQBNK0               0x0001DF0000000408  NCB
 DPI_DMA1_REQBNK1               0x0001DF0000000488  NCB
 DPI_DMA2_COUNTS                0x0001DF0000000310  NCB
 DPI_DMA2_DBELL                 0x0001DF0000000210  NCB
+DPI_DMA2_ERR_RSP_STATUS        0x0001DF0000000A90  NCB
 DPI_DMA2_IBUFF_SADDR           0x0001DF0000000290  NCB
 DPI_DMA2_IFLIGHT               0x0001DF0000000A10  NCB
 DPI_DMA2_NADDR                 0x0001DF0000000390  NCB
@@ -43118,6 +43150,7 @@ DPI_DMA2_REQBNK0               0x0001DF0000000410  NCB
 DPI_DMA2_REQBNK1               0x0001DF0000000490  NCB
 DPI_DMA3_COUNTS                0x0001DF0000000318  NCB
 DPI_DMA3_DBELL                 0x0001DF0000000218  NCB
+DPI_DMA3_ERR_RSP_STATUS        0x0001DF0000000A98  NCB
 DPI_DMA3_IBUFF_SADDR           0x0001DF0000000298  NCB
 DPI_DMA3_IFLIGHT               0x0001DF0000000A18  NCB
 DPI_DMA3_NADDR                 0x0001DF0000000398  NCB
@@ -43125,6 +43158,7 @@ DPI_DMA3_REQBNK0               0x0001DF0000000418  NCB
 DPI_DMA3_REQBNK1               0x0001DF0000000498  NCB
 DPI_DMA4_COUNTS                0x0001DF0000000320  NCB
 DPI_DMA4_DBELL                 0x0001DF0000000220  NCB
+DPI_DMA4_ERR_RSP_STATUS        0x0001DF0000000AA0  NCB
 DPI_DMA4_IBUFF_SADDR           0x0001DF00000002A0  NCB
 DPI_DMA4_IFLIGHT               0x0001DF0000000A20  NCB
 DPI_DMA4_NADDR                 0x0001DF00000003A0  NCB
@@ -43132,6 +43166,7 @@ DPI_DMA4_REQBNK0               0x0001DF0000000420  NCB
 DPI_DMA4_REQBNK1               0x0001DF00000004A0  NCB
 DPI_DMA5_COUNTS                0x0001DF0000000328  NCB
 DPI_DMA5_DBELL                 0x0001DF0000000228  NCB
+DPI_DMA5_ERR_RSP_STATUS        0x0001DF0000000AA8  NCB
 DPI_DMA5_IBUFF_SADDR           0x0001DF00000002A8  NCB
 DPI_DMA5_IFLIGHT               0x0001DF0000000A28  NCB
 DPI_DMA5_NADDR                 0x0001DF00000003A8  NCB
@@ -43139,6 +43174,7 @@ DPI_DMA5_REQBNK0               0x0001DF0000000428  NCB
 DPI_DMA5_REQBNK1               0x0001DF00000004A8  NCB
 DPI_DMA6_COUNTS                0x0001DF0000000330  NCB
 DPI_DMA6_DBELL                 0x0001DF0000000230  NCB
+DPI_DMA6_ERR_RSP_STATUS        0x0001DF0000000AB0  NCB
 DPI_DMA6_IBUFF_SADDR           0x0001DF00000002B0  NCB
 DPI_DMA6_IFLIGHT               0x0001DF0000000A30  NCB
 DPI_DMA6_NADDR                 0x0001DF00000003B0  NCB
@@ -43146,6 +43182,7 @@ DPI_DMA6_REQBNK0               0x0001DF0000000430  NCB
 DPI_DMA6_REQBNK1               0x0001DF00000004B0  NCB
 DPI_DMA7_COUNTS                0x0001DF0000000338  NCB
 DPI_DMA7_DBELL                 0x0001DF0000000238  NCB
+DPI_DMA7_ERR_RSP_STATUS        0x0001DF0000000AB8  NCB
 DPI_DMA7_IBUFF_SADDR           0x0001DF00000002B8  NCB
 DPI_DMA7_IFLIGHT               0x0001DF0000000A38  NCB
 DPI_DMA7_NADDR                 0x0001DF00000003B8  NCB

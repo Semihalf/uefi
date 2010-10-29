@@ -36661,10 +36661,10 @@ Pos      Name    Type     Value     Value       Description
  <3>     NS       RAZ      NS          NS        Reserved.                                          |
  <2>     PT_ERROR R/W1C    0x0         0         Input or Output Port has encountered an            |
                                                  unrecoverable error condition.                     |
- <1>     PT_OK    RO       0x0         0         Input or Output Port are intitialized and the port |
+ <1>     PT_OK    RO       0x0         1         Input or Output Port are intitialized and the port |
                                                  is exchanging error free control symbols with      |
                                                  attached device.                                   |
- <0>     PT_UINIT RO       0x0         0         Port is uninitialized.  This bit and bit 1 are     |
+ <0>     PT_UINIT RO       0x1         0         Port is uninitialized.  This bit and bit 1 are     |
                                                  mutually exclusive.                                |
                                                                                                     |
 Notes:                                                                                              |
