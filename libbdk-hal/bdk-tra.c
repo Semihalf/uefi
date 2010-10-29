@@ -434,3 +434,15 @@ void bdk_tra_display(void)
     } while (valid);
 }
 
+/**
+ * Enable or disable the TRA hardware
+ *
+ * @param enable 1=enable, 0=disable
+ */
+void bdk_tra_enable(int enable)
+{
+    BDK_CSR_MODIFY(c, BDK_TRAX_CTL(0),
+            c.s.ena = enable);
+    BDK_CSR_READ(BDK_TRAX_CTL(0));
+}
+

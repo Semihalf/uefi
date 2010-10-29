@@ -585,10 +585,5 @@ extern void bdk_tra_display(void);
  *
  * @param enable 1=enable, 0=disable
  */
-static inline void bdk_tra_enable(int enable)
-{
-    BDK_CSR_MODIFY(c, BDK_TRAX_CTL(0),
-            c.s.ena = enable);
-    BDK_CSR_READ(BDK_TRAX_CTL(0));
-}
+extern void bdk_tra_enable(int enable);
 
