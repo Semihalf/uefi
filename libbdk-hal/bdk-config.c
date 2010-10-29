@@ -1,8 +1,8 @@
 #include <bdk.h>
 #include <stdio.h>
 
-uint8_t __bdk_config_is_valid[__BDK_CONFIG_END];
-uint64_t __bdk_config_cache[__BDK_CONFIG_END];
+static uint8_t __bdk_config_is_valid[__BDK_CONFIG_END];
+static uint64_t __bdk_config_cache[__BDK_CONFIG_END];
 
 typedef struct
 {
@@ -45,7 +45,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 };
 #undef AS_INIT
 
-uint64_t __bdk_config_get_slow(bdk_config_t cfg)
+static uint64_t __bdk_config_get_slow(bdk_config_t cfg)
 {
     const bdk_config_entry_t *entry = &__bdk_config_table[cfg];
     uint64_t result = entry->default_value;
@@ -71,7 +71,17 @@ uint64_t __bdk_config_get_slow(bdk_config_t cfg)
     return result;
 }
 
-extern void bdk_config_set(bdk_config_t cfg, uint64_t value)
+
+uint64_t bdk_config_get(bdk_config_t cfg)
+{
+    if (bdk_likely(__bdk_config_is_valid[cfg]))
+        return __bdk_config_cache[cfg];
+    else
+        return __bdk_config_get_slow(cfg);
+}
+
+
+void bdk_config_set(bdk_config_t cfg, uint64_t value)
 {
     __bdk_config_cache[cfg] = value;
     BDK_SYNCW;
