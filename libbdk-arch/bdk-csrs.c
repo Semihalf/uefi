@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-static const bdk_csr_db_type_t bdk_csr_db_cn63xxp1[] = {
+static const __bdk_csr_db_type_t __bdk_csr_db_cn63xxp1[] = {
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,   0x11800e0000518,0,0},
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,   0x11800e0000400,0,0},
     {  189, BDK_CSR_TYPE_RSL,8, 18, 3, 0,   0x11800e0000010,             0x800ull,0},
@@ -1182,7 +1182,7 @@ static const bdk_csr_db_type_t bdk_csr_db_cn63xxp1[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}
 };
 
-static const bdk_csr_db_type_t bdk_csr_db_cn63xx[] = {
+static const __bdk_csr_db_type_t __bdk_csr_db_cn63xx[] = {
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,   0x11800e0000518,0,0},
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,   0x11800e0000400,0,0},
     {  189, BDK_CSR_TYPE_RSL,8, 18, 3, 0,   0x11800e0000010,             0x800ull,0},
@@ -2390,7 +2390,7 @@ static const bdk_csr_db_type_t bdk_csr_db_cn63xx[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}
 };
 
-static const bdk_csr_db_type_t bdk_csr_db_cn68xx[] = {
+static const __bdk_csr_db_type_t __bdk_csr_db_cn68xx[] = {
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,   0x11800e0000518,0,0},
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,   0x11800e0000400,0,0},
     {  189, BDK_CSR_TYPE_RSL,8, 18,28, 0,   0x11800e0000010,             0x800ull,0},
@@ -3716,7 +3716,7 @@ static const bdk_csr_db_type_t bdk_csr_db_cn68xx[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}
 };
 
-const uint16_t bdk_csr_db_fieldList[] = {
+const uint16_t __bdk_csr_db_fieldList[] = {
     14,0,3,6,9,12,15,18,21,24,27,30,33,36,39,
     2,42,45,
     13,48,51,54,57,60,63,66,69,72,75,78,81,84,
@@ -4831,7 +4831,7 @@ const uint16_t bdk_csr_db_fieldList[] = {
     2,13509,111,
 };
 
-const uint16_t bdk_csr_db_field[] = {
+const uint16_t __bdk_csr_db_field[] = {
     16,0,1,
     29,2,3,
     37,4,21,
@@ -9338,7 +9338,7 @@ const uint16_t bdk_csr_db_field[] = {
     44251,0,4,
 };
 
-const int bdk_csr_db_range[] = {
+const int __bdk_csr_db_range[] = {
     2,-1,-1,
     2,0,1,
     4,0,11,32,33,
@@ -9371,7 +9371,7 @@ const int bdk_csr_db_range[] = {
     2,0,8191,
 };
 
-const char *bdk_csr_db_string = 
+const char *__bdk_csr_db_string = 
     "AGL_GMX_BAD_REG\0"
     "RESERVED_0_1\0"
     "OUT_OVR\0"
@@ -14689,10 +14689,10 @@ const char *bdk_csr_db_string =
     "ZIP_QUE_ENA\0"
     "ZIP_QUE_PRI\0";
 
-const bdk_csr_db_map_t bdk_csr_db[] = {
-    {OCTEON_CN63XX_PASS1_X, bdk_csr_db_cn63xxp1},
-    {OCTEON_CN63XX_PASS2_X, bdk_csr_db_cn63xx},
-    {OCTEON_CN68XX, bdk_csr_db_cn68xx},
+const __bdk_csr_db_map_t __bdk_csr_db[] = {
+    {OCTEON_CN63XX_PASS1_X, __bdk_csr_db_cn63xxp1},
+    {OCTEON_CN63XX_PASS2_X, __bdk_csr_db_cn63xx},
+    {OCTEON_CN68XX, __bdk_csr_db_cn68xx},
     {0, NULL}
 };
 

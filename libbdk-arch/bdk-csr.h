@@ -33,12 +33,12 @@ typedef struct {
     uint64_t        base;
     uint64_t        offset_inc;
     uint64_t        block_inc;
-} bdk_csr_db_type_t;
+} __bdk_csr_db_type_t;
 
 typedef struct {
     uint32_t model;
-    const bdk_csr_db_type_t *data;
-} bdk_csr_db_map_t;
+    const __bdk_csr_db_type_t *data;
+} __bdk_csr_db_map_t;
 
 
 /**

@@ -95,7 +95,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
-        out.write("static const bdk_csr_db_type_t bdk_csr_db_%s[] = {\n" % chip)
+        out.write("static const __bdk_csr_db_type_t __bdk_csr_db_%s[] = {\n" % chip)
         for csr in separate_chip_lists[chip_index]:
             if csr.cisco_only and not include_cisco_only:
                 continue
@@ -124,7 +124,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the CSR fieldList table
     #
-    out.write("const uint16_t bdk_csr_db_fieldList[] = {\n")
+    out.write("const uint16_t __bdk_csr_db_fieldList[] = {\n")
     keys = getKeysSorted(globalFieldListTable)
     for key in keys:
         out.write("    %s,\n" % key)
@@ -132,7 +132,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the CSR field table
     #
-    out.write("const uint16_t bdk_csr_db_field[] = {\n")
+    out.write("const uint16_t __bdk_csr_db_field[] = {\n")
     keys = getKeysSorted(globalFieldTable)
     for key in keys:
         out.write("    %s,\n" % key)
@@ -140,7 +140,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the CSR range table
     #
-    out.write("const int bdk_csr_db_range[] = {\n")
+    out.write("const int __bdk_csr_db_range[] = {\n")
     keys = getKeysSorted(globalRangeTable)
     for key in keys:
         out.write("    %s,\n" % key)
@@ -148,7 +148,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the CSR string table
     #
-    out.write("const char *bdk_csr_db_string = ")
+    out.write("const char *__bdk_csr_db_string = ")
     keys = getKeysSorted(globalStringTable)
     for key in keys:
         out.write("\n    \"%s\\0\"" % key)
@@ -156,10 +156,10 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the chip id to CSR table map
     #
-    out.write("const bdk_csr_db_map_t bdk_csr_db[] = {\n")
+    out.write("const __bdk_csr_db_map_t __bdk_csr_db[] = {\n")
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
-        out.write("    {%s, bdk_csr_db_%s},\n" % (CHIP_TO_MODEL[chip], chip))
+        out.write("    {%s, __bdk_csr_db_%s},\n" % (CHIP_TO_MODEL[chip], chip))
     out.write("    {0, NULL}\n")
     out.write("};\n\n")
     out.close()
