@@ -260,52 +260,6 @@ typedef union
 #define BDK_MMD_DEVICE_VENDOR_1     30
 #define BDK_MMD_DEVICE_VENDOR_2     31
 
-#define BDK_MDIO_TIMEOUT   100000 /* 100 millisec */
-
-/* Helper function to put MDIO interface into clause 45 mode */
-static inline void __bdk_mdio_set_clause45_mode(int bus_id)
-{
-    bdk_smix_clk_t smi_clk;
-    /* Put bus into clause 45 mode */
-    smi_clk.u64 = BDK_CSR_READ(BDK_SMIX_CLK(bus_id));
-    smi_clk.s.mode = 1;
-    smi_clk.s.preamble = 1;
-    BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
-}
-/* Helper function to put MDIO interface into clause 22 mode */
-static inline void __bdk_mdio_set_clause22_mode(int bus_id)
-{
-    bdk_smix_clk_t smi_clk;
-    /* Put bus into clause 22 mode */
-    smi_clk.u64 = BDK_CSR_READ(BDK_SMIX_CLK(bus_id));
-    smi_clk.s.mode = 0;
-    BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
-}
-
-/**
- * @INTERNAL
- * Function to read SMIX_RD_DAT and check for timeouts. This
- * code sequence is done fairly often, so put in in one spot.
- *
- * @param bus_id SMI/MDIO bus to read
- *
- * @return Value of SMIX_RD_DAT. pending will be set on
- *         a timeout.
- */
-static inline bdk_smix_rd_dat_t __bdk_mdio_read_rd_dat(int bus_id)
-{
-    bdk_smix_rd_dat_t smi_rd;
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)BDK_MDIO_TIMEOUT *
-                       bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
-    do
-    {
-        bdk_wait(1000);
-        smi_rd.u64 = BDK_CSR_READ(BDK_SMIX_RD_DAT(bus_id));
-    } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_CORE) < done));
-    return smi_rd;
-}
-
-
 /**
  * Perform an MII read. This function is used to read PHY
  * registers controlling auto negotiation.
@@ -317,26 +271,7 @@ static inline bdk_smix_rd_dat_t __bdk_mdio_read_rd_dat(int bus_id)
  *
  * @return Result from the read or -1 on failure
  */
-static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
-{
-    bdk_smix_cmd_t smi_cmd;
-    bdk_smix_rd_dat_t smi_rd;
-
-    __bdk_mdio_set_clause22_mode(bus_id);
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_22_READ;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    smi_rd = __bdk_mdio_read_rd_dat(bus_id);
-    if (smi_rd.s.val)
-        return smi_rd.s.dat;
-    else
-        return -1;
-}
-
+extern int bdk_mdio_read(int bus_id, int phy_id, int location);
 
 /**
  * Perform an MII write. This function is used to write PHY
@@ -351,28 +286,7 @@ static inline int bdk_mdio_read(int bus_id, int phy_id, int location)
  * @return -1 on error
  *         0 on success
  */
-static inline int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
-{
-     bdk_smix_cmd_t smi_cmd;
-    bdk_smix_wr_dat_t smi_wr;
-
-    __bdk_mdio_set_clause22_mode(bus_id);
-
-    smi_wr.u64 = 0;
-    smi_wr.s.dat = val;
-    BDK_CSR_WRITE(BDK_SMIX_WR_DAT(bus_id), smi_wr.u64);
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_22_WRITE;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
-        return -1;
-
-    return 0;
-}
+extern int bdk_mdio_write(int bus_id, int phy_id, int location, int val);
 
 /**
  * Perform an IEEE 802.3 clause 45 MII read. This function is used to read PHY
@@ -387,51 +301,7 @@ static inline int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
  * @return Result from the read or -1 on failure
  */
 
-static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location)
-{
-    bdk_smix_cmd_t smi_cmd;
-    bdk_smix_rd_dat_t smi_rd;
-    bdk_smix_wr_dat_t smi_wr;
-
-    __bdk_mdio_set_clause45_mode(bus_id);
-
-    smi_wr.u64 = 0;
-    smi_wr.s.dat = location;
-    BDK_CSR_WRITE(BDK_SMIX_WR_DAT(bus_id), smi_wr.u64);
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
-    {
-        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(address)\n", bus_id, phy_id, device, location);
-        return -1;
-    }
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_45_READ;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    smi_rd = __bdk_mdio_read_rd_dat(bus_id);
-    if (smi_rd.s.pending)
-    {
-        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(data)\n", bus_id, phy_id, device, location);
-        return -1;
-    }
-
-    if (smi_rd.s.val)
-        return smi_rd.s.dat;
-    else
-    {
-        bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   INVALID READ\n", bus_id, phy_id, device, location);
-        return -1;
-    }
-}
+extern int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location);
 
 /**
  * Perform an IEEE 802.3 clause 45 MII write. This function is used to write PHY
@@ -447,41 +317,6 @@ static inline int bdk_mdio_45_read(int bus_id, int phy_id, int device, int locat
  * @return -1 on error
  *         0 on success
  */
-static inline int bdk_mdio_45_write(int bus_id, int phy_id, int device, int location,
-                                     int val)
-{
-    bdk_smix_cmd_t smi_cmd;
-    bdk_smix_wr_dat_t smi_wr;
-
-    __bdk_mdio_set_clause45_mode(bus_id);
-
-    smi_wr.u64 = 0;
-    smi_wr.s.dat = location;
-    BDK_CSR_WRITE(BDK_SMIX_WR_DAT(bus_id), smi_wr.u64);
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
-        return -1;
-
-    smi_wr.u64 = 0;
-    smi_wr.s.dat = val;
-    BDK_CSR_WRITE(BDK_SMIX_WR_DAT(bus_id), smi_wr.u64);
-
-    smi_cmd.u64 = 0;
-    smi_cmd.s.phy_op = MDIO_CLAUSE_45_WRITE;
-    smi_cmd.s.phy_adr = phy_id;
-    smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(BDK_SMIX_CMD(bus_id), smi_cmd.u64);
-
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_SMIX_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
-        return -1;
-
-    return 0;
-}
-
+extern int bdk_mdio_45_write(int bus_id, int phy_id, int device, int location,
+                                     int val);
 
