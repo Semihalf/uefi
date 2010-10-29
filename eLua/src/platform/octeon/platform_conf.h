@@ -53,7 +53,8 @@
     _ROM(AUXLIB_BITARRAY, luaopen_bitarray, bitarray_map) \
     _ROM(AUXLIB_ELUA, luaopen_elua, elua_map) \
     _ROM(AUXLIB_I2C, luaopen_i2c, i2c_map) \
-    _ROM( LUA_MATHLIBNAME, luaopen_math, math_map )
+    _ROM( LUA_MATHLIBNAME, luaopen_math, math_map ) \
+    _ROM( "octeon", luaopen_octeon, octeon_map )
 
 // Bogus defines for common.c
 #define CON_UART_ID           0
@@ -112,5 +113,7 @@ extern void *memory_start_address;
 extern void *memory_end_address;
 #define MEM_START_ADDRESS     { ( void* )memory_start_address }
 #define MEM_END_ADDRESS       { ( void* )memory_end_address }
+
+LUALIB_API int luaopen_octeon( lua_State* L );
 
 #endif // #ifndef __PLATFORM_CONF_H__

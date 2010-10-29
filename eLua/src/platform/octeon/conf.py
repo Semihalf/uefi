@@ -2,7 +2,7 @@
 
 BDK_ROOT = os.getenv("BDK_ROOT")
 assert BDK_ROOT, "Define BDK_ROOT in the environment"
-specific_files = "platform.c platform-eth.c platform-i2c.c platform-pio.c platform-timer.c platform-uart.c"
+specific_files = "platform.c platform-eth.c platform-i2c.c platform-pio.c platform-timer.c platform-uart.c octeon.c"
 
 # Prepend with path
 specific_files = " ".join( [ "src/platform/%s/%s" % ( platform, f ) for f in specific_files.split() ] )
