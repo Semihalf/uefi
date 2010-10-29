@@ -16,3 +16,4 @@
 /libc/mipsisa64-octeon-elf
 /docs/*.html
 /libbdk-dram/lib_octeon_shared.c
+/libbdk/bdk-functions.c

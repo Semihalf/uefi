@@ -24,9 +24,9 @@ deps = $(addsuffix .d, $(basename $(src)))
 # The library depends on the precompiled header and all the object files
 #
 .DEFAULT: $(BDK_ROOT)/libbdk/libbdk.a
-$(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
+$(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
 	rm -f $@
-	$(AR) qc $@ $(objs)
+	$(AR) qc $@ $(objs) bdk-functions.o
 	rm -rf tmp
 	mkdir tmp
 	cd tmp && $(AR) x $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
@@ -34,6 +34,9 @@ $(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) $(BDK_ROOT)/libc
 	cd tmp && $(AR) x $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libm.a
 	$(AR) r $@ tmp/*
 	rm -rf tmp
+
+bdk-functions.c: ./create_function_table.py $(objs)
+	./create_function_table.py $@ $(objs)
 
 #
 # These are needed to make bdk.pch
