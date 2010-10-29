@@ -82,6 +82,57 @@ retry:
 }
 
 /**
+ * A convenience wrapper function around bdk_twsix_read_ia() that
+ * only supports 8 bit internal addresses.
+ * Reads up to 7 bytes, and returns both the value read or error
+ * value in the return value
+ *
+ * @param twsi_id   which Octeon TWSI bus to use
+ * @param dev_addr  Device address (7 bit only)
+ * @param internal_addr
+ *                  Internal address (8 bit only)
+ * @param num_bytes Number of bytes to read (0-7)
+ *
+ * @return Value read from TWSI on success
+ *         -1 on error
+ */
+int64_t bdk_twsix_read_ia8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, int num_bytes)
+{
+    uint64_t data;
+    if (num_bytes < 1 || num_bytes > 7)
+        return -1;
+    if (bdk_twsix_read_ia(twsi_id,dev_addr,internal_addr,num_bytes, 1, &data) < 0)
+        return -1;
+    return data;
+}
+
+/**
+ * A convenience wrapper function around bdk_twsix_read_ia() that
+ * only supports 16 bit internal addresses.
+ * Reads up to 7 bytes, and returns both the value read or error
+ * value in the return value
+ *
+ * @param twsi_id   which Octeon TWSI bus to use
+ * @param dev_addr  Device address (7 bit only)
+ * @param internal_addr
+ *                  Internal address (16 bit only)
+ * @param num_bytes Number of bytes to read (0-7)
+ *
+ * @return Value read from TWSI on success
+ *         -1 on error
+ */
+int64_t bdk_twsix_read_ia16(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes)
+{
+    uint64_t data;
+    if (num_bytes < 1 || num_bytes > 7)
+        return -1;
+    if (bdk_twsix_read_ia(twsi_id, dev_addr, internal_addr, num_bytes, 2, &data) < 0)
+        return -1;
+    return data;
+}
+
+
+/**
  * Read from a TWSI device (7 bit device address only) without generating any
  * internal addresses.
  * Read from 1-8 bytes and returns them in the data pointer.
@@ -256,3 +307,111 @@ int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
 
 	return num_bytes;
 }
+
+
+/**
+ * Read 8-bit from a device on the TWSI / I2C bus
+ *
+ * @param twsi_id  Which TWSI bus to use. CN3XXX, CN58XX, and CN50XX only
+ *                 support 0. CN56XX and CN57XX support 0-1.
+ * @param dev_addr I2C device address (7 bit)
+ * @param internal_addr
+ *                 Internal device address
+ *
+ * @return 8-bit data or < 0 in case of error
+ */
+int bdk_twsix_read8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr)
+{
+    return bdk_twsix_read_ia8(twsi_id, dev_addr, internal_addr, 1);
+}
+
+/**
+ * Read 8-bit from a device on the TWSI / I2C bus
+ *
+ * Uses current internal address
+ *
+ * @param twsi_id  Which TWSI bus to use. CN3XXX, CN58XX, and CN50XX only
+ *                 support 0. CN56XX and CN57XX support 0-1.
+ * @param dev_addr I2C device address (7 bit)
+ *
+ * @return 8-bit value or < 0 in case of error
+ */
+int bdk_twsix_read8_cur_addr(int twsi_id, uint8_t dev_addr)
+{
+    uint64_t data;
+
+    if (bdk_twsix_read(twsi_id,dev_addr, 1, &data) < 0)
+        return -1;
+    return(data & 0xff);
+}
+
+/**
+ * Write 8-bit to a device on the TWSI / I2C bus
+ *
+ * @param twsi_id  Which TWSI bus to use. CN3XXX, CN58XX, and CN50XX only
+ *                 support 0. CN56XX and CN57XX support 0-1.
+ * @param dev_addr I2C device address (7 bit)
+ * @param internal_addr
+ *                 Internal device address
+ * @param data     Data to be written
+ *
+ * @return 0 on success and < 0 in case of error
+ */
+int bdk_twsix_write8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, uint8_t data)
+{
+    if (bdk_twsix_write_ia(twsi_id,dev_addr,internal_addr, 1, 1,data) < 0)
+        return -1;
+    return 0;
+}
+
+/**
+ * Read 8-bit from a device on the TWSI / I2C bus zero.
+ *
+ * This function is for compatibility with SDK 1.6.0 and
+ * before which only supported a single TWSI bus.
+ *
+ * @param dev_addr I2C device address (7 bit)
+ * @param internal_addr
+ *                 Internal device address
+ *
+ * @return 8-bit data or < 0 in case of error
+ */
+int bdk_twsi_read8(uint8_t dev_addr, uint8_t internal_addr)
+{
+    return bdk_twsix_read8(0, dev_addr, internal_addr);
+}
+
+/**
+ * Read 8-bit from a device on the TWSI / I2C bus zero.
+ *
+ * Uses current internal address
+ *
+ * This function is for compatibility with SDK 1.6.0 and
+ * before which only supported a single TWSI bus.
+ *
+ * @param dev_addr I2C device address (7 bit)
+ *
+ * @return 8-bit value or < 0 in case of error
+ */
+int bdk_twsi_read8_cur_addr(uint8_t dev_addr)
+{
+    return bdk_twsix_read8_cur_addr(0, dev_addr);
+}
+
+/**
+ * Write 8-bit to a device on the TWSI / I2C bus zero.
+ * This function is for compatibility with SDK 1.6.0 and
+ * before which only supported a single TWSI bus.
+ *
+ * @param dev_addr I2C device address (7 bit)
+ * @param internal_addr
+ *                 Internal device address
+ * @param data     Data to be written
+ *
+ * @return 0 on success and < 0 in case of error
+ */
+int bdk_twsi_write8(uint8_t dev_addr, uint8_t internal_addr, uint8_t data)
+{
+    return bdk_twsix_write8(0, dev_addr, internal_addr, data);
+}
+

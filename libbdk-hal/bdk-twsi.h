@@ -36,10 +36,7 @@
  *         Number of bytes read on success
  *         -1 on failure
  */
-int bdk_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t *data);
-
-
-
+extern int bdk_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t *data);
 
 /**
  * A convenience wrapper function around bdk_twsix_read_ia() that
@@ -56,15 +53,7 @@ int bdk_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int
  * @return Value read from TWSI on success
  *         -1 on error
  */
-static inline int64_t bdk_twsix_read_ia8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, int num_bytes)
-{
-    uint64_t data;
-    if (num_bytes < 1 || num_bytes > 7)
-        return -1;
-    if (bdk_twsix_read_ia(twsi_id,dev_addr,internal_addr,num_bytes, 1, &data) < 0)
-        return -1;
-    return data;
-}
+extern int64_t bdk_twsix_read_ia8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, int num_bytes);
 
 /**
  * A convenience wrapper function around bdk_twsix_read_ia() that
@@ -81,17 +70,7 @@ static inline int64_t bdk_twsix_read_ia8(int twsi_id, uint8_t dev_addr, uint8_t 
  * @return Value read from TWSI on success
  *         -1 on error
  */
-static inline int64_t bdk_twsix_read_ia16(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes)
-{
-    uint64_t data;
-    if (num_bytes < 1 || num_bytes > 7)
-        return -1;
-    if (bdk_twsix_read_ia(twsi_id, dev_addr, internal_addr, num_bytes, 2, &data) < 0)
-        return -1;
-    return data;
-}
-
-
+extern int64_t bdk_twsix_read_ia16(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes);
 
 /**
  * Read from a TWSI device (7 bit device address only) without generating any
@@ -106,7 +85,7 @@ static inline int64_t bdk_twsix_read_ia16(int twsi_id, uint8_t dev_addr, uint16_
  * @return Number of bytes read on success
  *         -1 on error
  */
-int bdk_twsix_read(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t *data);
+extern int bdk_twsix_read(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t *data);
 
 
 
@@ -126,7 +105,7 @@ int bdk_twsix_read(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t *data)
  * @return 0 on success
  *         -1 on failure
  */
-int bdk_twsix_write(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t data);
+extern int bdk_twsix_write(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t data);
 
 /**
  * Write 1-8 bytes to a TWSI device using an internal address.
@@ -145,7 +124,7 @@ int bdk_twsix_write(int twsi_id, uint8_t dev_addr, int num_bytes, uint64_t data)
  * @return Number of bytes read on success,
  *         -1 on error
  */
-int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t data);
+extern int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t data);
 
 /***********************************************************************
 ** Functions below are deprecated, and not recomended for use.
@@ -169,10 +148,7 @@ int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
  *
  * @return 8-bit data or < 0 in case of error
  */
-static inline int bdk_twsix_read8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr)
-{
-    return bdk_twsix_read_ia8(twsi_id, dev_addr, internal_addr, 1);
-}
+extern int bdk_twsix_read8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr);
 
 /**
  * Read 8-bit from a device on the TWSI / I2C bus
@@ -185,14 +161,7 @@ static inline int bdk_twsix_read8(int twsi_id, uint8_t dev_addr, uint8_t interna
  *
  * @return 8-bit value or < 0 in case of error
  */
-static inline int bdk_twsix_read8_cur_addr(int twsi_id, uint8_t dev_addr)
-{
-    uint64_t data;
-
-    if (bdk_twsix_read(twsi_id,dev_addr, 1, &data) < 0)
-        return -1;
-    return(data & 0xff);
-}
+extern int bdk_twsix_read8_cur_addr(int twsi_id, uint8_t dev_addr);
 
 /**
  * Write 8-bit to a device on the TWSI / I2C bus
@@ -206,12 +175,7 @@ static inline int bdk_twsix_read8_cur_addr(int twsi_id, uint8_t dev_addr)
  *
  * @return 0 on success and < 0 in case of error
  */
-static inline int bdk_twsix_write8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, uint8_t data)
-{
-    if (bdk_twsix_write_ia(twsi_id,dev_addr,internal_addr, 1, 1,data) < 0)
-        return -1;
-    return 0;
-}
+extern int bdk_twsix_write8(int twsi_id, uint8_t dev_addr, uint8_t internal_addr, uint8_t data);
 
 /**
  * Read 8-bit from a device on the TWSI / I2C bus zero.
@@ -225,10 +189,7 @@ static inline int bdk_twsix_write8(int twsi_id, uint8_t dev_addr, uint8_t intern
  *
  * @return 8-bit data or < 0 in case of error
  */
-static inline int bdk_twsi_read8(uint8_t dev_addr, uint8_t internal_addr)
-{
-    return bdk_twsix_read8(0, dev_addr, internal_addr);
-}
+extern int bdk_twsi_read8(uint8_t dev_addr, uint8_t internal_addr);
 
 /**
  * Read 8-bit from a device on the TWSI / I2C bus zero.
@@ -242,10 +203,7 @@ static inline int bdk_twsi_read8(uint8_t dev_addr, uint8_t internal_addr)
  *
  * @return 8-bit value or < 0 in case of error
  */
-static inline int bdk_twsi_read8_cur_addr(uint8_t dev_addr)
-{
-    return bdk_twsix_read8_cur_addr(0, dev_addr);
-}
+extern int bdk_twsi_read8_cur_addr(uint8_t dev_addr);
 
 /**
  * Write 8-bit to a device on the TWSI / I2C bus zero.
@@ -259,8 +217,5 @@ static inline int bdk_twsi_read8_cur_addr(uint8_t dev_addr)
  *
  * @return 0 on success and < 0 in case of error
  */
-static inline int bdk_twsi_write8(uint8_t dev_addr, uint8_t internal_addr, uint8_t data)
-{
-    return bdk_twsix_write8(0, dev_addr, internal_addr, data);
-}
+extern int bdk_twsi_write8(uint8_t dev_addr, uint8_t internal_addr, uint8_t data);
 
