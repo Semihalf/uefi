@@ -15,14 +15,18 @@ static int uart_read(bdk_fs_file_t *handle, void *buffer, int length)
     int id = (long)handle->fs_state - 1;
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
 
-    lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-    while (lsr.s.dr && length)
+    while (count == 0)
     {
-        *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
+        bdk_thread_yield();
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-        buffer++;
-        count++;
-        length--;
+        while (lsr.s.dr && length)
+        {
+            *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
+            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+            buffer++;
+            count++;
+            length--;
+        }
     }
     return count;
 }

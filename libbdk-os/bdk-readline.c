@@ -1,0 +1,810 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <unistd.h>
+
+#define MAX_INSERT 8
+
+#define ERASE_EOL "\033[0K"     /* Erase to end of line */
+#define CURSOR_ON  "\033[?25h"  /* Turn on cursor */
+#define CURSOR_OFF "\033[?25l"  /* Turn off cursor */
+#define CURSOR_LEFT "\033[%dD"  /* Move cursor left */
+#define CURSOR_SAVE "\0337"     /* Save cursor location */
+#define CURSOR_RESTORE "\0338"  /* Restore cursor location */
+
+#define MAX_COMMAND 256
+#define MAX_HISTORY_LOG2 (8)
+#define MAX_HISTORY (1<<MAX_HISTORY_LOG2)
+#define MAX_HISTORY_MASK (MAX_HISTORY-1)
+#define DEBUG_ESCAPE 0
+
+static char command_history[MAX_HISTORY][MAX_COMMAND];
+static int history_index;
+static int history_lookup_index;
+
+static const char *cmd_prompt;
+static unsigned int cmd_len;
+static unsigned int cmd_pos;
+static char *cmd;
+
+typedef struct
+{
+    const char *prefix;
+    const char *complete[];
+} lut_map_t;
+typedef const char * const * lut_t;
+
+static const char **primary_lut;
+static const lut_map_t *secondary_lut;
+static const char *function_key_commands[22];
+
+static int escape_saw_char;
+static int escape_mode;
+static int find_mode;
+static int find_orig_cmd_pos;
+static int search_mode;
+static int was_lookup;
+static int insert_mode = 1;
+static int delete_mode;
+static int overwrite_once;
+static lut_t saved_avail_p;
+static int saved_suffix_size;
+static int tab_mode;
+static char pattern[MAX_COMMAND];
+static int pattern_dir_delta=-1;
+static int pattern_dir_reverse;
+typedef struct {
+    char cmd[MAX_COMMAND];
+    unsigned int cmd_len;
+    unsigned int cmd_pos;
+} undo_t;
+static undo_t undo = {{0,},0,0};
+
+static const char *process_function_key(int function) {
+    escape_mode=0;
+    escape_saw_char=0;
+    if ((function < 1) || (function > 22)) {
+        printf ("function key error %d\n",function);
+        return NULL;
+    }
+    if (function_key_commands[function-1])
+        printf("<%s>",function_key_commands[function-1]);
+    return function_key_commands[function-1];
+}
+
+static void process_input_draw_current()
+{
+    char prompt[32];
+    snprintf(prompt, sizeof(prompt), "%s(%d%s)> ", cmd_prompt,
+        history_index, delete_mode ? "DEL" : find_mode ? "FND" : escape_mode ? "ESC" : insert_mode ? "INS":"OVR");
+    prompt[sizeof(prompt)-1] = 0;
+    command_history[history_index][cmd_len] = 0;
+    /* Erase to end of line, put cursor at correct pos */
+    printf(CURSOR_OFF CURSOR_RESTORE "%s%s" ERASE_EOL, prompt, command_history[history_index]);
+    if (cmd_pos != cmd_len)
+        printf(CURSOR_LEFT, cmd_len - cmd_pos);
+    printf(CURSOR_ON);
+}
+
+static const char *find_token_end(const char *token)
+{
+    char *b;
+    char *p=strchr(token,' ');
+    if ((b=strchr(token,'[')) && (b<p)) p=b;    /* for 'tx.data[' style case */
+    if (p==NULL)
+        return (token + strlen(token));
+    return (p+1);
+}
+
+static void process_input_commit_character(char ch) {
+    if (insert_mode) {
+        if (cmd_len < MAX_COMMAND-1) {
+            if (cmd_len > cmd_pos) {
+                memmove(&cmd[cmd_pos+1], &cmd[cmd_pos], cmd_len-cmd_pos+1);
+            }
+            cmd[cmd_pos++] = ch;
+            cmd_len++;
+            putchar(ch);
+        }
+    }
+    else {      /* overwrite mode */
+        if (cmd_pos < MAX_COMMAND-1) {
+            cmd[cmd_pos++] = ch;
+            if (cmd_pos > cmd_len) cmd_len = cmd_pos;
+            putchar(ch);
+        }
+    }
+}
+
+static lut_t next_avail_p(lut_t avail_p, lut_t lut)
+{
+    if (avail_p == NULL) return lut;
+    if (*++avail_p == 0) return lut;
+    return avail_p;
+}
+
+static void tab_complete(char *token_start, lut_t lut)
+{       /* find longest common suffix, of those with matching prefixes */
+    lut_t avail_p;
+    const char *p;
+    int suffix_size=-1;
+    const char *suffix = NULL;
+    int offset = cmd_pos - (token_start - cmd);
+    int delta_pos=0;
+    int printed=0;
+
+    if (tab_mode==1) {
+        if (saved_avail_p == NULL) {
+            for (saved_avail_p = lut; *saved_avail_p; saved_avail_p++);
+            saved_avail_p--;    /* initialize to the one before the end */
+        }
+        for (avail_p = next_avail_p(saved_avail_p,lut); avail_p != saved_avail_p; avail_p = next_avail_p(avail_p,lut)) {
+            if (strncasecmp(token_start, *avail_p, offset)==0) {        /* prefix matches */
+                suffix = *avail_p+offset;
+                p=find_token_end(suffix);
+                suffix_size = p - suffix;
+                saved_avail_p = avail_p;
+                delta_pos = suffix_size;
+                if ((cmd_pos + saved_suffix_size) > MAX_COMMAND-1) {
+                    saved_suffix_size=0;        /* this should never happen, but just in case... */
+                }
+                if ((cmd_pos + saved_suffix_size) > cmd_len) {
+                    cmd_len = (cmd_pos + saved_suffix_size);
+                }
+                if (insert_mode) {
+                    memmove(&cmd[cmd_pos], &cmd[cmd_pos+saved_suffix_size], saved_suffix_size);
+                    cmd_len -= saved_suffix_size;
+                }
+                else {  /* in overwrite mode, at least cover leftover junk that we created with spaces */
+                    memset(&cmd[cmd_pos], ' ', saved_suffix_size);
+                }
+                cmd[cmd_len]=0;
+                saved_suffix_size = suffix_size;
+                break;
+            }
+        }
+    }
+    else {
+        if (tab_mode==2) printf ("\n");
+        for (avail_p = lut; *avail_p && suffix_size; avail_p++) {
+            if (strncasecmp(token_start, *avail_p, offset)==0) {        /* prefix matches */
+                if (tab_mode==2) {      /* list all */
+                    p = find_token_end(*avail_p);
+                    fwrite(*avail_p, p - *avail_p, 1, stdout);
+                    putchar(' ');
+                    printed += p - *avail_p;
+                    if (printed > 70) {
+                        printf("\n");
+                        printed = 0;
+                    }
+                }
+                else {
+                    if (suffix==NULL) { /* first match */
+                        suffix = *avail_p+offset;
+                        p=find_token_end(suffix);
+                        suffix_size = p - suffix;
+                    }
+                    else {      /* not first match */
+                        while ((suffix_size>0) && (strncasecmp(suffix,*avail_p+offset, suffix_size)!=0)) {
+                            suffix_size--;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    while (suffix_size > 0) {   /* copy suffix to buffer and echo to output (unless too big) */
+        process_input_commit_character(*suffix);
+        suffix++;
+        suffix_size--;
+    }
+    cmd_pos -= delta_pos;
+
+    if ((tab_mode==2) && printed) printf ("\n");
+    process_input_draw_current();
+}
+
+static void process_input_change_index(int delta)
+{
+    int new_index = (history_lookup_index+delta) & MAX_HISTORY_MASK;
+    int new_cmd_len = strlen(command_history[new_index]);
+
+    if (new_cmd_len == 0) return;       /* ignore if uncharted */
+    history_lookup_index = new_index;
+    cmd_len = new_cmd_len;
+    cmd_pos = cmd_len;
+
+    strcpy(command_history[history_index], command_history[history_lookup_index]);      /* copy to current command */
+    process_input_draw_current();
+}
+
+static inline void process_input_change_index_to(int line)
+{
+    process_input_change_index(line - history_lookup_index);
+}
+
+static inline void process_input_change_pos(int delta)
+{
+    cmd_pos += delta;
+
+    if ((signed)cmd_pos < 0) cmd_pos=0;
+    if (cmd_pos > cmd_len) cmd_pos=cmd_len;
+
+    process_input_draw_current();
+}
+
+static inline void process_input_save_undo(void)
+{
+#if DEBUG_ESCAPE
+    printf("\nsave_undo: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
+#endif
+    undo.cmd_len = cmd_len;
+    undo.cmd_pos = cmd_pos;
+    strncpy(undo.cmd, cmd, MAX_COMMAND);
+}
+
+static inline void process_input_undo(void)
+{
+    undo_t temp;
+
+#if DEBUG_ESCAPE
+    printf("\nundo before: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
+#endif
+    temp.cmd_len = undo.cmd_len;
+    temp.cmd_pos = undo.cmd_pos;
+    strncpy(temp.cmd, undo.cmd, MAX_COMMAND);
+
+    process_input_save_undo();
+
+    cmd_len = temp.cmd_len;
+    cmd_pos = temp.cmd_pos;
+    strncpy(cmd, temp.cmd, MAX_COMMAND);
+
+#if DEBUG_ESCAPE
+    printf("undo after: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
+#endif
+}
+
+static inline void process_input_beginning_of_word(void)
+{
+    cmd_pos--;
+    while (((signed)cmd_pos >= 0) && (cmd[cmd_pos] == ' ')) {
+        cmd_pos--;
+    }
+    while (((signed)cmd_pos >= 0) && (cmd[cmd_pos] != ' ')) {
+        cmd_pos--;
+    }
+    cmd_pos++;
+}
+
+static inline void process_input_next_word(void)
+{
+    cmd_pos++;
+    while ((cmd_pos < cmd_len) && (cmd[cmd_pos] != ' ')) {
+        cmd_pos++;
+    }
+    while ((cmd_pos < cmd_len) && (cmd[cmd_pos] == ' ')) {
+        cmd_pos++;
+    }
+}
+
+static inline void process_input_clear_line(void)
+{
+    printf(ERASE_EOL);
+    cmd_len=cmd_pos;
+    cmd[cmd_len] = 0;
+}
+
+static inline void process_input_delete(unsigned int orig_cmd_pos)
+{
+    int delta = cmd_pos - orig_cmd_pos;
+    int len = cmd_len - cmd_pos + 1;
+#if DEBUG_ESCAPE
+    printf("<delete: orig %d, new %d, delta %d, len %d>\n",orig_cmd_pos,cmd_pos,delta,len);
+#endif
+    if (delta < 0) {
+        memmove(&cmd[cmd_pos], &cmd[orig_cmd_pos], len);
+        cmd_len += delta;
+    }
+    else if (delta > 0) {
+        memmove(&cmd[orig_cmd_pos], &cmd[cmd_pos], len);
+        cmd_len -= delta;
+        cmd_pos = orig_cmd_pos;
+    }
+    delete_mode=0;
+}
+
+static inline int remove_leading_spaces(void)
+{
+    unsigned int num_leading_spaces;
+    char *curr_cmd = command_history[history_index];
+
+    curr_cmd[cmd_len] = 0;      /* make sure the command is terminated */
+    /* first find leading spaces */
+    for (num_leading_spaces=0; curr_cmd[num_leading_spaces] == ' '; num_leading_spaces++) { /* loop */ }
+    if (num_leading_spaces != 0) {      /* found leading spaces, remove them */
+        cmd_len -= num_leading_spaces;
+        if (cmd_pos < num_leading_spaces) cmd_pos=0;
+        else cmd_pos -= num_leading_spaces;
+        memmove(&curr_cmd[0], &curr_cmd[num_leading_spaces], cmd_len+1);
+        return 1;
+    }
+    return 0;
+}
+
+static const char *process_input(int c)
+{
+    cmd = command_history[history_index];
+    cmd[cmd_len] = 0;
+
+    if (c == 0)         /* no new input */
+    {
+        process_input_draw_current();
+        goto process_input_done;
+    }
+
+    if (! (escape_mode && !escape_saw_char && !find_mode && (c=='u')) )
+        process_input_save_undo();
+
+    if (escape_mode) {  /* process escape sequences */
+        if (escape_saw_char == '[') {
+            switch (c) {
+                case 'A':
+                    process_input_change_index(-1);
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'B':
+                    process_input_change_index(+1);
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'C':
+                    process_input_change_pos(+1);
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'D':
+                    process_input_change_pos(-1);
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'P':       /* Pause/Break key, toggle start/stop */
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case '\r':
+                case '\n':
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    goto parse_input;   /* parse this as a normal character */
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    escape_saw_char=c;  /* really should handle more than one character here */
+                    break;
+                default:
+#if DEBUG_ESCAPE
+                    printf("<1:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
+#endif
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    goto parse_input;   /* parse this as a normal character */
+            }
+        }
+        else if (escape_saw_char == 'O') {
+            switch (c) {
+                case 'H':       /* Home */
+                    cmd_pos=0;
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'F':       /* End */
+                    cmd_pos=cmd_len;
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    break;
+                case 'P':       /* F1 */
+                case 'Q':       /* F2 */
+                case 'R':       /* F3 */
+                case 'S':       /* F4 */
+                    return process_function_key(c-'P'+1);
+                    break;
+                default:
+#if DEBUG_ESCAPE
+                    printf("<2:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
+#endif
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    goto parse_input;   /* parse this as a normal character */
+            }
+        }
+        else if (isdigit((int)escape_saw_char) && isdigit(c)) {
+#define TWO_DIGIT_ESC_CODE(first,second) (0x200 + ((first) - '0')*10 + (second) - '0')
+            escape_saw_char = TWO_DIGIT_ESC_CODE(escape_saw_char,c);
+        }
+        else if (escape_saw_char != 0) {
+            if (c == '~') {
+                if (escape_saw_char & 0x200) {
+                    int func = escape_saw_char-0x200-16+5;
+                    if ((func >= 5) && (func <= 22))    /* F5..F12 and shift-F1..shift-F8 are 5..22 (with some holes) */
+                        return process_function_key(func);
+#if DEBUG_ESCAPE
+                    else
+                        printf("<4:%d,'%d'>\n",escape_mode,escape_saw_char-0x200);
+#endif
+                    escape_mode=0;
+                    escape_saw_char=0;
+                }
+                else switch (escape_saw_char) {
+                    case '2':   /* Insert */
+                        insert_mode ^= 1;       /* toggle insert mode */
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        break;
+                    case '3':   /* Delete*/
+                        process_input_change_pos(+1); /* translate ESC-x to move right then backspace */
+                        c = '\b';
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        goto parse_input;       /* parse this as a normal character */
+                    case '1':   /* Home */
+                        cmd_pos=0;              /* goto the beginning of the line */
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        break;
+                    case '4':   /* End */
+                        cmd_pos=cmd_len;        /* goto the end of the line */
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        break;
+                    case '5':   /* PageUp */
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        return  "PageUp";
+                        break;
+                    case '6':   /* PageDown */
+                        escape_mode=0;  /* ignore for now */
+                        escape_saw_char=0;
+                        return "PageDown";
+                        break;
+                    default:
+#if DEBUG_ESCAPE
+                        printf("<3:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
+#endif
+                        escape_mode=0;
+                        escape_saw_char=0;
+                        goto parse_input;       /* parse this as a normal character */
+                }
+            }
+        }
+        else {
+            unsigned int orig_cmd_pos = cmd_pos;
+            switch (c) {        /* parse some vi style escape sequences and arrow keys */
+                case 'h':
+                    process_input_change_pos(-1);
+                    break;
+                case 'j':
+                    process_input_change_index(+1);
+                    break;
+                case 'k':
+                    process_input_change_index(-1);
+                    break;
+                case '$':
+                    cmd_pos=cmd_len;
+                    break;
+                case '0':
+                    cmd_pos=0;
+                    break;
+                case 'l':
+                    process_input_change_pos(+1);
+                    break;
+                case 'D':
+                    process_input_clear_line();
+                    break;
+                case 'A':
+                    cmd_pos=cmd_len;
+                    insert_mode=1;
+                    escape_mode=0;
+                    break;
+                case 'a':
+                    process_input_change_pos(+1);
+                    /* NOTE: fall through */
+                case 'i':
+                    insert_mode=1;
+                    escape_mode=0;
+                    break;
+                case 'f':
+                    find_orig_cmd_pos = cmd_pos;
+                    find_mode=1;
+                    escape_mode=0;
+                    goto process_input_done;    /* skip delete_mode check */
+                case 'R':
+                    insert_mode=0;
+                    escape_mode=0;
+                    break;
+                case 'b':
+                    process_input_beginning_of_word();
+                    break;
+                case 'w':
+                    process_input_next_word();
+                    break;
+                case 'r':
+                    insert_mode=0;
+                    escape_mode=0;
+                    overwrite_once=1;
+                    break;
+                case '?':
+                case ':':
+                case '/':
+                    escape_mode=0;
+                    cmd_len=0;
+                    cmd_pos=0;
+                    goto parse_input;   /* parse this as a normal character */
+                case '~':
+                    if (islower((int)cmd[cmd_pos])) cmd[cmd_pos] = toupper((int)cmd[cmd_pos]);
+                    else if (isupper((int)cmd[cmd_pos])) cmd[cmd_pos] = tolower((int)cmd[cmd_pos]);
+                    process_input_change_pos(+1);
+                    break;
+                case 'c':
+                    delete_mode=2;
+                    goto process_input_done;    /* skip delete_mode check */
+                case 'u':
+                    process_input_undo();
+                    break;
+                case 'd':
+                    if (delete_mode==1) {       /* dd is delete line */
+                        cmd_len=0;
+                        cmd_pos=0;
+                        delete_mode=0;
+                        break;
+                    }
+                    delete_mode=1;
+                    goto process_input_done;    /* skip delete_mode check */
+                case 'x':               /* translate ESC-x to move right then backspace */
+                    process_input_change_pos(+1);
+                    c = '\b';
+                    goto parse_input;   /* parse this as a normal character */
+                case 'n':
+                    search_mode=1;
+                    was_lookup = 0;
+                    pattern_dir_reverse = 0;
+                    goto search_pattern;
+                case 'N':
+                    search_mode=1;
+                    was_lookup = 0;
+                    pattern_dir_reverse = 1;
+                    goto search_pattern;
+                case '[':
+                case 'O':
+                    escape_saw_char=c;
+                    break;
+                case '\r':
+                case '\n':
+                    escape_mode=0;
+                    goto parse_input;   /* parse this as a normal character */
+                default:
+#if DEBUG_ESCAPE
+                    printf("<0:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
+#endif
+                    escape_mode=0;
+                    escape_saw_char=0;
+                    goto parse_input;   /* parse this as a normal character */
+            }
+            if (delete_mode) {
+                if (delete_mode==2) {   /* change mode (delete then insert) */
+                    insert_mode=1;
+                    escape_mode=0;
+                }
+                process_input_delete(orig_cmd_pos);
+            }
+        }
+        goto process_input_done;
+    }
+
+    if (find_mode) {    /* find a character */
+        char *p = strchr(&cmd[cmd_pos],c);
+        if ((p!=NULL) && ((p-cmd+1) <= (int)cmd_len)) { /* ignore, not found or beyond range */
+            cmd_pos = p-cmd;            /* move to next c */
+        }
+        find_mode=0;
+        escape_mode=1;  /* "stay" in escape mode after find */
+        if (delete_mode) {
+            cmd_pos++;  /* also delete found character in find mode */
+            if (cmd_pos > cmd_len) cmd_pos=cmd_len;
+            process_input_delete(find_orig_cmd_pos);
+        }
+        goto process_input_done;
+    }
+
+parse_input:
+    if (overwrite_once) {
+        escape_mode=1;
+        overwrite_once=0;
+    }
+    if ((c == '\t') || (c == '\x04'))   /* tab completion, scan help strings for completion possibilities */
+    {
+        char *token_start;
+
+        remove_leading_spaces();
+        process_input_draw_current();
+
+        if (c == '\x04') tab_mode=2;    /* list all possibilities */
+        if (tab_mode==0) {
+            saved_avail_p=NULL;         /* start over */
+            saved_suffix_size=0;        /* start over */
+        }
+        cmd[cmd_len] = 0;
+        token_start = &cmd[cmd_pos] - (cmd_pos != 0);
+        while ((token_start > cmd) && (*token_start != ' ')) token_start--;
+        if (token_start==cmd) {         /* first token of command */
+            if (primary_lut)
+                tab_complete(cmd, primary_lut);
+        }
+        else {
+            token_start++;      /* skip space */
+            if (strncasecmp(cmd, "help", strlen("help")) == 0) {        /* for help <command> secondary lookup is help_commands */
+                if (primary_lut)
+                    tab_complete(token_start, primary_lut);
+            }
+            else if (secondary_lut) {
+                const lut_map_t *second;
+                for (second=secondary_lut; second->prefix; second++) {
+                    if (strncasecmp(cmd, second->prefix, strlen(second->prefix)) == 0) {
+                        tab_complete(token_start, second->complete);
+                        break;
+                    }
+                }
+            }
+        }
+        if (tab_mode==2)
+            tab_mode=0;
+        else
+            tab_mode=1;
+    }
+    else if ((tab_mode==1) && (c==' ')) {       /* space after multi-tab selects and moves to next space or end */
+        char *p = strchr(&cmd[cmd_pos],' ');
+        if ((p==NULL) || ((p-cmd+1) > (int)cmd_len)) {
+            cmd_pos = cmd_len;          /* move to end of command */
+        }
+        else {
+            cmd_pos = p-cmd+1;          /* move to just after next space */
+        }
+    }
+    else if ((tab_mode=0)) {    /* NOTE: always false, but used to clear tab mode and keep "else if" strucure clean */
+        /* never happens */
+    }
+    else if (c=='\033') {       /* escape character */
+        escape_mode=1;
+    }
+    else if ((c>=32) && (c<=126))       /* normal character */
+    {
+        process_input_commit_character(c);
+    }
+    else if (c == '\x0c')       /* control-l erases/redraws sreeen */
+    {
+        //printf(GOTO_TOP ERASE_EOS);
+    }
+    else if (c == 3)       /* control-C */
+    {
+        return "\003";
+    }
+    else if (c == 26)       /* control-Z */
+    {
+        return "\032";
+    }
+    else if (c == '\b')         /* backspace */
+    {
+        if (cmd_pos)
+        {
+            cmd_len--;
+            cmd_pos--;
+            if (cmd_pos < cmd_len) {
+                memmove(&cmd[cmd_pos], &cmd[cmd_pos+1], cmd_len-cmd_pos+1);
+            }
+        }
+    }
+    else if ((c == '\r') || (c == '\n'))        /* CR/LF */
+    {
+        was_lookup = (cmd[0] == '/') || (cmd[0] == '?') || (cmd[0] == ':');
+        search_mode = (cmd[0] == '/') || (cmd[0] == '?');
+        cmd[cmd_len] = 0;
+        cmd_pos = cmd_len;
+        if ((cmd[0] == '!') || was_lookup) {
+            int new_line;
+            if ((cmd[1] == '!') || (cmd[1] == ':')) {
+                process_input_change_index_to(history_index-1);
+            }
+            else if ((!search_mode) && (sscanf(cmd+1,"%d",&new_line)==1)) {
+                process_input_change_index_to(new_line);
+            }
+            else {      /* search for first line starting with !pat */
+                int len;
+                int delta;
+                strcpy(pattern,cmd+1);
+                pattern_dir_delta = (cmd[0] == '/') ? 1 : -1;
+                pattern_dir_reverse=0;
+search_pattern:
+                delta = pattern_dir_delta;
+                if (pattern_dir_reverse) {
+                    if (pattern_dir_delta == 1) delta= -1;
+                    else delta = 1;
+                }
+                else if (delta == 0) delta = -1;        /* just in case.... */
+
+                len=strlen(pattern);
+#define PREV_HIST(x) ( ((x)+delta) & MAX_HISTORY_MASK )
+                for (new_line=PREV_HIST(history_lookup_index);
+                        (command_history[new_line][0]) && (new_line!=history_lookup_index);
+                        new_line=PREV_HIST(new_line)) {
+                    if (search_mode) {  /* search anywhere, NOTE case sensitive */
+                        if (strstr(command_history[new_line],pattern)!=0) {
+                            process_input_change_index_to(new_line);
+                            break;
+                        }
+                    }
+                    else {      /* only search from beginning, case insensitive */
+                        if (strncasecmp(pattern,command_history[new_line],len)==0) {
+                            process_input_change_index_to(new_line);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        process_input_draw_current();
+        if (!(was_lookup || search_mode)) {     /* don't execute if only a lookup */
+            if (remove_leading_spaces()) process_input_draw_current();
+            if (cmd_len != 0) history_index = (history_index + 1) & MAX_HISTORY_MASK;
+            history_lookup_index = history_index;
+            cmd_len = 0;
+            cmd_pos = 0;
+            return cmd;
+        }
+        else {
+            escape_mode=1;      /* "stay" in escape mode after search */
+            search_mode=0;
+        }
+    }
+process_input_done:
+    process_input_draw_current();
+    return NULL;
+}
+
+
+const char *bdk_readline(const char *prompt)
+{
+    cmd_prompt = prompt;
+    cmd_len = 0;
+    cmd_pos = 0;
+
+    printf(CURSOR_SAVE);
+    process_input_draw_current();
+    while (1)
+    {
+        int c;
+        do
+        {
+            char b;
+            fflush(stdout);
+            if (read(0, &b, 1) == 1)
+                c = b;
+            else
+                c = -1;
+        } while (c == -1);
+        const char *result = process_input(c);
+        if (result)
+        {
+            printf("\n");
+            return result;
+        }
+    }
+}
+
