@@ -21,30 +21,25 @@ static int octeon_c_call( lua_State* L )
     int num_args = lua_gettop(L);
     func = lua_topointer(L, lua_upvalueindex(1));
 
-    printf("c call %p(", func);
-
     int i;
     for (i=0; i<num_args; i++)
     {
         if (lua_isnumber(L, i+1))
         {
             args[i] = lua_tonumber(L, i+1);
-            printf(" %lu", args[i]);
         }
         else if (lua_isstring(L, i+1))
         {
             const char *str = lua_tostring(L, i+1);
             args[i] = (long)str;
-            printf(" \"%s\"", str);
         }
         else
         {
-            printf(") ERROR: Invalid argument type\n");
+            luaL_error(L, "Invalid argument type");
             lua_pop(L, num_args);
-            return 1;
+            return 0;
         }
     }
-    printf(")\n");
 
     long result = func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
     lua_pop(L, num_args);
