@@ -197,22 +197,19 @@ static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset
 
     /* Fail if we reached the end of the list without finding it */
     if (db->width == 0)
-    {
-        bdk_error("CSR lookup can't find this CSR\n");
         return NULL;
-    }
 
     /* Fail if offset in invalid */
     if (__bdk_csr_check_range(db->offset_range, *offset, NULL))
     {
-        bdk_error("CSR lookup with invalid offset\n");
+        //bdk_error("CSR lookup with invalid offset\n");
         return NULL;
     }
 
     /* Fail if block in invalid */
     if (__bdk_csr_check_range(db->block_range, *block, NULL))
     {
-        bdk_error("CSR lookup with invalid block\n");
+        //bdk_error("CSR lookup with invalid block\n");
         return NULL;
     }
 
@@ -258,7 +255,10 @@ int bdk_csr_decode(const char *name, uint64_t value)
 
     /* Fail if we can't find the CSR */
     if (!db)
+    {
+        bdk_error("CSR lookup can't find this CSR\n");
         return -1;
+    }
 
     /* Print the official CSR name */
     if (block != -1)
@@ -411,12 +411,15 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
         return -1;
 
     /* Fill in the next name */
-    if (block != -1)
-        sprintf(buffer, "%s(%d,%d)", __bdk_csr_db_string + db->name_index, offset, block);
-    else if (offset != -1)
-        sprintf(buffer, "%s(%d)", __bdk_csr_db_string + db->name_index, offset);
-    else
-        sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index);
+    if (buffer)
+    {
+        if (block != -1)
+            sprintf(buffer, "%s(%d,%d)", __bdk_csr_db_string + db->name_index, offset, block);
+        else if (offset != -1)
+            sprintf(buffer, "%s(%d)", __bdk_csr_db_string + db->name_index, offset);
+        else
+            sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index);
+    }
 
     return 0;
 }
