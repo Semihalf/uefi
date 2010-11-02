@@ -77,8 +77,8 @@ static void bdk_init_stage2(void) __attribute((noreturn, noinline));
 static void bdk_init_stage2(void)
 {
     extern int main(int argc, const char *argv);
-    extern void _edata; /* End of .data section, beginning of .bss */
-    extern void _end;   /* End of entire .data */
+    extern void _fbss;  /* Beginning of .bss */
+    extern void _ebss;  /* End of .bss */
     const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
     const char BANNER_2[] = "Setting up global data\n";
     const char BANNER_3[] = "Clearing BSS\n";
@@ -97,7 +97,7 @@ static void bdk_init_stage2(void)
 
         /* Zero BSS */
         write(1, BANNER_3, sizeof(BANNER_3)-1);
-        memset(&_edata, 0, &_end - &_edata);
+        memset(&_fbss, 0, &_ebss - &_fbss);
 
         write(1, BANNER_4, sizeof(BANNER_4)-1);
         bdk_thread_initialize();

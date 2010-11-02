@@ -21,10 +21,8 @@ CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-s
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles -Wl,--allow-multiple-definition -Wl,--gc-sections
-LDFLAGS += -Wl,--section-start -Wl,.init=0xffffffffBFC00000
-LDFLAGS += -Wl,--section-start -Wl,.data=0xffffffffC0000580
-LDFLAGS += -Wl,--section-start -Wl,.text=0xffffffffE0044000
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
+LDFLAGS += -Wl,-T -Wl,bdk.ld
 LDLIBS = -lbdk -lgcc
 
 INIT_SECTIONS=.init
@@ -33,7 +31,7 @@ TEXT_SECTIONS=.text .rodata .eh_frame
 INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
 DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
 TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
-
+TEXT_START=`mipsisa64-octeon-elf-objdump -t $^ | grep _ftext | sed "s/^e\([0-9a-f]*\).*/print 0x\1/g" | python`
 #
 # This is needed to generate the depends files
 #
@@ -48,7 +46,7 @@ TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary init.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
-	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=4096 count=68 &> /dev/null
+	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
 	cat init+data.tmp text.tmp > $@
 	rm init.tmp data.tmp init+data.tmp text.tmp
 	$(OCTEON_ROOT)/bootloader/u-boot/tools/update_octeon_header $@ generic --text_base=0xffffffffE0000000
@@ -59,9 +57,10 @@ TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary init.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
-	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=4096 count=68 &> /dev/null
+	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
 	cat init+data.tmp text.tmp > $@
 	rm init.tmp data.tmp init+data.tmp text.tmp
+	$(OCTEON_ROOT)/bootloader/u-boot/tools/update_octeon_header $@ generic --text_base=0xffffffffE0000000
 
 
 

@@ -5,6 +5,7 @@
 #define STACK_CACHE_LINES 54      /* Number of cache lines to use in scratch for a stack */
 
     .globl __start
+    .globl __init
     .globl bdk_init_trampoline
 
     .macro exception_stub label
