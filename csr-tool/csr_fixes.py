@@ -147,11 +147,12 @@ def fixDescription(descr, rng):
         description[i] = description[i].replace("O1P", "CN30XX")
         description[i] = description[i].replace("O9N", "CN58XX")
         description[i] = description[i].replace("O56", "CN56XX")
-    # Strip off ending "|"
+    # Strip off ending "|", "$R", "NS"
     for i in range(0,len(description)):
         description[i] = description[i].rstrip()
-        if description[i].endswith("|"):
-            description[i] = description[i][0:-1].rstrip()
+        for s in ["NS", "$R", "$PR", "|"]:
+            if description[i].endswith(s):
+                description[i] = description[i][0:-len(s)].rstrip()
     # Remove leading blank lines
     while len(description) and description[0].strip() == "":
         del description[0]
