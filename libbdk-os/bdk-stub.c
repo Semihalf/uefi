@@ -1,6 +1,7 @@
 #include <bdk.h>
 #include <sys/stat.h>
 #include <sys/times.h>
+#include <sys/time.h>
 #include <errno.h>
 
 #undef errno
@@ -69,5 +70,15 @@ int wait(int *status)
 {
     errno = ECHILD;
     return -1;
+}
+
+int gettimeofday(struct timeval *tv, void *tz)
+{
+    return -1;
+}
+
+void _exit(int status)
+{
+    while(1) {}
 }
 
