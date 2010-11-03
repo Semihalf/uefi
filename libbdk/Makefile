@@ -7,6 +7,7 @@ dirs  = libbdk-arch
 dirs += libbdk-hal
 dirs += libbdk-os
 dirs += libbdk-dram
+dirs += liblua
 
 #
 # Create a list of all source files
