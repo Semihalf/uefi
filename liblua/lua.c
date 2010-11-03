@@ -471,6 +471,10 @@ int bdk_lua_main (int argc, char **argv) {
     l_message(argv[0], "cannot create state: not enough memory");
     return EXIT_FAILURE;
   }
+
+  LUALIB_API int luaopen_octeon(lua_State* L);
+  luaopen_octeon(L);
+
   /* call 'pmain' in protected mode */
   lua_pushcfunction(L, &pmain);
   lua_pushinteger(L, argc);  /* 1st argument */
