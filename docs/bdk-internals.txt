@@ -218,6 +218,82 @@ The BDK supplies a few function to make error reporting more standardized.
 * void bdk_warn(const char *format, ...);
 * bdk_warn_if(expression, format, ...);
 
+Lua Scripting
+-------------
+
+The BDK contains the scripting environment Lua.  Lua allows you to
+write simple scripts to easily control Octeon tests and perform remote
+operations.  Take a look at the link:lua/readme.html[documentation for
+Lua] for more information about the Lua language.  Many BDK functions
+can be called from Lua.  Under the Lua environment, a module _octeon_
+is supplied.
+
+TIP: The link:lua/contents.html[Lua Reference] can be useful.
+
+Checking Octeon Models
+~~~~~~~~~~~~~~~~~~~~~~
+octeon.is_model()::
+
+Check which Octeon model you are using. Pass it one of the following:
+
+* octeon.CN63XX
+* octeon.CN63XXP1
+* octeon.CN63XXP2
+* octeon.CN68XX
+* octeon.CN68XXP1
+
+Calling BDK Functions
+~~~~~~~~~~~~~~~~~~~~~
+octeon.c.bdk_*::
+
+Many BDK functions are exported to Lua.  The functions are exported by
+searching the symbol table at compile time, so not all functions are
+useful.  You must be careful to get the arguments right as Lua doesn't
+do any checking.
+
+.Find the current core clock rate
+[source,lua]
+----
+print (octeon.c.bdk_clock_get_rate(0))
+----
+
+CSR Access
+~~~~~~~~~~
+octeon.csr()::
+
+Returns an iterator suitable for use with a _for_ loop. The following code
+will print out the possible CSR names:
+
+.List all CSRs from Lua
+[source,lua]
+----
+for name in octeon.csr()
+do
+    print (name)
+end
+----
+
+octeon.csr.NAME.read()::
+
+Read a CSR and return its raw value.  _NAME_ is any valid CSR name.
+The code above will display the valid CSR names.
+
+.Read the CIU_FUSE register
+[source,lua]
+----
+print (octeon.csr.CIU_FUSE.read())
+----
+
+octeon.csr.NAME.write(value)::
+
+Write a raw CSR value.  _NAME_ is any valid CSR name.
+The code above will display the valid CSR names.
+
+.Force a soft reset
+[source,lua]
+----
+octeon.csr.CIU_SOFT_RST.write(1))
+----
 
 
 Boot Sequence
