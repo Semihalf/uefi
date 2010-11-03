@@ -246,7 +246,20 @@ int read(int handle, void *buffer, int length)
     __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->read)
     {
-        int result = file->ops->read(file, buffer, length);
+        int result;
+        if ((file == &file_handle[0]) && (length > 1))
+        {
+            /* As a special case use readline for the original stdin handle */
+            const char *line = bdk_readline("");
+            result = strlen(line);
+            result++;
+            if (result > length)
+                result = length;
+            memcpy(buffer, line, result);
+            ((char*)buffer)[result-1] = '\n';
+        }
+        else
+            result = file->ops->read(file, buffer, length);
         if (result > 0)
             file->location += result;
         return result;
