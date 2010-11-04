@@ -31,9 +31,9 @@ deps = $(addsuffix .d, $(basename $(src)))
 # The library depends on the precompiled header and all the object files
 #
 .DEFAULT: $(BDK_ROOT)/libbdk/libbdk.a
-$(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
+$(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o bdk-fs-rom-files.o $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
 	rm -f $@
-	$(AR) qc $@ $(objs) bdk-functions.o
+	$(AR) qc $@ $(objs) bdk-functions.o bdk-fs-rom-files.o
 	rm -rf tmp
 	mkdir tmp
 	cd tmp && $(AR) x $(BDK_ROOT)/libc/mipsisa64-octeon-elf/lib/libc.a
@@ -44,6 +44,10 @@ $(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o 
 
 bdk-functions.c: ./create_function_table.py $(objs)
 	./create_function_table.py $@ $(objs)
+
+ROM_FILES=$(wildcard $(BDK_ROOT)/rom/*)
+bdk-fs-rom-files.c: ./create_rom_files.py $(ROM_FILES)
+	./create_rom_files.py $@ $(BDK_ROOT)/rom/ $(ROM_FILES)
 
 #
 # These are needed to make bdk.pch

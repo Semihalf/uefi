@@ -17,8 +17,10 @@ typedef struct
 } bdk_fs_mount_t;
 
 extern const __bdk_fs_ops_t bdk_fs_uart_ops;
+extern const __bdk_fs_ops_t bdk_fs_rom_ops;
 static const bdk_fs_mount_t mount_points[] = {
     {"/dev/uart/", &bdk_fs_uart_ops},
+    {"/rom/", &bdk_fs_rom_ops},
     {NULL, NULL}
 };
 

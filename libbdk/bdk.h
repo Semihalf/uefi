@@ -17,6 +17,7 @@
 #include "../libbdk-os/bdk-os.h"
 #include "../libbdk-hal/bdk-hal.h"
 #include "bdk-functions.h"
+#include "bdk-fs-rom.h"
 
 /**
  * @mainpage
