@@ -32,6 +32,7 @@ local declared = {}
 local line_handler_fn, global_handler_fn
 local print_handlers = {}
 
+debug = require("debug")
 ilua = {}
 local num_prec
 local num_all
@@ -132,6 +133,7 @@ function val2str(val)
 end
 
 function _pretty_print(...)
+    local arg = {...}
     for i,val in ipairs(arg) do
         oprint(val2str(val))
     end
@@ -361,7 +363,7 @@ if arg then
     end
 end
 
-print 'ILUA: Lua 5.1.2  Copyright (C) 1994-2007 Lua.org, PUC-Rio\n"quit" to end'
+print 'ILUA: Lua 5.2.0  Copyright (C) 1994-2007 Lua.org, PUC-Rio\n"quit" to end'
 
 -- any import complaints?
 ilua.import()
