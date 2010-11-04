@@ -85,6 +85,8 @@ static void bdk_init_stage2(void)
     const char BANNER_4[] = "Creating main thread\n";
     const char BANNER_5[] = "Transfering to thread scheduler\n";
 
+    BDK_MT_COP0(0, COP0_USERLOCAL);
+
     if (bdk_get_core_num() == 0)
     {
         __bdk_init_uart(0);
@@ -108,7 +110,6 @@ static void bdk_init_stage2(void)
     write(1, BANNER_5, sizeof(BANNER_5)-1);
     __bdk_init_cop0();
 
-    bdk_thread_yield();
     bdk_thread_destroy();
 }
 

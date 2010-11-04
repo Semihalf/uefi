@@ -44,7 +44,6 @@ static void __bdk_thread_body(bdk_thread_func_t func, int arg0, void *arg1)
  */
 int bdk_thread_initialize(void)
 {
-    BDK_MT_COP0(0, COP0_USERLOCAL);
     return 0;
 }
 
@@ -58,13 +57,13 @@ void bdk_thread_yield(void)
     uint64_t coremask = 1ull << bdk_get_core_num();
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
+    if (!current)
+        return;
+
     /* Make sure the current context points nowhere as it is going on the end of the list */
-    if (current)
-    {
-        current->next = NULL;
-        if (current->stack_canary != STACK_CANARY)
-            bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
-    }
+    current->next = NULL;
+    if (current->stack_canary != STACK_CANARY)
+        bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
     bdk_spinlock_lock(&bdk_thread_lock);
 
@@ -146,9 +145,39 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
 void bdk_thread_destroy(void)
 {
     bdk_thread_t *current;
+    uint64_t coremask = 1ull << bdk_get_core_num();
     BDK_MF_COP0(current, COP0_USERLOCAL);
-    // FIXME
-    bdk_fatal("bdk_thread_destroy() not implemented\n");
+
+    if (current)
+    {
+        // FIXME
+        bdk_fatal("bdk_thread_destroy() not implemented\n");
+    }
+
+    bdk_spinlock_lock(&bdk_thread_lock);
+
+    /* Find the first thread that can run on this core */
+    bdk_thread_t *next = bdk_thread_head;
+    while (next && !(next->coremask & coremask))
+        next = next->next;
+
+    /* If next is NULL then there are no other threads ready to run and we
+        will continue without doing anything */
+    if (next)
+    {
+        if (next == bdk_thread_tail)
+            bdk_thread_tail = NULL;
+        bdk_thread_head = bdk_thread_head->next;
+
+        /* Do the context switch */
+        __bdk_thread_switch(next);
+        bdk_fatal("bdk_thread_destroy() should never get here\n");
+    }
+    else
+    {
+        bdk_spinlock_unlock(&bdk_thread_lock);
+        bdk_fatal("bdk_thread_destroy() of last thread\n");
+    }
 }
 
 

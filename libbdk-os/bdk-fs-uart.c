@@ -43,19 +43,25 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         if (*p =='\n')
         {
             /* Spin until there is room */
-            do
+            while (1)
             {
                 lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-            } while (lsr.s.thre == 0);
+                if (lsr.s.thre)
+                    break;
+                bdk_thread_yield();
+            }
             /* Write the byte */
             BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), '\r');
         }
 
         /* Spin until there is room */
-        do
+        while (1)
         {
             lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-        } while (lsr.s.thre == 0);
+            if (lsr.s.thre)
+                break;
+            bdk_thread_yield();
+        }
         /* Write the byte */
         BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), *p);
         p++;
