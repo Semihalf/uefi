@@ -77,6 +77,7 @@ uint64_t __bdk_ptr_to_phys_slow(void *ptr)
                     BDK_MF_COP0(index, COP0_INDEX);
                     if (bdk_unlikely(index & (1<<31)))
                         goto fail;
+                    BDK_TLBR;
                     uint32_t pagemask;
                     BDK_MF_COP0(pagemask, COP0_PAGEMASK);
                     pagemask |= bdk_build_mask(13);
