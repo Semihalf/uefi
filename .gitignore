@@ -6,10 +6,6 @@
 *.elf
 *.bin
 *.pickle
-/eLua/.sconsign.dblite
-/eLua/config.log
-/eLua/inc/romfiles.h
-/eLua/luarpc
 /csr-tool/cisco
 /csr-tool/html
 /libc/build
