@@ -48,9 +48,30 @@ caddr_t sbrk(int incr)
 
     if (next == NULL)
     {
-        next = bdk_phys_to_ptr(0x30000000);
-        end = next + (10<<20);
+        extern void _end;
+        unsigned int l2_size = bdk_l2c_get_cache_size_bytes();
+        /* Convert the _end symbol from the text to the data virtual
+            address space */
+        void *ptr = &_end - 0x20000000;
+        /* Heap starts after the _end symbol and goes until the end of
+            the L2 cache */
+        uint64_t start_paddr = bdk_ptr_to_phys(ptr);
+        next = bdk_phys_to_ptr(start_paddr);
+        end = next + l2_size - ((long)&end & 0x0fffffff);
+        if (start_paddr > l2_size)
+        {
+            /* We must have been loaded by uboot into memory. Make the heap
+                bigger as memory is already setup */
+            end += 16<<20; // FIXME: Need to handle real memory size
+        }
     }
+
+    /* Skip 256MB-512MB which is the bootbus. Note that this doesn't affect
+        end, so it needs to be set correctly. If end is less that 256MB, this
+        code will increment past it and fail all allocations */
+    uint64_t paddr = bdk_ptr_to_phys(next);
+    if ((paddr < 0x20000000) && ((paddr + incr) > 0x10000000))
+        next = bdk_phys_to_ptr(0x20000000);
 
     caddr_t result = next;
 
