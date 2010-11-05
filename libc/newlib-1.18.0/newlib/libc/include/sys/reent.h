@@ -814,7 +814,9 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
+#ifndef _impure_ptr
 extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
+#endif
 extern struct _reent *_CONST _global_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));

@@ -11,6 +11,7 @@ typedef struct bdk_thread
     uint64_t    pc;
     uint64_t    lo;
     uint64_t    hi;
+    struct _reent lib_state;
     uint64_t    stack_canary;
     uint64_t    stack[0];
 } bdk_thread_t;
@@ -122,6 +123,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
     thread->regs[28-1] = (uint64_t)&_gp;
     thread->regs[29-1] = (uint64_t)thread->stack + stack_size;
     thread->pc = (uint64_t)__bdk_thread_body;
+    _REENT_INIT_PTR(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
 
     bdk_spinlock_lock(&bdk_thread_lock);
@@ -184,4 +186,13 @@ void bdk_thread_destroy(void)
     }
 }
 
+extern struct _reent *__bdk_thread_getreent(void)
+{
+    bdk_thread_t *current;
+    BDK_MF_COP0(current, COP0_USERLOCAL);
+    if (current)
+        return &current->lib_state;
+    else
+        return _global_impure_ptr;
+}
 

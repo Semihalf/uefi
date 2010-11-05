@@ -145,6 +145,12 @@
 #define __CUSTOM_FILE_IO__
 #endif
 
+#ifdef __OCTEON__
+#define NO_UNALIGNED_LOADSTORE
+extern struct _reent *__bdk_thread_getreent(void);
+#define _impure_ptr __bdk_thread_getreent()
+#endif
+
 /* This block should be kept in sync with GCC's limits.h.  The point
    of having these definitions here is to not include limits.h, which
    would pollute the user namespace, while still using types of the
