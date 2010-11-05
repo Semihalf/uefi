@@ -7,7 +7,7 @@ mipsisa64-octeon-elf/lib/libc.a: build/Makefile
 build/Makefile:
 	rm -rf build
 	mkdir build
-	cd build && CC=$(CROSS)-gcc CFLAGS=-DNO_UNALIGNED_LOADSTORE ../newlib-1.18.0/newlib/configure --host=$(CROSS) --target=$(CROSS) --disable-multilib --enable-newlib-reent-small --silent --prefix=$(BDK_ROOT)/libc
+	cd build && CC=$(CROSS)-gcc CFLAGS="-march=octeon2 -DNO_UNALIGNED_LOADSTORE" ../newlib-1.18.0/newlib/configure --host=$(CROSS) --target=$(CROSS) --disable-multilib --enable-newlib-reent-small --silent --prefix=$(BDK_ROOT)/libc
 
 clean:
 	rm -rf build mipsisa64-octeon-elf

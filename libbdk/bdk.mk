@@ -17,7 +17,7 @@ STRIP=$(CROSS)strip
 # Setup the compile flags
 #
 CPPFLAGS = -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-sections
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -ffunction-sections -fdata-sections -march=octeon2
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles -Wl,--allow-multiple-definition -Wl,--gc-sections
