@@ -424,3 +424,16 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     return 0;
 }
 
+void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2)
+{
+    switch (num_args)
+    {
+        case 0:
+            bdk_fatal("%s is invalid on this chip\n", name);
+        case 1:
+            bdk_fatal("%s(%lu) is invalid on this chip\n", name, arg1);
+        default:
+            bdk_fatal("%s(%lu,%lu) is invalid on this chip\n", name, arg1, arg2);
+    }
+}
+

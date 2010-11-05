@@ -137,6 +137,7 @@ extern int bdk_csr_decode(const char *name, uint64_t value);
 extern uint64_t bdk_csr_read_by_name(const char *name);
 extern int bdk_csr_write_by_name(const char *name, uint64_t value);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
+extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2) __attribute__ ((noreturn));
 
 /**
  * This macro makes it easy to define a variable of the correct
