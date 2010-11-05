@@ -12714,7 +12714,7 @@ Pos      Name    Type     Value     Value       Description
 
 
      ==============================================================
-     GMX(0..4)_PKND_BP_MAP(0..15) Type=RSL
+     GMX(0..4)_BPID_MAP(0..15) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -12726,13 +12726,13 @@ Pos      Name    Type     Value     Value       Description
  <15:9>  NS       RAZ      NS          NS        Reserved				            |
  <8>     VAL      R/W      0x0         0x0       Table entry is valid                               |
  <7:6>   NS       RAZ      NS          NS        Reserved				            |
- <5:0>   PKND     R/W      0x0         0x0       Backpressure ID the entry maps to                  |
+ <5:0>   BPID     R/W      0x0         0x0       Backpressure ID the entry maps to                  |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
      ==============================================================
-     GMX(0..4)_PKND_BP_MSK Type=RSL
+     GMX(0..4)_BPID_MSK Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -15274,12 +15274,16 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <0>     PRC_PAR0 R/W      0x0         0         Enable parity error interrupts for bits
                                                  [31:0] of the PBM memory.
+                                                 NOT USED ON o68.
  <1>     PRC_PAR1 R/W      0x0         0         Enable parity error interrupts for bits
                                                  [63:32] of the PBM memory.
+                                                 NOT USED ON o68.
  <2>     PRC_PAR2 R/W      0x0         0         Enable parity error interrupts for bits
                                                  [95:64] of the PBM memory.
+                                                 NOT USED ON o68.
  <3>     PRC_PAR3 R/W      0x0         0         Enable parity error interrupts for bits
                                                  [127:96] of the PBM memory.
+                                                 NOT USED ON o68.
  <4>     BP_SUB   R/W      0x0         0         Enables interrupts when a backpressure subtract
                                                  has an illegal value.
  <5>     DC_OVR   R/W      0x0         0       	 Allows an interrupt to be sent when the
@@ -15338,12 +15342,16 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <0>     PRC_PAR0 R/W1C    0x0         0         Set when a parity error is dected for bits
                                                  [31:0] of the PBM memory.
+                                                 NOT USED ON o68.
  <1>     PRC_PAR1 R/W1C    0x0         0         Set when a parity error is dected for bits
                                                  [63:32] of the PBM memory.
+                                                 NOT USED ON o68.
  <2>     PRC_PAR2 R/W1C    0x0         0         Set when a parity error is dected for bits
                                                  [95:64] of the PBM memory.
+                                                 NOT USED ON o68.
  <3>     PRC_PAR3 R/W1C    0x0         0         Set when a parity error is dected for bits
                                                  [127:96] of the PBM memory.
+                                                 NOT USED ON o68.
  <4>     BP_SUB   R/W1C    0x0         0         Set when a backpressure subtract is done with a
                                                  supplied illegal value.
  <5>     DC_OVR   R/W1C    0x0         0         Set when the data credits to the IOB overflow.
@@ -15987,7 +15995,7 @@ Pos      Name    Type     Value     Value       Description
 						 when the value of this register is '0' there still
                                                  may be 1 pointer being held by IPD.
  <13:7>  PKT_PCNT RO       0x0         0         This value plus PFIF_CNT plus
-	                                         IPD_PRC_PORT_PTR_FIFO_CTL[MAX_PKT] is the number
+	                                         IPD_PORT_PTR_FIFO_CTL[MAX_PKT] is the number
  						 of PKT Page Pointers in IPD.
  <16:14> PFIF_CNT RO       0x0         0         See PKT_PCNT.
  <17>    WQEV_CNT RO       0x0         0         WQE Ptr Valid. This value is '1' when a WQE
@@ -16124,7 +16132,7 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  IPD_HOLD_PTR_FIFO_CTL = IPD's Holding Pointer FIFO Control
  *
-* Allows reading of the Page-Pointers stored in the IPD's Holding Fifo.
+ * Allows reading of the Page-Pointers stored in the IPD's Holding Fifo.
  *
 
      ==============================================================
@@ -16433,7 +16441,7 @@ Pos      Name    Type     Value     Value       Description
                                                  BPID.  The applying of BPID-level backpressure for
                                                  this dropping does not take into consideration the
                                                  value of IPD_BPID@_MBUF_TH[BP_ENB], nor
-                                                 IPD_RED_PORT_ENABLE[PRT_ENB].
+                                                 IPD_RED_BPID_ENABLE[PRT_ENB].
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -16525,12 +16533,24 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <1:0>  PM0_SYN   R/W      0x0         0x0       Flip the syndrom to generate 1-bit/2-bits error
                                                  for testing of Packet Memory 0.
+                                                  2'b00       : No Error Generation
+                                                  2'b10, 2'b01: Flip 1 bit
+                                                  2'b11       : Flip 2 bits
  <3:2>  PM1_SYN   R/W      0x0         0x0       Flip the syndrom to generate 1-bit/2-bits error
                                                  for testing of Packet Memory 1.
+                                                  2'b00       : No Error Generation
+                                                  2'b10, 2'b01: Flip 1 bit
+                                                  2'b11       : Flip 2 bits
  <5:4>  PM2_SYN   R/W      0x0         0x0       Flip the syndrom to generate 1-bit/2-bits error
                                                  for testing of Packet Memory 2.
+                                                  2'b00       : No Error Generation
+                                                  2'b10, 2'b01: Flip 1 bit
+                                                  2'b11       : Flip 2 bits
  <7:6>  PM3_SYN   R/W      0x0         0x0       Flip the syndrom to generate 1-bit/2-bits error
                                                  for testing of Packet Memory 3.
+                                                  2'b00       : No Error Generation
+                                                  2'b10, 2'b01: Flip 1 bit
+                                                  2'b11       : Flip 2 bits
  <63:8> NS        RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23718,44 +23738,44 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:56> NS       RAZ      NS          NS        Reserved                                           |
  <55:52> TRACE	  RO	   0	       0	 Trace buffer interrupt source			    |
-						 CIU2_RAW_RML[TRACE] & CIU2_EN_xx_yy_RML[TRACE]     |	$R
+						 CIU2_RAW_RML[TRACE] & CIU2_EN_xx_yy_RML[TRACE]     |
  <51:49> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <48>    L2C      RO       0x0         0         L2C interrupt source				    |
-						 CIU2_RAW_RML[L2C] & CIU2_EN_xx_yy_RML[L2C]         |	$R
+						 CIU2_RAW_RML[L2C] & CIU2_EN_xx_yy_RML[L2C]         |
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      RO       0x0         0         DFA interrupt source                               |
-						 CIU2_RAW_RML[DFA] & CIU2_EN_xx_yy_RML[DFA]         |	$R
+						 CIU2_RAW_RML[DFA] & CIU2_EN_xx_yy_RML[DFA]         |
  <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      RO       0x0         0         DPI interrupt source                               |
-						 CIU2_RAW_RML[DPI] & CIU2_EN_xx_yy_RML[DPI]         |	$R
+						 CIU2_RAW_RML[DPI] & CIU2_EN_xx_yy_RML[DPI]         |
  <32>    SLI      RO       0x0         0         SLI interrupt source                               |
-						 CIU2_RAW_RML[SLI] & CIU2_EN_xx_yy_RML[SLI]         |	$R
+						 CIU2_RAW_RML[SLI] & CIU2_EN_xx_yy_RML[SLI]         |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
  <30>    KEY      RO       0x0         0         KEY interrupt source                               |
-						 CIU2_RAW_RML[KEY] & CIU2_EN_xx_yy_RML[KEY]         |	$R
+						 CIU2_RAW_RML[KEY] & CIU2_EN_xx_yy_RML[KEY]         |
  <29>    RAD      RO       0x0         0         RAD interrupt source                               |
-						 CIU2_RAW_RML[RAD] & CIU2_EN_xx_yy_RML[RAD]         |	$R
+						 CIU2_RAW_RML[RAD] & CIU2_EN_xx_yy_RML[RAD]         |
  <28>    TIM      RO       0x0         0         TIM interrupt source                               |
-						 CIU2_RAW_RML[TIM] & CIU2_EN_xx_yy_RML[TIM]         |	$R
+						 CIU2_RAW_RML[TIM] & CIU2_EN_xx_yy_RML[TIM]         |
  <27:25> NS       RAZ      NS          NS        Reserved for ZIP expansion                         |
  <24>    ZIP      RO       0x0         0         ZIP interrupt source                               |
-						 CIU2_RAW_RML[ZIP] & CIU2_EN_xx_yy_RML[ZIP]         |	$R
+						 CIU2_RAW_RML[ZIP] & CIU2_EN_xx_yy_RML[ZIP]         |
  <23:17> NS       RAZ      NS          NS        Reserved for expansion                             |
  <16>    SSO      RO       0x0         0         SSO err interrupt source                           |
-						 CIU2_RAW_RML[SSO] & CIU2_EN_xx_yy_RML[SSO]         |	$R
+						 CIU2_RAW_RML[SSO] & CIU2_EN_xx_yy_RML[SSO]         |
  <15:8>  NS       RAZ      NS          NS        Reserved for future expansion                      |
  <7>     PKO      RO       0x0         0         PKO interrupt source                               |
-						 CIU2_RAW_RML[PKO] & CIU2_EN_xx_yy_RML[PKO]         |	$R
+						 CIU2_RAW_RML[PKO] & CIU2_EN_xx_yy_RML[PKO]         |
  <6>     PIP      RO       0x0         0         PIP interrupt source                               |
-						 CIU2_RAW_RML[PIP] & CIU2_EN_xx_yy_RML[PIP]         |	$R
+						 CIU2_RAW_RML[PIP] & CIU2_EN_xx_yy_RML[PIP]         |
  <5>     IPD      RO       0x0         0         IPD interrupt source                               |
-						 CIU2_RAW_RML[IPD] & CIU2_EN_xx_yy_RML[IPD]         |	$R
+						 CIU2_RAW_RML[IPD] & CIU2_EN_xx_yy_RML[IPD]         |
  <4>     FPA      RO       0x0         0         FPA interrupt source                               |
-						 CIU2_RAW_RML[FPA] & CIU2_EN_xx_yy_RML[FPA]         |	$R
+						 CIU2_RAW_RML[FPA] & CIU2_EN_xx_yy_RML[FPA]         |
  <3:1>   NS       RAZ      NS          NS        Reserved for IOB expansion                         |
  <0>     IOB      RO       0x0         0         IOB interrupt source                               |
-						 CIU2_RAW_RML[IOB] & CIU2_EN_xx_yy_RML[IOB]         |	$R
+						 CIU2_RAW_RML[IOB] & CIU2_EN_xx_yy_RML[IOB]         |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23784,39 +23804,39 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63>    RST      RO       0x0         0         MIO RST interrupt source                           |
-						 CIU2_RAW_MIO[RST] & CIU2_EN_xx_yy_MIO[RST]         |	$R
+						 CIU2_RAW_MIO[RST] & CIU2_EN_xx_yy_MIO[RST]         |
  <62:49> NS       RAZ      NS          NS        Reserved                                           |
  <48>    PTP      RO       0x0         0         PTP interrupt source                               |
-						 CIU2_RAW_MIO[PTP] & CIU2_EN_xx_yy_MIO[PTP]         |	$R
+						 CIU2_RAW_MIO[PTP] & CIU2_EN_xx_yy_MIO[PTP]         |
  <47:45> NS       RAZ      NS          NS        Reserved for USB expansion                         |
  <44>    USB_HCI  RO       0           0         USB HCI Interrupt source               	    |
-						 CIU2_RAW_MIO[USB_HCI] & CIU2_EN_xx_yy_MIO[USB_HCI] |	$R
+						 CIU2_RAW_MIO[USB_HCI] & CIU2_EN_xx_yy_MIO[USB_HCI] |
  <43:41> NS       RAZ      NS          NS        Reserved for USB expansion                         |
  <40>    USB_UCTL RO       0x0         0         USB UCTL* interrupt source                         |
-						 CIU2_RAW_MIO[USB_UCTL] &CIU2_EN_xx_yy_MIO[USB_UCTL]|	$R
+						 CIU2_RAW_MIO[USB_UCTL] &CIU2_EN_xx_yy_MIO[USB_UCTL]|
  <39:38> NS       RAZ      NS          NS        Reserved for UART expansion                        |
  <37:36> UART     RO	   0	       0	 Two UART interrupts source              	    |
-						 CIU2_RAW_MIO[UART] & CIU2_EN_xx_yy_MIO[UART]       |	$R
+						 CIU2_RAW_MIO[UART] & CIU2_EN_xx_yy_MIO[UART]       |
  <35:34> NS       RAZ      NS          NS        Reserved for TWSI expansion                        |
  <33:32> TWSI	  RO	   0	       0	 TWSI x Interrupt source			    |
-						 CIU2_RAW_MIO[TWSI] & CIU2_EN_xx_yy_MIO[TWSI]       |	$R
+						 CIU2_RAW_MIO[TWSI] & CIU2_EN_xx_yy_MIO[TWSI]       |
  <31:19> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <18>    BOOTDMA  RO       0           0         Boot bus DMA engines Interrupt source              |
-						 CIU2_RAW_MIO[BOOTDMA] & CIU2_EN_xx_yy_MIO[BOOTDMA] |	$R
+						 CIU2_RAW_MIO[BOOTDMA] & CIU2_EN_xx_yy_MIO[BOOTDMA] |
  <17>    MIO      RO       0x0         0         MIO boot interrupt source                          |
-						 CIU2_RAW_MIO[MIO] & CIU2_EN_xx_yy_MIO[MIO]         |	$R
+						 CIU2_RAW_MIO[MIO] & CIU2_EN_xx_yy_MIO[MIO]         |
  <16>	 NAND	  RO       0           0         NAND Flash Controller interrupt source             |
-						 CIU2_RAW_MIO[NAND] & CIU2_EN_xx_yy_MIO[NANAD]      |	$R
+						 CIU2_RAW_MIO[NAND] & CIU2_EN_xx_yy_MIO[NANAD]      |
  <15:12> NS       RAZ      NS          NS        Reserved for timer expansion                       |
  <11:8>  TIMER	  RO	   0	       0	 General timer interrupts source         	    |
-						 CIU2_RAW_MIO[TIMER] & CIU2_EN_xx_yy_MIO[TIMER]     |	$R
+						 CIU2_RAW_MIO[TIMER] & CIU2_EN_xx_yy_MIO[TIMER]     |
  <7:3>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <2>	 IPD_DRP  RO	   0	       0	 IPD QOS packet drop interrupt source	            |
-						 CIU2_RAW_MIO[IPD_DRP] & CIU2_EN_xx_yy_MIO[IPD_DRP] |	$R
+						 CIU2_RAW_MIO[IPD_DRP] & CIU2_EN_xx_yy_MIO[IPD_DRP] |
  <1>     SSOIQ	  RO       0           0         SSO IQ interrupt source		            |
-						 CIU2_RAW_MIO[SSOIQ] & CIU2_EN_xx_yy_MIO[SSOIQ]     |	$R
+						 CIU2_RAW_MIO[SSOIQ] & CIU2_EN_xx_yy_MIO[SSOIQ]     |
  <0>     IPDPPTHR RO       0           0         IPD per-port cnt threshold interrupt source        |
-						 CIU2_RAW_MIO[IPDPPTHR] &CIU2_EN_xx_yy_MIO[IPDPPTHR]|	$R
+						 CIU2_RAW_MIO[IPDPPTHR] &CIU2_EN_xx_yy_MIO[IPDPPTHR]|
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23846,16 +23866,16 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33:32> PEM      RO       0x0         0         PEMx interrupt source                              |
-						 CIU2_RAW_IO[PEM] & CIU2_EN_xx_yy_IO[PEM]           |	$R
+						 CIU2_RAW_IO[PEM] & CIU2_EN_xx_yy_IO[PEM]           |
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA RO	   0	       0	 PCI_INTA source 			            |
-						 CIU2_RAW_IO[PCI_INTA] & CIU2_EN_xx_yy_IO[PCI_INTA] |	$R
+						 CIU2_RAW_IO[PCI_INTA] & CIU2_EN_xx_yy_IO[PCI_INTA] |
  <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI source		         	    |
-						 CIU2_RAW_IO[PCI_MSI] & CIU2_EN_xx_yy_IO[PCI_MSI]   |	$R
+						 CIU2_RAW_IO[PCI_MSI] & CIU2_EN_xx_yy_IO[PCI_MSI]   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR RO       0	       0	 PCIe INTA/B/C/D interrupt source                   |
-						 CIU2_RAW_IO[PCI_INTR] &CIU2_EN_xx_yy_IO[PCI_INTR]  |	$R
+						 CIU2_RAW_IO[PCI_INTR] &CIU2_EN_xx_yy_IO[PCI_INTR]  |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23886,7 +23906,7 @@ Pos      Name    Type     Value     Value       Description
  <63:16> NS       RAZ      NS          NS        Reserved                                           |
  <15:4>  NS       RAZ      NS          NS        Reserved for LMC expansion                         |
  <3:0>   LMC      RO       0x0         0         LMC* interrupt source                              |
-						 CIU2_RAW_MEM[LMC] & CIU2_EN_xx_yy_MEM[LMC]         |	$R
+						 CIU2_RAW_MEM[LMC] & CIU2_EN_xx_yy_MEM[LMC]         |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23917,19 +23937,19 @@ Pos      Name    Type     Value     Value       Description
  <63:52> NS       RAZ      NS          NS        Reserved for PKT expansion                         |
  <51:49> NS       RAZ      NS          NS        Reserved for ILK expansion                         |
  <48>    ILK      RO       0           0         ILK interface interrupts source                    |
-						 CIU2_RAW_PKT[ILK] & CIU2_EN_xx_yy_PKT[ILK]         |	$R
+						 CIU2_RAW_PKT[ILK] & CIU2_EN_xx_yy_PKT[ILK]         |
  <47:41> NS       RAZ      NS          NS        Reserved for PKT expansion                         |
  <40>	 MII      RO       0           0         RGMII/MII/MIX Interface x Interrupts source        |
-						 CIU2_RAW_PKT[MII] & CIU2_EN_xx_yy_PKT[MII]         |	$R
+						 CIU2_RAW_PKT[MII] & CIU2_EN_xx_yy_PKT[MII]         |
  <39:33> NS       RAZ      NS          NS        Reserved for PKT expansion                         |
  <32>    AGL      RO       0x0         0         AGL interrupt source                               |
-						 CIU2_RAW_PKT[AGL] & CIU2_EN_xx_yy_PKT[AGL]         |	$R
+						 CIU2_RAW_PKT[AGL] & CIU2_EN_xx_yy_PKT[AGL]         |
  <31:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:8>  GMX_DRP  RO       0	       0	 GMX packet drop interrupt, RAW & ENABLE	    |
-						 CIU2_RAW_PKT[GMX_DRP] & CIU2_EN_xx_yy_PKT[GMX_DRP] |	$R
+						 CIU2_RAW_PKT[GMX_DRP] & CIU2_EN_xx_yy_PKT[GMX_DRP] |
  <7:5>   NS       RAZ      NS          NS        Reserved for PKT expansion                         |
  <4:0>   AGX      RO       0x0         0         GMX interrupt source                               |
-						 CIU2_RAW_PKT[AGX] & CIU2_EN_xx_yy_PKT[AGX]         |	$R
+						 CIU2_RAW_PKT[AGX] & CIU2_EN_xx_yy_PKT[AGX]         |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -28984,7 +29004,7 @@ Pos      Name    Type     Value     Value       Description
  <63:32> NS       RAZ      NS          NS        Reserved				            |
  <31:16> MAXLEN   R/W      0x600       0x600    Byte count for Max-sized frame check                |
 						  PIP_PRT_CFGn[MAXERR_EN] enables the check for	    |
-						  port n and PIP_PRT_CFG[LEN_CHK_SEL] determines    |
+						  pkind n and PIP_PRT_CFG[LEN_CHK_SEL] determines   |
 						  which set of MAXLEN/MINLEN to use.		    |
 						  If enabled, failing packets set the MAXERR	    |
 						  interrupt and work-queue entry WORD2[opcode] is   |
@@ -29000,7 +29020,7 @@ Pos      Name    Type     Value     Value       Description
 						   compensate for the additional timestamp field.   |
  <15:0>  MINLEN   R/W      0x40        0x40      Byte count for Min-sized frame check               |
 						  PIP_PRT_CFGn[MINERR_EN] enables the check for	    |
-						  port n and PIP_PRT_CFG[LEN_CHK_SEL] determines    |
+						  pkind n and PIP_PRT_CFG[LEN_CHK_SEL] determines   |
 						  which set of MAXLEN/MINLEN to use.		    |
 						  If enabled, failing packets set the MINERR	    |
 						  interrupt and work-queue entry WORD2[opcode] is   |
@@ -33002,7 +33022,22 @@ Pos      Name    Type     Value     Value       Description
                                                  made with a Round Robin arbitration. When '0'
                                                  the input packet ring is fixed in priority,
                                                  where the lower ring number has higher priority.
- <63:23> NS       RAZ      NS          NS        Reserved
+ <23>    PIN_RST  R/W      0x0         0         Packet In Reset. When a gather-list read receives
+                                                 an error this bit (along with SLI_INT_SUM[PGL_ERR])
+                                                 is set. When receiveing a PGL_ERR interrupt the SW
+                                                 should:
+                                                 1. Wait 2ms to allow any outstanding reads to return
+                                                    or be timed out.
+                                                 2. Write a '0' to this bit.
+                                                 3. Startup the packet input again (all previous
+                                                    CSR setting of the packet-input will be lost).
+ <39:24> NS       RAZ      NS          NS        Reserved					    |
+ <40>    PRC_IDLE RO       0           NS        PRC In IDLE
+ <47:41> NS       RAZ      NS          NS        Reserved
+ <54:48> GII_RDS  RO       0           NS        GII Reads Out
+ <55>    GII_ERST RO       0           NS        GII Error Reset
+ <62:56> PRD_RDS  RO       0           NS        PRD Reads Out
+ <63>    PRD_ERST RO       0           NS        PRD Error Reset
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -43299,29 +43334,29 @@ FPA_QUE_EXP                    0x0001180028000130  RSL
 FPA_WQE_THRESHOLD              0x0001180028000468  RSL
 GMX0_BAD_REG                   0x0001180008000518  RSL
 GMX0_BIST                      0x0001180008000400  RSL
+GMX0_BPID_MAP000               0x0001180008000680  RSL
+GMX0_BPID_MAP001               0x0001180008000688  RSL
+GMX0_BPID_MAP002               0x0001180008000690  RSL
+GMX0_BPID_MAP003               0x0001180008000698  RSL
+GMX0_BPID_MAP004               0x00011800080006A0  RSL
+GMX0_BPID_MAP005               0x00011800080006A8  RSL
+GMX0_BPID_MAP006               0x00011800080006B0  RSL
+GMX0_BPID_MAP007               0x00011800080006B8  RSL
+GMX0_BPID_MAP008               0x00011800080006C0  RSL
+GMX0_BPID_MAP009               0x00011800080006C8  RSL
+GMX0_BPID_MAP010               0x00011800080006D0  RSL
+GMX0_BPID_MAP011               0x00011800080006D8  RSL
+GMX0_BPID_MAP012               0x00011800080006E0  RSL
+GMX0_BPID_MAP013               0x00011800080006E8  RSL
+GMX0_BPID_MAP014               0x00011800080006F0  RSL
+GMX0_BPID_MAP015               0x00011800080006F8  RSL
+GMX0_BPID_MSK                  0x0001180008000700  RSL
 GMX0_CLK_EN                    0x00011800080007F0  RSL
 GMX0_EBP_DIS                   0x0001180008000608  RSL
 GMX0_EBP_MSK                   0x0001180008000600  RSL
 GMX0_HG2_CONTROL               0x0001180008000550  RSL
 GMX0_INF_MODE                  0x00011800080007F8  RSL
 GMX0_NXA_ADR                   0x0001180008000510  RSL
-GMX0_PKND_BP_MAP000            0x0001180008000680  RSL
-GMX0_PKND_BP_MAP001            0x0001180008000688  RSL
-GMX0_PKND_BP_MAP002            0x0001180008000690  RSL
-GMX0_PKND_BP_MAP003            0x0001180008000698  RSL
-GMX0_PKND_BP_MAP004            0x00011800080006A0  RSL
-GMX0_PKND_BP_MAP005            0x00011800080006A8  RSL
-GMX0_PKND_BP_MAP006            0x00011800080006B0  RSL
-GMX0_PKND_BP_MAP007            0x00011800080006B8  RSL
-GMX0_PKND_BP_MAP008            0x00011800080006C0  RSL
-GMX0_PKND_BP_MAP009            0x00011800080006C8  RSL
-GMX0_PKND_BP_MAP010            0x00011800080006D0  RSL
-GMX0_PKND_BP_MAP011            0x00011800080006D8  RSL
-GMX0_PKND_BP_MAP012            0x00011800080006E0  RSL
-GMX0_PKND_BP_MAP013            0x00011800080006E8  RSL
-GMX0_PKND_BP_MAP014            0x00011800080006F0  RSL
-GMX0_PKND_BP_MAP015            0x00011800080006F8  RSL
-GMX0_PKND_BP_MSK               0x0001180008000700  RSL
 GMX0_PRT000_CBFC_CTL           0x0001180008000580  RSL
 GMX0_PRT000_CFG                0x0001180008000010  RSL
 GMX0_PRT001_CFG                0x0001180008000810  RSL
@@ -43574,29 +43609,29 @@ GMX0_TX_XAUI_CTL               0x0001180008000528  RSL
 GMX0_XAUI_EXT_LOOPBACK         0x0001180008000540  RSL
 GMX1_BAD_REG                   0x0001180009000518  RSL
 GMX1_BIST                      0x0001180009000400  RSL
+GMX1_BPID_MAP000               0x0001180009000680  RSL
+GMX1_BPID_MAP001               0x0001180009000688  RSL
+GMX1_BPID_MAP002               0x0001180009000690  RSL
+GMX1_BPID_MAP003               0x0001180009000698  RSL
+GMX1_BPID_MAP004               0x00011800090006A0  RSL
+GMX1_BPID_MAP005               0x00011800090006A8  RSL
+GMX1_BPID_MAP006               0x00011800090006B0  RSL
+GMX1_BPID_MAP007               0x00011800090006B8  RSL
+GMX1_BPID_MAP008               0x00011800090006C0  RSL
+GMX1_BPID_MAP009               0x00011800090006C8  RSL
+GMX1_BPID_MAP010               0x00011800090006D0  RSL
+GMX1_BPID_MAP011               0x00011800090006D8  RSL
+GMX1_BPID_MAP012               0x00011800090006E0  RSL
+GMX1_BPID_MAP013               0x00011800090006E8  RSL
+GMX1_BPID_MAP014               0x00011800090006F0  RSL
+GMX1_BPID_MAP015               0x00011800090006F8  RSL
+GMX1_BPID_MSK                  0x0001180009000700  RSL
 GMX1_CLK_EN                    0x00011800090007F0  RSL
 GMX1_EBP_DIS                   0x0001180009000608  RSL
 GMX1_EBP_MSK                   0x0001180009000600  RSL
 GMX1_HG2_CONTROL               0x0001180009000550  RSL
 GMX1_INF_MODE                  0x00011800090007F8  RSL
 GMX1_NXA_ADR                   0x0001180009000510  RSL
-GMX1_PKND_BP_MAP000            0x0001180009000680  RSL
-GMX1_PKND_BP_MAP001            0x0001180009000688  RSL
-GMX1_PKND_BP_MAP002            0x0001180009000690  RSL
-GMX1_PKND_BP_MAP003            0x0001180009000698  RSL
-GMX1_PKND_BP_MAP004            0x00011800090006A0  RSL
-GMX1_PKND_BP_MAP005            0x00011800090006A8  RSL
-GMX1_PKND_BP_MAP006            0x00011800090006B0  RSL
-GMX1_PKND_BP_MAP007            0x00011800090006B8  RSL
-GMX1_PKND_BP_MAP008            0x00011800090006C0  RSL
-GMX1_PKND_BP_MAP009            0x00011800090006C8  RSL
-GMX1_PKND_BP_MAP010            0x00011800090006D0  RSL
-GMX1_PKND_BP_MAP011            0x00011800090006D8  RSL
-GMX1_PKND_BP_MAP012            0x00011800090006E0  RSL
-GMX1_PKND_BP_MAP013            0x00011800090006E8  RSL
-GMX1_PKND_BP_MAP014            0x00011800090006F0  RSL
-GMX1_PKND_BP_MAP015            0x00011800090006F8  RSL
-GMX1_PKND_BP_MSK               0x0001180009000700  RSL
 GMX1_PRT000_CBFC_CTL           0x0001180009000580  RSL
 GMX1_PRT000_CFG                0x0001180009000010  RSL
 GMX1_PRT001_CFG                0x0001180009000810  RSL
@@ -43849,29 +43884,29 @@ GMX1_TX_XAUI_CTL               0x0001180009000528  RSL
 GMX1_XAUI_EXT_LOOPBACK         0x0001180009000540  RSL
 GMX2_BAD_REG                   0x000118000A000518  RSL
 GMX2_BIST                      0x000118000A000400  RSL
+GMX2_BPID_MAP000               0x000118000A000680  RSL
+GMX2_BPID_MAP001               0x000118000A000688  RSL
+GMX2_BPID_MAP002               0x000118000A000690  RSL
+GMX2_BPID_MAP003               0x000118000A000698  RSL
+GMX2_BPID_MAP004               0x000118000A0006A0  RSL
+GMX2_BPID_MAP005               0x000118000A0006A8  RSL
+GMX2_BPID_MAP006               0x000118000A0006B0  RSL
+GMX2_BPID_MAP007               0x000118000A0006B8  RSL
+GMX2_BPID_MAP008               0x000118000A0006C0  RSL
+GMX2_BPID_MAP009               0x000118000A0006C8  RSL
+GMX2_BPID_MAP010               0x000118000A0006D0  RSL
+GMX2_BPID_MAP011               0x000118000A0006D8  RSL
+GMX2_BPID_MAP012               0x000118000A0006E0  RSL
+GMX2_BPID_MAP013               0x000118000A0006E8  RSL
+GMX2_BPID_MAP014               0x000118000A0006F0  RSL
+GMX2_BPID_MAP015               0x000118000A0006F8  RSL
+GMX2_BPID_MSK                  0x000118000A000700  RSL
 GMX2_CLK_EN                    0x000118000A0007F0  RSL
 GMX2_EBP_DIS                   0x000118000A000608  RSL
 GMX2_EBP_MSK                   0x000118000A000600  RSL
 GMX2_HG2_CONTROL               0x000118000A000550  RSL
 GMX2_INF_MODE                  0x000118000A0007F8  RSL
 GMX2_NXA_ADR                   0x000118000A000510  RSL
-GMX2_PKND_BP_MAP000            0x000118000A000680  RSL
-GMX2_PKND_BP_MAP001            0x000118000A000688  RSL
-GMX2_PKND_BP_MAP002            0x000118000A000690  RSL
-GMX2_PKND_BP_MAP003            0x000118000A000698  RSL
-GMX2_PKND_BP_MAP004            0x000118000A0006A0  RSL
-GMX2_PKND_BP_MAP005            0x000118000A0006A8  RSL
-GMX2_PKND_BP_MAP006            0x000118000A0006B0  RSL
-GMX2_PKND_BP_MAP007            0x000118000A0006B8  RSL
-GMX2_PKND_BP_MAP008            0x000118000A0006C0  RSL
-GMX2_PKND_BP_MAP009            0x000118000A0006C8  RSL
-GMX2_PKND_BP_MAP010            0x000118000A0006D0  RSL
-GMX2_PKND_BP_MAP011            0x000118000A0006D8  RSL
-GMX2_PKND_BP_MAP012            0x000118000A0006E0  RSL
-GMX2_PKND_BP_MAP013            0x000118000A0006E8  RSL
-GMX2_PKND_BP_MAP014            0x000118000A0006F0  RSL
-GMX2_PKND_BP_MAP015            0x000118000A0006F8  RSL
-GMX2_PKND_BP_MSK               0x000118000A000700  RSL
 GMX2_PRT000_CBFC_CTL           0x000118000A000580  RSL
 GMX2_PRT000_CFG                0x000118000A000010  RSL
 GMX2_PRT001_CFG                0x000118000A000810  RSL
@@ -44124,29 +44159,29 @@ GMX2_TX_XAUI_CTL               0x000118000A000528  RSL
 GMX2_XAUI_EXT_LOOPBACK         0x000118000A000540  RSL
 GMX3_BAD_REG                   0x000118000B000518  RSL
 GMX3_BIST                      0x000118000B000400  RSL
+GMX3_BPID_MAP000               0x000118000B000680  RSL
+GMX3_BPID_MAP001               0x000118000B000688  RSL
+GMX3_BPID_MAP002               0x000118000B000690  RSL
+GMX3_BPID_MAP003               0x000118000B000698  RSL
+GMX3_BPID_MAP004               0x000118000B0006A0  RSL
+GMX3_BPID_MAP005               0x000118000B0006A8  RSL
+GMX3_BPID_MAP006               0x000118000B0006B0  RSL
+GMX3_BPID_MAP007               0x000118000B0006B8  RSL
+GMX3_BPID_MAP008               0x000118000B0006C0  RSL
+GMX3_BPID_MAP009               0x000118000B0006C8  RSL
+GMX3_BPID_MAP010               0x000118000B0006D0  RSL
+GMX3_BPID_MAP011               0x000118000B0006D8  RSL
+GMX3_BPID_MAP012               0x000118000B0006E0  RSL
+GMX3_BPID_MAP013               0x000118000B0006E8  RSL
+GMX3_BPID_MAP014               0x000118000B0006F0  RSL
+GMX3_BPID_MAP015               0x000118000B0006F8  RSL
+GMX3_BPID_MSK                  0x000118000B000700  RSL
 GMX3_CLK_EN                    0x000118000B0007F0  RSL
 GMX3_EBP_DIS                   0x000118000B000608  RSL
 GMX3_EBP_MSK                   0x000118000B000600  RSL
 GMX3_HG2_CONTROL               0x000118000B000550  RSL
 GMX3_INF_MODE                  0x000118000B0007F8  RSL
 GMX3_NXA_ADR                   0x000118000B000510  RSL
-GMX3_PKND_BP_MAP000            0x000118000B000680  RSL
-GMX3_PKND_BP_MAP001            0x000118000B000688  RSL
-GMX3_PKND_BP_MAP002            0x000118000B000690  RSL
-GMX3_PKND_BP_MAP003            0x000118000B000698  RSL
-GMX3_PKND_BP_MAP004            0x000118000B0006A0  RSL
-GMX3_PKND_BP_MAP005            0x000118000B0006A8  RSL
-GMX3_PKND_BP_MAP006            0x000118000B0006B0  RSL
-GMX3_PKND_BP_MAP007            0x000118000B0006B8  RSL
-GMX3_PKND_BP_MAP008            0x000118000B0006C0  RSL
-GMX3_PKND_BP_MAP009            0x000118000B0006C8  RSL
-GMX3_PKND_BP_MAP010            0x000118000B0006D0  RSL
-GMX3_PKND_BP_MAP011            0x000118000B0006D8  RSL
-GMX3_PKND_BP_MAP012            0x000118000B0006E0  RSL
-GMX3_PKND_BP_MAP013            0x000118000B0006E8  RSL
-GMX3_PKND_BP_MAP014            0x000118000B0006F0  RSL
-GMX3_PKND_BP_MAP015            0x000118000B0006F8  RSL
-GMX3_PKND_BP_MSK               0x000118000B000700  RSL
 GMX3_PRT000_CBFC_CTL           0x000118000B000580  RSL
 GMX3_PRT000_CFG                0x000118000B000010  RSL
 GMX3_PRT001_CFG                0x000118000B000810  RSL
@@ -44399,29 +44434,29 @@ GMX3_TX_XAUI_CTL               0x000118000B000528  RSL
 GMX3_XAUI_EXT_LOOPBACK         0x000118000B000540  RSL
 GMX4_BAD_REG                   0x000118000C000518  RSL
 GMX4_BIST                      0x000118000C000400  RSL
+GMX4_BPID_MAP000               0x000118000C000680  RSL
+GMX4_BPID_MAP001               0x000118000C000688  RSL
+GMX4_BPID_MAP002               0x000118000C000690  RSL
+GMX4_BPID_MAP003               0x000118000C000698  RSL
+GMX4_BPID_MAP004               0x000118000C0006A0  RSL
+GMX4_BPID_MAP005               0x000118000C0006A8  RSL
+GMX4_BPID_MAP006               0x000118000C0006B0  RSL
+GMX4_BPID_MAP007               0x000118000C0006B8  RSL
+GMX4_BPID_MAP008               0x000118000C0006C0  RSL
+GMX4_BPID_MAP009               0x000118000C0006C8  RSL
+GMX4_BPID_MAP010               0x000118000C0006D0  RSL
+GMX4_BPID_MAP011               0x000118000C0006D8  RSL
+GMX4_BPID_MAP012               0x000118000C0006E0  RSL
+GMX4_BPID_MAP013               0x000118000C0006E8  RSL
+GMX4_BPID_MAP014               0x000118000C0006F0  RSL
+GMX4_BPID_MAP015               0x000118000C0006F8  RSL
+GMX4_BPID_MSK                  0x000118000C000700  RSL
 GMX4_CLK_EN                    0x000118000C0007F0  RSL
 GMX4_EBP_DIS                   0x000118000C000608  RSL
 GMX4_EBP_MSK                   0x000118000C000600  RSL
 GMX4_HG2_CONTROL               0x000118000C000550  RSL
 GMX4_INF_MODE                  0x000118000C0007F8  RSL
 GMX4_NXA_ADR                   0x000118000C000510  RSL
-GMX4_PKND_BP_MAP000            0x000118000C000680  RSL
-GMX4_PKND_BP_MAP001            0x000118000C000688  RSL
-GMX4_PKND_BP_MAP002            0x000118000C000690  RSL
-GMX4_PKND_BP_MAP003            0x000118000C000698  RSL
-GMX4_PKND_BP_MAP004            0x000118000C0006A0  RSL
-GMX4_PKND_BP_MAP005            0x000118000C0006A8  RSL
-GMX4_PKND_BP_MAP006            0x000118000C0006B0  RSL
-GMX4_PKND_BP_MAP007            0x000118000C0006B8  RSL
-GMX4_PKND_BP_MAP008            0x000118000C0006C0  RSL
-GMX4_PKND_BP_MAP009            0x000118000C0006C8  RSL
-GMX4_PKND_BP_MAP010            0x000118000C0006D0  RSL
-GMX4_PKND_BP_MAP011            0x000118000C0006D8  RSL
-GMX4_PKND_BP_MAP012            0x000118000C0006E0  RSL
-GMX4_PKND_BP_MAP013            0x000118000C0006E8  RSL
-GMX4_PKND_BP_MAP014            0x000118000C0006F0  RSL
-GMX4_PKND_BP_MAP015            0x000118000C0006F8  RSL
-GMX4_PKND_BP_MSK               0x000118000C000700  RSL
 GMX4_PRT000_CBFC_CTL           0x000118000C000580  RSL
 GMX4_PRT000_CFG                0x000118000C000010  RSL
 GMX4_PRT001_CFG                0x000118000C000810  RSL
