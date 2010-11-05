@@ -77,6 +77,7 @@
 #define BDK_SYNCIOBDMA  asm volatile ("synciobdma"  : : :"memory")
 #define BDK_SYNCS       asm volatile ("syncs"       : : :"memory")
 #define BDK_SYNCWS      asm volatile ("syncws"      : : :"memory")
+#define BDK_ASM_PAUSE   asm volatile ("pause"       : : :"memory")
 
 #define BDK_SYNCI(address, offset) asm volatile ("synci " __BDK_TMP_STR(offset) "(%[rbase])" : : [rbase] "d" (address) )
 
