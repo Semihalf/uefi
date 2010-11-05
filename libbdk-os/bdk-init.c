@@ -86,11 +86,11 @@ static void bdk_init_stage2(void)
     extern int main(int argc, const char *argv);
     extern void _fbss;  /* Beginning of .bss */
     extern void _ebss;  /* End of .bss */
-    const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
-    const char BANNER_2[] = "Setting up global data\n";
-    const char BANNER_3[] = "Clearing BSS\n";
-    const char BANNER_4[] = "Creating main thread\n";
-    const char BANNER_5[] = "Transfering to thread scheduler\n";
+    static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
+    static const char BANNER_2[] = "Setting up global data\n";
+    static const char BANNER_3[] = "Clearing BSS\n";
+    static const char BANNER_4[] = "Creating main thread\n";
+    static const char BANNER_5[] = "Transfering to thread scheduler\n";
 
     BDK_MT_COP0(0, COP0_USERLOCAL);
 
