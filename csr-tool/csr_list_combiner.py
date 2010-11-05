@@ -74,20 +74,14 @@ def combine(csr_lists):
             cisco_only |= csr.cisco_only
             assert csr.type == current.type, "%s %s:%s == %s:%s" % (name, chip, csr.type, chips[0], current.type)
             assert len(csr.range) == len(current.range), "%s %s:%d == %s:%d" % (name, chip, len(csr.range), chips[0], len(current.range))
-            if csr.address_base != current.address_base:
-                print "ERROR address_base %s %s:0x%x == %s:0x%x" % (name, chip, csr.address_base, chips[0], current.address_base)
             if csr.address_offset_inc == 0:
                 csr.address_offset_inc = current.address_offset_inc
             elif current.address_offset_inc == 0:
                 current.address_offset_inc = csr.address_offset_inc
-            if csr.address_offset_inc != current.address_offset_inc:
-                print "ERROR address_offset_inc %s %s:0x%x == %s:0x%x" % (name, chip, csr.address_offset_inc, chips[0], current.address_offset_inc)
             if csr.address_block_inc == 0:
                 csr.address_block_inc = current.address_block_inc
             elif current.address_block_inc == 0:
                 current.address_block_inc = csr.address_block_inc
-            if csr.address_block_inc != current.address_block_inc:
-                print "ERROR address_block_inc %s %s:0x%x == %s:0x%x" % (name, chip, csr.address_block_inc, chips[0], current.address_block_inc)
             if csr.pci_alias != current.pci_alias:
                 print "ERROR pci_alias %s %s:0x%x == %s:0x%x" % (name, chip, csr.pci_alias, chips[0], current.pci_alias)
 
