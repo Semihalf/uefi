@@ -3,6 +3,7 @@
 #include <sys/times.h>
 #include <sys/time.h>
 #include <errno.h>
+#include <stdio.h>
 
 #undef errno
 extern int errno;
@@ -100,6 +101,7 @@ int gettimeofday(struct timeval *tv, void *tz)
 
 void _exit(int status)
 {
-    while(1) {}
+    printf("_exit() was called\n");
+    bdk_thread_destroy();
 }
 

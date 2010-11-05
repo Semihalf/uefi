@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 #define STACK_CANARY 0x0BADBADBADBADBADull
 
@@ -147,6 +148,8 @@ void bdk_thread_destroy(void)
     bdk_thread_t *current;
     uint64_t coremask = 1ull << bdk_get_core_num();
     BDK_MF_COP0(current, COP0_USERLOCAL);
+
+    fflush(NULL);
 
     if (current)
     {
