@@ -30,9 +30,9 @@ typedef struct {
     uint16_t        field_index;
     uint8_t         offset_range;
     uint8_t         block_range;
-    uint64_t        base;
-    uint32_t        offset_inc;
-    uint32_t        block_inc;
+    uint16_t        base_index;
+    uint16_t        offset_index;
+    uint16_t        block_index;
 } __bdk_csr_db_type_t;
 
 typedef struct {

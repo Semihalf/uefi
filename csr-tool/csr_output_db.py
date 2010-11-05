@@ -33,6 +33,19 @@ def getStringTable(str):
     return globalStringTable[str]
 
 #
+# Store a number into a global table and return its index
+#
+globalNumberTable = {}
+globalNumberTableLen = 0
+def getNumberTable(n):
+    global globalNumberTable
+    global globalNumberTableLen
+    if not n in globalNumberTable:
+        globalNumberTable[n] = globalNumberTableLen
+        globalNumberTableLen += 1
+    return globalNumberTable[n]
+
+#
 # Store a CSR field into a global table and return its index
 #
 globalFieldTable = {}
@@ -104,21 +117,21 @@ def write(file, separate_chip_lists, include_cisco_only):
             if range_len == 0:
                 range1 = empty_range
                 range2 = empty_range
-                offset_inc = "0"
-                block_inc = "0"
+                offset_inc = 0
+                block_inc = 0
             elif range_len == 1:
                 range1 = getRangeTable(csr.range[0])
                 range2 = empty_range
-                offset_inc = toHex(csr.address_offset_inc) + "ull"
-                block_inc = "0"
+                offset_inc = csr.address_offset_inc
+                block_inc = 0
             else:
                 range1 = getRangeTable(csr.range[0])
                 range2 = getRangeTable(csr.range[1])
-                offset_inc = toHex(csr.address_offset_inc) + "ull"
-                block_inc = toHex(csr.address_block_inc) + "ull"
+                offset_inc = csr.address_offset_inc
+                block_inc = csr.address_block_inc
             out.write("    {%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s},\n" %
                       (getStringTable(csr.name.replace("#", "X")), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
-                       range1, range2, toHex(csr.address_base), offset_inc, block_inc))
+                       range1, range2, getNumberTable(csr.address_base), getNumberTable(offset_inc), getNumberTable(block_inc)))
         out.write("    {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}\n")
         out.write("};\n\n")
     #
@@ -153,6 +166,14 @@ def write(file, separate_chip_lists, include_cisco_only):
     for key in keys:
         out.write("\n    \"%s\\0\"" % key)
     out.write(";\n\n")
+    #
+    # Write the CSR number table
+    #
+    out.write("const uint64_t __bdk_csr_db_number[] = {\n")
+    keys = getKeysSorted(globalNumberTable)
+    for key in keys:
+        out.write("    %sull,\n" % toHex(key))
+    out.write("};\n\n")
     #
     # Write the chip id to CSR table map
     #

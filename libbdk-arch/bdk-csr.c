@@ -6,6 +6,7 @@ extern const uint16_t __bdk_csr_db_fieldList[];
 extern const uint16_t __bdk_csr_db_field[];
 extern const int __bdk_csr_db_range[];
 extern const char __bdk_csr_db_string[];
+extern const uint64_t __bdk_csr_db_number[];
 
 /**
  * Read a slow CSR, not RSL or NCB.
@@ -228,11 +229,11 @@ static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset
  */
 static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offset, int block)
 {
-    uint64_t address = db->base;
+    uint64_t address = __bdk_csr_db_number[db->base_index];
     if (offset != -1)
-        address += db->offset_inc * offset;
+        address += __bdk_csr_db_number[db->offset_index] * offset;
     if (block != -1)
-        address += db->block_inc * block;
+        address += __bdk_csr_db_number[db->block_index] * block;
     return address;
 }
 
