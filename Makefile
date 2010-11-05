@@ -1,3 +1,6 @@
+ifndef BDK_ROOT
+$(error Define BDK_ROOT in the environment)
+endif
 
 .PHONY: all
 all:
