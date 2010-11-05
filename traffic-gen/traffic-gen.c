@@ -5727,6 +5727,11 @@ int main(void)
         }
         process_cmd_reset(0, BDK_PIP_NUM_INPUT_PORTS-1);
         bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL);
+
+        printf("Starting other cores\n");
+        fflush(NULL);
+        bdk_init_cores(0);
+
         printf("Initialization Complete\n");
     }
 

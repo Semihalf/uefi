@@ -154,29 +154,30 @@ void bdk_thread_destroy(void)
         bdk_fatal("bdk_thread_destroy() not implemented\n");
     }
 
-    bdk_spinlock_lock(&bdk_thread_lock);
-
-    /* Find the first thread that can run on this core */
-    bdk_thread_t *next = bdk_thread_head;
-    while (next && !(next->coremask & coremask))
-        next = next->next;
-
-    /* If next is NULL then there are no other threads ready to run and we
-        will continue without doing anything */
-    if (next)
+    while (1)
     {
-        if (next == bdk_thread_tail)
-            bdk_thread_tail = NULL;
-        bdk_thread_head = bdk_thread_head->next;
+        bdk_spinlock_lock(&bdk_thread_lock);
 
-        /* Do the context switch */
-        __bdk_thread_switch(next);
-        bdk_fatal("bdk_thread_destroy() should never get here\n");
-    }
-    else
-    {
+        /* Find the first thread that can run on this core */
+        bdk_thread_t *next = bdk_thread_head;
+        while (next && !(next->coremask & coremask))
+            next = next->next;
+
+        /* If next is NULL then there are no other threads ready to run and we
+            will continue without doing anything */
+        if (next)
+        {
+            if (next == bdk_thread_tail)
+                bdk_thread_tail = NULL;
+            bdk_thread_head = bdk_thread_head->next;
+
+            /* Do the context switch */
+            __bdk_thread_switch(next);
+            bdk_fatal("bdk_thread_destroy() should never get here\n");
+        }
+
         bdk_spinlock_unlock(&bdk_thread_lock);
-        bdk_fatal("bdk_thread_destroy() of last thread\n");
+        BDK_ASM_PAUSE;
     }
 }
 

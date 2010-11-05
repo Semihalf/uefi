@@ -75,8 +75,6 @@ robin fashion.  You can specify a core mask to control which cores a
 thread can run on, but you normally specify zero and let the scheduler
 figure it out.
 
-CAUTION: Multi-core is not implemented yet. (FIXME)
-
 === Thead Functions
 void bdk_thread_yield(void)::
 

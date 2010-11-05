@@ -7,6 +7,7 @@
     .globl __start
     .globl __init
     .globl bdk_init_trampoline
+    .globl bdk_reset_vector
 
     .macro exception_stub label
 exception_\label:
@@ -63,7 +64,7 @@ __init:
     and     a0, t0          /* Offset from zero of bdk_init in image */
     dla     t1, 1f          /* Address of the upcomming label when image was linked */
     dla     t0, __start     /* Virtual address of __start */
-    bgezal  $0, 1f          /* Jump to label, saving or PC in RA */
+    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
      dsubu  t1, t0          /* T1 is the offset of the label from the beginning of the image */
 1:  dsubu   ra, t1          /* RA is the current location of __start */
     daddu   a0, ra          /* Add RA to A0, getting the current address of bdk_init() */
@@ -77,6 +78,7 @@ __init:
     .ent bdk_init_trampoline
     .set push
     .set noreorder
+    .align 3
 bdk_init_trampoline:
     dli     t0, 0x8001180000000000
     sd      a0,0(t0)
@@ -86,4 +88,18 @@ bdk_init_trampoline:
     .set pop
     .end bdk_init_trampoline
 
+    .ent bdk_reset_vector
+    .set push
+    .set noreorder
+    .align 3
+bdk_reset_vector:
+    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
+     nop
+1:  ld      k0, 16(ra)
+    nop
+    j       k0
+     nop
+    .dword   0              /* ld above loads this, so replace with real address */
+    .set pop
+    .end bdk_reset_vector
 

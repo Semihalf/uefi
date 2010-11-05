@@ -50,6 +50,11 @@ static void __bdk_init_cop0(void)
     BDK_MF_COP0(status, COP0_STATUS);
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
+
+    uint64_t memctl;
+    BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
+    memctl |= 7ull<<37; // Max pause time
+    BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
 }
 
 static void __bdk_init_relocate_data(void)
@@ -62,7 +67,8 @@ static void __bdk_init_relocate_data(void)
     if ((data_physical >= 0x10000000) && (data_physical < 0x20000000))
     {
         void *new_loc = bdk_phys_to_ptr(bdk_build_mask(29) & (long)&_fdata);
-        memmove(new_loc, &_fdata, (&_edata - &_fdata));
+        if (bdk_get_core_num() == 0)
+            memmove(new_loc, &_fdata, (&_edata - &_fdata));
         uint64_t entryhi = (long)&_fdata;
         entryhi &= ~bdk_build_mask(13);
         BDK_MT_COP0(entryhi, COP0_ENTRYHI);
@@ -105,11 +111,13 @@ static void bdk_init_stage2(void)
         bdk_thread_initialize();
         if (bdk_thread_create(-1, (bdk_thread_func_t)main, 0, NULL))
             bdk_fatal("Create of main thread failed\n");
+
+        write(1, BANNER_5, sizeof(BANNER_5)-1);
     }
+    else
+        __bdk_init_relocate_data();
 
-    write(1, BANNER_5, sizeof(BANNER_5)-1);
     __bdk_init_cop0();
-
     bdk_thread_destroy();
 }
 
@@ -213,7 +221,7 @@ void bdk_init(long base_address)
     BDK_ICACHE_INVALIDATE;
 
     /* We're ready to go if we don't need to align flash */
-    if (!flash_shift)
+    if (!flash_shift || bdk_get_core_num())
     {
         asm volatile ("j %0" :: "r" (&bdk_init_stage2) : "memory");
         /* We never get here, but the C complier doesn't know that */
@@ -264,3 +272,37 @@ void bdk_init(long base_address)
     while (1) {}
 }
 
+int bdk_init_cores(uint64_t coremask)
+{
+    extern void bdk_reset_vector(void);
+
+    /* Install reset vector */
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_ADR, 0);
+    const uint64_t *src = (const uint64_t *)bdk_reset_vector;
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80000000 | bdk_ptr_to_phys((void*)0xffffffffe0000500));
+    BDK_CSR_READ(BDK_MIO_BOOT_LOC_CFGX(0));
+
+    /* Choose all cores by default */
+    if (coremask == 0)
+        coremask = -1;
+
+    /* Don't touch this core */
+    coremask &= ~(1<<bdk_get_core_num());
+
+    /* Limit to the cores that already exist */
+    coremask &= (1<<bdk_octeon_num_cores()) - 1;
+
+    /* First send a NMI */
+    BDK_CSR_WRITE(BDK_CIU_NMI, coremask);
+
+    /* Then take cores out of reset */
+    uint64_t reset = BDK_CSR_READ(BDK_CIU_PP_RST);
+    reset &= ~coremask;
+    BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+
+    return 0;
+}
