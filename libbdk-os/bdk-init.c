@@ -48,6 +48,7 @@ static void __bdk_init_cop0(void)
 {
     int status;
     BDK_MF_COP0(status, COP0_STATUS);
+    status |= 1<<30;    // Enable COP2
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
 
