@@ -4707,14 +4707,12 @@ someone_on: ;
     ROW(0){printf("Packet buffers:  %7llu ", (ULL)BDK_CSR_READ(BDK_IPD_QUE0_FREE_PAGE_CNT));
         printf("Command buffers: %7llu ", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_OUTPUT_BUFFER_POOL)));
         printf("Work buffers:    %7llu" ERASE_EOL "\n", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_WQE_POOL)));}
-#if 0 // FIXME
     ROW(0){
         /* Compute DRAM utilization */
         static uint64_t prev_ops_cnt;
         static uint64_t prev_dclk_cnt;
-        uint64_t ops_cnt = OCTEON_IS_MODEL(OCTEON_CN6XXX) ? BDK_CSR_READ(BDK_LMCX_OPS_CNT(0)) :
-                            ((BDK_CSR_READ(BDK_LMC_OPS_CNT_HI) << 32) | BDK_CSR_READ(BDK_LMC_OPS_CNT_LO));
-        uint64_t dclk_cnt = bdk_clock_get_count(BDK_CLOCK_DDR);
+        uint64_t ops_cnt = BDK_CSR_READ(BDK_LMCX_OPS_CNT(0));
+        uint64_t dclk_cnt = BDK_CSR_READ(BDK_LMCX_DCLK_CNT(0));
         uint64_t delta_ops = ops_cnt - prev_ops_cnt;
         uint64_t delta_cycles = dclk_cnt - prev_dclk_cnt;
         int percent_x100 = delta_ops * 10000 / delta_cycles;
@@ -4724,33 +4722,6 @@ someone_on: ;
             percent_x100/100, percent_x100%100,
             (unsigned long long)delta_ops, (unsigned long long)delta_cycles);
     }
-    if (OCTEON_IS_MODEL(OCTEON_CN3XXX) || OCTEON_IS_MODEL(OCTEON_CN5XXX))
-    {
-        ROW(0){
-            /* L2 performance counters */
-            bdk_l2c_pfctl_t l2perf;
-            l2perf.u64 = 0;
-            l2perf.s.cnt3ena = 1;
-            l2perf.s.cnt3clr = 1;
-            l2perf.s.cnt3sel = BDK_L2C_EVENT_DATA_MISS;
-            l2perf.s.cnt2ena = 1;
-            l2perf.s.cnt2clr = 1;
-            l2perf.s.cnt2sel = BDK_L2C_EVENT_DATA_HIT;
-            l2perf.s.cnt1ena = 1;
-            l2perf.s.cnt1clr = 1;
-            l2perf.s.cnt1sel = BDK_L2C_EVENT_INSTRUCTION_MISS;
-            l2perf.s.cnt0ena = 1;
-            l2perf.s.cnt0clr = 1;
-            l2perf.s.cnt0sel = BDK_L2C_EVENT_INSTRUCTION_HIT;
-            printf("L2 cache Ihit: %9llu Imiss: %9llu Dhit: %9llu Dmiss: %9llu" ERASE_EOL "\n",
-                   (unsigned long long)BDK_CSR_READ(BDK_L2C_PFC0),
-                   (unsigned long long)BDK_CSR_READ(BDK_L2C_PFC1),
-                   (unsigned long long)BDK_CSR_READ(BDK_L2C_PFC2),
-                   (unsigned long long)BDK_CSR_READ(BDK_L2C_PFC3));
-            BDK_CSR_WRITE(BDK_L2C_PFCTL, l2perf.u64);
-        }
-    }
-#endif
 
     int i;
     for (i=0; i<256;i++)
