@@ -19,7 +19,7 @@ typedef struct bdk_thread
 static bdk_thread_t*    bdk_thread_head;
 static bdk_thread_t*    bdk_thread_tail;
 static bdk_spinlock_t   bdk_thread_lock;
-extern void __bdk_thread_switch(bdk_thread_t* next_context);
+extern void __bdk_thread_switch(bdk_thread_t* next_context, int delete_old);
 
 
 /**
@@ -84,7 +84,7 @@ void bdk_thread_yield(void)
         bdk_thread_head = bdk_thread_head->next;
 
         /* Do the context switch */
-        __bdk_thread_switch(next);
+        __bdk_thread_switch(next, 0);
     }
 
     bdk_spinlock_unlock(&bdk_thread_lock);
@@ -153,12 +153,6 @@ void bdk_thread_destroy(void)
 
     fflush(NULL);
 
-    if (current)
-    {
-        // FIXME
-        bdk_fatal("bdk_thread_destroy() not implemented\n");
-    }
-
     while (1)
     {
         bdk_spinlock_lock(&bdk_thread_lock);
@@ -177,7 +171,7 @@ void bdk_thread_destroy(void)
             bdk_thread_head = bdk_thread_head->next;
 
             /* Do the context switch */
-            __bdk_thread_switch(next);
+            __bdk_thread_switch(next, 1);
             bdk_fatal("bdk_thread_destroy() should never get here\n");
         }
 
