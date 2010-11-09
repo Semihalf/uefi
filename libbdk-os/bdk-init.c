@@ -302,8 +302,11 @@ int bdk_init_cores(uint64_t coremask)
 
     /* Then take cores out of reset */
     uint64_t reset = BDK_CSR_READ(BDK_CIU_PP_RST);
-    reset &= ~coremask;
-    BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+    if (reset & coremask)
+    {
+        reset &= ~coremask;
+        BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+    }
 
     return 0;
 }
