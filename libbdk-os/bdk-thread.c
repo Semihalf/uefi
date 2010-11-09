@@ -67,6 +67,10 @@ void bdk_thread_yield(void)
     if (current->stack_canary != STACK_CANARY)
         bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
+    /* Return immediately if there are no threads */
+    if (!bdk_thread_head)
+        return;
+
     bdk_spinlock_lock(&bdk_thread_lock);
 
     /* Find the first thread that can run on this core */
