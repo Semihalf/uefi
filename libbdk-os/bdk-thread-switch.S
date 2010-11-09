@@ -10,8 +10,11 @@
     /* A0 is the new context, COP0_USERLOCAL is the old one. COP0_USERLOCAL
         can be zero. If A1 is non zero the old context is freed */
 LEAF(__bdk_thread_switch)
+    pref    0, 0(a0)            /* Prefetch the new context */
     di      k1                  /* Disable interrupts while we switch */
     dmfc0   k0, COP0_USERLOCAL  /* Get the current context */
+    pref    0, 128(a0)
+    pref    0, 256(a0)
     beqz    k0, no_free_old     /* Skip save if current context is zero */
      dmtc0  a0, COP0_USERLOCAL  /* Store new context in delay slot */
 
