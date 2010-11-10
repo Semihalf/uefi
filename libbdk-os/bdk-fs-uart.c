@@ -17,8 +17,9 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
     while (count == 0)
     {
-        bdk_thread_yield();
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        if (!lsr.s.dr)
+            bdk_thread_yield();
         while (lsr.s.dr && length)
         {
             *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
