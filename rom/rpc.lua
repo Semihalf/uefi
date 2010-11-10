@@ -87,7 +87,7 @@ local function do_unpack(remote, start_index, str)
     local index = start_index   -- Current index in the string
     local length = #str         -- End of the string
 
-    print("Call do_unpack(" .. start_index .. ", \"" .. str .. "\")")
+    -- print("Call do_unpack(" .. start_index .. ", \"" .. str .. "\")")
 
     -- Loop until we consume the string. We will exit early if we hit a table
     -- end marker. This is so we can recursively handle tables
@@ -138,7 +138,7 @@ local function do_unpack(remote, start_index, str)
 	    count = count + 1
 	    result[count] = v
     end
-    print("return do_unpack(" .. index .. ")")
+    -- print("return do_unpack(" .. index .. ")")
     return index, result
 end
 
@@ -148,6 +148,7 @@ end
 local function do_remote(remote, command, ...)
     -- Build the remote command string
     local line = "$" .. command .. remote.remoteid .. do_pack(...)
+    -- print(line)
     -- Send the string and flush to make sure it goes immediately
     remote.outf:write(line .. "\n")
     remote.outf:flush()
