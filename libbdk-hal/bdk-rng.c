@@ -25,9 +25,12 @@ void bdk_rng_enable(void)
 {
     bdk_rnm_ctl_status_t rnm_ctl_status;
     rnm_ctl_status.u64 = BDK_CSR_READ(BDK_RNM_CTL_STATUS);
-    rnm_ctl_status.s.ent_en = 1;
-    rnm_ctl_status.s.rng_en = 1;
-    BDK_CSR_WRITE(BDK_RNM_CTL_STATUS, rnm_ctl_status.u64);
+    if (!rnm_ctl_status.s.rng_en)
+    {
+        rnm_ctl_status.s.ent_en = 1;
+        rnm_ctl_status.s.rng_en = 1;
+        BDK_CSR_WRITE(BDK_RNM_CTL_STATUS, rnm_ctl_status.u64);
+    }
 }
 
 /**
