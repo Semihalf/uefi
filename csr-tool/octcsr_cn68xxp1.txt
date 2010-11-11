@@ -12575,7 +12575,6 @@ For reads, either address will return the $GMX(0..4)_TX_HG2_REG1 values.
 
 
 
-
      ==============================================================
      GMX(0..4)_TX_HG2_REG2 Type=RSL
      ==============================================================
@@ -12749,6 +12748,25 @@ Pos      Name    Type     Value     Value       Description
 						  phys_bp = (BPID_VECTOR & MSK_AND) == MSK_AND	    |
 ----------------------------------------------------------------------------------------------------
 ===
+
+
+
+     ==============================================================
+     GMX(0..4)_RXAUI_CTL Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     DISPARITY R/W     0x0         NS        Selects which disparity calculation to use when    |
+						  combining or splitting the RXAUI lanes.	    |
+						  0=Calculate disparity as described by Dune.	    |
+						  1=Calculate disparity as described by Marvell.    |
+----------------------------------------------------------------------------------------------------
+===
+
 
  *
  * GMX_SOFT_BIST = Software BIST Control
@@ -12926,7 +12944,9 @@ Pos      Name    Type     Value     Value       Description
                                                          first write PKT_ENA=1 and wait packet transmission to stop.    |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
 <30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay                                         |
-<63:31>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
+                                                         ignore pipe credits.                                           |
+<63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14418,7 +14438,10 @@ Pos      Name    Type     Value     Value       Description
 	                                         matchers.
  <5>     RSVR5     R/W     0x0         0         Reserved
  <9:6>   XMC_PER   R/W     0x0         0         IBC XMC PUSH EARLY
- <63:10> NS        RAZ     NS          NS        Reserved
+ <10>    FIF_DLY   R/W     0x1         0         Delay async FIFO counts to be used when clock ratio
+						 is greater then TBD. Writes should be followed by an
+                                                 immediate read.
+ <63:11> NS        RAZ     NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14942,7 +14965,10 @@ Pos      Name    Type     Value     Value       Description
  <5:0>   RSVD00    R/W     0x0         0         Toggles the endian style of the FAU. '0' is for
                                                  big-endian and '1' is for little-endian.
  <9:6>   XMC_PER   R/W     0x0         0         IBC XMC PUSH EARLY
- <63:10> NS        RAZ     NS          NS        Reserved
+ <10>    FIF_DLY   R/W     0x1         0         Delay async FIFO counts to be used when clock ratio
+						 is greater then TBD. Writes should be followed by an
+                                                 immediate read.
+ <63:11> NS        RAZ     NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23708,7 +23734,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:32> NS 	  RAZ      0           0         Reserved for PP expansion                          |
  <31:0>	 WDOG     RO	   0	       0	 32 watchdog interrupts source		            |
-						 CIU2_RAW_WDOG & CIU2_EN_xx_yy_WDOG                 |	$R
+						 CIU2_RAW_WDOG & CIU2_EN_xx_yy_WDOG                 |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25012,7 +25038,7 @@ Pos      Name    Type     Value     Value       Description
  <44>	 DSTOP    R/W	   0	       0	 DSTOP, Debug-stop enable			    |
  <43:20> CNT      RO	   0	       0	 Number of 256-cycle intervals until next watchdog  |
 						  expiration.  Cleared on write to associated	    |
-						  CIU_PP_POKE register.				    |
+						  CIU2_PP_POKE register.				    |
  <19:4>	 LEN      R/W	   0	       0	 Watchdog time expiration length		    |
 						  The 16 bits of LEN represent the most significant |
 						  bits of a 24 bit decrementer that decrements	    |
@@ -25021,7 +25047,7 @@ Pos      Name    Type     Value     Value       Description
  <3:2>	 STATE    RO	   0	       0	 Watchdog state					    |
 						  number of watchdog time expirations since last    |
 						  PP poke.  Cleared on write to associated	    |
-						  CIU_PP_POKE register.				    |
+						  CIU2_PP_POKE register.		            |
  <1:0>	 MODE     R/W	   0	       0	 Watchdog mode					    |
 						  0 = Off					    |
 						  1 = Interrupt Only				    |
@@ -25040,14 +25066,13 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  POKE     RAZ      NS          NS        Reserved				            |
-
-Notes:
-Any write to a CIU_PP_POKE register clears any pending interrupt generated
-by the associated watchdog, resets the CIU_WDOG[STATE] field, and set
-CIU_WDOG[CNT] to be (CIU_WDOG[LEN] << 8).
-
-Reads to this register will return the associated CIU_WDOG register.
+ <63:0>  POKE     R/W      NS          NS        PP_POKE for watchdog interrupt			    |
+                                                 Any write to a CIU2_PP_POKE register clears any    |
+						 pending interrupt generated by the associated      |
+						 watchdog, resets the CIU2_WDOG[STATE] field, and   |
+						 set IU2_WDOG[CNT] to be (CIU2_WDOG[LEN] << 8).     |
+						 Reads to this register will return the associated  |
+						 CIU2_WDOG register.	                            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25901,7 +25926,7 @@ Pos      Name    Type     Value     Value       Description
                                                 in system memory(MIX_IRCNT[IRCNT]) exceeds this IRHWM
                                                 threshold.
 
-                                                NOTE: The power-on value of the CIU_INTx_EN*[MII]
+                                                NOTE: The power-on value of the CIU2_EN_xx_yy_PKT[MII]
                                                 interrupt enable bits is zero and must be enabled
                                                 to allow interrupts to be reported.
 
@@ -25975,7 +26000,7 @@ Pos      Name    Type     Value     Value       Description
                                                 in system memory that can be reclaimed
                                                 (MIX_ORCNT[ORCNT]) exceeds this ORHWM threshold.
 
-                                                NOTE: The power-on value of the CIU_INTx_EN*[MII]
+                                                NOTE: The power-on value of the CIU2_EN_xx_yy_PKT[MII]
                                                 interrupt enable bits is zero and must be enabled
                                                 to allow interrupts to be reported.
 
@@ -26037,10 +26062,10 @@ Pos      Name    Type     Value     Value       Description
                                                 O-Ring Buffer Entries (MIX_REMCNT[OREMCNT]), then
                                                 the following occurs:
                                                 1) The  MIX_ORING2[ODBELL] write is IGNORED
-                                                2) The ODBLOVF is set and the CIU_INTx_SUM0,4[MII]
-                                                   bits are set if ((MIX_ISR & MIX_INTENA) != 0)).
+                                                2) The ODBLOVF is set and the CIU2_RAW_PKT[MII]
+                                                   bit is set if ((MIX_ISR & MIX_INTENA) != 0)).
 
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and the local interrupt mask bit(OVFENA) is set, than an
                                                 interrupt is reported for this event.
 
@@ -26062,10 +26087,10 @@ Pos      Name    Type     Value     Value       Description
                                                 I-Ring Buffer Entries (MIX_REMCNT[IREMCNT]), then
                                                 the following occurs:
                                                 1) The  MIX_IRING2[IDBELL] write is IGNORED
-                                                2) The ODBLOVF is set and the CIU_INTx_SUM0,4[MII]
-                                                   bits are set if ((MIX_ISR & MIX_INTENA) != 0)).
+                                                2) The ODBLOVF is set and the CIU2_RAW_PKT[MII]
+                                                   bit is set if ((MIX_ISR & MIX_INTENA) != 0)).
 
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and the local interrupt mask bit(IVFENA) is set, than an
                                                 interrupt is reported for this event.
 
@@ -26089,10 +26114,10 @@ Pos      Name    Type     Value     Value       Description
                                                 When the pending #outbound packets in system
 	                                        memory(ORCNT) has exceeded a programmable threshold
 						(ORHWM), then this bit is set. If this does occur,
-                                                the ORTHRESH is set and the CIU_INTx_SUM0,4[MII] bits
-                                                are set if ((MIX_ISR & MIX_INTENA) != 0)).
+                                                the ORTHRESH is set and the CIU2_RAW_PKT[MII] bit
+                                                is set if ((MIX_ISR & MIX_INTENA) != 0)).
 
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and the local interrupt mask bit(OTHENA) is set, than an
                                                 interrupt is reported for this event.
 
@@ -26100,18 +26125,18 @@ Pos      Name    Type     Value     Value       Description
                                                 When the pending #inbound packets in system
 	                                        memory(IRCNT) has exceeded a programmable threshold
 						(IRHWM), then this bit is set. If this does occur,
-                                                the IRTHRESH is set and the CIU_INTx_SUM0,4[MII] bits
-                                                are set if ((MIX_ISR & MIX_INTENA) != 0)).
+                                                the IRTHRESH is set and the CIU2_RAW_PKT[MII] bit
+                                                is set if ((MIX_ISR & MIX_INTENA) != 0)).
 
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and the local interrupt mask bit(ITHENA) is set, than an
                                                 interrupt is reported for this event.
 
  <4>     DATA_DRP R/W1C    0x0         0x0      Data was dropped due to RX FIFO full
                                                 If this does occur, the DATA_DRP is set and the
-                                                CIU_INTx_SUM0,4[MII] bits are set.
+                                                CIU2_RAW_PKT[MII] bit is set.
 
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and the local interrupt mask bit(DATA_DRPENA) is set, than an
                                                 interrupt is reported for this event.
 
@@ -26141,7 +26166,7 @@ Pos      Name    Type     Value     Value       Description
                                                 When the #of pending Timestamp Interrupts (MIX_TSCTL[TSCNT])
                                                 is greater than the TimeStamp Interrupt Threshold
                                                 (MIX_CTL[TS_THRESH]) value this interrupt bit is set.
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Outbound Ring with Timestamp
                                                 event (see: MIX_INTENA[TSENA]).
@@ -26166,49 +26191,49 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <0>     OVFENA   R/W      0x0         0x0      Outbound DoorBell(ODBELL) Overflow Interrupt Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Outbound Doorbell Overflow
                                                 event(ODBOVF).
 
  <1>     IVFENA   R/W      0x0         0x0      Inbound DoorBell(IDBELL) Overflow Detected
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Inbound Doorbell Overflow
                                                 event(IDBOVF).
 
  <2>     OTHENA   R/W    0x0         0x0        Outbound Ring Threshold Exceeded Interrupt Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Outbound Ring Threshold
                                                 Exceeded event(ORTHRESH).
 
  <3>     ITHENA   R/W    0x0         0x0        Inbound Ring Threshold Exceeded Interrupt Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Inbound Ring Threshold
                                                 Exceeded event(IRTHRESH).
 
  <4> DATA_DRPENA  R/W    0x0         0x0        Data was dropped due to RX FIFO full Interrupt
                                                 enable. If both the global interrupt mask bits
-                                                (CIU_INTx_EN*[MII]) and the local interrupt mask
+                                                (CIU2_EN_xx_yy_PKT[MII]) and the local interrupt mask
                                                 bit(DATA_DRPENA) is set, than an interrupt is
                                                 reported for this event.
 
  <5>     IRUNENA  R/W    0x0         0x0        IRCNT UnderFlow Interrupt Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an IRCNT underflow condition
 						MIX_ISR[IRUN].
 
  <6>     ORUNENA  R/W    0x0         0x0        ORCNT UnderFlow Detected Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an ORCNT underflow condition
 						MIX_ISR[ORUN].
 
  <7>     TSENA    R/W    0x0         0x0        TimeStamp Interrupt Enable
-						If both the global interrupt mask bits (CIU_INTx_EN*[MII])
+						If both the global interrupt mask bits (CIU2_EN_xx_yy_PKT[MII])
 						and this local interrupt mask bit is set, than an
                                                 interrupt is reported for an Outbound Ring with Timestamp
                                                 event (see: MIX_ISR[TS]).
@@ -33031,6 +33056,8 @@ Pos      Name    Type     Value     Value       Description
                                                  2. Write a '0' to this bit.
                                                  3. Startup the packet input again (all previous
                                                     CSR setting of the packet-input will be lost).
+                                                 When this bit is set the CSRs associated with
+                                                 packet out will return undefined results.
  <39:24> NS       RAZ      NS          NS        Reserved					    |
  <40>    PRC_IDLE RO       0           NS        PRC In IDLE
  <47:41> NS       RAZ      NS          NS        Reserved
@@ -34052,22 +34079,22 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  WQ_INT    R/W1C    0x0     NS       Work queue interrupt bits                              |
-                                             Corresponding WQ_INT bit is set by HW whenever:        |
-                                               - SSO_WQ_INT_CNT@[IQ_CNT] >=                         |
-                                                 SSO_WQ_INT_THR@[IQ_THR] and the threshold          |
-                                                 interrupt is not disabled.                         |
-                                                 SSO_WQ_IQ_DIS@[IQ_DIS<@>]==1 disables the interrupt|
-                                                 SSO_WQ_INT_THR@[IQ_THR]==0 disables the int.       |
-                                               - SSO_WQ_INT_CNT@[DS_CNT] >=                         |
-                                                 SSO_WQ_INT_THR@[DS_THR] and the threshold          |
-                                                 interrupt is not disabled                          |
-                                                 SSO_WQ_INT_THR@[DS_THR]==0 disables the int.       |
-                                               - SSO_WQ_INT_CNT@[TC_CNT]==1 when periodic           |
-                                                 counter SSO_WQ_INT_PC[PC]==0 and                   |
-                                                 SSO_WQ_INT_THR@[TC_EN]==1 and at least one of:     |
-                                                   - SSO_WQ_INT_CNT@[IQ_CNT] > 0                    |
-                                                   - SSO_WQ_INT_CNT@[DS_CNT] > 0                    |
+ <63:0>	 WQ_INT	   R/W1C    0x0	    NS	     Work queue interrupt bits				    |
+					     Corresponding WQ_INT bit is set by HW whenever:	    |
+					       - SSO_WQ_INT_CNT@[IQ_CNT] >=			    |
+						 SSO_WQ_INT_THR@[IQ_THR] and the threshold	    |
+						 interrupt is not disabled.			    |
+						 SSO_WQ_IQ_DIS@[IQ_DIS<@>]==1 disables the interrupt|
+						 SSO_WQ_INT_THR@[IQ_THR]==0 disables the int.	    |
+					       - SSO_WQ_INT_CNT@[DS_CNT] >=			    |
+						 SSO_WQ_INT_THR@[DS_THR] and the threshold	    |
+						 interrupt is not disabled			    |
+						 SSO_WQ_INT_THR@[DS_THR]==0 disables the int.	    |
+					       - SSO_WQ_INT_CNT@[TC_CNT]==1 when periodic	    |
+						 counter SSO_WQ_INT_PC[PC]==0 and		    |
+						 SSO_WQ_INT_THR@[TC_EN]==1 and at least one of:	    |
+						   - SSO_WQ_INT_CNT@[IQ_CNT] > 0		    |
+						   - SSO_WQ_INT_CNT@[DS_CNT] > 0		    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (1): 0x1008..0x1008
@@ -34087,13 +34114,13 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  IQ_DIS    R/W1     0x0     NS       Input queue interrupt temporary disable mask           |
-                                               Corresponding SSO_WQ_INT@[WQ_INT<@>] bit cannot be   |
-                                               set due to IQ_CNT/IQ_THR check when this bit is set. |
-                                               Corresponding IQ_DIS bit is cleared by HW whenever:  |
-                                                - SSO_WQ_INT_CNT@[IQ_CNT] is zero, or               |
-                                                - SSO_WQ_INT_CNT@[TC_CNT]==1 when periodic          |
-                                                  counter SSO_WQ_INT_PC[PC]==0                      |
+ <63:0>	 IQ_DIS	   R/W1	    0x0	    NS	     Input queue interrupt temporary disable mask	    |
+					       Corresponding SSO_WQ_INT@[WQ_INT<@>] bit cannot be   |
+					       set due to IQ_CNT/IQ_THR check when this bit is set. |
+					       Corresponding IQ_DIS bit is cleared by HW whenever:  |
+						- SSO_WQ_INT_CNT@[IQ_CNT] is zero, or		    |
+						- SSO_WQ_INT_CNT@[TC_CNT]==1 when periodic	    |
+						  counter SSO_WQ_INT_PC[PC]==0			    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (1): 0x1018..0x1018
@@ -34114,11 +34141,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:60> NS        RAZ      NS      NS       Reserved                                               |
- <59:32> PC        RO       0x0     NS       Work queue interrupt periodic counter                  |
- <31:28> NS        RAZ      NS      NS       Reserved                                               |
- <27:8>  PC_THR    R/W      0x0     NS       Work queue interrupt periodic counter threshold        |
- <7:0>   NS        RAZ      NS      NS       Reserved                                               |
+ <63:60> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <59:32> PC	   RO	    0x0	    NS	     Work queue interrupt periodic counter		    |
+ <31:28> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <27:8>	 PC_THR	   R/W	    0x0	    NS	     Work queue interrupt periodic counter threshold	    |
+ <7:0>	 NS	   RAZ	    NS	    NS	     Reserved						    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34138,7 +34165,7 @@ Pos      Name    Type     Value     Value       Description
  *   before the pre-fetch engine has reached the end of all work queues.  This
  *   can occur if the executable work queue entry is deep in the queue and the
  *   pre-fetch engine is subject to many resets (i.e. high switch, de-schedule,
- *   or new work load from other PP's).  Thus, it is possible for a PP to
+ *   or new work load from other PP's).	 Thus, it is possible for a PP to
  *   receive a work response with the NO_WORK bit set even though there was at
  *   least one executable entry in the work queues.  The other (and typical)
  *   scenario for receiving a NO_WORK response with the WAIT bit clear is that
@@ -34167,8 +34194,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:10> NS        RAZ      NS      NS       Reserved                                               |
- <9:0>   NW_TIM    R/W      0x0     0x3ff    New work timer period                                  |
+ <63:10> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <9:0>	 NW_TIM	   R/W	    0x0	    0x3ff    New work timer period				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34186,25 +34213,25 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:48> NS          RAZ    NS      NS       Reserved                                               |
- <47>    BFP_IE      R/W    0x0     NS       Bad Fill Packet error interrupt enable                 |
- <46>    AWE_IE      R/W    0x0     NS       Add-work error interrupt enable                        |
- <45>    FPE_IE      R/W    0x0     NS       Free Page error interrupt enable                       |
- <44:43> NS          RAZ    NS      NS       Reserved                                               |
- <42:32> IOP_IE      R/W    0x0     NS       Illegal operation interrupt enables                    |
- <31:12> NS          RAZ    NS      NS       Reserved                                               |
- <11>    PND_DBE0_IE R/W    0x0     NS       Double bit error interrupt enable for even PND RAM     |
- <10>    PND_SBE0_IE R/W    0x0     NS       Single bit error interrupt enable for even PND RAM     |
- <9>     PND_DBE1_IE R/W    0x0     NS       Double bit error interrupt enable for odd PND RAM      |
- <8>     PND_SBE1_IE R/W    0x0     NS       Single bit error interrupt enable for odd PND RAM      |
- <7>     OTH_DBE0_IE R/W    0x0     NS       Double bit error interrupt enable for even OTH RAM     |
- <6>     OTH_SBE0_IE R/W    0x0     NS       Single bit error interrupt enable for even OTH RAM     |
- <5>     OTH_DBE1_IE R/W    0x0     NS       Double bit error interrupt enable for odd OTH RAM      |
- <4>     OTH_SBE1_IE R/W    0x0     NS       Single bit error interrupt enable for odd OTH RAM      |
- <3>     IDX_DBE_IE  R/W    0x0     NS       Double bit error interrupt enable for IDX RAM          |
- <2>     IDX_SBE_IE  R/W    0x0     NS       Single bit error interrupt enable for IDX RAM          |
- <1>     FIDX_DBE_IE R/W    0x0     NS       Double bit error interrupt enable for FIDX RAM         |
- <0>     FIDX_SBE_IE R/W    0x0     NS       Single bit error interrupt enable for FIDX RAM         |
+ <63:48> NS	     RAZ    NS	    NS	     Reserved						    |
+ <47>	 BFP_IE	     R/W    0x0	    NS	     Bad Fill Packet error interrupt enable		    |
+ <46>	 AWE_IE	     R/W    0x0	    NS	     Add-work error interrupt enable			    |
+ <45>	 FPE_IE	     R/W    0x0	    NS	     Free Page error interrupt enable			    |
+ <44:43> NS	     RAZ    NS	    NS	     Reserved						    |
+ <42:32> IOP_IE	     R/W    0x0	    NS	     Illegal operation interrupt enables		    |
+ <31:12> NS	     RAZ    NS	    NS	     Reserved						    |
+ <11>	 PND_DBE0_IE R/W    0x0	    NS	     Double bit error interrupt enable for even PND RAM	    |
+ <10>	 PND_SBE0_IE R/W    0x0	    NS	     Single bit error interrupt enable for even PND RAM	    |
+ <9>	 PND_DBE1_IE R/W    0x0	    NS	     Double bit error interrupt enable for odd PND RAM	    |
+ <8>	 PND_SBE1_IE R/W    0x0	    NS	     Single bit error interrupt enable for odd PND RAM	    |
+ <7>	 OTH_DBE0_IE R/W    0x0	    NS	     Double bit error interrupt enable for even OTH RAM	    |
+ <6>	 OTH_SBE0_IE R/W    0x0	    NS	     Single bit error interrupt enable for even OTH RAM	    |
+ <5>	 OTH_DBE1_IE R/W    0x0	    NS	     Double bit error interrupt enable for odd OTH RAM	    |
+ <4>	 OTH_SBE1_IE R/W    0x0	    NS	     Single bit error interrupt enable for odd OTH RAM	    |
+ <3>	 IDX_DBE_IE  R/W    0x0	    NS	     Double bit error interrupt enable for IDX RAM	    |
+ <2>	 IDX_SBE_IE  R/W    0x0	    NS	     Single bit error interrupt enable for IDX RAM	    |
+ <1>	 FIDX_DBE_IE R/W    0x0	    NS	     Double bit error interrupt enable for FIDX RAM	    |
+ <0>	 FIDX_SBE_IE R/W    0x0	    NS	     Single bit error interrupt enable for FIDX RAM	    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34214,23 +34241,23 @@ Pos      Name    Type     Value     Value       Description
  * This register also contains the illegal operation error bits.
  *
  *  <0> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP
- *      from WS in EMPTY state
+ *	from WS in EMPTY state
  *  <1> Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP
- *      from WS in UNSCHEDULED state
+ *	from WS in UNSCHEDULED state
  *  <2> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK
- *      from WS with pending tag switch to ORDERED or ATOMIC
+ *	from WS with pending tag switch to ORDERED or ATOMIC
  *  <3> Received SWTAG/SWTAG_FULL/SWTAG_DESCH
- *      with tag specified as EMPTY
+ *	with tag specified as EMPTY
  *  <4> Received SWTAG_FULL/SWTAG_DESCH
- *      with tag specified as UNSCHEDULED
+ *	with tag specified as UNSCHEDULED
  *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
- *      from WS with GET_WORK pending
+ *	from WS with GET_WORK pending
  *  <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
- *      from WS with ALLOC_WE pending
+ *	from WS with ALLOC_WE pending
  *  <7> Received CLR_NSCHED
- *      from WS with SWTAG_DESCH/DESCH/CLR_NSCHED pending
+ *	from WS with SWTAG_DESCH/DESCH/CLR_NSCHED pending
  *  <8> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
- *      from WS with CLR_NSCHED pending
+ *	from WS with CLR_NSCHED pending
  *  <9> Received illegal opcode
  * <10> Received ADDWQ with tag specified as EMPTY
  *
@@ -34243,26 +34270,26 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:48> NS       RAZ    NS      NS       Reserved                                                  |
- <47>    BFP      R/W1C  0x0     0x0      Bad Fill Packet error                                     |
-                                          Last byte of the fill packet did not match 8'h1a          |
- <46>    AWE      R/W1C  0x0     0x0      Out-of-memory error (ADDWQ Request is dropped)            |
- <45>    FPE      R/W1C  0x0     0x0      Free page error                                           |
- <44:43> NS       RAZ    NS      NS       Reserved                                                  |
- <42:32> IOP      R/W1C  0x0     0x0      Illegal operation errors                                  |
- <31:12> NS       RAZ    NS      NS       Reserved                                                  |
- <11>    PND_DBE0 R/W1C  0x0     NS       Double bit error for even PND RAM                         |
- <10>    PND_SBE0 R/W1C  0x0     NS       Single bit error for even PND RAM                         |
- <9>     PND_DBE1 R/W1C  0x0     NS       Double bit error for odd PND RAM                          |
- <8>     PND_SBE1 R/W1C  0x0     NS       Single bit error for odd PND RAM                          |
- <7>     OTH_DBE0 R/W1C  0x0     NS       Double bit error for even OTH RAM                         |
- <6>     OTH_SBE0 R/W1C  0x0     NS       Single bit error for even OTH RAM                         |
- <5>     OTH_DBE1 R/W1C  0x0     NS       Double bit error for odd OTH RAM                          |
- <4>     OTH_SBE1 R/W1C  0x0     NS       Single bit error for odd OTH RAM                          |
- <3>     IDX_DBE  R/W1C  0x0     NS       Double bit error for IDX RAM                              |
- <2>     IDX_SBE  R/W1C  0x0     NS       Single bit error for IDX RAM                              |
- <1>     FIDX_DBE R/W1C  0x0     NS       Double bit error for FIDX RAM                             |
- <0>     FIDX_SBE R/W1C  0x0     NS       Single bit error for FIDX RAM                             |
+ <63:48> NS	  RAZ	 NS	 NS	  Reserved						    |
+ <47>	 BFP	  R/W1C	 0x0	 0x0	  Bad Fill Packet error					    |
+					  Last byte of the fill packet did not match 8'h1a	    |
+ <46>	 AWE	  R/W1C	 0x0	 0x0	  Out-of-memory error (ADDWQ Request is dropped)	    |
+ <45>	 FPE	  R/W1C	 0x0	 0x0	  Free page error					    |
+ <44:43> NS	  RAZ	 NS	 NS	  Reserved						    |
+ <42:32> IOP	  R/W1C	 0x0	 0x0	  Illegal operation errors				    |
+ <31:12> NS	  RAZ	 NS	 NS	  Reserved						    |
+ <11>	 PND_DBE0 R/W1C	 0x0	 NS	  Double bit error for even PND RAM			    |
+ <10>	 PND_SBE0 R/W1C	 0x0	 NS	  Single bit error for even PND RAM			    |
+ <9>	 PND_DBE1 R/W1C	 0x0	 NS	  Double bit error for odd PND RAM			    |
+ <8>	 PND_SBE1 R/W1C	 0x0	 NS	  Single bit error for odd PND RAM			    |
+ <7>	 OTH_DBE0 R/W1C	 0x0	 NS	  Double bit error for even OTH RAM			    |
+ <6>	 OTH_SBE0 R/W1C	 0x0	 NS	  Single bit error for even OTH RAM			    |
+ <5>	 OTH_DBE1 R/W1C	 0x0	 NS	  Double bit error for odd OTH RAM			    |
+ <4>	 OTH_SBE1 R/W1C	 0x0	 NS	  Single bit error for odd OTH RAM			    |
+ <3>	 IDX_DBE  R/W1C	 0x0	 NS	  Double bit error for IDX RAM				    |
+ <2>	 IDX_SBE  R/W1C	 0x0	 NS	  Single bit error for IDX RAM				    |
+ <1>	 FIDX_DBE R/W1C	 0x0	 NS	  Double bit error for FIDX RAM				    |
+ <0>	 FIDX_SBE R/W1C	 0x0	 NS	  Single bit error for FIDX RAM				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34280,8 +34307,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  NOS_CNT   RO       0x0     NS       Number of work queue entries on the no-schedule list   |
+ <63:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 NOS_CNT   RO	    0x0	    NS	     Number of work queue entries on the no-schedule list   |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34301,8 +34328,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS        RAZ      NS      NS       Reserved                                               |
- <7:0>   IQ_INT    R/W1C    0x0     NS       Input queue interrupt bits                             |
+ <63:8>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <7:0>	 IQ_INT	   R/W1C    0x0	    NS	     Input queue interrupt bits				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34320,8 +34347,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS        RAZ      NS      NS       Reserved                                               |
- <7:0>   INT_EN    R/W      0x0     NS       Input queue interrupt enable bits                      |
+ <63:8>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <7:0>	 INT_EN	   R/W	    0x0	    NS	     Input queue interrupt enable bits			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34329,7 +34356,7 @@ Pos      Name    Type     Value     Value       Description
  * SSO_IQ_COM_CNT = SSO Input Queue Combined Count Register
  *
  * Contains a read-only count of the total number of work queue entries in all
- * QOS levels.  Counts both in-unit and in-memory entries.
+ * QOS levels.	Counts both in-unit and in-memory entries.
  *
 
      ==============================================================
@@ -34340,8 +34367,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS      NS       Reserved                                               |
- <31:0>  IQ_CNT    RO       0x0     NS       Input queue combined count                             |
+ <63:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31:0>	 IQ_CNT	   RO	    0x0	    NS	     Input queue combined count				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34349,7 +34376,6 @@ Pos      Name    Type     Value     Value       Description
  * SSO_WA_COM_PC = SSO Work Add Combined Performance Counter
  *
  * Counts the number of add new work requests for all QOS levels.
- * Write to clear.
  * Counter rolls over through zero when max value exceeded.
  *
 
@@ -34361,14 +34387,14 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  WA_PC     R/W1C    0x0     NS       Work add combined performance counter                  |
+ <63:0>	 WA_PC	   R/W	    0x0	    NS	     Work add combined performance counter		    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
  * SSO_TS_PC = SSO Tag Switch Performance Counter
  *
- * Counts the number of tag switch requests.  Write to clear.
+ * Counts the number of tag switch requests.
  * Counter rolls over through zero when max value exceeded.
  *
 
@@ -34380,14 +34406,14 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  TS_PC     R/W1C    0x0     NS       Tag switch performance counter                         |
+ <63:0>	 TS_PC	   R/W	    0x0	    NS	     Tag switch performance counter			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
  * SSO_DS_PC = SSO De-Schedule Performance Counter
  *
- * Counts the number of de-schedule requests.  Write to clear.
+ * Counts the number of de-schedule requests.
  * Counter rolls over through zero when max value exceeded.
  *
 
@@ -34399,7 +34425,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  DS_PC     R/W1C    0x0     NS       De-schedule performance counter                        |
+ <63:0>	 DS_PC	   R/W	    0x0	    NS	     De-schedule performance counter			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34421,25 +34447,25 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:54> NS        RAZ      NS      NS       Reserved                                               |
- <53:52> FPTR      RO       0x0     0x0      FPTR memory BIST status                                |
- <51:45> NS        RAZ      NS      NS       Reserved                                               |
- <44>    RWO_DAT   RO       0x0     0x0      RWO_DAT memory BIST status                             |
- <43:42> RWO       RO       0x0     0x0      RWO memory BIST status                                 |
- <41:35> NS        RAZ      NS      NS       Reserved                                               |
- <34>    RWI_DAT   RO       0x0     0x0      RWI_DAT memory BIST status                             |
- <33:32> NS        RAZ      NS      NS       Reserved                                               |
- <31>    SOC       RO       0x0     0x0      SSO CAM BIST status                                    |
- <30:29> NS        RAZ      NS      NS       Reserved                                               |
- <28:24> NCBO      RO       0x0     0x0      NCBO transmitter memory BIST status                    |
- <23:21> NS        RAZ      NS      NS       Reserved                                               |
- <20>    IDX       RO       0x0     0x0      Index memory BIST status                               |
- <19:17> NS        RAZ      NS      NS       Reserved                                               |
- <16>    FIDX      RO       0x0     0x0      Forward index memory BIST status                       |
- <15:10> NS        RAZ      NS      NS       Reserved                                               |
- <9:8>   PEND      RO       0x0     0x0      Pending switch memory BIST status                      |
- <7:2>   NS        RAZ      NS      NS       Reserved                                               |
- <1:0>   OTH       RO       0x0     0x0      WQP, GRP memory BIST status                            |
+ <63:54> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <53:52> FPTR	   RO	    0x0	    0x0	     FPTR memory BIST status				    |
+ <51:45> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <44>	 RWO_DAT   RO	    0x0	    0x0	     RWO_DAT memory BIST status				    |
+ <43:42> RWO	   RO	    0x0	    0x0	     RWO memory BIST status				    |
+ <41:35> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <34>	 RWI_DAT   RO	    0x0	    0x0	     RWI_DAT memory BIST status				    |
+ <33:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31>	 SOC	   RO	    0x0	    0x0	     SSO CAM BIST status				    |
+ <30:29> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <28:24> NCBO	   RO	    0x0	    0x0	     NCBO transmitter memory BIST status		    |
+ <23:21> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <20>	 IDX	   RO	    0x0	    0x0	     Index memory BIST status				    |
+ <19:17> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <16>	 FIDX	   RO	    0x0	    0x0	     Forward index memory BIST status			    |
+ <15:10> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <9:8>	 PEND	   RO	    0x0	    0x0	     Pending switch memory BIST status			    |
+ <7:2>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <1:0>	 OTH	   RO	    0x0	    0x0	     WQP, GRP memory BIST status			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34461,10 +34487,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:26> NS        RAZ      NS      NS       Reserved                                               |
- <25:14> DES_CNT   RO       0x0     NS       Number of buffers on de-schedule list                  |
- <13:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  FREE_CNT  RO       0x7e8   NS       Number of total free buffers                           |
+ <63:26> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <25:14> DES_CNT   RO	    0x0	    NS	     Number of buffers on de-schedule list		    |
+ <13:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 FREE_CNT  RO	    0x7e8   NS	     Number of total free buffers			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34481,22 +34507,22 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8> NS        RAZ      NS      NS       Reserved                                               |
- <7>    RWO_FLUSH WR0      0x0     0x0      Flush RWO engine                                       |
-                                            Allows outbound NCB entries to go immediately rather
-                                            than waiting for a complete fill packet. This register
-                                            is one-shot and clears itself each time it is set.
- <6>    WFE_THR   R/W      0x0     0x0      Use 1 Work-fetch engine (instead of 4)                 |
- <5>    RWIO_BYP_DIS R/W   0x0     0x0      Disable Bypass path in RWI/RWO Engines                 |
- <4>    RWQ_BYP_DIS R/W    0x0     0x0      Disable Bypass path in RWQ Engine                      |
- <3>    STT       R/W      0x1     0x1      STT Setting for RW Stores                              |
- <2>    LDT       R/W      0x1     0x1      LDT Setting for RW Loads                               |
- <1>    DWB       R/W      0x0     0x0      DWB Setting for Return Page Requests                   |
-                                            1 = 2 128B cache pages to issue DWB for
-                                            0 = 0 128B cache pages ro issue DWB for
- <0>    RWEN      R/W      0x0     0x1      Enable RWI/RWO operations                              |
-                                            This bit should be set after SSO_RWQ_HEAD_PTR@ and
-                                            SSO_RWQ_TAIL_PTR@ have been programmed.
+ <63:8> NS	  RAZ	   NS	   NS	    Reserved						   |
+ <7>	RWO_FLUSH WR0	   0x0	   0x0	    Flush RWO engine					   |
+					    Allows outbound NCB entries to go immediately rather
+					    than waiting for a complete fill packet. This register
+					    is one-shot and clears itself each time it is set.
+ <6>	WFE_THR	  R/W	   0x0	   0x0	    Use 1 Work-fetch engine (instead of 4)		   |
+ <5>	RWIO_BYP_DIS R/W   0x0	   0x0	    Disable Bypass path in RWI/RWO Engines		   |
+ <4>	RWQ_BYP_DIS R/W	   0x0	   0x0	    Disable Bypass path in RWQ Engine			   |
+ <3>	STT	  R/W	   0x1	   0x1	    STT Setting for RW Stores				   |
+ <2>	LDT	  R/W	   0x1	   0x1	    LDT Setting for RW Loads				   |
+ <1>	DWB	  R/W	   0x0	   0x0	    DWB Setting for Return Page Requests		   |
+					    1 = 2 128B cache pages to issue DWB for
+					    0 = 0 128B cache pages ro issue DWB for
+ <0>	RWEN	  R/W	   0x0	   0x1	    Enable RWI/RWO operations				   |
+					    This bit should be set after SSO_RWQ_HEAD_PTR@ and
+					    SSO_RWQ_TAIL_PTR@ have been programmed.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34513,10 +34539,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS      NS       Reserved                                               |
- <31:0>  FPAGE_CNT R/W      0x0     NS       Free Page Cnt                                          |
-                                             HW updates this register. Writes to this register
-                                             are only for diagnostic purposes
+ <63:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31:0>	 FPAGE_CNT R/W	    0x0	    NS	     Free Page Cnt					    |
+					     HW updates this register. Writes to this register
+					     are only for diagnostic purposes
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34533,16 +34559,16 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:3>  NS        RAZ      NS      NS       Reserved                                               |
- <2>     GWE_FPOR  R/W      0x0     0x0      Flush GWE pipeline when restarting GWE                 |
- <1>     GWE_RAH   R/W      0x0     0x0      Begin at head of input queues when restarting GWE      |
- <0>     GWE_DIS   R/W      0x0     0x0      Disable Get-Work Examiner                              |
+ <63:3>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <2>	 GWE_FPOR  R/W	    0x0	    0x0	     Flush GWE pipeline when restarting GWE		    |
+ <1>	 GWE_RAH   R/W	    0x0	    0x0	     Begin at head of input queues when restarting GWE	    |
+ <0>	 GWE_DIS   R/W	    0x0	    0x0	     Disable Get-Work Examiner				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
  *
- *                  SSO_PND_ECC_CTL = SSO PND ECC Control
+ *		    SSO_PND_ECC_CTL = SSO PND ECC Control
  *
 
      ==============================================================
@@ -34553,20 +34579,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS         RAZ      NS          NS      Reserved
- <5:4>   FLIP_SYND1 R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <63:6>	 NS	    RAZ	     NS		 NS	 Reserved
+ <5:4>	 FLIP_SYND1 R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the odd PND RAM.
- <3>     ECC_ENA1   R/W      0x1         1       ECC Enable: When set will enable the 7 bit ECC
-                                                 correct logic for the odd PND RAM.
- <2:1>   FLIP_SYND0 R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <3>	 ECC_ENA1   R/W	     0x1	 1	 ECC Enable: When set will enable the 7 bit ECC
+						 correct logic for the odd PND RAM.
+ <2:1>	 FLIP_SYND0 R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the even PND RAM.
- <0>     ECC_ENA0   R/W      0x1         1       ECC Enable: When set will enable the 7 bit ECC
-                                                 correct logic for the even PND RAM.
+ <0>	 ECC_ENA0   R/W	     0x1	 1	 ECC Enable: When set will enable the 7 bit ECC
+						 correct logic for the even PND RAM.
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_PND_ECC_ST = SSO PND ECC Status
+ *		    SSO_PND_ECC_ST = SSO PND ECC Status
  *
 
      ==============================================================
@@ -34577,26 +34603,26 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:59> NS         RAZ       NS          NS      Reserved				            |
- <58:48> ADDR1      RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the odd PND RAM
- <47:43> NS         RAZ       NS          NS      Reserved				            |
- <42:36> SYNDROM1   RO        0x0         0       Report the latest error syndrom for the odd	    |
-                                                  PND RAM
- <35:32> NS         RAZ       NS          NS      Reserved				            |
+ <63:59> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <58:48> ADDR1	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the odd PND RAM
+ <47:43> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <42:36> SYNDROM1   RO	      0x0	  0	  Report the latest error syndrom for the odd	    |
+						  PND RAM
+ <35:32> NS	    RAZ	      NS	  NS	  Reserved					    |
 
- <31:27> NS         RAZ       NS          NS      Reserved				            |
- <26:16> ADDR0      RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the even PND RAM
- <15:11> NS         RAZ       NS          NS      Reserved				            |
- <10:4>  SYNDROM0   RO        0x0         0       Report the latest error syndrom for the even 	    |
-                                                  PND RAM
- <3:0>   NS         RAZ       NS          NS      Reserved				            |
+ <31:27> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <26:16> ADDR0	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the even PND RAM
+ <15:11> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <10:4>	 SYNDROM0   RO	      0x0	  0	  Report the latest error syndrom for the even	    |
+						  PND RAM
+ <3:0>	 NS	    RAZ	      NS	  NS	  Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_OTH_ECC_CTL = SSO OTH ECC Control
+ *		    SSO_OTH_ECC_CTL = SSO OTH ECC Control
  *
 
      ==============================================================
@@ -34607,20 +34633,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS         RAZ      NS          NS      Reserved
- <5:4>   FLIP_SYND1 R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <63:6>	 NS	    RAZ	     NS		 NS	 Reserved
+ <5:4>	 FLIP_SYND1 R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the odd OTH RAM.
- <3>     ECC_ENA1   R/W      0x1         1       ECC Enable: When set will enable the 7 bit ECC
-                                                 correct logic for the odd OTH RAM.
- <2:1>   FLIP_SYND0 R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <3>	 ECC_ENA1   R/W	     0x1	 1	 ECC Enable: When set will enable the 7 bit ECC
+						 correct logic for the odd OTH RAM.
+ <2:1>	 FLIP_SYND0 R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the even OTH RAM.
- <0>     ECC_ENA0   R/W      0x1         1       ECC Enable: When set will enable the 7 bit ECC
-                                                 correct logic for the even OTH RAM.
+ <0>	 ECC_ENA0   R/W	     0x1	 1	 ECC Enable: When set will enable the 7 bit ECC
+						 correct logic for the even OTH RAM.
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_OTH_ECC_ST = SSO OTH ECC Status
+ *		    SSO_OTH_ECC_ST = SSO OTH ECC Status
  *
 
      ==============================================================
@@ -34631,26 +34657,26 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:59> NS         RAZ       NS          NS      Reserved				            |
- <58:48> ADDR1      RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the odd OTH RAM
- <47:43> NS         RAZ       NS          NS      Reserved				            |
- <42:36> SYNDROM1   RO        0x0         0       Report the latest error syndrom for the odd	    |
-                                                  OTH RAM
- <35:32> NS         RAZ       NS          NS      Reserved				            |
+ <63:59> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <58:48> ADDR1	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the odd OTH RAM
+ <47:43> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <42:36> SYNDROM1   RO	      0x0	  0	  Report the latest error syndrom for the odd	    |
+						  OTH RAM
+ <35:32> NS	    RAZ	      NS	  NS	  Reserved					    |
 
- <31:27> NS         RAZ       NS          NS      Reserved				            |
- <26:16> ADDR0      RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the even OTH RAM
- <15:11> NS         RAZ       NS          NS      Reserved				            |
- <10:4>  SYNDROM0   RO        0x0         0       Report the latest error syndrom for the even 	    |
-                                                  OTH RAM
- <3:0>   NS         RAZ       NS          NS      Reserved				            |
+ <31:27> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <26:16> ADDR0	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the even OTH RAM
+ <15:11> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <10:4>	 SYNDROM0   RO	      0x0	  0	  Report the latest error syndrom for the even	    |
+						  OTH RAM
+ <3:0>	 NS	    RAZ	      NS	  NS	  Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_IDX_ECC_CTL = SSO IDX ECC Control
+ *		    SSO_IDX_ECC_CTL = SSO IDX ECC Control
  *
 
      ==============================================================
@@ -34661,16 +34687,16 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:3>  NS         RAZ      NS          NS      Reserved
- <2:1>   FLIP_SYND  R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <63:3>	 NS	    RAZ	     NS		 NS	 Reserved
+ <2:1>	 FLIP_SYND  R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the IDX RAM.
- <0>     ECC_ENA    R/W      0x1         1       ECC Enable: When set will enable the 5 bit ECC
-                                                 correct logic for the IDX RAM.
+ <0>	 ECC_ENA    R/W	     0x1	 1	 ECC Enable: When set will enable the 5 bit ECC
+						 correct logic for the IDX RAM.
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_IDX_ECC_ST = SSO IDX ECC Status
+ *		    SSO_IDX_ECC_ST = SSO IDX ECC Status
  *
 
      ==============================================================
@@ -34681,18 +34707,18 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:27> NS         RAZ       NS          NS      Reserved				            |
- <26:16> ADDR       RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the IDX RAM
- <15:9>  NS         RAZ       NS          NS      Reserved				            |
- <8:4>   SYNDROM    RO        0x0         0       Report the latest error syndrom for the  	    |
-                                                  IDX RAM
- <3:0>   NS         RAZ       NS          NS      Reserved				            |
+ <63:27> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <26:16> ADDR	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the IDX RAM
+ <15:9>	 NS	    RAZ	      NS	  NS	  Reserved					    |
+ <8:4>	 SYNDROM    RO	      0x0	  0	  Report the latest error syndrom for the	    |
+						  IDX RAM
+ <3:0>	 NS	    RAZ	      NS	  NS	  Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_FIDX_ECC_CTL = SSO FIDX ECC Control
+ *		    SSO_FIDX_ECC_CTL = SSO FIDX ECC Control
  *
 
      ==============================================================
@@ -34703,17 +34729,17 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:3>  NS         RAZ      NS          NS      Reserved
- <2:1>   FLIP_SYND  R/W      0x0         0       Testing feature. Flip Syndrom to generate single or
+ <63:3>	 NS	    RAZ	     NS		 NS	 Reserved
+ <2:1>	 FLIP_SYND  R/W	     0x0	 0	 Testing feature. Flip Syndrom to generate single or
 						 double bit error for the FIDX RAM.
 
- <0>     ECC_ENA    R/W      0x1         1       ECC Enable: When set will enable the 5 bit ECC
-                                                 correct logic for the FIDX RAM.
+ <0>	 ECC_ENA    R/W	     0x1	 1	 ECC Enable: When set will enable the 5 bit ECC
+						 correct logic for the FIDX RAM.
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SSO_FIDX_ECC_ST = SSO FIDX ECC Status
+ *		    SSO_FIDX_ECC_ST = SSO FIDX ECC Status
  *
 
      ==============================================================
@@ -34724,13 +34750,13 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:27> NS         RAZ       NS          NS      Reserved				            |
- <26:16> ADDR       RO        0x0         0       Latch the address for latest sde/dbe occured      |
-                                                  for the FIDX RAM
- <15:9>  NS         RAZ       NS          NS      Reserved				            |
- <8:4>   SYNDROM    RO        0x0         0       Report the latest error syndrom for the  	    |
-                                                  FIDX RAM
- <3:0>   NS         RAZ       NS          NS      Reserved				            |
+ <63:27> NS	    RAZ	      NS	  NS	  Reserved					    |
+ <26:16> ADDR	    RO	      0x0	  0	  Latch the address for latest sde/dbe occured	    |
+						  for the FIDX RAM
+ <15:9>	 NS	    RAZ	      NS	  NS	  Reserved					    |
+ <8:4>	 SYNDROM    RO	      0x0	  0	  Report the latest error syndrom for the	    |
+						  FIDX RAM
+ <3:0>	 NS	    RAZ	      NS	  NS	  Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34753,15 +34779,15 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS      NS       Reserved                                               |
- <31:0>  PP_STRICT R/W      0x0     0x0      Corresponding PP operates in strict mode.              |
+ <63:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31:0>	 PP_STRICT R/W	    0x0	    0x0	     Corresponding PP operates in strict mode.		    |
 ----------------------------------------------------------------------------------------------------
 ===
 
  * CSR align addresses: ===========================================================================================================
 
  * SSO_QOS(0..7)_RND = SSO QOS Issue Round Register
- *                (one per IQ)
+ *		  (one per IQ)
  *
  * The number of arbitration rounds each QOS level participates in.
  *
@@ -34774,8 +34800,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS        RAZ      NS      NS       Reserved                                               |
- <7:0>   RNDS_QOS  R/W      0xff    NS       Number of rounds to participate in for IQ(@).          |
+ <63:8>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <7:0>	 RNDS_QOS  R/W	    0xff    NS	     Number of rounds to participate in for IQ(@).	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (56): 0x2040..0x21f8
@@ -34784,13 +34810,13 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_PP(0..31)_QOS_PRI = SSO PP QOS Priority Register
- *                                (one field per IQ per PP)
+ *				  (one field per IQ per PP)
  *
  * Contains the QOS level priorities for each PP.
- *      0x0       is the highest priority
- *      0x7       is the lowest priority
- *      0xf       prevents the PP from receiving work from that QOS level
- *      0x8-0xe   Reserved
+ *	0x0	  is the highest priority
+ *	0x7	  is the lowest priority
+ *	0xf	  prevents the PP from receiving work from that QOS level
+ *	0x8-0xe	  Reserved
  *
  * For a given PP, priorities should begin at 0x0, and remain contiguous
  * throughout the range.  Failure to do so may result in severe
@@ -34809,22 +34835,22 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:60> NS        RAZ      NS      NS       Reserved                                               |
- <59:56> QOS7_PRI  R/W      0x0     NS       QOS7 priority for PP@                                  |
- <55:52> NS        RAZ      NS      NS       Reserved                                               |
- <51:48> QOS6_PRI  R/W      0x0     NS       QOS6 priority for PP@                                  |
- <47:44> NS        RAZ      NS      NS       Reserved                                               |
- <43:40> QOS5_PRI  R/W      0x0     NS       QOS5 priority for PP@                                  |
- <39:36> NS        RAZ      NS      NS       Reserved                                               |
- <35:32> QOS4_PRI  R/W      0x0     NS       QOS4 priority for PP@                                  |
- <31:28> NS        RAZ      NS      NS       Reserved                                               |
- <27:24> QOS3_PRI  R/W      0x0     NS       QOS3 priority for PP@                                  |
- <23:20> NS        RAZ      NS      NS       Reserved                                               |
- <19:16> QOS2_PRI  R/W      0x0     NS       QOS2 priority for PP@                                  |
- <15:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:8>  QOS1_PRI  R/W      0x0     NS       QOS1 priority for PP@                                  |
- <7:4>   NS        RAZ      NS      NS       Reserved                                               |
- <3:0>   QOS0_PRI  R/W      0x0     NS       QOS0 priority for PP@                                  |
+ <63:60> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <59:56> QOS7_PRI  R/W	    0x0	    NS	     QOS7 priority for PP@				    |
+ <55:52> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <51:48> QOS6_PRI  R/W	    0x0	    NS	     QOS6 priority for PP@				    |
+ <47:44> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <43:40> QOS5_PRI  R/W	    0x0	    NS	     QOS5 priority for PP@				    |
+ <39:36> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <35:32> QOS4_PRI  R/W	    0x0	    NS	     QOS4 priority for PP@				    |
+ <31:28> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <27:24> QOS3_PRI  R/W	    0x0	    NS	     QOS3 priority for PP@				    |
+ <23:20> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <19:16> QOS2_PRI  R/W	    0x0	    NS	     QOS2 priority for PP@				    |
+ <15:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:8>	 QOS1_PRI  R/W	    0x0	    NS	     QOS1 priority for PP@				    |
+ <7:4>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <3:0>	 QOS0_PRI  R/W	    0x0	    NS	     QOS0 priority for PP@				    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (225): 0x3100..0x3800
@@ -34833,9 +34859,9 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_WS_PC@ = SSO Work Schedule Performance Counter
- *              (one per group)
+ *		(one per group)
  *
- * Counts the number of work schedules for each group.  Write one to clear.
+ * Counts the number of work schedules for each group.
  * Counter rolls over through zero when max value exceeded.
  *
 
@@ -34847,7 +34873,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  WS_PC     R/W1C    0x0     NS       Work schedule performance counter for group @          |
+ <63:0>	 WS_PC	   R/W	    0x0	    NS	     Work schedule performance counter for group @	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (64): 0x4200..0x43f8
@@ -34856,10 +34882,9 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_WA_PC@ = SSO Work Add Performance Counter
- *             (one per QOS level)
+ *	       (one per QOS level)
  *
  * Counts the number of add new work requests for each QOS level.
- * Write one to clear.
  * Counter rolls over through zero when max value exceeded.
  *
 
@@ -34871,7 +34896,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  WA_PC     R/W1C    0x0     NS       Work add performance counter for QOS level @           |
+ <63:0>	 WA_PC	   R/W	    0x0	    NS	     Work add performance counter for QOS level @	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (24): 0x5040..0x50f8
@@ -34880,10 +34905,10 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_PP@_GRP_MSK = SSO PP Group Mask Register
- *                   (one bit per group per PP)
+ *		     (one bit per group per PP)
  *
  * Selects which group(s) a PP belongs to.  A '1' in any bit position sets the
- * PP's membership in the corresponding group.  A value of 0x0 will prevent the
+ * PP's membership in the corresponding group.	A value of 0x0 will prevent the
  * PP from receiving new work.
  *
  * Note that these do not contain QOS level priorities for each PP.  This is a
@@ -34898,7 +34923,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  GRP_MSK   R/W      0xffffffffffffffff  0xffffffffffffffff  PP@ group mask                  |
+ <63:0>	 GRP_MSK   R/W	    0xffffffffffffffff	0xffffffffffffffff  PP@ group mask		    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (96): 0x6100..0x63f8
@@ -34907,7 +34932,7 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_WQ_INT_THR(0..63) = SSO Work Queue Interrupt Threshold Registers
- *                         (one per group)
+ *			   (one per group)
  *
  * Contains the thresholds for enabling and setting work queue interrupts.  For
  * more information, see the interrupt section.
@@ -34930,17 +34955,17 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:33> NS        RAZ      NS      NS       Reserved                                               |
- <32>    TC_EN     R/W      0x0     NS       Time counter interrupt enable for group @              |
-                                               TC_EN must be zero when TC_THR==0                    |
- <31:28> TC_THR    R/W      0x0     NS       Time counter interrupt threshold for group @           |
-                                               When TC_THR==0, SSO_WQ_INT_CNT@[TC_CNT] is zero      |
- <27:26> NS        RAZ      NS      NS       Reserved                                               |
- <25:14> DS_THR    R/W      0x0     NS       De-schedule count threshold for group @                |
-                                               DS_THR==0 disables the threshold interrupt           |
- <13:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  IQ_THR    R/W      0x0     NS       Input queue count threshold for group @                |
-                                               IQ_THR==0 disables the threshold interrupt           |
+ <63:33> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <32>	 TC_EN	   R/W	    0x0	    NS	     Time counter interrupt enable for group @		    |
+					       TC_EN must be zero when TC_THR==0		    |
+ <31:28> TC_THR	   R/W	    0x0	    NS	     Time counter interrupt threshold for group @	    |
+					       When TC_THR==0, SSO_WQ_INT_CNT@[TC_CNT] is zero	    |
+ <27:26> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <25:14> DS_THR	   R/W	    0x0	    NS	     De-schedule count threshold for group @		    |
+					       DS_THR==0 disables the threshold interrupt	    |
+ <13:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 IQ_THR	   R/W	    0x0	    NS	     Input queue count threshold for group @		    |
+					       IQ_THR==0 disables the threshold interrupt	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (64): 0x7200..0x73f8
@@ -34949,10 +34974,10 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_WQ_INT_CNT@ = SSO Work Queue Interrupt Count Register
- *                   (one per group)
+ *		     (one per group)
  *
  * Contains a read-only copy of the counts used to trigger work queue
- * interrupts.  For more information regarding this register, see the interrupt
+ * interrupts.	For more information regarding this register, see the interrupt
  * section.
  *
 
@@ -34964,25 +34989,25 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS      NS       Reserved                                               |
- <31:28> TC_CNT    RO       0x0     NS       Time counter current value for group @                 |
-                                             HW sets TC_CNT to SSO_WQ_INT_THR@[TC_THR] whenever:    |
-                                               - corresponding SSO_WQ_INT_CNT@[IQ_CNT]==0 and       |
-                                                 corresponding SSO_WQ_INT_CNT@[DS_CNT]==0           |
-                                               - corresponding SSO_WQ_INT[WQ_INT<@>] is written     |
-                                                 with a 1 by SW                                     |
-                                               - corresponding SSO_WQ_IQ_DIS[IQ_DIS<@>] is written  |
-                                                 with a 1 by SW                                     |
-                                               - corresponding SSO_WQ_INT_THR@ is written by SW     |
-                                               - TC_CNT==1 and periodic counter                     |
-                                                 SSO_WQ_INT_PC[PC]==0                               |
-                                             Otherwise, HW decrements TC_CNT whenever the           |
-                                             periodic counter SSO_WQ_INT_PC[PC]==0.                 |
-                                             TC_CNT is 0 whenever SSO_WQ_INT_THR@[TC_THR]==0.       |
- <27:26> NS        RAZ      NS      NS       Reserved                                               |
- <25:14> DS_CNT    RO       0x0     NS       De-schedule executable count for group @               |
- <13:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  IQ_CNT    RO       0x0     NS       Input queue executable count for group @               |
+ <63:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31:28> TC_CNT	   RO	    0x0	    NS	     Time counter current value for group @		    |
+					     HW sets TC_CNT to SSO_WQ_INT_THR@[TC_THR] whenever:    |
+					       - corresponding SSO_WQ_INT_CNT@[IQ_CNT]==0 and	    |
+						 corresponding SSO_WQ_INT_CNT@[DS_CNT]==0	    |
+					       - corresponding SSO_WQ_INT[WQ_INT<@>] is written	    |
+						 with a 1 by SW					    |
+					       - corresponding SSO_WQ_IQ_DIS[IQ_DIS<@>] is written  |
+						 with a 1 by SW					    |
+					       - corresponding SSO_WQ_INT_THR@ is written by SW	    |
+					       - TC_CNT==1 and periodic counter			    |
+						 SSO_WQ_INT_PC[PC]==0				    |
+					     Otherwise, HW decrements TC_CNT whenever the	    |
+					     periodic counter SSO_WQ_INT_PC[PC]==0.		    |
+					     TC_CNT is 0 whenever SSO_WQ_INT_THR@[TC_THR]==0.	    |
+ <27:26> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <25:14> DS_CNT	   RO	    0x0	    NS	     De-schedule executable count for group @		    |
+ <13:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 IQ_CNT	   RO	    0x0	    NS	     Input queue executable count for group @		    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (64): 0x8200..0x83f8
@@ -34991,7 +35016,7 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_IQ_CNT@ = SSO Input Queue Count Register
- *               (one per QOS level)
+ *		 (one per QOS level)
  *
  * Contains a read-only count of the number of work queue entries for each QOS
  * level. Counts both in-unit and in-memory entries.
@@ -35005,8 +35030,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS      NS       Reserved                                               |
- <31:0>  IQ_CNT    RO       0x0     NS       Input queue count for QOS level @                      |
+ <63:32> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <31:0>	 IQ_CNT	   RO	    0x0	    NS	     Input queue count for QOS level @			    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (24): 0x9040..0x90f8
@@ -35015,7 +35040,7 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_IQ_THR@ = SSO Input Queue Threshold Register
- *               (one per QOS level)
+ *		 (one per QOS level)
  *
  * Threshold value for triggering input queue interrupts.
  *
@@ -35028,8 +35053,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS          NS          Reserved                                        |
- <31:0>  IQ_THR    R/W      0xffffffff  NS          Input queue threshold for QOS level @           |
+ <63:32> NS	   RAZ	    NS		NS	    Reserved					    |
+ <31:0>	 IQ_THR	   R/W	    0xffffffff	NS	    Input queue threshold for QOS level @	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (24): 0xa040..0xa0f8
@@ -35038,13 +35063,13 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_QOS_THR@ = SSO QOS Threshold Register
- *                (one per QOS level)
+ *		  (one per QOS level)
  *
- * Contains the thresholds for allocating SSO internal storage buffers.  If the
+ * Contains the thresholds for allocating SSO internal storage buffers.	 If the
  * number of remaining free buffers drops below the minimum threshold (MIN_THR)
  * or the number of allocated buffers for this QOS level rises above the
  * maximum threshold (MAX_THR), future incoming work queue entries will be
- * buffered externally rather than internally.  This register also contains the
+ * buffered externally rather than internally.	This register also contains the
  * number of internal buffers currently allocated to this QOS level (BUF_CNT).
  *
 
@@ -35056,16 +35081,16 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:40> NS        RAZ      NS      NS       Reserved                                               |
- <39:28> BUF_CNT   RO       0x0     NS       # of internal buffers allocated to QOS level @         |
- <27:26> NS        RAZ      NS      NS       Reserved                                               |
- <25:14> MAX_THR   R/W      0xf1    NS       Max threshold for QOS level @                          |
-                                             For performance reasons, MAX_THR can have a slop of 4
-                                             WQE for QOS level @.
- <13:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  MIN_THR   R/W      0x0     NS       Min threshold for QOS level @                          |
-                                             For performance reasons, MIN_THR can have a slop of 4
-                                             WQEs for QOS level @.
+ <63:40> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <39:28> BUF_CNT   RO	    0x0	    NS	     # of internal buffers allocated to QOS level @	    |
+ <27:26> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <25:14> MAX_THR   R/W	    0xf1    NS	     Max threshold for QOS level @			    |
+					     For performance reasons, MAX_THR can have a slop of 4
+					     WQE for QOS level @.
+ <13:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 MIN_THR   R/W	    0x0	    NS	     Min threshold for QOS level @			    |
+					     For performance reasons, MIN_THR can have a slop of 4
+					     WQEs for QOS level @.
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (24): 0xb040..0xb0f8
@@ -35074,7 +35099,7 @@ Pos      Name    Type     Value     Value       Description
  * CSR align addresses: ===========================================================================================================
 
  * SSO_RWQ_HEAD_PTR@ = SSO Remote Queue Head Register
- *                (one per QOS level)
+ *		  (one per QOS level)
  * Contains the ptr to the first entry of the remote linked list(s) for a particular
  * QoS level. SW should initialize the remote linked list(s) by programming
  * SSO_RWQ_HEAD_PTR@ and SSO_RWQ_TAIL_PTR@ to identical values.
@@ -35088,18 +35113,18 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:38> NS        RAZ      NS      NS       Reserved                                               |
- <37:7>  PTR       R/W      0x0     NS       Head Pointer                                           |
- <6:5>   NS        RAZ      NS      NS       Reserved                                               |
- <4:0>   RCTR      RO       0x0     NS       Index of next WQE entry in fill packet to be           |
-                                             processed (inbound queues)
+ <63:38> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <37:7>	 PTR	   R/W	    0x0	    NS	     Head Pointer					    |
+ <6:5>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <4:0>	 RCTR	   RO	    0x0	    NS	     Index of next WQE entry in fill packet to be	    |
+					     processed (inbound queues)
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (56): 0xc040..0xc1f8
 
 
  * SSO_RWQ_TAIL_PTR@ = SSO Remote Queue Tail Register
- *                (one per QOS level)
+ *		  (one per QOS level)
  * Contains the ptr to the last entry of the remote linked list(s) for a particular
  * QoS level. SW must initialize the remote linked list(s) by programming
  * SSO_RWQ_HEAD_PTR@ and SSO_RWQ_TAIL_PTR@ to identical values.
@@ -35113,11 +35138,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:38> NS        RAZ      NS      NS       Reserved                                               |
- <37:7>  PTR       R/W      0x0     NS       Tail Pointer                                           |
- <6:5>   NS        RAZ      NS      NS       Reserved                                               |
- <4:0>   RCTR      RO       0x0     NS       Number of entries waiting to be sent out to external   |
-                                             RAM (outbound queues)
+ <63:38> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <37:7>	 PTR	   R/W	    0x0	    NS	     Tail Pointer					    |
+ <6:5>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <4:0>	 RCTR	   RO	    0x0	    NS	     Number of entries waiting to be sent out to external   |
+					     RAM (outbound queues)
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (56): 0xc240..0xc3f8
@@ -35132,7 +35157,7 @@ Pos      Name    Type     Value     Value       Description
  * 256 bytes. This register should only be used when SSO is idle.
  *
  * Software needs to set aside buffering for
- *      8 + 48 + ROUNDUP(N/26)
+ *	8 + 48 + ROUNDUP(N/26)
  *
  * where as many as N DRAM work queue entries may be used.  The first 8 buffers
  * are used to setup the SSO_RWQ_HEAD_PTR and SSO_RWQ_TAIL_PTRs, and the
@@ -35151,11 +35176,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63>    FULL      RO       0x0     NS       FIFO Full.  When set, the FPA is busy writing entries  |
+ <63>	 FULL	   RO	    0x0	    NS	     FIFO Full.	 When set, the FPA is busy writing entries  |
 					     and software must wait before adding new entries.
- <62:38> NS        RAZ      NS      NS       Reserved                                               |
- <37:7>  FPTR      WO       0x0     NS       Free Pointer                                           |
- <6:0>   NS        RAZ      NS      NS       Reserved                                               |
+ <62:38> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <37:7>	 FPTR	   WO	    0x0	    NS	     Free Pointer					    |
+ <6:0>	 NS	   RAZ	    NS	    NS	     Reserved						    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35165,7 +35190,7 @@ Pos      Name    Type     Value     Value       Description
  * should only be used when SSO is idle.
  *
  * To remove ALL pointers, software must insure that there are modulus 16
- * pointers in the FPA.  To do this, SSO_CFG.RWQ_BYP_DIS must be set, the FPA
+ * pointers in the FPA.	 To do this, SSO_CFG.RWQ_BYP_DIS must be set, the FPA
  * pointer count read, and enough fake buffers pushed via SSO_RWQ_PSH_FPTR to
  * bring the FPA pointer count up to mod 16.
  *
@@ -35178,10 +35203,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63>    VAL       RO       0x0     NS       Free Pointer Valid                                     |
- <62:38> NS        RAZ      NS      NS       Reserved                                               |
- <37:7>  FPTR      RO       0x0     NS       Free Pointer                                           |
- <6:0>   NS        RAZ      NS      NS       Reserved                                               |
+ <63>	 VAL	   RO	    0x0	    NS	     Free Pointer Valid					    |
+ <62:38> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <37:7>	 FPTR	   RO	    0x0	    NS	     Free Pointer					    |
+ <6:0>	 NS	   RAZ	    NS	    NS	     Reserved						    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35247,15 +35272,15 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
   <63:22>  NS      RAZ       NS       NS     RESERVED                                               |
-  <21:0> FR_RN_TT  R/W      1024      1024   Free Running Timer Threshold. When free running timer  |
-					     reaches the threshold defines by FR_RN_TH, timer tick  |
-					     is generated. FR_RN_TH will be used in both cases where|
-					     free running clock is driven externally or internally. |
+  <21:0> FR_RN_TT  R/W      1024      1024   Free Running Timer Threshold. Defines the reset value  |
+					     for the free running timer when it reaches zero during |
+				   	     it's count down.					    |
+					     FR_RN_TH will be used in both cases where free running |
+					     clock is driven externally or internally.              |
   				     	     Interval programming guidelines:			    |
 					     For every 64 entries in a bucket interval should be at |
  					     least 1us.                                             |
-				             Typical value is also the minimal recommended value for|
-				             FR_RN_TT.						    |
+				             Minimal recommended value for FR_RN_TT is 1us.         |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35579,6 +35604,20 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
+
+     ==============================================================
+     TIM_DBG3 Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+<63:0> RINGS_PENDING_VEC RO   0      0     Pending rings vector. Indicates which ring in TIM are    |
+					   pending traversal. Bit 0 represents ring 0 while bit 63  |
+					   represents ring 63.                                      |
+----------------------------------------------------------------------------------------------------
+===
 
  *
  *                  TRA_CTL = Trace Buffer Control
@@ -43470,6 +43509,7 @@ GMX0_RX003_STATS_PKTS_CTL      0x0001180008001890  RSL
 GMX0_RX003_STATS_PKTS_DMAC     0x00011800080018A0  RSL
 GMX0_RX003_STATS_PKTS_DRP      0x00011800080018B0  RSL
 GMX0_RX003_UDD_SKP             0x0001180008001848  RSL
+GMX0_RXAUI_CTL                 0x0001180008000740  RSL
 GMX0_RX_BP_DROP000             0x0001180008000420  RSL
 GMX0_RX_BP_DROP001             0x0001180008000428  RSL
 GMX0_RX_BP_DROP002             0x0001180008000430  RSL
@@ -43745,6 +43785,7 @@ GMX1_RX003_STATS_PKTS_CTL      0x0001180009001890  RSL
 GMX1_RX003_STATS_PKTS_DMAC     0x00011800090018A0  RSL
 GMX1_RX003_STATS_PKTS_DRP      0x00011800090018B0  RSL
 GMX1_RX003_UDD_SKP             0x0001180009001848  RSL
+GMX1_RXAUI_CTL                 0x0001180009000740  RSL
 GMX1_RX_BP_DROP000             0x0001180009000420  RSL
 GMX1_RX_BP_DROP001             0x0001180009000428  RSL
 GMX1_RX_BP_DROP002             0x0001180009000430  RSL
@@ -44020,6 +44061,7 @@ GMX2_RX003_STATS_PKTS_CTL      0x000118000A001890  RSL
 GMX2_RX003_STATS_PKTS_DMAC     0x000118000A0018A0  RSL
 GMX2_RX003_STATS_PKTS_DRP      0x000118000A0018B0  RSL
 GMX2_RX003_UDD_SKP             0x000118000A001848  RSL
+GMX2_RXAUI_CTL                 0x000118000A000740  RSL
 GMX2_RX_BP_DROP000             0x000118000A000420  RSL
 GMX2_RX_BP_DROP001             0x000118000A000428  RSL
 GMX2_RX_BP_DROP002             0x000118000A000430  RSL
@@ -44295,6 +44337,7 @@ GMX3_RX003_STATS_PKTS_CTL      0x000118000B001890  RSL
 GMX3_RX003_STATS_PKTS_DMAC     0x000118000B0018A0  RSL
 GMX3_RX003_STATS_PKTS_DRP      0x000118000B0018B0  RSL
 GMX3_RX003_UDD_SKP             0x000118000B001848  RSL
+GMX3_RXAUI_CTL                 0x000118000B000740  RSL
 GMX3_RX_BP_DROP000             0x000118000B000420  RSL
 GMX3_RX_BP_DROP001             0x000118000B000428  RSL
 GMX3_RX_BP_DROP002             0x000118000B000430  RSL
@@ -44570,6 +44613,7 @@ GMX4_RX003_STATS_PKTS_CTL      0x000118000C001890  RSL
 GMX4_RX003_STATS_PKTS_DMAC     0x000118000C0018A0  RSL
 GMX4_RX003_STATS_PKTS_DRP      0x000118000C0018B0  RSL
 GMX4_RX003_UDD_SKP             0x000118000C001848  RSL
+GMX4_RXAUI_CTL                 0x000118000C000740  RSL
 GMX4_RX_BP_DROP000             0x000118000C000420  RSL
 GMX4_RX_BP_DROP001             0x000118000C000428  RSL
 GMX4_RX_BP_DROP002             0x000118000C000430  RSL
@@ -66830,6 +66874,7 @@ SSO_WS_PC62                    0x00016700000041F0  NCB
 SSO_WS_PC63                    0x00016700000041F8  NCB
 TIM_BIST_RESULT                0x0001180058000020  RSL
 TIM_DBG2                       0x00011800580000A0  RSL
+TIM_DBG3                       0x00011800580000A8  RSL
 TIM_ECC_CFG                    0x0001180058000018  RSL
 TIM_FR_RN_TT                   0x0001180058000010  RSL
 TIM_INT0                       0x0001180058000030  RSL

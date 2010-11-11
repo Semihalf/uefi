@@ -38471,7 +38471,7 @@ Pos      Name    Type     Value     Value       Description
                                                  Default behavior is to issue a NACK.  Regardless   |
                                                  of this setting the SRIO(0..1)_INT_REG.ZERO_PKT         |
                                                  interrupt is generated.                            |
-                                                 SRIO(0..1)_INT_REG.
+                                                 SRIO(0..1)_INT_REG.                                     |
  <18>    RX_SPF   R/W      0x0         0         Route all received packets to RX Soft Packet FIFO. |
                                                  No logical layer ERB Errors will be reported.      |
                                                  Used for Diagnostics Only.                         |
