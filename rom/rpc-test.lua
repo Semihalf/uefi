@@ -18,7 +18,7 @@ while true do
     r.foo = {1, 2, 3 ,4}
     print("Length of new table:", #r.foo)
     r.print("Hello World")
-    r.print(1, 2, nil, "foo", {foo=1}, true, false)
+    --r.print(1, 2, nil, "foo", {foo=1}, true, false)
 
     print("Octeon RCLK:", r.octeon.c.bdk_clock_get_rate(0))
     print("Octeon SCLK:", r.octeon.c.bdk_clock_get_rate(1))
