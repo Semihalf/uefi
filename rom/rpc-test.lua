@@ -6,6 +6,10 @@ end
 rpc = require("rpc")
 r = rpc.connect(arg[1], arg[2])
 
+for k in r.octeon.csr() do
+    print(k)
+end
+
 count = 0
 while true do
     count = count + 1
