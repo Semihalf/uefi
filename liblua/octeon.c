@@ -15,7 +15,7 @@
 static int octeon_is_model(lua_State* L)
 {
     uint32_t m = luaL_checkinteger(L, 1);
-    lua_pushinteger(L, OCTEON_IS_MODEL(m));
+    lua_pushboolean(L, OCTEON_IS_MODEL(m));
     return 1;
 }
 
