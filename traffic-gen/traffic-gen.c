@@ -5566,6 +5566,25 @@ static void packet_receiver(void)
     }
 }
 
+static void thread_starter(int unused1, void *unused2)
+{
+    uint8_t started[BDK_PIP_NUM_INPUT_PORTS];
+    memset(started, 0, sizeof(started));
+    while (1)
+    {
+        int i;
+        for (i=0; i<BDK_PIP_NUM_INPUT_PORTS; i++)
+        {
+            if (!started[i] && port_setup[i].output_enable)
+            {
+                started[i] = 1;
+                bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, NULL);
+            }
+            bdk_thread_yield();
+        }
+    }
+}
+
 
 /**
  * Main entry point
@@ -5692,12 +5711,11 @@ int main(void)
                     port_setup[ipd_port].srio.s.lns = 0;
                     port_setup[ipd_port].srio.s.intr = 0;
                 }
-                if (port_state[ipd_port].imode != BDK_HELPER_INTERFACE_MODE_DISABLED)
-                    bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, ipd_port, NULL);
             }
         }
         process_cmd_reset(0, BDK_PIP_NUM_INPUT_PORTS-1);
         bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL);
+        bdk_thread_create(0, thread_starter, 0, NULL);
 
         printf("Starting other cores\n");
         fflush(NULL);
