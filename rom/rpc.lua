@@ -82,10 +82,10 @@ end
 -- Unpack return data from a string
 --
 local function do_unpack(remote, start_index, str)
-    local result = {}           -- The container for unpacked results
-    local count = 0             -- Number of items in result
     local index = start_index   -- Current index in the string
     local length = #str         -- End of the string
+    local result = {}           -- The container for unpacked results
+    result.n = 0                -- Number of items in result
 
     -- print("Call do_unpack(" .. start_index .. ", \"" .. str .. "\")")
 
@@ -135,8 +135,8 @@ local function do_unpack(remote, start_index, str)
 	        error('Unexpected format char at ' .. (index-1) .. ' in  "' .. str .. '"')
 	    end
         -- Add the latest value to the end of the results
-	    count = count + 1
-	    result[count] = v
+	    result.n = result.n + 1
+	    result[result.n] = v
     end
     -- print("return do_unpack(" .. index .. ")")
     return index, result
@@ -167,6 +167,9 @@ local function do_remote(remote, command, ...)
         if d and (d > 1) then
             -- Write any extra stuff to the console
             io.write(line:sub(1, d-1))
+        elseif not d then
+            -- Write any extra stuff to the console
+            io.write(line .. "\n")
         end
     until d
     -- Convert the response to Lua data structures
@@ -174,7 +177,7 @@ local function do_remote(remote, command, ...)
     -- Make sure we consumed all the input
     assert(len == #line + 1)
     -- Returned unpack data so calls work right
-    return table.unpack(r)
+    return table.unpack(r, 1, r.n)
 end
 
 --
@@ -270,15 +273,18 @@ function rpc.serve(instream, outstream)
             local object = objects[obj]
             local _, args = do_unpack(nil, 1, line)
             local result = {}
+            result.n = 0
 
             if command == "c" then      -- Function call
-                result = {object(table.unpack(args))}
+                result = table.pack(object(table.unpack(args, 1, args.n)))
             elseif command == "[" then  -- Index to get table value
-                result = {object[args[1]]}
+                result[1] = object[args[1]]
+                result.n = 1
             elseif command == "=" then  -- Assignment of a table value
                 rawset(object, args[1], args[2])
             elseif command == "#" then  -- Get the length of an object
-                result = {#object}
+                result[1] = #object
+                result.n = 1
             elseif command == "~" then  -- Delete reference to object
                 local obj_info = objects[object]
                 obj_info[2] = obj_info[2] - 1
@@ -291,11 +297,11 @@ function rpc.serve(instream, outstream)
                 error ("Illegal remote command " .. command)
             end
             -- Write the response and flush it
-            outf:write("$" .. server_do_pack(objects, table.unpack(result)) .. "\n")
+            outf:write("$" .. server_do_pack(objects, table.unpack(result, 1, result.n)) .. "\n")
             outf:flush()
         else
             -- Not a command, just echo out extra junk
-            io:write(dollar)
+            io.write(dollar)
         end
     end
 end
