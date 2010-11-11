@@ -232,8 +232,11 @@ static int octeon_csr_iter(lua_State* L)
 {
     char buffer[32];
     const char *last = NULL;
-    if(!lua_isnil(L, 2))
-        last = luaL_checkstring(L, 2);
+    if (lua_gettop(L) >= 2)
+    {
+        if(!lua_isnil(L, 2))
+            last = luaL_checkstring(L, 2);
+    }
     int status = bdk_csr_get_name(last, buffer);
     if(status)
     {
@@ -259,7 +262,8 @@ static int octeon_csr_iter(lua_State* L)
 static int octeon_csr_call(lua_State* L)
 {
     lua_pushcfunction(L, octeon_csr_iter);
-    return 1;
+    lua_pushnil(L);
+    return 2;
 }
 
 /**
