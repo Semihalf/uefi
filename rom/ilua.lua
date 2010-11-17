@@ -137,7 +137,7 @@ function _pretty_print(...)
     for i,val in ipairs(arg) do
         oprint(val2str(val))
     end
-    _G['_'] = arg[1]
+    rawset(_G, '_', arg[1])
 end
 
 function compile(line)

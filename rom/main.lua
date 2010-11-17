@@ -1,9 +1,10 @@
 
 -- BDK Main menu
 
+require("strict")
 require("menu")
 
-choices = {
+local choices = {
     "File operations",
     "DDR memory options",
     "HFA memory options",
@@ -13,13 +14,13 @@ choices = {
 }
 
 while (true) do
-    c = menu.show(choices)
+    local c = menu.show(choices)
     if (c == 4) then
         dofile("/rom/ilua.lua")
     elseif (c == 5) then
         print("Starting remote call server.")
         print("Reset to exit.")
-        rpc = require("rpc")
+        local rpc = require("rpc")
         rpc.serve("/dev/uart/0")
     elseif (c == 6) then
         octeon.c.bdk_reset_octeon()

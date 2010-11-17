@@ -23,7 +23,7 @@ getmetatable("").__mod = function(format, param)
     if not param then
         return format
     elseif type(param) == "table" then
-        return string.format(format, unpack(param))
+        return string.format(format, table.unpack(param))
     else
         return string.format(format, param)
     end
@@ -96,4 +96,11 @@ function pprint(...)
         end
     end
     print(r)
+end
+
+--
+-- Needed for compatibility with Lua 5.1
+--
+if rawget(table, "unpack") == nil then
+    table.unpack = unpack
 end
