@@ -37,7 +37,6 @@ typedef const char * const * lut_t;
 
 static const char **primary_lut;
 static const lut_map_t *secondary_lut;
-static const char *function_key_commands[22];
 
 static int escape_saw_char;
 static int escape_mode;
@@ -61,15 +60,41 @@ typedef struct {
 } undo_t;
 static undo_t undo = {{0,},0,0};
 
-static const char *process_function_key(int function) {
+static const char *function_key_commands[] = {
+    "F1",       /* F1 */
+    "F2",       /* F2 */
+    "F3",       /* F3 */
+    "F4",       /* F4 */
+    "F5",       /* F5 */
+    "F6",       /* F6 */
+    "F7",       /* F7 */
+    "F8",       /* F8 */
+    "F9",       /* F9 */
+    "F10",      /* F10 */
+    "",         /* N/A */
+    "F11",      /* F11 */
+    "F12",      /* F12 */
+    "Shift-F1", /* Shift-F1 */
+    "Shift-F2", /* Shift-F2 */
+    "",         /* N/A */
+    "Shift-F3", /* Shift-F3 */
+    "Shift-F4", /* Shift-F4 */
+    "",         /* N/A */
+    "Shift-F5", /* Shift-F5 */
+    "Shift-F6", /* Shift-F6 */
+    "Shift-F7", /* Shift-F7 */
+    "Shift-F8", /* Shift-F8 */
+    NULL
+};
+
+static const char *process_function_key(int function)
+{
     escape_mode=0;
     escape_saw_char=0;
     if ((function < 1) || (function > 22)) {
         printf ("function key error %d\n",function);
         return NULL;
     }
-    if (function_key_commands[function-1])
-        printf("<%s>",function_key_commands[function-1]);
     return function_key_commands[function-1];
 }
 
