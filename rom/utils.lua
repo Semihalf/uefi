@@ -5,7 +5,7 @@
 -- This module is released under the standard Lua MIT license
 --
 
--- require("strict")
+require("strict")
 
 --
 -- C Stype printf function. printf("format", ...).

@@ -18,26 +18,42 @@
 --
 
 local g=_G
-module('Strict')
-strict,strong=true,false
-function handler(m,n,v)
+local debug = require("debug")
+local strict,strong=true,false
+
+local function getModulename(m)
+	for k,v in g.pairs(g.package.loaded) do
+		if m==v then return k end
+	end
+	return '<UNKNOWN>'
+end
+
+local function isDeclared(n,m)
+	m=m or g;
+	return g.getmetatable(m).__Idle_declared[n] or g.rawget(m,n)~=nil
+end
+
+local function handler(m,n,v)
 	m=getModulename(m)
 	if m=='_G' then m=' in main program'
 	else m=' in module '..m end
 	if (v~=nil) then g.error('invalid assignment to '..n..m,3)
 	else g.error(n..' not declared'..m,3) end
 end
+
 local function noaccess1() -- for __newindex
-	local d=g.debug.getinfo(3,'S')
+	local d=debug.getinfo(3,'S')
 	local w=d and d.what or 'C'
 	if strong then return w~='C' end
 	return w~='main' and w~='C'
 end
+
 local function noaccess2() -- for __index
-	local d=g.debug.getinfo(3,'S')
+	local d=debug.getinfo(3,'S')
 	local w=d and d.what or 'C'
 	return w~='C'
 end
+
 function declareGlobal(n,v,m)
 	m=m or g; -- no module means n will go into _G
 	if not isDeclared(n,m) then -- if not there, go ahead
@@ -45,7 +61,8 @@ function declareGlobal(n,v,m)
 		if v~=nil then g.rawset(m,n,v) end
 	end
 end
-function registerModule(m)
+
+local function registerModule(m)
 	-- based on Roberto's code in etc/strict.lua
 	if g.type(m)~='table' then return end
 	local mt=g.getmetatable(m)
@@ -69,15 +86,6 @@ function registerModule(m)
 		else return g.rawget(t,n) end
 	end
 end
-function getModulename(m)
-	for k,v in g.pairs(g.package.loaded) do
-		if m==v then return k end
-	end
-	return '<UNKNOWN>'
-end
-function isDeclared(n,m)
-	m=m or g;
-	return g.getmetatable(m).__Idle_declared[n] or g.rawget(m,n)~=nil
-end
+
 -- Register loaded modules (may be too much hand-holding for some)
 for k,v in g.pairs(g.package.loaded) do registerModule(v) end

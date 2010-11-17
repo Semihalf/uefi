@@ -5,7 +5,7 @@
 -- This module is released under the standard Lua MIT license
 --
 
---require("strict")
+require("strict")
 
 --
 -- Convert user supplied streams or file names into an input and output
