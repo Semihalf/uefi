@@ -1,3 +1,4 @@
+#include <bdk.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -779,11 +780,14 @@ process_input_done:
 }
 
 
-const char *bdk_readline(const char *prompt)
+extern const char *bdk_readline(const char *prompt, int timeout_us)
 {
+    int uart_id = 0;
+    uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
     cmd_prompt = prompt;
-    cmd_len = 0;
-    cmd_pos = 0;
+
+    if (timeout_us < 1)
+        stop_time = -1;
 
     printf(CURSOR_SAVE);
     process_input_draw_current();
@@ -792,13 +796,22 @@ const char *bdk_readline(const char *prompt)
         int c;
         do
         {
-            char b;
             fflush(stdout);
-            if (read(0, &b, 1) == 1)
-                c = b;
+            BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(uart_id));
+            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_id));
+            if (!lsr.s.dr)
+            {
+                if (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_time)
+                {
+                    printf(CURSOR_RESTORE);
+                    return NULL;
+                }
+                bdk_thread_yield();
+                c = 0;
+            }
             else
-                c = -1;
-        } while (c == -1);
+                c = BDK_CSR_READ(BDK_MIO_UARTX_RBR(uart_id));
+        } while (!c);
         const char *result = process_input(c);
         if (result)
         {

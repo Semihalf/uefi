@@ -252,7 +252,7 @@ int read(int handle, void *buffer, int length)
         if ((file == &file_handle[0]) && (length > 1))
         {
             /* As a special case use readline for the original stdin handle */
-            const char *line = bdk_readline("");
+            const char *line = bdk_readline("", 0);
             result = strlen(line);
             result++;
             if (result > length)
