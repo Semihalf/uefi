@@ -25,7 +25,7 @@
 #define COP0_CVMCTL	$9,7	/* Cavium control */
 #define COP0_ENTRYHI	$10,0	/* TLB entryHi */
 #define COP0_COMPARE	$11,0	/* Mips compare register */
-#define COP0_POWTHROTTLE $11,6	/* Power throttle register */
+#define COP0_POWTHROTTLE $11,6	/* Power throttle register (Octeon 2) */
 #define COP0_CVMMEMCTL	$11,7	/* Cavium memory control */
 #define COP0_STATUS	$12,0	/* Mips status register */
 #define COP0_INTCTL	$12,1	/* Useless (Vectored interrupts) */
@@ -38,6 +38,7 @@
 #define COP0_CONFIG1	$16,1	/* Misc config options */
 #define COP0_CONFIG2	$16,2	/* Misc config options */
 #define COP0_CONFIG3	$16,3	/* Misc config options */
+#define COP0_CONFIG4    $16,4   /* Misc config options (Octeon 2) */
 #define COP0_WATCHLO0	$18,0	/* Address watch registers */
 #define COP0_WATCHLO1	$18,1	/* Address watch registers */
 #define COP0_WATCHHI0	$19,0	/* Address watch registers */
@@ -45,6 +46,7 @@
 #define COP0_XCONTEXT	$20,0	/* OS context */
 #define COP0_MULTICOREDEBUG $22,0 /* Cavium debug */
 #define COP0_DEBUG	$23,0	/* Debug status */
+#define COP0_DEBUG2     $23,6   /* Debug2 Complex breakpoints (Octeon 2) */
 #define COP0_DEPC	$24,0	/* Debug PC */
 #define COP0_PERFCONTROL0 $25,0	/* Performance counter control */
 #define COP0_PERFCONTROL1 $25,2	/* Performance counter control */
@@ -61,6 +63,9 @@
 #define COP0_DATAHID	$29,3	/* ? */
 #define COP0_ERROREPC	$30,0	/* Error PC */
 #define COP0_DESAVE	$31,0	/* Debug scratch area */
+#define COP0_KSCRATCH1  $31,2   /* Scratch area (Octeon 2) */
+#define COP0_KSCRATCH2  $31,3   /* Scratch area (Octeon 2) */
+#define COP0_KSCRATCH3  $31,4   /* Scratch area (Octeon 2) */
 
 /* This header file can be included from a .S file.  Keep non-preprocessor
    things under !__ASSEMBLER__.  */
