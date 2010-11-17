@@ -11,7 +11,7 @@ require("strict")
 -- C Stype printf function. printf("format", ...).
 --
 function printf(...)
-    print(string.format(...))
+    io.write(string.format(...))
 end
 
 --
