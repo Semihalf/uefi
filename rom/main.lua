@@ -2,6 +2,7 @@
 -- BDK Main menu
 
 require("strict")
+require("utils")
 require("menu")
 
 -- Do board specific setup
