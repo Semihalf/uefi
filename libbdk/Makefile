@@ -80,5 +80,5 @@ distclean: clean
 
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include -Dulong="unsigned long" -Dunix=1
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
-	ln -s $(OCTEON_ROOT)/bootloader/u-boot/lib_mips/lib_octeon_shared.c $@
+	ln -fs $(OCTEON_ROOT)/bootloader/u-boot/lib_mips/lib_octeon_shared.c $@
 
