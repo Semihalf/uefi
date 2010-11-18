@@ -237,7 +237,7 @@ local function server_do_pack(objects, ...)
 end
 
 --
--- Table to contain out module
+-- Table to contain our module
 --
 local rpc = {}
 
