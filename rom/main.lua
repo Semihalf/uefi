@@ -4,6 +4,9 @@
 require("strict")
 require("menu")
 
+-- Do board specific setup
+dofile("/rom/board-ebb6300.lua")
+
 local choices = {
     "File operations",
     "DDR memory options",
