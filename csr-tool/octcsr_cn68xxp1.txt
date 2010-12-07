@@ -23461,7 +23461,22 @@ Pos      Name    Type     Value     Value       Description
 
 
      ==============================================================
-     CIU2_RAW_WRKQ Type=NCB
+     CIU2_RAW_PP(0..31)_IP2_WRKQ Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP3_WRKQ Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_WRKQ Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_WRKQ Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23471,13 +23486,29 @@ Pos      Name    Type     Value     Value       Description
  <63:0>  WORKQ    RO	   0	       0	 64 work queue interrupts			    |
                                                  See SSO_WQ_INT[WQ_INT]                             |
 						  1 bit/group. A copy of the R/W1C bit in the SSO.  |
+						  For WRKQ, all 98 RAW readout will be same value   |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
 
      ==============================================================
-     CIU2_RAW_WDOG Type=NCB
+     CIU2_RAW_PP(0..31)_IP2_WDOG Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP3_WDOG Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_WDOG Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_WDOG Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23486,13 +23517,28 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:32> NS 	  RAZ      0           0         Reserved for PP expansion                          |
  <31:0>	 WDOG     RO	   0	       0	 32 watchdog interrupts				    |
+						  For WDOG, all 98 RAW readout will be same value   |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP2_RML Type=NCB
+     ==============================================================
+
 
      ==============================================================
-     CIU2_RAW_RML Type=NCB
+     CIU2_RAW_PP(0..31)_IP3_RML Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_RML Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_RML Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23539,13 +23585,29 @@ Pos      Name    Type     Value     Value       Description
  <3:1>   NS       RAZ      NS          NS        Reserved for IOB expansion                         |
  <0>     IOB      RO       0x0         0         IOB interrupt                                      |
                                                   See IOB_INT_SUM                                   |
+						  For RML, all 98 RAW readout will be same value    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
 
      ==============================================================
-     CIU2_RAW_MIO Type=NCB
+     CIU2_RAW_PP(0..31)_IP2_MIO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP3_MIO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_MIO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_MIO Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23553,7 +23615,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63>    RST      RO       0x0         0         MIO RST interrupt                                  |
-                                                  See MIO_RST_INT                                   |
+		                                 See MIO_RST_INT                                    |
  <62:49> NS       RAZ      NS          NS        Reserved                                           |
  <48>    PTP      R/W1C    0x0         0         PTP interrupt                                      |
                                                  Set when HW decrements MIO_PTP_EVT_CNT to zero     |
@@ -23586,13 +23648,28 @@ Pos      Name    Type     Value     Value       Description
                                                   See SSO_IQ_INT                                    |
  <0>     IPDPPTHR RO       0           0         IPD per-port counter threshold interrupt           |
                                                   See IPD_PORT_QOS_INT*                             |
+						  For MIO, all 98 RAW readout will be same value    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP2_IO Type=NCB
+     ==============================================================
+
 
      ==============================================================
-     CIU2_RAW_IO Type=NCB
+     CIU2_RAW_PP(0..31)_IP3_IO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_IO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_IO Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23605,20 +23682,37 @@ Pos      Name    Type     Value     Value       Description
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA RO	   0	       0	 PCI_INTA software enable        		    |
                                                   See CIU_PCI_INTA				    |
- <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <12:12> MSIRED   RO	   0	       0	 MSI summary bit, copy of 		   	    |
+                                                  CIU2_MSIRED_PPx_IPy.INT                           |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI					    |
                                                   See SLI_MSI_RCVn for bit <40+n>                   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR RO	   0	       0	 PCIe INTA/B/C/D				    |
                                                   Refer to "Receiving Emulated INTA/INTB/           |
                                                   INTC/INTD" in the SLI chapter of the spec         |
+						  For IO, all 98 RAW readout will be different      |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP2_MEM Type=NCB
+     ==============================================================
+
 
      ==============================================================
-     CIU2_RAW_MEM Type=NCB
+     CIU2_RAW_PP(0..31)_IP3_MEM Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_MEM Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_MEM Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23629,13 +23723,28 @@ Pos      Name    Type     Value     Value       Description
  <15:4>  NS       RAZ      NS          NS        Reserved for LMC expansion                         |
  <3:0>   LMC      RO       0x0         0         LMC* interrupt                                     |
                                                   See LMC*_INT                                      |
+						  For MEM, all 98 RAW readout will be same value    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP2_PKT Type=NCB
+     ==============================================================
+
 
      ==============================================================
-     CIU2_RAW_PKT Type=NCB
+     CIU2_RAW_PP(0..31)_IP3_PKT Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_PKT Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_PKT Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23658,13 +23767,28 @@ Pos      Name    Type     Value     Value       Description
  <4:0>   AGX      RO       0x0         0         GMX 0-4 interrupt                                  |
                                                   See GMX*_RX*_INT_REG, GMX*_TX_INT_REG,            |
                                                   PCS0_INT*_REG, PCSX*_INT_REG                      |
+						  For PKT, all 98 RAW readout will be same value    |
 ----------------------------------------------------------------------------------------------------
 ===
 
 
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP2_GPIO Type=NCB
+     ==============================================================
+
 
      ==============================================================
-     CIU2_RAW_GPIO Type=NCB
+     CIU2_RAW_PP(0..31)_IP3_GPIO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_PP(0..31)_IP4_GPIO Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_RAW_IO(0..1)_INT_GPIO Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23674,6 +23798,7 @@ Pos      Name    Type     Value     Value       Description
  <63:32> NS       RAZ	   0	       0	 Reserved                  			    |
  <31:16> NS       RAZ	   0	       0	 Reserved for future GPIOs			    |
  <15:0>  GPIO     RO	   0	       0	 16 GPIO interrupts				    |
+						  For GPIO, all 98 RAW readout will be same value   |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23896,7 +24021,9 @@ Pos      Name    Type     Value     Value       Description
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA RO	   0	       0	 PCI_INTA source 			            |
 						 CIU2_RAW_IO[PCI_INTA] & CIU2_EN_xx_yy_IO[PCI_INTA] |
- <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <12:12> MSIRED   RO	   0	       0	 MSI summary bit source 		   	    |
+                                                 CIU2_RAW_IO[MSIRED] & CIU2_EN_xx_yy_IO[MSIRED]   |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI source		         	    |
 						 CIU2_RAW_IO[PCI_MSI] & CIU2_EN_xx_yy_IO[PCI_MSI]   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
@@ -24236,7 +24363,8 @@ Pos      Name    Type     Value     Value       Description
  <33:32> PEM      R/W      0x0         0         PEMx interrupt-enable                              |
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA R/W	   0	       0	 PCI_INTA interrupt-enable        		    |
- <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <12:12> MSIRED   R/W	   0	       0	 MSI summary bit interrupt-enable        	    |
  <11:8>  PCI_MSI  R/W      0	       0	 PCIe/sRIO MSI	interrupt-enable		    |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W	   0	       0	 PCIe INTA/B/C/D interrupt-enable		    |
@@ -24563,7 +24691,8 @@ Pos      Name    Type     Value     Value       Description
  <33:32> PEM      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_IO[PEM]            |
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_INTA] 	    |
- <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <12:12> MSIRED   R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[MSIRED]  	    |
  <11:8>  PCI_MSI  R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_MSI]        |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_INTR]       |
@@ -24889,7 +25018,8 @@ Pos      Name    Type     Value     Value       Description
  <33:32> PEM      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_IO[PEM]             |
  <31:18> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <17:16> PCI_INTA R/W1C    0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_INTA] 	    |
- <15:12> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <12:12> MSIRED   R/W1C	   0	       0	  Write 1 to clear CIU2_EN_xx_yy_IO[MSIRED]   	    |
  <11:8>  PCI_MSI  R/W1C	   0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_MSI]         |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W1C	   0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_INTR]        |
@@ -25023,6 +25153,123 @@ Pos      Name    Type     Value     Value       Description
  <3:0>   MBOX     R/W1C	   0	       0	 Write 1 to clear CIU2_EN_xx_yy_MBOX[MBOX]          |
 ----------------------------------------------------------------------------------------------------
 ===
+
+
+
+
+     ==============================================================
+     CIU2_ACK_PP(0..31)_IP2 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_ACK_PP(0..31)_IP3 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_ACK_PP(0..31)_IP4 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_ACK_IO(0..1)_INT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS        RAZ      NS          NS       Reserved				            |
+ <0:0>   ACK       RO	    0	        0	 Read to clear the corresponding interrupt to       |
+						 PP/IO.  Without this read the interrupt will not
+						 deassert until the next CIU interrupt scan, up to
+						 96 cycles away.
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+
+     ==============================================================
+     CIU2_MSIRED_PP(0..31)_IP2 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_MSIRED_PP(0..31)_IP3 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU2_MSIRED_PP(0..31)_IP4 Type=NCB
+     ==============================================================
+
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:21>  NS      RAZ       NS          NS      Reserved				            |
+ <20:20>  INT     RO       0x0         0x0      Interrupt pending 				    |
+ <19:17>  NS      RAZ       NS          NS      Reserved				            |
+ <16:16>  NEW     RO       0x0         0x0      New interrupt to be delivered. 			    |
+						  Internal state, for diagnostic use only.	    |   $PR
+ <15:8>   NS      RAZ       NS          NS      Reserved				            |
+ <7:0>    MSI_NUM RO       0x0         0x0      MSI number causing this interrupt.                  |
+						 If multiple MSIs are pending to the same PP and IP,
+						 then this contains the numerically lowest MSI number.
+Note: MSIRED delivery can only be made to PPs, not to IO; thus there are no CIU2_MSIRED_IO registers.
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+
+
+     ==============================================================
+     CIU2_MSI_RCV(0..255) Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>    NS      RAZ       NS          NS      Reserved				            |
+ <0:0>  MSI_RCV   R/W       0x0         0x0     MSI state bit, set on MSI delivery or by software   |
+						 for diagnostics, write zero to accept the
+						 interrupt.  This register is used to create the
+						 CIU2_RAW_xx_yy_IO[MSIRED] interrupt.  See also
+						 SLI_MSI_RCV.
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+
+
+     ==============================================================
+     CIU2_MSI_SEL(0..255) Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:13>   NS     RAZ       NS          NS      Reserved				            |
+ <12:8>  PP_NUM   R/W       0x0         0x0     Processor number to receive this MSI interrupt	    |
+ <7:6>   NS       RAZ       NS          NS      Reserved				            |
+ <5:4>   IP_NUM   R/W       0x0         0x0     Interrupt priority level to receive this MSI	    |
+						 interrupt					    |
+ <3:1>   NS       RAZ       NS          NS      Reserved				            |
+ <0:0>   EN       R/W       0x0         0x0     Enable interrupt delivery.			    |
+						 Must be set for PP_NUM and IP_NUM to have effect.  |
+----------------------------------------------------------------------------------------------------
+===
+
+
+
+
 
 
      ==============================================================
@@ -25325,8 +25572,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6> NS       RAZ      NS          NS        Reserved				            |
- <5:0>  BIST     RO       0x0         0         BIST Results.                                       |
+ <63:7> NS       RAZ      NS          NS        Reserved				            |
+ <6:0>  BIST     RO       0x0         0         BIST Results.                                       |
                                                   HW sets a bit in BIST for for memory that fails   |
 						  BIST.						    |
 ----------------------------------------------------------------------------------------------------
@@ -38881,6 +39128,30 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
+ *                  ZIP_CMD_BUF =  ZIP Command Buffer Parameter Register
+ *
+ * Description:
+ * This is an alias to ZIP_QUE0_BUF. The purpose of this register is for software backward compatibility.
+ * This register set the buffer parameters for the instruction queue 0.
+ *
+
+     ==============================================================
+     ZIP_CMD_BUF Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:58> NS       RAZ       NS          NS       RESERVED                                           |
+ <57:49> DWB      R/W       0           0        Number of DontWriteBacks                           |
+ <48:46> POOL     R/W       0           0        Free list used to free command buffer segments     |
+ <45:33> SIZE     R/W       0           0        Number of uint64s per command buffer segment       |
+ <32:0>  PTR      R/W       0           0        Initial command buffer pointer[39:7] (128B-aligned)|
+----------------------------------------------------------------------------------------------------
+===
+
+ *
  *                  ZIP_THROTTLE =  ZIP Throttle Register
  *
  * Description:
@@ -38902,6 +39173,69 @@ Pos      Name    Type     Value     Value       Description
                                                  NCB.                                                  |
 ----------------------------------------------------------------------------------------------------
 ===
+
+ *
+ *                  ZIP_CMD_BIST_RESULT =  ZIP Command BIST Result Register
+ *
+ * Description:
+ * This register is a reformatted register with same fields as O63 2.x.
+ * The purpose of this register is for software backward compatibility.
+ * Some bits are the bist result of combined status of memories (per bit, 0=pass and 1=fail).
+
+     ==============================================================
+     ZIP_CMD_BIST_RESULT Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:57> NS       RAZ       NS          NS       RESERVED                                           |
+ <56:4>  ZIP_CORE RO        X           0        BiST result of the ZIP_CORE memories               |
+ <3:0>   ZIP_CTL  RO        X           0        BiST result of the ZIP_CTL  memories               |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  ZIP_ERROR =  ZIP ERROR Register
+ *
+ * Description:
+ * This register is an alias to ZIP_INT_REG[DOORBELL0].
+ * The purpose of this register is for software backward compatibility.
+
+     ==============================================================
+     ZIP_ERROR Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        RESERVED
+ <0>     DOORBELL R/W1C    0           0         A doorbell count has overflowed
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  ZIP_INT_MASK =  ZIP Interrupt Mask Register
+ *
+ * Description:
+ * This register is an alias to ZIP_INT_ENA[DOORBELL0].
+ * The purpose of this register is for software backward compatibility.
+
+     ==============================================================
+     ZIP_INT_MASK Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        RESERVED
+ <0>     DOORBELL R/W      0           0         Bit mask corresponding to ZIP_ERROR[0] above
+----------------------------------------------------------------------------------------------------
+===
+
 
  *
  *                 ZIP_DEBUG0 =  ZIP DEBUG Register
@@ -39072,8 +39406,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS        RAZ       NS          NS       RESERVED                                          |
- <7:0>   BSTATUS   RO        X           0        BIST result of the memories                       |
+ <63:7>  NS        RAZ       NS          NS       RESERVED                                          |
+ <6:0>   BSTATUS   RO        X           0        BIST result of the memories                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -39119,7 +39453,7 @@ Pos      Name    Type     Value     Value       Description
  <27>    NS       RAZ       NS         0       RESERVED                                               |
  <26:24> ILDF     R/W       4          4       Instruction Load Command FIFO Credits <= 4             |
  <23:22> NS       RAZ       NS         0       RESERVED                                               |
- <21:20> IPRF     R/W       2          2       Instruction Page Return Cmd FIFO Credits <= 4          |
+ <21:20> IPRF     R/W       2          2       Instruction Page Return Cmd FIFO Credits <= 2          |
  <19>    NS       RAZ       NS         0       RESERVED                                               |
  <18:16> GSTF     R/W       4          4       G/S Tag FIFO Credits <= 4                              |
  <15>    NS       RAZ       NS         0       RESERVED                                               |
@@ -39128,8 +39462,9 @@ Pos      Name    Type     Value     Value       Description
  <10:8>  LDF      R/W       4          4       Load Cmd FIFO Credits <= 4                             |
  <7:6>   NS       RAZ       NS         0       RESERVED                                               |
  <5:4>   WKQF     R/W       2          2       WorkQueue FIFO Credits <= 2                            |
- <3:1>   NS       RAZ       NS         0       RESERVED                                               |
- <0>     LMOD     R/W       1          1       Legacy Mode.                                           |
+ <3:2>   NS       RAZ       NS         0       RESERVED                                               |
+ <1>     BUSY     RO        0          NS      1: ZIP system is busy; 0: ZIP system is idle.          |
+ <0>     LMOD     R/W       0          0       Legacy Mode.                                           |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -39260,7 +39595,8 @@ Pos      Name    Type     Value     Value       Description
  <63>    BUSY     RO       0           NS        Queue State: 1 - Queue is busy; 0 - Queue is idle  |
  <62:52> NS       RAZ      NS          NS        RESERVED                                           |
  <51:32> CDBC     RO       0           NS        Current DoorBell Counter                           |
- <31:0>  NII      RO       0           NS        Number of instructions issued from this queue      |
+ <31:0>  NII      RO       0           NS        Number of instructions issued from this queue.     |
+                                                 Reset to 0 when ZIP_QUEn_BUF is written.           |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -39388,6 +39724,104 @@ AGL_GMX_TX_OVR_BP              0x00011800E00004C8  RSL
 AGL_GMX_TX_PAUSE_PKT_DMAC      0x00011800E00004A0  RSL
 AGL_GMX_TX_PAUSE_PKT_TYPE      0x00011800E00004A8  RSL
 AGL_PRT0_CTL                   0x00011800E0002000  RSL
+CIU2_ACK_IO0_INT               0x00010701080C0800  NCB
+CIU2_ACK_IO1_INT               0x00010701082C0800  NCB
+CIU2_ACK_PP0_IP2               0x00010701000C0000  NCB
+CIU2_ACK_PP0_IP3               0x00010701000C0200  NCB
+CIU2_ACK_PP0_IP4               0x00010701000C0400  NCB
+CIU2_ACK_PP1_IP2               0x00010701002C0000  NCB
+CIU2_ACK_PP1_IP3               0x00010701002C0200  NCB
+CIU2_ACK_PP1_IP4               0x00010701002C0400  NCB
+CIU2_ACK_PP2_IP2               0x00010701004C0000  NCB
+CIU2_ACK_PP2_IP3               0x00010701004C0200  NCB
+CIU2_ACK_PP2_IP4               0x00010701004C0400  NCB
+CIU2_ACK_PP3_IP2               0x00010701006C0000  NCB
+CIU2_ACK_PP3_IP3               0x00010701006C0200  NCB
+CIU2_ACK_PP3_IP4               0x00010701006C0400  NCB
+CIU2_ACK_PP4_IP2               0x00010701008C0000  NCB
+CIU2_ACK_PP4_IP3               0x00010701008C0200  NCB
+CIU2_ACK_PP4_IP4               0x00010701008C0400  NCB
+CIU2_ACK_PP5_IP2               0x0001070100AC0000  NCB
+CIU2_ACK_PP5_IP3               0x0001070100AC0200  NCB
+CIU2_ACK_PP5_IP4               0x0001070100AC0400  NCB
+CIU2_ACK_PP6_IP2               0x0001070100CC0000  NCB
+CIU2_ACK_PP6_IP3               0x0001070100CC0200  NCB
+CIU2_ACK_PP6_IP4               0x0001070100CC0400  NCB
+CIU2_ACK_PP7_IP2               0x0001070100EC0000  NCB
+CIU2_ACK_PP7_IP3               0x0001070100EC0200  NCB
+CIU2_ACK_PP7_IP4               0x0001070100EC0400  NCB
+CIU2_ACK_PP8_IP2               0x00010701010C0000  NCB
+CIU2_ACK_PP8_IP3               0x00010701010C0200  NCB
+CIU2_ACK_PP8_IP4               0x00010701010C0400  NCB
+CIU2_ACK_PP9_IP2               0x00010701012C0000  NCB
+CIU2_ACK_PP9_IP3               0x00010701012C0200  NCB
+CIU2_ACK_PP9_IP4               0x00010701012C0400  NCB
+CIU2_ACK_PP10_IP2              0x00010701014C0000  NCB
+CIU2_ACK_PP10_IP3              0x00010701014C0200  NCB
+CIU2_ACK_PP10_IP4              0x00010701014C0400  NCB
+CIU2_ACK_PP11_IP2              0x00010701016C0000  NCB
+CIU2_ACK_PP11_IP3              0x00010701016C0200  NCB
+CIU2_ACK_PP11_IP4              0x00010701016C0400  NCB
+CIU2_ACK_PP12_IP2              0x00010701018C0000  NCB
+CIU2_ACK_PP12_IP3              0x00010701018C0200  NCB
+CIU2_ACK_PP12_IP4              0x00010701018C0400  NCB
+CIU2_ACK_PP13_IP2              0x0001070101AC0000  NCB
+CIU2_ACK_PP13_IP3              0x0001070101AC0200  NCB
+CIU2_ACK_PP13_IP4              0x0001070101AC0400  NCB
+CIU2_ACK_PP14_IP2              0x0001070101CC0000  NCB
+CIU2_ACK_PP14_IP3              0x0001070101CC0200  NCB
+CIU2_ACK_PP14_IP4              0x0001070101CC0400  NCB
+CIU2_ACK_PP15_IP2              0x0001070101EC0000  NCB
+CIU2_ACK_PP15_IP3              0x0001070101EC0200  NCB
+CIU2_ACK_PP15_IP4              0x0001070101EC0400  NCB
+CIU2_ACK_PP16_IP2              0x00010701020C0000  NCB
+CIU2_ACK_PP16_IP3              0x00010701020C0200  NCB
+CIU2_ACK_PP16_IP4              0x00010701020C0400  NCB
+CIU2_ACK_PP17_IP2              0x00010701022C0000  NCB
+CIU2_ACK_PP17_IP3              0x00010701022C0200  NCB
+CIU2_ACK_PP17_IP4              0x00010701022C0400  NCB
+CIU2_ACK_PP18_IP2              0x00010701024C0000  NCB
+CIU2_ACK_PP18_IP3              0x00010701024C0200  NCB
+CIU2_ACK_PP18_IP4              0x00010701024C0400  NCB
+CIU2_ACK_PP19_IP2              0x00010701026C0000  NCB
+CIU2_ACK_PP19_IP3              0x00010701026C0200  NCB
+CIU2_ACK_PP19_IP4              0x00010701026C0400  NCB
+CIU2_ACK_PP20_IP2              0x00010701028C0000  NCB
+CIU2_ACK_PP20_IP3              0x00010701028C0200  NCB
+CIU2_ACK_PP20_IP4              0x00010701028C0400  NCB
+CIU2_ACK_PP21_IP2              0x0001070102AC0000  NCB
+CIU2_ACK_PP21_IP3              0x0001070102AC0200  NCB
+CIU2_ACK_PP21_IP4              0x0001070102AC0400  NCB
+CIU2_ACK_PP22_IP2              0x0001070102CC0000  NCB
+CIU2_ACK_PP22_IP3              0x0001070102CC0200  NCB
+CIU2_ACK_PP22_IP4              0x0001070102CC0400  NCB
+CIU2_ACK_PP23_IP2              0x0001070102EC0000  NCB
+CIU2_ACK_PP23_IP3              0x0001070102EC0200  NCB
+CIU2_ACK_PP23_IP4              0x0001070102EC0400  NCB
+CIU2_ACK_PP24_IP2              0x00010701030C0000  NCB
+CIU2_ACK_PP24_IP3              0x00010701030C0200  NCB
+CIU2_ACK_PP24_IP4              0x00010701030C0400  NCB
+CIU2_ACK_PP25_IP2              0x00010701032C0000  NCB
+CIU2_ACK_PP25_IP3              0x00010701032C0200  NCB
+CIU2_ACK_PP25_IP4              0x00010701032C0400  NCB
+CIU2_ACK_PP26_IP2              0x00010701034C0000  NCB
+CIU2_ACK_PP26_IP3              0x00010701034C0200  NCB
+CIU2_ACK_PP26_IP4              0x00010701034C0400  NCB
+CIU2_ACK_PP27_IP2              0x00010701036C0000  NCB
+CIU2_ACK_PP27_IP3              0x00010701036C0200  NCB
+CIU2_ACK_PP27_IP4              0x00010701036C0400  NCB
+CIU2_ACK_PP28_IP2              0x00010701038C0000  NCB
+CIU2_ACK_PP28_IP3              0x00010701038C0200  NCB
+CIU2_ACK_PP28_IP4              0x00010701038C0400  NCB
+CIU2_ACK_PP29_IP2              0x0001070103AC0000  NCB
+CIU2_ACK_PP29_IP3              0x0001070103AC0200  NCB
+CIU2_ACK_PP29_IP4              0x0001070103AC0400  NCB
+CIU2_ACK_PP30_IP2              0x0001070103CC0000  NCB
+CIU2_ACK_PP30_IP3              0x0001070103CC0200  NCB
+CIU2_ACK_PP30_IP4              0x0001070103CC0400  NCB
+CIU2_ACK_PP31_IP2              0x0001070103EC0000  NCB
+CIU2_ACK_PP31_IP3              0x0001070103EC0200  NCB
+CIU2_ACK_PP31_IP4              0x0001070103EC0400  NCB
 CIU2_EN_IO0_INT_GPIO           0x0001070108097800  NCB
 CIU2_EN_IO0_INT_GPIO_W1C       0x00010701080B7800  NCB
 CIU2_EN_IO0_INT_GPIO_W1S       0x00010701080A7800  NCB
@@ -42102,6 +42536,614 @@ CIU2_MBOX_SET28                0x00010701001004E0  NCB
 CIU2_MBOX_SET29                0x00010701001004E8  NCB
 CIU2_MBOX_SET30                0x00010701001004F0  NCB
 CIU2_MBOX_SET31                0x00010701001004F8  NCB
+CIU2_MSIRED_PP0_IP2            0x00010701000C1000  NCB
+CIU2_MSIRED_PP0_IP3            0x00010701000C1200  NCB
+CIU2_MSIRED_PP0_IP4            0x00010701000C1400  NCB
+CIU2_MSIRED_PP1_IP2            0x00010701002C1000  NCB
+CIU2_MSIRED_PP1_IP3            0x00010701002C1200  NCB
+CIU2_MSIRED_PP1_IP4            0x00010701002C1400  NCB
+CIU2_MSIRED_PP2_IP2            0x00010701004C1000  NCB
+CIU2_MSIRED_PP2_IP3            0x00010701004C1200  NCB
+CIU2_MSIRED_PP2_IP4            0x00010701004C1400  NCB
+CIU2_MSIRED_PP3_IP2            0x00010701006C1000  NCB
+CIU2_MSIRED_PP3_IP3            0x00010701006C1200  NCB
+CIU2_MSIRED_PP3_IP4            0x00010701006C1400  NCB
+CIU2_MSIRED_PP4_IP2            0x00010701008C1000  NCB
+CIU2_MSIRED_PP4_IP3            0x00010701008C1200  NCB
+CIU2_MSIRED_PP4_IP4            0x00010701008C1400  NCB
+CIU2_MSIRED_PP5_IP2            0x0001070100AC1000  NCB
+CIU2_MSIRED_PP5_IP3            0x0001070100AC1200  NCB
+CIU2_MSIRED_PP5_IP4            0x0001070100AC1400  NCB
+CIU2_MSIRED_PP6_IP2            0x0001070100CC1000  NCB
+CIU2_MSIRED_PP6_IP3            0x0001070100CC1200  NCB
+CIU2_MSIRED_PP6_IP4            0x0001070100CC1400  NCB
+CIU2_MSIRED_PP7_IP2            0x0001070100EC1000  NCB
+CIU2_MSIRED_PP7_IP3            0x0001070100EC1200  NCB
+CIU2_MSIRED_PP7_IP4            0x0001070100EC1400  NCB
+CIU2_MSIRED_PP8_IP2            0x00010701010C1000  NCB
+CIU2_MSIRED_PP8_IP3            0x00010701010C1200  NCB
+CIU2_MSIRED_PP8_IP4            0x00010701010C1400  NCB
+CIU2_MSIRED_PP9_IP2            0x00010701012C1000  NCB
+CIU2_MSIRED_PP9_IP3            0x00010701012C1200  NCB
+CIU2_MSIRED_PP9_IP4            0x00010701012C1400  NCB
+CIU2_MSIRED_PP10_IP2           0x00010701014C1000  NCB
+CIU2_MSIRED_PP10_IP3           0x00010701014C1200  NCB
+CIU2_MSIRED_PP10_IP4           0x00010701014C1400  NCB
+CIU2_MSIRED_PP11_IP2           0x00010701016C1000  NCB
+CIU2_MSIRED_PP11_IP3           0x00010701016C1200  NCB
+CIU2_MSIRED_PP11_IP4           0x00010701016C1400  NCB
+CIU2_MSIRED_PP12_IP2           0x00010701018C1000  NCB
+CIU2_MSIRED_PP12_IP3           0x00010701018C1200  NCB
+CIU2_MSIRED_PP12_IP4           0x00010701018C1400  NCB
+CIU2_MSIRED_PP13_IP2           0x0001070101AC1000  NCB
+CIU2_MSIRED_PP13_IP3           0x0001070101AC1200  NCB
+CIU2_MSIRED_PP13_IP4           0x0001070101AC1400  NCB
+CIU2_MSIRED_PP14_IP2           0x0001070101CC1000  NCB
+CIU2_MSIRED_PP14_IP3           0x0001070101CC1200  NCB
+CIU2_MSIRED_PP14_IP4           0x0001070101CC1400  NCB
+CIU2_MSIRED_PP15_IP2           0x0001070101EC1000  NCB
+CIU2_MSIRED_PP15_IP3           0x0001070101EC1200  NCB
+CIU2_MSIRED_PP15_IP4           0x0001070101EC1400  NCB
+CIU2_MSIRED_PP16_IP2           0x00010701020C1000  NCB
+CIU2_MSIRED_PP16_IP3           0x00010701020C1200  NCB
+CIU2_MSIRED_PP16_IP4           0x00010701020C1400  NCB
+CIU2_MSIRED_PP17_IP2           0x00010701022C1000  NCB
+CIU2_MSIRED_PP17_IP3           0x00010701022C1200  NCB
+CIU2_MSIRED_PP17_IP4           0x00010701022C1400  NCB
+CIU2_MSIRED_PP18_IP2           0x00010701024C1000  NCB
+CIU2_MSIRED_PP18_IP3           0x00010701024C1200  NCB
+CIU2_MSIRED_PP18_IP4           0x00010701024C1400  NCB
+CIU2_MSIRED_PP19_IP2           0x00010701026C1000  NCB
+CIU2_MSIRED_PP19_IP3           0x00010701026C1200  NCB
+CIU2_MSIRED_PP19_IP4           0x00010701026C1400  NCB
+CIU2_MSIRED_PP20_IP2           0x00010701028C1000  NCB
+CIU2_MSIRED_PP20_IP3           0x00010701028C1200  NCB
+CIU2_MSIRED_PP20_IP4           0x00010701028C1400  NCB
+CIU2_MSIRED_PP21_IP2           0x0001070102AC1000  NCB
+CIU2_MSIRED_PP21_IP3           0x0001070102AC1200  NCB
+CIU2_MSIRED_PP21_IP4           0x0001070102AC1400  NCB
+CIU2_MSIRED_PP22_IP2           0x0001070102CC1000  NCB
+CIU2_MSIRED_PP22_IP3           0x0001070102CC1200  NCB
+CIU2_MSIRED_PP22_IP4           0x0001070102CC1400  NCB
+CIU2_MSIRED_PP23_IP2           0x0001070102EC1000  NCB
+CIU2_MSIRED_PP23_IP3           0x0001070102EC1200  NCB
+CIU2_MSIRED_PP23_IP4           0x0001070102EC1400  NCB
+CIU2_MSIRED_PP24_IP2           0x00010701030C1000  NCB
+CIU2_MSIRED_PP24_IP3           0x00010701030C1200  NCB
+CIU2_MSIRED_PP24_IP4           0x00010701030C1400  NCB
+CIU2_MSIRED_PP25_IP2           0x00010701032C1000  NCB
+CIU2_MSIRED_PP25_IP3           0x00010701032C1200  NCB
+CIU2_MSIRED_PP25_IP4           0x00010701032C1400  NCB
+CIU2_MSIRED_PP26_IP2           0x00010701034C1000  NCB
+CIU2_MSIRED_PP26_IP3           0x00010701034C1200  NCB
+CIU2_MSIRED_PP26_IP4           0x00010701034C1400  NCB
+CIU2_MSIRED_PP27_IP2           0x00010701036C1000  NCB
+CIU2_MSIRED_PP27_IP3           0x00010701036C1200  NCB
+CIU2_MSIRED_PP27_IP4           0x00010701036C1400  NCB
+CIU2_MSIRED_PP28_IP2           0x00010701038C1000  NCB
+CIU2_MSIRED_PP28_IP3           0x00010701038C1200  NCB
+CIU2_MSIRED_PP28_IP4           0x00010701038C1400  NCB
+CIU2_MSIRED_PP29_IP2           0x0001070103AC1000  NCB
+CIU2_MSIRED_PP29_IP3           0x0001070103AC1200  NCB
+CIU2_MSIRED_PP29_IP4           0x0001070103AC1400  NCB
+CIU2_MSIRED_PP30_IP2           0x0001070103CC1000  NCB
+CIU2_MSIRED_PP30_IP3           0x0001070103CC1200  NCB
+CIU2_MSIRED_PP30_IP4           0x0001070103CC1400  NCB
+CIU2_MSIRED_PP31_IP2           0x0001070103EC1000  NCB
+CIU2_MSIRED_PP31_IP3           0x0001070103EC1200  NCB
+CIU2_MSIRED_PP31_IP4           0x0001070103EC1400  NCB
+CIU2_MSI_RCV0                  0x00010701000C2000  NCB
+CIU2_MSI_RCV1                  0x00010701000C2008  NCB
+CIU2_MSI_RCV2                  0x00010701000C2010  NCB
+CIU2_MSI_RCV3                  0x00010701000C2018  NCB
+CIU2_MSI_RCV4                  0x00010701000C2020  NCB
+CIU2_MSI_RCV5                  0x00010701000C2028  NCB
+CIU2_MSI_RCV6                  0x00010701000C2030  NCB
+CIU2_MSI_RCV7                  0x00010701000C2038  NCB
+CIU2_MSI_RCV8                  0x00010701000C2040  NCB
+CIU2_MSI_RCV9                  0x00010701000C2048  NCB
+CIU2_MSI_RCV10                 0x00010701000C2050  NCB
+CIU2_MSI_RCV11                 0x00010701000C2058  NCB
+CIU2_MSI_RCV12                 0x00010701000C2060  NCB
+CIU2_MSI_RCV13                 0x00010701000C2068  NCB
+CIU2_MSI_RCV14                 0x00010701000C2070  NCB
+CIU2_MSI_RCV15                 0x00010701000C2078  NCB
+CIU2_MSI_RCV16                 0x00010701000C2080  NCB
+CIU2_MSI_RCV17                 0x00010701000C2088  NCB
+CIU2_MSI_RCV18                 0x00010701000C2090  NCB
+CIU2_MSI_RCV19                 0x00010701000C2098  NCB
+CIU2_MSI_RCV20                 0x00010701000C20A0  NCB
+CIU2_MSI_RCV21                 0x00010701000C20A8  NCB
+CIU2_MSI_RCV22                 0x00010701000C20B0  NCB
+CIU2_MSI_RCV23                 0x00010701000C20B8  NCB
+CIU2_MSI_RCV24                 0x00010701000C20C0  NCB
+CIU2_MSI_RCV25                 0x00010701000C20C8  NCB
+CIU2_MSI_RCV26                 0x00010701000C20D0  NCB
+CIU2_MSI_RCV27                 0x00010701000C20D8  NCB
+CIU2_MSI_RCV28                 0x00010701000C20E0  NCB
+CIU2_MSI_RCV29                 0x00010701000C20E8  NCB
+CIU2_MSI_RCV30                 0x00010701000C20F0  NCB
+CIU2_MSI_RCV31                 0x00010701000C20F8  NCB
+CIU2_MSI_RCV32                 0x00010701000C2100  NCB
+CIU2_MSI_RCV33                 0x00010701000C2108  NCB
+CIU2_MSI_RCV34                 0x00010701000C2110  NCB
+CIU2_MSI_RCV35                 0x00010701000C2118  NCB
+CIU2_MSI_RCV36                 0x00010701000C2120  NCB
+CIU2_MSI_RCV37                 0x00010701000C2128  NCB
+CIU2_MSI_RCV38                 0x00010701000C2130  NCB
+CIU2_MSI_RCV39                 0x00010701000C2138  NCB
+CIU2_MSI_RCV40                 0x00010701000C2140  NCB
+CIU2_MSI_RCV41                 0x00010701000C2148  NCB
+CIU2_MSI_RCV42                 0x00010701000C2150  NCB
+CIU2_MSI_RCV43                 0x00010701000C2158  NCB
+CIU2_MSI_RCV44                 0x00010701000C2160  NCB
+CIU2_MSI_RCV45                 0x00010701000C2168  NCB
+CIU2_MSI_RCV46                 0x00010701000C2170  NCB
+CIU2_MSI_RCV47                 0x00010701000C2178  NCB
+CIU2_MSI_RCV48                 0x00010701000C2180  NCB
+CIU2_MSI_RCV49                 0x00010701000C2188  NCB
+CIU2_MSI_RCV50                 0x00010701000C2190  NCB
+CIU2_MSI_RCV51                 0x00010701000C2198  NCB
+CIU2_MSI_RCV52                 0x00010701000C21A0  NCB
+CIU2_MSI_RCV53                 0x00010701000C21A8  NCB
+CIU2_MSI_RCV54                 0x00010701000C21B0  NCB
+CIU2_MSI_RCV55                 0x00010701000C21B8  NCB
+CIU2_MSI_RCV56                 0x00010701000C21C0  NCB
+CIU2_MSI_RCV57                 0x00010701000C21C8  NCB
+CIU2_MSI_RCV58                 0x00010701000C21D0  NCB
+CIU2_MSI_RCV59                 0x00010701000C21D8  NCB
+CIU2_MSI_RCV60                 0x00010701000C21E0  NCB
+CIU2_MSI_RCV61                 0x00010701000C21E8  NCB
+CIU2_MSI_RCV62                 0x00010701000C21F0  NCB
+CIU2_MSI_RCV63                 0x00010701000C21F8  NCB
+CIU2_MSI_RCV64                 0x00010701000C2200  NCB
+CIU2_MSI_RCV65                 0x00010701000C2208  NCB
+CIU2_MSI_RCV66                 0x00010701000C2210  NCB
+CIU2_MSI_RCV67                 0x00010701000C2218  NCB
+CIU2_MSI_RCV68                 0x00010701000C2220  NCB
+CIU2_MSI_RCV69                 0x00010701000C2228  NCB
+CIU2_MSI_RCV70                 0x00010701000C2230  NCB
+CIU2_MSI_RCV71                 0x00010701000C2238  NCB
+CIU2_MSI_RCV72                 0x00010701000C2240  NCB
+CIU2_MSI_RCV73                 0x00010701000C2248  NCB
+CIU2_MSI_RCV74                 0x00010701000C2250  NCB
+CIU2_MSI_RCV75                 0x00010701000C2258  NCB
+CIU2_MSI_RCV76                 0x00010701000C2260  NCB
+CIU2_MSI_RCV77                 0x00010701000C2268  NCB
+CIU2_MSI_RCV78                 0x00010701000C2270  NCB
+CIU2_MSI_RCV79                 0x00010701000C2278  NCB
+CIU2_MSI_RCV80                 0x00010701000C2280  NCB
+CIU2_MSI_RCV81                 0x00010701000C2288  NCB
+CIU2_MSI_RCV82                 0x00010701000C2290  NCB
+CIU2_MSI_RCV83                 0x00010701000C2298  NCB
+CIU2_MSI_RCV84                 0x00010701000C22A0  NCB
+CIU2_MSI_RCV85                 0x00010701000C22A8  NCB
+CIU2_MSI_RCV86                 0x00010701000C22B0  NCB
+CIU2_MSI_RCV87                 0x00010701000C22B8  NCB
+CIU2_MSI_RCV88                 0x00010701000C22C0  NCB
+CIU2_MSI_RCV89                 0x00010701000C22C8  NCB
+CIU2_MSI_RCV90                 0x00010701000C22D0  NCB
+CIU2_MSI_RCV91                 0x00010701000C22D8  NCB
+CIU2_MSI_RCV92                 0x00010701000C22E0  NCB
+CIU2_MSI_RCV93                 0x00010701000C22E8  NCB
+CIU2_MSI_RCV94                 0x00010701000C22F0  NCB
+CIU2_MSI_RCV95                 0x00010701000C22F8  NCB
+CIU2_MSI_RCV96                 0x00010701000C2300  NCB
+CIU2_MSI_RCV97                 0x00010701000C2308  NCB
+CIU2_MSI_RCV98                 0x00010701000C2310  NCB
+CIU2_MSI_RCV99                 0x00010701000C2318  NCB
+CIU2_MSI_RCV100                0x00010701000C2320  NCB
+CIU2_MSI_RCV101                0x00010701000C2328  NCB
+CIU2_MSI_RCV102                0x00010701000C2330  NCB
+CIU2_MSI_RCV103                0x00010701000C2338  NCB
+CIU2_MSI_RCV104                0x00010701000C2340  NCB
+CIU2_MSI_RCV105                0x00010701000C2348  NCB
+CIU2_MSI_RCV106                0x00010701000C2350  NCB
+CIU2_MSI_RCV107                0x00010701000C2358  NCB
+CIU2_MSI_RCV108                0x00010701000C2360  NCB
+CIU2_MSI_RCV109                0x00010701000C2368  NCB
+CIU2_MSI_RCV110                0x00010701000C2370  NCB
+CIU2_MSI_RCV111                0x00010701000C2378  NCB
+CIU2_MSI_RCV112                0x00010701000C2380  NCB
+CIU2_MSI_RCV113                0x00010701000C2388  NCB
+CIU2_MSI_RCV114                0x00010701000C2390  NCB
+CIU2_MSI_RCV115                0x00010701000C2398  NCB
+CIU2_MSI_RCV116                0x00010701000C23A0  NCB
+CIU2_MSI_RCV117                0x00010701000C23A8  NCB
+CIU2_MSI_RCV118                0x00010701000C23B0  NCB
+CIU2_MSI_RCV119                0x00010701000C23B8  NCB
+CIU2_MSI_RCV120                0x00010701000C23C0  NCB
+CIU2_MSI_RCV121                0x00010701000C23C8  NCB
+CIU2_MSI_RCV122                0x00010701000C23D0  NCB
+CIU2_MSI_RCV123                0x00010701000C23D8  NCB
+CIU2_MSI_RCV124                0x00010701000C23E0  NCB
+CIU2_MSI_RCV125                0x00010701000C23E8  NCB
+CIU2_MSI_RCV126                0x00010701000C23F0  NCB
+CIU2_MSI_RCV127                0x00010701000C23F8  NCB
+CIU2_MSI_RCV128                0x00010701000C2400  NCB
+CIU2_MSI_RCV129                0x00010701000C2408  NCB
+CIU2_MSI_RCV130                0x00010701000C2410  NCB
+CIU2_MSI_RCV131                0x00010701000C2418  NCB
+CIU2_MSI_RCV132                0x00010701000C2420  NCB
+CIU2_MSI_RCV133                0x00010701000C2428  NCB
+CIU2_MSI_RCV134                0x00010701000C2430  NCB
+CIU2_MSI_RCV135                0x00010701000C2438  NCB
+CIU2_MSI_RCV136                0x00010701000C2440  NCB
+CIU2_MSI_RCV137                0x00010701000C2448  NCB
+CIU2_MSI_RCV138                0x00010701000C2450  NCB
+CIU2_MSI_RCV139                0x00010701000C2458  NCB
+CIU2_MSI_RCV140                0x00010701000C2460  NCB
+CIU2_MSI_RCV141                0x00010701000C2468  NCB
+CIU2_MSI_RCV142                0x00010701000C2470  NCB
+CIU2_MSI_RCV143                0x00010701000C2478  NCB
+CIU2_MSI_RCV144                0x00010701000C2480  NCB
+CIU2_MSI_RCV145                0x00010701000C2488  NCB
+CIU2_MSI_RCV146                0x00010701000C2490  NCB
+CIU2_MSI_RCV147                0x00010701000C2498  NCB
+CIU2_MSI_RCV148                0x00010701000C24A0  NCB
+CIU2_MSI_RCV149                0x00010701000C24A8  NCB
+CIU2_MSI_RCV150                0x00010701000C24B0  NCB
+CIU2_MSI_RCV151                0x00010701000C24B8  NCB
+CIU2_MSI_RCV152                0x00010701000C24C0  NCB
+CIU2_MSI_RCV153                0x00010701000C24C8  NCB
+CIU2_MSI_RCV154                0x00010701000C24D0  NCB
+CIU2_MSI_RCV155                0x00010701000C24D8  NCB
+CIU2_MSI_RCV156                0x00010701000C24E0  NCB
+CIU2_MSI_RCV157                0x00010701000C24E8  NCB
+CIU2_MSI_RCV158                0x00010701000C24F0  NCB
+CIU2_MSI_RCV159                0x00010701000C24F8  NCB
+CIU2_MSI_RCV160                0x00010701000C2500  NCB
+CIU2_MSI_RCV161                0x00010701000C2508  NCB
+CIU2_MSI_RCV162                0x00010701000C2510  NCB
+CIU2_MSI_RCV163                0x00010701000C2518  NCB
+CIU2_MSI_RCV164                0x00010701000C2520  NCB
+CIU2_MSI_RCV165                0x00010701000C2528  NCB
+CIU2_MSI_RCV166                0x00010701000C2530  NCB
+CIU2_MSI_RCV167                0x00010701000C2538  NCB
+CIU2_MSI_RCV168                0x00010701000C2540  NCB
+CIU2_MSI_RCV169                0x00010701000C2548  NCB
+CIU2_MSI_RCV170                0x00010701000C2550  NCB
+CIU2_MSI_RCV171                0x00010701000C2558  NCB
+CIU2_MSI_RCV172                0x00010701000C2560  NCB
+CIU2_MSI_RCV173                0x00010701000C2568  NCB
+CIU2_MSI_RCV174                0x00010701000C2570  NCB
+CIU2_MSI_RCV175                0x00010701000C2578  NCB
+CIU2_MSI_RCV176                0x00010701000C2580  NCB
+CIU2_MSI_RCV177                0x00010701000C2588  NCB
+CIU2_MSI_RCV178                0x00010701000C2590  NCB
+CIU2_MSI_RCV179                0x00010701000C2598  NCB
+CIU2_MSI_RCV180                0x00010701000C25A0  NCB
+CIU2_MSI_RCV181                0x00010701000C25A8  NCB
+CIU2_MSI_RCV182                0x00010701000C25B0  NCB
+CIU2_MSI_RCV183                0x00010701000C25B8  NCB
+CIU2_MSI_RCV184                0x00010701000C25C0  NCB
+CIU2_MSI_RCV185                0x00010701000C25C8  NCB
+CIU2_MSI_RCV186                0x00010701000C25D0  NCB
+CIU2_MSI_RCV187                0x00010701000C25D8  NCB
+CIU2_MSI_RCV188                0x00010701000C25E0  NCB
+CIU2_MSI_RCV189                0x00010701000C25E8  NCB
+CIU2_MSI_RCV190                0x00010701000C25F0  NCB
+CIU2_MSI_RCV191                0x00010701000C25F8  NCB
+CIU2_MSI_RCV192                0x00010701000C2600  NCB
+CIU2_MSI_RCV193                0x00010701000C2608  NCB
+CIU2_MSI_RCV194                0x00010701000C2610  NCB
+CIU2_MSI_RCV195                0x00010701000C2618  NCB
+CIU2_MSI_RCV196                0x00010701000C2620  NCB
+CIU2_MSI_RCV197                0x00010701000C2628  NCB
+CIU2_MSI_RCV198                0x00010701000C2630  NCB
+CIU2_MSI_RCV199                0x00010701000C2638  NCB
+CIU2_MSI_RCV200                0x00010701000C2640  NCB
+CIU2_MSI_RCV201                0x00010701000C2648  NCB
+CIU2_MSI_RCV202                0x00010701000C2650  NCB
+CIU2_MSI_RCV203                0x00010701000C2658  NCB
+CIU2_MSI_RCV204                0x00010701000C2660  NCB
+CIU2_MSI_RCV205                0x00010701000C2668  NCB
+CIU2_MSI_RCV206                0x00010701000C2670  NCB
+CIU2_MSI_RCV207                0x00010701000C2678  NCB
+CIU2_MSI_RCV208                0x00010701000C2680  NCB
+CIU2_MSI_RCV209                0x00010701000C2688  NCB
+CIU2_MSI_RCV210                0x00010701000C2690  NCB
+CIU2_MSI_RCV211                0x00010701000C2698  NCB
+CIU2_MSI_RCV212                0x00010701000C26A0  NCB
+CIU2_MSI_RCV213                0x00010701000C26A8  NCB
+CIU2_MSI_RCV214                0x00010701000C26B0  NCB
+CIU2_MSI_RCV215                0x00010701000C26B8  NCB
+CIU2_MSI_RCV216                0x00010701000C26C0  NCB
+CIU2_MSI_RCV217                0x00010701000C26C8  NCB
+CIU2_MSI_RCV218                0x00010701000C26D0  NCB
+CIU2_MSI_RCV219                0x00010701000C26D8  NCB
+CIU2_MSI_RCV220                0x00010701000C26E0  NCB
+CIU2_MSI_RCV221                0x00010701000C26E8  NCB
+CIU2_MSI_RCV222                0x00010701000C26F0  NCB
+CIU2_MSI_RCV223                0x00010701000C26F8  NCB
+CIU2_MSI_RCV224                0x00010701000C2700  NCB
+CIU2_MSI_RCV225                0x00010701000C2708  NCB
+CIU2_MSI_RCV226                0x00010701000C2710  NCB
+CIU2_MSI_RCV227                0x00010701000C2718  NCB
+CIU2_MSI_RCV228                0x00010701000C2720  NCB
+CIU2_MSI_RCV229                0x00010701000C2728  NCB
+CIU2_MSI_RCV230                0x00010701000C2730  NCB
+CIU2_MSI_RCV231                0x00010701000C2738  NCB
+CIU2_MSI_RCV232                0x00010701000C2740  NCB
+CIU2_MSI_RCV233                0x00010701000C2748  NCB
+CIU2_MSI_RCV234                0x00010701000C2750  NCB
+CIU2_MSI_RCV235                0x00010701000C2758  NCB
+CIU2_MSI_RCV236                0x00010701000C2760  NCB
+CIU2_MSI_RCV237                0x00010701000C2768  NCB
+CIU2_MSI_RCV238                0x00010701000C2770  NCB
+CIU2_MSI_RCV239                0x00010701000C2778  NCB
+CIU2_MSI_RCV240                0x00010701000C2780  NCB
+CIU2_MSI_RCV241                0x00010701000C2788  NCB
+CIU2_MSI_RCV242                0x00010701000C2790  NCB
+CIU2_MSI_RCV243                0x00010701000C2798  NCB
+CIU2_MSI_RCV244                0x00010701000C27A0  NCB
+CIU2_MSI_RCV245                0x00010701000C27A8  NCB
+CIU2_MSI_RCV246                0x00010701000C27B0  NCB
+CIU2_MSI_RCV247                0x00010701000C27B8  NCB
+CIU2_MSI_RCV248                0x00010701000C27C0  NCB
+CIU2_MSI_RCV249                0x00010701000C27C8  NCB
+CIU2_MSI_RCV250                0x00010701000C27D0  NCB
+CIU2_MSI_RCV251                0x00010701000C27D8  NCB
+CIU2_MSI_RCV252                0x00010701000C27E0  NCB
+CIU2_MSI_RCV253                0x00010701000C27E8  NCB
+CIU2_MSI_RCV254                0x00010701000C27F0  NCB
+CIU2_MSI_RCV255                0x00010701000C27F8  NCB
+CIU2_MSI_SEL0                  0x00010701000C3000  NCB
+CIU2_MSI_SEL1                  0x00010701000C3008  NCB
+CIU2_MSI_SEL2                  0x00010701000C3010  NCB
+CIU2_MSI_SEL3                  0x00010701000C3018  NCB
+CIU2_MSI_SEL4                  0x00010701000C3020  NCB
+CIU2_MSI_SEL5                  0x00010701000C3028  NCB
+CIU2_MSI_SEL6                  0x00010701000C3030  NCB
+CIU2_MSI_SEL7                  0x00010701000C3038  NCB
+CIU2_MSI_SEL8                  0x00010701000C3040  NCB
+CIU2_MSI_SEL9                  0x00010701000C3048  NCB
+CIU2_MSI_SEL10                 0x00010701000C3050  NCB
+CIU2_MSI_SEL11                 0x00010701000C3058  NCB
+CIU2_MSI_SEL12                 0x00010701000C3060  NCB
+CIU2_MSI_SEL13                 0x00010701000C3068  NCB
+CIU2_MSI_SEL14                 0x00010701000C3070  NCB
+CIU2_MSI_SEL15                 0x00010701000C3078  NCB
+CIU2_MSI_SEL16                 0x00010701000C3080  NCB
+CIU2_MSI_SEL17                 0x00010701000C3088  NCB
+CIU2_MSI_SEL18                 0x00010701000C3090  NCB
+CIU2_MSI_SEL19                 0x00010701000C3098  NCB
+CIU2_MSI_SEL20                 0x00010701000C30A0  NCB
+CIU2_MSI_SEL21                 0x00010701000C30A8  NCB
+CIU2_MSI_SEL22                 0x00010701000C30B0  NCB
+CIU2_MSI_SEL23                 0x00010701000C30B8  NCB
+CIU2_MSI_SEL24                 0x00010701000C30C0  NCB
+CIU2_MSI_SEL25                 0x00010701000C30C8  NCB
+CIU2_MSI_SEL26                 0x00010701000C30D0  NCB
+CIU2_MSI_SEL27                 0x00010701000C30D8  NCB
+CIU2_MSI_SEL28                 0x00010701000C30E0  NCB
+CIU2_MSI_SEL29                 0x00010701000C30E8  NCB
+CIU2_MSI_SEL30                 0x00010701000C30F0  NCB
+CIU2_MSI_SEL31                 0x00010701000C30F8  NCB
+CIU2_MSI_SEL32                 0x00010701000C3100  NCB
+CIU2_MSI_SEL33                 0x00010701000C3108  NCB
+CIU2_MSI_SEL34                 0x00010701000C3110  NCB
+CIU2_MSI_SEL35                 0x00010701000C3118  NCB
+CIU2_MSI_SEL36                 0x00010701000C3120  NCB
+CIU2_MSI_SEL37                 0x00010701000C3128  NCB
+CIU2_MSI_SEL38                 0x00010701000C3130  NCB
+CIU2_MSI_SEL39                 0x00010701000C3138  NCB
+CIU2_MSI_SEL40                 0x00010701000C3140  NCB
+CIU2_MSI_SEL41                 0x00010701000C3148  NCB
+CIU2_MSI_SEL42                 0x00010701000C3150  NCB
+CIU2_MSI_SEL43                 0x00010701000C3158  NCB
+CIU2_MSI_SEL44                 0x00010701000C3160  NCB
+CIU2_MSI_SEL45                 0x00010701000C3168  NCB
+CIU2_MSI_SEL46                 0x00010701000C3170  NCB
+CIU2_MSI_SEL47                 0x00010701000C3178  NCB
+CIU2_MSI_SEL48                 0x00010701000C3180  NCB
+CIU2_MSI_SEL49                 0x00010701000C3188  NCB
+CIU2_MSI_SEL50                 0x00010701000C3190  NCB
+CIU2_MSI_SEL51                 0x00010701000C3198  NCB
+CIU2_MSI_SEL52                 0x00010701000C31A0  NCB
+CIU2_MSI_SEL53                 0x00010701000C31A8  NCB
+CIU2_MSI_SEL54                 0x00010701000C31B0  NCB
+CIU2_MSI_SEL55                 0x00010701000C31B8  NCB
+CIU2_MSI_SEL56                 0x00010701000C31C0  NCB
+CIU2_MSI_SEL57                 0x00010701000C31C8  NCB
+CIU2_MSI_SEL58                 0x00010701000C31D0  NCB
+CIU2_MSI_SEL59                 0x00010701000C31D8  NCB
+CIU2_MSI_SEL60                 0x00010701000C31E0  NCB
+CIU2_MSI_SEL61                 0x00010701000C31E8  NCB
+CIU2_MSI_SEL62                 0x00010701000C31F0  NCB
+CIU2_MSI_SEL63                 0x00010701000C31F8  NCB
+CIU2_MSI_SEL64                 0x00010701000C3200  NCB
+CIU2_MSI_SEL65                 0x00010701000C3208  NCB
+CIU2_MSI_SEL66                 0x00010701000C3210  NCB
+CIU2_MSI_SEL67                 0x00010701000C3218  NCB
+CIU2_MSI_SEL68                 0x00010701000C3220  NCB
+CIU2_MSI_SEL69                 0x00010701000C3228  NCB
+CIU2_MSI_SEL70                 0x00010701000C3230  NCB
+CIU2_MSI_SEL71                 0x00010701000C3238  NCB
+CIU2_MSI_SEL72                 0x00010701000C3240  NCB
+CIU2_MSI_SEL73                 0x00010701000C3248  NCB
+CIU2_MSI_SEL74                 0x00010701000C3250  NCB
+CIU2_MSI_SEL75                 0x00010701000C3258  NCB
+CIU2_MSI_SEL76                 0x00010701000C3260  NCB
+CIU2_MSI_SEL77                 0x00010701000C3268  NCB
+CIU2_MSI_SEL78                 0x00010701000C3270  NCB
+CIU2_MSI_SEL79                 0x00010701000C3278  NCB
+CIU2_MSI_SEL80                 0x00010701000C3280  NCB
+CIU2_MSI_SEL81                 0x00010701000C3288  NCB
+CIU2_MSI_SEL82                 0x00010701000C3290  NCB
+CIU2_MSI_SEL83                 0x00010701000C3298  NCB
+CIU2_MSI_SEL84                 0x00010701000C32A0  NCB
+CIU2_MSI_SEL85                 0x00010701000C32A8  NCB
+CIU2_MSI_SEL86                 0x00010701000C32B0  NCB
+CIU2_MSI_SEL87                 0x00010701000C32B8  NCB
+CIU2_MSI_SEL88                 0x00010701000C32C0  NCB
+CIU2_MSI_SEL89                 0x00010701000C32C8  NCB
+CIU2_MSI_SEL90                 0x00010701000C32D0  NCB
+CIU2_MSI_SEL91                 0x00010701000C32D8  NCB
+CIU2_MSI_SEL92                 0x00010701000C32E0  NCB
+CIU2_MSI_SEL93                 0x00010701000C32E8  NCB
+CIU2_MSI_SEL94                 0x00010701000C32F0  NCB
+CIU2_MSI_SEL95                 0x00010701000C32F8  NCB
+CIU2_MSI_SEL96                 0x00010701000C3300  NCB
+CIU2_MSI_SEL97                 0x00010701000C3308  NCB
+CIU2_MSI_SEL98                 0x00010701000C3310  NCB
+CIU2_MSI_SEL99                 0x00010701000C3318  NCB
+CIU2_MSI_SEL100                0x00010701000C3320  NCB
+CIU2_MSI_SEL101                0x00010701000C3328  NCB
+CIU2_MSI_SEL102                0x00010701000C3330  NCB
+CIU2_MSI_SEL103                0x00010701000C3338  NCB
+CIU2_MSI_SEL104                0x00010701000C3340  NCB
+CIU2_MSI_SEL105                0x00010701000C3348  NCB
+CIU2_MSI_SEL106                0x00010701000C3350  NCB
+CIU2_MSI_SEL107                0x00010701000C3358  NCB
+CIU2_MSI_SEL108                0x00010701000C3360  NCB
+CIU2_MSI_SEL109                0x00010701000C3368  NCB
+CIU2_MSI_SEL110                0x00010701000C3370  NCB
+CIU2_MSI_SEL111                0x00010701000C3378  NCB
+CIU2_MSI_SEL112                0x00010701000C3380  NCB
+CIU2_MSI_SEL113                0x00010701000C3388  NCB
+CIU2_MSI_SEL114                0x00010701000C3390  NCB
+CIU2_MSI_SEL115                0x00010701000C3398  NCB
+CIU2_MSI_SEL116                0x00010701000C33A0  NCB
+CIU2_MSI_SEL117                0x00010701000C33A8  NCB
+CIU2_MSI_SEL118                0x00010701000C33B0  NCB
+CIU2_MSI_SEL119                0x00010701000C33B8  NCB
+CIU2_MSI_SEL120                0x00010701000C33C0  NCB
+CIU2_MSI_SEL121                0x00010701000C33C8  NCB
+CIU2_MSI_SEL122                0x00010701000C33D0  NCB
+CIU2_MSI_SEL123                0x00010701000C33D8  NCB
+CIU2_MSI_SEL124                0x00010701000C33E0  NCB
+CIU2_MSI_SEL125                0x00010701000C33E8  NCB
+CIU2_MSI_SEL126                0x00010701000C33F0  NCB
+CIU2_MSI_SEL127                0x00010701000C33F8  NCB
+CIU2_MSI_SEL128                0x00010701000C3400  NCB
+CIU2_MSI_SEL129                0x00010701000C3408  NCB
+CIU2_MSI_SEL130                0x00010701000C3410  NCB
+CIU2_MSI_SEL131                0x00010701000C3418  NCB
+CIU2_MSI_SEL132                0x00010701000C3420  NCB
+CIU2_MSI_SEL133                0x00010701000C3428  NCB
+CIU2_MSI_SEL134                0x00010701000C3430  NCB
+CIU2_MSI_SEL135                0x00010701000C3438  NCB
+CIU2_MSI_SEL136                0x00010701000C3440  NCB
+CIU2_MSI_SEL137                0x00010701000C3448  NCB
+CIU2_MSI_SEL138                0x00010701000C3450  NCB
+CIU2_MSI_SEL139                0x00010701000C3458  NCB
+CIU2_MSI_SEL140                0x00010701000C3460  NCB
+CIU2_MSI_SEL141                0x00010701000C3468  NCB
+CIU2_MSI_SEL142                0x00010701000C3470  NCB
+CIU2_MSI_SEL143                0x00010701000C3478  NCB
+CIU2_MSI_SEL144                0x00010701000C3480  NCB
+CIU2_MSI_SEL145                0x00010701000C3488  NCB
+CIU2_MSI_SEL146                0x00010701000C3490  NCB
+CIU2_MSI_SEL147                0x00010701000C3498  NCB
+CIU2_MSI_SEL148                0x00010701000C34A0  NCB
+CIU2_MSI_SEL149                0x00010701000C34A8  NCB
+CIU2_MSI_SEL150                0x00010701000C34B0  NCB
+CIU2_MSI_SEL151                0x00010701000C34B8  NCB
+CIU2_MSI_SEL152                0x00010701000C34C0  NCB
+CIU2_MSI_SEL153                0x00010701000C34C8  NCB
+CIU2_MSI_SEL154                0x00010701000C34D0  NCB
+CIU2_MSI_SEL155                0x00010701000C34D8  NCB
+CIU2_MSI_SEL156                0x00010701000C34E0  NCB
+CIU2_MSI_SEL157                0x00010701000C34E8  NCB
+CIU2_MSI_SEL158                0x00010701000C34F0  NCB
+CIU2_MSI_SEL159                0x00010701000C34F8  NCB
+CIU2_MSI_SEL160                0x00010701000C3500  NCB
+CIU2_MSI_SEL161                0x00010701000C3508  NCB
+CIU2_MSI_SEL162                0x00010701000C3510  NCB
+CIU2_MSI_SEL163                0x00010701000C3518  NCB
+CIU2_MSI_SEL164                0x00010701000C3520  NCB
+CIU2_MSI_SEL165                0x00010701000C3528  NCB
+CIU2_MSI_SEL166                0x00010701000C3530  NCB
+CIU2_MSI_SEL167                0x00010701000C3538  NCB
+CIU2_MSI_SEL168                0x00010701000C3540  NCB
+CIU2_MSI_SEL169                0x00010701000C3548  NCB
+CIU2_MSI_SEL170                0x00010701000C3550  NCB
+CIU2_MSI_SEL171                0x00010701000C3558  NCB
+CIU2_MSI_SEL172                0x00010701000C3560  NCB
+CIU2_MSI_SEL173                0x00010701000C3568  NCB
+CIU2_MSI_SEL174                0x00010701000C3570  NCB
+CIU2_MSI_SEL175                0x00010701000C3578  NCB
+CIU2_MSI_SEL176                0x00010701000C3580  NCB
+CIU2_MSI_SEL177                0x00010701000C3588  NCB
+CIU2_MSI_SEL178                0x00010701000C3590  NCB
+CIU2_MSI_SEL179                0x00010701000C3598  NCB
+CIU2_MSI_SEL180                0x00010701000C35A0  NCB
+CIU2_MSI_SEL181                0x00010701000C35A8  NCB
+CIU2_MSI_SEL182                0x00010701000C35B0  NCB
+CIU2_MSI_SEL183                0x00010701000C35B8  NCB
+CIU2_MSI_SEL184                0x00010701000C35C0  NCB
+CIU2_MSI_SEL185                0x00010701000C35C8  NCB
+CIU2_MSI_SEL186                0x00010701000C35D0  NCB
+CIU2_MSI_SEL187                0x00010701000C35D8  NCB
+CIU2_MSI_SEL188                0x00010701000C35E0  NCB
+CIU2_MSI_SEL189                0x00010701000C35E8  NCB
+CIU2_MSI_SEL190                0x00010701000C35F0  NCB
+CIU2_MSI_SEL191                0x00010701000C35F8  NCB
+CIU2_MSI_SEL192                0x00010701000C3600  NCB
+CIU2_MSI_SEL193                0x00010701000C3608  NCB
+CIU2_MSI_SEL194                0x00010701000C3610  NCB
+CIU2_MSI_SEL195                0x00010701000C3618  NCB
+CIU2_MSI_SEL196                0x00010701000C3620  NCB
+CIU2_MSI_SEL197                0x00010701000C3628  NCB
+CIU2_MSI_SEL198                0x00010701000C3630  NCB
+CIU2_MSI_SEL199                0x00010701000C3638  NCB
+CIU2_MSI_SEL200                0x00010701000C3640  NCB
+CIU2_MSI_SEL201                0x00010701000C3648  NCB
+CIU2_MSI_SEL202                0x00010701000C3650  NCB
+CIU2_MSI_SEL203                0x00010701000C3658  NCB
+CIU2_MSI_SEL204                0x00010701000C3660  NCB
+CIU2_MSI_SEL205                0x00010701000C3668  NCB
+CIU2_MSI_SEL206                0x00010701000C3670  NCB
+CIU2_MSI_SEL207                0x00010701000C3678  NCB
+CIU2_MSI_SEL208                0x00010701000C3680  NCB
+CIU2_MSI_SEL209                0x00010701000C3688  NCB
+CIU2_MSI_SEL210                0x00010701000C3690  NCB
+CIU2_MSI_SEL211                0x00010701000C3698  NCB
+CIU2_MSI_SEL212                0x00010701000C36A0  NCB
+CIU2_MSI_SEL213                0x00010701000C36A8  NCB
+CIU2_MSI_SEL214                0x00010701000C36B0  NCB
+CIU2_MSI_SEL215                0x00010701000C36B8  NCB
+CIU2_MSI_SEL216                0x00010701000C36C0  NCB
+CIU2_MSI_SEL217                0x00010701000C36C8  NCB
+CIU2_MSI_SEL218                0x00010701000C36D0  NCB
+CIU2_MSI_SEL219                0x00010701000C36D8  NCB
+CIU2_MSI_SEL220                0x00010701000C36E0  NCB
+CIU2_MSI_SEL221                0x00010701000C36E8  NCB
+CIU2_MSI_SEL222                0x00010701000C36F0  NCB
+CIU2_MSI_SEL223                0x00010701000C36F8  NCB
+CIU2_MSI_SEL224                0x00010701000C3700  NCB
+CIU2_MSI_SEL225                0x00010701000C3708  NCB
+CIU2_MSI_SEL226                0x00010701000C3710  NCB
+CIU2_MSI_SEL227                0x00010701000C3718  NCB
+CIU2_MSI_SEL228                0x00010701000C3720  NCB
+CIU2_MSI_SEL229                0x00010701000C3728  NCB
+CIU2_MSI_SEL230                0x00010701000C3730  NCB
+CIU2_MSI_SEL231                0x00010701000C3738  NCB
+CIU2_MSI_SEL232                0x00010701000C3740  NCB
+CIU2_MSI_SEL233                0x00010701000C3748  NCB
+CIU2_MSI_SEL234                0x00010701000C3750  NCB
+CIU2_MSI_SEL235                0x00010701000C3758  NCB
+CIU2_MSI_SEL236                0x00010701000C3760  NCB
+CIU2_MSI_SEL237                0x00010701000C3768  NCB
+CIU2_MSI_SEL238                0x00010701000C3770  NCB
+CIU2_MSI_SEL239                0x00010701000C3778  NCB
+CIU2_MSI_SEL240                0x00010701000C3780  NCB
+CIU2_MSI_SEL241                0x00010701000C3788  NCB
+CIU2_MSI_SEL242                0x00010701000C3790  NCB
+CIU2_MSI_SEL243                0x00010701000C3798  NCB
+CIU2_MSI_SEL244                0x00010701000C37A0  NCB
+CIU2_MSI_SEL245                0x00010701000C37A8  NCB
+CIU2_MSI_SEL246                0x00010701000C37B0  NCB
+CIU2_MSI_SEL247                0x00010701000C37B8  NCB
+CIU2_MSI_SEL248                0x00010701000C37C0  NCB
+CIU2_MSI_SEL249                0x00010701000C37C8  NCB
+CIU2_MSI_SEL250                0x00010701000C37D0  NCB
+CIU2_MSI_SEL251                0x00010701000C37D8  NCB
+CIU2_MSI_SEL252                0x00010701000C37E0  NCB
+CIU2_MSI_SEL253                0x00010701000C37E8  NCB
+CIU2_MSI_SEL254                0x00010701000C37F0  NCB
+CIU2_MSI_SEL255                0x00010701000C37F8  NCB
 CIU2_PP_POKE0                  0x0001070100100200  NCB
 CIU2_PP_POKE1                  0x0001070100100208  NCB
 CIU2_PP_POKE2                  0x0001070100100210  NCB
@@ -42134,14 +43176,790 @@ CIU2_PP_POKE28                 0x00010701001002E0  NCB
 CIU2_PP_POKE29                 0x00010701001002E8  NCB
 CIU2_PP_POKE30                 0x00010701001002F0  NCB
 CIU2_PP_POKE31                 0x00010701001002F8  NCB
-CIU2_RAW_GPIO                  0x0001070100001038  NCB
-CIU2_RAW_IO                    0x0001070100001020  NCB
-CIU2_RAW_MEM                   0x0001070100001028  NCB
-CIU2_RAW_MIO                   0x0001070100001018  NCB
-CIU2_RAW_PKT                   0x0001070100001030  NCB
-CIU2_RAW_RML                   0x0001070100001010  NCB
-CIU2_RAW_WDOG                  0x0001070100001008  NCB
-CIU2_RAW_WRKQ                  0x0001070100001000  NCB
+CIU2_RAW_IO0_INT_GPIO          0x0001070108047800  NCB
+CIU2_RAW_IO0_INT_IO            0x0001070108044800  NCB
+CIU2_RAW_IO0_INT_MEM           0x0001070108045800  NCB
+CIU2_RAW_IO0_INT_MIO           0x0001070108043800  NCB
+CIU2_RAW_IO0_INT_PKT           0x0001070108046800  NCB
+CIU2_RAW_IO0_INT_RML           0x0001070108042800  NCB
+CIU2_RAW_IO0_INT_WDOG          0x0001070108041800  NCB
+CIU2_RAW_IO0_INT_WRKQ          0x0001070108040800  NCB
+CIU2_RAW_IO1_INT_GPIO          0x0001070108247800  NCB
+CIU2_RAW_IO1_INT_IO            0x0001070108244800  NCB
+CIU2_RAW_IO1_INT_MEM           0x0001070108245800  NCB
+CIU2_RAW_IO1_INT_MIO           0x0001070108243800  NCB
+CIU2_RAW_IO1_INT_PKT           0x0001070108246800  NCB
+CIU2_RAW_IO1_INT_RML           0x0001070108242800  NCB
+CIU2_RAW_IO1_INT_WDOG          0x0001070108241800  NCB
+CIU2_RAW_IO1_INT_WRKQ          0x0001070108240800  NCB
+CIU2_RAW_PP0_IP2_GPIO          0x0001070100047000  NCB
+CIU2_RAW_PP0_IP2_IO            0x0001070100044000  NCB
+CIU2_RAW_PP0_IP2_MEM           0x0001070100045000  NCB
+CIU2_RAW_PP0_IP2_MIO           0x0001070100043000  NCB
+CIU2_RAW_PP0_IP2_PKT           0x0001070100046000  NCB
+CIU2_RAW_PP0_IP2_RML           0x0001070100042000  NCB
+CIU2_RAW_PP0_IP2_WDOG          0x0001070100041000  NCB
+CIU2_RAW_PP0_IP2_WRKQ          0x0001070100040000  NCB
+CIU2_RAW_PP0_IP3_GPIO          0x0001070100047200  NCB
+CIU2_RAW_PP0_IP3_IO            0x0001070100044200  NCB
+CIU2_RAW_PP0_IP3_MEM           0x0001070100045200  NCB
+CIU2_RAW_PP0_IP3_MIO           0x0001070100043200  NCB
+CIU2_RAW_PP0_IP3_PKT           0x0001070100046200  NCB
+CIU2_RAW_PP0_IP3_RML           0x0001070100042200  NCB
+CIU2_RAW_PP0_IP3_WDOG          0x0001070100041200  NCB
+CIU2_RAW_PP0_IP3_WRKQ          0x0001070100040200  NCB
+CIU2_RAW_PP0_IP4_GPIO          0x0001070100047400  NCB
+CIU2_RAW_PP0_IP4_IO            0x0001070100044400  NCB
+CIU2_RAW_PP0_IP4_MEM           0x0001070100045400  NCB
+CIU2_RAW_PP0_IP4_MIO           0x0001070100043400  NCB
+CIU2_RAW_PP0_IP4_PKT           0x0001070100046400  NCB
+CIU2_RAW_PP0_IP4_RML           0x0001070100042400  NCB
+CIU2_RAW_PP0_IP4_WDOG          0x0001070100041400  NCB
+CIU2_RAW_PP0_IP4_WRKQ          0x0001070100040400  NCB
+CIU2_RAW_PP1_IP2_GPIO          0x0001070100247000  NCB
+CIU2_RAW_PP1_IP2_IO            0x0001070100244000  NCB
+CIU2_RAW_PP1_IP2_MEM           0x0001070100245000  NCB
+CIU2_RAW_PP1_IP2_MIO           0x0001070100243000  NCB
+CIU2_RAW_PP1_IP2_PKT           0x0001070100246000  NCB
+CIU2_RAW_PP1_IP2_RML           0x0001070100242000  NCB
+CIU2_RAW_PP1_IP2_WDOG          0x0001070100241000  NCB
+CIU2_RAW_PP1_IP2_WRKQ          0x0001070100240000  NCB
+CIU2_RAW_PP1_IP3_GPIO          0x0001070100247200  NCB
+CIU2_RAW_PP1_IP3_IO            0x0001070100244200  NCB
+CIU2_RAW_PP1_IP3_MEM           0x0001070100245200  NCB
+CIU2_RAW_PP1_IP3_MIO           0x0001070100243200  NCB
+CIU2_RAW_PP1_IP3_PKT           0x0001070100246200  NCB
+CIU2_RAW_PP1_IP3_RML           0x0001070100242200  NCB
+CIU2_RAW_PP1_IP3_WDOG          0x0001070100241200  NCB
+CIU2_RAW_PP1_IP3_WRKQ          0x0001070100240200  NCB
+CIU2_RAW_PP1_IP4_GPIO          0x0001070100247400  NCB
+CIU2_RAW_PP1_IP4_IO            0x0001070100244400  NCB
+CIU2_RAW_PP1_IP4_MEM           0x0001070100245400  NCB
+CIU2_RAW_PP1_IP4_MIO           0x0001070100243400  NCB
+CIU2_RAW_PP1_IP4_PKT           0x0001070100246400  NCB
+CIU2_RAW_PP1_IP4_RML           0x0001070100242400  NCB
+CIU2_RAW_PP1_IP4_WDOG          0x0001070100241400  NCB
+CIU2_RAW_PP1_IP4_WRKQ          0x0001070100240400  NCB
+CIU2_RAW_PP2_IP2_GPIO          0x0001070100447000  NCB
+CIU2_RAW_PP2_IP2_IO            0x0001070100444000  NCB
+CIU2_RAW_PP2_IP2_MEM           0x0001070100445000  NCB
+CIU2_RAW_PP2_IP2_MIO           0x0001070100443000  NCB
+CIU2_RAW_PP2_IP2_PKT           0x0001070100446000  NCB
+CIU2_RAW_PP2_IP2_RML           0x0001070100442000  NCB
+CIU2_RAW_PP2_IP2_WDOG          0x0001070100441000  NCB
+CIU2_RAW_PP2_IP2_WRKQ          0x0001070100440000  NCB
+CIU2_RAW_PP2_IP3_GPIO          0x0001070100447200  NCB
+CIU2_RAW_PP2_IP3_IO            0x0001070100444200  NCB
+CIU2_RAW_PP2_IP3_MEM           0x0001070100445200  NCB
+CIU2_RAW_PP2_IP3_MIO           0x0001070100443200  NCB
+CIU2_RAW_PP2_IP3_PKT           0x0001070100446200  NCB
+CIU2_RAW_PP2_IP3_RML           0x0001070100442200  NCB
+CIU2_RAW_PP2_IP3_WDOG          0x0001070100441200  NCB
+CIU2_RAW_PP2_IP3_WRKQ          0x0001070100440200  NCB
+CIU2_RAW_PP2_IP4_GPIO          0x0001070100447400  NCB
+CIU2_RAW_PP2_IP4_IO            0x0001070100444400  NCB
+CIU2_RAW_PP2_IP4_MEM           0x0001070100445400  NCB
+CIU2_RAW_PP2_IP4_MIO           0x0001070100443400  NCB
+CIU2_RAW_PP2_IP4_PKT           0x0001070100446400  NCB
+CIU2_RAW_PP2_IP4_RML           0x0001070100442400  NCB
+CIU2_RAW_PP2_IP4_WDOG          0x0001070100441400  NCB
+CIU2_RAW_PP2_IP4_WRKQ          0x0001070100440400  NCB
+CIU2_RAW_PP3_IP2_GPIO          0x0001070100647000  NCB
+CIU2_RAW_PP3_IP2_IO            0x0001070100644000  NCB
+CIU2_RAW_PP3_IP2_MEM           0x0001070100645000  NCB
+CIU2_RAW_PP3_IP2_MIO           0x0001070100643000  NCB
+CIU2_RAW_PP3_IP2_PKT           0x0001070100646000  NCB
+CIU2_RAW_PP3_IP2_RML           0x0001070100642000  NCB
+CIU2_RAW_PP3_IP2_WDOG          0x0001070100641000  NCB
+CIU2_RAW_PP3_IP2_WRKQ          0x0001070100640000  NCB
+CIU2_RAW_PP3_IP3_GPIO          0x0001070100647200  NCB
+CIU2_RAW_PP3_IP3_IO            0x0001070100644200  NCB
+CIU2_RAW_PP3_IP3_MEM           0x0001070100645200  NCB
+CIU2_RAW_PP3_IP3_MIO           0x0001070100643200  NCB
+CIU2_RAW_PP3_IP3_PKT           0x0001070100646200  NCB
+CIU2_RAW_PP3_IP3_RML           0x0001070100642200  NCB
+CIU2_RAW_PP3_IP3_WDOG          0x0001070100641200  NCB
+CIU2_RAW_PP3_IP3_WRKQ          0x0001070100640200  NCB
+CIU2_RAW_PP3_IP4_GPIO          0x0001070100647400  NCB
+CIU2_RAW_PP3_IP4_IO            0x0001070100644400  NCB
+CIU2_RAW_PP3_IP4_MEM           0x0001070100645400  NCB
+CIU2_RAW_PP3_IP4_MIO           0x0001070100643400  NCB
+CIU2_RAW_PP3_IP4_PKT           0x0001070100646400  NCB
+CIU2_RAW_PP3_IP4_RML           0x0001070100642400  NCB
+CIU2_RAW_PP3_IP4_WDOG          0x0001070100641400  NCB
+CIU2_RAW_PP3_IP4_WRKQ          0x0001070100640400  NCB
+CIU2_RAW_PP4_IP2_GPIO          0x0001070100847000  NCB
+CIU2_RAW_PP4_IP2_IO            0x0001070100844000  NCB
+CIU2_RAW_PP4_IP2_MEM           0x0001070100845000  NCB
+CIU2_RAW_PP4_IP2_MIO           0x0001070100843000  NCB
+CIU2_RAW_PP4_IP2_PKT           0x0001070100846000  NCB
+CIU2_RAW_PP4_IP2_RML           0x0001070100842000  NCB
+CIU2_RAW_PP4_IP2_WDOG          0x0001070100841000  NCB
+CIU2_RAW_PP4_IP2_WRKQ          0x0001070100840000  NCB
+CIU2_RAW_PP4_IP3_GPIO          0x0001070100847200  NCB
+CIU2_RAW_PP4_IP3_IO            0x0001070100844200  NCB
+CIU2_RAW_PP4_IP3_MEM           0x0001070100845200  NCB
+CIU2_RAW_PP4_IP3_MIO           0x0001070100843200  NCB
+CIU2_RAW_PP4_IP3_PKT           0x0001070100846200  NCB
+CIU2_RAW_PP4_IP3_RML           0x0001070100842200  NCB
+CIU2_RAW_PP4_IP3_WDOG          0x0001070100841200  NCB
+CIU2_RAW_PP4_IP3_WRKQ          0x0001070100840200  NCB
+CIU2_RAW_PP4_IP4_GPIO          0x0001070100847400  NCB
+CIU2_RAW_PP4_IP4_IO            0x0001070100844400  NCB
+CIU2_RAW_PP4_IP4_MEM           0x0001070100845400  NCB
+CIU2_RAW_PP4_IP4_MIO           0x0001070100843400  NCB
+CIU2_RAW_PP4_IP4_PKT           0x0001070100846400  NCB
+CIU2_RAW_PP4_IP4_RML           0x0001070100842400  NCB
+CIU2_RAW_PP4_IP4_WDOG          0x0001070100841400  NCB
+CIU2_RAW_PP4_IP4_WRKQ          0x0001070100840400  NCB
+CIU2_RAW_PP5_IP2_GPIO          0x0001070100A47000  NCB
+CIU2_RAW_PP5_IP2_IO            0x0001070100A44000  NCB
+CIU2_RAW_PP5_IP2_MEM           0x0001070100A45000  NCB
+CIU2_RAW_PP5_IP2_MIO           0x0001070100A43000  NCB
+CIU2_RAW_PP5_IP2_PKT           0x0001070100A46000  NCB
+CIU2_RAW_PP5_IP2_RML           0x0001070100A42000  NCB
+CIU2_RAW_PP5_IP2_WDOG          0x0001070100A41000  NCB
+CIU2_RAW_PP5_IP2_WRKQ          0x0001070100A40000  NCB
+CIU2_RAW_PP5_IP3_GPIO          0x0001070100A47200  NCB
+CIU2_RAW_PP5_IP3_IO            0x0001070100A44200  NCB
+CIU2_RAW_PP5_IP3_MEM           0x0001070100A45200  NCB
+CIU2_RAW_PP5_IP3_MIO           0x0001070100A43200  NCB
+CIU2_RAW_PP5_IP3_PKT           0x0001070100A46200  NCB
+CIU2_RAW_PP5_IP3_RML           0x0001070100A42200  NCB
+CIU2_RAW_PP5_IP3_WDOG          0x0001070100A41200  NCB
+CIU2_RAW_PP5_IP3_WRKQ          0x0001070100A40200  NCB
+CIU2_RAW_PP5_IP4_GPIO          0x0001070100A47400  NCB
+CIU2_RAW_PP5_IP4_IO            0x0001070100A44400  NCB
+CIU2_RAW_PP5_IP4_MEM           0x0001070100A45400  NCB
+CIU2_RAW_PP5_IP4_MIO           0x0001070100A43400  NCB
+CIU2_RAW_PP5_IP4_PKT           0x0001070100A46400  NCB
+CIU2_RAW_PP5_IP4_RML           0x0001070100A42400  NCB
+CIU2_RAW_PP5_IP4_WDOG          0x0001070100A41400  NCB
+CIU2_RAW_PP5_IP4_WRKQ          0x0001070100A40400  NCB
+CIU2_RAW_PP6_IP2_GPIO          0x0001070100C47000  NCB
+CIU2_RAW_PP6_IP2_IO            0x0001070100C44000  NCB
+CIU2_RAW_PP6_IP2_MEM           0x0001070100C45000  NCB
+CIU2_RAW_PP6_IP2_MIO           0x0001070100C43000  NCB
+CIU2_RAW_PP6_IP2_PKT           0x0001070100C46000  NCB
+CIU2_RAW_PP6_IP2_RML           0x0001070100C42000  NCB
+CIU2_RAW_PP6_IP2_WDOG          0x0001070100C41000  NCB
+CIU2_RAW_PP6_IP2_WRKQ          0x0001070100C40000  NCB
+CIU2_RAW_PP6_IP3_GPIO          0x0001070100C47200  NCB
+CIU2_RAW_PP6_IP3_IO            0x0001070100C44200  NCB
+CIU2_RAW_PP6_IP3_MEM           0x0001070100C45200  NCB
+CIU2_RAW_PP6_IP3_MIO           0x0001070100C43200  NCB
+CIU2_RAW_PP6_IP3_PKT           0x0001070100C46200  NCB
+CIU2_RAW_PP6_IP3_RML           0x0001070100C42200  NCB
+CIU2_RAW_PP6_IP3_WDOG          0x0001070100C41200  NCB
+CIU2_RAW_PP6_IP3_WRKQ          0x0001070100C40200  NCB
+CIU2_RAW_PP6_IP4_GPIO          0x0001070100C47400  NCB
+CIU2_RAW_PP6_IP4_IO            0x0001070100C44400  NCB
+CIU2_RAW_PP6_IP4_MEM           0x0001070100C45400  NCB
+CIU2_RAW_PP6_IP4_MIO           0x0001070100C43400  NCB
+CIU2_RAW_PP6_IP4_PKT           0x0001070100C46400  NCB
+CIU2_RAW_PP6_IP4_RML           0x0001070100C42400  NCB
+CIU2_RAW_PP6_IP4_WDOG          0x0001070100C41400  NCB
+CIU2_RAW_PP6_IP4_WRKQ          0x0001070100C40400  NCB
+CIU2_RAW_PP7_IP2_GPIO          0x0001070100E47000  NCB
+CIU2_RAW_PP7_IP2_IO            0x0001070100E44000  NCB
+CIU2_RAW_PP7_IP2_MEM           0x0001070100E45000  NCB
+CIU2_RAW_PP7_IP2_MIO           0x0001070100E43000  NCB
+CIU2_RAW_PP7_IP2_PKT           0x0001070100E46000  NCB
+CIU2_RAW_PP7_IP2_RML           0x0001070100E42000  NCB
+CIU2_RAW_PP7_IP2_WDOG          0x0001070100E41000  NCB
+CIU2_RAW_PP7_IP2_WRKQ          0x0001070100E40000  NCB
+CIU2_RAW_PP7_IP3_GPIO          0x0001070100E47200  NCB
+CIU2_RAW_PP7_IP3_IO            0x0001070100E44200  NCB
+CIU2_RAW_PP7_IP3_MEM           0x0001070100E45200  NCB
+CIU2_RAW_PP7_IP3_MIO           0x0001070100E43200  NCB
+CIU2_RAW_PP7_IP3_PKT           0x0001070100E46200  NCB
+CIU2_RAW_PP7_IP3_RML           0x0001070100E42200  NCB
+CIU2_RAW_PP7_IP3_WDOG          0x0001070100E41200  NCB
+CIU2_RAW_PP7_IP3_WRKQ          0x0001070100E40200  NCB
+CIU2_RAW_PP7_IP4_GPIO          0x0001070100E47400  NCB
+CIU2_RAW_PP7_IP4_IO            0x0001070100E44400  NCB
+CIU2_RAW_PP7_IP4_MEM           0x0001070100E45400  NCB
+CIU2_RAW_PP7_IP4_MIO           0x0001070100E43400  NCB
+CIU2_RAW_PP7_IP4_PKT           0x0001070100E46400  NCB
+CIU2_RAW_PP7_IP4_RML           0x0001070100E42400  NCB
+CIU2_RAW_PP7_IP4_WDOG          0x0001070100E41400  NCB
+CIU2_RAW_PP7_IP4_WRKQ          0x0001070100E40400  NCB
+CIU2_RAW_PP8_IP2_GPIO          0x0001070101047000  NCB
+CIU2_RAW_PP8_IP2_IO            0x0001070101044000  NCB
+CIU2_RAW_PP8_IP2_MEM           0x0001070101045000  NCB
+CIU2_RAW_PP8_IP2_MIO           0x0001070101043000  NCB
+CIU2_RAW_PP8_IP2_PKT           0x0001070101046000  NCB
+CIU2_RAW_PP8_IP2_RML           0x0001070101042000  NCB
+CIU2_RAW_PP8_IP2_WDOG          0x0001070101041000  NCB
+CIU2_RAW_PP8_IP2_WRKQ          0x0001070101040000  NCB
+CIU2_RAW_PP8_IP3_GPIO          0x0001070101047200  NCB
+CIU2_RAW_PP8_IP3_IO            0x0001070101044200  NCB
+CIU2_RAW_PP8_IP3_MEM           0x0001070101045200  NCB
+CIU2_RAW_PP8_IP3_MIO           0x0001070101043200  NCB
+CIU2_RAW_PP8_IP3_PKT           0x0001070101046200  NCB
+CIU2_RAW_PP8_IP3_RML           0x0001070101042200  NCB
+CIU2_RAW_PP8_IP3_WDOG          0x0001070101041200  NCB
+CIU2_RAW_PP8_IP3_WRKQ          0x0001070101040200  NCB
+CIU2_RAW_PP8_IP4_GPIO          0x0001070101047400  NCB
+CIU2_RAW_PP8_IP4_IO            0x0001070101044400  NCB
+CIU2_RAW_PP8_IP4_MEM           0x0001070101045400  NCB
+CIU2_RAW_PP8_IP4_MIO           0x0001070101043400  NCB
+CIU2_RAW_PP8_IP4_PKT           0x0001070101046400  NCB
+CIU2_RAW_PP8_IP4_RML           0x0001070101042400  NCB
+CIU2_RAW_PP8_IP4_WDOG          0x0001070101041400  NCB
+CIU2_RAW_PP8_IP4_WRKQ          0x0001070101040400  NCB
+CIU2_RAW_PP9_IP2_GPIO          0x0001070101247000  NCB
+CIU2_RAW_PP9_IP2_IO            0x0001070101244000  NCB
+CIU2_RAW_PP9_IP2_MEM           0x0001070101245000  NCB
+CIU2_RAW_PP9_IP2_MIO           0x0001070101243000  NCB
+CIU2_RAW_PP9_IP2_PKT           0x0001070101246000  NCB
+CIU2_RAW_PP9_IP2_RML           0x0001070101242000  NCB
+CIU2_RAW_PP9_IP2_WDOG          0x0001070101241000  NCB
+CIU2_RAW_PP9_IP2_WRKQ          0x0001070101240000  NCB
+CIU2_RAW_PP9_IP3_GPIO          0x0001070101247200  NCB
+CIU2_RAW_PP9_IP3_IO            0x0001070101244200  NCB
+CIU2_RAW_PP9_IP3_MEM           0x0001070101245200  NCB
+CIU2_RAW_PP9_IP3_MIO           0x0001070101243200  NCB
+CIU2_RAW_PP9_IP3_PKT           0x0001070101246200  NCB
+CIU2_RAW_PP9_IP3_RML           0x0001070101242200  NCB
+CIU2_RAW_PP9_IP3_WDOG          0x0001070101241200  NCB
+CIU2_RAW_PP9_IP3_WRKQ          0x0001070101240200  NCB
+CIU2_RAW_PP9_IP4_GPIO          0x0001070101247400  NCB
+CIU2_RAW_PP9_IP4_IO            0x0001070101244400  NCB
+CIU2_RAW_PP9_IP4_MEM           0x0001070101245400  NCB
+CIU2_RAW_PP9_IP4_MIO           0x0001070101243400  NCB
+CIU2_RAW_PP9_IP4_PKT           0x0001070101246400  NCB
+CIU2_RAW_PP9_IP4_RML           0x0001070101242400  NCB
+CIU2_RAW_PP9_IP4_WDOG          0x0001070101241400  NCB
+CIU2_RAW_PP9_IP4_WRKQ          0x0001070101240400  NCB
+CIU2_RAW_PP10_IP2_GPIO         0x0001070101447000  NCB
+CIU2_RAW_PP10_IP2_IO           0x0001070101444000  NCB
+CIU2_RAW_PP10_IP2_MEM          0x0001070101445000  NCB
+CIU2_RAW_PP10_IP2_MIO          0x0001070101443000  NCB
+CIU2_RAW_PP10_IP2_PKT          0x0001070101446000  NCB
+CIU2_RAW_PP10_IP2_RML          0x0001070101442000  NCB
+CIU2_RAW_PP10_IP2_WDOG         0x0001070101441000  NCB
+CIU2_RAW_PP10_IP2_WRKQ         0x0001070101440000  NCB
+CIU2_RAW_PP10_IP3_GPIO         0x0001070101447200  NCB
+CIU2_RAW_PP10_IP3_IO           0x0001070101444200  NCB
+CIU2_RAW_PP10_IP3_MEM          0x0001070101445200  NCB
+CIU2_RAW_PP10_IP3_MIO          0x0001070101443200  NCB
+CIU2_RAW_PP10_IP3_PKT          0x0001070101446200  NCB
+CIU2_RAW_PP10_IP3_RML          0x0001070101442200  NCB
+CIU2_RAW_PP10_IP3_WDOG         0x0001070101441200  NCB
+CIU2_RAW_PP10_IP3_WRKQ         0x0001070101440200  NCB
+CIU2_RAW_PP10_IP4_GPIO         0x0001070101447400  NCB
+CIU2_RAW_PP10_IP4_IO           0x0001070101444400  NCB
+CIU2_RAW_PP10_IP4_MEM          0x0001070101445400  NCB
+CIU2_RAW_PP10_IP4_MIO          0x0001070101443400  NCB
+CIU2_RAW_PP10_IP4_PKT          0x0001070101446400  NCB
+CIU2_RAW_PP10_IP4_RML          0x0001070101442400  NCB
+CIU2_RAW_PP10_IP4_WDOG         0x0001070101441400  NCB
+CIU2_RAW_PP10_IP4_WRKQ         0x0001070101440400  NCB
+CIU2_RAW_PP11_IP2_GPIO         0x0001070101647000  NCB
+CIU2_RAW_PP11_IP2_IO           0x0001070101644000  NCB
+CIU2_RAW_PP11_IP2_MEM          0x0001070101645000  NCB
+CIU2_RAW_PP11_IP2_MIO          0x0001070101643000  NCB
+CIU2_RAW_PP11_IP2_PKT          0x0001070101646000  NCB
+CIU2_RAW_PP11_IP2_RML          0x0001070101642000  NCB
+CIU2_RAW_PP11_IP2_WDOG         0x0001070101641000  NCB
+CIU2_RAW_PP11_IP2_WRKQ         0x0001070101640000  NCB
+CIU2_RAW_PP11_IP3_GPIO         0x0001070101647200  NCB
+CIU2_RAW_PP11_IP3_IO           0x0001070101644200  NCB
+CIU2_RAW_PP11_IP3_MEM          0x0001070101645200  NCB
+CIU2_RAW_PP11_IP3_MIO          0x0001070101643200  NCB
+CIU2_RAW_PP11_IP3_PKT          0x0001070101646200  NCB
+CIU2_RAW_PP11_IP3_RML          0x0001070101642200  NCB
+CIU2_RAW_PP11_IP3_WDOG         0x0001070101641200  NCB
+CIU2_RAW_PP11_IP3_WRKQ         0x0001070101640200  NCB
+CIU2_RAW_PP11_IP4_GPIO         0x0001070101647400  NCB
+CIU2_RAW_PP11_IP4_IO           0x0001070101644400  NCB
+CIU2_RAW_PP11_IP4_MEM          0x0001070101645400  NCB
+CIU2_RAW_PP11_IP4_MIO          0x0001070101643400  NCB
+CIU2_RAW_PP11_IP4_PKT          0x0001070101646400  NCB
+CIU2_RAW_PP11_IP4_RML          0x0001070101642400  NCB
+CIU2_RAW_PP11_IP4_WDOG         0x0001070101641400  NCB
+CIU2_RAW_PP11_IP4_WRKQ         0x0001070101640400  NCB
+CIU2_RAW_PP12_IP2_GPIO         0x0001070101847000  NCB
+CIU2_RAW_PP12_IP2_IO           0x0001070101844000  NCB
+CIU2_RAW_PP12_IP2_MEM          0x0001070101845000  NCB
+CIU2_RAW_PP12_IP2_MIO          0x0001070101843000  NCB
+CIU2_RAW_PP12_IP2_PKT          0x0001070101846000  NCB
+CIU2_RAW_PP12_IP2_RML          0x0001070101842000  NCB
+CIU2_RAW_PP12_IP2_WDOG         0x0001070101841000  NCB
+CIU2_RAW_PP12_IP2_WRKQ         0x0001070101840000  NCB
+CIU2_RAW_PP12_IP3_GPIO         0x0001070101847200  NCB
+CIU2_RAW_PP12_IP3_IO           0x0001070101844200  NCB
+CIU2_RAW_PP12_IP3_MEM          0x0001070101845200  NCB
+CIU2_RAW_PP12_IP3_MIO          0x0001070101843200  NCB
+CIU2_RAW_PP12_IP3_PKT          0x0001070101846200  NCB
+CIU2_RAW_PP12_IP3_RML          0x0001070101842200  NCB
+CIU2_RAW_PP12_IP3_WDOG         0x0001070101841200  NCB
+CIU2_RAW_PP12_IP3_WRKQ         0x0001070101840200  NCB
+CIU2_RAW_PP12_IP4_GPIO         0x0001070101847400  NCB
+CIU2_RAW_PP12_IP4_IO           0x0001070101844400  NCB
+CIU2_RAW_PP12_IP4_MEM          0x0001070101845400  NCB
+CIU2_RAW_PP12_IP4_MIO          0x0001070101843400  NCB
+CIU2_RAW_PP12_IP4_PKT          0x0001070101846400  NCB
+CIU2_RAW_PP12_IP4_RML          0x0001070101842400  NCB
+CIU2_RAW_PP12_IP4_WDOG         0x0001070101841400  NCB
+CIU2_RAW_PP12_IP4_WRKQ         0x0001070101840400  NCB
+CIU2_RAW_PP13_IP2_GPIO         0x0001070101A47000  NCB
+CIU2_RAW_PP13_IP2_IO           0x0001070101A44000  NCB
+CIU2_RAW_PP13_IP2_MEM          0x0001070101A45000  NCB
+CIU2_RAW_PP13_IP2_MIO          0x0001070101A43000  NCB
+CIU2_RAW_PP13_IP2_PKT          0x0001070101A46000  NCB
+CIU2_RAW_PP13_IP2_RML          0x0001070101A42000  NCB
+CIU2_RAW_PP13_IP2_WDOG         0x0001070101A41000  NCB
+CIU2_RAW_PP13_IP2_WRKQ         0x0001070101A40000  NCB
+CIU2_RAW_PP13_IP3_GPIO         0x0001070101A47200  NCB
+CIU2_RAW_PP13_IP3_IO           0x0001070101A44200  NCB
+CIU2_RAW_PP13_IP3_MEM          0x0001070101A45200  NCB
+CIU2_RAW_PP13_IP3_MIO          0x0001070101A43200  NCB
+CIU2_RAW_PP13_IP3_PKT          0x0001070101A46200  NCB
+CIU2_RAW_PP13_IP3_RML          0x0001070101A42200  NCB
+CIU2_RAW_PP13_IP3_WDOG         0x0001070101A41200  NCB
+CIU2_RAW_PP13_IP3_WRKQ         0x0001070101A40200  NCB
+CIU2_RAW_PP13_IP4_GPIO         0x0001070101A47400  NCB
+CIU2_RAW_PP13_IP4_IO           0x0001070101A44400  NCB
+CIU2_RAW_PP13_IP4_MEM          0x0001070101A45400  NCB
+CIU2_RAW_PP13_IP4_MIO          0x0001070101A43400  NCB
+CIU2_RAW_PP13_IP4_PKT          0x0001070101A46400  NCB
+CIU2_RAW_PP13_IP4_RML          0x0001070101A42400  NCB
+CIU2_RAW_PP13_IP4_WDOG         0x0001070101A41400  NCB
+CIU2_RAW_PP13_IP4_WRKQ         0x0001070101A40400  NCB
+CIU2_RAW_PP14_IP2_GPIO         0x0001070101C47000  NCB
+CIU2_RAW_PP14_IP2_IO           0x0001070101C44000  NCB
+CIU2_RAW_PP14_IP2_MEM          0x0001070101C45000  NCB
+CIU2_RAW_PP14_IP2_MIO          0x0001070101C43000  NCB
+CIU2_RAW_PP14_IP2_PKT          0x0001070101C46000  NCB
+CIU2_RAW_PP14_IP2_RML          0x0001070101C42000  NCB
+CIU2_RAW_PP14_IP2_WDOG         0x0001070101C41000  NCB
+CIU2_RAW_PP14_IP2_WRKQ         0x0001070101C40000  NCB
+CIU2_RAW_PP14_IP3_GPIO         0x0001070101C47200  NCB
+CIU2_RAW_PP14_IP3_IO           0x0001070101C44200  NCB
+CIU2_RAW_PP14_IP3_MEM          0x0001070101C45200  NCB
+CIU2_RAW_PP14_IP3_MIO          0x0001070101C43200  NCB
+CIU2_RAW_PP14_IP3_PKT          0x0001070101C46200  NCB
+CIU2_RAW_PP14_IP3_RML          0x0001070101C42200  NCB
+CIU2_RAW_PP14_IP3_WDOG         0x0001070101C41200  NCB
+CIU2_RAW_PP14_IP3_WRKQ         0x0001070101C40200  NCB
+CIU2_RAW_PP14_IP4_GPIO         0x0001070101C47400  NCB
+CIU2_RAW_PP14_IP4_IO           0x0001070101C44400  NCB
+CIU2_RAW_PP14_IP4_MEM          0x0001070101C45400  NCB
+CIU2_RAW_PP14_IP4_MIO          0x0001070101C43400  NCB
+CIU2_RAW_PP14_IP4_PKT          0x0001070101C46400  NCB
+CIU2_RAW_PP14_IP4_RML          0x0001070101C42400  NCB
+CIU2_RAW_PP14_IP4_WDOG         0x0001070101C41400  NCB
+CIU2_RAW_PP14_IP4_WRKQ         0x0001070101C40400  NCB
+CIU2_RAW_PP15_IP2_GPIO         0x0001070101E47000  NCB
+CIU2_RAW_PP15_IP2_IO           0x0001070101E44000  NCB
+CIU2_RAW_PP15_IP2_MEM          0x0001070101E45000  NCB
+CIU2_RAW_PP15_IP2_MIO          0x0001070101E43000  NCB
+CIU2_RAW_PP15_IP2_PKT          0x0001070101E46000  NCB
+CIU2_RAW_PP15_IP2_RML          0x0001070101E42000  NCB
+CIU2_RAW_PP15_IP2_WDOG         0x0001070101E41000  NCB
+CIU2_RAW_PP15_IP2_WRKQ         0x0001070101E40000  NCB
+CIU2_RAW_PP15_IP3_GPIO         0x0001070101E47200  NCB
+CIU2_RAW_PP15_IP3_IO           0x0001070101E44200  NCB
+CIU2_RAW_PP15_IP3_MEM          0x0001070101E45200  NCB
+CIU2_RAW_PP15_IP3_MIO          0x0001070101E43200  NCB
+CIU2_RAW_PP15_IP3_PKT          0x0001070101E46200  NCB
+CIU2_RAW_PP15_IP3_RML          0x0001070101E42200  NCB
+CIU2_RAW_PP15_IP3_WDOG         0x0001070101E41200  NCB
+CIU2_RAW_PP15_IP3_WRKQ         0x0001070101E40200  NCB
+CIU2_RAW_PP15_IP4_GPIO         0x0001070101E47400  NCB
+CIU2_RAW_PP15_IP4_IO           0x0001070101E44400  NCB
+CIU2_RAW_PP15_IP4_MEM          0x0001070101E45400  NCB
+CIU2_RAW_PP15_IP4_MIO          0x0001070101E43400  NCB
+CIU2_RAW_PP15_IP4_PKT          0x0001070101E46400  NCB
+CIU2_RAW_PP15_IP4_RML          0x0001070101E42400  NCB
+CIU2_RAW_PP15_IP4_WDOG         0x0001070101E41400  NCB
+CIU2_RAW_PP15_IP4_WRKQ         0x0001070101E40400  NCB
+CIU2_RAW_PP16_IP2_GPIO         0x0001070102047000  NCB
+CIU2_RAW_PP16_IP2_IO           0x0001070102044000  NCB
+CIU2_RAW_PP16_IP2_MEM          0x0001070102045000  NCB
+CIU2_RAW_PP16_IP2_MIO          0x0001070102043000  NCB
+CIU2_RAW_PP16_IP2_PKT          0x0001070102046000  NCB
+CIU2_RAW_PP16_IP2_RML          0x0001070102042000  NCB
+CIU2_RAW_PP16_IP2_WDOG         0x0001070102041000  NCB
+CIU2_RAW_PP16_IP2_WRKQ         0x0001070102040000  NCB
+CIU2_RAW_PP16_IP3_GPIO         0x0001070102047200  NCB
+CIU2_RAW_PP16_IP3_IO           0x0001070102044200  NCB
+CIU2_RAW_PP16_IP3_MEM          0x0001070102045200  NCB
+CIU2_RAW_PP16_IP3_MIO          0x0001070102043200  NCB
+CIU2_RAW_PP16_IP3_PKT          0x0001070102046200  NCB
+CIU2_RAW_PP16_IP3_RML          0x0001070102042200  NCB
+CIU2_RAW_PP16_IP3_WDOG         0x0001070102041200  NCB
+CIU2_RAW_PP16_IP3_WRKQ         0x0001070102040200  NCB
+CIU2_RAW_PP16_IP4_GPIO         0x0001070102047400  NCB
+CIU2_RAW_PP16_IP4_IO           0x0001070102044400  NCB
+CIU2_RAW_PP16_IP4_MEM          0x0001070102045400  NCB
+CIU2_RAW_PP16_IP4_MIO          0x0001070102043400  NCB
+CIU2_RAW_PP16_IP4_PKT          0x0001070102046400  NCB
+CIU2_RAW_PP16_IP4_RML          0x0001070102042400  NCB
+CIU2_RAW_PP16_IP4_WDOG         0x0001070102041400  NCB
+CIU2_RAW_PP16_IP4_WRKQ         0x0001070102040400  NCB
+CIU2_RAW_PP17_IP2_GPIO         0x0001070102247000  NCB
+CIU2_RAW_PP17_IP2_IO           0x0001070102244000  NCB
+CIU2_RAW_PP17_IP2_MEM          0x0001070102245000  NCB
+CIU2_RAW_PP17_IP2_MIO          0x0001070102243000  NCB
+CIU2_RAW_PP17_IP2_PKT          0x0001070102246000  NCB
+CIU2_RAW_PP17_IP2_RML          0x0001070102242000  NCB
+CIU2_RAW_PP17_IP2_WDOG         0x0001070102241000  NCB
+CIU2_RAW_PP17_IP2_WRKQ         0x0001070102240000  NCB
+CIU2_RAW_PP17_IP3_GPIO         0x0001070102247200  NCB
+CIU2_RAW_PP17_IP3_IO           0x0001070102244200  NCB
+CIU2_RAW_PP17_IP3_MEM          0x0001070102245200  NCB
+CIU2_RAW_PP17_IP3_MIO          0x0001070102243200  NCB
+CIU2_RAW_PP17_IP3_PKT          0x0001070102246200  NCB
+CIU2_RAW_PP17_IP3_RML          0x0001070102242200  NCB
+CIU2_RAW_PP17_IP3_WDOG         0x0001070102241200  NCB
+CIU2_RAW_PP17_IP3_WRKQ         0x0001070102240200  NCB
+CIU2_RAW_PP17_IP4_GPIO         0x0001070102247400  NCB
+CIU2_RAW_PP17_IP4_IO           0x0001070102244400  NCB
+CIU2_RAW_PP17_IP4_MEM          0x0001070102245400  NCB
+CIU2_RAW_PP17_IP4_MIO          0x0001070102243400  NCB
+CIU2_RAW_PP17_IP4_PKT          0x0001070102246400  NCB
+CIU2_RAW_PP17_IP4_RML          0x0001070102242400  NCB
+CIU2_RAW_PP17_IP4_WDOG         0x0001070102241400  NCB
+CIU2_RAW_PP17_IP4_WRKQ         0x0001070102240400  NCB
+CIU2_RAW_PP18_IP2_GPIO         0x0001070102447000  NCB
+CIU2_RAW_PP18_IP2_IO           0x0001070102444000  NCB
+CIU2_RAW_PP18_IP2_MEM          0x0001070102445000  NCB
+CIU2_RAW_PP18_IP2_MIO          0x0001070102443000  NCB
+CIU2_RAW_PP18_IP2_PKT          0x0001070102446000  NCB
+CIU2_RAW_PP18_IP2_RML          0x0001070102442000  NCB
+CIU2_RAW_PP18_IP2_WDOG         0x0001070102441000  NCB
+CIU2_RAW_PP18_IP2_WRKQ         0x0001070102440000  NCB
+CIU2_RAW_PP18_IP3_GPIO         0x0001070102447200  NCB
+CIU2_RAW_PP18_IP3_IO           0x0001070102444200  NCB
+CIU2_RAW_PP18_IP3_MEM          0x0001070102445200  NCB
+CIU2_RAW_PP18_IP3_MIO          0x0001070102443200  NCB
+CIU2_RAW_PP18_IP3_PKT          0x0001070102446200  NCB
+CIU2_RAW_PP18_IP3_RML          0x0001070102442200  NCB
+CIU2_RAW_PP18_IP3_WDOG         0x0001070102441200  NCB
+CIU2_RAW_PP18_IP3_WRKQ         0x0001070102440200  NCB
+CIU2_RAW_PP18_IP4_GPIO         0x0001070102447400  NCB
+CIU2_RAW_PP18_IP4_IO           0x0001070102444400  NCB
+CIU2_RAW_PP18_IP4_MEM          0x0001070102445400  NCB
+CIU2_RAW_PP18_IP4_MIO          0x0001070102443400  NCB
+CIU2_RAW_PP18_IP4_PKT          0x0001070102446400  NCB
+CIU2_RAW_PP18_IP4_RML          0x0001070102442400  NCB
+CIU2_RAW_PP18_IP4_WDOG         0x0001070102441400  NCB
+CIU2_RAW_PP18_IP4_WRKQ         0x0001070102440400  NCB
+CIU2_RAW_PP19_IP2_GPIO         0x0001070102647000  NCB
+CIU2_RAW_PP19_IP2_IO           0x0001070102644000  NCB
+CIU2_RAW_PP19_IP2_MEM          0x0001070102645000  NCB
+CIU2_RAW_PP19_IP2_MIO          0x0001070102643000  NCB
+CIU2_RAW_PP19_IP2_PKT          0x0001070102646000  NCB
+CIU2_RAW_PP19_IP2_RML          0x0001070102642000  NCB
+CIU2_RAW_PP19_IP2_WDOG         0x0001070102641000  NCB
+CIU2_RAW_PP19_IP2_WRKQ         0x0001070102640000  NCB
+CIU2_RAW_PP19_IP3_GPIO         0x0001070102647200  NCB
+CIU2_RAW_PP19_IP3_IO           0x0001070102644200  NCB
+CIU2_RAW_PP19_IP3_MEM          0x0001070102645200  NCB
+CIU2_RAW_PP19_IP3_MIO          0x0001070102643200  NCB
+CIU2_RAW_PP19_IP3_PKT          0x0001070102646200  NCB
+CIU2_RAW_PP19_IP3_RML          0x0001070102642200  NCB
+CIU2_RAW_PP19_IP3_WDOG         0x0001070102641200  NCB
+CIU2_RAW_PP19_IP3_WRKQ         0x0001070102640200  NCB
+CIU2_RAW_PP19_IP4_GPIO         0x0001070102647400  NCB
+CIU2_RAW_PP19_IP4_IO           0x0001070102644400  NCB
+CIU2_RAW_PP19_IP4_MEM          0x0001070102645400  NCB
+CIU2_RAW_PP19_IP4_MIO          0x0001070102643400  NCB
+CIU2_RAW_PP19_IP4_PKT          0x0001070102646400  NCB
+CIU2_RAW_PP19_IP4_RML          0x0001070102642400  NCB
+CIU2_RAW_PP19_IP4_WDOG         0x0001070102641400  NCB
+CIU2_RAW_PP19_IP4_WRKQ         0x0001070102640400  NCB
+CIU2_RAW_PP20_IP2_GPIO         0x0001070102847000  NCB
+CIU2_RAW_PP20_IP2_IO           0x0001070102844000  NCB
+CIU2_RAW_PP20_IP2_MEM          0x0001070102845000  NCB
+CIU2_RAW_PP20_IP2_MIO          0x0001070102843000  NCB
+CIU2_RAW_PP20_IP2_PKT          0x0001070102846000  NCB
+CIU2_RAW_PP20_IP2_RML          0x0001070102842000  NCB
+CIU2_RAW_PP20_IP2_WDOG         0x0001070102841000  NCB
+CIU2_RAW_PP20_IP2_WRKQ         0x0001070102840000  NCB
+CIU2_RAW_PP20_IP3_GPIO         0x0001070102847200  NCB
+CIU2_RAW_PP20_IP3_IO           0x0001070102844200  NCB
+CIU2_RAW_PP20_IP3_MEM          0x0001070102845200  NCB
+CIU2_RAW_PP20_IP3_MIO          0x0001070102843200  NCB
+CIU2_RAW_PP20_IP3_PKT          0x0001070102846200  NCB
+CIU2_RAW_PP20_IP3_RML          0x0001070102842200  NCB
+CIU2_RAW_PP20_IP3_WDOG         0x0001070102841200  NCB
+CIU2_RAW_PP20_IP3_WRKQ         0x0001070102840200  NCB
+CIU2_RAW_PP20_IP4_GPIO         0x0001070102847400  NCB
+CIU2_RAW_PP20_IP4_IO           0x0001070102844400  NCB
+CIU2_RAW_PP20_IP4_MEM          0x0001070102845400  NCB
+CIU2_RAW_PP20_IP4_MIO          0x0001070102843400  NCB
+CIU2_RAW_PP20_IP4_PKT          0x0001070102846400  NCB
+CIU2_RAW_PP20_IP4_RML          0x0001070102842400  NCB
+CIU2_RAW_PP20_IP4_WDOG         0x0001070102841400  NCB
+CIU2_RAW_PP20_IP4_WRKQ         0x0001070102840400  NCB
+CIU2_RAW_PP21_IP2_GPIO         0x0001070102A47000  NCB
+CIU2_RAW_PP21_IP2_IO           0x0001070102A44000  NCB
+CIU2_RAW_PP21_IP2_MEM          0x0001070102A45000  NCB
+CIU2_RAW_PP21_IP2_MIO          0x0001070102A43000  NCB
+CIU2_RAW_PP21_IP2_PKT          0x0001070102A46000  NCB
+CIU2_RAW_PP21_IP2_RML          0x0001070102A42000  NCB
+CIU2_RAW_PP21_IP2_WDOG         0x0001070102A41000  NCB
+CIU2_RAW_PP21_IP2_WRKQ         0x0001070102A40000  NCB
+CIU2_RAW_PP21_IP3_GPIO         0x0001070102A47200  NCB
+CIU2_RAW_PP21_IP3_IO           0x0001070102A44200  NCB
+CIU2_RAW_PP21_IP3_MEM          0x0001070102A45200  NCB
+CIU2_RAW_PP21_IP3_MIO          0x0001070102A43200  NCB
+CIU2_RAW_PP21_IP3_PKT          0x0001070102A46200  NCB
+CIU2_RAW_PP21_IP3_RML          0x0001070102A42200  NCB
+CIU2_RAW_PP21_IP3_WDOG         0x0001070102A41200  NCB
+CIU2_RAW_PP21_IP3_WRKQ         0x0001070102A40200  NCB
+CIU2_RAW_PP21_IP4_GPIO         0x0001070102A47400  NCB
+CIU2_RAW_PP21_IP4_IO           0x0001070102A44400  NCB
+CIU2_RAW_PP21_IP4_MEM          0x0001070102A45400  NCB
+CIU2_RAW_PP21_IP4_MIO          0x0001070102A43400  NCB
+CIU2_RAW_PP21_IP4_PKT          0x0001070102A46400  NCB
+CIU2_RAW_PP21_IP4_RML          0x0001070102A42400  NCB
+CIU2_RAW_PP21_IP4_WDOG         0x0001070102A41400  NCB
+CIU2_RAW_PP21_IP4_WRKQ         0x0001070102A40400  NCB
+CIU2_RAW_PP22_IP2_GPIO         0x0001070102C47000  NCB
+CIU2_RAW_PP22_IP2_IO           0x0001070102C44000  NCB
+CIU2_RAW_PP22_IP2_MEM          0x0001070102C45000  NCB
+CIU2_RAW_PP22_IP2_MIO          0x0001070102C43000  NCB
+CIU2_RAW_PP22_IP2_PKT          0x0001070102C46000  NCB
+CIU2_RAW_PP22_IP2_RML          0x0001070102C42000  NCB
+CIU2_RAW_PP22_IP2_WDOG         0x0001070102C41000  NCB
+CIU2_RAW_PP22_IP2_WRKQ         0x0001070102C40000  NCB
+CIU2_RAW_PP22_IP3_GPIO         0x0001070102C47200  NCB
+CIU2_RAW_PP22_IP3_IO           0x0001070102C44200  NCB
+CIU2_RAW_PP22_IP3_MEM          0x0001070102C45200  NCB
+CIU2_RAW_PP22_IP3_MIO          0x0001070102C43200  NCB
+CIU2_RAW_PP22_IP3_PKT          0x0001070102C46200  NCB
+CIU2_RAW_PP22_IP3_RML          0x0001070102C42200  NCB
+CIU2_RAW_PP22_IP3_WDOG         0x0001070102C41200  NCB
+CIU2_RAW_PP22_IP3_WRKQ         0x0001070102C40200  NCB
+CIU2_RAW_PP22_IP4_GPIO         0x0001070102C47400  NCB
+CIU2_RAW_PP22_IP4_IO           0x0001070102C44400  NCB
+CIU2_RAW_PP22_IP4_MEM          0x0001070102C45400  NCB
+CIU2_RAW_PP22_IP4_MIO          0x0001070102C43400  NCB
+CIU2_RAW_PP22_IP4_PKT          0x0001070102C46400  NCB
+CIU2_RAW_PP22_IP4_RML          0x0001070102C42400  NCB
+CIU2_RAW_PP22_IP4_WDOG         0x0001070102C41400  NCB
+CIU2_RAW_PP22_IP4_WRKQ         0x0001070102C40400  NCB
+CIU2_RAW_PP23_IP2_GPIO         0x0001070102E47000  NCB
+CIU2_RAW_PP23_IP2_IO           0x0001070102E44000  NCB
+CIU2_RAW_PP23_IP2_MEM          0x0001070102E45000  NCB
+CIU2_RAW_PP23_IP2_MIO          0x0001070102E43000  NCB
+CIU2_RAW_PP23_IP2_PKT          0x0001070102E46000  NCB
+CIU2_RAW_PP23_IP2_RML          0x0001070102E42000  NCB
+CIU2_RAW_PP23_IP2_WDOG         0x0001070102E41000  NCB
+CIU2_RAW_PP23_IP2_WRKQ         0x0001070102E40000  NCB
+CIU2_RAW_PP23_IP3_GPIO         0x0001070102E47200  NCB
+CIU2_RAW_PP23_IP3_IO           0x0001070102E44200  NCB
+CIU2_RAW_PP23_IP3_MEM          0x0001070102E45200  NCB
+CIU2_RAW_PP23_IP3_MIO          0x0001070102E43200  NCB
+CIU2_RAW_PP23_IP3_PKT          0x0001070102E46200  NCB
+CIU2_RAW_PP23_IP3_RML          0x0001070102E42200  NCB
+CIU2_RAW_PP23_IP3_WDOG         0x0001070102E41200  NCB
+CIU2_RAW_PP23_IP3_WRKQ         0x0001070102E40200  NCB
+CIU2_RAW_PP23_IP4_GPIO         0x0001070102E47400  NCB
+CIU2_RAW_PP23_IP4_IO           0x0001070102E44400  NCB
+CIU2_RAW_PP23_IP4_MEM          0x0001070102E45400  NCB
+CIU2_RAW_PP23_IP4_MIO          0x0001070102E43400  NCB
+CIU2_RAW_PP23_IP4_PKT          0x0001070102E46400  NCB
+CIU2_RAW_PP23_IP4_RML          0x0001070102E42400  NCB
+CIU2_RAW_PP23_IP4_WDOG         0x0001070102E41400  NCB
+CIU2_RAW_PP23_IP4_WRKQ         0x0001070102E40400  NCB
+CIU2_RAW_PP24_IP2_GPIO         0x0001070103047000  NCB
+CIU2_RAW_PP24_IP2_IO           0x0001070103044000  NCB
+CIU2_RAW_PP24_IP2_MEM          0x0001070103045000  NCB
+CIU2_RAW_PP24_IP2_MIO          0x0001070103043000  NCB
+CIU2_RAW_PP24_IP2_PKT          0x0001070103046000  NCB
+CIU2_RAW_PP24_IP2_RML          0x0001070103042000  NCB
+CIU2_RAW_PP24_IP2_WDOG         0x0001070103041000  NCB
+CIU2_RAW_PP24_IP2_WRKQ         0x0001070103040000  NCB
+CIU2_RAW_PP24_IP3_GPIO         0x0001070103047200  NCB
+CIU2_RAW_PP24_IP3_IO           0x0001070103044200  NCB
+CIU2_RAW_PP24_IP3_MEM          0x0001070103045200  NCB
+CIU2_RAW_PP24_IP3_MIO          0x0001070103043200  NCB
+CIU2_RAW_PP24_IP3_PKT          0x0001070103046200  NCB
+CIU2_RAW_PP24_IP3_RML          0x0001070103042200  NCB
+CIU2_RAW_PP24_IP3_WDOG         0x0001070103041200  NCB
+CIU2_RAW_PP24_IP3_WRKQ         0x0001070103040200  NCB
+CIU2_RAW_PP24_IP4_GPIO         0x0001070103047400  NCB
+CIU2_RAW_PP24_IP4_IO           0x0001070103044400  NCB
+CIU2_RAW_PP24_IP4_MEM          0x0001070103045400  NCB
+CIU2_RAW_PP24_IP4_MIO          0x0001070103043400  NCB
+CIU2_RAW_PP24_IP4_PKT          0x0001070103046400  NCB
+CIU2_RAW_PP24_IP4_RML          0x0001070103042400  NCB
+CIU2_RAW_PP24_IP4_WDOG         0x0001070103041400  NCB
+CIU2_RAW_PP24_IP4_WRKQ         0x0001070103040400  NCB
+CIU2_RAW_PP25_IP2_GPIO         0x0001070103247000  NCB
+CIU2_RAW_PP25_IP2_IO           0x0001070103244000  NCB
+CIU2_RAW_PP25_IP2_MEM          0x0001070103245000  NCB
+CIU2_RAW_PP25_IP2_MIO          0x0001070103243000  NCB
+CIU2_RAW_PP25_IP2_PKT          0x0001070103246000  NCB
+CIU2_RAW_PP25_IP2_RML          0x0001070103242000  NCB
+CIU2_RAW_PP25_IP2_WDOG         0x0001070103241000  NCB
+CIU2_RAW_PP25_IP2_WRKQ         0x0001070103240000  NCB
+CIU2_RAW_PP25_IP3_GPIO         0x0001070103247200  NCB
+CIU2_RAW_PP25_IP3_IO           0x0001070103244200  NCB
+CIU2_RAW_PP25_IP3_MEM          0x0001070103245200  NCB
+CIU2_RAW_PP25_IP3_MIO          0x0001070103243200  NCB
+CIU2_RAW_PP25_IP3_PKT          0x0001070103246200  NCB
+CIU2_RAW_PP25_IP3_RML          0x0001070103242200  NCB
+CIU2_RAW_PP25_IP3_WDOG         0x0001070103241200  NCB
+CIU2_RAW_PP25_IP3_WRKQ         0x0001070103240200  NCB
+CIU2_RAW_PP25_IP4_GPIO         0x0001070103247400  NCB
+CIU2_RAW_PP25_IP4_IO           0x0001070103244400  NCB
+CIU2_RAW_PP25_IP4_MEM          0x0001070103245400  NCB
+CIU2_RAW_PP25_IP4_MIO          0x0001070103243400  NCB
+CIU2_RAW_PP25_IP4_PKT          0x0001070103246400  NCB
+CIU2_RAW_PP25_IP4_RML          0x0001070103242400  NCB
+CIU2_RAW_PP25_IP4_WDOG         0x0001070103241400  NCB
+CIU2_RAW_PP25_IP4_WRKQ         0x0001070103240400  NCB
+CIU2_RAW_PP26_IP2_GPIO         0x0001070103447000  NCB
+CIU2_RAW_PP26_IP2_IO           0x0001070103444000  NCB
+CIU2_RAW_PP26_IP2_MEM          0x0001070103445000  NCB
+CIU2_RAW_PP26_IP2_MIO          0x0001070103443000  NCB
+CIU2_RAW_PP26_IP2_PKT          0x0001070103446000  NCB
+CIU2_RAW_PP26_IP2_RML          0x0001070103442000  NCB
+CIU2_RAW_PP26_IP2_WDOG         0x0001070103441000  NCB
+CIU2_RAW_PP26_IP2_WRKQ         0x0001070103440000  NCB
+CIU2_RAW_PP26_IP3_GPIO         0x0001070103447200  NCB
+CIU2_RAW_PP26_IP3_IO           0x0001070103444200  NCB
+CIU2_RAW_PP26_IP3_MEM          0x0001070103445200  NCB
+CIU2_RAW_PP26_IP3_MIO          0x0001070103443200  NCB
+CIU2_RAW_PP26_IP3_PKT          0x0001070103446200  NCB
+CIU2_RAW_PP26_IP3_RML          0x0001070103442200  NCB
+CIU2_RAW_PP26_IP3_WDOG         0x0001070103441200  NCB
+CIU2_RAW_PP26_IP3_WRKQ         0x0001070103440200  NCB
+CIU2_RAW_PP26_IP4_GPIO         0x0001070103447400  NCB
+CIU2_RAW_PP26_IP4_IO           0x0001070103444400  NCB
+CIU2_RAW_PP26_IP4_MEM          0x0001070103445400  NCB
+CIU2_RAW_PP26_IP4_MIO          0x0001070103443400  NCB
+CIU2_RAW_PP26_IP4_PKT          0x0001070103446400  NCB
+CIU2_RAW_PP26_IP4_RML          0x0001070103442400  NCB
+CIU2_RAW_PP26_IP4_WDOG         0x0001070103441400  NCB
+CIU2_RAW_PP26_IP4_WRKQ         0x0001070103440400  NCB
+CIU2_RAW_PP27_IP2_GPIO         0x0001070103647000  NCB
+CIU2_RAW_PP27_IP2_IO           0x0001070103644000  NCB
+CIU2_RAW_PP27_IP2_MEM          0x0001070103645000  NCB
+CIU2_RAW_PP27_IP2_MIO          0x0001070103643000  NCB
+CIU2_RAW_PP27_IP2_PKT          0x0001070103646000  NCB
+CIU2_RAW_PP27_IP2_RML          0x0001070103642000  NCB
+CIU2_RAW_PP27_IP2_WDOG         0x0001070103641000  NCB
+CIU2_RAW_PP27_IP2_WRKQ         0x0001070103640000  NCB
+CIU2_RAW_PP27_IP3_GPIO         0x0001070103647200  NCB
+CIU2_RAW_PP27_IP3_IO           0x0001070103644200  NCB
+CIU2_RAW_PP27_IP3_MEM          0x0001070103645200  NCB
+CIU2_RAW_PP27_IP3_MIO          0x0001070103643200  NCB
+CIU2_RAW_PP27_IP3_PKT          0x0001070103646200  NCB
+CIU2_RAW_PP27_IP3_RML          0x0001070103642200  NCB
+CIU2_RAW_PP27_IP3_WDOG         0x0001070103641200  NCB
+CIU2_RAW_PP27_IP3_WRKQ         0x0001070103640200  NCB
+CIU2_RAW_PP27_IP4_GPIO         0x0001070103647400  NCB
+CIU2_RAW_PP27_IP4_IO           0x0001070103644400  NCB
+CIU2_RAW_PP27_IP4_MEM          0x0001070103645400  NCB
+CIU2_RAW_PP27_IP4_MIO          0x0001070103643400  NCB
+CIU2_RAW_PP27_IP4_PKT          0x0001070103646400  NCB
+CIU2_RAW_PP27_IP4_RML          0x0001070103642400  NCB
+CIU2_RAW_PP27_IP4_WDOG         0x0001070103641400  NCB
+CIU2_RAW_PP27_IP4_WRKQ         0x0001070103640400  NCB
+CIU2_RAW_PP28_IP2_GPIO         0x0001070103847000  NCB
+CIU2_RAW_PP28_IP2_IO           0x0001070103844000  NCB
+CIU2_RAW_PP28_IP2_MEM          0x0001070103845000  NCB
+CIU2_RAW_PP28_IP2_MIO          0x0001070103843000  NCB
+CIU2_RAW_PP28_IP2_PKT          0x0001070103846000  NCB
+CIU2_RAW_PP28_IP2_RML          0x0001070103842000  NCB
+CIU2_RAW_PP28_IP2_WDOG         0x0001070103841000  NCB
+CIU2_RAW_PP28_IP2_WRKQ         0x0001070103840000  NCB
+CIU2_RAW_PP28_IP3_GPIO         0x0001070103847200  NCB
+CIU2_RAW_PP28_IP3_IO           0x0001070103844200  NCB
+CIU2_RAW_PP28_IP3_MEM          0x0001070103845200  NCB
+CIU2_RAW_PP28_IP3_MIO          0x0001070103843200  NCB
+CIU2_RAW_PP28_IP3_PKT          0x0001070103846200  NCB
+CIU2_RAW_PP28_IP3_RML          0x0001070103842200  NCB
+CIU2_RAW_PP28_IP3_WDOG         0x0001070103841200  NCB
+CIU2_RAW_PP28_IP3_WRKQ         0x0001070103840200  NCB
+CIU2_RAW_PP28_IP4_GPIO         0x0001070103847400  NCB
+CIU2_RAW_PP28_IP4_IO           0x0001070103844400  NCB
+CIU2_RAW_PP28_IP4_MEM          0x0001070103845400  NCB
+CIU2_RAW_PP28_IP4_MIO          0x0001070103843400  NCB
+CIU2_RAW_PP28_IP4_PKT          0x0001070103846400  NCB
+CIU2_RAW_PP28_IP4_RML          0x0001070103842400  NCB
+CIU2_RAW_PP28_IP4_WDOG         0x0001070103841400  NCB
+CIU2_RAW_PP28_IP4_WRKQ         0x0001070103840400  NCB
+CIU2_RAW_PP29_IP2_GPIO         0x0001070103A47000  NCB
+CIU2_RAW_PP29_IP2_IO           0x0001070103A44000  NCB
+CIU2_RAW_PP29_IP2_MEM          0x0001070103A45000  NCB
+CIU2_RAW_PP29_IP2_MIO          0x0001070103A43000  NCB
+CIU2_RAW_PP29_IP2_PKT          0x0001070103A46000  NCB
+CIU2_RAW_PP29_IP2_RML          0x0001070103A42000  NCB
+CIU2_RAW_PP29_IP2_WDOG         0x0001070103A41000  NCB
+CIU2_RAW_PP29_IP2_WRKQ         0x0001070103A40000  NCB
+CIU2_RAW_PP29_IP3_GPIO         0x0001070103A47200  NCB
+CIU2_RAW_PP29_IP3_IO           0x0001070103A44200  NCB
+CIU2_RAW_PP29_IP3_MEM          0x0001070103A45200  NCB
+CIU2_RAW_PP29_IP3_MIO          0x0001070103A43200  NCB
+CIU2_RAW_PP29_IP3_PKT          0x0001070103A46200  NCB
+CIU2_RAW_PP29_IP3_RML          0x0001070103A42200  NCB
+CIU2_RAW_PP29_IP3_WDOG         0x0001070103A41200  NCB
+CIU2_RAW_PP29_IP3_WRKQ         0x0001070103A40200  NCB
+CIU2_RAW_PP29_IP4_GPIO         0x0001070103A47400  NCB
+CIU2_RAW_PP29_IP4_IO           0x0001070103A44400  NCB
+CIU2_RAW_PP29_IP4_MEM          0x0001070103A45400  NCB
+CIU2_RAW_PP29_IP4_MIO          0x0001070103A43400  NCB
+CIU2_RAW_PP29_IP4_PKT          0x0001070103A46400  NCB
+CIU2_RAW_PP29_IP4_RML          0x0001070103A42400  NCB
+CIU2_RAW_PP29_IP4_WDOG         0x0001070103A41400  NCB
+CIU2_RAW_PP29_IP4_WRKQ         0x0001070103A40400  NCB
+CIU2_RAW_PP30_IP2_GPIO         0x0001070103C47000  NCB
+CIU2_RAW_PP30_IP2_IO           0x0001070103C44000  NCB
+CIU2_RAW_PP30_IP2_MEM          0x0001070103C45000  NCB
+CIU2_RAW_PP30_IP2_MIO          0x0001070103C43000  NCB
+CIU2_RAW_PP30_IP2_PKT          0x0001070103C46000  NCB
+CIU2_RAW_PP30_IP2_RML          0x0001070103C42000  NCB
+CIU2_RAW_PP30_IP2_WDOG         0x0001070103C41000  NCB
+CIU2_RAW_PP30_IP2_WRKQ         0x0001070103C40000  NCB
+CIU2_RAW_PP30_IP3_GPIO         0x0001070103C47200  NCB
+CIU2_RAW_PP30_IP3_IO           0x0001070103C44200  NCB
+CIU2_RAW_PP30_IP3_MEM          0x0001070103C45200  NCB
+CIU2_RAW_PP30_IP3_MIO          0x0001070103C43200  NCB
+CIU2_RAW_PP30_IP3_PKT          0x0001070103C46200  NCB
+CIU2_RAW_PP30_IP3_RML          0x0001070103C42200  NCB
+CIU2_RAW_PP30_IP3_WDOG         0x0001070103C41200  NCB
+CIU2_RAW_PP30_IP3_WRKQ         0x0001070103C40200  NCB
+CIU2_RAW_PP30_IP4_GPIO         0x0001070103C47400  NCB
+CIU2_RAW_PP30_IP4_IO           0x0001070103C44400  NCB
+CIU2_RAW_PP30_IP4_MEM          0x0001070103C45400  NCB
+CIU2_RAW_PP30_IP4_MIO          0x0001070103C43400  NCB
+CIU2_RAW_PP30_IP4_PKT          0x0001070103C46400  NCB
+CIU2_RAW_PP30_IP4_RML          0x0001070103C42400  NCB
+CIU2_RAW_PP30_IP4_WDOG         0x0001070103C41400  NCB
+CIU2_RAW_PP30_IP4_WRKQ         0x0001070103C40400  NCB
+CIU2_RAW_PP31_IP2_GPIO         0x0001070103E47000  NCB
+CIU2_RAW_PP31_IP2_IO           0x0001070103E44000  NCB
+CIU2_RAW_PP31_IP2_MEM          0x0001070103E45000  NCB
+CIU2_RAW_PP31_IP2_MIO          0x0001070103E43000  NCB
+CIU2_RAW_PP31_IP2_PKT          0x0001070103E46000  NCB
+CIU2_RAW_PP31_IP2_RML          0x0001070103E42000  NCB
+CIU2_RAW_PP31_IP2_WDOG         0x0001070103E41000  NCB
+CIU2_RAW_PP31_IP2_WRKQ         0x0001070103E40000  NCB
+CIU2_RAW_PP31_IP3_GPIO         0x0001070103E47200  NCB
+CIU2_RAW_PP31_IP3_IO           0x0001070103E44200  NCB
+CIU2_RAW_PP31_IP3_MEM          0x0001070103E45200  NCB
+CIU2_RAW_PP31_IP3_MIO          0x0001070103E43200  NCB
+CIU2_RAW_PP31_IP3_PKT          0x0001070103E46200  NCB
+CIU2_RAW_PP31_IP3_RML          0x0001070103E42200  NCB
+CIU2_RAW_PP31_IP3_WDOG         0x0001070103E41200  NCB
+CIU2_RAW_PP31_IP3_WRKQ         0x0001070103E40200  NCB
+CIU2_RAW_PP31_IP4_GPIO         0x0001070103E47400  NCB
+CIU2_RAW_PP31_IP4_IO           0x0001070103E44400  NCB
+CIU2_RAW_PP31_IP4_MEM          0x0001070103E45400  NCB
+CIU2_RAW_PP31_IP4_MIO          0x0001070103E43400  NCB
+CIU2_RAW_PP31_IP4_PKT          0x0001070103E46400  NCB
+CIU2_RAW_PP31_IP4_RML          0x0001070103E42400  NCB
+CIU2_RAW_PP31_IP4_WDOG         0x0001070103E41400  NCB
+CIU2_RAW_PP31_IP4_WRKQ         0x0001070103E40400  NCB
 CIU2_SRC_IO0_INT_GPIO          0x0001070108087800  NCB
 CIU2_SRC_IO0_INT_IO            0x0001070108084800  NCB
 CIU2_SRC_IO0_INT_MBOX          0x0001070108088800  NCB
@@ -67349,6 +69167,8 @@ UCTL0_ORTO_CTL                 0x000118006F000098  RSL
 UCTL0_UPHY_CTL_STATUS          0x000118006F000008  RSL
 UCTL0_UPHY_PORT000_CTL_STATUS  0x000118006F000010  RSL
 UCTL0_UPHY_PORT001_CTL_STATUS  0x000118006F000018  RSL
+ZIP_CMD_BIST_RESULT            0x0001180038000080  RSL
+ZIP_CMD_BUF                    0x0001180038000008  RSL
 ZIP_CMD_CTL                    0x0001180038000000  RSL
 ZIP_CONSTANTS                  0x00011800380000A0  RSL
 ZIP_CORE0_BIST_STATUS          0x0001180038000520  RSL
@@ -67363,7 +69183,9 @@ ZIP_DBG_QUE0_STA               0x0001180038000600  RSL
 ZIP_DBG_QUE1_STA               0x0001180038000608  RSL
 ZIP_DEBUG0                     0x0001180038000098  RSL
 ZIP_ECC_CTL                    0x0001180038000568  RSL
+ZIP_ERROR                      0x0001180038000088  RSL
 ZIP_INT_ENA                    0x0001180038000580  RSL
+ZIP_INT_MASK                   0x0001180038000090  RSL
 ZIP_INT_REG                    0x0001180038000570  RSL
 ZIP_QUE0_BUF                   0x0001180038000100  RSL
 ZIP_QUE0_ECC_ERR_STA           0x0001180038000590  RSL
