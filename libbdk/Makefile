@@ -8,6 +8,7 @@ dirs += libbdk-hal
 dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua
+dirs += libbdk-lua
 
 #
 # Create a list of all source files
@@ -58,6 +59,12 @@ $(BDK_ROOT)/libbdk/bdk.pch: $(BDK_ROOT)/libbdk/bdk.h
 $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 	$(CC) -M $(CPPFLAGS) $< > $@
 	sed -i "s,^bdk.o,$(basename $@).pch,g" $@
+
+#
+# Lua to C wrapper functions created by SWIG
+#
+%_wrap.c: %.i
+	swig -lua -o $@ $^
 
 #
 # These are needed to generate the depends files
