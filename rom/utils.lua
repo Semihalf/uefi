@@ -99,6 +99,30 @@ function pprint(...)
 end
 
 --
+-- Return a table's keys in sorted order
+--
+function table.sorted_keys(tbl)
+    local result = {}
+    for k,_ in pairs(tbl) do
+        table.insert(result, k)
+    end
+    table.sort(result)
+    return result
+end
+
+--
+-- Return a table's values in sorted order
+--
+function table.sorted_values(tbl)
+    local result = {}
+    for _,v in pairs(tbl) do
+        table.insert(result, v)
+    end
+    table.sort(result)
+    return result
+end
+
+--
 -- Needed for compatibility with Lua 5.1
 --
 if rawget(table, "unpack") == nil then

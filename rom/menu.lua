@@ -19,6 +19,8 @@ function menu.show(choices)
             io.read()
     	    c = 999
     	end
+        -- Finish rest of line
+        io.read()
 
         -- Validate the user's choice
     	if (c > 0) and (c <= #choices) then

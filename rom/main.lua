@@ -14,6 +14,7 @@ local choices = {
     "HFA memory options",
     "Interactive Lua prompt",
     "Start remote call server",
+    "Traffic Gen",
     "Reboot",
 }
 
@@ -27,6 +28,8 @@ while (true) do
         local rpc = require("rpc")
         rpc.serve("/dev/uart/0")
     elseif (c == 6) then
+        dofile("/rom/trafficgen.lua")
+    elseif (c == 7) then
         octeon.c.bdk_reset_octeon()
     else
         print("Not implemented yet")
