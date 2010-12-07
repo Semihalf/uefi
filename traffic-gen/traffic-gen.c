@@ -4772,6 +4772,13 @@ int main(void)
 
         printf("Initializing...\n");
 
+        bdk_config_set(BDK_CONFIG_PHY_MGMT_PORT0, 4);
+        bdk_config_set(BDK_CONFIG_PHY_MGMT_PORT1, 4);
+        bdk_config_set(BDK_CONFIG_PHY_IF0_PORT0, (1<<8) + 1);
+        bdk_config_set(BDK_CONFIG_PHY_IF0_PORT1, (1<<8) + 2);
+        bdk_config_set(BDK_CONFIG_PHY_IF0_PORT2, (1<<8) + 3);
+        bdk_config_set(BDK_CONFIG_PHY_IF0_PORT3, (1<<8) + 4);
+
         int csr_count = 0;
         char buffer[32];
         buffer[0] = 0;
