@@ -78,7 +78,6 @@ typedef enum {
 
 typedef struct
 {
-    bdk_helper_interface_mode_t imode;
     uint64_t                output_percent_x1000;   /* percent*1000 */
     uint64_t                output_cycle_gap;
     uint64_t                output_packet_size;
@@ -129,11 +128,13 @@ typedef struct
 
 typedef struct
 {
-    int port;
+    char name[8];
+    bdk_if_t iftype;
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
     struct {
         bdk_spinlock_t lock;
+        bdk_if_handle_t handle;
         bdk_pip_port_status_t pip_stats;
         bdk_pko_port_status_t pko_stats;
     } priv;

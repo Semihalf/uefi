@@ -28,6 +28,7 @@ void bdk_pko_initialize(void)
     for (i=0; i<BDK_PKO_MAX_OUTPUT_QUEUES; i++)
         bdk_pko_config_port(BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID, i, 1, &priority);
 
+#if 0 // FIXME reduce queues
     /* If we aren't using all of the queues optimize PKO's internal memory */
     {
         int num_interfaces = bdk_helper_get_number_of_interfaces();
@@ -38,6 +39,7 @@ void bdk_pko_initialize(void)
         else if (max_queues <= 128)
             BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_MODE, 1);
     }
+#endif
 }
 
 /**
@@ -153,7 +155,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         return BDK_PKO_INVALID_QUEUE;
     }
 
-    if (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID)
+    if (priority && (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID))
     {
         /* Validate the static queue priority setup and set static_priority_base and static_priority_end
         ** accordingly. */
@@ -205,7 +207,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         config.s.s_tail     = (int)queue == static_priority_end;
         /* Convert the priority into an enable bit field. Try to space the bits
             out evenly so the packet don't get grouped up */
-        switch ((int)priority[queue])
+        switch ((int)((priority) ? priority[queue] : 8))
         {
             case 0: config.s.qos_mask = 0x00; break;
             case 1: config.s.qos_mask = 0x01; break;

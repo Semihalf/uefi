@@ -390,7 +390,7 @@ function TrafficGen.new()
             printf("\27[%d;r" .. GOTO_BOTTOM, num_rows + 3)
             -- Poll port status
             for _,port in ipairs(known_ports) do
-                octeon.c.bdk_helper_link_autoconf(port.port)
+                -- FIXME octeon.c.bdk_helper_link_autoconf(port.port)
             end
 
             printf("Command> ")
