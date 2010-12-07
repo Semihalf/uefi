@@ -137,12 +137,15 @@ static int octeon_csr_lookup(lua_State* L)
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_write, 1);
     lua_setfield(L, -2, "write");
+
+    lua_newtable(L);
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_field_index, 1);
     lua_setfield(L, -2, "__index");
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_field_newindex, 1);
     lua_setfield(L, -2, "__newindex");
+    lua_setmetatable(L, -2);
     return 1;
 }
 
