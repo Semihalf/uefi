@@ -5,9 +5,13 @@ host=mrdata
 
 if [ "$1" != "skip" ]
 then
-wget -O octcsr_cn63xxp1.txt http://${host}/Docs/O63/Specs/o63csr_pass1.txt
-wget -O octcsr_cn63xxp2.txt http://${host}/Docs/O63/Specs/o63csr.txt
-wget -O octcsr_cn68xxp1.txt http://${host}/Docs/O68/Specs/o68csr.txt
+#wget -O octcsr_cn63xxp1.txt http://${host}/Docs/O63/Specs/o63csr_pass1.txt
+#wget -O octcsr_cn63xxp2.txt http://${host}/Docs/O63/Specs/o63csr.txt
+#wget -O octcsr_cn68xxp1.txt http://${host}/Docs/O68/Specs/o68csr.txt
+wget -O octcsr_cn63xxp1.txt http://iceman/trac/browser/o63/trunk/packet/o63csr_pass1.txt?format=raw
+wget -O octcsr_cn63xxp2.txt http://iceman/trac/browser/o63/trunk/packet/o63csr.txt?format=raw
+wget -O octcsr_cn68xxp1.txt http://iceman/trac/browser/o68/trunk/packet/o68csr.txt?format=raw
+
 fi
 
 dos2unix -q octcsr_*.txt
