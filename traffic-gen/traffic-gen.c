@@ -866,7 +866,13 @@ typedef struct
     port_state_t    state;
 } port_info_t;
 
+typedef struct
+{
+    port_info_t *list[BDK_PIP_NUM_INPUT_PORTS+1];
+} port_set_t;
+
 static port_info_t     port_info[BDK_PIP_NUM_INPUT_PORTS];
+static port_set_t      all_set;
 static uint64_t        cpu_clock_hz;
 static int             default_start_port = 0;
 static int             default_stop_port = BDK_PIP_NUM_INPUT_PORTS-1;
@@ -1601,6 +1607,23 @@ static int wait(uint64_t ms)
     return 0;
 }
 
+static void build_port_set(port_set_t *set, int start_port, int stop_port)
+{
+    int count = 0;
+    memset(set, 0, sizeof(*set));
+
+    if ((start_port < 0) || (start_port >= BDK_PIP_NUM_INPUT_PORTS))
+        return;
+    if ((stop_port < 0) || (stop_port >= BDK_PIP_NUM_INPUT_PORTS))
+        return;
+
+    for (int i=start_port; i<=stop_port; i++)
+    {
+        if (port_info[i].state.imode != BDK_HELPER_INTERFACE_MODE_DISABLED)
+            set->list[count++] = port_info + i;
+    }
+}
+
 
 /**
  * Transmit packets and see if all of them are received again
@@ -1611,60 +1634,33 @@ static int wait(uint64_t ms)
  * @param test_time
  * @return
  */
-static int test_forward(int tx_port, int rx_port, int rate, int test_time)
+static int test_forward(const port_set_t *tx_set, const port_set_t *rx_set, int rate, int test_time)
 {
     const uint64_t SETTLE_TIME = 1100;  /* ms */
     int result = -2;
-    int tx_port1;
-    int tx_port2;
-    int rx_port1;
-    int rx_port2;
-    int port;
+    int num_tx_ports = 0;
     uint64_t original_count[BDK_PIP_NUM_INPUT_PORTS];
     uint64_t start_count;
     uint64_t stop_count;
     uint64_t start_arps;
     uint64_t stop_arps;
 
-    /* Figure out the range of ports to transmit on */
-    if (tx_port == -1)
+    for (int i=0; tx_set->list[i] != NULL; i++)
     {
-        tx_port1 = default_start_port;
-        tx_port2 = default_stop_port;
-    }
-    else
-    {
-        tx_port1 = tx_port;
-        tx_port2 = tx_port;
-    }
-
-    /* Figure out the range of ports to receive on */
-    if (rx_port == -1)
-    {
-        rx_port1 = default_start_port;
-        rx_port2 = default_stop_port;
-    }
-    else
-    {
-        rx_port1 = rx_port;
-        rx_port2 = rx_port;
-    }
-
-    for (port=tx_port1; port<=tx_port2; port++)
-    {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = tx_set->list[i];
         /* Save the original output counts so we don't bother the users */
-        original_count[port] = pinfo->setup.output_count;
+        original_count[i] = pinfo->setup.output_count;
         /* Setup the transmitter rate */
         pinfo->setup.output_count = rate * test_time;
         pinfo->setup.output_cycle_gap = (cpu_clock_hz << CYCLE_SHIFT) / rate;
+        num_tx_ports++;
     }
 
     BDK_SYNCW;
 
-    for (port=rx_port1; port<=rx_port2; port++)
+    for (int i=0; rx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = rx_set->list[i];
         /* Wait for RX to be idle */
         do
         {
@@ -1680,23 +1676,23 @@ static int test_forward(int tx_port, int rx_port, int rate, int test_time)
     /* Get the sum of packets for all rx ports */
     start_count = 0;
     start_arps = 0;
-    for (port=rx_port1; port<=rx_port2; port++)
+    for (int i=0; rx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = rx_set->list[i];
         start_count += pinfo->state.input_cumulative_packets;
         start_arps += pinfo->state.input_arp_requests;
     }
 
     /* Start the TX */
-    for (port=tx_port1; port<=tx_port2; port++)
+    for (int i=0; tx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = tx_set->list[i];
         pinfo->setup.output_enable = 1;
     }
     BDK_SYNCW;
 
     /* Wait for TX to be complete */
-    while (port_info[tx_port1].setup.output_enable)
+    while (tx_set->list[0]->setup.output_enable)
     {
         periodic_update(0);
         int c = uart_read_byte(0);
@@ -1711,25 +1707,25 @@ static int test_forward(int tx_port, int rx_port, int rate, int test_time)
     /* Get the RX stats */
     stop_count = 0;
     stop_arps = 0;
-    for (port=rx_port1; port<=rx_port2; port++)
+    for (int i=0; rx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = rx_set->list[i];
         stop_count += pinfo->state.input_cumulative_packets;
         stop_arps += pinfo->state.input_arp_requests;
     }
 
     /* Check the RX stats */
-    if (stop_count - start_count == (ULL)rate * test_time * (tx_port2-tx_port1+1) + (stop_arps - start_arps))
+    if (stop_count - start_count == (ULL)rate * test_time * num_tx_ports + (stop_arps - start_arps))
         result = 0;
     else
         result = -1;
 
 cleanup:
-    for (port=tx_port1; port<=tx_port2; port++)
+    for (int i=0; tx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = tx_set->list[i];
         pinfo->setup.output_enable = 0;
-        pinfo->setup.output_count = original_count[port];
+        pinfo->setup.output_count = original_count[i];
     }
     BDK_SYNCW;
 
@@ -1742,15 +1738,18 @@ cleanup:
  * @param tx_port Transmit port
  * @param rx_port Receive port
  */
-static uint64_t process_cmd_find_max(int tx_port, int rx_port)
+static uint64_t process_cmd_find_max(const port_set_t *tx_set, const port_set_t *rx_set)
 {
+    port_info_t *config_port = tx_set->list[0];
     const uint64_t TEST_TIME = 10;      /* seconds */
     uint64_t granularity;  /* packet/s */
+    int num_tx_ports = 0;
 
-    int config_port = tx_port;
-    if (config_port == -1)
-        config_port = default_start_port;
-    int interface = bdk_helper_get_interface_num(config_port);
+    for (int i=0; tx_set->list[i] != NULL; i++)
+        num_tx_ports++;
+
+
+    int interface = bdk_helper_get_interface_num(config_port->state.imode);
     uint64_t max_mbps = 0;
 
     switch (bdk_helper_interface_get_mode(interface))
@@ -1780,7 +1779,7 @@ static uint64_t process_cmd_find_max(int tx_port, int rx_port)
         return -1;
     }
 
-    uint64_t high = max_mbps * 125000 / (port_info[config_port].setup.output_packet_size + get_size_wire_overhead(&port_info[config_port]));
+    uint64_t high = max_mbps * 125000 / (config_port->setup.output_packet_size + get_size_wire_overhead(config_port));
     uint64_t low = 0;
     uint64_t rate = high;
 
@@ -1789,20 +1788,20 @@ static uint64_t process_cmd_find_max(int tx_port, int rx_port)
 
     do
     {
-        if (tx_port != -1)
+        if (num_tx_ports == 1)
             printf("Trying %llu packets/s\n", (ULL)rate);
         else
             printf("Trying %llu packets/s, total %llu packets/s\n", (ULL)rate, (ULL)rate * (default_stop_port-default_start_port+1));
 
         /* Do a short 1sec test for quick failure checking */
-        int result = test_forward(tx_port, rx_port, rate, 1);
+        int result = test_forward(tx_set, rx_set, rate, 1);
         if (result == -2)
             return -1;
 
         /* Do longer test if short test passed */
         if (result == 0)
         {
-            result = test_forward(tx_port, rx_port, rate, TEST_TIME);
+            result = test_forward(tx_set, rx_set, rate, TEST_TIME);
             if (result == -2)
                 return -1;
         }
@@ -1834,27 +1833,23 @@ static uint64_t process_cmd_find_max(int tx_port, int rx_port)
             break;
     } while (high > low);
 
-    uint64_t mbps = (((low * (port_info[config_port].setup.output_packet_size + get_size_wire_overhead(&port_info[config_port]))) << 3) + 500000) / 1000000;
+    uint64_t mbps = (((low * (config_port->setup.output_packet_size + get_size_wire_overhead(config_port))) << 3) + 500000) / 1000000;
 
-    if (tx_port != -1)
+    if (num_tx_ports == 1)
         printf("Find max return %llu packets/s (%llu Mbps)\n", (ULL)low, (ULL)mbps);
     else
-        printf("Find max return %llu packets/s (%llu Mbps), total %llu packet/s (%llu Mbps)\n", (ULL)low, (ULL)mbps, (ULL)low * (default_stop_port-default_start_port+1), (ULL)mbps * (default_stop_port-default_start_port+1));
+        printf("Find max return %llu packets/s (%llu Mbps), total %llu packet/s (%llu Mbps)\n", (ULL)low, (ULL)mbps, (ULL)low * num_tx_ports, (ULL)mbps * num_tx_ports);
     return low;
 }
 
 
 static void update_statistics(void);
-#define SS_MAX_SIZE 65524
-#define SS_MIN_SIZE 60
-static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_size, int max_size, int inc_size, int packet_count)
+static uint64_t process_cmd_scan_packet_sizes(const port_set_t *tx_set, const port_set_t *rx_set, int min_size, int max_size, int inc_size, int packet_count)
 {
+    const int SS_MAX_SIZE = 65524;
+    const int SS_MIN_SIZE = 60;
+    int num_tx_ports = 0;
     int size = 0;
-    int port;
-    int tx_port1;
-    int tx_port2;
-    int rx_port1;
-    int rx_port2;
     uint64_t original_count[BDK_PIP_NUM_INPUT_PORTS];
     uint64_t start_count;
     uint64_t stop_count;
@@ -1862,29 +1857,6 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
     uint64_t start_bytes;
     uint64_t stop_bytes;
 
-    /* Figure out the range of ports to transmit on */
-    if (tx_port == -1)
-    {
-        tx_port1 = default_start_port;
-        tx_port2 = default_stop_port;
-    }
-    else
-    {
-        tx_port1 = tx_port;
-        tx_port2 = tx_port;
-    }
-
-    /* Figure out the range of ports to receive on */
-    if (rx_port == -1)
-    {
-        rx_port1 = default_start_port;
-        rx_port2 = default_stop_port;
-    }
-    else
-    {
-        rx_port1 = rx_port;
-        rx_port2 = rx_port;
-    }
     /* Set defaults for sizes */
     if (min_size == -1)
         min_size = SS_MIN_SIZE;
@@ -1917,18 +1889,19 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
            "Hit Control-C to interrupt\n", min_size, max_size);
 
     /* Save the original output counts so we don't bother the users */
-    for (port=tx_port1; port<=tx_port2; port++)
+    for (int i=0; tx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
-        original_count[port] = pinfo->setup.output_count;
+        port_info_t *pinfo = tx_set->list[i];
+        original_count[i] = pinfo->setup.output_count;
+        num_tx_ports++;
     }
 
     for (size=min_size; size<=max_size; size += inc_size)
     {
         /* Setup the TX */
-        for (port=tx_port1; port<=tx_port2; port++)
+        for (int i=0; tx_set->list[i] != NULL; i++)
         {
-            port_info_t *pinfo = port_info + port;
+            port_info_t *pinfo = tx_set->list[i];
             /* Setup the transmitter count */
             pinfo->setup.output_count = packet_count;
             pinfo->setup.output_packet_size = size;
@@ -1943,9 +1916,9 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
         /* Get the sum of packets for all rx ports */
         start_count = 0;
         start_bytes = 0;
-        for (port=rx_port1; port<=rx_port2; port++)
+        for (int i=0; rx_set->list[i] != NULL; i++)
         {
-            port_info_t *pinfo = port_info + port;
+            port_info_t *pinfo = rx_set->list[i];
             start_count += pinfo->state.input_cumulative_packets;
             start_bytes += pinfo->state.input_cumulative_octets;
         }
@@ -1956,15 +1929,15 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
         bdk_wait_usec(1);
 
         /* Start the TX */
-        for (port=tx_port1; port<=tx_port2; port++)
+        for (int i=0; tx_set->list[i] != NULL; i++)
         {
-            port_info_t *pinfo = port_info + port;
+            port_info_t *pinfo = tx_set->list[i];
             pinfo->setup.output_enable = 1;
         }
         BDK_SYNCW;
 
         /* Wait for TX to be complete */
-        while (port_info[tx_port1].setup.output_enable)
+        while (tx_set->list[0]->setup.output_enable)
         {
             periodic_update(0);
             int c = uart_read_byte(0);
@@ -1983,9 +1956,9 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
             old_stop_count = stop_count;
             stop_count = 0;
             stop_bytes = 0;
-            for (port=rx_port1; port<=rx_port2; port++)
+            for (int i=0; rx_set->list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = rx_set->list[i];
                 stop_count += pinfo->state.input_cumulative_packets;
                 stop_bytes += pinfo->state.input_cumulative_octets;
             }
@@ -1993,7 +1966,7 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
 
         printf("size=%u, count=%llu, bytes=%llu\n", size, (ULL)stop_count - start_count, (ULL)stop_bytes - start_bytes);
 
-        uint64_t expected_packets = (unsigned long long)packet_count * (tx_port2-tx_port1+1);
+        uint64_t expected_packets = (unsigned long long)packet_count * num_tx_ports;
         uint64_t expected_bytes = expected_packets * (size+ETHERNET_CRC);
 
         /* Check the RX stats */
@@ -2008,11 +1981,11 @@ static uint64_t process_cmd_scan_packet_sizes(int tx_port, int rx_port, int min_
         }
     }
 cleanup:
-    for (port=tx_port1; port<=tx_port2; port++)
+    for (int i=0; tx_set->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = tx_set->list[i];
         pinfo->setup.output_enable = 0;
-        pinfo->setup.output_count = original_count[port];
+        pinfo->setup.output_count = original_count[i];
     }
     BDK_SYNCW;
     return size;
@@ -2025,14 +1998,11 @@ cleanup:
  * @param start_port first port
  * @param stop_port  last port
  */
-static void process_cmd_clear(int start_port, int stop_port)
+static void process_cmd_clear(const port_set_t *range)
 {
-    int port;
-    int i;
-
-    for (port=start_port; port<=stop_port; port++)
+    for (int i=0; range->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = range->list[i];
         pinfo->state.input_cumulative_packets = 0;
         pinfo->state.input_cumulative_octets = 0;
         pinfo->state.input_cumulative_errors = 0;
@@ -2043,8 +2013,8 @@ static void process_cmd_clear(int start_port, int stop_port)
         pinfo->state.input_arp_requests = 0;
         pinfo->state.input_arp_replies = 0;
         pinfo->state.input_validation_errors = 0;
-        for (i=0; i<256;i++)
-            pinfo->state.wqe_receive_errors[i] = 0;
+        for (int j=0; j<256;j++)
+            pinfo->state.wqe_receive_errors[j] = 0;
     }
 }
 
@@ -2055,17 +2025,16 @@ static void process_cmd_clear(int start_port, int stop_port)
  * @param start_port first port
  * @param stop_port  last port
  */
-static void process_cmd_reset(int start_port, int stop_port)
+static void process_cmd_reset(const port_set_t *range)
 {
-    int port;
     uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
 
-    for (port=start_port; port<=stop_port; port++)
+    for (int i=0; range->list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
-        int connect_to_port = port + 1;
-        int interface = bdk_helper_get_interface_num(port);
-        if ((port != bdk_helper_get_first_ipd_port(interface)) &&
+        port_info_t *pinfo = range->list[i];
+        int connect_to_port = pinfo->port + 1;
+        int interface = bdk_helper_get_interface_num(pinfo->port);
+        if ((pinfo->port != bdk_helper_get_first_ipd_port(interface)) &&
             (connect_to_port > bdk_helper_get_last_ipd_port(interface)))
             connect_to_port = bdk_helper_get_first_ipd_port(interface);
 
@@ -2077,18 +2046,18 @@ static void process_cmd_reset(int start_port, int stop_port)
         pinfo->setup.output_packet_size         = 64 - ETHERNET_CRC;
         pinfo->setup.output_count               = 0;
         pinfo->setup.output_percent_x1000       = 100000;
-        pinfo->setup.src_mac                    = mac_addr_base + port;
+        pinfo->setup.src_mac                    = mac_addr_base + pinfo->port;
 	pinfo->setup.src_mac_inc		    =0;
-	pinfo->setup.src_mac_min		    = mac_addr_base + (port << 16);
-	pinfo->setup.src_mac_max		    = mac_addr_base + 64 + (port << 16);
+	pinfo->setup.src_mac_min		    = mac_addr_base + (pinfo->port << 16);
+	pinfo->setup.src_mac_max		    = mac_addr_base + 64 + (pinfo->port << 16);
         pinfo->setup.dest_mac                   = mac_addr_base + connect_to_port;
         pinfo->setup.dest_mac_inc               = 0;
         pinfo->setup.dest_mac_min               = mac_addr_base + (connect_to_port << 16);
         pinfo->setup.dest_mac_max               = mac_addr_base + 64 + (connect_to_port << 16);
         pinfo->setup.vlan_size                  = 0;
-        pinfo->setup.src_ip                     = 0x0a000063 | (port<<16);        /* 10.port.0.99 */
-        pinfo->setup.src_ip_min                 = 0x0a000000 | (port<<16);        /* 10.port.0.0 */;
-        pinfo->setup.src_ip_max                 = 0x0a000063 | (port<<16);        /* 10.port.0.99 */;
+        pinfo->setup.src_ip                     = 0x0a000063 | (pinfo->port<<16);        /* 10.port.0.99 */
+        pinfo->setup.src_ip_min                 = 0x0a000000 | (pinfo->port<<16);        /* 10.port.0.0 */;
+        pinfo->setup.src_ip_max                 = 0x0a000063 | (pinfo->port<<16);        /* 10.port.0.99 */;
         pinfo->setup.src_ip_inc                 = 0;
         pinfo->setup.dest_ip                    = 0x0a000063 | (connect_to_port<<16);   /* 10.connect_to_port.0.99 */
         pinfo->setup.dest_ip_min                = 0x0a000000 | (connect_to_port<<16);   /* 10.connect_to_port.0.0 */;
@@ -2111,7 +2080,7 @@ static void process_cmd_reset(int start_port, int stop_port)
         update_cycle_gap(pinfo);
         build_packet(pinfo);
     }
-    process_cmd_clear(start_port, stop_port);
+    process_cmd_clear(range);
 }
 
 static void process_cmd_packetio(int enable)
@@ -2218,13 +2187,14 @@ static uint64_t process_command(const char *cmd, int newline)
 {
     argument_info_t args[MAX_ARGUMENTS];
     char *command;
-    uint64_t port;
     uint64_t value;
     float value_float = 0;
     uint64_t start_port;
     uint64_t stop_port;
     char *next_command=0;
     uint64_t command_result = 0;
+    port_set_t tx_set;
+    port_set_t rx_set;
 
 
     SET_SCROLL_REGION(max_displayed_row);
@@ -2251,24 +2221,32 @@ static uint64_t process_command(const char *cmd, int newline)
             case 0:
                 continue;
             case 1:
+                build_port_set(&tx_set, default_start_port, default_stop_port);
+                build_port_set(&rx_set, default_start_port, default_stop_port);
                 start_port = default_start_port;
                 stop_port = default_stop_port;
                 value = 0;
                 value_float = 0;
                 break;
             case 2:
+                build_port_set(&tx_set, default_start_port, default_stop_port);
+                build_port_set(&rx_set, default_start_port, default_stop_port);
                 start_port = default_start_port;
                 stop_port = default_stop_port;
                 value = args[1].number;
                 value_float = args[1].number_float;
                 break;
             case 3:
+                build_port_set(&tx_set, args[1].number, args[1].number);
+                build_port_set(&rx_set, args[1].number, args[1].number);
                 start_port = args[1].number;
                 stop_port = args[1].number;
                 value = args[2].number;
                 value_float = args[2].number_float;
                 break;
             case 4:
+                build_port_set(&tx_set, args[1].number, args[2].number);
+                build_port_set(&rx_set, args[2].number, args[2].number);
                 start_port = args[1].number;
                 stop_port = args[2].number;
                 value = args[3].number;
@@ -2278,6 +2256,8 @@ static uint64_t process_command(const char *cmd, int newline)
 #if 0
                 if (strcasecmp(command, "alias") != 0) return;  /* for now only alias has >4 params */
 #endif
+                build_port_set(&tx_set, args[1].number, args[2].number);
+                build_port_set(&rx_set, args[2].number, args[2].number);
                 start_port = args[1].number;
                 stop_port = args[2].number;
                 value = args[3].number;
@@ -2328,28 +2308,18 @@ static uint64_t process_command(const char *cmd, int newline)
     #define PORT_RANGE_COMMAND(NAME, FIELD, VALUE)                  \
         else if (strcasecmp(command, NAME) == 0)                    \
         {                                                           \
-            if (argc == 2)                                          \
-                stop_port = start_port = value;                     \
-            if (argc >= 3)                                          \
-                stop_port = value;                                  \
-            if (strstr(cmd,"all")) {                                \
-                start_port=0;                                       \
-                stop_port=BDK_PIP_NUM_INPUT_PORTS-1;                \
-            }                                                       \
-            PORT_LIMIT(start_port);                                 \
-            PORT_LIMIT(stop_port);                                  \
-            for (port=start_port; port<=stop_port; port++) {        \
-                port_info_t *pinfo = port_info + port;              \
+            for (int i=0; tx_set.list[i] != NULL; i++)              \
+            {                                                       \
+                port_info_t *pinfo = tx_set.list[i];                \
                 FIELD = VALUE;                                      \
             }                                                       \
         }
     #define PORT_VALUE_COMMAND(NAME, FIELD)                         \
         else if (strcasecmp(command, NAME) == 0)                    \
         {                                                           \
-            PORT_LIMIT(start_port);                                 \
-            PORT_LIMIT(stop_port);                                  \
-            for (port=start_port; port<=stop_port; port++) {        \
-                port_info_t *pinfo = port_info + port;              \
+            for (int i=0; tx_set.list[i] != NULL; i++)              \
+            {                                                       \
+                port_info_t *pinfo = tx_set.list[i];                \
                 if (argc >= 2)                                      \
                 {                                                   \
                     FIELD = value;                                  \
@@ -2357,7 +2327,7 @@ static uint64_t process_command(const char *cmd, int newline)
                 }                                                   \
                 else if (pinfo->state.display) {                    \
                     printf("Port %2llu %s: %22llu 0x%016llx\n",     \
-                           (ULL)port, NAME, (ULL)FIELD, (ULL)FIELD);\
+                           (ULL)pinfo->port, NAME, (ULL)FIELD, (ULL)FIELD);\
                     command_result = FIELD;                         \
                 }                                                   \
             }                                                       \
@@ -2366,10 +2336,9 @@ static uint64_t process_command(const char *cmd, int newline)
     #define PORT_INSERT_COMMAND(NAME, FIELD)                        \
         else if (strcasecmp(command, NAME) == 0)                    \
         {                                                           \
-            PORT_LIMIT(start_port);                                 \
-            PORT_LIMIT(stop_port);                                  \
-            for (port=start_port; port<=stop_port; port++) {        \
-                port_info_t *pinfo = port_info + port;              \
+            for (int i=0; tx_set.list[i] != NULL; i++)              \
+            {                                                       \
+                port_info_t *pinfo = tx_set.list[i];                \
                 if (argc >= 2)                                      \
                 {                                                   \
                     char *p = strrchr(cmd,' ');                     \
@@ -2401,7 +2370,7 @@ static uint64_t process_command(const char *cmd, int newline)
                 }                                                   \
                 else if (pinfo->state.display) {                    \
                     int vi;                                         \
-                    printf("Port %2llu %s: ",(ULL)port, NAME);      \
+                    printf("Port %2llu %s: ",(ULL)pinfo->port, NAME);      \
                     for (vi=0; vi<(int)FIELD##_size; vi++)          \
                         printf("%02x", FIELD[vi]);                  \
                     printf(" (size = %llu bytes)\n", (ULL)FIELD##_size);  \
@@ -2413,20 +2382,11 @@ static uint64_t process_command(const char *cmd, int newline)
     #define PORT_STATISTIC_COMMAND(NAME, FIELD)                     \
         else if (strcasecmp(command, NAME) == 0)                    \
         {                                                           \
-            if (argc == 2)                                          \
-                stop_port = start_port = value;                     \
-            if (argc >= 3)                                          \
-                stop_port = value;                                  \
-            if (strstr(cmd,"all")) {                                \
-                start_port=0;                                       \
-                stop_port=BDK_PIP_NUM_INPUT_PORTS-1;                \
-            }                                                       \
-            PORT_LIMIT(start_port);                                 \
-            PORT_LIMIT(stop_port);                                  \
-            for (port=start_port; port<=stop_port; port++) {        \
-                port_info_t *pinfo = port_info + port;              \
+            for (int i=0; tx_set.list[i] != NULL; i++)              \
+            {                                                       \
+                port_info_t *pinfo = tx_set.list[i];                \
                 if (pinfo->state.display) {                         \
-                    printf("Port %2llu %s: %22llu\n", (ULL)port,    \
+                    printf("Port %2llu %s: %22llu\n", (ULL)pinfo->port,    \
                            NAME, (ULL)pinfo->state.FIELD);          \
                     command_result = pinfo->state.FIELD;            \
                 }                                                   \
@@ -2436,10 +2396,9 @@ static uint64_t process_command(const char *cmd, int newline)
     #define PORT_IP_COMMAND(NAME, FIELD)                            \
         else if (strcasecmp(command, NAME) == 0)                    \
         {                                                           \
-            PORT_LIMIT(start_port);                                 \
-            PORT_LIMIT(stop_port);                                  \
-            for (port=start_port; port<=stop_port; port++) {        \
-                port_info_t *pinfo = port_info + port;              \
+            for (int i=0; tx_set.list[i] != NULL; i++)              \
+            {                                                       \
+                port_info_t *pinfo = tx_set.list[i];                \
                 if (argc >= 2)                                      \
                 {                                                   \
                     FIELD = value;                                  \
@@ -2447,7 +2406,7 @@ static uint64_t process_command(const char *cmd, int newline)
                 }                                                   \
                 if (pinfo->state.display) {                         \
                     printf("Port %2llu %s: 0x%08llx %d.%d.%d.%d\n", \
-                           (ULL)port, NAME, (ULL)FIELD,             \
+                           (ULL)pinfo->port, NAME, (ULL)FIELD,      \
                            (uint8_t)(FIELD>>24),                    \
                            (uint8_t)(FIELD>>16),                    \
                            (uint8_t)(FIELD>>8),                     \
@@ -2465,23 +2424,6 @@ static uint64_t process_command(const char *cmd, int newline)
             if (p) {                                                            \
                 p++;                                                            \
                 if (isalpha((int)*p)) argc--;                                   \
-                                                                                \
-                switch (argc)                                                   \
-                {                                                               \
-                    case 1:                                                     \
-                        start_port = default_start_port;                        \
-                        stop_port = default_stop_port;                          \
-                        break;                                                  \
-                    case 2:                                                     \
-                        start_port = args[1].number;                            \
-                        stop_port = args[1].number;                             \
-                        break;                                                  \
-                    case 3:                                                     \
-                    default:                                                    \
-                        start_port = args[1].number;                            \
-                        stop_port = args[2].number;                             \
-                        break;                                                  \
-                }                                                               \
                 while (LUT[type]) {                                             \
                     if (strcasecmp(p, LUT[type]) == 0) {                        \
                         if (strcasecmp(p,"help") == 0)                          \
@@ -2490,21 +2432,20 @@ static uint64_t process_command(const char *cmd, int newline)
                     }                                                           \
                     type++;                                                     \
                 }                                                               \
-                PORT_LIMIT(start_port);                                         \
-                PORT_LIMIT(stop_port);                                          \
                 if (LUT[type]) {                                                \
-                    for (port=start_port; port<=stop_port; port++)              \
+                    for (int i=0; tx_set.list[i] != NULL; i++)                  \
                     {                                                           \
-                        port_info_t *pinfo = port_info + port;                  \
+                        port_info_t *pinfo = tx_set.list[i];                    \
                         FIELD = type;                                           \
                         build_packet(pinfo);                                    \
                     }                                                           \
                 }                                                               \
                 else {                                                          \
                     if (strcasecmp(p,"show") == 0) {                            \
-                        for (port=start_port; port<=stop_port; port++) {        \
-                            port_info_t *pinfo = port_info + port;              \
-                            printf("Port %2llu " NAME ": %s\n",(ULL)port,LUT[FIELD]); \
+                        for (int i=0; tx_set.list[i] != NULL; i++)              \
+                        {                                                       \
+                            port_info_t *pinfo = tx_set.list[i];                \
+                            printf("Port %2llu " NAME ": %s\n",(ULL)pinfo->port,LUT[FIELD]); \
                         }                                                       \
                         printf("\n");                                           \
                     }                                                           \
@@ -2580,21 +2521,14 @@ static uint64_t process_command(const char *cmd, int newline)
 
         if (strcasecmp(command, "clear") == 0)
         {
-            if (argc == 2)
-                stop_port = start_port = value;
-            if (argc >= 3)
-                stop_port = value;
-            if (strstr(cmd,"all")) {
-                start_port=0;
-                stop_port=BDK_PIP_NUM_INPUT_PORTS-1;
-            }
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            process_cmd_clear(start_port, stop_port);
+            if (strstr(cmd,"all"))
+                process_cmd_clear(&all_set);
+            else
+                process_cmd_clear(&tx_set);
         }
         else if (strcasecmp(command, "clearall") == 0)
         {
-            process_cmd_clear(0, BDK_PIP_NUM_INPUT_PORTS-1);
+            process_cmd_clear(&all_set);
             if (last_start_total_display_updates != TIMESTAMP_INVALID) {
                 last_start_total_display_updates = total_display_updates;
             }
@@ -2602,17 +2536,10 @@ static uint64_t process_command(const char *cmd, int newline)
         }
         else if (strcasecmp(command, "reset") == 0)
         {
-            if (argc == 2)
-                stop_port = start_port = value;
-            if (argc >= 3)
-                stop_port = value;
-            if (strstr(cmd,"all")) {
-                start_port=0;
-                stop_port=BDK_PIP_NUM_INPUT_PORTS-1;
-            }
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            process_cmd_reset(start_port, stop_port);
+            if (strstr(cmd,"all"))
+                process_cmd_reset(&all_set);
+            else
+                process_cmd_reset(&tx_set);
         }
         ROW_RANGE_COMMAND("row", row_state[row].hidden, 1)
         ROW_RANGE_COMMAND("hli", row_state[row].highlight, 0)
@@ -2639,11 +2566,9 @@ static uint64_t process_command(const char *cmd, int newline)
         }
         else if (strcasecmp(command, "tx.rate") == 0)
         {
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     if (value)
@@ -2659,18 +2584,16 @@ static uint64_t process_command(const char *cmd, int newline)
                         packet_rate = (cpu_clock_hz << CYCLE_SHIFT) / pinfo->setup.output_cycle_gap;
                     else
                         packet_rate = 0;
-                    printf("Port %2llu %s: %9llu\n", (ULL)port, "tx.rate", (ULL)packet_rate);
+                    printf("Port %2llu %s: %9llu\n", (ULL)pinfo->port, "tx.rate", (ULL)packet_rate);
                     command_result = packet_rate;
                 }
             }
         }
         else if (strcasecmp(command, "tx.percent") == 0)
         {
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     if (value_float)
@@ -2687,7 +2610,7 @@ static uint64_t process_command(const char *cmd, int newline)
                     else
                         packet_rate = 0;
                     uint64_t percent = packet_rate * (pinfo->setup.output_packet_size + get_size_wire_overhead(pinfo)) / 1250000;
-                    printf("Port %2llu %s: %3llu\n", (ULL)port, "tx.percent", (ULL)percent);
+                    printf("Port %2llu %s: %3llu\n", (ULL)pinfo->port, "tx.percent", (ULL)percent);
                     command_result = percent;
                 }
             }
@@ -2701,18 +2624,16 @@ static uint64_t process_command(const char *cmd, int newline)
                 value = 65524;
                 printf("Max size supported is %d bytes (%d with CRC)\n", (int)value, (int)value+4);
             }
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     if (value + get_size_pre_l2(pinfo) > 65524)
                     {
                         pinfo->setup.output_packet_size = 65524 - get_size_pre_l2(pinfo);
                         printf("Limiting port %d to %d of payload due to Higig header\n",
-                            (int)port, (int)pinfo->setup.output_packet_size);
+                            (int)pinfo->port, (int)pinfo->setup.output_packet_size);
                     }
                     else
                         pinfo->setup.output_packet_size = value;
@@ -2723,7 +2644,7 @@ static uint64_t process_command(const char *cmd, int newline)
                 else if (pinfo->state.display)
                 {
                     printf("Port %2llu %s: %8llu 0x%04llx\n",
-                            (ULL)port, "tx.size", (ULL)pinfo->setup.output_packet_size, (ULL)pinfo->setup.output_packet_size);
+                            (ULL)pinfo->port, "tx.size", (ULL)pinfo->setup.output_packet_size, (ULL)pinfo->setup.output_packet_size);
                     command_result = pinfo->setup.output_packet_size;
                 }
             }
@@ -2732,25 +2653,33 @@ static uint64_t process_command(const char *cmd, int newline)
         {
             int index = 0;
             sscanf(command, "tx.data[%i]", &index);
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                     ((uint64_t *)pinfo->setup.output_data)[index] = value;
                 else if (pinfo->state.display)
-                    printf("Port %2llu tx.data[%7d]: %22llu 0x%016llx\n", (ULL)port, index,
+                    printf("Port %2llu tx.data[%7d]: %22llu 0x%016llx\n", (ULL)pinfo->port, index,
                             (ULL)((uint64_t *)pinfo->setup.output_data)[index],
                             (ULL)((uint64_t *)pinfo->setup.output_data)[index]);
             }
         }
         else if (strcasecmp(command, "find.max") == 0)
         {
+            port_set_t tx_set;
+            port_set_t rx_set;
             if (argc == 3)
-                command_result = process_cmd_find_max(start_port, value);
+            {
+                build_port_set(&tx_set, start_port, start_port);
+                build_port_set(&rx_set, value, value);
+                command_result = process_cmd_find_max(&tx_set, &rx_set);
+            }
             else if ((argc == 2) && (strcmp(args[1].str,"default") == 0))
-                command_result = process_cmd_find_max(-1, -1);
+            {
+                build_port_set(&tx_set, default_start_port, default_stop_port);
+                build_port_set(&rx_set, default_start_port, default_stop_port);
+                command_result = process_cmd_find_max(&tx_set, &rx_set);
+            }
             else
                 printf("Requires two arguments, the TX and RX ports or \"default\"\n");
         }
@@ -2790,7 +2719,17 @@ static uint64_t process_command(const char *cmd, int newline)
                 if (argc - 1 >= size_arg_index)
                     count = args[size_arg_index++].number;
 
-                command_result = process_cmd_scan_packet_sizes(ss_start_port, ss_end_port, min_size, max_size, inc_size, count);
+                port_set_t tx_set;
+                if (ss_start_port == -1)
+                    build_port_set(&tx_set, default_start_port, default_stop_port);
+                else
+                    build_port_set(&tx_set, ss_start_port, ss_start_port);
+                port_set_t rx_set;
+                if (ss_end_port == -1)
+                    build_port_set(&rx_set, default_start_port, default_stop_port);
+                else
+                    build_port_set(&rx_set, ss_end_port, ss_end_port);
+                command_result = process_cmd_scan_packet_sizes(&tx_set, &rx_set, min_size, max_size, inc_size, count);
             }
         }
         PORT_RANGE_LUT_COMMAND("tx.payload",   pinfo->setup.output_packet_payload, tx_payload_lut)
@@ -2846,18 +2785,18 @@ static uint64_t process_command(const char *cmd, int newline)
                 printf("higig must be 12 (higig), or 16 (higig2)\n");
             else
             {
-                for (port=start_port; port<=stop_port; port++)
+                for (int i=0; tx_set.list[i] != NULL; i++)
                 {
-                    port_info_t *pinfo = port_info + port;
+                    port_info_t *pinfo = tx_set.list[i];
                     if (argc >= 2)
                     {
                         pinfo->setup.higig = value;
-                        bdk_higig_initialize(port>>4, (pinfo->setup.higig == 16));
+                        bdk_higig_initialize(pinfo->port>>4, (pinfo->setup.higig == 16));
                         build_packet(pinfo);
                     }
                     else if (pinfo->state.display) {
                         printf("Port %2llu %s: %22llu 0x%016llx\n",
-                               (ULL)port, "higig", (ULL)pinfo->setup.higig, (ULL)pinfo->setup.higig);
+                               (ULL)pinfo->port, "higig", (ULL)pinfo->setup.higig, (ULL)pinfo->setup.higig);
                         command_result = pinfo->setup.higig;
                     }
                 }
@@ -2866,24 +2805,22 @@ static uint64_t process_command(const char *cmd, int newline)
         else if (strcasecmp(command, "src.mac") == 0)
         {
             int interface;
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     interface = 0;
-                    if (port >= 16)
+                    if (pinfo->port >= 16)
                         interface = 1;
                     pinfo->setup.src_mac = value;
                     if (!pinfo->setup.promisc)
-                        cvm_oct_set_mac_address(interface, port - interface*16, &(pinfo->setup.src_mac));
+                        cvm_oct_set_mac_address(interface, pinfo->port - interface*16, &(pinfo->setup.src_mac));
                     build_packet(pinfo);
                 }
                 else if (pinfo->state.display) {
                     printf("Port %2llu %s: %22llu 0x%016llx\n",
-                           (ULL)port, "src.mac", (ULL)pinfo->setup.src_mac, (ULL)pinfo->setup.src_mac);
+                           (ULL)pinfo->port, "src.mac", (ULL)pinfo->setup.src_mac, (ULL)pinfo->setup.src_mac);
                     command_result = pinfo->setup.src_mac;
                 }
             }
@@ -2891,15 +2828,13 @@ static uint64_t process_command(const char *cmd, int newline)
         else if (strcasecmp(command, "rx.promisc") == 0)
         {
             int interface;
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2 && strcmp(args[argc-1].str, "show"))
                 {
                     interface = 0;
-                    if (port >= 16)
+                    if (pinfo->port >= 16)
                         interface = 1;
 
                     if (strcmp(args[argc-1].str, "off") == 0)
@@ -2910,24 +2845,22 @@ static uint64_t process_command(const char *cmd, int newline)
                         pinfo->setup.promisc = value;
 
                     if (pinfo->setup.promisc)
-                        cvm_oct_set_mac_address(interface, port - interface*16, NULL);
+                        cvm_oct_set_mac_address(interface, pinfo->port - interface*16, NULL);
                     else
-                        cvm_oct_set_mac_address(interface, port - interface*16, &(pinfo->setup.src_mac));
+                        cvm_oct_set_mac_address(interface, pinfo->port - interface*16, &(pinfo->setup.src_mac));
                 }
                 else if (pinfo->state.display || !strcmp(args[argc-1].str, "show")) {
                     printf("Port %2llu %s: %22llu 0x%016llx\n",
-                           (ULL)port, "rx.promisc", (ULL)pinfo->setup.promisc, (ULL)pinfo->setup.promisc);
+                           (ULL)pinfo->port, "rx.promisc", (ULL)pinfo->setup.promisc, (ULL)pinfo->setup.promisc);
                     command_result = pinfo->setup.promisc;
                 }
             }
         }
         else if (strcasecmp(command, "bridge") == 0)
         {
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     PORT_LIMIT(value);
@@ -2939,9 +2872,9 @@ static uint64_t process_command(const char *cmd, int newline)
                 else if (pinfo->state.display)
                 {
                     if (pinfo->setup.bridge_port != BRIDGE_OFF)
-                        printf("Port %2llu %s: %d\n", (ULL)port, "bridge", pinfo->setup.bridge_port);
+                        printf("Port %2llu %s: %d\n", (ULL)pinfo->port, "bridge", pinfo->setup.bridge_port);
                     else
-                        printf("Port %2llu %s: off\n", (ULL)port, "bridge");
+                        printf("Port %2llu %s: off\n", (ULL)pinfo->port, "bridge");
                 }
             }
         }
@@ -3165,27 +3098,25 @@ static uint64_t process_command(const char *cmd, int newline)
                 else if (!strcasecmp(args[i].str, "nopause"))
                      link_flags |= set_phy_link_flags_flow_control_disable;
             }
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     int phy_addr = -1; // FIXME bdk_helper_board_get_mii_address(port);
                     if (phy_addr >= 0)
                     {
-                        printf("Port %2llu: enable_autoneg=%d, speed=%d, duplex=%d\n", (ULL)port, !!(link_flags & set_phy_link_flags_autoneg), link_info.s.speed, link_info.s.full_duplex);
+                        printf("Port %2llu: enable_autoneg=%d, speed=%d, duplex=%d\n", (ULL)pinfo->port, !!(link_flags & set_phy_link_flags_autoneg), link_info.s.speed, link_info.s.full_duplex);
                         bdk_helper_board_link_set_phy(phy_addr, link_flags, link_info);
                     }
                     else
-                        printf("Port %2llu doesn't have a PHY address\n", (ULL)port);
+                        printf("Port %2llu doesn't have a PHY address\n", (ULL)pinfo->port);
                 }
                 else if (pinfo->state.display)
                 {
                     bdk_helper_link_info_t link_info;
-                    link_info = bdk_helper_link_get(port);
-                    printf("Port %2llu: %dMbps %s duplex\n", (ULL)port,
+                    link_info = bdk_helper_link_get(pinfo->port);
+                    printf("Port %2llu: %dMbps %s duplex\n", (ULL)pinfo->port,
                            link_info.s.speed, (link_info.s.full_duplex) ? "full" : "half");
                     command_result = link_info.s.speed;
                 }
@@ -3202,7 +3133,7 @@ static uint64_t process_command(const char *cmd, int newline)
             {
                 PORT_LIMIT(start_port);
                 PORT_LIMIT(stop_port);
-                for (port=start_port; port<=stop_port; port++)
+                for (int port=start_port; port<=(int)stop_port; port++)
                 {
                     int internal = args[argc-1].str[0] == 'i';
                     int external = (args[argc-1].str[0] == 'e') || (args[argc-1].str[9] == 'e');
@@ -3215,11 +3146,9 @@ static uint64_t process_command(const char *cmd, int newline)
         }
         else if (strcasecmp(command, "backpressure") == 0)
         {
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            for (port=start_port; port<=stop_port; port++)
+            for (int i=0; tx_set.list[i] != NULL; i++)
             {
-                port_info_t *pinfo = port_info + port;
+                port_info_t *pinfo = tx_set.list[i];
                 if (argc >= 2)
                 {
                     PORT_LIMIT(value);
@@ -3227,10 +3156,10 @@ static uint64_t process_command(const char *cmd, int newline)
                         pinfo->setup.respect_backpressure = 0;
                     else
                         pinfo->setup.respect_backpressure = 1;
-                    int interface = bdk_helper_get_interface_num(port);
+                    int interface = bdk_helper_get_interface_num(pinfo->port);
                     if (interface < 2)
                     {
-                        int index = bdk_helper_get_interface_index_num(port);
+                        int index = bdk_helper_get_interface_index_num(pinfo->port);
                         bdk_gmxx_rxx_frm_ctl_t frm_ctl;
                         frm_ctl.u64 = BDK_CSR_READ(BDK_GMXX_RXX_FRM_CTL(index, interface));
                         frm_ctl.s.ctl_bck = pinfo->setup.respect_backpressure;
@@ -3238,7 +3167,7 @@ static uint64_t process_command(const char *cmd, int newline)
                     }
                 }
                 else if (pinfo->state.display)
-                    printf("Port %2llu %s: %s\n", (ULL)port, "backpressure", (pinfo->setup.respect_backpressure) ? "on" : "off");
+                    printf("Port %2llu %s: %s\n", (ULL)pinfo->port, "backpressure", (pinfo->setup.respect_backpressure) ? "on" : "off");
             }
         }
         else if (strcasecmp(command, "arp.request") == 0) {
@@ -3525,8 +3454,9 @@ arp_request_done: ;
 
         /* check for enabled ports to perform special sending timestamping */
         if (last_start_total_display_updates == TIMESTAMP_INVALID) { /* currently off, check if someone is now transmitting */
-            for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++) {
-                port_info_t *pinfo = port_info + port;
+            for (int i=0; all_set.list[i] != NULL; i++)
+            {
+                port_info_t *pinfo = all_set.list[i];
                 if (pinfo->setup.output_enable) {
                     last_start_total_display_updates = total_display_updates;
                     break;
@@ -3554,16 +3484,15 @@ arp_request_done: ;
 static void display_statistics(void)
 {
     static int last_max_displayed_row = 0;
-    int port;
     uint64_t total;
     int current_row=0;
     max_displayed_row=2;
 
     /* Return immediately if all stats are shut off */
     total = 0;
-    for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)
+    for (int i=0; all_set.list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = all_set.list[i];
         total += pinfo->state.display;
     }
     if (total == 0)
@@ -3573,8 +3502,9 @@ static void display_statistics(void)
     total_display_updates++;
     if (last_start_total_display_updates != TIMESTAMP_INVALID) {
         /* currently on, see if all are now off */
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++) {
-            port_info_t *pinfo = port_info + port;
+        for (int i=0; all_set.list[i] != NULL; i++)
+        {
+            port_info_t *pinfo = all_set.list[i];
             if (pinfo->setup.output_enable) {
                 /* someone is still on */
                 sending_time = total_display_updates - last_start_total_display_updates;
@@ -3599,11 +3529,11 @@ someone_on: ;
 #endif
 
     printf(CURSOR_OFF GOTO_TOP "%s %10llu ", time_str, (ULL)total_display_updates);
-    for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)
+    for (int i=0; all_set.list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = all_set.list[i];
         if (pinfo->state.display)
-            printf("|%8s%2d", ((port>=default_start_port) && (port<=default_stop_port)) ? "*Port ":"Port ", port);
+            printf("|%8s%2d", ((pinfo->port>=default_start_port) && (pinfo->port<=default_stop_port)) ? "*Port ":"Port ", pinfo->port);
     }
     printf("|%8s", "Totals");
     printf(ERASE_EOL);
@@ -3615,9 +3545,9 @@ someone_on: ;
     #define PRINTSTAT(n, s)                                                                 \
         printf("%-19s", n);                                                                 \
         total = 0;                                                                          \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 total += pinfo->state.s;                                                    \
@@ -3634,9 +3564,9 @@ someone_on: ;
     #define PRINTPERCENT(n, s)                                                              \
         printf("%-19s", n);                                                                 \
         total = 0;                                                                          \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 total += pinfo->state.s;                                                    \
@@ -3654,9 +3584,9 @@ someone_on: ;
     /*  b = Base of lookup table if ascii type or numeric if an integer type */
     #define PRINTTRANS(n, s, b)                                                             \
         printf("%-19s", n);                                                                 \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 if (b==numeric) printf("|%10llu", (ULL)pinfo->setup.s);                     \
@@ -3672,9 +3602,9 @@ someone_on: ;
     /*  s = Structure member containing the statistic */
     #define PRINTMAC(n, s)                                                                  \
         printf("%-19s", n);                                                                 \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 printf("|%10llx", (unsigned long long)pinfo->setup.s);                      \
@@ -3688,9 +3618,9 @@ someone_on: ;
     /*  s = Structure member containing the statistic */
     #define PRINTVLAN(n, s)                                                                 \
         printf("%-19s", n);                                                                 \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 int vi;                                                                     \
@@ -3710,9 +3640,9 @@ someone_on: ;
     /*  s = Structure member containing the statistic */
     #define PRINTIP(n, s)                                                                   \
         printf("%-19s", n);                                                                 \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
             {                                                                               \
                 char ip_string[128];                                                        \
@@ -3745,9 +3675,9 @@ someone_on: ;
     /* This macro returns non zero if any field in a row is non zero. This is used by ROWNZ */
     #define NONZEROSTAT(s)                                                                  \
         {total = 0;                                                                         \
-        for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)                                  \
+        for (int i=0; all_set.list[i] != NULL; i++)                                         \
         {                                                                                   \
-            port_info_t *pinfo = port_info + port;                                          \
+            port_info_t *pinfo = all_set.list[i];                                           \
             if (pinfo->state.display)                                                       \
                 total |= pinfo->state.s;                                                    \
         }                                                                                   \
@@ -3902,21 +3832,19 @@ someone_on: ;
  */
 static void update_statistics(void)
 {
-    int port;
-
     /* Get the statistics for displayed ports */
-    for (port=0; port<BDK_PIP_NUM_INPUT_PORTS; port++)
+    for (int i=0; all_set.list[i] != NULL; i++)
     {
-        port_info_t *pinfo = port_info + port;
+        port_info_t *pinfo = all_set.list[i];
         if (pinfo->state.display)
         {
             int64_t bytes_off_per_packet;
-            bdk_pip_get_port_status(port, 1, &pinfo->state.input_statistics);
+            bdk_pip_get_port_status(pinfo->port, 1, &pinfo->state.input_statistics);
 
             /* Getting and zeroing the PKO statistics isn't atomic. To make up
                 for this we need to do the deltas manually. */
             bdk_pko_port_status_t newstats;
-            bdk_pko_get_port_status(port, 0, &newstats);
+            bdk_pko_get_port_status(pinfo->port, 0, &newstats);
             if (newstats.packets >= pinfo->state.output_statistics_old.packets)
                 pinfo->state.output_statistics.packets = newstats.packets - pinfo->state.output_statistics_old.packets;
             else
@@ -3940,7 +3868,7 @@ static void update_statistics(void)
             bytes_off_per_packet = -get_size_pre_l2(pinfo);
             if(pinfo->setup.srio.u64)
                 bytes_off_per_packet = -sizeof(bdk_srio_rx_message_header_t) + ETHERNET_CRC;
-            else if(port >= 32)
+            else if(pinfo->port >= 32)
                 bytes_off_per_packet += ETHERNET_CRC;
             pinfo->state.input_statistics.inb_octets += pinfo->state.input_statistics.inb_packets * bytes_off_per_packet;
 
@@ -3968,7 +3896,7 @@ static void update_statistics(void)
 
             bdk_gmxx_txx_pause_togo_t txx_pause_togo;
             txx_pause_togo.u64 = 0;
-            switch (bdk_helper_interface_get_mode(bdk_helper_get_interface_num(port)))
+            switch (bdk_helper_interface_get_mode(bdk_helper_get_interface_num(pinfo->port)))
             {
                 case BDK_HELPER_INTERFACE_MODE_DISABLED:
                 case BDK_HELPER_INTERFACE_MODE_PCIE:
@@ -3977,17 +3905,17 @@ static void update_statistics(void)
                 case BDK_HELPER_INTERFACE_MODE_SRIO:
                     break;
                 case BDK_HELPER_INTERFACE_MODE_XAUI:
-                    txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, bdk_helper_get_interface_num(port)));
+                    txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, bdk_helper_get_interface_num(pinfo->port)));
                     if (txx_pause_togo.s.time == 0)
                     {
                         bdk_gmxx_rx_hg2_status_t gmxx_rx_hg2_status;
-                        gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(bdk_helper_get_interface_num(port)));
+                        gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(bdk_helper_get_interface_num(pinfo->port)));
                         txx_pause_togo.s.time = gmxx_rx_hg2_status.s.lgtim2go;
                     }
                     break;
                 case BDK_HELPER_INTERFACE_MODE_SGMII:
                 case BDK_HELPER_INTERFACE_MODE_PICMG:
-                    txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(bdk_helper_get_interface_index_num(port), bdk_helper_get_interface_num(port)));
+                    txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(bdk_helper_get_interface_index_num(pinfo->port), bdk_helper_get_interface_num(pinfo->port)));
                     break;
             }
             pinfo->state.backpressure = txx_pause_togo.s.time;
@@ -4101,7 +4029,7 @@ static void statistics_gatherer(void)
     periodic_update(0);
     next_update = 0;  /* Force another updated to happen immediately */
     periodic_update(0);
-    process_cmd_clear(0, BDK_PIP_NUM_INPUT_PORTS-1);
+    process_cmd_clear(&all_set);
     frozen = freeze_state;
 
     while (1)
@@ -4720,10 +4648,9 @@ static void thread_starter(int unused1, void *unused2)
     memset(started, 0, sizeof(started));
     while (1)
     {
-        int i;
-        for (i=0; i<BDK_PIP_NUM_INPUT_PORTS; i++)
+        for (int i=0; all_set.list[i] != NULL; i++)
         {
-            port_info_t *pinfo = port_info + i;
+            port_info_t *pinfo = all_set.list[i];
             if (!started[i] && pinfo->setup.output_enable)
             {
                 started[i] = 1;
@@ -4824,6 +4751,7 @@ int main(void)
 
         int num_interfaces = bdk_helper_get_number_of_interfaces();
         int interface;
+        int count = 0;
         for (interface=0; interface < num_interfaces; interface++)
         {
             int do_display = 0;
@@ -4869,9 +4797,10 @@ int main(void)
                     pinfo->setup.srio.s.lns = 0;
                     pinfo->setup.srio.s.intr = 0;
                 }
+                all_set.list[count++] = pinfo;
             }
         }
-        process_cmd_reset(0, BDK_PIP_NUM_INPUT_PORTS-1);
+        process_cmd_reset(&all_set);
         bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL);
         bdk_thread_create(0, thread_starter, 0, NULL);
 
