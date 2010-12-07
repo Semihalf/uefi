@@ -25190,6 +25190,9 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+ * Contains reduced MSI interrupt numbers for delivery to software.
+ * Note MSIRED delivery can only be made to PPs, not to IO; thus there are no CIU2_MSIRED_IO registers.
+ *
 
      ==============================================================
      CIU2_MSIRED_PP(0..31)_IP2 Type=NCB
@@ -25205,7 +25208,6 @@ Pos      Name    Type     Value     Value       Description
      CIU2_MSIRED_PP(0..31)_IP4 Type=NCB
      ==============================================================
 
-
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
@@ -25219,7 +25221,6 @@ Pos      Name    Type     Value     Value       Description
  <7:0>    MSI_NUM RO       0x0         0x0      MSI number causing this interrupt.                  |
 						 If multiple MSIs are pending to the same PP and IP,
 						 then this contains the numerically lowest MSI number.
-Note: MSIRED delivery can only be made to PPs, not to IO; thus there are no CIU2_MSIRED_IO registers.
 ----------------------------------------------------------------------------------------------------
 ===
 
