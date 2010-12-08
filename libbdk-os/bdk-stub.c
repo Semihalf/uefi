@@ -58,12 +58,12 @@ caddr_t sbrk(int incr)
             the L2 cache */
         uint64_t start_paddr = bdk_ptr_to_phys(ptr);
         next = bdk_phys_to_ptr(start_paddr);
-        end = next + l2_size - ((long)&end & 0x0fffffff);
-        if (start_paddr > l2_size)
+        end = bdk_phys_to_ptr(l2_size);
+        if (next > end)
         {
             /* We must have been loaded by uboot into memory. Make the heap
                 bigger as memory is already setup */
-            end += 16<<20; // FIXME: Need to handle real memory size
+            end = next + (16<<20); // FIXME: Need to handle real memory size
         }
     }
 
