@@ -119,16 +119,4 @@ typedef enum {
     BDK_TLB_PAGEMASK_256M = 0x3FFFF << 11,
 } bdk_tlb_pagemask_t;
 
-
-int bdk_core_add_wired_tlb_entry(uint64_t hi, uint64_t lo0, uint64_t lo1, bdk_tlb_pagemask_t page_mask);
-
-
-int bdk_core_add_fixed_tlb_mapping(uint64_t vaddr, uint64_t page0_addr, uint64_t page1_addr, bdk_tlb_pagemask_t page_mask);
-int bdk_core_add_fixed_tlb_mapping_bits(uint64_t vaddr, uint64_t page0_addr, uint64_t page1_addr, bdk_tlb_pagemask_t page_mask);
-
-/**
- * Return number of TLB entries.
- */
-int bdk_core_get_tlb_entries(void);
-
 /** @} */
