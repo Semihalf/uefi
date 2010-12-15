@@ -28,6 +28,7 @@ void bdk_pko_initialize(void)
     for (i=0; i<BDK_PKO_MAX_OUTPUT_QUEUES; i++)
         bdk_pko_config_port(BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID, i, 1, &priority);
 
+#if 0 // FIXME reduce queues
     /* If we aren't using all of the queues optimize PKO's internal memory */
     {
         int num_interfaces = bdk_helper_get_number_of_interfaces();
@@ -38,6 +39,7 @@ void bdk_pko_initialize(void)
         else if (max_queues <= 128)
             BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_MODE, 1);
     }
+#endif
 }
 
 /**
@@ -153,7 +155,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         return BDK_PKO_INVALID_QUEUE;
     }
 
-    if (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID)
+    if (priority && (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID))
     {
         /* Validate the static queue priority setup and set static_priority_base and static_priority_end
         ** accordingly. */
@@ -205,7 +207,7 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
         config.s.s_tail     = (int)queue == static_priority_end;
         /* Convert the priority into an enable bit field. Try to space the bits
             out evenly so the packet don't get grouped up */
-        switch ((int)priority[queue])
+        switch ((int)((priority) ? priority[queue] : 8))
         {
             case 0: config.s.qos_mask = 0x00; break;
             case 1: config.s.qos_mask = 0x01; break;
@@ -261,47 +263,6 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
     }
 
     return result_code;
-}
-
-
-/**
- * Get the status counters for a port.
- *
- * @param port_num Port number to get statistics for.
- * @param clear    Set to 1 to clear the counters after they are read
- * @param status   Where to put the results.
- */
-void bdk_pko_get_port_status(uint64_t port_num, uint64_t clear, bdk_pko_port_status_t *status)
-{
-    bdk_pko_reg_read_idx_t pko_reg_read_idx;
-    bdk_pko_mem_count0_t pko_mem_count0;
-    bdk_pko_mem_count1_t pko_mem_count1;
-
-    pko_reg_read_idx.u64 = 0;
-    pko_reg_read_idx.s.index = port_num;
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-
-    pko_mem_count0.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT0);
-    status->packets = pko_mem_count0.s.count;
-    if (clear)
-    {
-        pko_mem_count0.s.count = port_num;
-        BDK_CSR_WRITE(BDK_PKO_MEM_COUNT0, pko_mem_count0.u64);
-    }
-
-    pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
-    status->octets = pko_mem_count1.s.count;
-    if (clear)
-    {
-        pko_mem_count1.s.count = port_num;
-        BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, pko_mem_count1.u64);
-    }
-
-    bdk_pko_mem_debug8_t debug8;
-    pko_reg_read_idx.s.index = bdk_pko_get_base_queue(port_num);
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-    debug8.u64 = BDK_CSR_READ(BDK_PKO_MEM_DEBUG8);
-    status->doorbell = debug8.cn63xx.doorbell;
 }
 
 

@@ -465,44 +465,28 @@ static const char CJPAT_Packet[1508] = {
 
 static trafficgen_port_set_t tg_all_set;
 
-static trafficgen_port_info_t *tg_get_pinfo(int ipd_port)
+static trafficgen_port_info_t *tg_get_pinfo(bdk_if_handle_t handle)
 {
     static trafficgen_port_info_t *pinfo[BDK_PIP_NUM_INPUT_PORTS];
-    if (ipd_port < BDK_PIP_NUM_INPUT_PORTS)
+
+    for (int i=0; i<BDK_PIP_NUM_INPUT_PORTS; i++)
     {
-        if (pinfo[ipd_port] == NULL)
-            pinfo[ipd_port] = malloc(sizeof(trafficgen_port_info_t));
-        return pinfo[ipd_port];
+        if (pinfo[i] == NULL)
+        {
+            pinfo[i] = malloc(sizeof(trafficgen_port_info_t));
+            if (pinfo[i])
+                pinfo[i]->priv.handle = handle;
+            return pinfo[i];
+        }
+        else if (pinfo[i]->priv.handle == handle)
+            return pinfo[i];
     }
-    else
-        return NULL;
+    return NULL;
 }
 
 static void tg_init_port(trafficgen_port_info_t *pinfo)
 {
-    int interface = bdk_helper_get_interface_num(pinfo->port);
-    int index = bdk_helper_get_interface_index_num(pinfo->port);
-
-    /* Set Jabber and max frame length */
-    switch (pinfo->setup.imode)
-    {
-        case BDK_HELPER_INTERFACE_MODE_SGMII:
-        case BDK_HELPER_INTERFACE_MODE_XAUI:
-            BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(index,interface), 65535);
-            if (index == 0)
-                BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(interface),
-                    pip_frm_len_chkx.s.minlen = 64;
-                    pip_frm_len_chkx.s.maxlen = -1);
-            break;
-
-        default:
-            break;
-    }
-
-    /* Enable storing short packets only in the WQE */
-    BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(pinfo->port),
-        port_cfg.s.dyn_rs = 1);
-
+#if 0 // FIXME backpressure
     /* Only the first two interfaces and four ports are used for
         backpressure. Interfaces with more than 4 ports, like SPI4, use
         only port 0 */
@@ -512,22 +496,23 @@ static void tg_init_port(trafficgen_port_info_t *pinfo)
         BDK_CSR_MODIFY(frm_ctl, BDK_GMXX_RXX_FRM_CTL(index, interface),
             frm_ctl.s.ctl_bck = pinfo->setup.respect_backpressure);
     }
+#endif
 
-    switch (pinfo->setup.imode)
+    switch (pinfo->iftype)
     {
-        case BDK_HELPER_INTERFACE_MODE_XAUI:
+        case BDK_IF_XAUI:
             /* HiGig headers always start with 0xfb */
             pinfo->setup.higig_header.dw0.s.start = 0xfb;
             break;
 
-        case BDK_HELPER_INTERFACE_MODE_SRIO:
+        case BDK_IF_SRIO:
             pinfo->setup.srio.s.prio = 0;
             pinfo->setup.srio.s.tt = 1;
             pinfo->setup.srio.s.sis = 0;
             pinfo->setup.srio.s.ssize = 0xe;
             pinfo->setup.srio.s.did = 0xffff;
             pinfo->setup.srio.s.xmbox = 0;
-            pinfo->setup.srio.s.mbox = index&3;
+            pinfo->setup.srio.s.mbox = pinfo->priv.handle->index&3;
             pinfo->setup.srio.s.letter = 0;
             pinfo->setup.srio.s.lns = 0;
             pinfo->setup.srio.s.intr = 0;
@@ -541,55 +526,21 @@ static void tg_init_port(trafficgen_port_info_t *pinfo)
  */
 static void tg_init(void)
 {
-    /* Set the number of packet and WQE entries to be 16 less than the
-        number of SSO entries. This way we never spill to ram */
-    int num_packet_buffers = bdk_sso_get_num_entries() - 16;
-    bdk_fpa_enable();
-    bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
-    bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
-    bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, BDK_PKO_MAX_OUTPUT_QUEUES*2);
-
-    if (bdk_helper_interface_get_mode(4) == BDK_HELPER_INTERFACE_MODE_SRIO)
-        bdk_srio_initialize(0, 0);
-    if (bdk_helper_interface_get_mode(5) == BDK_HELPER_INTERFACE_MODE_SRIO)
-        bdk_srio_initialize(1, 0);
-
-    if (bdk_helper_initialize_packet_io_global())
-        printf("bdk_helper_initialize_packet_io_global() failed\n");
-
-    /* Enable RED so we drop if the RX path can't keep up */
-    if (!bdk_is_simulation())
-        bdk_helper_setup_red(num_packet_buffers/4, num_packet_buffers/8);
-
-    BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, PIP_IP_OFFSET);
-
-    /* Change the IPD buffering mode to buffer all packets into L2. This
-        yields better performance with high speed interface at the expense
-        of our code/data getting flushed from L2. Luckily traffic-gen
-        doesn't have much code or data in the fastpath */
-    bdk_ipd_ctl_status_t ipd_ctl_reg;
-    ipd_ctl_reg.u64 = BDK_CSR_READ(BDK_IPD_CTL_STATUS);
-    ipd_ctl_reg.s.opc_mode = BDK_IPD_OPC_MODE_STF;
-    BDK_CSR_WRITE(BDK_IPD_CTL_STATUS, ipd_ctl_reg.u64);
+    if (bdk_if_init())
+        bdk_error("bdk_if_init() failed\n");
 
     int count = 0;
-    int num_interfaces = bdk_helper_get_number_of_interfaces();
-    for (int interface=0; interface < num_interfaces; interface++)
+    for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle!=NULL; handle = bdk_if_next_port(handle))
     {
-        bdk_helper_interface_mode_t imode = bdk_helper_interface_get_mode(interface);
-        int num_ports = bdk_helper_ports_on_interface(interface);
-        for (int port=0; port<num_ports; port++)
+        trafficgen_port_info_t *pinfo = tg_get_pinfo(handle);
+        if (pinfo)
         {
-            int ipd_port = bdk_helper_get_ipd_port(interface, port);
-            trafficgen_port_info_t *pinfo = tg_get_pinfo(ipd_port);
-            if (pinfo)
-            {
-                memset(pinfo, 0, sizeof(*pinfo));
-                pinfo->port = ipd_port;
-                pinfo->setup.imode = imode;
-                tg_init_port(pinfo);
-                tg_all_set.list[count++] = pinfo;
-            }
+            memset(pinfo, 0, sizeof(*pinfo));
+            pinfo->priv.handle = handle;
+            pinfo->iftype = bdk_if_get_type(pinfo->priv.handle);
+            sprintf(pinfo->name, "p%d", count);
+            tg_init_port(pinfo);
+            tg_all_set.list[count++] = pinfo;
         }
     }
 
@@ -807,11 +758,11 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
     for (int i=0; range->list[i] != NULL; i++)
     {
         trafficgen_port_info_t *pinfo = range->list[i];
-        int connect_to_port = pinfo->port + 1;
-        int interface = bdk_helper_get_interface_num(pinfo->port);
-        if ((pinfo->port != bdk_helper_get_first_ipd_port(interface)) &&
-            (connect_to_port > bdk_helper_get_last_ipd_port(interface)))
-            connect_to_port = bdk_helper_get_first_ipd_port(interface);
+        trafficgen_port_info_t *connect_to = pinfo; // FIXME
+        uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(pinfo->priv.handle);
+        uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->priv.handle);
+        int src_inc = bdk_if_get_pknd(pinfo->priv.handle) << 16;
+        int dest_inc = bdk_if_get_pknd(connect_to->priv.handle) << 16;
 
         pinfo->setup.output_enable              = 0;
         pinfo->setup.output_packet_type         = PACKET_TYPE_IPV4_UDP;
@@ -821,22 +772,22 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         pinfo->setup.output_packet_size         = 64 - ETHERNET_CRC;
         pinfo->setup.output_count               = 0;
         pinfo->setup.output_percent_x1000       = 100000;
-        pinfo->setup.src_mac                    = mac_addr_base + pinfo->port;
-        pinfo->setup.src_mac_inc		    =0;
-        pinfo->setup.src_mac_min		    = mac_addr_base + (pinfo->port << 16);
-        pinfo->setup.src_mac_max		    = mac_addr_base + 64 + (pinfo->port << 16);
-        pinfo->setup.dest_mac                   = mac_addr_base + connect_to_port;
+        pinfo->setup.src_mac                    = src_mac;
+        pinfo->setup.src_mac_inc	        = 0;
+        pinfo->setup.src_mac_min		= src_mac + src_inc;
+        pinfo->setup.src_mac_max		= pinfo->setup.src_mac_min + 64;
+        pinfo->setup.dest_mac                   = dest_mac;
         pinfo->setup.dest_mac_inc               = 0;
-        pinfo->setup.dest_mac_min               = mac_addr_base + (connect_to_port << 16);
-        pinfo->setup.dest_mac_max               = mac_addr_base + 64 + (connect_to_port << 16);
+        pinfo->setup.dest_mac_min               = dest_mac + dest_inc;
+        pinfo->setup.dest_mac_max               = pinfo->setup.dest_mac_min + 64;
         pinfo->setup.vlan_size                  = 0;
-        pinfo->setup.src_ip                     = 0x0a000063 | (pinfo->port<<16);        /* 10.port.0.99 */
-        pinfo->setup.src_ip_min                 = 0x0a000000 | (pinfo->port<<16);        /* 10.port.0.0 */;
-        pinfo->setup.src_ip_max                 = 0x0a000063 | (pinfo->port<<16);        /* 10.port.0.99 */;
+        pinfo->setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
+        pinfo->setup.src_ip_min                 = 0x0a000000 | src_inc;        /* 10.port.0.0 */;
+        pinfo->setup.src_ip_max                 = 0x0a000063 | src_inc;        /* 10.port.0.99 */;
         pinfo->setup.src_ip_inc                 = 0;
-        pinfo->setup.dest_ip                    = 0x0a000063 | (connect_to_port<<16);   /* 10.connect_to_port.0.99 */
-        pinfo->setup.dest_ip_min                = 0x0a000000 | (connect_to_port<<16);   /* 10.connect_to_port.0.0 */;
-        pinfo->setup.dest_ip_max                = 0x0a000063 | (connect_to_port<<16);   /* 10.connect_to_port.0.99 */;
+        pinfo->setup.dest_ip                    = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */
+        pinfo->setup.dest_ip_min                = 0x0a000000 | dest_inc;   /* 10.connect_to_port.0.0 */;
+        pinfo->setup.dest_ip_max                = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */;
         pinfo->setup.dest_ip_inc                = 0;
         pinfo->setup.src_port                   = 4096;
         pinfo->setup.src_port_min               = 0;
@@ -859,21 +810,6 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
 
 /**
  *
- * @param stat
- * @param last
- *
- * @return
- */
-static uint64_t get_delta(uint32_t stat, uint32_t last)
-{
-    if (stat >= last)
-        return stat - last;
-    else
-        return (uint64_t)last + (1ull<<32) - (uint64_t)stat;
-}
-
-/**
- *
  * @return
  */
 int trafficgen_do_update(void)
@@ -882,66 +818,24 @@ int trafficgen_do_update(void)
     for (int i=0; tg_all_set.list[i] != NULL; i++)
     {
         trafficgen_port_info_t *pinfo = tg_all_set.list[i];
+        const bdk_if_stats_t *stats = bdk_if_get_stats(pinfo->priv.handle);
 
-        bdk_pko_port_status_t pko_stats;
-        bdk_pko_get_port_status(pinfo->port, 0, &pko_stats);
-        uint32_t tx_delta_packets = get_delta(pko_stats.packets, pinfo->priv.pko_stats.packets);
-        pinfo->stats.tx_packets += tx_delta_packets;
-        pinfo->stats.tx_octets += get_delta(pko_stats.octets, pinfo->priv.pko_stats.octets);
-        pinfo->priv.pko_stats = pko_stats;
+        pinfo->stats.tx_packets = stats->tx.packets;
+        pinfo->stats.tx_octets = stats->tx.octets;
 
-        /* Tx octets at the hardware level does not include ETHERNET_CRC but
-            does include the pre L2 header. This is not what the user expects */
-        int64_t bytes_off_per_packet = ETHERNET_CRC - get_size_pre_l2(pinfo);
-        pinfo->stats.tx_octets += bytes_off_per_packet * tx_delta_packets;
-
-        bdk_pip_port_status_t pip_stats;
-        bdk_pip_get_port_status(pinfo->port, 0, &pip_stats);
-        pinfo->stats.rx_dropped_octets += get_delta(pip_stats.dropped_octets, pinfo->priv.pip_stats.dropped_octets);
-        pinfo->stats.rx_dropped_packets += get_delta(pip_stats.dropped_packets, pinfo->priv.pip_stats.dropped_packets);
-        pinfo->stats.rx_octets += get_delta(pip_stats.octets, pinfo->priv.pip_stats.octets);
-        uint32_t rx_delta_packets = get_delta(pip_stats.packets, pinfo->priv.pip_stats.packets);
-        pinfo->stats.rx_packets += rx_delta_packets;
-        pinfo->stats.rx_multicast += get_delta(pip_stats.multicast_packets, pinfo->priv.pip_stats.multicast_packets);
-        pinfo->stats.rx_broadcast += get_delta(pip_stats.broadcast_packets, pinfo->priv.pip_stats.broadcast_packets);
-        pinfo->stats.rx_len_64 += get_delta(pip_stats.len_64_packets, pinfo->priv.pip_stats.len_64_packets);
-        pinfo->stats.rx_len_65_127 += get_delta(pip_stats.len_65_127_packets, pinfo->priv.pip_stats.len_65_127_packets);
-        pinfo->stats.rx_len_128_255 += get_delta(pip_stats.len_128_255_packets, pinfo->priv.pip_stats.len_128_255_packets);
-        pinfo->stats.rx_len_256_511 += get_delta(pip_stats.len_256_511_packets, pinfo->priv.pip_stats.len_256_511_packets);
-        pinfo->stats.rx_len_512_1023 += get_delta(pip_stats.len_512_1023_packets, pinfo->priv.pip_stats.len_512_1023_packets);
-        pinfo->stats.rx_len_1024_1518 += get_delta(pip_stats.len_1024_1518_packets, pinfo->priv.pip_stats.len_1024_1518_packets);
-        pinfo->stats.rx_len_1519_max += get_delta(pip_stats.len_1519_max_packets, pinfo->priv.pip_stats.len_1519_max_packets);
-        pinfo->stats.rx_fcs_align_err += get_delta(pip_stats.fcs_align_err_packets, pinfo->priv.pip_stats.fcs_align_err_packets);
-        pinfo->stats.rx_runt += get_delta(pip_stats.runt_packets, pinfo->priv.pip_stats.runt_packets);
-        pinfo->stats.rx_runt_crc += get_delta(pip_stats.runt_crc_packets, pinfo->priv.pip_stats.runt_crc_packets);
-        pinfo->stats.rx_oversize += get_delta(pip_stats.oversize_packets, pinfo->priv.pip_stats.oversize_packets);
-        pinfo->stats.rx_oversize_crc += get_delta(pip_stats.oversize_crc_packets, pinfo->priv.pip_stats.oversize_crc_packets);
-        pinfo->stats.rx_errors += get_delta(pip_stats.inb_errors, pinfo->priv.pip_stats.inb_errors);
-        pinfo->priv.pip_stats = pip_stats;
-
-        /* RX octets count ETHERNET_CRC for ports less than 32 and not for 32 and higher. For all ports
-            it counts the pre L2, which the user probably doesn't expect */
-        switch (pinfo->setup.imode)
-        {
-            case BDK_HELPER_INTERFACE_MODE_SRIO:
-                bytes_off_per_packet = -sizeof(bdk_srio_rx_message_header_t) + ETHERNET_CRC;
-                break;
-            case BDK_HELPER_INTERFACE_MODE_LOOP:
-                bytes_off_per_packet = ETHERNET_CRC - get_size_pre_l2(pinfo);
-                break;
-            default:
-                bytes_off_per_packet = -get_size_pre_l2(pinfo);
-                break;
-        }
-        pinfo->stats.rx_octets += bytes_off_per_packet * rx_delta_packets;
+        pinfo->stats.rx_dropped_octets = stats->rx.dropped_octets;
+        pinfo->stats.rx_dropped_packets = stats->rx.dropped_packets;
+        pinfo->stats.rx_octets = stats->rx.octets;
+        pinfo->stats.rx_packets = stats->rx.packets;
+        pinfo->stats.rx_errors = stats->rx.errors;
 
         /* Calculate the RX bits. By convention this include all packet
             overhead on the wire. We've already accounted for ETHERNET_CRC but
             not the preamble and IFG */
-        bytes_off_per_packet = get_size_wire_overhead(pinfo);
-        switch (pinfo->setup.imode)
+        uint64_t bytes_off_per_packet = get_size_wire_overhead(pinfo);
+        switch (pinfo->iftype)
         {
-            case BDK_HELPER_INTERFACE_MODE_SRIO:
+            case BDK_IF_SRIO:
                 bytes_off_per_packet = 0;
                 break;
             default:
@@ -956,26 +850,27 @@ int trafficgen_do_update(void)
         /* Get the backpressure counters */
         bdk_gmxx_txx_pause_togo_t txx_pause_togo;
         txx_pause_togo.u64 = 0;
-        switch (bdk_helper_interface_get_mode(bdk_helper_get_interface_num(pinfo->port)))
+        switch (pinfo->iftype)
         {
-            case BDK_HELPER_INTERFACE_MODE_DISABLED:
-            case BDK_HELPER_INTERFACE_MODE_PCIE:
-            case BDK_HELPER_INTERFACE_MODE_NPI:
-            case BDK_HELPER_INTERFACE_MODE_LOOP:
-            case BDK_HELPER_INTERFACE_MODE_SRIO:
+            case BDK_IF_DPI:
+            case BDK_IF_LOOP:
+            case BDK_IF_SRIO:
                 break;
-            case BDK_HELPER_INTERFACE_MODE_XAUI:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, bdk_helper_get_interface_num(pinfo->port)));
+            case BDK_IF_XAUI:
+                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(pinfo->priv.handle)));
                 if (txx_pause_togo.s.time == 0)
                 {
                     bdk_gmxx_rx_hg2_status_t gmxx_rx_hg2_status;
-                    gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(bdk_helper_get_interface_num(pinfo->port)));
+                    gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(pinfo->priv.handle)));
                     txx_pause_togo.s.time = gmxx_rx_hg2_status.s.lgtim2go;
                 }
                 break;
-            case BDK_HELPER_INTERFACE_MODE_SGMII:
-            case BDK_HELPER_INTERFACE_MODE_PICMG:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(bdk_helper_get_interface_index_num(pinfo->port), bdk_helper_get_interface_num(pinfo->port)));
+            case BDK_IF_SGMII:
+                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(pinfo->priv.handle), __bdk_if_get_gmx_block(pinfo->priv.handle)));
+                break;
+            case BDK_IF_MGMT:
+                break;
+            case __BDK_IF_LAST:
                 break;
         }
         pinfo->stats.rx_backpressure += txx_pause_togo.s.time;
@@ -1136,7 +1031,7 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
     char *packet = malloc(pinfo->setup.output_packet_size);
     if (!packet)
     {
-        bdk_error("Failed to allocate TX packet for port %d\n", pinfo->port);
+        bdk_error("Failed to allocate TX packet for port %s\n", pinfo->name);
         return NULL;
     }
     char *end_ptr = packet + get_end_payload(pinfo);
@@ -1178,11 +1073,11 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
         case PACKET_TYPE_IPV6_UDP:
         case PACKET_TYPE_IPV6_TCP:
             if (pinfo->setup.output_packet_size < 62)
-                printf("Warning: Port %2d Packet size too small for UDP payload. Minimum is 62\n", pinfo->port);
+                printf("Warning: Port %s Packet size too small for UDP payload. Minimum is 62\n", pinfo->name);
             if (!pinfo->setup.do_checksum)
-                printf("Warning: Port %2d UDP checksum is off. Linux will drop IPv6 UDP packets without a checksum\n", pinfo->port);
+                printf("Warning: Port %s UDP checksum is off. Linux will drop IPv6 UDP packets without a checksum\n", pinfo->name);
             if ((pinfo->setup.output_packet_size < 66) && pinfo->setup.validate)
-                printf("Warning: Port %2d Packet size too small for validation. Minimum is 66\n", pinfo->port);
+                printf("Warning: Port %s Packet size too small for validation. Minimum is 66\n", pinfo->name);
             *(uint16_t*)ptr = 0x86dd; ptr+=2;                           /* Ethernet Protocol = ETH_P_IPV6 0x86DD */
             *ptr++ = 0x60 | ((pinfo->setup.ip_tos>>4) & 0xf); /* IP version 6, 4 bits of DS byte */
             *ptr++ = (((pinfo->setup.ip_tos) & 0xf) << 4) | 0;/* 4 bits of DS byte + 4 bits of Flow label (0) */
@@ -1243,24 +1138,18 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
                * code usually wants to be in duplex-mode. I have to compile without
                * USE_DUPLEX in my modified version of bdk-helper-xaui.c!)
                */
-            int interface = bdk_helper_get_interface_num(pinfo->port);
-            int index = bdk_helper_get_interface_index_num(pinfo->port);
-            bdk_gmxx_tx_xaui_ctl_t gmxx_tx_xaui_ctl;
-            gmxx_tx_xaui_ctl.u64 = BDK_CSR_READ(BDK_GMXX_TX_XAUI_CTL(interface));
-            gmxx_tx_xaui_ctl.s.dic_en = 0;
-            gmxx_tx_xaui_ctl.s.uni_en = 1;
-            BDK_CSR_WRITE (BDK_GMXX_TX_XAUI_CTL(interface), gmxx_tx_xaui_ctl.u64);
+            BDK_CSR_MODIFY(gmxx_tx_xaui_ctl, BDK_GMXX_TX_XAUI_CTL(__bdk_if_get_gmx_block(pinfo->priv.handle)),
+                gmxx_tx_xaui_ctl.s.dic_en = 0;
+                gmxx_tx_xaui_ctl.s.uni_en = 1);
 
               /* Turn off FCS (CRC) generation. The pattern packet already contains the
                * appropriate CRC.
                */
-            bdk_gmxx_txx_append_t gmxx_txx_append;
-            gmxx_txx_append.u64 = BDK_CSR_READ(BDK_GMXX_TXX_APPEND(index, interface));
-            gmxx_txx_append.s.force_fcs = 0;
-            gmxx_txx_append.s.fcs       = 0;
-            gmxx_txx_append.s.pad       = 0;
-            gmxx_txx_append.s.preamble  = 0;
-            BDK_CSR_WRITE (BDK_GMXX_TXX_APPEND(index, interface), gmxx_txx_append.u64);
+            BDK_CSR_MODIFY(gmxx_txx_append, BDK_GMXX_TXX_APPEND(__bdk_if_get_gmx_index(pinfo->priv.handle), __bdk_if_get_gmx_block(pinfo->priv.handle)),
+                gmxx_txx_append.s.force_fcs = 0;
+                gmxx_txx_append.s.fcs       = 0;
+                gmxx_txx_append.s.pad       = 0;
+                gmxx_txx_append.s.preamble  = 0);
             goto skip; /* Bail out before we get to the TCP/UDP stuff below */
     }
     *ptr++ = pinfo->setup.src_port >> 8;  /* UDP source port */
@@ -1504,7 +1393,6 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
     bdk_buf_ptr_t              hw_buffer;
     uint64_t                   output_cycle;
     uint64_t                   count = 0;
-    const uint64_t             queue = bdk_pko_get_base_queue(pinfo->port);
     trafficgen_port_setup_t *  port_tx = &pinfo->setup;
 
     /* Build the PKO buffer pointer */
@@ -1526,7 +1414,6 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
         uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
         if (bdk_likely(cycle >= output_cycle))
         {
-            bdk_pko_send_packet_prepare(pinfo->port, queue, BDK_PKO_LOCK_NONE);
             packet_incrementer(pinfo, packet);
             output_cycle += port_tx->output_cycle_gap;
             pko_command.s.total_bytes = port_tx->output_packet_size + get_size_pre_l2(pinfo);
@@ -1535,17 +1422,8 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
             else
                 pko_command.s.ipoffp1 = 0;
             /* We don't care if the send fails */
-            bdk_pko_send_packet_finish(pinfo->port, queue, pko_command, hw_buffer, BDK_PKO_LOCK_NONE);
-
-            /* If we aren't keeping up, start send 4 more packets per iteration */
-            if (bdk_unlikely(cycle > output_cycle + 500) && (count>4))
-            {
-                uint64_t words[8] = {pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64, pko_command.u64, hw_buffer.u64};
-                output_cycle += port_tx->output_cycle_gap*4;
-                count -= 4;
-                if (bdk_likely(bdk_cmd_queue_write(BDK_CMD_QUEUE_PKO(queue), 0, 8, words) == BDK_CMD_QUEUE_SUCCESS))
-                    bdk_pko_doorbell(pinfo->port, queue, 8);
-            }
+            bdk_if_transmit(pinfo->priv.handle, NULL); // FIXME
+            //bdk_pko_send_packet_finish(pinfo->port, queue, pko_command, hw_buffer, BDK_PKO_LOCK_NONE);
 
             if (bdk_unlikely(--count == 0))
             {
@@ -1558,42 +1436,7 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
     }
     free(packet);
 }
-/**
- * Given a WQE, return an Octeon packet pointer for the beginning
- * of the packet data. This is trivially the pakcet pointer in the
- * WQE for packets with buffers. For packets where bufs is zero this
- * is non trival.
- *
- * @param work   Work queue entry for packet
- *
- * @return An Octeon packet buffer pointer. This is not a
- *         C pointer.
- */
-static bdk_buf_ptr_t get_packet_buffer_ptr(const bdk_wqe_t *work)
-{
-    bdk_buf_ptr_t buffer_ptr;
-    if (bdk_likely(work->word2.s.bufs == 0))
-    {
-        buffer_ptr.u64 = 0;
-        buffer_ptr.s.pool = BDK_FPA_WQE_POOL;
-        buffer_ptr.s.size = bdk_fpa_get_block_size(BDK_FPA_WQE_POOL);
-        buffer_ptr.s.addr = bdk_ptr_to_phys((void*)work->packet_data);
-        /* WARNING: This code assume that PIP_GBL_CFG[RAW_SHF]=0 and
-            PIP_GBL_CFG[NIP_SHF]=0. If this was not the case we'd
-            need to add these offsets depending on if the packet was
-            in RAW mode or not.
-            addr += PIP_GBL_CFG[RAW_SHF] for the RAW case.
-            addr += PIP_GBL_CFG[NIP_SHF]; for the non-IP case */
-        if (bdk_likely(!work->word2.s.not_IP))
-        {
-            buffer_ptr.s.addr += PIP_IP_OFFSET*8 - work->word2.s.ip_offset;
-            buffer_ptr.s.addr += (work->word2.s.is_v6^1)*4;
-        }
-    }
-    else
-        buffer_ptr = work->packet_ptr;
-    return buffer_ptr;
-}
+
 /**
  * Check the CRC on an incomming packet and return non zero if it
  * doesn't match the calculated value.
@@ -1602,18 +1445,18 @@ static bdk_buf_ptr_t get_packet_buffer_ptr(const bdk_wqe_t *work)
  *
  * @return Non zero on CRC error
  */
-static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_wqe_t *work)
+static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_if_packet_t *packet)
 {
     uint32_t crc = 0xffffffff;
-    bdk_buf_ptr_t buffer_ptr = get_packet_buffer_ptr(work);
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
 
     /* Get a pointer to the beginning of the packet */
     void *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
-    int remaining_bytes = work->len;
+    int remaining_bytes = packet->length;
 
     /* Skip the L2 header in the CRC calculation */
     int skip = get_end_l2(pinfo);
-    if (pinfo->setup.imode == BDK_HELPER_INTERFACE_MODE_SRIO)
+    if (bdk_if_get_type(packet->if_handle) == BDK_IF_SRIO)
         skip += 8;
     ptr += skip;
     remaining_bytes -= skip;
@@ -1621,7 +1464,7 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_wqe_t *work
     /* Reduce the length by 4, the length of the CRC at the end */
     remaining_bytes -= 4;
 
-    /* Force the UDP checksum to zero for CRC calculation */
+#if 0    /* FIXME: Force the UDP checksum to zero for CRC calculation */
     if (!work->word2.s.not_IP && work->word2.s.tcp_or_udp)
     {
         int udp_checksum_offset = 0;
@@ -1645,6 +1488,7 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_wqe_t *work
             remaining_bytes -= udp_checksum_offset + 2;
         }
     }
+#endif
 
     while (remaining_bytes)
     {
@@ -1709,25 +1553,25 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_wqe_t *work
  * @param work   Work to process
  * @return If the packet and work should be freed
  */
-static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_wqe_t *work)
+static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_if_packet_t *packet)
 {
 #if 0 // FIXME
     if (bdk_unlikely(pinfo->setup.display_packet == 1))
-        dump_packet(work);
+        dump_packet(packet);
 #endif
-    if (bdk_unlikely(work->word2.s.rcv_error))
+    if (bdk_unlikely(packet->rx_error))
     {
-        bdk_atomic_add64((int64_t*)&pinfo->stats.rx_wqe_errors[work->word2.s.err_code], 1);
+        // FIXME bdk_atomic_add64((int64_t*)&pinfo->stats.rx_wqe_errors[packet->rx_error], 1);
 #if 0 // FIXME
         if (bdk_unlikely(pinfo->setup.display_packet == 2))
-            dump_packet(work);
+            dump_packet(packet);
 #endif
         return PACKET_FREE;
     }
 
     if (bdk_unlikely(pinfo->setup.validate))
     {
-        if (bdk_unlikely(is_packet_crc32c_wrong(pinfo, work)))
+        if (bdk_unlikely(is_packet_crc32c_wrong(pinfo, packet)))
             bdk_atomic_add64((int64_t*)&pinfo->stats.rx_validation_errors, 1);
     }
 #if 0 // FIXME
@@ -1772,24 +1616,22 @@ static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_wqe_t *
  * @param work   Work to be processed. Ideally it should already be prefetched
  *               into memory.
  */
-static void process_work(bdk_wqe_t *work)
+static void process_packet(bdk_if_packet_t *packet)
 {
-    trafficgen_port_info_t *pinfo = tg_get_pinfo(work->ipprt);
-    packet_free_t status = fastpath_receive(pinfo, work);
+    trafficgen_port_info_t *pinfo = tg_get_pinfo(packet->if_handle);
+    packet_free_t status = fastpath_receive(pinfo, packet);
     if (bdk_likely(status == PACKET_FREE))
-        bdk_helper_free_packet_data(work);
-    if (bdk_likely(status != PACKET_DONT_FREE_WQE))
-        bdk_fpa_free(work, BDK_FPA_WQE_POOL, 0);
+        bdk_if_free(packet);
 }
 
 static void packet_receiver(int unused, void *unused2)
 {
-    bdk_wqe_t *work;
+    bdk_if_packet_t packet;
     while (1)
     {
-        work = bdk_sso_work_request_sync(BDK_SSO_NO_WAIT);
-        if (work)
-            process_work(work);
+        int status = bdk_if_receive(&packet);
+        if (status == 0)
+            process_packet(&packet);
         else
             bdk_thread_yield();
     }

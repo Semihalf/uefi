@@ -32,27 +32,13 @@ typedef struct
     uint64_t    rx_dropped_packets; /* Inbound packets marked to be dropped by the IPD */
     uint64_t    rx_octets;          /* Number of octets processed by PIP */
     uint64_t    rx_packets;         /* Number of packets processed by PIP */
-    uint64_t    rx_multicast;       /* Number of indentified L2 multicast packets. */
-    uint64_t    rx_broadcast;       /* Number of indentified L2 broadcast packets. */
-    uint64_t    rx_len_64;          /* Number of 64B packets */
-    uint64_t    rx_len_65_127;      /* Number of 65-127B packets */
-    uint64_t    rx_len_128_255;     /* Number of 128-255B packets */
-    uint64_t    rx_len_256_511;     /* Number of 256-511B packets */
-    uint64_t    rx_len_512_1023;    /* Number of 512-1023B packets */
-    uint64_t    rx_len_1024_1518;   /* Number of 1024-1518B packets */
-    uint64_t    rx_len_1519_max;    /* Number of 1519-max packets */
-    uint64_t    rx_fcs_align_err;   /* Number of packets with FCS or Align opcode errors */
-    uint64_t    rx_runt;            /* Number of packets with length < min */
-    uint64_t    rx_runt_crc;        /* Number of packets with length < min and FCS error */
-    uint64_t    rx_oversize;        /* Number of packets with length > max */
-    uint64_t    rx_oversize_crc;    /* Number of packets with length > max and FCS error */
     uint64_t    rx_errors;          /* Number of packets with GMX/SPX/PCI errors received by PIP */
     uint64_t    rx_backpressure;
     uint64_t    rx_bits;
     uint64_t    rx_arp_requests;
     uint64_t    rx_arp_replies;
     uint64_t    rx_validation_errors;
-    uint64_t    rx_wqe_errors[256];
+    //uint64_t    rx_wqe_errors[256];
 } trafficgen_port_stats_t;
 
 typedef enum {
@@ -78,7 +64,6 @@ typedef enum {
 
 typedef struct
 {
-    bdk_helper_interface_mode_t imode;
     uint64_t                output_percent_x1000;   /* percent*1000 */
     uint64_t                output_cycle_gap;
     uint64_t                output_packet_size;
@@ -129,11 +114,13 @@ typedef struct
 
 typedef struct
 {
-    int port;
+    char name[8];
+    bdk_if_t iftype;
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
     struct {
         bdk_spinlock_t lock;
+        bdk_if_handle_t handle;
         bdk_pip_port_status_t pip_stats;
         bdk_pko_port_status_t pko_stats;
     } priv;

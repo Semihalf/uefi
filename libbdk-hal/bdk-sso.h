@@ -27,6 +27,8 @@
  * @{
  */
 
+#define BDK_ENABLE_SSO_CHECKS 1
+
 /**
  * Tag type definitions
  */

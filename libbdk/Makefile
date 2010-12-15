@@ -5,6 +5,7 @@ include bdk.mk
 #
 dirs  = libbdk-arch
 dirs += libbdk-hal
+dirs += libbdk-hal/if
 dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua

@@ -120,7 +120,7 @@ function TrafficGen.new()
                 end
                 for n=start_num, stop_num do
                     for _,port in ipairs(known_ports) do
-                        if port.port == n then
+                        if port.name == "p" .. n then
                             table.insert(ports, port)
                             break
                         end
@@ -174,7 +174,7 @@ function TrafficGen.new()
                         if #args == 1 then
                             port[name][field_name] = args[1]
                         else
-                            printf("Port %s: %s = %s\n", port.port, field_name, tostring(port[name][field_name]))
+                            printf("Port %s: %s = %s\n", port.name, field_name, tostring(port[name][field_name]))
                         end
                     end
                 end
@@ -215,7 +215,7 @@ function TrafficGen.new()
 
         printf("Default ports:")
         for _,port in ipairs(default_ports) do
-            printf(" %d", port.port)
+            printf(" %s", port.name)
         end
         printf("\n")
     end
@@ -363,7 +363,7 @@ function TrafficGen.new()
 
         printf(ZEROHI .. "   %20s", "Port")
         for _,port in ipairs(visible_ports) do
-            printf("|   Port %2d", port.port)
+            printf("|%10s", port.name)
         end
         printf("|%10s%s\n%s", "Totals", ERASE_EOL, NORMAL);
         for _,row in ipairs(known_rows) do
@@ -390,7 +390,7 @@ function TrafficGen.new()
             printf("\27[%d;r" .. GOTO_BOTTOM, num_rows + 3)
             -- Poll port status
             for _,port in ipairs(known_ports) do
-                octeon.c.bdk_helper_link_autoconf(port.port)
+                -- FIXME octeon.c.bdk_helper_link_autoconf(port.port)
             end
 
             printf("Command> ")
