@@ -26,8 +26,8 @@ LDFLAGS += -Wl,-T -Wl,bdk.ld
 LDLIBS = -lbdk -lgcc
 
 INIT_SECTIONS=.init
-DATA_SECTIONS=.data .sdata .sbss .bss
-TEXT_SECTIONS=.text .rodata .eh_frame
+DATA_SECTIONS=.data .sdata .sbss .bss .eh_frame
+TEXT_SECTIONS=.text .rodata
 INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
 DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
 TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
