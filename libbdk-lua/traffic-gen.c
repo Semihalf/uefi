@@ -520,6 +520,7 @@ static void tg_init_port(trafficgen_port_info_t *pinfo)
         default:
             break;
     }
+    bdk_if_enable(pinfo->priv.handle);
 }
 
 /**
@@ -1385,27 +1386,23 @@ static void packet_incrementer(trafficgen_port_info_t *pinfo, char *data)
 
 static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
 {
-    char *packet = build_packet(pinfo);
-    if (!packet)
+    char *pdata = build_packet(pinfo);
+    if (!pdata)
         return;
 
-    bdk_pko_command_word0_t    pko_command;
-    bdk_buf_ptr_t              hw_buffer;
-    uint64_t                   output_cycle;
-    uint64_t                   count = 0;
-    trafficgen_port_setup_t *  port_tx = &pinfo->setup;
+    trafficgen_port_setup_t *port_tx = &pinfo->setup;
+    uint64_t output_cycle;
+    uint64_t count = port_tx->output_count;
 
-    /* Build the PKO buffer pointer */
-    hw_buffer.u64 = 0;
-    hw_buffer.s.pool = BDK_FPA_PACKET_POOL;
-    hw_buffer.s.size = 0xffff;
-    hw_buffer.s.back = 0;
-    hw_buffer.s.addr = bdk_ptr_to_phys(packet);
-
-    /* Build the PKO command */
-    pko_command.u64 = 0;
-    pko_command.s.dontfree =1;
-    pko_command.s.segs = 1;
+    bdk_if_packet_t packet;
+    packet.length = port_tx->output_packet_size + get_size_pre_l2(pinfo);
+    packet.segments = 1;
+    packet.packet.u64 = 0;
+    packet.packet.s.pool = BDK_FPA_PACKET_POOL;
+    packet.packet.s.size = 0xffff;
+    packet.packet.s.back = 0;
+    packet.packet.s.addr = bdk_ptr_to_phys(pdata);
+    packet.packet.s.i = 1;
 
     output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
 
@@ -1414,16 +1411,10 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
         uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
         if (bdk_likely(cycle >= output_cycle))
         {
-            packet_incrementer(pinfo, packet);
+            packet_incrementer(pinfo, pdata);
             output_cycle += port_tx->output_cycle_gap;
-            pko_command.s.total_bytes = port_tx->output_packet_size + get_size_pre_l2(pinfo);
-            if (port_tx->do_checksum)
-                pko_command.s.ipoffp1 = get_end_l2(pinfo) + 1;
-            else
-                pko_command.s.ipoffp1 = 0;
             /* We don't care if the send fails */
-            bdk_if_transmit(pinfo->priv.handle, NULL); // FIXME
-            //bdk_pko_send_packet_finish(pinfo->port, queue, pko_command, hw_buffer, BDK_PKO_LOCK_NONE);
+            bdk_if_transmit(pinfo->priv.handle, &packet);
 
             if (bdk_unlikely(--count == 0))
             {
@@ -1434,7 +1425,7 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
         else
             bdk_thread_yield();
     }
-    free(packet);
+    free(pdata);
 }
 
 /**

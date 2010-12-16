@@ -396,7 +396,10 @@ function TrafficGen.new()
             printf("Command> ")
             local cmd = io.read()
             if cmd ~= "" then
-                self:command(cmd)
+                local status, result = pcall(self.command, self, cmd)
+                if not status then
+                    printf("ERROR: %s\n", result)
+                end
             end
             printf(SCROLL_FULL)
         end
