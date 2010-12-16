@@ -129,16 +129,16 @@ typedef enum {
     PACKET_TYPE_HELP    /* best to keep this last */
 } packet_type_t;
 
-static char *tx_packet_type_lut[] = {
-    "IPv4+UDP",
-    "IPv6+UDP",
-    "IPv4+TCP",
-    "IPv6+TCP",
-    "pause-8023",
-    "pause-CBFC",
-    "cjpat",
-    "help",     /* best to keep this last */
-    0
+static bdk_readline_tab_t tab_tx_packet_type[] = {
+    {"IPv4+UDP", NULL},
+    {"IPv6+UDP", NULL},
+    {"IPv4+TCP", NULL},
+    {"IPv6+TCP", NULL},
+    {"pause-8023", NULL},
+    {"pause-CBFC", NULL},
+    {"cjpat", NULL},
+    {"help", NULL}, /* best to keep this last */
+    {NULL, NULL}
 };
 
 typedef enum {
@@ -151,79 +151,123 @@ typedef enum {
     DATA_TYPE_HELP      /* best to keep this last */
 } payload_t;
 
-static char *tx_payload_lut[] = {
-    "abc",
-    "zero",
-    "one",
-    "inc",
-    "dec",
-    "rand",
-    "help",     /* best to keep this last */
-    0
+static bdk_readline_tab_t tab_tx_payload[] = {
+    {"abc", NULL},
+    {"zero", NULL},
+    {"one", NULL},
+    {"inc", NULL},
+    {"dec", NULL},
+    {"rand", NULL},
+    {"help", NULL}, /* best to keep this last */
+    {NULL, NULL}
 };
 
-static char *on_off_lut[] = {
-    "off",
-    "on",
-    0
+static bdk_readline_tab_t tab_csr_name[8192];
+
+static bdk_readline_tab_t tab_on_off[] = {
+    {"off", NULL},
+    {"on", NULL},
+    {NULL, NULL}
 };
 
-static char *on_off_error_lut[] = {
-    "off",
-    "on",
-    "error",
-    0
+static bdk_readline_tab_t tab_commands[] = {
+    {"default", NULL},
+    {"start", NULL},
+    {"stop", NULL},
+    {"show", NULL},
+    {"hide", NULL},
+    {"clear", NULL},
+    {"clearall", NULL},
+    {"reset", NULL},
+    {"tx.size", NULL},
+    {"tx.percent", NULL},
+    {"tx.rate", NULL},
+    {"tx.count", NULL},
+    {"tx.data[", NULL},
+    {"tx.payload", tab_tx_payload},
+    {"tx.type", tab_tx_packet_type},
+    {"tx.checksum", tab_on_off},
+    {"csr", NULL},
+    {"row", tab_on_off},
+    {"hli", tab_on_off},
+    {"freeze", tab_on_off},
+    {"history", NULL},
+    {"debug", tab_on_off},
+    {"cls", NULL},
+    {"reboot", NULL},
+    {"mii.read", NULL},
+    {"mii.write", NULL},
+    {"mii45.read", NULL},
+    {"mii45.write", NULL},
+    {"phy.speed", NULL},
+    {"src.mac", NULL},
+    {"src.mac.inc", NULL},
+    {"src.mac.min", NULL},
+    {"src.mac.max", NULL},
+    {"dest.mac", NULL},
+    {"dest.mac.inc", NULL},
+    {"dest.mac.min", NULL},
+    {"dest.mac.max", NULL},
+    {"tx.vlan", NULL},
+    {"src.ip", NULL},
+    {"src.ip.inc", NULL},
+    {"src.ip.min", NULL},
+    {"src.ip.max", NULL},
+    {"dest.ip", NULL},
+    {"dest.ip.inc", NULL},
+    {"dest.ip.min", NULL},
+    {"dest.ip.max", NULL},
+    {"ip.tos", NULL},
+    {"src.port", NULL},
+    {"src.port.inc", NULL},
+    {"src.port.min", NULL},
+    {"src.port.max", NULL},
+    {"dest.port", NULL},
+    {"dest.port.inc", NULL},
+    {"dest.port.min", NULL},
+    {"dest.port.max", NULL},
+    {"arp.request", NULL},
+    {"tx.arp.reply", NULL},
+    {"rx.arp.request", NULL},
+    {"rx.arp.reply", NULL},
+    {"find.max", NULL},
+    {"scan.sizes", NULL},
+    {"bridge", tab_on_off},
+    {"rx.packets", NULL},
+    {"rx.octets", NULL},
+    {"rx.mbps", NULL},
+    {"rx.total_packets", NULL},
+    {"rx.total_octets", NULL},
+    {"rx.total_errors", NULL},
+    {"rx.validation_errors", NULL},
+    {"rx.promisc", NULL},
+    {"rx.display", tab_on_off},
+    {"tx.packets", NULL},
+    {"tx.octets", NULL},
+    {"tx.mbps", NULL},
+    {"tx.total_packets", NULL},
+    {"tx.total_octets", NULL},
+    {"higig", NULL},
+    {"validate", tab_on_off},
+    {"loopback", NULL},
+    {"backpressure", NULL},
+    {"ixf.read", NULL},
+    {"ixf.write", NULL},
+    {"ixf.read32", NULL},
+    {"ixf.write32", NULL},
+    {"ixf.miiread", NULL},
+    {"ixf.miiwrite", NULL},
+    {"editing", NULL},
+    {"alias", NULL},
+    {"unalias", NULL},
+    {"echo", NULL},
+    {"type", NULL},
+    {NULL, NULL}
 };
 
-static char *port_off_lut[] = {
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31",
-    "32",
-    "33",
-    "34",
-    "35",
-    "36",
-    "37",
-    "38",
-    "39",
-    "off",
-    0
-};
 
-static char *csr_name_lut[8192];
-
-static char **numeric = NULL;  /* for displaying numeric types in PRINTTRANS */
-static char **numeric_signed = (char**)-1;  /* for displaying signed numeric types in PRINTTRANS */
+static bdk_readline_tab_t *numeric = NULL;  /* for displaying numeric types in PRINTTRANS */
+static bdk_readline_tab_t *numeric_signed = (bdk_readline_tab_t *)-1;  /* for displaying signed numeric types in PRINTTRANS */
 
 typedef struct {
     char *command;
@@ -2309,15 +2353,15 @@ static uint64_t process_command(const char *cmd, int newline)
             if (p) {                                                            \
                 p++;                                                            \
                 if (isalpha((int)*p)) argc--;                                   \
-                while (LUT[type]) {                                             \
-                    if (strcasecmp(p, LUT[type]) == 0) {                        \
+                while (LUT[type].str) {                                         \
+                    if (strcasecmp(p, LUT[type].str) == 0) {                    \
                         if (strcasecmp(p,"help") == 0)                          \
-                            while (LUT[type]) type++;                           \
+                            while (LUT[type].str) type++;                       \
                         break;                                                  \
                     }                                                           \
                     type++;                                                     \
                 }                                                               \
-                if (LUT[type]) {                                                \
+                if (LUT[type].str) {                                            \
                     for (int i=0; tx_set.list[i] != NULL; i++)                  \
                     {                                                           \
                         port_info_t *pinfo = tx_set.list[i];                    \
@@ -2330,13 +2374,13 @@ static uint64_t process_command(const char *cmd, int newline)
                         for (int i=0; tx_set.list[i] != NULL; i++)              \
                         {                                                       \
                             port_info_t *pinfo = tx_set.list[i];                \
-                            printf("Port %2u " NAME ": %s\n",pinfo->name,LUT[FIELD]); \
+                            printf("Port %2u " NAME ": %s\n",pinfo->name,LUT[FIELD].str); \
                         }                                                       \
                         printf("\n");                                           \
                     }                                                           \
                     else {                                                      \
                         printf(NAME " types:");                                 \
-                        for(type=0;  LUT[type]; type++) printf(" %s",LUT[type]);\
+                        for(type=0;  LUT[type].str; type++) printf(" %s",LUT[type].str);\
                         printf(" (show)\n");                                    \
                     }                                                           \
                 }                                                               \
@@ -2586,8 +2630,8 @@ static uint64_t process_command(const char *cmd, int newline)
                 command_result = process_cmd_scan_packet_sizes(&tx_set, &rx_set, min_size, max_size, inc_size, count);
             }
         }
-        PORT_RANGE_LUT_COMMAND("tx.payload",   pinfo->setup.output_packet_payload, tx_payload_lut)
-        PORT_RANGE_LUT_COMMAND("tx.type",      pinfo->setup.output_packet_type, tx_packet_type_lut)
+        PORT_RANGE_LUT_COMMAND("tx.payload",   pinfo->setup.output_packet_payload, tab_tx_payload)
+        PORT_RANGE_LUT_COMMAND("tx.type",      pinfo->setup.output_packet_type, tab_tx_packet_type)
         PORT_RANGE_COMMAND("stop",      pinfo->setup.output_enable, 0)
         PORT_RANGE_COMMAND("start",     pinfo->setup.output_enable, 1)
         PORT_RANGE_COMMAND("show",      pinfo->state.display, 1)
@@ -2970,12 +3014,12 @@ static uint64_t process_command(const char *cmd, int newline)
             }
         }
 #endif
-        PORT_RANGE_LUT_COMMAND("tx.arp.reply",   pinfo->setup.output_arp_reply_enable, on_off_lut)
-        PORT_RANGE_LUT_COMMAND("rx.arp.request", pinfo->setup.input_arp_request_enable, on_off_lut)
-        PORT_RANGE_LUT_COMMAND("rx.arp.reply",   pinfo->setup.input_arp_reply_enable, on_off_lut)
-        PORT_RANGE_LUT_COMMAND("tx.checksum",    pinfo->setup.do_checksum, on_off_lut)
-        PORT_RANGE_LUT_COMMAND("rx.display",     pinfo->setup.display_packet, on_off_error_lut)
-        PORT_RANGE_LUT_COMMAND("validate",       pinfo->setup.validate, on_off_lut)
+        PORT_RANGE_LUT_COMMAND("tx.arp.reply",   pinfo->setup.output_arp_reply_enable, tab_on_off)
+        PORT_RANGE_LUT_COMMAND("rx.arp.request", pinfo->setup.input_arp_request_enable, tab_on_off)
+        PORT_RANGE_LUT_COMMAND("rx.arp.reply",   pinfo->setup.input_arp_reply_enable, tab_on_off)
+        PORT_RANGE_LUT_COMMAND("tx.checksum",    pinfo->setup.do_checksum, tab_on_off)
+        PORT_RANGE_LUT_COMMAND("rx.display",     pinfo->setup.display_packet, tab_on_off)
+        PORT_RANGE_LUT_COMMAND("validate",       pinfo->setup.validate, tab_on_off)
 #if 0 // loopback
         else if (strcasecmp(command, "loopback") == 0) {
             if (argc >= 2)
@@ -3445,7 +3489,7 @@ someone_on: ;
             {                                                                               \
                 if (b==numeric) printf("|%10llu", (ULL)pinfo->setup.s);                     \
                 else if (b==numeric_signed) printf("|%10lld", (LL)pinfo->setup.s);          \
-                else printf("|%10s", b[pinfo->setup.s]);                                    \
+                else printf("|%10s", b[pinfo->setup.s].str);                                \
             }                                                                               \
         }                                                                                   \
         printf(ERASE_EOL);    /* Erase to end of line */                                    \
@@ -3569,8 +3613,8 @@ someone_on: ;
     ROW(0){PRINTPERCENT("RX percent", input_percent);}
     ROW(1){PRINTSTAT("RX Mbps", input_Mbps);}
     ROW(1){PRINTTRANS("tx.size", output_packet_size, numeric);}
-    ROW(1){PRINTTRANS("tx.type", output_packet_type, tx_packet_type_lut);}
-    ROW(1){PRINTTRANS("tx.payload", output_packet_payload, tx_payload_lut);}
+    ROW(1){PRINTTRANS("tx.type", output_packet_type, tab_tx_packet_type);}
+    ROW(1){PRINTTRANS("tx.payload", output_packet_payload, tab_tx_payload);}
     ROW(1){PRINTSTAT("TX packets", delta.tx.packets);}
     ROW(1){PRINTSTAT("TX octets", delta.tx.octets);}
     ROW(0){PRINTPERCENT("TX percent", output_percent);}
@@ -3584,9 +3628,9 @@ someone_on: ;
     ROW(0){PRINTSTAT("Total RX ARP rply", input_arp_replies);}
     ROW(0){PRINTSTAT("Total TX ARP rqst", output_arp_requests);}
     ROW(0){PRINTSTAT("Total TX ARP rply", output_arp_replies);}
-    ROW(0){PRINTTRANS("tx.arp.reply", output_arp_reply_enable, on_off_lut);}
-    ROW(0){PRINTTRANS("rx.arp.request", input_arp_request_enable, on_off_lut);}
-    ROW(0){PRINTTRANS("rx.arp.reply", input_arp_reply_enable, on_off_lut);}
+    ROW(0){PRINTTRANS("tx.arp.reply", output_arp_reply_enable, tab_on_off);}
+    ROW(0){PRINTTRANS("rx.arp.request", input_arp_request_enable, tab_on_off);}
+    ROW(0){PRINTTRANS("rx.arp.reply", input_arp_reply_enable, tab_on_off);}
     ROW(1){PRINTMAC("dest.mac", dest_mac);}
     ROW(0){PRINTMAC("dest.mac.inc", dest_mac_inc);}
     ROW(0){PRINTMAC("dest.mac.min", dest_mac_min);}
@@ -3612,13 +3656,13 @@ someone_on: ;
     ROW(0){PRINTTRANS("dest.port.inc", dest_port_inc, numeric_signed);}
     ROW(0){PRINTTRANS("dest.port.min", dest_port_min, numeric);}
     ROW(0){PRINTTRANS("dest.port.max", dest_port_max, numeric);}
-    ROW(0){PRINTTRANS("tx.checksum", do_checksum, on_off_lut);}
-    ROW(1){PRINTTRANS("bridge", bridge_port, port_off_lut);}
+    ROW(0){PRINTTRANS("tx.checksum", do_checksum, tab_on_off);}
+    ROW(1){PRINTTRANS("bridge", bridge_port, numeric);}
     ROW(0){PRINTVLAN("tx.vlan", vlan);}
-    ROW(0){PRINTTRANS("rx.display", display_packet, on_off_error_lut);}
+    ROW(0){PRINTTRANS("rx.display", display_packet, tab_on_off);}
     ROW(0){PRINTTRANS("higig", higig, numeric);}
-    ROW(1){PRINTTRANS("validate packets", validate, on_off_lut);}
-    ROW(0){PRINTTRANS("RespectBackpressure", respect_backpressure, on_off_lut);}
+    ROW(1){PRINTTRANS("validate packets", validate, tab_on_off);}
+    ROW(0){PRINTTRANS("RespectBackpressure", respect_backpressure, tab_on_off);}
     ROW(0){printf("Packet buffers:  %7llu ", (ULL)BDK_CSR_READ(BDK_IPD_QUE0_FREE_PAGE_CNT));
         printf("Command buffers: %7llu ", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_OUTPUT_BUFFER_POOL)));
         printf("Work buffers:    %7llu" ERASE_EOL "\n", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_WQE_POOL)));}
@@ -3831,7 +3875,7 @@ static void statistics_gatherer(void)
     while (1)
     {
         bdk_spinlock_lock(&printf_lock);
-        const char *cmd = bdk_readline("Command", 10000);
+        const char *cmd = bdk_readline("Command", tab_commands, 10000);
         bdk_spinlock_unlock(&printf_lock);
         if (cmd)
             process_command(cmd,  0);
@@ -4476,10 +4520,11 @@ int main(void)
         buffer[0] = 0;
         while (bdk_csr_get_name((buffer[0]) ? buffer : NULL, buffer) == 0)
         {
-            csr_name_lut[csr_count] = strdup(buffer);
+            tab_csr_name[csr_count].str = strdup(buffer);
+            tab_csr_name[csr_count].next = NULL;
             csr_count++;
         }
-        csr_name_lut[csr_count] = NULL;
+        tab_csr_name[csr_count].str = NULL;
 
         memset(&port_info, 0, sizeof(port_info));
 

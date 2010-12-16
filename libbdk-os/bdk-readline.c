@@ -24,19 +24,10 @@ static int history_index;
 static int history_lookup_index;
 
 static const char *cmd_prompt;
+static const bdk_readline_tab_t *tab_complete_data;
 static unsigned int cmd_len;
 static unsigned int cmd_pos;
 static char *cmd;
-
-typedef struct
-{
-    const char *prefix;
-    const char *complete[];
-} lut_map_t;
-typedef const char * const * lut_t;
-
-static const char **primary_lut;
-static const lut_map_t *secondary_lut;
 
 static int escape_saw_char;
 static int escape_mode;
@@ -47,7 +38,7 @@ static int was_lookup;
 static int insert_mode = 1;
 static int delete_mode;
 static int overwrite_once;
-static lut_t saved_avail_p;
+static const bdk_readline_tab_t *saved_avail_p;
 static int saved_suffix_size;
 static int tab_mode;
 static char pattern[MAX_COMMAND];
@@ -142,16 +133,17 @@ static void process_input_commit_character(char ch) {
     }
 }
 
-static lut_t next_avail_p(lut_t avail_p, lut_t lut)
+static const bdk_readline_tab_t *next_avail_p(const bdk_readline_tab_t *avail_p, const bdk_readline_tab_t *lut)
 {
-    if (avail_p == NULL) return lut;
-    if (*++avail_p == 0) return lut;
+    if (avail_p->str == NULL) return lut;
+    avail_p++;
+    if (avail_p->str == NULL) return lut;
     return avail_p;
 }
 
-static void tab_complete(char *token_start, lut_t lut)
+static void tab_complete(char *token_start, const bdk_readline_tab_t *lut)
 {       /* find longest common suffix, of those with matching prefixes */
-    lut_t avail_p;
+    const bdk_readline_tab_t *avail_p;
     const char *p;
     int suffix_size=-1;
     const char *suffix = NULL;
@@ -161,12 +153,12 @@ static void tab_complete(char *token_start, lut_t lut)
 
     if (tab_mode==1) {
         if (saved_avail_p == NULL) {
-            for (saved_avail_p = lut; *saved_avail_p; saved_avail_p++);
+            for (saved_avail_p = lut; saved_avail_p->str; saved_avail_p++);
             saved_avail_p--;    /* initialize to the one before the end */
         }
         for (avail_p = next_avail_p(saved_avail_p,lut); avail_p != saved_avail_p; avail_p = next_avail_p(avail_p,lut)) {
-            if (strncasecmp(token_start, *avail_p, offset)==0) {        /* prefix matches */
-                suffix = *avail_p+offset;
+            if (strncasecmp(token_start, avail_p->str, offset)==0) {        /* prefix matches */
+                suffix = avail_p->str+offset;
                 p=find_token_end(suffix);
                 suffix_size = p - suffix;
                 saved_avail_p = avail_p;
@@ -192,13 +184,13 @@ static void tab_complete(char *token_start, lut_t lut)
     }
     else {
         if (tab_mode==2) printf ("\n");
-        for (avail_p = lut; *avail_p && suffix_size; avail_p++) {
-            if (strncasecmp(token_start, *avail_p, offset)==0) {        /* prefix matches */
+        for (avail_p = lut; avail_p->str && suffix_size; avail_p++) {
+            if (strncasecmp(token_start, avail_p->str, offset)==0) {        /* prefix matches */
                 if (tab_mode==2) {      /* list all */
-                    p = find_token_end(*avail_p);
-                    fwrite(*avail_p, p - *avail_p, 1, stdout);
+                    p = find_token_end(avail_p->str);
+                    fwrite(avail_p->str, p - avail_p->str, 1, stdout);
                     putchar(' ');
-                    printed += p - *avail_p;
+                    printed += p - avail_p->str;
                     if (printed > 70) {
                         printf("\n");
                         printed = 0;
@@ -206,12 +198,12 @@ static void tab_complete(char *token_start, lut_t lut)
                 }
                 else {
                     if (suffix==NULL) { /* first match */
-                        suffix = *avail_p+offset;
+                        suffix = avail_p->str+offset;
                         p=find_token_end(suffix);
                         suffix_size = p - suffix;
                     }
                     else {      /* not first match */
-                        while ((suffix_size>0) && (strncasecmp(suffix,*avail_p+offset, suffix_size)!=0)) {
+                        while ((suffix_size>0) && (strncasecmp(suffix,avail_p->str+offset, suffix_size)!=0)) {
                             suffix_size--;
                         }
                     }
@@ -671,22 +663,25 @@ parse_input:
         token_start = &cmd[cmd_pos] - (cmd_pos != 0);
         while ((token_start > cmd) && (*token_start != ' ')) token_start--;
         if (token_start==cmd) {         /* first token of command */
-            if (primary_lut)
-                tab_complete(cmd, primary_lut);
+            if (tab_complete_data)
+                tab_complete(cmd, tab_complete_data);
         }
         else {
             token_start++;      /* skip space */
             if (strncasecmp(cmd, "help", strlen("help")) == 0) {        /* for help <command> secondary lookup is help_commands */
-                if (primary_lut)
-                    tab_complete(token_start, primary_lut);
+                if (tab_complete_data)
+                    tab_complete(token_start, tab_complete_data);
             }
-            else if (secondary_lut) {
-                const lut_map_t *second;
-                for (second=secondary_lut; second->prefix; second++) {
-                    if (strncasecmp(cmd, second->prefix, strlen(second->prefix)) == 0) {
-                        tab_complete(token_start, second->complete);
+            else if (tab_complete_data) {
+                const bdk_readline_tab_t *loc = tab_complete_data;
+                while (loc->str)
+                {
+                    if (strncasecmp(cmd, loc->str, strlen(loc->str)) == 0) {
+                        if (loc->next)
+                            tab_complete(token_start, loc->next);
                         break;
                     }
+                    loc++;
                 }
             }
         }
@@ -805,11 +800,12 @@ process_input_done:
 }
 
 
-extern const char *bdk_readline(const char *prompt, int timeout_us)
+const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us)
 {
     int uart_id = 0;
     uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
     cmd_prompt = prompt;
+    tab_complete_data = tab;
 
     if (timeout_us < 1)
         stop_time = -1;
