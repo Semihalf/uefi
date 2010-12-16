@@ -5,7 +5,8 @@
  *
  * <hr>$Revision: 45089 $<hr>
  *
- * @addtogroup hal
+ * @defgroup packetio Packet Input / Output
+ * @addtogroup packetio
  * @{
  */
 
