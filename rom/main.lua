@@ -20,7 +20,9 @@ local choices = {
 
 while (true) do
     local c = menu.show(choices)
-    if (c == 4) then
+    if (c == 1) then
+        dofile("/rom/file.lua")
+    elseif (c == 4) then
         dofile("/rom/ilua.lua")
     elseif (c == 5) then
         print("Starting remote call server.")
