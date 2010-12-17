@@ -734,8 +734,11 @@ parse_input:
     }
     else if ((c == '\r') || (c == '\n'))        /* CR/LF */
     {
-        was_lookup = (cmd[0] == '/') || (cmd[0] == '?') || (cmd[0] == ':');
-        search_mode = (cmd[0] == '/') || (cmd[0] == '?');
+        //was_lookup = (cmd[0] == '/') || (cmd[0] == '?') || (cmd[0] == ':');
+        //search_mode = (cmd[0] == '/') || (cmd[0] == '?');
+        // FIXME: Don't allow '/' searches when not in escape mode. It interferes with path names
+        was_lookup = (cmd[0] == '?') || (cmd[0] == ':');
+        search_mode = (cmd[0] == '?');
         cmd[cmd_len] = 0;
         cmd_pos = cmd_len;
         if ((cmd[0] == '!') || was_lookup) {
