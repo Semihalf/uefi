@@ -8109,9 +8109,9 @@ Notes:
  DDR3RST - DDR3 DRAM parts have a new RESET#
    pin that wasn't present in DDR2 parts. The
    DDR3RST CSR field controls the assertion of
-   the new 63xx pin that attaches to RESET#.
-   When DDR3RST is set, 63xx asserts RESET#.
-   When DDR3RST is clear, 63xx de-asserts
+   the new 6xxx pin that attaches to RESET#.
+   When DDR3RST is set, 6xxx asserts RESET#.
+   When DDR3RST is clear, 6xxx de-asserts
    RESET#.
 
    DDR3RST is set on a cold reset. Warm and
@@ -8408,6 +8408,7 @@ Pos      Name    Type     Value     Value       Description
                                             for Two Dimm Unbuffered Systems" for physical details.
 <3>     POCAS        R/W     0       0      Enable the Posted CAS feature of DDR3.
                                             This bit should be set in conjunction with DFM_MODEREG_PARAMS[AL]
+                                            *DON'T PUT IN HRM*
 <5:4>   FPRCH2       R/W     0     0x1      Front Porch Enable: When set, the turn-off
                                             time for the default DDR_DQ/DQS drivers is FPRCH2 fclks earlier.
                                             00 = 0 fclks
@@ -8734,6 +8735,7 @@ Pos      Name    Type     Value     Value       Description
                                             This value must equal the MR1[AL] value in all the DDR3
                                             parts attached to all ranks during normal operation.
                                             See also DFM_CONTROL[POCAS].
+                                            *DON'T PUT IN HRM*
 <6:6>    DLL         R/W    0x0      0x0    DLL Enable
                                             0 = enable
                                             1 = disable
@@ -17317,9 +17319,9 @@ Notes:
  DDR3RST - DDR3 DRAM parts have a new RESET#
    pin that wasn't present in DDR2 parts. The
    DDR3RST CSR field controls the assertion of
-   the new 63xx pin that attaches to RESET#.
-   When DDR3RST is set, 63xx asserts RESET#.
-   When DDR3RST is clear, 63xx de-asserts
+   the new 6xxx pin that attaches to RESET#.
+   When DDR3RST is set, 6xxx asserts RESET#.
+   When DDR3RST is clear, 6xxx de-asserts
    RESET#.
 
    DDR3RST is set on a cold reset. Warm and
@@ -17667,6 +17669,7 @@ Pos      Name    Type     Value     Value       Description
 <3>     POCAS        R/W     0       0      Enable the Posted CAS feature of DDR3.
                                             This bit must be set whenever LMC*_MODEREG_PARAMS0[AL]!=0,
                                             and clear otherwise.
+                                            *DON'T PUT IN HRM*
 <5:4>   FPRCH2       R/W     0     0x1      Front Porch Enable: When set, the turn-off
                                             time for the default DDR_DQ/DQS drivers is FPRCH2 CKs earlier.
                                             00 = 0 CKs
@@ -18003,6 +18006,7 @@ Pos      Name    Type     Value     Value       Description
                                             This value must equal the MR1[AL] value in all the DDR3
                                             parts attached to all ranks during normal operation.
                                             See also LMC*_CONTROL[POCAS].
+                                            *DON'T PUT IN HRM*
 <6:6>    DLL         R/W    0x0      0x0    DLL Enable
                                             0 = enable
                                             1 = disable.
@@ -18258,25 +18262,25 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:56>  WODT_D3_R1  R/W    0xff    0x0     Write ODT mask DIMM3, RANK1/DIMM3 in SingleRanked
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <55:48>  WODT_D3_R0  R/W    0xff    0x0     Write ODT mask DIMM3, RANK0
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <47:40>  WODT_D2_R1  R/W    0xff    0x0     Write ODT mask DIMM2, RANK1/DIMM2 in SingleRanked
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <39:32>  WODT_D2_R0  R/W    0xff    0x0     Write ODT mask DIMM2, RANK0
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <31:24>  WODT_D1_R1  R/W    0xff    NS      Write ODT mask DIMM1, RANK1/DIMM1 in SingleRanked
                                             if (!RANK_ENA) then WODT_D1_R1[3:0] MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <23:16>  WODT_D1_R0  R/W    0xff    NS      Write ODT mask DIMM1, RANK0
                                             if (!RANK_ENA) then WODT_D1_R0[3,1] MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <15:8>   WODT_D0_R1  R/W    0xff    NS      Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked
                                             if (!RANK_ENA) then WODT_D0_R1[3:0] MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <7:0>    WODT_D0_R0  R/W    0xff    NS      Write ODT mask DIMM0, RANK0
                                             if (!RANK_ENA) then WODT_D0_R0[3,1] MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 
 Notes:
 
@@ -18739,7 +18743,7 @@ Pos      Name    Type     Value     Value       Description
                                             corresponding CS_MASK bit set, then the "config1"
                                             parameters are used, otherwise the "config0" parameters
                                             are used.  See additional notes below.
-                                            [7:4] *UNUSED IN 63xx*
+                                            [7:4] *UNUSED IN 6xxx*
 
 Notes:
  This register enables the design to have two, separate memory configurations, selected dynamically
@@ -18940,13 +18944,13 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:40>  NS            RAZ     NS     NS     RESERVED
 <39:36>  MEM_MSB_D3_R1 R/W    0x0     NS     Max Row MSB for DIMM3, RANK1/DIMM3 in Single Ranked
-                                             *UNUSED IN 63xx*
+                                             *UNUSED IN 6xxx*
 <35:32>  MEM_MSB_D3_R0 R/W    0x0     NS     Max Row MSB for DIMM3, RANK0
-                                             *UNUSED IN 63xx*
+                                             *UNUSED IN 6xxx*
 <31:28>  MEM_MSB_D2_R1 R/W    0x0     NS     Max Row MSB for DIMM2, RANK1/DIMM2 in Single Ranked
-                                             *UNUSED IN 63xx*
+                                             *UNUSED IN 6xxx*
 <27:24>  MEM_MSB_D2_R0 R/W    0x0     NS     Max Row MSB for DIMM2, RANK0
-                                             *UNUSED IN 63xx*
+                                             *UNUSED IN 6xxx*
 <23:20>  MEM_MSB_D1_R1 R/W    0x0     NS     Max Row MSB for DIMM1, RANK1/DIMM1 in Single Ranked
 <19:16>  MEM_MSB_D1_R0 R/W    0x0     NS     Max Row MSB for DIMM1, RANK0
 <15:12>  MEM_MSB_D0_R1 R/W    0x0     NS     Max Row MSB for DIMM0, RANK1/DIMM0 in Single Ranked
@@ -18961,7 +18965,7 @@ Pos      Name    Type     Value     Value       Description
                                              NXM read reference to use the lowest, legal chip select(s)
                                              and return 0's. LMC normally discards NXM writes, but will
                                              also alias them when LMC*_CONTROL[NXM_WRITE_EN]=1.
-                                             CS_MASK<7:4> MBZ in 63xx
+                                             CS_MASK<7:4> MBZ in 6xxx
 Notes:
 				            Decoding for mem_msb/rank
                                                  0000: mem_msb = mem_adr[25]
@@ -19465,37 +19469,37 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:56>  RODT_D3_R1  R/W    0x00    0x00    Read ODT mask DIMM3, RANK1/DIMM3 in SingleRanked
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <55:48>  RODT_D3_R0  R/W    0x00    0x00    Read ODT mask DIMM3, RANK0
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <47:40>  RODT_D2_R1  R/W    0x00    0x00    Read ODT mask DIMM2, RANK1/DIMM2 in SingleRanked
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <39:32>  RODT_D2_R0  R/W    0x00    0x00    Read ODT mask DIMM2, RANK0
-                                            *UNUSED IN 63xx, and MBZ*
+                                            *UNUSED IN 6xxx, and MBZ*
 <31:24>  RODT_D1_R1  R/W    0x00    NS      Read ODT mask DIMM1, RANK1/DIMM1 in SingleRanked
                                             if (RANK_ENA) then
                                                 RODT_D1_R1[3] must be 0
                                             else
                                                 RODT_D1_R1[3:0] is not used and MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <23:16>  RODT_D1_R0  R/W    0x00    NS      Read ODT mask DIMM1, RANK0
                                             if (RANK_ENA) then
                                                 RODT_D1_RO[2] must be 0
                                             else
                                                 RODT_D1_RO[3:2,1] must be 0
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <15:8>   RODT_D0_R1  R/W    0x00    NS      Read ODT mask DIMM0, RANK1/DIMM0 in SingleRanked
                                             if (RANK_ENA) then
                                                 RODT_D0_R1[1] must be 0
                                             else
                                                 RODT_D0_R1[3:0] is not used and MBZ
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 <7:0>    RODT_D0_R0  R/W    0x00    NS      Read ODT mask DIMM0, RANK0
                                             if (RANK_ENA) then
                                                 RODT_D0_RO[0] must be 0
                                             else
                                                 RODT_D0_RO[1:0,3] must be 0
-                                            *Upper 4 bits UNUSED IN 63xx, and MBZ*
+                                            *Upper 4 bits UNUSED IN 6xxx, and MBZ*
 
 Notes:
 When a given RANK is selected, the RODT mask for that RANK is used.  The resulting RODT mask is
@@ -21119,7 +21123,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:35> NS          RAZ      NS          NS       Reserved				            |
  <34>    DORM_CRYPTO RO       NS          NS       Fuse information - Dormant Encryption enable     |
- <33>	 FUS318	     RO	      NS	  NS	   Fuse information - a copy of fuse318		    |
+ <33>	 FUS318	     RO	      NS	  NS	   Reserved                                 	    |
  <32>    RAID_EN     RO	      NS	  NS  	   Fuse information - RAID enabled		    |
  <31:29> NS          RO       NS          NS       Fuse information - Spare Fuse[76:74]             |
  <28>    NODFA_CP2   RO       NS          NS       Fuse information - DFA Disable (CP2)             |
@@ -21826,6 +21830,10 @@ Pos      Name    Type     Value     Value       Description
  <39:36> PCI_INT  RO	   0	       0	 PCIe INTA/B/C/D				    |
                                                   Refer to "Receiving Emulated INTA/INTB/           |
                                                   INTC/INTD" in the SLI chapter of the spec         |
+						  PCI_INT<3> = INTD				    |
+						  PCI_INT<2> = INTC				    |
+						  PCI_INT<1> = INTB				    |
+						  PCI_INT<0> = INTA				    |
  <35:34> UART     RO	   0	       0	 Two UART interrupts				    |
                                                  See MIO_UARTn_IIR[IID] for bit <34+n>              |
  <33:32> MBOX     RO	   0	       0	 Two mailbox interrupts	for entries 0-11	    |
@@ -21895,6 +21903,10 @@ Pos      Name    Type     Value     Value       Description
  <39:36> PCI_INT  RO	   0	       0	 PCIe INTA/B/C/D				    |
                                                   Refer to "Receiving Emulated INTA/INTB/           |
                                                   INTC/INTD" in the SLI chapter of the spec         |
+						  PCI_INT<3> = INTD				    |
+						  PCI_INT<2> = INTC				    |
+						  PCI_INT<1> = INTB				    |
+						  PCI_INT<0> = INTA				    |
  <35:34> UART     RO	   0	       0	 Two UART interrupts				    |
                                                  See MIO_UARTn_IIR[IID] for bit <34+n>              |
  <33:32> MBOX     RO	   0	       0	 A read-only copy of CIU_PCI_INTA[INT]	            |
@@ -22146,6 +22158,10 @@ Pos      Name    Type     Value     Value       Description
  <39:36> PCI_INT  RO	   0	       0	 PCIe INTA/B/C/D				    |
                                                   Refer to "Receiving Emulated INTA/INTB/           |
                                                   INTC/INTD" in the SLI chapter of the spec         |
+						  PCI_INT<3> = INTD				    |
+						  PCI_INT<2> = INTC				    |
+						  PCI_INT<1> = INTB				    |
+						  PCI_INT<0> = INTA				    |
  <35:34> UART     RO	   0	       0	 Two UART interrupts				    |
                                                  See MIO_UARTn_IIR[IID] for bit <34+n>              |
  <33:32> MBOX     RO	   0	       0	 Two mailbox interrupts	for entries 0-5 	    |

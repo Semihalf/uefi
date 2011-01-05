@@ -331,7 +331,7 @@ Pos      Name    Type     Value     Value       Description
 
  *
  *                  PCIE_CFG012 = Thirteenth 32-bits of PCIE type 0 config space (Expansion ROM Base Address Register)
- *
+ *                  This register is only enabled in PCIE0, PCIE1 does NOT have this bar enabled.
  *
  *
 
@@ -4866,7 +4866,7 @@ Notes:
 (B) PCTERR - checks that the frame begins with a valid PREAMBLE sequence.
              Does not check the number of PREAMBLE cycles.
 
-(C) OVRERR - Not to be included in the HRM
+(C) OVRERR - *DON'T PUT IN HRM*
 
 	     OVRERR is an architectural assertion check internal to GMX to
 	     make sure no assumption was violated.  In a correctly operating
@@ -6919,13 +6919,35 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:17> NS       RAZ      NS          NS        Reserved				            |
- <16>    BP       RO       0x0         0         Current BP state				    |
+ <16>    BP       RO       0x0         0         Current TX stats BP state			    |
+						  When the TX stats machine cannot update the stats |
+						  registers quickly enough, the machine has the	    |
+						  ability to BP TX datapath.  This is a rare event  |
+						  and will not occur in normal operation.	    |
+						  0 = no backpressure is applied		    |
+						  1 = backpressure is applied to TX datapath to	    |
+						      allow stat update operations to complete	    |
  <15:0>  CNT      R/W1C    0x0         0         Number of cycles that BP has been asserted	    |
 						  Saturating counter                                |
 
 Notes:
 
 Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
+
+*DON'T PUT IN HRM*
+
+It has no relationship with the TX FIFO per se.  The TX engine sends packets
+from PKO and upon completion, sends a command to the TX stats block for an
+update based on the packet size.  The stats operation can take a few cycles -
+normally not enough to be visible considering the 64B min packet size that is
+ethernet convention.
+
+In the rare case in which SW attempted to schedule really, really, small packets
+or the sclk (6xxx) is running ass-slow, then the stats updates may not happen in
+real time and can back up the TX engine.
+
+This counter is the number of cycles in which the TX engine was stalled.  In
+normal operation, it should always be zeros.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -10212,22 +10234,22 @@ Pos      Name    Type     Value     Value       Description
 						      Physical Link nor 4'b0010 for Logical Link.   |
 						      Those are the only two defined types in HiGig2|
  <26>	 UNDAT	   R/W1C   0x0	       0	 Unexpected Data				    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <25>	 UNEOP	   R/W1C   0x0	       0	 Unexpected EOP					    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <24>	 UNSOP	   R/W1C   0x0	       0	 Unexpected SOP					    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <23>    BAD_TERM  R/W1C   0x0	       0	 Frame is terminated by control character other	    |
 						  than /T/.  The error propagation control	    |
 						  character /E/ will be included as part of the	    |
 						  frame and does not cause a frame termination.	    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <22>    BAD_SEQ   R/W1C   0x0         0         Reserved Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <21>    REM_FAULT R/W1C   0x0         0         Remote Fault Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <20>    LOC_FAULT R/W1C   0x0         0         Local Fault Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <19>    PAUSE_DRP R/W1C   0x0         0         Pause packet was dropped due to full GMX RX FIFO   |
  <18:16> NS        RAZ     NS          NS        Reserved				            |
  <15>    IFGERR    R/W1C   0x0         0         Interframe Gap Violation			    |
@@ -10239,8 +10261,8 @@ Pos      Name    Type     Value     Value       Description
 						  (SGMII/1000Base-X only)			    |
  <12>    RSVERR    R/W1C   0x0         0         Reserved opcodes				    |
  <11>    PCTERR    R/W1C   0x0         0         Bad Preamble / Protocol			    |
-						  In XAUI mode, the column of data that was bad	    |
-						  will be logged in GMX_RX_XAUI_BAD_COL		    |
+						  In XAUI/RXAUI mode, the column of data that was   |
+						  bad will be logged in GMX_RX_XAUI_BAD_COL	    |
  <10>    OVRERR   R/W1C    0x0         0         Internal Data Aggregation Overflow		    |
 						  This interrupt should never assert		    |
 						  (SGMII/1000Base-X only)			    |
@@ -10307,7 +10329,7 @@ Notes:
 (B) PCTERR - checks that the frame begins with a valid PREAMBLE sequence.
              Does not check the number of PREAMBLE cycles.
 
-(C) OVRERR - Not to be included in the HRM
+(C) OVRERR - *DON'T PUT IN HRM*
 
 	     OVRERR is an architectural assertion check internal to GMX to
 	     make sure no assumption was violated.  In a correctly operating
@@ -10322,7 +10344,7 @@ Notes:
 	     consume the tick before another is produced.  If that doesn't
 	     happen - that's when OVRERR will assert.
 
-(D) In XAUI mode prt0 is used for interrupt logging.
+(D) In XAUI/RXAUI mode prt0 is used for interrupt logging.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -10342,22 +10364,22 @@ Pos      Name    Type     Value     Value       Description
  <28>    HG2CC     R/W     0x0	       0	 HiGig2 CRC8 or Control char error interrupt enable |
  <27>    HG2FLD    R/W     0x0	       0	 HiGig2 Bad field error interrupt enable            |
  <26>	 UNDAT	   R/W     0x0	       0	 Unexpected Data				    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <25>	 UNEOP	   R/W     0x0	       0	 Unexpected EOP					    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <24>	 UNSOP	   R/W     0x0	       0	 Unexpected SOP					    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <23>    BAD_TERM  R/W     0x0	       0	 Frame is terminated by control character other	    |
 						  than /T/.  The error propagation control	    |
 						  character /E/ will be included as part of the	    |
 						  frame and does not cause a frame termination.	    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <22>    BAD_SEQ   R/W     0x0         0         Reserved Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <21>    REM_FAULT R/W     0x0         0         Remote Fault Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <20>    LOC_FAULT R/W     0x0         0         Local Fault Sequence Deteted			    |
- 						  (XAUI Mode only)				    |
+ 						  (XAUI/RXAUI Mode only)			    |
  <19>    PAUSE_DRP R/W     0x0         0         Pause packet was dropped due to full GMX RX FIFO   |
  <18:16> NS        RAZ     NS          NS        Reserved				            |
  <15>    IFGERR   R/W      0x0         0         Interframe Gap Violation			    |
@@ -10382,7 +10404,7 @@ Pos      Name    Type     Value     Value       Description
  <0>     MINERR   R/W      0x0         0         Pause Frame was received with length<minFrameSize  |
 
 Notes:
-In XAUI mode prt0 is used for checking.
+In XAUI/RXAUI mode prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -10560,7 +10582,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
 If GMX_RX_UDD_SKP[LEN] != 0, then LENERR will be forced to zero in HW.
 
-In XAUI mode prt0 is used for checking.
+In XAUI/RXAUI mode prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -10594,7 +10616,7 @@ Notes:
 
        max_sized_packet = GMX_RX_JABBER[CNT]+((GMX_RX_FRM_CTL[PRE_CHK] & !GMX_RX_FRM_CTL[PRE_STRP])*8)
 
-  In XAUI mode prt0 is used for checking.
+  In XAUI/RXAUI mode prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11054,8 +11076,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11077,8 +11099,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11100,8 +11122,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11123,8 +11145,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11146,8 +11168,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11169,8 +11191,8 @@ Pos      Name    Type     Value     Value       Description
 						  Each entry contributes 8bits to one of 8 matchers.|
 						  The CAM matches against unicst or multicst DMAC   |
 						  addresses.					    |
-						  In XAUI mode, all ports will reflect the data	    |
-						  written to port0.				    |
+						  In XAUI/RXAUI mode, all ports will reflect the    |
+						  data written to port0.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11197,8 +11219,8 @@ Pos      Name    Type     Value     Value       Description
 						   3: RAZ					    |
 						   4: RAZ					    |
 						   5: RAZ					    |
-						   6: RAZ					    |
-						   7: RAZ					    |
+						   6: gmx#.inb.skd_bnk0				    |
+						   7: gmx#.inb.skd_bnk1				    |
 						   8: gmx#.outb.fif.skd_bnk0			    |
 						   9: gmx#.outb.fif.skd_bnk1			    |
 						  10: gmx#.outb.fif.fif_bnk0			    |
@@ -11240,7 +11262,7 @@ Pos      Name    Type     Value     Value       Description
 						  2 ports      = 1024 ticks /  8192 bytes	    |
 						  3 or 4 ports =  512 ticks /  4096 bytes	    |
 Notes:
-GMX_RX_PRTS[PRTS] must be set to '1' in XAUI mode.
+GMX_RX_PRTS[PRTS] must be set to '1' in XAUI/RXAUI mode.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11270,7 +11292,7 @@ The actual watermark is dynamic with respect to the GMX_RX_PRTS
 register.  The GMX_RX_PRTS controls the depth of the port's
 FIFO so as ports are added or removed, the drop point may change.
 
-In XAUI mode prt0 is used for checking.
+In XAUI/RXAUI mode prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11289,23 +11311,23 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:11> NS       RAZ      NS          NS        Reserved				            |
  <10:0>  MARK     R/W      0x80        0x80	 Hiwater mark (8B ticks) for backpressure. 	    |
-						  Each register is for an individual port.  In XAUI |
-						  mode, prt0 is used for the unified RX FIFO	    |
-						  GMX_RX_BP_ON must satisfy			    |
+						  Each register is for an individual port.  In	    |
+						  XAUI/RXAUI mode, prt0 is used for the unified	    |
+						  RX FIFO GMX_RX_BP_ON must satisfy		    |
 						  BP_OFF <= BP_ON < (FIFO_SIZE - BP_DROP)	    |
 						  A value of zero will immediately assert back	    |
 						  pressure.					    |
 						  Recommended value is 1/4th the size of the per    |
 						  port RX FIFO as determined by GMX_RX_PRTS.	    |
-						   GMX_RX_PRTS[PRTS]=1, MARK=0x200 (XAUI mode)	    |
+						   GMX_RX_PRTS[PRTS]=1, MARK=0x200 (XAUI/RXAUI mode)|
 						   GMX_RX_PRTS[PRTS]=2, MARK=0x100		    |
 						   GMX_RX_PRTS[PRTS]=3, MARK=0x080		    |
 						   GMX_RX_PRTS[PRTS]=4, MARK=0x080 (reset value)    |
 						  The default value is best for 3 or 4 ports.	    |
-						  MARK is recommended to be 0x200 in XAUI mode.	    |
+						  MARK is recommended to be 0x200 in XAUI/RXAUI mode|
 
 Notes:
-In XAUI mode, prt0 is used for checking.
+In XAUI/RXAUI mode, prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11326,7 +11348,7 @@ Pos      Name    Type     Value     Value       Description
  <5:0>   MARK     R/W      0x10        0x10      Water mark (8B ticks) to deassert backpressure	    |
 
 Notes:
-In XAUI mode, prt0 is used for checking.
+In XAUI/RXAUI mode, prt0 is used for checking.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11359,7 +11381,9 @@ Pos      Name    Type     Value     Value       Description
 						   GMX_TX_PRTS==3,4:  CNT MAX = 0x080		    |
 
 Notes:
-In XAUI mode, prt0 is used for checking.  Since XAUI mode uses a single TX FIFO and is higher data rate, recommended value is 0x100.
+
+In XAUI/RXAUI mode, prt0 is used for checking.  Since XAUI/RXAUI mode uses a
+single TX FIFO and is higher data rate, recommended value is 0x100.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11461,7 +11485,8 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:16> NS       RAZ      NS          NS        Reserved				            |
  <15:0>	 TIME 	  R/W	   0x60        NS	 The pause_time field placed in outbnd 802.3 pause  |
-						  packets, HiGig2 messages, or CBFC pause packets.  |
+						  packets, HiGig2 messages, or PFC/CBFC pause	    |
+						  packets.					    |
                                                   pause_time is in 512 bit-times		    |
 						  Normally, TIME > GMX_TX_PAUSE_PKT_INTERVAL	    |
 
@@ -11504,7 +11529,7 @@ Pos      Name    Type     Value     Value       Description
 						  for the coresponding port is set.		    |
 						  In SGMII mode, packets will be padded to	    |
 						   MIN_SIZE+1. The reset value will pad to 60 bytes.|
-						  In XAUI mode, packets will be padded to	    |
+						  In XAUI/RXAUI mode, packets will be padded to	    |
 						   MIN(252,(MIN_SIZE+1 & ~0x3))			    |
 						  When GMX_TX_XAUI_CTL[HG_EN] is set, the HiGig	    |
 						   header (12B or 16B) is normally added to the	    |
@@ -11527,7 +11552,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:16> NS       RAZ      NS          NS        Reserved				            |
  <15:0>	 INTERVAL R/W	   0x10	       NS	 Arbitrate for a 802.3 pause packet, HiGig2 message,|
-						  or CBFC pause packet every (INTERVAL*512)	    |
+						  or PFC/CBFC pause packet every (INTERVAL*512)	    |
 						  bit-times.					    |
 						  Normally, 0 < INTERVAL < GMX_TX_PAUSE_PKT_TIME    |
 						  INTERVAL=0, will only send a single PAUSE packet  |
@@ -11923,10 +11948,10 @@ Pos      Name    Type     Value     Value       Description
  <31:21> NS       RAZ      NS          NS        Reserved				            |
  <20:16> NUMP     R/W      0x0         NS        Number of pipes this port|channel supports.	    |
 						  In SGMII mode, each port binds to one pipe.	    |
-						  In XAUI mode, the port can bind upto 16	    |
+						  In XAUI/RXAUI mode, the port can bind upto 16	    |
 						  consecutive pipes.				    |
-						  SGMII mode, NUMP = 0 or 1.			    |
-						  XAUI  mode, NUMP = 0 or 1-16.			    |
+						  SGMII      mode, NUMP = 0 or 1.		    |
+						  XAUI/RXAUI mode, NUMP = 0 or 1-16.		    |
 						  0 = Disabled					    |
  <15:7>  NS       RAZ      NS          NS        Reserved				            |
  <6:0>   BASE     R/W      0x0         NS        When NUMP is non-zero, indicates the base pipe	    |
@@ -12005,7 +12030,7 @@ Notes:
   compatibility, IFG1 must be in the range of 1-11, IFG2 must be in the range
   of 1-11, and the IFG1+IFG2 sum must be 12.
 
-  For XAUI/10Gbs systems that require IEEE 802.3 compatibility, the
+  For XAUI/RXAUI/10Gbs systems that require IEEE 802.3 compatibility, the
   IFG1+IFG2 sum must be 12.  IFG1[1:0] and IFG2[1:0] must be zero.
 
   For all other systems, IFG1 and IFG2 can be any value in the range of
@@ -12108,14 +12133,16 @@ Pos      Name    Type     Value     Value       Description
  <3:0>   IGN_FULL R/W	   0x0	       0	 Ignore the RX FIFO full when computing BP	    |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of EN, BP, and IGN_FULL are used.
 
-GMX*_TX_OVR_BP[EN<0>] must be set to one and GMX*_TX_OVR_BP[BP<0>] must be cleared to zero
-(to forcibly disable HW-automatic 802.3 pause packet generation) with the HiGig2 Protocol
-when GMX*_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is indicated by
-GMX*_TX_XAUI_CTL[HG_EN]=1 and GMX*_RX0_UDD_SKP[LEN]=16.) HW can only auto-generate backpressure
-through HiGig2 messages (optionally, when GMX*_HG2_CONTROL[HG2TX_EN]=1) with the HiGig2
-protocol.
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of EN, BP, and
+IGN_FULL are used.
+
+GMX*_TX_OVR_BP[EN<0>] must be set to one and GMX*_TX_OVR_BP[BP<0>] must be
+cleared to zero (to forcibly disable HW-automatic 802.3 pause packet generation)
+with the HiGig2 Protocol when GMX*_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol
+is indicated by GMX*_TX_XAUI_CTL[HG_EN]=1 and GMX*_RX0_UDD_SKP[LEN]=16.) HW can
+only auto-generate backpressure through HiGig2 messages (optionally, when
+GMX*_HG2_CONTROL[HG2TX_EN]=1) with the HiGig2 protocol.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12138,7 +12165,7 @@ Pos      Name    Type     Value     Value       Description
 						  1=Port should be back pressured		    |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of BP is used.
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of BP is used.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12162,12 +12189,12 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
 Packets sent from PKO with the ERR wire asserted will be corrupted by
-the transmitter if CORRUPT[prt] is set (XAUI uses prt==0).
+the transmitter if CORRUPT[prt] is set (XAUI/RXAUI uses prt==0).
 
 Corruption means that GMX will send a bad FCS value.  If GMX_TX_APPEND[FCS]
 is clear then no FCS is sent and the GMX cannot corrupt it.  The corrupt FCS
 value is 0xeeeeeeee for SGMII/1000Base-X and 4 bytes of the error
-propagation code in XAUI mode.
+propagation code in XAUI/RXAUI mode.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12190,7 +12217,7 @@ Pos      Name    Type     Value     Value       Description
  <3:0>	 COMMIT   RO	   0x0	       0x0	 Per port indication that SOP was accepted	    |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of DROP and COMMIT are used.
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of DROP and COMMIT are used.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12229,9 +12256,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:25> NS       RAZ      NS          NS        Reserved				            |
- <24>    XCHANGE  R/W1C    0x0         0         XAUI link status changed - this denotes a change   |
-						  to GMX_RX_XAUI_CTL[STATUS]			    |
-						  (XAUI mode only)				    |
+ <24>    XCHANGE  R/W1C    0x0         0         XAUI/RXAUI link status changed - this denotes ae   |
+						  change to GMX_RX_XAUI_CTL[STATUS]		    |
+						  (XAUI/RXAUI mode only)			    |
  <23:20> PTP_LOST R/W1C    0x0         0         A packet with a PTP request was not able to be	    |
 						  sent due to XSCOL			            |
  <19:16> LATE_COL R/W1C    0x0         0         TX Late Collision				    |
@@ -12246,7 +12273,7 @@ Pos      Name    Type     Value     Value       Description
  <0>     PKO_NXA  R/W1C    0x0         0         Port address out-of-range from PKO Interface	    |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12264,9 +12291,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:25> NS       RAZ      NS          NS        Reserved				            |
- <24>    XCHANGE  R/W      0x0         0         XAUI link status changed - this denotes a change   |
-						  to GMX_RX_XAUI_CTL[STATUS]			    |
-						  (XAUI mode only)				    |
+ <24>    XCHANGE  R/W      0x0         0         XAUI/RXAUI link status changed - this denotes a    |
+						  change to GMX_RX_XAUI_CTL[STATUS]		    |
+						  (XAUI/RXAUI mode only)			    |
  <23:20> PTP_LOST R/W      0x0         0         A packet with a PTP request was not able to be	    |
 						  sent due to XSCOL			            |
  <19:16> LATE_COL R/W      0x0         0         TX Late Collision				    |
@@ -12281,7 +12308,7 @@ Pos      Name    Type     Value     Value       Description
  <0>     PKO_NXA  R/W      0x0         0         Port address out-of-range from PKO Interface	    |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12324,18 +12351,21 @@ Pos      Name    Type     Value     Value       Description
  <63:31> NS       RAZ      NS          NS        Reserved				            |
  <30:27> INB_NXA  R/W1C    0x0         0         Inbound port > GMX_RX_PRTS                         |
  <26>    STATOVR  R/W1C    0x0         0         TX Statistics overflow				    |
-						  The common FIFO to SGMII and XAUI had an overflow |
+						  The common FIFO to SGMII and XAUI/RXAUI had an    |
+						  overflow.					    |
 						  TX Stats are corrupted                            |
  <25:22> LOSTSTAT R/W1C    0x0         0         TX Statistics data was over-written		    |
 						  In SGMII, one bit per port			    |
-						  In XAUI, only port0 is used			    |
+						  In XAUI/RXAUI, only port0 is used		    |
 						  TX Stats are corrupted                            |
  <21:6>  NS       RAZ      NS          NS        Reserved				            |
  <5:2>   OUT_OVR  R/W1C    0x0         0         Outbound data FIFO overflow (per port)        	    |
  <1:0>   NS       RAZ      NS          NS        Reserved				            |
 
 Notes:
-In XAUI mode, only the lsb (corresponding to port0) of INB_NXA, LOSTSTAT, OUT_OVR, are used.
+
+In XAUI/RXAUI mode, only the lsb (corresponding to port0) of INB_NXA, LOSTSTAT,
+OUT_OVR, are used.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12352,9 +12382,33 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:17> NS       RAZ      NS          NS        Reserved				            |
- <16>    BP       RO       0x0         0         Current BP state				    |
+ <16>    BP       RO       0x0         0         Current TX stats BP state			    |
+						  When the TX stats machine cannot update the stats |
+						  registers quickly enough, the machine has the	    |
+						  ability to BP TX datapath.  This is a rare event  |
+						  and will not occur in normal operation.	    |
+						  0 = no backpressure is applied		    |
+						  1 = backpressure is applied to TX datapath to	    |
+						      allow stat update operations to complete	    |
  <15:0>  CNT      R/W1C    0x0         0         Number of cycles that BP has been asserted	    |
 						  Saturating counter                                |
+
+Notes:
+
+*DON'T PUT IN HRM*
+
+It has no relationship with the TX FIFO per se.  The TX engine sends packets
+from PKO and upon completion, sends a command to the TX stats block for an
+update based on the packet size.  The stats operation can take a few cycles -
+normally not enough to be visible considering the 64B min packet size that is
+ethernet convention.
+
+In the rare case in which SW attempted to schedule really, really, small packets
+or the sclk (6xxx) is running ass-slow, then the stats updates may not happen in
+real time and can back up the TX engine.
+
+This counter is the number of cycles in which the TX engine was stalled.  In
+normal operation, it should always be zeros.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12370,7 +12424,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:11> NS       RAZ      NS          NS        Reserved				            |
  <10:9>  HG_PAUSE_HGI R/W  0x2         2         HGI Field for HW generated HiGig pause packets	    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <8>     HG_EN    R/W      0x0         0         Enable HiGig Mode				    |
 						  When HG_EN is set and GMX_RX_UDD_SKP[SKIP]=12	    |
 						   the interface is in HiGig/HiGig+ mode and the    |
@@ -12388,12 +12442,12 @@ Pos      Name    Type     Value     Value       Description
 						   GMX_TX_APPEND[PREAMBLE] == 0			    |
 						   GMX_PRT0_CBFC_CTL[RX_EN] == 0		    |
 						   GMX_PRT0_CBFC_CTL[TX_EN] == 0		    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <7>     NS       RAZ      NS          NS        Reserved				            |
  <6>     LS_BYP	  R/W	   0x0	       0	 Bypass the link status as determined by the XGMII  |
 						  receiver and set the link status of the	    |
 						  transmitter to LS.				    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <5:4>   LS       R/W	   0x0	       0	 Link Status					    |
 						  0 = Link Ok					    |
 						      Link runs normally. RS passes MAC data to PCS |
@@ -12405,12 +12459,12 @@ Pos      Name    Type     Value     Value       Description
 						  3 = Link Drain				    |
 						      RS layer drops full packets to allow GMX and  |
 						       PKO to drain their FIFOs			    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <3:2>   NS       RAZ      NS          NS        Reserved				            |
  <1>     UNI_EN	  R/W	   0x0	       0	 Enable Unidirectional Mode (IEEE Clause 66)	    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <0>     DIC_EN   R/W      0x0         1         Enable the deficit idle counter for IFG averaging  |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12430,7 +12484,7 @@ Pos      Name    Type     Value     Value       Description
 						  1=Local Fault					    |
 						  2=Remote Fault				    |
 						  3=Reserved					    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12446,17 +12500,19 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:40> NS       RAZ      NS          NS        Reserved				            |
  <39>    VAL	  R/W1C	   0x0	       NS	 Set when GMX_RX_INT_REG[PCTERR] is set.	    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <38:36> STATE	  RO	   0x0	       NS	 When GMX_RX_INT_REG[PCTERR] is set, STATE will	    |
-						  conatin the receive state at the time of the	    |
+						  contain the receive state at the time of the	    |
 						  error.					    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
  <35:32> LANE_RXC RO       0x0         NS        When GMX_RX_INT_REG[PCTERR] is set, LANE_RXC will  |
-						  conatin the XAUI column at the time of the error. |
-						  (XAUI mode only)				    |
+						  contain the XAUI/RXAUI column at the time of the  |
+						  error.					    |
+						  (XAUI/RXAUI mode only)			    |
  <31:0>  LANE_RXD RO       0x0         NS        When GMX_RX_INT_REG[PCTERR] is set, LANE_RXD will  |
-						  conatin the XAUI column at the time of the error. |
-						  (XAUI mode only)				    |
+						  conatin the XAUI/RXAUI column at the time of the  |
+						   error.					    |
+						  (XAUI/RXAUI mode only)			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12472,14 +12528,14 @@ Pos      Name    Type     Value     Value       Description
  <63:5>  NS       RAZ      NS          NS        Reserved				            |
  <4>     EN       R/W      0x0         0         Loopback enable				    |
 						  Puts the packet interface in external loopback    |
-						  mode on the XAUI bus in which the RX lines are    |
-						  reflected on the TX lines.			    |
-						  (XAUI mode only)				    |
+						  mode on the XAUI/RXAUI bus in which the RX lines  |
+						  are reflected on the TX lines.		    |
+						  (XAUI/RXAUI mode only)			    |
  <3:0>   THRESH   R/W      0x6         6         Threshhold on the TX FIFO			    |
 						  SW must only write the typical value.  Any other  |
 						  value will cause loopback mode not to function    |
 						  correctly.					    |
-						  (XAUI mode only)				    |
+						  (XAUI/RXAUI mode only)			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12501,13 +12557,13 @@ Pos      Name    Type     Value     Value       Description
 						  pause. Initial value from received HiGig2 msg pkt |
 						  Non-zero only when physical back pressure active  |
  <31:16> XOF	  RO	   0x0	       0	 16 bit xof back pressure vector from HiGig2 msg pkt|
-						  or from CBFC packets.				    |
+						  or from PFC/CBFC packets.			    |
 						  Non-zero only when logical back pressure is active|
 						  All bits will be 0 when LGTIM2GO=0                |
  <15:0>  LGTIM2GO RO	   0x0         NS        Logical packet flow back pressure time remaining   |
 						  Initial value set from xof time field of HiGig2   |
 						  message packet received or a function of the	    |
-						  enabled and current timers for CBFC packets.	    |
+						  enabled and current timers for PFC/CBFC packets.  |
 						  Non-zero only when logical back pressure is active|
 ----------------------------------------------------------------------------------------------------
 ===
@@ -12526,8 +12582,9 @@ Pos      Name    Type     Value     Value       Description
  <63:19> NS       RAZ      NS          NS        Reserved				            |
  <18>    HG2TX_EN R/W	   0x0	       0	 Enable Transmission of HG2 phys and logl messages  |
                                                  When set, also disables HW auto-generated (802.3   |
-                                                 and CBFC) pause frames. (OCTEON cannot generate    |
-						 proper 802.3 or CBFC pause frames in HiGig2 mode.) |
+                                                 and PFC/CBFC) pause frames. (OCTEON cannot generate|
+						 proper 802.3 or PFC/CBFC pause frames in HiGig2    |
+						 mode.)						    |
  <17>    HG2RX_EN R/W	   0x0	       0	 Enable extraction and processing of HG2 message    |
 						  packet from RX flow. Physical logical pause info  |
 						  is used to pause physical link, back pressure PKO |
@@ -12536,7 +12593,7 @@ Pos      Name    Type     Value     Value       Description
  <16>    PHYS_EN  R/W	   0x1	       NS	 1 bit physical link pause enable for recevied      |
 						  HiGig2 physical pause message                     |
  <15:0>  LOGL_EN  R/W	   0xffff      NS	 16 bit xof enables for recevied HiGig2 messages    |
-						  or CBFC packets				    |
+						  or PFC/CBFC packets				    |
 Notes:
 The HiGig2 TX and RX enable would normally be both set together for HiGig2 messaging. However
 setting just the TX or RX bit will result in only the HG2 message transmit or the receive
@@ -12624,27 +12681,27 @@ Pos      Name    Type     Value     Value       Description
  <63:48> PHYS_EN  R/W      0x00ff      0x00ff    Determines which ports will have physical	    |
 						  backpressure pause packets.			    |
 						  The value pplaced in the Class Enable Vector	    |
-						  field of the CBFC pause packet will be	    |
+						  field of the PFC/CBFC pause packet will be	    |
 						  PHYS_EN | LOGL_EN				    |
  <47:32> LOGL_EN  R/W      0x00ff      0x00ff    Determines which ports will have logical	    |
 						  backpressure pause packets.			    |
 						  The value pplaced in the Class Enable Vector	    |
-						  field of the CBFC pause packet will be	    |
+						  field of the PFC/CBFC pause packet will be	    |
 						  PHYS_EN | LOGL_EN				    |
  <31:16> PHYS_BP  R/W      0xffff      NS        When RX_EN is set and the HW is backpressuring any |
-						  ports (from either CBFC pause packets or the	    |
+						  ports (from either PFC/CBFC pause packets or the  |
 						  GMX_TX_OVR_BP[TX_PRT_BP] register) and all ports  |
 						  indiciated by PHYS_BP are backpressured, simulate |
 						  physical backpressure by defering all packets on  |
 						  the transmitter.				    |
  <15:4>  NS       RAZ      NS          NS        Reserved				            |
- <3>     BCK_EN   R/W      0x0         0         Forward CBFC Pause information to BP block	    |
- <2>     DRP_EN	  R/W      0x0         0         Drop Control CBFC Pause Frames			    |
- <1>     TX_EN    R/W      0x0         0         When set, allow for CBFC Pause Packets		    |
+ <3>     BCK_EN   R/W      0x0         0         Forward PFC/CBFC Pause information to BP block	    |
+ <2>     DRP_EN	  R/W      0x0         0         Drop Control PFC/CBFC Pause Frames		    |
+ <1>     TX_EN    R/W      0x0         0         When set, allow for PFC/CBFC Pause Packets	    |
 						  Must be clear in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
 						  GMX_RX_UDD_SKP[SKIP]=16.			    |
- <0>     RX_EN    R/W      0x0         0         When set, allow for CBFC Pause Packets		    |
+ <0>     RX_EN    R/W      0x0         0         When set, allow for PFC/CBFC Pause Packets	    |
 						  Must be clear in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
 						  GMX_RX_UDD_SKP[SKIP]=16.			    |
@@ -12738,6 +12795,51 @@ Pos      Name    Type     Value     Value       Description
  <8>     VAL      R/W      0x0         0x0       Table entry is valid                               |
  <7:6>   NS       RAZ      NS          NS        Reserved				            |
  <5:0>   BPID     R/W      0x0         0x0       Backpressure ID the entry maps to                  |
+
+Notes:
+
+GMX will build BPID_VECTOR<15:0> using the 16 GMX_BPID_MAP entries and the BPID
+state from IPD.  In XAUI/RXAUI mode when PFC/CBFC/HiGig2 is used, the
+BPID_VECTOR becomes the logical backpressure.  In XAUI/RXAUI mode when
+PFC/CBFC/HiGig2 is not used or when in 4xSGMII mode, the BPID_VECTOR can be used
+with the GMX_BPID_MSK register to determine the physical backpressure.
+
+In XAUI/RXAUI mode, the entire BPID_VECTOR<15:0> is available determining physical
+backpressure for the single XAUI/RXAUI port.
+
+In SGMII mode, BPID_VECTOR is broken up as follows:
+   SGMII port0 uses BPID_VECTOR<3:0>
+   SGMII port1 uses BPID_VECTOR<7:4>
+   SGMII port2 uses BPID_VECTOR<11:8>
+   SGMII port3 uses BPID_VECTOR<15:12>
+
+In all SGMII configurations, and in some XAUI/RXAUI configurations, the
+interface protocols only support physical backpressure. In these cases, a single
+BPID will commonly drive the physical backpressure for the physical
+interface. We provide example programmings for these simple cases.
+
+In XAUI/RXAUI mode where PFC/CBFC/HiGig2 is not used, an example programming
+would be as follows:
+
+   @verbatim
+   GMX_BPID_MAP0[VAL]    = 1;
+   GMX_BPID_MAP0[BPID]   = xaui_bpid;
+   GMX_BPID_MSK[MSK_OR]  = 1;
+   GMX_BPID_MSK[MSK_AND] = 0;
+   @endverbatim
+
+In SGMII mode, an example programming would be as follows:
+
+   @verbatim
+   for (i=0; i<4; i++) {
+      if (GMX_PRTi_CFG[EN]) {
+         GMX_BPID_MAP(i*4)[VAL]    = 1;
+         GMX_BPID_MAP(i*4)[BPID]   = sgmii_bpid(i);
+         GMX_BPID_MSK[MSK_OR]      = (1 << (i*4)) | GMX_BPID_MSK[MSK_OR];
+      }
+   }
+   GMX_BPID_MSK[MSK_AND] = 0;
+   @endverbatim
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12753,11 +12855,27 @@ Pos      Name    Type     Value     Value       Description
  <63:48> NS       RAZ      NS          NS        Reserved				            |
  <47:32> MSK_OR   R/W      0x0         0x0       Assert physical BP when the backpressure ID vector |
 						  combined with MSK_OR indicates BP as follows.	    |
-						  phys_bp = (BPID_VECTOR & MSK_OR) != 0		    |
+						  phys_bp_msk_or =				    |
+						   (BPID_VECTOR<x:y> & MSK_OR<x:y>) != 0	    |
+						  phys_bp = phys_bp_msk_or || phys_bp_msk_and	    |
+						  In XAUI/RXAUI mode, x=15, y=0			    |
+						  In SGMII mode, x/y are set depending on the port  |
+						  SGMII port0, x=3,  y=0			    |
+						  SGMII port1, x=7,  y=4			    |
+						  SGMII port2, x=11, y=8			    |
+						  SGMII port3, x=15, y=12			    |
  <31:16> NS       RAZ      NS          NS        Reserved				            |
  <15:0>  MSK_AND  R/W      0x0         0x0       Assert physical BP when the backpressure ID vector |
 						  combined with MSK_AND indicates BP as follows.    |
-						  phys_bp = (BPID_VECTOR & MSK_AND) == MSK_AND	    |
+						  phys_bp_msk_and =				    |
+						   (BPID_VECTOR<x:y> & MSK_AND<x:y>) == MSK_AND<x:y>|
+						  phys_bp = phys_bp_msk_or || phys_bp_msk_and	    |
+						  In XAUI/RXAUI mode, x=15, y=0			    |
+						  In SGMII mode, x/y are set depending on the port  |
+						  SGMII port0, x=3,  y=0			    |
+						  SGMII port1, x=7,  y=4			    |
+						  SGMII port2, x=11, y=8			    |
+						  SGMII port3, x=15, y=12			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12786,7 +12904,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
- * DO NOT DOCUMENT
+ *DON'T PUT IN HRM*
 
      ==============================================================
      GMX(0..4)_PIPE_STATUS Type=RSL
@@ -12821,7 +12939,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:2>  NS         RAZ    NS          NS        Reserved				            |
- <1>     START_BIST R/W    0           NS        Run BIST on all memories in the XAUI CLK domain    |
+ <1>     START_BIST R/W    0           NS        Run BIST on all memories in the XAUI/RXAUI	    |
+						  CLK domain					    |
  <0>     CLEAR_BIST R/W    0           NS        Choose between full BIST and CLEAR bist            |
 						  0=Run full BIST				    |
 						  1=Only run clear BIST				    |
@@ -12869,7 +12988,7 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
- * DO NOT DOCUMENT THIS REGISTER - IT IS NOT OFFICIAL
+ *DON'T PUT IN HRM*
  *
 
      ==============================================================
@@ -12902,20 +13021,21 @@ Pos      Name    Type     Value     Value       Description
 <15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <24:16>  CAL_DEPTH            R/W      0x48     NS       Number of valid entries in the calendar.  CAL_DEPTH[2:0] must  |
                                                          be zero.  Supported range from 8 to 288.  If CAL_ENA is 0,     |
-                                                         this field has no effect and the calendar depth is 69 entries. |
+                                                         this field has no effect and the calendar depth is 72 entries. |
 <25>     NS                   RAZ      0x0      NS       Reserved                                                       |
 <30:26>  BRST_MAX             R/W      0x4      NS       Maximum size of a data burst, as a multiple of 64 byte blocks. |
                                                          Supported range is from 64 bytes to 1024 bytes. (ie. 0 <       |
                                                          BRST_MAX <= 16)                                                |
-<31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane striping performed from    |
-                                                         most signifant lane enabled to least significant lane enabled  |
+<31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane striping is performed from |
+                                                         most significant lane enabled to least significant lane        |
+                                                         enabled.   LANE_ENA must be zero before changing LANE_REV      |
 <38:32>  BRST_SHRT            R/W      0x4      NS       Minimum interval between burst control words, as a multiple of |
                                                          8 bytes.  Supported range from 8 bytes to 512 (ie. 0 <         |
                                                          BRST_SHRT <= 64)                                               |
 <51:39>  MFRM_LEN             R/W      0x400    NS       The quantity of data sent on each lane including one sync word,|
                                                          scrambler state, diag word, zero or more skip words, and the   |
-                                                         data  payload.  Must be larger than ILK_TX@_CFG1[SKIP_CNT]+9   |
-                                                         (ie. ILK_TX@_CFG1[SKIP_CNT]+9 < MFRM_LEN <= 4096).             |
+                                                         data  payload.  Must be large than ILK_TX@_CFG1[SKIP_CNT]+9.   |
+                                                         Supported range:ILK_TX@_CFG1[SKIP_CNT]+9 < MFRM_LEN <= 4096)   |
 <52>     CAL_ENA              R/W      0x0      NS       Enable Tx calendar, else default calendar used:                |
                                                               First control word:                                       |
                                                                Entry 0  = link                                          |
@@ -12927,8 +13047,9 @@ Pos      Name    Type     Value     Value       Description
                                                                Entry 16 = backpressue id 15                             |
                                                                Entry 17 = backpressue id 16                             |
                                                                ...etc.                                                  |
-                                                         Continues until status for all backpressue ids transmitted,    |
-                                                         then repeats.                                                  |
+
+								|
+
 <53>     MLTUSE_FC_ENA        R/W      0x0      NS       When set, the multi-use field of control words will contain    |
                                                          flow control status.  Otherwise, the multi-use field will      |
                                                          contain ILK_TX@_CFG1[TX_MLTUSE]                                |
@@ -12961,7 +13082,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    TX_MLTUSE            R/W      0x0      NS       Multiple Use bits used when ILKx_TX_CFG[LA_MODE=0] and         |
-                                                         ILKx_TX_CFG[CAL_MLTUSE] is zero                                |
+                                                         ILKx_TX_CFG[MLTUSE_FC_ENA] is zero                             |
 <8>      RMATCH               R/W      0x0      NS       Enable rate matching circuitry                                 |
 <9>      RX_LINK_FC_IGN       R/W      0x0      NS       Ignore the link flow control status received in burst/idle     |
                                                          control words                                                  |
@@ -12982,7 +13103,7 @@ Pos      Name    Type     Value     Value       Description
                                                          transmitting packets, as per RX_LINK_FC_PKT                    |
 <21>     PKT_FLUSH            R/W      0x0      NS       Packet transmit flush.  While PKT_FLUSH=1, the TxFifo will     |
                                                          continuously drain; all data will be dropped.  Software should |
-                                                         first write PKT_ENA=1 and wait packet transmission to stop.    |
+                                                         first write PKT_ENA=0 and wait packet transmission to stop.    |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
 <30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay                                         |
 <31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
@@ -13001,7 +13122,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <6:0>    IDX                  R/W      0x0      NS       Specify the port-pipe accessed by the next CSR read/write to   |
-                                                         ILK_TXx_MEM_PMAP                                               |
+                                                         ILK_TXx_MEM_PMAP.   Note that IDX=n is always port-pipe n,     |
+                                                         regardless of ILK_TXx_PIPE[BASE]                               |
 <15:7>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <22:16>  INC                  R/W      0x0      NS       Increment to add to current index for next index.              |
 <63:23>  NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13018,7 +13140,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    CHANNEL              R/W      0x0      NS       Specify the channel for the port-pipe selected by              |
-                                                         ILK_IDX_PMAP[IDX]                                              |
+                                                         ILK_TXx_IDX_PMAP[IDX]                                          |
 <63:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13374,8 +13496,9 @@ Pos      Name    Type     Value     Value       Description
                                                          This field affects the ILK_RX*_STAT2[BRST_NOT_FULL_CNT] and    |
                                                          ILK_RX*_STAT3[BRST_MAX_ERR_CNT] counters. It does not affect   |
                                                          correct operation of the link.                                 |
-<31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane destriping performed from  |
-                                                         most signifant lane enabled to least significant lane enabled  |
+<31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane de-striping is performed   |
+                                                         from most significant lane enabled to least significant lane   |
+                                                         enabled.   LANE_ENA must be zero before changing LANE_REV      |
 <38:32>  BRST_SHRT            R/W      0x4      NS       Minimum interval between burst control words, as a multiple of |
                                                          8 bytes.  Supported range from 8 bytes to 512 (ie. 0 <         |
                                                          BRST_SHRT <= 64)                                               |
@@ -13383,8 +13506,8 @@ Pos      Name    Type     Value     Value       Description
                                                          counter. It does not affect correct operation of the link.     |
 <51:39>  MFRM_LEN             R/W      0x400    NS       The quantity of data sent on each lane including one sync word,|
                                                          scrambler state, diag word, zero or more skip words, and the   |
-                                                         data  payload.  Must be larger than ILK_TX@_CFG1[SKIP_CNT]+9   |
-                                                         (ie. ILK_TX@_CFG1[SKIP_CNT]+9 < MFRM_LEN <= 4096).             |
+                                                         data  payload.  Must be large than ILK_RX@_CFG1[SKIP_CNT]+9.   |
+                                                         Supported range:ILK_RX@_CFG1[SKIP_CNT]+9 < MFRM_LEN <= 4096)   |
 <52>     CAL_ENA              R/W      0x0      NS       Enable Rx calendar.  When the calendar table is disabled, all  |
                                                          port-pipes receive XON.                                        |
 <53>     MLTUSE_FC_ENA        R/W      0x0      NS       Use multi-use field for calendar                               |
@@ -13768,36 +13891,52 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <6:0>    PORT_PIPE0           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+0 (unused|
-                                                         if ENTRY_CTL0 != 0)                                            |
+                                                         if ENTRY_CTL0 == 1)                                            |
                                                          Software must ensure the selected port-pipe does not match any |
                                                          of the other 8 for this entry.                                 |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <8:7>    ENTRY_CTL0           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+0                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <15:9>   PORT_PIPE1           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+1 (unused|
-                                                         if ENTRY_CTL1 != 0)                                            |
+                                                         if ENTRY_CTL1 == 1)                                            |
                                                          Software must ensure the selected port-pipe does not match any |
                                                          of the other 8 for this entry.                                 |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <17:16>  ENTRY_CTL1           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+1                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <24:18>  PORT_PIPE2           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+2 (unused|
-                                                         if ENTRY_CTL2 != 0)                                            |
+                                                         if ENTRY_CTL2 == 1)                                            |
                                                          Software must ensure the selected port-pipe does not match any |
                                                          of the other 8 for this entry.                                 |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <26:25>  ENTRY_CTL2           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+2                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <33:27>  PORT_PIPE3           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+3 (unused|
-                                                         if ENTRY_CTL3 != 0)                                            |
+                                                         if ENTRY_CTL3 == 1)                                            |
                                                          Software must ensure the selected port-pipe does not match any |
                                                          of the other 8 for this entry.                                 |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <35:34>  ENTRY_CTL3           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+3                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
@@ -13826,28 +13965,44 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <6:0>    PORT_PIPE4           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+4 (unused|
-                                                         if ENTRY_CTL4 != 0)                                            |
+                                                         if ENTRY_CTL4 == 1)                                            |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <8:7>    ENTRY_CTL4           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+4                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <15:9>   PORT_PIPE5           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+5 (unused|
-                                                         if ENTRY_CTL5 != 0)                                            |
+                                                         if ENTRY_CTL5 == 1)                                            |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <17:16>  ENTRY_CTL5           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+5                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <24:18>  PORT_PIPE6           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+6 (unused|
-                                                         if ENTRY_CTL6 != 0)                                            |
+                                                         if ENTRY_CTL6 == 1)                                            |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <26:25>  ENTRY_CTL6           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+6                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
 <33:27>  PORT_PIPE7           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+7 (unused|
-                                                         if ENTRY_CTL7 != 0)                                            |
+                                                         if ENTRY_CTL7 == 1)                                            |
+                                                         Software must ensure the selected port-pipe is within          |
+                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
+                                                         Software must program the calendar table prior to enabling the |
+                                                         link.                                                          |
 <35:34>  ENTRY_CTL7           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+7                       |
                                                              0: PKO port-pipe                                           |
                                                              1: Link                                                    |
@@ -14759,7 +14914,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:7>  NS       RAZ      NS          NS        Reserved			                     |
- <6:0>   CRD      R/W      15          NS        Number of credits for DID. Writing this field will  |
+ <6:0>   CRD      R/W      14          NS        Number of credits for DID. Writing this field will  |
                                                  casuse the credits to be set to the value written.  |
                                                  Reading this field will give the number of credits  |
 						 PRESENTLY available.                                |
@@ -22492,7 +22647,10 @@ This register should not be written while MIO_FUS_RCMD[PEND]=1.
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS           RAZ      NS        NS        Reserved                                         |
+ <63:48> NS           RO       NS        NS        Reserved                                         |
+ <47:40> RCLK_ALIGN_R RO       NS        NS        RCLK right alignment settings                    |
+ <39:32> RCLK_ALIGN_L RO       NS        NS        RCLK left alignment settings                     |
+ <31:8>  NS           RAZ      NS        NS        Reserved                                         |
  <7>     C_COUT_RST   R/W      0x0       NS        Core clkout postscaler reset                     |
  <6:5>   C_COUT_SEL   R/W      0x0       NS        Core clkout select                    	    |
                                                    0=RCLK,1=PS output,2=PLL output,3=undivided RCLK |   $PR
@@ -23762,6 +23920,10 @@ Pos      Name    Type     Value     Value       Description
                                                   See SLI_MSI_RCVn for bit <40+n>                   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR RO	   0	       0	 PCIe INTA/B/C/D				    |
+                                                  PCI_INTR[3] = INTD				    |
+                                                  PCI_INTR[2] = INTC				    |
+                                                  PCI_INTR[1] = INTB				    |
+                                                  PCI_INTR[0] = INTA				    |
                                                   Refer to "Receiving Emulated INTA/INTB/           |
                                                   INTC/INTD" in the SLI chapter of the spec         |
 						  For IO, all 98 RAW readout will be different      |
@@ -25471,6 +25633,8 @@ Pos      Name    Type     Value     Value       Description
 						 this register after servicing interrupts and wait  |
 						 for response before enabling interrupt watching.   |
                                                  Or, the outdated interrupt will show up again.     |
+                                                 The read back data return when all interrupts have |
+						 been serviced, and read back data is always zero.  |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -28732,10 +28896,30 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:18> NS       RAZ      NS          NS        Reserved				            |
- <17:0>  BIST     RO       0x0         0         BIST Results.                                      |
+ <63:20> NS       RAZ      NS          NS        Reserved				            |
+ <19:0>  BIST     RO       0x0         0         BIST Results.                                      |
                                                   HW sets a bit in BIST for for memory that fails   |
 						  BIST.						    |
+					   	  19: pip.ptbl					    |
+					   	  18: pip.crc					    |
+					   	  17: RAZ					    |
+					   	  16: pip.ih.tag				    |
+					   	  15: pip.lx.chk_tag				    |
+					   	  14: pip.map.ih				    |
+					   	  13: RAZ					    |
+					   	  12: RAZ					    |
+					   	  11: RAZ					    |
+					   	  10: pip.stats.wrk				    |
+					   	  9:  pip.stats.inb				    |
+					   	  8:  pip.map.l3				    |
+					   	  7:  pip.map.l4				    |
+					   	  6:  pip.map.bc				    |
+					   	  5:  pip.map.fe				    |
+					   	  4:  pip.map.be				    |
+					   	  3:  pip.skp					    |
+					   	  2:  pip.phb.todo				    |
+					   	  1:  pip.phb.mem				    |
+					   	  0:  pip.lx.chk				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -29070,30 +29254,23 @@ in duration).  Although this will reset much of PIP's internal state, some
 CSRs will not reset.
 
 . PIP_BIST_STATUS
-. PIP_STAT0_PRT*
-. PIP_STAT1_PRT*
-. PIP_STAT2_PRT*
-. PIP_STAT3_PRT*
-. PIP_STAT4_PRT*
-. PIP_STAT5_PRT*
-. PIP_STAT6_PRT*
-. PIP_STAT7_PRT*
-. PIP_STAT8_PRT*
-. PIP_STAT9_PRT*
-. PIP_XSTAT0_PRT*
-. PIP_XSTAT1_PRT*
-. PIP_XSTAT2_PRT*
-. PIP_XSTAT3_PRT*
-. PIP_XSTAT4_PRT*
-. PIP_XSTAT5_PRT*
-. PIP_XSTAT6_PRT*
-. PIP_XSTAT7_PRT*
-. PIP_XSTAT8_PRT*
-. PIP_XSTAT9_PRT*
+. PIP_STAT0_*
+. PIP_STAT1_*
+. PIP_STAT2_*
+. PIP_STAT3_*
+. PIP_STAT4_*
+. PIP_STAT5_*
+. PIP_STAT6_*
+. PIP_STAT7_*
+. PIP_STAT8_*
+. PIP_STAT9_*
+. PIP_STAT10_*
+. PIP_STAT11_*
 . PIP_STAT_INB_PKTS*
 . PIP_STAT_INB_OCTS*
 . PIP_STAT_INB_ERRS*
 . PIP_TAG_INC*
+. PIP_PRI_TBL*
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30376,12 +30553,15 @@ Pos      Name    Type     Value     Value       Description
  <34:34> CSR      RO        X           0        BiST result of CSR      memories (0=pass, !0=fail)
  <33:33> IOB      RO        X           0        BiST result of IOB      memories (0=pass, !0=fail)
  <32:32> OUT_DAT  RO        X           0        BiST result of OUT_DAT  memories (0=pass, !0=fail)
- <31:29> OUT_CTL  RO        X           0        BiST result of OUT_CTL  memories (0=pass, !0=fail)
+ <31>    NS       RAZ       NS          NS       RESERVED
+ <30:29> OUT_CTL  RO        X           0        BiST result of OUT_CTL  memories (0=pass, !0=fail)
  <28:28> OUT_STA  RO        X           0        BiST result of OUT_STA  memories (0=pass, !0=fail)
  <27:27> OUT_WIF  RO        X           0        BiST result of OUT_WIF  memories (0=pass, !0=fail)
  <26:24> PRT_CHK  RO        X           0        BiST result of PRT_CHK  memories (0=pass, !0=fail)
  <23:23> PRT_NXT  RO        X           0        BiST result of PRT_NXT  memories (0=pass, !0=fail)
- <22:15> PRT_PSB  RO        X           0        BiST result of PRT_PSB  memories (0=pass, !0=fail)
+ <22>    PRT_PSB7 RO        X           0        BiST result of PRT_PSB  memories (0=pass, !0=fail)
+ <21>    NS       RAZ       NS          NS       RESERVED
+ <20:15> PRT_PSB  RO        X           0        BiST result of PRT_PSB  memories (0=pass, !0=fail)
  <14:13> NCB_INB  RO        X           0        BiST result of NCB_INB  memories (0=pass, !0=fail)
  <12:11> PRT_QCB  RO        X           0        BiST result of PRT_QCB  memories (0=pass, !0=fail)
  <10:8>  PRT_QSB  RO        X           0        BiST result of PRT_QSB  memories (0=pass, !0=fail)
@@ -35570,7 +35750,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-  <63:7> NS        RAZ       NS       NS    RESERVED                                               |
+  <63:7> NS        RAZ       NS       NS    RESERVED                                                |
 					      							    |
   <6:5>  GPIO_EDGE R/W       0        0      Edge used for GPIO timing                              |
                                              2'b10 - TIM counts high to low transitions             |
@@ -35593,22 +35773,16 @@ Pos      Name    Type     Value     Value       Description
    <0>   ENA_TIM   R/W       0        0      When set, TIM is in normal operation.                  |
                                              When clear, time is effectively stopped for all	    |
                                              rings in TIM.                                          |
-					     TIM has a counter that causes a periodic tick. This    |
-					     counter is shared by all rings. (Each tick causes the  |
-					     HW to decrement the time Count for all enabled rings.) |
-					     When ENA_TIM==0, the HW stops this shared periodic     |
-					     counter, so there are no more ticks, and there         |
-					     are no more new bucket traversals (for any ring).      |
+					     TIM has a counter (see FR_RN_HW)that causes a periodic |
+                                             tick. This counter is shared by all rings.             |
+					     Each Timer tick causes the HW to decrement the time    |
+                                             Count for all enabled rings.                           |
+					     When ENA_TIM==0, the HW stops the shared periodic      |
+					     counter, FR_RN_HW, so there are no more ticks, and     |
+					     there are no more NEW bucket traversals.               |
 					     If ENA_TIM transitions 1->0, TIM will no longer create |
-					     new bucket traversals, but there may have been previous|
-					     ones. If there are ring bucket traversals that were    |
-					     already pending but not currently active (i.e. bucket  |
-					     traversals that need to be done by the HW, but haven't |
-					     been yet) during this ENA_TIM 1->0 transition, then    |
-					     These bucket traversals will remain pending unti       |
-					     ENA_TIM is later set to one. Bucket traversals that    |
-					     were already in progress will complete after the 1->0  |
-					     ENA_TIM transition, though.                            |
+					     new bucket traversals, but will traverse any rings that|
+                                             previously expired but are pending HW traversal.       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35625,7 +35799,7 @@ Pos      Name    Type     Value     Value       Description
   <21:0> FR_RN_TT  R/W      1024      1024   Free Running Timer Threshold. Defines the reset value  |
 					     for the free running timer when it reaches zero during |
 				   	     it's count down.					    |
-					     FR_RN_TH will be used in both cases where free running |
+					     FR_RN_TT will be used in both cases where free running |
 					     clock is driven externally or internally.              |
   				     	     Interval programming guidelines:			    |
 					     For every 64 entries in a bucket interval should be at |
@@ -35706,12 +35880,12 @@ Notes:												    |
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  INT0_EN     R/W      0           0       Bit mask corresponding to TIM_INT0.               |
+ <63:0>  INT0_EN     R/W      0           0       Bit enable corresponding to TIM_INT0.             |
 												    |
 Notes:												    |
- When mask bit is set, the corresponding bit TIM_INT0 is enabled. If mask bit is cleared the        |
- corresponding bit in TIM_INT0 will still be set.                                               |
- Interrupt to the cores is generated by : |(INT0 & MASK0)                                           |
+ When bit at TIM_INT0_EN is set it enables the corresponding TIM_INTO's bit for interrupt generation|
+ If enable bit is cleared the corresponding bit at TIM_INT0 will still be set.                      |
+ Interrupt to the cores is generated by : |(TIM_INT0 & TIM_INT0_EN0)                                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35831,7 +36005,7 @@ Pos      Name    Type     Value     Value       Description
 	                                   for the interval to expire.                              |
                                                  						    |
 <21:0>  INTERVAL    R/W      0     0       Timer interval. Measured in Timer Ticks, where timer     |
-			 	       	   ticks are defined by TIM_FR_RN_TH.FR_RN_TH.		    |
+			 	       	   ticks are defined by TIM_FR_RN_TT.FR_RN_TT.		    |
 												    |
 Notes:												    |
 This CSR is a memory of 64 entries								    |
@@ -35898,7 +36072,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:42>  FR_RN_HT     RO      0      0       Free Running Hardware Timer. Shared by all rings and is|
 					     used to generate the Timer Tick based on 		    |
-				             TIM_FR_RR_TT.            				    |
+				             FR_RN_TT.            				    |
 												    |
 <41:20>  TIMERCOUNT   RO      0      0       Timer Count represents the ring's offset.              |
                                              Refer to TIM_RING@_CTL0. 				    |
