@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <fcntl.h>
 
 static void *uart_open(const char *name, int flags)
 {
@@ -6,20 +7,27 @@ static void *uart_open(const char *name, int flags)
     if ((id < 0) || (id >= 2))
         return NULL;
     /* Return the uart number plus one as our internal state */
-    return (void*)(id+1);
+    if (flags & O_NOCTTY)
+        return (void*)(id+1 + 0x100);
+    else
+        return (void*)(id+1);
 }
 
 static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int count = 0;
-    int id = (long)handle->fs_state - 1;
+    int id = ((long)handle->fs_state & 0xff) - 1;
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
 
     while (count == 0)
     {
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
         if (!lsr.s.dr)
+        {
+            if (length == 1)
+                return count;
             bdk_thread_yield();
+        }
         while (lsr.s.dr && length)
         {
             *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
@@ -36,12 +44,12 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
     int l = length;
-    int id = (long)handle->fs_state - 1;
+    int id = ((long)handle->fs_state & 0xff) - 1;
     const char *p = buffer;
 
     while (l--)
     {
-        if (*p =='\n')
+        if ((*p =='\n') && (((long)handle->fs_state & 0x100) == 0))
         {
             /* Spin until there is room */
             while (1)

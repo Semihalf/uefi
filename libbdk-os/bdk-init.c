@@ -12,8 +12,8 @@ static void __bdk_init_uart(int uart)
         u.s.stop = 0; /* Stop Control bit */
         u.s.cls = 3); /* Character Length Select */
 
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_FCR(uart),
-        u.s.en = 1);
+    /* FCR is a write only register */
+    BDK_CSR_WRITE(BDK_MIO_UARTX_FCR(uart), 7);
 
     int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 115200 / 16;
     if (bdk_is_simulation())
@@ -97,6 +97,7 @@ static void bdk_init_stage2(void)
     if (bdk_get_core_num() == 0)
     {
         __bdk_init_uart(0);
+        __bdk_init_uart(1);
 
         write(1, BANNER_1, sizeof(BANNER_1)-1);
         __bdk_init_exception();
