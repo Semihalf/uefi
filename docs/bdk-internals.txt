@@ -92,6 +92,107 @@ dies when its initial function returns. This allows premature
 termination of thread.
 
 
+Filesystem
+----------
+
+The BDK provides standard system calls for filesystem access.  The
+filesystem supports multiple types of files accessed through virtual
+name spaces.  Any file may be accessed using either the standard
+system calls (open, read, write, close, etc) or the higher level C
+interface (fopen, fread, fwrite, fclose, etc).  All files are
+accessible from both native C code and Lua scripts.
+
+=== Filesystem Namespaces
+/rom/*::
+
+All files located in *bdk/rom* are statically included into BDK
+applications.  Each file can be read be prefixing the name of the file
+with '/rom/'.  For example, the first Lua script run is located at
+'/rom/init.lua'.
+
+/ram/*::
+
+This is an empty filesystem where applications are free to create
+temporary files that are stored in dram.  For example, an application
+could store temporary data in '/ram/data.tmp'.
+
+/xmodem::
+
+This is a special file that translates file accesses to reads or
+writes to file transferred using XMODEM.  When opened for write the
+file to be downloaded from Octeon.  When opened for read the file will
+be uploaded to Octeon.  XMODEM, XMODEM-CRC, XMODEM-1K, and
+XMODEM-1K-CRC are all supported.
+
+/dev/uart/0::
+
+This is a special device representing Octeon's first uart.  This is
+the file that stdin, stdout, and stderr are connected to by default.
+
+/dev/uart/1::
+
+This is a special device representing Octeon's second uart.
+
+
+Abstract Network Packet API
+---------------------------
+
+The BDK provides a high level interface to all packet based interfaces
+that are similar to ethernet.  Octeon's SGMII, XAUI, RGMII, SRIO, Loop
+devices, and PCIe engines are all available through this common
+interface.
+
+=== Packet Functions
+int bdk_if_init(void)::
+
+Initialize all packet interfaces of all types for use.  This is the
+one call needed to get all interfaces configured.  Enable needs to be
+called on each handle before actual packets flow.
+
+int bdk_if_num_interfaces(bdk_if_t iftype)::
+
+Get the number of interfaces for the given type.
+
+int bdk_if_num_ports(bdk_if_t iftype, int interface)::
+
+For a given interface, return the number of ports supported by that
+interface.
+
+bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)::
+
+Get the next valid port handle after the supplied handle.  Returns the
+first port handle when argument is NULL.  This meant to make it easy
+to write loops that iterate over ports.
+
+int bdk_if_enable(bdk_if_handle_t handle)::
+
+Enable the given port for packet IO.
+
+int bdk_if_disable(bdk_if_handle_t handle)::
+
+Disable the given port for packet IO.
+
+bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)::
+
+Get the link status for the port and configure it for that speed.
+
+const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)::
+
+Get the interface RX and TX counters.
+
+int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)::
+
+Send a packet.
+
+int bdk_if_receive(bdk_if_packet_t *packet)::
+
+Receive a packet from any enabled interface.
+
+void bdk_if_free(bdk_if_packet_t *packet)::
+
+Free a packet back to the FPA pools.
+
+
 Creating a standalone application
 ---------------------------------
 
