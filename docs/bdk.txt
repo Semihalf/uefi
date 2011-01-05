@@ -6,6 +6,9 @@ This directory contains the "Bringup and Diagnostic Kit" (BDK).  These
 files support chip bringup, board bringup, and the creation of
 diagnostics. The basic layout is as follows:
 
+.docs/
+	All documentation for the BDK.
+
 .libbdk-arch/
 	Library and C files related to Octeon II architecture. This
 	contains the minimal code needed to write any code for Octeon II
@@ -22,6 +25,13 @@ diagnostics. The basic layout is as follows:
 	Library and C files providing a API for interfacing with Octeon II
 	hardware. This is similar to the "executive" in the Octeon SDK.
 
+.libbdk-lua/
+	Libraries for acessing Octeon hardware from the Lua scripting language.
+
+.libbdk-os/
+	System call support and initialization code required for the C library
+	to function.
+
 .libbdk/
 	This is a combined library and single header file for using all of
 	the libbdk-* features. Normally, this contains the only C header
@@ -29,7 +39,17 @@ diagnostics. The basic layout is as follows:
 	is the very first line in C files to make sure the precompiled header
 	works properly.
 
-.eLua/
-	This is a nearly boot environment based on the Lua scripting
-	language.
+.libc/
+	The Newlib C library configured for use with the BDK. Most all C
+	standard library functions are supported.
+
+.liblua/
+	The Lua scripting language library http://www.lua.org/.
+
+.lua/
+	The main BDK application that starts a menu driven Lua environment.
+
+.rom/
+	All files in here are included into BDK applications for access using
+	standard filesystem calls.
 
