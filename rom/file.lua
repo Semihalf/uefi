@@ -9,6 +9,7 @@ local choices = {
     "View file",
     "Copy file",
     "Delete file",
+    "Execute Lua file",
     "Main menu",
 }
 
@@ -50,6 +51,15 @@ while (true) do
             end
         end
     elseif (c == 4) then
+        printf("Enter filename")
+        local name = io.read()
+        if name ~= "" then
+            status, result = pcall(dofile, name)
+            if not status then
+                printf("ERROR: %s\n", result)
+            end
+        end
+    elseif (c == 5) then
         return
     end
 end
