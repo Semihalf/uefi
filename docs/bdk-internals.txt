@@ -192,6 +192,32 @@ void bdk_if_free(bdk_if_packet_t *packet)::
 
 Free a packet back to the FPA pools.
 
+=== Example looping through all Network Interfaces
+
+The following code loops through all supported network interfaces and
+enables them.  The *switch* statement shows an example of how to do
+custom operations based on the type of interface.
+
+[source,c]
+----
+for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle != NULL; handle = bdk_if_next_port(handle))
+{
+    switch (bdk_if_get_type(handle))
+    {
+	case BDK_IF_SGMII:
+	case BDK_IF_XAUI:
+	    ...
+	    break;
+	case BDK_IF_SRIO:
+	    ...
+	    break;
+	default:
+	    break;
+    }
+    bdk_if_enable(handle);
+}
+----
+
 
 Creating a standalone application
 ---------------------------------
