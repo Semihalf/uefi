@@ -500,11 +500,6 @@ static void tg_init_port(trafficgen_port_info_t *pinfo)
 
     switch (pinfo->iftype)
     {
-        case BDK_IF_XAUI:
-            /* HiGig headers always start with 0xfb */
-            pinfo->setup.higig_header.dw0.s.start = 0xfb;
-            break;
-
         case BDK_IF_SRIO:
             pinfo->setup.srio.s.prio = 0;
             pinfo->setup.srio.s.tt = 1;
@@ -558,9 +553,7 @@ static void tg_init(void)
  */
 static int get_size_wire_overhead(const trafficgen_port_info_t *pinfo)
 {
-    if (pinfo->setup.higig)
-        return 8 /*INTERFRAME_GAP*/ + pinfo->setup.higig + ETHERNET_CRC;
-    else if (pinfo->setup.srio.u64)
+    if (pinfo->setup.srio.u64)
         return 0;
     else
         return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
@@ -581,10 +574,8 @@ static int get_size_pre_l2(const trafficgen_port_info_t *pinfo)
     }
     else
     {
-        /* The preamble is created by hardware, so the length is zero for SW. In
-            the higig case, the higig header replaces the preamble and we need
-            to include it */
-        return pinfo->setup.higig;
+        /* The preamble is created by hardware, so the length is zero for SW. */
+        return 0;
     }
 }
 
@@ -997,13 +988,6 @@ static char *build_packet_mac_and_vlan_only(char *packet, trafficgen_port_info_t
     {
         memcpy(ptr, &pinfo->setup.srio, sizeof(pinfo->setup.srio));
         ptr += sizeof(pinfo->setup.srio);
-    }
-
-    /* Add the HiGig header before L2 if needed */
-    if (pinfo->setup.higig)
-    {
-        memcpy(ptr, &pinfo->setup.higig_header, pinfo->setup.higig);
-        ptr += pinfo->setup.higig;
     }
 
     /* Ethernet dest address */

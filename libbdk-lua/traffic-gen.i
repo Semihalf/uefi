@@ -107,8 +107,6 @@ typedef struct
     bool                    promisc;  /* Promiscuous mode (default to 1) */
     bool                    validate;
     bool                    respect_backpressure;
-    int                     higig; /* Number of HiGig bytes to include before L2 */
-    bdk_higig_header_t      higig_header; /* The HiGig header included if "higig" is set */
     bdk_srio_tx_message_header_t srio;
 } trafficgen_port_setup_t;
 

@@ -1482,31 +1482,30 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_bdk_higig_header_t swig_types[0]
-#define SWIGTYPE_p_bdk_if_handle_t swig_types[1]
-#define SWIGTYPE_p_bdk_if_t swig_types[2]
-#define SWIGTYPE_p_bdk_pip_port_status_t swig_types[3]
-#define SWIGTYPE_p_bdk_pko_port_status_t swig_types[4]
-#define SWIGTYPE_p_bdk_spinlock_t swig_types[5]
-#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[6]
-#define SWIGTYPE_p_char swig_types[7]
-#define SWIGTYPE_p_int swig_types[8]
-#define SWIGTYPE_p_long swig_types[9]
-#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[10]
-#define SWIGTYPE_p_short swig_types[11]
-#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[12]
-#define SWIGTYPE_p_trafficgen_payload_t swig_types[13]
-#define SWIGTYPE_p_trafficgen_port_info_t swig_types[14]
-#define SWIGTYPE_p_trafficgen_port_info_t_priv swig_types[15]
-#define SWIGTYPE_p_trafficgen_port_set_t swig_types[16]
-#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[17]
-#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[18]
-#define SWIGTYPE_p_unsigned_char swig_types[19]
-#define SWIGTYPE_p_unsigned_int swig_types[20]
-#define SWIGTYPE_p_unsigned_long swig_types[21]
-#define SWIGTYPE_p_unsigned_short swig_types[22]
-static swig_type_info *swig_types[24];
-static swig_module_info swig_module = {swig_types, 23, 0, 0, 0, 0};
+#define SWIGTYPE_p_bdk_if_handle_t swig_types[0]
+#define SWIGTYPE_p_bdk_if_t swig_types[1]
+#define SWIGTYPE_p_bdk_pip_port_status_t swig_types[2]
+#define SWIGTYPE_p_bdk_pko_port_status_t swig_types[3]
+#define SWIGTYPE_p_bdk_spinlock_t swig_types[4]
+#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[5]
+#define SWIGTYPE_p_char swig_types[6]
+#define SWIGTYPE_p_int swig_types[7]
+#define SWIGTYPE_p_long swig_types[8]
+#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[9]
+#define SWIGTYPE_p_short swig_types[10]
+#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[11]
+#define SWIGTYPE_p_trafficgen_payload_t swig_types[12]
+#define SWIGTYPE_p_trafficgen_port_info_t swig_types[13]
+#define SWIGTYPE_p_trafficgen_port_info_t_priv swig_types[14]
+#define SWIGTYPE_p_trafficgen_port_set_t swig_types[15]
+#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[16]
+#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[17]
+#define SWIGTYPE_p_unsigned_char swig_types[18]
+#define SWIGTYPE_p_unsigned_int swig_types[19]
+#define SWIGTYPE_p_unsigned_long swig_types[20]
+#define SWIGTYPE_p_unsigned_short swig_types[21]
+static swig_type_info *swig_types[23];
+static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4537,117 +4536,6 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_higig_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  int arg2 ;
-  
-  SWIG_check_num_args("higig",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("higig",1,"trafficgen_port_setup_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("higig",2,"int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_higig_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->higig = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_higig_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  int result;
-  
-  SWIG_check_num_args("higig",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("higig",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_higig_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (int) ((arg1)->higig);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_higig_header_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bdk_higig_header_t arg2 ;
-  bdk_higig_header_t *argp2 ;
-  
-  SWIG_check_num_args("higig_header",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("higig_header",1,"trafficgen_port_setup_t *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("higig_header",2,"bdk_higig_header_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_higig_header_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_higig_header_t,0))){
-    SWIG_fail_ptr("port_setup_t_higig_header_set",2,SWIGTYPE_p_bdk_higig_header_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->higig_header = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_higig_header_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bdk_higig_header_t result;
-  
-  SWIG_check_num_args("higig_header",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("higig_header",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_higig_header_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result =  ((arg1)->higig_header);
-  {
-    bdk_higig_header_t * resultptr;
-    resultptr = (bdk_higig_header_t *) malloc(sizeof(bdk_higig_header_t));
-    memmove(resultptr, &result, sizeof(bdk_higig_header_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_higig_header_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_setup_t_srio_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
@@ -4777,8 +4665,6 @@ static swig_lua_attribute swig_trafficgen_port_setup_t_attributes[] = {
     { "promisc", _wrap_port_setup_t_promisc_get, _wrap_port_setup_t_promisc_set},
     { "validate", _wrap_port_setup_t_validate_get, _wrap_port_setup_t_validate_set},
     { "respect_backpressure", _wrap_port_setup_t_respect_backpressure_get, _wrap_port_setup_t_respect_backpressure_set},
-    { "higig", _wrap_port_setup_t_higig_get, _wrap_port_setup_t_higig_set},
-    { "higig_header", _wrap_port_setup_t_higig_header_get, _wrap_port_setup_t_higig_header_set},
     { "srio", _wrap_port_setup_t_srio_get, _wrap_port_setup_t_srio_set},
     {0,0,0}
 };
@@ -5644,7 +5530,6 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_bdk_higig_header_t = {"_p_bdk_higig_header_t", "bdk_higig_header_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_if_handle_t = {"_p_bdk_if_handle_t", "bdk_if_handle_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_if_t = {"_p_bdk_if_t", "bdk_if_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_pip_port_status_t = {"_p_bdk_pip_port_status_t", "bdk_pip_port_status_t *", 0, 0, (void*)0, 0};
@@ -5669,7 +5554,6 @@ static swig_type_info _swigt__p_unsigned_long = {"_p_unsigned_long", "uint64_t *
 static swig_type_info _swigt__p_unsigned_short = {"_p_unsigned_short", "unsigned short *|uint16_t *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
-  &_swigt__p_bdk_higig_header_t,
   &_swigt__p_bdk_if_handle_t,
   &_swigt__p_bdk_if_t,
   &_swigt__p_bdk_pip_port_status_t,
@@ -5694,7 +5578,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_unsigned_short,
 };
 
-static swig_cast_info _swigc__p_bdk_higig_header_t[] = {  {&_swigt__p_bdk_higig_header_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_if_handle_t[] = {  {&_swigt__p_bdk_if_handle_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_if_t[] = {  {&_swigt__p_bdk_if_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_pip_port_status_t[] = {  {&_swigt__p_bdk_pip_port_status_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -5719,7 +5602,6 @@ static swig_cast_info _swigc__p_unsigned_long[] = {  {&_swigt__p_unsigned_long, 
 static swig_cast_info _swigc__p_unsigned_short[] = {  {&_swigt__p_unsigned_short, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
-  _swigc__p_bdk_higig_header_t,
   _swigc__p_bdk_if_handle_t,
   _swigc__p_bdk_if_t,
   _swigc__p_bdk_pip_port_status_t,

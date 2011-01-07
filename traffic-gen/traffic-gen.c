@@ -247,7 +247,6 @@ static bdk_readline_tab_t tab_commands[] = {
     {"tx.mbps", NULL},
     {"tx.total_packets", NULL},
     {"tx.total_octets", NULL},
-    {"higig", NULL},
     {"validate", tab_on_off},
     {"loopback", NULL},
     {"backpressure", NULL},
@@ -375,7 +374,6 @@ static char *help_commands[] = {
     "tx.mbps [<port range>] | all              Show TX Mbps for a range of ports\n",
     "tx.total_packets [<port range>] | all     Show total TX packets for a range of ports\n",
     "tx.total_octets [<port range>] | all      Show total TX octets for a range of ports\n",
-    "higig [[<port range>] <header size>]      Size of HiGig header to prepend to the packets. Must be 0, 12, or 16\n",
     "validate [<port range>] [on|off|show]     Turn on/off of packet validation using CRC32C.\n",
     "loopback [<port range>] [off|internal|external|internal&external] Control the loopback state of a port.\n",
     "backpressure [<port range>] [on|off]      Set if incomming backpressure packets should slow down transmit\n",
@@ -889,8 +887,6 @@ typedef struct
     int                     promisc;  /* Promiscuous mode (default to 1) */
     int                     validate;
     int                     respect_backpressure;
-    int                     higig; /* Number of HiGig bytes to include before L2 */
-    bdk_higig_header_t      higig_header; /* The HiGig header included if "higig" is set */
     bdk_srio_tx_message_header_t srio;
 } port_setup_t;
 
@@ -973,9 +969,7 @@ static uint8_t uart_read_byte(int uart_index)
 
 static int get_size_wire_overhead(const port_info_t *pinfo)
 {
-    if (pinfo->setup.higig)
-        return 8 /*INTERFRAME_GAP*/ + pinfo->setup.higig + ETHERNET_CRC;
-    else if (pinfo->setup.srio.u64)
+    if (pinfo->setup.srio.u64)
         return 0;
     else
         return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
@@ -990,10 +984,8 @@ static int get_size_pre_l2(const port_info_t *pinfo)
     }
     else
     {
-        /* The preamble is created by hardware, so the length is zero for SW. In
-            the higig case, the higig header replaces the preamble and we need
-            to include it */
-        return pinfo->setup.higig;
+        /* The preamble is created by hardware, so the length is zero for SW. */
+        return 0;
     }
 }
 
@@ -1229,13 +1221,6 @@ static char *build_packet_mac_and_vlan_only(char *packet, port_info_t *pinfo)
     {
         memcpy(ptr, &pinfo->setup.srio, sizeof(pinfo->setup.srio));
         ptr += sizeof(pinfo->setup.srio);
-    }
-
-    /* Add the HiGig header before L2 if needed */
-    if (pinfo->setup.higig)
-    {
-        memcpy(ptr, &pinfo->setup.higig_header, pinfo->setup.higig);
-        ptr += pinfo->setup.higig;
     }
 
     /* Ethernet dest address */
@@ -2562,7 +2547,7 @@ static uint64_t process_command(const char *cmd, int newline)
                     if (value + get_size_pre_l2(pinfo) > 65524)
                     {
                         pinfo->setup.output_packet_size = 65524 - get_size_pre_l2(pinfo);
-                        printf("Limiting port %d to %d of payload due to Higig header\n",
+                        printf("Limiting port %d to %d of payload due to header\n",
                             pinfo->name, (int)pinfo->setup.output_packet_size);
                     }
                     else
@@ -2675,33 +2660,6 @@ static uint64_t process_command(const char *cmd, int newline)
         PORT_STATISTIC_COMMAND("rx.total_octets", statistics.rx.octets)
         PORT_STATISTIC_COMMAND("rx.total_errors", statistics.rx.errors)
         PORT_STATISTIC_COMMAND("rx.validation_errors", input_validation_errors)
-#if 0 // FIXME HIGIG
-        else if (strcasecmp(command, "higig") == 0)
-        {
-            PORT_LIMIT(start_port);
-            PORT_LIMIT(stop_port);
-            if ((argc >= 2) && (value!=12) && (value!=16))
-                printf("higig must be 12 (higig), or 16 (higig2)\n");
-            else
-            {
-                for (int i=0; tx_set.list[i] != NULL; i++)
-                {
-                    port_info_t *pinfo = tx_set.list[i];
-                    if (argc >= 2)
-                    {
-                        pinfo->setup.higig = value;
-                        bdk_higig_initialize(pinfo->port>>4, (pinfo->setup.higig == 16));
-                        build_packet(pinfo);
-                    }
-                    else if (pinfo->state.display) {
-                        printf("Port %2u %s: %22llu 0x%016llx\n",
-                               pinfo->name, "higig", (ULL)pinfo->setup.higig, (ULL)pinfo->setup.higig);
-                        command_result = pinfo->setup.higig;
-                    }
-                }
-            }
-        }
-#endif
         else if (strcasecmp(command, "src.mac") == 0)
         {
             for (int i=0; tx_set.list[i] != NULL; i++)
@@ -3660,7 +3618,6 @@ someone_on: ;
     ROW(1){PRINTTRANS("bridge", bridge_port, numeric);}
     ROW(0){PRINTVLAN("tx.vlan", vlan);}
     ROW(0){PRINTTRANS("rx.display", display_packet, tab_on_off);}
-    ROW(0){PRINTTRANS("higig", higig, numeric);}
     ROW(1){PRINTTRANS("validate packets", validate, tab_on_off);}
     ROW(0){PRINTTRANS("RespectBackpressure", respect_backpressure, tab_on_off);}
     ROW(0){printf("Packet buffers:  %7llu ", (ULL)BDK_CSR_READ(BDK_IPD_QUE0_FREE_PAGE_CNT));
@@ -4554,11 +4511,7 @@ int main(void)
             switch (bdk_if_get_type(handle))
             {
                 case BDK_IF_SGMII:
-                    pinfo->state.display = 1;
-                    break;
                 case BDK_IF_XAUI:
-                    /* HiGig headers always start with 0xfb */
-                    pinfo->setup.higig_header.dw0.s.start = 0xfb;
                     pinfo->state.display = 1;
                     break;
                 case BDK_IF_SRIO:
