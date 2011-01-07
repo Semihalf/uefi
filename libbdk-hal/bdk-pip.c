@@ -1,54 +1,6 @@
 #include <bdk.h>
 
 /**
- * Configure an ethernet input port
- *
- * @param port_num Port number to configure
- * @param port_cfg Port hardware configuration
- * @param port_tag_cfg
- *                 Port SSO tagging configuration
- */
-void bdk_pip_config_port(uint64_t port_num,
-                                        bdk_pip_prt_cfgx_t port_cfg,
-                                        bdk_pip_prt_tagx_t port_tag_cfg)
-{
-    BDK_CSR_WRITE(BDK_PIP_PRT_CFGX(port_num), port_cfg.u64);
-    BDK_CSR_WRITE(BDK_PIP_PRT_TAGX(port_num), port_tag_cfg.u64);
-}
-
-
-/**
- * Configure the VLAN priority to QoS queue mapping.
- *
- * @param vlan_priority
- *               VLAN priority (0-7)
- * @param qos    QoS queue for packets matching this watcher
- */
-void bdk_pip_config_vlan_qos(uint64_t vlan_priority, uint64_t qos)
-{
-    bdk_pip_qos_vlanx_t pip_qos_vlanx;
-    pip_qos_vlanx.u64 = 0;
-    pip_qos_vlanx.s.qos = qos;
-    BDK_CSR_WRITE(BDK_PIP_QOS_VLANX(vlan_priority), pip_qos_vlanx.u64);
-}
-
-
-/**
- * Configure the Diffserv to QoS queue mapping.
- *
- * @param diffserv Diffserv field value (0-63)
- * @param qos      QoS queue for packets matching this watcher
- */
-void bdk_pip_config_diffserv_qos(uint64_t diffserv, uint64_t qos)
-{
-    bdk_pip_qos_diffx_t pip_qos_diffx;
-    pip_qos_diffx.u64 = 0;
-    pip_qos_diffx.s.qos = qos;
-    BDK_CSR_WRITE(BDK_PIP_QOS_DIFFX(diffserv), pip_qos_diffx.u64);
-}
-
-
-/**
  * Get the status counters for a port.
  *
  * @param port_num Port number to get statistics for.
@@ -129,53 +81,5 @@ void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bdk_pip_port_sta
     status->inb_octets              = pip_stat_inb_octsx.s.octs;
     status->inb_errors              = pip_stat_inb_errsx.s.errs;
 
-}
-
-
-/**
- * Clear all bits in a tag mask. This should be called on
- * startup before any calls to bdk_pip_tag_mask_set. Each bit
- * set in the final mask represent a byte used in the packet for
- * tag generation.
- *
- * @param mask_index Which tag mask to clear (0..3)
- */
-void bdk_pip_tag_mask_clear(uint64_t mask_index)
-{
-    uint64_t index;
-    bdk_pip_tag_incx_t pip_tag_incx;
-    pip_tag_incx.u64 = 0;
-    pip_tag_incx.s.en = 0;
-    for (index=mask_index*16; index<(mask_index+1)*16; index++)
-        BDK_CSR_WRITE(BDK_PIP_TAG_INCX(index), pip_tag_incx.u64);
-}
-
-
-/**
- * Sets a range of bits in the tag mask. The tag mask is used
- * when the bdk_pip_port_tag_cfg_t tag_mode is non zero.
- * There are four separate masks that can be configured.
- *
- * @param mask_index Which tag mask to modify (0..3)
- * @param offset     Offset into the bitmask to set bits at. Use the GCC macro
- *                   offsetof() to determine the offsets into packet headers.
- *                   For example, offsetof(ethhdr, protocol) returns the offset
- *                   of the ethernet protocol field.  The bitmask selects which bytes
- *                   to include the the tag, with bit offset X selecting byte at offset X
- *                   from the beginning of the packet data.
- * @param len        Number of bytes to include. Usually this is the sizeof()
- *                   the field.
- */
-void bdk_pip_tag_mask_set(uint64_t mask_index, uint64_t offset, uint64_t len)
-{
-    while (len--)
-    {
-        bdk_pip_tag_incx_t pip_tag_incx;
-        uint64_t index = mask_index*16 + offset/8;
-        pip_tag_incx.u64 = BDK_CSR_READ(BDK_PIP_TAG_INCX(index));
-        pip_tag_incx.s.en |= 0x80 >> (offset & 0x7);
-        BDK_CSR_WRITE(BDK_PIP_TAG_INCX(index), pip_tag_incx.u64);
-        offset++;
-    }
 }
 
