@@ -157,10 +157,8 @@ fail:
 int bdk_if_init(void)
 {
     int result = 0;
+    int num_packet_buffers = 2000;
 
-    /* Set the number of packet and WQE entries to be 16 less than the
-        number of SSO entries. This way we never spill to ram */
-    int num_packet_buffers = bdk_sso_get_num_entries() - 16;
     bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
     bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
@@ -429,13 +427,18 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
  */
 int bdk_if_receive(bdk_if_packet_t *packet)
 {
-    bdk_wqe_t *wqe = bdk_sso_work_request_sync(BDK_SSO_NO_WAIT);
-    if (wqe)
+    /* Get work without waiting */
+    uint64_t raw_work = bdk_read64_uint64(0x8001600000000000ull);
+    if ((raw_work>>63) == 0)
     {
-        packet->if_handle = __bdk_ipd_to_handle[wqe->ipprt];
-        packet->length = wqe->len;
-        if (wqe->word2.s.rcv_error)
-            packet->rx_error = wqe->word2.s.err_code;
+        bdk_wqe_t *wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+            packet->if_handle = __bdk_ipd_to_handle[wqe->word2.s.port];
+        else
+            packet->if_handle = __bdk_ipd_to_handle[wqe->word1.v1.ipprt];
+        packet->length = wqe->word1.s.len;
+        if (wqe->word2.s.re)
+            packet->rx_error = wqe->word2.s.opcode;
         else
             packet->rx_error = 0;
 
@@ -446,10 +449,10 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             packet->packet.s.pool = BDK_FPA_WQE_POOL;
             packet->packet.s.size = 128;
             packet->packet.s.addr = bdk_ptr_to_phys(wqe->packet_data);
-            if (bdk_likely(!wqe->word2.s.not_IP))
+            if (bdk_likely(!wqe->word2.s.ni))
             {
-                packet->packet.s.addr += (4<<3) - wqe->word2.s.ip_offset;
-                packet->packet.s.addr += (wqe->word2.s.is_v6^1)<<2;
+                packet->packet.s.addr += (4<<3) - wqe->word2.ip.ip_offset;
+                packet->packet.s.addr += (wqe->word2.ip.v6^1)<<2;
             }
             else
             {

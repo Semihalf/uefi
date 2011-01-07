@@ -3,30 +3,6 @@
  *
  * Interface to the hardware Packet Output unit.
  *
- * Starting with SDK 1.7.0, the PKO output functions now support
- * two types of locking. BDK_PKO_LOCK_ATOMIC_TAG continues to
- * function similarly to previous SDKs by using SSO atomic tags
- * to preserve ordering and exclusivity. As a new option, you
- * can now pass BDK_PKO_LOCK_CMD_QUEUE which uses a ll/sc
- * memory based locking instead. This locking has the advantage
- * of not affecting the tag state but doesn't preserve packet
- * ordering. BDK_PKO_LOCK_CMD_QUEUE is appropriate in most
- * generic code while BDK_PKO_LOCK_CMD_QUEUE should be used
- * with hand tuned fast path code.
- *
- * Some of other SDK differences visible to the command command
- * queuing:
- * - PKO indexes are no longer stored in the FAU. A large
- *   percentage of the FAU register block used to be tied up
- *   maintaining PKO queue pointers. These are now stored in a
- *   global named block.
- * - The PKO <b>use_locking</b> parameter can now have a global
- *   effect. Since all application use the same named block,
- *   queue locking correctly applies across all operating
- *   systems when using BDK_PKO_LOCK_CMD_QUEUE.
- * - PKO 3 word commands are now supported. Use
- *   bdk_pko_send_packet_finish3().
- *
  * <hr>$Revision: 49448 $<hr>
  *
  * @addtogroup hal
@@ -63,10 +39,7 @@ typedef enum
     BDK_PKO_LOCK_NONE = 0,         /**< PKO doesn't do any locking. It is the responsibility
                                         of the application to make sure that no other core is
                                         accessing the same queue at the smae time */
-    BDK_PKO_LOCK_ATOMIC_TAG = 1,   /**< PKO performs an atomic tagswitch to insure exclusive
-                                        access to the output queue. This will maintain
-                                        packet ordering on output */
-    BDK_PKO_LOCK_CMD_QUEUE = 2,    /**< PKO uses the common command queue locks to insure
+    BDK_PKO_LOCK_CMD_QUEUE = 1,    /**< PKO uses the common command queue locks to insure
                                         exclusive access to the output queue. This is a memory
                                         based ll/sc. This is the most portable locking
                                         mechanism */
@@ -207,36 +180,19 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
  *      - PKO doesn't do any locking. It is the responsibility
  *          of the application to make sure that no other core
  *          is accessing the same queue at the smae time.
- * - BDK_PKO_LOCK_ATOMIC_TAG
- *      - PKO performs an atomic tagswitch to insure exclusive
- *          access to the output queue. This will maintain
- *          packet ordering on output.
  * - BDK_PKO_LOCK_CMD_QUEUE
  *      - PKO uses the common command queue locks to insure
  *          exclusive access to the output queue. This is a
  *          memory based ll/sc. This is the most portable
  *          locking mechanism.
  *
- * NOTE: If atomic locking is used, the SSO entry CANNOT be
- * descheduled, as it does not contain a valid WQE pointer.
- *
  * @param port   Port to send it on
  * @param queue  Queue to use
  * @param use_locking
- *               BDK_PKO_LOCK_NONE, BDK_PKO_LOCK_ATOMIC_TAG, or BDK_PKO_LOCK_CMD_QUEUE
+ *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
  */
 static inline void bdk_pko_send_packet_prepare(uint64_t port, uint64_t queue, bdk_pko_lock_t use_locking)
 {
-    if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
-    {
-        /* Must do a full switch here to handle all cases.  We use a fake WQE pointer, as the SSO does
-        ** not access this memory.  The WQE pointer and group are only used if this work is descheduled,
-        ** which is not supported by the bdk_pko_send_packet_prepare/bdk_pko_send_packet_finish combination.
-        ** Note that this is a special case in which these fake values can be used - this is not a general technique.
-        */
-        uint32_t tag = BDK_TAG_SW_BITS_INTERNAL << BDK_TAG_SW_SHIFT | BDK_TAG_SUBGROUP_PKO  << BDK_TAG_SUBGROUP_SHIFT | (BDK_TAG_SUBGROUP_MASK & queue);
-        bdk_sso_tag_sw_full((bdk_wqe_t *)bdk_phys_to_ptr(0x80), tag, BDK_SSO_TAG_TYPE_ATOMIC, 0);
-    }
 }
 
 
@@ -251,7 +207,7 @@ static inline void bdk_pko_send_packet_prepare(uint64_t port, uint64_t queue, bd
  *               PKO HW command word
  * @param packet Packet to send
  * @param use_locking
- *               BDK_PKO_LOCK_NONE, BDK_PKO_LOCK_ATOMIC_TAG, or BDK_PKO_LOCK_CMD_QUEUE
+ *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
  *
  * @return returns BDK_PKO_SUCCESS on success, or error code on failure of output
  */
@@ -260,8 +216,6 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish(uint64_t port, uint64_
                                         bdk_buf_ptr_t packet, bdk_pko_lock_t use_locking)
 {
     bdk_cmd_queue_result_t result;
-    if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
-        bdk_sso_tag_sw_wait();
     result = bdk_cmd_queue_write2(BDK_CMD_QUEUE_PKO(queue),
                                    (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
                                    pko_command.u64,
@@ -294,7 +248,7 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish(uint64_t port, uint64_
  * @param packet Packet to send
  * @param addr   Plysical address of a work queue entry or physical address to zero on complete.
  * @param use_locking
- *               BDK_PKO_LOCK_NONE, BDK_PKO_LOCK_ATOMIC_TAG, or BDK_PKO_LOCK_CMD_QUEUE
+ *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
  *
  * @return returns BDK_PKO_SUCCESS on success, or error code on failure of output
  */
@@ -303,8 +257,6 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64
                                         bdk_buf_ptr_t packet, uint64_t addr, bdk_pko_lock_t use_locking)
 {
     bdk_cmd_queue_result_t result;
-    if (use_locking == BDK_PKO_LOCK_ATOMIC_TAG)
-        bdk_sso_tag_sw_wait();
     result = bdk_cmd_queue_write3(BDK_CMD_QUEUE_PKO(queue),
                                    (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
                                    pko_command.u64,

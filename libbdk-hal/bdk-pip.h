@@ -211,7 +211,7 @@ typedef union
         uint64_t                    qos         : 3;    /**< SSO input queue for this packet */
         uint64_t                    grp         : 4;    /**< SSO input group for this packet */
         uint64_t                    rs          : 1;    /**< Flag to store this packet in the work queue entry, if possible */
-        bdk_sso_tag_type_t         tag_type    : 2;    /**< SSO input tag type */
+        bdk_wqe_tag_type_t          tag_type    : 2;    /**< SSO input tag type */
         uint64_t                    tag         : 32;   /**< SSO input tag */
     } s;
 } bdk_pip_pkt_inst_hdr_t;
