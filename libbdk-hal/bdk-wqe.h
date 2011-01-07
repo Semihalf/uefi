@@ -67,7 +67,7 @@ typedef union
         uint64_t bufs           : 8;
         uint64_t reserved_32_55 : 24;
         uint64_t port           : 12;
-        uint64_t reserved_10_19 : 11;
+        uint64_t reserved_10_19 : 10;
         uint64_t ni             : 1;
         uint64_t re             : 1;
         uint64_t opcode         : 8;
