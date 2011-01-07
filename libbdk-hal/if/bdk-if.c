@@ -412,7 +412,6 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_command.u64 = 0;
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
-    bdk_pko_send_packet_prepare(handle->pko_port, handle->pko_queue, BDK_PKO_LOCK_CMD_QUEUE);
     return bdk_pko_send_packet_finish(handle->pko_port, handle->pko_queue, pko_command, packet->packet, BDK_PKO_LOCK_CMD_QUEUE);
 }
 

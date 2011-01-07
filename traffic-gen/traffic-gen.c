@@ -3081,7 +3081,6 @@ static uint64_t process_command(const char *cmd, int newline)
 
             uint64_t queue = bdk_pko_get_base_queue(ipprt) + 1;  /* NOTE: use a different queue than normal */
             bdk_spinlock_lock(&pinfo->lock);
-            bdk_pko_send_packet_prepare(ipprt, queue, BDK_PKO_LOCK_NONE);
             hw_buffer.s.addr = bdk_ptr_to_phys(buf);
             hw_buffer.s.pool = BDK_FPA_PACKET_POOL;
             hw_buffer.s.i = 0;

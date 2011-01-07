@@ -167,39 +167,7 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
 
 
 /**
- * Prepare to send a packet.  This may initiate a tag switch to
- * get exclusive access to the output queue structure, and
- * performs other prep work for the packet send operation.
- *
- * bdk_pko_send_packet_finish() MUST be called after this function is called,
- * and must be called with the same port/queue/use_locking arguments.
- *
- * The use_locking parameter allows the caller to use three
- * possible locking modes.
- * - BDK_PKO_LOCK_NONE
- *      - PKO doesn't do any locking. It is the responsibility
- *          of the application to make sure that no other core
- *          is accessing the same queue at the smae time.
- * - BDK_PKO_LOCK_CMD_QUEUE
- *      - PKO uses the common command queue locks to insure
- *          exclusive access to the output queue. This is a
- *          memory based ll/sc. This is the most portable
- *          locking mechanism.
- *
- * @param port   Port to send it on
- * @param queue  Queue to use
- * @param use_locking
- *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
- */
-static inline void bdk_pko_send_packet_prepare(uint64_t port, uint64_t queue, bdk_pko_lock_t use_locking)
-{
-}
-
-
-/**
- * Complete packet output. bdk_pko_send_packet_prepare() must be called exactly once before this,
- * and the same parameters must be passed to both bdk_pko_send_packet_prepare() and
- * bdk_pko_send_packet_finish().
+ * Packet output.
  *
  * @param port   Port to send it on
  * @param queue  Queue to use
@@ -237,9 +205,7 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish(uint64_t port, uint64_
 
 
 /**
- * Complete packet output. bdk_pko_send_packet_prepare() must be called exactly once before this,
- * and the same parameters must be passed to both bdk_pko_send_packet_prepare() and
- * bdk_pko_send_packet_finish().
+ * Packet output.
  *
  * @param port   Port to send it on
  * @param queue  Queue to use

@@ -1556,7 +1556,6 @@ static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_if_pack
         trafficgen_port_info_t *pout = tg_get_pinfo(output_port);
         uint64_t queue = bdk_pko_get_base_queue(output_port) + 1;  /* NOTE: use a different queue than normal*/
         bdk_spinlock_lock(&pout->priv.lock);
-        bdk_pko_send_packet_prepare(output_port, queue, BDK_PKO_LOCK_NONE);
 
         /* Build the PKO command */
         bdk_pko_command_word0_t pko_command;
