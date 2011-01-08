@@ -293,10 +293,10 @@ int bdk_init_cores(uint64_t coremask)
         coremask = -1;
 
     /* Don't touch this core */
-    coremask &= ~(1<<bdk_get_core_num());
+    coremask &= ~(1ull<<bdk_get_core_num());
 
     /* Limit to the cores that already exist */
-    coremask &= (1<<bdk_octeon_num_cores()) - 1;
+    coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
 
     /* First send a NMI */
     BDK_CSR_WRITE(BDK_CIU_NMI, coremask);

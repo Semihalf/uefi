@@ -81,8 +81,8 @@ static inline uint64_t bdk_build_bits(uint64_t high_bit, uint64_t low_bit, uint6
  */
 static inline uint32_t bdk_octeon_num_cores(void)
 {
-    uint32_t ciu_fuse = (uint32_t)BDK_CSR_READ(BDK_CIU_FUSE) & 0xffff;
-    return bdk_pop(ciu_fuse);
+    uint64_t ciu_fuse = BDK_CSR_READ(BDK_CIU_FUSE);
+    return bdk_dpop(ciu_fuse);
 }
 
 /** @} */
