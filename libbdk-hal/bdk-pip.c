@@ -10,16 +10,16 @@
 void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bdk_pip_port_status_t *status)
 {
     bdk_pip_stat_ctl_t pip_stat_ctl;
-    bdk_pip_stat0_pkndx_t stat0;
-    bdk_pip_stat1_pkndx_t stat1;
-    bdk_pip_stat2_pkndx_t stat2;
-    bdk_pip_stat3_pkndx_t stat3;
-    bdk_pip_stat4_pkndx_t stat4;
-    bdk_pip_stat5_pkndx_t stat5;
-    bdk_pip_stat6_pkndx_t stat6;
-    bdk_pip_stat7_pkndx_t stat7;
-    bdk_pip_stat8_pkndx_t stat8;
-    bdk_pip_stat9_pkndx_t stat9;
+    bdk_pip_stat0_x_t stat0;
+    bdk_pip_stat1_x_t stat1;
+    bdk_pip_stat2_x_t stat2;
+    bdk_pip_stat3_x_t stat3;
+    bdk_pip_stat4_x_t stat4;
+    bdk_pip_stat5_x_t stat5;
+    bdk_pip_stat6_x_t stat6;
+    bdk_pip_stat7_x_t stat7;
+    bdk_pip_stat8_x_t stat8;
+    bdk_pip_stat9_x_t stat9;
     bdk_pip_stat_inb_pkts_pkndx_t pip_stat_inb_pktsx;
     bdk_pip_stat_inb_octs_pkndx_t pip_stat_inb_octsx;
     bdk_pip_stat_inb_errs_pkndx_t pip_stat_inb_errsx;
@@ -43,16 +43,16 @@ void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bdk_pip_port_sta
     }
     else
     {
-        stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_PKNDX(port_num));
-        stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_PKNDX(port_num));
-        stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_PKNDX(port_num));
-        stat3.u64 = BDK_CSR_READ(BDK_PIP_STAT3_PKNDX(port_num));
-        stat4.u64 = BDK_CSR_READ(BDK_PIP_STAT4_PKNDX(port_num));
-        stat5.u64 = BDK_CSR_READ(BDK_PIP_STAT5_PKNDX(port_num));
-        stat6.u64 = BDK_CSR_READ(BDK_PIP_STAT6_PKNDX(port_num));
-        stat7.u64 = BDK_CSR_READ(BDK_PIP_STAT7_PKNDX(port_num));
-        stat8.u64 = BDK_CSR_READ(BDK_PIP_STAT8_PKNDX(port_num));
-        stat9.u64 = BDK_CSR_READ(BDK_PIP_STAT9_PKNDX(port_num));
+        stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_X(port_num));
+        stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_X(port_num));
+        stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_X(port_num));
+        stat3.u64 = BDK_CSR_READ(BDK_PIP_STAT3_X(port_num));
+        stat4.u64 = BDK_CSR_READ(BDK_PIP_STAT4_X(port_num));
+        stat5.u64 = BDK_CSR_READ(BDK_PIP_STAT5_X(port_num));
+        stat6.u64 = BDK_CSR_READ(BDK_PIP_STAT6_X(port_num));
+        stat7.u64 = BDK_CSR_READ(BDK_PIP_STAT7_X(port_num));
+        stat8.u64 = BDK_CSR_READ(BDK_PIP_STAT8_X(port_num));
+        stat9.u64 = BDK_CSR_READ(BDK_PIP_STAT9_X(port_num));
     }
     pip_stat_inb_pktsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_PKTS_PKNDX(port_num));
     pip_stat_inb_octsx.u64 = BDK_CSR_READ(BDK_PIP_STAT_INB_OCTS_PKNDX(port_num));

@@ -26874,16 +26874,16 @@ in duration).  Although this will reset much of PIP's internal state, some
 CSRs will not reset.
 
 . PIP_BIST_STATUS
-. PIP_STAT0_PKND*
-. PIP_STAT1_PKND*
-. PIP_STAT2_PKND*
-. PIP_STAT3_PKND*
-. PIP_STAT4_PKND*
-. PIP_STAT5_PKND*
-. PIP_STAT6_PKND*
-. PIP_STAT7_PKND*
-. PIP_STAT8_PKND*
-. PIP_STAT9_PKND*
+. PIP_STAT0_*
+. PIP_STAT1_*
+. PIP_STAT2_*
+. PIP_STAT3_*
+. PIP_STAT4_*
+. PIP_STAT5_*
+. PIP_STAT6_*
+. PIP_STAT7_*
+. PIP_STAT8_*
+. PIP_STAT9_*
 . PIP_XSTAT0_PRT*
 . PIP_XSTAT1_PRT*
 . PIP_XSTAT2_PRT*
@@ -27530,10 +27530,10 @@ Pos      Name    Type     Value     Value       Description
  *    additional 8B of data is captured in the octet counts.
 
 
- * PIP_STAT0_PKND = PIP_STAT_DRP_PKTS / PIP_STAT_DRP_OCTS
+ * PIP_STAT0_ = PIP_STAT_DRP_PKTS / PIP_STAT_DRP_OCTS
 
      ==============================================================
-     PIP_STAT0_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT0_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27547,10 +27547,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT1_PKND@ = PIP_STAT_OCTS
+ * PIP_STAT1_@ = PIP_STAT_OCTS
 
      ==============================================================
-     PIP_STAT1_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT1_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27562,10 +27562,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT2_PKND@ = PIP_STAT_PKTS     / PIP_STAT_RAW
+ * PIP_STAT2_@ = PIP_STAT_PKTS     / PIP_STAT_RAW
 
      ==============================================================
-     PIP_STAT2_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT2_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27578,10 +27578,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT3_PKND@ = PIP_STAT_BCST     / PIP_STAT_MCST
+ * PIP_STAT3_@ = PIP_STAT_BCST     / PIP_STAT_MCST
 
      ==============================================================
-     PIP_STAT3_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT3_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27599,10 +27599,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT4_PKND@ = PIP_STAT_HIST1    / PIP_STAT_HIST0
+ * PIP_STAT4_@ = PIP_STAT_HIST1    / PIP_STAT_HIST0
 
      ==============================================================
-     PIP_STAT4_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT4_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27614,10 +27614,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT5_PKND@ = PIP_STAT_HIST3    / PIP_STAT_HIST2
+ * PIP_STAT5_@ = PIP_STAT_HIST3    / PIP_STAT_HIST2
 
      ==============================================================
-     PIP_STAT5_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT5_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27629,10 +27629,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT6_PKND@ = PIP_STAT_HIST5    / PIP_STAT_HIST4
+ * PIP_STAT6_@ = PIP_STAT_HIST5    / PIP_STAT_HIST4
 
      ==============================================================
-     PIP_STAT6_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT6_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27644,10 +27644,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT7_PKND@ = PIP_STAT_FCS      / PIP_STAT_HIST6
+ * PIP_STAT7_@ = PIP_STAT_FCS      / PIP_STAT_HIST6
 
      ==============================================================
-     PIP_STAT7_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT7_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27662,10 +27662,10 @@ Note: FCS is not checked on the PCI ports 32..35.
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT8_PKND@ = PIP_STAT_FRAG     / PIP_STAT_UNDER
+ * PIP_STAT8_@ = PIP_STAT_FRAG     / PIP_STAT_UNDER
 
      ==============================================================
-     PIP_STAT8_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT8_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27680,10 +27680,10 @@ Note: FCS is not checked on the PCI ports 32..35.
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT9_PKND@ = PIP_STAT_JABBER   / PIP_STAT_OVER
+ * PIP_STAT9_@ = PIP_STAT_JABBER   / PIP_STAT_OVER
 
      ==============================================================
-     PIP_STAT9_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT9_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27698,10 +27698,10 @@ Note: FCS is not checked on the PCI ports 32..35.
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT10_PKND@ = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
+ * PIP_STAT10_@ = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
 
      ==============================================================
-     PIP_STAT10_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT10_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -27725,10 +27725,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT11_PKND@ = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
+ * PIP_STAT11_@ = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
 
      ==============================================================
-     PIP_STAT11_PKND(0..3,32..35,36..39) Type=RSL
+     PIP_STAT11_(0..3,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -47228,150 +47228,150 @@ PIP_QOS_WATCH6                 0x00011800A0000130  RSL
 PIP_QOS_WATCH7                 0x00011800A0000138  RSL
 PIP_RAW_WORD                   0x00011800A00000B0  RSL
 PIP_SFT_RST                    0x00011800A0000030  RSL
-PIP_STAT0_PKND0                 0x00011800A0000800  RSL
-PIP_STAT0_PKND1                 0x00011800A0000850  RSL
-PIP_STAT0_PKND2                 0x00011800A00008A0  RSL
-PIP_STAT0_PKND3                 0x00011800A00008F0  RSL
-PIP_STAT0_PKND32                0x00011800A0001200  RSL
-PIP_STAT0_PKND33                0x00011800A0001250  RSL
-PIP_STAT0_PKND34                0x00011800A00012A0  RSL
-PIP_STAT0_PKND35                0x00011800A00012F0  RSL
-PIP_STAT0_PKND36                0x00011800A0001340  RSL
-PIP_STAT0_PKND37                0x00011800A0001390  RSL
-PIP_STAT0_PKND38                0x00011800A00013E0  RSL
-PIP_STAT0_PKND39                0x00011800A0001430  RSL
-PIP_STAT1_PKND0                 0x00011800A0000808  RSL
-PIP_STAT1_PKND1                 0x00011800A0000858  RSL
-PIP_STAT1_PKND2                 0x00011800A00008A8  RSL
-PIP_STAT1_PKND3                 0x00011800A00008F8  RSL
-PIP_STAT1_PKND32                0x00011800A0001208  RSL
-PIP_STAT1_PKND33                0x00011800A0001258  RSL
-PIP_STAT1_PKND34                0x00011800A00012A8  RSL
-PIP_STAT1_PKND35                0x00011800A00012F8  RSL
-PIP_STAT1_PKND36                0x00011800A0001348  RSL
-PIP_STAT1_PKND37                0x00011800A0001398  RSL
-PIP_STAT1_PKND38                0x00011800A00013E8  RSL
-PIP_STAT1_PKND39                0x00011800A0001438  RSL
-PIP_STAT2_PKND0                 0x00011800A0000810  RSL
-PIP_STAT2_PKND1                 0x00011800A0000860  RSL
-PIP_STAT2_PKND2                 0x00011800A00008B0  RSL
-PIP_STAT2_PKND3                 0x00011800A0000900  RSL
-PIP_STAT2_PKND32                0x00011800A0001210  RSL
-PIP_STAT2_PKND33                0x00011800A0001260  RSL
-PIP_STAT2_PKND34                0x00011800A00012B0  RSL
-PIP_STAT2_PKND35                0x00011800A0001300  RSL
-PIP_STAT2_PKND36                0x00011800A0001350  RSL
-PIP_STAT2_PKND37                0x00011800A00013A0  RSL
-PIP_STAT2_PKND38                0x00011800A00013F0  RSL
-PIP_STAT2_PKND39                0x00011800A0001440  RSL
-PIP_STAT3_PKND0                 0x00011800A0000818  RSL
-PIP_STAT3_PKND1                 0x00011800A0000868  RSL
-PIP_STAT3_PKND2                 0x00011800A00008B8  RSL
-PIP_STAT3_PKND3                 0x00011800A0000908  RSL
-PIP_STAT3_PKND32                0x00011800A0001218  RSL
-PIP_STAT3_PKND33                0x00011800A0001268  RSL
-PIP_STAT3_PKND34                0x00011800A00012B8  RSL
-PIP_STAT3_PKND35                0x00011800A0001308  RSL
-PIP_STAT3_PKND36                0x00011800A0001358  RSL
-PIP_STAT3_PKND37                0x00011800A00013A8  RSL
-PIP_STAT3_PKND38                0x00011800A00013F8  RSL
-PIP_STAT3_PKND39                0x00011800A0001448  RSL
-PIP_STAT4_PKND0                 0x00011800A0000820  RSL
-PIP_STAT4_PKND1                 0x00011800A0000870  RSL
-PIP_STAT4_PKND2                 0x00011800A00008C0  RSL
-PIP_STAT4_PKND3                 0x00011800A0000910  RSL
-PIP_STAT4_PKND32                0x00011800A0001220  RSL
-PIP_STAT4_PKND33                0x00011800A0001270  RSL
-PIP_STAT4_PKND34                0x00011800A00012C0  RSL
-PIP_STAT4_PKND35                0x00011800A0001310  RSL
-PIP_STAT4_PKND36                0x00011800A0001360  RSL
-PIP_STAT4_PKND37                0x00011800A00013B0  RSL
-PIP_STAT4_PKND38                0x00011800A0001400  RSL
-PIP_STAT4_PKND39                0x00011800A0001450  RSL
-PIP_STAT5_PKND0                 0x00011800A0000828  RSL
-PIP_STAT5_PKND1                 0x00011800A0000878  RSL
-PIP_STAT5_PKND2                 0x00011800A00008C8  RSL
-PIP_STAT5_PKND3                 0x00011800A0000918  RSL
-PIP_STAT5_PKND32                0x00011800A0001228  RSL
-PIP_STAT5_PKND33                0x00011800A0001278  RSL
-PIP_STAT5_PKND34                0x00011800A00012C8  RSL
-PIP_STAT5_PKND35                0x00011800A0001318  RSL
-PIP_STAT5_PKND36                0x00011800A0001368  RSL
-PIP_STAT5_PKND37                0x00011800A00013B8  RSL
-PIP_STAT5_PKND38                0x00011800A0001408  RSL
-PIP_STAT5_PKND39                0x00011800A0001458  RSL
-PIP_STAT6_PKND0                 0x00011800A0000830  RSL
-PIP_STAT6_PKND1                 0x00011800A0000880  RSL
-PIP_STAT6_PKND2                 0x00011800A00008D0  RSL
-PIP_STAT6_PKND3                 0x00011800A0000920  RSL
-PIP_STAT6_PKND32                0x00011800A0001230  RSL
-PIP_STAT6_PKND33                0x00011800A0001280  RSL
-PIP_STAT6_PKND34                0x00011800A00012D0  RSL
-PIP_STAT6_PKND35                0x00011800A0001320  RSL
-PIP_STAT6_PKND36                0x00011800A0001370  RSL
-PIP_STAT6_PKND37                0x00011800A00013C0  RSL
-PIP_STAT6_PKND38                0x00011800A0001410  RSL
-PIP_STAT6_PKND39                0x00011800A0001460  RSL
-PIP_STAT7_PKND0                 0x00011800A0000838  RSL
-PIP_STAT7_PKND1                 0x00011800A0000888  RSL
-PIP_STAT7_PKND2                 0x00011800A00008D8  RSL
-PIP_STAT7_PKND3                 0x00011800A0000928  RSL
-PIP_STAT7_PKND32                0x00011800A0001238  RSL
-PIP_STAT7_PKND33                0x00011800A0001288  RSL
-PIP_STAT7_PKND34                0x00011800A00012D8  RSL
-PIP_STAT7_PKND35                0x00011800A0001328  RSL
-PIP_STAT7_PKND36                0x00011800A0001378  RSL
-PIP_STAT7_PKND37                0x00011800A00013C8  RSL
-PIP_STAT7_PKND38                0x00011800A0001418  RSL
-PIP_STAT7_PKND39                0x00011800A0001468  RSL
-PIP_STAT8_PKND0                 0x00011800A0000840  RSL
-PIP_STAT8_PKND1                 0x00011800A0000890  RSL
-PIP_STAT8_PKND2                 0x00011800A00008E0  RSL
-PIP_STAT8_PKND3                 0x00011800A0000930  RSL
-PIP_STAT8_PKND32                0x00011800A0001240  RSL
-PIP_STAT8_PKND33                0x00011800A0001290  RSL
-PIP_STAT8_PKND34                0x00011800A00012E0  RSL
-PIP_STAT8_PKND35                0x00011800A0001330  RSL
-PIP_STAT8_PKND36                0x00011800A0001380  RSL
-PIP_STAT8_PKND37                0x00011800A00013D0  RSL
-PIP_STAT8_PKND38                0x00011800A0001420  RSL
-PIP_STAT8_PKND39                0x00011800A0001470  RSL
-PIP_STAT9_PKND0                 0x00011800A0000848  RSL
-PIP_STAT9_PKND1                 0x00011800A0000898  RSL
-PIP_STAT9_PKND2                 0x00011800A00008E8  RSL
-PIP_STAT9_PKND3                 0x00011800A0000938  RSL
-PIP_STAT9_PKND32                0x00011800A0001248  RSL
-PIP_STAT9_PKND33                0x00011800A0001298  RSL
-PIP_STAT9_PKND34                0x00011800A00012E8  RSL
-PIP_STAT9_PKND35                0x00011800A0001338  RSL
-PIP_STAT9_PKND36                0x00011800A0001388  RSL
-PIP_STAT9_PKND37                0x00011800A00013D8  RSL
-PIP_STAT9_PKND38                0x00011800A0001428  RSL
-PIP_STAT9_PKND39                0x00011800A0001478  RSL
-PIP_STAT10_PKND0                0x00011800A0001480  RSL
-PIP_STAT10_PKND1                0x00011800A0001490  RSL
-PIP_STAT10_PKND2                0x00011800A00014A0  RSL
-PIP_STAT10_PKND3                0x00011800A00014B0  RSL
-PIP_STAT10_PKND32               0x00011800A0001680  RSL
-PIP_STAT10_PKND33               0x00011800A0001690  RSL
-PIP_STAT10_PKND34               0x00011800A00016A0  RSL
-PIP_STAT10_PKND35               0x00011800A00016B0  RSL
-PIP_STAT10_PKND36               0x00011800A00016C0  RSL
-PIP_STAT10_PKND37               0x00011800A00016D0  RSL
-PIP_STAT10_PKND38               0x00011800A00016E0  RSL
-PIP_STAT10_PKND39               0x00011800A00016F0  RSL
-PIP_STAT11_PKND0                0x00011800A0001488  RSL
-PIP_STAT11_PKND1                0x00011800A0001498  RSL
-PIP_STAT11_PKND2                0x00011800A00014A8  RSL
-PIP_STAT11_PKND3                0x00011800A00014B8  RSL
-PIP_STAT11_PKND32               0x00011800A0001688  RSL
-PIP_STAT11_PKND33               0x00011800A0001698  RSL
-PIP_STAT11_PKND34               0x00011800A00016A8  RSL
-PIP_STAT11_PKND35               0x00011800A00016B8  RSL
-PIP_STAT11_PKND36               0x00011800A00016C8  RSL
-PIP_STAT11_PKND37               0x00011800A00016D8  RSL
-PIP_STAT11_PKND38               0x00011800A00016E8  RSL
-PIP_STAT11_PKND39               0x00011800A00016F8  RSL
+PIP_STAT0_0                 0x00011800A0000800  RSL
+PIP_STAT0_1                 0x00011800A0000850  RSL
+PIP_STAT0_2                 0x00011800A00008A0  RSL
+PIP_STAT0_3                 0x00011800A00008F0  RSL
+PIP_STAT0_32                0x00011800A0001200  RSL
+PIP_STAT0_33                0x00011800A0001250  RSL
+PIP_STAT0_34                0x00011800A00012A0  RSL
+PIP_STAT0_35                0x00011800A00012F0  RSL
+PIP_STAT0_36                0x00011800A0001340  RSL
+PIP_STAT0_37                0x00011800A0001390  RSL
+PIP_STAT0_38                0x00011800A00013E0  RSL
+PIP_STAT0_39                0x00011800A0001430  RSL
+PIP_STAT1_0                 0x00011800A0000808  RSL
+PIP_STAT1_1                 0x00011800A0000858  RSL
+PIP_STAT1_2                 0x00011800A00008A8  RSL
+PIP_STAT1_3                 0x00011800A00008F8  RSL
+PIP_STAT1_32                0x00011800A0001208  RSL
+PIP_STAT1_33                0x00011800A0001258  RSL
+PIP_STAT1_34                0x00011800A00012A8  RSL
+PIP_STAT1_35                0x00011800A00012F8  RSL
+PIP_STAT1_36                0x00011800A0001348  RSL
+PIP_STAT1_37                0x00011800A0001398  RSL
+PIP_STAT1_38                0x00011800A00013E8  RSL
+PIP_STAT1_39                0x00011800A0001438  RSL
+PIP_STAT2_0                 0x00011800A0000810  RSL
+PIP_STAT2_1                 0x00011800A0000860  RSL
+PIP_STAT2_2                 0x00011800A00008B0  RSL
+PIP_STAT2_3                 0x00011800A0000900  RSL
+PIP_STAT2_32                0x00011800A0001210  RSL
+PIP_STAT2_33                0x00011800A0001260  RSL
+PIP_STAT2_34                0x00011800A00012B0  RSL
+PIP_STAT2_35                0x00011800A0001300  RSL
+PIP_STAT2_36                0x00011800A0001350  RSL
+PIP_STAT2_37                0x00011800A00013A0  RSL
+PIP_STAT2_38                0x00011800A00013F0  RSL
+PIP_STAT2_39                0x00011800A0001440  RSL
+PIP_STAT3_0                 0x00011800A0000818  RSL
+PIP_STAT3_1                 0x00011800A0000868  RSL
+PIP_STAT3_2                 0x00011800A00008B8  RSL
+PIP_STAT3_3                 0x00011800A0000908  RSL
+PIP_STAT3_32                0x00011800A0001218  RSL
+PIP_STAT3_33                0x00011800A0001268  RSL
+PIP_STAT3_34                0x00011800A00012B8  RSL
+PIP_STAT3_35                0x00011800A0001308  RSL
+PIP_STAT3_36                0x00011800A0001358  RSL
+PIP_STAT3_37                0x00011800A00013A8  RSL
+PIP_STAT3_38                0x00011800A00013F8  RSL
+PIP_STAT3_39                0x00011800A0001448  RSL
+PIP_STAT4_0                 0x00011800A0000820  RSL
+PIP_STAT4_1                 0x00011800A0000870  RSL
+PIP_STAT4_2                 0x00011800A00008C0  RSL
+PIP_STAT4_3                 0x00011800A0000910  RSL
+PIP_STAT4_32                0x00011800A0001220  RSL
+PIP_STAT4_33                0x00011800A0001270  RSL
+PIP_STAT4_34                0x00011800A00012C0  RSL
+PIP_STAT4_35                0x00011800A0001310  RSL
+PIP_STAT4_36                0x00011800A0001360  RSL
+PIP_STAT4_37                0x00011800A00013B0  RSL
+PIP_STAT4_38                0x00011800A0001400  RSL
+PIP_STAT4_39                0x00011800A0001450  RSL
+PIP_STAT5_0                 0x00011800A0000828  RSL
+PIP_STAT5_1                 0x00011800A0000878  RSL
+PIP_STAT5_2                 0x00011800A00008C8  RSL
+PIP_STAT5_3                 0x00011800A0000918  RSL
+PIP_STAT5_32                0x00011800A0001228  RSL
+PIP_STAT5_33                0x00011800A0001278  RSL
+PIP_STAT5_34                0x00011800A00012C8  RSL
+PIP_STAT5_35                0x00011800A0001318  RSL
+PIP_STAT5_36                0x00011800A0001368  RSL
+PIP_STAT5_37                0x00011800A00013B8  RSL
+PIP_STAT5_38                0x00011800A0001408  RSL
+PIP_STAT5_39                0x00011800A0001458  RSL
+PIP_STAT6_0                 0x00011800A0000830  RSL
+PIP_STAT6_1                 0x00011800A0000880  RSL
+PIP_STAT6_2                 0x00011800A00008D0  RSL
+PIP_STAT6_3                 0x00011800A0000920  RSL
+PIP_STAT6_32                0x00011800A0001230  RSL
+PIP_STAT6_33                0x00011800A0001280  RSL
+PIP_STAT6_34                0x00011800A00012D0  RSL
+PIP_STAT6_35                0x00011800A0001320  RSL
+PIP_STAT6_36                0x00011800A0001370  RSL
+PIP_STAT6_37                0x00011800A00013C0  RSL
+PIP_STAT6_38                0x00011800A0001410  RSL
+PIP_STAT6_39                0x00011800A0001460  RSL
+PIP_STAT7_0                 0x00011800A0000838  RSL
+PIP_STAT7_1                 0x00011800A0000888  RSL
+PIP_STAT7_2                 0x00011800A00008D8  RSL
+PIP_STAT7_3                 0x00011800A0000928  RSL
+PIP_STAT7_32                0x00011800A0001238  RSL
+PIP_STAT7_33                0x00011800A0001288  RSL
+PIP_STAT7_34                0x00011800A00012D8  RSL
+PIP_STAT7_35                0x00011800A0001328  RSL
+PIP_STAT7_36                0x00011800A0001378  RSL
+PIP_STAT7_37                0x00011800A00013C8  RSL
+PIP_STAT7_38                0x00011800A0001418  RSL
+PIP_STAT7_39                0x00011800A0001468  RSL
+PIP_STAT8_0                 0x00011800A0000840  RSL
+PIP_STAT8_1                 0x00011800A0000890  RSL
+PIP_STAT8_2                 0x00011800A00008E0  RSL
+PIP_STAT8_3                 0x00011800A0000930  RSL
+PIP_STAT8_32                0x00011800A0001240  RSL
+PIP_STAT8_33                0x00011800A0001290  RSL
+PIP_STAT8_34                0x00011800A00012E0  RSL
+PIP_STAT8_35                0x00011800A0001330  RSL
+PIP_STAT8_36                0x00011800A0001380  RSL
+PIP_STAT8_37                0x00011800A00013D0  RSL
+PIP_STAT8_38                0x00011800A0001420  RSL
+PIP_STAT8_39                0x00011800A0001470  RSL
+PIP_STAT9_0                 0x00011800A0000848  RSL
+PIP_STAT9_1                 0x00011800A0000898  RSL
+PIP_STAT9_2                 0x00011800A00008E8  RSL
+PIP_STAT9_3                 0x00011800A0000938  RSL
+PIP_STAT9_32                0x00011800A0001248  RSL
+PIP_STAT9_33                0x00011800A0001298  RSL
+PIP_STAT9_34                0x00011800A00012E8  RSL
+PIP_STAT9_35                0x00011800A0001338  RSL
+PIP_STAT9_36                0x00011800A0001388  RSL
+PIP_STAT9_37                0x00011800A00013D8  RSL
+PIP_STAT9_38                0x00011800A0001428  RSL
+PIP_STAT9_39                0x00011800A0001478  RSL
+PIP_STAT10_0                0x00011800A0001480  RSL
+PIP_STAT10_1                0x00011800A0001490  RSL
+PIP_STAT10_2                0x00011800A00014A0  RSL
+PIP_STAT10_3                0x00011800A00014B0  RSL
+PIP_STAT10_32               0x00011800A0001680  RSL
+PIP_STAT10_33               0x00011800A0001690  RSL
+PIP_STAT10_34               0x00011800A00016A0  RSL
+PIP_STAT10_35               0x00011800A00016B0  RSL
+PIP_STAT10_36               0x00011800A00016C0  RSL
+PIP_STAT10_37               0x00011800A00016D0  RSL
+PIP_STAT10_38               0x00011800A00016E0  RSL
+PIP_STAT10_39               0x00011800A00016F0  RSL
+PIP_STAT11_0                0x00011800A0001488  RSL
+PIP_STAT11_1                0x00011800A0001498  RSL
+PIP_STAT11_2                0x00011800A00014A8  RSL
+PIP_STAT11_3                0x00011800A00014B8  RSL
+PIP_STAT11_32               0x00011800A0001688  RSL
+PIP_STAT11_33               0x00011800A0001698  RSL
+PIP_STAT11_34               0x00011800A00016A8  RSL
+PIP_STAT11_35               0x00011800A00016B8  RSL
+PIP_STAT11_36               0x00011800A00016C8  RSL
+PIP_STAT11_37               0x00011800A00016D8  RSL
+PIP_STAT11_38               0x00011800A00016E8  RSL
+PIP_STAT11_39               0x00011800A00016F8  RSL
 PIP_STAT_CTL                   0x00011800A0000018  RSL
 PIP_STAT_INB_ERRS_PKND0             0x00011800A0001A10  RSL
 PIP_STAT_INB_ERRS_PKND1             0x00011800A0001A30  RSL
