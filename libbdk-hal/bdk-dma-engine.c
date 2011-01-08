@@ -328,28 +328,3 @@ int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
     return bdk_dma_engine_submit(engine, header, words, buffers);
 }
 
-
-/**
- * Simplified interface to the DMA engines to emulate memcpy()
- *
- * @param engine Engine to submit to (0 to bdk_dma_engine_get_num()-1)
- * @param dest   Pointer to the destination memory. bdk_ptr_to_phys() will be
- *               used to turn this into a physical address. It cannot be a local
- *               or BDK_SHARED block.
- * @param source Pointer to the source memory.
- *               bdk_ptr_to_phys() will be used to turn this
- *               into a physical address. It cannot be a local
- *               or BDK_SHARED block.
- * @param length Number of bytes to copy
- *
- * @return Zero on success, negative on failure
- */
-int bdk_dma_engine_memcpy(int engine, void *dest, void *source, int length)
-{
-    bdk_dma_engine_header_t header;
-    header.u64 = 0;
-    header.s.type = BDK_DMA_ENGINE_TRANSFER_INTERNAL;
-    return bdk_dma_engine_transfer(engine, header, bdk_ptr_to_phys(source),
-                                    bdk_ptr_to_phys(dest), length);
-}
-

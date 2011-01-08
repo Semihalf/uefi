@@ -74,49 +74,6 @@ void bdk_pko_disable(void)
 
 
 /**
- * @INTERNAL
- * Reset the packet output.
- */
-static void __bdk_pko_reset(void)
-{
-    bdk_pko_reg_flags_t pko_reg_flags;
-    pko_reg_flags.u64 = BDK_CSR_READ(BDK_PKO_REG_FLAGS);
-    pko_reg_flags.s.reset = 1;
-    BDK_CSR_WRITE(BDK_PKO_REG_FLAGS, pko_reg_flags.u64);
-}
-
-
-/**
- * Shutdown and free resources required by packet output.
- */
-void bdk_pko_shutdown(void)
-{
-    bdk_pko_mem_queue_ptrs_t config;
-    int queue;
-
-    bdk_pko_disable();
-
-    for (queue=0; queue<BDK_PKO_MAX_OUTPUT_QUEUES; queue++)
-    {
-        config.u64          = 0;
-        config.s.tail       = 1;
-        config.s.index      = 0;
-        config.s.port       = BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID;
-        config.s.queue      = queue & 0x7f;
-        config.s.qos_mask   = 0;
-        config.s.buf_ptr    = 0;
-        bdk_pko_reg_queue_ptrs1_t config1;
-        config1.u64 = 0;
-        config1.s.qid7 = queue >> 7;
-        BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_PTRS1, config1.u64);
-        BDK_CSR_WRITE(BDK_PKO_MEM_QUEUE_PTRS, config.u64);
-        bdk_cmd_queue_shutdown(BDK_CMD_QUEUE_PKO(queue));
-    }
-    __bdk_pko_reset();
-}
-
-
-/**
  * Configure a output port and the associated queues for use.
  *
  * @param port       Port to configure.
@@ -263,74 +220,5 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
     }
 
     return result_code;
-}
-
-
-/**
- * Rate limit a PKO port to a max packets/sec. This function is only
- * supported on CN51XX and higher, excluding CN58XX.
- *
- * @param port      Port to rate limit
- * @param packets_s Maximum packet/sec
- * @param burst     Maximum number of packets to burst in a row before rate
- *                  limiting cuts in.
- *
- * @return Zero on success, negative on failure
- */
-int bdk_pko_rate_limit_packets(int port, int packets_s, int burst)
-{
-    bdk_pko_mem_port_rate0_t pko_mem_port_rate0;
-    bdk_pko_mem_port_rate1_t pko_mem_port_rate1;
-
-    pko_mem_port_rate0.u64 = 0;
-    pko_mem_port_rate0.s.pid = port;
-    pko_mem_port_rate0.s.rate_pkt = bdk_clock_get_rate(BDK_CLOCK_SCLK) / packets_s / 16;
-    /* No cost per word since we are limited by packets/sec, not bits/sec */
-    pko_mem_port_rate0.s.rate_word = 0;
-
-    pko_mem_port_rate1.u64 = 0;
-    pko_mem_port_rate1.s.pid = port;
-    pko_mem_port_rate1.s.rate_lim = ((uint64_t)pko_mem_port_rate0.s.rate_pkt * burst) >> 8;
-
-    BDK_CSR_WRITE(BDK_PKO_MEM_PORT_RATE0, pko_mem_port_rate0.u64);
-    BDK_CSR_WRITE(BDK_PKO_MEM_PORT_RATE1, pko_mem_port_rate1.u64);
-    return 0;
-}
-
-
-/**
- * Rate limit a PKO port to a max bits/sec. This function is only
- * supported on CN51XX and higher, excluding CN58XX.
- *
- * @param port   Port to rate limit
- * @param bits_s PKO rate limit in bits/sec
- * @param burst  Maximum number of bits to burst before rate
- *               limiting cuts in.
- *
- * @return Zero on success, negative on failure
- */
-int bdk_pko_rate_limit_bits(int port, uint64_t bits_s, int burst)
-{
-    bdk_pko_mem_port_rate0_t pko_mem_port_rate0;
-    bdk_pko_mem_port_rate1_t pko_mem_port_rate1;
-    uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK);
-    uint64_t tokens_per_bit = clock_rate*16 / bits_s;
-
-    pko_mem_port_rate0.u64 = 0;
-    pko_mem_port_rate0.s.pid = port;
-    /* Each packet has a 12 bytes of interframe gap, an 8 byte preamble, and a
-        4 byte CRC. These are not included in the per word count. Multiply
-        by 8 to covert to bits and divide by 256 for limit granularity */
-    pko_mem_port_rate0.s.rate_pkt = (12 + 8 + 4) * 8 * tokens_per_bit / 256;
-    /* Each 8 byte word has 64bits */
-    pko_mem_port_rate0.s.rate_word = 64 * tokens_per_bit;
-
-    pko_mem_port_rate1.u64 = 0;
-    pko_mem_port_rate1.s.pid = port;
-    pko_mem_port_rate1.s.rate_lim = tokens_per_bit * burst / 256;
-
-    BDK_CSR_WRITE(BDK_PKO_MEM_PORT_RATE0, pko_mem_port_rate0.u64);
-    BDK_CSR_WRITE(BDK_PKO_MEM_PORT_RATE1, pko_mem_port_rate1.u64);
-    return 0;
 }
 

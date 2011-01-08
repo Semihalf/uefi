@@ -56,16 +56,4 @@ extern void bdk_ipd_enable(void);
  */
 extern void bdk_ipd_disable(void);
 
-/**
- * @INTERNAL
- * This function is called by bdk_helper_shutdown() to extract
- * all FPA buffers out of the IPD and PIP. After this function
- * completes, all FPA buffers that were prefetched by IPD and PIP
- * wil be in the apropriate FPA pool. This functions does not reset
- * PIP or IPD as FPA pool zero must be empty before the reset can
- * be performed. WARNING: It is very important that IPD and PIP be
- * reset soon after a call to this function.
- */
-extern void __bdk_ipd_free_ptr(void);
-
 /** @} */

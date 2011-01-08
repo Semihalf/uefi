@@ -120,13 +120,6 @@ extern void bdk_pko_enable(void);
  */
 extern void bdk_pko_disable(void);
 
-
-/**
- * Shutdown and free resources required by packet output.
- */
-
-extern void bdk_pko_shutdown(void);
-
 /**
  * Configure a output port and the associated queues for use.
  *
@@ -242,31 +235,5 @@ static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64
         return BDK_PKO_INVALID_QUEUE;
     }
 }
-
-/**
- * Rate limit a PKO port to a max packets/sec. This function is only
- * supported on CN57XX, CN56XX, CN55XX, and CN54XX.
- *
- * @param port      Port to rate limit
- * @param packets_s Maximum packet/sec
- * @param burst     Maximum number of packets to burst in a row before rate
- *                  limiting cuts in.
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_pko_rate_limit_packets(int port, int packets_s, int burst);
-
-/**
- * Rate limit a PKO port to a max bits/sec. This function is only
- * supported on CN57XX, CN56XX, CN55XX, and CN54XX.
- *
- * @param port   Port to rate limit
- * @param bits_s PKO rate limit in bits/sec
- * @param burst  Maximum number of bits to burst before rate
- *               limiting cuts in.
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_pko_rate_limit_bits(int port, uint64_t bits_s, int burst);
 
 /** @} */
