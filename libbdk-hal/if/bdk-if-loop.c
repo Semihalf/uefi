@@ -7,7 +7,10 @@ static int if_num_interfaces(void)
 
 static int if_num_ports(int interface)
 {
-    return 4;
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        return 4;
+    else
+        return 8;
 }
 
 static int if_init(bdk_if_handle_t handle)

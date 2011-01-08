@@ -2,20 +2,21 @@
 
 static int if_num_interfaces(void)
 {
-    int num = 0;
-
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(0));
-        if (mode.cn63xx.mode == 0)
-            num++;
-    }
-    return num;
+        return 1;
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        return 4;
+    else
+        return 0;
 }
 
 static int if_num_ports(int interface)
 {
-    return 4;
+    BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
+    if (mode.s.type == 0)
+        return 4;
+    else
+        return 0;
 }
 
 /**
