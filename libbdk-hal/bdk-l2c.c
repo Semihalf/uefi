@@ -338,6 +338,8 @@ int bdk_l2c_get_set_bits(void)
     int l2_set_bits;
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         l2_set_bits =  10; /* 1024 sets */
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        l2_set_bits =  11; /* 2048 sets */
     else
     {
         bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
@@ -357,18 +359,9 @@ int bdk_l2c_get_num_sets(void)
 int bdk_l2c_get_num_assoc(void)
 {
     int l2_assoc;
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        l2_assoc =  16;
-    else
-    {
-        bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
-        l2_assoc =  8;
-    }
 
     /* Check to see if part of the cache is disabled */
-    bdk_mio_fus_dat3_t mio_fus_dat3;
-
-    mio_fus_dat3.u64 = BDK_CSR_READ(BDK_MIO_FUS_DAT3);
+    BDK_CSR_INIT(mio_fus_dat3, BDK_MIO_FUS_DAT3);
     /* bdk_mio_fus_dat3.s.l2c_crip fuses map as follows
        <2> will be not used for 63xx
        <1> disables 1/2 ways
@@ -386,6 +379,8 @@ int bdk_l2c_get_num_assoc(void)
         l2_assoc = 8;
     else if (mio_fus_dat3.s.l2c_crip == 1)
         l2_assoc = 12;
+    else
+        l2_assoc = 16;
 
     return(l2_assoc);
 }
