@@ -28,7 +28,7 @@ void bdk_pip_get_port_status(uint64_t port_num, uint64_t clear, bdk_pip_port_sta
     pip_stat_ctl.s.rdclr = clear;
     BDK_CSR_WRITE(BDK_PIP_STAT_CTL, pip_stat_ctl.u64);
 
-    if (port_num >= 40)
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX) && (port_num >= 40))
     {
         stat0.u64 = BDK_CSR_READ(BDK_PIP_XSTAT0_PRTX(port_num));
         stat1.u64 = BDK_CSR_READ(BDK_PIP_XSTAT1_PRTX(port_num));
