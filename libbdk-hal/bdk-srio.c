@@ -1,6 +1,5 @@
 #include <bdk.h>
 
-#define BDK_SRIO_USE_FIFO_FOR_MAINT    1
 #define BDK_SRIO_CONFIG_TIMEOUT        10000 /* 10ms */
 #define BDK_SRIO_DOORBELL_TIMEOUT      10000 /* 10ms */
 #define BDK_SRIO_CONFIG_PRIORITY       0
@@ -336,6 +335,13 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         }
     }
 
+    /* Don't receive or drive reset signals for the SRIO QLM */
+    mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(srio_port));
+    mio_rst_ctl.s.rst_drv = 0;
+    mio_rst_ctl.s.rst_rcv = 0;
+    mio_rst_ctl.s.rst_chip = 0;
+    BDK_CSR_WRITE(BDK_MIO_RST_CTLX(srio_port), mio_rst_ctl.u64);
+
     mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(srio_port));
     bdk_dprintf("SRIO%d: Port in %s mode\n", srio_port,
         (mio_rst_ctl.s.prtmode) ? "host" : "endpoint");
@@ -370,6 +376,59 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     port_0_ctl.s.disable = 1;
     if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), port_0_ctl.u32))
         return -1;
+
+    /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM De-emphasis be
+        programmed when using a 156.25Mhz ref clock */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_0) ||
+        OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_1))
+    {
+        bdk_mio_rst_boot_t mio_rst_boot;
+        bdk_sriomaintx_lane_x_status_0_t lane_x_status;
+
+        /* Read the QLM config and speed pins */
+        mio_rst_boot.u64 = BDK_CSR_READ(BDK_MIO_RST_BOOT);
+        if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_LANE_X_STATUS_0(0, srio_port), &lane_x_status.u32))
+            return -1;
+
+        if (srio_port)
+        {
+            bdk_ciu_qlm1_t ciu_qlm;
+            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM1);
+            switch (mio_rst_boot.cn63xx.qlm1_spd)
+            {
+                case 0x4: /* 1.25 Gbaud, 156.25MHz */
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0x0;
+                    ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0x11 : 0x1c; /* short or med/long */
+                    break;
+                case 0xb: /* 5.0 Gbaud, 156.25MHz */
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0xa;
+                    ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0xf : 0x1a; /* short or med/long */
+                    break;
+            }
+            BDK_CSR_WRITE(BDK_CIU_QLM1, ciu_qlm.u64);
+        }
+        else
+        {
+            bdk_ciu_qlm0_t ciu_qlm;
+            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM0);
+            switch (mio_rst_boot.cn63xx.qlm0_spd)
+            {
+                case 0x4: /* 1.25 Gbaud, 156.25MHz */
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0x0;
+                    ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0x11 : 0x1c; /* short or med/long */
+                    break;
+                case 0xb: /* 5.0 Gbaud, 156.25MHz */
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0xa;
+                    ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0xf : 0x1a; /* short or med/long */
+                    break;
+            }
+            BDK_CSR_WRITE(BDK_CIU_QLM0, ciu_qlm.u64);
+        }
+    }
 
     /* Errata SRIO-14485: Link speed is reported incorrectly in CN63XX
         pass 1.x */
@@ -407,19 +466,31 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
             return -1;
     }
 
-    /* Set the link layer timeout to 10us. The default is too high and causes
+    /* Errata SRIO-15351: Turn off SRIOMAINTX_MAC_CTRL[TYPE_MRG] as it may
+        cause packet ACCEPT to be lost */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        bdk_sriomaintx_mac_ctrl_t mac_ctrl;
+        if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_MAC_CTRL(srio_port), &mac_ctrl.u32))
+            return -1;
+        mac_ctrl.s.type_mrg = 0;
+        if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_MAC_CTRL(srio_port), mac_ctrl.u32))
+            return -1;
+    }
+
+    /* Set the link layer timeout to 1ms. The default is too high and causes
         core bus errors */
     if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_LT_CTL(srio_port), &port_lt_ctl.u32))
         return -1;
-    port_lt_ctl.s.timeout = 10000 / 200; /* 10us = 10000ns / 200ns */
+    port_lt_ctl.s.timeout = 1000000 / 200; /* 1ms = 1000000ns / 200ns */
     if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_LT_CTL(srio_port), port_lt_ctl.u32))
         return -1;
 
-    /* Set the logical layer timeout to 10ms. The default is too high and causes
+    /* Set the logical layer timeout to 100ms. The default is too high and causes
         core bus errors */
     if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_RT_CTL(srio_port), &port_rt_ctl.u32))
         return -1;
-    port_rt_ctl.s.timeout = 10000000 / 200; /* 10ms = 10000000ns / 200ns */
+    port_rt_ctl.s.timeout = 100000000 / 200; /* 100ms = 100000000ns / 200ns */
     if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_RT_CTL(srio_port), port_rt_ctl.u32))
         return -1;
 
@@ -483,6 +554,68 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), port_0_ctl.u32))
         return -1;
 
+    /* Store merge control (SLI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
+    BDK_CSR_MODIFY(sli_mem_access_ctl, BDK_SLI_MEM_ACCESS_CTL,
+        sli_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
+        sli_mem_access_ctl.s.timer = 127);      /* Wait up to 127 cycles for more data */
+
+    /* Ask for a link and align our ACK state. CN63XXp1 didn't support this */
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+    {
+        uint64_t stop_cycle;
+        bdk_sriomaintx_port_0_err_stat_t sriomaintx_port_0_err_stat;
+
+        /* Wait a little to see if the link comes up */
+        stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/4 + bdk_clock_get_count(BDK_CLOCK_CORE);
+        do
+        {
+            /* Read the port link status */
+            if (bdk_srio_config_read32(srio_port, 0, -1, 0, 0,
+                BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port),
+                &sriomaintx_port_0_err_stat.u32))
+                return -1;
+        } while (!sriomaintx_port_0_err_stat.s.pt_ok && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
+
+        /* Send link request if link is up */
+        if (sriomaintx_port_0_err_stat.s.pt_ok)
+        {
+            bdk_sriomaintx_port_0_link_req_t link_req;
+            bdk_sriomaintx_port_0_link_resp_t link_resp;
+            link_req.u32 = 0;
+            link_req.s.cmd = 4;
+
+            /* Send the request */
+            if (bdk_srio_config_write32(srio_port, 0, -1, 0, 0,
+                BDK_SRIOMAINTX_PORT_0_LINK_REQ(srio_port),
+                link_req.u32))
+                return -1;
+
+            /* Wait for the response */
+            stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/8 + bdk_clock_get_count(BDK_CLOCK_CORE);
+            do
+            {
+                if (bdk_srio_config_read32(srio_port, 0, -1, 0, 0,
+                    BDK_SRIOMAINTX_PORT_0_LINK_RESP(srio_port),
+                    &link_resp.u32))
+                    return -1;
+            } while (!link_resp.s.valid && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
+
+            /* Set our ACK state if we got a response */
+            if (link_resp.s.valid)
+            {
+                bdk_sriomaintx_port_0_local_ackid_t local_ackid;
+                local_ackid.u32 = 0;
+                local_ackid.s.i_ackid = 0;
+                local_ackid.s.e_ackid = link_resp.s.ackid;
+                local_ackid.s.o_ackid = link_resp.s.ackid;
+                if (bdk_srio_config_write32(srio_port, 0, -1, 0, 0,
+                    BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port),
+                    local_ackid.u32))
+                    return -1;
+            }
+        }
+    }
+
     return 0;
 }
 
@@ -517,134 +650,137 @@ int bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
     }
     else
     {
-#if BDK_SRIO_USE_FIFO_FOR_MAINT
-        int return_code;
-        uint32_t pkt = 0;
-        uint32_t sourceid;
-        uint64_t stop_cycle;
-        char rx_buffer[64];
-
-        /* Tell the user */
-        if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-            bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, (unsigned int)offset);
-
-        /* Read the proper source ID */
-        if (srcid_index)
-            __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_SEC_DEV_ID(srio_port), &sourceid);
-        else
-            __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PRI_DEV_ID(srio_port), &sourceid);
-
-        if (is16bit)
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
         {
-            /* Use the 16bit source ID */
-            sourceid &= 0xffff;
+            int return_code;
+            uint32_t pkt = 0;
+            uint32_t sourceid;
+            uint64_t stop_cycle;
+            char rx_buffer[64];
 
-            /* MAINT Reads are 11 bytes */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 11<<16);
+            /* Tell the user */
+            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, (unsigned int)offset);
 
-            pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
-            pkt |= 1 << 28;                         /* tt       [29:28] */
-            pkt |= 0x8 << 24;                       /* ftype    [27:24] */
-            pkt |= destid << 8;                     /* destID   [23:8] */
-            pkt |= sourceid >> 8;                   /* sourceID [7:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= sourceid << 24;                  /* sourceID [31:24] */
-            pkt |= 0 << 20;                         /* transaction [23:20] */
-            pkt |= 8 << 16;                         /* rdsize [19:16] */
-            pkt |= 0xc0 << 8;                       /* srcTID [15:8] */
-            pkt |= hopcount;                        /* hopcount [7:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= offset << 8;                     /* offset [31:11, wdptr[10], reserved[9:8] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-        }
-        else
-        {
-            /* Use the 8bit source ID */
-            sourceid = (sourceid >> 16) & 0xff;
+            /* Read the proper source ID */
+            if (srcid_index)
+                __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_SEC_DEV_ID(srio_port), &sourceid);
+            else
+                __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PRI_DEV_ID(srio_port), &sourceid);
 
-            /* MAINT Reads are 9 bytes */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 9<<16);
-
-            pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
-            pkt |= 0 << 28;                         /* tt       [29:28] */
-            pkt |= 0x8 << 24;                       /* ftype    [27:24] */
-            pkt |= destid << 16;                    /* destID   [23:16] */
-            pkt |= sourceid << 8;                   /* sourceID [15:8] */
-            pkt |= 0 << 4;                          /* transaction [7:4] */
-            pkt |= 8 << 0;                          /* rdsize [3:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= 0xc0 << 24;                      /* srcTID [31:24] */
-            pkt |= hopcount << 16;                  /* hopcount [23:16] */
-            pkt |= offset >> 8;                     /* offset [15:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= offset << 24;                    /* offset [31:27, wdptr[26], reserved[25:24] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-        }
-
-        stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/10 + bdk_clock_get_count(BDK_CLOCK_CORE);
-        do
-        {
-            return_code = bdk_srio_receive_spf(srio_port, rx_buffer, sizeof(rx_buffer));
-            if ((return_code == 0) && (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_cycle))
-            {
-                if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-                    bdk_dprintf("timeout\n");
-                return_code = -1;
-            }
-        } while (return_code == 0);
-
-        if (return_code == ((is16bit) ? 23 : 19))
-        {
             if (is16bit)
             {
-                if (offset & 4)
-                    *result = *(uint32_t*)(rx_buffer + 15);
-                else
-                    *result = *(uint32_t*)(rx_buffer + 11);
+                /* Use the 16bit source ID */
+                sourceid &= 0xffff;
+
+                /* MAINT Reads are 11 bytes */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 11<<16);
+
+                pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
+                pkt |= 1 << 28;                         /* tt       [29:28] */
+                pkt |= 0x8 << 24;                       /* ftype    [27:24] */
+                pkt |= destid << 8;                     /* destID   [23:8] */
+                pkt |= sourceid >> 8;                   /* sourceID [7:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= sourceid << 24;                  /* sourceID [31:24] */
+                pkt |= 0 << 20;                         /* transaction [23:20] */
+                pkt |= 8 << 16;                         /* rdsize [19:16] */
+                pkt |= 0xc0 << 8;                       /* srcTID [15:8] */
+                pkt |= hopcount;                        /* hopcount [7:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= offset << 8;                     /* offset [31:11, wdptr[10], reserved[9:8] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
             }
             else
             {
-                if (offset & 4)
-                    *result = *(uint32_t*)(rx_buffer + 13);
-                else
-                    *result = *(uint32_t*)(rx_buffer + 9);
+                /* Use the 8bit source ID */
+                sourceid = (sourceid >> 16) & 0xff;
+
+                /* MAINT Reads are 9 bytes */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 9<<16);
+
+                pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
+                pkt |= 0 << 28;                         /* tt       [29:28] */
+                pkt |= 0x8 << 24;                       /* ftype    [27:24] */
+                pkt |= destid << 16;                    /* destID   [23:16] */
+                pkt |= sourceid << 8;                   /* sourceID [15:8] */
+                pkt |= 0 << 4;                          /* transaction [7:4] */
+                pkt |= 8 << 0;                          /* rdsize [3:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= 0xc0 << 24;                      /* srcTID [31:24] */
+                pkt |= hopcount << 16;                  /* hopcount [23:16] */
+                pkt |= offset >> 8;                     /* offset [15:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= offset << 24;                    /* offset [31:27, wdptr[26], reserved[25:24] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
             }
-            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-                bdk_dprintf("0x%08x\n", (unsigned int)*result);
-            return_code = 0;
+
+            stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/10 + bdk_clock_get_count(BDK_CLOCK_CORE);
+            do
+            {
+                return_code = bdk_srio_receive_spf(srio_port, rx_buffer, sizeof(rx_buffer));
+                if ((return_code == 0) && (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_cycle))
+                {
+                    if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                        bdk_dprintf("timeout\n");
+                    return_code = -1;
+                }
+            } while (return_code == 0);
+
+            if (return_code == ((is16bit) ? 23 : 19))
+            {
+                if (is16bit)
+                {
+                    if (offset & 4)
+                        *result = *(uint32_t*)(rx_buffer + 15);
+                    else
+                        *result = *(uint32_t*)(rx_buffer + 11);
+                }
+                else
+                {
+                    if (offset & 4)
+                        *result = *(uint32_t*)(rx_buffer + 13);
+                    else
+                        *result = *(uint32_t*)(rx_buffer + 9);
+                }
+                if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                    bdk_dprintf("0x%08x\n", (unsigned int)*result);
+                return_code = 0;
+            }
+            else
+            {
+                *result = 0xffffffff;
+                return_code = -1;
+            }
+
+            return return_code;
         }
         else
         {
-            *result = 0xffffffff;
-            return_code = -1;
+            uint64_t physical;
+            physical = bdk_srio_physical_map(srio_port,
+                BDK_SRIO_WRITE_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
+                BDK_SRIO_READ_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
+                srcid_index, destid, is16bit, offset + (hopcount<<24), 4);
+            if (!physical)
+                return -1;
+
+            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, offset);
+
+            /* Finally do the maintenance read to complete the config request */
+            *result = bdk_read64_uint32(BDK_ADD_IO_SEG(physical));
+            bdk_srio_physical_unmap(physical, 4);
+
+            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                bdk_dprintf("0x%08x\n", *result);
+
+            return 0;
         }
-
-        return return_code;
-#else
-        uint64_t physical;
-        physical = bdk_srio_physical_map(srio_port,
-            BDK_SRIO_WRITE_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
-            BDK_SRIO_READ_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
-            srcid_index, destid, is16bit, offset + (hopcount<<24), 4);
-        if (!physical)
-            return -1;
-
-        if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-            bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, offset);
-
-        /* Finally do the maintenance read to complete the config request */
-        *result = bdk_read64_uint32(BDK_ADD_IO_SEG(physical));
-        bdk_srio_physical_unmap(physical, 4);
-
-        if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-            bdk_dprintf("0x%08x\n", *result);
-
-        return 0;
-#endif
     }
 }
 
@@ -677,140 +813,143 @@ int bdk_srio_config_write32(int srio_port, int srcid_index, int destid,
     }
     else
     {
-#if BDK_SRIO_USE_FIFO_FOR_MAINT
-        int return_code;
-        uint32_t pkt = 0;
-        uint32_t sourceid;
-        uint64_t stop_cycle;
-        char rx_buffer[64];
-
-        /* Tell the user */
-        if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-            bdk_dprintf("SRIO%d: Remote write[id=0x%04x hop=%3d offset=0x%06x] => 0x%08x\n", srio_port, destid, hopcount, (unsigned int)offset, (unsigned int)data);
-
-        /* Read the proper source ID */
-        if (srcid_index)
-            __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_SEC_DEV_ID(srio_port), &sourceid);
-        else
-            __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PRI_DEV_ID(srio_port), &sourceid);
-
-        if (is16bit)
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
         {
-            /* Use the 16bit source ID */
-            sourceid &= 0xffff;
+            int return_code;
+            uint32_t pkt = 0;
+            uint32_t sourceid;
+            uint64_t stop_cycle;
+            char rx_buffer[64];
 
-            /* MAINT Writes are 19 bytes */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 19<<16);
+            /* Tell the user */
+            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                bdk_dprintf("SRIO%d: Remote write[id=0x%04x hop=%3d offset=0x%06x] => 0x%08x\n", srio_port, destid, hopcount, (unsigned int)offset, (unsigned int)data);
 
-            pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
-            pkt |= 1 << 28;                         /* tt       [29:28] */
-            pkt |= 0x8 << 24;                       /* ftype    [27:24] */
-            pkt |= destid << 8;                     /* destID   [23:8] */
-            pkt |= sourceid >> 8;                   /* sourceID [7:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= sourceid << 24;                  /* sourceID [31:24] */
-            pkt |= 1 << 20;                         /* transaction [23:20] */
-            pkt |= 8 << 16;                         /* wrsize [19:16] */
-            pkt |= 0xc0 << 8;                       /* srcTID [15:8] */
-            pkt |= hopcount;                        /* hopcount [7:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= offset << 8;                     /* offset [31:11, wdptr[10], reserved[9:8] */
-            if ((offset & 4) == 0)
-                pkt |= 0xff & (data >> 24);       /* data [7:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            if (offset & 4)
+            /* Read the proper source ID */
+            if (srcid_index)
+                __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_SEC_DEV_ID(srio_port), &sourceid);
+            else
+                __bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PRI_DEV_ID(srio_port), &sourceid);
+
+            if (is16bit)
             {
-                pkt = 0xff & (data >> 24);
+                /* Use the 16bit source ID */
+                sourceid &= 0xffff;
+
+                /* MAINT Writes are 19 bytes */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 19<<16);
+
+                pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
+                pkt |= 1 << 28;                         /* tt       [29:28] */
+                pkt |= 0x8 << 24;                       /* ftype    [27:24] */
+                pkt |= destid << 8;                     /* destID   [23:8] */
+                pkt |= sourceid >> 8;                   /* sourceID [7:0] */
                 __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                pkt = data << 8;
+                pkt = 0;
+                pkt |= sourceid << 24;                  /* sourceID [31:24] */
+                pkt |= 1 << 20;                         /* transaction [23:20] */
+                pkt |= 8 << 16;                         /* wrsize [19:16] */
+                pkt |= 0xc0 << 8;                       /* srcTID [15:8] */
+                pkt |= hopcount;                        /* hopcount [7:0] */
                 __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= offset << 8;                     /* offset [31:11, wdptr[10], reserved[9:8] */
+                if ((offset & 4) == 0)
+                    pkt |= 0xff & (data >> 24);       /* data [7:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                if (offset & 4)
+                {
+                    pkt = 0xff & (data >> 24);
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    pkt = data << 8;
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                }
+                else
+                {
+                    pkt = data << 8;
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), 0);
+                }
             }
             else
             {
-                pkt = data << 8;
+                /* Use the 8bit source ID */
+                sourceid = (sourceid >> 16) & 0xff;
+
+                /* MAINT Writes are 17 bytes */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 17<<16);
+
+                pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
+                pkt |= 0 << 28;                         /* tt       [29:28] */
+                pkt |= 0x8 << 24;                       /* ftype    [27:24] */
+                pkt |= destid << 16;                    /* destID   [23:16] */
+                pkt |= sourceid << 8;                   /* sourceID [15:8] */
+                pkt |= 1 << 4;                          /* transaction [7:4] */
+                pkt |= 8 << 0;                          /* wrsize [3:0] */
                 __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), 0);
+                pkt = 0;
+                pkt |= 0xc0 << 24;                      /* srcTID [31:24] */
+                pkt |= hopcount << 16;                  /* hopcount [23:16] */
+                pkt |= offset >> 8;                     /* offset [15:0] */
+                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                pkt = 0;
+                pkt |= offset << 24;                    /* offset [31:27, wdptr[26], reserved[25:24] */
+                if (offset & 4)
+                {
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    pkt = data >> 8;
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    pkt = data << 24;
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                }
+                else
+                {
+                    pkt |= data >> 8;                    /* data [23:0] */
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    pkt = data << 24;                    /* data [31:24] */
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
+                    __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), 0);
+                }
             }
-        }
-        else
-        {
-            /* Use the 8bit source ID */
-            sourceid = (sourceid >> 16) & 0xff;
 
-            /* MAINT Writes are 17 bytes */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_CTRL(srio_port), 17<<16);
-
-            pkt |= BDK_SRIO_CONFIG_PRIORITY << 30; /* priority [31:30] */
-            pkt |= 0 << 28;                         /* tt       [29:28] */
-            pkt |= 0x8 << 24;                       /* ftype    [27:24] */
-            pkt |= destid << 16;                    /* destID   [23:16] */
-            pkt |= sourceid << 8;                   /* sourceID [15:8] */
-            pkt |= 1 << 4;                          /* transaction [7:4] */
-            pkt |= 8 << 0;                          /* wrsize [3:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= 0xc0 << 24;                      /* srcTID [31:24] */
-            pkt |= hopcount << 16;                  /* hopcount [23:16] */
-            pkt |= offset >> 8;                     /* offset [15:0] */
-            __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            pkt = 0;
-            pkt |= offset << 24;                    /* offset [31:27, wdptr[26], reserved[25:24] */
-            if (offset & 4)
+            stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/10 + bdk_clock_get_count(BDK_CLOCK_CORE);
+            do
             {
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                pkt = data >> 8;
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                pkt = data << 24;
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-            }
+                return_code = bdk_srio_receive_spf(srio_port, rx_buffer, sizeof(rx_buffer));
+                if ((return_code == 0) && (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_cycle))
+                {
+                    if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                        bdk_dprintf("timeout\n");
+                    return_code = -1;
+                }
+            } while (return_code == 0);
+
+            if (return_code == ((is16bit) ? 15 : 11))
+                return_code = 0;
             else
             {
-                pkt |= data >> 8;                    /* data [23:0] */
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                pkt = data << 24;                    /* data [31:24] */
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), pkt);
-                __bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_IR_SP_TX_DATA(srio_port), 0);
-            }
-        }
-
-        stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/10 + bdk_clock_get_count(BDK_CLOCK_CORE);
-        do
-        {
-            return_code = bdk_srio_receive_spf(srio_port, rx_buffer, sizeof(rx_buffer));
-            if ((return_code == 0) && (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_cycle))
-            {
-                if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-                    bdk_dprintf("timeout\n");
+                bdk_dprintf("SRIO%d: Remote write failed\n", srio_port);
                 return_code = -1;
             }
-        } while (return_code == 0);
 
-        if (return_code == ((is16bit) ? 15 : 11))
-            return_code = 0;
+            return return_code;
+        }
         else
         {
-            bdk_error("SRIO%d: Remote write failed\n", srio_port);
-            return_code = -1;
+            uint64_t physical = bdk_srio_physical_map(srio_port,
+                    BDK_SRIO_WRITE_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
+                    BDK_SRIO_READ_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
+                    srcid_index, destid, is16bit, offset + (hopcount<<24), 4);
+            if (!physical)
+                return -1;
+
+            if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
+                bdk_dprintf("SRIO%d: Remote write[id=0x%04x hop=%3d offset=0x%06x] => 0x%08x\n", srio_port, destid, hopcount, offset, data);
+
+            /* Finally do the maintenance write to complete the config request */
+            bdk_write64_uint32(BDK_ADD_IO_SEG(physical), data);
+            return bdk_srio_physical_unmap(physical, 4);
         }
-
-        return return_code;
-#else
-        uint64_t physical = bdk_srio_physical_map(srio_port,
-                BDK_SRIO_WRITE_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
-                BDK_SRIO_READ_MODE_MAINTENANCE, BDK_SRIO_CONFIG_PRIORITY,
-                srcid_index, destid, is16bit, offset + (hopcount<<24), 4);
-        if (!physical)
-            return -1;
-
-        if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-            bdk_dprintf("SRIO%d: Remote write[id=0x%04x hop=%3d offset=0x%06x] => 0x%08x\n", srio_port, destid, hopcount, offset, data);
-
-        /* Finally do the maintenance write to complete the config request */
-        bdk_write64_uint32(BDK_ADD_IO_SEG(physical), data);
-        return bdk_srio_physical_unmap(physical, 4);
-#endif
     }
 }
 
@@ -1057,7 +1196,7 @@ uint64_t bdk_srio_physical_map(int srio_port, bdk_srio_write_mode_t write_op,
     /* Build the needed SubID config */
     needed_subid.u64 = 0;
     needed_subid.s.port = srio_port;
-    needed_subid.s.nmerge = 1;
+    needed_subid.s.nmerge = 0;
 
     /* FIXME: We might want to use the device ID swapping modes so the device
         ID is part of the lower address bits. This would allow many more
