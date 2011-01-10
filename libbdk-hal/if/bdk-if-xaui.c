@@ -35,6 +35,22 @@ static int if_init(bdk_if_handle_t handle)
             ciu_qlm.s.txmargin = 0x1a);
     }
 
+    /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM De-emphasis be
+        programmed when using a 156.25Mhz ref clock */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_0) ||
+        OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_1))
+    {
+        /* Read the QLM speed pins */
+        BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
+        if (mio_rst_boot.cn63xx.qlm2_spd == 0xb)
+        {
+            BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                ciu_qlm.s.txbypass = 1;
+                ciu_qlm.s.txdeemph = 0xa;
+                ciu_qlm.s.txmargin = 0x1f);
+        }
+    }
+
     /* Due to errata GMX-700 on CN56XXp1.x and CN52XXp1.x, the interface
         needs to be enabled before IPD otherwise per port backpressure
         may not work properly */
