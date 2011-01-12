@@ -5,13 +5,28 @@ static int if_num_interfaces(void)
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 1;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        return 4;
+        return 5;
     else
         return 0;
 }
 
 static int if_num_ports(int interface)
 {
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        /* GMX1 is never SGMII */
+        if (interface == 1)
+            return 0;
+        else
+        {
+            BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
+            if (inf_mode.s.mode == 2)
+                return 4;
+            else
+                return 0;
+        }
+    }
+
     BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
     if (mode.s.type == 0)
         return 4;
