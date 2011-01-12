@@ -23,8 +23,10 @@ static int if_num_ports(int interface)
 
 static int if_init(bdk_if_handle_t handle)
 {
+    /* Use IPD ports 40 - 41, 42 - 43 */
     handle->ipd_port = handle->index + handle->interface*2 + 40;
-    handle->pko_port = handle->index + handle->interface*2 + 40;
+    /* PKO ports are the same as IPD */
+    handle->pko_port = handle->ipd_port;
     return 0;
 }
 

@@ -17,8 +17,10 @@ static int if_init(bdk_if_handle_t handle)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
+        /* Use IPD ports 36 - 39 */
         handle->ipd_port = 36 + handle->index;
-        handle->pko_port = 36 + handle->index;
+        /* PKO ports are the same as IPD */
+        handle->pko_port = handle->ipd_port;
 
         /* We need to disable length checking so packet < 64 bytes and jumbo
             frames don't get errors */
@@ -32,7 +34,9 @@ static int if_init(bdk_if_handle_t handle)
     }
     else
     {
+        /* Use IPD ports 0 - 7 */
         handle->ipd_port = handle->index;
+        /* Use PKO ports 64 - 71 */
         handle->pko_port = 64 + handle->index;
     }
 
