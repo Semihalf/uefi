@@ -46,8 +46,8 @@ typedef union
     uint64_t                u64;
     struct
     {
-        bdk_fau_op_size_t  size1       : 2; /**< The size of the reg1 operation - could be 8, 16, 32, or 64 bits */
-        bdk_fau_op_size_t  size0       : 2; /**< The size of the reg0 operation - could be 8, 16, 32, or 64 bits */
+        bdk_fau_op_size_t   size1       : 2; /**< The size of the reg1 operation - could be 8, 16, 32, or 64 bits */
+        bdk_fau_op_size_t   size0       : 2; /**< The size of the reg0 operation - could be 8, 16, 32, or 64 bits */
         uint64_t            subone1     : 1; /**< If set, subtract 1, if clear, subtract packet size */
         uint64_t            reg1        :11; /**< The register, subtract will be done if reg1 is non-zero */
         uint64_t            subone0     : 1; /**< If set, subtract 1, if clear, subtract packet size */
@@ -120,15 +120,14 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
         uint64_t                u64;
         struct
         {
-            bdk_mips_space_t   mem_space   : 2;    /**< Must BDK_IO_SEG */
-            uint64_t            reserved    :13;    /**< Must be zero */
-            uint64_t            is_io       : 1;    /**< Must be one */
-            uint64_t            did         : 8;    /**< The ID of the device on the non-coherent bus */
-            uint64_t            reserved2   : 4;    /**< Must be zero */
-            uint64_t            reserved3   :18;    /**< Must be zero */
-            uint64_t            port        : 6;    /**< The hardware likes to have the output port in addition to the output queue */
-            uint64_t            queue       : 9;    /**< The output queue to send the packet to (0-127 are legal) */
-            uint64_t            reserved4   : 3;    /**< Must be zero */
+            bdk_mips_space_t    mem_space       : 2;    /**< Must BDK_IO_SEG */
+            uint64_t            reserved_49_61  : 13;
+            uint64_t            is_io           : 1;    /**< Must be one */
+            uint64_t            did             : 8;    /**< The ID of the device on the non-coherent bus */
+            uint64_t            reserved_21_39  : 19;
+            uint64_t            port            : 9;    /**< The hardware likes to have the output port in addition to the output queue */
+            uint64_t            queue           : 9;    /**< The output queue to send the packet to (0-127 are legal) */
+            uint64_t            reserved_0_2    : 3;
        } s;
     } bdk_pko_doorbell_address_t;
 
