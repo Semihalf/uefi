@@ -68,13 +68,18 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
  */
 static int __bdk_if_setup_pko(bdk_if_handle_t handle)
 {
-    static int next_free_queue = 0;
+    const int buffers_per_queue = 4;
     int num_queues = 1;
 
-    handle->pko_queue = next_free_queue;
-    next_free_queue += num_queues;
+    /* Allocate command buffers per queue */
+    if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, num_queues*buffers_per_queue))
+        return -1;
 
-    return bdk_pko_config_port(handle->pko_port, handle->pko_queue, num_queues, NULL);
+    int result = bdk_pko_config_port(handle->pko_port, num_queues, 0);
+    if (result < 0)
+        return result;
+    handle->pko_queue = result;
+    return 0;
 }
 
 
@@ -114,8 +119,13 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
         goto fail;
     }
 
-    if (handle->pknd != -1)
+    if (handle->ipd_port != -1)
     {
+        static int next_free_pknd = 0;
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+            handle->pknd = handle->ipd_port;
+        else
+            handle->pknd = next_free_pknd++;
         if (__bdk_if_setup_ipd(handle))
         {
             bdk_error("__bdk_if_setup_ipd() failed\n");
@@ -157,12 +167,11 @@ fail:
 int bdk_if_init(void)
 {
     int result = 0;
-    int num_packet_buffers = 2000;
+    int num_packet_buffers = 256;
 
     bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
     bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
-    bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, BDK_PKO_MAX_OUTPUT_QUEUES*2);
 
     /* Disable tagwait FAU timeout. This needs to be done before anyone might
         start packet output using tags */
@@ -353,7 +362,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
         return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 
     bdk_pip_port_status_t pip;
-    bdk_pip_get_port_status(handle->ipd_port, 1, &pip);
+    bdk_pip_get_port_status(handle->pknd, 1, &pip);
     handle->stats.rx.dropped_octets += pip.dropped_octets;
     handle->stats.rx.dropped_packets += pip.dropped_packets;
     handle->stats.rx.octets += pip.octets;

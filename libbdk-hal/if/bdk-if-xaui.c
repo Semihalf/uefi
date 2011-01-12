@@ -22,9 +22,17 @@ static int if_num_ports(int interface)
 static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
-    handle->pknd = handle->index;
-    handle->ipd_port = handle->index;
-    handle->pko_port = handle->index;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        handle->ipd_port = handle->interface*4 + handle->index;
+        handle->pko_port = handle->interface*4 + handle->index;
+    }
+    else
+    {
+        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
+        handle->pko_port = handle->interface*4 + handle->index;
+    }
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
@@ -65,13 +73,16 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(gmx_block),
         gmx_rx_prts.s.prts = 1);
 
-    /* Tell PKO the number of ports on this interface */
-    BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
-        if (gmx_block == 0)
-                pko_mode.s.mode0 = 4;
-        else
-                pko_mode.s.mode1 = 4;
-        );
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        /* Tell PKO the number of ports on this interface */
+        BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
+            if (gmx_block == 0)
+                    pko_mode.s.mode0 = 4;
+            else
+                    pko_mode.s.mode1 = 4;
+            );
+    }
 
     /* Set GMX to buffer as much data as possible before starting transmit.
         This reduces the chances that we have a TX under run due to memory
@@ -82,9 +93,10 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(0, gmx_block), 65535);
-    BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(handle->ipd_port),
-        pip_frm_len_chkx.s.minlen = 64;
-        pip_frm_len_chkx.s.maxlen = -1);
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(handle->interface),
+            pip_frm_len_chkx.s.minlen = 64;
+            pip_frm_len_chkx.s.maxlen = -1);
 
     return 0;
 }

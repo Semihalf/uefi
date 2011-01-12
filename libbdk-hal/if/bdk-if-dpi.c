@@ -12,15 +12,22 @@ static int if_num_ports(int interface)
 
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->pknd = 32 + handle->index;
-    handle->ipd_port = 32 + handle->index;
-    handle->pko_port = 32 + handle->index;
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        handle->ipd_port = 32 + handle->index;
+        handle->pko_port = 32 + handle->index;
 
-    /* We need to disable length checking so packet < 64 bytes and jumbo
-        frames don't get errors */
-    BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->pknd),
-            port_cfg.s.maxerr_en = 0;
-            port_cfg.s.minerr_en = 0;);
+        /* We need to disable length checking so packet < 64 bytes and jumbo
+            frames don't get errors */
+        BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->ipd_port),
+                port_cfg.s.maxerr_en = 0;
+                port_cfg.s.minerr_en = 0;);
+    }
+    else
+    {
+        handle->ipd_port = 0x100 + handle->index;
+        handle->pko_port = 32 + handle->index;
+    }
     return 0;
 }
 

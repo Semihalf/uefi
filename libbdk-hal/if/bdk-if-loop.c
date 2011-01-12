@@ -15,19 +15,26 @@ static int if_num_ports(int interface)
 
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->pknd = 36 + handle->index;
-    handle->ipd_port = 36 + handle->index;
-    handle->pko_port = 36 + handle->index;
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        handle->ipd_port = 36 + handle->index;
+        handle->pko_port = 36 + handle->index;
 
-    /* We need to disable length checking so packet < 64 bytes and jumbo
-        frames don't get errors */
-    BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->pknd),
-            port_cfg.s.maxerr_en = 0;
-            port_cfg.s.minerr_en = 0);
+        /* We need to disable length checking so packet < 64 bytes and jumbo
+            frames don't get errors */
+        BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->ipd_port),
+                port_cfg.s.maxerr_en = 0;
+                port_cfg.s.minerr_en = 0);
 
-    /* Disable FCS stripping for loopback ports */
-    BDK_CSR_MODIFY(ipd_sub_port_fcs, BDK_IPD_SUB_PORT_FCS,
-        ipd_sub_port_fcs.s.port_bit2 &= 1<< handle->index);
+        /* Disable FCS stripping for loopback ports */
+            BDK_CSR_MODIFY(ipd_sub_port_fcs, BDK_IPD_SUB_PORT_FCS,
+                ipd_sub_port_fcs.s.port_bit2 &= 1<< handle->index);
+    }
+    else
+    {
+        handle->ipd_port = handle->index;
+        handle->pko_port = 64 + handle->index;
+    }
 
     return 0;
 }

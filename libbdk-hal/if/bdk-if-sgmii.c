@@ -164,9 +164,17 @@ static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-    handle->pknd = handle->index;
-    handle->ipd_port = handle->index;
-    handle->pko_port = handle->index;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        handle->ipd_port = handle->interface*4 + handle->index;
+        handle->pko_port = handle->interface*4 + handle->index;
+    }
+    else
+    {
+        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
+        handle->pko_port = handle->interface*4 + handle->index;
+    }
 
     if (gmx_index == 0)
     {
@@ -204,13 +212,20 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(gmx_block),
             gmx_rx_prts.s.prts = 4);
 
-        /* Tell PKO the number of ports on this interface */
-        BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
-            if (gmx_block == 0)
-                pko_mode.s.mode0 = 2;
-            else
-                pko_mode.s.mode1 = 2);
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        {
+            /* Tell PKO the number of ports on this interface */
+            BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
+                if (gmx_block == 0)
+                    pko_mode.s.mode0 = 2;
+                else
+                    pko_mode.s.mode1 = 2);
+        }
     }
+
+    /* Enable the interface */
+    BDK_CSR_MODIFY(inf_mode, BDK_GMXX_INF_MODE(gmx_block),
+            inf_mode.s.en=1);
 
     /* Set GMX to buffer as much data as possible before starting transmit.
         This reduces the chances that we have a TX under run due to memory
@@ -225,9 +240,10 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(gmx_index, gmx_block), 65535);
-    BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(gmx_block),
-        pip_frm_len_chkx.s.minlen = 64;
-        pip_frm_len_chkx.s.maxlen = -1);
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(gmx_block),
+            pip_frm_len_chkx.s.minlen = 64;
+            pip_frm_len_chkx.s.maxlen = -1);
 
     /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
         value. 1000BASE-X specifies a 10ms interval. SGMII specifies a 1.6ms

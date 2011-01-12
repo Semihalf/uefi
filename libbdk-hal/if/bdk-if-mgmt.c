@@ -73,7 +73,6 @@ static int if_num_ports(int interface)
  */
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->pknd = -1;
     handle->ipd_port = -1;
     handle->pko_port = -1;
 

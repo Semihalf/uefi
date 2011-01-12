@@ -9,10 +9,6 @@
  * @{
  */
 
-#define BDK_PKO_MAX_OUTPUT_QUEUES      256
-#define BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID 63 /* use this for queues that are not used */
-#define BDK_PKO_QUEUE_STATIC_PRIORITY  9
-
 typedef enum
 {
     BDK_PKO_SUCCESS,
@@ -89,15 +85,15 @@ extern void bdk_pko_disable(void);
 /**
  * Configure a output port and the associated queues for use.
  *
- * @param port       Port to configure.
- * @param base_queue First queue number to associate with this port.
- * @param num_queues Number of queues t oassociate with this port
- * @param priority   Array of priority levels for each queue. Values are
- *                   allowed to be 1-8. A value of 8 get 8 times the traffic
- *                   of a value of 1. There must be num_queues elements in the
- *                   array.
+ * @param pko_port   PKO internal port to program
+ * @param num_queues Number of queues to associate with this port
+ * @param num_static_queues
+ *                   Number of queues that should have static priority. Must be less
+ *                   than or equal to num_queues.
+ *
+ * @return The base queue number, or negative on failure.
  */
-extern bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_t num_queues, const uint64_t priority[]);
+extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues);
 
 
 /**
