@@ -83,6 +83,8 @@ void bdk_pko_initialize(void)
 
         /* PKO port 64-71 = PIP/IPD (Loop ports 0-7) */
         int num_loop = 8;
+        BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+            t.s.num_ports = num_loop);
         for (int i=0; i<num_loop; i++)
         {
             ptrs.s.crc = 0;     /* No CRC on packets */
