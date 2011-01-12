@@ -19,7 +19,6 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
-static bdk_if_handle_t __bdk_ipd_to_handle[64];
 
 /**
  * Configure PIP/IPD for a specific port. This is called for each
@@ -32,8 +31,6 @@ static bdk_if_handle_t __bdk_ipd_to_handle[64];
 static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
 {
     static int qos = 0;
-
-    __bdk_ipd_to_handle[handle->ipd_port] = handle;
 
     /* Have each port go to a different SSO queue */
     BDK_CSR_MODIFY(port_config, BDK_PIP_PRT_CFGX(handle->pknd),
@@ -440,10 +437,22 @@ int bdk_if_receive(bdk_if_packet_t *packet)
     if ((raw_work>>63) == 0)
     {
         bdk_wqe_t *wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            packet->if_handle = __bdk_ipd_to_handle[wqe->word2.s.port];
-        else
-            packet->if_handle = __bdk_ipd_to_handle[wqe->word1.v1.ipprt];
+
+        /* Get the IPD port number */
+        int ipd_port = wqe->word2.s.port;
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+            ipd_port = wqe->word1.v1.ipprt;
+
+        /* FIXME: This is a slow way of finding the IF handle */
+        __bdk_if_port_t *handle = __bdk_if_head;
+        while (handle)
+        {
+            if (handle->ipd_port == ipd_port)
+                break;
+            handle = handle->next;
+        }
+
+        packet->if_handle = handle;
         packet->length = wqe->word1.s.len;
         if (wqe->word2.s.re)
             packet->rx_error = wqe->word2.s.opcode;
@@ -477,6 +486,13 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             packet->packet = wqe->packet_ptr;
             bdk_fpa_free(wqe, BDK_FPA_WQE_POOL, 0);
         }
+
+        if (bdk_unlikely(!packet->if_handle))
+        {
+            bdk_error("Unable to find IF for ipd_port %d\n", ipd_port);
+            bdk_if_free(packet);
+            return -1;
+        }
         return 0;
     }
 
@@ -489,7 +505,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         }
     }
 
-    return -1;
+    return 1;
 }
 
 
