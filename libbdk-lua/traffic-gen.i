@@ -119,8 +119,6 @@ typedef struct
     struct {
         bdk_spinlock_t lock;
         bdk_if_handle_t handle;
-        bdk_pip_port_status_t pip_stats;
-        bdk_pko_port_status_t pko_stats;
     } priv;
 } trafficgen_port_info_t;
 

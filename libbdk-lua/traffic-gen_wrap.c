@@ -1484,28 +1484,26 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 
 #define SWIGTYPE_p_bdk_if_handle_t swig_types[0]
 #define SWIGTYPE_p_bdk_if_t swig_types[1]
-#define SWIGTYPE_p_bdk_pip_port_status_t swig_types[2]
-#define SWIGTYPE_p_bdk_pko_port_status_t swig_types[3]
-#define SWIGTYPE_p_bdk_spinlock_t swig_types[4]
-#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[5]
-#define SWIGTYPE_p_char swig_types[6]
-#define SWIGTYPE_p_int swig_types[7]
-#define SWIGTYPE_p_long swig_types[8]
-#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[9]
-#define SWIGTYPE_p_short swig_types[10]
-#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[11]
-#define SWIGTYPE_p_trafficgen_payload_t swig_types[12]
-#define SWIGTYPE_p_trafficgen_port_info_t swig_types[13]
-#define SWIGTYPE_p_trafficgen_port_info_t_priv swig_types[14]
-#define SWIGTYPE_p_trafficgen_port_set_t swig_types[15]
-#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[16]
-#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[17]
-#define SWIGTYPE_p_unsigned_char swig_types[18]
-#define SWIGTYPE_p_unsigned_int swig_types[19]
-#define SWIGTYPE_p_unsigned_long swig_types[20]
-#define SWIGTYPE_p_unsigned_short swig_types[21]
-static swig_type_info *swig_types[23];
-static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
+#define SWIGTYPE_p_bdk_spinlock_t swig_types[2]
+#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[3]
+#define SWIGTYPE_p_char swig_types[4]
+#define SWIGTYPE_p_int swig_types[5]
+#define SWIGTYPE_p_long swig_types[6]
+#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[7]
+#define SWIGTYPE_p_short swig_types[8]
+#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[9]
+#define SWIGTYPE_p_trafficgen_payload_t swig_types[10]
+#define SWIGTYPE_p_trafficgen_port_info_t swig_types[11]
+#define SWIGTYPE_p_trafficgen_port_info_t_priv swig_types[12]
+#define SWIGTYPE_p_trafficgen_port_set_t swig_types[13]
+#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[14]
+#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[15]
+#define SWIGTYPE_p_unsigned_char swig_types[16]
+#define SWIGTYPE_p_unsigned_int swig_types[17]
+#define SWIGTYPE_p_unsigned_long swig_types[18]
+#define SWIGTYPE_p_unsigned_short swig_types[19]
+static swig_type_info *swig_types[21];
+static swig_module_info swig_module = {swig_types, 20, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1535,8 +1533,6 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 typedef struct {
   bdk_spinlock_t lock;
   bdk_if_handle_t handle;
-  bdk_pip_port_status_t pip_stats;
-  bdk_pko_port_status_t pko_stats;
 } trafficgen_port_info_t_priv;
 
 
@@ -5080,128 +5076,6 @@ fail:
 }
 
 
-static int _wrap_port_info_t_priv_pip_stats_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_pip_port_status_t arg2 ;
-  bdk_pip_port_status_t *argp2 ;
-  
-  SWIG_check_num_args("pip_stats",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("pip_stats",1,"trafficgen_port_info_t_priv *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("pip_stats",2,"bdk_pip_port_status_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_pip_stats_set",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_pip_port_status_t,0))){
-    SWIG_fail_ptr("port_info_t_priv_pip_stats_set",2,SWIGTYPE_p_bdk_pip_port_status_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->pip_stats = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_pip_stats_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_pip_port_status_t result;
-  
-  SWIG_check_num_args("pip_stats",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("pip_stats",1,"trafficgen_port_info_t_priv *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_pip_stats_get",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  result =  ((arg1)->pip_stats);
-  {
-    bdk_pip_port_status_t * resultptr;
-    resultptr = (bdk_pip_port_status_t *) malloc(sizeof(bdk_pip_port_status_t));
-    memmove(resultptr, &result, sizeof(bdk_pip_port_status_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_pip_port_status_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_pko_stats_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_pko_port_status_t arg2 ;
-  bdk_pko_port_status_t *argp2 ;
-  
-  SWIG_check_num_args("pko_stats",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("pko_stats",1,"trafficgen_port_info_t_priv *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("pko_stats",2,"bdk_pko_port_status_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_pko_stats_set",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_pko_port_status_t,0))){
-    SWIG_fail_ptr("port_info_t_priv_pko_stats_set",2,SWIGTYPE_p_bdk_pko_port_status_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->pko_stats = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_pko_stats_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_pko_port_status_t result;
-  
-  SWIG_check_num_args("pko_stats",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("pko_stats",1,"trafficgen_port_info_t_priv *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_pko_stats_get",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  result =  ((arg1)->pko_stats);
-  {
-    bdk_pko_port_status_t * resultptr;
-    resultptr = (bdk_pko_port_status_t *) malloc(sizeof(bdk_pko_port_status_t));
-    memmove(resultptr, &result, sizeof(bdk_pko_port_status_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_pko_port_status_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_new_port_info_t_priv(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_info_t_priv *result = 0 ;
@@ -5229,8 +5103,6 @@ static swig_lua_method swig_trafficgen_port_info_t_priv_methods[] = {
 static swig_lua_attribute swig_trafficgen_port_info_t_priv_attributes[] = {
     { "lock", _wrap_port_info_t_priv_lock_get, _wrap_port_info_t_priv_lock_set},
     { "handle", _wrap_port_info_t_priv_handle_get, _wrap_port_info_t_priv_handle_set},
-    { "pip_stats", _wrap_port_info_t_priv_pip_stats_get, _wrap_port_info_t_priv_pip_stats_set},
-    { "pko_stats", _wrap_port_info_t_priv_pko_stats_get, _wrap_port_info_t_priv_pko_stats_set},
     {0,0,0}
 };
 static swig_lua_class *swig_trafficgen_port_info_t_priv_bases[] = {0};
@@ -5532,8 +5404,6 @@ static swig_lua_const_info swig_constants[] = {
 
 static swig_type_info _swigt__p_bdk_if_handle_t = {"_p_bdk_if_handle_t", "bdk_if_handle_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_if_t = {"_p_bdk_if_t", "bdk_if_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_bdk_pip_port_status_t = {"_p_bdk_pip_port_status_t", "bdk_pip_port_status_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_bdk_pko_port_status_t = {"_p_bdk_pko_port_status_t", "bdk_pko_port_status_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_spinlock_t = {"_p_bdk_spinlock_t", "bdk_spinlock_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_srio_tx_message_header_t = {"_p_bdk_srio_tx_message_header_t", "bdk_srio_tx_message_header_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *|int8_t *", 0, 0, (void*)0, 0};
@@ -5556,8 +5426,6 @@ static swig_type_info _swigt__p_unsigned_short = {"_p_unsigned_short", "unsigned
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_bdk_if_handle_t,
   &_swigt__p_bdk_if_t,
-  &_swigt__p_bdk_pip_port_status_t,
-  &_swigt__p_bdk_pko_port_status_t,
   &_swigt__p_bdk_spinlock_t,
   &_swigt__p_bdk_srio_tx_message_header_t,
   &_swigt__p_char,
@@ -5580,8 +5448,6 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_bdk_if_handle_t[] = {  {&_swigt__p_bdk_if_handle_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_if_t[] = {  {&_swigt__p_bdk_if_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_bdk_pip_port_status_t[] = {  {&_swigt__p_bdk_pip_port_status_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_bdk_pko_port_status_t[] = {  {&_swigt__p_bdk_pko_port_status_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_spinlock_t[] = {  {&_swigt__p_bdk_spinlock_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_srio_tx_message_header_t[] = {  {&_swigt__p_bdk_srio_tx_message_header_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -5604,8 +5470,6 @@ static swig_cast_info _swigc__p_unsigned_short[] = {  {&_swigt__p_unsigned_short
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_bdk_if_handle_t,
   _swigc__p_bdk_if_t,
-  _swigc__p_bdk_pip_port_status_t,
-  _swigc__p_bdk_pko_port_status_t,
   _swigc__p_bdk_spinlock_t,
   _swigc__p_bdk_srio_tx_message_header_t,
   _swigc__p_char,

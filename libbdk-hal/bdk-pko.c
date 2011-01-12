@@ -1,5 +1,10 @@
 #include <bdk.h>
 
+/* Adjust the command buffer size by 1 word so that in the case of using only
+** two word PKO commands no command words stradle buffers.  The useful values
+** for this are 0 and 1. */
+#define BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST (1)
+
 /**
  * Internal state of packet output
  */
@@ -98,13 +103,6 @@ bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, uint64_
     bdk_pko_reg_queue_ptrs1_t config1;
     int static_priority_base = -1;
     int static_priority_end = -1;
-
-
-    if ((port >= BDK_PKO_NUM_OUTPUT_PORTS) && (port != BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID))
-    {
-        bdk_error("bdk_pko_config_port: Invalid port %llu\n", (unsigned long long)port);
-        return BDK_PKO_INVALID_PORT;
-    }
 
     if (base_queue + num_queues > BDK_PKO_MAX_OUTPUT_QUEUES)
     {

@@ -9,16 +9,9 @@
  * @{
  */
 
-/* Adjust the command buffer size by 1 word so that in the case of using only
-** two word PKO commands no command words stradle buffers.  The useful values
-** for this are 0 and 1. */
-#define BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST (1)
-
 #define BDK_PKO_MAX_OUTPUT_QUEUES      256
-#define BDK_PKO_NUM_OUTPUT_PORTS       ((OCTEON_IS_MODEL(OCTEON_CN63XX)) ? 44 : 40)
 #define BDK_PKO_MEM_QUEUE_PTRS_ILLEGAL_PID 63 /* use this for queues that are not used */
 #define BDK_PKO_QUEUE_STATIC_PRIORITY  9
-#define BDK_PKO_ILLEGAL_QUEUE  0xFFFF
 
 typedef enum
 {
@@ -44,33 +37,6 @@ typedef enum
                                         based ll/sc. This is the most portable locking
                                         mechanism */
 } bdk_pko_lock_t;
-
-typedef struct
-{
-    uint32_t    packets;
-    uint64_t    octets;
-  uint64_t doorbell;
-} bdk_pko_port_status_t;
-
-/**
- * This structure defines the address to use on a packet enqueue
- */
-typedef union
-{
-    uint64_t                u64;
-    struct
-    {
-        bdk_mips_space_t   mem_space   : 2;    /**< Must BDK_IO_SEG */
-        uint64_t            reserved    :13;    /**< Must be zero */
-        uint64_t            is_io       : 1;    /**< Must be one */
-        uint64_t            did         : 8;    /**< The ID of the device on the non-coherent bus */
-        uint64_t            reserved2   : 4;    /**< Must be zero */
-        uint64_t            reserved3   :18;    /**< Must be zero */
-        uint64_t            port        : 6;    /**< The hardware likes to have the output port in addition to the output queue */
-        uint64_t            queue       : 9;    /**< The output queue to send the packet to (0-127 are legal) */
-        uint64_t            reserved4   : 3;    /**< Must be zero */
-   } s;
-} bdk_pko_doorbell_address_t;
 
 /**
  * Structure of the first packet output command word.
@@ -146,16 +112,36 @@ extern bdk_pko_status_t bdk_pko_config_port(uint64_t port, uint64_t base_queue, 
  */
 static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
 {
-   bdk_pko_doorbell_address_t ptr;
+    /**
+     * This structure defines the address to use on a packet enqueue
+     */
+    typedef union
+    {
+        uint64_t                u64;
+        struct
+        {
+            bdk_mips_space_t   mem_space   : 2;    /**< Must BDK_IO_SEG */
+            uint64_t            reserved    :13;    /**< Must be zero */
+            uint64_t            is_io       : 1;    /**< Must be one */
+            uint64_t            did         : 8;    /**< The ID of the device on the non-coherent bus */
+            uint64_t            reserved2   : 4;    /**< Must be zero */
+            uint64_t            reserved3   :18;    /**< Must be zero */
+            uint64_t            port        : 6;    /**< The hardware likes to have the output port in addition to the output queue */
+            uint64_t            queue       : 9;    /**< The output queue to send the packet to (0-127 are legal) */
+            uint64_t            reserved4   : 3;    /**< Must be zero */
+       } s;
+    } bdk_pko_doorbell_address_t;
 
-   ptr.u64          = 0;
-   ptr.s.mem_space  = BDK_IO_SEG;
-   ptr.s.did        = BDK_OCT_DID_PKT_SEND;
-   ptr.s.is_io      = 1;
-   ptr.s.port       = port;
-   ptr.s.queue      = queue;
-   BDK_SYNCW;  /* Need to make sure output queue data is in DRAM before doorbell write */
-   bdk_write64_uint64(ptr.u64, len);
+    bdk_pko_doorbell_address_t ptr;
+
+    ptr.u64          = 0;
+    ptr.s.mem_space  = BDK_IO_SEG;
+    ptr.s.did        = BDK_OCT_DID_PKT_SEND;
+    ptr.s.is_io      = 1;
+    ptr.s.port       = port;
+    ptr.s.queue      = queue;
+    BDK_SYNCW;  /* Need to make sure output queue data is in DRAM before doorbell write */
+    bdk_write64_uint64(ptr.u64, len);
 }
 
 
