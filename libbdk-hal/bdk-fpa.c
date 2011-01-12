@@ -37,7 +37,10 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
         if (buf)
             bdk_fpa_free(buf, pool, 0);
         else
+        {
+            bdk_error("bdk_fpa_fill_pool: Pool %d failed with %d blocks to alloc\n", pool, num_blocks);
             break;
+        }
     }
     return -num_blocks;
 }
