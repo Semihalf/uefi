@@ -50,7 +50,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_id_t queue_id, int
 
     if ((fpa_pool < 0) || (fpa_pool > 7))
         return BDK_CMD_QUEUE_INVALID_PARAM;
-    if ((pool_size < 128) || (pool_size > 65536))
+    if ((pool_size < 32) || (pool_size > 65536))
         return BDK_CMD_QUEUE_INVALID_PARAM;
 
     /* See if someone else has already initialized the queue */
