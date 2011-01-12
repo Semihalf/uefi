@@ -102,6 +102,7 @@ extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
 extern int bdk_if_enable(bdk_if_handle_t handle);
 extern int bdk_if_disable(bdk_if_handle_t handle);
 
+extern const char *bdk_if_name(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle);
 extern const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle);

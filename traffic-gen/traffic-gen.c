@@ -3388,7 +3388,7 @@ someone_on: ;
     {
         port_info_t *pinfo = all_set.list[i];
         if (pinfo->state.display)
-            printf("|%8s%2d", "Port ", pinfo->name);
+            printf("|%2d-%-7s", pinfo->name, bdk_if_name(pinfo->handle));
     }
     printf("|%8s", "Totals");
     printf(ERASE_EOL);

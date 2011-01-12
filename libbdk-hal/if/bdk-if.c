@@ -135,8 +135,8 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
         }
     }
 
-    printf("%s%d%d: pknd=%d, ipd_port=%d, pko_port=%d, pko_queue=%d\n",
-            __bdk_if_ops[iftype]->name, interface, index, handle->pknd,
+    printf("%s: pknd=%d, ipd_port=%d, pko_port=%d, pko_queue=%d\n",
+            bdk_if_name(handle), handle->pknd,
             handle->ipd_port, handle->pko_port, handle->pko_queue);
 
     if (__bdk_if_tail)
@@ -309,6 +309,22 @@ int bdk_if_enable(bdk_if_handle_t handle)
 int bdk_if_disable(bdk_if_handle_t handle)
 {
     return __bdk_if_ops[handle->iftype]->if_disable(handle);
+}
+
+
+/**
+ * Return the human readable name of a handle
+ *
+ * @param handle Handle to name
+ *
+ * @return Static shared buffer for the name
+ */
+const char *bdk_if_name(bdk_if_handle_t handle)
+{
+    static char buffer[16];
+    snprintf(buffer, sizeof(buffer), "%s%d%d", __bdk_if_ops[handle->iftype]->name, handle->interface, handle->index);
+    buffer[sizeof(buffer)-1] = 0;
+    return buffer;
 }
 
 
