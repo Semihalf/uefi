@@ -1,7 +1,7 @@
 #include <bdk.h>
 
-#define MGMT_PORT_NUM_TX_BUFFERS   16      /* Number of TX ring buffer entries and buffers */
-#define MGMT_PORT_NUM_RX_BUFFERS   128     /* Number of RX ring buffer entries and buffers */
+#define MGMT_PORT_NUM_TX_BUFFERS   8 /* Number of TX ring buffer entries and buffers */
+#define MGMT_PORT_NUM_RX_BUFFERS   16 /* Number of RX ring buffer entries and buffers */
 
 /**
  * Format of the TX/RX ring buffer entries
