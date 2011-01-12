@@ -418,7 +418,16 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_command.u64 = 0;
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
-    return bdk_pko_send_packet_finish(handle->pko_port, handle->pko_queue, pko_command, packet->packet, BDK_PKO_LOCK_CMD_QUEUE);
+
+    int result = bdk_pko_send_packet_finish(handle->pko_port, handle->pko_queue, pko_command, packet->packet, BDK_PKO_LOCK_CMD_QUEUE);
+
+    /* Create some simple stats in the simulator for testing */
+    if (bdk_is_simulation() && (result==0))
+    {
+        handle->stats.tx.octets += packet->length;
+        handle->stats.tx.packets++;
+    }
+    return result;
 }
 
 
@@ -492,6 +501,13 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             bdk_error("Unable to find IF for ipd_port %d\n", ipd_port);
             bdk_if_free(packet);
             return -1;
+        }
+
+        /* Create some simple stats in the simulator for testing */
+        if (bdk_is_simulation())
+        {
+            packet->if_handle->stats.rx.octets += packet->length + 4; /* Add CRC */
+            packet->if_handle->stats.rx.packets++;
         }
         return 0;
     }
