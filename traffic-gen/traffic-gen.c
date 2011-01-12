@@ -4471,16 +4471,21 @@ int main(void)
         bdk_config_set(BDK_CONFIG_PHY_IF0_PORT2, (1<<8) + 3);
         bdk_config_set(BDK_CONFIG_PHY_IF0_PORT3, (1<<8) + 4);
 
-        int csr_count = 0;
-        char buffer[32];
-        buffer[0] = 0;
-        while (bdk_csr_get_name((buffer[0]) ? buffer : NULL, buffer) == 0)
+        if (!bdk_is_simulation())
         {
-            tab_csr_name[csr_count].str = strdup(buffer);
-            tab_csr_name[csr_count].next = NULL;
-            csr_count++;
+            int csr_count = 0;
+            char buffer[32];
+            buffer[0] = 0;
+            while (bdk_csr_get_name((buffer[0]) ? buffer : NULL, buffer) == 0)
+            {
+                tab_csr_name[csr_count].str = strdup(buffer);
+                tab_csr_name[csr_count].next = NULL;
+                csr_count++;
+            }
+            tab_csr_name[csr_count].str = NULL;
         }
-        tab_csr_name[csr_count].str = NULL;
+        else
+            tab_csr_name[0].str = NULL;
 
         memset(&port_info, 0, sizeof(port_info));
 
