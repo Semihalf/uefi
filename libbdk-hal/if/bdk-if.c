@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <stdio.h>
+#include <malloc.h>
 
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
@@ -19,6 +20,63 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
+
+
+/**
+ * One time init of the SSO
+ *
+ * @return Zero on success, negative on failure
+ */
+static int __bdk_if_setup_sso(void)
+{
+    const int SSO_RWQ_SIZE = 512;
+    const int SSO_RWQ_COUNT = 8 + 128;
+
+    /* SSO in CN63XX doesn't need any setup */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        return 0;
+
+    /* Set work timeout to 16k cycles */
+    BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
+        c.s.nw_tim = 16);
+
+    /* Initialize the SSO memory queues */
+    for (int i=0; i<8; i++)
+    {
+        void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE);
+        if (!buffer)
+        {
+            bdk_error("Failed to allocate buffer for SSO queue %d\n", i);
+            return -1;
+        }
+        BDK_CSR_WRITE(BDK_SSO_RWQ_HEAD_PTRX(i), bdk_ptr_to_phys(buffer));
+        BDK_CSR_WRITE(BDK_SSO_RWQ_TAIL_PTRX(i), bdk_ptr_to_phys(buffer));
+    }
+
+    /* Initialize the RWQ list */
+    for (int i=0; i<SSO_RWQ_COUNT; i++)
+    {
+        if (BDK_CSR_WAIT_FOR_FIELD(BDK_SSO_RWQ_PSH_FPTR, full, ==, 0, 1000))
+        {
+            bdk_error("BDK_SSO_RWQ_PSH_FPTR[FULL] is stuck\n");
+            return -1;
+        }
+
+        void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE);
+        if (!buffer)
+        {
+            bdk_error("Failed to allocate buffer for SSO RWQ\n");
+            return -1;
+        }
+        BDK_CSR_WRITE(BDK_SSO_RWQ_PSH_FPTR, bdk_ptr_to_phys(buffer));
+    }
+
+    /* Enable the SSO RWI/RWO operations */
+    BDK_CSR_MODIFY(c, BDK_SSO_CFG,
+        c.s.rwen = 1);
+    return 0;
+}
+
 
 /**
  * Configure PIP/IPD for a specific port. This is called for each
@@ -166,9 +224,14 @@ int bdk_if_init(void)
     int result = 0;
     int num_packet_buffers = 256;
 
+    /* Setup the FPA, packet and WQE buffers */
     bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
     bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
+
+    /* Setup the SSO */
+    if (__bdk_if_setup_sso())
+        return -1;
 
     /* Disable tagwait FAU timeout. This needs to be done before anyone might
         start packet output using tags */
