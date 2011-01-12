@@ -54,8 +54,8 @@ static int if_init(bdk_if_handle_t handle)
     }
     else
     {
-        /* Use IPD ports 0x800, 0x900, ... */
-        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
+        /* Use IPD ports 0x840, 0x940, ... */
+        handle->ipd_port = 0x840 + handle->interface*0x100;
         /* Use PKO ports 0, 4, 8, ... */
         handle->pko_port = handle->interface*4 + handle->index;
     }
@@ -183,7 +183,6 @@ static int if_enable(bdk_if_handle_t handle)
     gmx_cfg.s.speed = 1;
     gmx_cfg.s.speed_msb = 0;
     gmx_cfg.s.slottime = 1;
-    BDK_CSR_WRITE(BDK_GMXX_TX_PRTS(gmx_block), 1);
     BDK_CSR_WRITE(BDK_GMXX_TXX_SLOT(gmx_index, gmx_block), 512);
     BDK_CSR_WRITE(BDK_GMXX_TXX_BURST(gmx_index, gmx_block), 8192);
     BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), gmx_cfg.u64);
