@@ -5116,7 +5116,7 @@ static int _wrap_port_set_t_list_set(lua_State* L) {
   
   SWIG_check_num_args("list",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("list",1,"trafficgen_port_set_t *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("list",2,"trafficgen_port_info_t *[BDK_PIP_NUM_INPUT_PORTS+1]");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("list",2,"trafficgen_port_info_t *[64]");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_set_t,0))){
     SWIG_fail_ptr("port_set_t_list_set",1,SWIGTYPE_p_trafficgen_port_set_t);
@@ -5130,7 +5130,7 @@ static int _wrap_port_set_t_list_set(lua_State* L) {
   {
     size_t ii;
     trafficgen_port_info_t * *b = (trafficgen_port_info_t * *) arg1->list;
-    for (ii = 0; ii < (size_t)BDK_PIP_NUM_INPUT_PORTS+1; ii++) b[ii] = *((trafficgen_port_info_t * *) arg2 + ii);
+    for (ii = 0; ii < (size_t)64; ii++) b[ii] = *((trafficgen_port_info_t * *) arg2 + ii);
   }
   
   return SWIG_arg;

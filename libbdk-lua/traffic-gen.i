@@ -124,7 +124,7 @@ typedef struct
 
 typedef struct
 {
-    trafficgen_port_info_t *list[BDK_PIP_NUM_INPUT_PORTS+1];
+    trafficgen_port_info_t *list[64];
 } trafficgen_port_set_t;
 
 trafficgen_port_info_t *trafficgen_port_get(int index);

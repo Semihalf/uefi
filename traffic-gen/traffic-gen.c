@@ -899,7 +899,7 @@ typedef struct
     port_state_t    state;
 } port_info_t;
 
-#define MAX_NUM_PORTS BDK_PIP_NUM_INPUT_PORTS
+#define MAX_NUM_PORTS 64
 
 typedef struct
 {

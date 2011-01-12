@@ -467,9 +467,9 @@ static trafficgen_port_set_t tg_all_set;
 
 static trafficgen_port_info_t *tg_get_pinfo(bdk_if_handle_t handle)
 {
-    static trafficgen_port_info_t *pinfo[BDK_PIP_NUM_INPUT_PORTS];
+    static trafficgen_port_info_t *pinfo[64];
 
-    for (int i=0; i<BDK_PIP_NUM_INPUT_PORTS; i++)
+    for (int i=0; i<64; i++)
     {
         if (pinfo[i] == NULL)
         {

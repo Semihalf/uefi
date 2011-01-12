@@ -9,9 +9,6 @@
  * @{
  */
 
-#define BDK_PIP_NUM_INPUT_PORTS                44
-
-
 /**
  * Enumeration representing the amount of packet processing
  * and validation performed by the input hardware.
