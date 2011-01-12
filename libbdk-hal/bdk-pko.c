@@ -34,203 +34,85 @@ void bdk_pko_initialize(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
+        int eid = 0;
+        int pipe = 8; /* Reserve 0-7 for loop interfaces */
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
         ptrs.u64 = 0;
+        ptrs.s.qos_mask = 0xff; /* QOS rounds */
 
-        /* PKO port 0 = GMX0 XAUI/DXAUI/RXAUI0 or SGMII0 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 0;    /* Which PKO pipe */
-        ptrs.s.intr = 0;     /* Which interface */
-        ptrs.s.eid = 0;     /* Which engine */
-        ptrs.s.ipid = 0;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 1 = GMX0 SGMII1 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 1;    /* Which PKO pipe */
-        ptrs.s.intr = 1;     /* Which interface */
-        ptrs.s.eid = 0;     /* Which engine */
-        ptrs.s.ipid = 1;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 2 = GMX0 SGMII2 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 2;    /* Which PKO pipe */
-        ptrs.s.intr = 2;     /* Which interface */
-        ptrs.s.eid = 0;     /* Which engine */
-        ptrs.s.ipid = 2;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 3 = GMX0 SGMII3 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 3;    /* Which PKO pipe */
-        ptrs.s.intr = 3;     /* Which interface */
-        ptrs.s.eid = 0;     /* Which engine */
-        ptrs.s.ipid = 3;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 4 = GMX1 RXAUI */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 4;    /* Which PKO pipe */
-        ptrs.s.intr = 4;     /* Which interface */
-        ptrs.s.eid = 1;     /* Which engine */
-        ptrs.s.ipid = 4;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 8 = GMX2 XAUI/DXAUI or SGMII0 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 8;    /* Which PKO pipe */
-        ptrs.s.intr = 8;     /* Which interface */
-        ptrs.s.eid = 2;     /* Which engine */
-        ptrs.s.ipid = 8;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 9 = GMX2 SGMII1 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 9;    /* Which PKO pipe */
-        ptrs.s.intr = 9;     /* Which interface */
-        ptrs.s.eid = 2;     /* Which engine */
-        ptrs.s.ipid = 9;    /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 10 = GMX2 SGMII2 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 10;   /* Which PKO pipe */
-        ptrs.s.intr = 10;    /* Which interface */
-        ptrs.s.eid = 2;     /* Which engine */
-        ptrs.s.ipid = 10;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 11 = GMX2 SGMII3 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 11;   /* Which PKO pipe */
-        ptrs.s.intr = 11;    /* Which interface */
-        ptrs.s.eid = 2;     /* Which engine */
-        ptrs.s.ipid = 11;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 12 = GMX3 XAUI/DXAUI or SGMII0 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 12;   /* Which PKO pipe */
-        ptrs.s.intr = 12;    /* Which interface */
-        ptrs.s.eid = 3;     /* Which engine */
-        ptrs.s.ipid = 12;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 13 = GMX3 SGMII1 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 13;   /* Which PKO pipe */
-        ptrs.s.intr = 13;    /* Which interface */
-        ptrs.s.eid = 3;     /* Which engine */
-        ptrs.s.ipid = 13;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 14 = GMX3 SGMII2 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 14;   /* Which PKO pipe */
-        ptrs.s.intr = 14;    /* Which interface */
-        ptrs.s.eid = 3;     /* Which engine */
-        ptrs.s.ipid = 14;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 15 = GMX3 SGMII3 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 15;   /* Which PKO pipe */
-        ptrs.s.intr = 15;    /* Which interface */
-        ptrs.s.eid = 3;     /* Which engine */
-        ptrs.s.ipid = 15;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 16 = GMX4 XAUI/DXAUI or SGMII0 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 16;   /* Which PKO pipe */
-        ptrs.s.intr = 16;    /* Which interface */
-        ptrs.s.eid = 4;     /* Which engine */
-        ptrs.s.ipid = 16;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 17 = GMX4 SGMII1 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 17;   /* Which PKO pipe */
-        ptrs.s.intr = 17;    /* Which interface */
-        ptrs.s.eid = 4;     /* Which engine */
-        ptrs.s.ipid = 17;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 18 = GMX4 SGMII2 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 18;   /* Which PKO pipe */
-        ptrs.s.intr = 18;    /* Which interface */
-        ptrs.s.eid = 4;     /* Which engine */
-        ptrs.s.ipid = 18;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* PKO port 19 = GMX4 SGMII3 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 19;   /* Which PKO pipe */
-        ptrs.s.intr = 19;    /* Which interface */
-        ptrs.s.eid = 4;     /* Which engine */
-        ptrs.s.ipid = 19;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+        /* PKO ports for GMX */
+        for (int gmx_block=0; gmx_block<5; gmx_block++)
+        {
+            int num_ports;
+            BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(gmx_block));
+            if (mode.s.type == 0)
+                num_ports = 4;
+            else
+                num_ports = 1;
+            for (int gmx_index=0; gmx_index<num_ports; gmx_index++)
+            {
+                BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE(gmx_index, gmx_block),
+                    c.s.nump = 1;
+                    c.s.base = pipe);
+                ptrs.s.crc = 1;         /* Use CRC on packets */
+                ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
+                ptrs.s.pipe = pipe++;   /* Which PKO pipe */
+                ptrs.s.intr = gmx_block*4 + gmx_index;  /* Which interface */
+                ptrs.s.eid = eid++;     /* Which engine */
+                ptrs.s.ipid = gmx_block*4 + gmx_index;  /* PKO internal port */
+                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+            }
+        }
 
         /* PKO port 32-63 = DPI (ports 0-31) */
-        for (int i=0; i<8; i++)
+        int num_dpi = 32;
+        BDK_CSR_MODIFY(c, BDK_SLI_TX_PIPE,
+            c.s.nump = num_dpi;
+            c.s.base = pipe);
+        for (int i=0; i<num_dpi; i++)
         {
             ptrs.s.crc = 0;     /* No CRC on packets */
             ptrs.s.min_pkt = 0; /* No min packet */
-            ptrs.s.pipe = 30+i; /* Which PKO pipe */
-            ptrs.s.intr = 30;    /* Which interface */
-            ptrs.s.eid = 5;     /* Which engine */
+            ptrs.s.pipe = pipe++; /* Which PKO pipe */
+            ptrs.s.intr = 30;   /* Which interface */
+            ptrs.s.eid = eid;   /* Which engine */
             ptrs.s.ipid = 32+i; /* PKO internal port */
             BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
         }
+        eid++;
 
         /* PKO port 64-71 = PIP/IPD (Loop ports 0-7) */
-        for (int i=0; i<8; i++)
+        int num_loop = 8;
+        for (int i=0; i<num_loop; i++)
         {
             ptrs.s.crc = 0;     /* No CRC on packets */
             ptrs.s.min_pkt = 0; /* No min packet */
             ptrs.s.pipe = i;    /* Which PKO pipe */
-            ptrs.s.intr = 31;    /* Which interface */
-            ptrs.s.eid = 6;     /* Which engine */
+            ptrs.s.intr = 31;   /* Which interface */
+            ptrs.s.eid = eid;   /* Which engine */
             ptrs.s.ipid = 64+i; /* PKO internal port */
             BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
         }
-
+        eid++;
+#if 0
         /* PKO port 72 = ILK interface 0 */
         ptrs.s.crc = 1;     /* Use CRC on packets */
         ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 72;   /* Which PKO pipe */
-        ptrs.s.intr = 28;    /* Which interface */
-        ptrs.s.eid = 7;     /* Which engine */
+        ptrs.s.pipe = 36;   /* Which PKO pipe */
+        ptrs.s.intr = 28;   /* Which interface */
+        ptrs.s.eid = eid++; /* Which engine */
         ptrs.s.ipid = 72;   /* PKO internal port */
         BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* PKO port 80 = ILK interface 1 */
         ptrs.s.crc = 1;     /* Use CRC on packets */
         ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 80;   /* Which PKO pipe */
-        ptrs.s.intr = 29;    /* Which interface */
-        ptrs.s.eid = 8;     /* Which engine */
+        ptrs.s.pipe = 37;   /* Which PKO pipe */
+        ptrs.s.intr = 29;   /* Which interface */
+        ptrs.s.eid = eid++; /* Which engine */
         ptrs.s.ipid = 80;   /* PKO internal port */
         BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+#endif
     }
 
     /* Clear out all queue state */
@@ -377,7 +259,7 @@ int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues)
             ptrs.s.static_p = num_static_queues > 0;
             ptrs.s.static_q = queue < num_static_queues;
             ptrs.s.qos_mask = 0xff;
-            ptrs.s.buf_ptr  = bdk_ptr_to_phys(buf_ptr);
+            ptrs.s.buf_ptr  = bdk_ptr_to_phys(buf_ptr) >> 7;
             ptrs.s.tail     = queue == (num_queues - 1);
             ptrs.s.index    = queue;
             ptrs.s.ipid     = pko_port;
