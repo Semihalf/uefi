@@ -10,7 +10,7 @@ static int if_num_ports(int interface)
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 4;
     else
-        return 32;
+        return 4;
 }
 
 static int if_probe(bdk_if_handle_t handle)
