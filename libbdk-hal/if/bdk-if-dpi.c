@@ -69,6 +69,11 @@ static int if_init(bdk_if_handle_t handle)
                 BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
             }
         }
+
+        /* Setup PKIND and BPID */
+        BDK_CSR_MODIFY(c, BDK_SLI_PORTX_PKIND(handle->index),
+            c.s.bpkind = handle->pknd;
+            c.s.pkind = handle->pknd);
     }
     return 0;
 }

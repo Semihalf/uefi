@@ -216,6 +216,18 @@ static int if_init(bdk_if_handle_t handle)
         ptrs.s.eid = __bdk_pko_alloc_engine();
         ptrs.s.ipid = handle->pko_port;
         BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+
+        /* Setup PKIND */
+        BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+            c.s.pknd = handle->pknd);
+
+        /* Setup BPID */
+        BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MAPX(gmx_index, gmx_block),
+            c.s.val = 1;
+            c.s.bpid = handle->pknd);
+        BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MSK(gmx_block),
+            c.s.msk_or &= ~(1<<handle->index);
+            c.s.msk_and |= 1<<handle->index);
     }
 
     if (gmx_index == 0)

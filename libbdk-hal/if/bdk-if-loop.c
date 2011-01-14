@@ -72,6 +72,59 @@ static int if_init(bdk_if_handle_t handle)
                 BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
             }
         }
+
+        /* Setup the PKIND and BPID for this loopback port */
+        switch (handle->index)
+        {
+            case 0:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind0 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid0 = handle->pknd);
+                break;
+            case 1:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind1 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid1 = handle->pknd);
+                break;
+            case 2:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind2 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid2 = handle->pknd);
+                break;
+            case 3:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind3 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid3 = handle->pknd);
+                break;
+            case 4:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind4 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid4 = handle->pknd);
+                break;
+            case 5:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind5 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid5 = handle->pknd);
+                break;
+            case 6:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind6 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid6 = handle->pknd);
+                break;
+            case 7:
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
+                    t.s.pkind7 = handle->pknd);
+                BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_BPID,
+                    t.s.bpid7 = handle->pknd);
+                break;
+        }
     }
     return 0;
 }

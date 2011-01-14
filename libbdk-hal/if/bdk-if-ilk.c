@@ -120,6 +120,59 @@ static int if_init(bdk_if_handle_t handle)
             c.s.pkt_ena = 1);
     }
 
+    /* Setup PKIND */
+    BDK_CSR_DEFINE(pidx, BDK_ILK_RXF_IDX_PMAP);
+    pidx.u64 = 0;
+    pidx.s.index = handle->interface * 256 + handle->index;
+    BDK_CSR_WRITE(BDK_ILK_RXF_IDX_PMAP, pidx.u64);
+    BDK_CSR_MODIFY(c, BDK_ILK_RXF_MEM_PMAP,
+        c.s.port_kind = handle->pknd);
+
+    /* Setup BPID */
+    BDK_CSR_DEFINE(cidx, BDK_ILK_TXX_IDX_CAL(handle->interface));
+    cidx.u64 = 0;
+    cidx.s.index = handle->index / 8;
+    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(handle->interface), cidx.u64);
+    BDK_CSR_INIT(cal0, BDK_ILK_TXX_MEM_CAL0(handle->interface));
+    BDK_CSR_INIT(cal1, BDK_ILK_TXX_MEM_CAL1(handle->interface));
+    switch (handle->index & 7)
+    {
+        case 0:
+            cal0.s.entry_ctl0 = 0;
+            cal0.s.bpid0 = handle->pknd;
+            break;
+        case 1:
+            cal0.s.entry_ctl1 = 0;
+            cal0.s.bpid1 = handle->pknd;
+            break;
+        case 2:
+            cal0.s.entry_ctl2 = 0;
+            cal0.s.bpid2 = handle->pknd;
+            break;
+        case 3:
+            cal0.s.entry_ctl3 = 0;
+            cal0.s.bpid3 = handle->pknd;
+            break;
+        case 4:
+            cal1.s.entry_ctl4 = 0;
+            cal1.s.bpid4 = handle->pknd;
+            break;
+        case 5:
+            cal1.s.entry_ctl5 = 0;
+            cal1.s.bpid5 = handle->pknd;
+            break;
+        case 6:
+            cal1.s.entry_ctl6 = 0;
+            cal1.s.bpid6 = handle->pknd;
+            break;
+        case 7:
+            cal1.s.entry_ctl7 = 0;
+            cal1.s.bpid7 = handle->pknd;
+            break;
+    }
+    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(handle->interface), cal0.u64);
+    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(handle->interface), cal1.u64);
+
     return 0;
 }
 
