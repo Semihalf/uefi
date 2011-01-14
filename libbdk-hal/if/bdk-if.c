@@ -170,9 +170,9 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     handle->pko_port = -1;
     handle->pko_queue = -1;
 
-    if (__bdk_if_ops[iftype]->if_init(handle))
+    if (__bdk_if_ops[iftype]->if_probe(handle))
     {
-        bdk_error("if_init indirect call failed\n");
+        bdk_error("if_probe indirect call failed\n");
         goto fail;
     }
 
@@ -183,6 +183,16 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
             handle->pknd = handle->ipd_port;
         else
             handle->pknd = next_free_pknd++;
+    }
+
+    if (__bdk_if_ops[iftype]->if_init(handle))
+    {
+        bdk_error("if_init indirect call failed\n");
+        goto fail;
+    }
+
+    if (handle->ipd_port != -1)
+    {
         if (__bdk_if_setup_ipd(handle))
         {
             bdk_error("__bdk_if_setup_ipd() failed\n");

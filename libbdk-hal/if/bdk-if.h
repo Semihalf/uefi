@@ -83,16 +83,17 @@ typedef struct
 typedef struct
 {
     const char *name;
-    int (*if_num_interfaces)(void);
-    int (*if_num_ports)(int interface);
-    int (*if_init)(bdk_if_handle_t handle);
-    int (*if_enable)(bdk_if_handle_t handle);
-    int (*if_disable)(bdk_if_handle_t handle);
-    bdk_if_link_t (*if_link_get)(bdk_if_handle_t handle);
-    void (*if_link_set)(bdk_if_handle_t handle, bdk_if_link_t link_info);
-    const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle);
-    int (*if_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
-    int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
+    int (*if_num_interfaces)(void); /* Returns the number of interfaces possible on this chip */
+    int (*if_num_ports)(int interface); /* For given interface, returns the number of ports on it */
+    int (*if_probe)(bdk_if_handle_t handle); /* Called to assign IPD and PKO ports. Does nothing if they aren't needed */
+    int (*if_init)(bdk_if_handle_t handle); /* One time hardware init */
+    int (*if_enable)(bdk_if_handle_t handle); /* Enable packet IO. must be called after init */
+    int (*if_disable)(bdk_if_handle_t handle); /* Disable packet IO */
+    bdk_if_link_t (*if_link_get)(bdk_if_handle_t handle); /* Get link speed and state */
+    void (*if_link_set)(bdk_if_handle_t handle, bdk_if_link_t link_info); /* Set link speed and state */
+    const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle); /* Get stats. Not needed if using IPD/PKO */
+    int (*if_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* TX a packet. Not needed if using PKO */
+    int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* RX a packet. not needed if using IPD */
 } __bdk_if_ops_t;
 
 extern int bdk_if_init(void);

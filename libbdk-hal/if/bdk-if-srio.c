@@ -21,12 +21,17 @@ static int if_num_ports(int interface)
     return 2;
 }
 
-static int if_init(bdk_if_handle_t handle)
+static int if_probe(bdk_if_handle_t handle)
 {
     /* Use IPD ports 40 - 41, 42 - 43 */
     handle->ipd_port = handle->index + handle->interface*2 + 40;
     /* PKO ports are the same as IPD */
     handle->pko_port = handle->ipd_port;
+    return 0;
+}
+
+static int if_init(bdk_if_handle_t handle)
+{
     return 0;
 }
 
@@ -51,6 +56,7 @@ const __bdk_if_ops_t __bdk_if_ops_srio = {
     .name = "SRIO",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,

@@ -65,6 +65,21 @@ static int if_num_ports(int interface)
 
 
 /**
+ * Probe a single mgmt port
+ *
+ * @param handle Handle to port
+ *
+ * @return Zero on success, negative on failure
+ */
+static int if_probe(bdk_if_handle_t handle)
+{
+    handle->ipd_port = -1;
+    handle->pko_port = -1;
+    return 0;
+}
+
+
+/**
  * Initialize a single mgmt port
  *
  * @param handle Handle to port
@@ -73,9 +88,6 @@ static int if_num_ports(int interface)
  */
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->ipd_port = -1;
-    handle->pko_port = -1;
-
     handle->priv = calloc(1, sizeof(mgmt_port_state_t));
     if (!handle->priv)
         return -1;
@@ -558,6 +570,7 @@ const __bdk_if_ops_t __bdk_if_ops_mgmt = {
     .name = "MGMT",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,

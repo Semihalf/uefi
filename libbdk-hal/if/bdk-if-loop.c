@@ -13,7 +13,7 @@ static int if_num_ports(int interface)
         return 8;
 }
 
-static int if_init(bdk_if_handle_t handle)
+static int if_probe(bdk_if_handle_t handle)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
@@ -21,7 +21,22 @@ static int if_init(bdk_if_handle_t handle)
         handle->ipd_port = 36 + handle->index;
         /* PKO ports are the same as IPD */
         handle->pko_port = handle->ipd_port;
+    }
+    else
+    {
+        /* Use IPD ports 0 - 7 */
+        handle->ipd_port = handle->index;
+        /* Use PKO ports 64 - 71 */
+        handle->pko_port = 64 + handle->index;
+    }
 
+    return 0;
+}
+
+static int if_init(bdk_if_handle_t handle)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
         /* We need to disable length checking so packet < 64 bytes and jumbo
             frames don't get errors */
         BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->ipd_port),
@@ -32,14 +47,6 @@ static int if_init(bdk_if_handle_t handle)
             BDK_CSR_MODIFY(ipd_sub_port_fcs, BDK_IPD_SUB_PORT_FCS,
                 ipd_sub_port_fcs.s.port_bit2 &= 1<< handle->index);
     }
-    else
-    {
-        /* Use IPD ports 0 - 7 */
-        handle->ipd_port = handle->index;
-        /* Use PKO ports 64 - 71 */
-        handle->pko_port = 64 + handle->index;
-    }
-
     return 0;
 }
 
@@ -68,6 +75,7 @@ const __bdk_if_ops_t __bdk_if_ops_loop = {
     .name = "LOOP",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,

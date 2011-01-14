@@ -59,13 +59,17 @@ static int if_num_ports(int interface)
     return bdk_config_get(BDK_CONFIG_ILK0_PORTS + interface);
 }
 
-static int if_init(bdk_if_handle_t handle)
+static int if_probe(bdk_if_handle_t handle)
 {
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
     /* Use PKO ports 72+ */
     handle->pko_port = 72 + handle->interface*bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface) + handle->index;
+    return 0;
+}
 
+static int if_init(bdk_if_handle_t handle)
+{
     if (handle->index == 0)
     {
         int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
@@ -117,6 +121,7 @@ const __bdk_if_ops_t __bdk_if_ops_ilk = {
     .name = "ILK",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,

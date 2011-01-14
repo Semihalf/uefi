@@ -41,10 +41,8 @@ static int if_num_ports(int interface)
         return 0;
 }
 
-static int if_init(bdk_if_handle_t handle)
+static int if_probe(bdk_if_handle_t handle)
 {
-    int gmx_block = __bdk_if_get_gmx_block(handle);
-
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
         /* Use IPD ports 0, 4, 8, ... */
@@ -59,6 +57,12 @@ static int if_init(bdk_if_handle_t handle)
         /* Use PKO ports 0, 4, 8, ... */
         handle->pko_port = handle->interface*4 + handle->index;
     }
+    return 0;
+}
+
+static int if_init(bdk_if_handle_t handle)
+{
+    int gmx_block = __bdk_if_get_gmx_block(handle);
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
@@ -268,6 +272,7 @@ const __bdk_if_ops_t __bdk_if_ops_xaui = {
     .name = "XAUI",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,

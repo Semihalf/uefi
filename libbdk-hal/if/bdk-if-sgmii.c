@@ -34,6 +34,25 @@ static int if_num_ports(int interface)
         return 0;
 }
 
+static int if_probe(bdk_if_handle_t handle)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        /* Use IPD ports 0 - 3 */
+        handle->ipd_port = handle->interface*4 + handle->index;
+        /* PKO ports are the same as IPD */
+        handle->pko_port = handle->ipd_port;
+    }
+    else
+    {
+        /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
+        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
+        /* Use PKO ports 0 - 3, 4 - 7, ... */
+        handle->pko_port = handle->interface*4 + handle->index;
+    }
+    return 0;
+}
+
 /**
  * @INTERNAL
  * Initialize the SERTES link for the first time or after a loss
@@ -179,21 +198,6 @@ static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        /* Use IPD ports 0 - 3 */
-        handle->ipd_port = handle->interface*4 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
-    }
-    else
-    {
-        /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
-        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
-        /* Use PKO ports 0 - 3, 4 - 7, ... */
-        handle->pko_port = handle->interface*4 + handle->index;
-    }
 
     if (gmx_index == 0)
     {
@@ -433,6 +437,7 @@ const __bdk_if_ops_t __bdk_if_ops_sgmii = {
     .name = "SGMII",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
+    .if_probe = if_probe,
     .if_init = if_init,
     .if_enable = if_enable,
     .if_disable = if_disable,
