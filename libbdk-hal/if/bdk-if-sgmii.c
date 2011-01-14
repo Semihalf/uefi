@@ -448,10 +448,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         }
         else /* MAC Mode */
         {
-            if (gmx_block)
-                result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF1_PORT0 + gmx_index));
-            else
-                result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_index));
+            result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index));
         }
     }
     return result;
