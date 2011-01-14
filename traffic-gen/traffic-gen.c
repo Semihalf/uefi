@@ -1746,6 +1746,10 @@ static uint64_t process_cmd_find_max(const port_set_t *tx_set, const port_set_t 
             /* Try and do 10Gbps on these ports */
             max_mbps = 10000;
             break;
+        case BDK_IF_ILK:
+            /* Try and do 40Gbps on these ports */
+            max_mbps = 40000;
+            break;
         case BDK_IF_SGMII:
         case BDK_IF_MGMT:
         case __BDK_IF_LAST:
@@ -3709,6 +3713,7 @@ static void update_statistics(void)
                 case BDK_IF_LOOP:
                 case BDK_IF_SRIO:
                 case BDK_IF_MGMT:
+                case BDK_IF_ILK:
                     break;
                 case BDK_IF_XAUI:
                     txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(pinfo->handle)));

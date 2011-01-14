@@ -861,6 +861,7 @@ int trafficgen_do_update(void)
                 txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(pinfo->priv.handle), __bdk_if_get_gmx_block(pinfo->priv.handle)));
                 break;
             case BDK_IF_MGMT:
+            case BDK_IF_ILK:
                 break;
             case __BDK_IF_LAST:
                 break;

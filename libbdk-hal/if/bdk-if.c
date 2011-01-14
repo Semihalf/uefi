@@ -8,6 +8,7 @@ extern const __bdk_if_ops_t __bdk_if_ops_dpi;
 extern const __bdk_if_ops_t __bdk_if_ops_loop;
 extern const __bdk_if_ops_t __bdk_if_ops_srio;
 extern const __bdk_if_ops_t __bdk_if_ops_mgmt;
+extern const __bdk_if_ops_t __bdk_if_ops_ilk;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_SGMII] = &__bdk_if_ops_sgmii,
@@ -16,6 +17,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_LOOP] = &__bdk_if_ops_loop,
     [BDK_IF_SRIO] = &__bdk_if_ops_srio,
     [BDK_IF_MGMT] = &__bdk_if_ops_mgmt,
+    [BDK_IF_ILK] = &__bdk_if_ops_ilk,
 };
 
 static __bdk_if_port_t *__bdk_if_head;

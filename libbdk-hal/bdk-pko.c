@@ -35,7 +35,7 @@ void bdk_pko_initialize(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         int eid = 0;
-        int pipe = 8; /* Reserve 0-7 for loop interfaces */
+        int pipe = 0;
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
         ptrs.u64 = 0;
         ptrs.s.qos_mask = 0xff; /* QOS rounds */
@@ -46,9 +46,9 @@ void bdk_pko_initialize(void)
             int num_ports;
             BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(gmx_block));
             if (mode.s.type == 0)
-                num_ports = 4;
+                num_ports = bdk_if_num_ports(BDK_IF_SGMII, gmx_block);
             else
-                num_ports = 1;
+                num_ports = bdk_if_num_ports(BDK_IF_XAUI, gmx_block);
             for (int gmx_index=0; gmx_index<num_ports; gmx_index++)
             {
                 BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE(gmx_index, gmx_block),
@@ -96,25 +96,47 @@ void bdk_pko_initialize(void)
             BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
         }
         eid++;
-#if 0
-        /* PKO port 72 = ILK interface 0 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 36;   /* Which PKO pipe */
-        ptrs.s.intr = 28;   /* Which interface */
-        ptrs.s.eid = eid++; /* Which engine */
-        ptrs.s.ipid = 72;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
-        /* PKO port 80 = ILK interface 1 */
-        ptrs.s.crc = 1;     /* Use CRC on packets */
-        ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-        ptrs.s.pipe = 37;   /* Which PKO pipe */
-        ptrs.s.intr = 29;   /* Which interface */
-        ptrs.s.eid = eid++; /* Which engine */
-        ptrs.s.ipid = 80;   /* PKO internal port */
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-#endif
+        if (bdk_if_num_interfaces(BDK_IF_ILK))
+        {
+            /* PKO port 72+ = ILK */
+            int pko_port = 72;
+            /* ILK interface 0. All ports use same eid and intr */
+            int num_ilk0 = bdk_config_get(BDK_CONFIG_ILK0_PORTS);
+            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(0),
+                c.s.nump = num_ilk0;
+                c.s.base = pipe);
+            for (int i=0; i<num_ilk0; i++)
+            {
+                ptrs.s.crc = 1;     /* Use CRC on packets */
+                ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
+                ptrs.s.pipe = pipe++; /* Which PKO pipe */
+                ptrs.s.intr = 28;   /* Which interface */
+                ptrs.s.eid = eid;   /* Which engine */
+                ptrs.s.ipid = pko_port++; /* PKO internal port */
+                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+            }
+            if (num_ilk0)
+                eid++;
+
+            /* ILK interface 1. All ports use same eid and intr */
+            int num_ilk1 = bdk_config_get(BDK_CONFIG_ILK1_PORTS);
+            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(1),
+                c.s.nump = num_ilk0;
+                c.s.base = pipe);
+            for (int i=0; i<num_ilk1; i++)
+            {
+                ptrs.s.crc = 1;             /* Use CRC on packets */
+                ptrs.s.min_pkt = 1;         /* Set min packet to 64 bytes */
+                ptrs.s.pipe = pipe++;       /* Which PKO pipe */
+                ptrs.s.intr = 29;           /* Which interface */
+                ptrs.s.eid = eid;           /* Which engine */
+                ptrs.s.ipid = pko_port++;   /* PKO internal port */
+                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+            }
+            if (num_ilk1)
+                eid++;
+        }
     }
 
     /* Clear out all queue state */

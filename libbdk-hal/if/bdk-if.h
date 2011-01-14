@@ -21,6 +21,7 @@ typedef enum
     BDK_IF_LOOP,
     BDK_IF_SRIO,
     BDK_IF_MGMT,
+    BDK_IF_ILK,
     __BDK_IF_LAST
 } bdk_if_t;
 

@@ -42,6 +42,11 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     AS_INIT(BDK_CONFIG_THREAD_STACK_SIZE, 16384),
     AS_INIT(BDK_CONFIG_MAC_ADDRESS, 0xdeadbeef00),
+
+    AS_INIT(BDK_CONFIG_ILK0_LANES, 4),
+    AS_INIT(BDK_CONFIG_ILK1_LANES, 4),
+    AS_INIT(BDK_CONFIG_ILK0_PORTS, 8),
+    AS_INIT(BDK_CONFIG_ILK1_PORTS, 8),
 };
 #undef AS_INIT
 
