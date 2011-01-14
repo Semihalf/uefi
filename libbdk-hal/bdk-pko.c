@@ -27,118 +27,6 @@ void bdk_pko_initialize(void)
     config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8 - BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST;
     BDK_CSR_WRITE(BDK_PKO_REG_CMD_BUF, config.u64);
 
-    /* Setup port mapping */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        /* Hardware default is correct */
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        int eid = 0;
-        int pipe = 0;
-        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-        ptrs.u64 = 0;
-        ptrs.s.qos_mask = 0xff; /* QOS rounds */
-
-        /* PKO ports for GMX */
-        for (int gmx_block=0; gmx_block<5; gmx_block++)
-        {
-            int num_ports;
-            BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(gmx_block));
-            if (mode.s.type == 0)
-                num_ports = bdk_if_num_ports(BDK_IF_SGMII, gmx_block);
-            else
-                num_ports = bdk_if_num_ports(BDK_IF_XAUI, gmx_block);
-            for (int gmx_index=0; gmx_index<num_ports; gmx_index++)
-            {
-                BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE(gmx_index, gmx_block),
-                    c.s.nump = 1;
-                    c.s.base = pipe);
-                ptrs.s.crc = 1;         /* Use CRC on packets */
-                ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-                ptrs.s.pipe = pipe++;   /* Which PKO pipe */
-                ptrs.s.intr = gmx_block*4 + gmx_index;  /* Which interface */
-                ptrs.s.eid = eid++;     /* Which engine */
-                ptrs.s.ipid = gmx_block*4 + gmx_index;  /* PKO internal port */
-                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-            }
-        }
-
-        /* PKO port 32-63 = DPI (ports 0-31) */
-        int num_dpi = 32;
-        BDK_CSR_MODIFY(c, BDK_SLI_TX_PIPE,
-            c.s.nump = num_dpi;
-            c.s.base = pipe);
-        for (int i=0; i<num_dpi; i++)
-        {
-            ptrs.s.crc = 0;     /* No CRC on packets */
-            ptrs.s.min_pkt = 0; /* No min packet */
-            ptrs.s.pipe = pipe++; /* Which PKO pipe */
-            ptrs.s.intr = 30;   /* Which interface */
-            ptrs.s.eid = eid;   /* Which engine */
-            ptrs.s.ipid = 32+i; /* PKO internal port */
-            BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-        }
-        eid++;
-
-        /* PKO port 64-71 = PIP/IPD (Loop ports 0-7) */
-        int num_loop = 8;
-        BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
-            t.s.num_ports = num_loop);
-        for (int i=0; i<num_loop; i++)
-        {
-            ptrs.s.crc = 0;     /* No CRC on packets */
-            ptrs.s.min_pkt = 0; /* No min packet */
-            ptrs.s.pipe = i;    /* Which PKO pipe */
-            ptrs.s.intr = 31;   /* Which interface */
-            ptrs.s.eid = eid;   /* Which engine */
-            ptrs.s.ipid = 64+i; /* PKO internal port */
-            BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-        }
-        eid++;
-
-        if (bdk_if_num_interfaces(BDK_IF_ILK))
-        {
-            /* PKO port 72+ = ILK */
-            int pko_port = 72;
-            /* ILK interface 0. All ports use same eid and intr */
-            int num_ilk0 = bdk_config_get(BDK_CONFIG_ILK0_PORTS);
-            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(0),
-                c.s.nump = num_ilk0;
-                c.s.base = pipe);
-            for (int i=0; i<num_ilk0; i++)
-            {
-                ptrs.s.crc = 1;     /* Use CRC on packets */
-                ptrs.s.min_pkt = 1; /* Set min packet to 64 bytes */
-                ptrs.s.pipe = pipe++; /* Which PKO pipe */
-                ptrs.s.intr = 28;   /* Which interface */
-                ptrs.s.eid = eid;   /* Which engine */
-                ptrs.s.ipid = pko_port++; /* PKO internal port */
-                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-            }
-            if (num_ilk0)
-                eid++;
-
-            /* ILK interface 1. All ports use same eid and intr */
-            int num_ilk1 = bdk_config_get(BDK_CONFIG_ILK1_PORTS);
-            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(1),
-                c.s.nump = num_ilk0;
-                c.s.base = pipe);
-            for (int i=0; i<num_ilk1; i++)
-            {
-                ptrs.s.crc = 1;             /* Use CRC on packets */
-                ptrs.s.min_pkt = 1;         /* Set min packet to 64 bytes */
-                ptrs.s.pipe = pipe++;       /* Which PKO pipe */
-                ptrs.s.intr = 29;           /* Which interface */
-                ptrs.s.eid = eid;           /* Which engine */
-                ptrs.s.ipid = pko_port++;   /* PKO internal port */
-                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-            }
-            if (num_ilk1)
-                eid++;
-        }
-    }
-
     /* Clear out all queue state */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
@@ -170,6 +58,25 @@ void bdk_pko_initialize(void)
             BDK_CSR_WRITE(BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
         }
     }
+}
+
+int __bdk_pko_alloc_pipe(int num_pipes)
+{
+    static int next_free_pipe = 0;
+    int pipe = next_free_pipe;
+    next_free_pipe += num_pipes;
+    if (next_free_pipe > 128)
+        bdk_fatal("PKO ran out of pipes. bdk_if_init() is incorrect\n");
+    return pipe;
+}
+
+int __bdk_pko_alloc_engine(void)
+{
+    static int next_free_engine = 0;
+    int engine = next_free_engine++;
+    if (engine > 19)
+        bdk_fatal("PKO ran out of engines. bdk_if_init() is incorrect\n");
+    return engine;
 }
 
 /**

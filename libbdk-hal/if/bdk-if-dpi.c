@@ -42,6 +42,34 @@ static int if_init(bdk_if_handle_t handle)
                 port_cfg.s.maxerr_en = 0;
                 port_cfg.s.minerr_en = 0;);
     }
+    else
+    {
+        /* Configure the PKO internal port mappings */
+        if (handle->index == 0)
+        {
+            int num_dpi = if_num_ports(handle->interface);
+            int base_pipe = __bdk_pko_alloc_pipe(num_dpi);
+            int pko_eid = __bdk_pko_alloc_engine();
+
+            BDK_CSR_MODIFY(c, BDK_SLI_TX_PIPE,
+                c.s.nump = num_dpi;
+                c.s.base = base_pipe);
+
+            for (int i=0; i<num_dpi; i++)
+            {
+                BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+                ptrs.u64 = 0;
+                ptrs.s.qos_mask = 0xff;     /* QOS rounds */
+                ptrs.s.crc = 0;             /* No CRC on packets */
+                ptrs.s.min_pkt = 0;         /* No min packet */
+                ptrs.s.pipe = base_pipe+i;  /* Which PKO pipe */
+                ptrs.s.intr = 30;           /* Which interface */
+                ptrs.s.eid = pko_eid;       /* Which engine */
+                ptrs.s.ipid = handle->pko_port+i;
+                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+            }
+        }
+    }
     return 0;
 }
 

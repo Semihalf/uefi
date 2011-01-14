@@ -72,11 +72,31 @@ static int if_init(bdk_if_handle_t handle)
 {
     if (handle->index == 0)
     {
+        /* All ports use same eid and intr */
+        int pko_eid = __bdk_pko_alloc_engine();
+        int num_ilk = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
+        int pipe = __bdk_pko_alloc_pipe(num_ilk);
+        BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
+            c.s.nump = num_ilk;
+            c.s.base = pipe);
+        for (int i=0; i<num_ilk; i++)
+        {
+            BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+            ptrs.u64 = 0;
+            ptrs.s.qos_mask = 0xff; /* QOS rounds */
+            ptrs.s.crc = 1;         /* Use CRC on packets */
+            ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
+            ptrs.s.pipe = pipe+i;
+            ptrs.s.intr = 28+handle->interface; /* Which interface */
+            ptrs.s.eid = pko_eid;  /* Which engine */
+            ptrs.s.ipid = handle->pko_port + i;
+            BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+        }
+
+        /* Figure out lanes used by this interface */
         int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
         if (handle->interface)
             lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
-
-        int channels = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
 
         /* Set jabber to allow max sized packets */
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_JABBER(handle->interface),

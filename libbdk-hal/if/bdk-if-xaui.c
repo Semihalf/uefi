@@ -64,6 +64,25 @@ static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
 
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        /* Configure the PKO internal port mappings */
+        int pipe = __bdk_pko_alloc_pipe(1);
+        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE(0, gmx_block),
+            c.s.nump = 1;
+            c.s.base = pipe);
+        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+        ptrs.u64 = 0;
+        ptrs.s.qos_mask = 0xff; /* QOS rounds */
+        ptrs.s.crc = 1;         /* Use CRC on packets */
+        ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
+        ptrs.s.pipe = pipe;     /* Which PKO pipe */
+        ptrs.s.intr = gmx_block*4;  /* Which interface */
+        ptrs.s.eid = __bdk_pko_alloc_engine();
+        ptrs.s.ipid = handle->pko_port;
+        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+    }
+
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
     {
