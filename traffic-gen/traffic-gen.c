@@ -3624,8 +3624,7 @@ someone_on: ;
     ROW(1){PRINTTRANS("validate packets", validate, tab_on_off);}
     ROW(0){PRINTTRANS("RespectBackpressure", respect_backpressure, tab_on_off);}
     ROW(0){printf("Packet buffers:  %7llu ", (ULL)BDK_CSR_READ(BDK_IPD_QUE0_FREE_PAGE_CNT));
-        printf("Command buffers: %7llu ", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_OUTPUT_BUFFER_POOL)));
-        printf("Work buffers:    %7llu" ERASE_EOL "\n", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_WQE_POOL)));}
+        printf("Command buffers: %7llu ", (ULL)BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(BDK_FPA_OUTPUT_BUFFER_POOL)));}
     ROW(0){
         /* Compute DRAM utilization */
         static uint64_t prev_ops_cnt;

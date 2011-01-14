@@ -81,6 +81,46 @@ static int __bdk_if_setup_sso(void)
 
 
 /**
+ * One time init of global IPD/PIP
+ *
+ * @return Zero on success, negative on failure
+ */
+static int __bdk_if_setup_ipd_global(void)
+{
+    /* Skip one cache line so we have room to put the WQE at the
+        beginning of the packet buffer */
+    BDK_CSR_MODIFY(c, BDK_IPD_1ST_MBUFF_SKIP,
+        c.s.skip_sz = 16);
+    /* Set the back field in the first pointer to account for the
+        cache line we skipped */
+    BDK_CSR_MODIFY(c, BDK_IPD_1ST_NEXT_PTR_BACK,
+        c.s.back = 1);
+
+    /* Chained buffers don't have any skip */
+    BDK_CSR_MODIFY(c, BDK_IPD_NOT_1ST_MBUFF_SKIP,
+        c.s.skip_sz = 0);
+    /* Set the chained back field to match*/
+    BDK_CSR_MODIFY(c, BDK_IPD_2ND_NEXT_PTR_BACK,
+        c.s.back = 0);
+
+    /* Set the Buffer pool size */
+    BDK_CSR_MODIFY(c, BDK_IPD_PACKET_MBUFF_SIZE,
+        c.s.mb_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL)/8);
+
+    BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
+        c.s.no_wptr = 1;    /* Store WQE in packet */
+        c.s.len_m8 = 1;     /* Use correct lengths */
+        c.s.pbp_en = 1;     /* Enable per port backpressure accounting */
+        c.s.opc_mode = 1);  /* Store into L2 */
+
+    /* Needed to support dynamic short */
+    BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, 4);
+
+    return 0;
+}
+
+
+/**
  * Configure PIP/IPD for a specific port. This is called for each
  * port on every interface that is connected to PIP/IPD.
  *
@@ -239,7 +279,6 @@ int bdk_if_init(void)
     /* Setup the FPA, packet and WQE buffers */
     bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
-    bdk_fpa_fill_pool(BDK_FPA_WQE_POOL, num_packet_buffers);
 
     /* Setup the SSO */
     if (__bdk_if_setup_sso())
@@ -262,17 +301,10 @@ int bdk_if_init(void)
     l2c_ctl.s.xmc_arb_mode = 0;
     BDK_CSR_WRITE(BDK_L2C_CTL, l2c_ctl.u64);
 
-    /* Setup the global packet input options */
-    int first_skip = bdk_config_get(BDK_CONFIG_FIRST_MBUFF_SKIP);
-    int other_skip = bdk_config_get(BDK_CONFIG_NOT_FIRST_MBUFF_SKIP);
-    bdk_ipd_config(bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL)/8,
-                    first_skip/8, other_skip/8,
-                    (first_skip+8) / 128, /* The +8 is to account for the next ptr */
-                    (other_skip+8) / 128, /* The +8 is to account for the next ptr */
-                    BDK_FPA_WQE_POOL,
-                    BDK_IPD_OPC_MODE_STF, /* All blocks into L2 */
-                    1); /* Enable backpressure */
-    BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, 4); /* Needed to support dynamic short */
+    /* Setup the common global IPD/PIP settings. Per port stuff will be
+        done later */
+    if (__bdk_if_setup_ipd_global())
+        return -1;
 
     /* Make sure SMI/MDIO is enabled so we can query PHYs */
     for (int i=0; i<2; i++)
@@ -306,7 +338,10 @@ int bdk_if_init(void)
     }
 
     bdk_pko_enable();
-    bdk_ipd_enable();
+
+    /* Enable IPD */
+    BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
+        c.s.ipd_en = 1);
 
     return result;
 }
@@ -563,8 +598,9 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         {
             packet->segments = 1;
             packet->packet.u64 = 0;
-            packet->packet.s.pool = BDK_FPA_WQE_POOL;
-            packet->packet.s.size = 128;
+            packet->packet.s.back = 0;
+            packet->packet.s.pool = BDK_FPA_PACKET_POOL;
+            packet->packet.s.size = 128; // FIXME packet size
             packet->packet.s.addr = bdk_ptr_to_phys(wqe->packet_data);
             if (bdk_likely(!wqe->word2.s.ni))
             {
@@ -584,7 +620,6 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         {
             packet->segments = wqe->word2.s.bufs;
             packet->packet = wqe->packet_ptr;
-            bdk_fpa_free(wqe, BDK_FPA_WQE_POOL, 0);
         }
 
         if (bdk_unlikely(!packet->if_handle))

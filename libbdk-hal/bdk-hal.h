@@ -29,7 +29,6 @@
 #include "bdk-gpio.h"
 #include "bdk-wqe.h"
 #include "if/bdk-if.h"
-#include "bdk-ipd.h"
 #include "bdk-key.h"
 #include "bdk-l2c.h"
 #include "bdk-mdio.h"
