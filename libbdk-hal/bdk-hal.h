@@ -34,7 +34,6 @@
 #include "bdk-mdio.h"
 #include "bdk-nand.h"
 #include "bdk-pcie.h"
-#include "bdk-pip.h"
 #include "bdk-pko.h"
 #include "bdk-raid.h"
 #include "bdk-rng.h"

@@ -484,19 +484,40 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     if (__bdk_if_ops[handle->iftype]->if_get_stats)
         return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 
-    bdk_pip_port_status_t pip;
-    bdk_pip_get_port_status(handle->pknd, 1, &pip);
-    handle->stats.rx.dropped_octets += pip.dropped_octets;
-    handle->stats.rx.dropped_packets += pip.dropped_packets;
-    handle->stats.rx.octets += pip.octets;
-    handle->stats.rx.packets += pip.packets;
-    handle->stats.rx.errors += pip.inb_errors;
+    bdk_pip_stat_ctl_t pip_stat_ctl;
+    bdk_pip_stat0_x_t stat0;
+    bdk_pip_stat1_x_t stat1;
+    bdk_pip_stat2_x_t stat2;
+
+    pip_stat_ctl.u64 = 0;
+    pip_stat_ctl.s.rdclr = 1;
+    BDK_CSR_WRITE(BDK_PIP_STAT_CTL, pip_stat_ctl.u64);
+
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX) && (handle->pknd >= 40))
+    {
+        stat0.u64 = BDK_CSR_READ(BDK_PIP_XSTAT0_PRTX(handle->pknd));
+        stat1.u64 = BDK_CSR_READ(BDK_PIP_XSTAT1_PRTX(handle->pknd));
+        stat2.u64 = BDK_CSR_READ(BDK_PIP_XSTAT2_PRTX(handle->pknd));
+    }
+    else
+    {
+        stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_X(handle->pknd));
+        stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_X(handle->pknd));
+        stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_X(handle->pknd));
+    }
+    BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRS_PKNDX(handle->pknd));
+
+    handle->stats.rx.dropped_octets += stat0.s.drp_octs;
+    handle->stats.rx.dropped_packets += stat0.s.drp_pkts;
+    handle->stats.rx.octets += stat1.s.octs;
+    handle->stats.rx.packets += stat2.s.pkts;
+    handle->stats.rx.errors += pip_stat_inb_errsx.s.errs;
 
     /* Add fake etherent CRC to loop ports */
     if (handle->iftype == BDK_IF_LOOP)
     {
-        handle->stats.rx.dropped_octets += pip.dropped_packets * 4;
-        handle->stats.rx.octets += pip.packets * 4;
+        handle->stats.rx.dropped_octets += stat0.s.drp_octs * 4;
+        handle->stats.rx.octets += stat2.s.pkts * 4;
     }
 
     bdk_pko_reg_read_idx_t pko_reg_read_idx;
