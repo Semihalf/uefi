@@ -91,6 +91,13 @@ static int if_init(bdk_if_handle_t handle)
             ptrs.s.eid = pko_eid;  /* Which engine */
             ptrs.s.ipid = handle->pko_port + i;
             BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+
+            /* Map pipes to channels */
+            BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
+            idx.u64 = 0;
+            idx.s.index = pipe+i;
+            BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
+            BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), i);
         }
 
         /* Figure out lanes used by this interface */
