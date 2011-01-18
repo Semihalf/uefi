@@ -24,14 +24,15 @@ typedef union
  */
 typedef struct
 {
-    bdk_spinlock_t  lock;           /* Used for exclusive access to this structure */
+    bdk_spinlock_t  rx_lock;        /* Used for exclusive access to this structure */
     int             is_rgmii;       /* RGMII vs MII flag */
-    int             tx_free_index;  /* Where the next TX will be freed */
-    int             tx_write_index; /* Where the next TX will write in the tx_ring */
     int             rx_read_index;  /* Where the next RX will be in the rx_ring */
     mgmt_port_ring_entry_t rx_ring[MGMT_PORT_NUM_RX_BUFFERS];
     mgmt_port_ring_entry_t tx_ring[MGMT_PORT_NUM_TX_BUFFERS];
     bdk_buf_ptr_t          tx_buf[MGMT_PORT_NUM_TX_BUFFERS];
+    bdk_spinlock_t  tx_lock;        /* Used for exclusive access to this structure */
+    int             tx_free_index;  /* Where the next TX will be freed */
+    int             tx_write_index; /* Where the next TX will write in the tx_ring */
 } mgmt_port_state_t;
 
 
@@ -457,27 +458,27 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
     mgmt_port_state_t *state = handle->priv;
 
-    if (packet->segments != 1)
+    if (bdk_unlikely(packet->segments != 1))
     {
         bdk_error("MGMT port doesn't support segmented packets yet\n");
         return -1;
     }
 
-    if (packet->length > 16383)
+    if (bdk_unlikely(packet->length > 16383))
     {
         bdk_error("MGMT port doesn't support packets larger than 16383\n");
         return -1;
     }
 
-    bdk_spinlock_lock(&state->lock);
+    bdk_spinlock_lock(&state->tx_lock);
 
     poll_tx_complete(handle);
 
     BDK_CSR_INIT(mix_oring2, BDK_MIXX_ORING2(handle->index));
-    if (mix_oring2.s.odbell >= MGMT_PORT_NUM_TX_BUFFERS - 1)
+    if (bdk_unlikely(mix_oring2.s.odbell >= MGMT_PORT_NUM_TX_BUFFERS - 1))
     {
         /* No room for another packet */
-        bdk_spinlock_unlock(&state->lock);
+        bdk_spinlock_unlock(&state->tx_lock);
         return -1;
     }
 
@@ -492,7 +493,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     BDK_SYNCW;
     BDK_CSR_WRITE(BDK_MIXX_ORING2(handle->index), 1);
 
-    bdk_spinlock_unlock(&state->lock);
+    bdk_spinlock_unlock(&state->tx_lock);
     return 0;
 }
 
@@ -510,15 +511,19 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     int fpa_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     mgmt_port_state_t *state = handle->priv;
 
-    bdk_spinlock_lock(&state->lock);
-
-    poll_tx_complete(handle);
-
-    /* Find out how many RX packets are pending */
+    /* Find out how many RX packets are pending. As an optimization we
+        check this before getting the lock */
     BDK_CSR_INIT(mix_ircnt, BDK_MIXX_IRCNT(handle->index));
     if (mix_ircnt.s.ircnt == 0)
+        return -1;
+
+    bdk_spinlock_lock(&state->rx_lock);
+
+    /* Find out how many RX packets are pending now that we have the lock */
+    mix_ircnt.u64 = BDK_CSR_READ(BDK_MIXX_IRCNT(handle->index));
+    if (mix_ircnt.s.ircnt == 0)
     {
-        bdk_spinlock_unlock(&state->lock);
+        bdk_spinlock_unlock(&state->rx_lock);
         return -1;
     }
 
@@ -563,7 +568,7 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     BDK_CSR_WRITE(BDK_MIXX_IRING2(handle->index), buffers_freed);
     /* Decrement the pending RX count */
     BDK_CSR_WRITE(BDK_MIXX_IRCNT(handle->index), 1);
-    bdk_spinlock_unlock(&state->lock);
+    bdk_spinlock_unlock(&state->rx_lock);
     return 0;
 }
 
