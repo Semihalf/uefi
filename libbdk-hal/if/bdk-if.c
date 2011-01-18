@@ -245,10 +245,6 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
         }
     }
 
-    printf("%s: pknd=%d, ipd_port=%d, pko_port=%d, pko_queue=%d\n",
-            bdk_if_name(handle), handle->pknd,
-            handle->ipd_port, handle->pko_port, handle->pko_queue);
-
     if (__bdk_if_tail)
         __bdk_if_tail->next = handle;
     else
@@ -328,6 +324,8 @@ int bdk_if_init(void)
         {
             /* Loop through all indexes for each interface */
             int num_index = bdk_if_num_ports(iftype, interface);
+            if (num_index)
+                bdk_dprintf("IF: %s%d has %d ports\n", __bdk_if_ops[iftype]->name, interface, num_index);
             for (int index=0; index<num_index; index++)
             {
                 bdk_if_handle_t handle = bdk_if_init_port(iftype, interface, index);
