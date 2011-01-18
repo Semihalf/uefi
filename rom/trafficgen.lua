@@ -321,11 +321,33 @@ function TrafficGen.new()
     end
 
     function self:cmdp_tx_percent(port_range, args)
-        print "Not implemented"
+        for _,port in pairs(port_range) do
+            if #args == 1 then
+                port.setup.output_rate_is_mbps = true
+                port.setup.output_rate = args[1] * 10
+            else
+                if port.setup.output_rate_is_mbps then
+                    printf("Port %s: %d Mbps\n", port.name, port.setup.output_rate)
+                else
+                    printf("Port %s: %d packets/s\n", port.name, port.setup.output_rate)
+                end
+            end
+        end
     end
 
     function self:cmdp_tx_rate(port_range, args)
-        print "Not implemented"
+        for _,port in pairs(port_range) do
+            if #args == 1 then
+                port.setup.output_rate_is_mbps = false
+                port.setup.output_rate = args[1]
+            else
+                if port.setup.output_rate_is_mbps then
+                    printf("Port %s: %d Mbps\n", port.name, port.setup.output_rate)
+                else
+                    printf("Port %s: %d packets/s\n", port.name, port.setup.output_rate)
+                end
+            end
+        end
     end
 
     function self:cmd_csr(port_range, args)

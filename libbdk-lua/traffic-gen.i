@@ -64,10 +64,10 @@ typedef enum {
 
 typedef struct
 {
-    uint64_t                output_percent_x1000;   /* percent*1000 */
-    uint64_t                output_cycle_gap;
-    uint64_t                output_packet_size;
+    int                     output_rate;
+    bool                    output_rate_is_mbps;
     bool                    output_enable;
+    int                     output_packet_size;
     uint64_t                output_count;
     trafficgen_packet_type_t output_packet_type;
     trafficgen_payload_t    output_packet_payload;

@@ -2341,22 +2341,21 @@ static swig_lua_class *swig_trafficgen_port_stats_t_bases[] = {0};
 static const char *swig_trafficgen_port_stats_t_base_names[] = {0};
 static swig_lua_class _wrap_class_trafficgen_port_stats_t = { "port_stats_t", &SWIGTYPE_p_trafficgen_port_stats_t,_wrap_new_port_stats_t, swig_delete_port_stats_t, swig_trafficgen_port_stats_t_methods, swig_trafficgen_port_stats_t_attributes, swig_trafficgen_port_stats_t_bases, swig_trafficgen_port_stats_t_base_names };
 
-static int _wrap_port_setup_t_output_percent_x1000_set(lua_State* L) {
+static int _wrap_port_setup_t_output_rate_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t arg2 ;
+  int arg2 ;
   
-  SWIG_check_num_args("output_percent_x1000",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_percent_x1000",1,"trafficgen_port_setup_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("output_percent_x1000",2,"uint64_t");
+  SWIG_check_num_args("output_rate",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_rate",1,"trafficgen_port_setup_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("output_rate",2,"int");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_percent_x1000_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
+    SWIG_fail_ptr("port_setup_t_output_rate_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
   }
   
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->output_percent_x1000 = arg2;
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->output_rate = arg2;
   
   return SWIG_arg;
   
@@ -2368,19 +2367,19 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_output_percent_x1000_get(lua_State* L) {
+static int _wrap_port_setup_t_output_rate_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t result;
+  int result;
   
-  SWIG_check_num_args("output_percent_x1000",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_percent_x1000",1,"trafficgen_port_setup_t *");
+  SWIG_check_num_args("output_rate",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_rate",1,"trafficgen_port_setup_t *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_percent_x1000_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
+    SWIG_fail_ptr("port_setup_t_output_rate_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
   }
   
-  result = (uint64_t) ((arg1)->output_percent_x1000);
+  result = (int) ((arg1)->output_rate);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
@@ -2392,22 +2391,21 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_output_cycle_gap_set(lua_State* L) {
+static int _wrap_port_setup_t_output_rate_is_mbps_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t arg2 ;
+  bool arg2 ;
   
-  SWIG_check_num_args("output_cycle_gap",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_cycle_gap",1,"trafficgen_port_setup_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("output_cycle_gap",2,"uint64_t");
+  SWIG_check_num_args("output_rate_is_mbps",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_rate_is_mbps",1,"trafficgen_port_setup_t *");
+  if(!lua_isboolean(L,2)) SWIG_fail_arg("output_rate_is_mbps",2,"bool");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_cycle_gap_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
+    SWIG_fail_ptr("port_setup_t_output_rate_is_mbps_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
   }
   
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->output_cycle_gap = arg2;
+  arg2 = (lua_toboolean(L, 2)!=0);
+  if (arg1) (arg1)->output_rate_is_mbps = arg2;
   
   return SWIG_arg;
   
@@ -2419,71 +2417,20 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_output_cycle_gap_get(lua_State* L) {
+static int _wrap_port_setup_t_output_rate_is_mbps_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t result;
+  bool result;
   
-  SWIG_check_num_args("output_cycle_gap",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_cycle_gap",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_cycle_gap_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (uint64_t) ((arg1)->output_cycle_gap);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_output_packet_size_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t arg2 ;
-  
-  SWIG_check_num_args("output_packet_size",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_packet_size",1,"trafficgen_port_setup_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("output_packet_size",2,"uint64_t");
+  SWIG_check_num_args("output_rate_is_mbps",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_rate_is_mbps",1,"trafficgen_port_setup_t *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_packet_size_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
+    SWIG_fail_ptr("port_setup_t_output_rate_is_mbps_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
   }
   
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->output_packet_size = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_output_packet_size_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  uint64_t result;
-  
-  SWIG_check_num_args("output_packet_size",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_packet_size",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_packet_size_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (uint64_t) ((arg1)->output_packet_size);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  result = (bool) ((arg1)->output_rate_is_mbps);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -2534,6 +2481,56 @@ static int _wrap_port_setup_t_output_enable_get(lua_State* L) {
   
   result = (bool) ((arg1)->output_enable);
   lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_setup_t_output_packet_size_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("output_packet_size",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_packet_size",1,"trafficgen_port_setup_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("output_packet_size",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
+    SWIG_fail_ptr("port_setup_t_output_packet_size_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->output_packet_size = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_setup_t_output_packet_size_get(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("output_packet_size",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_packet_size",1,"trafficgen_port_setup_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
+    SWIG_fail_ptr("port_setup_t_output_packet_size_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
+  }
+  
+  result = (int) ((arg1)->output_packet_size);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -4359,10 +4356,10 @@ static swig_lua_method swig_trafficgen_port_setup_t_methods[] = {
     {0,0}
 };
 static swig_lua_attribute swig_trafficgen_port_setup_t_attributes[] = {
-    { "output_percent_x1000", _wrap_port_setup_t_output_percent_x1000_get, _wrap_port_setup_t_output_percent_x1000_set},
-    { "output_cycle_gap", _wrap_port_setup_t_output_cycle_gap_get, _wrap_port_setup_t_output_cycle_gap_set},
-    { "output_packet_size", _wrap_port_setup_t_output_packet_size_get, _wrap_port_setup_t_output_packet_size_set},
+    { "output_rate", _wrap_port_setup_t_output_rate_get, _wrap_port_setup_t_output_rate_set},
+    { "output_rate_is_mbps", _wrap_port_setup_t_output_rate_is_mbps_get, _wrap_port_setup_t_output_rate_is_mbps_set},
     { "output_enable", _wrap_port_setup_t_output_enable_get, _wrap_port_setup_t_output_enable_set},
+    { "output_packet_size", _wrap_port_setup_t_output_packet_size_get, _wrap_port_setup_t_output_packet_size_set},
     { "output_count", _wrap_port_setup_t_output_count_get, _wrap_port_setup_t_output_count_set},
     { "output_packet_type", _wrap_port_setup_t_output_packet_type_get, _wrap_port_setup_t_output_packet_type_set},
     { "output_packet_payload", _wrap_port_setup_t_output_packet_payload_get, _wrap_port_setup_t_output_packet_payload_set},

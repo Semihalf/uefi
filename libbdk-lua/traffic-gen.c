@@ -690,21 +690,6 @@ static int get_end_payload(const tg_port_t *tg_port)
 }
 
 /**
- * Update the packet cycle gap for the current tx percentage
- *
- * @param port
- */
-static void update_cycle_gap(tg_port_t *tg_port)
-{
-    uint64_t packet_rate = tg_port->pinfo.setup.output_percent_x1000 * 1250 /
-        (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
-    if (packet_rate)
-        tg_port->pinfo.setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
-    else
-        tg_port->pinfo.setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT);
-}
-
-/**
  *
  * @param index
  *
@@ -776,12 +761,13 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
         int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
 
+        tg_port->pinfo.setup.output_rate                = 1000;
+        tg_port->pinfo.setup.output_rate_is_mbps        = true;
         tg_port->pinfo.setup.output_enable              = 0;
+        tg_port->pinfo.setup.output_count               = 0;
+        tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
         tg_port->pinfo.setup.output_packet_type         = PACKET_TYPE_IPV4_UDP;
         tg_port->pinfo.setup.output_packet_payload      = DATA_TYPE_ABC;
-        tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
-        tg_port->pinfo.setup.output_count               = 0;
-        tg_port->pinfo.setup.output_percent_x1000       = 100000;
         tg_port->pinfo.setup.src_mac                    = src_mac;
         tg_port->pinfo.setup.src_mac_inc	        = 0;
         tg_port->pinfo.setup.src_mac_min		= src_mac + src_inc;
@@ -810,7 +796,6 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         tg_port->pinfo.setup.ip_tos                     = 0;
         tg_port->pinfo.setup.do_checksum                = 0;
         tg_port->pinfo.setup.display_packet             = false;
-        update_cycle_gap(tg_port);
     }
     return trafficgen_do_clear(range);
 }
@@ -1423,6 +1408,15 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     uint64_t output_cycle;
     uint64_t count = port_tx->output_count;
 
+    /* Figure out my TX rate */
+    int packet_rate = port_tx->output_rate;
+    if (port_tx->output_rate_is_mbps)
+        packet_rate = packet_rate * 1250 / (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
+    if (packet_rate == 0)
+        packet_rate = 1;
+    uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
+
+    /* Build the IF packet data structure */
     bdk_if_packet_t packet;
     packet.length = port_tx->output_packet_size + get_size_pre_l2(tg_port);
     packet.segments = 1;
@@ -1441,7 +1435,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         if (bdk_likely(cycle >= output_cycle))
         {
             packet_incrementer(tg_port, pdata);
-            output_cycle += port_tx->output_cycle_gap;
+            output_cycle += output_cycle_gap;
             /* We don't care if the send fails */
             bdk_if_transmit(tg_port->handle, &packet);
 
