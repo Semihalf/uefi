@@ -463,59 +463,79 @@ static const char CJPAT_Packet[1508] = {
   0xBD, 0x9F, 0x1E, 0xAB			 // 376
 };
 
+typedef struct
+{
+    bdk_if_handle_t handle;
+    bdk_if_stats_t clear_stats;
+    uint64_t last_update;
+    trafficgen_port_info_t pinfo;
+} tg_port_t;
+
 static trafficgen_port_set_t tg_all_set;
 
-static trafficgen_port_info_t *tg_get_pinfo(bdk_if_handle_t handle)
+/**
+ *
+ * @param handle
+ *
+ * @return
+ */
+static tg_port_t *tg_get_port(bdk_if_handle_t handle)
 {
-    static trafficgen_port_info_t *pinfo[64];
+    static tg_port_t *tg_port[64];
 
     for (int i=0; i<64; i++)
     {
-        if (pinfo[i] == NULL)
+        if (tg_port[i] == NULL)
         {
-            pinfo[i] = malloc(sizeof(trafficgen_port_info_t));
-            if (pinfo[i])
-                pinfo[i]->priv.handle = handle;
-            return pinfo[i];
+            tg_port[i] = calloc(1, sizeof(tg_port_t));
+            if (tg_port[i])
+            {
+                tg_port[i]->handle = handle;
+                tg_port[i]->pinfo.priv = tg_port[i];
+            }
+            return tg_port[i];
         }
-        else if (pinfo[i]->priv.handle == handle)
-            return pinfo[i];
+        else if (tg_port[i]->handle == handle)
+            return tg_port[i];
     }
     return NULL;
 }
 
-static void tg_init_port(trafficgen_port_info_t *pinfo)
+/**
+ *
+ * @param pinfo
+ *
+ * @return
+ */
+static tg_port_t *tg_info_to_port(trafficgen_port_info_t *pinfo)
 {
-#if 0 // FIXME backpressure
-    /* Only the first two interfaces and four ports are used for
-        backpressure. Interfaces with more than 4 ports, like SPI4, use
-        only port 0 */
-    if ((interface < 2) && (index < 4))
-    {
-        /* Set if incomming backpressure is respected by PKO */
-        BDK_CSR_MODIFY(frm_ctl, BDK_GMXX_RXX_FRM_CTL(index, interface),
-            frm_ctl.s.ctl_bck = pinfo->setup.respect_backpressure);
-    }
-#endif
+    return (tg_port_t*)pinfo->priv;
+}
 
-    switch (pinfo->iftype)
+/**
+ *
+ * @param tg_port
+ */
+static void tg_init_port(tg_port_t *tg_port)
+{
+    switch (bdk_if_get_type(tg_port->handle))
     {
         case BDK_IF_SRIO:
-            pinfo->setup.srio.s.prio = 0;
-            pinfo->setup.srio.s.tt = 1;
-            pinfo->setup.srio.s.sis = 0;
-            pinfo->setup.srio.s.ssize = 0xe;
-            pinfo->setup.srio.s.did = 0xffff;
-            pinfo->setup.srio.s.xmbox = 0;
-            pinfo->setup.srio.s.mbox = pinfo->priv.handle->index&3;
-            pinfo->setup.srio.s.letter = 0;
-            pinfo->setup.srio.s.lns = 0;
-            pinfo->setup.srio.s.intr = 0;
+            tg_port->pinfo.setup.srio.s.prio = 0;
+            tg_port->pinfo.setup.srio.s.tt = 1;
+            tg_port->pinfo.setup.srio.s.sis = 0;
+            tg_port->pinfo.setup.srio.s.ssize = 0xe;
+            tg_port->pinfo.setup.srio.s.did = 0xffff;
+            tg_port->pinfo.setup.srio.s.xmbox = 0;
+            tg_port->pinfo.setup.srio.s.mbox = tg_port->handle->index&3;
+            tg_port->pinfo.setup.srio.s.letter = 0;
+            tg_port->pinfo.setup.srio.s.lns = 0;
+            tg_port->pinfo.setup.srio.s.intr = 0;
             break;
         default:
             break;
     }
-    bdk_if_enable(pinfo->priv.handle);
+    bdk_if_enable(tg_port->handle);
 }
 
 /**
@@ -528,15 +548,12 @@ static void tg_init(void)
     int count = 0;
     for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle!=NULL; handle = bdk_if_next_port(handle))
     {
-        trafficgen_port_info_t *pinfo = tg_get_pinfo(handle);
-        if (pinfo)
+        tg_port_t *tg_port = tg_get_port(handle);
+        if (tg_port)
         {
-            memset(pinfo, 0, sizeof(*pinfo));
-            pinfo->priv.handle = handle;
-            pinfo->iftype = bdk_if_get_type(pinfo->priv.handle);
-            sprintf(pinfo->name, "p%d", count);
-            tg_init_port(pinfo);
-            tg_all_set.list[count++] = pinfo;
+            sprintf(tg_port->pinfo.name, "p%d", count);
+            tg_init_port(tg_port);
+            tg_all_set.list[count++] = &tg_port->pinfo;
         }
     }
 
@@ -551,9 +568,9 @@ static void tg_init(void)
  *
  * @return
  */
-static int get_size_wire_overhead(const trafficgen_port_info_t *pinfo)
+static int get_size_wire_overhead(const tg_port_t *tg_port)
 {
-    if (pinfo->setup.srio.u64)
+    if (tg_port->pinfo.setup.srio.u64)
         return 0;
     else
         return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
@@ -565,12 +582,12 @@ static int get_size_wire_overhead(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_size_pre_l2(const trafficgen_port_info_t *pinfo)
+static int get_size_pre_l2(const tg_port_t *tg_port)
 {
-    if (pinfo->setup.srio.u64)
+    if (tg_port->pinfo.setup.srio.u64)
     {
         /* TX needs to add SRIO header */
-        return sizeof(pinfo->setup.srio);
+        return sizeof(tg_port->pinfo.setup.srio);
     }
     else
     {
@@ -585,10 +602,10 @@ static int get_size_pre_l2(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_size_l2(const trafficgen_port_info_t *pinfo)
+static int get_size_l2(const tg_port_t *tg_port)
 {
     /* L2 header is two MAC addresses, optional VLAN stuff, and a L2 size/type */
-    return MAC_ADDR_LEN*2 + pinfo->setup.vlan_size + 2;
+    return MAC_ADDR_LEN*2 + tg_port->pinfo.setup.vlan_size + 2;
 }
 
 /**
@@ -597,11 +614,11 @@ static int get_size_l2(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_size_ip_header(const trafficgen_port_info_t *pinfo)
+static int get_size_ip_header(const tg_port_t *tg_port)
 {
     /* We don't support options, so the size of the IP header is fixed for
         IPv4 or IPv6 */
-    switch (pinfo->setup.output_packet_type)
+    switch (tg_port->pinfo.setup.output_packet_type)
     {
         case PACKET_TYPE_IPV6_UDP:
         case PACKET_TYPE_IPV6_TCP:
@@ -621,11 +638,11 @@ static int get_size_ip_header(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_size_payload(const trafficgen_port_info_t *pinfo)
+static int get_size_payload(const tg_port_t *tg_port)
 {
     /* The payload area is whatever is left after the previous headers. Note
         that this does not include any UDP or TCP header */
-    return pinfo->setup.output_packet_size - get_size_ip_header(pinfo) - get_size_l2(pinfo);
+    return tg_port->pinfo.setup.output_packet_size - get_size_ip_header(tg_port) - get_size_l2(tg_port);
 }
 
 /**
@@ -634,9 +651,9 @@ static int get_size_payload(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_end_pre_l2(const trafficgen_port_info_t *pinfo)
+static int get_end_pre_l2(const tg_port_t *tg_port)
 {
-    return get_size_pre_l2(pinfo);
+    return get_size_pre_l2(tg_port);
 }
 
 /**
@@ -645,9 +662,9 @@ static int get_end_pre_l2(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_end_l2(const trafficgen_port_info_t *pinfo)
+static int get_end_l2(const tg_port_t *tg_port)
 {
-    return get_end_pre_l2(pinfo) + get_size_l2(pinfo);
+    return get_end_pre_l2(tg_port) + get_size_l2(tg_port);
 }
 
 /**
@@ -656,9 +673,9 @@ static int get_end_l2(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_end_ip_header(const trafficgen_port_info_t *pinfo)
+static int get_end_ip_header(const tg_port_t *tg_port)
 {
-    return get_end_l2(pinfo) + get_size_ip_header(pinfo);
+    return get_end_l2(tg_port) + get_size_ip_header(tg_port);
 }
 
 /**
@@ -667,9 +684,9 @@ static int get_end_ip_header(const trafficgen_port_info_t *pinfo)
  *
  * @return
  */
-static int get_end_payload(const trafficgen_port_info_t *pinfo)
+static int get_end_payload(const tg_port_t *tg_port)
 {
-    return get_end_ip_header(pinfo) + get_size_payload(pinfo);
+    return get_end_ip_header(tg_port) + get_size_payload(tg_port);
 }
 
 /**
@@ -677,14 +694,14 @@ static int get_end_payload(const trafficgen_port_info_t *pinfo)
  *
  * @param port
  */
-static void update_cycle_gap(trafficgen_port_info_t *pinfo)
+static void update_cycle_gap(tg_port_t *tg_port)
 {
-    uint64_t packet_rate = pinfo->setup.output_percent_x1000 * 1250 /
-        (pinfo->setup.output_packet_size + get_size_wire_overhead(pinfo));
+    uint64_t packet_rate = tg_port->pinfo.setup.output_percent_x1000 * 1250 /
+        (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
     if (packet_rate)
-        pinfo->setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
+        tg_port->pinfo.setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
     else
-        pinfo->setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT);
+        tg_port->pinfo.setup.output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT);
 }
 
 /**
@@ -731,8 +748,10 @@ int trafficgen_do_clear(const trafficgen_port_set_t *range)
 {
     for (int i=0; range->list[i] != NULL; i++)
     {
-        trafficgen_port_info_t *pinfo = range->list[i];
-        memset(&pinfo->stats, 0, sizeof(pinfo->stats));
+        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
+        const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
+        tg_port->clear_stats = *stats;
+        memset(&tg_port->pinfo.stats, 0, sizeof(tg_port->pinfo.stats));
     }
     return 0;
 }
@@ -749,53 +768,53 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
 
     for (int i=0; range->list[i] != NULL; i++)
     {
-        trafficgen_port_info_t *pinfo = range->list[i];
-        trafficgen_port_info_t *connect_to = pinfo; // FIXME
-        uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(pinfo->priv.handle);
-        uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->priv.handle);
-        int src_inc = bdk_if_get_pknd(pinfo->priv.handle) << 16;
-        int dest_inc = bdk_if_get_pknd(connect_to->priv.handle) << 16;
+        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
+        tg_port_t *connect_to = tg_port; // FIXME
+        uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(tg_port->handle);
+        uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->handle);
+        int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
+        int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
 
-        pinfo->setup.output_enable              = 0;
-        pinfo->setup.output_packet_type         = PACKET_TYPE_IPV4_UDP;
-        pinfo->setup.output_packet_payload      = DATA_TYPE_ABC;
-        pinfo->setup.input_arp_reply_enable     = 1;
-        pinfo->setup.input_arp_request_enable   = 1;
-        pinfo->setup.output_packet_size         = 64 - ETHERNET_CRC;
-        pinfo->setup.output_count               = 0;
-        pinfo->setup.output_percent_x1000       = 100000;
-        pinfo->setup.src_mac                    = src_mac;
-        pinfo->setup.src_mac_inc	        = 0;
-        pinfo->setup.src_mac_min		= src_mac + src_inc;
-        pinfo->setup.src_mac_max		= pinfo->setup.src_mac_min + 64;
-        pinfo->setup.dest_mac                   = dest_mac;
-        pinfo->setup.dest_mac_inc               = 0;
-        pinfo->setup.dest_mac_min               = dest_mac + dest_inc;
-        pinfo->setup.dest_mac_max               = pinfo->setup.dest_mac_min + 64;
-        pinfo->setup.vlan_size                  = 0;
-        pinfo->setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
-        pinfo->setup.src_ip_min                 = 0x0a000000 | src_inc;        /* 10.port.0.0 */;
-        pinfo->setup.src_ip_max                 = 0x0a000063 | src_inc;        /* 10.port.0.99 */;
-        pinfo->setup.src_ip_inc                 = 0;
-        pinfo->setup.dest_ip                    = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */
-        pinfo->setup.dest_ip_min                = 0x0a000000 | dest_inc;   /* 10.connect_to_port.0.0 */;
-        pinfo->setup.dest_ip_max                = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */;
-        pinfo->setup.dest_ip_inc                = 0;
-        pinfo->setup.src_port                   = 4096;
-        pinfo->setup.src_port_min               = 0;
-        pinfo->setup.src_port_max               = 65535;
-        pinfo->setup.src_port_inc               = 0;
-        pinfo->setup.dest_port                  = 4097;
-        pinfo->setup.dest_port_min              = 0;
-        pinfo->setup.dest_port_max              = 65535;
-        pinfo->setup.dest_port_inc              = 0;
-        pinfo->setup.output_arp_reply_enable    = 1;
-        pinfo->setup.ip_tos                     = 0;
-        pinfo->setup.do_checksum                = 0;
-        pinfo->setup.bridge_port                = BRIDGE_OFF;
-        pinfo->setup.display_packet             = 0;
-        pinfo->setup.promisc                    = 1;
-        update_cycle_gap(pinfo);
+        tg_port->pinfo.setup.output_enable              = 0;
+        tg_port->pinfo.setup.output_packet_type         = PACKET_TYPE_IPV4_UDP;
+        tg_port->pinfo.setup.output_packet_payload      = DATA_TYPE_ABC;
+        tg_port->pinfo.setup.input_arp_reply_enable     = 1;
+        tg_port->pinfo.setup.input_arp_request_enable   = 1;
+        tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
+        tg_port->pinfo.setup.output_count               = 0;
+        tg_port->pinfo.setup.output_percent_x1000       = 100000;
+        tg_port->pinfo.setup.src_mac                    = src_mac;
+        tg_port->pinfo.setup.src_mac_inc	        = 0;
+        tg_port->pinfo.setup.src_mac_min		= src_mac + src_inc;
+        tg_port->pinfo.setup.src_mac_max		= tg_port->pinfo.setup.src_mac_min + 64;
+        tg_port->pinfo.setup.dest_mac                   = dest_mac;
+        tg_port->pinfo.setup.dest_mac_inc               = 0;
+        tg_port->pinfo.setup.dest_mac_min               = dest_mac + dest_inc;
+        tg_port->pinfo.setup.dest_mac_max               = tg_port->pinfo.setup.dest_mac_min + 64;
+        tg_port->pinfo.setup.vlan_size                  = 0;
+        tg_port->pinfo.setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
+        tg_port->pinfo.setup.src_ip_min                 = 0x0a000000 | src_inc;        /* 10.port.0.0 */;
+        tg_port->pinfo.setup.src_ip_max                 = 0x0a000063 | src_inc;        /* 10.port.0.99 */;
+        tg_port->pinfo.setup.src_ip_inc                 = 0;
+        tg_port->pinfo.setup.dest_ip                    = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */
+        tg_port->pinfo.setup.dest_ip_min                = 0x0a000000 | dest_inc;   /* 10.connect_to_port.0.0 */;
+        tg_port->pinfo.setup.dest_ip_max                = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */;
+        tg_port->pinfo.setup.dest_ip_inc                = 0;
+        tg_port->pinfo.setup.src_port                   = 4096;
+        tg_port->pinfo.setup.src_port_min               = 0;
+        tg_port->pinfo.setup.src_port_max               = 65535;
+        tg_port->pinfo.setup.src_port_inc               = 0;
+        tg_port->pinfo.setup.dest_port                  = 4097;
+        tg_port->pinfo.setup.dest_port_min              = 0;
+        tg_port->pinfo.setup.dest_port_max              = 65535;
+        tg_port->pinfo.setup.dest_port_inc              = 0;
+        tg_port->pinfo.setup.output_arp_reply_enable    = 1;
+        tg_port->pinfo.setup.ip_tos                     = 0;
+        tg_port->pinfo.setup.do_checksum                = 0;
+        tg_port->pinfo.setup.bridge_port                = BRIDGE_OFF;
+        tg_port->pinfo.setup.display_packet             = 0;
+        tg_port->pinfo.setup.promisc                    = 1;
+        update_cycle_gap(tg_port);
     }
     return trafficgen_do_clear(range);
 }
@@ -806,59 +825,83 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
  */
 int trafficgen_do_update(void)
 {
+    uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+
     /* Get the statistics for displayed ports */
     for (int i=0; tg_all_set.list[i] != NULL; i++)
     {
-        trafficgen_port_info_t *pinfo = tg_all_set.list[i];
-        const bdk_if_stats_t *stats = bdk_if_get_stats(pinfo->priv.handle);
+        tg_port_t *tg_port = tg_info_to_port(tg_all_set.list[i]);
+        uint64_t update_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+        const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
 
-        pinfo->stats.tx_packets = stats->tx.packets;
-        pinfo->stats.tx_octets = stats->tx.octets;
+        /* TX stats */
+        tg_port->pinfo.stats.tx_packets = stats->tx.packets - tg_port->clear_stats.tx.packets;
+        tg_port->pinfo.stats.tx_octets = stats->tx.octets - tg_port->clear_stats.tx.octets;
 
-        pinfo->stats.rx_dropped_octets = stats->rx.dropped_octets;
-        pinfo->stats.rx_dropped_packets = stats->rx.dropped_packets;
-        pinfo->stats.rx_octets = stats->rx.octets;
-        pinfo->stats.rx_packets = stats->rx.packets;
-        pinfo->stats.rx_errors = stats->rx.errors;
+        /* RX stats */
+        tg_port->pinfo.stats.rx_dropped_octets = stats->rx.dropped_octets - tg_port->clear_stats.rx.dropped_octets;
+        tg_port->pinfo.stats.rx_dropped_packets = stats->rx.dropped_packets - tg_port->clear_stats.rx.dropped_packets;
+        tg_port->pinfo.stats.rx_octets = stats->rx.octets - tg_port->clear_stats.rx.octets;
+        tg_port->pinfo.stats.rx_packets = stats->rx.packets - tg_port->clear_stats.rx.packets;
+        tg_port->pinfo.stats.rx_errors += stats->rx.errors - tg_port->clear_stats.rx.errors;
+
+        /* Create totals */
+        tg_port->pinfo.stats.tx_packets_total += tg_port->pinfo.stats.tx_packets;
+        tg_port->pinfo.stats.tx_octets_total += tg_port->pinfo.stats.tx_octets;
+        tg_port->pinfo.stats.rx_packets_total += tg_port->pinfo.stats.rx_packets;
+        tg_port->pinfo.stats.rx_octets_total += tg_port->pinfo.stats.rx_octets;
+
+        /* Scale to account for update interval */
+        if (update_cycle > tg_port->last_update)
+        {
+            uint64_t scale = (1ull<<32) * clock_rate / (update_cycle - tg_port->last_update);
+            tg_port->pinfo.stats.tx_packets = tg_port->pinfo.stats.tx_packets * scale >> 32;
+            tg_port->pinfo.stats.tx_octets = tg_port->pinfo.stats.tx_octets * scale >> 32;
+
+            tg_port->pinfo.stats.rx_dropped_octets = tg_port->pinfo.stats.rx_dropped_octets * scale >> 32;
+            tg_port->pinfo.stats.rx_dropped_packets = tg_port->pinfo.stats.rx_dropped_packets * scale >> 32;
+            tg_port->pinfo.stats.rx_octets = tg_port->pinfo.stats.rx_octets * scale >> 32;
+            tg_port->pinfo.stats.rx_packets = tg_port->pinfo.stats.rx_packets * scale >> 32;
+        }
 
         /* Calculate the RX bits. By convention this include all packet
             overhead on the wire. We've already accounted for ETHERNET_CRC but
             not the preamble and IFG */
-        uint64_t bytes_off_per_packet = get_size_wire_overhead(pinfo);
-        switch (pinfo->iftype)
+        uint64_t bytes_off_per_packet = get_size_wire_overhead(tg_port);
+        switch (bdk_if_get_type(tg_port->handle))
         {
             case BDK_IF_SRIO:
                 bytes_off_per_packet = 0;
                 break;
             default:
-                bytes_off_per_packet = get_size_wire_overhead(pinfo) - ETHERNET_CRC;
+                bytes_off_per_packet = get_size_wire_overhead(tg_port) - ETHERNET_CRC;
                 break;
         }
-        pinfo->stats.rx_bits = (pinfo->stats.rx_packets * bytes_off_per_packet + pinfo->stats.rx_octets) * 8;
+        tg_port->pinfo.stats.rx_bits = (tg_port->pinfo.stats.rx_packets * bytes_off_per_packet + tg_port->pinfo.stats.rx_octets) * 8;
 
         /* Calculate the TX bits */
-        pinfo->stats.tx_bits = (pinfo->stats.tx_packets * bytes_off_per_packet + pinfo->stats.tx_octets) * 8;
+        tg_port->pinfo.stats.tx_bits = (tg_port->pinfo.stats.tx_packets * bytes_off_per_packet + tg_port->pinfo.stats.tx_octets) * 8;
 
         /* Get the backpressure counters */
         bdk_gmxx_txx_pause_togo_t txx_pause_togo;
         txx_pause_togo.u64 = 0;
-        switch (pinfo->iftype)
+        switch (bdk_if_get_type(tg_port->handle))
         {
             case BDK_IF_DPI:
             case BDK_IF_LOOP:
             case BDK_IF_SRIO:
                 break;
             case BDK_IF_XAUI:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(pinfo->priv.handle)));
+                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(tg_port->handle)));
                 if (txx_pause_togo.s.time == 0)
                 {
                     bdk_gmxx_rx_hg2_status_t gmxx_rx_hg2_status;
-                    gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(pinfo->priv.handle)));
+                    gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
                     txx_pause_togo.s.time = gmxx_rx_hg2_status.s.lgtim2go;
                 }
                 break;
             case BDK_IF_SGMII:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(pinfo->priv.handle), __bdk_if_get_gmx_block(pinfo->priv.handle)));
+                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(tg_port->handle), __bdk_if_get_gmx_block(tg_port->handle)));
                 break;
             case BDK_IF_MGMT:
             case BDK_IF_ILK:
@@ -866,7 +909,9 @@ int trafficgen_do_update(void)
             case __BDK_IF_LAST:
                 break;
         }
-        pinfo->stats.rx_backpressure += txx_pause_togo.s.time;
+        tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
+        tg_port->clear_stats = *stats;
+        tg_port->last_update = update_cycle;
     }
     return 0;
 }
@@ -979,29 +1024,29 @@ static uint32_t crc32c(void *ptr, int len, uint32_t iv)
 }
 
 
-static char *build_packet_mac_and_vlan_only(char *packet, trafficgen_port_info_t *pinfo)
+static char *build_packet_mac_and_vlan_only(char *packet, tg_port_t *tg_port)
 {
     int i;
     char *ptr = packet;
 
     /* Add the SRIO header before L2 if needed */
-    if (pinfo->setup.srio.u64)
+    if (tg_port->pinfo.setup.srio.u64)
     {
-        memcpy(ptr, &pinfo->setup.srio, sizeof(pinfo->setup.srio));
-        ptr += sizeof(pinfo->setup.srio);
+        memcpy(ptr, &tg_port->pinfo.setup.srio, sizeof(tg_port->pinfo.setup.srio));
+        ptr += sizeof(tg_port->pinfo.setup.srio);
     }
 
     /* Ethernet dest address */
     for (i=0; i<6; i++)
-        *ptr++ = (pinfo->setup.dest_mac>>(40-i*8)) & 0xff;
+        *ptr++ = (tg_port->pinfo.setup.dest_mac>>(40-i*8)) & 0xff;
 
     /* Ethernet source address */
     for (i=0; i<6; i++)
-        *ptr++ = (pinfo->setup.src_mac>>(40-i*8)) & 0xff;
+        *ptr++ = (tg_port->pinfo.setup.src_mac>>(40-i*8)) & 0xff;
 
     /* VLAN */
-    for (i=0; i<(int)pinfo->setup.vlan_size; i++)
-        *ptr++ = (pinfo->setup.vlan[i]);
+    for (i=0; i<(int)tg_port->pinfo.setup.vlan_size; i++)
+        *ptr++ = (tg_port->pinfo.setup.vlan[i]);
 
     return ptr;
 }
@@ -1011,20 +1056,20 @@ static char *build_packet_mac_and_vlan_only(char *packet, trafficgen_port_info_t
  *
  * @param port   Output port to build for
  */
-static char *build_packet(trafficgen_port_info_t *pinfo)
+static char *build_packet(tg_port_t *tg_port)
 {
     int i;
-    char *packet = malloc(pinfo->setup.output_packet_size);
+    char *packet = malloc(tg_port->pinfo.setup.output_packet_size);
     if (!packet)
     {
-        bdk_error("Failed to allocate TX packet for port %s\n", pinfo->name);
+        bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);
         return NULL;
     }
-    char *end_ptr = packet + get_end_payload(pinfo);
-    char *ptr = build_packet_mac_and_vlan_only(packet, pinfo);
+    char *end_ptr = packet + get_end_payload(tg_port);
+    char *ptr = build_packet_mac_and_vlan_only(packet, tg_port);
     int ip_length;
 
-    switch (pinfo->setup.output_packet_type)
+    switch (tg_port->pinfo.setup.output_packet_type)
     {
         uint16_t *ip_checksum_ptr;
         case PACKET_TYPE_HELP:
@@ -1033,8 +1078,8 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             *ptr++ = 0x08;                  /* Ethernet Protocol */
             *ptr++ = 0x00;
             *ptr++ = 0x45;                  /* IP version, ihl */
-            *ptr++ = (pinfo->setup.ip_tos) & 0xff;    /* IP TOS */
-            ip_length = get_size_ip_header(pinfo) + get_size_payload(pinfo);
+            *ptr++ = (tg_port->pinfo.setup.ip_tos) & 0xff;    /* IP TOS */
+            ip_length = get_size_ip_header(tg_port) + get_size_payload(tg_port);
             *ptr++ = ip_length>>8;        /* IP length */
             *ptr++ = ip_length&0xff;
             *ptr++ = 0x00;                  /* IP id */
@@ -1042,45 +1087,45 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             *ptr++ = 0x00;                  /* IP frag_off */
             *ptr++ = 0x00;
             *ptr++ = 0x04;                  /* IP ttl */
-            *ptr++ = (pinfo->setup.output_packet_type == PACKET_TYPE_IPV4_TCP) ? 0x6 : 0x11; /* IP protocol */
+            *ptr++ = (tg_port->pinfo.setup.output_packet_type == PACKET_TYPE_IPV4_TCP) ? 0x6 : 0x11; /* IP protocol */
             ip_checksum_ptr = (uint16_t *)ptr;    /* remember for later */
             *ptr++ = 0x00;                  /* IP check */
             *ptr++ = 0x00;
-            *ptr++ = (pinfo->setup.src_ip>>24) & 0xff;    /* IP saddr */
-            *ptr++ = (pinfo->setup.src_ip>>16) & 0xff;
-            *ptr++ = (pinfo->setup.src_ip>>8) & 0xff;
-            *ptr++ = (pinfo->setup.src_ip>>0) & 0xff;
-            *ptr++ = (pinfo->setup.dest_ip>>24) & 0xff;    /* IP daddr */
-            *ptr++ = (pinfo->setup.dest_ip>>16) & 0xff;
-            *ptr++ = (pinfo->setup.dest_ip>>8) & 0xff;
-            *ptr++ = (pinfo->setup.dest_ip>>0) & 0xff;
-            *ip_checksum_ptr = ip_fast_csum(packet+get_end_l2(pinfo), 5);
+            *ptr++ = (tg_port->pinfo.setup.src_ip>>24) & 0xff;    /* IP saddr */
+            *ptr++ = (tg_port->pinfo.setup.src_ip>>16) & 0xff;
+            *ptr++ = (tg_port->pinfo.setup.src_ip>>8) & 0xff;
+            *ptr++ = (tg_port->pinfo.setup.src_ip>>0) & 0xff;
+            *ptr++ = (tg_port->pinfo.setup.dest_ip>>24) & 0xff;    /* IP daddr */
+            *ptr++ = (tg_port->pinfo.setup.dest_ip>>16) & 0xff;
+            *ptr++ = (tg_port->pinfo.setup.dest_ip>>8) & 0xff;
+            *ptr++ = (tg_port->pinfo.setup.dest_ip>>0) & 0xff;
+            *ip_checksum_ptr = ip_fast_csum(packet+get_end_l2(tg_port), 5);
             break;
         case PACKET_TYPE_IPV6_UDP:
         case PACKET_TYPE_IPV6_TCP:
-            if (pinfo->setup.output_packet_size < 62)
-                printf("Warning: Port %s Packet size too small for UDP payload. Minimum is 62\n", pinfo->name);
-            if (!pinfo->setup.do_checksum)
-                printf("Warning: Port %s UDP checksum is off. Linux will drop IPv6 UDP packets without a checksum\n", pinfo->name);
-            if ((pinfo->setup.output_packet_size < 66) && pinfo->setup.validate)
-                printf("Warning: Port %s Packet size too small for validation. Minimum is 66\n", pinfo->name);
+            if (tg_port->pinfo.setup.output_packet_size < 62)
+                printf("Warning: Port %s Packet size too small for UDP payload. Minimum is 62\n", tg_port->pinfo.name);
+            if (!tg_port->pinfo.setup.do_checksum)
+                printf("Warning: Port %s UDP checksum is off. Linux will drop IPv6 UDP packets without a checksum\n", tg_port->pinfo.name);
+            if ((tg_port->pinfo.setup.output_packet_size < 66) && tg_port->pinfo.setup.validate)
+                printf("Warning: Port %s Packet size too small for validation. Minimum is 66\n", tg_port->pinfo.name);
             *(uint16_t*)ptr = 0x86dd; ptr+=2;                           /* Ethernet Protocol = ETH_P_IPV6 0x86DD */
-            *ptr++ = 0x60 | ((pinfo->setup.ip_tos>>4) & 0xf); /* IP version 6, 4 bits of DS byte */
-            *ptr++ = (((pinfo->setup.ip_tos) & 0xf) << 4) | 0;/* 4 bits of DS byte + 4 bits of Flow label (0) */
+            *ptr++ = 0x60 | ((tg_port->pinfo.setup.ip_tos>>4) & 0xf); /* IP version 6, 4 bits of DS byte */
+            *ptr++ = (((tg_port->pinfo.setup.ip_tos) & 0xf) << 4) | 0;/* 4 bits of DS byte + 4 bits of Flow label (0) */
             *(uint16_t*)ptr = 0; ptr+=2;                                /* Flow label */
-            ip_length = get_size_payload(pinfo);
+            ip_length = get_size_payload(tg_port);
             *(uint16_t*)ptr = ip_length; ptr+=2;    /* Payload length */
-            *ptr++ = (pinfo->setup.output_packet_type == PACKET_TYPE_IPV6_TCP) ? 0x6 : 0x11; /* IP protocol */
+            *ptr++ = (tg_port->pinfo.setup.output_packet_type == PACKET_TYPE_IPV6_TCP) ? 0x6 : 0x11; /* IP protocol */
             *ptr++ = 0x04;                                              /* IP ttl */
             *(uint64_t*)ptr = 0; ptr+=8;                                /* IP saddr */
-            *(uint64_t*)ptr = pinfo->setup.src_ip; ptr+=8;
+            *(uint64_t*)ptr = tg_port->pinfo.setup.src_ip; ptr+=8;
             *(uint64_t*)ptr = 0; ptr+=8;                                /* IP daddr */
-            *(uint64_t*)ptr = pinfo->setup.dest_ip; ptr+=8;
+            *(uint64_t*)ptr = tg_port->pinfo.setup.dest_ip; ptr+=8;
             break;
         case PACKET_TYPE_802_3_PAUSE:
-            pinfo->setup.output_packet_size = 60;
-            ptr = packet + get_end_pre_l2(pinfo);
-            end_ptr = packet + get_end_payload(pinfo);
+            tg_port->pinfo.setup.output_packet_size = 60;
+            ptr = packet + get_end_pre_l2(tg_port);
+            end_ptr = packet + get_end_payload(tg_port);
             *ptr++ = 0x01; /* Force DMAC = 0x0180C2000001 */
             *ptr++ = 0x80;
             *ptr++ = 0xC2;
@@ -1095,9 +1140,9 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             memset(ptr,  0,  end_ptr - ptr);
             goto skip; /* Bail out before we get to the TCP/UDP stuff below */
         case PACKET_TYPE_CBFC_PAUSE:
-            pinfo->setup.output_packet_size = 60;
-            ptr = packet + get_end_pre_l2(pinfo);
-            end_ptr = packet + get_end_payload(pinfo);
+            tg_port->pinfo.setup.output_packet_size = 60;
+            ptr = packet + get_end_pre_l2(tg_port);
+            end_ptr = packet + get_end_payload(tg_port);
             *ptr++ = 0x01; /* Force DMAC = 0x0180C2000001 */
             *ptr++ = 0x80;
             *ptr++ = 0xC2;
@@ -1117,32 +1162,32 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             memset(ptr,  0,  end_ptr - ptr);
             goto skip; /* Bail out before we get to the TCP/UDP stuff below */
         case PACKET_TYPE_CJPAT:
-            pinfo->setup.output_packet_size = sizeof(CJPAT_Packet);
+            tg_port->pinfo.setup.output_packet_size = sizeof(CJPAT_Packet);
             memcpy(packet, CJPAT_Packet, sizeof(CJPAT_Packet));
               /* Turn off the deficit counter and turn on unidirection mode. This forces
                * the XAUI interface into half-plex mode. (However, the executive startup
                * code usually wants to be in duplex-mode. I have to compile without
                * USE_DUPLEX in my modified version of bdk-helper-xaui.c!)
                */
-            BDK_CSR_MODIFY(gmxx_tx_xaui_ctl, BDK_GMXX_TX_XAUI_CTL(__bdk_if_get_gmx_block(pinfo->priv.handle)),
+            BDK_CSR_MODIFY(gmxx_tx_xaui_ctl, BDK_GMXX_TX_XAUI_CTL(__bdk_if_get_gmx_block(tg_port->handle)),
                 gmxx_tx_xaui_ctl.s.dic_en = 0;
                 gmxx_tx_xaui_ctl.s.uni_en = 1);
 
               /* Turn off FCS (CRC) generation. The pattern packet already contains the
                * appropriate CRC.
                */
-            BDK_CSR_MODIFY(gmxx_txx_append, BDK_GMXX_TXX_APPEND(__bdk_if_get_gmx_index(pinfo->priv.handle), __bdk_if_get_gmx_block(pinfo->priv.handle)),
+            BDK_CSR_MODIFY(gmxx_txx_append, BDK_GMXX_TXX_APPEND(__bdk_if_get_gmx_index(tg_port->handle), __bdk_if_get_gmx_block(tg_port->handle)),
                 gmxx_txx_append.s.force_fcs = 0;
                 gmxx_txx_append.s.fcs       = 0;
                 gmxx_txx_append.s.pad       = 0;
                 gmxx_txx_append.s.preamble  = 0);
             goto skip; /* Bail out before we get to the TCP/UDP stuff below */
     }
-    *ptr++ = pinfo->setup.src_port >> 8;  /* UDP source port */
-    *ptr++ = pinfo->setup.src_port & 0xff;
-    *ptr++ = pinfo->setup.dest_port >> 8; /* UDP destination port */
-    *ptr++ = pinfo->setup.dest_port & 0xff;
-    switch (pinfo->setup.output_packet_type)
+    *ptr++ = tg_port->pinfo.setup.src_port >> 8;  /* UDP source port */
+    *ptr++ = tg_port->pinfo.setup.src_port & 0xff;
+    *ptr++ = tg_port->pinfo.setup.dest_port >> 8; /* UDP destination port */
+    *ptr++ = tg_port->pinfo.setup.dest_port & 0xff;
+    switch (tg_port->pinfo.setup.output_packet_type)
     {
         case PACKET_TYPE_HELP:
         case PACKET_TYPE_802_3_PAUSE:
@@ -1152,7 +1197,7 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
         case PACKET_TYPE_IPV4_UDP:
         case PACKET_TYPE_IPV6_UDP:
         {
-            int udp_length = get_size_payload(pinfo);
+            int udp_length = get_size_payload(tg_port);
             *ptr++ = udp_length>>8;     /* UDP length */
             *ptr++ = udp_length&0xff;
             *ptr++ = 0x00;                  /* UDP checksum */
@@ -1171,7 +1216,7 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             break;
     }
 
-    switch (pinfo->setup.output_packet_payload) {
+    switch (tg_port->pinfo.setup.output_packet_payload) {
         case DATA_TYPE_ABC:
             /* Fill the rest of the packet with the ABCs */
             i = 0;
@@ -1206,9 +1251,9 @@ static char *build_packet(trafficgen_port_info_t *pinfo)
             while (ptr < end_ptr) *ptr++ = rand();
             break;
     }
-    if (pinfo->setup.validate)
+    if (tg_port->pinfo.setup.validate)
     {
-        int end_l2 = get_end_l2(pinfo);
+        int end_l2 = get_end_l2(tg_port);
         ptr = packet + end_l2;
         *(uint32_t*)(end_ptr-4) = crc32c(ptr, end_ptr - ptr - 4, 0xffffffff);
     }
@@ -1222,61 +1267,61 @@ skip:
  * @param port
  * @param data
  */
-static void packet_incrementer(trafficgen_port_info_t *pinfo, char *data)
+static void packet_incrementer(tg_port_t *tg_port, char *data)
 {
-    switch (pinfo->setup.output_packet_type)
+    switch (tg_port->pinfo.setup.output_packet_type)
     {
         case PACKET_TYPE_HELP:
         case PACKET_TYPE_IPV4_UDP:
         case PACKET_TYPE_IPV4_TCP:
         {
-            int begin_ip = get_end_l2(pinfo);
-            if (bdk_unlikely(pinfo->setup.src_port_inc))
+            int begin_ip = get_end_l2(tg_port);
+            if (bdk_unlikely(tg_port->pinfo.setup.src_port_inc))
             {
                 int p = *(uint16_t*)(data + begin_ip + 20);
-                p += pinfo->setup.src_port_inc;
-                if (p < pinfo->setup.src_port_min)
-                    p = pinfo->setup.src_port_max;
-                else if (p > pinfo->setup.src_port_max)
-                    p = pinfo->setup.src_port_min;
+                p += tg_port->pinfo.setup.src_port_inc;
+                if (p < tg_port->pinfo.setup.src_port_min)
+                    p = tg_port->pinfo.setup.src_port_max;
+                else if (p > tg_port->pinfo.setup.src_port_max)
+                    p = tg_port->pinfo.setup.src_port_min;
                 *(uint16_t*)(data + begin_ip + 20) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.dest_port_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.dest_port_inc))
             {
                 int p = *(uint16_t*)(data + begin_ip + 22);
-                p += pinfo->setup.dest_port_inc;
-                if (p < pinfo->setup.dest_port_min)
-                    p = pinfo->setup.dest_port_max;
-                else if (p > pinfo->setup.dest_port_max)
-                    p = pinfo->setup.dest_port_min;
+                p += tg_port->pinfo.setup.dest_port_inc;
+                if (p < tg_port->pinfo.setup.dest_port_min)
+                    p = tg_port->pinfo.setup.dest_port_max;
+                else if (p > tg_port->pinfo.setup.dest_port_max)
+                    p = tg_port->pinfo.setup.dest_port_min;
                 *(uint16_t*)(data + begin_ip + 22) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.src_ip_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.src_ip_inc))
             {
                 int64_t p = *(uint32_t*)(data + begin_ip + 12);
-                p += pinfo->setup.src_ip_inc;
-                if (p < pinfo->setup.src_ip_min)
-                    p = pinfo->setup.src_ip_max;
-                else if (p > pinfo->setup.src_ip_max)
-                    p = pinfo->setup.src_ip_min;
+                p += tg_port->pinfo.setup.src_ip_inc;
+                if (p < tg_port->pinfo.setup.src_ip_min)
+                    p = tg_port->pinfo.setup.src_ip_max;
+                else if (p > tg_port->pinfo.setup.src_ip_max)
+                    p = tg_port->pinfo.setup.src_ip_min;
                 *(uint32_t*)(data + begin_ip + 12) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.dest_ip_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.dest_ip_inc))
             {
                 int64_t p = *(uint32_t*)(data + begin_ip + 16);
-                p += pinfo->setup.dest_ip_inc;
-                if (p < pinfo->setup.dest_ip_min)
-                    p = pinfo->setup.dest_ip_max;
-                else if (p > pinfo->setup.dest_ip_max)
-                    p = pinfo->setup.dest_ip_min;
+                p += tg_port->pinfo.setup.dest_ip_inc;
+                if (p < tg_port->pinfo.setup.dest_ip_min)
+                    p = tg_port->pinfo.setup.dest_ip_max;
+                else if (p > tg_port->pinfo.setup.dest_ip_max)
+                    p = tg_port->pinfo.setup.dest_ip_min;
                 *(uint32_t*)(data + begin_ip + 16) = p;
             }
 
-            if ((bdk_unlikely(pinfo->setup.src_ip_inc)) ||
-                (bdk_unlikely(pinfo->setup.dest_ip_inc)))
+            if ((bdk_unlikely(tg_port->pinfo.setup.src_ip_inc)) ||
+                (bdk_unlikely(tg_port->pinfo.setup.dest_ip_inc)))
             {
                 /* IP checksum */
                 data[begin_ip + 10] = 0;
@@ -1288,48 +1333,48 @@ static void packet_incrementer(trafficgen_port_info_t *pinfo, char *data)
         case PACKET_TYPE_IPV6_UDP:
         case PACKET_TYPE_IPV6_TCP:
         {
-            int begin_ip = get_end_l2(pinfo);
-            if (bdk_unlikely(pinfo->setup.src_port_inc))
+            int begin_ip = get_end_l2(tg_port);
+            if (bdk_unlikely(tg_port->pinfo.setup.src_port_inc))
             {
                 int p = *(uint16_t*)(data + begin_ip + 40);
-                p += pinfo->setup.src_port_inc;
-                if (p < pinfo->setup.src_port_min)
-                    p = pinfo->setup.src_port_max;
-                else if (p > pinfo->setup.src_port_max)
-                    p = pinfo->setup.src_port_min;
+                p += tg_port->pinfo.setup.src_port_inc;
+                if (p < tg_port->pinfo.setup.src_port_min)
+                    p = tg_port->pinfo.setup.src_port_max;
+                else if (p > tg_port->pinfo.setup.src_port_max)
+                    p = tg_port->pinfo.setup.src_port_min;
                 *(uint16_t*)(data + begin_ip + 40) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.dest_port_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.dest_port_inc))
             {
                 int p = *(uint16_t*)(data + begin_ip + 40 + 2);
-                p += pinfo->setup.dest_port_inc;
-                if (p < pinfo->setup.dest_port_min)
-                    p = pinfo->setup.dest_port_max;
-                else if (p > pinfo->setup.dest_port_max)
-                    p = pinfo->setup.dest_port_min;
+                p += tg_port->pinfo.setup.dest_port_inc;
+                if (p < tg_port->pinfo.setup.dest_port_min)
+                    p = tg_port->pinfo.setup.dest_port_max;
+                else if (p > tg_port->pinfo.setup.dest_port_max)
+                    p = tg_port->pinfo.setup.dest_port_min;
                 *(uint16_t*)(data + begin_ip + 40 + 2) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.src_ip_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.src_ip_inc))
             {
                 int64_t p = *(uint64_t*)(data+begin_ip+8+8);
-                p += pinfo->setup.src_ip_inc;
-                if (p < pinfo->setup.src_ip_min)
-                    p = pinfo->setup.src_ip_max;
-                else if (p > pinfo->setup.src_ip_max)
-                    p = pinfo->setup.src_ip_min;
+                p += tg_port->pinfo.setup.src_ip_inc;
+                if (p < tg_port->pinfo.setup.src_ip_min)
+                    p = tg_port->pinfo.setup.src_ip_max;
+                else if (p > tg_port->pinfo.setup.src_ip_max)
+                    p = tg_port->pinfo.setup.src_ip_min;
                 *(uint64_t*)(data+begin_ip+8+8) = p;
             }
 
-            if (bdk_unlikely(pinfo->setup.dest_ip_inc))
+            if (bdk_unlikely(tg_port->pinfo.setup.dest_ip_inc))
             {
                 int64_t p = *(uint64_t*)(data+begin_ip+8+24);
-                p += pinfo->setup.dest_ip_inc;
-                if (p < pinfo->setup.dest_ip_min)
-                    p = pinfo->setup.dest_ip_max;
-                else if (p > pinfo->setup.dest_ip_max)
-                    p = pinfo->setup.dest_ip_min;
+                p += tg_port->pinfo.setup.dest_ip_inc;
+                if (p < tg_port->pinfo.setup.dest_ip_min)
+                    p = tg_port->pinfo.setup.dest_ip_max;
+                else if (p > tg_port->pinfo.setup.dest_ip_max)
+                    p = tg_port->pinfo.setup.dest_ip_min;
                 *(uint64_t*)(data+begin_ip+8+24) = p;
             }
             break;
@@ -1342,45 +1387,45 @@ static void packet_incrementer(trafficgen_port_info_t *pinfo, char *data)
 
    /* Change MAC addresses */
 
-   if (bdk_unlikely(pinfo->setup.dest_mac_inc))
+   if (bdk_unlikely(tg_port->pinfo.setup.dest_mac_inc))
    {
-        char* mac = data + get_end_pre_l2(pinfo);
+        char* mac = data + get_end_pre_l2(tg_port);
         uint64_t m = *(uint64_t*)mac >> 16;
 
-        m += pinfo->setup.dest_mac_inc;
-        if ((m < pinfo->setup.dest_mac_min) || (m > pinfo->setup.dest_mac_max))
-            m = pinfo->setup.dest_mac_min;
+        m += tg_port->pinfo.setup.dest_mac_inc;
+        if ((m < tg_port->pinfo.setup.dest_mac_min) || (m > tg_port->pinfo.setup.dest_mac_max))
+            m = tg_port->pinfo.setup.dest_mac_min;
 
         *(uint32_t*)mac = m >> 16;
         *(uint16_t*)(mac+4) = m;
     }
 
-   if (bdk_unlikely(pinfo->setup.src_mac_inc))
+   if (bdk_unlikely(tg_port->pinfo.setup.src_mac_inc))
    {
-        char* mac = data + get_end_pre_l2(pinfo) + MAC_ADDR_LEN;
+        char* mac = data + get_end_pre_l2(tg_port) + MAC_ADDR_LEN;
         uint64_t m = *(uint64_t*)mac >> 16;
 
-        m += pinfo->setup.src_mac_inc;
-        if ((m < pinfo->setup.src_mac_min) || (m > pinfo->setup.src_mac_max))
-            m = pinfo->setup.src_mac_min;
+        m += tg_port->pinfo.setup.src_mac_inc;
+        if ((m < tg_port->pinfo.setup.src_mac_min) || (m > tg_port->pinfo.setup.src_mac_max))
+            m = tg_port->pinfo.setup.src_mac_min;
 
         *(uint32_t*)mac = m >> 16;
         *(uint16_t*)(mac+4) = m;
     }
 }
 
-static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
+static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
-    char *pdata = build_packet(pinfo);
+    char *pdata = build_packet(tg_port);
     if (!pdata)
         return;
 
-    trafficgen_port_setup_t *port_tx = &pinfo->setup;
+    trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     uint64_t output_cycle;
     uint64_t count = port_tx->output_count;
 
     bdk_if_packet_t packet;
-    packet.length = port_tx->output_packet_size + get_size_pre_l2(pinfo);
+    packet.length = port_tx->output_packet_size + get_size_pre_l2(tg_port);
     packet.segments = 1;
     packet.packet.u64 = 0;
     packet.packet.s.pool = BDK_FPA_PACKET_POOL;
@@ -1396,10 +1441,10 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
         uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
         if (bdk_likely(cycle >= output_cycle))
         {
-            packet_incrementer(pinfo, pdata);
+            packet_incrementer(tg_port, pdata);
             output_cycle += port_tx->output_cycle_gap;
             /* We don't care if the send fails */
-            bdk_if_transmit(pinfo->priv.handle, &packet);
+            bdk_if_transmit(tg_port->handle, &packet);
 
             if (bdk_unlikely(--count == 0))
             {
@@ -1421,7 +1466,7 @@ static void packet_transmitter(int unused, trafficgen_port_info_t *pinfo)
  *
  * @return Non zero on CRC error
  */
-static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_if_packet_t *packet)
+static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
     uint32_t crc = 0xffffffff;
     bdk_buf_ptr_t buffer_ptr = packet->packet;
@@ -1431,7 +1476,7 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_if_packet_t
     int remaining_bytes = packet->length;
 
     /* Skip the L2 header in the CRC calculation */
-    int skip = get_end_l2(pinfo);
+    int skip = get_end_l2(tg_port);
     if (bdk_if_get_type(packet->if_handle) == BDK_IF_SRIO)
         skip += 8;
     ptr += skip;
@@ -1447,12 +1492,12 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_if_packet_t
         if (work->word2.s.is_v6)
         {
             if (*(uint8_t*)(ptr + 6) == 0x11)
-                udp_checksum_offset = get_size_ip_header(pinfo) + 6;
+                udp_checksum_offset = get_size_ip_header(tg_port) + 6;
         }
         else
         {
             if (*(uint8_t*)(ptr + 9) == 0x11)
-                udp_checksum_offset = get_size_ip_header(pinfo) + 6;
+                udp_checksum_offset = get_size_ip_header(tg_port) + 6;
         }
 
         if (udp_checksum_offset)
@@ -1529,31 +1574,31 @@ static int is_packet_crc32c_wrong(trafficgen_port_info_t *pinfo, bdk_if_packet_t
  * @param work   Work to process
  * @return If the packet and work should be freed
  */
-static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_if_packet_t *packet)
+static packet_free_t fastpath_receive(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
 #if 0 // FIXME
-    if (bdk_unlikely(pinfo->setup.display_packet == 1))
+    if (bdk_unlikely(tg_port->pinfo.setup.display_packet == 1))
         dump_packet(packet);
 #endif
     if (bdk_unlikely(packet->rx_error))
     {
-        // FIXME bdk_atomic_add64((int64_t*)&pinfo->stats.rx_wqe_errors[packet->rx_error], 1);
+        // FIXME bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_wqe_errors[packet->rx_error], 1);
 #if 0 // FIXME
-        if (bdk_unlikely(pinfo->setup.display_packet == 2))
+        if (bdk_unlikely(tg_port->pinfo.setup.display_packet == 2))
             dump_packet(packet);
 #endif
         return PACKET_FREE;
     }
 
-    if (bdk_unlikely(pinfo->setup.validate))
+    if (bdk_unlikely(tg_port->pinfo.setup.validate))
     {
-        if (bdk_unlikely(is_packet_crc32c_wrong(pinfo, packet)))
-            bdk_atomic_add64((int64_t*)&pinfo->stats.rx_validation_errors, 1);
+        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet)))
+            bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
     }
 #if 0 // FIXME
-    if (bdk_unlikely(pinfo->setup.bridge_port != BRIDGE_OFF))
+    if (bdk_unlikely(tg_port->pinfo.setup.bridge_port != BRIDGE_OFF))
     {
-        int output_port = pinfo->setup.bridge_port;
+        int output_port = tg_port->pinfo.setup.bridge_port;
         trafficgen_port_info_t *pout = tg_get_pinfo(output_port);
         uint64_t queue = bdk_pko_get_base_queue(output_port) + 1;  /* NOTE: use a different queue than normal*/
         bdk_spinlock_lock(&pout->priv.lock);
@@ -1593,8 +1638,8 @@ static packet_free_t fastpath_receive(trafficgen_port_info_t *pinfo, bdk_if_pack
  */
 static void process_packet(bdk_if_packet_t *packet)
 {
-    trafficgen_port_info_t *pinfo = tg_get_pinfo(packet->if_handle);
-    packet_free_t status = fastpath_receive(pinfo, packet);
+    tg_port_t *tg_port = tg_get_port(packet->if_handle);
+    packet_free_t status = fastpath_receive(tg_port, packet);
     if (bdk_likely(status == PACKET_FREE))
         bdk_if_free(packet);
 }
@@ -1620,12 +1665,18 @@ static void packet_receiver(int unused, void *unused2)
  */
 int trafficgen_do_transmit(const trafficgen_port_set_t *range)
 {
-    bdk_thread_create(0, packet_receiver, 0, NULL);
+    static int have_rx;
+
+    if (!have_rx)
+    {
+        bdk_thread_create(0, packet_receiver, 0, NULL);
+        have_rx = 1;
+    }
     for (int i=0; range->list[i] != NULL; i++)
     {
-        trafficgen_port_info_t *pinfo = range->list[i];
-        pinfo->setup.output_enable = 1;
-        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, pinfo);
+        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
+        tg_port->pinfo.setup.output_enable = 1;
+        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, tg_port);
     }
     return 0;
 }
@@ -1636,12 +1687,12 @@ int trafficgen_do_transmit(const trafficgen_port_set_t *range)
  *
  * @return
  */
-int trafficgen_is_transmitting(const trafficgen_port_set_t *range)
+bool trafficgen_is_transmitting(const trafficgen_port_set_t *range)
 {
     for (int i=0; range->list[i] != NULL; i++)
     {
-        trafficgen_port_info_t *pinfo = range->list[i];
-        if (pinfo->setup.output_enable)
+        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
+        if (tg_port->pinfo.setup.output_enable)
             return 1;
     }
     return 0;

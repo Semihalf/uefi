@@ -16,6 +16,16 @@ local SCROLL_FULL   = "\27[1;r"    -- Normal full-screen scrolling for statistic
 local CURSOR_ON     = "\27[?25h"   -- Turn on cursor
 local CURSOR_OFF    = "\27[?25l"   -- Turn off cursor
 
+local ALIASES = {
+    ["F1"]="help",
+    ["F9"]="validate all on",
+    ["F10"]="stop all",
+    ["F11"]="start default",
+    ["F12"]="stop default",
+    ["PageUp"]="clear all",
+    ["PageDown"]="clear default",
+}
+
 local Row = {}
 local row_counter = 0
 function Row.new(name, struct, field, has_totals)
@@ -65,7 +75,7 @@ function TrafficGen.new()
     local default_ports = {}
     local known_rows = {}
     local is_running = true
-    local is_frozen = false
+    local last_display = 0
 
     --
     -- Public variables
@@ -136,27 +146,52 @@ function TrafficGen.new()
     local function parse_command(str)
         local SPECIAL_WORDS = {["true"]=true, ["false"]=false, ["on"]=true, ["off"]=false}
         local command
-        local ports = nil
+        local range
         local args = {}
+        local word_num = 0
         for word in str:gmatch("[^ ]+") do
-            if not command then
-                command = "cmd_" .. word
-            elseif (not ports) and (word == "all") then
-                ports = known_ports
-            elseif (not ports) and (word == "default") then
-                ports = default_ports
-            elseif (not ports) and (word:sub(1,1) == "p") then
-                ports = parse_port_list(word)
+            word_num = word_num + 1
+            if word_num == 1 then
+                for _,prefix in ipairs({"cmdp_", "cmdr_", "cmd_"}) do
+                    command = prefix .. word
+                    if type(self[command]) == "function" then
+                        break;
+                    end
+                end
+            elseif word_num == 2 then
+                if command:sub(1,5) == "cmdp_" then
+                    if word == "all" then
+                        range = known_ports
+                    elseif word == "default" then
+                        range = default_ports
+                    else
+                        range = parse_port_list(word)
+                    end
+                elseif command:sub(1,5) == "cmdr_" then
+                    if word == "all" then
+                        range = known_rows
+                    else
+                        range = parse_range_list(word)
+                    end
+                elseif SPECIAL_WORDS[word] ~= nil then
+                    table.insert(args, SPECIAL_WORDS[word])
+                else
+                    table.insert(args, word)
+                end
             elseif SPECIAL_WORDS[word] ~= nil then
                 table.insert(args, SPECIAL_WORDS[word])
             else
                 table.insert(args, word)
             end
         end
-        if ports == nil then
-            ports = default_ports
+        if range == nil then
+            if command:sub(1,5) == "cmdp_" then
+                range = default_ports
+            elseif command:sub(1,5) == "cmdr_" then
+                range = known_rows
+            end
         end
-        return command, ports, args
+        return command, range, args
     end
 
     -- Create commands for getting and setting each value in the port.setup
@@ -169,7 +204,7 @@ function TrafficGen.new()
         for _,field_name in ipairs(table.sorted_keys(fields)) do
             -- Skip complex types and fields beginning with "_"
             if (type(struct[field_name]) ~= "userdata") and (field_name:sub(1,1) ~= '_') then
-                self["cmd_" .. field_name] = function (self, port_range, args)
+                self["cmdp_" .. field_name] = function (self, port_range, args)
                     for _, port in pairs(port_range) do
                         if #args == 1 then
                             port[name][field_name] = args[1]
@@ -185,6 +220,18 @@ function TrafficGen.new()
     create_struct_commands("stats", known_ports[1].stats)
     create_struct_commands("setup", known_ports[1].setup)
 
+    -- Create a row reporting Lua's memory usage
+    do
+        local memusage = Row.new("Lua memory(KB)", nil, nil, false)
+        memusage.display = function (self, port_range)
+            local COL_SEP = ZEROHI .. "|" .. NORMAL
+            printf("%2d:%-20s", self.number, self.name)
+            printf("%s%10d%s\n", COL_SEP, collectgarbage("count"), ERASE_EOL)
+        end
+        memusage.visible = 1
+        table.insert(known_rows, memusage)
+    end
+
     --
     -- Public Methods
     --
@@ -192,23 +239,38 @@ function TrafficGen.new()
     -- Print a list of all commands
     function self:cmd_help(port_range, args)
         local commands = {}
+        for k in pairs(ALIASES) do
+            table.insert(commands, "<" .. k .. ">=\"" .. ALIASES[k] .. "\"")
+        end
         for k in pairs(self) do
             if k:sub(1,4) == "cmd_" then
                 table.insert(commands, k:sub(5))
             end
-        end
-        table.sort(commands)
-        for i,cmd in ipairs(commands) do
-            printf("%-25s ", cmd)
-            if i % 3 == 0 then
-                printf("\n")
+            if k:sub(1,5) == "cmdp_" then
+                table.insert(commands, k:sub(6))
+            end
+            if k:sub(1,5) == "cmdr_" then
+                table.insert(commands, k:sub(6))
             end
         end
-        printf("\n")
+        table.sort(commands)
+        local clm = (#commands+2)/3
+        for i=1,clm do
+            if commands[i] then
+                printf("%-27s ", commands[i])
+            end
+            if commands[i+clm] then
+                printf("%-27s ", commands[i+clm])
+            end
+            if commands[i+clm*2] then
+                printf("%-27s ", commands[i+clm*2])
+            end
+            printf("\n")
+        end
     end
 
     -- Select which ports to used by default
-    function self:cmd_default(port_range, args)
+    function self:cmdp_default(port_range, args)
         assert (#args == 0, "No arguments expected")
 
         default_ports = port_range
@@ -226,60 +288,63 @@ function TrafficGen.new()
         is_running = false
     end
 
-    function self:cmd_start(port_range, args)
+    function self:cmdp_start(port_range, args)
         assert (#args == 0, "No arguments expected")
         bdktrafficgen.do_transmit(get_port_set(port_range))
     end
 
-    function self:cmd_stop(port_range, args)
+    function self:cmdp_stop(port_range, args)
         assert (#args == 0, "No arguments expected")
-        self:cmd_output_enable(port_range, {false})
+        self:cmdp_output_enable(port_range, {false})
     end
 
-    function self:cmd_show(port_range, args)
+    function self:cmdp_show(port_range, args)
         assert (#args == 0, "No arguments expected")
         -- FIXME: Do union
         visible_ports = port_range
     end
 
-    function self:cmd_hide(port_range, args)
+    function self:cmdp_hide(port_range, args)
         assert (#args == 0, "No arguments expected")
         -- FIXME: Do intersection
         visible_ports = {}
     end
 
-    function self:cmd_clear(port_range, args)
+    function self:cmdp_clear(port_range, args)
         assert (#args == 0, "No arguments expected")
         bdktrafficgen.do_clear(get_port_set(port_range))
     end
 
-    function self:cmd_reset(port_range, args)
+    function self:cmdp_reset(port_range, args)
         assert (#args == 0, "No arguments expected")
         bdktrafficgen.do_reset(get_port_set(port_range))
     end
 
-    function self:cmd_tx_percent(port_range, args)
+    function self:cmdp_tx_percent(port_range, args)
         print "Not implemented"
     end
 
-    function self:cmd_tx_rate(port_range, args)
+    function self:cmdp_tx_rate(port_range, args)
         print "Not implemented"
     end
 
     function self:cmd_csr(port_range, args)
+        local name = args[1]
+        local value = args[2]
+        if value then
+            octeon.csr[name].write(value)
+        else
+            value = octeon.csr[name].read()
+            octeon.c.bdk_csr_decode(name, value)
+        end
+    end
+
+    function self:cmdr_row(row_range, args)
         print "Not implemented"
     end
 
-    function self:cmd_row(port_range, args)
+    function self:cmdr_hli(row_range, args)
         print "Not implemented"
-    end
-
-    function self:cmd_hli(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_freeze(port_range, args)
-        is_frozen = not is_frozen
     end
 
     function self:cmd_cls(port_range, args)
@@ -294,55 +359,77 @@ function TrafficGen.new()
         octeon.c.bdk_reset_octeon()
     end
 
-    function self:cmd_mii(port_range, args)
+    function self:cmdp_find_max(port_range, args)
         print "Not implemented"
     end
 
-    function self:cmd_speed(port_range, args)
-        print "Not implemented"
-    end
+    function self:cmdp_scan_sizes(port_range, args)
+        -- Get our setup params
+        local port_set = get_port_set(port_range)
+        local output_count = 100
+        local size_start = 60
+        local size_stop = 65524
+        local size_incr = 1
+        -- Get the latest statistics
+        bdktrafficgen.do_update()
+        -- Start with current counts
+        local expected_packets = 0
+        local expected_octets = 0
+        for _,port in ipairs(port_range) do
+            expected_packets = expected_packets + port.stats.rx_packets_total
+            expected_octets = expected_octets + port.stats.rx_octets_total
+        end
 
-    function self:cmd_arp(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_find_max(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_scan_sizes(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_loopback(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_backpressure(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_alias(port_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmd_unalias(port_range, args)
-        print "Not implemented"
+        -- Loop through the sizes
+        for size=size_start,size_stop,size_incr do
+            -- Setup TX and count how many packets we expect
+            for _,port in ipairs(port_range) do
+                port.setup.output_packet_size = size
+                port.setup.output_count = output_count
+                expected_packets = expected_packets + output_count
+                expected_octets = expected_octets + output_count * (size+4)
+            end
+            -- Do the TX
+            bdktrafficgen.do_transmit(port_set)
+            while bdktrafficgen.is_transmitting(port_set) do
+                -- Waiting for TX to be done
+                octeon.c.bdk_thread_yield();
+                -- Get the latest statistics
+                self:display()
+            end
+            local rx_packets
+            local rx_octets
+            repeat
+                octeon.c.bdk_thread_yield();
+                -- Get the latest statistics
+                self:display()
+                -- Count the amount of data received
+                rx_packets = 0
+                rx_octets = 0
+                for _,port in ipairs(port_range) do
+                    rx_packets = rx_packets + port.stats.rx_packets_total
+                    rx_octets = rx_octets + port.stats.rx_octets_total
+                end
+            until (rx_octets >= expected_octets)
+            printf("Size %d\n", size)
+            -- Make sure we got the right amount of data
+            if (rx_packets ~= expected_packets) or (rx_octets ~= expected_octets) then
+                printf("Scan failed at size %d\n", size)
+                printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
+                break
+            end
+        end
     end
 
     function self:cmd_echo(port_range, args)
         pprint(table.unpack(args))
     end
 
-    function self:cmd_type(port_range, args)
-        print "Not implemented"
-    end
-
     -- Issue a traffic gen comamnd line
     function self:command(command_line)
         local command, port_range, args = parse_command(command_line)
         if type(self[command]) ~= "function" then
-            print("Invalid command")
+            printf("Invalid command \"%s\"\n", command)
         else
             local status, result = pcall(self[command], self, port_range, args)
             if status then
@@ -354,9 +441,18 @@ function TrafficGen.new()
     end
 
     function self:display()
+        -- Make sure the stats are updated
+        bdktrafficgen.do_update()
+
         if #visible_ports == 0 then
             return 0
         end
+
+        local display_cycle = os.time()
+        if last_display == display_cycle then
+            return 0
+        end
+        last_display = display_cycle
 
         local num_rows = 0
         printf(CURSOR_OFF .. GOTO_TOP)
@@ -375,7 +471,8 @@ function TrafficGen.new()
         print("-------" .. ERASE_EOL)
         printf(ERASE_EOL .. "\n");
 
-        printf(GOTO_BOTTOM .. CURSOR_ON)
+        -- Confine scrolling region
+        printf("\27[%d;r" .. GOTO_BOTTOM .. CURSOR_ON, num_rows + 3)
         return num_rows
     end
 
@@ -383,24 +480,18 @@ function TrafficGen.new()
     function self:run()
         is_running = true
         while is_running do
-            -- Make sure the stats are updated
-            bdktrafficgen.do_update()
-            local num_rows = self:display()
-            -- Confine scrolling region
-            printf("\27[%d;r" .. GOTO_BOTTOM, num_rows + 3)
-            -- Poll port status
-            for _,port in ipairs(known_ports) do
-                -- FIXME octeon.c.bdk_helper_link_autoconf(port.port)
-            end
-
+            self:display()
             local cmd = octeon.readline("Command", nil, 1000000)
+            if ALIASES[cmd] then
+                cmd = ALIASES[cmd]
+                printf("<%s>\n", cmd)
+            end
             if cmd and (cmd ~= "") then
                 local status, result = pcall(self.command, self, cmd)
                 if not status then
                     printf("ERROR: %s\n", result)
                 end
             end
-            printf(SCROLL_FULL)
         end
         printf(SCROLL_FULL .. GOTO_BOTTOM)
     end

@@ -24,19 +24,19 @@ typedef struct
 {
     uint64_t    tx_packets;
     uint64_t    tx_octets;
+    uint64_t    tx_packets_total;
+    uint64_t    tx_octets_total;
     uint64_t    tx_bits;
-    uint64_t    tx_arp_requests;
-    uint64_t    tx_arp_replies;
 
-    uint64_t    rx_dropped_octets;  /* Inbound octets marked to be dropped by the IPD */
-    uint64_t    rx_dropped_packets; /* Inbound packets marked to be dropped by the IPD */
-    uint64_t    rx_octets;          /* Number of octets processed by PIP */
-    uint64_t    rx_packets;         /* Number of packets processed by PIP */
-    uint64_t    rx_errors;          /* Number of packets with GMX/SPX/PCI errors received by PIP */
-    uint64_t    rx_backpressure;
+    uint64_t    rx_packets;
+    uint64_t    rx_octets;
+    uint64_t    rx_packets_total;
+    uint64_t    rx_octets_total;
+    uint64_t    rx_dropped_octets;
+    uint64_t    rx_dropped_packets;
+    uint64_t    rx_errors;
     uint64_t    rx_bits;
-    uint64_t    rx_arp_requests;
-    uint64_t    rx_arp_replies;
+    uint64_t    rx_backpressure;
     uint64_t    rx_validation_errors;
     //uint64_t    rx_wqe_errors[256];
 } trafficgen_port_stats_t;
@@ -113,13 +113,9 @@ typedef struct
 typedef struct
 {
     char name[8];
-    bdk_if_t iftype;
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
-    struct {
-        bdk_spinlock_t lock;
-        bdk_if_handle_t handle;
-    } priv;
+    void *priv;
 } trafficgen_port_info_t;
 
 typedef struct
@@ -135,5 +131,5 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range);
 int trafficgen_do_update(void);
 
 int trafficgen_do_transmit(const trafficgen_port_set_t *range);
-int trafficgen_is_transmitting(const trafficgen_port_set_t *range);
+bool trafficgen_is_transmitting(const trafficgen_port_set_t *range);
 

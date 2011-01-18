@@ -1482,28 +1482,25 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_bdk_if_handle_t swig_types[0]
-#define SWIGTYPE_p_bdk_if_t swig_types[1]
-#define SWIGTYPE_p_bdk_spinlock_t swig_types[2]
-#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[3]
-#define SWIGTYPE_p_char swig_types[4]
-#define SWIGTYPE_p_int swig_types[5]
-#define SWIGTYPE_p_long swig_types[6]
-#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[7]
-#define SWIGTYPE_p_short swig_types[8]
-#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[9]
-#define SWIGTYPE_p_trafficgen_payload_t swig_types[10]
-#define SWIGTYPE_p_trafficgen_port_info_t swig_types[11]
-#define SWIGTYPE_p_trafficgen_port_info_t_priv swig_types[12]
-#define SWIGTYPE_p_trafficgen_port_set_t swig_types[13]
-#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[14]
-#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[15]
-#define SWIGTYPE_p_unsigned_char swig_types[16]
-#define SWIGTYPE_p_unsigned_int swig_types[17]
-#define SWIGTYPE_p_unsigned_long swig_types[18]
-#define SWIGTYPE_p_unsigned_short swig_types[19]
-static swig_type_info *swig_types[21];
-static swig_module_info swig_module = {swig_types, 20, 0, 0, 0, 0};
+#define SWIGTYPE_p_bdk_srio_tx_message_header_t swig_types[0]
+#define SWIGTYPE_p_char swig_types[1]
+#define SWIGTYPE_p_int swig_types[2]
+#define SWIGTYPE_p_long swig_types[3]
+#define SWIGTYPE_p_p_trafficgen_port_info_t swig_types[4]
+#define SWIGTYPE_p_short swig_types[5]
+#define SWIGTYPE_p_trafficgen_packet_type_t swig_types[6]
+#define SWIGTYPE_p_trafficgen_payload_t swig_types[7]
+#define SWIGTYPE_p_trafficgen_port_info_t swig_types[8]
+#define SWIGTYPE_p_trafficgen_port_set_t swig_types[9]
+#define SWIGTYPE_p_trafficgen_port_setup_t swig_types[10]
+#define SWIGTYPE_p_trafficgen_port_stats_t swig_types[11]
+#define SWIGTYPE_p_unsigned_char swig_types[12]
+#define SWIGTYPE_p_unsigned_int swig_types[13]
+#define SWIGTYPE_p_unsigned_long swig_types[14]
+#define SWIGTYPE_p_unsigned_short swig_types[15]
+#define SWIGTYPE_p_void swig_types[16]
+static swig_type_info *swig_types[18];
+static swig_module_info swig_module = {swig_types, 17, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1529,12 +1526,6 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
    ret = lua_isnil(L, idx);
   return ret;
 }
-
-typedef struct {
-  bdk_spinlock_t lock;
-  bdk_if_handle_t handle;
-} trafficgen_port_info_t_priv;
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -1641,6 +1632,108 @@ fail:
 }
 
 
+static int _wrap_port_stats_t_tx_packets_total_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t arg2 ;
+  
+  SWIG_check_num_args("tx_packets_total",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_packets_total",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("tx_packets_total",2,"uint64_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_tx_packets_total_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint64_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->tx_packets_total = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_tx_packets_total_get(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t result;
+  
+  SWIG_check_num_args("tx_packets_total",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_packets_total",1,"trafficgen_port_stats_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_tx_packets_total_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  result = (uint64_t) ((arg1)->tx_packets_total);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_tx_octets_total_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t arg2 ;
+  
+  SWIG_check_num_args("tx_octets_total",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_octets_total",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("tx_octets_total",2,"uint64_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_tx_octets_total_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint64_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->tx_octets_total = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_tx_octets_total_get(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t result;
+  
+  SWIG_check_num_args("tx_octets_total",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_octets_total",1,"trafficgen_port_stats_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_tx_octets_total_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  result = (uint64_t) ((arg1)->tx_octets_total);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_port_stats_t_tx_bits_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
@@ -1692,22 +1785,22 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_tx_arp_requests_set(lua_State* L) {
+static int _wrap_port_stats_t_rx_packets_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t arg2 ;
   
-  SWIG_check_num_args("tx_arp_requests",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_arp_requests",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("tx_arp_requests",2,"uint64_t");
+  SWIG_check_num_args("rx_packets",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_packets",2,"uint64_t");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_tx_arp_requests_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_packets_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
   SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
   arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->tx_arp_requests = arg2;
+  if (arg1) (arg1)->rx_packets = arg2;
   
   return SWIG_arg;
   
@@ -1719,19 +1812,19 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_tx_arp_requests_get(lua_State* L) {
+static int _wrap_port_stats_t_rx_packets_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t result;
   
-  SWIG_check_num_args("tx_arp_requests",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_arp_requests",1,"trafficgen_port_stats_t *");
+  SWIG_check_num_args("rx_packets",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets",1,"trafficgen_port_stats_t *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_tx_arp_requests_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_packets_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
-  result = (uint64_t) ((arg1)->tx_arp_requests);
+  result = (uint64_t) ((arg1)->rx_packets);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
@@ -1743,22 +1836,22 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_tx_arp_replies_set(lua_State* L) {
+static int _wrap_port_stats_t_rx_octets_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t arg2 ;
   
-  SWIG_check_num_args("tx_arp_replies",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_arp_replies",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("tx_arp_replies",2,"uint64_t");
+  SWIG_check_num_args("rx_octets",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_octets",2,"uint64_t");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_tx_arp_replies_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_octets_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
   SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
   arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->tx_arp_replies = arg2;
+  if (arg1) (arg1)->rx_octets = arg2;
   
   return SWIG_arg;
   
@@ -1770,19 +1863,121 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_tx_arp_replies_get(lua_State* L) {
+static int _wrap_port_stats_t_rx_octets_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t result;
   
-  SWIG_check_num_args("tx_arp_replies",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("tx_arp_replies",1,"trafficgen_port_stats_t *");
+  SWIG_check_num_args("rx_octets",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets",1,"trafficgen_port_stats_t *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_tx_arp_replies_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_octets_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
-  result = (uint64_t) ((arg1)->tx_arp_replies);
+  result = (uint64_t) ((arg1)->rx_octets);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_rx_packets_total_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t arg2 ;
+  
+  SWIG_check_num_args("rx_packets_total",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets_total",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_packets_total",2,"uint64_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_rx_packets_total_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint64_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->rx_packets_total = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_rx_packets_total_get(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t result;
+  
+  SWIG_check_num_args("rx_packets_total",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets_total",1,"trafficgen_port_stats_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_rx_packets_total_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  result = (uint64_t) ((arg1)->rx_packets_total);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_rx_octets_total_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t arg2 ;
+  
+  SWIG_check_num_args("rx_octets_total",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets_total",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_octets_total",2,"uint64_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_rx_octets_total_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint64_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->rx_octets_total = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_port_stats_t_rx_octets_total_get(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
+  uint64_t result;
+  
+  SWIG_check_num_args("rx_octets_total",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets_total",1,"trafficgen_port_stats_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
+    SWIG_fail_ptr("port_stats_t_rx_octets_total_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+  }
+  
+  result = (uint64_t) ((arg1)->rx_octets_total);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
@@ -1896,108 +2091,6 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_rx_octets_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t arg2 ;
-  
-  SWIG_check_num_args("rx_octets",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_octets",2,"uint64_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_octets_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->rx_octets = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_octets_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t result;
-  
-  SWIG_check_num_args("rx_octets",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_octets",1,"trafficgen_port_stats_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_octets_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  result = (uint64_t) ((arg1)->rx_octets);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_packets_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t arg2 ;
-  
-  SWIG_check_num_args("rx_packets",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_packets",2,"uint64_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_packets_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->rx_packets = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_packets_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t result;
-  
-  SWIG_check_num_args("rx_packets",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_packets",1,"trafficgen_port_stats_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_packets_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  result = (uint64_t) ((arg1)->rx_packets);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_stats_t_rx_errors_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
@@ -2038,57 +2131,6 @@ static int _wrap_port_stats_t_rx_errors_get(lua_State* L) {
   }
   
   result = (uint64_t) ((arg1)->rx_errors);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_backpressure_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t arg2 ;
-  
-  SWIG_check_num_args("rx_backpressure",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_backpressure",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_backpressure",2,"uint64_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_backpressure_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->rx_backpressure = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_backpressure_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t result;
-  
-  SWIG_check_num_args("rx_backpressure",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_backpressure",1,"trafficgen_port_stats_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_backpressure_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  result = (uint64_t) ((arg1)->rx_backpressure);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
@@ -2151,22 +2193,22 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_rx_arp_requests_set(lua_State* L) {
+static int _wrap_port_stats_t_rx_backpressure_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t arg2 ;
   
-  SWIG_check_num_args("rx_arp_requests",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_arp_requests",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_arp_requests",2,"uint64_t");
+  SWIG_check_num_args("rx_backpressure",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_backpressure",1,"trafficgen_port_stats_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_backpressure",2,"uint64_t");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_arp_requests_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_backpressure_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
   SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
   arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->rx_arp_requests = arg2;
+  if (arg1) (arg1)->rx_backpressure = arg2;
   
   return SWIG_arg;
   
@@ -2178,70 +2220,19 @@ fail:
 }
 
 
-static int _wrap_port_stats_t_rx_arp_requests_get(lua_State* L) {
+static int _wrap_port_stats_t_rx_backpressure_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
   uint64_t result;
   
-  SWIG_check_num_args("rx_arp_requests",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_arp_requests",1,"trafficgen_port_stats_t *");
+  SWIG_check_num_args("rx_backpressure",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_backpressure",1,"trafficgen_port_stats_t *");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_arp_requests_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
+    SWIG_fail_ptr("port_stats_t_rx_backpressure_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
   }
   
-  result = (uint64_t) ((arg1)->rx_arp_requests);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_arp_replies_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t arg2 ;
-  
-  SWIG_check_num_args("rx_arp_replies",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_arp_replies",1,"trafficgen_port_stats_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("rx_arp_replies",2,"uint64_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_arp_replies_set",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
-  arg2 = (uint64_t)lua_tonumber(L, 2);
-  if (arg1) (arg1)->rx_arp_replies = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_stats_t_rx_arp_replies_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_stats_t *arg1 = (trafficgen_port_stats_t *) 0 ;
-  uint64_t result;
-  
-  SWIG_check_num_args("rx_arp_replies",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("rx_arp_replies",1,"trafficgen_port_stats_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_stats_t,0))){
-    SWIG_fail_ptr("port_stats_t_rx_arp_replies_get",1,SWIGTYPE_p_trafficgen_port_stats_t);
-  }
-  
-  result = (uint64_t) ((arg1)->rx_arp_replies);
+  result = (uint64_t) ((arg1)->rx_backpressure);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
@@ -2331,18 +2322,18 @@ static swig_lua_method swig_trafficgen_port_stats_t_methods[] = {
 static swig_lua_attribute swig_trafficgen_port_stats_t_attributes[] = {
     { "tx_packets", _wrap_port_stats_t_tx_packets_get, _wrap_port_stats_t_tx_packets_set},
     { "tx_octets", _wrap_port_stats_t_tx_octets_get, _wrap_port_stats_t_tx_octets_set},
+    { "tx_packets_total", _wrap_port_stats_t_tx_packets_total_get, _wrap_port_stats_t_tx_packets_total_set},
+    { "tx_octets_total", _wrap_port_stats_t_tx_octets_total_get, _wrap_port_stats_t_tx_octets_total_set},
     { "tx_bits", _wrap_port_stats_t_tx_bits_get, _wrap_port_stats_t_tx_bits_set},
-    { "tx_arp_requests", _wrap_port_stats_t_tx_arp_requests_get, _wrap_port_stats_t_tx_arp_requests_set},
-    { "tx_arp_replies", _wrap_port_stats_t_tx_arp_replies_get, _wrap_port_stats_t_tx_arp_replies_set},
+    { "rx_packets", _wrap_port_stats_t_rx_packets_get, _wrap_port_stats_t_rx_packets_set},
+    { "rx_octets", _wrap_port_stats_t_rx_octets_get, _wrap_port_stats_t_rx_octets_set},
+    { "rx_packets_total", _wrap_port_stats_t_rx_packets_total_get, _wrap_port_stats_t_rx_packets_total_set},
+    { "rx_octets_total", _wrap_port_stats_t_rx_octets_total_get, _wrap_port_stats_t_rx_octets_total_set},
     { "rx_dropped_octets", _wrap_port_stats_t_rx_dropped_octets_get, _wrap_port_stats_t_rx_dropped_octets_set},
     { "rx_dropped_packets", _wrap_port_stats_t_rx_dropped_packets_get, _wrap_port_stats_t_rx_dropped_packets_set},
-    { "rx_octets", _wrap_port_stats_t_rx_octets_get, _wrap_port_stats_t_rx_octets_set},
-    { "rx_packets", _wrap_port_stats_t_rx_packets_get, _wrap_port_stats_t_rx_packets_set},
     { "rx_errors", _wrap_port_stats_t_rx_errors_get, _wrap_port_stats_t_rx_errors_set},
-    { "rx_backpressure", _wrap_port_stats_t_rx_backpressure_get, _wrap_port_stats_t_rx_backpressure_set},
     { "rx_bits", _wrap_port_stats_t_rx_bits_get, _wrap_port_stats_t_rx_bits_set},
-    { "rx_arp_requests", _wrap_port_stats_t_rx_arp_requests_get, _wrap_port_stats_t_rx_arp_requests_set},
-    { "rx_arp_replies", _wrap_port_stats_t_rx_arp_replies_get, _wrap_port_stats_t_rx_arp_replies_set},
+    { "rx_backpressure", _wrap_port_stats_t_rx_backpressure_get, _wrap_port_stats_t_rx_backpressure_set},
     { "rx_validation_errors", _wrap_port_stats_t_rx_validation_errors_get, _wrap_port_stats_t_rx_validation_errors_set},
     {0,0,0}
 };
@@ -4725,67 +4716,6 @@ fail:
 }
 
 
-static int _wrap_port_info_t_iftype_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t *arg1 = (trafficgen_port_info_t *) 0 ;
-  bdk_if_t arg2 ;
-  bdk_if_t *argp2 ;
-  
-  SWIG_check_num_args("iftype",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("iftype",1,"trafficgen_port_info_t *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("iftype",2,"bdk_if_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t,0))){
-    SWIG_fail_ptr("port_info_t_iftype_set",1,SWIGTYPE_p_trafficgen_port_info_t);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_if_t,0))){
-    SWIG_fail_ptr("port_info_t_iftype_set",2,SWIGTYPE_p_bdk_if_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->iftype = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_iftype_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t *arg1 = (trafficgen_port_info_t *) 0 ;
-  bdk_if_t result;
-  
-  SWIG_check_num_args("iftype",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("iftype",1,"trafficgen_port_info_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t,0))){
-    SWIG_fail_ptr("port_info_t_iftype_get",1,SWIGTYPE_p_trafficgen_port_info_t);
-  }
-  
-  result =  ((arg1)->iftype);
-  {
-    bdk_if_t * resultptr;
-    resultptr = (bdk_if_t *) malloc(sizeof(bdk_if_t));
-    memmove(resultptr, &result, sizeof(bdk_if_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_if_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_info_t_setup_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_info_t *arg1 = (trafficgen_port_info_t *) 0 ;
@@ -4894,10 +4824,36 @@ fail:
 }
 
 
+static int _wrap_port_info_t_priv_set(lua_State* L) {
+  int SWIG_arg = 0;
+  trafficgen_port_info_t *arg1 = (trafficgen_port_info_t *) 0 ;
+  void *arg2 = (void *) 0 ;
+  
+  SWIG_check_num_args("priv",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("priv",1,"trafficgen_port_info_t *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("priv",2,"void *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t,0))){
+    SWIG_fail_ptr("port_info_t_priv_set",1,SWIGTYPE_p_trafficgen_port_info_t);
+  }
+  
+  arg2=(void *)SWIG_MustGetPtr(L,2,0,0,2,"port_info_t_priv_set");
+  if (arg1) (arg1)->priv = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_port_info_t_priv_get(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_info_t *arg1 = (trafficgen_port_info_t *) 0 ;
-  trafficgen_port_info_t_priv *result = 0 ;
+  void *result = 0 ;
   
   SWIG_check_num_args("priv",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("priv",1,"trafficgen_port_info_t *");
@@ -4906,8 +4862,8 @@ static int _wrap_port_info_t_priv_get(lua_State* L) {
     SWIG_fail_ptr("port_info_t_priv_get",1,SWIGTYPE_p_trafficgen_port_info_t);
   }
   
-  result = (trafficgen_port_info_t_priv *)& ((arg1)->priv);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_trafficgen_port_info_t_priv,0); SWIG_arg++; 
+  result = (void *) ((arg1)->priv);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_void,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -4944,170 +4900,14 @@ static swig_lua_method swig_trafficgen_port_info_t_methods[] = {
 };
 static swig_lua_attribute swig_trafficgen_port_info_t_attributes[] = {
     { "name", _wrap_port_info_t_name_get, _wrap_port_info_t_name_set},
-    { "iftype", _wrap_port_info_t_iftype_get, _wrap_port_info_t_iftype_set},
     { "setup", _wrap_port_info_t_setup_get, _wrap_port_info_t_setup_set},
     { "stats", _wrap_port_info_t_stats_get, _wrap_port_info_t_stats_set},
-    { "priv", _wrap_port_info_t_priv_get, SWIG_Lua_set_immutable},
+    { "priv", _wrap_port_info_t_priv_get, _wrap_port_info_t_priv_set},
     {0,0,0}
 };
 static swig_lua_class *swig_trafficgen_port_info_t_bases[] = {0};
 static const char *swig_trafficgen_port_info_t_base_names[] = {0};
 static swig_lua_class _wrap_class_trafficgen_port_info_t = { "port_info_t", &SWIGTYPE_p_trafficgen_port_info_t,_wrap_new_port_info_t, swig_delete_port_info_t, swig_trafficgen_port_info_t_methods, swig_trafficgen_port_info_t_attributes, swig_trafficgen_port_info_t_bases, swig_trafficgen_port_info_t_base_names };
-
-static int _wrap_port_info_t_priv_lock_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_spinlock_t arg2 ;
-  bdk_spinlock_t *argp2 ;
-  
-  SWIG_check_num_args("lock",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("lock",1,"trafficgen_port_info_t_priv *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("lock",2,"bdk_spinlock_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_lock_set",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_spinlock_t,0))){
-    SWIG_fail_ptr("port_info_t_priv_lock_set",2,SWIGTYPE_p_bdk_spinlock_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->lock = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_lock_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_spinlock_t result;
-  
-  SWIG_check_num_args("lock",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("lock",1,"trafficgen_port_info_t_priv *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_lock_get",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  result =  ((arg1)->lock);
-  {
-    bdk_spinlock_t * resultptr;
-    resultptr = (bdk_spinlock_t *) malloc(sizeof(bdk_spinlock_t));
-    memmove(resultptr, &result, sizeof(bdk_spinlock_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_spinlock_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_handle_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_if_handle_t arg2 ;
-  bdk_if_handle_t *argp2 ;
-  
-  SWIG_check_num_args("handle",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("handle",1,"trafficgen_port_info_t_priv *");
-  if(!lua_isuserdata(L,2)) SWIG_fail_arg("handle",2,"bdk_if_handle_t");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_handle_set",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_bdk_if_handle_t,0))){
-    SWIG_fail_ptr("port_info_t_priv_handle_set",2,SWIGTYPE_p_bdk_if_handle_t);
-  }
-  arg2 = *argp2;
-  
-  if (arg1) (arg1)->handle = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_info_t_priv_handle_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) 0 ;
-  bdk_if_handle_t result;
-  
-  SWIG_check_num_args("handle",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("handle",1,"trafficgen_port_info_t_priv *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_info_t_priv,0))){
-    SWIG_fail_ptr("port_info_t_priv_handle_get",1,SWIGTYPE_p_trafficgen_port_info_t_priv);
-  }
-  
-  result =  ((arg1)->handle);
-  {
-    bdk_if_handle_t * resultptr;
-    resultptr = (bdk_if_handle_t *) malloc(sizeof(bdk_if_handle_t));
-    memmove(resultptr, &result, sizeof(bdk_if_handle_t));
-    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_bdk_if_handle_t,1); SWIG_arg++;
-  }
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_new_port_info_t_priv(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_info_t_priv *result = 0 ;
-  
-  SWIG_check_num_args("trafficgen_port_info_t_priv::trafficgen_port_info_t_priv",0,0)
-  result = (trafficgen_port_info_t_priv *)calloc(1, sizeof(trafficgen_port_info_t_priv));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_trafficgen_port_info_t_priv,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_port_info_t_priv(void *obj) {
-trafficgen_port_info_t_priv *arg1 = (trafficgen_port_info_t_priv *) obj;
-free((char *) arg1);
-}
-static swig_lua_method swig_trafficgen_port_info_t_priv_methods[] = {
-    {0,0}
-};
-static swig_lua_attribute swig_trafficgen_port_info_t_priv_attributes[] = {
-    { "lock", _wrap_port_info_t_priv_lock_get, _wrap_port_info_t_priv_lock_set},
-    { "handle", _wrap_port_info_t_priv_handle_get, _wrap_port_info_t_priv_handle_set},
-    {0,0,0}
-};
-static swig_lua_class *swig_trafficgen_port_info_t_priv_bases[] = {0};
-static const char *swig_trafficgen_port_info_t_priv_base_names[] = {0};
-static swig_lua_class _wrap_class_trafficgen_port_info_t_priv = { "port_info_t_priv", &SWIGTYPE_p_trafficgen_port_info_t_priv,_wrap_new_port_info_t_priv, swig_delete_port_info_t_priv, swig_trafficgen_port_info_t_priv_methods, swig_trafficgen_port_info_t_priv_attributes, swig_trafficgen_port_info_t_priv_bases, swig_trafficgen_port_info_t_priv_base_names };
 
 static int _wrap_port_set_t_list_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -5341,7 +5141,7 @@ fail:
 static int _wrap_is_transmitting(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_set_t *arg1 = (trafficgen_port_set_t *) 0 ;
-  int result;
+  bool result;
   
   SWIG_check_num_args("trafficgen_is_transmitting",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("trafficgen_is_transmitting",1,"trafficgen_port_set_t const *");
@@ -5350,8 +5150,8 @@ static int _wrap_is_transmitting(lua_State* L) {
     SWIG_fail_ptr("is_transmitting",1,SWIGTYPE_p_trafficgen_port_set_t);
   }
   
-  result = (int)trafficgen_is_transmitting((trafficgen_port_set_t const *)arg1);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  result = (bool)trafficgen_is_transmitting((trafficgen_port_set_t const *)arg1);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -5402,9 +5202,6 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_bdk_if_handle_t = {"_p_bdk_if_handle_t", "bdk_if_handle_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_bdk_if_t = {"_p_bdk_if_t", "bdk_if_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_bdk_spinlock_t = {"_p_bdk_spinlock_t", "bdk_spinlock_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_bdk_srio_tx_message_header_t = {"_p_bdk_srio_tx_message_header_t", "bdk_srio_tx_message_header_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *|int8_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "int *|int32_t *", 0, 0, (void*)0, 0};
@@ -5414,7 +5211,6 @@ static swig_type_info _swigt__p_short = {"_p_short", "short *|int16_t *", 0, 0, 
 static swig_type_info _swigt__p_trafficgen_packet_type_t = {"_p_trafficgen_packet_type_t", "enum trafficgen_packet_type_t *|trafficgen_packet_type_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_trafficgen_payload_t = {"_p_trafficgen_payload_t", "enum trafficgen_payload_t *|trafficgen_payload_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_trafficgen_port_info_t = {"_p_trafficgen_port_info_t", "trafficgen_port_info_t *", 0, 0, (void*)&_wrap_class_trafficgen_port_info_t, 0};
-static swig_type_info _swigt__p_trafficgen_port_info_t_priv = {"_p_trafficgen_port_info_t_priv", "trafficgen_port_info_t_priv *", 0, 0, (void*)&_wrap_class_trafficgen_port_info_t_priv, 0};
 static swig_type_info _swigt__p_trafficgen_port_set_t = {"_p_trafficgen_port_set_t", "trafficgen_port_set_t *", 0, 0, (void*)&_wrap_class_trafficgen_port_set_t, 0};
 static swig_type_info _swigt__p_trafficgen_port_setup_t = {"_p_trafficgen_port_setup_t", "trafficgen_port_setup_t *", 0, 0, (void*)&_wrap_class_trafficgen_port_setup_t, 0};
 static swig_type_info _swigt__p_trafficgen_port_stats_t = {"_p_trafficgen_port_stats_t", "trafficgen_port_stats_t *", 0, 0, (void*)&_wrap_class_trafficgen_port_stats_t, 0};
@@ -5422,11 +5218,9 @@ static swig_type_info _swigt__p_unsigned_char = {"_p_unsigned_char", "unsigned c
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "uint32_t *|unsigned int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_long = {"_p_unsigned_long", "uint64_t *|unsigned long *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_short = {"_p_unsigned_short", "unsigned short *|uint16_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
-  &_swigt__p_bdk_if_handle_t,
-  &_swigt__p_bdk_if_t,
-  &_swigt__p_bdk_spinlock_t,
   &_swigt__p_bdk_srio_tx_message_header_t,
   &_swigt__p_char,
   &_swigt__p_int,
@@ -5436,7 +5230,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_trafficgen_packet_type_t,
   &_swigt__p_trafficgen_payload_t,
   &_swigt__p_trafficgen_port_info_t,
-  &_swigt__p_trafficgen_port_info_t_priv,
   &_swigt__p_trafficgen_port_set_t,
   &_swigt__p_trafficgen_port_setup_t,
   &_swigt__p_trafficgen_port_stats_t,
@@ -5444,11 +5237,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_unsigned_int,
   &_swigt__p_unsigned_long,
   &_swigt__p_unsigned_short,
+  &_swigt__p_void,
 };
 
-static swig_cast_info _swigc__p_bdk_if_handle_t[] = {  {&_swigt__p_bdk_if_handle_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_bdk_if_t[] = {  {&_swigt__p_bdk_if_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_bdk_spinlock_t[] = {  {&_swigt__p_bdk_spinlock_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_bdk_srio_tx_message_header_t[] = {  {&_swigt__p_bdk_srio_tx_message_header_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
@@ -5458,7 +5249,6 @@ static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 
 static swig_cast_info _swigc__p_trafficgen_packet_type_t[] = {  {&_swigt__p_trafficgen_packet_type_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_trafficgen_payload_t[] = {  {&_swigt__p_trafficgen_payload_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_trafficgen_port_info_t[] = {  {&_swigt__p_trafficgen_port_info_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_trafficgen_port_info_t_priv[] = {  {&_swigt__p_trafficgen_port_info_t_priv, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_trafficgen_port_set_t[] = {  {&_swigt__p_trafficgen_port_set_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_trafficgen_port_setup_t[] = {  {&_swigt__p_trafficgen_port_setup_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_trafficgen_port_stats_t[] = {  {&_swigt__p_trafficgen_port_stats_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -5466,11 +5256,9 @@ static swig_cast_info _swigc__p_unsigned_char[] = {  {&_swigt__p_unsigned_char, 
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_long[] = {  {&_swigt__p_unsigned_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_short[] = {  {&_swigt__p_unsigned_short, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
-  _swigc__p_bdk_if_handle_t,
-  _swigc__p_bdk_if_t,
-  _swigc__p_bdk_spinlock_t,
   _swigc__p_bdk_srio_tx_message_header_t,
   _swigc__p_char,
   _swigc__p_int,
@@ -5480,7 +5268,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_trafficgen_packet_type_t,
   _swigc__p_trafficgen_payload_t,
   _swigc__p_trafficgen_port_info_t,
-  _swigc__p_trafficgen_port_info_t_priv,
   _swigc__p_trafficgen_port_set_t,
   _swigc__p_trafficgen_port_setup_t,
   _swigc__p_trafficgen_port_stats_t,
@@ -5488,6 +5275,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_unsigned_int,
   _swigc__p_unsigned_long,
   _swigc__p_unsigned_short,
+  _swigc__p_void,
 };
 
 
