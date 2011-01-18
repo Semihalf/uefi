@@ -393,9 +393,8 @@ function TrafficGen.new()
                 -- FIXME octeon.c.bdk_helper_link_autoconf(port.port)
             end
 
-            printf("Command> ")
-            local cmd = io.read()
-            if cmd ~= "" then
+            local cmd = octeon.readline("Command", nil, 1000000)
+            if cmd and (cmd ~= "") then
                 local status, result = pcall(self.command, self, cmd)
                 if not status then
                     printf("ERROR: %s\n", result)

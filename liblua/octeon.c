@@ -332,5 +332,8 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     extern int luaopen_bdktrafficgen(lua_State *L);
     luaopen_bdktrafficgen(L);
 
+    extern int luaopen_readline(lua_State *L);
+    luaopen_readline(L);
+
     return 1;
 }
