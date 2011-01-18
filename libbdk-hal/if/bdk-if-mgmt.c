@@ -96,9 +96,14 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Read PHY status register to find the mode of the interface. */
     int phy_id = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + handle->index);
-    bdk_mdio_phy_reg_status_t phy_status;
-    phy_status.u16 = bdk_mdio_read(phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
-    state->is_rgmii = (phy_status.s.capable_extended_status == 1);
+    if (phy_id != -1)
+    {
+        bdk_mdio_phy_reg_status_t phy_status;
+        phy_status.u16 = bdk_mdio_read(phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
+        state->is_rgmii = (phy_status.s.capable_extended_status == 1);
+    }
+    else
+        state->is_rgmii = 1;
 
     /* Reset the MIX block if it is already running. */
     BDK_CSR_INIT(mix_ctl, BDK_MIXX_CTL(handle->index));

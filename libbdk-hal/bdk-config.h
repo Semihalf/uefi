@@ -60,5 +60,6 @@ typedef enum
 
 extern uint64_t bdk_config_get(bdk_config_t cfg);
 extern void bdk_config_set(bdk_config_t cfg, uint64_t value);
+extern const char *bdk_config_get_name(bdk_config_t cfg);
 
 /** @} */

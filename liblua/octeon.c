@@ -308,6 +308,13 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_pushnumber(L, OCTEON_CN68XX_PASS1_X);
     lua_setfield(L, -2, "CN68XXP1");
 
+    /* Add constants for bdk_config */
+    for (bdk_config_t c=0; c<__BDK_CONFIG_END; c++)
+    {
+        lua_pushnumber(L, c);
+        lua_setfield(L, -2, bdk_config_get_name(c));
+    }
+
     /* Add octeon.csr, magic table access to Octeon CSRs */
     lua_newtable(L); /* csr table */
     lua_newtable(L); /* csr metatable */

@@ -103,3 +103,9 @@ void bdk_config_set(bdk_config_t cfg, uint64_t value)
     BDK_SYNCW;
 }
 
+const char *bdk_config_get_name(bdk_config_t cfg)
+{
+    const bdk_config_entry_t *entry = &__bdk_config_table[cfg];
+    return entry->name + 4; /* Strip off "BDK_" */
+}
+
