@@ -467,6 +467,7 @@ typedef struct
 {
     bdk_if_handle_t handle;
     bdk_if_stats_t clear_stats;
+    bdk_if_stats_t delta_stats;
     uint64_t last_update;
     trafficgen_port_info_t pinfo;
 } tg_port_t;
@@ -751,6 +752,7 @@ int trafficgen_do_clear(const trafficgen_port_set_t *range)
         tg_port_t *tg_port = tg_info_to_port(range->list[i]);
         const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
         tg_port->clear_stats = *stats;
+        tg_port->delta_stats = *stats;
         memset(&tg_port->pinfo.stats, 0, sizeof(tg_port->pinfo.stats));
     }
     return 0;
@@ -823,7 +825,7 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
  *
  * @return
  */
-int trafficgen_do_update(void)
+int trafficgen_do_update(bool do_clear)
 {
     uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
 
@@ -835,21 +837,21 @@ int trafficgen_do_update(void)
         const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
 
         /* TX stats */
-        tg_port->pinfo.stats.tx_packets = stats->tx.packets - tg_port->clear_stats.tx.packets;
-        tg_port->pinfo.stats.tx_octets = stats->tx.octets - tg_port->clear_stats.tx.octets;
+        tg_port->pinfo.stats.tx_packets = stats->tx.packets - tg_port->delta_stats.tx.packets;
+        tg_port->pinfo.stats.tx_octets = stats->tx.octets - tg_port->delta_stats.tx.octets;
 
         /* RX stats */
-        tg_port->pinfo.stats.rx_dropped_octets = stats->rx.dropped_octets - tg_port->clear_stats.rx.dropped_octets;
-        tg_port->pinfo.stats.rx_dropped_packets = stats->rx.dropped_packets - tg_port->clear_stats.rx.dropped_packets;
-        tg_port->pinfo.stats.rx_octets = stats->rx.octets - tg_port->clear_stats.rx.octets;
-        tg_port->pinfo.stats.rx_packets = stats->rx.packets - tg_port->clear_stats.rx.packets;
-        tg_port->pinfo.stats.rx_errors += stats->rx.errors - tg_port->clear_stats.rx.errors;
+        tg_port->pinfo.stats.rx_dropped_octets = stats->rx.dropped_octets - tg_port->delta_stats.rx.dropped_octets;
+        tg_port->pinfo.stats.rx_dropped_packets = stats->rx.dropped_packets - tg_port->delta_stats.rx.dropped_packets;
+        tg_port->pinfo.stats.rx_octets = stats->rx.octets - tg_port->delta_stats.rx.octets;
+        tg_port->pinfo.stats.rx_packets = stats->rx.packets - tg_port->delta_stats.rx.packets;
 
         /* Create totals */
-        tg_port->pinfo.stats.tx_packets_total += tg_port->pinfo.stats.tx_packets;
-        tg_port->pinfo.stats.tx_octets_total += tg_port->pinfo.stats.tx_octets;
-        tg_port->pinfo.stats.rx_packets_total += tg_port->pinfo.stats.rx_packets;
-        tg_port->pinfo.stats.rx_octets_total += tg_port->pinfo.stats.rx_octets;
+        tg_port->pinfo.stats.tx_packets_total = stats->tx.packets - tg_port->clear_stats.tx.packets;
+        tg_port->pinfo.stats.tx_octets_total = stats->tx.octets - tg_port->clear_stats.tx.octets;
+        tg_port->pinfo.stats.rx_packets_total = stats->rx.packets - tg_port->clear_stats.rx.packets;
+        tg_port->pinfo.stats.rx_octets_total = stats->rx.octets - tg_port->clear_stats.rx.octets;
+        tg_port->pinfo.stats.rx_errors = stats->rx.errors - tg_port->clear_stats.rx.errors;
 
         /* Scale to account for update interval */
         if (update_cycle > tg_port->last_update)
@@ -910,8 +912,11 @@ int trafficgen_do_update(void)
                 break;
         }
         tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
-        tg_port->clear_stats = *stats;
-        tg_port->last_update = update_cycle;
+        if (do_clear)
+        {
+            tg_port->delta_stats = *stats;
+            tg_port->last_update = update_cycle;
+        }
     }
     return 0;
 }

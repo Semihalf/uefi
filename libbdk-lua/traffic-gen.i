@@ -128,7 +128,7 @@ void trafficgen_port_add(trafficgen_port_set_t *set, trafficgen_port_info_t *pin
 
 int trafficgen_do_clear(const trafficgen_port_set_t *range);
 int trafficgen_do_reset(const trafficgen_port_set_t *range);
-int trafficgen_do_update(void);
+int trafficgen_do_update(bool do_clear);
 
 int trafficgen_do_transmit(const trafficgen_port_set_t *range);
 bool trafficgen_is_transmitting(const trafficgen_port_set_t *range);

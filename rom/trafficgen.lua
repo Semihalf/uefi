@@ -371,7 +371,7 @@ function TrafficGen.new()
         local size_stop = 65524
         local size_incr = 1
         -- Get the latest statistics
-        bdktrafficgen.do_update()
+        bdktrafficgen.do_update(false)
         -- Start with current counts
         local expected_packets = 0
         local expected_octets = 0
@@ -441,18 +441,18 @@ function TrafficGen.new()
     end
 
     function self:display()
-        -- Make sure the stats are updated
-        bdktrafficgen.do_update()
+        local display_cycle = os.time()
+        if last_display == display_cycle then
+            -- Make sure the stats are updated
+            bdktrafficgen.do_update(false)
+            return 0
+        end
+        last_display = display_cycle
+        bdktrafficgen.do_update(true)
 
         if #visible_ports == 0 then
             return 0
         end
-
-        local display_cycle = os.time()
-        if last_display == display_cycle then
-            return 0
-        end
-        last_display = display_cycle
 
         local num_rows = 0
         printf(CURSOR_OFF .. GOTO_TOP)

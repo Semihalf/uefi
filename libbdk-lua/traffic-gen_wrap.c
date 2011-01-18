@@ -5099,10 +5099,13 @@ fail:
 
 static int _wrap_do_update(lua_State* L) {
   int SWIG_arg = 0;
+  bool arg1 ;
   int result;
   
-  SWIG_check_num_args("trafficgen_do_update",0,0)
-  result = (int)trafficgen_do_update();
+  SWIG_check_num_args("trafficgen_do_update",1,1)
+  if(!lua_isboolean(L,1)) SWIG_fail_arg("trafficgen_do_update",1,"bool");
+  arg1 = (lua_toboolean(L, 1)!=0);
+  result = (int)trafficgen_do_update(arg1);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   
