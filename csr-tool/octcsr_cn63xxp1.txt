@@ -4846,7 +4846,7 @@ Notes:
 (B) PCTERR - checks that the frame begins with a valid PREAMBLE sequence.
              Does not check the number of PREAMBLE cycles.
 
-(C) OVRERR - Not to be included in the HRM
+(C) OVRERR - *DON'T PUT IN HRM*
 
 	     OVRERR is an architectural assertion check internal to GMX to
 	     make sure no assumption was violated.  In a correctly operating
@@ -6911,13 +6911,35 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:17> NS       RAZ      NS          NS        Reserved				            |
- <16>    BP       RO       0x0         0         Current BP state				    |
+ <16>    BP       RO       0x0         0         Current TX stats BP state			    |
+						  When the TX stats machine cannot update the stats |
+						  registers quickly enough, the machine has the	    |
+						  ability to BP TX datapath.  This is a rare event  |
+						  and will not occur in normal operation.	    |
+						  0 = no backpressure is applied		    |
+						  1 = backpressure is applied to TX datapath to	    |
+						      allow stat update operations to complete	    |
  <15:0>  CNT      R/W1C    0x0         0         Number of cycles that BP has been asserted	    |
 						  Saturating counter                                |
 
 Notes:
 
 Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
+
+*DON'T PUT IN HRM*
+
+It has no relationship with the TX FIFO per se.  The TX engine sends packets
+from PKO and upon completion, sends a command to the TX stats block for an
+update based on the packet size.  The stats operation can take a few cycles -
+normally not enough to be visible considering the 64B min packet size that is
+ethernet convention.
+
+In the rare case in which SW attempted to schedule really, really, small packets
+or the sclk (6xxx) is running ass-slow, then the stats updates may not happen in
+real time and can back up the TX engine.
+
+This counter is the number of cycles in which the TX engine was stalled.  In
+normal operation, it should always be zeros.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11446,7 +11468,7 @@ Notes:
 (B) PCTERR - checks that the frame begins with a valid PREAMBLE sequence.
              Does not check the number of PREAMBLE cycles.
 
-(C) OVRERR - Not to be included in the HRM
+(C) OVRERR - *DON'T PUT IN HRM*
 
 	     OVRERR is an architectural assertion check internal to GMX to
 	     make sure no assumption was violated.  In a correctly operating
@@ -13449,9 +13471,33 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:17> NS       RAZ      NS          NS        Reserved				            |
- <16>    BP       RO       0x0         0         Current BP state				    |
+ <16>    BP       RO       0x0         0         Current TX stats BP state			    |
+						  When the TX stats machine cannot update the stats |
+						  registers quickly enough, the machine has the	    |
+						  ability to BP TX datapath.  This is a rare event  |
+						  and will not occur in normal operation.	    |
+						  0 = no backpressure is applied		    |
+						  1 = backpressure is applied to TX datapath to	    |
+						      allow stat update operations to complete	    |
  <15:0>  CNT      R/W1C    0x0         0         Number of cycles that BP has been asserted	    |
 						  Saturating counter                                |
+
+Notes:
+
+*DON'T PUT IN HRM*
+
+It has no relationship with the TX FIFO per se.  The TX engine sends packets
+from PKO and upon completion, sends a command to the TX stats block for an
+update based on the packet size.  The stats operation can take a few cycles -
+normally not enough to be visible considering the 64B min packet size that is
+ethernet convention.
+
+In the rare case in which SW attempted to schedule really, really, small packets
+or the sclk (6xxx) is running ass-slow, then the stats updates may not happen in
+real time and can back up the TX engine.
+
+This counter is the number of cycles in which the TX engine was stalled.  In
+normal operation, it should always be zeros.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13821,6 +13867,26 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS       RAZ      NS          NS        Reserved				            |
  <11:8>  SPEED    RO       NS          NS        Interface Speed			            |
+						  QLM speed pins  which select reference clock	    |
+						  period and interface data rate.  If the QLM PLL   |
+						  inputs are correct, the speed setting correspond  |
+						  to the following data rates (in Gbaud).	    |
+						  0  = 5					    |
+						  1  = 2.5					    |
+						  2  = 2.5					    |
+						  3  = 1.25					    |
+						  4  = 1.25					    |
+						  5  = 6.25					    |
+						  6  = 5					    |
+						  7  = 2.5					    |
+						  8  = 3.125					    |
+						  9  = 2.5					    |
+						  10 = 1.25					    |
+						  11 = 5					    |
+						  12 = 6.25					    |
+						  13 = 3.75					    |
+						  14 = 3.125					    |
+						  15 = QLM disabled				    |
  <7:5>   NS       RAZ      NS          NS        Reserved				            |
  <4>     MODE     RO       0           NS        Interface Electrical Operating Mode		    |
 						  0: SGMII (v1.8)				    |
@@ -13840,7 +13906,7 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
- * DO NOT DOCUMENT THIS REGISTER - IT IS NOT OFFICIAL
+ *DON'T PUT IN HRM*
  *
 
      ==============================================================

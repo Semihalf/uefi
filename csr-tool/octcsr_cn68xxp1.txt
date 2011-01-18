@@ -12902,6 +12902,7 @@ Pos      Name    Type     Value     Value       Description
 						    As described in the Marvell RXAUI Interface	    |
 						    specification.				    |
 						    (does not obey 6.25GHz SERDES disparity)	    |
+						  (RXAUI mode only)				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12964,7 +12965,26 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS       RAZ      NS          NS        Reserved				            |
  <11:8>  SPEED    RO       NS          NS        Interface Speed			            |
-						  (see table)    				    |
+						  QLM speed pins  which select reference clock	    |
+						  period and interface data rate.  If the QLM PLL   |
+						  inputs are correct, the speed setting correspond  |
+						  to the following data rates (in Gbaud).	    |
+						  0  = 5					    |
+						  1  = 2.5					    |
+						  2  = 2.5					    |
+						  3  = 1.25					    |
+						  4  = 1.25					    |
+						  5  = 6.25					    |
+						  6  = 5					    |
+						  7  = 2.5					    |
+						  8  = 3.125					    |
+						  9  = 2.5					    |
+						  10 = 1.25					    |
+						  11 = 5					    |
+						  12 = 6.25					    |
+						  13 = 3.75					    |
+						  14 = 3.125					    |
+						  15 = QLM disabled				    |
  <7>     NS       RAZ      NS          NS        Reserved				            |
  <6:4>   MODE     RO       0           NS        Interface Electrical Operating Mode		    |
 						  0: Reserved    				    |
@@ -25623,6 +25643,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+ * NOTES - NOT FOR SPEC:  REMOVE IN PASS 2
 
      ==============================================================
      CIU2_INTR_CIU_READY Type=NCB
@@ -35094,7 +35115,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:3>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <63:4>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <3>	 GWE_POE   R/W	    0x0	    0x0	     Pause GWE on extracts				    |
  <2>	 GWE_FPOR  R/W	    0x0	    0x0	     Flush GWE pipeline when restarting GWE		    |
  <1>	 GWE_RAH   R/W	    0x0	    0x0	     Begin at head of input queues when restarting GWE	    |
  <0>	 GWE_DIS   R/W	    0x0	    0x0	     Disable Get-Work Examiner				    |
