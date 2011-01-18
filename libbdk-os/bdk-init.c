@@ -56,6 +56,9 @@ static void __bdk_init_cop0(void)
     BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
     memctl |= 7ull<<37; // Max pause time
     BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
+
+    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * bdk_clock_get_rate(BDK_CLOCK_CORE) / bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 }
 
 static void __bdk_init_relocate_data(void)
