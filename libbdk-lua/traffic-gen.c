@@ -11,7 +11,6 @@ typedef enum {
 
 
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
-static const int BRIDGE_OFF = 40;
 static const int MAC_ADDR_LEN = 6;
 static const int IP_ADDR_LEN = 4;
 static const int CYCLE_SHIFT = 12;
@@ -780,8 +779,6 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         tg_port->pinfo.setup.output_enable              = 0;
         tg_port->pinfo.setup.output_packet_type         = PACKET_TYPE_IPV4_UDP;
         tg_port->pinfo.setup.output_packet_payload      = DATA_TYPE_ABC;
-        tg_port->pinfo.setup.input_arp_reply_enable     = 1;
-        tg_port->pinfo.setup.input_arp_request_enable   = 1;
         tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
         tg_port->pinfo.setup.output_count               = 0;
         tg_port->pinfo.setup.output_percent_x1000       = 100000;
@@ -810,12 +807,9 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         tg_port->pinfo.setup.dest_port_min              = 0;
         tg_port->pinfo.setup.dest_port_max              = 65535;
         tg_port->pinfo.setup.dest_port_inc              = 0;
-        tg_port->pinfo.setup.output_arp_reply_enable    = 1;
         tg_port->pinfo.setup.ip_tos                     = 0;
         tg_port->pinfo.setup.do_checksum                = 0;
-        tg_port->pinfo.setup.bridge_port                = BRIDGE_OFF;
-        tg_port->pinfo.setup.display_packet             = 0;
-        tg_port->pinfo.setup.promisc                    = 1;
+        tg_port->pinfo.setup.display_packet             = false;
         update_cycle_gap(tg_port);
     }
     return trafficgen_do_clear(range);
@@ -1600,39 +1594,7 @@ static packet_free_t fastpath_receive(tg_port_t *tg_port, bdk_if_packet_t *packe
         if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet)))
             bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
     }
-#if 0 // FIXME
-    if (bdk_unlikely(tg_port->pinfo.setup.bridge_port != BRIDGE_OFF))
-    {
-        int output_port = tg_port->pinfo.setup.bridge_port;
-        trafficgen_port_info_t *pout = tg_get_pinfo(output_port);
-        uint64_t queue = bdk_pko_get_base_queue(output_port) + 1;  /* NOTE: use a different queue than normal*/
-        bdk_spinlock_lock(&pout->priv.lock);
-
-        /* Build the PKO command */
-        bdk_pko_command_word0_t pko_command;
-        pko_command.u64 = 0;
-        pko_command.s.dontfree = 0;
-        pko_command.s.segs = (work->word2.s.bufs) ? work->word2.s.bufs : 1;
-        pko_command.s.total_bytes = work->len;
-
-        bdk_buf_ptr_t buffer_ptr = get_packet_buffer_ptr(work);
-        bdk_pko_status_t status = bdk_pko_send_packet_finish(output_port, queue, pko_command, buffer_ptr, BDK_PKO_LOCK_NONE);
-        bdk_spinlock_unlock(&pout->priv.lock);
-        if (status == BDK_PKO_SUCCESS)
-            return (bdk_likely(work->word2.s.bufs == 0)) ? PACKET_DONT_FREE_WQE : PACKET_DONT_FREE;
-        else
-            return PACKET_FREE;
-    }
-    else if (bdk_unlikely(work->word2.s.not_IP))
-    {
-        if (bdk_likely(work->word2.snoip.is_arp))
-            return process_incomming_arp_packet(work);
-        else
-            return PACKET_FREE;
-    }
-    else
-#endif
-        return PACKET_FREE;
+    return PACKET_FREE;
 }
 
 /**

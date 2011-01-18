@@ -2695,56 +2695,6 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_output_arp_reply_enable_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool arg2 ;
-  
-  SWIG_check_num_args("output_arp_reply_enable",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_arp_reply_enable",1,"trafficgen_port_setup_t *");
-  if(!lua_isboolean(L,2)) SWIG_fail_arg("output_arp_reply_enable",2,"bool");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_arp_reply_enable_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (lua_toboolean(L, 2)!=0);
-  if (arg1) (arg1)->output_arp_reply_enable = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_output_arp_reply_enable_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool result;
-  
-  SWIG_check_num_args("output_arp_reply_enable",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("output_arp_reply_enable",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_output_arp_reply_enable_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (bool) ((arg1)->output_arp_reply_enable);
-  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_setup_t_src_mac_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
@@ -4173,56 +4123,6 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_bridge_port_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  int arg2 ;
-  
-  SWIG_check_num_args("bridge_port",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("bridge_port",1,"trafficgen_port_setup_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("bridge_port",2,"int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_bridge_port_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (int)lua_tonumber(L, 2);
-  if (arg1) (arg1)->bridge_port = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_bridge_port_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  int result;
-  
-  SWIG_check_num_args("bridge_port",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("bridge_port",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_bridge_port_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (int) ((arg1)->bridge_port);
-  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_setup_t_display_packet_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
@@ -4262,156 +4162,6 @@ static int _wrap_port_setup_t_display_packet_get(lua_State* L) {
   }
   
   result = (bool) ((arg1)->display_packet);
-  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_input_arp_reply_enable_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool arg2 ;
-  
-  SWIG_check_num_args("input_arp_reply_enable",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("input_arp_reply_enable",1,"trafficgen_port_setup_t *");
-  if(!lua_isboolean(L,2)) SWIG_fail_arg("input_arp_reply_enable",2,"bool");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_input_arp_reply_enable_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (lua_toboolean(L, 2)!=0);
-  if (arg1) (arg1)->input_arp_reply_enable = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_input_arp_reply_enable_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool result;
-  
-  SWIG_check_num_args("input_arp_reply_enable",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("input_arp_reply_enable",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_input_arp_reply_enable_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (bool) ((arg1)->input_arp_reply_enable);
-  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_input_arp_request_enable_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool arg2 ;
-  
-  SWIG_check_num_args("input_arp_request_enable",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("input_arp_request_enable",1,"trafficgen_port_setup_t *");
-  if(!lua_isboolean(L,2)) SWIG_fail_arg("input_arp_request_enable",2,"bool");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_input_arp_request_enable_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (lua_toboolean(L, 2)!=0);
-  if (arg1) (arg1)->input_arp_request_enable = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_input_arp_request_enable_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool result;
-  
-  SWIG_check_num_args("input_arp_request_enable",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("input_arp_request_enable",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_input_arp_request_enable_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (bool) ((arg1)->input_arp_request_enable);
-  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_promisc_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool arg2 ;
-  
-  SWIG_check_num_args("promisc",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("promisc",1,"trafficgen_port_setup_t *");
-  if(!lua_isboolean(L,2)) SWIG_fail_arg("promisc",2,"bool");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_promisc_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (lua_toboolean(L, 2)!=0);
-  if (arg1) (arg1)->promisc = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_promisc_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool result;
-  
-  SWIG_check_num_args("promisc",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("promisc",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_promisc_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (bool) ((arg1)->promisc);
   lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
   return SWIG_arg;
   
@@ -4616,7 +4366,6 @@ static swig_lua_attribute swig_trafficgen_port_setup_t_attributes[] = {
     { "output_count", _wrap_port_setup_t_output_count_get, _wrap_port_setup_t_output_count_set},
     { "output_packet_type", _wrap_port_setup_t_output_packet_type_get, _wrap_port_setup_t_output_packet_type_set},
     { "output_packet_payload", _wrap_port_setup_t_output_packet_payload_get, _wrap_port_setup_t_output_packet_payload_set},
-    { "output_arp_reply_enable", _wrap_port_setup_t_output_arp_reply_enable_get, _wrap_port_setup_t_output_arp_reply_enable_set},
     { "src_mac", _wrap_port_setup_t_src_mac_get, _wrap_port_setup_t_src_mac_set},
     { "src_mac_inc", _wrap_port_setup_t_src_mac_inc_get, _wrap_port_setup_t_src_mac_inc_set},
     { "src_mac_min", _wrap_port_setup_t_src_mac_min_get, _wrap_port_setup_t_src_mac_min_set},
@@ -4645,11 +4394,7 @@ static swig_lua_attribute swig_trafficgen_port_setup_t_attributes[] = {
     { "dest_port_min", _wrap_port_setup_t_dest_port_min_get, _wrap_port_setup_t_dest_port_min_set},
     { "dest_port_max", _wrap_port_setup_t_dest_port_max_get, _wrap_port_setup_t_dest_port_max_set},
     { "do_checksum", _wrap_port_setup_t_do_checksum_get, _wrap_port_setup_t_do_checksum_set},
-    { "bridge_port", _wrap_port_setup_t_bridge_port_get, _wrap_port_setup_t_bridge_port_set},
     { "display_packet", _wrap_port_setup_t_display_packet_get, _wrap_port_setup_t_display_packet_set},
-    { "input_arp_reply_enable", _wrap_port_setup_t_input_arp_reply_enable_get, _wrap_port_setup_t_input_arp_reply_enable_set},
-    { "input_arp_request_enable", _wrap_port_setup_t_input_arp_request_enable_get, _wrap_port_setup_t_input_arp_request_enable_set},
-    { "promisc", _wrap_port_setup_t_promisc_get, _wrap_port_setup_t_promisc_set},
     { "validate", _wrap_port_setup_t_validate_get, _wrap_port_setup_t_validate_set},
     { "respect_backpressure", _wrap_port_setup_t_respect_backpressure_get, _wrap_port_setup_t_respect_backpressure_set},
     { "srio", _wrap_port_setup_t_srio_get, _wrap_port_setup_t_srio_set},

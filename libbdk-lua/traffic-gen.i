@@ -71,7 +71,6 @@ typedef struct
     uint64_t                output_count;
     trafficgen_packet_type_t output_packet_type;
     trafficgen_payload_t    output_packet_payload;
-    bool                    output_arp_reply_enable;
     uint64_t                src_mac;    /* MACs are stored so a printf in hex will show them */
     int32_t                 src_mac_inc;
     uint64_t                src_mac_min;
@@ -100,11 +99,7 @@ typedef struct
     uint16_t                dest_port_min;
     uint16_t                dest_port_max;
     bool                    do_checksum;
-    int                     bridge_port;
     bool                    display_packet;
-    bool                    input_arp_reply_enable;
-    bool                    input_arp_request_enable;
-    bool                    promisc;  /* Promiscuous mode (default to 1) */
     bool                    validate;
     bool                    respect_backpressure;
     bdk_srio_tx_message_header_t srio;
