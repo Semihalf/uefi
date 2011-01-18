@@ -551,7 +551,7 @@ static void tg_init(void)
         tg_port_t *tg_port = tg_get_port(handle);
         if (tg_port)
         {
-            sprintf(tg_port->pinfo.name, "p%d", count);
+            strcpy(tg_port->pinfo.name, bdk_if_name(handle));
             tg_init_port(tg_port);
             tg_all_set.list[count++] = &tg_port->pinfo;
         }

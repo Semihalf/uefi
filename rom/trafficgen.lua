@@ -98,6 +98,7 @@ function TrafficGen.new()
         until (port_info == nil)
     end
     get_possible_ports()
+    visible_ports[1] = known_ports[1]
 
     -- Convert a list of ports into a C port_set_t
     -- FIXME: Does the port_set_t get GC?
@@ -111,35 +112,43 @@ function TrafficGen.new()
 
     -- Parse a port list string
     local function parse_port_list(str)
-        assert(str:sub(1,1) == "p")
         local ports = {}
-        local index = 2
-        local start_num = nil
+        local index = 1
+        local start_name = nil
+        str = str:upper()
         while index <= #str do
-            local num, sep = str:match("^(%d+)([,-]?)", index)
-            if not num then
-                error('Invalid port range "' .. str .. '"')
+            local name, sep = str:match("^([A-Za-z0-9]+)([,-]?)", index)
+            if not name then
+                return nil
             end
-            index = index + #num + #sep
+            index = index + #name + #sep
             if sep == "-" then
-                start_num = num
+                start_name = name
             else
-                local stop_num = num
-                if not start_num then
-                    start_num = stop_num
+                local stop_name = name
+                if not start_name then
+                    start_name = stop_name
                 end
-                for n=start_num, stop_num do
-                    for _,port in ipairs(known_ports) do
-                        if port.name == "p" .. n then
-                            table.insert(ports, port)
-                            break
-                        end
+                local in_range = false
+                for _,port in ipairs(known_ports) do
+                    if port.name == start_name then
+                        in_range = true
+                    end
+                    if in_range then
+                        table.insert(ports, port)
+                    end
+                    if port.name == stop_name then
+                        in_range = false
                     end
                 end
-                start_num = nil
+                start_name = nil
             end
         end
-        return ports
+        if #ports == 0 then
+            return nil
+        else
+            return ports
+        end
     end
 
     -- Parse a command line into a command, a port range, and arguments
@@ -166,12 +175,18 @@ function TrafficGen.new()
                         range = default_ports
                     else
                         range = parse_port_list(word)
+                        if range == nil then
+                            table.insert(args, word)
+                        end
                     end
                 elseif command:sub(1,5) == "cmdr_" then
                     if word == "all" then
                         range = known_rows
                     else
                         range = parse_range_list(word)
+                        if range == nil then
+                            table.insert(args, word)
+                        end
                     end
                 elseif SPECIAL_WORDS[word] ~= nil then
                     table.insert(args, SPECIAL_WORDS[word])
