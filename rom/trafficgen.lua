@@ -489,7 +489,7 @@ function TrafficGen.new()
             if cmd and (cmd ~= "") then
                 local status, result = pcall(self.command, self, cmd)
                 if not status then
-                    printf("ERROR: %s\n", result)
+                    printf(GOTO_BOTTOM .. CURSOR_ON .. "ERROR: %s\n", result)
                 end
             end
         end
