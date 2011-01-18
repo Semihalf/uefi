@@ -7,6 +7,11 @@
 #define MAX_FILE_HANDLES 8
 
 /**
+ * This flag is set when a break signal is detected on uart0
+ */
+int bdk_interrupt_flag;
+
+/**
  * Structure used for mount points. This maps filenames into
  * the proper file system operations
  */

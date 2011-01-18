@@ -269,6 +269,20 @@ static int octeon_csr_call(lua_State* L)
     return 2;
 }
 
+
+static void control_c_check(lua_State *L, lua_Debug *ar)
+{
+    extern int bdk_interrupt_flag;
+    BDK_CSR_INIT(lsr, BDK_MIO_UARTX_LSR(0));
+    bdk_interrupt_flag |= lsr.s.bi;
+    if (bdk_interrupt_flag)
+    {
+        bdk_interrupt_flag = 0;
+        luaL_error(L, "interrupted!");
+    }
+}
+
+
 /**
  * Called to register the octeon module
  *
@@ -334,6 +348,9 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     extern int luaopen_readline(lua_State *L);
     luaopen_readline(L);
+
+    /* Enable Interrupt on uart break signal */
+    lua_sethook(L, control_c_check, LUA_MASKCOUNT, 1000);
 
     return 1;
 }

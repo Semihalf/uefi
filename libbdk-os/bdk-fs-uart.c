@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <fcntl.h>
 
+extern int bdk_interrupt_flag;
+
 static void *uart_open(const char *name, int flags)
 {
     long id = atoi(name);
@@ -22,6 +24,7 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     while (count == 0)
     {
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        bdk_interrupt_flag |= lsr.s.bi;
         if (!lsr.s.dr)
         {
             if (length == 1)
@@ -32,6 +35,7 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
         {
             *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
             lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+            bdk_interrupt_flag |= lsr.s.bi;
             buffer++;
             count++;
             length--;
@@ -55,6 +59,7 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
             while (1)
             {
                 lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+                bdk_interrupt_flag |= lsr.s.bi;
                 if (lsr.s.thre)
                     break;
                 bdk_thread_yield();
@@ -67,6 +72,7 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         while (1)
         {
             lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+            bdk_interrupt_flag |= lsr.s.bi;
             if (lsr.s.thre)
                 break;
             bdk_thread_yield();
