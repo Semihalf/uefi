@@ -176,7 +176,11 @@ function TrafficGen.new()
                     else
                         range = parse_port_list(word)
                         if range == nil then
-                            table.insert(args, word)
+                            if SPECIAL_WORDS[word] ~= nil then
+                                table.insert(args, SPECIAL_WORDS[word])
+                            else
+                                table.insert(args, word)
+                            end
                         end
                     end
                 elseif command:sub(1,5) == "cmdr_" then
