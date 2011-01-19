@@ -74,6 +74,10 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(c, BDK_SLI_PORTX_PKIND(handle->index),
             c.s.bpkind = handle->pknd;
             c.s.pkind = handle->pknd);
+
+        /* Disable CRC striping */
+        BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(0),
+            c.s.port_bit &= ~(1ull<<handle->pknd));
     }
     return 0;
 }
