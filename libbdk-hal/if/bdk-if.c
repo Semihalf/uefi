@@ -531,13 +531,17 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
 
     pko_mem_count0.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT0);
     uint64_t tx_packets = pko_mem_count0.s.count;
-    pko_mem_count0.s.count = handle->pko_port;
-    BDK_CSR_WRITE(BDK_PKO_MEM_COUNT0, pko_mem_count0.u64);
+    uint64_t tmp = handle->stats.tx.packets & bdk_build_mask(32);
+    if (tmp > tx_packets)
+        tx_packets += (1ull<<32) - tmp;
+    tx_packets -= tmp;
 
     pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
     uint64_t tx_octets = pko_mem_count1.s.count;
-    pko_mem_count1.s.count = handle->pko_port;
-    BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, pko_mem_count1.u64);
+    tmp = handle->stats.tx.octets & bdk_build_mask(48);
+    if (tmp > tx_octets)
+        tx_octets += (1ull<<48) - tmp;
+    tx_octets -= tmp;
 
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, tx_packets);
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_octets);
