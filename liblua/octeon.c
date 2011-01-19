@@ -281,6 +281,7 @@ static void control_c_check(lua_State *L, lua_Debug *ar)
         luaL_traceback(L,  L, "Interrupted!", 1);
         lua_error(L);
     }
+    lua_gc(L, LUA_GCCOLLECT, 0);
 }
 
 
@@ -351,7 +352,7 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     luaopen_readline(L);
 
     /* Enable Interrupt on uart break signal */
-    lua_sethook(L, control_c_check, LUA_MASKCOUNT, 1000);
+    lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
 
     return 1;
 }
