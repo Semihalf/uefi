@@ -538,7 +538,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
 
     pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
     uint64_t tx_octets = pko_mem_count1.s.count;
-    tmp = handle->stats.tx.octets & bdk_build_mask(48);
+    tmp = (handle->stats.tx.octets - handle->stats.tx.packets*4) & bdk_build_mask(48);
     if (tmp > tx_octets)
         tx_octets += (1ull<<48) - tmp;
     tx_octets -= tmp;
