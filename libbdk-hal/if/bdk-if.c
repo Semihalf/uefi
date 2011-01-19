@@ -508,17 +508,17 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     }
     BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRS_PKNDX(handle->pknd));
 
-    handle->stats.rx.dropped_octets += stat0.s.drp_octs;
-    handle->stats.rx.dropped_packets += stat0.s.drp_pkts;
-    handle->stats.rx.octets += stat1.s.octs;
-    handle->stats.rx.packets += stat2.s.pkts;
-    handle->stats.rx.errors += pip_stat_inb_errsx.s.errs;
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, stat0.s.drp_octs);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_packets, stat0.s.drp_pkts);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, stat1.s.octs);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.packets, stat2.s.pkts);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.errors, pip_stat_inb_errsx.s.errs);
 
     /* Add fake etherent CRC to loop ports */
     if (handle->iftype == BDK_IF_LOOP)
     {
-        handle->stats.rx.dropped_octets += stat0.s.drp_octs * 4;
-        handle->stats.rx.octets += stat2.s.pkts * 4;
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, stat0.s.drp_octs * 4);
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, stat2.s.pkts * 4);
     }
 
     bdk_pko_reg_read_idx_t pko_reg_read_idx;
@@ -539,11 +539,11 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     pko_mem_count1.s.count = handle->pko_port;
     BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, pko_mem_count1.u64);
 
-    handle->stats.tx.packets += tx_packets;
-    handle->stats.tx.octets += tx_octets;
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, tx_packets);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_octets);
 
     /* Add the etherent CRC to the TX octets */
-    handle->stats.tx.octets += tx_packets * 4;
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * 4);
 
     return &handle->stats;
 }
@@ -572,8 +572,8 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Create some simple stats in the simulator for testing */
     if (bdk_is_simulation() && (result==0))
     {
-        handle->stats.tx.octets += packet->length;
-        handle->stats.tx.packets++;
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, packet->length);
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
     }
     return result;
 }
@@ -654,8 +654,8 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         /* Create some simple stats in the simulator for testing */
         if (bdk_is_simulation())
         {
-            packet->if_handle->stats.rx.octets += packet->length + 4; /* Add CRC */
-            packet->if_handle->stats.rx.packets++;
+            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, packet->length + 4); /* Add CRC */
+            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1); /* Add CRC */
         }
         return 0;
     }
