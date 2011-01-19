@@ -482,6 +482,9 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     if (__bdk_if_ops[handle->iftype]->if_get_stats)
         return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 
+    if (bdk_is_simulation())
+        return &handle->stats;
+
     bdk_pip_stat_ctl_t pip_stat_ctl;
     bdk_pip_stat0_x_t stat0;
     bdk_pip_stat1_x_t stat1;
