@@ -45,7 +45,7 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
  */
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
-    int ticket = bdk_atomic_fetch_and_add32_nosync(&lock->ticket, 1);
+    int32_t ticket = bdk_atomic_fetch_and_add32_nosync(&lock->ticket, 1);
     BDK_SYNCW;
     while ((volatile int32_t)lock->serving != ticket)
     {
