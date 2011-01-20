@@ -430,9 +430,11 @@ function TrafficGen.new()
                 expected_packets = expected_packets + output_count
                 expected_octets = expected_octets + output_count * (size+4)
             end
+            -- Limit to five seconds per size
+            local timeout = os.time() + 5
             -- Do the TX
             bdktrafficgen.do_transmit(port_set)
-            while bdktrafficgen.is_transmitting(port_set) do
+            while bdktrafficgen.is_transmitting(port_set) and (os.time() < timeout) do
                 -- Waiting for TX to be done
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
@@ -451,10 +453,13 @@ function TrafficGen.new()
                     rx_packets = rx_packets + port.stats.rx_packets_total
                     rx_octets = rx_octets + port.stats.rx_octets_total
                 end
-            until (rx_octets >= expected_octets)
+            until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
             printf("Size %d\n", size)
             -- Make sure we got the right amount of data
             if (rx_packets ~= expected_packets) or (rx_octets ~= expected_octets) then
+                if os.time() >= timeout then
+                    printf("TIMEOUT\n")
+                end
                 printf("Scan failed at size %d\n", size)
                 printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
                 break
