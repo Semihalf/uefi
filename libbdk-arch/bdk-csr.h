@@ -95,18 +95,6 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
     switch (type)
     {
         case BDK_CSR_TYPE_RSL:
-            address |= 1ull<<63;
-            if (size == 4)
-                *(volatile uint32_t *)(address ^ 4) = value;
-            else
-                *(volatile uint64_t *)address = value;
-            /* Perform an immediate read after every write to an RSL register to force
-                the write to complete. It doesn't matter what RSL read we do, so we
-                choose MIO_BOOT_BIST_STAT because it is fast and harmless. We use a
-                hardcoded address to avoid needing all the CSRs */
-            *(volatile uint64_t *)0x80011800000000F8ull;
-            break;
-
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
             if (size == 4)
