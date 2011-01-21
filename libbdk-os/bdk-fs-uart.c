@@ -46,10 +46,20 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
 static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
+    static volatile void *owner = NULL;
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
     int l = length;
     int id = ((long)handle->fs_state & 0xff) - 1;
     const char *p = buffer;
+
+    void *me;
+    BDK_MF_COP0(me, COP0_USERLOCAL);
+
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+    while (owner && (owner != me) && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
+        bdk_thread_yield();
+    owner = me;
+    BDK_SYNCW;
 
     while (l--)
     {
@@ -79,6 +89,11 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         }
         /* Write the byte */
         BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), *p);
+        if ((*p =='\n') && !l)
+        {
+            owner = NULL;
+            BDK_SYNCW;
+        }
         p++;
     }
     return length;
