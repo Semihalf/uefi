@@ -46,6 +46,9 @@ static void __bdk_thread_body(bdk_thread_func_t func, int arg0, void *arg1)
  */
 int bdk_thread_initialize(void)
 {
+    bdk_thread_head = NULL;
+    bdk_thread_tail = NULL;
+    bdk_spinlock_init(&bdk_thread_lock);
     return 0;
 }
 
