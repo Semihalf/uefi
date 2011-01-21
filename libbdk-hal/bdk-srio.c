@@ -403,7 +403,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
                     break;
                 case 0xb: /* 5.0 Gbaud, 156.25MHz */
                     ciu_qlm.s.txbypass = 1;
-                    ciu_qlm.s.txdeemph = 0xa;
+                    ciu_qlm.s.txdeemph = (lane_x_status.s.rx_type == 0) ? 0xa : 0xf; /* short or med/long */
                     ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0xf : 0x1a; /* short or med/long */
                     break;
             }
@@ -422,7 +422,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
                     break;
                 case 0xb: /* 5.0 Gbaud, 156.25MHz */
                     ciu_qlm.s.txbypass = 1;
-                    ciu_qlm.s.txdeemph = 0xa;
+                    ciu_qlm.s.txdeemph = (lane_x_status.s.rx_type == 0) ? 0xa : 0xf; /* short or med/long */
                     ciu_qlm.s.txmargin = (lane_x_status.s.rx_type == 0) ? 0xf : 0x1a; /* short or med/long */
                     break;
             }
