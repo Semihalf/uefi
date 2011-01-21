@@ -1,192 +1,14 @@
 /**
  * @file
  *
- * Interface to the Trace buffer hardware.
- *
- * WRITING THE TRACE BUFFER
- *
- * When the trace is enabled, commands are traced continuously (wrapping) or until the buffer is filled once
- * (no wrapping).  Additionally and independent of wrapping, tracing can be temporarily enabled and disabled
- * by the tracing triggers.  All XMC commands can be traced except for IDLE and IOBRSP.  The subset of XMC
- * commands that are traced is determined by the filter and the two triggers, each of which is comprised of
- * masks for command, sid, did, and address).  If triggers are disabled, then only those commands matching
- * the filter are traced.  If triggers are enabled, then only those commands matching the filter, the start
- * trigger, or the stop trigger are traced during the time between a start trigger and a stop trigger.
- *
- * For a given command, its XMC data is written immediately to the buffer.  If the command has XMD data,
- * then that data comes in-order at some later time.  The XMD data is accumulated across all valid
- * XMD cycles and written to the buffer or to a shallow fifo.  Data from the fifo is written to the buffer
- * as soon as it gets access to write the buffer (i.e. the buffer is not currently being written with XMC
- * data).  If the fifo overflows, it simply overwrites itself and the previous XMD data is lost.
- *
- *
- * READING THE TRACE BUFFER
- *
- * Each entry of the trace buffer is read by a CSR read command.  The trace buffer services each read in order,
- * as soon as it has access to the (single-ported) trace buffer.
- *
- * On Octeon2, each entry of the trace buffer is read by two CSR memory read operations.  The first read accesses
- * bits 63:0 of the buffer entry, and the second read accesses bits 68:64 of the buffer entry. The trace buffer
- * services each read in order, as soon as it has access to the (single-ported) trace buffer.  Buffer's read pointer
- * increments after two CSR memory read operations.
- *
- *
- * OVERFLOW, UNDERFLOW AND THRESHOLD EVENTS
- *
- * The trace buffer maintains a write pointer and a read pointer and detects both the overflow and underflow
- * conditions.  Each time a new trace is enabled, both pointers are reset to entry 0.  Normally, each write
- * (traced event) increments the write pointer and each read increments the read pointer.  During the overflow
- * condition, writing (tracing) is disabled.  Tracing will continue as soon as the overflow condition is
- * resolved.  The first entry that is written immediately following the overflow condition may be marked to
- * indicate that a tracing discontinuity has occurred before this entry.  During the underflow condition,
- * reading does not increment the read pointer and the read data is marked to indicate that no read data is
- * available.
- *
- * The full threshold events are defined to signal an interrupt a certain levels of "fullness" (1/2, 3/4, 4/4).
- * "fullness" is defined as the relative distance between the write and read pointers (i.e. not defined as the
- * absolute distance between the write pointer and entry 0).  When enabled, the full threshold event occurs
- * every time the desired level of "fullness" is achieved.
- *
- *
- * Trace buffer entry format
- * @verbatim
- *       6                   5                   4                   3                   2                   1                   0
- * 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | DWB   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | PL2   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | PSL1  | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | LDD   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | LDI   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id  |   0   | LDT   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          | * or 16B mask | src id  |   0   | STC   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          | * or 16B mask | src id  |   0   | STF   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          | * or 16B mask | src id  |   0   | STP   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          | * or 16B mask | src id  |   0   | STT   | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:0]                                |    0    | src id| dest id |IOBLD8 | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:1]                              |     0     | src id| dest id |IOBLD16| diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:2]                            |      0      | src id| dest id |IOBLD32| diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          |       0       | src id| dest id |IOBLD64| diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[35:3]                          | * or 16B mask | src id| dest id |IOBST  | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                     * or address[35:3]                          | * or length   | src id| dest id |IOBDMA | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- *
- *
- * Trace buffer entry format in Octeon2 is different
- *
- *                 6                   5                   4                   3                   2                   1                   0
- * 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[37:0]                                  |       0           |  src id |  Group 1    | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[37:0]                                  | 0 |  xmd mask     |  src id |  Group 2    | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                          address[37:0]                                  | 0 |s-did| dest id |  src id |  Group 3    | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- * |sta|                         *address[37:3]                            | *Length       | dest id |  src id |  Group 4    | diff timestamp|
- * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- *
- * notes:
- * - diff timestamp is the difference in time from the previous trace event to this event - 1.  the granularity of the timestamp is programmable
- * - Fields marked as '*' are first filled with '0' at XMC time and may be filled with real data later at XMD time.  Note that the
- * XMD write may be dropped if the shallow FIFO overflows which leaves the '*' fields as '0'.
- * - 2 bits (sta) are used not to trace, but to return global state information with each read, encoded as follows:
- * 0x0=not valid
- * 0x1=valid, no discontinuity
- * 0x2=not valid, discontinuity
- * 0x3=valid, discontinuity
- * - commands are encoded as follows:
- * 0x0=DWB
- * 0x1=PL2
- * 0x2=PSL1
- * 0x3=LDD
- * 0x4=LDI
- * 0x5=LDT
- * 0x6=STF
- * 0x7=STC
- * 0x8=STP
- * 0x9=STT
- * 0xa=IOBLD8
- * 0xb=IOBLD16
- * 0xc=IOBLD32
- * 0xd=IOBLD64
- * 0xe=IOBST
- * 0xf=IOBDMA
- * - In Octeon2 the commands are grouped as follows:
- * Group1:
- *   XMC_LDT, XMC_LDI, XMC_PL2, XMC_RPL2, XMC_DWB, XMC_WBL2,
- *   XMC_SET8, XMC_SET16, XMC_SET32, XMC_SET64,
- *   XMC_CLR8, XMC_CLR16, XMC_CLR32, XMC_CLR64,
- *   XMC_INCR8, XMC_INCR16, XMC_INCR32, XMC_INCR64,
- *   XMC_DECR8, XMC_DECR16, XMC_DECR32, XMC_DECR64
- * Group2:
- *   XMC_STF, XMC_STT, XMC_STP, XMC_STC,
- *   XMC_LDD, XMC_PSL1
- *   XMC_SAA32, XMC_SAA64,
- *   XMC_FAA32, XMC_FAA64,
- *   XMC_FAS32, XMC_FAS64
- * Group3:
- *   XMC_IOBLD8, XMC_IOBLD16, XMC_IOBLD32, XMC_IOBLD64,
- *   XMC_IOBST8, XMC_IOBST16, XMC_IOBST32, XMC_IOBST64
- * Group4:
- *   XMC_IOBDMA
- * - For non IOB* commands
- * - source id is encoded as follows:
- * 0x00-0x0f=PP[n]
- * 0x10=IOB(Packet)
- * 0x11=IOB(PKO)
- * 0x12=IOB(ReqLoad, ReqStore)
- * 0x13=IOB(DWB)
- * 0x14-0x1e=illegal
- * 0x1f=IOB(generic)
- * - dest id is unused (can only be L2c)
- * - For IOB* commands
- * - source id is encoded as follows:
- * 0x00-0x0f = PP[n]
- * - dest   id is encoded as follows:
- * 0   = CIU/GPIO (for CSRs)
- * 1-2 = illegal
- * 3   = PCIe (access to RSL-type CSRs)
- * 4   = KEY (read/write operations)
- * 5   = FPA (free pool allocate/free operations)
- * 6   = DFA
- * 7   = ZIP (doorbell operations)
- * 8   = RNG (load/IOBDMA operations)
- * 10  = PKO (doorbell operations)
- * 11  = illegal
- * 12  = SSO (get work, add work, status/memory/index loads, NULLrd load operations, CSR operations)
- * 13-31 = illegal
- * @endverbatim
- *
  * <hr>$Revision: 53259 $<hr>
  *
  * @addtogroup hal
  * @{
  */
 
-/* The 'saa' filter command is renamed as 'saa64' */
-#define BDK_TRA_FILT_SAA       BDK_TRA_FILT_SAA64
-/* The 'iobst' filter command is renamed as 'iobst64' */
-#define BDK_TRA_FILT_IOBST     BDK_TRA_FILT_IOBST64
-
 /**
- * Enumeration of the bitmask of all the filter commands. The bit positions
- * correspond to Octeon2 model.
+ * Enumeration of the bitmask of all the filter commands
  */
 typedef enum
 {
@@ -297,232 +119,10 @@ typedef enum
     BDK_TRA_DID_ALL      = -1ull     /**< Enable tracing all the above destination commands */
 } bdk_tra_did_t;
 
-/**
- * TRA data format definition. Use the type field to
- * determine which union element to use.
- *
- * In Octeon 2, the trace buffer is 69 bits,
- * the first read accesses bits 63:0 of the trace buffer entry, and
- * the second read accesses bits 68:64 of the trace buffer entry.
- */
-typedef union
+typedef struct
 {
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t  datahi;
-        uint64_t  data;
-#else
-        uint64_t  data;
-        uint64_t  datahi;
-#endif
-    } u128;
-
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved3   : 64;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    address     : 36;
-        uint64_t    reserved    : 5;
-        uint64_t    source      : 5;
-        uint64_t    reserved2   : 3;
-        uint64_t    type        : 5;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 5;
-        uint64_t    reserved2   : 3;
-        uint64_t    source      : 5;
-        uint64_t    reserved    : 5;
-        uint64_t    address     : 36;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    reserved3   : 64;
-#endif
-    } cmn; /**< for DWB, PL2, PSL1, LDD, LDI, LDT */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved3   : 64;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    address     : 33;
-        uint64_t    mask        : 8;
-        uint64_t    source      : 5;
-        uint64_t    reserved2   : 3;
-        uint64_t    type        : 5;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 5;
-        uint64_t    reserved2   : 3;
-        uint64_t    source      : 5;
-        uint64_t    mask        : 8;
-        uint64_t    address     : 33;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    reserved3   : 64;
-#endif
-    } store; /**< STC, STF, STP, STT */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved3   : 64;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    address     : 36;
-        uint64_t    reserved    : 2;
-        uint64_t    subid       : 3;
-        uint64_t    source      : 4;
-        uint64_t    dest        : 5;
-        uint64_t    type        : 4;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 4;
-        uint64_t    dest        : 5;
-        uint64_t    source      : 4;
-        uint64_t    subid       : 3;
-        uint64_t    reserved    : 2;
-        uint64_t    address     : 36;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    reserved3   : 64;
-#endif
-    } iobld; /**< for IOBLD8, IOBLD16, IOBLD32, IOBLD64, IOBST, SAA */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved3   : 64;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    address     : 33;
-        uint64_t    mask        : 8;
-        uint64_t    source      : 4;
-        uint64_t    dest        : 5;
-        uint64_t    type        : 4;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 4;
-        uint64_t    dest        : 5;
-        uint64_t    source      : 4;
-        uint64_t    mask        : 8;
-        uint64_t    address     : 33;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    reserved3   : 64;
-#endif
-    } iob; /**< for IOBDMA */
-
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved1   : 59;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    addresshi   : 3;   /* Split the address to fit in upper 64 bits  */
-        uint64_t    addresslo   : 35;  /* and lower 64-bits. */
-        uint64_t    reserved    : 10;
-        uint64_t    source      : 5;
-        uint64_t    type        : 6;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 6;
-        uint64_t    source      : 5;
-        uint64_t    reserved    : 10;
-        uint64_t    addresslo   : 35;
-        uint64_t    addresshi   : 3;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    reserved1   : 59;
-#endif
-    } cmn2; /**< for LDT, LDI, PL2, RPL2, DWB, WBL2, SET*, CLR*, INCR*, DECR* */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved1   : 59;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    addresshi   : 3;   /* Split the address to fit in upper 64 bits  */
-        uint64_t    addresslo   : 35;  /* and lower 64-bits */
-        uint64_t    reserved    : 2;
-        uint64_t    mask        : 8;
-        uint64_t    source      : 5;
-        uint64_t    type        : 6;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 6;
-        uint64_t    source      : 5;
-        uint64_t    mask        : 8;
-        uint64_t    reserved    : 2;
-        uint64_t    addresslo   : 35;
-        uint64_t    addresshi   : 3;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    reserved1   : 59;
-#endif
-    } store2; /**< for STC, STF, STP, STT, LDD, PSL1, SAA32, SAA64, FAA32, FAA64, FAS32, FAS64 */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved1   : 59;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    addresshi   : 3;   /* Split the address to fit in upper 64 bits  */
-        uint64_t    addresslo   : 35;  /* and lower 64-bits */
-        uint64_t    reserved    : 2;
-        uint64_t    subid       : 3;
-        uint64_t    dest        : 5;
-        uint64_t    source      : 5;
-        uint64_t    type        : 6;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 6;
-        uint64_t    source      : 5;
-        uint64_t    dest        : 5;
-        uint64_t    subid       : 3;
-        uint64_t    reserved    : 2;
-        uint64_t    addresslo   : 35;
-        uint64_t    addresshi   : 3;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    reserved1   : 59;
-#endif
-    } iobld2; /**< for IOBLD8, IOBLD16, IOBLD32, IOBLD64, IOBST64, IOBST32, IOBST16, IOBST8 */
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t    reserved1   : 59;
-        uint64_t    discontinuity:1;
-        uint64_t    valid       : 1;
-        uint64_t    addresshi   : 3;   /* Split the address to fit in upper 64 bits  */
-        uint64_t    addresslo   : 32;  /* and lower 64-bits */
-        uint64_t    mask        : 8;
-        uint64_t    dest        : 5;
-        uint64_t    source      : 5;
-        uint64_t    type        : 6;
-        uint64_t    timestamp   : 8;
-#else
-        uint64_t    timestamp   : 8;
-        uint64_t    type        : 6;
-        uint64_t    source      : 5;
-        uint64_t    dest        : 5;
-        uint64_t    mask        : 8;
-        uint64_t    addresslo   : 32;
-	uint64_t    addresshi   : 3;
-        uint64_t    valid       : 1;
-        uint64_t    discontinuity:1;
-        uint64_t    reserved1   : 59;
-#endif
-    } iob2; /**< for IOBDMA */
-} bdk_tra_data_t;
-
+    uint64_t data[(128*2+1)*4];
+} bdk_tra_capture_t;
 
 /**
  * Setup the TRA buffer for use
@@ -537,9 +137,8 @@ typedef union
  * @param address_mask
  *                Address mask
  */
-extern void bdk_tra_setup(bdk_trax_ctl_t control, bdk_tra_filt_t filter,
-                           bdk_tra_sid_t source_filter, bdk_tra_did_t dest_filter,
-                           uint64_t address, uint64_t address_mask);
+extern void bdk_tra_setup(bdk_tra_filt_t filter, bdk_tra_sid_t source_filter,
+    bdk_tra_did_t dest_filter, uint64_t address, uint64_t address_mask);
 
 /**
  * Setup a TRA trigger. How the triggers are used should be
@@ -555,39 +154,13 @@ extern void bdk_tra_setup(bdk_trax_ctl_t control, bdk_tra_filt_t filter,
  * @param address_mask
  *                Trigger address mask
  */
-extern void bdk_tra_trig_setup(uint64_t trigger, bdk_tra_filt_t filter,
-                                bdk_tra_sid_t source_filter, bdk_tra_did_t dest_filter,
-                                uint64_t address, uint64_t address_mask);
+extern void bdk_tra_trig_setup(int trigger, bdk_tra_filt_t filter,
+    bdk_tra_sid_t source_filter, bdk_tra_did_t dest_filter,
+    uint64_t address, uint64_t address_mask);
 
-/**
- * Read an entry from the TRA buffer. The trace buffer format is
- * different in Octeon2, need to read twice from TRA_READ_DAT.
- *
- * @return Value return. High bit will be zero if there wasn't any data
- */
-extern bdk_tra_data_t bdk_tra_read(void);
-
-/**
- * Decode a TRA entry into human readable output
- *
- * @param tra_ctl Trace control setup
- * @param data    Data to decode
- */
-extern void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data);
-
-/**
- * Display the entire trace buffer. It is advised that you
- * disable the trace buffer before calling this routine
- * otherwise it could infinitely loop displaying trace data
- * that it created.
- */
-extern void bdk_tra_display(void);
-
-/**
- * Enable or disable the TRA hardware
- *
- * @param enable 1=enable, 0=disable
- */
-extern void bdk_tra_enable(int enable);
+extern void bdk_tra_enable(void);
+extern void bdk_tra_disable(void);
+extern int bdk_tra_capture(bdk_tra_capture_t *capture);
+extern int bdk_tra_decode(bdk_tra_capture_t *capture);
 
 /** @} */
