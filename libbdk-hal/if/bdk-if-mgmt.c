@@ -95,6 +95,9 @@ static int if_init(bdk_if_handle_t handle)
 
     mgmt_port_state_t *state = handle->priv;
 
+    bdk_spinlock_init(&state->tx_lock);
+    bdk_spinlock_init(&state->rx_lock);
+
     /* Read PHY status register to find the mode of the interface. */
     int phy_id = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + handle->index);
     if (phy_id != -1)
