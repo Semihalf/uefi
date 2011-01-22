@@ -54,11 +54,7 @@ int bdk_thread_initialize(void)
 
 static bdk_thread_t *__bdk_thread_next(void)
 {
-    if (!bdk_thread_head)
-        return NULL;
     uint64_t coremask = 1ull << bdk_get_core_num();
-
-    bdk_spinlock_lock(&bdk_thread_lock);
 
     bdk_thread_t *prev = NULL;
     bdk_thread_t *next = bdk_thread_head;
@@ -76,9 +72,8 @@ static bdk_thread_t *__bdk_thread_next(void)
             prev->next = next->next;
         else
             bdk_thread_head = next->next;
+        next->next = NULL;
     }
-    bdk_spinlock_unlock(&bdk_thread_lock);
-
     return next;
 }
 
@@ -96,6 +91,11 @@ void bdk_thread_yield(void)
     if (bdk_unlikely(current->stack_canary != STACK_CANARY))
         bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
+    if (bdk_thread_head == NULL)
+        return;
+
+    bdk_spinlock_lock(&bdk_thread_lock);
+
     /* Find the first thread that can run on this core */
     bdk_thread_t *next = __bdk_thread_next();
 
@@ -103,16 +103,14 @@ void bdk_thread_yield(void)
         will continue without doing anything */
     if (next)
     {
-        bdk_spinlock_lock(&bdk_thread_lock);
         if (bdk_thread_tail)
             bdk_thread_tail->next = current;
         else
             bdk_thread_head = current;
         bdk_thread_tail = current;
-        current->next = NULL;
         __bdk_thread_switch(next, 0);
-        bdk_spinlock_unlock(&bdk_thread_lock);
     }
+    bdk_spinlock_unlock(&bdk_thread_lock);
 }
 
 
@@ -150,6 +148,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
     thread->pc = (uint64_t)__bdk_thread_body;
     _REENT_INIT_PTR(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
+    thread->next = NULL;
 
     bdk_spinlock_lock(&bdk_thread_lock);
     if (bdk_thread_tail)
@@ -157,7 +156,6 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
     else
         bdk_thread_head = thread;
     bdk_thread_tail = thread;
-    thread->next = NULL;
     bdk_spinlock_unlock(&bdk_thread_lock);
     return 0;
 }
@@ -176,16 +174,20 @@ void bdk_thread_destroy(void)
 
     while (1)
     {
-        /* Find the first thread that can run on this core */
-        bdk_thread_t *next = __bdk_thread_next();
-
-        /* If next is NULL then there are no other threads ready to run and we
-            will continue without doing anything */
-        if (next)
+        if (bdk_thread_head)
         {
             bdk_spinlock_lock(&bdk_thread_lock);
-            __bdk_thread_switch(next, !!current);
-            bdk_fatal("bdk_thread_destroy() should never get here\n");
+            /* Find the first thread that can run on this core */
+            bdk_thread_t *next = __bdk_thread_next();
+
+            /* If next is NULL then there are no other threads ready to run and we
+                will continue without doing anything */
+            if (next)
+            {
+                __bdk_thread_switch(next, !!current);
+                bdk_fatal("bdk_thread_destroy() should never get here\n");
+            }
+            bdk_spinlock_unlock(&bdk_thread_lock);
         }
         BDK_ASM_PAUSE;
     }
