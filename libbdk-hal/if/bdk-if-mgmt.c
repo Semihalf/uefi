@@ -511,14 +511,14 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
  */
 static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
-    int fpa_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
-    mgmt_port_state_t *state = handle->priv;
-
     /* Find out how many RX packets are pending. As an optimization we
         check this before getting the lock */
     BDK_CSR_INIT(mix_ircnt, BDK_MIXX_IRCNT(handle->index));
     if (mix_ircnt.s.ircnt == 0)
         return -1;
+
+    int fpa_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    mgmt_port_state_t *state = handle->priv;
 
     bdk_spinlock_lock(&state->rx_lock);
 
