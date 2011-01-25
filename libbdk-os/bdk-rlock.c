@@ -12,6 +12,12 @@ static inline void * __bdk_rlock_get_thread(void)
     return (void*)current;
 }
 
+extern void bdk_rlock_init(bdk_rlock_t *lock)
+{
+    lock->count = 0;
+    lock->owner = NULL;
+}
+
 void bdk_rlock_lock(bdk_rlock_t *lock)
 {
     void *current = __bdk_rlock_get_thread();

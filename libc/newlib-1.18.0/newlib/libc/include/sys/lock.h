@@ -15,14 +15,15 @@ typedef bdk_rlock_t _LOCK_T;
 typedef bdk_rlock_t _LOCK_RECURSIVE_T;
 
 #define BDK_RLOCK_DEFINE(name) bdk_rlock_t name = {0, 0}
+extern void bdk_rlock_init(bdk_rlock_t *lock);
 extern void bdk_rlock_lock(bdk_rlock_t *lock);
 extern int  bdk_rlock_try_lock(bdk_rlock_t *lock);
 extern void bdk_rlock_unlock(bdk_rlock_t *lock);
 
 #define __LOCK_INIT(class,lock)             class BDK_RLOCK_DEFINE(lock);
 #define __LOCK_INIT_RECURSIVE(class,lock)   class BDK_RLOCK_DEFINE(lock);
-#define __lock_init(lock)                   (_CAST_VOID 0)
-#define __lock_init_recursive(lock)         (_CAST_VOID 0)
+#define __lock_init(lock)                   bdk_rlock_init(&lock)
+#define __lock_init_recursive(lock)         bdk_rlock_init(&lock)
 #define __lock_close(lock)                  (_CAST_VOID 0)
 #define __lock_close_recursive(lock)        (_CAST_VOID 0)
 #define __lock_acquire(lock)                bdk_rlock_lock(&lock)
