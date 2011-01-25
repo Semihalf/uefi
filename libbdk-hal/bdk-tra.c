@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define MAX_TRA 4
-#define MAX_TRA_DATA 128
+#define MAX_TRA_DATA 1024
 
 /**
  * TRA data format definition. Use the type field to
@@ -427,7 +427,6 @@ void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
 /**
  * Setup the TRA buffer for use
  *
- * @param control TRA control setup
  * @param filter  Which events to log
  * @param source_filter
  *                Source match

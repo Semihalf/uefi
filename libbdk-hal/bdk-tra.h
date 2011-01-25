@@ -121,13 +121,12 @@ typedef enum
 
 typedef struct
 {
-    uint64_t data[(128*2+1)*4];
+    uint64_t data[(1024*2+1)*4];
 } bdk_tra_capture_t;
 
 /**
  * Setup the TRA buffer for use
  *
- * @param control TRA control setup
  * @param filter  Which events to log
  * @param source_filter
  *                Source match
