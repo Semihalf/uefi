@@ -15,7 +15,7 @@ LEAF(__bdk_thread_switch)
     dmfc0   k0, COP0_USERLOCAL  /* Get the current context */
     pref    0, 128(a0)
     pref    0, 256(a0)
-    beqz    k0, no_free_old     /* Skip save if current context is zero */
+    beqz    k0, skip_save       /* Skip save if current context is zero */
      dmtc0  a0, COP0_USERLOCAL  /* Store new context in delay slot */
 
     .irp    n, REGISTERS        /* Save all the general registers */
@@ -28,12 +28,11 @@ LEAF(__bdk_thread_switch)
     sd      t1, 35*8(k0)
     sd      ra, 33*8(k0)        /* Store the PC */
 
-    beqz    a1, no_free_old     /* Skip deleting the old context if a1==0 */
-     ld     sp, 29*8(a0)        /* Swap stacks */
-    jal     free                /* Call free old context using new context stack */
+skip_save:
+    ld      sp, 29*8(a0)        /* Swap stacks */
+    jal     __bdk_thread_switch_complete
      move   a0, k0
 
-no_free_old:
     dmfc0   k0, COP0_USERLOCAL  /* Put the new context in k0 */
     ld      t0, 34*8(k0)        /* Restore mult/divide state */
     ld      t1, 35*8(k0)

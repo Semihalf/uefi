@@ -31,9 +31,6 @@ extern void __bdk_thread_switch(bdk_thread_t* next_context, int delete_old);
  */
 static void __bdk_thread_body(bdk_thread_func_t func, int arg0, void *arg1)
 {
-    /* As an artifact of how a thread initially start, the thread lock
-        will be left locked by yield() since we never return switch() */
-    bdk_spinlock_unlock(&bdk_thread_lock);
     func(arg0, arg1);
     bdk_thread_destroy();
 }
@@ -103,12 +100,9 @@ void bdk_thread_yield(void)
         will continue without doing anything */
     if (next)
     {
-        if (bdk_thread_tail)
-            bdk_thread_tail->next = current;
-        else
-            bdk_thread_head = current;
-        bdk_thread_tail = current;
         __bdk_thread_switch(next, 0);
+        /* Unlock performed in __bdk_thread_switch_complete */
+        return;
     }
     bdk_spinlock_unlock(&bdk_thread_lock);
 }
@@ -193,7 +187,7 @@ void bdk_thread_destroy(void)
     }
 }
 
-extern struct _reent *__bdk_thread_getreent(void)
+struct _reent *__bdk_thread_getreent(void)
 {
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
@@ -203,3 +197,23 @@ extern struct _reent *__bdk_thread_getreent(void)
         return _global_impure_ptr;
 }
 
+void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
+{
+    if (bdk_unlikely(delete_old))
+    {
+        bdk_spinlock_unlock(&bdk_thread_lock);
+        free(old_context);
+    }
+    else
+    {
+        if (bdk_likely(old_context))
+        {
+            if (bdk_thread_tail)
+                bdk_thread_tail->next = old_context;
+            else
+                bdk_thread_head = old_context;
+            bdk_thread_tail = old_context;
+        }
+        bdk_spinlock_unlock(&bdk_thread_lock);
+    }
+}
