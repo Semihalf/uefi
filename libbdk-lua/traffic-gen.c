@@ -1401,12 +1401,16 @@ static void packet_incrementer(tg_port_t *tg_port, char *data)
 static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
     char *pdata = build_packet(tg_port);
-    if (!pdata)
-        return;
-
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     uint64_t output_cycle;
     uint64_t count = port_tx->output_count;
+
+    if (!pdata)
+    {
+        port_tx->output_enable = 0;
+        BDK_SYNCW;
+        return;
+    }
 
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
