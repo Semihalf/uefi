@@ -46,34 +46,6 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
     return 0;
 }
 
-/**
- * Shutdown a Memory pool and validate that it had all of
- * the buffers originally placed in it. This should only be
- * called by one processor after all hardware has finished
- * using the pool. Most like you will want to have called
- * bdk_helper_shutdown_packet_io_global() before this
- * function to make sure all FPA buffers are out of the packet
- * IO hardware.
- *
- * @param pool   Pool to shutdown
- *
- * @return Zero on success
- *         - Positive is count of missing buffers
- *         - Negative is too many buffers or corrupted pointers
- */
-int bdk_fpa_empty_pool(bdk_fpa_pool_t pool)
-{
-    while (1)
-    {
-        void *ptr = bdk_fpa_alloc(pool);
-        if (ptr)
-            free(ptr);
-        else
-            break;
-    }
-    return 0;
-}
-
 int bdk_fpa_get_block_size(bdk_fpa_pool_t pool)
 {
     switch (pool)

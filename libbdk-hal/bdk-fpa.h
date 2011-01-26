@@ -136,15 +136,6 @@ static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_li
 extern int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks);
 
 /**
- * Empty an FPA pool and free() all buffers
- *
- * @param pool   Pool to empty
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_fpa_empty_pool(bdk_fpa_pool_t pool);
-
-/**
  * Get the size of blocks controlled by the pool
  * This is resolved to a constant at compile time.
  *
