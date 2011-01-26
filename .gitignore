@@ -6,6 +6,7 @@
 *.elf
 *.bin
 *.pickle
+*.map
 /csr-tool/cisco
 /csr-tool/html
 /libc/build

@@ -22,7 +22,7 @@ ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
-LDFLAGS += -Wl,-T -Wl,bdk.ld
+LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map
 LDLIBS = -lbdk -lgcc
 
 INIT_SECTIONS=.init
