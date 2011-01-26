@@ -31,16 +31,17 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
     if (size & BDK_CACHE_LINE_MASK)
         return -num_blocks;
 
+    void *buf = memalign(BDK_CACHE_LINE_SIZE, num_blocks * size);
+    if (!buf)
+    {
+        bdk_error("bdk_fpa_fill_pool: Pool %d failed with %d blocks to alloc\n", pool, num_blocks);
+        return -num_blocks;
+    }
+
     while (num_blocks--)
     {
-        void *buf = memalign(BDK_CACHE_LINE_SIZE, size);
-        if (buf)
-            bdk_fpa_free(buf, pool, 0);
-        else
-        {
-            bdk_error("bdk_fpa_fill_pool: Pool %d failed with %d blocks to alloc\n", pool, num_blocks);
-            return -num_blocks-1;
-        }
+        bdk_fpa_free(buf, pool, 0);
+        buf += size;
     }
     return 0;
 }

@@ -31,7 +31,7 @@ static __bdk_if_port_t *__bdk_if_tail;
  */
 static int __bdk_if_setup_sso(void)
 {
-    const int SSO_RWQ_SIZE = 512;
+    const int SSO_RWQ_SIZE = 256;
     const int SSO_RWQ_COUNT = 8 + 128;
 
     /* SSO in CN63XX doesn't need any setup */
@@ -42,17 +42,20 @@ static int __bdk_if_setup_sso(void)
     BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
         c.s.nw_tim = 16);
 
+    void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE*(16+SSO_RWQ_COUNT));
+    if (!buffer)
+    {
+        bdk_error("Failed to allocate buffers for SSO\n");
+        return -1;
+    }
+
     /* Initialize the SSO memory queues */
     for (int i=0; i<8; i++)
     {
-        void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE);
-        if (!buffer)
-        {
-            bdk_error("Failed to allocate buffer for SSO queue %d\n", i);
-            return -1;
-        }
         BDK_CSR_WRITE(BDK_SSO_RWQ_HEAD_PTRX(i), bdk_ptr_to_phys(buffer));
+        buffer += SSO_RWQ_SIZE;
         BDK_CSR_WRITE(BDK_SSO_RWQ_TAIL_PTRX(i), bdk_ptr_to_phys(buffer));
+        buffer += SSO_RWQ_SIZE;
     }
 
     /* Initialize the RWQ list */
@@ -64,13 +67,8 @@ static int __bdk_if_setup_sso(void)
             return -1;
         }
 
-        void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE);
-        if (!buffer)
-        {
-            bdk_error("Failed to allocate buffer for SSO RWQ\n");
-            return -1;
-        }
         BDK_CSR_WRITE(BDK_SSO_RWQ_PSH_FPTR, bdk_ptr_to_phys(buffer));
+        buffer += SSO_RWQ_SIZE;
     }
 
     /* Enable the SSO RWI/RWO operations */
@@ -272,7 +270,7 @@ int bdk_if_init(void)
     int result = 0;
     int num_packet_buffers = 256;
 
-    /* Setup the FPA, packet and WQE buffers */
+    /* Setup the FPA packet buffers */
     bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
 
