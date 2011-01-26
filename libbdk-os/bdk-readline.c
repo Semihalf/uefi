@@ -14,7 +14,7 @@
 #define CURSOR_RESTORE "\0338"  /* Restore cursor location */
 
 #define MAX_COMMAND 128
-#define MAX_HISTORY_LOG2 (6)
+#define MAX_HISTORY_LOG2 (5)
 #define MAX_HISTORY (1<<MAX_HISTORY_LOG2)
 #define MAX_HISTORY_MASK (MAX_HISTORY-1)
 #define DEBUG_ESCAPE 0

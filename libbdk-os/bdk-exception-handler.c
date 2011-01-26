@@ -3,12 +3,12 @@
 
 char bdk_exception_stack[1024];
 
-static const char reg_names[][34] = { "r0","at","v0","v1","a0","a1","a2","a3",
+static const char reg_names[][3] = {  "r0","at","v0","v1","a0","a1","a2","a3",
                                       "t0","t1","t2","t3","t4","t5","t6","t7",
-                                      "s0","s1","s2","s3","s4","s5", "s6","s7",
-                                      "t8","t9", "k0","k1","gp","sp","s8","ra" };
+                                      "s0","s1","s2","s3","s4","s5","s6","s7",
+                                      "t8","t9","k0","k1","gp","sp","s8","ra" };
 /* Textual descriptions of cause codes */
-static const char cause_names[][128] = {
+static const char cause_names[][32] = {
         /*  0 */ "Interrupt",
         /*  1 */ "TLB modification",
         /*  2 */ "tlb load/fetch",
