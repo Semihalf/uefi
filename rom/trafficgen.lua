@@ -251,6 +251,18 @@ function TrafficGen.new()
         table.insert(known_rows, memusage)
     end
 
+    -- Create a row reporting C's memory usage
+    do
+        local memusage = Row.new("C memory(KB)", nil, nil, false)
+        memusage.display = function (self, port_range)
+            local COL_SEP = ZEROHI .. "|" .. NORMAL
+            printf("%2d:%-20s", self.number, self.name)
+            printf("%s%10d%s\n", COL_SEP, octeon.get_sbrk() / 1024, ERASE_EOL)
+        end
+        memusage.visible = 1
+        table.insert(known_rows, memusage)
+    end
+
     --
     -- Public Methods
     --

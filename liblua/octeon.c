@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <unistd.h>
 // Module for interfacing with Octeon
 
 #include "lua.h"
@@ -284,6 +285,12 @@ static void control_c_check(lua_State *L, lua_Debug *ar)
     lua_gc(L, LUA_GCCOLLECT, 0);
 }
 
+static int get_sbrk(lua_State* L)
+{
+    lua_pushnumber(L, bdk_ptr_to_phys(sbrk(0)));
+    return 1;
+}
+
 
 /**
  * Called to register the octeon module
@@ -342,6 +349,10 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setfield(L, -2, "__call");
     lua_setmetatable(L, -2);
     lua_setfield(L, -2, "csr");
+
+    /* Add function for seeing the size of the heap */
+    lua_pushcfunction(L, get_sbrk);
+    lua_setfield(L, -2, "get_sbrk");
 
     lua_setglobal(L, "octeon");
 
