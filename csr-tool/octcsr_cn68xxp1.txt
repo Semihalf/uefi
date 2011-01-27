@@ -13050,7 +13050,7 @@ Pos      Name    Type     Value     Value       Description
                                                          BRST_MAX <= 16)                                                |
 <31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane striping is performed from |
                                                          most significant lane enabled to least significant lane        |
-                                                         enabled.   LANE_ENA must be zero before changing LANE_REV      |
+                                                         enabled.  LANE_ENA must be zero before changing LANE_REV.      |
 <38:32>  BRST_SHRT            R/W      0x4      NS       Minimum interval between burst control words, as a multiple of |
                                                          8 bytes.  Supported range from 8 bytes to 512 (ie. 0 <         |
                                                          BRST_SHRT <= 64)                                               |
@@ -13069,9 +13069,12 @@ Pos      Name    Type     Value     Value       Description
                                                                Entry 16 = backpressue id 15                             |
                                                                Entry 17 = backpressue id 16                             |
                                                                ...etc.                                                  |
-
-								|
-
+                                                         This continues until the status for all 64 backpressue ids gets|
+                                                         transmitted (ie. 0-68 calendar table entries).  The remaining 3|
+                                                         calendar table entries (ie. 69-71) will always transmit XOFF.  |
+                                                                                                                        |
+                                                         To disable backpressure completely, enable the calendar table  |
+                                                         and program each calendar table entry to transmit XON          |
 <53>     MLTUSE_FC_ENA        R/W      0x0      NS       When set, the multi-use field of control words will contain    |
                                                          flow control status.  Otherwise, the multi-use field will      |
                                                          contain ILK_TX@_CFG1[TX_MLTUSE]                                |
@@ -13112,7 +13115,8 @@ Pos      Name    Type     Value     Value       Description
                                                          Tx-Link to stop transmitting at the end of a packet instead of |
                                                          the end of a burst                                             |
 <11>     TX_LINK_FC_JAM       R/W      0x0      NS       All flow control transmitted in burst/idle control words will  |
-                                                         be XOFF whenever TX_LINK_FC is XOFF.                           |
+                                                         be XOFF whenever TX_LINK_FC is XOFF.   Enable this to allow    |
+                                                         link XOFF to automatically XOFF all channels.                  |
 <16:12>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <17>     RX_LINK_FC           RO       0x0      NS       Link flow control status received in burst/idle control words. |
                                                          When RX_LINK_FC_IGN=0, XOFF will cause Tx-Link to stop         |
@@ -13127,7 +13131,7 @@ Pos      Name    Type     Value     Value       Description
                                                          continuously drain; all data will be dropped.  Software should |
                                                          first write PKT_ENA=0 and wait packet transmission to stop.    |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
-<30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay                                         |
+<30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay.                                        |
 <31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
                                                          ignore pipe credits.                                           |
 <63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13217,7 +13221,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <27:0>   TX_PKT               RO       0x0      NS       Number of packets transmitted per channel (256M)               |
-                                                         Channel selected by ILK_TXx_IDX_STAT1[IDX]                     |
+                                                         Channel selected by ILK_TXx_IDX_STAT1[IDX].  Interrupt on      |
+                                                         saturation if ILK_TX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13232,7 +13237,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <35:0>   TX_BYTES             RO       0x0      NS       Number of bytes transmitted per channel (64GB) Channel selected|
-                                                         by ILK_TXx_IDX_STAT0[IDX]                                      |
+                                                         by ILK_TXx_IDX_STAT0[IDX].    Saturates.  Interrupt on         |
+                                                         saturation if ILK_TX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13282,6 +13288,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:0>   NS                   RAZ      0x0      NS       Reserved                                                       |
+                                                                                                                        |
+Notes:                                                                                                                  |
+    Do not publish.                                                                                                     |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13520,7 +13529,7 @@ Pos      Name    Type     Value     Value       Description
                                                          correct operation of the link.                                 |
 <31>     LANE_REV             R/W      0x0      NS       Lane reversal.   When enabled, lane de-striping is performed   |
                                                          from most significant lane enabled to least significant lane   |
-                                                         enabled.   LANE_ENA must be zero before changing LANE_REV      |
+                                                         enabled.  LANE_ENA must be zero before changing LANE_REV.      |
 <38:32>  BRST_SHRT            R/W      0x4      NS       Minimum interval between burst control words, as a multiple of |
                                                          8 bytes.  Supported range from 8 bytes to 512 (ie. 0 <         |
                                                          BRST_SHRT <= 64)                                               |
@@ -13646,7 +13655,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<26:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received                               |
+<26:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received.  Saturates.  Interrupt on    |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:27>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13660,7 +13670,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   CRC24_ERR_CNT        R/W      0x0      NS       Number of bursts with a detected CRC error                     |
+<17:0>   CRC24_ERR_CNT        R/W      0x0      NS       Number of bursts with a detected CRC error.  Saturates.        |
+                                                         Interrupt on saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.    |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13678,7 +13689,8 @@ Pos      Name    Type     Value     Value       Description
                                                          violation of BurstMax or BurstShort)                           |
 <31:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <47:32>  BRST_NOT_FULL_CNT    R/W      0x0      NS       Number of bursts received which terminated without an eop and  |
-                                                         contained fewer than BurstMax words.                           |
+                                                         contained fewer than BurstMax words.  Saturates.  Interrupt on |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:48>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13706,7 +13718,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   BRST_SHRT_ERR_CNT    R/W      0x0      NS       Number of bursts received that violate the BurstShort parameter|
+<15:0>   BRST_SHRT_ERR_CNT    R/W      0x0      NS       Number of bursts received that violate the BurstShort          |
+                                                         parameter.  Saturates.  Interrupt on saturation if             |
+                                                         ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                               |
 <63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13721,7 +13735,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <15:0>   ALIGN_CNT            R/W      0x0      NS       Number of alignment sequences received  (ie. those that do not |
-                                                         violate the current alignment)                                 |
+                                                         violate the current alignment).  Saturates.  Interrupt on      |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13736,7 +13751,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <15:0>   ALIGN_ERR_CNT        R/W      0x0      NS       Number of alignment sequences received in error (ie. those that|
-                                                         violate the current alignment)                                 |
+                                                         violate the current alignment).  Saturates.  Interrupt on      |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13750,7 +13766,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   BAD_64B67B_CNT       R/W      0x0      NS       Number of bad 64B/67B codewords                                |
+<15:0>   BAD_64B67B_CNT       R/W      0x0      NS       Number of bad 64B/67B codewords.  Saturates.  Interrupt on     |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13764,9 +13781,12 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   PKT_DROP_RXF_CNT     R/W      0x0      NS       Number of packets dropped due to RX_FIFO_CNT >= RX_FIFO_MAX    |
+<15:0>   PKT_DROP_RXF_CNT     R/W      0x0      NS       Number of packets dropped due to RX_FIFO_CNT >= RX_FIFO_MAX.   |
+                                                         Saturates.  Interrupt on saturation if                         |
+                                                         ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                               |
 <31:16>  PKT_DROP_RID_CNT     R/W      0x0      NS       Number of packets dropped due to the lack of reassembly-ids or |
-                                                         because ILK_RX@_CFG1[PKT_ENA]=0                                |
+                                                         because ILK_RX@_CFG1[PKT_ENA]=0.  Saturates.  Interrupt on     |
+                                                         saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13834,7 +13854,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <27:0>   RX_PKT               RO       0x0      NS       Number of packets received (256M)                              |
-                                                         Channel selected by ILK_RXx_IDX_STAT1[IDX]                     |
+                                                         Channel selected by ILK_RXx_IDX_STAT1[IDX].  Saturates.        |
+                                                         Interrupt on saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.    |
 <63:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13849,7 +13870,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <35:0>   RX_BYTES             RO       0x0      NS       Number of bytes received (64GB)                                |
-                                                         Channel selected by ILK_RXx_IDX_STAT0[IDX]                     |
+                                                         Channel selected by ILK_RXx_IDX_STAT0[IDX].    Saturates.      |
+                                                         Interrupt on saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.    |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14195,7 +14217,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   SER_LOCK_LOSS_CNT    RO       0x0      NS       Number of times the lane lost clock-data-recovery              |
+<17:0>   SER_LOCK_LOSS_CNT    RO       0x0      NS       Number of times the lane lost clock-data-recovery.             |
+                                                         Saturates.  Interrupt on saturation if                         |
+                                                         ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1                            |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14209,7 +14233,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   BDRY_SYNC_LOSS_CNT   RO       0x0      NS       Number of times a lane lost word boundary synchronization      |
+<17:0>   BDRY_SYNC_LOSS_CNT   RO       0x0      NS       Number of times a lane lost word boundary synchronization.     |
+                                                         Saturates.  Interrupt on saturation if                         |
+                                                         ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1                            |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14223,9 +14249,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   SYNCW_BAD_CNT        RO       0x0      NS       Number of bad synchronization words                            |
+<17:0>   SYNCW_BAD_CNT        RO       0x0      NS       Number of bad synchronization words.  Saturates.  Interrupt on |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <31:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
-<49:32>  SYNCW_GOOD_CNT       RO       0x0      NS       Number of good synchronization words                           |
+<49:32>  SYNCW_GOOD_CNT       RO       0x0      NS       Number of good synchronization words.  Saturates.  Interrupt on|
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <63:50>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14240,7 +14268,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <17:0>   BAD_64B67B_CNT       RO       0x0      NS       Number of bad 64B/67B words, meaning bit 65 or 64 has been     |
-                                                         corrupted.                                                     |
+                                                         corrupted.  Saturates.  Interrupt on saturation if             |
+                                                         ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1                            |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14254,9 +14283,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<26:0>   DATA_WORD_CNT        RO       0x0      NS       Number of data words received                                  |
+<26:0>   DATA_WORD_CNT        RO       0x0      NS       Number of data words received.  Saturates.  Interrupt on       |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <31:27>  NS                   RAZ      0x0      NS       Reserved                                                       |
-<58:32>  CNTL_WORD_CNT        RO       0x0      NS       Number of control words received                               |
+<58:32>  CNTL_WORD_CNT        RO       0x0      NS       Number of control words received.  Saturates.  Interrupt on    |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <63:59>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14270,7 +14301,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   UNKWN_WORD_CNT       RO       0x0      NS       Number of unknown control words                                |
+<17:0>   UNKWN_WORD_CNT       RO       0x0      NS       Number of unknown control words.  Saturates.  Interrupt on     |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14286,7 +14318,8 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <17:0>   SCRM_SYNC_LOSS_CNT   RO       0x0      NS       Number of times scrambler synchronization was lost (due to     |
                                                          either 4 consecutive bad sync words or 3 consecutive scrambler |
-                                                         state mismatches)                                              |
+                                                         state mismatches).  Saturates.  Interrupt on saturation if     |
+                                                         ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1                            |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14300,7 +14333,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   SCRM_MATCH_CNT       RO       0x0      NS       Number of scrambler state matches received                     |
+<17:0>   SCRM_MATCH_CNT       RO       0x0      NS       Number of scrambler state matches received.  Saturates.        |
+                                                         Interrupt on saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1 |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14314,7 +14348,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   SKIPW_GOOD_CNT       RO       0x0      NS       Number of good skip words                                      |
+<17:0>   SKIPW_GOOD_CNT       RO       0x0      NS       Number of good skip words.  Saturates.  Interrupt on saturation|
+                                                         if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1                         |
 <63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14328,9 +14363,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<26:0>   CRC32_MATCH_CNT      RO       0x0      NS       Number of CRC32 matches received                               |
+<26:0>   CRC32_MATCH_CNT      RO       0x0      NS       Number of CRC32 matches received.  Saturates.  Interrupt on    |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <31:27>  NS                   RAZ      0x0      NS       Reserved                                                       |
-<49:32>  CRC32_ERR_CNT        RO       0x0      NS       Number of errors in the lane CRC                               |
+<49:32>  CRC32_ERR_CNT        RO       0x0      NS       Number of errors in the lane CRC.  Saturates.  Interrupt on    |
+                                                         saturation if ILK_RX_LNE@_INT_EN[STAT_CNT_OVFL]=1              |
 <63:50>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14346,7 +14383,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <0>      RXF_XLINK            R/W      0x0      NS       Causes external loopback traffic to switch links.  Enabling    |
                                                          this allow simultaneous use of external and internal loopback. |
-<1>      CCLK_DIS             R/W      0x0      NS       Disable ILK conditional clocking                               |
+<1>      CCLK_DIS             R/W      0x0      NS       Disable ILK conditional clocking.   For diagnostic use only.   |
 <63:2>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14430,8 +14467,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<8:0>    IDX                  R/W      0x0      NS       Specify the channel accessed by the next CSR read/write to port|
-                                                         map memory                                                     |
+<8:0>    IDX                  R/W      0x0      NS       Specify the link/channel accessed by the next CSR read/write to|
+                                                         port map memory.   IDX[8]=link, IDX[7:0]=channel               |
 <15:9>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <24:16>  INC                  R/W      0x0      NS       Increment to add to current index for next index.              |
 <63:25>  NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -14448,7 +14485,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <5:0>    PORT_KIND            R/W      0x0      NS       Specify the port-kind for the channel selected by              |
-                                                         ILK_IDX_PMAP[IDX]                                              |
+                                                         ILK_IDX_PMAP[IDX] and link selected by  ILK_IDX_PMAP[LINK]     |
 <63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20058,7 +20095,6 @@ Pos      Name    Type     Value     Value       Description
                                             ...
                                             1001 : byte 8
                                             0000,1010-1111 : Reserved
-                                            *DON'T PUT IN HRM*
 <18>     DLL_MODE    R/W    0x0     0x0     DLL Mode
                                             *DON'T PUT IN HRM*
 <19>     FINE_TUNE_MODE R/W 0x0     0x1     DLL Fine Tune Mode
@@ -20074,8 +20110,7 @@ Pos      Name    Type     Value     Value       Description
                                             *DON'T PUT IN HRM*
 <36:29>  DCLK90_BYP_SETTING R/W 0x0  0x0    Bypass Setting for DDR90 Delay Line
 <37>     DCLK90_BYP_SEL     R/W 0x0  0x0    Bypass Setting Select for DDR90 Delay Line
-<38>     DCLK90_RECAL_DIS   R/W 0x0  0x0    Disable periodic recalibration of DDR90 Delay Line in
-                                            *DON'T PUT IN HRM*
+<38>     DCLK90_RECAL_DIS   R/W 0x0  0x1    Disable periodic recalibration of DDR90 Delay Line in
 <39>     DDR_90_DLY_BYP     R/W 0x0  0x0    Bypass DDR90_DLY in Clock Tree
                                             *DON'T PUT IN HRM*
 <40>     DCLK90_FWD          WR0    0x0     0x0     Forward setting
@@ -22707,6 +22742,22 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
  <11:8>  QLM_SPD      RO       NS        NS        QLM speed                                        |
+                                                      0   = 5     Gbaud	                            |
+                                                      1   = 2.5   Gbaud	                            |
+                                                      2   = 2.5   Gbaud                             |
+                                                      3   = 1.25  Gbaud                             |
+                                                      4   = 1.25  Gbaud                             |
+                                                      5   = 6.25  Gbaud                             |
+                                                      6   = 5     Gbaud                             |
+                                                      7   = 2.5   Gbaud                             |
+                                                      8   = 3.125 Gbaud                             |
+                                                      9   = 2.5   Gbaud                             |
+                                                      10  = 1.25  Gbaud                             |
+                                                      11  = 5     Gbaud                             |
+                                                      12  = 6.25  Gbaud                             |
+                                                      13  = 3.75  Gbaud                             |
+                                                      14  = 3.125 Gbaud                             |
+                                                      15  = QLM Disabled                            |
  <7:3>   NS           RAZ      NS        NS        Reserved                                         |
  <2:0>   QLM_CFG      RO       NS        NS        QLM configuration mode                           |
                                                       000 = PCIE	                            |
@@ -22717,6 +22768,8 @@ Pos      Name    Type     Value     Value       Description
                                                       101 = RESERVED                                |
                                                       110 = RESERVED                        	    |
                                                       111 = RXAUI                                   |
+                                                   NOTE: Internal encodings differ from QLM_MODE    |
+                                                         pins encodings                             |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -33775,9 +33828,19 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <6:0>   BASE     R/W      0           NS        The mac number.                                    |
+ <6:0>   BASE     R/W      0           NS        When NUMP is non-zero, indicates the base pipe	    |
+						  number this port|ring will accept.		    |
+						  This port will accept pko packets from pipes in   |
+						  the range of:					    |
+						    BASE .. (BASE+(NUMP-1))			    |
+						  BASE and NUMP must be constrained such that	    |
+						    1) BASE+(NUMP-1) < 127			    |
+						    2) Each used PKO pipe must map to exactly	    |
+						       one port|ring				    |
+						    3) The pipe ranges must be consistent with	    |
+						       the PKO configuration.			    |
  <15:7>  NS       RAZ      NS          NS        Reserved					    |
- <23:16> NUMP     R/W      0           NS        The mac number.                                    |
+ <23:16> NUMP     R/W      0           NS        Number of pipes this port|ring supports.	    |
                                                  When this value is 4 or less there is a performance|
                                                  advantage for output packets.                      |
  <63:24> NS       RAZ      NS          NS        Reserved					    |
@@ -36553,7 +36616,7 @@ Pos      Name    Type     Value     Value       Description
 <31:20>  NS       R/W      0           0         Must be written to zero
 <19>     DWB      R/W      0           0         Enable tracing of requests from the IOB DWB engine
 <18>     IOBREQ   R/W      0           0         Enable tracing of requests from FPA,TIM,DFA,
-                                                 PCI,ZIP,POW, and PKO (writes)
+                                                 PCI,ZIP,SSO, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable tracing of read requests from PKO
 <16>     PKI      R/W      0           0         Enable tracing of write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
@@ -36586,9 +36649,9 @@ Pos      Name    Type     Value     Value       Description
                                                  (doorbells)
 <13>     USB0     R/W      0           1         Enable tracing of USB0 accesses
                                                  (UAHC0 EHCI and OHCI NCB CSRs)
-<12>     POW      R/W      0           1         Enable tracing of requests to POW
+<12>     POW      R/W      0           1         Enable tracing of requests to SSO
                                                  (get work, add work, status/memory/index
-                                                 loads, NULLRd loads, CSR's)
+                                                 loads, ALLOC_WE loads, CSR's)
 <11>     ILLEGAL2 R/W      0           1         Illegal destination
 <10>     PKO      R/W      0           1         Enable tracing of PKO accesses
                                                  (doorbells)
@@ -36810,7 +36873,7 @@ Pos      Name    Type     Value     Value       Description
 <31:20>  NS       R/W      0           0         Must be written to zero
 <19>     DWB      R/W      0           0         Enable triggering on requests from the IOB DWB engine
 <18>     IOBREQ   R/W      0           0         Enable triggering on requests from FPA,TIM,DFA,
-                                                 PCI,ZIP,POW, and PKO (writes)
+                                                 PCI,ZIP,SSO, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
@@ -36843,9 +36906,9 @@ Pos      Name    Type     Value     Value       Description
                                                  (doorbells)
 <13>     USB0     R/W      0           1         Enable triggering on USB0 accesses
                                                  (UAHC0 EHCI and OHCI NCB CSRs)
-<12>     POW      R/W      0           1         Enable triggering on requests to POW
+<12>     POW      R/W      0           1         Enable triggering on requests to SSO
                                                  (get work, add work, status/memory/index
-                                                 loads, NULLRd loads, CSR's)
+                                                 loads, ALLOC_WE loads, CSR's)
 <11>     ILLEGAL2 R/W      0           1         Illegal destination
 <10>     PKO      R/W      0           1         Enable triggering on PKO accesses
                                                  (doorbells)
@@ -37067,7 +37130,7 @@ Pos      Name    Type     Value     Value       Description
 <31:20>  NS       R/W      0           0         Must be written to zero
 <19>     DWB      R/W      0           0         Enable triggering on requests from the IOB DWB engine
 <18>     IOBREQ   R/W      0           0         Enable triggering on requests from FPA,TIM,DFA,
-                                                 PCI,ZIP,POW, and PKO (writes)
+                                                 PCI,ZIP,SSO, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
@@ -37100,9 +37163,9 @@ Pos      Name    Type     Value     Value       Description
                                                  (doorbells)
 <13>     USB0     R/W      0           1         Enable triggering on USB0 accesses
                                                  (UAHC0 EHCI and OHCI NCB CSRs)
-<12>     POW      R/W      0           1         Enable triggering on requests to POW
+<12>     POW      R/W      0           1         Enable triggering on requests to SSO
                                                  (get work, add work, status/memory/index
-                                                 loads, NULLRd loads, CSR's)
+                                                 loads, ALLOC_WE loads, CSR's)
 <11>     ILLEGAL2 R/W      0           1         Illegal destination
 <10>     PKO      R/W      0           1         Enable triggering on PKO accesses
                                                  (doorbells)

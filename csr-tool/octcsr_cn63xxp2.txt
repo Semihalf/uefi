@@ -10037,8 +10037,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:37> NS       RAZ      NS          NS        Reserved				            |
- <36:0>  BIST     RO       0x0         0         BIST Results.                                      |
+ <63:45> NS       RAZ      NS          NS        Reserved				            |
+ <44:0>  BIST     RO       0x0         0         BIST Results.                                      |
                                                   HW sets a bit in BIST for for memory that fails   |
 						  BIST.						    |
 ----------------------------------------------------------------------------------------------------
