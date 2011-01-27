@@ -2,7 +2,7 @@ import csr_output_addresses
 
 def writeCopyrightBanner(out):
     out.write("/***********************license start***************\n")
-    out.write(" * Copyright (c) 2003-2010  Cavium Networks (support@cavium.com). All rights\n")
+    out.write(" * Copyright (c) 2003-2011  Cavium Networks (support@cavium.com). All rights\n")
     out.write(" * reserved.\n")
     out.write(" *\n")
     out.write(" *\n")
