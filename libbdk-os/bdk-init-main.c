@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <stdio.h>
 
 
 static void __bdk_init_cop0(void)
@@ -29,6 +30,25 @@ static void __bdk_init_cop0(void)
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 }
 
+
+static void __bdk_setup_bootbus(void)
+{
+    const int region_size = 256 << 20;
+    /* Skip region 0 as it's location is set earlier in boot. We reserve
+        0-region_size to be used by region 0. Normally it only uses a small
+        part of that */
+    for (int region=1; region<8; region++)
+    {
+        /* Set each region to be region_size, one after the other. We're
+            going to use 64bit addressing to access them, so we cna make
+            them big */
+        BDK_CSR_MODIFY(c, BDK_MIO_BOOT_REG_CFGX(region),
+            c.s.size = (region_size >> 16) - 1;
+            c.s.base = region_size >> 16);
+    }
+}
+
+
 /**
  * This function is the first function run on all cores once the
  * threading system takes over.
@@ -44,12 +64,23 @@ void bdk_init_main(int arg, void *arg1)
 
     __bdk_init_cop0();
 
+    if (bdk_get_core_num() == 0)
+    {
+        printf("Performing common initialization\n");
+        if (!bdk_is_simulation())
+        {
+            __bdk_setup_bootbus();
+            bdk_flash_initialize();
+        }
+    }
+
     /* Core 0 start main as another thread. We create a new thread so that
         the coremask will allow all cores in case the application
         goes multicore later */
     if (bdk_get_core_num() == 0)
     {
         extern int main(int argc, const char *argv);
+        printf("Switching to main\n");
         if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1))
             bdk_fatal("Create of main thread failed\n");
     }

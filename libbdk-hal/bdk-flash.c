@@ -15,7 +15,7 @@
 
 typedef struct
 {
-    void *              base_ptr;       /**< Memory pointer to start of flash */
+    uint64_t            base_addr;       /**< Physical address to start of flash */
     int                 is_16bit;       /**< Chip is 16bits wide in 8bit mode */
     uint16_t            vendor;         /**< Vendor ID of Chip */
     int                 size;           /**< Size of the chip in bytes */
@@ -39,7 +39,7 @@ static bdk_spinlock_t flash_lock;
  */
 static uint8_t __bdk_flash_read8(int chip_id, int offset)
 {
-    return *(volatile uint8_t *)(flash_info[chip_id].base_ptr + offset);
+    return bdk_read64_uint8(flash_info[chip_id].base_addr + offset);
 }
 
 
@@ -85,8 +85,7 @@ static uint16_t __bdk_flash_read_cmd16(int chip_id, int offset)
  */
 static void __bdk_flash_write8(int chip_id, int offset, uint8_t data)
 {
-    volatile uint8_t *flash_ptr = (volatile uint8_t *)flash_info[chip_id].base_ptr;
-    flash_ptr[offset] = data;
+    bdk_write64_uint8(flash_info[chip_id].base_addr + offset, data);
 }
 
 
@@ -100,8 +99,7 @@ static void __bdk_flash_write8(int chip_id, int offset, uint8_t data)
  */
 static void __bdk_flash_write_cmd(int chip_id, int offset, uint8_t data)
 {
-    volatile uint8_t *flash_ptr = (volatile uint8_t *)flash_info[chip_id].base_ptr;
-    flash_ptr[offset<<flash_info[chip_id].is_16bit] = data;
+    bdk_write64_uint8(flash_info[chip_id].base_addr + (offset<<flash_info[chip_id].is_16bit), data);
 }
 
 
@@ -110,16 +108,16 @@ static void __bdk_flash_write_cmd(int chip_id, int offset, uint8_t data)
  * Query a address and see if a CFI flash chip is there.
  *
  * @param chip_id  Chip ID data to fill in if the chip is there
- * @param base_ptr Memory pointer to the start address to query
+ * @param base_addr Physical address to the start address to query
  * @return Zero on success, Negative on failure
  */
-static int __bdk_flash_queury_cfi(int chip_id, void *base_ptr)
+static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
 {
     int region;
     bdk_flash_t *flash = flash_info + chip_id;
 
     /* Set the minimum needed for the read and write primitives to work */
-    flash->base_ptr = base_ptr;
+    flash->base_addr = base_addr;
     flash->is_16bit = 1;   /* FIXME: Currently assumes the chip is 16bits */
 
     /* Put flash in CFI query mode */
@@ -131,7 +129,7 @@ static int __bdk_flash_queury_cfi(int chip_id, void *base_ptr)
         (__bdk_flash_read_cmd(chip_id, 0x11) != 'R') ||
         (__bdk_flash_read_cmd(chip_id, 0x12) != 'Y'))
     {
-        flash->base_ptr = NULL;
+        flash->base_addr = NULL;
         return -1;
     }
 
@@ -195,13 +193,15 @@ static int __bdk_flash_queury_cfi(int chip_id, void *base_ptr)
 
 #if DEBUG
     /* Print the information about the chip */
-    bdk_dprintf("bdk-flash: Base pointer:  %p\n"
+    bdk_dprintf(
+           "Flash %d:    Base address:  0x%lx\n"
            "            Vendor:        0x%04x\n"
            "            Size:          %d bytes\n"
            "            Num regions:   %d\n"
            "            Erase timeout: %llu cycles\n"
            "            Write timeout: %llu cycles\n",
-           flash->base_ptr,
+           chip_id,
+           flash->base_addr,
            (unsigned int)flash->vendor,
            flash->size,
            flash->num_regions,
@@ -237,14 +237,11 @@ void bdk_flash_initialize(void)
     {
         bdk_mio_boot_reg_cfgx_t region_cfg;
         region_cfg.u64 = BDK_CSR_READ(BDK_MIO_BOOT_REG_CFGX(boot_region));
-        /* Only try chip select regions that are enabled. This assumes the
-            bootloader already setup the flash */
+        /* Only try chip select regions that are enabled */
         if (region_cfg.s.en)
         {
-            /* Convert the hardware address to a pointer. Note that the bootbus,
-                unlike memory, isn't 1:1 mapped in the simple exec */
-            void *base_ptr = bdk_phys_to_ptr((region_cfg.s.base<<16) | 0xffffffff80000000ull);
-            if (__bdk_flash_queury_cfi(chip_id, base_ptr) == 0)
+            uint64_t base_addr = (1ull<<63) + (1ull<<48) + (region_cfg.s.base<<16);
+            if (__bdk_flash_queury_cfi(chip_id, base_addr) == 0)
             {
                 /* Valid CFI flash chip found */
                 chip_id++;
@@ -261,11 +258,11 @@ void bdk_flash_initialize(void)
  * Return a pointer to the flash chip
  *
  * @param chip_id Chip ID to return
- * @return NULL if the chip doesn't exist
+ * @return Zero if the chip doesn't exist
  */
-void *bdk_flash_get_base(int chip_id)
+uint64_t bdk_flash_get_base(int chip_id)
 {
-    return flash_info[chip_id].base_ptr;
+    return flash_info[chip_id].base_addr;
 }
 
 
@@ -542,46 +539,27 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
 /**
  * Erase and write data to a flash
  *
- * @param address Memory address to write to
+ * @param chip_id Which flash to write
+ * @param offset  Offset into device to start write
  * @param data    Data to write
  * @param len     Length of the data
+ *
  * @return Zero on success. Negative on failure
  */
-int bdk_flash_write(void *address, const void *data, int len)
+int bdk_flash_write(int chip_id, int offset, const void *data, int len)
 {
-    int chip_id;
-
-    /* Find which chip controls this address. Don't allow the write to span
-        multiple chips */
-    for (chip_id=0; chip_id<MAX_NUM_FLASH_CHIPS; chip_id++)
-    {
-        if ((flash_info[chip_id].base_ptr <= address) &&
-            (flash_info[chip_id].base_ptr + flash_info[chip_id].size >= address + len))
-            break;
-    }
-
-    if (chip_id == MAX_NUM_FLASH_CHIPS)
-    {
-        bdk_error("bdk-flash: Unable to find chip that contains address %p\n", address);
-        return -1;
-    }
-
     bdk_flash_t *flash = flash_info + chip_id;
 
     /* Determine which block region we need to start writing to */
-    void *region_base = flash->base_ptr;
     int region = 0;
-    while (region_base + flash->region[region].num_blocks * flash->region[region].block_size <= address)
-    {
+    while (flash->region[region].start_offset + flash->region[region].num_blocks * flash->region[region].block_size <= offset)
         region++;
-        region_base = flash->base_ptr + flash->region[region].start_offset;
-    }
 
     /* Determine which block in the region to start at */
-    int block = (address - region_base) / flash->region[region].block_size;
+    int block = (offset - flash->region[region].start_offset) / flash->region[region].block_size;
 
     /* Require all writes to start on block boundries */
-    if (address != region_base + block*flash->region[region].block_size)
+    if (offset != flash->region[region].start_offset + block*flash->region[region].block_size)
     {
         bdk_error("bdk-flash: Write address not aligned on a block boundry\n");
         return -1;

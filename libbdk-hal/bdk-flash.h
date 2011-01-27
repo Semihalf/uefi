@@ -25,9 +25,9 @@ void bdk_flash_initialize(void);
  * Return a pointer to the flash chip
  *
  * @param chip_id Chip ID to return
- * @return NULL if the chip doesn't exist
+ * @return Zero if the chip doesn't exist
  */
-void *bdk_flash_get_base(int chip_id);
+uint64_t bdk_flash_get_base(int chip_id);
 
 /**
  * Return the number of erasable regions on the chip
@@ -70,11 +70,13 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data);
 /**
  * Erase and write data to a flash
  *
- * @param address Memory address to write to
+ * @param chip_id Which flash to write
+ * @param offset  Offset into device to start write
  * @param data    Data to write
  * @param len     Length of the data
+ *
  * @return Zero on success. Negative on failure
  */
-int bdk_flash_write(void *address, const void *data, int len);
+int bdk_flash_write(int chip_id, int offset, const void *data, int len);
 
 /** @} */
