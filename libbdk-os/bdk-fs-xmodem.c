@@ -311,7 +311,7 @@ retry:
         dbg_printf("xmodemTransmit Ending transfer\n");
         _outbyte(state, EOT);
         dbg_printf("xmodemTransmit Waiting for EOT ACK\n");
-        int c = _inbyte(state, DLY_1S);
+        int c = _inbyte(state, DLY_1S*3);
         switch (c)
         {
             case ACK:
