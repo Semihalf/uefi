@@ -44,56 +44,71 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
+static void uart_write_byte(int id, uint8_t byte)
+{
+    BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
+
+    /* Spin until there is room */
+    while (1)
+    {
+        lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        bdk_interrupt_flag |= lsr.s.bi;
+        if (lsr.s.thre)
+            break;
+        bdk_thread_yield();
+    }
+    /* Write the byte */
+    BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), 0xff & byte);
+}
+
 static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     static volatile void *owner = NULL;
-    BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
     int l = length;
     int id = ((long)handle->fs_state & 0xff) - 1;
+    int is_console = (((long)handle->fs_state & 0x100) == 0);
     const char *p = buffer;
 
-    void *me;
-    BDK_MF_COP0(me, COP0_USERLOCAL);
+    /* Consoles have some extra processing compared to files opened with
+        the O_NOCTTY flag. Consoles must insert '\r' after every '\n' to
+        get the terminal to do newlines properly. It also attempts to
+        write lines out as blocks such that multiple core output doesn't
+        get jumbled mid line. Files opened with the O_NOCTTY flag are
+        considered raw device and don't do any of this processing. This is
+        useful for XMODEM */
 
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
-    while (owner && (owner != me) && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
-        bdk_thread_yield();
-    owner = me;
-    BDK_SYNCW;
+    if (is_console)
+    {
+        void *me;
+        BDK_MF_COP0(me, COP0_USERLOCAL);
+
+        /* Spin waiting for another thread to finish it's current line */
+        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+        while (owner && (owner != me) && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
+            bdk_thread_yield();
+        /* Take ownership of the uarts */
+        owner = me;
+        BDK_SYNCW;
+    }
+    else
+        owner = NULL;
 
     while (l--)
     {
-        if ((*p =='\n') && (((long)handle->fs_state & 0x100) == 0))
+        if ((*p =='\n') && is_console)
         {
-            /* Spin until there is room */
-            while (1)
-            {
-                lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-                bdk_interrupt_flag |= lsr.s.bi;
-                if (lsr.s.thre)
-                    break;
-                bdk_thread_yield();
-            }
-            /* Write the byte */
-            BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), '\r');
-        }
+            uart_write_byte(id, '\r');
+            uart_write_byte(id, '\n');
 
-        /* Spin until there is room */
-        while (1)
-        {
-            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-            bdk_interrupt_flag |= lsr.s.bi;
-            if (lsr.s.thre)
-                break;
-            bdk_thread_yield();
+            /* Release ownership if we have no more data */
+            if (!l)
+            {
+                owner = NULL;
+                BDK_SYNCW;
+            }
         }
-        /* Write the byte */
-        BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), *p);
-        if ((*p =='\n') && !l)
-        {
-            owner = NULL;
-            BDK_SYNCW;
-        }
+        else
+            uart_write_byte(id, *p);
         p++;
     }
     return length;
