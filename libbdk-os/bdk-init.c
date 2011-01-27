@@ -44,23 +44,6 @@ static void __bdk_init_exception(void)
     BDK_ICACHE_INVALIDATE;
 }
 
-static void __bdk_init_cop0(void)
-{
-    int status;
-    BDK_MF_COP0(status, COP0_STATUS);
-    status |= 1<<30;    // Enable COP2
-    status &= ~(1<<22); // Clear BEV
-    BDK_MT_COP0(status, COP0_STATUS);
-
-    uint64_t memctl;
-    BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
-    memctl |= 7ull<<37; // Max pause time
-    BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
-
-    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * bdk_clock_get_rate(BDK_CLOCK_CORE) / bdk_clock_get_rate(BDK_CLOCK_SCLK);
-    BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
-}
-
 static void __bdk_init_relocate_data(void)
 {
     extern void _fdata; /* Beginning of .data section */
@@ -86,14 +69,12 @@ static void __bdk_init_relocate_data(void)
 static void bdk_init_stage2(void) __attribute((noreturn, noinline));
 static void bdk_init_stage2(void)
 {
-    extern int main(int argc, const char *argv);
     extern void _fbss;  /* Beginning of .bss */
     extern void _ebss;  /* End of .bss */
     static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Setting up global data\n";
     static const char BANNER_3[] = "Clearing BSS\n";
-    static const char BANNER_4[] = "Creating main thread\n";
-    static const char BANNER_5[] = "Transfering to thread scheduler\n";
+    static const char BANNER_4[] = "Transfering to thread scheduler\n";
 
     BDK_MT_COP0(0, COP0_USERLOCAL);
 
@@ -114,15 +95,17 @@ static void bdk_init_stage2(void)
 
         write(1, BANNER_4, sizeof(BANNER_4)-1);
         bdk_thread_initialize();
-        if (bdk_thread_create(-1, (bdk_thread_func_t)main, 0, NULL))
-            bdk_fatal("Create of main thread failed\n");
-
-        write(1, BANNER_5, sizeof(BANNER_5)-1);
     }
     else
         __bdk_init_relocate_data();
 
-    __bdk_init_cop0();
+    int status;
+    BDK_MF_COP0(status, COP0_STATUS);
+    status &= ~(1<<22); // Clear BEV
+    BDK_MT_COP0(status, COP0_STATUS);
+
+    if (bdk_thread_create(1ull<<bdk_get_core_num(), bdk_init_main, 0, NULL))
+        bdk_fatal("Create of bdk_init_main thread failed\n");
     bdk_thread_destroy();
 }
 

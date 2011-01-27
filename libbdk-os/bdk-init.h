@@ -19,4 +19,13 @@
  */
 extern int bdk_init_cores(uint64_t coremask);
 
+/**
+ * This function is the first function run on all cores once the
+ * threading system takes over.
+ *
+ * @param arg
+ * @param arg1
+ */
+extern void bdk_init_main(int arg, void *arg1);
+
 /** @}  */
