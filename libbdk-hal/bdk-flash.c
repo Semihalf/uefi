@@ -2,7 +2,7 @@
 
 #define MAX_NUM_FLASH_CHIPS 8   /* Maximum number of flash chips */
 #define MAX_NUM_REGIONS     8   /* Maximum number of block regions per chip */
-#define DEBUG 1
+#define DEBUG 0
 
 #define CFI_CMDSET_NONE             0
 #define CFI_CMDSET_INTEL_EXTENDED   1
@@ -412,26 +412,24 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
     return -1;
 }
 
-
 /**
- * Write a block on the flash chip
+ * Write data to flash. The block must have already been erased. You can call
+ * this multiple times on the same block to piecemeal write it.
  *
- * @param chip_id Chip to write a block on
- * @param region  Region to write a block in
- * @param block   Block number to write
+ * @param chip_id Which flash to write
+ * @param offset  Offset into device to start write
  * @param data    Data to write
+ * @param len     Length of the data
+ *
  * @return Zero on success. Negative on failure
  */
-int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
+int bdk_flash_write(int chip_id, int offset, const void *data, int len)
 {
     bdk_spinlock_lock(&flash_lock);
 #if DEBUG
-    bdk_dprintf("bdk-flash: Writing chip %d, region %d, block %d\n",
-           chip_id, region, block);
+    bdk_dprintf("bdk-flash: Writing chip %d, offset %d, len %d\n",
+           chip_id, offset, len);
 #endif
-    int offset = flash_info[chip_id].region[region].start_offset +
-                block * flash_info[chip_id].region[region].block_size;
-    int len = flash_info[chip_id].region[region].block_size;
     const uint8_t *ptr = (const uint8_t *)data;
 
     switch (flash_info[chip_id].vendor)
@@ -533,59 +531,5 @@ int bdk_flash_write_block(int chip_id, int region, int block, const void *data)
     bdk_error("bdk-flash: Unsupported flash vendor\n");
     bdk_spinlock_unlock(&flash_lock);
     return -1;
-}
-
-
-/**
- * Erase and write data to a flash
- *
- * @param chip_id Which flash to write
- * @param offset  Offset into device to start write
- * @param data    Data to write
- * @param len     Length of the data
- *
- * @return Zero on success. Negative on failure
- */
-int bdk_flash_write(int chip_id, int offset, const void *data, int len)
-{
-    bdk_flash_t *flash = flash_info + chip_id;
-
-    /* Determine which block region we need to start writing to */
-    int region = 0;
-    while (flash->region[region].start_offset + flash->region[region].num_blocks * flash->region[region].block_size <= offset)
-        region++;
-
-    /* Determine which block in the region to start at */
-    int block = (offset - flash->region[region].start_offset) / flash->region[region].block_size;
-
-    /* Require all writes to start on block boundries */
-    if (offset != flash->region[region].start_offset + block*flash->region[region].block_size)
-    {
-        bdk_error("bdk-flash: Write address not aligned on a block boundry\n");
-        return -1;
-    }
-
-    /* Loop until we're out of data */
-    while (len > 0)
-    {
-        /* Erase the current block */
-        if (bdk_flash_erase_block(chip_id, region, block))
-            return -1;
-        /* Write the new data */
-        if (bdk_flash_write_block(chip_id, region, block, data))
-            return -1;
-
-        /* Increment to the next block */
-        data += flash->region[region].block_size;
-        len -= flash->region[region].block_size;
-        block++;
-        if (block >= flash->region[region].num_blocks)
-        {
-            block = 0;
-            region++;
-        }
-    }
-
-    return 0;
 }
 

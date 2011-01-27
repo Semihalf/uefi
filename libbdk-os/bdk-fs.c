@@ -25,11 +25,13 @@ extern const __bdk_fs_ops_t bdk_fs_uart_ops;
 extern const __bdk_fs_ops_t bdk_fs_rom_ops;
 extern const __bdk_fs_ops_t bdk_fs_ram_ops;
 extern const __bdk_fs_ops_t bdk_fs_xmodem_ops;
+extern const __bdk_fs_ops_t bdk_fs_nor_ops;
 static const bdk_fs_mount_t mount_points[] = {
     {"/dev/uart/", &bdk_fs_uart_ops},
     {"/rom/", &bdk_fs_rom_ops},
     {"/ram/", &bdk_fs_ram_ops},
     {"/xmodem", &bdk_fs_xmodem_ops},
+    {"/dev/nor/", &bdk_fs_nor_ops},
     {NULL, NULL}
 };
 

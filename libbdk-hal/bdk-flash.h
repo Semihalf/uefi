@@ -57,18 +57,8 @@ const bdk_flash_region_t *bdk_flash_get_region_info(int chip_id, int region);
 int bdk_flash_erase_block(int chip_id, int region, int block);
 
 /**
- * Write a block on the flash chip
- *
- * @param chip_id Chip to write a block on
- * @param region  Region to write a block in
- * @param block   Block number to write
- * @param data    Data to write
- * @return Zero on success. Negative on failure
- */
-int bdk_flash_write_block(int chip_id, int region, int block, const void *data);
-
-/**
- * Erase and write data to a flash
+ * Write data to flash. The block must have already been erased. You can call
+ * this multiple times on the same block to piecemeal write it.
  *
  * @param chip_id Which flash to write
  * @param offset  Offset into device to start write
