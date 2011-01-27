@@ -22,7 +22,7 @@ while (true) do
         if name ~= "" then
             local f = io.open(name, "r")
             if f then
-                data = f:read(block_size)
+                local data = f:read(block_size)
                 while data do
                     io.write(data)
                     data = f:read(block_size)
@@ -41,7 +41,7 @@ while (true) do
             if dest ~= "" then
                 local s = io.open(source, "r")
                 local d = io.open(dest, "w")
-                data = s:read(block_size)
+                local data = s:read(block_size)
                 while data do
                     d:write(data)
                     data = s:read(block_size)
