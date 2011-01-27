@@ -15,13 +15,18 @@ local choices = {
 
 while (true) do
     local c = menu.show(choices)
+    local block_size = 128
     if (c == 1) then
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
             local f = io.open(name, "r")
             if f then
-                print(f:read("*a"))
+                data = f:read(block_size)
+                while data do
+                    io.write(data)
+                    data = f:read(block_size)
+                end
                 f:close()
             else
                 print("File not found:", name)
@@ -36,7 +41,11 @@ while (true) do
             if dest ~= "" then
                 local s = io.open(source, "r")
                 local d = io.open(dest, "w")
-                d:write(s:read("*a"))
+                data = s:read(block_size)
+                while data do
+                    d:write(data)
+                    data = s:read(block_size)
+                end
                 s:close()
                 d:close()
             end
