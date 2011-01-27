@@ -122,6 +122,49 @@ function table.sorted_values(tbl)
     return result
 end
 
+
+--
+-- Hex dump a file. "f" is a file handle, not a name. You can do a seek
+-- before calling this to skip the start of the file
+--
+function hexdump(f)
+    local loc = f:seek("cur")
+    local last_data
+    local repeat_count = 0
+    local data = f:read(16)
+    while data do
+        if data == last_data then
+            repeat_count = repeat_count + 1
+            if repeat_count == 1 then
+                printf("*\n")
+            end
+        else
+            repeat_count = 0;
+            last_data = data
+            printf("%08x: ", loc)
+            for i=1,#data do
+                printf("%02x", data:byte(i))
+                if (i%4 == 0) then
+                    printf(" ")
+                end
+            end
+            printf("   ")
+            for i=1,#data do
+                local c = data:byte(i)
+                if (c < 32) or (c > 127) then
+                    printf(".")
+                else
+                    printf("%s", data:sub(i,i))
+                end
+            end
+            printf("\n")
+        end
+        data = f:read(16)
+        loc = loc + 16
+    end
+end
+
+
 --
 -- Needed for compatibility with Lua 5.1
 --
