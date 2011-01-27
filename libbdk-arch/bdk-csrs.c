@@ -1,5 +1,6 @@
 #include <bdk.h>
 
+#ifndef BDK_DISABLE_CSR_DB
 static const __bdk_csr_db_type_t __bdk_csr_db_cn63xxp1[] = {
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,0,1,1},
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,2,1,1},
@@ -3757,7 +3758,9 @@ static const __bdk_csr_db_type_t __bdk_csr_db_cn68xx[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}
 };
 
+#endif
 const uint16_t __bdk_csr_db_fieldList[] = {
+#ifndef BDK_DISABLE_CSR_DB
     14,0,3,6,9,12,15,18,21,24,27,30,33,36,39,
     2,42,45,
     13,48,51,54,57,60,63,66,69,72,75,78,81,84,
@@ -4889,9 +4892,11 @@ const uint16_t __bdk_csr_db_fieldList[] = {
     2,13665,333,
     2,13668,333,
     2,13671,111,
+#endif
 };
 
 const uint16_t __bdk_csr_db_field[] = {
+#ifndef BDK_DISABLE_CSR_DB
     16,0,1,
     29,2,3,
     37,4,21,
@@ -9450,9 +9455,11 @@ const uint16_t __bdk_csr_db_field[] = {
     40187,0,1,
     28012,0,1,
     44203,0,4,
+#endif
 };
 
 const int __bdk_csr_db_range[] = {
+#ifndef BDK_DISABLE_CSR_DB
     2,-1,-1,
     2,0,1,
     4,0,11,32,33,
@@ -9484,9 +9491,11 @@ const int __bdk_csr_db_range[] = {
     2,0,511,
     4,0,8191,16128,16383,
     2,0,8191,
+#endif
 };
 
 const char __bdk_csr_db_string[] = 
+#ifndef BDK_DISABLE_CSR_DB
     "AGL_GMX_BAD_REG\0"
     "RESERVED_0_1\0"
     "OUT_OVR\0"
@@ -14885,9 +14894,12 @@ const char __bdk_csr_db_string[] =
     "ZIP_QUEX_MAP\0"
     "ZCE\0"
     "ZIP_QUE_ENA\0"
-    "ZIP_QUE_PRI\0";
+    "ZIP_QUE_PRI\0"
+#endif
+    "";
 
 const uint64_t __bdk_csr_db_number[] = {
+#ifndef BDK_DISABLE_CSR_DB
        0x11800e0000518ull,
                    0x0ull,
        0x11800e0000400ull,
@@ -16428,12 +16440,15 @@ const uint64_t __bdk_csr_db_number[] = {
        0x1180038000300ull,
        0x1180038000500ull,
        0x1180038000508ull,
+#endif
 };
 
 const __bdk_csr_db_map_t __bdk_csr_db[] = {
+#ifndef BDK_DISABLE_CSR_DB
     {OCTEON_CN63XX_PASS1_X, __bdk_csr_db_cn63xxp1},
     {OCTEON_CN63XX_PASS2_X, __bdk_csr_db_cn63xx},
     {OCTEON_CN68XX, __bdk_csr_db_cn68xx},
+#endif
     {0, NULL}
 };
 

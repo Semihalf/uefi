@@ -9,6 +9,7 @@
  * @{
  */
 
+//#define BDK_DISABLE_CSR_DB
 
 /**
  * Possible CSR bus types

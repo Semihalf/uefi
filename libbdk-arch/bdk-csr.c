@@ -97,6 +97,7 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 }
 
 
+#ifndef BDK_DISABLE_CSR_DB
 /**
  * Check if a supplied value is in a CSR range
  *
@@ -236,6 +237,7 @@ static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offs
         address += __bdk_csr_db_number[db->block_index] * block;
     return address;
 }
+#endif
 
 
 /**
@@ -248,6 +250,7 @@ static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offs
  */
 int bdk_csr_decode(const char *name, uint64_t value)
 {
+#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -292,6 +295,9 @@ int bdk_csr_decode(const char *name, uint64_t value)
                 (unsigned long long)v, (unsigned long long)v);
     }
     return 0;
+#else
+    return -1;
+#endif
 }
 
 
@@ -304,6 +310,7 @@ int bdk_csr_decode(const char *name, uint64_t value)
  */
 uint64_t bdk_csr_read_by_name(const char *name)
 {
+#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -312,6 +319,9 @@ uint64_t bdk_csr_read_by_name(const char *name)
 
     return bdk_csr_read(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
+#else
+    return 0;
+#endif
 }
 
 
@@ -325,6 +335,7 @@ uint64_t bdk_csr_read_by_name(const char *name)
  */
 int bdk_csr_write_by_name(const char *name, uint64_t value)
 {
+#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -333,6 +344,9 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
     bdk_csr_write(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block), value);
     return 0;
+#else
+    return -1;
+#endif
 }
 
 
@@ -347,6 +361,7 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
  */
 int bdk_csr_get_name(const char *last_name, char *buffer)
 {
+#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db;
@@ -423,6 +438,9 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     }
 
     return 0;
+#else
+    return -1;
+#endif
 }
 
 void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2)
