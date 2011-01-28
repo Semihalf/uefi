@@ -6,7 +6,6 @@
 
     .globl __start
     .globl __init
-    .globl bdk_init_trampoline
     .globl bdk_reset_vector
 
     .macro exception_stub label
@@ -22,7 +21,7 @@ exception_\label:
     .section .init
     .ent __start
 __start:
-    b   __init
+    b   _init               /* This is replaced with the header, so jump to __init */
      nop
 
     #
@@ -47,7 +46,68 @@ __start:
     .set push
     .set noreorder
 .org 0x500
-__init:
+_init:
+    dmfc0   t0, COP0_EBASE  /* Only core zero needs to do relocation */
+    and     t0, 0x3ff       /* Core nubmer is lower 10 bits */
+    bnez    t0, after_relocate
+     nop
+
+
+    /* Figure out the location of code as an offset from our link address */
+    dla     t1, 1f          /* VA of label 1 */
+    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
+     nop
+1:
+    dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
+
+    /* Copy copy_code to L2 at address 0 */
+    li      a0, 0x80000000  /* Where we are putting copy_code */
+    dla     a1, copy_code   /* Load the address of the copy_code */
+    pref    30, (a0)        /* Prepare to store to zero the entire cache line */
+    daddu   a1, s0          /* Convert it into the current location */
+    li      a2, 128         /* We're copying 128 bytes */
+1:
+    ld      t0, (a1)        /* Copy loop, load */
+    daddu   a1, 8           /* Increment source */
+    sd     t0, (a0)         /* Store */
+    dsubu   a2, 8           /* Decriment remaining */
+    bnez    a2, 1b          /* Branch if we're not done */
+     daddu   a0, 8          /* Increment dest in delay slot */
+
+    /* Flush pending writes and jump to the copy code in L2 */
+    sync                    /* Force out all writes */
+    cache   0, ($0)         /* Flush Icache */
+    li      a0, 0x80000000  /* Load new location of copy_code */
+    j       a0              /* Jump to it */
+     nop
+.align 3
+copy_code:
+    dla     a2, _end        /* We're copy everything up to __end */
+    dla     a1, _init       /* VA of _init */
+    daddu   a2, 7           /* Add 7 to _end so that it will be 8 byte aligned after mask */
+    li      a0, 0x80000500  /* Where we're copying to */
+    and     a2, 0x0ffffff8  /* Strip off upper bits of _end to remove VA bits and round to 8 byte */
+    daddu   a1, s0          /* Convert __start to the current location */
+    dsubu   a2, 0x500       /* Subtract out the 0x500 we skipped from the length */
+1:
+    ld      t0, (a1)        /* Copy loop, load */
+    daddu   a1, 8           /* Increment source */
+    sd     t0, (a0)         /* Store */
+    dsubu   a2, 8           /* Decriment remaining */
+    bnez    a2, 1b          /* Branch if we're not done */
+     daddu   a0, 8          /* Increment dest in delay slot */
+    sync                    /* Force out all writes */
+    dla     t0, after_relocate  /* Code we need to run next */
+    dla     t1, __start     /* Get VA of __start */
+    dsubu   t0, t1          /* Find offset of after_relocate from __start */
+    addu    t0, 0x80000000  /* Add KSEG0 */
+    j       t0              /* Jump to final location of after_relocate */
+     cache  0, ($0)         /* Flush Icache in the delay slot */
+
+    /* Note the above code is run at a gofoy address, so it is disconnected
+        from the code below */
+
+after_relocate:
     # Initialise gp
     dla     gp, _gp
 
@@ -70,23 +130,10 @@ __init:
     daddu   a0, ra          /* Add RA to A0, getting the current address of bdk_init() */
     jal     a0              /* Call bdk_init(). Its address is in A0 */
      nop
-.org 0x580
+
+.align 7
     .set pop
     .end __start
-
-    .section .text
-    .ent bdk_init_trampoline
-    .set push
-    .set noreorder
-    .align 3
-bdk_init_trampoline:
-    dli     t0, 0x8001180000000000
-    sd      a0,0(t0)
-    ld      a0,0(t0)
-    j       a1
-     nop
-    .set pop
-    .end bdk_init_trampoline
 
     .ent bdk_reset_vector
     .set push

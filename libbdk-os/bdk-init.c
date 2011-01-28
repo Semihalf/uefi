@@ -44,28 +44,6 @@ static void __bdk_init_exception(void)
     BDK_ICACHE_INVALIDATE;
 }
 
-static void __bdk_init_relocate_data(void)
-{
-    extern void _fdata; /* Beginning of .data section */
-    extern void _edata; /* End of .data section, beginning of .bss */
-    uint64_t data_physical = bdk_ptr_to_phys(&_fdata);
-
-    /* We must rlocate our data section if it is on the bootbus */
-    if ((data_physical >= 0x10000000) && (data_physical < 0x20000000))
-    {
-        void *new_loc = bdk_phys_to_ptr(bdk_build_mask(29) & (long)&_fdata);
-        if (bdk_get_core_num() == 0)
-            memmove(new_loc, &_fdata, (&_edata - &_fdata));
-        uint64_t entryhi = (long)&_fdata;
-        entryhi &= ~bdk_build_mask(13);
-        BDK_MT_COP0(entryhi, COP0_ENTRYHI);
-        BDK_TLBP;
-        BDK_MT_COP0(7, COP0_ENTRYLO0);
-        BDK_MT_COP0(1, COP0_ENTRYLO1);
-        BDK_TLBWI;
-    }
-}
-
 static void bdk_init_stage2(void) __attribute((noreturn, noinline));
 static void bdk_init_stage2(void)
 {
@@ -87,7 +65,6 @@ static void bdk_init_stage2(void)
         __bdk_init_exception();
 
         write(1, BANNER_2, sizeof(BANNER_2)-1);
-        __bdk_init_relocate_data();
 
         /* Zero BSS */
         write(1, BANNER_3, sizeof(BANNER_3)-1);
@@ -96,8 +73,6 @@ static void bdk_init_stage2(void)
         write(1, BANNER_4, sizeof(BANNER_4)-1);
         bdk_thread_initialize();
     }
-    else
-        __bdk_init_relocate_data();
 
     int status;
     BDK_MF_COP0(status, COP0_STATUS);
@@ -117,7 +92,6 @@ void bdk_init(long base_address)
         calls. Once the basic TLB stuff is setup, we will jump to
         bdk_init_stage2(), which is a normal C environment */
     extern void _fdata; /* Beginning of .data section */
-    extern void bdk_init_trampoline(uint64_t cfg, void *new_pc);
     const uint64_t mask_512MB = 0x1fffffff;
 
     /* Enable RDHWR */
@@ -170,19 +144,8 @@ void bdk_init(long base_address)
     /* Use 4MB pages */
     BDK_MT_COP0((4<<(20+1))-1, COP0_PAGEMASK);
 
-    /* The passed base_address is the location of bdk_init in our current
-        virtual address space. We should be using KSEG0, so strip off the
-        upper bits to get the physical address. Subtract off bdk_init will
-        give the location of __start */
-    uint64_t paddr = base_address & mask_512MB;
-    paddr -= mask_512MB & (long)&bdk_init;
-    int flash_shift = paddr - 0x1fc00000;
-    if (flash_shift < 0)
-        flash_shift = 0;
-    paddr -= flash_shift;
-
-    /* Convert the PA to an EntryLo */
-    uint64_t entrylo = paddr >> 6;
+    /* Create an EntryLo */
+    uint64_t entrylo = 0 >> 6; /* Map PA of zero */
     entrylo |= 3; /* Set Valid and Global */
 
     /* Add TLB for Text */
@@ -205,57 +168,7 @@ void bdk_init(long base_address)
     /* Set wired to be two entries */
     BDK_MT_COP0(2, COP0_WIRED);
 
-    BDK_SYNC;
-    BDK_ICACHE_INVALIDATE;
-
-    /* We're ready to go if we don't need to align flash */
-    if (!flash_shift || bdk_get_core_num())
-    {
-        asm volatile ("j %0" :: "r" (&bdk_init_stage2) : "memory");
-        /* We never get here, but the C complier doesn't know that */
-        while (1) {}
-    }
-
-    const int FLASH_MAX_SIZE = 64;
-    volatile uint64_t *MIO_BOOT_REG_CFGX = (uint64_t *)0x8001180000000000ull;
-    volatile uint64_t *MIO_BOOT_LOC_CFGX = (uint64_t *)0x8001180000000080ull;
-    volatile uint64_t *MIO_BOOT_LOC_ADR = (uint64_t *)0x8001180000000090ull;
-    volatile uint64_t *MIO_BOOT_LOC_DAT = (uint64_t *)0x8001180000000098ull;
-
-    /* Setup a trampoline to setup MIO_BOOT_REG_CFG0 and jump to C code */
-    uint64_t *src = (uint64_t*)(long)(paddr + flash_shift + ((long)&bdk_init_trampoline & mask_512MB) + 0xffffffff80000000ull);
-    *MIO_BOOT_LOC_CFGX = 0x81fc0000ull;
-    *MIO_BOOT_LOC_ADR = 0;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-    *MIO_BOOT_LOC_DAT = *src++;
-
-    uint64_t mio_boot_reg_cfg0 = *MIO_BOOT_REG_CFGX;
-    /* We are running from the bootbus, so remap region 0 so that
-        we get more space and we are aligned on a 4MB boundary. We can't
-        use the normal CSR stuff as we can't call functions yet */
-    /* Clear size and address */
-    mio_boot_reg_cfg0 &= ~0x0fffffff;
-    /* Set size to FLASH_MAX_SIZE + 4MB in 64KB chunks. This allows the
-        beginning 4MB to alias to the MIPS exception vectors */
-    mio_boot_reg_cfg0 |= (((FLASH_MAX_SIZE+4) << (20 - 16)) - 1) << 16;
-    /* Set the address to 0x1fc0000 minus FLASH_MAX_SIZE */
-    mio_boot_reg_cfg0 |= (0x1fc00000 - (FLASH_MAX_SIZE<<20) - flash_shift) >> 16;
-
-    /* FIXME: Simulator doesn't relocate bootbus right */
-    base_address = 0x1fc00000;// - (FLASH_MAX_SIZE<<20);
-
-    /* It is finally safe to start running normal C code */
-    /* Use a trampoline to setup MIO_BOOT_REG_CFG0 and jump to C code */
-    void (*trampoline)(uint64_t cfg, void * new_pc);
-    trampoline = (void*)(long)0xffffffffbfc00000ull;
-    trampoline(mio_boot_reg_cfg0, &bdk_init_stage2);
-
+    asm volatile ("j %0" :: "r" (&bdk_init_stage2) : "memory");
     /* We never get here, but the C complier doesn't know that */
     while (1) {}
 }
