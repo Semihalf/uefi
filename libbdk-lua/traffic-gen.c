@@ -1441,11 +1441,10 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
             packet_incrementer(tg_port, pdata);
             output_cycle += output_cycle_gap;
             /* We don't care if the send fails */
-            bdk_if_transmit(tg_port->handle, &packet);
-
-            if (bdk_unlikely(--count == 0))
+            if (bdk_likely(bdk_if_transmit(tg_port->handle, &packet) == 0))
             {
-                break;
+                if (bdk_unlikely(--count == 0))
+                    break;
             }
         }
         else
