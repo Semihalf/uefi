@@ -25,7 +25,7 @@ while (true) do
         dofile("/rom/file.lua")
     elseif (c == 2) then
         dofile("/rom/flash.lua")
-    elseif (c == 4) then
+    elseif (c == 5) then
         dofile("/rom/ilua.lua")
     elseif (c == 6) then
         print("Starting remote call server.")
