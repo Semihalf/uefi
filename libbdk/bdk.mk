@@ -17,7 +17,7 @@ STRIP=$(CROSS)strip
 # Setup the compile flags
 #
 CPPFLAGS = -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -march=octeon2 -std=gnu99
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -march=octeon2 -std=gnu99 -fno-asynchronous-unwind-tables
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles
