@@ -101,7 +101,6 @@ typedef struct
     bool                    do_checksum;
     bool                    display_packet;
     bool                    validate;
-    bool                    respect_backpressure;
     bdk_srio_tx_message_header_t srio;
 } trafficgen_port_setup_t;
 

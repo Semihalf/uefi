@@ -796,6 +796,7 @@ int trafficgen_do_reset(const trafficgen_port_set_t *range)
         tg_port->pinfo.setup.ip_tos                     = 0;
         tg_port->pinfo.setup.do_checksum                = 0;
         tg_port->pinfo.setup.display_packet             = false;
+        tg_port->pinfo.setup.validate                   = true;
     }
     return trafficgen_do_clear(range);
 }

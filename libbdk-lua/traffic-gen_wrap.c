@@ -4220,56 +4220,6 @@ fail:
 }
 
 
-static int _wrap_port_setup_t_respect_backpressure_set(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool arg2 ;
-  
-  SWIG_check_num_args("respect_backpressure",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("respect_backpressure",1,"trafficgen_port_setup_t *");
-  if(!lua_isboolean(L,2)) SWIG_fail_arg("respect_backpressure",2,"bool");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_respect_backpressure_set",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  arg2 = (lua_toboolean(L, 2)!=0);
-  if (arg1) (arg1)->respect_backpressure = arg2;
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_port_setup_t_respect_backpressure_get(lua_State* L) {
-  int SWIG_arg = 0;
-  trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
-  bool result;
-  
-  SWIG_check_num_args("respect_backpressure",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("respect_backpressure",1,"trafficgen_port_setup_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_trafficgen_port_setup_t,0))){
-    SWIG_fail_ptr("port_setup_t_respect_backpressure_get",1,SWIGTYPE_p_trafficgen_port_setup_t);
-  }
-  
-  result = (bool) ((arg1)->respect_backpressure);
-  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_port_setup_t_srio_set(lua_State* L) {
   int SWIG_arg = 0;
   trafficgen_port_setup_t *arg1 = (trafficgen_port_setup_t *) 0 ;
@@ -4393,7 +4343,6 @@ static swig_lua_attribute swig_trafficgen_port_setup_t_attributes[] = {
     { "do_checksum", _wrap_port_setup_t_do_checksum_get, _wrap_port_setup_t_do_checksum_set},
     { "display_packet", _wrap_port_setup_t_display_packet_get, _wrap_port_setup_t_display_packet_set},
     { "validate", _wrap_port_setup_t_validate_get, _wrap_port_setup_t_validate_set},
-    { "respect_backpressure", _wrap_port_setup_t_respect_backpressure_get, _wrap_port_setup_t_respect_backpressure_set},
     { "srio", _wrap_port_setup_t_srio_get, _wrap_port_setup_t_srio_set},
     {0,0,0}
 };
