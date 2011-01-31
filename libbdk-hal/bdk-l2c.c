@@ -1,5 +1,14 @@
 #include <bdk.h>
 
+#define BDK_L2C_IDX_ADDR_SHIFT 7  /* based on 128 byte cache line size */
+#define BDK_L2C_IDX_MASK       (bdk_l2c_get_num_sets() - 1)
+
+/* Defines for index aliasing computations */
+#define BDK_L2C_TAG_ADDR_ALIAS_SHIFT (BDK_L2C_IDX_ADDR_SHIFT + bdk_l2c_get_set_bits())
+#define BDK_L2C_ALIAS_MASK (BDK_L2C_IDX_MASK << BDK_L2C_TAG_ADDR_ALIAS_SHIFT)
+#define BDK_L2C_MEMBANK_SELECT_SIZE  4096
+
+
 int bdk_l2c_get_core_way_partition(uint32_t core)
 {
     /* Validate the core number */
@@ -114,8 +123,12 @@ uint64_t bdk_l2c_read_perf(uint32_t counter)
     }
 }
 
-int bdk_l2c_lock_line(uint64_t addr)
+static int bdk_l2c_lock_line(uint64_t addr)
 {
+#if 1
+    BDK_CACHE_LCKL2(BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, addr), 0);
+    return 0;
+#else
     int shift = BDK_L2C_TAG_ADDR_ALIAS_SHIFT;
     uint64_t assoc = bdk_l2c_get_num_assoc();
     uint64_t tag = addr >> shift;
@@ -150,6 +163,7 @@ int bdk_l2c_lock_line(uint64_t addr)
     }
 
     return way;
+#endif
 }
 
 
@@ -198,7 +212,7 @@ void bdk_l2c_flush(void)
 }
 
 
-int bdk_l2c_unlock_line(uint64_t address)
+static int bdk_l2c_unlock_line(uint64_t address)
 {
     int assoc;         bdk_l2c_tag_t tag;
     uint32_t tag_addr;
@@ -383,41 +397,5 @@ int bdk_l2c_get_num_assoc(void)
         l2_assoc = 16;
 
     return(l2_assoc);
-}
-
-
-/**
- * Flush a line from the L2 cache
- * This should only be called from one core at a time, as this routine
- * sets the core to the 'debug' core in order to flush the line.
- *
- * @param assoc  Association (or way) to flush
- * @param index  Index to flush
- */
-void bdk_l2c_flush_line(uint32_t assoc, uint32_t index)
-{
-    /* Check the range of the index. */
-    if (index > (uint32_t)bdk_l2c_get_num_sets())
-    {
-        bdk_error("bdk_l2c_flush_line index out of range.\n");
-        return;
-    }
-
-    /* Check the range of association. */
-    if (assoc > (uint32_t)bdk_l2c_get_num_assoc())
-    {
-        bdk_error("bdk_l2c_flush_line association out of range.\n");
-        return;
-    }
-
-    uint64_t address;
-    /* Create the address based on index and association.
-       Bits<20:17> select the way of the cache block involved in
-                   the operation
-       Bits<16:7> of the effect address select the index */
-    address = BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS,
-                           (assoc << BDK_L2C_TAG_ADDR_ALIAS_SHIFT) |
-                           (index << BDK_L2C_IDX_ADDR_SHIFT));
-    BDK_CACHE_WBIL2I(address, 0);
 }
 

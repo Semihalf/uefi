@@ -10,14 +10,6 @@
  * @{
  */
 
-#define BDK_L2C_IDX_ADDR_SHIFT 7  /* based on 128 byte cache line size */
-#define BDK_L2C_IDX_MASK       (bdk_l2c_get_num_sets() - 1)
-
-/* Defines for index aliasing computations */
-#define BDK_L2C_TAG_ADDR_ALIAS_SHIFT (BDK_L2C_IDX_ADDR_SHIFT + bdk_l2c_get_set_bits())
-#define BDK_L2C_ALIAS_MASK (BDK_L2C_IDX_MASK << BDK_L2C_TAG_ADDR_ALIAS_SHIFT)
-#define BDK_L2C_MEMBANK_SELECT_SIZE  4096
-
 typedef union
 {
     uint64_t u64;
@@ -199,17 +191,6 @@ int bdk_l2c_get_hw_way_partition(void);
  */
 int bdk_l2c_set_hw_way_partition(uint32_t mask);
 
-
-/**
- * Locks a line in the L2 cache at the specified physical address
- *
- * @param addr   physical address of line to lock
- *
- * @return 0 on success,
- *         1 if line not locked.
- */
-int bdk_l2c_lock_line(uint64_t addr);
-
 /**
  * Locks a specified memory region in the L2 cache.
  *
@@ -228,21 +209,6 @@ int bdk_l2c_lock_line(uint64_t addr);
  */
 int bdk_l2c_lock_mem_region(uint64_t start, uint64_t len);
 
-
-/**
- * Unlock and flush a cache line from the L2 cache.
- * IMPORTANT: Must only be run by one core at a time due to use
- * of L2C debug features.
- * Note that this function will flush a matching but unlocked cache line.
- * (If address is not in L2, no lines are flushed.)
- *
- * @param address Physical address to unlock
- *
- * @return 0: line not unlocked
- *         1: line unlocked
- */
-int bdk_l2c_unlock_line(uint64_t address);
-
 /**
  * Unlocks a region of memory that is locked in the L2 cache
  *
@@ -252,9 +218,6 @@ int bdk_l2c_unlock_line(uint64_t address);
  * @return Number of locked lines that the call unlocked
  */
 int bdk_l2c_unlock_mem_region(uint64_t start, uint64_t len);
-
-
-
 
 /**
  * Read the L2 controller tag for a given location in L2
@@ -274,8 +237,7 @@ bdk_l2c_tag_t bdk_l2c_get_tag(uint32_t association, uint32_t index);
  *
  * @return L2 cache index
  */
-uint32_t bdk_l2c_address_to_index (uint64_t addr);
-
+uint32_t bdk_l2c_address_to_index(uint64_t addr);
 
 /**
  * Flushes (and unlocks) the entire L2 cache.
@@ -283,8 +245,6 @@ uint32_t bdk_l2c_address_to_index (uint64_t addr);
  * of L2C debug features.
  */
 void bdk_l2c_flush(void);
-
-
 
 /**
  *
@@ -305,21 +265,12 @@ int bdk_l2c_get_num_sets(void);
  * @return
  */
 int bdk_l2c_get_set_bits(void);
+
 /**
  * Return the number of associations in the L2 Cache
  *
  * @return
  */
 int bdk_l2c_get_num_assoc(void);
-
-/**
- * Flush a line from the L2 cache
- * This should only be called from one core at a time, as this routine
- * sets the core to the 'debug' core in order to flush the line.
- *
- * @param assoc  Association (or way) to flush
- * @param index  Index to flush
- */
-void bdk_l2c_flush_line(uint32_t assoc, uint32_t index);
 
 /** @} */
