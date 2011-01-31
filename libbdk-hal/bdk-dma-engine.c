@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+static bdk_cmd_queue_state_t dma_queue[8];
+
 /**
  * Return the number of DMA engimes supported by this chip
  *
@@ -22,7 +24,7 @@ int bdk_dma_engine_initialize(void)
     for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
     {
         bdk_cmd_queue_result_t result;
-        result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_DMA(engine),
+        result = bdk_cmd_queue_initialize(dma_queue + engine,
                                            BDK_FPA_OUTPUT_BUFFER_POOL,
                                            bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
         if (result != BDK_CMD_QUEUE_SUCCESS)
@@ -31,7 +33,7 @@ int bdk_dma_engine_initialize(void)
         bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
         dpi_dmax_ibuff_saddr.u64 = 0;
         dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
-        dpi_dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(BDK_CMD_QUEUE_DMA(engine))) >> 7;
+        dpi_dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue + engine)) >> 7;
         BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
     }
 
@@ -76,17 +78,6 @@ int bdk_dma_engine_initialize(void)
  */
 int bdk_dma_engine_shutdown(void)
 {
-    int engine;
-
-    for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
-    {
-        if (bdk_cmd_queue_length(BDK_CMD_QUEUE_DMA(engine)))
-        {
-            bdk_error("bdk_dma_engine_shutdown: Engine not idle.\n");
-            return -1;
-        }
-    }
-
     bdk_dpi_dma_control_t dma_control;
     dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
     dma_control.s.dma_enb = 0;
@@ -94,9 +85,9 @@ int bdk_dma_engine_shutdown(void)
     /* Make sure the disable completes */
     BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
 
-    for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
+    for (int engine=0; engine < bdk_dma_engine_get_num(); engine++)
     {
-        bdk_cmd_queue_shutdown(BDK_CMD_QUEUE_DMA(engine));
+        bdk_cmd_queue_shutdown(dma_queue + engine);
         BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
     }
 
@@ -132,8 +123,8 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
         ring the doorbell for the DMA engines. This prevents doorbells from
         possibly arriving out of order with respect to the command queue
         entries */
-    __bdk_cmd_queue_lock(BDK_CMD_QUEUE_DMA(engine), __bdk_cmd_queue_get_state(BDK_CMD_QUEUE_DMA(engine)));
-    result = bdk_cmd_queue_write(BDK_CMD_QUEUE_DMA(engine), 0, cmd_count, cmds);
+    __bdk_cmd_queue_lock(dma_queue + engine);
+    result = bdk_cmd_queue_write(dma_queue + engine, 0, cmd_count, cmds);
     /* This SYNCW is needed since the command queue didn't do locking, which
         normally implies the SYNCW. This one makes sure the command queue
         updates make it to L2 before we ring the doorbell */
@@ -143,7 +134,7 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
         BDK_CSR_WRITE(BDK_DPI_DMAX_DBELL(engine), cmd_count);
 
     /* Here is the unlock for the above errata workaround */
-    __bdk_cmd_queue_unlock(__bdk_cmd_queue_get_state(BDK_CMD_QUEUE_DMA(engine)));
+    __bdk_cmd_queue_unlock(dma_queue + engine);
     return result;
 }
 

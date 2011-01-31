@@ -170,7 +170,11 @@ static int __bdk_if_setup_pko(bdk_if_handle_t handle)
     if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, num_queues*buffers_per_queue))
         return -1;
 
-    int result = bdk_pko_config_port(handle->pko_port, num_queues, 0);
+    if (bdk_cmd_queue_initialize(&handle->cmd_queue, BDK_FPA_OUTPUT_BUFFER_POOL,
+        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)))
+        return -1;
+
+    int result = bdk_pko_config_port(handle->pko_port, num_queues, 0, &handle->cmd_queue);
     if (result < 0)
         return result;
     handle->pko_queue = result;
@@ -569,7 +573,7 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
 
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(BDK_CMD_QUEUE_PKO(handle->pko_queue), 1, pko_command.u64, packet->packet.u64);
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue, 1, pko_command.u64, packet->packet.u64);
 
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {

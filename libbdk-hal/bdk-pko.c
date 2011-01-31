@@ -1,9 +1,5 @@
 #include <bdk.h>
 
-/* Adjust the command buffer size by 1 word so that in the case of using only
-** two word PKO commands no command words stradle buffers.  The useful values
-** for this are 0 and 1. */
-#define BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST 1
 #define BDK_PKO_MAX_OUTPUT_QUEUES 256
 
 /**
@@ -24,7 +20,7 @@ void bdk_pko_initialize(void)
     BDK_CSR_DEFINE(config, BDK_PKO_REG_CMD_BUF);
     config.u64 = 0;
     config.s.pool = BDK_FPA_OUTPUT_BUFFER_POOL;
-    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8 - BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST;
+    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8;
     BDK_CSR_WRITE(BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */
@@ -127,7 +123,7 @@ void bdk_pko_disable(void)
  *
  * @return The base queue number, or negative on failure.
  */
-int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues)
+int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr)
 {
     int base_queue = bdk_pko_next_free_queue;
     bdk_pko_next_free_queue += num_queues;
@@ -137,27 +133,7 @@ int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues)
 
     for (int queue = 0; queue < num_queues; queue++)
     {
-        bdk_cmd_queue_result_t cmd_res = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_PKO(base_queue + queue),
-                                                                    BDK_FPA_OUTPUT_BUFFER_POOL,
-                                                                    bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) - BDK_PKO_COMMAND_BUFFER_SIZE_ADJUST*8);
-        if (cmd_res != BDK_CMD_QUEUE_SUCCESS)
-        {
-            switch (cmd_res)
-            {
-                case BDK_CMD_QUEUE_NO_MEMORY:
-                    bdk_error("bdk_pko_config_port(%d,%d,%d): Unable to allocate output buffer.\n", pko_port, num_queues, num_static_queues);
-                    return -1;
-                case BDK_CMD_QUEUE_ALREADY_SETUP:
-                    bdk_error("bdk_pko_config_port: Port already setup.\n");
-                    return -1;
-                case BDK_CMD_QUEUE_INVALID_PARAM:
-                default:
-                    bdk_error("bdk_pko_config_port(%d,%d,%d): Command queue initialization failed.\n", pko_port, num_queues, num_static_queues);
-                    return -1;
-            }
-        }
-
-        void *buf_ptr = bdk_cmd_queue_buffer(BDK_CMD_QUEUE_PKO(base_queue + queue));
+        void *buf_ptr = bdk_cmd_queue_buffer(qptr + queue);
 
         if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         {

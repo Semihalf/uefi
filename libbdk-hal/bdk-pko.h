@@ -68,10 +68,11 @@ extern void bdk_pko_disable(void);
  * @param num_static_queues
  *                   Number of queues that should have static priority. Must be less
  *                   than or equal to num_queues.
+ * @param qptr       Command queue pointer to use for queues. Must already be initialized.
  *
  * @return The base queue number, or negative on failure.
  */
-extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues);
+extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr);
 
 
 /**

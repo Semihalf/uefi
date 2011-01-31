@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+static bdk_cmd_queue_state_t raid_queue;
+
 /**
  * Initialize the RAID block
  *
@@ -14,7 +16,7 @@ int bdk_raid_initialize(bdk_rad_reg_polynomial_t polynomial)
 
     BDK_CSR_WRITE(BDK_RAD_REG_POLYNOMIAL, polynomial.u64);
 
-    result = bdk_cmd_queue_initialize(BDK_CMD_QUEUE_RAID, BDK_FPA_OUTPUT_BUFFER_POOL,
+    result = bdk_cmd_queue_initialize(&raid_queue, BDK_FPA_OUTPUT_BUFFER_POOL,
                                        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL));
     if (result != BDK_CMD_QUEUE_SUCCESS)
         return -1;
@@ -23,7 +25,7 @@ int bdk_raid_initialize(bdk_rad_reg_polynomial_t polynomial)
     rad_reg_cmd_buf.s.dwb = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
     rad_reg_cmd_buf.s.pool = BDK_FPA_OUTPUT_BUFFER_POOL;
     rad_reg_cmd_buf.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
-    rad_reg_cmd_buf.s.ptr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(BDK_CMD_QUEUE_RAID))>>7;
+    rad_reg_cmd_buf.s.ptr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(&raid_queue))>>7;
     BDK_CSR_WRITE(BDK_RAD_REG_CMD_BUF, rad_reg_cmd_buf.u64);
     return 0;
 }
@@ -38,19 +40,12 @@ int bdk_raid_initialize(bdk_rad_reg_polynomial_t polynomial)
 int bdk_raid_shutdown(void)
 {
     bdk_rad_reg_ctl_t rad_reg_ctl;
-
-    if (bdk_cmd_queue_length(BDK_CMD_QUEUE_RAID))
-    {
-        bdk_error("bdk_raid_shutdown: RAID not idle.\n");
-        return -1;
-    }
-
     rad_reg_ctl.u64 = BDK_CSR_READ(BDK_RAD_REG_CTL);
     rad_reg_ctl.s.reset = 1;
     BDK_CSR_WRITE(BDK_RAD_REG_CTL, rad_reg_ctl.u64);
     bdk_wait(100);
 
-    bdk_cmd_queue_shutdown(BDK_CMD_QUEUE_RAID);
+    bdk_cmd_queue_shutdown(&raid_queue);
     BDK_CSR_WRITE(BDK_RAD_REG_CMD_BUF, 0);
     return 0;
 }
@@ -66,7 +61,7 @@ int bdk_raid_shutdown(void)
  */
 int bdk_raid_submit(int num_words, bdk_raid_word_t words[])
 {
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write(BDK_CMD_QUEUE_RAID, 1, num_words, (uint64_t *)words);
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write(&raid_queue, 1, num_words, (uint64_t *)words);
     if (result == BDK_CMD_QUEUE_SUCCESS)
         bdk_write64_uint64(BDK_ADDR_DID(BDK_FULL_DID(14, 0)), num_words);
     return result;
