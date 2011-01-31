@@ -1416,7 +1416,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
     if (port_tx->output_rate_is_mbps)
-        packet_rate = packet_rate * 1250 / (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
+        packet_rate = packet_rate * 125000ull / (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
     if (packet_rate == 0)
         packet_rate = 1;
     uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;

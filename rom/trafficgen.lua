@@ -44,7 +44,12 @@ function Row.new(name, struct, field, has_totals)
     function self:display(ports)
         local COL_SEP = ZEROHI .. "|" .. NORMAL
         local totals = 0
-        printf("%2d:%-20s", self.number, self.name)
+        local is_bits = self.name:sub(-5,-1) == "_bits"
+        if is_bits then
+            printf("%2d:%-20s", self.number, self.name:sub(1,-6) .. "Mbps")
+        else
+            printf("%2d:%-20s", self.number, self.name)
+        end
         for _,p in ipairs(ports) do
             local v = p[struct][field]
             if type(v) == "number" then
@@ -52,10 +57,18 @@ function Row.new(name, struct, field, has_totals)
             else
                 has_totals = false
             end
-            printf("%s%10s", COL_SEP, tostring(v))
+            if is_bits then
+                printf("%s%10s", COL_SEP, tostring(v / 1000000))
+            else
+                printf("%s%10s", COL_SEP, tostring(v))
+            end
         end
         if has_totals then
-            printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
+            if is_bits then
+                printf("%s%10d%s\n", COL_SEP, totals / 1000000, ERASE_EOL)
+            else
+                printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
+            end
         else
             printf(COL_SEP .. ERASE_EOL .. "\n")
         end
