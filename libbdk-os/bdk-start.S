@@ -135,6 +135,7 @@ after_relocate:
     .set pop
     .end __start
 
+    .section .text
     .ent bdk_reset_vector
     .set push
     .set noreorder
