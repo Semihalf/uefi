@@ -9,31 +9,6 @@
  * @{
  */
 
-typedef enum
-{
-    BDK_PKO_SUCCESS,
-    BDK_PKO_INVALID_PORT,
-    BDK_PKO_INVALID_QUEUE,
-    BDK_PKO_INVALID_PRIORITY,
-    BDK_PKO_NO_MEMORY,
-    BDK_PKO_PORT_ALREADY_SETUP,
-    BDK_PKO_CMD_QUEUE_INIT_ERROR
-} bdk_pko_status_t;
-
-/**
- * This enumeration represents the differnet locking modes supported by PKO.
- */
-typedef enum
-{
-    BDK_PKO_LOCK_NONE = 0,         /**< PKO doesn't do any locking. It is the responsibility
-                                        of the application to make sure that no other core is
-                                        accessing the same queue at the smae time */
-    BDK_PKO_LOCK_CMD_QUEUE = 1,    /**< PKO uses the common command queue locks to insure
-                                        exclusive access to the output queue. This is a memory
-                                        based ll/sc. This is the most portable locking
-                                        mechanism */
-} bdk_pko_lock_t;
-
 /**
  * Structure of the first packet output command word.
  */
@@ -109,7 +84,7 @@ extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queu
  * @param queue  Queue the packet is for
  * @param len    Length of the command in 64 bit words
  */
-static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
+static inline void bdk_pko_doorbell(int port, int queue, int len)
 {
     /**
      * This structure defines the address to use on a packet enqueue
@@ -140,84 +115,6 @@ static inline void bdk_pko_doorbell(uint64_t port, uint64_t queue, uint64_t len)
     ptr.s.queue      = queue;
     BDK_SYNCW;  /* Need to make sure output queue data is in DRAM before doorbell write */
     bdk_write64_uint64(ptr.u64, len);
-}
-
-
-/**
- * Packet output.
- *
- * @param port   Port to send it on
- * @param queue  Queue to use
- * @param pko_command
- *               PKO HW command word
- * @param packet Packet to send
- * @param use_locking
- *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
- *
- * @return returns BDK_PKO_SUCCESS on success, or error code on failure of output
- */
-static inline bdk_pko_status_t bdk_pko_send_packet_finish(uint64_t port, uint64_t queue,
-                                        bdk_pko_command_word0_t pko_command,
-                                        bdk_buf_ptr_t packet, bdk_pko_lock_t use_locking)
-{
-    bdk_cmd_queue_result_t result;
-    result = bdk_cmd_queue_write2(BDK_CMD_QUEUE_PKO(queue),
-                                   (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
-                                   pko_command.u64,
-                                   packet.u64);
-    if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
-    {
-        bdk_pko_doorbell(port, queue, 2);
-        return BDK_PKO_SUCCESS;
-    }
-    else if ((result == BDK_CMD_QUEUE_NO_MEMORY) || (result == BDK_CMD_QUEUE_FULL))
-    {
-        return BDK_PKO_NO_MEMORY;
-    }
-    else
-    {
-        return BDK_PKO_INVALID_QUEUE;
-    }
-}
-
-
-/**
- * Packet output.
- *
- * @param port   Port to send it on
- * @param queue  Queue to use
- * @param pko_command
- *               PKO HW command word
- * @param packet Packet to send
- * @param addr   Plysical address of a work queue entry or physical address to zero on complete.
- * @param use_locking
- *               BDK_PKO_LOCK_NONE or BDK_PKO_LOCK_CMD_QUEUE
- *
- * @return returns BDK_PKO_SUCCESS on success, or error code on failure of output
- */
-static inline bdk_pko_status_t bdk_pko_send_packet_finish3(uint64_t port, uint64_t queue,
-                                        bdk_pko_command_word0_t pko_command,
-                                        bdk_buf_ptr_t packet, uint64_t addr, bdk_pko_lock_t use_locking)
-{
-    bdk_cmd_queue_result_t result;
-    result = bdk_cmd_queue_write3(BDK_CMD_QUEUE_PKO(queue),
-                                   (use_locking == BDK_PKO_LOCK_CMD_QUEUE),
-                                   pko_command.u64,
-                                   packet.u64,
-                                   addr);
-    if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
-    {
-        bdk_pko_doorbell(port, queue, 3);
-        return BDK_PKO_SUCCESS;
-    }
-    else if ((result == BDK_CMD_QUEUE_NO_MEMORY) || (result == BDK_CMD_QUEUE_FULL))
-    {
-        return BDK_PKO_NO_MEMORY;
-    }
-    else
-    {
-        return BDK_PKO_INVALID_QUEUE;
-    }
 }
 
 /** @} */

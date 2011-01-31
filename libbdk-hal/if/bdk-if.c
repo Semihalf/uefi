@@ -569,13 +569,17 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
 
-    int result = bdk_pko_send_packet_finish(handle->pko_port, handle->pko_queue, pko_command, packet->packet, BDK_PKO_LOCK_CMD_QUEUE);
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(BDK_CMD_QUEUE_PKO(handle->pko_queue), 1, pko_command.u64, packet->packet.u64);
 
-    /* Create some simple stats in the simulator for testing */
-    if (bdk_is_simulation() && (result==0))
+    if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, packet->length);
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
+        bdk_pko_doorbell(handle->pko_port, handle->pko_queue, 2);
+        /* Create some simple stats in the simulator for testing */
+        if (bdk_is_simulation())
+        {
+            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, packet->length);
+            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
+        }
     }
     return result;
 }
