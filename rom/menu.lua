@@ -13,14 +13,13 @@ function menu.show(choices)
         end
 
         -- Read a number from the user
-        local c = io.read("*n")
+        local c = io.read()
+    	if c then
+            c = tonumber(c)
+        end
     	if not c then
-            -- Throw away useless input
-            io.read()
     	    c = 999
     	end
-        -- Finish rest of line
-        io.read()
 
         -- Validate the user's choice
     	if (c > 0) and (c <= #choices) then
