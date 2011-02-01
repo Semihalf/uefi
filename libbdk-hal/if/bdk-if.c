@@ -73,6 +73,7 @@ static int __bdk_if_setup_sso(void)
 
     /* Enable the SSO RWI/RWO operations */
     BDK_CSR_MODIFY(c, BDK_SSO_CFG,
+        c.s.dwb = 1; /* Use 2 cache line DWB for RWQ */
         c.s.rwen = 1);
     return 0;
 }
