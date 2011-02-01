@@ -148,6 +148,14 @@ function hexdump(f)
                     printf(" ")
                 end
             end
+            if #data < 16 then
+                for i=#data+1,16 do
+                    printf("  ")
+                    if (i%4 == 0) then
+                        printf(" ")
+                    end
+                end
+            end
             printf("   ")
             for i=1,#data do
                 local c = data:byte(i)
