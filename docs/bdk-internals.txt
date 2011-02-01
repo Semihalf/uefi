@@ -133,12 +133,17 @@ the file that stdin, stdout, and stderr are connected to by default.
 
 This is a special device representing Octeon's second uart.
 
+/dev/nor/0::
+
+Read and write access to a NOR flash connected to the bootbus using
+chip select 0. If the application configures other bootbus regions to
+access NOR flash, these can be accesed through '/dev/nor/*'.
 
 Abstract Network Packet API
 ---------------------------
 
 The BDK provides a high level interface to all packet based interfaces
-that are similar to ethernet.  Octeon's SGMII, XAUI, RGMII, SRIO, Loop
+that are similar to ethernet.  Octeon's SGMII, XAUI, RGMII, SRIO, ILK, Loop
 devices, and PCIe engines are all available through this common
 interface.
 
@@ -284,9 +289,7 @@ Running an Application
 * Jump directly to the code. Use the bootloader 'go' command to execute the
 	image from anywhere.
 
-TIP: Currently BDK applications must be aligned on a 4MB boundary.
-	This may change in the future. Uboot's 'go' command doesn't
-	work for addresses above 256MB.
+TIP: Uboot's 'go' command doesn't work for addresses above 256MB.
 
 
 The BDK API
