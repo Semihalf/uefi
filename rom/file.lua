@@ -7,6 +7,7 @@ require("menu")
 
 local choices = {
     "View file",
+    "Hexdump file",
     "Copy file",
     "Delete file",
     "Execute Lua file",
@@ -33,6 +34,18 @@ while (true) do
             end
         end
     elseif (c == 2) then
+        printf("Enter filename")
+        local name = io.read()
+        if name ~= "" then
+            local f = io.open(name, "r")
+            if f then
+                hexdump(f)
+                f:close()
+            else
+                print("File not found:", name)
+            end
+        end
+    elseif (c == 3) then
         printf("Enter source filename")
         local source = io.read()
         if source ~= "" then
@@ -50,7 +63,7 @@ while (true) do
                 d:close()
             end
         end
-    elseif (c == 3) then
+    elseif (c == 4) then
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
@@ -59,7 +72,7 @@ while (true) do
                 printf("ERROR: %s\n", result)
             end
         end
-    elseif (c == 4) then
+    elseif (c == 5) then
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
@@ -68,7 +81,7 @@ while (true) do
                 printf("ERROR: %s\n", result)
             end
         end
-    elseif (c == 5) then
+    elseif (c == 6) then
         return
     end
 end
