@@ -1436,6 +1436,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     while (port_tx->output_enable)
     {
+        int do_yield = 1;
         uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
         if (bdk_likely(cycle >= output_cycle))
         {
@@ -1446,9 +1447,10 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
             {
                 if (bdk_unlikely(--count == 0))
                     break;
+                do_yield = 0;
             }
         }
-        else
+        if (do_yield)
             bdk_thread_yield();
     }
     /* FIXME: Wait 1ms to allow PKO to complete before we free the buffer */
