@@ -320,7 +320,7 @@ static uint64_t __bdk_tra_set_filter_cmd_mask(bdk_tra_filt_t filter)
  * @param tra_ctl Trace control setup
  * @param data    Data to decode
  */
-void bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
+static void __bdk_tra_decode_text(bdk_trax_ctl_t tra_ctl, bdk_tra_data_t data)
 {
     {
         int type;
@@ -575,7 +575,7 @@ int bdk_tra_decode(bdk_tra_capture_t *capture_ext)
         {
             if (!capture->tra[tra].data[count].cmn2.valid)
                 break;
-            bdk_tra_decode_text(capture->tra[tra].control, capture->tra[tra].data[count]);
+            __bdk_tra_decode_text(capture->tra[tra].control, capture->tra[tra].data[count]);
         }
     }
     return 0;
