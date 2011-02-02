@@ -86,7 +86,7 @@ void __bdk_init_main(int arg, void *arg1)
     {
         extern int main(int argc, const char *argv);
         printf("Switching to main\n");
-        if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1))
+        if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, 0))
             bdk_fatal("Create of main thread failed\n");
     }
 }

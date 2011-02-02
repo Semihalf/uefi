@@ -111,19 +111,21 @@ void bdk_thread_yield(void)
 /**
  * Create a new thread. It won't run until the next yield call.
  *
- * @param coremask Mask of cores the thread can run on. Each set bit is an allowed
- *                 core. Zero and -1 are both shortcuts for all cores.
- * @param func     Function to run as a thread
- * @param arg0     First argument to the function
- * @param arg1     Second argument to the function
+ * @param coremask   Mask of cores the thread can run on. Each set bit is an allowed
+ *                   core. Zero and -1 are both shortcuts for all cores.
+ * @param func       Function to run as a thread
+ * @param arg0       First argument to the function
+ * @param arg1       Second argument to the function
+ * @param stack_size Stack size for the new thread. Set to zero for the system default.
  *
  * @return Zero on success, negative on failure
  */
-int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1)
+int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
     extern void _gp;
     bdk_thread_t *thread;
-    int stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
+    if (!stack_size)
+        stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
 
     thread = calloc(1, sizeof(bdk_thread_t) + stack_size);
     if (thread == NULL)

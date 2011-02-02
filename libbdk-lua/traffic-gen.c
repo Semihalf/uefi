@@ -1689,14 +1689,14 @@ int trafficgen_do_transmit(const trafficgen_port_set_t *range)
 
     if (!have_rx)
     {
-        bdk_thread_create(0, packet_receiver, 0, NULL);
+        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
         have_rx = 1;
     }
     for (int i=0; range->list[i] != NULL; i++)
     {
         tg_port_t *tg_port = tg_info_to_port(range->list[i]);
         tg_port->pinfo.setup.output_enable = 1;
-        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, tg_port);
+        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, tg_port, 0);
     }
     return 0;
 }

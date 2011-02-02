@@ -80,7 +80,7 @@ static void bdk_init_stage2(void)
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
 
-    if (bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL))
+    if (bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL, 0))
         bdk_fatal("Create of __bdk_init_main thread failed\n");
     bdk_thread_destroy();
 }

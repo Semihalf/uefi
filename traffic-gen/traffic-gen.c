@@ -4425,7 +4425,7 @@ static void thread_starter(int unused1, void *unused2)
             if (!started[i] && pinfo->setup.output_enable)
             {
                 started[i] = 1;
-                bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, 0, pinfo);
+                bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, 0, pinfo, 0);
             }
             bdk_thread_yield();
         }
@@ -4543,8 +4543,8 @@ int main(void)
         all_set.list[count] = NULL;
         printf("Found %d ports\n", count);
         process_cmd_reset(&all_set);
-        bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL);
-        bdk_thread_create(0, thread_starter, 0, NULL);
+        bdk_thread_create(0, (bdk_thread_func_t)packet_receiver, 0, NULL, 0);
+        bdk_thread_create(0, thread_starter, 0, NULL, 0);
 
         printf("Starting other cores\n");
         fflush(NULL);

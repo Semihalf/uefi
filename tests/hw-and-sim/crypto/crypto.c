@@ -920,7 +920,7 @@ int main()
     {
         done = 0;
         BDK_SYNCW;
-        if (bdk_thread_create(1ull<<core, test_crypto, 0, NULL))
+        if (bdk_thread_create(1ull<<core, test_crypto, 0, NULL, 0))
         {
             bdk_error("Failed to create thread for core %d\n", core);
         }
