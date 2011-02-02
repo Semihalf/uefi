@@ -47,11 +47,16 @@ __start:
     .set noreorder
 .org 0x500
 _init:
+    /* Enable 64bit addressing */
+    MFC0    t0, COP0_STATUS
+    or      t0, 1<<7
+    MTC0    t0, COP0_STATUS
+
+    /* Check if we need relocation */
     dmfc0   t0, COP0_EBASE  /* Only core zero needs to do relocation */
     and     t0, 0x3ff       /* Core nubmer is lower 10 bits */
     bnez    t0, after_relocate
      nop
-
 
     /* Figure out the location of code as an offset from our link address */
     dla     t1, 1f          /* VA of label 1 */
@@ -60,6 +65,21 @@ _init:
 1:
     dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
 
+    /* See if we're running from a bootbus address */
+    dsra    t0, ra, 28              /* Shift PC 28 bits, leaving the top nibble */
+    li      t1, 0xfffffffb          /* Bootbus address starts with 0xb, sign extended */
+    bne     t0, t1, skip_l2_disidxalias /* only run the next code if we're not in flash */
+     nop
+
+    /* Disable L2 indexed aliasing if we're running from flash. Indexed
+        aliasing won't allow us to lock a linear range into L2 */
+    dli     t0, 0x8001180080800000  /* L2C_CTL address */
+    ld      t1, (t0)                /* Load L2C_CTL */
+    ori     t1, 1                   /* Set L2C_CTL[disidxalias] */
+    sd      t1, (t0)                /* Store L2C_CTL */
+    ld      $0, (t0)                /* Read L2C_CTL to make sure the update is complete */
+
+skip_l2_disidxalias:
     /* Copy copy_code to L2 at address 0 */
     li      a0, 0x80000000  /* Where we are putting copy_code */
     dla     a1, copy_code   /* Load the address of the copy_code */
