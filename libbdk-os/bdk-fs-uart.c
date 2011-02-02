@@ -81,14 +81,25 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     {
         void *me;
         BDK_MF_COP0(me, COP0_USERLOCAL);
+        if (me == NULL)
+            me = (void*)(long)bdk_get_core_num() + 1;
 
-        /* Spin waiting for another thread to finish it's current line */
-        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
-        while (owner && (owner != me) && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
-            bdk_thread_yield();
-        /* Take ownership of the uarts */
-        owner = me;
-        BDK_SYNCW;
+        if (owner != me)
+        {
+            void *current_owner;
+            do
+            {
+                current_owner = (void*)owner;
+                /* Spin waiting for another thread to finish it's current line */
+                uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+                while (current_owner && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
+                {
+                    bdk_thread_yield();
+                    current_owner = (void*)owner;
+                }
+                /* Take ownership of the uarts */
+            } while (bdk_atomic_compare_and_store64_nosync((uint64_t*)&owner, (uint64_t)current_owner, (uint64_t)me) == 0);
+        }
     }
     else
         owner = NULL;
