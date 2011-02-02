@@ -54,13 +54,6 @@ BDK_FUNCTION int8_t bdk_read64_int8(uint64_t address);
 BDK_FUNCTION uint8_t bdk_read64_uint8(uint64_t address);
 
 /**
- * Number of the Core on which the program is currently running.
- *
- * @return Number of cores
- */
-BDK_FUNCTION unsigned int bdk_get_core_num(void);
-
-/**
  * Returns the number of bits set in the provided value.
  * Simple wrapper for POP instruction.
  *

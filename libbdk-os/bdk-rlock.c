@@ -5,14 +5,7 @@
 /* These locks are in the sys/lock.h header since they are used by the C
     library */
 
-static inline void * __bdk_rlock_get_thread(void)
-{
-    uint64_t current;
-    BDK_MF_COP0(current, COP0_USERLOCAL);
-    return (void*)current;
-}
-
-extern void bdk_rlock_init(bdk_rlock_t *lock)
+void bdk_rlock_init(bdk_rlock_t *lock)
 {
     lock->count = 0;
     lock->owner = NULL;
@@ -20,7 +13,7 @@ extern void bdk_rlock_init(bdk_rlock_t *lock)
 
 void bdk_rlock_lock(bdk_rlock_t *lock)
 {
-    void *current = __bdk_rlock_get_thread();
+    void *current = bdk_thread_get_id();
 
     if (lock->count && (current == lock->owner))
     {
@@ -38,7 +31,7 @@ void bdk_rlock_lock(bdk_rlock_t *lock)
 
 int bdk_rlock_try_lock(bdk_rlock_t *lock)
 {
-    void *current = __bdk_rlock_get_thread();
+    void *current = bdk_thread_get_id();
     if (lock->count)
     {
         if (current == lock->owner)
@@ -64,7 +57,7 @@ int bdk_rlock_try_lock(bdk_rlock_t *lock)
 
 void bdk_rlock_unlock(bdk_rlock_t *lock)
 {
-    void *current = __bdk_rlock_get_thread();
+    void *current = bdk_thread_get_id();
     assert(current == lock->owner);
     assert(lock->count > 0);
     if (lock->count == 1)

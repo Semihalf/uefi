@@ -90,19 +90,6 @@ BDK_BUILD_READ64(uint8, "lbu");
 
 
 /**
- * Number of the Core on which the program is currently running.
- *
- * @return Number of cores
- */
-static inline unsigned int bdk_get_core_num(void)
-{
-    unsigned int core_num;
-    BDK_RDHWRNV(core_num, 0);
-    return core_num;
-}
-
-
-/**
  * Returns the number of bits set in the provided value.
  * Simple wrapper for POP instruction.
  *

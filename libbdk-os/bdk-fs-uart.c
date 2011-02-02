@@ -79,11 +79,7 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 
     if (is_console)
     {
-        void *me;
-        BDK_MF_COP0(me, COP0_USERLOCAL);
-        if (me == NULL)
-            me = (void*)(long)bdk_get_core_num() + 1;
-
+        void *me = bdk_thread_get_id();
         if (owner != me)
         {
             void *current_owner;
