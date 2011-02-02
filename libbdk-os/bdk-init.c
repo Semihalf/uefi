@@ -65,7 +65,7 @@ static void bdk_init_stage2(void)
         __bdk_init_exception();
 
         write(1, BANNER_2, sizeof(BANNER_2)-1);
-        bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1));
+        bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1) * BDK_CACHE_LINE_SIZE);
 
         /* Zero BSS */
         write(1, BANNER_3, sizeof(BANNER_3)-1);
