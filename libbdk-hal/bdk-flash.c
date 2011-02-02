@@ -136,6 +136,9 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     /* Read the 16bit vendor ID */
     flash->vendor = __bdk_flash_read_cmd16(chip_id, 0x13);
 
+    /* Read the location of the Primary Algorithm extended Query table */
+    int p = __bdk_flash_read_cmd16(chip_id, 0x15);
+
     /* Read the write timeout. The timeout is microseconds(us) is 2^0x1f
         typically. The worst case is this value time 2^0x23 */
     flash->write_timeout = 1ull << (__bdk_flash_read_cmd(chip_id, 0x1f) +
@@ -152,12 +155,17 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     /* Get the number of different sized block regions from 0x2c */
     flash->num_regions = __bdk_flash_read_cmd(chip_id, 0x2c);
 
-    int start_offset = 0;
+    /* Read the top/bottom flag to determine if the regions are reversed */
+    int order_reversed = __bdk_flash_read_cmd(chip_id, p + 0xf);
+    order_reversed &= 1;
+
+    int start_offset = (order_reversed) ? flash->size : 0;
     /* Loop through all regions get information about each */
     for (region=0; region<flash->num_regions; region++)
     {
         bdk_flash_region_t *rgn_ptr = flash->region + region;
-        rgn_ptr->start_offset = start_offset;
+        if (order_reversed)
+            rgn_ptr = flash->region + flash->num_regions - region - 1;
 
         /* The number of blocks in each region is a 16 bit little endian
             endian field. It is encoded at 0x2d + region*4 as (blocks-1) */
@@ -173,7 +181,16 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
         else
             rgn_ptr->block_size = 256u * size;
 
-        start_offset += rgn_ptr->block_size * rgn_ptr->num_blocks;
+        if (order_reversed)
+        {
+            start_offset -= rgn_ptr->block_size * rgn_ptr->num_blocks;
+            rgn_ptr->start_offset = start_offset;
+        }
+        else
+        {
+            rgn_ptr->start_offset = start_offset;
+            start_offset += rgn_ptr->block_size * rgn_ptr->num_blocks;
+        }
     }
 
     /* Take the chip out of CFI query mode */
