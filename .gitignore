@@ -17,4 +17,4 @@
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
 /lua/lua
-/traffic-gen/traffic-gen
+/tests/hw-and-sim/crypto/crypto
