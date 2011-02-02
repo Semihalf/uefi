@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-int bdk_l2c_get_core_way_partition(uint32_t core)
+int bdk_l2c_get_core_way_partition(int core)
 {
     /* Validate the core number */
     if (core >= bdk_octeon_num_cores())
@@ -9,7 +9,7 @@ int bdk_l2c_get_core_way_partition(uint32_t core)
     return (BDK_CSR_READ(BDK_L2C_WPAR_PPX(core)) & 0xffff);
 }
 
-int bdk_l2c_set_core_way_partition(uint32_t core, uint32_t mask)
+int bdk_l2c_set_core_way_partition(int core, uint32_t mask)
 {
     uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc()) - 1;
     mask &= valid_mask;

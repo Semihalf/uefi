@@ -19,7 +19,7 @@
  *              the cache 'ways' that a core can evict from.
  *            -1 on error
  */
-int bdk_l2c_get_core_way_partition(uint32_t core);
+int bdk_l2c_get_core_way_partition(int core);
 
 /**
  * Partitions the L2 cache for a core
@@ -33,7 +33,7 @@ int bdk_l2c_get_core_way_partition(uint32_t core);
  *        any cache lines evicted from them.  All cores and the hardware blocks are free to read from
  *        all ways regardless of the partitioning.
  */
-int bdk_l2c_set_core_way_partition(uint32_t core, uint32_t mask);
+int bdk_l2c_set_core_way_partition(int core, uint32_t mask);
 
 /**
  * Return the L2 Cache way partitioning for the hw blocks.
