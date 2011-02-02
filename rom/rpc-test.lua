@@ -25,5 +25,7 @@ while true do
     print("Octeon CIU_FUSE:", r.octeon.csr.ciu_fuse.read())
     print("Is CN63XX?", r.octeon.is_model(r.octeon.CN63XX))
     print("Is CN68XX?", r.octeon.is_model(r.octeon.CN68XX))
-    --collectgarbage()
+    print("Lua mem:", r.collectgarbage("count"))
+    print("C mem:", r.octeon.get_sbrk() / 1024)
+    collectgarbage()
 end
