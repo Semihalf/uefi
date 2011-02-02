@@ -56,7 +56,7 @@ static void __bdk_setup_bootbus(void)
  * @param arg
  * @param arg1
  */
-void bdk_init_main(int arg, void *arg1)
+void __bdk_init_main(int arg, void *arg1)
 {
     /* All cores start running threads here. Only the setup required to get
         threading up is done. More init is needed. This code will be locked to

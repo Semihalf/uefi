@@ -30,16 +30,16 @@ static void __bdk_init_uart(int uart)
 
 static void __bdk_init_exception(void)
 {
-    extern void bdk_exception(void);
+    extern void __bdk_exception(void);
 
     /* Install exception vectors */
     void *ebase = (void*)0xffffffff80000000l;
     BDK_MT_COP0(ebase, COP0_EBASE);
-    memcpy(ebase, &bdk_exception, 0x80); /* TLB */
-    memcpy(ebase + 0x80, &bdk_exception, 0x80); /* XTLB */
-    memcpy(ebase + 0x100, &bdk_exception, 0x80); /* Cache Error */
-    memcpy(ebase + 0x180, &bdk_exception, 0x80); /* General Exception */
-    memcpy(ebase + 0x200, &bdk_exception, 0x80); /* Interrupt */
+    memcpy(ebase, &__bdk_exception, 0x80); /* TLB */
+    memcpy(ebase + 0x80, &__bdk_exception, 0x80); /* XTLB */
+    memcpy(ebase + 0x100, &__bdk_exception, 0x80); /* Cache Error */
+    memcpy(ebase + 0x180, &__bdk_exception, 0x80); /* General Exception */
+    memcpy(ebase + 0x200, &__bdk_exception, 0x80); /* Interrupt */
     BDK_SYNC;
     BDK_ICACHE_INVALIDATE;
 }
@@ -80,13 +80,13 @@ static void bdk_init_stage2(void)
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
 
-    if (bdk_thread_create(1ull<<bdk_get_core_num(), bdk_init_main, 0, NULL))
-        bdk_fatal("Create of bdk_init_main thread failed\n");
+    if (bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL))
+        bdk_fatal("Create of __bdk_init_main thread failed\n");
     bdk_thread_destroy();
 }
 
-void bdk_init(long base_address) __attribute((noreturn));
-void bdk_init(long base_address)
+void __bdk_init(long base_address) __attribute((noreturn));
+void __bdk_init(long base_address)
 {
     /* Although we are running C code, we have not setup the TLB yet. This
         means that all data accessed will fault and we can't make subroutine
@@ -150,7 +150,7 @@ void bdk_init(long base_address)
     entrylo |= 3; /* Set Valid and Global */
 
     /* Add TLB for Text */
-    const uint64_t vma_text = ~mask_512MB & (long)&bdk_init;
+    const uint64_t vma_text = ~mask_512MB & (long)&__bdk_init;
     BDK_MT_COP0(entrylo, COP0_ENTRYLO0);
     BDK_MT_COP0(1, COP0_ENTRYLO1); /* Global bit must be set in both */
     BDK_MT_COP0(vma_text, COP0_ENTRYHI);
@@ -176,12 +176,12 @@ void bdk_init(long base_address)
 
 int bdk_init_cores(uint64_t coremask)
 {
-    extern void bdk_reset_vector(void);
+    extern void __bdk_reset_vector(void);
 
     /* Install reset vector */
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_ADR, 0);
-    const uint64_t *src = (const uint64_t *)bdk_reset_vector;
+    const uint64_t *src = (const uint64_t *)__bdk_reset_vector;
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);

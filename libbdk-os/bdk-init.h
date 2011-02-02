@@ -26,6 +26,6 @@ extern int bdk_init_cores(uint64_t coremask);
  * @param arg
  * @param arg1
  */
-extern void bdk_init_main(int arg, void *arg1);
+extern void __bdk_init_main(int arg, void *arg1);
 
 /** @}  */

@@ -43,7 +43,7 @@ static const char cause_names[][32] = {
         /* 31 */ ""
 };
 
-void bdk_exception_handler(uint64_t saved_regs[34])
+void __bdk_exception_handler(uint64_t saved_regs[34])
 {
     uint64_t r;
     int reg;
