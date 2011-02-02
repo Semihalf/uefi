@@ -72,6 +72,11 @@ void bdk_init_main(int arg, void *arg1)
             __bdk_setup_bootbus();
             bdk_flash_initialize();
         }
+
+        printf("Enabling hardware flow control on UART0\n");
+        BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
+            mcr.s.afce = 1;
+            mcr.s.rts = 1);
     }
 
     /* Core 0 start main as another thread. We create a new thread so that

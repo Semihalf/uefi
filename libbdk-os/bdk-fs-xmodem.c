@@ -404,10 +404,6 @@ retry:
 
 static void *xmodem_open(const char *name, int flags)
 {
-    printf("Enabling hardware flow control\n");
-    BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
-        mcr.s.afce = 1);
-
     if ((flags&3) == O_RDONLY)
     {
         printf("Waiting for file through XMODEM\n");
