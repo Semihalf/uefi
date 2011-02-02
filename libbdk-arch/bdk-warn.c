@@ -15,9 +15,7 @@ void bdk_fatal(const char *format, ...)
     va_start(args, format);
     __bdk_output("FATAL: ", format, args);
     va_end(args);
-    BDK_SYNC;
-    while (1)
-        asm volatile ("break" ::: "memory");
+    __bdk_die();
 }
 
 void bdk_error(const char *format, ...)
@@ -44,3 +42,9 @@ void bdk_dprintf(const char *format, ...)
     va_end(args);
 }
 
+void __bdk_die(void)
+{
+    BDK_SYNC;
+    while (1)
+        asm volatile ("break" ::: "memory");
+}

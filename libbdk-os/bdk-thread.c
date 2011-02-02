@@ -162,12 +162,14 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
  */
 void bdk_thread_destroy(void)
 {
+    static int dead_cores = 0;
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
     if (current)
         fflush(NULL);
 
+    bdk_atomic_add32(&dead_cores, 1);
     while (1)
     {
         if (bdk_thread_head)
@@ -180,12 +182,15 @@ void bdk_thread_destroy(void)
                 will continue without doing anything */
             if (next)
             {
+                bdk_atomic_add32(&dead_cores, -1);
                 __bdk_thread_switch(next, !!current);
                 bdk_fatal("bdk_thread_destroy() should never get here\n");
             }
             bdk_spinlock_unlock(&bdk_thread_lock);
         }
         BDK_ASM_PAUSE;
+        if (bdk_atomic_get32(&dead_cores) == bdk_octeon_num_cores())
+            __bdk_die();
     }
 }
 
