@@ -8977,6 +8977,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:3>  ADDR     RO       0x0         NS        Address of the failed load request.	            |
+						  Address is locked along with the		    |
+						  DPI_SLI_PRTx_ERR_INFO register.		    |
+						  See the DPI_SLI_PRTx_ERR_INFO[LOCK] description   |
+						  for further information.			    |
  <2:0>   NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -8999,6 +9003,21 @@ Pos      Name    Type     Value     Value       Description
  <63:9>  NS       RAZ      NS          NS        Reserved					    |
  <8>     LOCK     RO       0x0         NS        DPI_SLI_PRTx_ERR and DPI_SLI_PRTx_ERR_INFO have    |
 						  captured and locked contents.			    |
+						  When Octeon first detects an ErrorResponse, the   |
+						  TYPE, REQQ, and ADDR of the error is saved and an |
+						  internal lock state is set so the data associated |
+						  with the initial error is perserved.		    |
+						  Subsequent ErrorResponses will optionally raise   |
+						  an interrupt, but will not modify the TYPE, REQQ, |
+						  or ADDR fields until the internal lock state is   |
+						  cleared.					    |
+						  SW can clear the internal lock state by writting  |
+						  a '1' to the appropriate bit in either	    |
+						  DPI_REQ_ERR_RSP or DPI_PKT_ERR_RSP depending on   |
+						  the TYPE field.				    |
+						  Once the internal lock state is cleared,	    |
+						  the next ErrorResponse will set the TYPE, REQQ,   |
+						  and ADDR for the new transaction.		    |
  <7:5>   NS       RAZ      NS          NS        Reserved					    |
  <4>     TYPE     RO       0x0         NS        Type of transaction that caused the ErrorResponse. |
 						  0=DMA Instruction				    |
@@ -13039,7 +13058,19 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    LANE_ENA             R/W      0x0      NS       Lane enable mask.  Link is enabled if any lane is enabled.  The|
-                                                         same lane should not be enabled in multiple ILK_TXx_CFG0.      |
+                                                         same lane should not be enabled in multiple ILK_TXx_CFG0.  Each|
+                                                         bit of LANE_ENA maps to a TX lane (TLE) and a QLM lane.  NOTE: |
+                                                         LANE_REV has no effect on this mapping.                        |
+                                                                                                                        |
+                                                               LANE_ENA[0] = TLE0 = QLM1 lane 0                         |
+                                                               LANE_ENA[1] = TLE1 = QLM1 lane 1                         |
+                                                               LANE_ENA[2] = TLE2 = QLM1 lane 2                         |
+                                                               LANE_ENA[3] = TLE3 = QLM1 lane 3                         |
+                                                               LANE_ENA[4] = TLE4 = QLM2 lane 0                         |
+                                                               LANE_ENA[5] = TLE5 = QLM2 lane 1                         |
+                                                               LANE_ENA[6] = TLE6 = QLM2 lane 2                         |
+                                                               LANE_ENA[7] = TLE7 = QLM2 lane 3                         |
+                                                                                                                        |
 <15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <24:16>  CAL_DEPTH            R/W      0x48     NS       Number of valid entries in the calendar.  CAL_DEPTH[2:0] must  |
                                                          be zero.  Supported range from 8 to 288.  If CAL_ENA is 0,     |
@@ -13516,7 +13547,19 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    LANE_ENA             R/W      0x0      NS       Lane enable mask.  Link is enabled if any lane is enabled.  The|
-                                                         same lane should not be enabled in multiple ILK_RXx_CFG0.      |
+                                                         same lane should not be enabled in multiple ILK_RXx_CFG0.  Each|
+                                                         bit of LANE_ENA maps to a RX lane (RLE) and a QLM lane.  NOTE: |
+                                                         LANE_REV has no effect on this mapping.                        |
+                                                                                                                        |
+                                                               LANE_ENA[0] = RLE0 = QLM1 lane 0                         |
+                                                               LANE_ENA[1] = RLE1 = QLM1 lane 1                         |
+                                                               LANE_ENA[2] = RLE2 = QLM1 lane 2                         |
+                                                               LANE_ENA[3] = RLE3 = QLM1 lane 3                         |
+                                                               LANE_ENA[4] = RLE4 = QLM2 lane 0                         |
+                                                               LANE_ENA[5] = RLE5 = QLM2 lane 1                         |
+                                                               LANE_ENA[6] = RLE6 = QLM2 lane 2                         |
+                                                               LANE_ENA[7] = RLE7 = QLM2 lane 3                         |
+                                                                                                                        |
 <15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <24:16>  CAL_DEPTH            R/W      0x90     NS       Number of valid entries in the calendar.   Supported range from|
                                                          1 to 288.                                                      |
@@ -14484,8 +14527,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<5:0>    PORT_KIND            R/W      0x0      NS       Specify the port-kind for the channel selected by              |
-                                                         ILK_IDX_PMAP[IDX] and link selected by  ILK_IDX_PMAP[LINK]     |
+<5:0>    PORT_KIND            R/W      0x0      NS       Specify the port-kind for the link/channel selected by         |
+                                                         ILK_IDX_PMAP[IDX]                                              |
 <63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -33090,7 +33133,7 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  SLI_PORT[0..31]_PKIND = SLI Port Pkind
  *
- * Contains the Port-Kind associate with the SLI-Port
+ * The SLI/DPI supports 32 input rings for fetching input packets. This register maps the input-rings (0-31) to a PKIND.
  *
 
      ==============================================================
@@ -33101,9 +33144,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <5:0>   PKIND    R/W      0x0         NS        Port Kind For this Port.                           |
+ <5:0>   PKIND    R/W      0x0         NS        Port Kind For this Ring.                           |
  <7:6>   NS       RAZ      NS          NS        Reserved					    |
- <13:8>  BPKIND   R/W      0x0         NS        Back-pressure pkind for this Port.                 |
+ <13:8>  BPKIND   R/W      0x0         NS        Back-pressure pkind for this Ring.                 |
  <63:14> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -33111,7 +33154,7 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  SLI_PKT[0..31]_OUT_SIZE = SLI Packet Out Size
  *
- * Contains the BSIZE and ISIZE for output packet ports.
+ * Contains the BSIZE and ISIZE for output packet Rings.
  *
 
      ==============================================================
@@ -33238,7 +33281,7 @@ Pos      Name    Type     Value     Value       Description
                                                  fetch buffer/info pairs from packet output ring i  |
                                                  (from address SLI_PKTi_SLIST_BADDR+ in MAC memory  |
                                                  space.)                                            |
-                                                 ADDRTYPE<1> is the relaxed-order attribute for PCIe|
+                                                 ADDRTYPE<1> is the no-snoop attribute for PCIe     |
                                                  , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
  <63:32> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
@@ -33700,13 +33743,11 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  RDSIZE   R/W      0x0         NS        Number of instructions to be read in one MAC read  |
-                                                 request for the 4 ports - 8 rings. Every two bits  |
-                                                 (i.e. 1:0, 3:2, 5:4..) are assign to the port/ring |
-                                                 combinations.                                      |
+                                                 request for a packet-ring. Every two bits          |
+                                                 (i.e. 1:0, 3:2, 5:4..) are assign to rings (i.e.   |
+						 0, 1, 2, ..).                                      |
                                                  Less instructions will be read if the doorbell is  |
                                                  smaller thant the value here.                      |
-                                                 15:0  PKIPort0,Ring 7..0  31:16 PKIPort1,Ring 7..0 |
-                                                 47:32 PKIPort2,Ring 7..0  63:48 PKIPort3,Ring 7..0 |
                                                  Two bit value are:                                 |
                                                  0 - 2 Instruction                                  |
                                                  1 - 4 Instructions                                 |
@@ -33730,11 +33771,14 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  PP       R/W      0           NS        The MAC port that the Packet ring number is        |
-						 assigned. Two bits are used per ring (i.e. ring 0  |
-						 [1:0], ring 1 [3:2], ....). A value of '0 means    |
-  						 that the Packetring is assign to MAC Port 0, a '1' |
-						 MAC Port 1, '2' and '3' are reserved.              |
+ <63:0>  PP       R/W      0           NS        The physical MAC port that the Packet ring number  |
+				  		 is assigned. Two bits are used per ring            |
+						 (i.e. ring 0 [1:0], ring 1 [3:2], ..), where ring 0|
+                                                 is [1:0], ring 1 is [3:2], etc.
+                                                 PP = 0 Physical MAC 0
+                                                 PP = 1 Physical MAC 0
+                                                 PP = 2 Reserved
+                                                 PP = 3 Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -33749,7 +33793,7 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  SLI_PKT_PORT_IN_RST = SLI Packet Port In Reset
  *
- * Vector bits related to ring-port for ones that are reset.
+ * Vector bits related to packet-ringt for ones that are reset.
  *
 
      ==============================================================
@@ -33829,20 +33873,23 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <6:0>   BASE     R/W      0           NS        When NUMP is non-zero, indicates the base pipe	    |
-						  number this port|ring will accept.		    |
-						  This port will accept pko packets from pipes in   |
+						  number the SLI/DPI will accept.		    |
+						  The SLI/DPI will accept pko packets from pipes in |
 						  the range of:					    |
 						    BASE .. (BASE+(NUMP-1))			    |
 						  BASE and NUMP must be constrained such that	    |
 						    1) BASE+(NUMP-1) < 127			    |
 						    2) Each used PKO pipe must map to exactly	    |
-						       one port|ring				    |
+						       one ring. Where BASE == ring 0, BASE+1 == to |
+                                                       ring 1, etc..
 						    3) The pipe ranges must be consistent with	    |
 						       the PKO configuration.			    |
  <15:7>  NS       RAZ      NS          NS        Reserved					    |
- <23:16> NUMP     R/W      0           NS        Number of pipes this port|ring supports.	    |
+ <23:16> NUMP     R/W      0           NS        Number of pipes the the SLI/DPI supports.	    |
                                                  When this value is 4 or less there is a performance|
                                                  advantage for output packets.                      |
+                                                 The SLI/DPI can support up to 32 pipes assigned to |
+                                                 packet-rings 0 - 31.                               |
  <63:24> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -33861,8 +33908,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <31:0>  BP_EN    R/W      0xFFFFFFFF  0xFFFFFFFF  When set '1' enable the port level backpressure  |
-                                                   for PCIe port associated with the bit.           |
+ <31:0>  BP_EN    R/W      0xFFFFFFFF  0xFFFFFFFF  When set '1' enable the ring level backpressure  |
+                                                   to be sent to PKO. Backpressure is sent to the   |
+                                                   PKO on the PIPE number associated with the ring. |
+                                                   (See SLI_TX_PIPE for ring to pipe associations). |
  <63:32> NS       RAZ      NS          NS          Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -33973,16 +34022,16 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  CNT      R/W      0x0         0         ring counter. This field is incremented as         |
                                                  packets are sent out and decremented in response to|
                                                  writes to this field.                              |
-                                                 When SLI_PKT_OUT_BMODE is '0' a value of 1 is     |
+                                                 When SLI_PKT_OUT_BMODE is '0' a value of 1 is      |
 						 added to the register for each packet, when '1'    |
 						 and the info-pointer is NOT used the length of the |
 						 packet plus 8 is added, when '1' and info-pointer  |
 						 mode IS used the packet length is added to this    |
 						 field.  					    |
  <53:32> TIMER    RO       0x0         0         Timer incremented every 1024 core clocks           |
-                                                 when SLI_PKTS#_CNTS[CNT] is non zero. Field       |
-                                                 cleared when SLI_PKTS#_CNTS[CNT] goes to 0.       |
-                                                 Field is also cleared when SLI_PKT_TIME_INT is    |
+                                                 when SLI_PKTS#_CNTS[CNT] is non zero. Field        |
+                                                 cleared when SLI_PKTS#_CNTS[CNT] goes to 0.        |
+                                                 Field is also cleared when SLI_PKT_TIME_INT is     |
                                                  cleared.                                           |
                                                  The first increment of this count can occur        |
                                                  between 0 to 1023 core clocks.                     |
@@ -34028,7 +34077,7 @@ Pos      Name    Type     Value     Value       Description
                                                  will increment the value here. Reads will return   |
                                                  present value. A write of 0xffffffff will set the  |
 						 DBELL and AOFF fields to '0'.                      |
- <63:32> AOFF     RO       0x0         NS        The offset from the SLI_PKT[0..31]_INSTR_BADDR    |
+ <63:32> AOFF     RO       0x0         NS        The offset from the SLI_PKT[0..31]_INSTR_BADDR     |
                                                  where the next instruction will be read.           |
 ----------------------------------------------------------------------------------------------------
 ===
