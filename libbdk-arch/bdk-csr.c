@@ -36,10 +36,10 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
             bdk_pemx_cfg_rd_t pemx_cfg_rd;
-            pemx_cfg_rd.u64 = 0;
+            pemx_cfg_rd.u = 0;
             pemx_cfg_rd.s.addr = address;
-            BDK_CSR_WRITE(BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u64);
-            pemx_cfg_rd.u64 = BDK_CSR_READ(BDK_PEMX_CFG_RD(busnum));
+            BDK_CSR_WRITE(BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
+            pemx_cfg_rd.u = BDK_CSR_READ(BDK_PEMX_CFG_RD(busnum));
             return pemx_cfg_rd.s.data;
         }
 
@@ -83,10 +83,10 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
             bdk_pemx_cfg_wr_t pemx_cfg_wr;
-            pemx_cfg_wr.u64 = 0;
+            pemx_cfg_wr.u = 0;
             pemx_cfg_wr.s.addr = address;
             pemx_cfg_wr.s.data = value;
-            BDK_CSR_WRITE(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u64);
+            BDK_CSR_WRITE(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
             break;
         }
 

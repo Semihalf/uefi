@@ -138,7 +138,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
  * This macro makes it easy to define a variable and initialize it
  * with a CSR.
  */
-#define BDK_CSR_INIT(name, csr) typedef_##csr name = {.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}
+#define BDK_CSR_INIT(name, csr) typedef_##csr name = {.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}
 
 /**
  * Macro to read a CSR
@@ -156,9 +156,9 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
  * "name.s.field = value", without the quotes.
  */
 #define BDK_CSR_MODIFY(name, csr, code_block) do { \
-        typedef_##csr name = {.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
+        typedef_##csr name = {.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
         code_block; \
-        bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u64); \
+        bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u); \
     } while (0)
 
 /**
@@ -178,7 +178,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
         typedef_##csr c;                                                \
         while (1)                                                       \
         {                                                               \
-            c.u64 = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
+            c.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
             if ((c.s.field) op (value)) {                               \
                 result = 0;                                             \
                 break;                                                  \
