@@ -67,6 +67,9 @@ void __bdk_init_main(int arg, void *arg1)
     if (bdk_get_core_num() == 0)
     {
         printf("Performing common initialization\n");
+
+        bdk_l2c_initialize();
+
         if (!bdk_is_simulation())
         {
             __bdk_setup_bootbus();

@@ -11,6 +11,14 @@
  */
 
 /**
+ * Perform one time initialization of L2 for improved
+ * performance. This can be called after L2 is in use.
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_l2c_initialize(void);
+
+/**
  * Return the L2 Cache way partitioning for a given core.
  *
  * @param core  The core processor of interest.

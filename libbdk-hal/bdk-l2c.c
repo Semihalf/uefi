@@ -1,5 +1,44 @@
 #include <bdk.h>
 
+/**
+ * Perform one time initialization of L2 for improved
+ * performance. This can be called after L2 is in use.
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_l2c_initialize(void)
+{
+    int ddr_hertz = 0; // FIXME
+
+    if (ddr_hertz)
+    {
+        /* LMC early fill count Specifies the number of cycles after the
+            first LMC fill cycle to wait before requesting a fill on the
+            RSC/RSD bus.*/
+        /* 7 dclks (we've received 1st out of 8 by the time we start counting) */
+        long long ef_cnt = (int64_t)7 * bdk_clock_get_rate(BDK_CLOCK_RCLK) / ddr_hertz;
+        /* + 1 rclk if the dclk and rclk edges don't stay in the same position */
+        ef_cnt++; /* Always add one so we don't have a special case where the clock line up, which is unlikely */
+        /* + 2 rclk synchronization uncertainty */
+        ef_cnt += 2;
+        /* - 3 rclks to recognize first write */
+        ef_cnt -= 3;
+        /* + 3 rclks to perform first write */
+        ef_cnt += 3;
+        /* - 9 rclks minimum latency from counter expire to final fbf read */
+        ef_cnt -= 9;
+        if ((ef_cnt >=  0) && (ef_cnt < 127))
+        {
+            BDK_CSR_MODIFY(c, BDK_L2C_CTL,
+                c.s.ef_ena = 1;
+                c.s.ef_cnt = ef_cnt);
+        }
+        else
+            bdk_error("Disabling L2 to LMC early fill due to range violation (ef_cnt=%lld)\n", ef_cnt);
+    }
+    return 0;
+}
+
 int bdk_l2c_get_core_way_partition(int core)
 {
     /* Validate the core number */
