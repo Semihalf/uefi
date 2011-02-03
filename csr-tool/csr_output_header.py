@@ -102,6 +102,7 @@ def writeCombinedCsr(out, combined_list):
     typedef_base = getCname(csr)
     out.write("typedef union " + typedef_base + "\n")
     out.write("{\n")
+    out.write("\tuint" + str(bits_in_csr) + "_t u;\n")
     out.write("\tuint" + str(bits_in_csr) + "_t u" + str(bits_in_csr) + ";\n")
     writeStruct(out, "s", csr, showDescr=1)
     signatures = {csr.getSignature():typedef_base + "_s"}
