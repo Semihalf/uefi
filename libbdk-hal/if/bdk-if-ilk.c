@@ -6,12 +6,6 @@ static int if_num_interfaces(void)
     {
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(1));
 
-        /* Force simulator QLM1 to be ILK. This allows us to have virtual ILK
-            interfaces even though the simulator doesn't implement the QLM
-            config */
-        if (bdk_is_simulation())
-            qlm_cfg.s.qlm_cfg = 1;
-
         /* For any ILK, QLM1 must be in the right mode. It isn't legal
             to have QLM2 ILK and QLM1 not be ILK */
         return (qlm_cfg.s.qlm_cfg == 1) ? 2 : 0;
@@ -23,12 +17,6 @@ static int if_num_interfaces(void)
 static int if_num_ports(int interface)
 {
     BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(2));
-
-    /* Force simulator QLM1 to be ILK. This allows us to have virtual ILK
-        interfaces even though the simulator doesn't implement the QLM
-        config */
-    if (bdk_is_simulation())
-        qlm_cfg.s.qlm_cfg = 1;
 
     /* See how many lanes we can potentially have. We already checked QLM1
         when probing the inteface number, now we check QLM2 */
