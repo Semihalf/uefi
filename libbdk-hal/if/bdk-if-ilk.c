@@ -42,7 +42,7 @@ static int if_num_ports(int interface)
     {
         if (lanes_interface0 > max_lanes)
         {
-            bdk_error("ILK1 configured for more lanes that are available\n");
+            bdk_error("ILK0 configured for more lanes that are available\n");
             return 0;
         }
     }
