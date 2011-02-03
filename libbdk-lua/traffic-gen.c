@@ -849,7 +849,7 @@ int trafficgen_do_update(bool do_clear)
         /* Calculate the RX bits. By convention this include all packet
             overhead on the wire. We've already accounted for ETHERNET_CRC but
             not the preamble and IFG */
-        uint64_t bytes_off_per_packet = get_size_wire_overhead(tg_port);
+        uint64_t bytes_off_per_packet;
         switch (bdk_if_get_type(tg_port->handle))
         {
             case BDK_IF_SRIO:
@@ -1044,7 +1044,7 @@ static char *build_packet_mac_and_vlan_only(char *packet, tg_port_t *tg_port)
 static char *build_packet(tg_port_t *tg_port)
 {
     int i;
-    char *packet = malloc(tg_port->pinfo.setup.output_packet_size);
+    char *packet = malloc(tg_port->pinfo.setup.output_packet_size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0));
     if (!packet)
     {
         bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);

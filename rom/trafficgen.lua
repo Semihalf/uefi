@@ -442,6 +442,14 @@ function TrafficGen.new()
         local expected_packets = 0
         local expected_octets = 0
         for _,port in ipairs(port_range) do
+            if port.name:sub(1,4) == "SRIO" then
+                -- SRIO rounds packets to multiples of 8 and can only handle
+                -- sizes up to 4096. It can handle smaller sizes, but the
+                -- packet building code requires at least 40 bytes
+                size_start = 40
+                size_stop = 4096
+                size_incr = 8
+            end
             expected_packets = expected_packets + port.stats.rx_packets_total
             expected_octets = expected_octets + port.stats.rx_octets_total
         end
@@ -453,7 +461,13 @@ function TrafficGen.new()
                 port.setup.output_packet_size = size
                 port.setup.output_count = output_count
                 expected_packets = expected_packets + output_count
-                expected_octets = expected_octets + output_count * (size+4)
+                if port.name:sub(1,4) == "SRIO" then
+                    -- SRIO doesn't have a etherent CRC we need to count
+                    expected_octets = expected_octets + output_count * size
+                else
+                    -- Account for the extra 4 bytes of ethernet CRC
+                    expected_octets = expected_octets + output_count * (size+4)
+                end
             end
             -- Limit to five seconds per size
             local timeout = os.time() + 5

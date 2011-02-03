@@ -488,6 +488,26 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     if (bdk_is_simulation())
         return &handle->stats;
 
+    int bytes_off_tx;
+    int bytes_off_rx;
+
+    switch (handle->iftype)
+    {
+        case BDK_IF_LOOP:
+            bytes_off_tx = 4; /* Add fake ethernet CRC */
+            bytes_off_rx = 4; /* Add fake ethernet CRC */
+            break;
+        case BDK_IF_SRIO:
+            /* Subtract SRIO header */
+            bytes_off_tx = -(int)sizeof(bdk_srio_tx_message_header_t);
+            bytes_off_rx = -(int)sizeof(bdk_srio_rx_message_header_t);
+            break;
+        default:
+            bytes_off_tx = 4; /* Add fake ethernet CRC */
+            bytes_off_rx = 0; /* CRC alread counted */
+            break;
+    }
+
     bdk_pip_stat_ctl_t pip_stat_ctl;
     bdk_pip_stat0_x_t stat0;
     bdk_pip_stat1_x_t stat1;
@@ -517,12 +537,9 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.packets, stat2.s.pkts);
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.errors, pip_stat_inb_errsx.s.errs);
 
-    /* Add fake etherent CRC to loop ports */
-    if (handle->iftype == BDK_IF_LOOP)
-    {
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, stat0.s.drp_octs * 4);
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, stat2.s.pkts * 4);
-    }
+    /* Adjust for bytes_off_rx */
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, (int64_t)stat0.s.drp_octs * bytes_off_rx);
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, (int64_t)stat2.s.pkts * bytes_off_rx);
 
     bdk_pko_reg_read_idx_t pko_reg_read_idx;
     bdk_pko_mem_count0_t pko_mem_count0;
@@ -541,7 +558,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
 
     pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
     uint64_t tx_octets = pko_mem_count1.s.count;
-    tmp = (handle->stats.tx.octets - handle->stats.tx.packets*4) & bdk_build_mask(48);
+    tmp = (handle->stats.tx.octets - handle->stats.tx.packets*bytes_off_tx) & bdk_build_mask(48);
     if (tmp > tx_octets)
         tx_octets += (1ull<<48) - tmp;
     tx_octets -= tmp;
@@ -549,8 +566,8 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, tx_packets);
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_octets);
 
-    /* Add the etherent CRC to the TX octets */
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * 4);
+    /* Adjust for bytes_off_tx */
+    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * bytes_off_tx);
 
     return &handle->stats;
 }
