@@ -5,9 +5,24 @@ int cvmx_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
     return bdk_twsix_read_ia(twsi_id, dev_addr, internal_addr, num_bytes, ia_width_bytes, data);
 }
 
-uint64_t cvmx_clock_get_rate(bdk_clock_t clock)
+uint64_t cvmx_clock_get_rate(int clock)
 {
-    return bdk_clock_get_rate(clock);
+    switch (clock)
+    {
+        case 0: // CVMX_CLOCK_RCLK
+            return bdk_clock_get_rate(BDK_CLOCK_RCLK);
+        case 1: // CVMX_CLOCK_SCLK
+            return bdk_clock_get_rate(BDK_CLOCK_SCLK);
+        case 2: // CVMX_CLOCK_DDR
+            return 0;
+        case 3: // CVMX_CLOCK_CORE
+            return bdk_clock_get_rate(BDK_CLOCK_CORE);
+        case 4: // CVMX_CLOCK_TIM
+            return bdk_clock_get_rate(BDK_CLOCK_TIM);
+        case 5: // CVMX_CLOCK_IPD
+            return bdk_clock_get_rate(BDK_CLOCK_IPD);
+    }
+    return 0;
 }
 
 void octeon_delay_cycles(uint64_t cycles)
@@ -30,8 +45,3 @@ int cvmx_l2c_set_hw_way_partition(uint32_t mask)
     return bdk_l2c_set_hw_way_partition(mask);
 }
 
-void exit(int status)
-{
-    bdk_reset_octeon();
-    while (1) {}
-}

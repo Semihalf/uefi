@@ -1,9 +1,10 @@
-typedef struct
-{
-    uint8_t data[256];
-} bdk_dram_spd_t;
 
-extern int bdk_dram_config();
-extern int bdk_dram_spd_read(int spd_address, bdk_dram_spd_t *spd);
-extern int bdk_dram_spd_check_csum(const bdk_dram_spd_t *spd);
+/**
+ * Configure DRAM for a particular board
+ *
+ * @param board_name Board name to configure
+ *
+ * @return Amount of DRAM in MB, or negative on failure
+ */
+extern int bdk_dram_config(const char *board_name);
 
