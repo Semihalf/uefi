@@ -1376,16 +1376,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <15:0>  RTLTL           R/W      0x102F      0x102F    Round Trip Latency Time Limit
+ <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
- <31:16> RTL             R/W      0x308D      0x308D    Replay Time Limit
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
+ <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3923,16 +3927,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <15:0>  RTLTL           R/W      0x102F      0x102F    Round Trip Latency Time Limit
+ <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
- <31:16> RTL             R/W      0x308D      0x308D    Replay Time Limit
+                                                         The value of this field should be set in accordance with the
+							 PCIe Specification.
+ <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
+                                                         The value of this field should be set in accordance with the
+							 PCIe Specification.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -10472,6 +10480,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:3>  ADDR     RO       0x0         NS        Address of the failed load request.	            |
+						  Address is locked along with the		    |
+						  DPI_SLI_PRTx_ERR_INFO register.		    |
+						  See the DPI_SLI_PRTx_ERR_INFO[LOCK] description   |
+						  for further information.			    |
  <2:0>   NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -10494,6 +10506,21 @@ Pos      Name    Type     Value     Value       Description
  <63:9>  NS       RAZ      NS          NS        Reserved					    |
  <8>     LOCK     RO       0x0         NS        DPI_SLI_PRTx_ERR and DPI_SLI_PRTx_ERR_INFO have    |
 						  captured and locked contents.			    |
+						  When Octeon first detects an ErrorResponse, the   |
+						  TYPE, REQQ, and ADDR of the error is saved and an |
+						  internal lock state is set so the data associated |
+						  with the initial error is perserved.		    |
+						  Subsequent ErrorResponses will optionally raise   |
+						  an interrupt, but will not modify the TYPE, REQQ, |
+						  or ADDR fields until the internal lock state is   |
+						  cleared.					    |
+						  SW can clear the internal lock state by writting  |
+						  a '1' to the appropriate bit in either	    |
+						  DPI_REQ_ERR_RSP or DPI_PKT_ERR_RSP depending on   |
+						  the TYPE field.				    |
+						  Once the internal lock state is cleared,	    |
+						  the next ErrorResponse will set the TYPE, REQQ,   |
+						  and ADDR for the new transaction.		    |
  <7:5>   NS       RAZ      NS          NS        Reserved					    |
  <4>     TYPE     RO       0x0         NS        Type of transaction that caused the ErrorResponse. |
 						  0=DMA Instruction				    |

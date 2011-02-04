@@ -744,10 +744,12 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   MLS             RO/WRSL  0x2         0x2       Maximum Link Speed
-                                                         The following values are accepted:
-							 0001b: 2.5 GHz supported
-                                                         0010b: 5.0 GHz and 2.5 GHz supported
+ <3:0>   MLS             RO/WRSL  NS          NS         Maximum Link Speed
+                                                         The reset value of this field is controled by a value sent from
+                                                         the input pin qlm#_cfg[1].
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0010b       5.0 GHz and 2.5 GHz supported
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <9:4>   MLW             RO/WRSL  0x4         0x4       Maximum Link Width
@@ -812,7 +814,8 @@ Pos      Name    Type     Value     Value       Description
                                                          (Not Supported)
  <15:10> NS              RAZ      NS          NS        Reserved
  <19:16> LS              RO       0x1         0x1       Link Speed
-                                                         The negotiated Link speed: 2.5 Gbps
+                                                         1 == The negotiated Link speed: 2.5 Gbps
+                                                         2 == The negotiated Link speed: 5.0 Gbps
  <25:20> NLW             RO       0x0         0x8       Negotiated Link Width
                                                          Set automatically by hardware after Link initialization.
  <26>    NS              RAZ      NS          NS        Undefined
@@ -974,7 +977,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <0>     NS              RAZ      NS          NS        Reserved
- <7:1>   SLSV            RO/WRSL  0x2         0x2       Supported Link Speeds Vector
+ <7:1>   SLSV            RO/WRSL  NS          NS        Supported Link Speeds Vector
                                                          Indicates the supported Link speeds of the associated Port.
                                                          For each bit, a value of 1b indicates that the cooresponding
                                                          Link speed is supported; otherwise, the Link speed is not
@@ -984,6 +987,12 @@ Pos      Name    Type     Value     Value       Description
                                                          Bit 2 5.0 GT/s
                                                          Bit 3 8.0 GT/s
                                                          Bits 7:4 reserved
+
+                                                         The reset value of this field is controled by a value sent from
+                                                         the input pin qlm#_cfg[1].
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0011b       5.0 GHz and 2.5 GHz supported
  <8>     CLS             RO       0x0         0x0       Crosslink Supported
  <31:9>  NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
@@ -1017,8 +1026,11 @@ Pos      Name    Type     Value     Value       Description
                                                          used to set the target compliance mode speed when
                                                          software is using the Enter Compliance bit to force a link
                                                          into compliance mode.
-                                                         Out of reset this will have a value of 1 or 2 which is
-                                                         selected by qlmCfgx[1].
+                                                         The reset value of this field is controled by a value sent from
+                                                         the input pin qlm#_cfg[1].
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0010b       5.0 GHz and 2.5 GHz supported
  <4>     EC              R/W      0x0         0x0       Enter Compliance
                                                          Software is permitted to force a link to enter Compliance
                                                          mode at the speed indicated in the Target Link Speed
@@ -1386,16 +1398,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <15:0>  RTLTL           R/W      0x102F      0x102F    Round Trip Latency Time Limit
+ <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
- <31:16> RTL             R/W      0x308D      0x308D    Replay Time Limit
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
+ <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3158,10 +3174,12 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   MLS             R/W      0x2         0x2       Maximum Link Speed
-                                                         The following values are accepted:
-							 0001b: 2.5 GHz supported
-                                                         0010b: 5.0 GHz and 2.5 GHz supported
+ <3:0>   MLS             R/W      NS          NS        Maximum Link Speed
+                                                         The reset value of this field is controled by a value sent from
+                                                         the input pin qlm#_cfg[1].
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0010b       5.0 GHz and 2.5 GHz supported
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <9:4>   MLW             R/W      0x8         0x8       Maximum Link Width
@@ -3230,8 +3248,9 @@ Pos      Name    Type     Value     Value       Description
                                                          This interrupt is for Gen2 and is not supported. This bit should
                                                          always be written to zero.
  <15:12> NS              RAZ      NS          NS        Reserved
- <19:16> LS              RO       0x1         0x1       Link Speed
-                                                         The negotiated Link speed: 2.5 Gbps
+ <19:16> LS              RO       NS          NS        Link Speed
+                                                         1 == The negotiated Link speed: 2.5 Gbps
+                                                         2 == The negotiated Link speed: 5.0 Gbps
  <25:20> NLW             RO       0x0         0x0       Negotiated Link Width
                                                          Set automatically by hardware after Link initialization.
  <26>    NS              RAZ      NS          NS        Undefined
@@ -3438,7 +3457,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <0>     NS              RAZ      NS          NS        Reserved
- <7:1>   SLSV            RO/WRSL  0x2         0x2       Supported Link Speeds Vector
+ <7:1>   SLSV            RO/WRSL  NS          NS        Supported Link Speeds Vector
                                                          Indicates the supported Link speeds of the associated Port.
                                                          For each bit, a value of 1b indicates that the cooresponding
                                                          Link speed is supported; otherwise, the Link speed is not
@@ -3448,6 +3467,10 @@ Pos      Name    Type     Value     Value       Description
                                                          Bit 2 5.0 GT/s
                                                          Bit 3 8.0 GT/s
                                                          Bits 7:4 reserved
+
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0011b       5.0 GHz and 2.5 GHz supported
  <8>     CLS             RO       0x0         0x0       Crosslink Supported
  <31:9>  NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
@@ -3467,7 +3490,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   TLS             R/W      NS          0x2       Target Link Speed
+ <3:0>   TLS             R/W      NS          NS        Target Link Speed
                                                          For Downstream ports, this field sets an upper limit on link
                                                          operational speed by restricting the values advertised by
                                                          the upstream component in its training sequences:
@@ -3481,8 +3504,12 @@ Pos      Name    Type     Value     Value       Description
                                                          used to set the target compliance mode speed when
                                                          software is using the Enter Compliance bit to force a link
                                                          into compliance mode.
-                                                         Out of reset this will have a value of 1 or 2 which is
-                                                         selected by qlmCfgx[1].
+
+                                                         The reset value of this field is controled by a value sent from
+                                                         the input pin qlm#_cfg[1].
+                                                         qlm#_cfg[1]   RST_VALUE   NOTE
+							 1             0001b       2.5 GHz supported
+                                                         0             0010b       5.0 GHz and 2.5 GHz supported
  <4>     EC              R/W      0x0         0x0       Enter Compliance
                                                          Software is permitted to force a link to enter Compliance
                                                          mode at the speed indicated in the Target Link Speed
@@ -3597,7 +3624,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
- <19:16> CV              RO       0x2         0x1       Capability Version
+ <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x000       0x0       Next Capability Offset
 ----------------------------------------------------------------------------------------------------
 ===
@@ -3943,16 +3970,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <15:0>  RTLTL           R/W      0x102F      0x102F    Round Trip Latency Time Limit
+ <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
- <31:16> RTL             R/W      0x308D      0x308D    Replay Time Limit
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
+ <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
                                                          The default is then updated based on the Negotiated Link Width
                                                          and Max_Payload_Size.
+                                                         The value os this field should be set in accordance with the
+							 PCIe Specification.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12971,6 +13002,24 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
+ *DON'T PUT IN HRM*
+ *
+
+     ==============================================================
+     GMX(0..4)_CLK_EN Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     CLK_EN   R/W      0           0         Force the clock enables on		            |
+----------------------------------------------------------------------------------------------------
+===
+
+
+ *
  * GMX_INF_MODE = Interface Mode
  *
 
@@ -13023,25 +13072,6 @@ Pos      Name    Type     Value     Value       Description
  <0>     TYPE     RO       0           NS        Interface Protocol Type			    |
 						  0: SGMII/1000Base-X				    |
 						  1: XAUI/RXAUI					    |
-----------------------------------------------------------------------------------------------------
-===
-
-
-
- *
- *DON'T PUT IN HRM*
- *
-
-     ==============================================================
-     GMX(0..4)_CLK_EN Type=RSL
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:1>  NS       RAZ      NS          NS        Reserved				            |
- <0>     CLK_EN   R/W      0           0         Force the clock enables on		            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25739,7 +25769,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
- * NOTES - NOT FOR SPEC:  REMOVE IN PASS 2
+
 
      ==============================================================
      CIU2_INTR_CIU_READY Type=NCB
@@ -25750,13 +25780,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1> NS        RAZ      NS          NS        Reserved				            |
- <0>    READY     RO       NS          0         Because of the delay of the IRQ updates which may  |
-						 take about 200 sclk cycles, software should read   |
-						 this register after servicing interrupts and wait  |
-						 for response before enabling interrupt watching.   |
-                                                 Or, the outdated interrupt will show up again.     |
-                                                 The read back data return when all interrupts have |
-						 been serviced, and read back data is always zero.  |
+ <0>    READY     RO       NS          0         Internal Debug feature.                            |
 ----------------------------------------------------------------------------------------------------
 ===
 
