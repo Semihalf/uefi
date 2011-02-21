@@ -1378,18 +1378,20 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
  <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3929,18 +3931,20 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value of this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
  <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value of this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -26423,7 +26427,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  PEM_BAR_CTUS = PEM BAR Control
+ *                  PEM_BAR_CTL = PEM BAR Control
  *
  * Contains control for BAR accesses.
  *
@@ -26804,10 +26808,10 @@ Pos      Name    Type     Value     Value       Description
  <24>	 DSA_GRP_SID  R/W  0	       0	 DSA Group Algorithm				    |
 						  Use the DSA VLAN id to compute GRP		    |
  <23:21> NS       RAZ      NS          NS        Reserved				            |
- <20>    RING_EN  R/W      0           1         Enable PCIe ring information in WQE	            |
+ <20>    RING_EN  R/W      0           1         Enable DPI ring information in WQE	            |
  <19:17> SPARE    R/W	   0	       0	 Spare Bits                                	    |
  <16>    IGNRS    R/W	   0	       0	 Ignore the PKT_INST_HDR[RS] bit when set	    |
-						  Does not apply to PCI ports (32-35)  		    |
+						  Does not apply to DPI ports (32-35)  		    |
 						  When using 2-byte instruction header words,	    |
 						  either PIP_PRT_CFG[DYN_RS] or IGNRS should be set |
  <15>    VS_WQE   R/W      0           0	 Which DSA/VLAN CFI/ID to use when VLAN Stacking    |
@@ -27413,13 +27417,19 @@ Pos      Name    Type     Value     Value       Description
  <50>	 LENERR_EN R/W     0x1         1         L2 length error check enable			    |
 						  Frame was received with length error		    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the PCIe ports.		    |
+						   incoming packets on the DPI and sRIO ports	    |
+						   because the CRC bytes may not normally be	    |
+						   present.					    |
  <49>	 MAXERR_EN R/W     0x1         1	 Max frame error check enable			    |
 						  Frame was received with length > max_length	    |
+						  max_length is defined by PIP_FRM_LEN_CHK[MAXLEN]  |
  <48>	 MINERR_EN R/W     0x1         1         Min frame error check enable			    |
 						  Frame was received with length < min_length	    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the PCIe ports.		    |
+						   incoming packets on the DPI and sRIO ports	    |
+						   because the CRC bytes may not normally be	    |
+						   present.					    |
+						   min_length is defined by PIP_FRM_LEN_CHK[MINLEN] |
  <47:44> GRP_WAT_47 R/W    0x0         0x0       GRP Watcher enable				    |
 						  (Watchers 4-7)				    |
  <43:40> QOS_WAT_47 R/W    0x0         0x0       QOS Watcher enable				    |
@@ -27438,7 +27448,10 @@ Pos      Name    Type     Value     Value       Description
 						  instruction header words, either DYN_RS or	    |
 						  PIP_GBL_CTL[IGNRS] should be set.		    |
  <32>    INST_HDR R/W      0x0         0x0       8-byte INST_HDR is present on all packets	    |
-						  (not for PCI prts, 32-35)			    |
+						  Internally set for RAWFULL/RAWSCHED packets	    |
+						  on the DPI ports (32-35).			    |
+						  Internally cleared for all other packets on the   |
+						  DPI ports (32-35).				    |
 						  Must be zero in DSA mode			    |
  <31:28> GRP_WAT  R/W      0x0         0x0       GRP Watcher enable				    |
  <27>    HG_QOS   R/W      0x0         0x0       When set, uses the HiGig priority bits as a	    |
@@ -27461,23 +27474,26 @@ Pos      Name    Type     Value     Value       Description
  <15:13> NS       RAZ      NS          NS        Reserved				            |
  <12>    CRC_EN   RO       0x0         0x0       CRC Checking enabled                               |
  <11>    HIGIG_EN R/W      0x0         0x0       Enable HiGig parsing				    |
-						  Should not be set for PCIe ports (ports 32-35)    |
+						  Should not be set for DPI ports (ports 32-35)     |
+						  Should not be set for sRIO ports (ports 40-43)    |
 						  Should not be set for ports in which PTP_MODE=1   |
                                                   When HIGIG_EN=1:                                  |
                                                    DSA_EN field below must be zero                  |
                                                    SKIP field below is both Skip I size and the     |
                                                      size of the HiGig* header (12 or 16 bytes)     |
  <10>    DSA_EN   R/W      0x0         0x0       Enable DSA tag parsing				    |
+						  Should not be set for sRIO (ports 40-43)	    |
+						  Should not be set for ports in which PTP_MODE=1   |
                                                   When DSA_EN=1:                                    |
                                                    HIGIG_EN field above must be zero                |
                                                    SKIP field below is size of DSA tag (4, 8, or    |
                                                      12 bytes) rather than the size of Skip I       |
                                                    total SKIP (Skip I + header + Skip II            |
                                                      must be zero                                   |
-                                                   INST_HDR field above must be zero (non-PCIe      |
+                                                   INST_HDR field above must be zero (non-DPI       |
                                                      ports)                                         |
-                                                   For PCIe ports, NPEI_PKT*_INSTR_HDR[USE_IHDR]    |
-                                                     and PCIE_INST_HDR[R] should be clear           |
+                                                   For DPI ports, SLI_PKT*_INSTR_HEADER[USE_IHDR]   |
+                                                     and DPI_INST_HDR[R] should be clear            |
                                                    MODE field below must be "skip to L2"            |
  <9:8>   MODE     R/W      0x0         0x0       Parse Mode                                         |
                                                   0 = no packet inspection (Uninterpreted)	    |
@@ -27486,10 +27502,11 @@ Pos      Name    Type     Value     Value       Description
 						  3 = (illegal)	                                    |
                                                   Must be 2 ("skip to L2") when in DSA mode.        |
  <7>     NS       RAZ      NS          NS        Reserved				            |
- <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.  Does not	    |
-						  apply to packets on PCI ports when a PKT_INST_HDR |
-						  is present.  See section 7.2.7 - Legal Skip	    |
-						  Values for further details.			    |
+ <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.		    |
+						  HW forces the SKIP to zero for packets on DPI	    |
+						  ports (32-35) when a PKT_INST_HDR is present.	    |
+						  See section - Legal Skip Values		    |
+						  for further details.				    |
 						  In DSA mode, indicates the DSA header length, not |
                                                     Skip I size. (Must be 4,8,or 12)                |
                                                   In HIGIG mode, indicates both the Skip I size and |
@@ -27751,7 +27768,8 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  H1519    R/W      0x0         NS        Number of 1519-max packets                           |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore FCS will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore FCS will never increment on sRIO ports 40-43
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27769,7 +27787,8 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  UNDERSZ  R/W     0x0          NS        Number of packets with length < min                |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore FRAG will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore FRAG will never increment on sRIO ports 40-43
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27787,7 +27806,9 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  OVERSZ   R/W     0x0          NS        Number of packets with length > max                |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore JABBER will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore JABBER will never increment on sRIO ports 40-43 due to FCS errors
+sRIO does use the JABBER opcode to communicate sRIO error, therefore JABBER can increment under the sRIO error conditions
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27979,7 +28000,8 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  H1519    R/W      0x0         NS        Number of 1519-max packets                           |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore FCS will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore FCS will never increment on sRIO ports 40-43
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27997,7 +28019,8 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  UNDERSZ  R/W     0x0          NS        Number of packets with length < min                |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore FRAG will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore FRAG will never increment on sRIO ports 40-43
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -28015,7 +28038,9 @@ Pos      Name    Type     Value     Value       Description
  <31:0>  OVERSZ   R/W     0x0          NS        Number of packets with length > max                |
 
 Notes:
-Note: FCS is not checked on the PCI ports 32..35.
+DPI does not check FCS, therefore JABBER will never increment on DPI ports 32-35
+sRIO does not check FCS, therefore JABBER will never increment on sRIO ports 40-43 due to FCS errors
+sRIO does use the JABBER opcode to communicate sRIO error, therefore JABBER can increment under the sRIO error conditions
 ----------------------------------------------------------------------------------------------------
 ===
 

@@ -1139,8 +1139,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <15:0>  PCIEEC          RO       0x1         0x0       PCIE Express Extended Capability
- <19:16> CV              RO       0x2         0x0       Capability Version
+ <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
+ <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x0         0x0       Next Capability Offset
 ----------------------------------------------------------------------------------------------------
 ===
@@ -1400,18 +1400,20 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
  <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3972,18 +3974,20 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <15:0>  RTLTL           R/W      0x102F      NS        Round Trip Latency Time Limit
                                                          The Ack/Nak latency timer expires when it reaches this limit.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
  <31:16> RTL             R/W      0x308D      NS        Replay Time Limit
                                                          The replay timer expires when it reaches this limit. The PCI
                                                          Express bus initiates a replay upon reception of a Nak or when
                                                          the replay timer expires.
-                                                         The default is then updated based on the Negotiated Link Width
-                                                         and Max_Payload_Size.
-                                                         The value os this field should be set in accordance with the
-							 PCIe Specification.
+							 This value will be set correctly by the hardware out of reset
+                                                         or when the negotiated Link-Width or Payload-Size changes. If
+                                                         the user changes this value through a CSR write or by an
+                                                         EEPROM load then they should refer to the PCIe Specification
+                                                         for the correct value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -9094,8 +9098,8 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:3> NS       RAZ       NS          NS        Reserved					    |
  <2:0>  CNT      R/W       0x6         0x6       The number of instructions from a given queue that |
-						  can be inflight at a time. Reset value matches    |
-						  the number of DMA engines.			    |
+						  can be inflight to the DMA engines at a time.	    |
+						  Reset value matches the number of DMA engines.    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12980,6 +12984,24 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
+ *DON'T PUT IN HRM*
+ *
+
+     ==============================================================
+     GMX(0..4)_TB_REG Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     WR_MAGIC R/W      0           0         Enter stats model magic mode		            |
+----------------------------------------------------------------------------------------------------
+===
+
+
+ *
  * GMX_SOFT_BIST = Software BIST Control
  *
 
@@ -15046,7 +15068,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:7>  NS       RAZ      NS          NS        Reserved			                     |
- <6:0>   CRD      R/W      14          NS        Number of credits for DID. Writing this field will  |
+ <6:0>   CRD      R/W      13          NS        Number of credits for DID. Writing this field will  |
                                                  casuse the credits to be set to the value written.  |
                                                  Reading this field will give the number of credits  |
 						 PRESENTLY available.                                |
@@ -16934,6 +16956,33 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+ *
+ *                  IPD_REQ_WGT = IPD REQ weights
+ *
+ * There are 8 devices that can request to send packet traffic to the IPD. These weights are used for the Weighted Round Robin
+ * grant generated by the IPD to requestors.
+ *
+
+     ==============================================================
+     IPD_REQ_WGT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <7:0>    WGT0      	R/W    0xFF   0xFF     Weight for AGX0 REQ 			    	    |
+ <15:8>   WGT1      	R/W    0xFF   0xFF     Weight for AGX1 REQ 			    	    |
+ <23:16>  WGT2      	R/W    0xFF   0xFF     Weight for AGX2 REQ 			    	    |
+ <31:24>  WGT3      	R/W    0xFF   0xFF     Weight for AGX3 REQ 			    	    |
+ <39:32>  WGT4      	R/W    0xFF   0xFF     Weight for AGX4 REQ			    	    |
+ <47:40>  WGT5      	R/W    0xFF   0xFF     Weight for DPI  REQ			    	    |
+ <55:48>  WGT6      	R/W    0xFF   0xFF     Weight for PKO  REQ			    	    |
+ <63:56>  WGT7      	R/W    0xFF   0xFF     Weight for ILK  REQ			    	    |
+----------------------------------------------------------------------------------------------------
+===
+
+
 
 
  *
@@ -17091,7 +17140,11 @@ Pos      Name    Type     Value     Value       Description
  <25>     L2DFDBE       R/W    0      0        Force double bit ECC error on PL2 allocates (2)      |
  <26>     L2DFSBE       R/W    0      0        Force single bit ECC error on PL2 allocates (2)      |
  <27>     DISSTGL2I     R/W    0      0        Disable STGL2I's from changing the tags              |
- <63:28>  NS            RAZ    NS     NS       RESERVED						    |
+ <28>     RDF_FAST      R/W    0      1        When 0, delay read data fifo from DCLK to RCLK by one|
+                                               cycle.  Needed when DCLK:RCLK ratio > 3:1.  Should be|
+                                               set before DDR traffic begins and only changed when  |
+                                               memory traffic is idle.                              |
+ <63:29>  NS            RAZ    NS     NS       RESERVED						    |
 
 Notes:
 
@@ -20516,7 +20569,8 @@ Pos      Name    Type     Value     Value       Description
                                              0 = PRBS
                                              1 = Programmable pattern
 <41>     EN             R/W NS     NS        Enable characterization
-<63:42>  NS             R/W NS      NS        RESERVED
+<42>     SKEW_ON        R/W NS     NS        Skew adjacent bits
+<63:43>  NS             R/W NS     NS        RESERVED
 
 Notes:
 ----------------------------------------------------------------------------------------------------
@@ -25568,9 +25622,9 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1>  NS        RAZ      NS          NS       Reserved				            |
  <0:0>   ACK       RO	    0	        0	 Read to clear the corresponding interrupt to       |
-						 PP/IO.  Without this read the interrupt will not
-						 deassert until the next CIU interrupt scan, up to
-						 96 cycles away.
+						 PP/IO.  Without this read the interrupt will not   |
+						 deassert until the next CIU interrupt scan, up to  |
+						 200 cycles away.                                   |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25605,8 +25659,8 @@ Pos      Name    Type     Value     Value       Description
 						  Internal state, for diagnostic use only.	    |   $PR
  <15:8>   NS      RAZ       NS          NS      Reserved				            |
  <7:0>    MSI_NUM RO       0x0         0x0      MSI number causing this interrupt.                  |
-						 If multiple MSIs are pending to the same PP and IP,
-						 then this contains the numerically lowest MSI number.
+						If multiple MSIs are pending to the same PP and IP, |
+						then this contains the numerically lowest MSI number|
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25624,10 +25678,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1>    NS      RAZ       NS          NS      Reserved				            |
  <0:0>  MSI_RCV   R/W       0x0         0x0     MSI state bit, set on MSI delivery or by software   |
-						 for diagnostics, write zero to accept the
-						 interrupt.  This register is used to create the
-						 CIU2_RAW_xx_yy_IO[MSIRED] interrupt.  See also
-						 SLI_MSI_RCV.
+						 for diagnostics, write zero to accept the          |
+						 interrupt.  This register is used to create the    |
+						 CIU2_RAW_xx_yy_IO[MSIRED] interrupt.  See also     |
+						 SLI_MSI_RCV.                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25672,7 +25726,7 @@ Pos      Name    Type     Value     Value       Description
  <44>	 DSTOP    R/W	   0	       0	 DSTOP, Debug-stop enable			    |
  <43:20> CNT      RO	   0	       0	 Number of 256-cycle intervals until next watchdog  |
 						  expiration.  Cleared on write to associated	    |
-						  CIU2_PP_POKE register.				    |
+						  CIU2_PP_POKE register.		            |
  <19:4>	 LEN      R/W	   0	       0	 Watchdog time expiration length		    |
 						  The 16 bits of LEN represent the most significant |
 						  bits of a 24 bit decrementer that decrements	    |
@@ -25797,7 +25851,8 @@ Pos      Name    Type     Value     Value       Description
  <63:4>  NS        RAZ       NS          NS      Reserved				            |
  <3>     NS        RAZ       NS          NS      Reserved				            |
  <2:1>   FLIP_SYND R/W       0x0         0       Testing feature. Flip Syndrom to generate single or|
-						 double bit error.                                  |
+						 double bit error. FLIP_SYND[0] generate even number|
+						 -ed bits error,FLIP_SYND[1] generate odd bits error|
  <0>     ECC_ENA   R/W       0x1         1       ECC Enable: When set will enable the 9bit ECC      |
                                                  check/correct logic for CIU interrupt enable RAM.  |
 						 With ECC enabled, the ECC code will be generated   |
@@ -29766,6 +29821,28 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+
+     ==============================================================
+     PIP_VLAN_ETYPES(0..1) Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:48> TYPE3    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <47:32> TYPE2    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <31:16> TYPE1    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <15:0>  TYPE0    R/W      0x8100      0x8100    VLAN Ethertype				            |
+						  Specifies ethertypes that will be parsed as	    |
+						  containing VLAN information. Each TYPE is	    |
+						  orthagonal; if all eight are not required, set    |
+						  multiple TYPEs to the same value (as in the	    |
+						  0x8100 default value).			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
  *
  * PIP_PRT_CFG@ = Per port config information
  *
@@ -29793,13 +29870,19 @@ Pos      Name    Type     Value     Value       Description
  <50>	 LENERR_EN R/W     0x1         1         L2 length error check enable			    |
 						  Frame was received with length error		    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the DPI ports.		    |
+						   incoming packets on the DPI ports		    |
+						   because the CRC bytes may not normally be	    |
+						   present.					    |
  <49>	 MAXERR_EN R/W     0x1         1	 Max frame error check enable			    |
 						  Frame was received with length > max_length	    |
+						  max_length is defined by PIP_FRM_LEN_CHK[MAXLEN]  |
  <48>	 MINERR_EN R/W     0x1         1         Min frame error check enable			    |
 						  Frame was received with length < min_length	    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the DPI ports.		    |
+						   incoming packets on the DPI ports		    |
+						   because the CRC bytes may not normally be	    |
+						   present.					    |
+						   min_length is defined by PIP_FRM_LEN_CHK[MINLEN] |
  <47:44> GRP_WAT_47 R/W    0x0         0x0       GRP Watcher enable				    |
 						  (Watchers 4-7)				    |
  <43:40> QOS_WAT_47 R/W    0x0         0x0       QOS Watcher enable				    |
@@ -29818,8 +29901,8 @@ Pos      Name    Type     Value     Value       Description
 						  instruction header words, either DYN_RS or	    |
 						  PIP_GBL_CTL[IGNRS] should be set.		    |
  <32>    INST_HDR R/W      0x0         0x0       8-byte INST_HDR is present on all packets	    |
-						  Should be set for incoming packets on the DPI	    |
-						  ports.					    |
+						  Internally set for RAWFULL/RAWSCHED packets	    |
+						  on the DPI ports (32-35).			    |
 						  Must be zero in DSA mode			    |
  <31:28> GRP_WAT  R/W      0x0         0x0       GRP Watcher enable				    |
  <27>    HG_QOS   R/W      0x0         0x0       When set, uses the HiGig priority bits as a	    |
@@ -29847,6 +29930,7 @@ Pos      Name    Type     Value     Value       Description
                                                    SKIP field below is both Skip I size and the     |
                                                      size of the HiGig* header (12 or 16 bytes)     |
  <10>    DSA_EN   R/W      0x0         0x0       Enable DSA tag parsing				    |
+						  Should not be set for ports in which PTP_MODE=1   |
                                                   When DSA_EN=1:                                    |
                                                    HIGIG_EN field above must be zero                |
                                                    SKIP field below is size of DSA tag (4, 8, or    |
@@ -29855,8 +29939,8 @@ Pos      Name    Type     Value     Value       Description
                                                      must be zero                                   |
                                                    INST_HDR field above must be zero (non-DPI       |
                                                      ports)                                         |
-                                                   For DPI ports, NPEI_PKT*_INSTR_HDR[USE_IHDR]     |
-                                                     and PCIE_INST_HDR[R] should be clear           |
+                                                   For DPI ports, SLI_PKT*_INSTR_HEADER[USE_IHDR]   |
+                                                     and DPI_INST_HDR[R] should be clear            |
                                                    MODE field below must be "skip to L2"            |
  <9:8>   MODE     R/W      0x0         0x0       Parse Mode                                         |
                                                   0 = no packet inspection (Uninterpreted)	    |
@@ -30695,7 +30779,8 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:35> NS       RAZ       NS          NS       RESERVED
+ <63:36> NS       RAZ       NS          NS       RESERVED
+ <35:35> CRC      RO        X           0        BiST result of CRC      memories (0=pass, !0=fail)
  <34:34> CSR      RO        X           0        BiST result of CSR      memories (0=pass, !0=fail)
  <33:33> IOB      RO        X           0        BiST result of IOB      memories (0=pass, !0=fail)
  <32:32> OUT_DAT  RO        X           0        BiST result of OUT_DAT  memories (0=pass, !0=fail)
@@ -34718,7 +34803,8 @@ Pos      Name    Type     Value     Value       Description
                                                        of 256B or smaller.                          |
  <3>     BAR0_D   R/W      0           0         When set '1' disables access from MAC to           |
 						 BAR-0 address offsets: Less Than 0x330,            |
-						 0x3CD0, and greater than 0x3D70.                   |
+						 0x3CD0, and greater than 0x3D70 excluding          |
+                                                 0x3e00.                                            |                   |
  <4>     WIND_D   R/W      0           0         When set '1' disables access to the Window         |
                                                  Registers from the MAC-Port.                       |
  <63:5>  NS       RAZ      NS          NS        Reserved					    |
@@ -39930,9 +40016,9 @@ Pos      Name    Type     Value     Value       Description
                                                   2'b00       : No Error Generation                 |
                                                   2'b10, 2'b01: Flip 1 bit                          |
                                                   2'b11       : Flip 2 bits                         |
- <31:1>  NS         RAZ      NS          NS       RESERVED                                          |
- <0>     IBEN       R/W      1           1        1: ECC Enable for instruction buffer              |
-                                                  0: ECC Enable for instruction buffer              |
+ <31:1>   NS         RAZ      NS          NS      RESERVED                                          |
+ <0>      IBEN       R/W      1           1       1: ECC Enabled for instruction buffer             |
+                                                  0: ECC Disabled for instruction buffer            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -45792,6 +45878,7 @@ GMX0_SMAC002                   0x0001180008001230  RSL
 GMX0_SMAC003                   0x0001180008001A30  RSL
 GMX0_SOFT_BIST                 0x00011800080007E8  RSL
 GMX0_STAT_BP                   0x0001180008000520  RSL
+GMX0_TB_REG                    0x00011800080007E0  RSL
 GMX0_TX000_APPEND              0x0001180008000218  RSL
 GMX0_TX000_BURST               0x0001180008000228  RSL
 GMX0_TX000_CBFC_XOFF           0x00011800080005A0  RSL
@@ -46069,6 +46156,7 @@ GMX1_SMAC002                   0x0001180009001230  RSL
 GMX1_SMAC003                   0x0001180009001A30  RSL
 GMX1_SOFT_BIST                 0x00011800090007E8  RSL
 GMX1_STAT_BP                   0x0001180009000520  RSL
+GMX1_TB_REG                    0x00011800090007E0  RSL
 GMX1_TX000_APPEND              0x0001180009000218  RSL
 GMX1_TX000_BURST               0x0001180009000228  RSL
 GMX1_TX000_CBFC_XOFF           0x00011800090005A0  RSL
@@ -46346,6 +46434,7 @@ GMX2_SMAC002                   0x000118000A001230  RSL
 GMX2_SMAC003                   0x000118000A001A30  RSL
 GMX2_SOFT_BIST                 0x000118000A0007E8  RSL
 GMX2_STAT_BP                   0x000118000A000520  RSL
+GMX2_TB_REG                    0x000118000A0007E0  RSL
 GMX2_TX000_APPEND              0x000118000A000218  RSL
 GMX2_TX000_BURST               0x000118000A000228  RSL
 GMX2_TX000_CBFC_XOFF           0x000118000A0005A0  RSL
@@ -46623,6 +46712,7 @@ GMX3_SMAC002                   0x000118000B001230  RSL
 GMX3_SMAC003                   0x000118000B001A30  RSL
 GMX3_SOFT_BIST                 0x000118000B0007E8  RSL
 GMX3_STAT_BP                   0x000118000B000520  RSL
+GMX3_TB_REG                    0x000118000B0007E0  RSL
 GMX3_TX000_APPEND              0x000118000B000218  RSL
 GMX3_TX000_BURST               0x000118000B000228  RSL
 GMX3_TX000_CBFC_XOFF           0x000118000B0005A0  RSL
@@ -46900,6 +46990,7 @@ GMX4_SMAC002                   0x000118000C001230  RSL
 GMX4_SMAC003                   0x000118000C001A30  RSL
 GMX4_SOFT_BIST                 0x000118000C0007E8  RSL
 GMX4_STAT_BP                   0x000118000C000520  RSL
+GMX4_TB_REG                    0x000118000C0007E0  RSL
 GMX4_TX000_APPEND              0x000118000C000218  RSL
 GMX4_TX000_BURST               0x000118000C000228  RSL
 GMX4_TX000_CBFC_XOFF           0x000118000C0005A0  RSL
@@ -47967,6 +48058,7 @@ IPD_RED_QUE4_PARAM             0x00014F0000000300  NCB
 IPD_RED_QUE5_PARAM             0x00014F0000000308  NCB
 IPD_RED_QUE6_PARAM             0x00014F0000000310  NCB
 IPD_RED_QUE7_PARAM             0x00014F0000000318  NCB
+IPD_REQ_WGT                    0x00014F0000004418  NCB
 IPD_SUB_PORT_BP_PAGE_CNT       0x00014F0000000148  NCB
 IPD_SUB_PORT_QOS_CNT           0x00014F0000000800  NCB
 IPD_WQE_FPA_QUEUE              0x00014F0000000020  NCB
@@ -68499,6 +68591,8 @@ PIP_TAG_INC63                  0x00011800A00019F8  RSL
 PIP_TAG_MASK                   0x00011800A0000070  RSL
 PIP_TAG_SECRET                 0x00011800A0000068  RSL
 PIP_TODO_ENTRY                 0x00011800A0000078  RSL
+PIP_VLAN_ETYPES0               0x00011800A00001C0  RSL
+PIP_VLAN_ETYPES1               0x00011800A00001C8  RSL
 PKO_MEM_COUNT0                 0x0001180050001080  RSL
 PKO_MEM_COUNT1                 0x0001180050001088  RSL
 PKO_MEM_DEBUG0                 0x0001180050001100  RSL
