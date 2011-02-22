@@ -1,4 +1,6 @@
+#ifdef __mips__
 #include <bdk.h>
+#endif
 #include <unistd.h>
 // Module for interfacing with Octeon
 
@@ -6,6 +8,7 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#ifdef __mips__
 /**
  * Lua wrapper for OCTEON_IS_MODEL
  *
@@ -290,7 +293,7 @@ static int get_sbrk(lua_State* L)
     lua_pushnumber(L, bdk_ptr_to_phys(sbrk(0)));
     return 1;
 }
-
+#endif
 
 /**
  * Called to register the octeon module
@@ -301,6 +304,7 @@ static int get_sbrk(lua_State* L)
  */
 LUALIB_API int luaopen_octeon(lua_State* L)
 {
+#ifdef __mips__
     /* Create a new table for the octeon module */
     lua_newtable(L);
     lua_pushcfunction(L, octeon_is_model);
@@ -364,6 +368,16 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
-
+#endif
     return 1;
 }
+
+#ifndef __mips__
+int main(int argc, const char **argv)
+{
+    extern int bdk_lua_main(int argc, const char **argv);
+    return bdk_lua_main(argc, argv);
+}
+#endif
+
+

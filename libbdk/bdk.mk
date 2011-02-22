@@ -2,6 +2,8 @@ ifndef BDK_ROOT
 $(error Define BDK_ROOT in the environment)
 endif
 
+SHELL=/bin/bash
+
 #
 # Setup the compiler for the BDK libraries
 #

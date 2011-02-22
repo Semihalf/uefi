@@ -18,3 +18,4 @@
 /libbdk/bdk-fs-rom-files.c
 /lua/lua
 /tests/hw-and-sim/crypto/crypto
+/utils/bdk-lua/bdk-lua
