@@ -44,7 +44,11 @@ void bdk_dprintf(const char *format, ...)
 
 void __bdk_die(void)
 {
+#ifdef __mips__
     BDK_SYNC;
     while (1)
         asm volatile ("break" ::: "memory");
+#else
+    abort();
+#endif
 }

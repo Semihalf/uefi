@@ -14,11 +14,13 @@
 #include <stdarg.h>
 #include <string.h>
 #include "../libbdk-arch/bdk-arch.h"
+#ifdef __mips__
 #include "../libbdk-os/bdk-os.h"
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
 #include "bdk-functions.h"
 #include "bdk-fs-rom.h"
+#endif
 
 /**
  * @mainpage

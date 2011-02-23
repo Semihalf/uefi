@@ -368,8 +368,11 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
-#endif
     return 1;
+#else
+    LUALIB_API int luaopen_oremote(lua_State* L);
+    return luaopen_oremote(L);
+#endif
 }
 
 #ifndef __mips__

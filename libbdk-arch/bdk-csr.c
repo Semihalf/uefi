@@ -8,6 +8,8 @@ extern const int __bdk_csr_db_range[];
 extern const char __bdk_csr_db_string[];
 extern const uint64_t __bdk_csr_db_number[];
 
+#ifdef __mips__
+
 /**
  * Read a slow CSR, not RSL or NCB.
  *
@@ -96,6 +98,7 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
     }
 }
 
+#endif
 
 #ifndef BDK_DISABLE_CSR_DB
 /**
@@ -317,8 +320,14 @@ uint64_t bdk_csr_read_by_name(const char *name)
     if (!db)
         return 0;
 
+#ifdef __mips__
     return bdk_csr_read(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
+#else
+    extern uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
+    return octeon_remote_read_csr(db->type, (block == -1) ? offset : block, db->width,
+        __bdk_csr_lookup_address(db, offset, block));
+#endif
 #else
     return 0;
 #endif
@@ -341,8 +350,14 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
     if (!db)
         return -1;
+#ifdef __mips__
     bdk_csr_write(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block), value);
+#else
+    extern void octeon_remote_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+    octeon_remote_write_csr(db->type, (block == -1) ? offset : block, db->width,
+        __bdk_csr_lookup_address(db, offset, block), value);
+#endif
     return 0;
 #else
     return -1;

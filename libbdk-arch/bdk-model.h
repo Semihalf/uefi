@@ -51,7 +51,12 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
     const uint32_t OCTEON_FAMILY_MINOR_REV_MASK = 0x00000007;
     uint32_t chip_model;
 
+#ifdef __linux__
+    extern uint32_t octeon_remote_get_model(void) __attribute__ ((pure));
+    chip_model = octeon_remote_get_model();
+#else
     asm ("mfc0 %0, $15,0" : "=r" (chip_model));
+#endif
 
     switch (arg_model & __OM_FLAG_MASK)
     {

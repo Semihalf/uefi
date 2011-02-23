@@ -24,12 +24,16 @@
     #endif
 #endif
 
+#ifdef __mips__
 #include "bdk-asm.h"
+#endif
 #include "bdk-model.h"
 #include "bdk-csr.h"
 #include "bdk-warn.h"
 #include "bdk-csrs.h"
+#ifdef __mips__
 #include "bdk-fuse.h"
 #include "bdk-feature.h"
+#endif
 
 #endif
