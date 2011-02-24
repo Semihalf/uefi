@@ -23,6 +23,8 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 
 bdk-lua: $(src) octeon-remote-mips-asm.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	- sudo chown root $@
+	- sudo chmod +s $@
 
 octeon-remote-mips-asm.o: mips-octeon_debug_handler.bin mips-octeon2_debug_handler.bin mips-octeon_profile_handler.bin
 	$(CC) $(CFLAGS) -c -o $@ octeon-remote-mips-asm.S
