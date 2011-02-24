@@ -34,9 +34,27 @@ function remote.boot(args)
     assert(f)
     local d = f:read("*a")
     f:close()
+
+    -- Reset and stop the cores
     oremote.reset(1)
+    -- Disable L2 aliasing
+    local l2 = oremote.read_csr("L2C_CTL")
+    if not bit32.TEST(l2, 1) then
+        l2 = l2 + 1
+        oremote.write_csr("L2C_CTL", l2)
+    end
+    -- Write the image to L2
     oremote.write_mem(0, d)
-    oremote.write_register(0, 0x100 + 24*8, 0xffffffff80000000)
+    -- Setup the Bootbus moveable region
+    oremote.write_csr("MIO_BOOT_LOC_CFGX(0)", 0x81fc0000)
+    oremote.write_csr("MIO_BOOT_LOC_ADR", 0);
+    -- 0:   3c1a8000        lui     k0,0x8000
+    -- 4:   03400008        jr      k0
+    -- 8:   00000000        nop
+    -- c:   00000000        nop
+    oremote.write_csr("MIO_BOOT_LOC_DAT", 0x3c1a800003400008);
+    oremote.write_csr("MIO_BOOT_LOC_DAT", 0x0000000000000000);
+    -- Start core 0
     oremote.start_cores(1)
 end
 
