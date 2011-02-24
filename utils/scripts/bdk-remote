@@ -30,7 +30,20 @@ end
 function remote.boot(args)
     -- boot <filename>
     assert(args[1] == "boot")
-    error("Not implemented")
+    local f = io.open(args[2], "r")
+    assert(f)
+    local d = f:read("*a")
+    f:close()
+    oremote.reset(1)
+    oremote.write_mem(0, d)
+    oremote.write_register(0, 0x100 + 24*8, 0xffffffff80000000)
+    oremote.start_cores(1)
+end
+
+function remote.reset(args)
+    -- boot <filename>
+    assert(args[1] == "reset")
+    oremote.reset(0)
 end
 
 function remote.core(args)
@@ -168,6 +181,8 @@ bdk-remote:
 
     boot <filename>
         Boot <filename> on Octeon.
+    reset
+        Reset Octeon.
 
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.
@@ -227,6 +242,7 @@ local function parse_args()
         "csr <csr> <value>",
         "csr <csr> <value> decode",
         "boot <filename>",
+        "reset",
         "core <core>",
         "reg <core> <register>",
         "reg <core> <register> <value>",
