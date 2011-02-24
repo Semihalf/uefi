@@ -75,7 +75,7 @@ Executing Lua on the Host
 
 The BDK supplies the executable *bdk-lua* for scripting on a host PC.
 This should be used for the shell to execute Lua scripts for remote
-controlling Octeon eithe on the command line, or through scripts.
+controlling Octeon either on the command line, or through scripts.
 
 .Command line
 [source,sh]
@@ -717,3 +717,84 @@ include::../rom/board-ebb6300.lua[]
 ----
 
 
+Host Scripts and Utilities
+--------------------------
+
+bdk-lua
+~~~~~~~
+
+The BDK supplies the executable *bdk-lua* for scripting on a host PC.
+This should be used for the shell to execute Lua scripts for remote
+controlling Octeon either on the command line, or through scripts.
+
+bdk-remote
+~~~~~~~~~~
+
+The script *bdk-remote* provides access to a remote Octeon from a host
+PC.  The script requires that the environment variable
+*OCTEON_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
+command line access to all Octeon registers, CSRs, memory, profiling
+data, and remote booting is supplied.
+
+.Usage for *bdk-lua*
+----
+bdk-remote:
+    csr <csr>
+        Read the named CSR and decode it.
+    csr <csr> <value>
+        Write the named CSR.
+    csr <csr> <value> decode
+        Decode <value> as if it were the named CSR.
+
+    boot <filename>
+        Boot <filename> on Octeon.
+
+    core <core>
+        Dump all CPU registers, COP0, and TLB entries for <core>.
+
+    reg <core> <register>
+        Read CPU <register> for <core>.
+    reg <core> <register> <value>
+        Write <value> to CPU <register> for <core>.
+
+    mem <address>
+        Read eight bytes from <address>.
+    mem <width> <address>
+        Read <width> bytes from <address>.
+    mem <width> <address> <value>
+        Write <value> as <width> bytes to <address>.
+    mem load <filename> <address>
+        Load <filename> to <address>.
+    mem save <filename> <address> <length>
+        Save <length> bytes as <address> to <filename>.
+
+    profile
+        Profile all cores.
+    profile <coremask>
+        Profile cores in the supplied <coremask>.
+
+    help
+        Display this help.
+
+Paramter descriptions:
+    <csr>
+        A name of a CSR, such as CIU_FUSE or CIU_INTX_SUM0(0).
+    <value>
+        A numeric value specified in either decimal or hexidecimal.
+    <filename>
+        Standard unix format file name.
+    <core>
+        Octeon CPU core number, startign at zero.
+    <register>
+        One of the following CPU register names.
+            TBD
+    <address>
+        An Octeon physical memory address specified in either decimal or
+        hexidecimal.
+    <width>
+        A byte with. Must be 8, 4, 2, or 1.
+    <coremask>
+        A decimal or hexidecimal number representing CPU cores. Each set bit
+        represents a single CPU core. For example, 0x2f represents cores 0-3
+        and 5.
+----
