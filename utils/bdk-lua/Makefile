@@ -1,7 +1,7 @@
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -DLUA_USE_LINUX
+CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -DLUA_USE_LINUX -D_GNU_SOURCE
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99 -march=i686 -m32
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lreadline -lm -ldl
