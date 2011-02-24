@@ -117,7 +117,7 @@ int luaO_str2d (const char *s, lua_Number *result) {
   char *endptr;
   *result = lua_str2number(s, &endptr);
   if (checkend(s, endptr)) return 1;  /* conversion OK? */
-  *result = cast_num(strtoul(s, &endptr, 0)); /* try hexadecimal */
+  *result = cast_num(strtoull(s, &endptr, 0)); /* try hexadecimal */
   return checkend(s, endptr);
 }
 
