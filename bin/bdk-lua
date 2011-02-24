@@ -1,1 +1,2 @@
-../utils/bdk-lua/bdk-lua
+#!/bin/sh
+LUA_PATH="${LUA_PATH};${BDK_ROOT}/rom/?.lua" ${BDK_ROOT}/utils/bdk-lua/bdk-lua $*
