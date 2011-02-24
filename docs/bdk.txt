@@ -129,11 +129,63 @@ Executing Lua on the Target
 
 TBD
 
+.Booting using Uboot
+----
+Octeon ebb6300# dhcp
+Octeon ebb6300# setenv serverip 192.168.162.148
+Octeon ebb6300# tftpboot 0x400000 lua.bin
+Octeon ebb6300# go 0x400000
+----
+
 
 Interactive Lua on the Octeon Target
 ------------------------------------
 
 TBD
+
+.Main Menu
+----
+Bring and Diagnostic Kit (BDK)
+Setting up global data
+Clearing BSS
+Transfering to thread scheduler
+Performing common initialization
+Enabling hardware flow control on UART0
+Switching to main
+Lua 5.2.0 (work5)  Copyright (C) 1994-2010 Lua.org, PUC-Rio
+
+Octeon Bringup and Diagnostic Kit
+Copyright (C) 2010-2011 Cavium Networks
+
+1       File operations
+2       Flash operations
+3       DDR memory options
+4       HFA memory options
+5       Interactive Lua prompt
+6       Start remote call server
+7       Traffic Gen
+8       Reboot
+(0INS)>
+----
+
+Line Editing
+~~~~~~~~~~~~
+
+Any prompt ending with `(0INS)>` supports full line editing and
+history.  Line editing can also be used for any input using the
+*octeon.readline()* function.
+
+* Many vi style modes are available for command and history navigation.
+* Use ARROW KEYS, HOME, END or ESC-h,ESC-j,ESC-k,ESC-l,ESC-0,ESC-$,ESC-w,ESC-b, or ESC-fx for navigation.
+* Use TAB for commmand completion, multiple to cycle, or CTRL-D for a list of possible commands.
+* Use ESC-i,ESC-A,ESC-a,ESC-c for insert mode, ESC-R,ESC-r for overwrite mode (behavior like vi).
+* Use INSERT to toggle insert/overwrite mode, DELETE to delete, F1 for help.
+* Use !!, !<num> or !<string> to repeat previous commands in the history.
+* Use ::, :<num> or :<string> to recall previous commands in the history to current.
+* Use ?<string>, /<string>, ESC-?<string>,ESC-/<string>,ESC-n,ESC-N to also recall to current.
+* Use CTRL-l erase the screen, ESC-D to clear the rest of the current line.
+* Use ESC-d<movement> to delete, ESC-~ to change case, ESC-u to undo (one level).
+* See the vi man page for more info on the operation of various commands.
 
 
 Lua Modules
@@ -307,6 +359,7 @@ octeon.c.bdk_config_set().
 octeon.csr()::
 
 Returns an iterator that iterates through the possible CSR names.
++
 .List all CSRs from Lua
 [source,lua]
 ----
@@ -627,18 +680,21 @@ boot of the BDK.
 . bdk-boot.bin binary boots.
 
 . */rom/init.lua* is executed.
++
 [source,lua]
 ----
 include::../rom/init.lua[]
 ----
 
 . */rom/main.lua* is executed.
++
 [source,lua]
 ----
 include::../rom/main.lua[]
 ----
 
 . Board specific file is loaded.
++
 [source,lua]
 ----
 include::../rom/board-ebb6300.lua[]
