@@ -229,6 +229,22 @@ oremote.open(protocol, debug)::
  * protocol = Remote protocol or nil
  * debug = Debug level or nil
  * No return value
++
+.Protocol format
+[options="header"]
+|==========================================================================
+|Format			|Description
+|PCI:<device>		|Use PCI/PCIe for <device>. Zero is the first Octeon.
+|LINUX			|Assume Linux userspace native with direct access.
+|GDB:<name>,<tcp_port>	|Use GDB remote protocol to communicate with Octeon.
+|MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>]	|Use Macraigor mpDemon EJTAG. Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.
+|==========================================================================
+
+TIP: The *protocol* can also be set to *nil*.  When *nil*, the protocol
+is read from the environment variable *OCTEON_REMOTE_PROTOCOL*.  Using
+the environment variable to specify the protocol makes it easy for a
+single script to support many protocols.  The parameter *debug* can
+also be specified with *OCTEON_REMOTE_DEBUG*.
 
 oremote.close()::
  * No return value
