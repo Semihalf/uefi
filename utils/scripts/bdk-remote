@@ -49,6 +49,7 @@ end
 function remote.core(args)
     -- core <core>
     assert(args[1] == "core")
+    oremote.stop_cores(bit32.SHL(1,args[2]))
     local state = oremote.get_core_state(args[2])
     -- FIXME: pretty output
     pprint(state)
