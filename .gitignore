@@ -16,6 +16,6 @@
 /libbdk-dram/lib_octeon_shared.c
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
-/lua/lua
+/bdk-boot/bdk-boot
 /tests/hw-and-sim/crypto/crypto
 /utils/bdk-lua/bdk-lua

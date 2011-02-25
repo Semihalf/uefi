@@ -49,7 +49,7 @@ diagnostics. The basic layout is as follows:
 .liblua/
 	The Lua scripting language library http://www.lua.org/.
 
-.lua/
+.bdk-boot/
 	The main BDK application that starts a menu driven Lua environment.
 
 .rom/
@@ -253,21 +253,22 @@ Executing Lua on the Target
 TBD
 
 .Booting from NOR flash
-Burn *lua/lua.bin* to the beginning of the NOR flash connected to the
-bootbus chip select 0.
+
+Burn *bdk-boot/bdk-boot.bin* to the beginning of the NOR flash
+connected to the bootbus chip select 0.
 
 .Booting using *bdk-remote* over PCIe
 [source, sh]
 ----
 export OCTEON_REMOTE_PROTCOL=pci
-bdk-remote boot lua/lua.bin
+bdk-remote boot bdk-boot/bdk-boot.bin
 ----
 
 .Booting using Uboot
 ----
 Octeon ebb6300# dhcp
 Octeon ebb6300# setenv serverip 192.168.162.148
-Octeon ebb6300# tftpboot 0x400000 lua.bin
+Octeon ebb6300# tftpboot 0x400000 bdk-boot.bin
 Octeon ebb6300# go 0x400000
 ----
 

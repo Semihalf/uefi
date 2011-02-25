@@ -6,14 +6,14 @@ endif
 all:
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
-	$(MAKE) -C lua
+	$(MAKE) -C bdk-boot
 	$(MAKE) -C utils
 	$(MAKE) -C docs
 
 .PHONY: clean
 clean:
 	$(MAKE) -C libbdk clean
-	$(MAKE) -C lua clean
+	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C docs clean
 
