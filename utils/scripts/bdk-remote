@@ -163,9 +163,12 @@ function remote.profile(args)
     while true do
         local sample = oremote.get_sample(coremask)
         for core, pc in ipairs(sample) do
+            if core > num_cores then
+                break
+            end
             if not profile_data[pc] then
                 profile_data[pc] = {}
-                for core = 1, 64 do
+                for core = 1, num_cores do
                     profile_data[pc][core] = 0
                 end
             end

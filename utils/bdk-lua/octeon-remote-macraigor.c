@@ -38,7 +38,7 @@
 
 #define ULL unsigned long long
 #define MAX_MEMORY_TRANSFER_SIZE 1024
-#define USE_EJTAG_PC_SAMPLING 0
+#define USE_EJTAG_PC_SAMPLING 1
 
 typedef enum
 {
