@@ -60,6 +60,17 @@ diagnostics. The basic layout is as follows:
 Host Scripts and Utilities
 --------------------------
 
+Before running any BDK scripts or executables, the shell environment needs
+to be setup. The following example works for Bash and other Bourne shell
+derivatives.
+
+.Setup the environment for the BDK
+[source, sh]
+----
+export BDK_ROOT=`pwd`
+export PATH=${PATH}:${BDK_ROOT}/bin
+----
+
 bdk-lua
 ~~~~~~~
 
