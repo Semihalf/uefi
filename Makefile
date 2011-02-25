@@ -22,3 +22,47 @@ distclean: clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C libbdk distclean
 
+ifeq ($(shell test -d .git;echo $$?),0)
+    BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
+    BUILD_REV := $(word 4, $(BUILD_REV))
+    BUILD_DATE := $(shell git svn info | grep "Last Changed Date:")
+    BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
+else ifeq ($(shell test -d .svn;echo $$?),0)
+    BUILD_REV := $(shell svn info | grep "Last Changed Rev:")
+    BUILD_REV := $(word 4, $(BUILD_REV))
+    BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
+    BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
+else
+    BUILD_REV = "unknown"
+    BUILD_DATE = "0000 00 00"
+endif
+VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
+FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
+RELEASE_DIR = "octeon-bdk-$(VERSION)"
+
+.PHONY: release
+release: all
+	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
+	rm -rf $(RELEASE_DIR)
+	# Copy Docs
+	mkdir -p $(RELEASE_DIR)/docs
+	cp -r docs/lua $(RELEASE_DIR)/docs/
+	cp -r docs/*.html $(RELEASE_DIR)/docs/
+	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
+	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
+	# Copy host binaries
+	mkdir -p $(RELEASE_DIR)/bin
+	cp utils/scripts/bdk-* $(RELEASE_DIR)/bin/
+	cp utils/bdk-lua/bdk-lua $(RELEASE_DIR)/bin/
+	# Copy target binaries
+	mkdir -p $(RELEASE_DIR)/target-bin
+	cp bdk-boot/bdk-boot $(RELEASE_DIR)/target-bin/
+	cp bdk-boot/bdk-boot.bin $(RELEASE_DIR)/target-bin/
+	cp bdk-boot/bdk-boot.map $(RELEASE_DIR)/target-bin/
+	# Copy rom dir
+	cp -r rom $(RELEASE_DIR)/
+	# Create release tar
+	tar -zcf "octeon-bdk-$(FULL_VERSION).tgz" $(RELEASE_DIR)
+	rm -r $(RELEASE_DIR)
+
+

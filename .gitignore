@@ -19,3 +19,4 @@
 /bdk-boot/bdk-boot
 /tests/hw-and-sim/crypto/crypto
 /utils/bdk-lua/bdk-lua
+/octeon-bdk-*.tgz
