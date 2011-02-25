@@ -241,6 +241,17 @@ Executing Lua on the Target
 
 TBD
 
+.Booting from NOR flash
+Burn *lua/lua.bin* to the beginning of the NOR flash connected to the
+bootbus chip select 0.
+
+.Booting using *bdk-remote* over PCIe
+[source, sh]
+----
+export OCTEON_REMOTE_PROTCOL=pci
+bdk-remote boot lua/lua.bin
+----
+
 .Booting using Uboot
 ----
 Octeon ebb6300# dhcp
