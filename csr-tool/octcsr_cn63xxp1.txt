@@ -23783,7 +23783,7 @@ Pos      Name    Type     Value     Value       Description
  <9>     TSTMP_EDGE R/W     0x0	       0	 External timestamp input edge                      |
                                                  0 = falling edge
                                                  1 = rising edge
- <15:10>  TSTMP_IN   R/W     0x0	       0	 Source for timestamp input                         |
+ <15:10> TSTMP_IN   R/W     0x0	       0	 Source for timestamp input                         |
                                                  0x00-0x0f : GPIO[TSTMP_IN[3:0]]
                                                  0x10      : QLM0_REF_CLK
                                                  0x11      : QLM1_REF_CLK
@@ -30859,7 +30859,8 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  SLI_INT_ENB_PORTX = SLI's Interrupt Enable Register per mac port
  *
- * Used to allow the generation of interrupts (MSI/INTA) to the PORT X
+ * Used to allow the generation of interrupts (MSI/INTA) to the PCIe MAC_X
+ * Interrupts can be sent to PCIe0 or PCIe1. THese enable bits allow the interrupt to be sent.
  *
 
      ==============================================================

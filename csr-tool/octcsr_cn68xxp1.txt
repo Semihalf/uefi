@@ -23714,7 +23714,7 @@ Pos      Name    Type     Value     Value       Description
  <9>     TSTMP_EDGE R/W     0x0	       0	 External timestamp input edge                      |
                                                  0 = falling edge
                                                  1 = rising edge
- <15:10>  TSTMP_IN   R/W     0x0	       0	 Source for timestamp input                         |
+ <15:10> TSTMP_IN   R/W     0x0	       0	 Source for timestamp input                         |
                                                  0x00-0x0f : GPIO[TSTMP_IN[3:0]]
                                                  0x10      : QLM0_REF_CLK
                                                  0x11      : QLM1_REF_CLK
@@ -23734,7 +23734,21 @@ Pos      Name    Type     Value     Value       Description
                                                  0x13      : QLM3_REF_CLK
                                                  0x14      : QLM4_REF_CLK
                                                  0x15-0x3f : Reserved
- <63:24> NS         RAZ     NS         NS        Reserved				            |
+ <24>    CKOUT_EN   R/W     0x0	       0	 Enable PTP Clock Out                               |
+ <25>    CKOUT_INV  R/W     0x0	       0	 Invert PTP Clock Out                               |
+                                                 0 = don't invert
+                                                 1 = invert
+ <29:26> CKOUT_OUT  R/W     0x0	       0	 Destination for PTP Clock Out output               |
+                                                 0x00-0x0f : GPIO[CKOUT_OUT[3:0]]
+	                                         This should be different from PPS_OUT
+ <30>    PPS_EN     R/W     0x0	       0	 Enable PTP PPS                                     |
+ <31>    PPS_INV    R/W     0x0	       0	 Invert PTP PPS                                     |
+                                                 0 = don't invert
+                                                 1 = invert
+ <35:32> PPS_OUT    R/W     0x0	       0	 Destination for PTP PPS       output               |
+                                                 0x00-0x0f : GPIO[PPS_OUT[3:0]]
+	                                         This should be different from CKOUT_OUT
+ <63:36> NS         RAZ     NS         NS        Reserved				            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23824,6 +23838,146 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  CNTR     R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_THRESH_LO = Lo bytes of PTP Clock Out
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_THRESH_LO Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0xffffffff 0	 Fractions of Nanoseconds                           |
+ <63:32> NS         RAZ     NS         NS        Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_THRESH_HI = Hi bytes of PTP Clock Out
+ *
+ * Writes to MIO_PTP_CKOUT_THRESH_HI also clear MIO_PTP_CKOUT_THRESH_LO. To update all 96 bits, write MIO_PTP_CKOUT_THRESH_HI followed
+ * by MIO_PTP_CKOUT_THRESH_LO
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_THRESH_HI Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  NANOSEC    R/W     0xffffffffffffffff 0 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_HI_INCR = PTP Clock Out Hi Increment
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_HI_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_LO_INCR = PTP Clock Out Lo Increment
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_LO_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_THRESH_LO = Lo bytes of PTP PPS
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_THRESH_LO Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0xffffffff 0	 Fractions of Nanoseconds                           |
+ <63:32> NS         RAZ     NS         NS        Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_THRESH_HI = Hi bytes of PTP PPS
+ *
+ * Writes to MIO_PTP_PPS_THRESH_HI also clear MIO_PTP_PPS_THRESH_LO. To update all 96 bits, write MIO_PTP_PPS_THRESH_HI followed
+ * by MIO_PTP_PPS_THRESH_LO
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_THRESH_HI Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  NANOSEC    R/W     0xffffffffffffffff 0 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_HI_INCR = PTP PPS Hi Increment
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_HI_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_LO_INCR = PTP PPS Lo Increment
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_LO_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -25701,7 +25855,7 @@ Pos      Name    Type     Value     Value       Description
  <12:8>  PP_NUM   R/W       0x0         0x0     Processor number to receive this MSI interrupt	    |
  <7:6>   NS       RAZ       NS          NS      Reserved				            |
  <5:4>   IP_NUM   R/W       0x0         0x0     Interrupt priority level to receive this MSI	    |
-						 interrupt					    |
+						interrupt (00=IP2, 01=IP3, 10=IP4, 11=rsvd)	        |
  <3:1>   NS       RAZ       NS          NS      Reserved				            |
  <0:0>   EN       R/W       0x0         0x0     Enable interrupt delivery.			    |
 						 Must be set for PP_NUM and IP_NUM to have effect.  |
@@ -30486,7 +30640,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:7>  NS           RAZ       NS          NS       RESERVED
+ <63:8>  NS           RAZ       NS          NS       RESERVED
+ <7>     DIS_PERF2    R/W       0           0        Set to disable inactive queue skipping
  <6>     DIS_PERF1    R/W       0           0        Set to disable command word prefetching
  <5>     DIS_PERF0    R/W       0           0        Set to disable read performance optimizations
  <4>     ENA_THROTTLE R/W       0           0        Set to enable the PKO picker throttle logic
@@ -34231,9 +34386,7 @@ Pos      Name    Type     Value     Value       Description
  <1>     NTT      R/W      0x0         NS        NTT. Used when packet is raw and PBP==0.
  <2>     NGRP     R/W      0x0         NS        NGRP. Used when packet is raw and PBP==0.
  <3>     NQOS     R/W      0x0         NS        NQOS. Used when packet is raw and PBP==0.
- <5:4>   NS       R/W      0x0         NS        Reserved
-                                                 (A R/W field in real HW, but we require SW to
-                                                 always write zeroes.)
+ <5:4>   NGRPEXT  R/W      0x0         NS        NGRPEXT. Used when packet is raw and PBP==0.
  <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Used when USE_IHDR is set and packet
                                                  is not raw and PBP is not set.
  <13>    NS       R/W      0x0         NS        Reserved
@@ -34253,9 +34406,7 @@ Pos      Name    Type     Value     Value       Description
  <23>    RNTT     R/W      0x0         NS        RNTT. Used when packet is raw and PBP==0.
  <24>    RNGRP    R/W      0x0         NS        RNGRP. Used when packet is raw and PBP==0.
  <25>    RNQOS    R/W      0x0         NS        RNQOS. Used when packet is raw and PBP==0.
- <27:26> NS       R/W      0x0         NS        Reserved
-                                                 (A R/W field in real HW, but we require SW to
-                                                 always write zeroes.)
+ <27:26> RNGRPEXT R/W      0x0         NS        RNGRPEXT. Used when packet is raw and PBP==0.
  <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Used when packet is raw and PBP==0.
  <35>    NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
@@ -35225,7 +35376,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:54> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <63:62> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <61:60> ODU_PREF  RO	    0x0	    0x0	     ODU Prefetch memory BIST status			    |
+ <59:54> NS	   RAZ	    NS	    NS	     Reserved						    |
  <53:52> FPTR	   RO	    0x0	    0x0	     FPTR memory BIST status				    |
  <51:45> NS	   RAZ	    NS	    NS	     Reserved						    |
  <44>	 RWO_DAT   RO	    0x0	    0x0	     RWO_DAT memory BIST status				    |
@@ -35337,10 +35490,23 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:4>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <63:10> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <9>	 ODU_PRF_DIS  R/W   0x0	    0x0	     Disable ODU-initiated prefetches of WQEs into L2C	    |
+						For diagnostic use only.
+ <8>	 ODU_BMP_DIS  R/W   0x0	    0x0	     Disable ODU bumps.					    |
+                                                If SSO_PP_STRICT is true, could
+                                                prevent forward progress under some circumstances.
+						For diagnostic use only.
+ <7:5>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <4>	 GWE_HVY_DIS  R/W   0x0	    0x0	     Disable GWE automatic, proportional weight-increase    |
+						mechanism and use SSO_QOS@_RND values as-is.
+						For diagnostic use only.
  <3>	 GWE_POE   R/W	    0x0	    0x0	     Pause GWE on extracts				    |
- <2>	 GWE_FPOR  R/W	    0x0	    0x0	     Flush GWE pipeline when restarting GWE		    |
- <1>	 GWE_RAH   R/W	    0x0	    0x0	     Begin at head of input queues when restarting GWE	    |
+						For diagnostic use only.
+ <2>	 GWE_FPOR  R/W	    0x0	    0x0	     Flush GWE pipeline when restarting GWE.		    |
+						For diagnostic use only.
+ <1>	 GWE_RAH   R/W	    0x0	    0x0	     Begin at head of input queues when restarting GWE.	    |
+						For diagnostic use only.
  <0>	 GWE_DIS   R/W	    0x0	    0x0	     Disable Get-Work Examiner				    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -66180,11 +66346,19 @@ MIO_GPIO_COMP                  0x00011800000000C8  RSL
 MIO_NDF_DMA_CFG                0x0001180000000168  RSL
 MIO_NDF_DMA_INT                0x0001180000000170  RSL
 MIO_NDF_DMA_INT_EN             0x0001180000000178  RSL
+MIO_PTP_CKOUT_HI_INCR          0x0001070000000F40  NCB
+MIO_PTP_CKOUT_LO_INCR          0x0001070000000F48  NCB
+MIO_PTP_CKOUT_THRESH_HI        0x0001070000000F38  NCB
+MIO_PTP_CKOUT_THRESH_LO        0x0001070000000F30  NCB
 MIO_PTP_CLOCK_CFG              0x0001070000000F00  NCB
 MIO_PTP_CLOCK_COMP             0x0001070000000F18  NCB
 MIO_PTP_CLOCK_HI               0x0001070000000F10  NCB
 MIO_PTP_CLOCK_LO               0x0001070000000F08  NCB
 MIO_PTP_EVT_CNT                0x0001070000000F28  NCB
+MIO_PTP_PPS_HI_INCR            0x0001070000000F60  NCB
+MIO_PTP_PPS_LO_INCR            0x0001070000000F68  NCB
+MIO_PTP_PPS_THRESH_HI          0x0001070000000F58  NCB
+MIO_PTP_PPS_THRESH_LO          0x0001070000000F50  NCB
 MIO_PTP_TIMESTAMP              0x0001070000000F20  NCB
 MIO_QLM0_CFG                   0x0001180000001590  RSL
 MIO_QLM1_CFG                   0x0001180000001598  RSL
