@@ -126,6 +126,7 @@ static inline void bdk_send_single(uint64_t data)
 #endif
 
 extern int bdk_csr_decode(const char *name, uint64_t value);
+extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
 extern uint64_t bdk_csr_read_by_name(const char *name);
 extern int bdk_csr_write_by_name(const char *name, uint64_t value);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);

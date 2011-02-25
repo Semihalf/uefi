@@ -57,6 +57,103 @@ diagnostics. The basic layout is as follows:
 	standard filesystem calls.
 
 
+Host Scripts and Utilities
+--------------------------
+
+bdk-lua
+~~~~~~~
+
+The BDK supplies the executable *bdk-lua* for scripting on a host PC.
+This should be used for the shell to execute Lua scripts for remote
+controlling Octeon either on the command line, or through scripts.
+
+.Usage for *bdk-lua*
+----
+usage: bdk-lua [options] [script [args]]
+Available options are:
+  -e stat  execute string 'stat'
+  -i       enter interactive mode after executing 'script'
+  -l name  require library 'name'
+  -v       show version information
+  --       stop handling options
+  -        stop handling options and execute stdin
+----
+
+bdk-remote
+~~~~~~~~~~
+
+The script *bdk-remote* provides access to a remote Octeon from a host
+PC.  The script requires that the environment variable
+*OCTEON_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
+command line access to all Octeon registers, CSRs, memory, profiling
+data, and remote booting is supplied.
+
+.Usage for *bdk-remote*
+----
+bdk-remote:
+    csr <csr>
+        Read the named CSR and decode it.
+    csr <csr> <value>
+        Write the named CSR.
+    csr <csr> <value> decode
+        Decode <value> as if it were the named CSR.
+
+    boot <filename>
+        Boot <filename> on Octeon.
+    reset
+        Reset Octeon.
+
+    core <core>
+        Dump all CPU registers, COP0, and TLB entries for <core>.
+
+    reg <core> <register>
+        Read CPU <register> for <core>.
+    reg <core> <register> <value>
+        Write <value> to CPU <register> for <core>.
+
+    mem <address>
+        Read eight bytes from <address>.
+    mem <width> <address>
+        Read <width> bytes from <address>.
+    mem <width> <address> <value>
+        Write <value> as <width> bytes to <address>.
+    mem load <filename> <address>
+        Load <filename> to <address>.
+    mem save <filename> <address> <length>
+        Save <length> bytes as <address> to <filename>.
+
+    profile
+        Profile all cores.
+    profile <coremask>
+        Profile cores in the supplied <coremask>.
+
+    help
+        Display this help.
+
+Paramter descriptions:
+    <csr>
+        A name of a CSR, such as CIU_FUSE or CIU_INTX_SUM0(0).
+    <value>
+        A numeric value specified in either decimal or hexidecimal.
+    <filename>
+        Standard unix format file name.
+    <core>
+        Octeon CPU core number, startign at zero.
+    <register>
+        One of the following CPU register names.
+            TBD
+    <address>
+        An Octeon physical memory address specified in either decimal or
+        hexidecimal.
+    <width>
+        A byte width. Must be 8, 4, 2, or 1.
+    <coremask>
+        A decimal or hexidecimal number representing CPU cores. Each set bit
+        represents a single CPU core. For example, 0x2f represents cores 0-3
+        and 5.
+----
+
+
 Lua Scripting
 -------------
 
@@ -348,6 +445,73 @@ oremote.read_mem64(address)::
  * address = Physical address
  * Return data
 
+oremote.csr()::
+
+Returns an iterator that iterates through the possible CSR names.
++
+.List all CSRs from Lua
+[source,lua]
+----
+for name in oremote.csr()
+do
+    print (name)
+end
+----
+
+oremote.csr.NAME.read()::
+
+Read the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
+or "CIU_INTX_SUM0(0)".
+* Returns the CSR value
+
+oremote.csr.NAME.write(value)::
+
+Write the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
+or "CIU_INTX_SUM0(0)".
+* value = Value to write
+* No return value.
+
+oremote.csr.NAME.decode(optional_value)::
+
+Uses *optional_value* as a numeric value for the CSR.  It then decodes
+each field and returns a Lua table containing the fields.  If
+*optional_value* is not supplied the actual value is read from the
+hardware.
+* optional_value = If supplied, value of CSR to decode.
+* Returns a table of the decoded values.
++
+.Decode example
+[source, lua]
+----
+pprint(oremote.csr.ciu_fuse.decode())
+----
++
+.Decode output
+[source, lua]
+----
+{
+    FUSE = 63
+    RESERVED_6_63 = 0
+}
+----
+
+oremote.csr.NAME.encode(table)::
+
+Converts a table of CSR fields into a CSR value and writes it to the
+hardware.  The format of the table is identical to the *decode()*
+format.  Missing fields are filled with zeros.
+* table = Table of fields to encode.
+* No return value.
+
+oremote.csr.NAME.FIELD::
+
+Reads the CSR and returns the value of a specific field.
+
+oremote.csr.NAME.FIELD = value::
+
+Performs a read, modify, and write of a CSR changing the specified field.
+
+
 Target modules specific to Octeon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -396,7 +560,47 @@ octeon.csr.NAME.write(value)::
 Write the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
 or "CIU_INTX_SUM0(0)".
 * value = Value to write
-* No return value
+* No return value.
+
+octeon.csr.NAME.decode(optional_value)::
+
+Uses *optional_value* as a numeric value for the CSR.  It then decodes
+each field and returns a Lua table containing the fields.  If
+*optional_value* is not supplied the actual value is read from the
+hardware.
+* optional_value = If supplied, value of CSR to decode.
+* Returns a table of the decoded values.
++
+.Decode example
+[source, lua]
+----
+pprint(octeon.csr.ciu_fuse.decode())
+----
++
+.Decode output
+[source, lua]
+----
+{
+    FUSE = 63
+    RESERVED_6_63 = 0
+}
+----
+
+octeon.csr.NAME.encode(table)::
+
+Converts a table of CSR fields into a CSR value and writes it to the
+hardware.  The format of the table is identical to the *decode()*
+format.  Missing fields are filled with zeros.
+* table = Table of fields to encode.
+* No return value.
+
+octeon.csr.NAME.FIELD::
+
+Reads the CSR and returns the value of a specific field.
+
+octeon.csr.NAME.FIELD = value::
+
+Performs a read, modify, and write of a CSR changing the specified field.
 
 octeon.c.*::
 
@@ -687,6 +891,75 @@ Hex dump a file.  "file_handle" is a file handle, not a name.  You can
 do a seek before calling this to skip the start of the file.
 
 
+Lua Scripting Tips
+------------------
+
+Writing scripts in Lua for either the host or target is a powerful way
+of developing board bringup and diagnostic tools.  A few scripting
+tips and guides can make your scripts much easier to write and
+maintain.  Here are a few recommendations from Cavium Networks.
+
+Use */usr/bin/env* to find *bdk-lua*::
+
+The location of the BDK installation may change over time.  Use the
+*PATH* environment variable to find the Lua binary for you.  Adding
+the following line to the beginning of all your scripts will allow you
+to make them directly executable.
++
+[source,sh]
+----
+#!/usr/bin/env bdk-lua
+----
+
+Use the *strict* module::
+
+Variables are automatically created as global by default in Lua.  This
+can cause simple typographical errors to be very difficult to find.  A
+misspelled variable name will silently create a new global variable,
+which isn't particularly helpful.  The module *strict* forces variables
+to be defined.  It also promotes the use of local variables, which will
+make your scripts more modular and easier to maintain.
++
+[source,lua]
+----
+require("strict")
+----
+
+Use the *utils* module::
+
+The default *print()* function in Lua is very primitive.  For example,
+it won't display the contents of a table.  The *utils* module contains
+a number of functions to make your life easier.  The *printf()* and
+*pprint()* functions are exceedingly useful.
++
+[source,lua]
+----
+require("utils")
+----
+
+Use the *csr* module on *oremote* and *octeon* interchangeably::
+
+Note that the syntax of the oremote.csr.* operations and the
+octeon.csr.* operations are exactly the same.  Use this to your
+advantage to make scripts portable between the host and target.
++
+[source,lua]
+----
+require("utils")
+local csr
+if _G["octeon"] then
+    csr = octeon.csr
+else
+    csr = oremote.csr
+end
+pprint(csr.ciu_fuse.decode())
+----
+
+Use the *rpc* module to develop scripts before running on the target::
+
+TBD
+
+
 Lua Startup Sequence on Octeon
 ------------------------------
 
@@ -716,87 +989,3 @@ include::../rom/main.lua[]
 include::../rom/board-ebb6300.lua[]
 ----
 
-
-Host Scripts and Utilities
---------------------------
-
-bdk-lua
-~~~~~~~
-
-The BDK supplies the executable *bdk-lua* for scripting on a host PC.
-This should be used for the shell to execute Lua scripts for remote
-controlling Octeon either on the command line, or through scripts.
-
-bdk-remote
-~~~~~~~~~~
-
-The script *bdk-remote* provides access to a remote Octeon from a host
-PC.  The script requires that the environment variable
-*OCTEON_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
-command line access to all Octeon registers, CSRs, memory, profiling
-data, and remote booting is supplied.
-
-.Usage for *bdk-lua*
-----
-bdk-remote:
-    csr <csr>
-        Read the named CSR and decode it.
-    csr <csr> <value>
-        Write the named CSR.
-    csr <csr> <value> decode
-        Decode <value> as if it were the named CSR.
-
-    boot <filename>
-        Boot <filename> on Octeon.
-    reset
-        Reset Octeon.
-
-    core <core>
-        Dump all CPU registers, COP0, and TLB entries for <core>.
-
-    reg <core> <register>
-        Read CPU <register> for <core>.
-    reg <core> <register> <value>
-        Write <value> to CPU <register> for <core>.
-
-    mem <address>
-        Read eight bytes from <address>.
-    mem <width> <address>
-        Read <width> bytes from <address>.
-    mem <width> <address> <value>
-        Write <value> as <width> bytes to <address>.
-    mem load <filename> <address>
-        Load <filename> to <address>.
-    mem save <filename> <address> <length>
-        Save <length> bytes as <address> to <filename>.
-
-    profile
-        Profile all cores.
-    profile <coremask>
-        Profile cores in the supplied <coremask>.
-
-    help
-        Display this help.
-
-Paramter descriptions:
-    <csr>
-        A name of a CSR, such as CIU_FUSE or CIU_INTX_SUM0(0).
-    <value>
-        A numeric value specified in either decimal or hexidecimal.
-    <filename>
-        Standard unix format file name.
-    <core>
-        Octeon CPU core number, startign at zero.
-    <register>
-        One of the following CPU register names.
-            TBD
-    <address>
-        An Octeon physical memory address specified in either decimal or
-        hexidecimal.
-    <width>
-        A byte width. Must be 8, 4, 2, or 1.
-    <coremask>
-        A decimal or hexidecimal number representing CPU cores. Each set bit
-        represents a single CPU core. For example, 0x2f represents cores 0-3
-        and 5.
-----

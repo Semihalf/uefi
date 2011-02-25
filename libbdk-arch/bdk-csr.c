@@ -305,6 +305,51 @@ int bdk_csr_decode(const char *name, uint64_t value)
 
 
 /**
+ * Lookup a field by knowning its CSR and start_bit. By starting
+ * at zero, you can walk all fields.
+ *
+ * @param csr_name   CSR to lookup field for
+ * @param field_start_bit
+ *                   Starting bit of field
+ * @param field_name Constant character pointer to receive the address of the field name.
+ *
+ * @return Width of the field, or negative on failure.
+ */
+int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name)
+{
+#ifndef BDK_DISABLE_CSR_DB
+    int offset = -1;
+    int block = -1;
+    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(csr_name, &offset, &block);
+    int num_fields;
+    int i;
+
+    /* Fail if we can't find the CSR */
+    if (!db)
+    {
+        bdk_error("CSR lookup can't find this CSR\n");
+        return -1;
+    }
+
+    num_fields = __bdk_csr_db_fieldList[db->field_index];
+    i = db->field_index + 1;
+    while (num_fields--)
+    {
+        int field = __bdk_csr_db_fieldList[i++];
+        int start_bit = __bdk_csr_db_field[field+1];
+        if (start_bit == field_start_bit)
+        {
+            int stop_bit = __bdk_csr_db_field[field+2];
+            *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field];
+            return stop_bit - start_bit + 1;
+        }
+    }
+#endif
+    return -1;
+}
+
+
+/**
  * Do a CSR read based on the string name of a CSR
  *
  * @param name   Name of CSR to read

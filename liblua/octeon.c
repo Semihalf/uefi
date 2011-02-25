@@ -1,14 +1,25 @@
 #ifdef __mips__
 #include <bdk.h>
-#endif
 #include <unistd.h>
+#else
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+#include <libbdk-arch/bdk-model.h>
+#include <libbdk-arch/bdk-csr.h>
+#endif
 // Module for interfacing with Octeon
 
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 
-#ifdef __mips__
+static uint64_t build_mask(int bits, int left_shift)
+{
+    uint64_t mask = ~((~0x0ull) << bits);
+    return mask << left_shift;
+}
+
 /**
  * Lua wrapper for OCTEON_IS_MODEL
  *
@@ -20,47 +31,6 @@ static int octeon_is_model(lua_State* L)
 {
     uint32_t m = luaL_checkinteger(L, 1);
     lua_pushboolean(L, OCTEON_IS_MODEL(m));
-    return 1;
-}
-
-/**
- * Wrapper to call a generic C function from Lua. A maximum
- * of 8 arguments are supported. Each argument can either be a
- * number or string. Function can only return numbers.
- *
- * @param L
- *
- * @return
- */
-static int octeon_c_call(lua_State* L)
-{
-    long (*func)(long arg1, long arg2, long arg3, long arg4, long arg5, long arg6, long arg7, long arg8);
-    long args[8];
-    int num_args = lua_gettop(L);
-    func = lua_topointer(L, lua_upvalueindex(1));
-
-    int i;
-    for(i=0; i<num_args; i++)
-    {
-        if(lua_isnumber(L, i+1))
-        {
-            args[i] = lua_tonumber(L, i+1);
-        }
-        else if(lua_isstring(L, i+1))
-        {
-            const char *str = lua_tostring(L, i+1);
-            args[i] = (long)str;
-        }
-        else
-        {
-            luaL_error(L, "Invalid argument type");
-            return 0;
-        }
-    }
-
-    long result = func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
-    lua_pushnumber(L, result);
-
     return 1;
 }
 
@@ -94,6 +64,80 @@ static int octeon_csr_write(lua_State* L)
 }
 
 /**
+ * Called when octeon.csr.NAME.decode(optional) is invoked
+ *
+ * @param L
+ *
+ * @return
+ */
+static int octeon_csr_decode(lua_State* L)
+{
+    const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    uint64_t value;
+    if (lua_isnumber(L, 1))
+        value = luaL_checknumber(L, 1);
+    else
+        value = bdk_csr_read_by_name(csr_name);
+
+    const char *fieldn;
+    int start_bit = 0;
+    int field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+
+    if (field_width < 0)
+        return luaL_error(L, "%s: CSR not found", __FUNCTION__);
+
+    lua_newtable(L);
+    while (field_width > 0)
+    {
+        uint64_t v = value >> start_bit;
+        v &= build_mask(field_width, 0);
+        lua_pushnumber(L, v);
+        lua_setfield(L, -2, fieldn);
+        start_bit += field_width;
+        field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    }
+    return 1;
+}
+
+/**
+ * Called when octeon.csr.NAME.encode(table) is invoked
+ *
+ * @param L
+ *
+ * @return
+ */
+static int octeon_csr_encode(lua_State* L)
+{
+    const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    luaL_checktype(L, 1, LUA_TTABLE);
+
+    uint64_t value = 0;
+    const char *fieldn;
+    int start_bit = 0;
+    int field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+
+    if (field_width < 0)
+        return luaL_error(L, "%s: CSR not found", __FUNCTION__);
+
+    while (field_width > 0)
+    {
+        lua_getfield(L, 1, fieldn);
+        if (!lua_isnil(L, -1))
+        {
+            uint64_t fieldv = luaL_checknumber(L, -1);
+            value &= ~build_mask(field_width, start_bit);
+            fieldv &= build_mask(field_width, 0);
+            value |= fieldv << start_bit;
+        }
+        lua_pop(L, 1);
+        start_bit += field_width;
+        field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    }
+    bdk_csr_write_by_name(csr_name, value);
+    return 0;
+}
+
+/**
  * Called when a CSR field is read using octeon.csr.NAME.FIELD
  *
  * @param L
@@ -102,8 +146,26 @@ static int octeon_csr_write(lua_State* L)
  */
 static int octeon_csr_field_index(lua_State* L)
 {
-    luaL_error(L, "%s: not implemented", __FUNCTION__);
-    return 1;
+    const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    const char *field_name = luaL_checkstring(L, 2);
+
+    const char *fieldn;
+    int start_bit = 0;
+    int field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    while (field_width > 0)
+    {
+        if (strcasecmp(field_name, fieldn) == 0)
+        {
+            uint64_t value = bdk_csr_read_by_name(csr_name);
+            value >>= start_bit;
+            value &= build_mask(field_width, 0);
+            lua_pushnumber(L, value);
+            return 1;
+        }
+        start_bit += field_width;
+        field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    }
+    return luaL_error(L, "%s: Field not found", __FUNCTION__);
 }
 
 /**
@@ -115,8 +177,29 @@ static int octeon_csr_field_index(lua_State* L)
  */
 static int octeon_csr_field_newindex(lua_State* L)
 {
-    luaL_error(L, "%s: not implemented", __FUNCTION__);
-    return 0;
+    const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    const char *field_name = luaL_checkstring(L, 2);
+    uint64_t new_value = luaL_checknumber(L, 3);
+
+
+    const char *fieldn;
+    int start_bit = 0;
+    int field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    while (field_width > 0)
+    {
+        if (strcasecmp(field_name, fieldn) == 0)
+        {
+            uint64_t value = bdk_csr_read_by_name(csr_name);
+            value &= ~build_mask(field_width, start_bit);
+            new_value &= build_mask(field_width, 0);
+            value |= new_value << start_bit;
+            bdk_csr_write_by_name(csr_name, value);
+            return 0;
+        }
+        start_bit += field_width;
+        field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
+    }
+    return luaL_error(L, "%s: Field not found", __FUNCTION__);
 }
 
 /**
@@ -141,6 +224,12 @@ static int octeon_csr_lookup(lua_State* L)
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_write, 1);
     lua_setfield(L, -2, "write");
+    lua_pushstring(L, name);
+    lua_pushcclosure(L, octeon_csr_decode, 1);
+    lua_setfield(L, -2, "decode");
+    lua_pushstring(L, name);
+    lua_pushcclosure(L, octeon_csr_encode, 1);
+    lua_setfield(L, -2, "encode");
 
     lua_newtable(L);
     lua_pushstring(L, name);
@@ -237,7 +326,7 @@ static int octeon_csr_newindex(lua_State* L)
  */
 static int octeon_csr_iter(lua_State* L)
 {
-    char buffer[32];
+    char buffer[64];
     const char *last = NULL;
     if (lua_gettop(L) >= 2)
     {
@@ -273,6 +362,48 @@ static int octeon_csr_call(lua_State* L)
     return 2;
 }
 
+#ifdef __mips__
+/**
+ * Wrapper to call a generic C function from Lua. A maximum
+ * of 8 arguments are supported. Each argument can either be a
+ * number or string. Function can only return numbers.
+ *
+ * @param L
+ *
+ * @return
+ */
+static int octeon_c_call(lua_State* L)
+{
+    long (*func)(long arg1, long arg2, long arg3, long arg4, long arg5, long arg6, long arg7, long arg8);
+    long args[8];
+    int num_args = lua_gettop(L);
+    func = lua_topointer(L, lua_upvalueindex(1));
+
+    int i;
+    for(i=0; i<num_args; i++)
+    {
+        if(lua_isnumber(L, i+1))
+        {
+            args[i] = lua_tonumber(L, i+1);
+        }
+        else if(lua_isstring(L, i+1))
+        {
+            const char *str = lua_tostring(L, i+1);
+            args[i] = (long)str;
+        }
+        else
+        {
+            luaL_error(L, "Invalid argument type");
+            return 0;
+        }
+    }
+
+    long result = func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+    lua_pushnumber(L, result);
+
+    return 1;
+}
+
 
 static void control_c_check(lua_State *L, lua_Debug *ar)
 {
@@ -305,22 +436,17 @@ static int get_sbrk(lua_State* L)
 LUALIB_API int luaopen_octeon(lua_State* L)
 {
 #ifdef __mips__
-    /* Create a new table for the octeon module */
+    /* Create a new table for the module */
     lua_newtable(L);
+#else
+    LUALIB_API int luaopen_oremote(lua_State* L);
+    if (luaopen_oremote(L) != 1)
+        return 0;
+    lua_getglobal(L, "oremote");
+#endif
+
     lua_pushcfunction(L, octeon_is_model);
     lua_setfield(L, -2, "is_model");
-
-    /* Create a new table of all C functions that can be called */
-    lua_newtable(L);
-    int i = 0;
-    while(bdk_functions[i].name)
-    {
-        lua_pushlightuserdata(L, bdk_functions[i].func);
-        lua_pushcclosure(L, octeon_c_call, 1);
-        lua_setfield(L, -2, bdk_functions[i].name);
-        i++;
-    }
-    lua_setfield(L, -2, "c");
 
     /* Add constants for the different models that can be used with
         octeon.is_model() */
@@ -335,13 +461,6 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_pushnumber(L, OCTEON_CN68XX_PASS1_X);
     lua_setfield(L, -2, "CN68XXP1");
 
-    /* Add constants for bdk_config */
-    for (bdk_config_t c=0; c<__BDK_CONFIG_END; c++)
-    {
-        lua_pushnumber(L, c);
-        lua_setfield(L, -2, bdk_config_get_name(c));
-    }
-
     /* Add octeon.csr, magic table access to Octeon CSRs */
     lua_newtable(L); /* csr table */
     lua_newtable(L); /* csr metatable */
@@ -353,6 +472,26 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setfield(L, -2, "__call");
     lua_setmetatable(L, -2);
     lua_setfield(L, -2, "csr");
+
+#ifdef __mips__
+    /* Create a new table of all C functions that can be called */
+    lua_newtable(L);
+    int i = 0;
+    while(bdk_functions[i].name)
+    {
+        lua_pushlightuserdata(L, bdk_functions[i].func);
+        lua_pushcclosure(L, octeon_c_call, 1);
+        lua_setfield(L, -2, bdk_functions[i].name);
+        i++;
+    }
+    lua_setfield(L, -2, "c");
+
+    /* Add constants for bdk_config */
+    for (bdk_config_t c=0; c<__BDK_CONFIG_END; c++)
+    {
+        lua_pushnumber(L, c);
+        lua_setfield(L, -2, bdk_config_get_name(c));
+    }
 
     /* Add function for seeing the size of the heap */
     lua_pushcfunction(L, get_sbrk);
@@ -368,11 +507,8 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
-    return 1;
-#else
-    LUALIB_API int luaopen_oremote(lua_State* L);
-    return luaopen_oremote(L);
 #endif
+    return 1;
 }
 
 #ifndef __mips__
