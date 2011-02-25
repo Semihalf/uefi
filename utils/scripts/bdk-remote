@@ -10,6 +10,100 @@ require("utils")
 
 local remote = {}
 
+local REGISTER_NAMES = {
+    [0] = "zero",
+    [1] = "at",
+    [2] = "v0",
+    [3] = "v1",
+    [4] = "a0",
+    [5] = "a1",
+    [6] = "a2",
+    [7] = "a3",
+    [8] = "a4",
+    [9] = "a5",
+    [10] = "a6",
+    [11] = "a7",
+    [12] = "t0",
+    [13] = "t1",
+    [14] = "t2",
+    [15] = "t3",
+    [16] = "s0",
+    [17] = "s1",
+    [18] = "s2",
+    [19] = "s3",
+    [20] = "s4",
+    [21] = "s5",
+    [22] = "s6",
+    [23] = "s7",
+    [24] = "t8",
+    [25] = "t9",
+    [26] = "k0",
+    [27] = "k1",
+    [28] = "gp",
+    [29] = "sp",
+    [30] = "s8/fp",
+    [31] = "ra",
+    [32] = "lo",
+    [33] = "hi",
+    [0x100 +  0*8 + 0] = "Index",
+    [0x100 +  1*8 + 0] = "Random",
+    [0x100 +  2*8 + 0] = "EntryLo0",
+    [0x100 +  3*8 + 0] = "EntryLo1",
+    [0x100 +  4*8 + 0] = "Context",
+    [0x100 +  5*8 + 0] = "PageMask",
+    [0x100 +  5*8 + 1] = "PageGrain",
+    [0x100 +  6*8 + 0] = "Wired",
+    [0x100 +  7*8 + 0] = "HWREna",
+    [0x100 +  8*8 + 0] = "BadVAddr",
+    [0x100 +  9*8 + 0] = "Count",
+    [0x100 + 10*8 + 0] = "EntryHi",
+    [0x100 + 11*8 + 0] = "Compare",
+    [0x100 + 12*8 + 0] = "Status",
+    [0x100 + 12*8 + 1] = "IntCtl",
+    [0x100 + 12*8 + 2] = "SRSCtl",
+    [0x100 + 13*8 + 0] = "Cause",
+    [0x100 + 14*8 + 0] = "EPC",
+    [0x100 + 15*8 + 0] = "PRId",
+    [0x100 + 15*8 + 1] = "Ebase",
+    [0x100 + 16*8 + 0] = "Config",
+    [0x100 + 16*8 + 1] = "Config1",
+    [0x100 + 16*8 + 2] = "Config2",
+    [0x100 + 16*8 + 3] = "Config3",
+    [0x100 + 18*8 + 0] = "WatchLo0",
+    [0x100 + 18*8 + 1] = "WatchLo1",
+    [0x100 + 19*8 + 0] = "WatchHi0",
+    [0x100 + 19*8 + 1] = "WatchHi1",
+    [0x100 + 20*8 + 0] = "XContext",
+    [0x100 + 23*8 + 0] = "Debug",
+    [0x100 + 25*8 + 0] = "PerfControl0",
+    [0x100 + 25*8 + 2] = "PerfControl1",
+    [0x100 + 24*8 + 0] = "DEPC",
+    [0x100 + 25*8 + 1] = "PerfCount0",
+    [0x100 + 25*8 + 3] = "PerfCount1",
+    [0x100 + 27*8 + 0] = "IcacheError",
+    [0x100 + 27*8 + 1] = "DcacheError",
+    [0x100 + 28*8 + 0] = "IcacheTagLo",
+    [0x100 + 28*8 + 1] = "IcacheDataLo",
+    [0x100 + 28*8 + 2] = "DcacheTagLo",
+    [0x100 + 28*8 + 3] = "DcacheDataLo",
+    [0x100 + 29*8 + 1] = "IcacheDataHi",
+    [0x100 + 29*8 + 2] = "DcacheTagHi",
+    [0x100 + 29*8 + 3] = "DcacheDataHi",
+    [0x100 + 30*8 + 0] = "ErrorEPC",
+    [0x100 + 31*8 + 0] = "DESAVE",
+    [0x100 +  9*8 + 7] = "CvmCtl",
+    [0x100 + 11*8 + 7] = "CvmMemCt",
+    [0x100 +  9*8 + 6] = "CvmCount",
+    [0x100 + 22*8 + 0] = "MultiCoreDebug",
+    [0x100 +  4*8 + 2] = "UserLocal",    -- From here on only exists in Octeon 2
+    [0x100 + 16*8 + 4] = "Config4",
+    [0x100 + 11*8 + 6] = "PowThr",
+    [0x100 + 23*8 + 6] = "Debug2",
+    [0x100 + 31*8 + 2] = "Kscratch1",
+    [0x100 + 31*8 + 3] = "Kscratch2",
+    [0x100 + 31*8 + 4] = "Kscratch3",
+}
+
 function remote.csr(args)
     -- csr <csr>
     -- csr <csr> <value>
@@ -69,8 +163,52 @@ function remote.core(args)
     assert(args[1] == "core")
     oremote.stop_cores(bit32.SHL(1,args[2]))
     local state = oremote.get_core_state(args[2])
-    -- FIXME: pretty output
-    pprint(state)
+    printf("Core %d\n", args[2]);
+    printf("CPU registers:\n");
+    for num=0,33,2 do
+        printf("%-14s = 0x%016x    %-14s = 0x%016x\n", REGISTER_NAMES[num], state[1][num+1], REGISTER_NAMES[num+1], state[1][num+2])
+    end
+    printf("Coprocessor 0 registers:\n");
+    local count = 0
+    for num=0x100,0x200 do
+        if REGISTER_NAMES[num] then
+            printf("%-14s = 0x%016x    ", REGISTER_NAMES[num], state[2][num+1 - 0x100])
+            count = count + 1
+            if count >= 2 then
+                printf("\n")
+                count = 0
+            end
+        end
+    end
+    if count then
+        printf("\n")
+    end
+    printf("TLB:\n");
+    for r=1,128 do
+        local va = state[3][r][1]/4096*4096
+        if (va/2^62) == 3 then
+            va = va + 0x3ffe000000000000
+        end
+        local asid       = state[3][r][1] % 256
+        local pagemask   = (state[3][r][2] + 0x1fff) / 2
+        local pagesize   = (pagemask+1) / 1024
+        local page0      = state[3][r][3]/64*4096
+        local cache0     = (state[3][r][3]/8) % 8
+        local dirty0     = (state[3][r][3]/4) % 2
+        local valid0     = (state[3][r][3]/2) % 2
+        local glbl0      = state[3][r][3] % 2
+        local ri0        = (state[3][r][3]/2^63) % 2
+        local xi0        = (state[3][r][3]/2^62) % 2
+        local page1      = state[3][r][4]/64*4096
+        local cache1     = (state[3][r][4]/8) % 8
+        local dirty1     = (state[3][r][4]/4) % 2
+        local valid1     = (state[3][r][4]/2) % 2
+        local glbl1      = state[3][r][4] % 2
+        local ri1        = (state[3][r][4]/2^63) % 2
+        local xi1        = (state[3][r][4]/2^62) % 2
+        printf("%2d: Virtual=0x%016x Page0=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d Page1=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d ASID=%3d Size=%dKB\n",
+            r, va, page0, cache0, dirty0, valid0, glbl0, ri0, xi0, page1, cache1, dirty1, valid1, glbl1, ri1, xi1, asid, pagesize)
+    end
 end
 
 function remote.reg(args)
@@ -79,7 +217,7 @@ function remote.reg(args)
     assert(args[1] == "reg")
     if #args == 3 then
         local v = oremote.read_register(args[2], args[3])
-        printf("Core %d, register %s: hex 0x%016x decimal %d\n", args[2], args[3], v, v)
+        printf("Core %d, register %s: hex 0x%016x decimal %d\n", args[2], REGISTER_NAMES[args[3]], v, v)
     elseif #args == 4 then
         oremote.write_register(args[2], args[3], args[4])
     else
@@ -242,9 +380,6 @@ Paramter descriptions:
         Standard unix format file name.
     <core>
         Octeon CPU core number, startign at zero.
-    <register>
-        One of the following CPU register names.
-            TBD
     <address>
         An Octeon physical memory address specified in either decimal or
         hexidecimal.
@@ -254,8 +389,21 @@ Paramter descriptions:
         A decimal or hexidecimal number representing CPU cores. Each set bit
         represents a single CPU core. For example, 0x2f represents cores 0-3
         and 5.
-]]
+    <register>
+        One of the following CPU register names.]]
     print(message)
+    local count = 0
+    for _,name in ipairs(table.sorted_values(REGISTER_NAMES)) do
+        printf("%-13s", name)
+        count = count + 1
+        if count >= 6 then
+            printf("\n")
+            count = 0
+        end
+    end
+    if count then
+        printf("\n")
+    end
 end
 
 local function parse_args()
@@ -307,7 +455,18 @@ local function parse_args()
                 end
                 table.insert(parsed, n)
             elseif word == "<register>" then
-                table.insert(parsed, arg[index]:lower())
+                local search = arg[index]:lower()
+                for num,name in pairs(REGISTER_NAMES) do
+                    if name:lower() == search then
+                        table.insert(parsed, num)
+                        search = nil
+                    end
+                end
+                if search then
+                    -- Illegal register number
+                    index = -1
+                    break
+                end
             elseif word == "<address>" then
                 if n == nil then
                     -- Illegal number
