@@ -23,6 +23,7 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 
 bdk-lua: $(src) octeon-remote-mips-asm.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	chmod 555 $@
 	- sudo chown root $@
 	- sudo chmod +s $@
 
