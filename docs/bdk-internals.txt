@@ -132,7 +132,7 @@ Yield execution to another thread.
 int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1);::
 
 Create a new thread running 'func(arg0, arg1)'. Both 'arg0' and 'arg1' can be
-anthing the application wants. The thread will run on the next 'yield'.
+anything the application wants. The thread will run on the next 'yield'.
 
 void bdk_thread_destroy(void);::
 
@@ -186,7 +186,7 @@ This is a special device representing Octeon's second uart.
 
 Read and write access to a NOR flash connected to the bootbus using
 chip select 0. If the application configures other bootbus regions to
-access NOR flash, these can be accesed through '/dev/nor/*'.
+access NOR flash, these can be accessed through '/dev/nor/*'.
 
 Abstract Network Packet API
 ---------------------------
@@ -372,7 +372,7 @@ Macro to write a CSR. Does the right thing for 'all' types of CSRs (32bit, 64bit
 BDK_CSR_MODIFY(name, csr, code_block)::
 
 Macro to make a read, modify, and write sequence easy. The 'code_block'
-should be replaced with a C code block or a comma seperated list of
+should be replaced with a C code block or a comma separated list of
 'name.s.field = value'.
 
 BDK_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)::

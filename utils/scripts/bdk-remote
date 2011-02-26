@@ -350,7 +350,7 @@ bdk-remote:
     reg <core> <register>
         Read CPU <register> for <core>.
     reg <core> <register> <value>
-        Write <value> to CPU <register> for <core>.
+        Write <value> to register <register> for CPU <core>.
 
     mem <address>
         Read eight bytes from <address>.
@@ -361,7 +361,7 @@ bdk-remote:
     mem load <filename> <address>
         Load <filename> to <address>.
     mem save <filename> <address> <length>
-        Save <length> bytes as <address> to <filename>.
+        Save <length> bytes at <address> to <filename>.
 
     profile
         Profile all cores.
@@ -371,22 +371,22 @@ bdk-remote:
     help
         Display this help.
 
-Paramter descriptions:
+Parameter descriptions:
     <csr>
         A name of a CSR, such as CIU_FUSE or CIU_INTX_SUM0(0).
     <value>
-        A numeric value specified in either decimal or hexidecimal.
+        A numeric value specified in either decimal or hexadecimal.
     <filename>
         Standard unix format file name.
     <core>
-        Octeon CPU core number, startign at zero.
+        Octeon CPU core number, starting at zero.
     <address>
         An Octeon physical memory address specified in either decimal or
-        hexidecimal.
+        hexadecimal.
     <width>
         A byte width. Must be 8, 4, 2, or 1.
     <coremask>
-        A decimal or hexidecimal number representing CPU cores. Each set bit
+        A decimal or hexadecimal number representing CPU cores. Each set bit
         represents a single CPU core. For example, 0x2f represents cores 0-3
         and 5.
     <register>

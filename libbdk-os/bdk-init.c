@@ -52,7 +52,7 @@ static void bdk_init_stage2(void)
     static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Setting up global data\n";
     static const char BANNER_3[] = "Clearing BSS\n";
-    static const char BANNER_4[] = "Transfering to thread scheduler\n";
+    static const char BANNER_4[] = "Transferring to thread scheduler\n";
 
     BDK_MT_COP0(0, COP0_USERLOCAL);
 
