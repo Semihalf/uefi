@@ -11,6 +11,7 @@ local choices = {
     "Copy file",
     "Delete file",
     "Execute Lua file",
+    "Execute binary image file",
     "Main menu",
 }
 
@@ -67,7 +68,7 @@ while (true) do
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
-            status, result = os.remove(name)
+            local status, result = os.remove(name)
             if not status then
                 printf("ERROR: %s\n", result)
             end
@@ -76,12 +77,27 @@ while (true) do
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
-            status, result = pcall(dofile, name)
+            local status, result = pcall(dofile, name)
             if not status then
                 printf("ERROR: %s\n", result)
             end
         end
     elseif (c == 6) then
+        printf("Enter filename")
+        local name = io.read()
+        if name ~= "" then
+            local paddress = octeon.c.bdk_mmap(name, 0)
+            if paddress == -1 then
+                print("ERROR: File does not support mmap()")
+            else
+                printf("Jumping to 0x%x\n", paddress)
+                local status = octeon.c.bdk_jump_address(paddress)
+                if status ~= 0 then
+                    print("ERROR: Jump didn't succeed")
+                end
+            end
+        end
+    elseif (c == 7) then
         return
     end
 end

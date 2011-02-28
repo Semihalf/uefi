@@ -32,6 +32,19 @@ static int rom_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
+uint64_t rom_mmap(const char *name, int flags)
+{
+    const bdk_fs_rom_t *ptr = bdk_fs_rom_files;
+
+    while (ptr->name && strcmp(name, ptr->name))
+        ptr++;
+
+    if (ptr->name)
+        return bdk_ptr_to_phys((void*)ptr->data);
+    else
+        return -1;
+}
+
 const __bdk_fs_ops_t bdk_fs_rom_ops =
 {
     .stat = NULL,
@@ -41,5 +54,6 @@ const __bdk_fs_ops_t bdk_fs_rom_ops =
     .lseek = NULL,
     .read = rom_read,
     .write = NULL,
+    .mmap = rom_mmap,
 };
 

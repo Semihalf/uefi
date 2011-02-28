@@ -25,5 +25,8 @@ typedef struct bdk_fs_ops_s
     int (*lseek)(__bdk_fs_file_t *handle, int64_t offset, int whence);
     int (*read)(__bdk_fs_file_t *handle, void *buffer, int length);
     int (*write)(__bdk_fs_file_t *handle, const void *buffer, int length);
+    uint64_t (*mmap)(const char *name, int flags);
 } __bdk_fs_ops_t;
 
+uint64_t bdk_mmap(const char *name, int flags);
+int bdk_jump_address(uint64_t paddress);

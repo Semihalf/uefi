@@ -117,6 +117,24 @@ static int ram_unlink(const char *name)
     return 0;
 }
 
+uint64_t ram_mmap(const char *name, int flags)
+{
+    /* Find the file */
+    ram_file_t *fptr = head;
+    while (fptr)
+    {
+        if (strcmp(name, fptr->name) == 0)
+            break;
+        fptr = fptr->next;
+    }
+
+    /* File wasn't found */
+    if (!fptr)
+        return -1;
+
+    return bdk_ptr_to_phys(fptr->data);
+}
+
 const __bdk_fs_ops_t bdk_fs_ram_ops =
 {
     .stat = NULL,
@@ -126,5 +144,6 @@ const __bdk_fs_ops_t bdk_fs_ram_ops =
     .lseek = NULL,
     .read = ram_read,
     .write = ram_write,
+    .mmap = ram_mmap,
 };
 
