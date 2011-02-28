@@ -51,7 +51,7 @@ TEXT_START=`mipsisa64-octeon-elf-objdump -t $^ | grep _ftext | sed "s/^e\([0-9a-
 	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
 	cat init+data.tmp text.tmp > $@
 	rm init.tmp data.tmp init+data.tmp text.tmp
-	$(OCTEON_ROOT)/bootloader/u-boot/tools/update_octeon_header $@ generic --text_base=0xffffffffE0000000
+	$(BDK_ROOT)/bin/bdk-update-header $@
 
 
 
