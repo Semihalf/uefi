@@ -270,7 +270,7 @@ WORD(push_number)
 {
     isp++;
     pc++;
-    *isp = (int)(*pc);
+    *isp = (int)(long)(*pc);
     pc++;
     
 }
@@ -1338,7 +1338,7 @@ return(ret);
  
 static void DEFUN_VOID(bang)
 {
-*(int *)((isp[0])) = isp[-1];
+*(int *)(long)((isp[0])) = isp[-1];
 isp-=2;
 pc++;
 
@@ -1346,7 +1346,7 @@ pc++;
 
 WORD(atsign)
 {
-    isp[0] = *(int *)(isp[0]);
+    isp[0] = *(int *)(long)(isp[0]);
     pc++;
 }
 
