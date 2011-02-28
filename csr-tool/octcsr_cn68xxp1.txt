@@ -22667,6 +22667,7 @@ The intial state of MIO_FUS_BNK_DAT* is as if bank6 was just read i.e. DAT* = fu
 ----------------------------------------------------------------------------------------------------
 ===
 
+ *DON'T PUT IN HRM*
 
      ==============================================================
      MIO_FUS_SPR_REPAIR_SUM Type=RSL
@@ -22681,6 +22682,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
+ *DON'T PUT IN HRM*
 
      ==============================================================
      MIO_FUS_SPR_REPAIR_RES Type=RSL
@@ -22954,18 +22956,18 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:32> NS           RAZ      NS          NS        Reserved				            |
- <31:16> SOFT_RST_DLY R/W      0x7ff       NS        A soft reset immediately causes an early soft  |
-                                                     reset notification.  However, the assertion of |
-						     soft reset will be delayed this many sclks.    |
-                                                     A warm/soft reset will not change this field.  |
-                                                     NOTE: This must be at least 500 dclks          |
-
-												    |
- <15:0>  WARM_RST_DLY R/W      0x7ff       NS        A warm reset immediately causes an early warm  |
+ <31:16> WARM_RST_DLY R/W      0x7ff       NS        A warm reset immediately causes an early warm  |
                                                      reset notification.  However, the assertion of |
 						     warm reset will be delayed this many sclks.    |
                                                      A warm/soft reset will not change this field.  |
                                                      NOTE: This must be at least 500 dclks          |
+												    |
+ <15:0>  SOFT_RST_DLY R/W      0x7ff       NS        A soft reset immediately causes an early soft  |
+                                                     reset notification.  However, the assertion of |
+						     soft reset will be delayed this many sclks.    |
+                                                     A warm/soft reset will not change this field.  |
+                                                     NOTE: This must be at least 500 dclks          |
+												    |
 ----------------------------------------------------------------------------------------------------
 ===
 
