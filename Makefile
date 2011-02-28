@@ -63,6 +63,6 @@ release: all
 	cp -r rom $(RELEASE_DIR)/
 	# Create release tar
 	tar -zcf "octeon-bdk-$(FULL_VERSION).tgz" $(RELEASE_DIR)
-	rm -r $(RELEASE_DIR)
+	rm -rf $(RELEASE_DIR)
 
 
