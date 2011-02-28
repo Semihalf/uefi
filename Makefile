@@ -53,7 +53,7 @@ release: all
 	# Copy host binaries
 	mkdir -p $(RELEASE_DIR)/bin
 	cp utils/scripts/bdk-remote.lua $(RELEASE_DIR)/bin/bdk-remote
-	cp utils/scripts/bdk-update-header.lua $(RELEASE_DIR)/bin/bdk-update-header
+	cp utils/scripts/bdk-update-header.py $(RELEASE_DIR)/bin/bdk-update-header
 	cp utils/bdk-lua/bdk-lua $(RELEASE_DIR)/bin/
 	# Copy target binaries
 	mkdir -p $(RELEASE_DIR)/target-bin
