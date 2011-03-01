@@ -422,8 +422,7 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x00011F0000010000ull;
-            /* Fall through */
+            return bdk_le32_to_cpu(*(uint32_t*)(octeon_pci_bar0_ptr + (address&0xffff)));
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
@@ -492,8 +491,8 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x00011F0000010000ull;
-            /* Fall through */
+            *(uint32_t*)(octeon_pci_bar0_ptr + (address&0xffff)) = bdk_cpu_to_le32(value);
+            break;
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
