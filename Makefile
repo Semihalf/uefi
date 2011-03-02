@@ -48,11 +48,13 @@ release: all
 	mkdir -p $(RELEASE_DIR)/docs
 	cp -r docs/lua $(RELEASE_DIR)/docs/
 	cp -r docs/*.html $(RELEASE_DIR)/docs/
+	cp -r docs/*.png $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
 	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
 	# Copy host binaries
 	mkdir -p $(RELEASE_DIR)/bin
 	cp utils/scripts/bdk-remote.lua $(RELEASE_DIR)/bin/bdk-remote
+	cp utils/scripts/bdk-debug.lua $(RELEASE_DIR)/bin/bdk-debug
 	cp utils/scripts/bdk-update-header.py $(RELEASE_DIR)/bin/bdk-update-header
 	cp utils/bdk-lua/bdk-lua $(RELEASE_DIR)/bin/
 	# Copy target binaries

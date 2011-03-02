@@ -62,6 +62,51 @@ Available options are:
   -        stop handling options and execute stdin
 ----
 
+bdk-debug
+~~~~~~~~~
+
+Lua scripts can be interactively debugged using the *bdk-debug*
+script.  Start your Lua scripts as follows to debug them:
+
+----
+bdk-debug <script.lua> <script arguments>
+----
+
+image::bdk-debug.png[bdk-debug screenshot]
+
+The *bdk-debug* user interface is divided into four regions.
+
+* The 'cyan' area contains the current call stack.  The active stack
+entry is in bold.  Use the *up* and *down* commands to flip through
+the stack.
+
+* The 'green' area contains all local variables in the current stack
+frame.  Note that Lua variables start their scope at the definition
+line, so functions and variables don't show up until you execute their
+definitions.
+
+* The 'blue' area contains the source code for the current stack
+context.  Breakpoints are highlighted in red.  The current line is
+shown in bold.
+
+* The uncolored region contains program and debugger output along with
+the debugger command line.
+
+.Commands supported by *bdk-debug*
+----
+help     Show this help
+s        Step into
+n        Step over
+c        Continue
+b        Insert or list breakpoints
+db       Delete breakpoint
+up       Move up the call stack
+down     Move down the call stack
+quit     Quit the debugger
+Empty line is the same as step.
+----
+
+
 bdk-remote
 ~~~~~~~~~~
 
