@@ -14,19 +14,19 @@ function menu.show(choices)
 
         -- Read a number from the user
         local c = io.read()
-    	if c then
+        if c then
             c = tonumber(c)
         end
-    	if not c then
-    	    c = 999
-    	end
+        if not c then
+            c = 999
+        end
 
         -- Validate the user's choice
-    	if (c > 0) and (c <= #choices) then
-    	    return c
-    	else
-    	    print("Invalid choice")
-    	end
+        if (c > 0) and (c <= #choices) then
+            return c
+        else
+            print("Invalid choice")
+        end
     end
 end
 

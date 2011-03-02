@@ -57,20 +57,20 @@ local function do_pack(...)
             result = result .. "n"
         elseif type(arg) == "boolean" then
             if arg then
-	            result = result .. "t"
-    	    else
-    	        result = result .. "f"
-    	    end
+                result = result .. "t"
+            else
+                result = result .. "f"
+            end
         elseif type(arg) == "number" then
             result = result .. "#" .. arg
         elseif type(arg) == "string" then
             result = result .. '"' .. arg .. '"'
         elseif type(arg) == "table" then
             result = result .. "{"
-    	    for k,v in pairs(arg) do
-    	        result = result .. do_pack(k) .. do_pack(v)
-    	    end
-    	    result = result .. "}"
+            for k,v in pairs(arg) do
+                result = result .. do_pack(k) .. do_pack(v)
+            end
+            result = result .. "}"
         else
             error("Unsupported type '" .. type(arg) .. "'")
         end
@@ -92,33 +92,33 @@ local function do_unpack(remote, start_index, str)
     -- Loop until we consume the string. We will exit early if we hit a table
     -- end marker. This is so we can recursively handle tables
     while index <= length do
-        local v			                -- Value extracted from the string
-        local c = str:sub(index,index)	-- Type char used to determine which type
-	    index = index + 1
-	    if c == "n" then	-- Nil
-	        v = nil
-	    elseif c == "t" then	-- Boolean true
-	        v = true
-	    elseif c == "f" then	-- Boolean false
-	        v = false
-	    elseif c == '"' then	-- String
+        local v                         -- Value extracted from the string
+        local c = str:sub(index,index)  -- Type char used to determine which type
+        index = index + 1
+        if c == "n" then    -- Nil
+            v = nil
+        elseif c == "t" then    -- Boolean true
+            v = true
+        elseif c == "f" then    -- Boolean false
+            v = false
+        elseif c == '"' then    -- String
             -- Find the ending quote, skipping escaped quotes
-	        local start, fin = str:find('[^\\]"', index)
-	        v = str:sub(index, fin - 1)
-	        index = fin + 1
-	    elseif c == "#" then	-- Number
+            local start, fin = str:find('[^\\]"', index)
+            v = str:sub(index, fin - 1)
+            index = fin + 1
+        elseif c == "#" then    -- Number
             -- Numbers are a sequnce of decimal digits. The protocol guarantees
             -- that either a non digit follows a number or it is at the EOL
-	        local start, fin = str:find("[0-9]+", index)
-	        v = tonumber(str:sub(index, fin))
-	        index = fin + 1
-	    elseif c == "@" then	-- Remote object
+            local start, fin = str:find("[0-9]+", index)
+            v = tonumber(str:sub(index, fin))
+            index = fin + 1
+        elseif c == "@" then    -- Remote object
             -- Remote object id is similar to a number
-	        local start, fin = str:find("[0-9]+", index)
-	        v = tonumber(str:sub(index, fin))
+            local start, fin = str:find("[0-9]+", index)
+            v = tonumber(str:sub(index, fin))
             v = remote.new(remote.inf, remote.outf, v)
-	        index = fin + 1
-	    elseif c == "{" then	-- Table begin
+            index = fin + 1
+        elseif c == "{" then    -- Table begin
             -- Tables are stored as a sequence of key value pairs ended with a
             -- "}". Call do_unpack recursively to handle these.
             local t
@@ -128,15 +128,15 @@ local function do_unpack(remote, start_index, str)
             for i=1,#t,2 do
                 v[t[i]] = t[i+1]
             end
-	    elseif c == "}" then	-- Table end
+        elseif c == "}" then    -- Table end
             -- End of table. Break out and let the caller finish the string
             break
-	    else
-	        error('Unexpected format char at ' .. (index-1) .. ' in  "' .. str .. '"')
-	    end
+        else
+            error('Unexpected format char at ' .. (index-1) .. ' in  "' .. str .. '"')
+        end
         -- Add the latest value to the end of the results
-	    result.n = result.n + 1
-	    result[result.n] = v
+        result.n = result.n + 1
+        result[result.n] = v
     end
     -- print("return do_unpack(" .. index .. ")")
     return index, result
@@ -192,7 +192,7 @@ local function rpc_new(instream, outstream, remoteid)
     meta.__call = function(self, ...) return do_remote(getmetatable(self), "c", ...) end
     meta.__index = function(self, ...) return do_remote(getmetatable(self), "[", ...) end
     meta.__newindex = function(self, ...) do_remote(getmetatable(self), "=", ...) end
-    meta.__len	= function(self) return do_remote(getmetatable(self), "#") end
+    meta.__len  = function(self) return do_remote(getmetatable(self), "#") end
     meta.__gc = function(self) do_remote(getmetatable(self), "~") end
     return object
 end
@@ -209,10 +209,10 @@ local function server_do_pack(objects, ...)
             result = result .. "n"
         elseif type(arg) == "boolean" then
             if arg then
-	            result = result .. "t"
-    	    else
-    	        result = result .. "f"
-    	    end
+                result = result .. "t"
+            else
+                result = result .. "f"
+            end
         elseif type(arg) == "number" then
             result = result .. "#" .. arg
         elseif type(arg) == "string" then
@@ -220,16 +220,16 @@ local function server_do_pack(objects, ...)
         else
             -- Try and treat any other types as generic remote objects
             -- All accesses to them will cause RPC calls
-	        local id
-	        if objects[arg] then
+            local id
+            if objects[arg] then
                 local obj_info = objects[arg]
                 id = obj_info[1]
                 obj_info[2] = obj_info[2] + 1
-	        else
-   	            id = #objects + 1
-	            objects[id] = arg
-	            objects[arg] = {id, 1}
-	        end
+            else
+                id = #objects + 1
+                objects[id] = arg
+                objects[arg] = {id, 1}
+            end
             result = result .. "@" .. id
         end
     end

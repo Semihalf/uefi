@@ -5,7 +5,7 @@
 
 local write=io.write
 
-ALIVE="O"	DEAD="-"
+ALIVE="O"   DEAD="-"
 
 function delay() -- NOTE: SYSTEM-DEPENDENT, adjust as necessary
 end
@@ -92,16 +92,16 @@ function LIFE(w,h)
 
   -- run until break
   local gen=1
-  write("\027[2J")	-- ANSI clear screen
+  write("\027[2J")  -- ANSI clear screen
   while 1 do
     thisgen:evolve(nextgen)
     thisgen,nextgen = nextgen,thisgen
-    write("\027[H")	-- ANSI home cursor
+    write("\027[H") -- ANSI home cursor
     thisgen:draw()
     write("Life - generation ",gen,", mem ", string.format("%3d",collectgarbage('count')), " kB\n")
     gen=gen+1
     if gen>2000 then break end
-    --delay()		-- no delay
+    --delay()       -- no delay
   end
 end
 
