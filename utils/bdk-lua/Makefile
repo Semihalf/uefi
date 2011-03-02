@@ -4,7 +4,7 @@
 CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -DLUA_USE_LINUX -D_GNU_SOURCE
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99 -march=i686 -m32
 ASFLAGS = $(CFLAGS)
-LDFLAGS = -lreadline -lm -ldl
+LDFLAGS = -static -lreadline -lncurses -lm -ldl
 
 #
 # These are the directories where source files are found
@@ -22,7 +22,7 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-csrs.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 
 bdk-lua: $(src) octeon-remote-mips-asm.o
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	chmod 555 $@
 	- sudo chown root $@
 	- sudo chmod +s $@
