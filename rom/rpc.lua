@@ -7,40 +7,72 @@
 
 require("strict")
 
+local function getconnection(stream, is_input)
+    local f
+    if type(stream) == "string" then
+        if stream:find(":") then
+            f = {}
+            function f:read(arg)
+                local r, message = self.s:receive(arg)
+                if not r then
+                    error("socket:receive(): " .. message)
+                end
+                return r
+            end
+            function f:write(arg)
+                local status, message = self.s:send(arg)
+                if not status then
+                    error("socket:send(): " .. message)
+                end
+            end
+            function f:flush(arg)
+                -- Do nothing
+            end
+
+            local socket = require("socket")
+            f.s = socket.tcp()
+            local sep = stream:find(":")
+            local host = stream:sub(1,sep-1)
+            local port = tonumber(stream:sub(sep+1))
+            f.s:setoption("tcp-nodelay", true)
+            local status, message = f.s:connect(host, port)
+            if not status then
+                error("socket:connect(): " .. message)
+            end
+        else
+            -- Open for RW in case we are running over Pipes. Linux pipes
+            -- block until someone connects to the other side unless the
+            -- pipe is openned RW.
+            f = io.open(stream, "r+b")
+            if not f then
+                error("Failed to open file " .. stream)
+            end
+        end
+    elseif not stream then
+        if is_input then
+            f = io.stdin
+        else
+            f = io.stdout
+        end
+    else
+        f = stream
+    end
+    return f
+end
+
 --
 -- Convert user supplied streams or file names into an input and output
 -- file descriptor.
 --
 local function connectStreams(instream, outstream)
     local inf, outf
-    if type(instream) == "string" then
-        -- Open for RW in case we are running over Pipes. Linux pipes
-        -- block until someone connects to the other side unless the
-        -- pipe is openned RW.
-        inf = io.open(instream, "r+b")
-    elseif not instream then
-        -- Embedded devices tend to mix RPC over the normal console
-        inf = io.stdin
+    inf = getconnection(instream, true)
+    if outstream then
+        outf = getconnection(outstream, false)
     else
-        inf = instream
-    end
-
-    -- If no output stream was supplied assume we should use the same one
-    -- as input. Useful for sockets and hardware devices.
-    if not outstream then
-        outstream = instream
-    end
-
-    if type(outstream) == "string" then
-        -- Open for RW in case we are running over Pipes. Linux pipes
-        -- block until someone connects to the other side unless the
-        -- pipe is openned RW.
-        outf = io.open(outstream, "r+b")
-    elseif not outstream then
-        -- Embedded devices tend to mix RPC over the normal console
-        outf = io.stdout
-    else
-        outf = outstream
+        -- If no output stream was supplied assume we should use the same one
+        -- as input. Useful for sockets and hardware devices.
+        outf = inf
     end
     return inf, outf
 end

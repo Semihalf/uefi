@@ -880,8 +880,8 @@ can solve this issue.
 
 rpc.connect(instream, outstream)::
 Create a RPC connection to a remote Octeon.
-* instream = Lua IO stream for input, or a filename to open. (Example: `/dev/ttyS0`)
-* outstream = Lua IO stream for output, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
+* instream = Lua IO stream for input, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`)
+* outstream = Lua IO stream for output, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
 * Return value is an RPC object to make calls with.
 
 rpc.serve(instream, outstream)::
