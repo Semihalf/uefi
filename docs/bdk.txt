@@ -375,6 +375,7 @@ control and testing of Octeon based hardware.
 |io			|link:lua/manual.html#6.8[]
 |os			|link:lua/manual.html#6.9[]
 |debug			|link:lua/manual.html#6.10[]
+|socket			|link:luasocket/introduction.html[]
 |==========================================================================
 
 Host Modules Specific to Octeon

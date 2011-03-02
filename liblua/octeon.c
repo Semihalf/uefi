@@ -507,6 +507,12 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
+#else
+    extern int luaopen_socket_core(lua_State *L);
+    luaL_findtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
+    lua_pushcfunction(L, luaopen_socket_core);
+    lua_setfield(L, -2, "socket");
+    lua_pop(L, 1);  /* remove _PRELOAD table */
 #endif
     return 1;
 }

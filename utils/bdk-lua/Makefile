@@ -6,11 +6,15 @@ CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99 -march=i686 -m32
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -static -lreadline -lncurses -lm -ldl
 
+# These are needed for luasocket to compile cleanly
+CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
+
 #
 # These are the directories where source files are found
 #
 dirs = liblua
 dirs += utils/bdk-lua
+dirs += utils/bdk-lua/libluasocket
 
 #
 # Create a list of all source files

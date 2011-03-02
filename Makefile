@@ -47,6 +47,7 @@ release: all
 	# Copy Docs
 	mkdir -p $(RELEASE_DIR)/docs
 	cp -r docs/lua $(RELEASE_DIR)/docs/
+	cp -r docs/luasocket $(RELEASE_DIR)/docs/
 	cp -r docs/*.html $(RELEASE_DIR)/docs/
 	cp -r docs/*.png $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
