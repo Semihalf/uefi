@@ -544,6 +544,13 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         BDK_CSR_WRITE(BDK_SRIOX_TX_CTRL(srio_port), sriox_tx_ctrl.u64);
     }
 
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+    {
+        /* Clear the ACK state */
+        if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port), 0))
+            return -1;
+    }
+
     /* Bring the link down, then up, by writing to the SRIO port's PORT_0_CTL2 CSR. */
     bdk_sriomaintx_port_0_ctl2_t port_0_ctl2;
     if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), &port_0_ctl2.u32))
@@ -569,8 +576,8 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         sli_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
         sli_mem_access_ctl.s.timer = 127);      /* Wait up to 127 cycles for more data */
 
-    /* Ask for a link and align our ACK state. CN63XXp1 didn't support this */
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+    /* FIXME: Ask for a link and align our ACK state. CN63XXp1 didn't support this */
+    if (0 && !OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
     {
         uint64_t stop_cycle;
         bdk_sriomaintx_port_0_err_stat_t sriomaintx_port_0_err_stat;
@@ -580,9 +587,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         do
         {
             /* Read the port link status */
-            if (bdk_srio_config_read32(srio_port, 0, -1, 0, 0,
-                BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port),
-                &sriomaintx_port_0_err_stat.u32))
+            if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port), &sriomaintx_port_0_err_stat.u32))
                 return -1;
         } while (!sriomaintx_port_0_err_stat.s.pt_ok && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
 
@@ -595,18 +600,14 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
             link_req.s.cmd = 4;
 
             /* Send the request */
-            if (bdk_srio_config_write32(srio_port, 0, -1, 0, 0,
-                BDK_SRIOMAINTX_PORT_0_LINK_REQ(srio_port),
-                link_req.u32))
+            if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_LINK_REQ(srio_port), link_req.u32))
                 return -1;
 
             /* Wait for the response */
             stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/8 + bdk_clock_get_count(BDK_CLOCK_CORE);
             do
             {
-                if (bdk_srio_config_read32(srio_port, 0, -1, 0, 0,
-                    BDK_SRIOMAINTX_PORT_0_LINK_RESP(srio_port),
-                    &link_resp.u32))
+                if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_LINK_RESP(srio_port), &link_resp.u32))
                     return -1;
             } while (!link_resp.s.valid && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
 
@@ -618,9 +619,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
                 local_ackid.s.i_ackid = 0;
                 local_ackid.s.e_ackid = link_resp.s.ackid;
                 local_ackid.s.o_ackid = link_resp.s.ackid;
-                if (bdk_srio_config_write32(srio_port, 0, -1, 0, 0,
-                    BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port),
-                    local_ackid.u32))
+                if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port), local_ackid.u32))
                     return -1;
             }
         }
