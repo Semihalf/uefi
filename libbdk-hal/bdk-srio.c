@@ -373,7 +373,10 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     /* Disable the link while we make changes */
     if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), &port_0_ctl.u32))
         return -1;
-    port_0_ctl.s.disable = 1;
+    port_0_ctl.s.o_enable = 0;
+    port_0_ctl.s.i_enable = 0;
+    port_0_ctl.s.prt_lock = 1;
+    port_0_ctl.s.disable = 0;
     if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), port_0_ctl.u32))
         return -1;
 
@@ -468,7 +471,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
 
     /* Errata SRIO-15351: Turn off SRIOMAINTX_MAC_CTRL[TYPE_MRG] as it may
         cause packet ACCEPT to be lost */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
     {
         bdk_sriomaintx_mac_ctrl_t mac_ctrl;
         if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_MAC_CTRL(srio_port), &mac_ctrl.u32))
@@ -540,6 +543,13 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         sriox_tx_ctrl.s.tag_th0 = 4;
         BDK_CSR_WRITE(BDK_SRIOX_TX_CTRL(srio_port), sriox_tx_ctrl.u64);
     }
+
+    /* Bring the link down, then up, by writing to the SRIO port's PORT_0_CTL2 CSR. */
+    bdk_sriomaintx_port_0_ctl2_t port_0_ctl2;
+    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), &port_0_ctl2.u32))
+        return -1;
+    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), port_0_ctl2.u32))
+        return -1;
 
     /* Clear any pending interrupts */
     BDK_CSR_WRITE(BDK_SRIOX_INT_REG(srio_port), BDK_CSR_READ(BDK_SRIOX_INT_REG(srio_port)));
