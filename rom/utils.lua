@@ -172,6 +172,10 @@ function hexdump(f)
     end
 end
 
+function isglobal(name)
+    return rawget(_G, name) ~= nil
+end
+
 
 --
 -- Needed for compatibility with Lua 5.1

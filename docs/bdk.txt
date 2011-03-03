@@ -973,6 +973,29 @@ hexdump(file_handle)::
 Hex dump a file.  "file_handle" is a file handle, not a name.  You can
 do a seek before calling this to skip the start of the file.
 
+isglobal(variable_name)::
+
+Determine if a global variable is defined. Use this function to check if
+a global is defiend without setting off the *strict* module checking. This
+is a useful to automatically switch to RPC when running remotely.
+* variable_name = String name of a variable to check.
+* Returns true if the global exists, false if it doesn't exist.
++
+[source,lua]
+----
+local csr
+if isglobal("octeon") then
+    -- We're running natively on Octeon
+    csr = octeon.csr
+else
+    -- We're running remotely. Assume arg[1] is where we should connect to
+    local rpc = require("rpc")
+    local remote = rpc.connect(arg[1])
+    csr = remote.octeon.csr
+end
+print(csr.CIU_FUSE.FUSE)
+----
+
 
 Lua Scripting Tips
 ------------------
@@ -1030,7 +1053,7 @@ advantage to make scripts portable between the host and target.
 ----
 require("utils")
 local csr
-if _G["octeon"] then
+if isglobal("octeon") then
     csr = octeon.csr
 else
     csr = oremote.csr
