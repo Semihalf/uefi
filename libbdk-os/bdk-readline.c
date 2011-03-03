@@ -836,6 +836,14 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
             else
                 c = BDK_CSR_READ(BDK_MIO_UARTX_RBR(uart_id));
         } while (!c);
+
+        if ((cmd_len == 0) && (c == '$'))
+        {
+            extern void __bdk_rpc_serve(void);
+            __bdk_rpc_serve();
+            continue;
+        }
+
         const char *result = process_input(c);
         if (result)
         {

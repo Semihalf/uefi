@@ -283,18 +283,25 @@ end
 --
 -- Create a RPC server
 --
-function rpc.serve(instream, outstream)
+function rpc.serve(instream, outstream, only_one)
     local inf, outf = connectStreams(instream, outstream)
     -- We keep a table of all objects that remote connections have a ref_id
     -- to. We can't let these objects garbage collect until all references are
     -- gone. The objects table is accessed either by reference number or
     -- the actual object. The reference number returns the object. The object
     -- returns a tuple containing the ref_id and the reference count.
-    local objects = {}
-    objects[0] = _G
-    objects[_G] = {0, 1}
+    if not rpc.objects then
+        rpc.objects = {}
+        rpc.objects[0] = _G
+        rpc.objects[_G] = {0, 1}
+    end
     while true do
-        local dollar = inf:read(1)
+        local dollar
+        if only_one then
+            dollar = "$"
+        else
+            dollar = inf:read(1)
+        end
         if dollar == "$" then
             -- Read the command
             local command = inf:read(1)
@@ -302,7 +309,7 @@ function rpc.serve(instream, outstream)
             local line = inf:read()
 
             -- Convert the command into an object reference and arguments
-            local object = objects[obj]
+            local object = rpc.objects[obj]
             local _, args = do_unpack(nil, 1, line)
             local result = {}
             result.n = 0
@@ -318,24 +325,29 @@ function rpc.serve(instream, outstream)
                 result[1] = #object
                 result.n = 1
             elseif command == "~" then  -- Delete reference to object
-                local obj_info = objects[object]
+                local obj_info = rpc.objects[object]
                 obj_info[2] = obj_info[2] - 1
                 if obj_info[2] == 0 then
                     -- All references are gone, allow garbage collection
-                    objects[object] = nil
-                    objects[obj] = nil
+                    rpc.objects[object] = nil
+                    rpc.objects[obj] = nil
                 end
             else
                 error ("Illegal remote command " .. command)
             end
             -- Write the response and flush it
-            outf:write("$" .. server_do_pack(objects, table.unpack(result, 1, result.n)) .. "\n")
+            outf:write("$" .. server_do_pack(rpc.objects, table.unpack(result, 1, result.n)) .. "\n")
             outf:flush()
+            if only_one then
+                break
+            end
         else
             -- Not a command, just echo out extra junk
             io.write(dollar)
         end
     end
+    inf:close()
+    outf:close()
 end
 
 --
