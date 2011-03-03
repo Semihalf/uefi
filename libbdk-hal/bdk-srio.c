@@ -355,7 +355,9 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         {
             prst.s.soft_prst = 0;
             BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, prst.u64);
-            bdk_wait_usec(10000); /* 10ms for new link to stabalize */
+            /* Wait up to 250ms for the port to come out of reset */
+            if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                return -1;
         }
     }
     else
@@ -366,7 +368,9 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         {
             prst.s.soft_prst = 0;
             BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, prst.u64);
-            bdk_wait_usec(10000); /* 10ms for new link to stabalize */
+            /* Wait up to 250ms for the port to come out of reset */
+            if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                return -1;
         }
     }
 
