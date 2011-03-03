@@ -306,7 +306,12 @@ Octeon ebb6300# go 0x400000
 Interactive Lua on the Octeon Target
 ------------------------------------
 
-TBD
+The target side binary *bdk-boot.bin* supplies a text menu based
+interface to board diagnostic functions.  Each menu expects a numeric
+input selecting a valid choice from the list of options.  Generally
+the last menu choice returns to the previous menu.  The entire
+interactive menu interface is written in Lua for easy expansibility.
+The source for the menus can be found in the *rom* directory.
 
 .Main Menu
 ----
@@ -332,6 +337,11 @@ Copyright (C) 2010-2011 Cavium Networks
 8       Reboot
 (0INS)>
 ----
+
+TIP: Any prompt supporting line editing in *bdk-boot.bin* also
+supports RPC calls.  Whenever *bdk-boot.bin* is waiting for user
+input, you can send a RPC request and get a response.
+
 
 Line Editing
 ~~~~~~~~~~~~
@@ -877,6 +887,10 @@ objects.  Since the RPC server can't free objects until the client
 releases all references, this can cause the client to run out of
 memory.  Simply calling *collectgarbage()* in the client periodically
 can solve this issue.
+
+TIP: Any prompt supporting line editing in *bdk-boot.bin* also
+supports RPC calls.  Whenever *bdk-boot.bin* is waiting for user
+input, you can send a RPC request and get a response.
 
 rpc.connect(instream, outstream)::
 Create a RPC connection to a remote Octeon.
