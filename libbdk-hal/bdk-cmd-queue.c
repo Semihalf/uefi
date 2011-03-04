@@ -5,7 +5,7 @@
  * allocated and the hardware unit is configured to point to the
  * new command queue.
  *
- * @param queue_id  Hardware command queue to initialize.
+ * @param qstate    Hardware command queue to initialize.
  * @param fpa_pool  FPA pool the command queues should come from.
  * @param pool_size Size of each buffer in the FPA pool (bytes)
  *
@@ -39,7 +39,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate, i
  * hardware connected to the queue must be stopped before this
  * function is called.
  *
- * @param queue_id Queue to shutdown
+ * @param qptr Queue to shutdown
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
@@ -63,7 +63,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_state_t *qptr)
  * for initial hardware setup. User applications should not call this
  * function directly.
  *
- * @param queue_id Command queue to query
+ * @param qptr Command queue to query
  *
  * @return Command buffer or NULL on failure
  */

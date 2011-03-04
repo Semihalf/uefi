@@ -13,3 +13,8 @@ clean:
 
 api-docs: Doxyfile
 	doxygen
+
+.PHONY: copy
+copy:
+	rm -rf /var/www/bdk/*
+	cp -r *.html *.png api-docs lua* /var/www/bdk/
