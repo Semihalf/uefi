@@ -6,6 +6,13 @@
 --
 
 require("strict")
+local debug = require("debug")
+
+--
+-- Table to contain our module
+--
+local rpc = {}
+rpc.debug = false
 
 local function getconnection(stream, is_input)
     local f
@@ -180,7 +187,9 @@ end
 local function do_remote(remote, command, ...)
     -- Build the remote command string
     local line = "$" .. command .. remote.remoteid .. do_pack(...)
-    -- print(line)
+    if rpc.debug then
+        print("[RPC Request]" .. line)
+    end
     -- Send the string and flush to make sure it goes immediately
     remote.outf:write(line .. "\n")
     remote.outf:flush()
@@ -204,6 +213,9 @@ local function do_remote(remote, command, ...)
             io.write(line .. "\n")
         end
     until d
+    if rpc.debug then
+        print("[RPC Reply]" .. line)
+    end
     -- Convert the response to Lua data structures
     local len, r = do_unpack(remote, d+1, line)
     -- Make sure we consumed all the input
@@ -269,11 +281,6 @@ local function server_do_pack(objects, ...)
 end
 
 --
--- Table to contain our module
---
-local rpc = {}
-
---
 -- Create a new RPC connection to a remote rpc.serve
 --
 function rpc.connect(instream, outstream)
@@ -283,8 +290,7 @@ end
 --
 -- Create a RPC server
 --
-function rpc.serve(instream, outstream, only_one)
-    local inf, outf = connectStreams(instream, outstream)
+local function rpc_serve(inf, outf, only_one)
     -- We keep a table of all objects that remote connections have a ref_id
     -- to. We can't let these objects garbage collect until all references are
     -- gone. The objects table is accessed either by reference number or
@@ -292,8 +298,8 @@ function rpc.serve(instream, outstream, only_one)
     -- returns a tuple containing the ref_id and the reference count.
     if not rpc.objects then
         rpc.objects = {}
-        rpc.objects[0] = _G
-        rpc.objects[_G] = {0, 1}
+        rpc.objects[0] = _ENV
+        rpc.objects[_ENV] = {0, 1}
     end
     while true do
         local dollar
@@ -307,6 +313,10 @@ function rpc.serve(instream, outstream, only_one)
             local command = inf:read(1)
             local obj = inf:read("*n")
             local line = inf:read()
+
+            if rpc.debug then
+                printf("[RPC Command=%s, object=%d]\n", command, obj)
+            end
 
             -- Convert the command into an object reference and arguments
             local object = rpc.objects[obj]
@@ -327,7 +337,7 @@ function rpc.serve(instream, outstream, only_one)
             elseif command == "~" then  -- Delete reference to object
                 local obj_info = rpc.objects[object]
                 obj_info[2] = obj_info[2] - 1
-                if obj_info[2] == 0 then
+                if (obj ~= 0) and (obj_info[2] == 0) then
                     -- All references are gone, allow garbage collection
                     rpc.objects[object] = nil
                     rpc.objects[obj] = nil
@@ -335,8 +345,9 @@ function rpc.serve(instream, outstream, only_one)
             else
                 error ("Illegal remote command " .. command)
             end
+            line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
-            outf:write("$" .. server_do_pack(rpc.objects, table.unpack(result, 1, result.n)) .. "\n")
+            outf:write("$" .. line .. "\n")
             outf:flush()
             if only_one then
                 break
@@ -346,8 +357,22 @@ function rpc.serve(instream, outstream, only_one)
             io.write(dollar)
         end
     end
+end
+
+--
+-- Create a RPC server
+--
+function rpc.serve(instream, outstream, only_one)
+    local inf, outf = connectStreams(instream, outstream)
+    local status, message = xpcall(rpc_serve, debug.traceback, inf, outf, only_one)
     inf:close()
-    outf:close()
+    if inf ~= outf then
+        outf:close()
+    end
+    if not status then
+        print(message)
+        rpc.objects = nil
+    end
 end
 
 --

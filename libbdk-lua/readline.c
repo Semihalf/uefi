@@ -22,9 +22,7 @@ static int readline(lua_State* L)
 void __bdk_rpc_serve(void)
 {
     lua_State *L = globalL;
-    lua_getglobal(L, "require");
-    lua_pushstring(L, "rpc");
-    lua_call(L, 1, 1);
+    lua_getglobal(L, "rpc");
     lua_getfield(L, -1, "serve");
     lua_pushstring(L, "/dev/uart/0");
     lua_pushstring(L, "/dev/uart/0");

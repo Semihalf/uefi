@@ -4,6 +4,7 @@
 require("strict")
 require("utils")
 require("menu")
+declareGlobal("rpc", require("rpc"))
 
 -- Do board specific setup
 dofile("/rom/board-ebb6300.lua")
@@ -30,7 +31,6 @@ while (true) do
     elseif (c == 6) then
         print("Starting remote call server.")
         print("Reset to exit.")
-        local rpc = require("rpc")
         rpc.serve("/dev/uart/0")
     elseif (c == 7) then
         dofile("/rom/trafficgen.lua")
