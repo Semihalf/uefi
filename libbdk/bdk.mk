@@ -14,6 +14,12 @@ AS=$(CROSS)as
 LD=$(CROSS)ld
 RANLIB=$(CROSS)ranlib
 STRIP=$(CROSS)strip
+SIM=cn63xx
+ifeq ($(shell uname -m),x86_64)
+    SIMULATOR=$(SIM)-simulator64
+else
+    SIMULATOR=$(SIM)-simulator
+endif
 
 #
 # Setup the compile flags

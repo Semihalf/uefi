@@ -10,5 +10,5 @@ tftp: bdk-boot.bin
 	cp bdk-boot.bin /tftpboot/
 
 run: bdk-boot.bin
-	cn63xx-simulator64 -ld0x1fc00000:bdk-boot -ld0x1fc00000:bdk-boot.bin -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
+	$(SIMULATOR) -ld0x1fc00000:bdk-boot -ld0x1fc00000:bdk-boot.bin -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
 
