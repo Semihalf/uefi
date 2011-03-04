@@ -276,6 +276,11 @@ for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle != NULL; handle = b
 Creating a standalone application
 ---------------------------------
 
+Building BDK applications also requires the SDK tools (OCTEON specific
+compiler, linker, libraries, and other tools) which need another set of
+environment variables. To set these up, run the SDK's env-setup script
+with the appropriate arguments (see the SDK documentation for  details).
+
 Code
 ~~~~
 
