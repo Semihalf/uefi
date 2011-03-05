@@ -57,7 +57,11 @@ local function pprint_str(param, indent, visited)
             local key = keys[k]
             local value = param[key]
             if (type(value) == "table") and visited[value] then
-                result = "%s%s%s = {...}\n" % {result, table_indent, key}
+                if type(key) == "number" then
+                    result = "%s%s[%d] = {...}\n" % {result, table_indent, key}
+                else
+                    result = "%s%s%s = {...}\n" % {result, table_indent, key}
+                end
             elseif type(key) == "number" then
                 result = "%s%s[%d] = %s\n" % {result, table_indent, key, pprint_str(value, table_indent, visited)}
             else
