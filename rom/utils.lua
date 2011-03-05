@@ -49,16 +49,10 @@ local function pprint_str(param, indent, visited)
     elseif type(param) == "thread" then
         return "thread (%s)" % param:status()
     elseif type(param) == "table" then
-        local count = 0
-        local keys = {}
-        for k in pairs(param) do
-            count = count + 1
-            keys[count] = k
-        end
-        table.sort(keys)
+        local keys = table.sorted_keys(param)
         visited[param] = 1
         local result = "{\n"
-        for k=1, count do
+        for k=1, #keys do
             local table_indent = indent .. "    "
             local key = keys[k]
             local value = param[key]
@@ -98,6 +92,16 @@ function pprint(...)
     print(r)
 end
 
+local function compare(a,b)
+    local na = tonumber(a)
+    local nb = tonumber(b)
+    if na and nb then
+        return na < nb
+    else
+        return tostring(a) < tostring(b)
+    end
+end
+
 --
 -- Return a table's keys in sorted order
 --
@@ -106,7 +110,7 @@ function table.sorted_keys(tbl)
     for k,_ in pairs(tbl) do
         table.insert(result, k)
     end
-    table.sort(result)
+    table.sort(result, compare)
     return result
 end
 
@@ -118,7 +122,7 @@ function table.sorted_values(tbl)
     for _,v in pairs(tbl) do
         table.insert(result, v)
     end
-    table.sort(result)
+    table.sort(result, compare)
     return result
 end
 
