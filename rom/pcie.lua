@@ -532,7 +532,7 @@ function pcie.initialize(pcie_port)
     --
     function pcie_root:shutdown()
         local status = c_func.bdk_pcie_rc_shutdown(self.port)
-        if status ~= 1 then
+        if status ~= 0 then
             error("bdk_pcie_rc_shutdown() failed")
         end
     end
@@ -547,4 +547,6 @@ if not isglobal("octeon") then
         pcie_root:display()
     end
 end
+
+return pcie
 

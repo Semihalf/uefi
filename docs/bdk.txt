@@ -997,6 +997,95 @@ end
 print(csr.CIU_FUSE.FUSE)
 ----
 
+pcie
+^^^^
+
+The *pcie* module provides access to PCIe bus initialization, scanning,
+and enumeration to Lua scripts.  The function *pcie.initialize(port)*
+returns a *pcie_root* object.  This object can then be used to perform
+operations on the PCIe port.
+
+pcie_root = pcie.initialize(pcie_port)::
+
+Initialize a PCIe root complex port and bring the link up.  The return
+value is a *pcie_root* object for use in the calls below.
+* pcie_port = Hardware port to initialize (0 - 1)
+* Returns a pcie_port object or throws an error on failure
+
+pcie_root:scan()::
+
+Scan a PCIe root complex for all devices attached.
+
+pcie_root:enumerate()::
+
+Assign address regions and other resources to all device on the PCIe
+root complex.  If *scan()* has not already been called, a device scan
+will be performed before enumeration.
+
+pcie_root:display()::
+
+Display all devices on the PCIe root complex in a human readable
+format.
+
+pcie_root:get_devices()::
+
+Get an array containing all devices on the PCIe root complex.  Each
+*pcie_device* in the array is a PCIe function directly connected to
+Octeon.  If the device is a bridge/switch then *pcie_device.isbridge*
+will be *true* and *pcie_device.devices* will be an array containing
+all children of the device.
+
+pcie_root:shutdown()::
+
+Shutdown a PCIe root complex.
+
+value = pcie_device:read8(config_register)::
+
+Read an 8 bit PCIe config register and return its value.
+* config_register = Register address to read.
+* Returns the register's value.
+
+value = pcie_device:read16(config_register)::
+
+Read a 16 bit PCIe config register and return its value.
+* config_register = Register address to read.
+* Returns the register's value.
+
+value = pcie_device:read32(config_register)::
+
+Read a 32 bit PCIe config register and return its value.
+* config_register = Register address to read.
+* Returns the register's value.
+
+pcie_device:write8(config_register, value)::
+
+Write an 8 bit PCIe config register.
+* config_register = Register address to write.
+* value = Value to write.
+* No return value.
+
+pcie_device:write16(config_register, value)::
+
+Write a 16 bit PCIe config register.
+* config_register = Register address to write.
+* value = Value to write.
+* No return value.
+
+pcie_device:write32(config_register, value)::
+
+Write a 32 bit PCIe config register.
+* config_register = Register address to write.
+* value = Value to write.
+* No return value.
+
+pcie_device:display()::
+
+Display a device and all of its children.
+
+pcie_device:isbridge::
+
+Set to *true* if the device is a switch or bridge, otherwise set to *false*.
+
 
 Lua Scripting Tips
 ------------------
