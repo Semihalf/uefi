@@ -28,7 +28,7 @@ while (true) do
     elseif (c == 2) then
         dofile("/rom/flash.lua")
     elseif (c == 3) then
-        print("Not implemented yet")
+        dofile("/rom/ddr_menu.lua")
     elseif (c == 4) then
         print("Not implemented yet")
     elseif (c == 5) then

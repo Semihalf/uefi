@@ -1,5 +1,5 @@
 
--- BDK File menu
+-- BDK PCIe menu
 
 require("strict")
 require("utils")
