@@ -51,7 +51,7 @@ static int __bdk_dram_test_sequencial_write_read(uint64_t start_address, uint64_
 {
     int errors = 0;
     uint64_t *start = bdk_phys_to_ptr(start_address);
-    uint64_t *end = start + length;
+    uint64_t *end = start + length/8;
     uint64_t *ptr;
 
     /* Fill the memory with its addresses */
