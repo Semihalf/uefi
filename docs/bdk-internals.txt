@@ -188,6 +188,22 @@ Read and write access to a NOR flash connected to the bootbus using
 chip select 0. If the application configures other bootbus regions to
 access NOR flash, these can be accessed through '/dev/nor/*'.
 
+/dev/mem::
+
+Read and write access to DRAM.  The file location is a raw physical
+address.
+
+/dev/pcie/0::
+
+Read and write access to memory on PCIe port 0.  The file location is a raw
+PCIe bus address.
+
+/dev/pcie/1::
+
+Read and write access to memory on PCIe port 1.  The file location is a raw
+PCIe bus address.
+
+
 Abstract Network Packet API
 ---------------------------
 
