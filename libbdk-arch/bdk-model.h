@@ -64,8 +64,13 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK);
         case __OM_IGNORE_MINOR_REVISION:
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK | OCTEON_FAMILY_MAJOR_REV_MASK);
-        default:
+        case 0:
             return __OCTEON_MATCH_MASK__(chip_model, arg_model, OCTEON_FAMILY_MASK | OCTEON_FAMILY_MAJOR_REV_MASK | OCTEON_FAMILY_MINOR_REV_MASK);
+        case 0x40000000: /* FIXME: Match all cn6XXX Octeon models from SDK. Needed for lib_octeon_shared */
+            return 1;
+        default:
+            //bdk_error("OCTEON_IS_MODEL: Unexpected flags 0x%08x\n", arg_model & __OM_FLAG_MASK);
+            return 0;
     }
     return 0;
 }

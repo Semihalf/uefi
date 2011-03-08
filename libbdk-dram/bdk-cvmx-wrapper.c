@@ -45,3 +45,7 @@ int cvmx_l2c_set_hw_way_partition(uint32_t mask)
     return bdk_l2c_set_hw_way_partition(mask);
 }
 
+int bdk_is_model_wrapper(unsigned int arg_model)
+{
+    return OCTEON_IS_MODEL(arg_model);
+}

@@ -1,7 +1,6 @@
 #include <stdint.h>
 
-#define OCTEON_MODEL OCTEON_CN38XX_PASS2
-
+#include "bdk_lib_octeon_shared.h"
 #include "cvmx.h"
 #include "lib_octeon_shared.h"
 
