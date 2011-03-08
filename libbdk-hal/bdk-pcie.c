@@ -319,12 +319,15 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bdk_sriox_status_reg_t sriox_status_reg;
     bdk_pemx_bar1_indexx_t bar1_index;
 
-    /* Make sure this interface isn't SRIO */
-    sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(pcie_port));
-    if (sriox_status_reg.s.srio)
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
-        bdk_dprintf("PCIe: Port %d is SRIO, skipping.\n", pcie_port);
-        return -1;
+        /* Make sure this interface isn't SRIO */
+        sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(pcie_port));
+        if (sriox_status_reg.s.srio)
+        {
+            bdk_dprintf("PCIe: Port %d is SRIO, skipping.\n", pcie_port);
+            return -1;
+        }
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
