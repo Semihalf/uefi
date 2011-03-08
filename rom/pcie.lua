@@ -86,13 +86,13 @@ local function create_device(root, bus, deviceid, func)
     -- PCIe config space reads
     --
     function newdev:read8(reg)
-        return bit32.AND(configr8(self.root.port, self.bus, self.deviceid, self.func, reg), 0xff)
+        return bit64.band(configr8(self.root.port, self.bus, self.deviceid, self.func, reg), 0xff)
     end
     function newdev:read16(reg)
-        return bit32.AND(configr16(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffff)
+        return bit64.band(configr16(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffff)
     end
     function newdev:read32(reg)
-        return bit32.AND(configr32(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffffffff)
+        return bit64.band(configr32(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffffffff)
     end
 
     --
@@ -174,22 +174,22 @@ local function create_device(root, bus, deviceid, func)
         while bar < max_bar do
             self:write32(bar, 0xffffffff)
             local v = self:read32(bar)
-            local ismem = not bit32.TEST(v, 1)
-            local is64 = ismem and bit32.TEST(v, 4)
-            local ispref = ismem and bit32.TEST(v, 8)
+            local ismem = not bit64.btest(v, 1)
+            local is64 = ismem and bit64.btest(v, 4)
+            local ispref = ismem and bit64.btest(v, 8)
             if is64 then
                 self:write32(bar+4, 0xffffffff)
                 v = self:read32(bar+4) * 2^32 + v
             end
             if v ~= 0 then
                 if ispref then
-                    local size = bit32.NOT(bit32.AND(v, -16)) + 1
+                    local size = bit64.bnot(bit64.band(v, -16)) + 1
                     table.insert(pmem_bars, {self, bar, size, v})
                 elseif ismem then
-                    local size = bit32.NOT(bit32.AND(v, -16)) + 1
+                    local size = bit64.bnot(bit64.band(v, -16)) + 1
                     table.insert(mem_bars, {self, bar, size, v})
                 else
-                    local size = bit32.NOT(bit32.AND(v, -4)) + 1
+                    local size = bit64.bnot(bit64.band(v, -4)) + 1
                     table.insert(io_bars, {self, bar, size, v})
                 end
             end
@@ -215,18 +215,18 @@ local function create_device(root, bus, deviceid, func)
                 local device, bar_addr, size, barv = table.unpack(bar)
                 if device then
                     if bar_table == io_bars then
-                        if bit32.AND(io_address, size - 1) then
+                        if bit64.band(io_address, size - 1) then
                             io_address = io_address + size - 1
-                            io_address = bit32.AND(io_address, -size)
+                            io_address = bit64.band(io_address, -size)
                         end
                         -- printf("%d:%d.%d [%x] = %x (%x bytes) [IO]\n", device.bus, device.deviceid, device.func, bar_addr, io_address, size)
                         device:write32(bar_addr, io_address)
                         io_address = io_address + size
                     elseif bar_table == mem_bars then
-                        local is64 = bit32.TEST(barv, 4)
-                        if bit32.AND(mem_address, size - 1) then
+                        local is64 = bit64.btest(barv, 4)
+                        if bit64.band(mem_address, size - 1) then
                             mem_address = mem_address + size - 1
-                            mem_address = bit32.AND(mem_address, -size)
+                            mem_address = bit64.band(mem_address, -size)
                         end
                         -- printf("%d:%d.%d [%x] = %x (%x bytes) [Mem]\n", device.bus, device.deviceid, device.func, bar_addr, mem_address, size)
                         device:write32(bar_addr, mem_address)
@@ -235,10 +235,10 @@ local function create_device(root, bus, deviceid, func)
                         end
                         mem_address = mem_address + size
                     else
-                        local is64 = bit32.TEST(barv, 4)
-                        if bit32.AND(pmem_address, size - 1) then
+                        local is64 = bit64.btest(barv, 4)
+                        if bit64.band(pmem_address, size - 1) then
                             pmem_address = pmem_address + size - 1
-                            pmem_address = bit32.AND(pmem_address, -size)
+                            pmem_address = bit64.band(pmem_address, -size)
                         end
                         -- printf("%d:%d.%d [%x] = %x (%x bytes) [PMem]\n", device.bus, device.deviceid, device.func, bar_addr, pmem_address, size)
                         device:write32(bar_addr, pmem_address)
@@ -252,34 +252,34 @@ local function create_device(root, bus, deviceid, func)
         end
         if self.isbridge then
             -- Align IO on a 4k boundary
-            if bit32.AND(io_address, 4095) then
+            if bit64.band(io_address, 4095) then
                 io_address = io_address + 4095
-                io_address = bit32.AND(io_address, -4096)
+                io_address = bit64.band(io_address, -4096)
             end
             -- Align Mem on a 1M boundary
-            if bit32.AND(mem_address, 0xfffff) then
+            if bit64.band(mem_address, 0xfffff) then
                 mem_address = mem_address + 0xfffff
-                mem_address = bit32.AND(mem_address, -0x100000)
+                mem_address = bit64.band(mem_address, -0x100000)
             end
             -- Align Pmem on a 1M boundary
-            if bit32.AND(pmem_address, 0xfffff) then
+            if bit64.band(pmem_address, 0xfffff) then
                 pmem_address = pmem_address + 0xfffff
-                pmem_address = bit32.AND(pmem_address, -0x100000)
+                pmem_address = bit64.band(pmem_address, -0x100000)
             end
             -- printf("%d:%d.%d Bridge base IO = %x, Mem = %x, PMem = %x\n", self.bus, self.deviceid, self.func, io_address, mem_address, pmem_address)
             -- Program IO base
             local v = self:read8(PCICONFIG_IO_BASE)
-            self:write8(PCICONFIG_IO_BASE, bit32.SHR(io_address, 8))
-            if bit32.TEST(v, 1) then
-                self:write16(PCICONFIG_IO_BASE_UPPER, bit32.SHR(io_address, 16))
+            self:write8(PCICONFIG_IO_BASE, bit64.rshift(io_address, 8))
+            if bit64.btest(v, 1) then
+                self:write16(PCICONFIG_IO_BASE_UPPER, bit64.rshift(io_address, 16))
             end
             -- Program Mem base
-            self:write16(PCICONFIG_MEMORY_BASE, bit32.SHR(mem_address, 16))
+            self:write16(PCICONFIG_MEMORY_BASE, bit64.rshift(mem_address, 16))
             -- Program Pmem base
             local v = self:read16(PCICONFIG_PREF_BASE)
-            self:write16(PCICONFIG_PREF_BASE, bit32.SHR(pmem_address, 16))
-            if bit32.TEST(v, 1) then
-                self:write32(PCICONFIG_PREF_BASE_UPPER, bit32.SHR(pmem_address, 32))
+            self:write16(PCICONFIG_PREF_BASE, bit64.rshift(pmem_address, 16))
+            if bit64.btest(v, 1) then
+                self:write32(PCICONFIG_PREF_BASE_UPPER, bit64.rshift(pmem_address, 32))
             end
             for _,device in ipairs(self.devices) do
                 io_address, mem_address, pmem_address = device:enumerate(io_address, mem_address, pmem_address)
@@ -287,17 +287,17 @@ local function create_device(root, bus, deviceid, func)
             -- printf("%d:%d.%d Bridge limit IO = %x, Mem = %x, PMem = %x\n", self.bus, self.deviceid, self.func, io_address, mem_address, pmem_address)
             -- Program IO limit
             local v = self:read8(PCICONFIG_IO_LIMIT)
-            self:write8(PCICONFIG_IO_LIMIT, bit32.SHR(io_address-1, 8))
-            if bit32.TEST(v, 1) then
-                self:write8(PCICONFIG_IO_LIMIT_UPPER, bit32.SHR(io_address-1, 16))
+            self:write8(PCICONFIG_IO_LIMIT, bit64.rshift(io_address-1, 8))
+            if bit64.btest(v, 1) then
+                self:write8(PCICONFIG_IO_LIMIT_UPPER, bit64.rshift(io_address-1, 16))
             end
             -- Program Mem limit
-            self:write16(PCICONFIG_MEMORY_LIMIT, bit32.SHR(mem_address-1, 16))
+            self:write16(PCICONFIG_MEMORY_LIMIT, bit64.rshift(mem_address-1, 16))
             -- Program Pmem limit
             local v = self:read16(PCICONFIG_PREF_LIMIT)
-            self:write16(PCICONFIG_PREF_LIMIT, bit32.SHR(pmem_address-1, 16))
-            if bit32.TEST(v, 1) then
-                self:write32(PCICONFIG_PREF_LIMIT_UPPER, bit32.SHR(pmem_address-1, 32))
+            self:write16(PCICONFIG_PREF_LIMIT, bit64.rshift(pmem_address-1, 16))
+            if bit64.btest(v, 1) then
+                self:write32(PCICONFIG_PREF_LIMIT_UPPER, bit64.rshift(pmem_address-1, 32))
             end
         end
         return io_address, mem_address, pmem_address
@@ -316,10 +316,10 @@ local function create_device(root, bus, deviceid, func)
             self.bus,
             self.deviceid,
             self.func,
-            bit32.SHR(t, 8),
+            bit64.rshift(t, 8),
             self:read16(PCICONFIG_VENDOR_ID),
             self:read16(PCICONFIG_DEVICE_ID),
-            bit32.AND(t, 0xff))
+            bit64.band(t, 0xff))
         printf("%s    Command:%04x Status:%04x\n",
             indent,
             self:read16(PCICONFIG_COMMAND),
@@ -362,19 +362,19 @@ local function create_device(root, bus, deviceid, func)
             printf("%s    IO Base:%04x%02x00 Limit:%04x%02xff\n",
                 indent,
                 self:read16(PCICONFIG_IO_BASE_UPPER),
-                bit32.AND(self:read8(PCICONFIG_IO_BASE), -16),
+                bit64.band(self:read8(PCICONFIG_IO_BASE), -16),
                 self:read16(PCICONFIG_IO_LIMIT_UPPER),
-                bit32.OR(self:read8(PCICONFIG_IO_LIMIT), 0xf))
+                bit64.bor(self:read8(PCICONFIG_IO_LIMIT), 0xf))
             printf("%s    Memory Base:%02x0000 Limit:%02xffff\n",
                 indent,
-                bit32.AND(self:read16(PCICONFIG_MEMORY_BASE), -16),
-                bit32.OR(self:read16(PCICONFIG_MEMORY_LIMIT), 0xf))
+                bit64.band(self:read16(PCICONFIG_MEMORY_BASE), -16),
+                bit64.bor(self:read16(PCICONFIG_MEMORY_LIMIT), 0xf))
             printf("%s    Prefetchable Memory Base:%04x%02x0000 Limit:%04x%02xffff\n",
                 indent,
                 self:read32(PCICONFIG_PREF_BASE_UPPER),
-                bit32.AND(self:read16(PCICONFIG_PREF_BASE), -16),
+                bit64.band(self:read16(PCICONFIG_PREF_BASE), -16),
                 self:read32(PCICONFIG_PREF_LIMIT_UPPER),
-                bit32.OR(self:read16(PCICONFIG_PREF_LIMIT), 0xf))
+                bit64.bor(self:read16(PCICONFIG_PREF_LIMIT), 0xf))
         end
         local max_bar = PCICONFIG_CARDBUS_CIS
         if self.isbridge then
@@ -384,9 +384,9 @@ local function create_device(root, bus, deviceid, func)
         local barno = 0
         while bar < max_bar do
             local v = self:read32(bar)
-            local ismem = not bit32.TEST(v, 1)
-            local is64 = ismem and bit32.TEST(v, 4)
-            local ispref = ismem and bit32.TEST(v, 8)
+            local ismem = not bit64.btest(v, 1)
+            local is64 = ismem and bit64.btest(v, 4)
+            local ispref = ismem and bit64.btest(v, 8)
             local display_type = "IO"
             if ismem then
                 display_type = "Memory"
@@ -427,8 +427,8 @@ local function create_device(root, bus, deviceid, func)
     -- Figure out if the device supports multiple functions and/or
     -- if it is a switch
     local header_type = newdev:read8(PCICONFIG_HEADER_TYPE)
-    newdev.ismultifunction = bit32.TEST(header_type, 0x80)
-    newdev.isbridge = bit32.AND(header_type, 0x7f) == 1
+    newdev.ismultifunction = bit64.btest(header_type, 0x80)
+    newdev.isbridge = bit64.band(header_type, 0x7f) == 1
     if newdev.isbridge then
         -- Device is a bridge/switch. Assign bus numbers so we can
         -- scan for subordinate devices

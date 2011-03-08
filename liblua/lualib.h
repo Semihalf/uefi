@@ -35,6 +35,9 @@ LUAMOD_API int (luaopen_string) (lua_State *L);
 #define LUA_BITLIBNAME	"bit32"
 LUAMOD_API int (luaopen_bit32) (lua_State *L);
 
+#define LUA_BITLIB64NAME "bit64"
+LUAMOD_API int (luaopen_bit64) (lua_State *L);
+
 #define LUA_MATHLIBNAME	"math"
 LUAMOD_API int (luaopen_math) (lua_State *L);
 

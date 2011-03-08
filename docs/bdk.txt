@@ -1111,6 +1111,53 @@ pcie_device:isbridge::
 
 Set to *true* if the device is a switch or bridge, otherwise set to *false*.
 
+bit64
+^^^^^
+
+The module *bit64* is specific to the Octeon BDK.  It supports
+standard bit operations on 64 bit numbers.  In general this should be
+used instead of *bit32*.
+
+output = bit64.arshift(input, shift)::
+
+Perform arithmetic right shift.
+
+output = bit64.band(input1, input2, ...)::
+
+Bitwise AND all arguments together and return the result.
+
+output = bit64.bnot(input)::
+
+Bit invert the input.
+
+output = bit64.bor(input1, input2, ...)::
+
+Bitwise OR all arguments together and return the result.
+
+output_bool = bit64.btest(input1, input2, ...)::
+
+Bitwise AND all arguments together and return true if any bits are set.
+
+output = bit64.bxor(input1, input2, ...)::
+
+Bitwise XOR all arguments together and return the result.
+
+output = bit64.lrotate(input, shift)::
+
+Perform rotate left.
+
+output = bit64.lshift(input, shift)::
+
+Perform left shift.
+
+output = bit64.rrotate(input, shift)::
+
+Perform rotate right.
+
+output = bit64.rshift(input, shift)::
+
+Perform right shift, filling zeros on the left.
+
 
 Lua Scripting Tips
 ------------------

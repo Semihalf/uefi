@@ -133,7 +133,7 @@ function remote.boot(args)
     oremote.reset(1)
     -- Disable L2 aliasing
     local l2 = oremote.read_csr("L2C_CTL")
-    if not bit32.TEST(l2, 1) then
+    if not bit64.btest(l2, 1) then
         l2 = l2 + 1
         oremote.write_csr("L2C_CTL", l2)
     end
@@ -161,7 +161,7 @@ end
 function remote.core(args)
     -- core <core>
     assert(args[1] == "core")
-    oremote.stop_cores(bit32.SHL(1,args[2]))
+    oremote.stop_cores(bit64.lshift(1,args[2]))
     local state = oremote.get_core_state(args[2])
     printf("Core %d\n", args[2]);
     printf("CPU registers:\n");
