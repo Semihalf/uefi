@@ -4,8 +4,12 @@ static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
-        bdk_srio_initialize(0, 0);
-        bdk_srio_initialize(1, 0);
+        for (int i=0; i<2; i++)
+        {
+            BDK_CSR_INIT(sriox_status_reg, BDK_SRIOX_STATUS_REG(i));
+            if (sriox_status_reg.s.srio)
+                bdk_srio_initialize(i, 0);
+        }
         return 2;
     }
     else
