@@ -22,6 +22,10 @@ distclean: clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C libbdk distclean
 
+.PHONY: tftp
+tftp: all
+	$(MAKE) -C bdk-boot tftp
+
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
     BUILD_REV := $(word 4, $(BUILD_REV))
