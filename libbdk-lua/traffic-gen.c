@@ -964,51 +964,6 @@ static unsigned short ip_fast_csum(char *iph, unsigned int ihl)
 }
 
 
-static uint32_t crc32c(void *ptr, int len, uint32_t iv)
-{
-    uint32_t crc32;
-    /* (crc-32c) */
-    BDK_MT_CRC_POLYNOMIAL(0x1edc6f41);
-    BDK_MT_CRC_IV(iv);
-    while (len>=64)
-    {
-        uint64_t *p = ptr;
-        BDK_MT_CRC_DWORD(p[0]);
-        BDK_MT_CRC_DWORD(p[1]);
-        BDK_MT_CRC_DWORD(p[2]);
-        BDK_MT_CRC_DWORD(p[3]);
-        BDK_MT_CRC_DWORD(p[4]);
-        BDK_MT_CRC_DWORD(p[5]);
-        BDK_MT_CRC_DWORD(p[6]);
-        BDK_MT_CRC_DWORD(p[7]);
-        ptr += 64;
-        len -= 64;
-    }
-    while (len>=8)
-    {
-        BDK_MT_CRC_DWORD(*(uint64_t*)ptr);
-        ptr += 8;
-        len -= 8;
-    }
-    if (len>=4)
-    {
-        BDK_MT_CRC_WORD(*(uint32_t*)ptr);
-        ptr += 4;
-        len -= 4;
-    }
-    if (len>=2)
-    {
-        BDK_MT_CRC_HALF(*(uint16_t*)ptr);
-        ptr += 2;
-        len -= 2;
-    }
-    if (len)
-        BDK_MT_CRC_BYTE(*(uint8_t*)ptr);
-    BDK_MF_CRC_IV(crc32);
-    return crc32;
-}
-
-
 static char *build_packet_mac_and_vlan_only(char *packet, tg_port_t *tg_port)
 {
     int i;
@@ -1240,7 +1195,7 @@ static char *build_packet(tg_port_t *tg_port)
     {
         int end_l2 = get_end_l2(tg_port);
         ptr = packet + end_l2;
-        *(uint32_t*)(end_ptr-4) = crc32c(ptr, end_ptr - ptr - 4, 0xffffffff);
+        *(uint32_t*)(end_ptr-4) = bdk_crc32(ptr, end_ptr - ptr - 4, 0xffffffff);
     }
 skip:
     return packet;
@@ -1505,8 +1460,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
         if (udp_checksum_offset)
         {
             uint16_t zero = 0;
-            crc = crc32c(ptr,  udp_checksum_offset,  crc);
-            crc = crc32c(&zero,  2,  crc);
+            crc = bdk_crc32(ptr,  udp_checksum_offset,  crc);
+            crc = bdk_crc32(&zero,  2,  crc);
             ptr += udp_checksum_offset + 2;
             remaining_bytes -= udp_checksum_offset + 2;
         }
@@ -1521,7 +1476,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
         if (bdk_likely(remaining_bytes <= buffer_bytes))
         {
             /* The rest of the crc data fits in this single buffer */
-            crc = crc32c(ptr,  remaining_bytes,  crc);
+            crc = bdk_crc32(ptr,  remaining_bytes,  crc);
             buffer_bytes -= remaining_bytes;
             /* Most of the time the CRC fits right after the data in the
                 buffer. If it doesn't we need the next buffer too */
@@ -1559,7 +1514,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
         else
         {
             /* This buffer only contains part of our crc data */
-            crc = crc32c(ptr, buffer_bytes,  crc);
+            crc = bdk_crc32(ptr, buffer_bytes,  crc);
             remaining_bytes -= buffer_bytes;
             /* Get a pointer to the next buffer */
             buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
