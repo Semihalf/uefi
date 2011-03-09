@@ -42,6 +42,12 @@ int bdk_dram_config(const char *board_name)
         return -1;
     }
 
+    /* Store the amount of memory in the environment */
+    char buffer[8];
+    snprintf(buffer, sizeof(buffer), "%d", mbytes);
+    buffer[sizeof(buffer)-1] = 0;
+    setenv("dram_size_mbytes", buffer, 1);
+
     printf("DRAM: %d MB\n", mbytes);
     return mbytes;
 }
