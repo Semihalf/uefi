@@ -176,6 +176,7 @@ void __bdk_init(long base_address)
 
 int bdk_init_cores(uint64_t coremask)
 {
+    extern void __init; /* Where cores should start */
     extern void __bdk_reset_vector(void);
 
     /* Install reset vector */
@@ -185,7 +186,7 @@ int bdk_init_cores(uint64_t coremask)
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80000000 | bdk_ptr_to_phys((void*)0xffffffffe0000500));
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80000000 | bdk_ptr_to_phys(&__init));
     BDK_CSR_READ(BDK_MIO_BOOT_LOC_CFGX(0));
 
     /* Choose all cores by default */

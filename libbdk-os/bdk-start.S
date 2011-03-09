@@ -21,7 +21,7 @@ exception_\label:
     .section .init
     .ent __start
 __start:
-    b   _init               /* This is replaced with the header, so jump to __init */
+    b   __init              /* This is replaced with the header, so jump to __init */
      nop
 
     #
@@ -43,10 +43,13 @@ __start:
      exception_stub ejtag
     .set pop
 
+    # 0x500 - 0x1000 is unused
+    # 0x1000 - 0x2000 is reserved for a Uboot style environment
+
     .set push
     .set noreorder
-.org 0x500
-_init:
+.org 0x2000
+__init:
     /* Enable 64bit addressing */
     MFC0    t0, COP0_STATUS
     or      t0, 1<<7
@@ -103,9 +106,9 @@ skip_l2_disidxalias:
 .align 3
 copy_code:
     dla     a2, _end        /* We're copy everything up to __end */
-    dla     a1, _init       /* VA of _init */
+    dla     a1, __init      /* VA of __init */
     daddu   a2, 7           /* Add 7 to _end so that it will be 8 byte aligned after mask */
-    li      a0, 0x80000500  /* Where we're copying to */
+    li      a0, 0x80002000  /* Where we're copying to */
     and     a2, 0x0ffffff8  /* Strip off upper bits of _end to remove VA bits and round to 8 byte */
     daddu   a1, s0          /* Convert __start to the current location */
     dsubu   a2, 0x500       /* Subtract out the 0x500 we skipped from the length */
