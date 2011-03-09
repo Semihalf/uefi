@@ -12,6 +12,7 @@ local choices = {
     "Delete file",
     "Execute Lua file",
     "Execute binary image file",
+    "Chain load Uboot",
     "Main menu",
 }
 
@@ -98,6 +99,27 @@ while (true) do
             end
         end
     elseif (c == 7) then
+        printf("Enter filename for Uboot")
+        local source = io.read()
+        if source ~= "" then
+            local s = io.open(source, "r")
+            local d = io.open("/dev/mem", "w")
+            -- Uboot needs to be at a 4MB boundary
+            d:seek("set", 0x400000)
+            local data = s:read(block_size)
+            while data do
+                d:write(data)
+                data = s:read(block_size)
+            end
+            s:close()
+            d:close()
+        end
+        octeon.c.bdk_write_env()
+        local status = octeon.c.bdk_jump_address(0xffffffff80400000)
+        if status ~= 0 then
+            print("ERROR: Jump to Uboot didn't succeed")
+        end
+    elseif (c == 8) then
         return
     end
 end
