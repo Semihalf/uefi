@@ -7,7 +7,12 @@ require("menu")
 declareGlobal("rpc", require("rpc"))
 
 -- Do board specific setup
-dofile("/rom/board-ebb6300.lua")
+if octeon.is_model(octeon.CN63XX) then
+    dofile("/rom/board-ebb6300.lua")
+else
+    dofile("/rom/board-ebb6800.lua")
+end
+print()
 
 local choices = {
     "File operations",

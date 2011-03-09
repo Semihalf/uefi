@@ -1,4 +1,6 @@
 
+print("Configuring for the EBB6300")
+
 local set_config = octeon.c.bdk_config_set
 
 set_config(octeon.CONFIG_PHY_MGMT_PORT0, 4) -- Mgmt port 0 PHY address
