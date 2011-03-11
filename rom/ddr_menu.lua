@@ -6,21 +6,20 @@ require("utils")
 require("menu")
 
 -- List of board strings that can be passed to bdk_dram_config()
-local board_choices = {
+local BOARD_CHOICES = {
     "ebb6300",
     "ebb6800",
 }
 
--- Build a list of choice for each board
-local choices = {}
-for _,board in ipairs(board_choices) do
-    table.insert(choices, "Initialize DDR for the \"%s\"" % board)
+local function ddr_config(name)
+    -- Configure DDR
+    local dram_size = octeon.c.bdk_dram_config(name)
+    if dram_size > 0 then
+        printf("Found %dMB of memory\n", dram_size)
+    else
+        error("Dram configuration failed.")
+    end
 end
-
--- Add more options for testing DDR
-table.insert(choices, "Test DDR from 64MB to 128MB")
-table.insert(choices, "Test DDR over a specified range")
-table.insert(choices, "Main menu")
 
 -- This function is called to perform a memory test
 local function memtest(start_address, length)
@@ -49,44 +48,41 @@ local function memtest(start_address, length)
     end
 end
 
--- Loop processing menu options
-while (true) do
-    local c = menu.show(choices)
-    if (c >= 1) and (c <= #board_choices) then
-        -- Configure DDR
-        local dram_size = octeon.c.bdk_dram_config(board_choices[c])
-        if dram_size > 0 then
-            printf("Found %dMB of memory\n", dram_size)
-        else
-            print("Dram configuration failed.")
-        end
 
-    elseif (c == #board_choices + 1) then
-        -- Test a fixed range
-        local start_address = 0x4000000
-        local length = 0x4000000
-        memtest(start_address, length)
+local m = menu.new("DDR Menu")
 
-    elseif (c == #board_choices + 2) then
-        -- Test a variable range
-        printf("Physical byte address to start memory test at:")
-        local start_address = io.read("*l")
-        start_address = tonumber(start_address)
-        if start_address and (start_address >= 0) then
-            printf("Length of region(in bytes):")
-            local length = io.read("*l")
-            length = tonumber(length)
-            if length and (length > 0) then
-                memtest(start_address, length)
-            else
-                print("Invalid length")
-            end
-        else
-            print("Invalid start address")
-        end
-
-    elseif (c == #board_choices + 3) then
-        -- Move up a menu level
-        return
-    end
+-- Build a list of choice for each board
+for _,board in ipairs(BOARD_CHOICES) do
+    local text = "Initialize DDR for the \"%s\"" % board
+    m:item(board, text, ddr_config, board)
 end
+
+-- Add more options for testing DDR
+m:item("64MB", "Test DDR from 64MB to 128MB", memtest, 0x4000000, 0x4000000)
+
+m:item("test", "Test DDR over a specified range", function()
+    -- Test a variable range
+    printf("Physical byte address to start memory test at:")
+    local start_address = io.read("*l")
+    start_address = tonumber(start_address)
+    if start_address and (start_address >= 0) then
+        printf("Length of region(in bytes):")
+        local length = io.read("*l")
+        length = tonumber(length)
+        if length and (length > 0) then
+            memtest(start_address, length)
+        else
+            print("Invalid length")
+        end
+    else
+        print("Invalid start address")
+    end
+end)
+
+m:item("quit", "Main menu")
+
+while (m:show() ~= "quit") do
+    -- Spinning on menu
+end
+
+

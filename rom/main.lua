@@ -6,47 +6,24 @@ require("utils")
 require("menu")
 declareGlobal("rpc", require("rpc"))
 
--- Do board specific setup
-if octeon.is_model(octeon.CN63XX) then
-    dofile("/rom/board-ebb6300.lua")
-else
-    dofile("/rom/board-ebb6800.lua")
+local function do_rpc()
+    print("Starting remote call server.")
+    print("Reset to exit.")
+    rpc.serve("/dev/uart/0")
 end
-print()
 
-local choices = {
-    "File operations",
-    "Flash operations",
-    "DDR memory options",
-    "HFA memory options",
-    "PCIe options",
-    "Interactive Lua prompt",
-    "Start remote call server",
-    "Traffic Gen",
-    "Reboot",
-}
+local m = menu.new("Main Menu")
+m:item("file",  "File options",             dofile, "/rom/file.lua")
+m:item("flash", "Flash options",            dofile, "/rom/flash.lua")
+m:item("ddr",   "DDR options",              dofile, "/rom/ddr_menu.lua")
+m:item("hfa",   "HFA options",              print,  "HFA operations are not implemented")
+m:item("pcie",  "PCIe options",             dofile, "/rom/pcie_menu.lua")
+m:item("ilua",  "Interactive Lua prompt",   dofile, "/rom/ilua.lua")
+m:item("rpc",   "Start remote call server", do_rpc)
+m:item("tg",    "Traffic Generator",        dofile, "/rom/trafficgen.lua")
+m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)
 
-while (true) do
-    local c = menu.show(choices)
-    if (c == 1) then
-        dofile("/rom/file.lua")
-    elseif (c == 2) then
-        dofile("/rom/flash.lua")
-    elseif (c == 3) then
-        dofile("/rom/ddr_menu.lua")
-    elseif (c == 4) then
-        print("Not implemented yet")
-    elseif (c == 5) then
-        dofile("/rom/pcie_menu.lua")
-    elseif (c == 6) then
-        dofile("/rom/ilua.lua")
-    elseif (c == 7) then
-        print("Starting remote call server.")
-        print("Reset to exit.")
-        rpc.serve("/dev/uart/0")
-    elseif (c == 8) then
-        dofile("/rom/trafficgen.lua")
-    elseif (c == 9) then
-        octeon.c.bdk_reset_octeon()
-    end
+while (m:show() ~= "quit") do
+    -- Spinning on menu
 end
+
