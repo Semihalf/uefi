@@ -8488,7 +8488,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:61> NS       RAZ      NS          NS        Reserved				            |
+ <63:62> NS       RAZ      NS          NS        Reserved				            |
+ <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
+						  turns on mode to increment DPI_DMA_PPx_CNT        |
+						  counters.
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -9122,6 +9125,29 @@ Pos      Name    Type     Value     Value       Description
 						  If STATUS<n> is set, then the nth instruction in  |
 						  the given queue experienced an ErrorResponse.	    |
 						  Otherwise, it completed normally.		    |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  DPI_DMA_PP[0..31]_CNT  = DMA per PP Instr Done Counter
+ *
+ * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.INT_MODE is enabled, every dma instruction
+ * that has the WQP=0 and a PTR value of 1..0x20 will incremrement DPI_DMA_PPx_CNT value-1 counter.
+ * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
+ * Hardware reserves that values 0xC..0x3F for future use and will treat them as a PTR of 0 and do nothing.
+
+     ==============================================================
+     DPI_DMA_PP(0..31)_CNT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:16> NS       RAZ      NS          NS        Reserved					    |
+ <15:0>  CNT      R/W      0x0         NS        Counter incremented according to conditions 	    |
+						  described above.  When non zero it will cause an  |
+						  interrupt in CIU ? register                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -20570,7 +20596,8 @@ Pos      Name    Type     Value     Value       Description
                                              1 = Programmable pattern
 <41>     EN             R/W NS     NS        Enable characterization
 <42>     SKEW_ON        R/W NS     NS        Skew adjacent bits
-<63:43>  NS             R/W NS     NS        RESERVED
+<43>     DR             R/W NS     NS        Pattern at Data Rate (not Clock Rate)
+<63:44>  NS             R/W NS     NS        RESERVED
 
 Notes:
 ----------------------------------------------------------------------------------------------------
@@ -24276,7 +24303,8 @@ Pos      Name    Type     Value     Value       Description
                                                   See CIU_PCI_INTA				    |
  <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:12> MSIRED   RO	   0	       0	 MSI summary bit, copy of 		   	    |
-                                                  CIU2_MSIRED_PPx_IPy.INT                           |
+                                                  CIU2_MSIRED_PPx_IPy.INT, all IO interrupts        |
+						  CIU2_RAW_IO@_INT_IO[MSIRED] always zero.          |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI					    |
                                                   See SLI_MSI_RCVn for bit <40+n>                   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
@@ -25832,10 +25860,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:1>    NS      RAZ       NS          NS      Reserved				            |
- <0:0>  MSI_RCV   R/W       0x0         0x0     MSI state bit, set on MSI delivery or by software   |
-						 for diagnostics, write zero to accept the          |
-						 interrupt.  This register is used to create the    |
+ <63:1>   NS      RAZ       NS          NS       Reserved				            |
+ <0:0>  MSI_RCV   R/W       0x0         0x0      MSI state bit, set on MSI delivery or by software  |
+						 "write 1" to set or "write 0" to clear.            |
+						 This register is used to create the		    |
 						 CIU2_RAW_xx_yy_IO[MSIRED] interrupt.  See also     |
 						 SLI_MSI_RCV.                                       |
 ----------------------------------------------------------------------------------------------------
@@ -35389,8 +35417,8 @@ Pos      Name    Type     Value     Value       Description
  <34>	 RWI_DAT   RO	    0x0	    0x0	     RWI_DAT memory BIST status				    |
  <33:32> NS	   RAZ	    NS	    NS	     Reserved						    |
  <31>	 SOC	   RO	    0x0	    0x0	     SSO CAM BIST status				    |
- <30:29> NS	   RAZ	    NS	    NS	     Reserved						    |
- <28:24> NCBO	   RO	    0x0	    0x0	     NCBO transmitter memory BIST status		    |
+ <30:28> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <27:24> NCBO	   RO	    0x0	    0x0	     NCBO transmitter memory BIST status		    |
  <23:21> NS	   RAZ	    NS	    NS	     Reserved						    |
  <20>	 IDX	   RO	    0x0	    0x0	     Index memory BIST status				    |
  <19:17> NS	   RAZ	    NS	    NS	     Reserved						    |
@@ -39966,14 +39994,23 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:48> NS        RAZ      NS          NS        RESERVED                                          |
- <47:32> DEPTH     RO       0x7c00      0x7c00    Maximum search depth for compression              |
- <31:20> ONFSIZE   RO       0x200       0x200     Output near full threshold in bytes               |
- <19:8>  CTXSIZE   RO       0x600       0x600     Decompression Context size in bytes               |
- <7:1>   NS        RAZ      NS          NS        unused                                            |
- <0>     DISABLED  RO       0           0         1=zip is disabled, 0=zip is enabled               |
+ <63:56> NEXEC             RO       0x2         0x2       Number of available ZIP Exec Units        |
+ <55:49> NS                RAZ      NS          NS        RESERVED                                  |
+ <48>    SYNCFLUSH_CAPABLE RO       0x1         0x1       1: SYNCFLUSH is supported                 |
+                                                          0: SYNCFLUSH is not supported.            |
+                                                          Note: for O68 1.0, SYNCFLUSH is supported |
+                                                                although this field is 0.           |
+ <47:32> DEPTH             RO       0x7c00      0x7c00    Maximum search depth for compression      |
+ <31:20> ONFSIZE           RO       0x200       0x200     Output near full threshold in bytes       |
+ <19:8>  CTXSIZE           RO       0x600       0x600     Decompression Context size in bytes       |
+ <7:1>   NS                RAZ      NS          NS        unused                                    |
+ <0>     DISABLED          RO       0           0         1=zip is disabled, 0=zip is enabled       |
 ----------------------------------------------------------------------------------------------------
 ===
+ *
+ * NOTE: Fields NEXEC and SYNCFLUSH_CAPABLE are only valid for chips after O68 2.0 (including O68 2.0).
+ *
+
 
 
 
@@ -45788,6 +45825,38 @@ DPI_DMA_ENG2_EN                0x0001DF0000000090  NCB
 DPI_DMA_ENG3_EN                0x0001DF0000000098  NCB
 DPI_DMA_ENG4_EN                0x0001DF00000000A0  NCB
 DPI_DMA_ENG5_EN                0x0001DF00000000A8  NCB
+DPI_DMA_PP0_CNT                0x0001DF0000000B00  NCB
+DPI_DMA_PP1_CNT                0x0001DF0000000B08  NCB
+DPI_DMA_PP2_CNT                0x0001DF0000000B10  NCB
+DPI_DMA_PP3_CNT                0x0001DF0000000B18  NCB
+DPI_DMA_PP4_CNT                0x0001DF0000000B20  NCB
+DPI_DMA_PP5_CNT                0x0001DF0000000B28  NCB
+DPI_DMA_PP6_CNT                0x0001DF0000000B30  NCB
+DPI_DMA_PP7_CNT                0x0001DF0000000B38  NCB
+DPI_DMA_PP8_CNT                0x0001DF0000000B40  NCB
+DPI_DMA_PP9_CNT                0x0001DF0000000B48  NCB
+DPI_DMA_PP10_CNT               0x0001DF0000000B50  NCB
+DPI_DMA_PP11_CNT               0x0001DF0000000B58  NCB
+DPI_DMA_PP12_CNT               0x0001DF0000000B60  NCB
+DPI_DMA_PP13_CNT               0x0001DF0000000B68  NCB
+DPI_DMA_PP14_CNT               0x0001DF0000000B70  NCB
+DPI_DMA_PP15_CNT               0x0001DF0000000B78  NCB
+DPI_DMA_PP16_CNT               0x0001DF0000000B80  NCB
+DPI_DMA_PP17_CNT               0x0001DF0000000B88  NCB
+DPI_DMA_PP18_CNT               0x0001DF0000000B90  NCB
+DPI_DMA_PP19_CNT               0x0001DF0000000B98  NCB
+DPI_DMA_PP20_CNT               0x0001DF0000000BA0  NCB
+DPI_DMA_PP21_CNT               0x0001DF0000000BA8  NCB
+DPI_DMA_PP22_CNT               0x0001DF0000000BB0  NCB
+DPI_DMA_PP23_CNT               0x0001DF0000000BB8  NCB
+DPI_DMA_PP24_CNT               0x0001DF0000000BC0  NCB
+DPI_DMA_PP25_CNT               0x0001DF0000000BC8  NCB
+DPI_DMA_PP26_CNT               0x0001DF0000000BD0  NCB
+DPI_DMA_PP27_CNT               0x0001DF0000000BD8  NCB
+DPI_DMA_PP28_CNT               0x0001DF0000000BE0  NCB
+DPI_DMA_PP29_CNT               0x0001DF0000000BE8  NCB
+DPI_DMA_PP30_CNT               0x0001DF0000000BF0  NCB
+DPI_DMA_PP31_CNT               0x0001DF0000000BF8  NCB
 DPI_ENG0_BUF                   0x0001DF0000000880  NCB
 DPI_ENG1_BUF                   0x0001DF0000000888  NCB
 DPI_ENG2_BUF                   0x0001DF0000000890  NCB
