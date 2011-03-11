@@ -4,6 +4,9 @@
  * Infastructure to allow standard C file IO to various file systems.
  *
  * <hr>$Revision: 49448 $<hr>
+ *
+ * @defgroup stdio Standard IO related functions
+ * @{
  */
 
 struct stat;
@@ -30,3 +33,5 @@ typedef struct bdk_fs_ops_s
 
 uint64_t bdk_mmap(const char *name, int flags);
 int bdk_jump_address(uint64_t paddress);
+
+/** @} */

@@ -6,8 +6,11 @@
  * instead of including this file directly.
  *
  * <hr>$Revision: 49448 $<hr>
+ * @defgroup dram DRAM related functions
+ * @{
  */
 
 #include "bdk-dram-config.h"
 #include "bdk-dram-test.h"
 
+/** @} */

@@ -1,3 +1,13 @@
+/**
+ * @file
+ *
+ * Functions for configuring DRAM.
+ *
+ * <hr>$Revision: 49448 $<hr>
+ *
+ * @defgroup dram DRAM related functions
+ * @{
+ */
 
 /**
  * Configure DRAM for a particular board
@@ -8,3 +18,4 @@
  */
 extern int bdk_dram_config(const char *board_name);
 
+/** @} */
