@@ -109,7 +109,11 @@ void bdk_thread_yield(void)
 
 
 /**
- * Create a new thread. It won't run until the next yield call.
+ * Create a new thread. The thread may be scheduled to any of the
+ * cores supplied in the coremask. Note that a single thread is
+ * created and may only run on one core at a time. The thread may
+ * not start executing until the next yield call if all cores in
+ * the coremask are currently busy.
  *
  * @param coremask   Mask of cores the thread can run on. Each set bit is an allowed
  *                   core. Zero and -1 are both shortcuts for all cores.
