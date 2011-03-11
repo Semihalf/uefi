@@ -15,6 +15,10 @@ static const char *argv[] = {
 int main(void)
 {
     extern int bdk_lua_main(int argc, const char **argv);
+
+    if (bdk_netstack_initialize(0))
+        bdk_error("bdk_netstack_if_initialize() failed\n");
+
     if (bdk_thread_create(0, (bdk_thread_func_t)bdk_lua_main, 3, argv, 16384))
         bdk_fatal("Create of Lua thread failed\n");
     return 0;

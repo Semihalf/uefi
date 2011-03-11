@@ -28,6 +28,7 @@ extern const __bdk_fs_ops_t bdk_fs_xmodem_ops;
 extern const __bdk_fs_ops_t bdk_fs_nor_ops;
 extern const __bdk_fs_ops_t bdk_fs_mem_ops;
 extern const __bdk_fs_ops_t bdk_fs_pcie_ops;
+extern const __bdk_fs_ops_t bdk_fs_tcp_ops;
 static const bdk_fs_mount_t mount_points[] = {
     {"/dev/uart/", &bdk_fs_uart_ops},
     {"/rom/", &bdk_fs_rom_ops},
@@ -36,6 +37,7 @@ static const bdk_fs_mount_t mount_points[] = {
     {"/dev/nor/", &bdk_fs_nor_ops},
     {"/dev/mem", &bdk_fs_mem_ops},
     {"/dev/pcie/", &bdk_fs_pcie_ops},
+    {"/tcp/", &bdk_fs_tcp_ops},
     {NULL, NULL}
 };
 
