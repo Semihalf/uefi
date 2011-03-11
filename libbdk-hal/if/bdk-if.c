@@ -272,6 +272,10 @@ fail:
  */
 int bdk_if_init(void)
 {
+    /* Return without doing anything if we've already been called */
+    if (__bdk_if_head)
+        return 0;
+
     int result = 0;
     int num_packet_buffers = 256;
 
