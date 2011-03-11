@@ -15,6 +15,27 @@
         without warnings for both 32bit and 64bit. */
 #define BDK_SCRATCH_BASE       (-32768l) /* 0xffffffffffff8000 */
 
+/**
+ * Resize the amount of scratch on the current core. Note that in
+ * a multicore setup this function likely needs to be called on
+ * every core.
+ *
+ * @param cache_lines
+ *               Number of cache lines to reserve for scratch
+ *
+ * @return The number of lines of scratch before resize.
+ */
+static inline int bdk_scratch_resize(int cache_lines)
+{
+    int old_size;
+    uint64_t memctl;
+    BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
+    old_size = memctl & 63;
+    memctl &= -64;
+    memctl |= cache_lines & 63;
+    BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
+    return old_size;
+}
 
 /**
  * Reads an 8 bit value from the processor local scratchpad memory.
