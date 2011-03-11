@@ -3,6 +3,7 @@
 
 require("strict")
 require("utils")
+require("fileio")
 require("menu")
 
 local choices = {
@@ -18,14 +19,7 @@ while (true) do
         printf("Starting offset")
         local offset = io.read("*n")
         if offset then
-            local f = io.open("/dev/nor/0", "r")
-            if f then
-                f:seek("set", offset)
-                hexdump(f)
-                f:close()
-            else
-                print("Flash not found")
-            end
+            fileio.hexdump("/dev/nor/0", offset)
         end
     elseif (c == 2) then
         printf("Enter source filename")
@@ -34,16 +28,7 @@ while (true) do
             printf("Flash offset")
             local offset = io.read("*n")
             if offset then
-                local s = io.open(source, "r")
-                local d = io.open("/dev/nor/0", "w")
-                d:seek("set", offset)
-                local data = s:read(block_size)
-                while data do
-                    d:write(data)
-                    data = s:read(block_size)
-                end
-                s:close()
-                d:close()
+                fileio.copy(source, nil, "/dev/nor/0", offset)
             end
         end
     elseif (c == 3) then

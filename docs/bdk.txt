@@ -994,11 +994,6 @@ table.sorted_values(table)::
 
 Return a table's values in sorted order.
 
-hexdump(file_handle)::
-
-Hex dump a file.  "file_handle" is a file handle, not a name.  You can
-do a seek before calling this to skip the start of the file.
-
 isglobal(variable_name)::
 
 Determine if a global variable is defined. Use this function to check if
@@ -1157,6 +1152,47 @@ Perform rotate right.
 output = bit64.rshift(input, shift)::
 
 Perform right shift, filling zeros on the left.
+
+
+fileio
+^^^^^^
+
+The BDK supports access to many hardware blocks through virtual device
+files.  The module *fileio* provides simple functions for common file
+operations with error checking.  Any error causes a Lua error() to be
+raised.
+
+handle = fileio.open(filename, mode, seek_to)::
+
+Open a file and optionally seek to a location.
+* filename = Name of the file to open
+* mode = Lua io.open() mode
+* seek_to = Optional seek location, may be nil.
+* Returns a file handle or throws an error.
+
+transfer_count = fileio.transfer(source_handle, dest_handle, length)::
+
+Transfers bytes from one file to another.
+* source_handle = Source file handle to transfer from.
+* dest_handle = Destination file handle to transfer to.
+* length = Optional length to transfer. If nil, all bytes until the end of source_handle are transferred.
+* Returns the number of bytes transferred or raises as error.
+
+transfer_count = fileio.copy(source, source_seek, dest, dest_seek, length)::
+
+Copy part of one file into another file.
+* source = Source filename.
+* source_seek = Optional start location in source. Use nil to start at the front.
+* dest = Destination filename.
+* dest_seek =  Optional start location in dest. Use nil to start at the front.
+* length = Optional length to transfer. If nil, all bytes until the end of source are transferred.
+* Returns the number of bytes transferred or raises as error.
+
+fileio.hexdump(source, seek_to)::
+
+Displays a file in hex on the console.
+* source = File to display
+* seek_to = Optional seek start location, may be nil.
 
 
 Lua Scripting Tips

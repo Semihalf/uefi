@@ -3,6 +3,7 @@
 
 require("strict")
 require("utils")
+require("fileio")
 require("menu")
 
 local choices = {
@@ -23,29 +24,13 @@ while (true) do
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
-            local f = io.open(name, "r")
-            if f then
-                local data = f:read(block_size)
-                while data do
-                    io.write(data)
-                    data = f:read(block_size)
-                end
-                f:close()
-            else
-                print("File not found:", name)
-            end
+            fileio.copy(name, nil, io.output())
         end
     elseif (c == 2) then
         printf("Enter filename")
         local name = io.read()
         if name ~= "" then
-            local f = io.open(name, "r")
-            if f then
-                hexdump(f)
-                f:close()
-            else
-                print("File not found:", name)
-            end
+            fileio.hexdump(name)
         end
     elseif (c == 3) then
         printf("Enter source filename")
@@ -54,15 +39,7 @@ while (true) do
             printf("Enter destination filename")
             local dest = io.read()
             if dest ~= "" then
-                local s = io.open(source, "r")
-                local d = io.open(dest, "w")
-                local data = s:read(block_size)
-                while data do
-                    d:write(data)
-                    data = s:read(block_size)
-                end
-                s:close()
-                d:close()
+                fileio.copy(source, nil, dest)
             end
         end
     elseif (c == 4) then
@@ -102,17 +79,8 @@ while (true) do
         printf("Enter filename for Uboot")
         local source = io.read()
         if source ~= "" then
-            local s = io.open(source, "r")
-            local d = io.open("/dev/mem", "w")
             -- Uboot needs to be at a 4MB boundary
-            d:seek("set", 0x400000)
-            local data = s:read(block_size)
-            while data do
-                d:write(data)
-                data = s:read(block_size)
-            end
-            s:close()
-            d:close()
+            fileio.copy(source, nil, "/dev/mem", 0x400000)
         end
         octeon.c.bdk_write_env()
         local status = octeon.c.bdk_jump_address(0xffffffff80400000)
