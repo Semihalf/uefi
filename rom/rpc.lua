@@ -11,7 +11,7 @@ local debug = require("debug")
 --
 -- Table to contain our module
 --
-local rpc = {}
+rpc = {}
 rpc.debug = false
 
 local function getconnection(stream, is_input)
