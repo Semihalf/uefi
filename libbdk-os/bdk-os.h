@@ -13,4 +13,5 @@
 #include "bdk-fs.h"
 #include "bdk-init.h"
 #include "bdk-readline.h"
+#include "bdk-netstack.h"
 
