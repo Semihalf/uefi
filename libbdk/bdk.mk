@@ -28,6 +28,12 @@ CPPFLAGS = -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsi
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -march=octeon2 -std=gnu99 -fno-asynchronous-unwind-tables
 ASFLAGS = $(CFLAGS)
 
+#
+# These are needed to access lwip, the TCP/IP stack
+#
+CPPFLAGS += -I$(BDK_ROOT)/liblwip/src/include
+CPPFLAGS += -I$(BDK_ROOT)/liblwip/src/include/ipv4
+
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map
