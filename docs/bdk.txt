@@ -353,15 +353,20 @@ Lua 5.2.0 (work5)  Copyright (C) 1994-2010 Lua.org, PUC-Rio
 Octeon Bringup and Diagnostic Kit
 Copyright (C) 2010-2011 Cavium Networks
 
-1       File operations
-2       Flash operations
-3       DDR memory options
-4       HFA memory options
-5       Interactive Lua prompt
-6       Start remote call server
-7       Traffic Gen
-8       Reboot
-(0INS)>
+
+=================================
+Main Menu
+=================================
+ 1) File options
+ 2) Flash options
+ 3) DDR options
+ 4) HFA options
+ 5) PCIe options
+ 6) Interactive Lua prompt
+ 7) Start remote call server
+ 8) Traffic Generator
+ 9) Reboot
+Menu choice: (0INS)>
 ----
 
 TIP: Any prompt supporting line editing in *bdk-boot.bin* also
