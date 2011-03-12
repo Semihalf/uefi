@@ -391,6 +391,10 @@ static int octeon_c_call(lua_State* L)
             const char *str = lua_tostring(L, i+1);
             args[i] = (long)str;
         }
+        else if(lua_isnil(L, i+1))
+        {
+            args[i] = 0;
+        }
         else
         {
             luaL_error(L, "Invalid argument type");
