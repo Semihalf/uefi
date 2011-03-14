@@ -310,7 +310,8 @@ int bdk_if_init(void)
         return -1;
 
     /* Make sure SMI/MDIO is enabled so we can query PHYs */
-    for (int i=0; i<2; i++)
+    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 2;
+    for (int i=0; i<num_mdio; i++)
     {
         BDK_CSR_INIT(smix_en, BDK_SMIX_EN(i));
         if (!smix_en.s.en)
