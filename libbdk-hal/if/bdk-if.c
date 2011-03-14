@@ -35,7 +35,7 @@ static int __bdk_if_setup_sso(void)
     const int SSO_RWQ_COUNT = 8 + 128;
 
     /* SSO in CN63XX doesn't need any setup */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 0;
 
     /* Set work timeout to 16k cycles */
@@ -222,10 +222,10 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     if (handle->ipd_port != -1)
     {
         static int next_free_pknd = 0;
-        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-            handle->pknd = handle->ipd_port;
-        else
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
             handle->pknd = next_free_pknd++;
+        else
+            handle->pknd = handle->ipd_port;
     }
 
     if (__bdk_if_ops[iftype]->if_init(handle))
@@ -522,7 +522,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     pip_stat_ctl.s.rdclr = 1;
     BDK_CSR_WRITE(BDK_PIP_STAT_CTL, pip_stat_ctl.u64);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX) && (handle->pknd >= 40))
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX) && (handle->pknd >= 40))
     {
         stat0.u64 = BDK_CSR_READ(BDK_PIP_XSTAT0_PRTX(handle->pknd));
         stat1.u64 = BDK_CSR_READ(BDK_PIP_XSTAT1_PRTX(handle->pknd));
@@ -630,7 +630,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
 
         /* Get the IPD port number */
         int ipd_port = wqe->word2.s.port;
-        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
             ipd_port = wqe->word1.v1.ipprt;
 
         /* FIXME: This is a slow way of finding the IF handle */

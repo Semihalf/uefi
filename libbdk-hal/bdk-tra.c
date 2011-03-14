@@ -278,10 +278,10 @@ static const char *DEST_ARRAY[] = {
 
 static int __bdk_tra_num(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        return 1;
-    else
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 4;
+    else
+        return 1;
 }
 
 static int __bdk_tra_size(void)

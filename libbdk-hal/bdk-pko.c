@@ -24,7 +24,7 @@ void bdk_pko_initialize(void)
     BDK_CSR_WRITE(BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_QUEUE_PTRS);
         BDK_CSR_DEFINE(ptrs1, BDK_PKO_REG_QUEUE_PTRS1);
@@ -135,7 +135,7 @@ int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk
     {
         void *buf_ptr = bdk_cmd_queue_buffer(qptr + queue);
 
-        if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
             BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_QUEUE_PTRS);
             BDK_CSR_DEFINE(ptrs1, BDK_PKO_REG_QUEUE_PTRS1);

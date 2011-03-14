@@ -7,34 +7,31 @@ static int if_num_interfaces(void)
 
 static int if_num_ports(int interface)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        return 4;
-    else
-        return 4;
+    return 4;
 }
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        /* Use IPD ports 32 - 35 */
-        handle->ipd_port = 32 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
-    }
-    else
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Use IPD ports 0x100 - 0x11f */
         handle->ipd_port = 0x100 + handle->index;
         /* Use PKO ports 32-63 */
         handle->pko_port = 32 + handle->index;
     }
+    else
+    {
+        /* Use IPD ports 32 - 35 */
+        handle->ipd_port = 32 + handle->index;
+        /* PKO ports are the same as IPD */
+        handle->pko_port = handle->ipd_port;
+    }
     return 0;
 }
 
 static int if_init(bdk_if_handle_t handle)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* We need to disable length checking so packet < 64 bytes and jumbo
             frames don't get errors */

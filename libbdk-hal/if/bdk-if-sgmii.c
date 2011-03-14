@@ -36,19 +36,19 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        /* Use IPD ports 0 - 3 */
-        handle->ipd_port = handle->interface*4 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
-    }
-    else
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
         handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
         /* Use PKO ports 0 - 3, 4 - 7, ... */
         handle->pko_port = handle->interface*4 + handle->index;
+    }
+    else
+    {
+        /* Use IPD ports 0 - 3 */
+        handle->ipd_port = handle->interface*4 + handle->index;
+        /* PKO ports are the same as IPD */
+        handle->pko_port = handle->ipd_port;
     }
     return 0;
 }
@@ -199,7 +199,7 @@ static int if_init(bdk_if_handle_t handle)
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Configure the PKO internal port mappings */
         int pipe = __bdk_pko_alloc_pipe(1);

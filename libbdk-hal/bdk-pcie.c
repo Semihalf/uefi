@@ -319,7 +319,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bdk_sriox_status_reg_t sriox_status_reg;
     bdk_pemx_bar1_indexx_t bar1_index;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Make sure this interface isn't SRIO */
         sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(pcie_port));
