@@ -1,10 +1,45 @@
 #include <bdk.h>
 #include <lwip/tcpip.h>
+#include <lwip/inet.h>
 
 /**
  * Global used to track if initialization is complete.
  */
 static int init_done = 0;
+
+
+/**
+ * Each call polls one interface and checks its link state
+ *
+ * @param unused
+ */
+static void netstack_netif_poll_link(void *unused)
+{
+    static struct netif *netif = NULL;
+
+    if (netif == NULL)
+        netif = netif_list;
+
+    if (netif->state)
+    {
+        bdk_if_handle_t handle = netif->state;
+        bdk_if_link_t link = bdk_if_link_autoconf(handle);
+        if (link.s.up)
+        {
+            /* Bring the link up */
+            if (!netif_is_link_up(netif))
+                netif_set_link_up(netif);
+        }
+        else
+        {
+            /* Bring the link up */
+            if (netif_is_link_up(netif))
+                netif_set_link_down(netif);
+        }
+    }
+    netif = netif->next;
+    sys_timeout(1000, netstack_netif_poll_link, NULL);
+}
 
 
 /**
@@ -15,6 +50,7 @@ static int init_done = 0;
 static void netstack_netif_rx(void *unused)
 {
     bdk_if_packet_t packet;
+    int count = 0;
     while (bdk_if_receive(&packet) == 0)
     {
         struct netif *netif = netif_list;
@@ -42,15 +78,14 @@ static void netstack_netif_rx(void *unused)
                     bdk_error("netif->input() failed\n");
                     pbuf_free(p);
                 }
+                count++;
             }
             else
                 bdk_error("pbuf_alloc() failed\n");
         }
         bdk_if_free(&packet);
     }
-
-    bdk_thread_yield();
-    tcpip_callback(netstack_netif_rx, NULL);
+    sys_timeout((count) ? 0 : 1, netstack_netif_rx, NULL);
 }
 
 
@@ -62,6 +97,8 @@ static void netstack_netif_rx(void *unused)
  */
 static void netstack_init_done(void *arg)
 {
+    sys_timeout(1, netstack_netif_rx, NULL);
+    sys_timeout(1000, netstack_netif_poll_link, NULL);
     /* This is called whe nthe TCP/IP stack is
         done with intialization */
     init_done = 1;
@@ -91,8 +128,6 @@ int bdk_netstack_initialize(long flags)
     /* Wait for the magic to complete */
     while (!init_done)
         bdk_thread_yield();
-
-    tcpip_callback(netstack_netif_rx, NULL);
     return 0;
 }
 
@@ -212,13 +247,6 @@ static err_t netstack_netif_init(struct netif *netif)
     netif->num = handle->index; // FIXME: Don't directly index handle
     netif->flags |= NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_ETHERNET;
     netif->hostname = hostname;
-
-    /* Bring the link up */
-    netif_set_default(netif);
-    netif_set_link_up(netif);
-    netif_set_up(netif);
-    bdk_if_enable(handle);
-    //dhcp_start(netif);
     return ERR_OK;
 }
 
@@ -237,11 +265,11 @@ static int netstack_if_add(bdk_if_handle_t handle, long flags)
     if (!netif)
         return -1;
 
-    ip_addr_t ipaddr = {0x0a000001};
+    ip_addr_t ipaddr = {0x0a000002};
     ip_addr_t netmask = {0xffffff00};
-    ip_addr_t gw = {0x0a000002};
+    ip_addr_t gw = {0x0a000001};
 
-    if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, tcpip_input))
+    if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, ethernet_input))
     {
         bdk_error("netifapi_netif_add failed\n");
         return -1;
@@ -299,5 +327,122 @@ int bdk_netstack_if_add_all(long flags)
         }
     }
     return 0;
+}
+
+
+static struct netif *netstack_fing_by_name(const char *name)
+{
+    struct netif *netif = netif_list;
+    while (netif && netif->state)
+    {
+        bdk_if_handle_t handle = netif->state;
+        if (strcasecmp(name, bdk_if_name(handle)) == 0)
+            break;
+        netif = netif->next;
+    }
+    if (!netif || !netif->state)
+        return NULL;
+    else
+        return netif;
+}
+
+
+/**
+ * Configure an interface for use with TCP/IP. The interface must
+ * have already been added using bdk_netstack_if_add*.
+ *
+ * @param name    Name of the interface to configure. Case doesn't matter.
+ * @param ip      IP address in "x.x.x.x" notation, the word "dhcp", or the word
+ *                "auto".
+ * @param netmask Netmask in the form of "x.x.x.x" or "/x". Only used if ip
+ *                is static.
+ * @param gw      Default gateway in the form of "x.x.x.x". Only used if ip
+ *                is static.
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_netstack_if_configure(const char *name, const char *ip, const char *netmask, const char *gw)
+{
+    struct netif *netif = netstack_fing_by_name(name);
+    if (!netif)
+        return -1;
+
+    bdk_if_enable(netif->state);
+    if (strcasecmp(ip, "dhcp") == 0)
+    {
+        netifapi_netif_set_default(netif);
+        netifapi_dhcp_start(netif);
+    }
+    else if (strcasecmp(ip, "auto") == 0)
+    {
+        netifapi_autoip_start(netif);
+    }
+    else
+    {
+        ip_addr_t c_ipaddr = {inet_addr(ip)};
+        ip_addr_t c_netmask = {inet_addr(netmask)};
+        ip_addr_t c_gw = {inet_addr(gw)};
+        if (netmask[0] == '/')
+        {
+            int bits = atoi(netmask + 1);
+            c_netmask.addr = -1 << (32 - bits);
+        }
+        netifapi_netif_set_addr(netif, &c_ipaddr, &c_netmask, &c_gw);
+        netifapi_netif_set_up(netif);
+        return 0;
+    }
+
+    return 0;
+}
+
+
+/**
+ * Get the IP address of an interface
+ *
+ * @param name   Name of interface
+ *
+ * @return IP address
+ */
+uint32_t bdk_netstack_if_get_ip(const char *name)
+{
+    struct netif *netif = netstack_fing_by_name(name);
+    if (netif)
+        return netif->ip_addr.addr;
+    else
+        return 0;
+}
+
+
+/**
+ * Get the Netmask of an interface
+ *
+ * @param name   Name of interface
+ *
+ * @return Netmask
+ */
+uint32_t bdk_netstack_if_get_netmask(const char *name)
+{
+    struct netif *netif = netstack_fing_by_name(name);
+    if (netif)
+        return netif->netmask.addr;
+    else
+        return 0;
+}
+
+
+/**
+ * Get the default gateway of an interface
+ *
+ * @param name   Name of interface
+ *
+ * @return default gateway
+ */
+uint32_t bdk_netstack_if_get_gw(const char *name)
+{
+    struct netif *netif = netstack_fing_by_name(name);
+    if (netif)
+        return netif->gw.addr;
+    else
+        return 0;
 }
 

@@ -102,7 +102,7 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
     {
         if (sys_arch_mbox_tryfetch(mbox, msg) != SYS_MBOX_EMPTY)
             return (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle) / cycle_rate;
-        bdk_wait_usec(1000);
+        bdk_thread_yield();
     }
     return SYS_ARCH_TIMEOUT;
 }
