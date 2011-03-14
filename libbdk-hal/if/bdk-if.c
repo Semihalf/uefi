@@ -332,8 +332,6 @@ int bdk_if_init(void)
         {
             /* Loop through all indexes for each interface */
             int num_index = bdk_if_num_ports(iftype, interface);
-            if (num_index)
-                bdk_dprintf("IF: %s%d has %d ports\n", __bdk_if_ops[iftype]->name, interface, num_index);
             for (int index=0; index<num_index; index++)
             {
                 bdk_if_handle_t handle = bdk_if_init_port(iftype, interface, index);
