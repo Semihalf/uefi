@@ -8,11 +8,15 @@ static void *tcp_open(const char *name, int flags)
     struct addrinfo *addr;
     char *nodename = strdup(name);
     if (!nodename)
+    {
+        errno = ENOENT;
         return NULL;
+    }
     char *port = strchr(nodename, ':');
     if (!port)
     {
         free(nodename);
+        errno = ENOENT;
         return NULL;
     }
     *port = 0;
@@ -23,6 +27,7 @@ static void *tcp_open(const char *name, int flags)
     {
         bdk_error("lwip_getaddrinfo() failed\n");
         free(nodename);
+        errno = status;
         return NULL;
     }
     free(nodename);

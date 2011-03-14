@@ -15,10 +15,7 @@ function fileio.open(filename, mode, seek_to)
     assert(type(filename) == "string")
     assert(type(mode) == "string")
     assert((seek_to == nil) or tonumber(seek_to))
-    local handle = io.open(filename, mode)
-    if not handle then
-        error('Failed to open "' .. filename .. '"')
-    end
+    local handle = assert(io.open(filename, mode))
     if seek_to then
         local loc = handle:seek("set", seek_to)
         if not loc then

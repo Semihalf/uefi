@@ -111,7 +111,10 @@ int stat(const char *name, struct stat *st)
         return mount_points[mount].ops->stat(name, st);
     }
     else
+    {
+        errno = ENOENT;
         return -1;
+    }
 }
 
 
@@ -131,7 +134,10 @@ int unlink(const char *name)
         return mount_points[mount].ops->unlink(name);
     }
     else
+    {
+        errno = ENOENT;
         return -1;
+    }
 }
 
 
@@ -149,14 +155,20 @@ int open(const char *name, int flags, int mode)
     int handle;
     int mount = get_mount(name);
     if (mount == -1)
+    {
+        errno = ENOENT;
         return -1;
+    }
 
     /* Find a free file handle */
     for (handle=0; handle<MAX_FILE_HANDLES; handle++)
         if (file_handle[handle].ops == NULL)
             break;
     if (handle == MAX_FILE_HANDLES)
+    {
+        errno = EMFILE;
         return -1;
+    }
 
     /* Assign the file handle details */
     file_handle[handle].ops = mount_points[mount].ops;
@@ -168,6 +180,7 @@ int open(const char *name, int flags, int mode)
     if (file_handle[handle].filename == NULL)
     {
         file_handle[handle].ops = NULL;
+        errno = ENOMEM;
         return -1;
     }
 
@@ -175,6 +188,7 @@ int open(const char *name, int flags, int mode)
     if (mount_points[mount].ops->open)
     {
         name += strlen(mount_points[mount].prefix);
+        errno = ENOENT;
         file_handle[handle].fs_state = mount_points[mount].ops->open(name, flags);
         if (file_handle[handle].fs_state == NULL)
         {
@@ -199,7 +213,10 @@ int close(int handle)
     int result = 0;
     __bdk_fs_file_t *file = get_file(handle);
     if (!file)
+    {
+        errno = EBADF;
         return -1;
+    }
 
     if (file->ops->close)
         result = file->ops->close(file);
@@ -228,7 +245,10 @@ off_t lseek(int handle, off_t offset, int whence)
 {
     __bdk_fs_file_t *file = get_file(handle);
     if (!file)
+    {
+        errno = ENOENT;
         return -1;
+    }
 
     if (file->ops->lseek)
         return file->ops->lseek(file, offset, whence);
@@ -284,7 +304,10 @@ int read(int handle, void *buffer, int length)
         return result;
     }
     else
+    {
+        errno = EBADF;
         return -1;
+    }
 }
 
 
@@ -308,7 +331,10 @@ int write(int handle, const void *buffer, int length)
         return result;
     }
     else
+    {
+        errno = EBADF;
         return -1;
+    }
 }
 
 
@@ -326,7 +352,10 @@ int fstat(int handle, struct stat *st)
     if (file && file->ops->stat)
         return file->ops->stat(file->filename, st);
     else
+    {
+        errno = EBADF;
         return -1;
+    }
 }
 
 
@@ -347,7 +376,10 @@ uint64_t bdk_mmap(const char *name, int flags)
         return mount_points[mount].ops->mmap(name, flags);
     }
     else
+    {
+        errno = EBADF;
         return -1;
+    }
 }
 
 
@@ -363,6 +395,9 @@ int bdk_jump_address(uint64_t paddress)
 {
     int (*ptr)(void) = bdk_phys_to_ptr(paddress);
     if (ptr == NULL)
+    {
+        errno = EBADF;
         return -1;
+    }
     return ptr();
 }
