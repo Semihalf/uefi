@@ -504,8 +504,8 @@ qualified host name* or an IP address in *x.x.x.x* format.  *Port* is
 a TCP port number in decimal.
 
 
-Builtin TFTP Sserver
-~~~~~~~~~~~~~~~~~~~~
+Builtin TFTP Server
+~~~~~~~~~~~~~~~~~~~
 
 The BDK contains a TFTP server inside *bdk-boot.bin*.  It is
 available as soon as you configure one of the network interfaces with
