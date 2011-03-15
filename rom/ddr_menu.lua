@@ -62,14 +62,10 @@ m:item("64MB", "Test DDR from 64MB to 128MB", memtest, 0x4000000, 0x4000000)
 
 m:item("test", "Test DDR over a specified range", function()
     -- Test a variable range
-    printf("Physical byte address to start memory test at:")
-    local start_address = io.read("*l")
-    start_address = tonumber(start_address)
-    if start_address and (start_address >= 0) then
-        printf("Length of region(in bytes):")
-        local length = io.read("*l")
-        length = tonumber(length)
-        if length and (length > 0) then
+    local start_address = menu.prompt_number("Physical byte address to start memory test at:")
+    if start_address >= 0 then
+        local length = menu.prompt_number("Length of region(in bytes):")
+        if length > 0 then
             memtest(start_address, length)
         else
             print("Invalid length")

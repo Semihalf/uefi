@@ -101,3 +101,34 @@ function menu.show(choices)
     return m:show()
 end
 
+--
+-- Prompt the user for a string. Throw an error if the user aborts input.
+--
+function menu.prompt_string(prompt)
+    printf("%s", prompt)
+    local result = io.read("*l")
+    if result == "" then
+        error("User interrupted input")
+    end
+    return result
+end
+
+--
+-- Prompt the user for a filename. Throw an error if the user aborts input.
+--
+function menu.prompt_filename(prompt)
+    -- FIXME: Do tab completion of filenames
+    return menu.prompt_string(prompt)
+end
+
+--
+-- Prompt the user for a number. Throw an error if the user aborts input.
+--
+function menu.prompt_number(prompt)
+    local result = menu.prompt_string(prompt)
+    result = tonumber(result)
+    if not result then
+        error("Invalid number")
+    end
+    return result
+end

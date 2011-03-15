@@ -23,12 +23,7 @@ end
 local m = menu.new("TCP/IP Networking Menu")
 
 m:item("show", "Show port configuration", function()
-    printf("Interface name: ")
-    local name = io.read("*l")
-    if name == "" then
-        return
-    end
-
+    local name = menu.prompt_string("Interface name: ")
     local ip = octeon.c.bdk_netstack_if_get_ip(name)
     local netmask = octeon.c.bdk_netstack_if_get_netmask(name)
     local gateway = octeon.c.bdk_netstack_if_get_gw(name)
@@ -38,50 +33,20 @@ end)
 m:item("fixed", "Configure MGMT0 with a static IP 10.0.0.2/24", setconfig, "MGMT00", "10.0.0.2", "/24", "10.0.0.1")
 
 m:item("dhcp", "Configure a network port with DHCP", function()
-    printf("Interface name: ")
-    local name = io.read("*l")
-    if name == "" then
-        return
-    end
-
+    local name = menu.prompt_string("Interface name: ")
     setconfig(name, "dhcp")
 end)
 
 m:item("static", "Configure a network port with a static IP", function()
-    printf("Interface name: ")
-    local name = io.read("*l")
-    if name == "" then
-        return
-    end
-
-    printf("IP: ")
-    local ip = io.read("*l")
-    if ip == "" then
-        return
-    end
-
-    printf("Netmask: ")
-    local netmask = io.read("*l")
-    if netmask == "" then
-        return
-    end
-
-    printf("Gateway: ")
-    local gw = io.read("*l")
-    if gw == "" then
-        return
-    end
-
+    local name = menu.prompt_string("Interface name: ")
+    local ip = menu.prompt_string("IP: ")
+    local netmask = menu.prompt_string("Netmask: ")
+    local gw = menu.prompt_string("Gateway: ")
     setconfig(name, ip, netmask, gw)
 end)
 
 m:item("auto", "Configure a network port with auto IP", function()
-    printf("Interface name: ")
-    local name = io.read("*l")
-    if name == "" then
-        return
-    end
-
+    local name = menu.prompt_string("Interface name: ")
     setconfig(name, "auto")
 end)
 
