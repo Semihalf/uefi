@@ -22,6 +22,11 @@ end
 -- Connect the internals of the TCP/IP stack
 octeon.c.bdk_netstack_if_add_all(0)
 
+-- Start a TFTP server
+if octeon.c.bdk_tftp_server_initialize() ~= 0 then
+    print("Failed to start TFTP server")
+end
+
 local m = menu.new("Main Menu")
 m:item("file",  "File options",             dofile, "/rom/file.lua")
 m:item("flash", "Flash options",            dofile, "/rom/flash.lua")
