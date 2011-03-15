@@ -15,14 +15,18 @@ static int mem_close(__bdk_fs_file_t *handle)
 
 static int mem_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
-    memcpy(buffer, bdk_phys_to_ptr(handle->location), length);
+    /* Check location to avoid warning from bdk_phys_to_ptr */
+    const void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : (const void*)(1ull<<63);
+    memcpy(buffer, ptr, length);
     return length;
 }
 
 
 static int mem_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
-    memcpy(bdk_phys_to_ptr(handle->location), buffer, length);
+    /* Check location to avoid warning from bdk_phys_to_ptr */
+    void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : (void*)(1ull<<63);
+    memcpy(ptr, buffer, length);
     return length;
 }
 
