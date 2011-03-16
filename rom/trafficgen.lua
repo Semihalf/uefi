@@ -553,7 +553,7 @@ function TrafficGen.new()
                 num_rows = num_rows + 1
             end
         end
-        print("-------" .. ERASE_EOL)
+        print(ZEROHI .. "-------" .. NORMAL .. ERASE_EOL)
         printf(ERASE_EOL .. "\n");
 
         -- Confine scrolling region
@@ -584,6 +584,8 @@ function TrafficGen.new()
     return self
 end
 
+printf("\n\nBDK Traffic Generator\n\n")
+printf("Type \"help\" for a list of commands\n")
 octeon.c.bdk_init_cores(0);
 TrafficGen.new():run()
 
