@@ -330,7 +330,7 @@ int bdk_netstack_if_add_all(long flags)
 }
 
 
-static struct netif *netstack_fing_by_name(const char *name)
+static struct netif *netstack_find_by_name(const char *name)
 {
     struct netif *netif = netif_list;
     while (netif && netif->state)
@@ -363,7 +363,7 @@ static struct netif *netstack_fing_by_name(const char *name)
  */
 int bdk_netstack_if_configure(const char *name, const char *ip, const char *netmask, const char *gw)
 {
-    struct netif *netif = netstack_fing_by_name(name);
+    struct netif *netif = netstack_find_by_name(name);
     if (!netif)
         return -1;
 
@@ -405,8 +405,8 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
  */
 uint32_t bdk_netstack_if_get_ip(const char *name)
 {
-    struct netif *netif = netstack_fing_by_name(name);
-    if (netif)
+    struct netif *netif = netstack_find_by_name(name);
+    if (netif && netif_is_up(netif))
         return netif->ip_addr.addr;
     else
         return 0;
@@ -422,7 +422,7 @@ uint32_t bdk_netstack_if_get_ip(const char *name)
  */
 uint32_t bdk_netstack_if_get_netmask(const char *name)
 {
-    struct netif *netif = netstack_fing_by_name(name);
+    struct netif *netif = netstack_find_by_name(name);
     if (netif)
         return netif->netmask.addr;
     else
@@ -439,7 +439,7 @@ uint32_t bdk_netstack_if_get_netmask(const char *name)
  */
 uint32_t bdk_netstack_if_get_gw(const char *name)
 {
-    struct netif *netif = netstack_fing_by_name(name);
+    struct netif *netif = netstack_find_by_name(name);
     if (netif)
         return netif->gw.addr;
     else

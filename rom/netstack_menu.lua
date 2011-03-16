@@ -22,12 +22,25 @@ end
 
 local m = menu.new("TCP/IP Networking Menu")
 
-m:item("show", "Show port configuration", function()
-    local name = menu.prompt_string("Interface name: ")
-    local ip = octeon.c.bdk_netstack_if_get_ip(name)
-    local netmask = octeon.c.bdk_netstack_if_get_netmask(name)
-    local gateway = octeon.c.bdk_netstack_if_get_gw(name)
-    printf("Interface: %s IP: %s Netmask %s Gateway %s\n", name, iptostr(ip), iptostr(netmask), iptostr(gateway))
+m:item("show", "Show all port configurations", function()
+    print()
+    print("Interface Configuration")
+    print("--------- -------------")
+    for index=0,999 do
+        local port = bdktrafficgen.port_get(index)
+        if not port then
+            break
+        end
+        local name = port.name
+        local ip = octeon.c.bdk_netstack_if_get_ip(name)
+        local netmask = octeon.c.bdk_netstack_if_get_netmask(name)
+        local gateway = octeon.c.bdk_netstack_if_get_gw(name)
+        if ip == 0 then
+            printf("%-9s\n", name)
+        else
+            printf("%-9s IP:%s Netmask:%s Gateway:%s\n", name, iptostr(ip), iptostr(netmask), iptostr(gateway))
+        end
+    end
 end)
 
 m:item("fixed", "Configure MGMT0 with a static IP 10.0.0.2/24", setconfig, "MGMT00", "10.0.0.2", "/24", "10.0.0.1")
