@@ -76,10 +76,17 @@ void __bdk_init_main(int arg, void *arg1)
             bdk_flash_initialize();
         }
 
-        printf("Enabling hardware flow control on UART0\n");
-        BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
-            mcr.s.afce = 1;
-            mcr.s.rts = 1);
+        if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(0), cts, ==, 1, 1000))
+        {
+            bdk_warn("Not enabling hardware flow control on UART0 as CTS appears stuck\n");
+        }
+        else
+        {
+            printf("Enabling hardware flow control on UART0\n");
+            BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
+                mcr.s.afce = 1;
+                mcr.s.rts = 1);
+        }
     }
 
     /* Core 0 start main as another thread. We create a new thread so that
