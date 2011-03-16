@@ -14,6 +14,7 @@
 /docs/*.html
 /docs/api-docs
 /libbdk-dram/lib_octeon_shared.c
+/libbdk-lua/lib_octeon_board_table_entry.i
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
 /bdk-boot/bdk-boot

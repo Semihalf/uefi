@@ -96,5 +96,7 @@ $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_s
 $(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
 	ln -fs $(OCTEON_ROOT)/bootloader/u-boot/lib_mips/lib_octeon_shared.c $@
+$(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i:
+	ln -fs $(OCTEON_ROOT)/bootloader/u-boot/include/lib_octeon_board_table_entry.h $@
 
 $(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
