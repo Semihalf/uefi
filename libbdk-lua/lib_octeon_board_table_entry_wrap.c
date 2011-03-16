@@ -1570,7 +1570,16 @@ static int _wrap_dimm_config_t_spd_addrs_get(lua_State* L) {
   }
   
   result = (uint8_t *)(uint8_t *) ((arg1)->spd_addrs);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_unsigned_char,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 2, 0);
+    for (i = 0; i < 2; i++) {
+      lua_pushnumber(L, i+1);
+      lua_pushnumber(L, result[i]);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3112,7 +3121,16 @@ static int _wrap_ddr_configuration_t_dimm_config_table_get(lua_State* L) {
   }
   
   result = (dimm_config_t *)(dimm_config_t *) ((arg1)->dimm_config_table);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_dimm_config_t,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 5, 0);
+    for (i = 0; i < 5; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_config_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3170,7 +3188,16 @@ static int _wrap_ddr_configuration_t_odt_1rank_config_get(lua_State* L) {
   }
   
   result = (dimm_odt_config_t *)(dimm_odt_config_t *) ((arg1)->odt_1rank_config);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_dimm_odt_config_t,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 4, 0);
+    for (i = 0; i < 4; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_odt_config_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3228,7 +3255,16 @@ static int _wrap_ddr_configuration_t_odt_2rank_config_get(lua_State* L) {
   }
   
   result = (dimm_odt_config_t *)(dimm_odt_config_t *) ((arg1)->odt_2rank_config);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_dimm_odt_config_t,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 4, 0);
+    for (i = 0; i < 4; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_odt_config_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3638,7 +3674,16 @@ static int _wrap_ddr_config_table_t_ddr_config_get(lua_State* L) {
   }
   
   result = (ddr_configuration_t *)(ddr_configuration_t *) ((arg1)->ddr_config);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_configuration_t,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 2, 0);
+    for (i = 0; i < 2; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_ddr_configuration_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3781,7 +3826,16 @@ static int _wrap_board_table_entry_t_chip_ddr_config_get(lua_State* L) {
   }
   
   result = (ddr_config_table_t *)(ddr_config_table_t *) ((arg1)->chip_ddr_config);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_config_table_t,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 2, 0);
+    for (i = 0; i < 2; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_ddr_config_table_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
