@@ -111,4 +111,9 @@
  */
 #define LWIP_HAVE_LOOPIF 1
 
+/**
+ * TCP_SND_BUF: TCP sender buffer space (bytes).
+ */
+#define TCP_SND_BUF (TCP_MSS*2)
+
 #endif
