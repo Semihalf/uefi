@@ -1,0 +1,103 @@
+//
+// This is a asciidoc document. Edit here, but view the HTML
+//
+
+Bringup and Diagnostic Kit (BDK) Frequently Asked Questions
+===========================================================
+
+Overview
+--------
+
+The Bringup and Diagnostic Kit (BDK) is a large and sophisticated software
+system and it takes a while before someone can understand how to use the it.
+The novice user will have many questions and this document is an attempt to
+answer the most common questions.
+
+=== How does the BDK differ from the SDK?
+* While both development kits are customer deliverables and provide low-level
+software for operating an OCTEON processor, the BDK is intended for board
+bring-up and only focuses on current generation OCTEONs. The SDK has a wider
+audience. It supports all OCTEONs and is intended as the basis for programming
+customer applications. Relative to the SDK, the BDK is quite sparse.
+* The BDK and SDK are corelated. Initial work on a new OCTEON uses the BDK. As
+this work proceeds, the BDK team documents what changed in the BDK to support
+the new OCTEON. This change docuement goes to the SDK development staff where
+they make appropriate changes to the SDK to also support the new processor.
+
+=== Does the BDK depend upon SDK Bootloader?
+* No, BDK applications are self-contained and have all of the code required to
+start the OCTEON (DDR3 setup, TLB configuration, and so forth). A BDK
+application can reside in boot bus FLASH memory and starts when an OCTEON
+powers-up.
+* It is possible to write the Bootloader as a BDK application (using the normal
+BDK facilities to load it and execute it). The Bootloader, in its turn, can run
+SDK applications.
+
+=== How do you run a BDK Application from the SDK Bootloader?
+* loadb 0x20000000 <application name>
+* Use kermit to download the application via the serial port (Kermit is built
+into Linux versions of minicom)
+* go 0x20000000
+
+=== How do you run a BDK Application from the Compact Flash via the SDK Bootloader?
+* fatload ide 0 0x20000000 <application name>
+* go 0x20000000
+
+=== How do you run a BDK Application from the Managment Port via the SDK Bootloader?
+* Run dhcp to establish your IP address
+* tftp <application>
+* go ?
+
+=== Can a BDK Application run via the EBB6800 Telnet Octeon Console?
+* Not with revision 1 or 2 boards as they did not implement hardware flow
+control. BDK applications hang when running via the telnet console.
+
+=== Where Does the /rom File System Come From?
+* The BDK /rom directory contains the sources of all of the files found in the
+runtime /rom file system.
+* The sources are compiled into .o files via ???? tool. The tool reads the
+source file and generates a C language structure whose contents is a series
+of hexidecimal byte constants which mirrors the source file. When linking a
+BDK application, the linker imports all of the generated .o files and creates
+the file system image. When the application runs and references a /rom file,
+it really is traversing a memory data structure to find the contents from
+the linked in .o file.
+* This file system idea mirrors the Linux RAMDISK concept and is implemented in
+a similar fashion.
+
+Octeon Simulator
+----------------
+
+BDK applications can run on the OCTEON simulator, a software emulation of an
+OCTEON processor. This is useful when dealing with a new device that is not
+yet available. The simulator also gives the user a detailed view of what is
+happening and can spot trouble that might be hidden on a real processor. Of
+course, a software emulation runs thousands of times slower than real hardware.
+
+=== How can I use the OCTEON simulator to test my BDK application?
+* Many makefiles provide a 'run' target for this purpose. When creating your
+project, start with an existing project's Makefile and adjust the 'run' target
+to execute your application.
+
+=== How do I run a multi-core application on the simulator?
+* Set the simulator's command line '-numcores' option to the desired number of
+cores. The simulator only assumes a single core unless told otherwise. Running
+a multi-core application on a single-core simulation results in the application
+hanging.
+
+=== How can I select the OCTEON model?
+* There are means to select the OCTEON model: one is to setup the SIMULATOR
+variable in bdk.mk to reference the desired OCTEON (i.e. cn63xxx); the second
+is to use the simulator's command line '-pass=' option.
+
+Octeon-Side Lua Scripts
+-----------------------
+
+Host-Side Lua Scripts
+---------------------
+
+EJTAG Remote Access Tools
+-------------------------
+
+PCIe Remote Access Tools
+------------------------

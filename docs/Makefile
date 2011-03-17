@@ -1,6 +1,6 @@
 
 
-default: bdk.html bdk-internals.html api-docs
+default: bdk.html bdk-internals.html bdk-faqs.html api-docs
 
 clean:
 	rm -rf *.html api-docs
