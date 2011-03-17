@@ -52,7 +52,7 @@ function ddr.show_config(board_entry)
     elseif type(board_entry) == "string" then
         board_entry = ddr.get_config(board_entry)
     end
-    dump_swig_object(board_entry, "    ")
+    dump_swig_object(board_entry, "  config")
 end
 
 --
