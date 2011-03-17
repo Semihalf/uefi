@@ -110,6 +110,9 @@ local function do_pack(...)
                 result = result .. do_pack(k) .. do_pack(v)
             end
             result = result .. "}"
+        elseif type(arg) == "userdata" then
+            local meta = getmetatable(arg)
+            result = result .. "@" .. tostring(meta.remoteid)
         else
             error("Unsupported type '" .. type(arg) .. "'")
         end
@@ -120,7 +123,7 @@ end
 --
 -- Unpack return data from a string
 --
-local function do_unpack(remote, start_index, str)
+local function do_unpack(remote, start_index, str, is_server)
     local index = start_index   -- Current index in the string
     local length = #str         -- End of the string
     local result = {}           -- The container for unpacked results
@@ -155,13 +158,17 @@ local function do_unpack(remote, start_index, str)
             -- Remote object id is similar to a number
             local start, fin = str:find("[0-9]+", index)
             v = tonumber(str:sub(index, fin))
-            v = remote.new(remote.inf, remote.outf, v)
+            if is_server then
+                v = rpc.objects[v]
+            else
+                v = remote.new(remote.inf, remote.outf, v)
+            end
             index = fin + 1
         elseif c == "{" then    -- Table begin
             -- Tables are stored as a sequence of key value pairs ended with a
             -- "}". Call do_unpack recursively to handle these.
             local t
-            index, t = do_unpack(remote, index, str)
+            index, t = do_unpack(remote, index, str, is_server)
             -- Change the sequence into a table
             v = {}
             for i=1,#t,2 do
@@ -184,7 +191,8 @@ end
 --
 -- Do a remote command
 --
-local function do_remote(remote, command, ...)
+local function do_remote(remote_obj, command, ...)
+    local remote = getmetatable(remote_obj)
     -- Build the remote command string
     local line = "$" .. command .. remote.remoteid .. do_pack(...)
     if rpc.debug then
@@ -217,11 +225,32 @@ local function do_remote(remote, command, ...)
         print("[RPC Reply]" .. line)
     end
     -- Convert the response to Lua data structures
-    local len, r = do_unpack(remote, d+1, line)
+    local len, r = do_unpack(remote, d+1, line, false)
     -- Make sure we consumed all the input
     assert(len == #line + 1)
     -- Returned unpack data so calls work right
     return table.unpack(r, 1, r.n)
+end
+
+local function rpc_new_call(self, ...)
+    return do_remote(self, "c", ...)
+end
+
+local function rpc_new_index(self, ...)
+    return do_remote(self, "[", ...)
+end
+
+local function rpc_new_setindex(self, ...)
+    do_remote(self, "=", ...)
+end
+
+local function rpc_new_len(self)
+    return do_remote(self, "#")
+end
+
+local function rpc_new_gc(self)
+    -- FIXME: Figure out why garbage collection is killing our objects while we are using them
+    --do_remote(self, "~")
 end
 
 --
@@ -232,12 +261,17 @@ local function rpc_new(instream, outstream, remoteid)
     local meta = getmetatable(object)
     meta.remoteid = remoteid
     meta.new = rpc_new
-    meta.inf, meta.outf = connectStreams(instream, outstream)
-    meta.__call = function(self, ...) return do_remote(getmetatable(self), "c", ...) end
-    meta.__index = function(self, ...) return do_remote(getmetatable(self), "[", ...) end
-    meta.__newindex = function(self, ...) do_remote(getmetatable(self), "=", ...) end
-    meta.__len  = function(self) return do_remote(getmetatable(self), "#") end
-    meta.__gc = function(self) do_remote(getmetatable(self), "~") end
+    if type(instream) == "string" then
+        meta.inf, meta.outf = connectStreams(instream, outstream)
+    else
+        meta.inf = instream
+        meta.outf = outstream
+    end
+    meta.__call = rpc_new_call
+    meta.__index = rpc_new_index
+    meta.__newindex = rpc_new_setindex
+    meta.__len  = rpc_new_len
+    meta.__gc = rpc_new_gc
     return object
 end
 
@@ -320,7 +354,7 @@ local function rpc_serve(inf, outf, only_one)
 
             -- Convert the command into an object reference and arguments
             local object = rpc.objects[obj]
-            local _, args = do_unpack(nil, 1, line)
+            local _, args = do_unpack(nil, 1, line, true)
             local result = {}
             result.n = 0
 
@@ -330,7 +364,13 @@ local function rpc_serve(inf, outf, only_one)
                 result[1] = object[args[1]]
                 result.n = 1
             elseif command == "=" then  -- Assignment of a table value
-                rawset(object, args[1], args[2])
+                if object == _G then
+                    -- Strict might be loaded and not allow setting globals
+                    -- Bypass it by using rawset
+                    rawset(object, args[1], args[2])
+                else
+                    object[args[1]] = args[2]
+                end
             elseif command == "#" then  -- Get the length of an object
                 result[1] = #object
                 result.n = 1
