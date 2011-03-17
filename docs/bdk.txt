@@ -456,7 +456,11 @@ $ bdk-lua -l utils -e "pprint(table)"
 Executing Lua on the Target
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TBD
+Three methods are supported for booting the BDK on the development
+board.  Most developers choose to burn the BDK to flash.  If your
+board doesn't support flash, or already has a bootloader, then you may
+choose a different method.  Below is a list of the most common methods
+of loading the BDK.
 
 .Booting from NOR flash
 
@@ -466,11 +470,11 @@ connected to the bootbus chip select 0.
 .Booting using *bdk-remote* over PCIe
 [source, sh]
 ----
-export OCTEON_REMOTE_PROTCOL=pci
-bdk-remote boot bdk-boot/bdk-boot.bin
+$ export OCTEON_REMOTE_PROTCOL=pci
+$ bdk-remote boot bdk-boot/bdk-boot.bin
 ----
 
-.Booting using Uboot
+.Booting using a pre-existing Uboot
 ----
 Octeon ebb6300# dhcp
 Octeon ebb6300# setenv serverip 192.168.162.148
