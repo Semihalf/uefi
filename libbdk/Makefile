@@ -71,7 +71,7 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 # Lua to C wrapper functions created by SWIG
 #
 %_wrap.c: %.i
-	swig -lua -o $@ $^
+	swig -Wall -lua -o $@ $^
 
 #
 # These are needed to generate the depends files
