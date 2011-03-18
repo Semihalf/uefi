@@ -310,7 +310,10 @@ static void fast_memcpy(void *dest, const void *src, unsigned long length)
  */
 static void pci_bar1_setup(uint64_t address)
 {
-    int pcie_port = 0; /* FIXME */
+    int pcie_port = 0;
+    // FIXME: We can't determine this for CN63XX pass 1.x
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+        pcie_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER);
     bdk_pemx_bar1_indexx_t bar1_entry;
     bar1_entry.u64          = 0;            /* Unused fields should be zero */
     bar1_entry.s.addr_idx   = address>>22;  /* Physical memory address in 4MB pages */
@@ -323,12 +326,6 @@ static void pci_bar1_setup(uint64_t address)
 
 static void setup_globals(void)
 {
-    /* Warning: This function can't use OCTEON_IS_MODEL as octeon_pci_model
-        isn't fully setup yet. A call to octeon_remote_get_model() will cause
-        it to cache the wrong value */
-    int pcie_port = 0; // FIXME: We can't determine this for CN63XX pass 1.x
-    if (octeon_pci_model != OCTEON_CN63XX_PASS1_0) // FIXME: This is broken for CN63XX pass 2.x
-        pcie_port = bdk_le32_to_cpu(*(uint32_t*)(octeon_pci_bar0_ptr + BDK_SLI_MAC_NUMBER));
     octeon_pci_bar0_win_rd_addr = BDK_SLI_WIN_RD_ADDR;
     octeon_pci_bar0_win_rd_data = BDK_SLI_WIN_RD_DATA;
     octeon_pci_bar0_win_wr_addr = BDK_SLI_WIN_WR_ADDR;
