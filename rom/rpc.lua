@@ -88,36 +88,42 @@ end
 -- Pack arguments into a remote param string
 --
 local function do_pack(...)
-    local result = ""
+    local result = {}
     local args = {...}
     for i=1, #args do
         local arg = args[i]
+        local argtype = type(arg)
         if arg == nil then
-            result = result .. "n"
-        elseif type(arg) == "boolean" then
+            table.insert(result, "n")
+        elseif argtype == "boolean" then
             if arg then
-                result = result .. "t"
+                table.insert(result, "t")
             else
-                result = result .. "f"
+                table.insert(result, "f")
             end
-        elseif type(arg) == "number" then
-            result = result .. "#" .. arg
-        elseif type(arg) == "string" then
-            result = result .. '"' .. arg .. '"'
-        elseif type(arg) == "table" then
-            result = result .. "{"
+        elseif argtype == "number" then
+            table.insert(result, "#")
+            table.insert(result, arg)
+        elseif argtype == "string" then
+            table.insert(result, '"')
+            table.insert(result, arg)
+            table.insert(result, '"')
+        elseif argtype == "table" then
+            table.insert(result, "{")
             for k,v in pairs(arg) do
-                result = result .. do_pack(k) .. do_pack(v)
+                table.insert(result, do_pack(k))
+                table.insert(result, do_pack(v))
             end
-            result = result .. "}"
-        elseif type(arg) == "userdata" then
+            table.insert(result, "}")
+        elseif argtype == "userdata" then
             local meta = getmetatable(arg)
-            result = result .. "@" .. tostring(meta.remoteid)
+            table.insert(result, "@")
+            table.insert(result, meta.getid(arg))
         else
-            error("Unsupported type '" .. type(arg) .. "'")
+            error("Unsupported type '" .. argtype .. "'")
         end
     end
-    return result
+    return table.concat(result)
 end
 
 --
@@ -161,7 +167,7 @@ local function do_unpack(remote, start_index, str, is_server)
             if is_server then
                 v = rpc.objects[v]
             else
-                v = remote.new(remote.inf, remote.outf, v)
+                v = getmetatable(remote).new(remote, v)
             end
             index = fin + 1
         elseif c == "{" then    -- Table begin
@@ -191,23 +197,23 @@ end
 --
 -- Do a remote command
 --
-local function do_remote(remote_obj, command, ...)
-    local remote = getmetatable(remote_obj)
-    -- Build the remote command string
-    local line = "$" .. command .. remote.remoteid .. do_pack(...)
+local function do_remote_command(remote, line)
+    local meta = getmetatable(remote)
     if rpc.debug then
-        print("[RPC Request]" .. line)
+        print("[RPC Request]", line)
     end
     -- Send the string and flush to make sure it goes immediately
-    remote.outf:write(line .. "\n")
-    remote.outf:flush()
+    meta.outf:write("$")
+    meta.outf:write(line)
+    meta.outf:write("\n")
+    meta.outf:flush()
     -- Read lines unitl we get the response. Extra lines are displayed
     -- to stdout. We might be using the same serial channel for RPC and
     -- general output
     local d
     repeat
         -- Read a line
-        line = remote.inf:read()
+        line = meta.inf:read()
         if line:sub(-1) == '\r' then
             line = line:sub(1,-2)
         end
@@ -218,11 +224,12 @@ local function do_remote(remote_obj, command, ...)
             io.write(line:sub(1, d-1))
         elseif not d then
             -- Write any extra stuff to the console
-            io.write(line .. "\n")
+            io.write(line)
+            io.write("\n")
         end
     until d
     if rpc.debug then
-        print("[RPC Reply]" .. line)
+        print("[RPC Reply]", line)
     end
     -- Convert the response to Lua data structures
     local len, r = do_unpack(remote, d+1, line, false)
@@ -232,46 +239,84 @@ local function do_remote(remote_obj, command, ...)
     return table.unpack(r, 1, r.n)
 end
 
-local function rpc_new_call(self, ...)
-    return do_remote(self, "c", ...)
+--
+-- Do a remote on a specific object
+--
+local function rpc_object_remote(self, command, ...)
+    local meta = getmetatable(self)
+    -- Cleanup any remote objects that have been garbage collected
+    while #meta.need_cleanup > 0 do
+        do_remote_command(self, "~" .. meta.need_cleanup[1])
+        table.remove(meta.need_cleanup, 1)
+    end
+    -- Build the comamnd
+    local line = command .. meta.getid(self) .. do_pack(...)
+    -- Do the command and return the results
+    return do_remote_command(self, line)
 end
 
-local function rpc_new_index(self, ...)
-    return do_remote(self, "[", ...)
+local function rpc_object_getid(self)
+    local meta = getmetatable(self)
+    return meta.remoteid[self]
 end
 
-local function rpc_new_setindex(self, ...)
-    do_remote(self, "=", ...)
+local function rpc_object_call(self, ...)
+    return rpc_object_remote(self, "c", ...)
 end
 
-local function rpc_new_len(self)
-    return do_remote(self, "#")
+local function rpc_object_index(self, key)
+    return rpc_object_remote(self, "[", key)
 end
 
-local function rpc_new_gc(self)
-    -- FIXME: Figure out why garbage collection is killing our objects while we are using them
-    --do_remote(self, "~")
+local function rpc_object_setindex(self, key, value)
+    rpc_object_remote(self, "=", key, value)
+end
+
+local function rpc_object_len(self)
+    return rpc_object_remote(self, "#")
+end
+
+local function rpc_object_gc(self)
+    local meta = getmetatable(self)
+    local remoteid = meta.remoteid[self]
+    table.insert(meta.need_cleanup, remoteid)
+    meta.remoteid[self] = nil
 end
 
 --
 -- Create a new local object representing a remote object
 --
-local function rpc_new(instream, outstream, remoteid)
+local function rpc_object_new(self, remoteid)
+    local mymeta = getmetatable(self)
+    local object = newproxy(self)
+    mymeta.remoteid[object] = tostring(remoteid)
+    return object
+end
+
+--
+-- Create a new RPC connection to a remote rpc.serve
+--
+function rpc.connect(instream, outstream)
     local object = newproxy(true)
     local meta = getmetatable(object)
-    meta.remoteid = remoteid
-    meta.new = rpc_new
-    if type(instream) == "string" then
-        meta.inf, meta.outf = connectStreams(instream, outstream)
-    else
-        meta.inf = instream
-        meta.outf = outstream
-    end
-    meta.__call = rpc_new_call
-    meta.__index = rpc_new_index
-    meta.__newindex = rpc_new_setindex
-    meta.__len  = rpc_new_len
-    meta.__gc = rpc_new_gc
+    -- Table used to track remote numeric IDs
+    local m = {}
+    m.__mode = "k"
+    meta.remoteid = {}
+    setmetatable(meta.remoteid, m)
+    meta.remoteid[object] = 0
+    -- Table used to track objects to delete
+    meta.need_cleanup = {}
+    -- Methods for the remote object
+    meta.new = rpc_object_new
+    meta.getid = rpc_object_getid
+    meta.__call = rpc_object_call
+    meta.__index = rpc_object_index
+    meta.__newindex = rpc_object_setindex
+    meta.__len  = rpc_object_len
+    meta.__gc = rpc_object_gc
+    -- File handles for communications
+    meta.inf, meta.outf = connectStreams(instream, outstream)
     return object
 end
 
@@ -279,22 +324,26 @@ end
 -- Pack arguments into a remote param string
 --
 local function server_do_pack(objects, ...)
-    local result = ""
+    local result = {}
     local args = {...}
     for i=1, #args do
         local arg = args[i]
+        local argtype = type(arg)
         if arg == nil then
-            result = result .. "n"
-        elseif type(arg) == "boolean" then
+            table.insert(result, "n")
+        elseif argtype == "boolean" then
             if arg then
-                result = result .. "t"
+                table.insert(result, "t")
             else
-                result = result .. "f"
+                table.insert(result, "f")
             end
-        elseif type(arg) == "number" then
-            result = result .. "#" .. arg
-        elseif type(arg) == "string" then
-            result = result .. '"' .. arg .. '"'
+        elseif argtype == "number" then
+            table.insert(result, "#")
+            table.insert(result, arg)
+        elseif argtype == "string" then
+            table.insert(result, '"')
+            table.insert(result, arg)
+            table.insert(result, '"')
         else
             -- Try and treat any other types as generic remote objects
             -- All accesses to them will cause RPC calls
@@ -308,17 +357,11 @@ local function server_do_pack(objects, ...)
                 objects[id] = arg
                 objects[arg] = {id, 1}
             end
-            result = result .. "@" .. id
+            table.insert(result, '@')
+            table.insert(result, id)
         end
     end
-    return result
-end
-
---
--- Create a new RPC connection to a remote rpc.serve
---
-function rpc.connect(instream, outstream)
-    return rpc_new(instream, outstream, 0)
+    return table.concat(result)
 end
 
 --
@@ -387,7 +430,9 @@ local function rpc_serve(inf, outf, only_one)
             end
             line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
-            outf:write("$" .. line .. "\n")
+            outf:write("$")
+            outf:write(line)
+            outf:write("\n")
             outf:flush()
             if only_one then
                 break
