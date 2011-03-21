@@ -76,6 +76,23 @@ directly from flash without any other software.  DRAM is optional.
 	standard filesystem calls.
 
 
+Build Dependencies
+------------------
+
+For Debian 6.0 (Squeeze), the following packages msut be installed to
+build the BDK.
+
+* subversion-tools
+* build-essential
+* swig
+* gcc-multilib
+* lib32readline6-dev
+* libreadline-dev
+* asciidoc
+* doxygen
+* graphviz
+
+
 Memory Management
 -----------------
 
