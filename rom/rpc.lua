@@ -84,6 +84,60 @@ local function connectStreams(instream, outstream)
     return inf, outf
 end
 
+local REPLACE_STRINGS = {
+    ["\\"] = "\\\\",
+    ['"']  = '\\"',
+    ["\n"] = "\\n",
+    ["\r"] = "\\r",
+    ["\t"] = "\\t",
+}
+
+local function string_pack(s)
+    local r = {'"'}
+    for i=1,#s do
+        local c = s:sub(i,i)
+        if REPLACE_STRINGS[c] then
+            table.insert(r, REPLACE_STRINGS[c])
+        else
+            table.insert(r, c)
+        end
+    end
+    table.insert(r, '"')
+    return table.concat(r)
+end
+
+local function string_unpack(index, str)
+    local fin = #str
+    local i = index
+    local r = {}
+    while i <= fin do
+        local c = str:sub(i,i)
+        if c == "\\" then
+            local c2 = str:sub(i+1,i+1)
+            if c2 == "\\" then
+                table.insert(r, "\\")
+            elseif c2 == '"' then
+                table.insert(r, '"')
+            elseif c2 == "n" then
+                table.insert(r, "\n")
+            elseif c2 == "r" then
+                table.insert(r, "\r")
+            elseif c2 == "t" then
+                table.insert(r, "\t")
+            else
+                error("Invalid backslash escape sequence")
+            end
+            i = i + 1
+        elseif c == '"' then
+            return i+1, table.concat(r)
+        else
+            table.insert(r, c)
+        end
+        i = i + 1
+    end
+    error("Ran out of data processing string")
+end
+
 --
 -- Pack arguments into a remote param string
 --
@@ -105,9 +159,7 @@ local function do_pack(...)
             table.insert(result, "#")
             table.insert(result, arg)
         elseif argtype == "string" then
-            table.insert(result, '"')
-            table.insert(result, arg)
-            table.insert(result, '"')
+            table.insert(result, string_pack(arg))
         elseif argtype == "table" then
             table.insert(result, "{")
             for k,v in pairs(arg) do
@@ -150,10 +202,7 @@ local function do_unpack(remote, start_index, str, is_server)
         elseif c == "f" then    -- Boolean false
             v = false
         elseif c == '"' then    -- String
-            -- Find the ending quote, skipping escaped quotes
-            local start, fin = str:find('[^\\]"', index)
-            v = str:sub(index, fin - 1)
-            index = fin + 1
+            index, v = string_unpack(index, str)
         elseif c == "#" then    -- Number
             -- Numbers are a sequnce of decimal digits. The protocol guarantees
             -- that either a non digit follows a number or it is at the EOL
@@ -183,6 +232,10 @@ local function do_unpack(remote, start_index, str, is_server)
         elseif c == "}" then    -- Table end
             -- End of table. Break out and let the caller finish the string
             break
+        elseif c == "e" then    -- Error exception
+            local t
+            index, t = do_unpack(remote, index, str, is_server)
+            error(t[1])
         else
             error('Unexpected format char at ' .. (index-1) .. ' in  "' .. str .. '"')
         end
@@ -341,9 +394,7 @@ local function server_do_pack(objects, ...)
             table.insert(result, "#")
             table.insert(result, arg)
         elseif argtype == "string" then
-            table.insert(result, '"')
-            table.insert(result, arg)
-            table.insert(result, '"')
+            table.insert(result, string_pack(arg))
         else
             -- Try and treat any other types as generic remote objects
             -- All accesses to them will cause RPC calls
@@ -450,13 +501,15 @@ end
 function rpc.serve(instream, outstream, only_one)
     local inf, outf = connectStreams(instream, outstream)
     local status, message = xpcall(rpc_serve, debug.traceback, inf, outf, only_one)
+    if not status then
+        outf:write("$")
+        outf:write("e")
+        outf:write(server_do_pack(rpc.objects, message))
+        outf:write("\n")
+    end
     inf:close()
     if inf ~= outf then
         outf:close()
-    end
-    if not status then
-        print(message)
-        rpc.objects = nil
     end
 end
 
