@@ -4,8 +4,14 @@ from csr_output_header import getCname
 CHIP_TO_MODEL = {
     "cn63xxp1": "OCTEON_CN63XX_PASS1_X",
     "cn63xx":   "OCTEON_CN63XX_PASS2_X",
-    "cn68xx":   "OCTEON_CN68XX",
+    "cn68xxp1": "OCTEON_CN68XX_PASS1_X",
+    "cn68xx":   "OCTEON_CN68XX_PASS2_X",
 }
+
+# This is filled in when write() is called. It is derived from the chip list
+# and CHIP_TO_MODEL. Format is:
+# CHIP_PASS_LIST["CN63XX"] = ["PASS1_X", "PASS2_X"]
+CHIP_PASS_LIST = {}
 
 FATAL_FUNCTION = "__bdk_csr_fatal"
 
@@ -95,7 +101,7 @@ def writeAddress(out, csr, pci_alias, chip_list):
                 range_check = " && (%s)" % createRangeCheck("block_id", csr[chip].range[0])
         else:
             range_check = " && (%s) && (%s)" % (createRangeCheck("block_id", csr[chip].range[0]), createRangeCheck("offset", csr[chip].range[1]))
-        address_list.append((chip, range_check, csr[chip].getAddressEquation(pci_alias=pci_alias)))
+        address_list.append((CHIP_TO_MODEL[chip], range_check, csr[chip].getAddressEquation(pci_alias=pci_alias)))
     all_same = (len(chip_list) == len(address_list))
     for line in address_list[1:]:
         if (line[1] != address_list[0][1]) or (line[2] != address_list[0][2]):
@@ -111,17 +117,66 @@ def writeAddress(out, csr, pci_alias, chip_list):
         else:
             out.write("\treturn %s;\n" % address_list[0][2])
     else:
-        out.write("\t")
+        #
+        # Convert the list into a table of the format:
+        # model_by_pass["CN63XX"]["PASS1_X"] = line
+        #
+        model_by_pass = {}
         for line in address_list:
-            out.write("if (OCTEON_IS_MODEL(%s)%s)\n" % (CHIP_TO_MODEL[line[0]], line[1]))
-            out.write("\t\treturn %s;\n" % line[2])
-            out.write("\telse ")
+            octeon, chip_model, chip_pass = line[0].split("_", 2)
+            if not chip_model in model_by_pass:
+                model_by_pass[chip_model] = {}
+            model_by_pass[chip_model][chip_pass] = line
+        #
+        # Simplify entries where all passes are present and they are all
+        # the same
+        #
+        for chip_model in model_by_pass:
+            match_line = None
+            all_passes = True
+            for chip_pass in CHIP_PASS_LIST[chip_model]:
+                if not chip_pass in model_by_pass[chip_model]:
+                    all_passes = False
+            for chip_pass in model_by_pass[chip_model]:
+                line = model_by_pass[chip_model][chip_pass]
+                if not match_line:
+                    match_line = line
+                if line[1:] != match_line[1:]:
+                    print "match", match_line
+                    print "line", line
+                    all_passes = False
+            if all_passes:
+                model_by_pass[chip_model] = {"": match_line}
+        #
+        # Write out the address checking stuff
+        #
+        out.write("\t")
+        t = model_by_pass.keys()
+        t.sort()
+        for chip_model in t:
+            for chip_pass in model_by_pass[chip_model]:
+                line = model_by_pass[chip_model][chip_pass]
+                full = "OCTEON_" + chip_model
+                if chip_pass:
+                    full += "_" + chip_pass
+                out.write("if (OCTEON_IS_MODEL(%s)%s)\n" % (full, line[1]))
+                out.write("\t\treturn %s;\n" % line[2])
+                out.write("\telse ")
         out.write("{\n")
         out.write("\t\t%s /* No return */\n" % error_message);
         out.write("\t}\n");
     out.write("}\n");
 
 def write(out, csr, chip_list):
+    # Build the constant CHIP_PASS_LIST table on the first call
+    if not CHIP_PASS_LIST:
+        for chip in chip_list:
+            full = CHIP_TO_MODEL[chip]
+            octeon, chip_model, chip_pass = full.split("_", 2)
+            if not chip_model in CHIP_PASS_LIST:
+                CHIP_PASS_LIST[chip_model] = []
+            if not chip_pass in CHIP_PASS_LIST[chip_model]:
+                CHIP_PASS_LIST[chip_model].append(chip_pass)
     writeAddress(out, csr, 0, chip_list)
     writeAddress(out, csr, 1, chip_list)
 

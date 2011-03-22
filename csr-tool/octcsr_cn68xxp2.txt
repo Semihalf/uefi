@@ -8488,7 +8488,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:61> NS       RAZ      NS          NS        Reserved				            |
+ <63:62> NS       RAZ      NS          NS        Reserved				            |
+ <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
+						  turns on mode to increment DPI_DMA_PPx_CNT        |
+						  counters.
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -9122,6 +9125,31 @@ Pos      Name    Type     Value     Value       Description
 						  If STATUS<n> is set, then the nth instruction in  |
 						  the given queue experienced an ErrorResponse.	    |
 						  Otherwise, it completed normally.		    |
+----------------------------------------------------------------------------------------------------
+===
+
+ *Pass2.0 and above only*
+ *
+ *                  DPI_DMA_PP[0..31]_CNT  = DMA per PP Instr Done Counter
+ *
+ * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.INT_MODE is enabled, every dma instruction
+ * that has the WQP=0 and a PTR value of 1..0x20 will incremrement DPI_DMA_PPx_CNT value-1 counter.
+ * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
+ * Hardware reserves that values 0x21..0x3F for future use and will treat them as a PTR of 0 and do nothing.
+
+     ==============================================================
+     DPI_DMA_PP(0..31)_CNT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:16> NS       RAZ      NS          NS        Reserved					    |
+ <15:0>  CNT      R/W      0x0         NS        Counter incremented according to conditions 	    |
+						  described above and decremented by values written |
+                                                  to this field.  A CNT of non zero, will cause     |
+						  an interrupt in the CIU_SUM1_PP@_IPX register     |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12984,6 +13012,24 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
+ *DON'T PUT IN HRM*
+ *
+
+     ==============================================================
+     GMX(0..4)_TB_REG Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     WR_MAGIC R/W      0           0         Enter stats model magic mode		            |
+----------------------------------------------------------------------------------------------------
+===
+
+
+ *
  * GMX_SOFT_BIST = Software BIST Control
  *
 
@@ -13194,12 +13240,13 @@ Pos      Name    Type     Value     Value       Description
                                                          transmitting packets, as per RX_LINK_FC_PKT                    |
 <21>     PKT_FLUSH            R/W      0x0      NS       Packet transmit flush.  While PKT_FLUSH=1, the TxFifo will     |
                                                          continuously drain; all data will be dropped.  Software should |
-                                                         first write PKT_ENA=0 and wait packet transmission to stop.    |
+                                                         first write PKT_ENA=0 and wait for PKT_BUSY=0.                 |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
 <30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay.                                        |
 <31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
                                                          ignore pipe credits.                                           |
-<63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<32>     PKT_BUSY             RO       0x0      NS       Tx-Link is transmitting data.                                  |
+<63:33>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13732,9 +13779,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<26:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received.  Saturates.  Interrupt on    |
+<32:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received.  Saturates.  Interrupt on    |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
-<63:27>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:33>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13762,9 +13809,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   BRST_CNT             R/W      0x0      NS       Number of bursts correctly received. (ie. good CRC24, not in   |
+<27:0>   BRST_CNT             R/W      0x0      NS       Number of bursts correctly received. (ie. good CRC24, not in   |
                                                          violation of BurstMax or BurstShort)                           |
-<31:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<31:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <47:32>  BRST_NOT_FULL_CNT    R/W      0x0      NS       Number of bursts received which terminated without an eop and  |
                                                          contained fewer than BurstMax words.  Saturates.  Interrupt on |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
@@ -13811,10 +13858,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   ALIGN_CNT            R/W      0x0      NS       Number of alignment sequences received  (ie. those that do not |
+<22:0>   ALIGN_CNT            R/W      0x0      NS       Number of alignment sequences received  (ie. those that do not |
                                                          violate the current alignment).  Saturates.  Interrupt on      |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
-<63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:23>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14223,7 +14270,9 @@ Pos      Name    Type     Value     Value       Description
 <3>      RX_DIS_UKWN          R/W      0x0      NS       Disable normal response to unknown words.  They are still      |
                                                          logged but do not cause an error to all open channels..        |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
-<63:5>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<5>      RX_PSH_SKIP          R/W      0x0      NS       Push skip words into the de-striper.   Otherwise, drop them in |
+                                                         the lane logic.                                                |
+<63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -15050,7 +15099,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:7>  NS       RAZ      NS          NS        Reserved			                     |
- <6:0>   CRD      R/W      14          NS        Number of credits for DID. Writing this field will  |
+ <6:0>   CRD      R/W      13          NS        Number of credits for DID. Writing this field will  |
                                                  casuse the credits to be set to the value written.  |
                                                  Reading this field will give the number of credits  |
 						 PRESENTLY available.                                |
@@ -16938,6 +16987,33 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+ *
+ *                  IPD_REQ_WGT = IPD REQ weights
+ *
+ * There are 8 devices that can request to send packet traffic to the IPD. These weights are used for the Weighted Round Robin
+ * grant generated by the IPD to requestors.
+ *
+
+     ==============================================================
+     IPD_REQ_WGT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <7:0>    WGT0      	R/W    0xFF   0xFF     Weight for AGX0 REQ 			    	    |
+ <15:8>   WGT1      	R/W    0xFF   0xFF     Weight for AGX1 REQ 			    	    |
+ <23:16>  WGT2      	R/W    0xFF   0xFF     Weight for AGX2 REQ 			    	    |
+ <31:24>  WGT3      	R/W    0xFF   0xFF     Weight for AGX3 REQ 			    	    |
+ <39:32>  WGT4      	R/W    0xFF   0xFF     Weight for AGX4 REQ			    	    |
+ <47:40>  WGT5      	R/W    0xFF   0xFF     Weight for DPI  REQ			    	    |
+ <55:48>  WGT6      	R/W    0xFF   0xFF     Weight for PKO  REQ			    	    |
+ <63:56>  WGT7      	R/W    0xFF   0xFF     Weight for ILK  REQ			    	    |
+----------------------------------------------------------------------------------------------------
+===
+
+
 
 
  *
@@ -17095,7 +17171,11 @@ Pos      Name    Type     Value     Value       Description
  <25>     L2DFDBE       R/W    0      0        Force double bit ECC error on PL2 allocates (2)      |
  <26>     L2DFSBE       R/W    0      0        Force single bit ECC error on PL2 allocates (2)      |
  <27>     DISSTGL2I     R/W    0      0        Disable STGL2I's from changing the tags              |
- <63:28>  NS            RAZ    NS     NS       RESERVED						    |
+ <28>     RDF_FAST      R/W    0      1        When 0, delay read data fifo from DCLK to RCLK by one|
+                                               cycle.  Needed when DCLK:RCLK ratio > 3:1.  Should be|
+                                               set before DDR traffic begins and only changed when  |
+                                               memory traffic is idle.                              |
+ <63:29>  NS            RAZ    NS     NS       RESERVED						    |
 
 Notes:
 
@@ -20520,7 +20600,9 @@ Pos      Name    Type     Value     Value       Description
                                              0 = PRBS
                                              1 = Programmable pattern
 <41>     EN             R/W NS     NS        Enable characterization
-<63:42>  NS             R/W NS      NS        RESERVED
+<42>     SKEW_ON        R/W NS     NS        Skew adjacent bits
+<43>     DR             R/W NS     NS        Pattern at Data Rate (not Clock Rate)
+<63:44>  NS             R/W NS     NS        RESERVED
 
 Notes:
 ----------------------------------------------------------------------------------------------------
@@ -23686,7 +23768,21 @@ Pos      Name    Type     Value     Value       Description
                                                  0x13      : QLM3_REF_CLK
                                                  0x14      : QLM4_REF_CLK
                                                  0x15-0x3f : Reserved
- <63:24> NS         RAZ     NS         NS        Reserved				            |
+ <24>    CKOUT_EN   R/W     0x0	       0	 Enable PTP Clock Out                               |
+ <25>    CKOUT_INV  R/W     0x0	       0	 Invert PTP Clock Out                               |
+                                                 0 = don't invert
+                                                 1 = invert
+ <29:26> CKOUT_OUT  R/W     0x0	       0	 Destination for PTP Clock Out output               |
+                                                 0x00-0x0f : GPIO[CKOUT_OUT[3:0]]
+	                                         This should be different from PPS_OUT
+ <30>    PPS_EN     R/W     0x0	       0	 Enable PTP PPS                                     |
+ <31>    PPS_INV    R/W     0x0	       0	 Invert PTP PPS                                     |
+                                                 0 = don't invert
+                                                 1 = invert
+ <35:32> PPS_OUT    R/W     0x0	       0	 Destination for PTP PPS       output               |
+                                                 0x00-0x0f : GPIO[PPS_OUT[3:0]]
+	                                         This should be different from CKOUT_OUT
+ <63:36> NS         RAZ     NS         NS        Reserved				            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23776,6 +23872,146 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  CNTR     R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_THRESH_LO = Lo bytes of PTP Clock Out
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_THRESH_LO Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0xffffffff 0	 Fractions of Nanoseconds                           |
+ <63:32> NS         RAZ     NS         NS        Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_THRESH_HI = Hi bytes of PTP Clock Out
+ *
+ * Writes to MIO_PTP_CKOUT_THRESH_HI also clear MIO_PTP_CKOUT_THRESH_LO. To update all 96 bits, write MIO_PTP_CKOUT_THRESH_HI followed
+ * by MIO_PTP_CKOUT_THRESH_LO
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_THRESH_HI Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  NANOSEC    R/W     0xffffffffffffffff 0 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_HI_INCR = PTP Clock Out Hi Increment
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_HI_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_CKOUT_LO_INCR = PTP Clock Out Lo Increment
+ *
+
+     ==============================================================
+     MIO_PTP_CKOUT_LO_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_THRESH_LO = Lo bytes of PTP PPS
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_THRESH_LO Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0xffffffff 0	 Fractions of Nanoseconds                           |
+ <63:32> NS         RAZ     NS         NS        Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_THRESH_HI = Hi bytes of PTP PPS
+ *
+ * Writes to MIO_PTP_PPS_THRESH_HI also clear MIO_PTP_PPS_THRESH_LO. To update all 96 bits, write MIO_PTP_PPS_THRESH_HI followed
+ * by MIO_PTP_PPS_THRESH_LO
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_THRESH_HI Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  NANOSEC    R/W     0xffffffffffffffff 0 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_HI_INCR = PTP PPS Hi Increment
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_HI_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ * MIO_PTP_PPS_LO_INCR = PTP PPS Lo Increment
+ *
+
+     ==============================================================
+     MIO_PTP_PPS_LO_INCR Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  FRNANOSEC  R/W     0x0	       0	 Fractions of Nanoseconds                           |
+ <63:32> NANOSEC    R/W     0x0	       0	 Nanoseconds                                        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -29774,6 +30010,28 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+
+     ==============================================================
+     PIP_VLAN_ETYPES(0..1) Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:48> TYPE3    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <47:32> TYPE2    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <31:16> TYPE1    R/W      0x8100      0x8100    VLAN Ethertype				            |
+ <15:0>  TYPE0    R/W      0x8100      0x8100    VLAN Ethertype				            |
+						  Specifies ethertypes that will be parsed as	    |
+						  containing VLAN information. Each TYPE is	    |
+						  orthagonal; if all eight are not required, set    |
+						  multiple TYPEs to the same value (as in the	    |
+						  0x8100 default value).			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
  *
  * PIP_PRT_CFG@ = Per port config information
  *
@@ -30417,7 +30675,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:7>  NS           RAZ       NS          NS       RESERVED
+ <63:9>  NS           RAZ       NS          NS       RESERVED
+ <8>     DIS_PERF3    R/W       0           0        Set to disable inactive queue QOS skipping
+ <7>     DIS_PERF2    R/W       0           0        Set to disable inactive queue skipping
  <6>     DIS_PERF1    R/W       0           0        Set to disable command word prefetching
  <5>     DIS_PERF0    R/W       0           0        Set to disable read performance optimizations
  <4>     ENA_THROTTLE R/W       0           0        Set to enable the PKO picker throttle logic
@@ -30710,7 +30970,8 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:35> NS       RAZ       NS          NS       RESERVED
+ <63:36> NS       RAZ       NS          NS       RESERVED
+ <35:35> CRC      RO        X           0        BiST result of CRC      memories (0=pass, !0=fail)
  <34:34> CSR      RO        X           0        BiST result of CSR      memories (0=pass, !0=fail)
  <33:33> IOB      RO        X           0        BiST result of IOB      memories (0=pass, !0=fail)
  <32:32> OUT_DAT  RO        X           0        BiST result of OUT_DAT  memories (0=pass, !0=fail)
@@ -34161,9 +34422,7 @@ Pos      Name    Type     Value     Value       Description
  <1>     NTT      R/W      0x0         NS        NTT. Used when packet is raw and PBP==0.
  <2>     NGRP     R/W      0x0         NS        NGRP. Used when packet is raw and PBP==0.
  <3>     NQOS     R/W      0x0         NS        NQOS. Used when packet is raw and PBP==0.
- <5:4>   NS       R/W      0x0         NS        Reserved
-                                                 (A R/W field in real HW, but we require SW to
-                                                 always write zeroes.)
+ <5:4>   NGRPEXT  R/W      0x0         NS        NGRPEXT. Used when packet is raw and PBP==0.
  <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Used when USE_IHDR is set and packet
                                                  is not raw and PBP is not set.
  <13>    NS       R/W      0x0         NS        Reserved
@@ -34183,9 +34442,7 @@ Pos      Name    Type     Value     Value       Description
  <23>    RNTT     R/W      0x0         NS        RNTT. Used when packet is raw and PBP==0.
  <24>    RNGRP    R/W      0x0         NS        RNGRP. Used when packet is raw and PBP==0.
  <25>    RNQOS    R/W      0x0         NS        RNQOS. Used when packet is raw and PBP==0.
- <27:26> NS       R/W      0x0         NS        Reserved
-                                                 (A R/W field in real HW, but we require SW to
-                                                 always write zeroes.)
+ <27:26> RNGRPEXT R/W      0x0         NS        RNGRPEXT. Used when packet is raw and PBP==0.
  <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Used when packet is raw and PBP==0.
  <35>    NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
@@ -35155,7 +35412,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:54> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <63:62> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <61:60> ODU_PREF  RO	    0x0	    0x0	     ODU Prefetch memory BIST status			    |
+ <59:54> NS	   RAZ	    NS	    NS	     Reserved						    |
  <53:52> FPTR	   RO	    0x0	    0x0	     FPTR memory BIST status				    |
  <51:45> NS	   RAZ	    NS	    NS	     Reserved						    |
  <44>	 RWO_DAT   RO	    0x0	    0x0	     RWO_DAT memory BIST status				    |
@@ -35164,8 +35423,8 @@ Pos      Name    Type     Value     Value       Description
  <34>	 RWI_DAT   RO	    0x0	    0x0	     RWI_DAT memory BIST status				    |
  <33:32> NS	   RAZ	    NS	    NS	     Reserved						    |
  <31>	 SOC	   RO	    0x0	    0x0	     SSO CAM BIST status				    |
- <30:29> NS	   RAZ	    NS	    NS	     Reserved						    |
- <28:24> NCBO	   RO	    0x0	    0x0	     NCBO transmitter memory BIST status		    |
+ <30:28> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <27:24> NCBO	   RO	    0x0	    0x0	     NCBO transmitter memory BIST status		    |
  <23:21> NS	   RAZ	    NS	    NS	     Reserved						    |
  <20>	 IDX	   RO	    0x0	    0x0	     Index memory BIST status				    |
  <19:17> NS	   RAZ	    NS	    NS	     Reserved						    |
@@ -35267,7 +35526,17 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:4>  NS	   RAZ	    NS	    NS	     Reserved						    |
+ <63:10> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <9>	 ODU_PRF_DIS  R/W   0x0	    0x0	     Disable ODU-initiated prefetches of WQEs into L2C	    |
+						For diagnostic use only.
+ <8>	 ODU_BMP_DIS  R/W   0x0	    0x0	     Disable ODU bumps.					    |
+                                                If SSO_PP_STRICT is true, could
+                                                prevent forward progress under some circumstances.
+						For diagnostic use only.
+ <7:5>	 NS	   RAZ	    NS	    NS	     Reserved						    |
+ <4>	 GWE_HVY_DIS  R/W   0x0	    0x0	     Disable GWE automatic, proportional weight-increase    |
+						mechanism and use SSO_QOS@_RND values as-is.
+						For diagnostic use only.
  <3>	 GWE_POE   R/W	    0x0	    0x0	     Pause GWE on extracts				    |
 						For diagnostic use only.
  <2>	 GWE_FPOR  R/W	    0x0	    0x0	     Flush GWE pipeline when restarting GWE.		    |
@@ -39746,14 +40015,23 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:48> NS        RAZ      NS          NS        RESERVED                                          |
- <47:32> DEPTH     RO       0x7c00      0x7c00    Maximum search depth for compression              |
- <31:20> ONFSIZE   RO       0x200       0x200     Output near full threshold in bytes               |
- <19:8>  CTXSIZE   RO       0x600       0x600     Decompression Context size in bytes               |
- <7:1>   NS        RAZ      NS          NS        unused                                            |
- <0>     DISABLED  RO       0           0         1=zip is disabled, 0=zip is enabled               |
+ <63:56> NEXEC             RO       0x2         0x2       Number of available ZIP Exec Units        |
+ <55:49> NS                RAZ      NS          NS        RESERVED                                  |
+ <48>    SYNCFLUSH_CAPABLE RO       0x1         0x1       1: SYNCFLUSH is supported                 |
+                                                          0: SYNCFLUSH is not supported.            |
+                                                          Note: for O68 1.0, SYNCFLUSH is supported |
+                                                                although this field is 0.           |
+ <47:32> DEPTH             RO       0x7c00      0x7c00    Maximum search depth for compression      |
+ <31:20> ONFSIZE           RO       0x200       0x200     Output near full threshold in bytes       |
+ <19:8>  CTXSIZE           RO       0x600       0x600     Decompression Context size in bytes       |
+ <7:1>   NS                RAZ      NS          NS        unused                                    |
+ <0>     DISABLED          RO       0           0         1=zip is disabled, 0=zip is enabled       |
 ----------------------------------------------------------------------------------------------------
 ===
+ *
+ * NOTE: Fields NEXEC and SYNCFLUSH_CAPABLE are only valid for chips after O68 2.0 (including O68 2.0).
+ *
+
 
 
 
@@ -45568,6 +45846,38 @@ DPI_DMA_ENG2_EN                0x0001DF0000000090  NCB
 DPI_DMA_ENG3_EN                0x0001DF0000000098  NCB
 DPI_DMA_ENG4_EN                0x0001DF00000000A0  NCB
 DPI_DMA_ENG5_EN                0x0001DF00000000A8  NCB
+DPI_DMA_PP0_CNT                0x0001DF0000000B00  NCB
+DPI_DMA_PP1_CNT                0x0001DF0000000B08  NCB
+DPI_DMA_PP2_CNT                0x0001DF0000000B10  NCB
+DPI_DMA_PP3_CNT                0x0001DF0000000B18  NCB
+DPI_DMA_PP4_CNT                0x0001DF0000000B20  NCB
+DPI_DMA_PP5_CNT                0x0001DF0000000B28  NCB
+DPI_DMA_PP6_CNT                0x0001DF0000000B30  NCB
+DPI_DMA_PP7_CNT                0x0001DF0000000B38  NCB
+DPI_DMA_PP8_CNT                0x0001DF0000000B40  NCB
+DPI_DMA_PP9_CNT                0x0001DF0000000B48  NCB
+DPI_DMA_PP10_CNT               0x0001DF0000000B50  NCB
+DPI_DMA_PP11_CNT               0x0001DF0000000B58  NCB
+DPI_DMA_PP12_CNT               0x0001DF0000000B60  NCB
+DPI_DMA_PP13_CNT               0x0001DF0000000B68  NCB
+DPI_DMA_PP14_CNT               0x0001DF0000000B70  NCB
+DPI_DMA_PP15_CNT               0x0001DF0000000B78  NCB
+DPI_DMA_PP16_CNT               0x0001DF0000000B80  NCB
+DPI_DMA_PP17_CNT               0x0001DF0000000B88  NCB
+DPI_DMA_PP18_CNT               0x0001DF0000000B90  NCB
+DPI_DMA_PP19_CNT               0x0001DF0000000B98  NCB
+DPI_DMA_PP20_CNT               0x0001DF0000000BA0  NCB
+DPI_DMA_PP21_CNT               0x0001DF0000000BA8  NCB
+DPI_DMA_PP22_CNT               0x0001DF0000000BB0  NCB
+DPI_DMA_PP23_CNT               0x0001DF0000000BB8  NCB
+DPI_DMA_PP24_CNT               0x0001DF0000000BC0  NCB
+DPI_DMA_PP25_CNT               0x0001DF0000000BC8  NCB
+DPI_DMA_PP26_CNT               0x0001DF0000000BD0  NCB
+DPI_DMA_PP27_CNT               0x0001DF0000000BD8  NCB
+DPI_DMA_PP28_CNT               0x0001DF0000000BE0  NCB
+DPI_DMA_PP29_CNT               0x0001DF0000000BE8  NCB
+DPI_DMA_PP30_CNT               0x0001DF0000000BF0  NCB
+DPI_DMA_PP31_CNT               0x0001DF0000000BF8  NCB
 DPI_ENG0_BUF                   0x0001DF0000000880  NCB
 DPI_ENG1_BUF                   0x0001DF0000000888  NCB
 DPI_ENG2_BUF                   0x0001DF0000000890  NCB
@@ -45826,6 +46136,7 @@ GMX0_SMAC002                   0x0001180008001230  RSL
 GMX0_SMAC003                   0x0001180008001A30  RSL
 GMX0_SOFT_BIST                 0x00011800080007E8  RSL
 GMX0_STAT_BP                   0x0001180008000520  RSL
+GMX0_TB_REG                    0x00011800080007E0  RSL
 GMX0_TX000_APPEND              0x0001180008000218  RSL
 GMX0_TX000_BURST               0x0001180008000228  RSL
 GMX0_TX000_CBFC_XOFF           0x00011800080005A0  RSL
@@ -46103,6 +46414,7 @@ GMX1_SMAC002                   0x0001180009001230  RSL
 GMX1_SMAC003                   0x0001180009001A30  RSL
 GMX1_SOFT_BIST                 0x00011800090007E8  RSL
 GMX1_STAT_BP                   0x0001180009000520  RSL
+GMX1_TB_REG                    0x00011800090007E0  RSL
 GMX1_TX000_APPEND              0x0001180009000218  RSL
 GMX1_TX000_BURST               0x0001180009000228  RSL
 GMX1_TX000_CBFC_XOFF           0x00011800090005A0  RSL
@@ -46380,6 +46692,7 @@ GMX2_SMAC002                   0x000118000A001230  RSL
 GMX2_SMAC003                   0x000118000A001A30  RSL
 GMX2_SOFT_BIST                 0x000118000A0007E8  RSL
 GMX2_STAT_BP                   0x000118000A000520  RSL
+GMX2_TB_REG                    0x000118000A0007E0  RSL
 GMX2_TX000_APPEND              0x000118000A000218  RSL
 GMX2_TX000_BURST               0x000118000A000228  RSL
 GMX2_TX000_CBFC_XOFF           0x000118000A0005A0  RSL
@@ -46657,6 +46970,7 @@ GMX3_SMAC002                   0x000118000B001230  RSL
 GMX3_SMAC003                   0x000118000B001A30  RSL
 GMX3_SOFT_BIST                 0x000118000B0007E8  RSL
 GMX3_STAT_BP                   0x000118000B000520  RSL
+GMX3_TB_REG                    0x000118000B0007E0  RSL
 GMX3_TX000_APPEND              0x000118000B000218  RSL
 GMX3_TX000_BURST               0x000118000B000228  RSL
 GMX3_TX000_CBFC_XOFF           0x000118000B0005A0  RSL
@@ -46934,6 +47248,7 @@ GMX4_SMAC002                   0x000118000C001230  RSL
 GMX4_SMAC003                   0x000118000C001A30  RSL
 GMX4_SOFT_BIST                 0x000118000C0007E8  RSL
 GMX4_STAT_BP                   0x000118000C000520  RSL
+GMX4_TB_REG                    0x000118000C0007E0  RSL
 GMX4_TX000_APPEND              0x000118000C000218  RSL
 GMX4_TX000_BURST               0x000118000C000228  RSL
 GMX4_TX000_CBFC_XOFF           0x000118000C0005A0  RSL
@@ -48001,6 +48316,7 @@ IPD_RED_QUE4_PARAM             0x00014F0000000300  NCB
 IPD_RED_QUE5_PARAM             0x00014F0000000308  NCB
 IPD_RED_QUE6_PARAM             0x00014F0000000310  NCB
 IPD_RED_QUE7_PARAM             0x00014F0000000318  NCB
+IPD_REQ_WGT                    0x00014F0000004418  NCB
 IPD_SUB_PORT_BP_PAGE_CNT       0x00014F0000000148  NCB
 IPD_SUB_PORT_QOS_CNT           0x00014F0000000800  NCB
 IPD_WQE_FPA_QUEUE              0x00014F0000000020  NCB
@@ -66122,11 +66438,19 @@ MIO_GPIO_COMP                  0x00011800000000C8  RSL
 MIO_NDF_DMA_CFG                0x0001180000000168  RSL
 MIO_NDF_DMA_INT                0x0001180000000170  RSL
 MIO_NDF_DMA_INT_EN             0x0001180000000178  RSL
+MIO_PTP_CKOUT_HI_INCR          0x0001070000000F40  NCB
+MIO_PTP_CKOUT_LO_INCR          0x0001070000000F48  NCB
+MIO_PTP_CKOUT_THRESH_HI        0x0001070000000F38  NCB
+MIO_PTP_CKOUT_THRESH_LO        0x0001070000000F30  NCB
 MIO_PTP_CLOCK_CFG              0x0001070000000F00  NCB
 MIO_PTP_CLOCK_COMP             0x0001070000000F18  NCB
 MIO_PTP_CLOCK_HI               0x0001070000000F10  NCB
 MIO_PTP_CLOCK_LO               0x0001070000000F08  NCB
 MIO_PTP_EVT_CNT                0x0001070000000F28  NCB
+MIO_PTP_PPS_HI_INCR            0x0001070000000F60  NCB
+MIO_PTP_PPS_LO_INCR            0x0001070000000F68  NCB
+MIO_PTP_PPS_THRESH_HI          0x0001070000000F58  NCB
+MIO_PTP_PPS_THRESH_LO          0x0001070000000F50  NCB
 MIO_PTP_TIMESTAMP              0x0001070000000F20  NCB
 MIO_QLM0_CFG                   0x0001180000001590  RSL
 MIO_QLM1_CFG                   0x0001180000001598  RSL
@@ -68533,6 +68857,8 @@ PIP_TAG_INC63                  0x00011800A00019F8  RSL
 PIP_TAG_MASK                   0x00011800A0000070  RSL
 PIP_TAG_SECRET                 0x00011800A0000068  RSL
 PIP_TODO_ENTRY                 0x00011800A0000078  RSL
+PIP_VLAN_ETYPES0               0x00011800A00001C0  RSL
+PIP_VLAN_ETYPES1               0x00011800A00001C8  RSL
 PKO_MEM_COUNT0                 0x0001180050001080  RSL
 PKO_MEM_COUNT1                 0x0001180050001088  RSL
 PKO_MEM_DEBUG0                 0x0001180050001100  RSL
