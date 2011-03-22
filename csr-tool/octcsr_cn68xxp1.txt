@@ -9128,13 +9128,14 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
+ *Pass2.0 and above only*
  *
  *                  DPI_DMA_PP[0..31]_CNT  = DMA per PP Instr Done Counter
  *
  * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.INT_MODE is enabled, every dma instruction
  * that has the WQP=0 and a PTR value of 1..0x20 will incremrement DPI_DMA_PPx_CNT value-1 counter.
  * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
- * Hardware reserves that values 0xC..0x3F for future use and will treat them as a PTR of 0 and do nothing.
+ * Hardware reserves that values 0x21..0x3F for future use and will treat them as a PTR of 0 and do nothing.
 
      ==============================================================
      DPI_DMA_PP(0..31)_CNT Type=NCB
@@ -9146,8 +9147,9 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:16> NS       RAZ      NS          NS        Reserved					    |
  <15:0>  CNT      R/W      0x0         NS        Counter incremented according to conditions 	    |
-						  described above.  When non zero it will cause an  |
-						  interrupt in CIU ? register                       |
+						  described above and decremented by values written |
+                                                  to this field.  A CNT of non zero, will cause     |
+						  an interrupt in the CIU_SUM1_PP@_IPX register     |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13238,12 +13240,13 @@ Pos      Name    Type     Value     Value       Description
                                                          transmitting packets, as per RX_LINK_FC_PKT                    |
 <21>     PKT_FLUSH            R/W      0x0      NS       Packet transmit flush.  While PKT_FLUSH=1, the TxFifo will     |
                                                          continuously drain; all data will be dropped.  Software should |
-                                                         first write PKT_ENA=0 and wait packet transmission to stop.    |
+                                                         first write PKT_ENA=0 and wait for PKT_BUSY=0.                 |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
 <30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay.                                        |
 <31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
                                                          ignore pipe credits.                                           |
-<63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<32>     PKT_BUSY             RO       0x0      NS       Tx-Link is transmitting data.                                  |
+<63:33>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13776,9 +13779,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<26:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received.  Saturates.  Interrupt on    |
+<32:0>   CRC24_MATCH_CNT      R/W      0x0      NS       Number of CRC24 matches received.  Saturates.  Interrupt on    |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
-<63:27>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:33>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13806,9 +13809,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   BRST_CNT             R/W      0x0      NS       Number of bursts correctly received. (ie. good CRC24, not in   |
+<27:0>   BRST_CNT             R/W      0x0      NS       Number of bursts correctly received. (ie. good CRC24, not in   |
                                                          violation of BurstMax or BurstShort)                           |
-<31:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<31:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <47:32>  BRST_NOT_FULL_CNT    R/W      0x0      NS       Number of bursts received which terminated without an eop and  |
                                                          contained fewer than BurstMax words.  Saturates.  Interrupt on |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
@@ -13855,10 +13858,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<15:0>   ALIGN_CNT            R/W      0x0      NS       Number of alignment sequences received  (ie. those that do not |
+<22:0>   ALIGN_CNT            R/W      0x0      NS       Number of alignment sequences received  (ie. those that do not |
                                                          violate the current alignment).  Saturates.  Interrupt on      |
                                                          saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.                 |
-<63:16>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:23>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14267,7 +14270,9 @@ Pos      Name    Type     Value     Value       Description
 <3>      RX_DIS_UKWN          R/W      0x0      NS       Disable normal response to unknown words.  They are still      |
                                                          logged but do not cause an error to all open channels..        |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
-<63:5>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<5>      RX_PSH_SKIP          R/W      0x0      NS       Push skip words into the de-striper.   Otherwise, drop them in |
+                                                         the lane logic.                                                |
+<63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30670,7 +30675,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS           RAZ       NS          NS       RESERVED
+ <63:9>  NS           RAZ       NS          NS       RESERVED
+ <8>     DIS_PERF3    R/W       0           0        Set to disable inactive queue QOS skipping
  <7>     DIS_PERF2    R/W       0           0        Set to disable inactive queue skipping
  <6>     DIS_PERF1    R/W       0           0        Set to disable command word prefetching
  <5>     DIS_PERF0    R/W       0           0        Set to disable read performance optimizations
@@ -36975,8 +36981,13 @@ Pos      Name    Type     Value     Value       Description
 <17>     PKO      R/W      0           0         Enable tracing of read requests from PKO
 <16>     PKI      R/W      0           0         Enable tracing of write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable tracing from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<7:0>    PP       R/W      0           0         Enable tracing from PP[N*4 + @] with
+						 matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=7
+						   TRA0 can trace PP's 0, 4, ... 28
+						   TRA1 can trace PP's 1, 5, ... 29
+						   TRA2 can trace PP's 2, 6, ... 30
+						   TRA3 can trace PP's 3, 7, ... 31
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -37232,8 +37243,13 @@ Pos      Name    Type     Value     Value       Description
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable triggering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<7:0>    PP       R/W      0           0         Enable triggering from PP[N*4 + @] with
+						 matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=7
+						   TRA0 can trigger from PP's 0, 4, ... 28
+						   TRA1 can trigger from PP's 1, 5, ... 29
+						   TRA2 can trigger from PP's 2, 6, ... 30
+						   TRA3 can trigger from PP's 3, 7, ... 31
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -37489,8 +37505,13 @@ Pos      Name    Type     Value     Value       Description
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable trigering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<7:0>    PP       R/W      0           0         Enable triggering from PP[N*4 + @] with
+						 matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=7
+						   TRA0 can trigger from PP's 0, 4, ... 28
+						   TRA1 can trigger from PP's 1, 5, ... 29
+						   TRA2 can trigger from PP's 2, 6, ... 30
+						   TRA3 can trigger from PP's 3, 7, ... 31
 ----------------------------------------------------------------------------------------------------
 ===
  *
