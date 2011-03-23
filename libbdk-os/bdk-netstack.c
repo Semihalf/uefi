@@ -28,13 +28,25 @@ static void netstack_netif_poll_link(void *unused)
         {
             /* Bring the link up */
             if (!netif_is_link_up(netif))
+            {
                 netif_set_link_up(netif);
+                printf("%s: Link up, %d Mbps, %s duplex",
+                    bdk_if_name(handle), link.s.speed,
+                    (link.s.full_duplex) ? "Full" : "Half");
+                if (link.s.lanes)
+                    printf(", %d lanes\n", link.s.lanes);
+                else
+                    printf("\n");
+            }
         }
         else
         {
             /* Bring the link up */
             if (netif_is_link_up(netif))
+            {
                 netif_set_link_down(netif);
+                printf("%s: Link down\n", bdk_if_name(handle));
+            }
         }
     }
     netif = netif->next;
