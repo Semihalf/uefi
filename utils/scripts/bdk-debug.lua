@@ -253,14 +253,14 @@ function bdkdebug.debughook(reason, lineno)
         local cmd = cmdline:match("%g+")
 
         -- Process the command
-        if (cmd == "s") or (cmd == nil) then
+        if cmd == "s" then
             -- Step into
             bdkdebug.stack_depth = 1
             bdkdebug.running = false
             bdkdebug.step_over = false
             return
 
-        elseif cmd == "n" then
+        elseif (cmd == "n") or (cmd == nil) then
             -- Step over
             bdkdebug.stack_depth = 1
             bdkdebug.step_over = true
@@ -322,19 +322,21 @@ function bdkdebug.debughook(reason, lineno)
         elseif cmd == "quit" then
             os.exit(true)
 
-        elseif cmd == "help" then
+        elseif (cmd == "help") or (cmd == "h") then
             -- Help
-            print("help     Show this help")
-            print("s        Step into")
-            print("n        Step over")
-            print("c        Continue")
-            print("b        Insert or list breakpoints")
-            print("db       Delete breakpoint")
-            print("up       Move up the call stack")
-            print("down     Move down the call stack")
-            print("quit     Quit the debugger")
-            print("Empty line is the same as step.")
-
+            print("help             Show list of supported commands.")
+            print("h                Shortcut for \"help\".")
+            print("s                Step into.")
+            print("n                Step over.")
+            print("c                Continue execution.")
+            print("b                Display all breakpoints.")
+            print("b <line>         Insert breakpoint into the current file for <line>.")
+            print("b <file>:<line>  Insert breakpoint into <file> for <line>.")
+            print("db <num>         Delete breakpoint <num>. Use the index from the \"b\" command.")
+            print("up               Move up the call stack.")
+            print("down             Move down the call stack.")
+            print("quit             Quit the debugger.")
+            print("An empty line is the same as \"n\".")
         else
             print("Illegal command")
         end

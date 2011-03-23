@@ -270,16 +270,19 @@ the debugger command line.
 
 .Commands supported by *bdk-debug*
 ----
-help     Show this help
-s        Step into
-n        Step over
-c        Continue
-b        Insert or list breakpoints
-db       Delete breakpoint
-up       Move up the call stack
-down     Move down the call stack
-quit     Quit the debugger
-Empty line is the same as step.
+help             Show list of supported commands.
+h                Shortcut for "help".
+s                Step into.
+n                Step over.
+c                Continue execution.
+b                Display all breakpoints.
+b <line>         Insert breakpoint into the current file for <line>.
+b <file>:<line>  Insert breakpoint into <file> for <line>.
+db <num>         Delete breakpoint <num>. Use the index from the "b" command.
+up               Move up the call stack.
+down             Move down the call stack.
+quit             Quit the debugger.
+An empty line is the same as "n".
 ----
 
 
