@@ -351,6 +351,11 @@ function bdkdebug.debughook(reason, lineno)
             break
         end
     end
+    -- Check if the user hit Control-C
+    if rawget(_G, "debug_interrupt") then
+        bdkdebug.running = false
+        rawset(_G, "debug_interrupt", false)
+    end
     -- Continue if we should be running
     if bdkdebug.running then
         return
@@ -375,6 +380,7 @@ function bdkdebug.main()
     end
     -- Clear the screen and start debugging
     --printf(ERASE_WIN .. GOTO_BOTTOM)
+    rawset(_G, "debug_interrupt", false)
     debug.sethook(bdkdebug.debughook, "crl")
     -- Execute the user's file
     local filename = arg[1]
