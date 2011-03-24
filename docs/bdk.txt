@@ -281,6 +281,7 @@ b <file>:<line>  Insert breakpoint into <file> for <line>.
 db <num>         Delete breakpoint <num>. Use the index from the "b" command.
 bt               Display a backtrace of the stack.
 p <variable>     Print the value of a variable.
+e <expression>   Execute the Lua expression.
 up               Move up the call stack.
 down             Move down the call stack.
 quit             Quit the debugger.

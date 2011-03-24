@@ -30,7 +30,11 @@ bdkdebug.stack_adjust = 0
 function bdkdebug.help()
     local message =
 [[
-bdk-debug <filename>
+Usage:
+    bdk-debug <filename> [args...]
+
+Execute the Lua script <filename> in an interactive debugger. The optional
+arguments will be passed to the script.
 ]]
     print(message)
 end
@@ -89,11 +93,13 @@ end
 --
 function bdkdebug.getlocals(stack_depth)
     bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
-    local var_table = {}
+    local var_table = {name = {}, value = {}, index = {}}
     local info = debug.getinfo(stack_depth + bdkdebug.stack_adjust, "uf")
     for index = 1, info.nups do
         local var, value = debug.getupvalue(info.func, index)
-        table.insert(var_table, {var, value})
+        table.insert(var_table.name, var)
+        table.insert(var_table.value, value)
+        table.insert(var_table.index, -index)
     end
     for index = 1, 9999 do
         local var, value = debug.getlocal(stack_depth + bdkdebug.stack_adjust, index)
@@ -101,7 +107,9 @@ function bdkdebug.getlocals(stack_depth)
             break
         end
         if var:sub(1,1) ~= "(" then
-            table.insert(var_table, {var, value})
+            table.insert(var_table.name, var)
+            table.insert(var_table.value, value)
+            table.insert(var_table.index, index)
         end
     end
     bdkdebug.stack_adjust = bdkdebug.stack_adjust - 1
@@ -132,9 +140,12 @@ function bdkdebug.display(stack_depth)
 
     -- Convert the local variables into a lsit of strings for display
     local vars_str = {}
-    for n,v in ipairs(vars) do
-        vars_str[n] = "%s = %s" % {v[1], tostring(v[2])}
-        vars_str[n] = vars_str[n]:gsub("\27", "ESC"):gsub("\n", "\\n"):sub(1, WIDTH_RIGHT)
+    for i = 1, #vars.name do
+        local name = vars.name[i]
+        local value = vars.value[i]
+        local s = "%s = %s" % {name, tostring(value)}
+        s = s:gsub("\27", "ESC"):gsub("\n", "\\n"):sub(1, WIDTH_RIGHT)
+        table.insert(vars_str, s)
     end
     table.sort(vars_str)
     vars = vars_str
@@ -290,10 +301,11 @@ function do_commandline()
             local arg = cmdline:match("%g+", 2)
             local vars = bdkdebug.getlocals(bdkdebug.stack_depth)
             local found = false
-            for n = 1,#vars do
-                if vars[n][1] == arg then
-                    pprint(vars[n][2])
+            for i = 1,#vars.name do
+                if vars.name[i] == arg then
+                    pprint(vars.value[i])
                     found = true
+                    break
                 end
             end
             if not found then
@@ -302,6 +314,56 @@ function do_commandline()
                     pprint(t)
                 else
                     print("Not a local or global variable")
+                end
+            end
+
+        elseif cmd == "e" then
+            -- Build a fake environment that can simulate the code running
+            -- in the debug functions's context. This allows access to local
+            -- and global variables.
+            local vars = bdkdebug.getlocals(bdkdebug.stack_depth)
+            local real_env = vars.value[1]
+            local meta = {}
+            meta.__index = function(table, name)
+                -- search for the name in the list of locals
+                for i = 1,#vars.name do
+                    if vars.name[i] == name then
+                        -- Return the local's value
+                        return vars.value[i]
+                    end
+                end
+                -- Not found, attempt to use a global
+                return real_env[name]
+            end
+            meta.__newindex = function(table, name, value)
+                -- search for the name in the list of locals
+                for i = 1,#vars.name do
+                    if vars.name[i] == name then
+                        if vars.index[i] > 0 then
+                            local n = debug.setlocal(bdkdebug.stack_depth + bdkdebug.stack_adjust + 3, vars.index[i], value)
+                            assert(n == name, "Setting local %s mistakenly set %s" % {name, tostring(n)})
+                            break
+                        else
+                            -- FIXME: Set the up values
+                            error("Assignment to function up values not supported")
+                        end
+                    end
+                end
+                -- Not found, set a global. Use rawset to bypass strict
+                rawset(real_env, name, value)
+            end
+            local env = {}
+            setmetatable(env, meta)
+            -- Compile the command line
+            local arg = cmdline:sub(2)
+            local result, message = loadin(env, arg, arg, "t")
+            if not result then
+                print(message)
+            else
+                -- Execute the command line
+                result, message = pcall(result)
+                if message then
+                    print(message)
                 end
             end
 
@@ -332,6 +394,7 @@ function do_commandline()
             print("db <num>         Delete breakpoint <num>. Use the index from the \"b\" command.")
             print("bt               Display a backtrace of the stack.")
             print("p <variable>     Print the value of a variable.")
+            print("e <expression>   Execute the Lua expression.")
             print("up               Move up the call stack.")
             print("down             Move down the call stack.")
             print("quit             Quit the debugger.")
@@ -392,6 +455,8 @@ function bdkdebug.debughook(reason, lineno)
 end
 
 function bdkdebug.errorhook(message)
+    -- Disconnect the debugger, program is dead
+    debug.sethook()
     bdkdebug.stack_adjust = 1
     print("Error: " .. tostring(message))
     do_commandline()
