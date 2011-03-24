@@ -97,7 +97,7 @@ degraded.
 ** Ethernet eth0 is connected to your local LAN
 ** Ethernet eth1 is connected directly to Octeon's first management port.
 +
-CAUTION: Development can be performed using a single ethernet card. IP address
+TIP: Development can be performed using a single ethernet card. IP address
 management will be more complex.
 
 * The binary *bdk-boot.bin* is burned into the beginning of NOR flash
@@ -118,7 +118,7 @@ degraded.
 
 * Target board is connected to a PCIe slot in the PC.
 +
-CAUTION: Best performance will be available if the slot supports PCIe gen2 with at
+TIP: Best performance will be available if the slot supports PCIe gen2 with at
 least four lanes.
 
 * Octeon is configured for PCI boot.
