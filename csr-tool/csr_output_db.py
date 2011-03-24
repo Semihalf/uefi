@@ -126,8 +126,8 @@ def write(file, separate_chip_lists, include_cisco_only):
                 offset_inc = csr.address_offset_inc
                 block_inc = 0
             else:
-                range1 = getRangeTable(csr.range[0])
-                range2 = getRangeTable(csr.range[1])
+                range1 = getRangeTable(csr.range[1])
+                range2 = getRangeTable(csr.range[0])
                 offset_inc = csr.address_offset_inc
                 block_inc = csr.address_block_inc
             out.write("    {%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s},\n" %
@@ -143,7 +143,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalFieldListTable)
     for key in keys:
-        out.write("    %s,\n" % key)
+        out.write("    %s, /* %d */\n" % (key, globalFieldListTable[key]))
     out.write("#endif\n")
     out.write("};\n\n")
     #
@@ -153,7 +153,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalFieldTable)
     for key in keys:
-        out.write("    %s,\n" % key)
+        out.write("    %s, /* %d */\n" % (key, globalFieldTable[key]))
     out.write("#endif\n")
     out.write("};\n\n")
     #
@@ -163,7 +163,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalRangeTable)
     for key in keys:
-        out.write("    %s,\n" % key)
+        out.write("    %s, /* %d */\n" % (key, globalRangeTable[key]))
     out.write("#endif\n")
     out.write("};\n\n")
     #
@@ -173,7 +173,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("\n#ifndef BDK_DISABLE_CSR_DB")
     keys = getKeysSorted(globalStringTable)
     for key in keys:
-        out.write("\n    \"%s\\0\"" % key)
+        out.write("\n    \"%s\\0\" /* %s */" % (key, globalStringTable[key]))
     out.write("\n#endif")
     out.write("\n    \"\";\n\n")
     #
@@ -183,7 +183,7 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalNumberTable)
     for key in keys:
-        out.write("    %sull,\n" % toHex(key))
+        out.write("    %sull, /* %s */\n" % (toHex(key), globalNumberTable[key]))
     out.write("#endif\n")
     out.write("};\n\n")
     #
