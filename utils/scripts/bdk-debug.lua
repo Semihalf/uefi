@@ -279,6 +279,32 @@ function do_commandline()
                 print("Expected breakpoint number to delete")
             end
 
+        elseif cmd == "bt" then
+            local stack = bdkdebug.getstack()
+            print("Backtrace:")
+            for r = 1,#stack do
+                printf("%d) %s\n", r, stack[r])
+            end
+
+        elseif cmd == "p" then
+            local arg = cmdline:match("%g+", 2)
+            local vars = bdkdebug.getlocals(bdkdebug.stack_depth)
+            local found = false
+            for n = 1,#vars do
+                if vars[n][1] == arg then
+                    pprint(vars[n][2])
+                    found = true
+                end
+            end
+            if not found then
+                local t = rawget(_G, arg)
+                if t then
+                    pprint(t)
+                else
+                    print("Not a local or global variable")
+                end
+            end
+
         elseif cmd == "up" then
             -- Move up the call stack
             bdkdebug.stack_depth = bdkdebug.stack_depth + 1
@@ -304,6 +330,8 @@ function do_commandline()
             print("b <line>         Insert breakpoint into the current file for <line>.")
             print("b <file>:<line>  Insert breakpoint into <file> for <line>.")
             print("db <num>         Delete breakpoint <num>. Use the index from the \"b\" command.")
+            print("bt               Display a backtrace of the stack.")
+            print("p <variable>     Print the value of a variable.")
             print("up               Move up the call stack.")
             print("down             Move down the call stack.")
             print("quit             Quit the debugger.")

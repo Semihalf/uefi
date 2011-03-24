@@ -279,6 +279,8 @@ b                Display all breakpoints.
 b <line>         Insert breakpoint into the current file for <line>.
 b <file>:<line>  Insert breakpoint into <file> for <line>.
 db <num>         Delete breakpoint <num>. Use the index from the "b" command.
+bt               Display a backtrace of the stack.
+p <variable>     Print the value of a variable.
 up               Move up the call stack.
 down             Move down the call stack.
 quit             Quit the debugger.
