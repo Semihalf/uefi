@@ -22,6 +22,7 @@ bdkdebug.running = false    -- Stop the program by default
 bdkdebug.breakpoints = {}   -- No breakpoints to begin with
 bdkdebug.nest_level = 0     -- Nesting level used for step over
 bdkdebug.step_over = false  -- Are we doing a step over
+bdkdebug.stack_adjust = 0
 
 --
 -- Display comamnd line usage to the user
@@ -39,10 +40,11 @@ end
 -- on the call stack. Element 1 is the stack top
 --
 function bdkdebug.getstack()
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
     local stack_info = {}
-    local sindex = 4
+    local sindex = 1
     while true do
-        local info = debug.getinfo(sindex, "nSluf")
+        local info = debug.getinfo(sindex + bdkdebug.stack_adjust, "nSluf")
         if info == nil then
             break
         end
@@ -57,7 +59,7 @@ function bdkdebug.getstack()
             stack_label = stack_label .. "("
         end
         for pindex = 1,nparams do
-            local var, value = debug.getlocal(sindex, pindex)
+            local var, value = debug.getlocal(sindex + bdkdebug.stack_adjust, pindex)
             stack_label = "%s%s%s=%s" % {stack_label, param_sep, var, tostring(value)}
             param_sep = ", "
         end
@@ -65,6 +67,7 @@ function bdkdebug.getstack()
         table.insert(stack_info, stack_label)
         sindex = sindex + 1
     end
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust - 1
     return stack_info
 end
 
@@ -74,7 +77,9 @@ end
 -- return filename, lineno
 --
 function bdkdebug.getsource(stack_depth)
-    local info = debug.getinfo(stack_depth + 2, "Sl")
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
+    local info = debug.getinfo(stack_depth + bdkdebug.stack_adjust, "Sl")
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust - 1
     return tostring(info.short_src), info.currentline
 end
 
@@ -83,14 +88,15 @@ end
 -- result[1-n] = {name, value}
 --
 function bdkdebug.getlocals(stack_depth)
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
     local var_table = {}
-    local info = debug.getinfo(stack_depth + 2, "uf")
+    local info = debug.getinfo(stack_depth + bdkdebug.stack_adjust, "uf")
     for index = 1, info.nups do
         local var, value = debug.getupvalue(info.func, index)
         table.insert(var_table, {var, value})
     end
     for index = info.nparams+1, 9999 do
-        local var, value = debug.getlocal(stack_depth + 2, index)
+        local var, value = debug.getlocal(stack_depth + bdkdebug.stack_adjust, index)
         if var == nil then
             break
         end
@@ -98,6 +104,7 @@ function bdkdebug.getlocals(stack_depth)
             table.insert(var_table, {var, value})
         end
     end
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust - 1
     return var_table
 end
 
@@ -105,6 +112,7 @@ end
 -- Display the debugger GUI
 --
 function bdkdebug.display(stack_depth)
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
     local WIDTH_LEFT    = 50
     local WIDTH_RIGHT   = 30
     local HEIGHT_TOP    = 4
@@ -119,8 +127,8 @@ function bdkdebug.display(stack_depth)
     local FORMAT_HIGH   = "\27[1m"          -- Bold
     local FORMAT_STR    = "%s%-" .. WIDTH_LEFT .. "s%s%-" .. WIDTH_RIGHT .. "s" .. FORMAT_NORMAL .. ERASE_EOL .. "\n"
     local stack = bdkdebug.getstack()
-    local source, lineno = bdkdebug.getsource(stack_depth+1)
-    local vars = bdkdebug.getlocals(stack_depth+1)
+    local source, lineno = bdkdebug.getsource(stack_depth)
+    local vars = bdkdebug.getlocals(stack_depth)
 
     -- Convert the local variables into a lsit of strings for display
     local vars_str = {}
@@ -201,48 +209,11 @@ function bdkdebug.display(stack_depth)
     end
     -- Move back to the bottom of the screen
     printf(FORMAT_NONE .. GOTO_BOTTOM)
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust - 1
 end
 
---
--- The main debug hook
---
-function bdkdebug.debughook(reason, lineno)
-    -- Handle step over nesting. FIXME: This doesn't work if an exception happens
-    if reason == "call" then
-        local info = debug.getinfo(2, "t")
-        if not info.istailcall then
-            bdkdebug.nest_level = bdkdebug.nest_level + 1
-        end
-        return
-    elseif reason == "return" then
-        bdkdebug.nest_level = bdkdebug.nest_level - 1
-        return
-    end
-    -- Get the source for this code
-    local my_source = bdkdebug.getsource(-1)
-    -- Get the current debug source and lineno
-    local source, lineno = bdkdebug.getsource(1)
-    -- Return if we're trying to debug the debugger's source
-    if my_source == source then
-        return
-    end
-    -- Stop for step over
-    if bdkdebug.step_over and (bdkdebug.nest_level <= 0) then
-        bdkdebug.step_over = false
-        bdkdebug.running = false
-    end
-    -- Check if we've hit any breakpoints
-    for _,b in ipairs(bdkdebug.breakpoints) do
-        if (source == b[1]) and (lineno == b[2]) then
-            printf("Break at %s:%d\n", source, lineno)
-            bdkdebug.running = false
-            break
-        end
-    end
-    -- Continue if we should be running
-    if bdkdebug.running then
-        return
-    end
+function do_commandline()
+    bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
     -- Loop executing commands from the user
     while true do
         -- Display the GUI
@@ -344,6 +315,57 @@ function bdkdebug.debughook(reason, lineno)
 end
 
 --
+-- The main debug hook
+--
+function bdkdebug.debughook(reason, lineno)
+    bdkdebug.stack_adjust = 1
+    -- Handle step over nesting. FIXME: This doesn't work if an exception happens
+    if reason == "call" then
+        local info = debug.getinfo(2, "t")
+        if not info.istailcall then
+            bdkdebug.nest_level = bdkdebug.nest_level + 1
+        end
+        return
+    elseif reason == "return" then
+        bdkdebug.nest_level = bdkdebug.nest_level - 1
+        return
+    end
+    -- Get the source for this code
+    local my_source = bdkdebug.getsource(-1)
+    -- Get the current debug source and lineno
+    local source, lineno = bdkdebug.getsource(1)
+    -- Return if we're trying to debug the debugger's source
+    if my_source == source then
+        return
+    end
+    -- Stop for step over
+    if bdkdebug.step_over and (bdkdebug.nest_level <= 0) then
+        bdkdebug.step_over = false
+        bdkdebug.running = false
+    end
+    -- Check if we've hit any breakpoints
+    for _,b in ipairs(bdkdebug.breakpoints) do
+        if (source == b[1]) and (lineno == b[2]) then
+            printf("Break at %s:%d\n", source, lineno)
+            bdkdebug.running = false
+            break
+        end
+    end
+    -- Continue if we should be running
+    if bdkdebug.running then
+        return
+    end
+    do_commandline()
+end
+
+function bdkdebug.errorhook(message)
+    bdkdebug.stack_adjust = 1
+    print("Error: " .. tostring(message))
+    do_commandline()
+    return debug.traceback(message)
+end
+
+--
 -- Main function for the debugger
 --
 function bdkdebug.main()
@@ -357,7 +379,10 @@ function bdkdebug.main()
     -- Execute the user's file
     local filename = arg[1]
     table.remove(arg, 1)
-    dofile(filename)
+    local status, result = xpcall(dofile, bdkdebug.errorhook, filename)
+    if not status then
+        print("ERROR:", result)
+    end
     -- Disconnect the debugger
     debug.sethook()
     print("Program terminated")
