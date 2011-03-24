@@ -43,9 +43,9 @@ local function pprint_str(param, indent, visited)
     elseif type(param) == "string" then
         return "%q" % param
     elseif type(param) == "function" then
-        return "function"
+        return tostring(param)
     elseif type(param) == "userdata" then
-        return "userdata"
+        return tostring(param)
     elseif type(param) == "thread" then
         return "thread (%s)" % param:status()
     elseif type(param) == "table" then
@@ -60,12 +60,12 @@ local function pprint_str(param, indent, visited)
                 if type(key) == "number" then
                     result = "%s%s[%d] = {...}\n" % {result, table_indent, key}
                 else
-                    result = "%s%s%s = {...}\n" % {result, table_indent, key}
+                    result = "%s%s%s = {...}\n" % {result, table_indent, tostring(key)}
                 end
             elseif type(key) == "number" then
                 result = "%s%s[%d] = %s\n" % {result, table_indent, key, pprint_str(value, table_indent, visited)}
             else
-                result = "%s%s%s = %s\n" % {result, table_indent, key, pprint_str(value, table_indent, visited)}
+                result = "%s%s%s = %s\n" % {result, table_indent, tostring(key), pprint_str(value, table_indent, visited)}
             end
         end
         return result .. indent .. "}"
