@@ -34,23 +34,51 @@ BDK facilities to load it and execute it). The Bootloader, in its turn, can run
 SDK applications.
 
 === How do you run a BDK Application from the SDK Bootloader?
-* loadb 0x20000000 <application name>
-* Use kermit to download the application via the serial port (Kermit is built
-into Linux versions of minicom)
-* go 0x20000000
+* You can use the SDK's bootloader to read a BDK application into memory.
+Standard BDK Makefiles create two executible images: an ELF image, similar to
+what the SDK generates; and a .bin (binary) image. You can load either via the
+bootloader.
+* For the ELF image, just use +loadb+ command as you always have done for SDK
+applications (+loadb+, followed with a Kermit file transfer over the serial
+interface, and then +bootoct+ to start the application).
+* BDK binary images are smaller, have fewer restrictions the ELF image, and can
+run on a raw board where there is no bootload. To load and run a binary image
+from the bootloader, do the following:
+** +loadb 0x400000+
+** Use Kermit to download the image via the serial port.
+** +go 0x400000+ to run the application.
+* The load address used above (0x40000) is arbitrary and the place the binary
+image into memory at an arbitrary address that lies in the from 1Mb (0x100000) to
+less 256Mb (0x10000000). Depending upon where you load, the SDK bootloader may
+report an overwrite error. You can ignore this and just proceed to run the
+application.
 
 === How do you run a BDK Application from the Compact Flash via the SDK Bootloader?
-* fatload ide 0 0x20000000 <application name>
-* go 0x20000000
+* The SDK bootloader can load a BDK application from the Compact Flash available
+on most EBBs. The procedure is similar to loading via the serial port (given
+above):
+* +fatload ide 0 0x40000 <application>+ where <application> is the 
+file name of the application on the Compact Flash.
+* +go 0x40000+ runs the application. As noted above, you are free to locate the
+binary image in the range 1Mb to 256Mb. The SDK Bootloader may report an
+overwrite error that you can ignore.
 
 === How do you run a BDK Application from the Managment Port via the SDK Bootloader?
-* Run dhcp to establish your IP address
-* tftp <application>
-* go ?
+* When the EBB has a network connection, say through a managment port, you can
+use the +tftp+ command to load the BDK application.
+* Run +dhcp+ to establish your IP address.
+* Define the IP address of your TFTP server.
+* +tftp 0x40000 <application>+ loads the <application> from the tftp server.
+* +go 0x40000+ runs the application. As noted above, you are free to locate the
+binary image in the range 1Mb to 256Mb. The SDK Bootloader may report an
+overwrite error that you can ignore.
 
 === Can a BDK Application run via the EBB6800 Telnet Octeon Console?
-* Not with revision 1 or 2 boards as they did not implement hardware flow
-control. BDK applications hang when running via the telnet console.
+* EBB6800 revision 1 or 2 boards as they did not implement hardware flow control.
+However BDK does have support for software flow control so it is possble run a
+BDK application on these boards, but software flow control is not always
+reliable and may have problems when there are large volumns of traffic flowing
+over the console interface.
 
 === Where Does the /rom File System Come From?
 * The BDK /rom directory contains the sources of all of the files found in the
