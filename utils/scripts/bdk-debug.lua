@@ -95,7 +95,7 @@ function bdkdebug.getlocals(stack_depth)
         local var, value = debug.getupvalue(info.func, index)
         table.insert(var_table, {var, value})
     end
-    for index = info.nparams+1, 9999 do
+    for index = 1, 9999 do
         local var, value = debug.getlocal(stack_depth + bdkdebug.stack_adjust, index)
         if var == nil then
             break
