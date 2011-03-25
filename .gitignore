@@ -20,4 +20,5 @@
 /bdk-boot/bdk-boot
 /tests/hw-and-sim/crypto/crypto
 /utils/bdk-lua/bdk-lua
+/utils/bdk-scite/scite.log
 /octeon-bdk-*.tgz
