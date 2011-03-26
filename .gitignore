@@ -21,4 +21,5 @@
 /tests/hw-and-sim/crypto/crypto
 /utils/bdk-lua/bdk-lua
 /utils/bdk-scite/scite.log
+/utils/bdk-scite/gscite/.SciTE.session
 /octeon-bdk-*.tgz
