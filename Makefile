@@ -50,8 +50,8 @@ release: all
 	rm -rf $(RELEASE_DIR)
 	# Copy Docs
 	mkdir -p $(RELEASE_DIR)/docs
-	cp -r docs/lua $(RELEASE_DIR)/docs/
-	cp -r docs/luasocket $(RELEASE_DIR)/docs/
+	cp -a docs/lua $(RELEASE_DIR)/docs/
+	cp -a docs/luasocket $(RELEASE_DIR)/docs/
 	cp docs/*.html $(RELEASE_DIR)/docs/
 	cp docs/*.png $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
@@ -70,7 +70,11 @@ release: all
 	cp bdk-boot/bdk-boot.bin $(RELEASE_DIR)/target-bin/
 	cp bdk-boot/bdk-boot.map $(RELEASE_DIR)/target-bin/
 	# Copy rom dir
-	cp -r rom $(RELEASE_DIR)/
+	cp -a rom $(RELEASE_DIR)/
+	# Copy SciTE
+	mkdir -p $(RELEASE_DIR)/utils
+	cp -a utils/bdk-scite $(RELEASE_DIR)/utils/
+	cp -a bin/bdk-scite $(RELEASE_DIR)/bin/
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
 	# Create release tar
