@@ -253,7 +253,7 @@ function command_quit() issue_user_command("Quit", "quit") end
 -- Create the GUI and add the commands to the tool menu
 --
 create_gui()
-add_command("Start Debugger", "command_debug")
+add_command("Start Debugger", "command_debug", "Ctrl+F5")
 add_command("Kill Debugger", "command_kill")
-add_command("Toggle Breakpoint", "command_toggle_breakpoint")
+add_command("Toggle Breakpoint", "command_toggle_breakpoint", "F9")
 

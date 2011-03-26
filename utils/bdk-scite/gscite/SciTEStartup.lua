@@ -31,10 +31,13 @@ open_fn()
 -- lua_function = String name of the function to call when chosen
 --
 local last_command = 0
-function add_command(caption, lua_function)
+function add_command(caption, lua_function, shortcut)
     props["command.name." .. last_command .. ".*.lua"] = caption
     props["command.subsystem." .. last_command .. ".*.lua"] = 3
     props["command." .. last_command .. ".*.lua"] = lua_function .. " $(FileNameExt)"
+    if shortcut then
+        props["command.shortcut." .. last_command .. ".*.lua"] = shortcut
+    end
     last_command = last_command + 1
 end
 
