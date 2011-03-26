@@ -233,8 +233,11 @@ function do_commandline()
             bdkdebug.display(bdkdebug.stack_depth)
         end
         -- Ask for input
-        printf("dbg> ")
-        local cmdline = io.read("*l")
+        local cmdline
+        repeat
+            printf("dbg> ")
+            cmdline = io.read("*l")
+        until cmdline
         local cmd = cmdline:match("%g+")
 
         -- Process the command
@@ -262,18 +265,14 @@ function do_commandline()
         elseif cmd == "b" then
             -- Breakpoint command
             local arg = cmdline:match("%g+", 2)
-            local info = nil -- bdkdebug.findfunction(arg)
             if arg == nil then
-                print("Breakpoints:")
                 for n,b in ipairs(bdkdebug.breakpoints) do
-                    printf("    %d) %s:%d\n", n, b[1], b[2])
+                    printf("Breakpoint%d: %s:%d\n", n, b[1], b[2])
                 end
                 print()
             elseif tonumber(arg) then
                 local source, lineno = bdkdebug.getsource(bdkdebug.stack_depth)
                 table.insert(bdkdebug.breakpoints, {source, tonumber(arg)})
-            elseif info then
-                print("function", arg)
             else
                 local file, lno = arg:match("(%g+):(%d+)")
                 lno = tonumber(lno)
@@ -295,9 +294,8 @@ function do_commandline()
 
         elseif cmd == "bt" then
             local stack = bdkdebug.getstack()
-            print("Backtrace:")
             for r = 1,#stack do
-                printf("%d) %s\n", r, stack[r])
+                printf("Backtrace%d: %s\n", r, stack[r])
             end
 
         elseif cmd == "p" then
@@ -306,6 +304,7 @@ function do_commandline()
             local found = false
             for i = 1,#vars.name do
                 if vars.name[i] == arg then
+                    printf("Variable: %s ", arg)
                     pprint(vars.value[i])
                     found = true
                     break
@@ -314,6 +313,7 @@ function do_commandline()
             if not found then
                 local t = rawget(_G, arg)
                 if t then
+                    printf("Variable: %s ", arg)
                     pprint(t)
                 else
                     print("Not a local or global variable")
@@ -400,7 +400,7 @@ function do_commandline()
         elseif  cmd == "locals" then
             local vars = bdkdebug.getlocals(bdkdebug.stack_depth)
             for i = 1, #vars.name do
-                print(vars.name[i])
+                printf("Local: %s %s\n", vars.name[i], tostring(vars.value[i]))
             end
 
         elseif cmd == "quit" then
