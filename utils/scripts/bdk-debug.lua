@@ -23,6 +23,7 @@ bdkdebug.breakpoints = {}   -- No breakpoints to begin with
 bdkdebug.nest_level = 0     -- Nesting level used for step over
 bdkdebug.step_over = false  -- Are we doing a step over
 bdkdebug.stack_adjust = 0
+bdkdebug.show_gui = true    -- Should the text base GUI be shown
 
 --
 -- Display comamnd line usage to the user
@@ -227,8 +228,10 @@ function do_commandline()
     bdkdebug.stack_adjust = bdkdebug.stack_adjust + 1
     -- Loop executing commands from the user
     while true do
-        -- Display the GUI
-        bdkdebug.display(bdkdebug.stack_depth)
+        if bdkdebug.show_gui then
+            -- Display the GUI
+            bdkdebug.display(bdkdebug.stack_depth)
+        end
         -- Ask for input
         printf("dbg> ")
         local cmdline = io.read("*l")
@@ -378,6 +381,28 @@ function do_commandline()
                 bdkdebug.stack_depth = 1
             end
 
+        elseif cmd == "gui" then
+            local arg = cmdline:match("%g+", 4)
+            if arg == "on" then
+                bdkdebug.show_gui = true
+            elseif arg == "off" then
+                bdkdebug.show_gui = false
+            else
+                print("Expected argument \"on\" or \"off\"")
+            end
+
+        elseif  cmd == "where" then
+            local source, lineno = bdkdebug.getsource(bdkdebug.stack_depth)
+            printf("Stackframe: %d\n", bdkdebug.stack_depth)
+            printf("File: %s\n", source)
+            printf("Line: %d\n", lineno)
+
+        elseif  cmd == "locals" then
+            local vars = bdkdebug.getlocals(bdkdebug.stack_depth)
+            for i = 1, #vars.name do
+                print(vars.name[i])
+            end
+
         elseif cmd == "quit" then
             os.exit(true)
 
@@ -397,6 +422,10 @@ function do_commandline()
             print("e <expression>   Execute the Lua expression.")
             print("up               Move up the call stack.")
             print("down             Move down the call stack.")
+            print("gui on           Enable the text based GUI")
+            print("gui off          Disable the text based GUI")
+            print("where            Show the current stackframe, file, and line")
+            print("locals           Show a list of all active local variables")
             print("quit             Quit the debugger.")
             print("An empty line is the same as \"n\".")
         else
@@ -467,6 +496,15 @@ end
 -- Main function for the debugger
 --
 function bdkdebug.main()
+    -- Look for our one option to disable the GUI. This is
+    -- used by SciTE to remotely control the debugger
+    if #arg >= 1 then
+        if arg[1] == "-nogui" then
+            bdkdebug.show_gui = false
+            table.remove(arg, 1)
+        end
+    end
+
     -- Show help if required argument not there
     if #arg < 1 then
         return bdkdebug.help()
