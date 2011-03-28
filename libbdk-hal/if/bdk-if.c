@@ -53,7 +53,6 @@ static int __bdk_if_setup_sso(void)
     for (int i=0; i<8; i++)
     {
         BDK_CSR_WRITE(BDK_SSO_RWQ_HEAD_PTRX(i), bdk_ptr_to_phys(buffer));
-        buffer += SSO_RWQ_SIZE;
         BDK_CSR_WRITE(BDK_SSO_RWQ_TAIL_PTRX(i), bdk_ptr_to_phys(buffer));
         buffer += SSO_RWQ_SIZE;
     }
