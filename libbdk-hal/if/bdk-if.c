@@ -147,6 +147,17 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         tag_config.s.non_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE);
         tag_config.s.grp = 0);
 
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        /* Strip off FCS as needed */
+        if (handle->has_fcs)
+            BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit |= 1ull<<(handle->pknd&63));
+        else
+            BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
+        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd),
+            c.s.crc_en = handle->has_fcs);
+    }
+
     /* Have the next port use a different input queue */
     qos = (qos + 1) & 7;
 
@@ -212,6 +223,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     handle->ipd_port = -1;
     handle->pko_port = -1;
     handle->pko_queue = -1;
+    handle->has_fcs = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))
     {

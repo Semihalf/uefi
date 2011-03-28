@@ -50,6 +50,7 @@ static int if_probe(bdk_if_handle_t handle)
         /* PKO ports are the same as IPD */
         handle->pko_port = handle->ipd_port;
     }
+    handle->has_fcs = 1;
     return 0;
 }
 
@@ -97,6 +98,13 @@ static int init_link(bdk_if_handle_t handle)
     {
         return -1;
     }
+
+    /* CN68XX adds the padding and FCS in PKO, not GMX */
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_APPEND(gmx_index, gmx_block),
+            c.s.fcs = 0;
+            c.s.pad = 0);
+
     return 0;
 }
 

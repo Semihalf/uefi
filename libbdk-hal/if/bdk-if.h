@@ -63,6 +63,7 @@ typedef struct __bdk_if_port
     int         ipd_port    : 16;
     int         pko_port    : 16;
     int         pko_queue   : 8;
+    int         has_fcs;
     void *      priv;
     bdk_cmd_queue_state_t cmd_queue;
     bdk_if_stats_t stats;
