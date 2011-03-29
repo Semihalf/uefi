@@ -629,7 +629,7 @@ static void pci_start_cores(uint64_t start_mask)
     else
     {
         for (core=0; core<64; core++)
-            if ((1<<core) & start_mask)
+            if ((1ull<<core) & start_mask)
             {
                 uint64_t base = octeon_remote_debug_handler_get_base(core);
                 if (base)

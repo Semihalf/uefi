@@ -237,8 +237,8 @@ static void conditional_start_core(int core, core_state_t state)
 static int macraigor_open(const char *remote_spec)
 {
     /* Remote spec = "MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>]" */
-    uint8_t command[128];
-    uint8_t response[128];
+    uint8_t command[256];
+    uint8_t response[256];
     const char *host_ipaddr = "1.2.3.4";
     char local_spec[80];
     int jtag_speed;
@@ -393,7 +393,7 @@ static int macraigor_open(const char *remote_spec)
         return -1;
     }
 
-    available_core_mask = (1<<cores)-1;
+    available_core_mask = (1ull<<cores)-1;
     enable_64bit_addressing(0);
 
     return 0;
