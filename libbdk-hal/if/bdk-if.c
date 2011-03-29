@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define USE_SOFTWARE_COUNTERS 1
+
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
 extern const __bdk_if_ops_t __bdk_if_ops_dpi;
@@ -499,7 +501,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     if (__bdk_if_ops[handle->iftype]->if_get_stats)
         return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 
-    if (bdk_is_simulation())
+    if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         return &handle->stats;
 
     int bytes_off_tx;
@@ -611,7 +613,7 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     {
         bdk_pko_doorbell(handle->pko_port, handle->pko_queue, 2);
         /* Create some simple stats in the simulator for testing */
-        if (bdk_is_simulation())
+        if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
             bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, packet->length);
             bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
@@ -694,7 +696,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         }
 
         /* Create some simple stats in the simulator for testing */
-        if (bdk_is_simulation())
+        if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, packet->length + 4); /* Add CRC */
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1); /* Add CRC */
