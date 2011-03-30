@@ -612,10 +612,14 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {
         bdk_pko_doorbell(handle->pko_port, handle->pko_queue, 2);
-        /* Create some simple stats in the simulator for testing */
+        /* Updates the statistics in software if need to. The simulator
+            doesn't implement the hardware counters */
         if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
-            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, packet->length);
+            int octets = pko_command.s.total_bytes;
+            if (handle->has_fcs)
+                octets += 4;
+            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, octets);
             bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
         }
     }
@@ -695,11 +699,15 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             return -1;
         }
 
-        /* Create some simple stats in the simulator for testing */
+        /* Updates the statistics in software if need to. The simulator
+            doesn't implement the hardware counters */
         if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
-            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, packet->length + 4); /* Add CRC */
-            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1); /* Add CRC */
+            int octets = wqe->word1.s.len;
+            if (handle->has_fcs)
+                octets += 4;
+            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
+            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1);
         }
         return 0;
     }
