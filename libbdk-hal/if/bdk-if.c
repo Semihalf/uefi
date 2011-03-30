@@ -116,6 +116,24 @@ static int __bdk_if_setup_ipd_global(void)
     /* Needed to support dynamic short */
     BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, 4);
 
+    for (int queue=0; queue<8; queue++)
+    {
+        int thresh_pass = 64;
+        int thresh_drop = 32;
+
+        /* Set RED to begin dropping packets when we're low on buffers */
+        BDK_CSR_MODIFY(c, BDK_IPD_QOSX_RED_MARKS(queue),
+            c.s.drop = thresh_drop;
+            c.s.pass = thresh_pass);
+
+        /* Use the actual queue 0 counter, not the average */
+        BDK_CSR_MODIFY(c, BDK_IPD_RED_QUEX_PARAM(queue),
+            c.s.prb_con = (255ul<<24) / (thresh_pass - thresh_drop);
+            c.s.avg_con = 1;
+            c.s.new_con = 255;
+            c.s.use_pcnt = 1);
+    }
+
     return 0;
 }
 
@@ -157,6 +175,9 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
             BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
         BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd),
             c.s.crc_en = handle->has_fcs);
+
+        /* Enable RED dropping */
+        BDK_CSR_MODIFY(c, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
     }
 
     /* Have the next port use a different input queue */
