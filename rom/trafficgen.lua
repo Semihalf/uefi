@@ -461,12 +461,11 @@ function TrafficGen.new()
                 port.setup.output_packet_size = size
                 port.setup.output_count = output_count
                 expected_packets = expected_packets + output_count
-                if port.name:sub(1,4) == "SRIO" then
-                    -- SRIO doesn't have a etherent CRC we need to count
-                    expected_octets = expected_octets + output_count * size
-                else
+                if (port.name:sub(1,5) == "SGMII") or (port.name:sub(1,4) == "XAUI") then
                     -- Account for the extra 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * (size+4)
+                else
+                    expected_octets = expected_octets + output_count * size
                 end
             end
             -- Limit to five seconds per size
