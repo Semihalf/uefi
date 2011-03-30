@@ -17,6 +17,8 @@
 static uint64_t build_mask(int bits, int left_shift)
 {
     uint64_t mask = ~((~0x0ull) << bits);
+    if (bits == 64)
+        mask = -1;
     return mask << left_shift;
 }
 
