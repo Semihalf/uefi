@@ -19,7 +19,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
     }
 
     phy_status = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_ID1);
-    if (phy_status < 0)
+    if ((phy_status <= 0) || (phy_status == 0xffff))
         return result;
 
     /* Assume PHYs with OUI not equal to Marvell should take the Broadcom path */
