@@ -4,7 +4,7 @@ print("Configuring for the EBB6800")
 local set_config = octeon.c.bdk_config_set
 
 -- Mgmt port PHY address
---set_config(octeon.CONFIG_PHY_MGMT_PORT0, 4)
+set_config(octeon.CONFIG_PHY_MGMT_PORT0, 6)
 
 -- This is SGMII on QLM2
 set_config(octeon.CONFIG_PHY_IF2_PORT0, 0x200 + 1)
