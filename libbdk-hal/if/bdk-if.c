@@ -24,6 +24,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
+static __bdk_if_port_t *__bdk_if_poll_head;
 
 
 /**
@@ -280,6 +281,13 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
             bdk_error("__bdk_if_setup_pko() failed\n");
             goto fail;
         }
+    }
+
+    /* Put interfaces requiring polling in the poll list */
+    if (__bdk_if_ops[handle->iftype]->if_receive)
+    {
+        handle->poll_next = __bdk_if_poll_head;
+        __bdk_if_poll_head = handle;
     }
 
     if (__bdk_if_tail)
@@ -733,13 +741,10 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         return 0;
     }
 
-    for (bdk_if_handle_t handle=bdk_if_next_port(NULL); handle!=NULL; handle=bdk_if_next_port(handle))
+    for (bdk_if_handle_t handle=__bdk_if_poll_head; handle!=NULL; handle=handle->poll_next)
     {
-        if (__bdk_if_ops[handle->iftype]->if_receive)
-        {
-            if (__bdk_if_ops[handle->iftype]->if_receive(handle, packet) == 0)
-                return 0;
-        }
+        if (__bdk_if_ops[handle->iftype]->if_receive(handle, packet) == 0)
+            return 0;
     }
 
     return 1;

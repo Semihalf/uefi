@@ -69,6 +69,7 @@ typedef struct __bdk_if_port
     bdk_if_stats_t stats;
     bdk_if_link_t link_info;
     struct __bdk_if_port *next;
+    struct __bdk_if_port *poll_next;
 } __bdk_if_port_t;
 
 typedef __bdk_if_port_t *bdk_if_handle_t;
