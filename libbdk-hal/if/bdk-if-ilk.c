@@ -194,31 +194,31 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         case 0: /* 5 Gbaud */
         case 6: /* 5 Gbaud */
         case 11: /* 5 Gbaud */
-            result.s.speed = 5000 * 8 / 10;
+            result.s.speed = 5000 * 64 / 67;
             break;
         case 1: /* 2.5 Gbaud */
         case 2: /* 2.5 Gbaud */
-            result.s.speed = 2500 * 8 / 10;
+            result.s.speed = 2500 * 64 / 67;
             break;
         case 3: /* 1.25 Gbaud */
         case 4: /* 1.25 Gbaud */
         case 10: /* 1.25 Gbaud */
-            result.s.speed = 1250 * 8 / 10;
+            result.s.speed = 1250 * 64 / 67;
             break;
         case 5: /* 6.25 Gbaud */
         case 12: /* 6.25 Gbaud */
-            result.s.speed = 6250 * 8 / 10;
+            result.s.speed = 6250 * 64 / 67;
             break;
         case 7: /* 2.5 Gbaud */
         case 9: /* 2.5 Gbaud */
-            result.s.speed = 2500 * 8 / 10;
+            result.s.speed = 2500 * 64 / 67;
             break;
         case 8: /* 3.125 Gbaud */
         case 14: /* 3.125 Gbaud */
-            result.s.speed = 3125 * 8 / 10;
+            result.s.speed = 3125 * 64 / 67;
             break;
         case 13: /* 3.75 Gbaud */
-            result.s.speed = 3750 * 8 / 10;
+            result.s.speed = 3750 * 64 / 67;
             break;
         default:
             break;
