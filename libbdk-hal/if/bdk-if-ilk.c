@@ -255,13 +255,16 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
     bdk_if_link_t result;
     result.u64 = 0;
+retry:
+    ;   /* Make gcc happy */
 
     /* Read RX config and status bits */
     BDK_CSR_INIT(ilk_rxx_cfg1, BDK_ILK_RXX_CFG1(handle->interface));
     BDK_CSR_INIT(ilk_rxx_int, BDK_ILK_RXX_INT(handle->interface));
 
     /* Clear all RX status bits */
-    BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
+    if (ilk_rxx_int.u64)
+        BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
 
     if (ilk_rxx_cfg1.s.rx_bdry_lock_ena == 0)
     {
@@ -273,8 +276,9 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         ilk_rxx_cfg1.s.rx_bdry_lock_ena = lane_mask;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-        printf("ILK%d: Looking for word boundary lock\n", handle->interface);
-        return result;
+        //printf("ILK%d: Looking for word boundary lock\n", handle->interface);
+        bdk_wait_usec(10000);
+        goto retry;
     }
 
     if (ilk_rxx_cfg1.s.rx_align_ena == 0)
@@ -283,7 +287,9 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         {
             ilk_rxx_cfg1.s.rx_align_ena = 1;
             BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-            printf("ILK%d: Looking for lane alignment\n", handle->interface);
+            //printf("ILK%d: Looking for lane alignment\n", handle->interface);
+            bdk_wait_usec(10000);
+            goto retry;
         }
         return result;
     }
@@ -299,8 +305,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
     if (ilk_rxx_int.s.lane_align_done)
     {
-        printf("ILK%d: Lane alignment complete\n", handle->interface);
-        return result;
+        //printf("ILK%d: Lane alignment complete\n", handle->interface);
     }
 
     result.s.up = 1;
