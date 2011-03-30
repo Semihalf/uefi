@@ -3,13 +3,6 @@
 #include <stdio.h>
 #include "traffic-gen.i"
 
-typedef enum {
-    PACKET_FREE,
-    PACKET_DONT_FREE,
-    PACKET_DONT_FREE_WQE
-} packet_free_t;
-
-
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int IP_ADDR_LEN = 4;
@@ -1581,31 +1574,6 @@ static void dump_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 }
 
 /**
- * Called from cores to perform processing on work received. This is called in the
- * transmit fastpath loop.
- *
- * @param work   Work to process
- * @return If the packet and work should be freed
- */
-static packet_free_t fastpath_receive(tg_port_t *tg_port, bdk_if_packet_t *packet)
-{
-    if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
-        dump_packet(tg_port, packet);
-    if (bdk_unlikely(packet->rx_error))
-    {
-        // FIXME bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_wqe_errors[packet->rx_error], 1);
-        return PACKET_FREE;
-    }
-
-    if (bdk_unlikely(tg_port->pinfo.setup.validate))
-    {
-        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet)))
-            bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
-    }
-    return PACKET_FREE;
-}
-
-/**
  * Called by cores when they get work and need to process it.
  *
  * @param work   Work to be processed. Ideally it should already be prefetched
@@ -1614,9 +1582,17 @@ static packet_free_t fastpath_receive(tg_port_t *tg_port, bdk_if_packet_t *packe
 static void process_packet(bdk_if_packet_t *packet)
 {
     tg_port_t *tg_port = tg_get_port(packet->if_handle);
-    packet_free_t status = fastpath_receive(tg_port, packet);
-    if (bdk_likely(status == PACKET_FREE))
-        bdk_if_free(packet);
+
+    if (bdk_likely((packet->rx_error == 0) && tg_port->pinfo.setup.validate))
+    {
+        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet)))
+            bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
+    }
+
+    if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
+        dump_packet(tg_port, packet);
+
+    bdk_if_free(packet);
 }
 
 static void packet_receiver(int unused, void *unused2)
@@ -1644,6 +1620,7 @@ int trafficgen_do_transmit(const trafficgen_port_set_t *range)
 
     if (!have_rx)
     {
+        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
         bdk_thread_create(0, packet_receiver, 0, NULL, 0);
         have_rx = 1;
     }
