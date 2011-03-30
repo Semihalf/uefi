@@ -461,7 +461,7 @@ function TrafficGen.new()
                 port.setup.output_packet_size = size
                 port.setup.output_count = output_count
                 expected_packets = expected_packets + output_count
-                if (port.name:sub(1,5) == "SGMII") or (port.name:sub(1,4) == "XAUI") then
+                if (port.name:sub(1,5) == "SGMII") or (port.name:sub(1,4) == "XAUI") or (port.name:sub(1,3) == "ILK") then
                     -- Account for the extra 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * (size+4)
                 else
