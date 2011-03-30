@@ -234,8 +234,8 @@ static int if_init(bdk_if_handle_t handle)
             c.s.val = 1;
             c.s.bpid = handle->pknd);
         BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MSK(gmx_block),
-            c.s.msk_or &= ~(1<<handle->index);
-            c.s.msk_and |= 1<<handle->index);
+            c.s.msk_or |= 1<<handle->index;
+            c.s.msk_and &= ~(1<<handle->index));
     }
 
     if (gmx_index == 0)

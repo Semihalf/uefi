@@ -92,8 +92,8 @@ static int if_init(bdk_if_handle_t handle)
             c.s.val = 1;
             c.s.bpid = handle->pknd);
         BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MSK(gmx_block),
-            c.s.msk_or &= ~1;
-            c.s.msk_and |= 1);
+            c.s.msk_or |= 1;
+            c.s.msk_and &= ~1);
     }
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
