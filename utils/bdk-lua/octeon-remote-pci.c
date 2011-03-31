@@ -62,6 +62,7 @@
 
 static const char *PCI_DEVICE_FILENAME = "/proc/bus/pci/devices";
 static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0090, /* CN63XX */
+                                            0x177d0091, /* CN68XX */
                                             0 };
 
 static uint32_t octeon_pci_bar0_size    = 0;    /* Size of the BAR0 memory mapped region */
@@ -223,14 +224,17 @@ static int pci_get_device(int device)
 
     /* Use the PCI ID to figure out which Octeon we are talking to. Note that
         the actual pass number will be read later after the mmaps are setup */
-    switch ((pci_id>>4) & 0xf)
+    switch (pci_id & 0xff)
     {
-        case 9: /* CN63XX */
+        case 0x90: /* CN63XX */
             octeon_pci_model = OCTEON_CN63XX_PASS1_0;
+            break;
+        case 0x91: /* CN68XX */
+            octeon_pci_model = OCTEON_CN68XX_PASS1_0;
             break;
         default:
-            octeon_pci_model = OCTEON_CN63XX_PASS1_0;
-            break;
+            octeon_remote_debug(-1, "Octeon model not recognized\n");
+            return -1;
     }
     octeon_remote_debug(1, "Found Octeon on bus %d in slot %d. BAR0=0x%08llx[0x%x], BAR1=0x%08llx[0x%x]\n",
            bus, devfn>>3,
