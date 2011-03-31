@@ -1,10 +1,26 @@
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -DLUA_USE_LINUX -D_GNU_SOURCE -DBDK_BUILD_HOST
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99 -march=i686 -m32
+CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -D_GNU_SOURCE -DBDK_BUILD_HOST
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
-LDFLAGS = -static -lreadline -lncurses -lm -ldl
+LDFLAGS = -lm -ldl
+
+# If we're not building for Octeon userspace then:
+#    1) Add readline support
+#    2) Build for 32bit
+#    3) Link static
+ifndef OCTEON
+    CPPFLAGS += -DLUA_USE_LINUX
+    CFLAGS += -march=i686 -m32
+    ASFLAGS += -march=i686 -m32
+    LDFLAGS += -static -lreadline -lncurses
+else
+    CFLAGS += -march=octeon2
+    ASFLAGS += -march=octeon2
+    CC = mips64-octeon-linux-gnu-gcc
+endif
+
 
 # These are needed for luasocket to compile cleanly
 CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
