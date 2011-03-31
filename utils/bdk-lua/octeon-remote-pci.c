@@ -74,11 +74,6 @@ static char *   octeon_pci_bar1_ptr     = NULL; /* Virtual address of the BAR1 r
 static uint32_t octeon_pci_model        = 0;    /* Octeon model we're connected to */
 static octeon_remote_map_cookie_t bar0_cookie;
 static octeon_remote_map_cookie_t bar1_cookie;
-static int octeon_pci_bar0_win_rd_addr;
-static int octeon_pci_bar0_win_rd_data;
-static int octeon_pci_bar0_win_wr_addr;
-static int octeon_pci_bar0_win_wr_data;
-static int octeon_pci_bar0_win_wr_mask;
 
 
 /**
@@ -328,17 +323,32 @@ static void pci_bar1_setup(uint64_t address)
 }
 
 
-static void setup_globals(void)
+/**
+ * Read a 32bit value from BAR0. Data is swapped as necessary.
+ *
+ * @param offset Offset into BAR0
+ *
+ * @return Value in cpu endianness
+ */
+static uint32_t bar0_read32(int offset)
 {
-    octeon_pci_bar0_win_rd_addr = BDK_SLI_WIN_RD_ADDR;
-    octeon_pci_bar0_win_rd_data = BDK_SLI_WIN_RD_DATA;
-    octeon_pci_bar0_win_wr_addr = BDK_SLI_WIN_WR_ADDR;
-    octeon_pci_bar0_win_wr_data = BDK_SLI_WIN_WR_DATA;
-    octeon_pci_bar0_win_wr_mask = BDK_SLI_WIN_WR_MASK;
+    octeon_remote_debug(4, "BAR0[0x%04x] read  ", offset);
+    uint32_t result = bdk_le32_to_cpu(*(volatile uint32_t*)(octeon_pci_bar0_ptr + offset));
+    octeon_remote_output(4, "0x%08x\n", result);
+    return result;
+}
 
-    bdk_sli_ctl_status_t sli_ctl_status;
-    sli_ctl_status.u64 = bdk_le32_to_cpu(*(uint32_t*)(octeon_pci_bar0_ptr + BDK_SLI_CTL_STATUS));
-    octeon_pci_model |= sli_ctl_status.s.chip_rev;
+
+/**
+ * Write a 32bit value to BAR0. Data is swapped as necessary.
+ *
+ * @param offset Offset to write too.
+ * @param value  Value to write in cpu endianness
+ */
+static void bar0_write32(int offset, uint32_t value)
+{
+    octeon_remote_debug(4, "BAR0[0x%04x] write 0x%08x\n", offset, value);
+    *(volatile uint32_t*)(octeon_pci_bar0_ptr + offset) = bdk_cpu_to_le32(value);
 }
 
 
@@ -386,7 +396,11 @@ static int pci_open(const char *remote_spec)
     if (!octeon_pci_bar1_ptr)
         return -1;
 
-    setup_globals();
+    /* Determin the pass number */
+    bdk_sli_ctl_status_t sli_ctl_status;
+    sli_ctl_status.u64 = bar0_read32(BDK_SLI_CTL_STATUS);
+    octeon_pci_model |= sli_ctl_status.s.chip_rev;
+
     return 0;
 }
 
@@ -415,15 +429,10 @@ static void pci_close(void)
  */
 static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
-    volatile uint32_t *read_addr_lo = (uint32_t*)(octeon_pci_bar0_ptr + octeon_pci_bar0_win_rd_addr);
-    volatile uint32_t *read_addr_hi = read_addr_lo+1;
-    volatile uint32_t *read_data_lo = (uint32_t*)(octeon_pci_bar0_ptr + octeon_pci_bar0_win_rd_data);
-    volatile uint32_t *read_data_hi = read_data_lo+1;
-
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            return bdk_le32_to_cpu(*(uint32_t*)(octeon_pci_bar0_ptr + (address&0xffff)));
+            return bar0_read32(address & 0xffff);
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
@@ -434,16 +443,16 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
                 address |= 3ull<<49;
             /* Writing the lo part of the address actually triggers the read. That
                 means the high part must be written first */
-            *read_addr_hi = bdk_cpu_to_le32(address>>32);
-            *read_addr_hi; /* This read is needed to enforce ordering on PowerPC */
-            *read_addr_lo = bdk_cpu_to_le32(address);
-            *read_addr_lo; /* This read is needed to enforce ordering on Freescale PowerPC */
+            bar0_write32(BDK_SLI_WIN_RD_ADDR+4, address>>32);
+            bar0_read32(BDK_SLI_WIN_RD_ADDR+4); /* This read is needed to enforce ordering on PowerPC */
+            bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
+            bar0_read32(BDK_SLI_WIN_RD_ADDR); /* This read is needed to enforce ordering on Freescale PowerPC */
 
-            return (((uint64_t)bdk_le32_to_cpu(*read_data_hi))<<32) | (uint64_t)bdk_le32_to_cpu(*read_data_lo);
+            return (((uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4))<<32) | (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
 
         case BDK_CSR_TYPE_PEXP:
             /* The SLI CSRs are accessed directly using external address. */
-            return bdk_le32_to_cpu(*(uint32_t*)(octeon_pci_bar0_ptr + (address & 0xffff)));
+            return bar0_read32(address & 0xffff);
 
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
@@ -482,38 +491,31 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
  */
 static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
-    volatile uint32_t *write_addr_lo = (uint32_t*)(octeon_pci_bar0_ptr + octeon_pci_bar0_win_wr_addr);
-    volatile uint32_t *write_addr_hi = write_addr_lo+1;
-    volatile uint32_t *write_data_lo = (uint32_t*)(octeon_pci_bar0_ptr + octeon_pci_bar0_win_wr_data);
-    volatile uint32_t *write_data_hi = write_data_lo+1;
-    volatile uint32_t *write_mask_lo = (uint32_t*)(octeon_pci_bar0_ptr + octeon_pci_bar0_win_wr_mask);
-    volatile uint32_t *write_mask_hi = write_mask_lo+1;
-
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            *(uint32_t*)(octeon_pci_bar0_ptr + (address&0xffff)) = bdk_cpu_to_le32(value);
+            bar0_write32(address & 0xffff, value);
             break;
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             /* Writing the low part of the data triggers the actual write. It needs to
                 be last */
-            *write_mask_hi = bdk_cpu_to_le32(0);
+            bar0_write32(BDK_SLI_WIN_WR_MASK+4, 0);
             if (size == 4)
-                *write_mask_lo = bdk_cpu_to_le32((address & 4) ? 0x0f : 0xf0);
+                bar0_write32(BDK_SLI_WIN_WR_MASK, (address & 4) ? 0x0f : 0xf0);
             else
-                *write_mask_lo = bdk_cpu_to_le32(0xff);
-            *write_addr_hi = bdk_cpu_to_le32(address>>32);
-            *write_addr_lo = bdk_cpu_to_le32(address);
-            *write_data_hi = bdk_cpu_to_le32(value>>32);
-            *write_data_hi; /* This read is needed to enforce ordering on PowerPC */
-            *write_data_lo = bdk_cpu_to_le32(value);
+                bar0_write32(BDK_SLI_WIN_WR_MASK, 0xff);
+            bar0_write32(BDK_SLI_WIN_WR_ADDR+4, address>>32);
+            bar0_write32(BDK_SLI_WIN_WR_ADDR, address);
+            bar0_write32(BDK_SLI_WIN_WR_DATA+4, value>>32);
+            bar0_read32(BDK_SLI_WIN_WR_DATA+4); /* This read is needed to enforce ordering on PowerPC */
+            bar0_write32(BDK_SLI_WIN_WR_DATA, value);
             break;
 
         case BDK_CSR_TYPE_PEXP:
             /* In Octeon II, the SLI CSRs are accessed directly using external address. */
-            (*(uint32_t*)(octeon_pci_bar0_ptr + (address & 0xffff))) = bdk_cpu_to_le32(value);
+            bar0_write32(address & 0xffff, value);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGEP:
