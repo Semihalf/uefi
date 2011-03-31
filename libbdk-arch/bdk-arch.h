@@ -24,14 +24,14 @@
     #endif
 #endif
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 #include "bdk-asm.h"
 #endif
 #include "bdk-model.h"
 #include "bdk-csr.h"
 #include "bdk-warn.h"
 #include "bdk-csrs.h"
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 #include "bdk-fuse.h"
 #include "bdk-feature.h"
 #endif

@@ -8,7 +8,7 @@ extern const int __bdk_csr_db_range[];
 extern const char __bdk_csr_db_string[];
 extern const uint64_t __bdk_csr_db_number[];
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 
 /**
  * Read a slow CSR, not RSL or NCB.
@@ -365,7 +365,7 @@ uint64_t bdk_csr_read_by_name(const char *name)
     if (!db)
         return 0;
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
     return bdk_csr_read(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
 #else
@@ -395,7 +395,7 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
     if (!db)
         return -1;
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
     bdk_csr_write(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block), value);
 #else

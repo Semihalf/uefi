@@ -14,7 +14,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include "../libbdk-arch/bdk-arch.h"
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 #include "../libbdk-os/bdk-os.h"
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"

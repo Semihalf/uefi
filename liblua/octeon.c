@@ -1,4 +1,4 @@
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 #include <bdk.h>
 #include <unistd.h>
 #else
@@ -364,7 +364,7 @@ static int octeon_csr_call(lua_State* L)
     return 2;
 }
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 /**
  * Wrapper to call a generic C function from Lua. A maximum
  * of 8 arguments are supported. Each argument can either be a
@@ -441,7 +441,7 @@ static int get_sbrk(lua_State* L)
  */
 LUALIB_API int luaopen_octeon(lua_State* L)
 {
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
     /* Create a new table for the module */
     lua_newtable(L);
 #else
@@ -479,7 +479,7 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setmetatable(L, -2);
     lua_setfield(L, -2, "csr");
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
     /* Create a new table of all C functions that can be called */
     lua_newtable(L);
     int i = 0;
@@ -525,7 +525,7 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     return 1;
 }
 
-#ifndef __mips__
+#ifdef BDK_BUILD_HOST
 int main(int argc, const char **argv)
 {
     extern int bdk_lua_main(int argc, const char **argv);

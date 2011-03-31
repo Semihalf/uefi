@@ -41,7 +41,7 @@ typedef struct {
     const __bdk_csr_db_type_t *data;
 } __bdk_csr_db_map_t;
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 
 /**
  * Read a value from a CSR. Normally this function should not be
@@ -132,7 +132,7 @@ extern int bdk_csr_write_by_name(const char *name, uint64_t value);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
 extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2) __attribute__ ((noreturn));
 
-#ifdef __mips__
+#ifndef BDK_BUILD_HOST
 
 /**
  * This macro makes it easy to define a variable of the correct
