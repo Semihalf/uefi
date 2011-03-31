@@ -61,6 +61,75 @@ static int if_probe(bdk_if_handle_t handle)
     return 0;
 }
 
+static int xaui_link_init(bdk_if_handle_t handle)
+{
+    int gmx_block = __bdk_if_get_gmx_block(handle);
+    int gmx_index = __bdk_if_get_gmx_index(handle);
+
+    /* (1) Interface has already been enabled. */
+
+    /* (2) Disable GMX. */
+    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
+        c.s.gmxeno = 1);
+
+    /* (3) Disable GMX and PCSX interrupts. */
+    BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index,gmx_block), 0x0);
+    BDK_CSR_WRITE(BDK_GMXX_TX_INT_EN(gmx_block), 0x0);
+    BDK_CSR_WRITE(BDK_PCSXX_INT_EN_REG(gmx_block), 0x0);
+
+    /* (4) Bring up the PCSX and GMX reconciliation layer. */
+    /* (4)a Set polarity and lane swapping. */
+    /* (4)b */
+    BDK_CSR_MODIFY(gmxXauiTxCtl, BDK_GMXX_TX_XAUI_CTL(gmx_block),
+        gmxXauiTxCtl.s.dic_en = 1; /* Enable better IFG packing and improves performance */
+        gmxXauiTxCtl.s.uni_en = 0);
+
+    /* (4)c Power up the interface */
+    BDK_CSR_MODIFY(xauiCtl, BDK_PCSXX_CONTROL1_REG(gmx_block),
+        xauiCtl.s.lo_pwr = 0);
+
+    /* Wait for PCS to come out of reset */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_CONTROL1_REG(gmx_block), reset, ==, 0, 10000))
+        return -1;
+    /* Wait for PCS to be aligned */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_10GBX_STATUS_REG(gmx_block), alignd, ==, 1, 10000))
+        return -1;
+    /* Wait for RX to be ready */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_RX_XAUI_CTL(gmx_block), status, ==, 0, 10000))
+        return -1;
+
+    /* (6) Configure GMX */
+
+    /* Wait for GMX RX to be idle */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), rx_idle, ==, 1, 10000))
+        return -1;
+    /* Wait for GMX TX to be idle */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), tx_idle, ==, 1, 10000))
+        return -1;
+
+    /* GMX configure */
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+        c.s.speed = 1;
+        c.s.speed_msb = 0;
+        c.s.slottime = 1);
+    BDK_CSR_WRITE(BDK_GMXX_TXX_SLOT(gmx_index, gmx_block), 512);
+    BDK_CSR_WRITE(BDK_GMXX_TXX_BURST(gmx_index, gmx_block), 8192);
+
+    /* Wait for receive link */
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS1_REG(gmx_block), rcv_lnk, ==, 1, 10000))
+        return -1;
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS2_REG(gmx_block), xmtflt, ==, 0, 10000))
+        return -1;
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS2_REG(gmx_block), rcvflt, ==, 0, 10000))
+        return -1;
+
+    /* (8) Enable packet reception */
+    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
+        c.s.gmxeno = 0);
+
+    return 0;
+}
+
 static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
@@ -166,6 +235,7 @@ static int if_init(bdk_if_handle_t handle)
             c.s.fcs = 0;
             c.s.pad = 0);
 
+    xaui_link_init(handle);
     return 0;
 }
 
@@ -173,85 +243,17 @@ static int if_enable(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-    bdk_gmxx_prtx_cfg_t          gmx_cfg;
-    bdk_pcsxx_misc_ctl_reg_t     xauiMiscCtl;
-
-    /* (1) Interface has already been enabled. */
-
-    /* (2) Disable GMX. */
-    BDK_CSR_MODIFY(xauiMiscCtl, BDK_PCSXX_MISC_CTL_REG(gmx_block),
-        xauiMiscCtl.s.gmxeno = 1);
-
-    /* (3) Disable GMX and PCSX interrupts. */
-    BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index,gmx_block), 0x0);
-    BDK_CSR_WRITE(BDK_GMXX_TX_INT_EN(gmx_block), 0x0);
-    BDK_CSR_WRITE(BDK_PCSXX_INT_EN_REG(gmx_block), 0x0);
-
-    /* (4) Bring up the PCSX and GMX reconciliation layer. */
-    /* (4)a Set polarity and lane swapping. */
-    /* (4)b */
-    BDK_CSR_MODIFY(gmxXauiTxCtl, BDK_GMXX_TX_XAUI_CTL(gmx_block),
-        gmxXauiTxCtl.s.dic_en = 1; /* Enable better IFG packing and improves performance */
-        gmxXauiTxCtl.s.uni_en = 0);
-
-    /* (4)c Aply reset sequence */
-    BDK_CSR_MODIFY(xauiCtl, BDK_PCSXX_CONTROL1_REG(gmx_block),
-        xauiCtl.s.lo_pwr = 0;
-        xauiCtl.s.reset  = 1);
-
-    /* Wait for PCS to come out of reset */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_CONTROL1_REG(gmx_block), reset, ==, 0, 10000))
-        return -1;
-    /* Wait for PCS to be aligned */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_10GBX_STATUS_REG(gmx_block), alignd, ==, 1, 10000))
-        return -1;
-    /* Wait for RX to be ready */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_RX_XAUI_CTL(gmx_block), status, ==, 0, 10000))
-        return -1;
-
-    /* (6) Configure GMX */
-    BDK_CSR_MODIFY(gmx_cfg, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
-        gmx_cfg.s.en = 0);
-
-    /* Wait for GMX RX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), rx_idle, ==, 1, 10000))
-        return -1;
-    /* Wait for GMX TX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), tx_idle, ==, 1, 10000))
-        return -1;
-
-    /* GMX configure */
-    gmx_cfg.u64 = BDK_CSR_READ(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block));
-    gmx_cfg.s.speed = 1;
-    gmx_cfg.s.speed_msb = 0;
-    gmx_cfg.s.slottime = 1;
-    BDK_CSR_WRITE(BDK_GMXX_TXX_SLOT(gmx_index, gmx_block), 512);
-    BDK_CSR_WRITE(BDK_GMXX_TXX_BURST(gmx_index, gmx_block), 8192);
-    BDK_CSR_WRITE(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), gmx_cfg.u64);
-
-    /* Wait for receive link */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS1_REG(gmx_block), rcv_lnk, ==, 1, 10000))
-        return -1;
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS2_REG(gmx_block), xmtflt, ==, 0, 10000))
-        return -1;
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS2_REG(gmx_block), rcvflt, ==, 0, 10000))
-        return -1;
-
-    /* (8) Enable packet reception */
-    xauiMiscCtl.s.gmxeno = 0;
-    BDK_CSR_WRITE (BDK_PCSXX_MISC_CTL_REG(gmx_block), xauiMiscCtl.u64);
-
-    BDK_CSR_MODIFY(gmx_cfg, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
-        gmx_cfg.s.en = 1);
-
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+        c.s.en = 1);
     return 0;
 }
 
 static int if_disable(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
-    BDK_CSR_MODIFY(xauiMiscCtl, BDK_PCSXX_MISC_CTL_REG(gmx_block),
-        xauiMiscCtl.s.gmxeno = 0);
+    int gmx_index = __bdk_if_get_gmx_index(handle);
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+        c.s.en = 0);
     return 0;
 }
 
@@ -321,6 +323,9 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
                     break;
             }
             result.s.speed *= result.s.lanes;
+            BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
+            if (misc_ctl.s.gmxeno)
+                xaui_link_init(handle);
         }
     }
     else
@@ -348,7 +353,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
     /* Do nothing if both RX and TX are happy */
     if ((gmxx_tx_xaui_ctl.s.ls != 0) || (gmxx_rx_xaui_ctl.s.status != 0))
-        if_enable(handle);
+        xaui_link_init(handle);
 }
 
 const __bdk_if_ops_t __bdk_if_ops_xaui = {
