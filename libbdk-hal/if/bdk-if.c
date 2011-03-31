@@ -25,7 +25,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
-
+static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
 
 /**
  * One time init of the SSO
@@ -261,6 +261,9 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
             handle->pknd = next_free_pknd++;
         else
             handle->pknd = handle->ipd_port;
+        if (handle->ipd_port >= 0x1000)
+            bdk_fatal("IPD port too large for mapping table\n");
+        __bdk_if_ipd_map[handle->ipd_port] = handle;
     }
 
     if (__bdk_if_ops[iftype]->if_init(handle))
@@ -677,16 +680,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
             ipd_port = wqe->word1.v1.ipprt;
 
-        /* FIXME: This is a slow way of finding the IF handle */
-        __bdk_if_port_t *handle = __bdk_if_head;
-        while (handle)
-        {
-            if (handle->ipd_port == ipd_port)
-                break;
-            handle = handle->next;
-        }
-
-        packet->if_handle = handle;
+        packet->if_handle = __bdk_if_ipd_map[ipd_port];
         packet->length = wqe->word1.s.len;
         if (wqe->word2.s.re)
             packet->rx_error = wqe->word2.s.opcode;
@@ -733,7 +727,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
             int octets = wqe->word1.s.len;
-            if (handle->has_fcs)
+            if (packet->if_handle->has_fcs)
                 octets += 4;
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1);
