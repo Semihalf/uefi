@@ -460,6 +460,7 @@ function TrafficGen.new()
 
         -- Loop through the sizes
         for size=size_start,size_stop,size_incr do
+            printf("Size %d\n", size)
             -- Setup TX and count how many packets we expect
             for _,port in ipairs(port_range) do
                 port.setup.output_packet_size = size
@@ -502,14 +503,16 @@ function TrafficGen.new()
                     validation_errors = validation_errors + port.stats.rx_validation_errors
                 end
             until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
-            printf("Size %d\n", size)
             -- Make sure we got the right amount of data
             if (rx_packets ~= expected_packets) or (rx_octets ~= expected_octets) then
                 if os.time() >= timeout then
-                    printf("TIMEOUT\n")
+                    printf("Scan timeout\n")
+                else
+                    printf("Scan failed\n")
                 end
-                printf("Scan failed at size %d\n", size)
                 printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
+                printf("Expected packets %d, octets %d\n", expected_rx_packets, expected_rx_octets)
+                printf("Delta packets %d, octets %d\n", expected_rx_packets - rx_packets, expected_rx_octets - rx_octets)
                 break
             end
             if (rx_errors ~= expected_rx_errors) then
