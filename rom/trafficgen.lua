@@ -111,7 +111,6 @@ function TrafficGen.new()
         until (port_info == nil)
     end
     get_possible_ports()
-    visible_ports[1] = known_ports[1]
 
     -- Convert a list of ports into a C port_set_t
     -- FIXME: Does the port_set_t get GC?
@@ -352,6 +351,7 @@ function TrafficGen.new()
         assert (#args == 0, "No arguments expected")
         -- FIXME: Do intersection
         visible_ports = {}
+        printf(SCROLL_FULL .. GOTO_BOTTOM)
     end
 
     function self:cmdp_clear(port_range, args)
@@ -601,6 +601,7 @@ function TrafficGen.new()
     return self
 end
 
+printf(SCROLL_FULL .. GOTO_BOTTOM)
 printf("\n\nBDK Traffic Generator\n\n")
 printf("Type \"help\" for a list of commands\n")
 octeon.c.bdk_init_cores(0);
