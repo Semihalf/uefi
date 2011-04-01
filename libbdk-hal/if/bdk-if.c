@@ -755,13 +755,14 @@ void bdk_if_free(bdk_if_packet_t *packet)
 {
     int number_buffers = packet->segments;
     bdk_buf_ptr_t buffer_ptr = packet->packet;
+    BDK_SYNCW;
     while (number_buffers--)
     {
         /* Remember the back pointer is in cache lines, not 64bit words */
         uint64_t start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
         /* Read pointer to next buffer before we free the current buffer. */
         bdk_buf_ptr_t next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-        bdk_fpa_free(bdk_phys_to_ptr(start_of_buffer), buffer_ptr.s.pool, 0);
+        __bdk_fpa_raw_free(start_of_buffer, buffer_ptr.s.pool, 0);
         buffer_ptr = next_buffer_ptr;
     }
 }

@@ -111,16 +111,29 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
  * @param num_cache_lines
  *               Cache lines to invalidate
  */
-static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
+static inline void __bdk_fpa_raw_free(uint64_t address, bdk_fpa_pool_t pool, int num_cache_lines)
 {
     bdk_addr_t newptr;
-
-    BDK_SYNCW;
-    newptr.u64 = bdk_ptr_to_phys(ptr);
+    newptr.u64 = address;
     newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));
     asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
     /* value written is number of cache lines not written back */
     bdk_write64_uint64(newptr.u64, num_cache_lines);
+}
+
+/**
+ * Free a block allocated with a FPA pool.  Provides required memory
+ * ordering in cases where memory block was modified by core.
+ *
+ * @param ptr    Block to free
+ * @param pool   Pool to put it in
+ * @param num_cache_lines
+ *               Cache lines to invalidate
+ */
+static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
+{
+    BDK_SYNCW;
+    __bdk_fpa_raw_free(bdk_ptr_to_phys(ptr), pool, num_cache_lines);
 }
 
 /**

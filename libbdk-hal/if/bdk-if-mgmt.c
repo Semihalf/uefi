@@ -430,13 +430,14 @@ static void poll_tx_complete(bdk_if_handle_t handle)
     int orcnt = BDK_CSR_READ(BDK_MIXX_ORCNT(handle->index));
     int to_free = orcnt;
 
+    BDK_SYNCW;
     while (to_free--)
     {
         int tfi = state->tx_free_index;
         if (state->tx_buf[tfi].s.i == 0)
         {
-            void *fpa = bdk_phys_to_ptr(state->tx_buf[tfi].s.addr - state->tx_buf[tfi].s.back*128);
-            bdk_fpa_free(fpa, state->tx_buf[tfi].s.pool, 0);
+            __bdk_fpa_raw_free(state->tx_buf[tfi].s.addr - state->tx_buf[tfi].s.back*128,
+                state->tx_buf[tfi].s.pool, 0);
         }
         state->tx_ring[tfi].u64 = 0;
         state->tx_buf[tfi].u64 = 0;
