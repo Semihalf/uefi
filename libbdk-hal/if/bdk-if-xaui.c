@@ -224,10 +224,6 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(0, gmx_block), 65535);
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(handle->interface),
-            pip_frm_len_chkx.s.minlen = 64;
-            pip_frm_len_chkx.s.maxlen = -1);
 
     /* CN68XX adds the padding and FCS in PKO, not GMX */
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))

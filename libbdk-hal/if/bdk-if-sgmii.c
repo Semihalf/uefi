@@ -302,10 +302,6 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(gmx_index, gmx_block), 65535);
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(gmx_block),
-            pip_frm_len_chkx.s.minlen = 64;
-            pip_frm_len_chkx.s.maxlen = -1);
 
     /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
         value. 1000BASE-X specifies a 10ms interval. SGMII specifies a 1.6ms

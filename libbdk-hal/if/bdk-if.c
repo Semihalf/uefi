@@ -167,6 +167,11 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         tag_config.s.non_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE);
         tag_config.s.grp = 0);
 
+    /* Configure to allow max sized frames */
+    BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(0),
+        pip_frm_len_chkx.s.minlen = 64;
+        pip_frm_len_chkx.s.maxlen = -1);
+
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Strip off FCS as needed */
@@ -731,6 +736,8 @@ int bdk_if_receive(bdk_if_packet_t *packet)
                 octets += 4;
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1);
+            if (packet->rx_error)
+                bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.errors, 1);
         }
         return 0;
     }
