@@ -511,8 +511,8 @@ function TrafficGen.new()
                     printf("Scan failed\n")
                 end
                 printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
-                printf("Expected packets %d, octets %d\n", expected_rx_packets, expected_rx_octets)
-                printf("Delta packets %d, octets %d\n", expected_rx_packets - rx_packets, expected_rx_octets - rx_octets)
+                printf("Expected packets %d, octets %d\n", expected_packets, expected_octets)
+                printf("Delta packets %d, octets %d\n", expected_packets - rx_packets, expected_octets - rx_octets)
                 break
             end
             if (rx_errors ~= expected_rx_errors) then
