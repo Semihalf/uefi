@@ -154,7 +154,7 @@ int bdk_netstack_initialize(long flags)
  */
 static err_t netstack_netif_output(struct netif *netif, struct pbuf *p)
 {
-    const int pool_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    const int POOL_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     bdk_if_handle_t handle = netif->state;
     int total_length = p->tot_len - ETH_PAD_SIZE;
 
@@ -187,11 +187,11 @@ static err_t netstack_netif_output(struct netif *netif, struct pbuf *p)
             }
             buf_ptr->u64 = 0;
             buf_ptr->s.pool = BDK_FPA_PACKET_POOL;
-            buf_ptr->s.size = pool_size - 8;
+            buf_ptr->s.size = POOL_SIZE - 8;
             buf_ptr->s.addr = bdk_ptr_to_phys(buf) + 8;
             buf_ptr = (bdk_buf_ptr_t *)buf;
             packet.segments++;
-            buf_left = pool_size - 8;
+            buf_left = POOL_SIZE - 8;
             buf += 8;
         }
 

@@ -1418,6 +1418,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
  */
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
+    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
     bdk_buf_ptr_t buffer_ptr = packet->packet;
 
@@ -1465,7 +1466,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
     {
         /* Figure out the maximum bytes this buffer could hold for us */
         void *start_of_buffer = bdk_phys_to_ptr(((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7);
-        int buffer_bytes = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL) - (ptr - start_of_buffer);
+        int buffer_bytes = FPA_SIZE - (ptr - start_of_buffer);
         if (bdk_likely(remaining_bytes <= buffer_bytes))
         {
             /* The rest of the crc data fits in this single buffer */

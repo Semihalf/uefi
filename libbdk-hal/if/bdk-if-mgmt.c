@@ -517,7 +517,7 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     if (mix_ircnt.s.ircnt == 0)
         return -1;
 
-    int fpa_size = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     mgmt_port_state_t *state = handle->priv;
 
     bdk_spinlock_lock(&state->rx_lock);
@@ -552,14 +552,14 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
         buffer->u64 = 0;
         buffer->s.pool = BDK_FPA_PACKET_POOL;
-        buffer->s.size = fpa_size - 8;
+        buffer->s.size = FPA_SIZE - 8;
         buffer->s.addr = entry.s.addr;
         buffer = bdk_phys_to_ptr(buffer->s.addr-8);
 
         /* Update this buffer for reuse in future receives. This size is
             -8 as we need space for buffer chains */
         state->rx_ring[rxi].s.code = 0;
-        state->rx_ring[rxi].s.len = fpa_size - 8;
+        state->rx_ring[rxi].s.len = FPA_SIZE - 8;
         state->rx_ring[rxi].s.addr = bdk_ptr_to_phys(bdk_fpa_alloc(BDK_FPA_PACKET_POOL)) + 8;
 
         state->rx_read_index = (rxi + 1) % MGMT_PORT_NUM_RX_BUFFERS;
