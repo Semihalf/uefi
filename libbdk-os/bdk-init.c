@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static int64_t __bdk_alive_coremask;
+
 static void __bdk_init_uart(int uart)
 {
     /* Setup the UART */
@@ -79,6 +81,8 @@ static void bdk_init_stage2(void)
     BDK_MF_COP0(status, COP0_STATUS);
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
+
+    bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
 
     if (bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL, 0))
         bdk_fatal("Create of __bdk_init_main thread failed\n");
@@ -176,17 +180,16 @@ void __bdk_init(long base_address)
 
 int bdk_init_cores(uint64_t coremask)
 {
-    extern void __init; /* Where cores should start */
     extern void __bdk_reset_vector(void);
 
     /* Install reset vector */
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_ADR, 0);
     const uint64_t *src = (const uint64_t *)__bdk_reset_vector;
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80000000 | bdk_ptr_to_phys(&__init));
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80002000);
+    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_READ(BDK_MIO_BOOT_LOC_CFGX(0));
 
     /* Choose all cores by default */
@@ -196,7 +199,7 @@ int bdk_init_cores(uint64_t coremask)
     /* Don't touch this core */
     coremask &= ~(1ull<<bdk_get_core_num());
 
-    /* Limit to the cores that already exist */
+    /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
 
     /* First send a NMI */
@@ -208,6 +211,14 @@ int bdk_init_cores(uint64_t coremask)
     {
         reset &= ~coremask;
         BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+    }
+
+    bdk_wait_usec(1000);
+    if ((__bdk_alive_coremask & coremask) != coremask)
+    {
+        bdk_error("Some cores failed to start. Alive mask 0x%lx, requested 0x%lx\n",
+            __bdk_alive_coremask, coremask);
+        return -1;
     }
 
     return 0;
