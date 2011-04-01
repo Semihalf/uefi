@@ -749,6 +749,7 @@ static int pci_reset(int stop_core __attribute__ ((unused)))
     mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
     mio_rst_boot.s.rboot = stop_core;
     OCTEON_REMOTE_WRITE_CSR(BDK_MIO_RST_BOOT, mio_rst_boot.u64);
+    OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
 
     /* HRM specifies that CIU_SOFT_RST should be read before initiating
     ** a reset over PCI */
