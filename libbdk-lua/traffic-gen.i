@@ -41,27 +41,6 @@ typedef struct
     //uint64_t    rx_wqe_errors[256];
 } trafficgen_port_stats_t;
 
-typedef enum {
-    PACKET_TYPE_IPV4_UDP,
-    PACKET_TYPE_IPV6_UDP,
-    PACKET_TYPE_IPV4_TCP,
-    PACKET_TYPE_IPV6_TCP,
-    PACKET_TYPE_802_3_PAUSE,
-    PACKET_TYPE_CBFC_PAUSE,
-    PACKET_TYPE_CJPAT,
-    PACKET_TYPE_HELP    /* best to keep this last */
-} trafficgen_packet_type_t;
-
-typedef enum {
-    DATA_TYPE_ABC=0,
-    DATA_TYPE_ZERO,
-    DATA_TYPE_ONE,
-    DATA_TYPE_INC,
-    DATA_TYPE_DEC,
-    DATA_TYPE_RAND,
-    DATA_TYPE_HELP      /* best to keep this last */
-} trafficgen_payload_t;
-
 typedef struct
 {
     int                     output_rate;
@@ -69,35 +48,13 @@ typedef struct
     bool                    output_enable;
     int                     output_packet_size;
     uint64_t                output_count;
-    trafficgen_packet_type_t output_packet_type;
-    trafficgen_payload_t    output_packet_payload;
     uint64_t                src_mac;    /* MACs are stored so a printf in hex will show them */
-    int32_t                 src_mac_inc;
-    uint64_t                src_mac_min;
-    uint64_t                src_mac_max;
     uint64_t                dest_mac;
-    int32_t                 dest_mac_inc;
-    uint64_t                dest_mac_min;
-    uint64_t                dest_mac_max;
-    uint64_t                vlan_size;
-    uint8_t                 vlan[8];
     uint32_t                src_ip;
-    int32_t                 src_ip_inc;
-    uint32_t                src_ip_min;
-    uint32_t                src_ip_max;
     uint32_t                dest_ip;
-    int32_t                 dest_ip_inc;
-    uint32_t                dest_ip_min;
-    uint32_t                dest_ip_max;
     uint32_t                ip_tos;
     uint16_t                src_port;
-    int16_t                 src_port_inc;
-    uint16_t                src_port_min;
-    uint16_t                src_port_max;
     uint16_t                dest_port;
-    int16_t                 dest_port_inc;
-    uint16_t                dest_port_min;
-    uint16_t                dest_port_max;
     bool                    do_checksum;
     bool                    display_packet;
     bool                    validate;
