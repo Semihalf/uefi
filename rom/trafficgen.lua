@@ -441,6 +441,8 @@ function TrafficGen.new()
         -- Start with current counts
         local expected_packets = 0
         local expected_octets = 0
+        local expected_rx_errors = 0
+        local expected_validation_errors = 0
         for _,port in ipairs(port_range) do
             if port.name:sub(1,4) == "SRIO" then
                 -- SRIO rounds packets to multiples of 8 and can only handle
@@ -452,6 +454,8 @@ function TrafficGen.new()
             end
             expected_packets = expected_packets + port.stats.rx_packets_total
             expected_octets = expected_octets + port.stats.rx_octets_total
+            expected_rx_errors = expected_rx_errors + port.stats.rx_errors
+            expected_validation_errors = expected_validation_errors + port.stats.rx_validation_errors
         end
 
         -- Loop through the sizes
@@ -480,6 +484,8 @@ function TrafficGen.new()
             end
             local rx_packets
             local rx_octets
+            local rx_errors
+            local validation_errors
             repeat
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
@@ -487,9 +493,13 @@ function TrafficGen.new()
                 -- Count the amount of data received
                 rx_packets = 0
                 rx_octets = 0
+                rx_errors = 0
+                validation_errors = 0
                 for _,port in ipairs(port_range) do
                     rx_packets = rx_packets + port.stats.rx_packets_total
                     rx_octets = rx_octets + port.stats.rx_octets_total
+                    rx_errors = rx_errors + port.stats.rx_errors
+                    validation_errors = validation_errors + port.stats.rx_validation_errors
                 end
             until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
             printf("Size %d\n", size)
@@ -500,6 +510,14 @@ function TrafficGen.new()
                 end
                 printf("Scan failed at size %d\n", size)
                 printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
+                break
+            end
+            if (rx_errors ~= expected_rx_errors) then
+                printf("Scan failed due to RX errors\n")
+                break
+            end
+            if (validation_errors ~= expected_validation_errors) then
+                printf("Scan failed due to validation errors\n")
                 break
             end
         end
