@@ -380,8 +380,6 @@ int trafficgen_do_update(bool do_clear)
         tg_port->pinfo.stats.tx_bits = (tg_port->pinfo.stats.tx_packets * bytes_off_per_packet + tg_port->pinfo.stats.tx_octets) * 8;
 
         /* Get the backpressure counters */
-        bdk_gmxx_txx_pause_togo_t txx_pause_togo;
-        txx_pause_togo.u64 = 0;
         switch (bdk_if_get_type(tg_port->handle))
         {
             case BDK_IF_DPI:
@@ -389,24 +387,40 @@ int trafficgen_do_update(bool do_clear)
             case BDK_IF_SRIO:
                 break;
             case BDK_IF_XAUI:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(tg_port->handle)));
-                if (txx_pause_togo.s.time == 0)
+            {
+                BDK_CSR_INIT(txx_pause_togo, BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(tg_port->handle)));
+                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
+                break;
+            }
+            case BDK_IF_SGMII:
+            {
+                BDK_CSR_INIT(txx_pause_togo, BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(tg_port->handle), __bdk_if_get_gmx_block(tg_port->handle)));
+                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
+                break;
+            }
+            case BDK_IF_MGMT:
+                break;
+            case BDK_IF_ILK:
+            {
+                int interface = tg_port->handle->interface;
+                int pko_port = tg_port->handle->pko_port;
+                if (pko_port < 64)
                 {
-                    bdk_gmxx_rx_hg2_status_t gmxx_rx_hg2_status;
-                    gmxx_rx_hg2_status.u64 = BDK_CSR_READ(BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
-                    txx_pause_togo.s.time = gmxx_rx_hg2_status.s.lgtim2go;
+                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL0(interface));
+                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
+                        tg_port->pinfo.stats.rx_backpressure++;
+                }
+                else
+                {
+                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL1(interface));
+                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
+                        tg_port->pinfo.stats.rx_backpressure++;
                 }
                 break;
-            case BDK_IF_SGMII:
-                txx_pause_togo.u64 = BDK_CSR_READ(BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_index(tg_port->handle), __bdk_if_get_gmx_block(tg_port->handle)));
-                break;
-            case BDK_IF_MGMT:
-            case BDK_IF_ILK:
-                break;
+            }
             case __BDK_IF_LAST:
                 break;
         }
-        tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
         if (do_clear)
         {
             tg_port->delta_stats = *stats;
