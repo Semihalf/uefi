@@ -658,6 +658,10 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
     ptr += skip;
     remaining_bytes -= skip;
 
+    /* Skip the ethernet FCS */
+    if (packet->if_handle->has_fcs)
+        remaining_bytes -= 4;
+
     /* Reduce the length by 4, the length of the CRC at the end */
     remaining_bytes -= 4;
 

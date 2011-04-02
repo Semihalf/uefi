@@ -117,6 +117,11 @@ static int __bdk_if_setup_ipd_global(void)
     /* Needed to support dynamic short */
     BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, 4);
 
+    /* Configure to allow max sized frames */
+    BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(0),
+        pip_frm_len_chkx.s.minlen = 64;
+        pip_frm_len_chkx.s.maxlen = -1);
+
     for (int queue=0; queue<8; queue++)
     {
         int thresh_pass = 64;
@@ -167,21 +172,12 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         tag_config.s.non_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE);
         tag_config.s.grp = 0);
 
-    /* Configure to allow max sized frames */
-    BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(0),
-        pip_frm_len_chkx.s.minlen = 64;
-        pip_frm_len_chkx.s.maxlen = -1);
-
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
-        /* Strip off FCS as needed */
-        if (handle->has_fcs)
-            BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit |= 1ull<<(handle->pknd&63));
-        else
-            BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
-        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd),
-            c.s.crc_en = handle->has_fcs);
-
+        /* Don't strip off FCS. We might want to see it when debugging */
+        BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
+        /* Enable checking of the FCS */
+        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = handle->has_fcs);
         /* Enable RED dropping */
         BDK_CSR_MODIFY(c, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
     }
@@ -546,18 +542,13 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
 
     switch (handle->iftype)
     {
-        case BDK_IF_LOOP:
-            bytes_off_tx = 4; /* Add fake ethernet CRC */
-            bytes_off_rx = 4; /* Add fake ethernet CRC */
-            break;
         case BDK_IF_SRIO:
             /* Subtract SRIO header */
             bytes_off_tx = -(int)sizeof(bdk_srio_tx_message_header_t);
             bytes_off_rx = -(int)sizeof(bdk_srio_rx_message_header_t);
             break;
         default:
-            bytes_off_tx = 4; /* Add fake ethernet CRC */
-            bytes_off_rx = 0; /* CRC alread counted */
+            /* Nothing needed for most ports */
             break;
     }
 
@@ -732,8 +723,6 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         if (USE_SOFTWARE_COUNTERS || bdk_is_simulation())
         {
             int octets = wqe->word1.s.len;
-            if (packet->if_handle->has_fcs)
-                octets += 4;
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1);
             if (packet->rx_error)

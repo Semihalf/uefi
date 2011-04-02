@@ -31,15 +31,13 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int if_init(bdk_if_handle_t handle)
 {
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* We need to disable length checking so packet < 64 bytes and jumbo
-            frames don't get errors */
-        BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->ipd_port),
-                port_cfg.s.maxerr_en = 0;
-                port_cfg.s.minerr_en = 0;);
-    }
-    else
+    /* We need to disable length checking so packet < 64 bytes and jumbo
+        frames don't get errors */
+    BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->pknd),
+            port_cfg.s.maxerr_en = 0;
+            port_cfg.s.minerr_en = 0);
+
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Configure the PKO internal port mappings */
         if (handle->index == 0)
@@ -71,10 +69,6 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(c, BDK_SLI_PORTX_PKIND(handle->index),
             c.s.bpkind = handle->pknd;
             c.s.pkind = handle->pknd);
-
-        /* Disable CRC striping */
-        BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(0),
-            c.s.port_bit &= ~(1ull<<handle->pknd));
     }
     return 0;
 }

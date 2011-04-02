@@ -182,7 +182,7 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Enable the port HW. Packets are not allowed until bdk_mgmt_port_enable() is called */
     BDK_CSR_MODIFY(mix_ctl, BDK_MIXX_CTL(handle->index),
-        mix_ctl.s.crc_strip = 1;    /* Strip the ending CRC */
+        mix_ctl.s.crc_strip = 0;    /* Don't strip the ending CRC */
         mix_ctl.s.en = 1;           /* Enable the port */
         mix_ctl.s.nbtarb = 0;       /* Arbitration mode */
         mix_ctl.s.mrq_hwm = 1);     /* MII CB-request FIFO programmable high watermark */
