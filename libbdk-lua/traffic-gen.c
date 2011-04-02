@@ -627,7 +627,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
             bdk_thread_yield();
     }
     /* FIXME: Wait 1ms to allow PKO to complete before we free the buffer */
-    bdk_wait_usec(1000);
+    bdk_wait_usec(3000);
     free(pdata);
     port_tx->output_enable = 0;
     BDK_SYNCW;

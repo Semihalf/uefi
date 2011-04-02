@@ -323,7 +323,7 @@ int bdk_if_init(void)
         return 0;
 
     int result = 0;
-    int num_packet_buffers = 256;
+    int num_packet_buffers = 1536;
 
     /* Setup the FPA packet buffers */
     bdk_fpa_enable();
