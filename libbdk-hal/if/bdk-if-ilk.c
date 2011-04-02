@@ -257,10 +257,16 @@ static int if_disable(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
+    int retry_count = 0;
     bdk_if_link_t result;
     result.u64 = 0;
+
 retry:
-    ;   /* Make gcc happy */
+    /* Only retry a max number of times as we could be bouncing between
+        alignment on a bad link */
+    retry_count++;
+    if (retry_count > 10)
+        return result;
 
     /* Read RX config and status bits */
     BDK_CSR_INIT(ilk_rxx_cfg1, BDK_ILK_RXX_CFG1(handle->interface));
