@@ -196,8 +196,8 @@ int bdk_init_cores(uint64_t coremask)
     if (coremask == 0)
         coremask = -1;
 
-    /* Don't touch this core */
-    coremask &= ~(1ull<<bdk_get_core_num());
+    /* Limit to the cores that aren't already running */
+    coremask &= ~__bdk_alive_coremask;
 
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
