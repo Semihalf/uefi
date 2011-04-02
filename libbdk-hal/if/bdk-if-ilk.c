@@ -42,6 +42,8 @@ static int if_num_ports(int interface)
             bdk_error("ILK0 configured for more lanes that are available\n");
             return 0;
         }
+        else if (lanes_interface0 == 0)
+            return 0;
     }
     else
     {
@@ -50,6 +52,8 @@ static int if_num_ports(int interface)
             bdk_error("ILK1 configured for more lanes that are available\n");
             return 0;
         }
+        else if (lanes_interface1 == 0)
+            return 0;
     }
 
     /* User must have configured the number of ports */
