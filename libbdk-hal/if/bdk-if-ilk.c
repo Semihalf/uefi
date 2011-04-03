@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <stdio.h>
 
+static bdk_if_link_t if_link_get(bdk_if_handle_t handle);
+
 static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
@@ -239,10 +241,11 @@ static int if_init(bdk_if_handle_t handle)
 
 static int if_enable(bdk_if_handle_t handle)
 {
-    BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
-        c.s.pkt_ena = 1);
+    /* Enable the TX path */
     BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG1(handle->interface),
         c.s.pkt_ena = 1);
+    /* The RX path will be enabled if the link is ready */
+    if_link_get(handle);
     return 0;
 }
 
@@ -266,7 +269,7 @@ retry:
         alignment on a bad link */
     retry_count++;
     if (retry_count > 10)
-        return result;
+        goto out;
 
     /* Read RX config and status bits */
     BDK_CSR_INIT(ilk_rxx_cfg1, BDK_ILK_RXX_CFG1(handle->interface));
@@ -287,7 +290,6 @@ retry:
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
         //printf("ILK%d: Looking for word boundary lock\n", handle->interface);
-        bdk_wait_usec(10000);
         goto retry;
     }
 
@@ -298,10 +300,9 @@ retry:
             ilk_rxx_cfg1.s.rx_align_ena = 1;
             BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
             //printf("ILK%d: Looking for lane alignment\n", handle->interface);
-            bdk_wait_usec(10000);
             goto retry;
         }
-        return result;
+        goto out;
     }
 
     if (ilk_rxx_int.s.lane_align_fail)
@@ -310,7 +311,7 @@ retry:
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
         printf("ILK%d: Lane alignment failed\n", handle->interface);
-        return result;
+        goto out;
     }
 
     if (ilk_rxx_int.s.lane_align_done)
@@ -359,6 +360,18 @@ retry:
     }
     result.s.speed *= result.s.lanes;
 
+out:
+    /* If the link is down we will force disable the RX path. If it up, we'll
+        set it to match the TX state set by the if_enable call */
+    if (result.s.up)
+    {
+        BDK_CSR_INIT(ilk_txx_cfg1, BDK_ILK_TXX_CFG1(handle->interface));
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
+            c.s.pkt_ena = ilk_txx_cfg1.s.pkt_ena);
+    }
+    else
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
+            c.s.pkt_ena = 0);
     return result;
 }
 
