@@ -319,7 +319,17 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bdk_sriox_status_reg_t sriox_status_reg;
     bdk_pemx_bar1_indexx_t bar1_index;
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        /* PCIe is on QLM 1 and QLM 3 */
+        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(pcie_port * 2 + 1));
+        if (qlm_cfg.s.qlm_cfg != 0)
+        {
+            bdk_dprintf("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
+            return -1;
+        }
+    }
+    else
     {
         /* Make sure this interface isn't SRIO */
         sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(pcie_port));
