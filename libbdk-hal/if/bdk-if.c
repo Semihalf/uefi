@@ -630,6 +630,12 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     if (__bdk_if_ops[handle->iftype]->if_transmit)
         return __bdk_if_ops[handle->iftype]->if_transmit(handle, packet);
 
+    if (packet->segments >= 64)
+    {
+        bdk_error("PKO can't transmit packets with more than 63 segments\n");
+        return -1;
+    }
+
     bdk_pko_command_word0_t pko_command;
     pko_command.u64 = 0;
     pko_command.s.dontfree = packet->packet.s.i;
