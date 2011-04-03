@@ -1526,25 +1526,25 @@ extern "C" {
 static int _wrap_dimm_config_t_spd_addrs_set(lua_State* L) {
   int SWIG_arg = 0;
   dimm_config_t *arg1 = (dimm_config_t *) 0 ;
-  uint8_t *arg2 ;
+  uint16_t *arg2 ;
   
   SWIG_check_num_args("spd_addrs",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("spd_addrs",1,"dimm_config_t *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("spd_addrs",2,"uint8_t [2]");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("spd_addrs",2,"uint16_t [2]");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_dimm_config_t,0))){
     SWIG_fail_ptr("dimm_config_t_spd_addrs_set",1,SWIGTYPE_p_dimm_config_t);
   }
   
   
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_unsigned_char,0))){
-    SWIG_fail_ptr("dimm_config_t_spd_addrs_set",2,SWIGTYPE_p_unsigned_char);
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_unsigned_short,0))){
+    SWIG_fail_ptr("dimm_config_t_spd_addrs_set",2,SWIGTYPE_p_unsigned_short);
   }
   
   {
     size_t ii;
-    uint8_t *b = (uint8_t *) arg1->spd_addrs;
-    for (ii = 0; ii < (size_t)2; ii++) b[ii] = *((uint8_t *) arg2 + ii);
+    uint16_t *b = (uint16_t *) arg1->spd_addrs;
+    for (ii = 0; ii < (size_t)2; ii++) b[ii] = *((uint16_t *) arg2 + ii);
   }
   
   return SWIG_arg;
@@ -1560,7 +1560,7 @@ fail:
 static int _wrap_dimm_config_t_spd_addrs_get(lua_State* L) {
   int SWIG_arg = 0;
   dimm_config_t *arg1 = (dimm_config_t *) 0 ;
-  uint8_t *result = 0 ;
+  uint16_t *result = 0 ;
   
   SWIG_check_num_args("spd_addrs",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("spd_addrs",1,"dimm_config_t *");
@@ -1569,17 +1569,8 @@ static int _wrap_dimm_config_t_spd_addrs_get(lua_State* L) {
     SWIG_fail_ptr("dimm_config_t_spd_addrs_get",1,SWIGTYPE_p_dimm_config_t);
   }
   
-  result = (uint8_t *)(uint8_t *) ((arg1)->spd_addrs);
-  {
-    int i;
-    lua_createtable(L, 2, 0);
-    for (i = 0; i < 2; i++) {
-      lua_pushnumber(L, i+1);
-      lua_pushnumber(L, result[i]);
-      lua_settable(L, -3);
-    }
-    SWIG_arg++;
-  }
+  result = (uint16_t *)(uint16_t *) ((arg1)->spd_addrs);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_unsigned_short,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3634,7 +3625,7 @@ static int _wrap_ddr_config_table_t_ddr_config_set(lua_State* L) {
   
   SWIG_check_num_args("ddr_config",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ddr_config",1,"ddr_config_table_t *");
-  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("ddr_config",2,"ddr_configuration_t [2]");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("ddr_config",2,"ddr_configuration_t [4]");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr_config_table_t,0))){
     SWIG_fail_ptr("ddr_config_table_t_ddr_config_set",1,SWIGTYPE_p_ddr_config_table_t);
@@ -3648,7 +3639,7 @@ static int _wrap_ddr_config_table_t_ddr_config_set(lua_State* L) {
   {
     size_t ii;
     ddr_configuration_t *b = (ddr_configuration_t *) arg1->ddr_config;
-    for (ii = 0; ii < (size_t)2; ii++) b[ii] = *((ddr_configuration_t *) arg2 + ii);
+    for (ii = 0; ii < (size_t)4; ii++) b[ii] = *((ddr_configuration_t *) arg2 + ii);
   }
   
   return SWIG_arg;
@@ -3676,8 +3667,8 @@ static int _wrap_ddr_config_table_t_ddr_config_get(lua_State* L) {
   result = (ddr_configuration_t *)(ddr_configuration_t *) ((arg1)->ddr_config);
   {
     int i;
-    lua_createtable(L, 2, 0);
-    for (i = 0; i < 2; i++) {
+    lua_createtable(L, 4, 0);
+    for (i = 0; i < 4; i++) {
       lua_pushnumber(L, i+1);
       SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_ddr_configuration_t, 0);
       lua_settable(L, -3);
