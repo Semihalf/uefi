@@ -14,18 +14,22 @@ m:item("p0i", "PCIe0: Initialize", function()
 end)
 
 m:item("p0s", "PCIe0: Scan for devices", function()
+    assert(pcie_root[0], "PCIe0 not initialized")
     pcie_root[0]:scan()
 end)
 
 m:item("p0e", "PCIe0: Enumerate devices", function()
+    assert(pcie_root[0], "PCIe0 not initialized")
     pcie_root[0]:enumerate()
 end)
 
 m:item("p0d", "PCIe0: Display devices", function()
+    assert(pcie_root[0], "PCIe0 not initialized")
     pcie_root[0]:display()
 end)
 
 m:item("p0f", "PCIe0: Shutdown", function()
+    assert(pcie_root[0], "PCIe0 not initialized")
     pcie_root[0]:shutdown()
     pcie_root[0] = nil
 end)
@@ -35,18 +39,22 @@ m:item("p1i", "PCIe1: Initialize", function()
 end)
 
 m:item("p1s", "PCIe1: Scan for devices", function()
+    assert(pcie_root[1], "PCIe1 not initialized")
     pcie_root[1]:scan()
 end)
 
 m:item("p1e", "PCIe1: Enumerate devices", function()
+    assert(pcie_root[1], "PCIe1 not initialized")
     pcie_root[1]:enumerate()
 end)
 
 m:item("p1d", "PCIe1: Display devices", function()
+    assert(pcie_root[1], "PCIe1 not initialized")
     pcie_root[1]:display()
 end)
 
 m:item("p1f", "PCIe1: Shutdown", function()
+    assert(pcie_root[1], "PCIe1 not initialized")
     pcie_root[1]:shutdown()
     pcie_root[1] = nil
 end)
