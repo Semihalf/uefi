@@ -50,6 +50,7 @@ typedef enum
 
 /* Each bit represents a valid COP0 register bit=reg*8+sel VALID_COP0[bit/64] |= 1<<(bit%63) */
 extern const uint64_t OCTEON_REMOTE_VALID_COP0[];
+extern int __octeon_remote_num_cores;
 
 static int sock_fd = -1;
 static uint64_t available_core_mask = 0;
@@ -344,11 +345,11 @@ static int macraigor_open(const char *remote_spec)
         octeon_remote_debug(-1, "Analyze JTAG Scan Chain failed. Probe probably needs a software update\n");
         return -1;
     }
-    int cores = bdk_be32_to_cpu(*(uint32_t*)(response+3));
-    octeon_remote_debug(2, "Probe detected %d cores\n", cores);
-    if ((cores < 1) || (cores > 32))
+    __octeon_remote_num_cores = bdk_be32_to_cpu(*(uint32_t*)(response+3));
+    octeon_remote_debug(2, "Probe detected %d cores\n", __octeon_remote_num_cores);
+    if ((__octeon_remote_num_cores < 1) || (__octeon_remote_num_cores > 32))
     {
-        octeon_remote_debug(-1, "Illegal number of cores detected (%d)\n", cores);
+        octeon_remote_debug(-1, "Illegal number of cores detected (%d)\n", __octeon_remote_num_cores);
         return -1;
     }
     if (jtag_speed != 1)
@@ -359,8 +360,8 @@ static int macraigor_open(const char *remote_spec)
     command[i++] = 0;
     command[i++] = jtag_speed; /* JTAG speed */
     command[i++] = 0;
-    command[i++] = cores;
-    for (l=0; l< cores; l++)
+    command[i++] = __octeon_remote_num_cores;
+    for (l=0; l< __octeon_remote_num_cores; l++)
         command[i++] = 0x5e; /* All Octeons use the same cpu type */
     l = do_command(0, command, i, response, 4);
     if (l != 4)
@@ -393,7 +394,7 @@ static int macraigor_open(const char *remote_spec)
         return -1;
     }
 
-    available_core_mask = (1ull<<cores)-1;
+    available_core_mask = (1ull<<__octeon_remote_num_cores)-1;
     enable_64bit_addressing(0);
 
     return 0;
@@ -801,6 +802,8 @@ static void enable_64bit_addressing(int core)
 {
     /* Force 64 bit addressing on so we can access CSRs */
     uint64_t status = octeon_remote_read_register(core, 0x100 + 12*8 + 0);
+    if (status & (1<<7))
+        return;
     status |= 1<<7;
     octeon_remote_write_register(core, 0x100 + 12*8 + 0, status);
 }
@@ -885,7 +888,6 @@ static int macraigor_get_sample(uint64_t coremask, octeon_remote_sample_t sample
  */
 static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), octeon_remote_sample_t sample[64])
 {
-    static int num_cores = -1;
     #define ROUND_BYTES(bits) (((bits)+7)>>3)
     uint8_t command[1024];
     uint8_t response[1024];
@@ -893,35 +895,16 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
     int total_bits;
     int core;
 
-    /* On the first call we need to perform some setup */
-    if (num_cores == -1)
-    {
-        num_cores = octeon_remote_get_num_cores();
-        octeon_remote_debug(2, "Setting sampling for %d cores\n", num_cores);
-        /* Enable PC sampling for each core */
-        for (core=0; core<num_cores; core++)
-        {
-            uint64_t debug;
-            memory_access_core = core;
-            macraigor_read_mem(&debug, 0xFFFFFFFFFF300000ull, 8);
-            debug = bdk_be64_to_cpu(debug);
-            debug |= 0xf<<5;
-            debug = bdk_cpu_to_be64(debug);
-            macraigor_write_mem(0xFFFFFFFFFF300000ull, &debug, 8);
-        }
-        memory_access_core = 0;
-    }
-
     /* Tell every core to set the JTAG instruction to 0x14, which is read the
         PC samples. We need 5 bits per core clocked out */
-    total_bits = 5 * num_cores;
+    total_bits = 5 * __octeon_remote_num_cores;
     memset(command, 0, sizeof(command));
     command[0] = 0xf2;  /* JTAG_SCAN_IO */
     command[1] = 0;     /* Instruction */
     *(uint64_t*)(command+2) = bdk_cpu_to_be16(total_bits);
     *(uint64_t*)(command+4) = bdk_cpu_to_be16(ROUND_BYTES(total_bits));
     uint8_t *ptr = command + 6;
-    for (core=0; core<num_cores; core+=8)
+    for (core=0; core<__octeon_remote_num_cores; core+=8)
     {
         /* Each core needs the five bits 10100. Eight cores together ends up
             needing 40 bits, which is a nice even number of bytes. This is why
@@ -946,7 +929,7 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
     /* Tell every core to read teh JTAG data, which will contain a PC sample
         per core. Each sample has 8 bits of ASID, 64 bits of PC, and one valid
         bit */
-    total_bits = (8 + 64 + 1) * num_cores;
+    total_bits = (8 + 64 + 1) * __octeon_remote_num_cores;
     memset(command, 0, sizeof(command));
     command[0] = 0xf2;  /* JTAG_SCAN_IO */
     command[1] = 1;     /* Data */
@@ -965,7 +948,7 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
     /* We should have all the samples. Extract them out of the bit stream */
     int bit_loc = 0;
     uint64_t *dwords = (uint64_t *)(response + 5);
-    for (core=0; core<num_cores; core++)
+    for (core=0; core<__octeon_remote_num_cores; core++)
     {
         int dword = bit_loc / 64;
         int bit = bit_loc & 63;
@@ -984,6 +967,27 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
         octeon_remote_debug(2, "core %2d asid=0x%02x, pc=0x%016llx valid=%d\n",
             core, 0xff & asid, (ULL)pc, valid);
         sample[core].pc = (valid) ? pc : 0;
+    }
+
+    if (sample[0].pc == 0)
+    {
+        /* PC sampling probably hasn't been enabled. Enable it for every core */
+        octeon_remote_debug(2, "Setting sampling for %d cores\n", __octeon_remote_num_cores);
+        /* Enable PC sampling for each core */
+        for (core=0; core<__octeon_remote_num_cores; core++)
+        {
+            uint64_t debug;
+            memory_access_core = core;
+            macraigor_read_mem(&debug, 0xFFFFFFFFFF300000ull, 8);
+            debug = bdk_be64_to_cpu(debug);
+            if ((debug & 0x1e0) != 0x1e0)
+            {
+                debug |= 0x1e0;
+                debug = bdk_cpu_to_be64(debug);
+                macraigor_write_mem(0xFFFFFFFFFF300000ull, &debug, 8);
+            }
+        }
+        memory_access_core = 0;
     }
     return 0;
 }

@@ -126,6 +126,7 @@ static char lock_file_name[64];
 static int lock_count = 0;
 static int lock_fd = -1;
 static time_record_t timing_data[TIME_MAX];
+int __octeon_remote_num_cores;
 
 static uint64_t timing_get_clock(void)
 {
@@ -832,12 +833,11 @@ void octeon_remote_stop_cores(uint64_t stop_mask)
  */
 int octeon_remote_get_num_cores(void)
 {
-    static int num_cores = 0;
-    if (!num_cores)
+    if (!__octeon_remote_num_cores)
     {
-        num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(BDK_CIU_FUSE));
+        __octeon_remote_num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(BDK_CIU_FUSE));
     }
-    return num_cores;
+    return __octeon_remote_num_cores;
 }
 
 
