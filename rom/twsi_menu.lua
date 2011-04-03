@@ -41,9 +41,6 @@ local m = menu.new("TWSI Menu")
 
 -- Build a list of TWSI busses
 local twsi_busses = 2
-if octeon.is_model(octeon.CN68XX) then
-    twsi_busses = 4
-end
 for bus = 0, twsi_busses-1 do
     m:item("bus" .. bus, "TWSI bus " .. bus, twsi_submenu, bus)
 end
