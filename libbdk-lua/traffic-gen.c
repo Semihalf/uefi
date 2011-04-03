@@ -19,6 +19,7 @@ typedef struct
 } tg_port_t;
 
 static trafficgen_port_set_t tg_all_set;
+static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix);
 
 /**
  *
@@ -201,28 +202,6 @@ static int get_end_pre_l2(const tg_port_t *tg_port)
 static int get_end_l2(const tg_port_t *tg_port)
 {
     return get_end_pre_l2(tg_port) + get_size_l2(tg_port);
-}
-
-/**
- *
- * @param pinfo
- *
- * @return
- */
-static int get_end_ip_header(const tg_port_t *tg_port)
-{
-    return get_end_l2(tg_port) + get_size_ip_header(tg_port);
-}
-
-/**
- *
- * @param pinfo
- *
- * @return
- */
-static int get_end_payload(const tg_port_t *tg_port)
-{
-    return get_end_ip_header(tg_port) + get_size_payload(tg_port);
 }
 
 /**
@@ -492,100 +471,126 @@ static unsigned short ip_fast_csum(char *iph, unsigned int ihl)
         return csum_fold(csum);
 }
 
+static int write_packet(bdk_if_packet_t *packet, int loc, uint8_t data)
+{
+    bdk_if_packet_write(packet, loc, 1, &data);
+    return loc + 1;
+}
+
 /**
  * Generate a valid UDP packet
  *
  * @param port   Output port to build for
  */
-static char *build_packet(tg_port_t *tg_port)
+static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
-    char *packet = malloc(tg_port->pinfo.setup.output_packet_size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0));
-    if (!packet)
+    int total_length = tg_port->pinfo.setup.output_packet_size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0);
+    if (bdk_if_alloc(packet, total_length))
     {
         bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);
-        return NULL;
+        return -1;
     }
-    char *end_ptr = packet + get_end_payload(tg_port);
-    char *ptr = packet;
+    int loc = 0;
 
     /* Add the SRIO header before L2 if needed */
     if (tg_port->pinfo.setup.srio.u64)
     {
-        memcpy(ptr, &tg_port->pinfo.setup.srio, sizeof(tg_port->pinfo.setup.srio));
-        ptr += sizeof(tg_port->pinfo.setup.srio);
+        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.srio), &tg_port->pinfo.setup.srio);
+        loc += sizeof(tg_port->pinfo.setup.srio);
     }
 
     /* Ethernet dest address */
     for (int i=0; i<6; i++)
-        *ptr++ = (tg_port->pinfo.setup.dest_mac>>(40-i*8)) & 0xff;
+        loc = write_packet(packet, loc, tg_port->pinfo.setup.dest_mac>>(40-i*8));
 
     /* Ethernet source address */
     for (int i=0; i<6; i++)
-        *ptr++ = (tg_port->pinfo.setup.src_mac>>(40-i*8)) & 0xff;
+        loc = write_packet(packet, loc, tg_port->pinfo.setup.src_mac>>(40-i*8));
 
-    *ptr++ = 0x08;                  /* Ethernet Protocol */
-    *ptr++ = 0x00;
-    *ptr++ = 0x45;                  /* IP version, ihl */
-    *ptr++ = (tg_port->pinfo.setup.ip_tos) & 0xff;    /* IP TOS */
+    /* Ethernet Protocol */
+    loc = write_packet(packet, loc, 0x08);
+    loc = write_packet(packet, loc, 0x00);
+    /* IP version, ihl */
+    loc = write_packet(packet, loc, 0x45);
+    /* IP TOS */
+    loc = write_packet(packet, loc, tg_port->pinfo.setup.ip_tos);
+    /* IP length */
     int ip_length = get_size_ip_header(tg_port) + get_size_payload(tg_port);
-    *ptr++ = ip_length>>8;        /* IP length */
-    *ptr++ = ip_length&0xff;
-    *ptr++ = 0x00;                  /* IP id */
-    *ptr++ = 0x00;
-    *ptr++ = 0x00;                  /* IP frag_off */
-    *ptr++ = 0x00;
-    *ptr++ = 0x04;                  /* IP ttl */
-    *ptr++ = 0x11;                  /* IP protocol */
-    uint16_t *ip_checksum_ptr = (uint16_t *)ptr;    /* remember for later */
-    *ptr++ = 0x00;                  /* IP check */
-    *ptr++ = 0x00;
-    *ptr++ = (tg_port->pinfo.setup.src_ip>>24) & 0xff;    /* IP saddr */
-    *ptr++ = (tg_port->pinfo.setup.src_ip>>16) & 0xff;
-    *ptr++ = (tg_port->pinfo.setup.src_ip>>8) & 0xff;
-    *ptr++ = (tg_port->pinfo.setup.src_ip>>0) & 0xff;
-    *ptr++ = (tg_port->pinfo.setup.dest_ip>>24) & 0xff;    /* IP daddr */
-    *ptr++ = (tg_port->pinfo.setup.dest_ip>>16) & 0xff;
-    *ptr++ = (tg_port->pinfo.setup.dest_ip>>8) & 0xff;
-    *ptr++ = (tg_port->pinfo.setup.dest_ip>>0) & 0xff;
-    *ip_checksum_ptr = ip_fast_csum(packet+get_end_l2(tg_port), 5);
+    loc = write_packet(packet, loc, ip_length>>8);
+    loc = write_packet(packet, loc, ip_length&0xff);
+    /* IP id */
+    loc = write_packet(packet, loc, 0x00);
+    loc = write_packet(packet, loc, 0x00);
+    /* IP frag_off */
+    loc = write_packet(packet, loc, 0x00);
+    loc = write_packet(packet, loc, 0x00);
+    /* IP ttl */
+    loc = write_packet(packet, loc, 0x04);
+    /* IP protocol */
+    loc = write_packet(packet, loc, 0x11);
+    /* IP check */
+    int ip_checksum_loc = loc;    /* remember for later */
+    loc = write_packet(packet, loc, 0x00);
+    loc = write_packet(packet, loc, 0x00);
+    /* IP saddr */
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.src_ip>>24) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.src_ip>>16) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.src_ip>>8) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.src_ip>>0) & 0xff);
+    /* IP daddr */
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.dest_ip>>24) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.dest_ip>>16) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.dest_ip>>8) & 0xff);
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.dest_ip>>0) & 0xff);
 
-    *ptr++ = tg_port->pinfo.setup.src_port >> 8;  /* UDP source port */
-    *ptr++ = tg_port->pinfo.setup.src_port & 0xff;
-    *ptr++ = tg_port->pinfo.setup.dest_port >> 8; /* UDP destination port */
-    *ptr++ = tg_port->pinfo.setup.dest_port & 0xff;
+    /* Fix the IP checksum */
+    char buffer[20];
+    bdk_if_packet_read(packet, get_end_l2(tg_port), sizeof(buffer), buffer);
+    uint16_t ip_checksum = ip_fast_csum(buffer, sizeof(buffer)/4);
+    write_packet(packet, ip_checksum_loc, ip_checksum >> 8);
+    write_packet(packet, ip_checksum_loc+1, ip_checksum >> 8);
 
+    /* UDP source port */
+    loc = write_packet(packet, loc, tg_port->pinfo.setup.src_port >> 8);
+    loc = write_packet(packet, loc, tg_port->pinfo.setup.src_port & 0xff);
+    /* UDP destination port */
+    loc = write_packet(packet, loc, tg_port->pinfo.setup.dest_port >> 8);
+    loc = write_packet(packet, loc, tg_port->pinfo.setup.dest_port & 0xff);
+
+    /* UDP length */
     int udp_length = get_size_payload(tg_port);
-    *ptr++ = udp_length>>8;     /* UDP length */
-    *ptr++ = udp_length&0xff;
-    *ptr++ = 0x00;                  /* UDP checksum */
-    *ptr++ = 0x00;
+    loc = write_packet(packet, loc, udp_length>>8);
+    loc = write_packet(packet, loc, udp_length&0xff);
+    /* UDP checksum */
+    loc = write_packet(packet, loc, 0x00);
+    loc = write_packet(packet, loc, 0x00);
 
     /* Fill the rest of the packet with random bytes */
-    while (ptr < end_ptr)
-        *ptr++ = rand();
+    while (loc < total_length)
+        loc = write_packet(packet, loc, rand());
 
     if (tg_port->pinfo.setup.validate)
-    {
-        int end_l2 = get_end_l2(tg_port);
-        ptr = packet + end_l2;
-        *(uint32_t*)(end_ptr-4) = bdk_crc32(ptr, end_ptr - ptr - 4, 0xffffffff);
-    }
-    return packet;
+        is_packet_crc32c_wrong(tg_port, packet, 1);
+    return 0;
 }
 
 static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
-    char *pdata = build_packet(tg_port);
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     uint64_t output_cycle;
     uint64_t count = port_tx->output_count;
+    bdk_if_packet_t packet;
 
-    if (!pdata)
+    packet.if_handle = tg_port->handle;
+    if (build_packet(tg_port, &packet))
     {
         port_tx->output_enable = 0;
         BDK_SYNCW;
         return;
     }
+
+    /* Signal that this packet should not be freed */
+    packet.packet.s.i = 1;
 
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
@@ -594,17 +599,6 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     if (packet_rate == 0)
         packet_rate = 1;
     uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
-
-    /* Build the IF packet data structure */
-    bdk_if_packet_t packet;
-    packet.length = port_tx->output_packet_size + get_size_pre_l2(tg_port);
-    packet.segments = 1;
-    packet.packet.u64 = 0;
-    packet.packet.s.pool = BDK_FPA_PACKET_POOL;
-    packet.packet.s.size = 0xffff;
-    packet.packet.s.back = 0;
-    packet.packet.s.addr = bdk_ptr_to_phys(pdata);
-    packet.packet.s.i = 1;
 
     output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
 
@@ -615,6 +609,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         if (bdk_likely(cycle >= output_cycle))
         {
             output_cycle += output_cycle_gap;
+            /* Only free the packet on TX if this is the last packet "i=1"
+                means the packet isn't freed */
+            packet.packet.s.i = (count != 1);
             /* We don't care if the send fails */
             if (bdk_likely(bdk_if_transmit(tg_port->handle, &packet) == 0))
             {
@@ -622,13 +619,21 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
                     break;
                 do_yield = 0;
             }
+            else
+            {
+                /* Transmit failed. Remember we need to free the packet */
+                packet.packet.s.i = 1;
+            }
         }
         if (do_yield)
             bdk_thread_yield();
     }
-    /* FIXME: Wait 1ms to allow PKO to complete before we free the buffer */
-    bdk_wait_usec(3000);
-    free(pdata);
+    if (packet.packet.s.i)
+    {
+        /* Packet has not been freed on TX, so free it now */
+        /* FIXME: What if the previous TX hasn't processed yet? */
+        bdk_if_free(&packet);
+    }
     port_tx->output_enable = 0;
     BDK_SYNCW;
 }
@@ -641,7 +646,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
  *
  * @return Non zero on CRC error
  */
-static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
+static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix)
 {
     const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
@@ -659,7 +664,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
     remaining_bytes -= skip;
 
     /* Skip the ethernet FCS */
-    if (packet->if_handle->has_fcs)
+    if (!fix && packet->if_handle->has_fcs)
         remaining_bytes -= 4;
 
     /* Reduce the length by 4, the length of the CRC at the end */
@@ -704,33 +709,71 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet)
             /* Most of the time the CRC fits right after the data in the
                 buffer. If it doesn't we need the next buffer too */
             if (bdk_likely(buffer_bytes >= 4))
-                return (crc != *(uint32_t*)(ptr + remaining_bytes));
+            {
+                if (fix)
+                {
+                    //printf("write crc 0x%08x\n", crc);
+                    *(uint32_t*)(ptr + remaining_bytes) = crc;
+                    return 0;
+                }
+                else
+                {
+                    uint32_t from_packet = *(uint32_t*)(ptr + remaining_bytes);
+                    //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
+                    return (crc != from_packet);
+                }
+            }
             else
             {
                 if (bdk_likely(buffer_bytes))
                 {
-                    /* Read 4 bytes from right after the data */
-                    uint32_t packet_crc1 = *(uint32_t*)(ptr + remaining_bytes);
-                    /* AND off the lower bits that are actually in the next buffer */
-                    packet_crc1 &= ~bdk_build_mask(8*(4-buffer_bytes));
-                    /* Get a pointer to the next buffer. The rest of the CRC should
-                    be at the beginning */
-                    buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-                    /* Read the rest of the CRC */
-                    uint32_t packet_crc2 = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
-                    /* Shift off extra bytes read since some bytes are stored in part 1*/
-                    packet_crc2 >>= 32 - 8*(4-buffer_bytes);
-                    /* Compare the final CRC with both parts put together */
-                    return (crc != (packet_crc1|packet_crc2));
+                    if (fix)
+                    {
+                        //printf("write crc 0x%08x\n", crc);
+                        memcpy(ptr + remaining_bytes, &crc, buffer_bytes);
+                        /* Get a pointer to the next buffer. The rest of the CRC should
+                        be at the beginning */
+                        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+                        memcpy(bdk_phys_to_ptr(buffer_ptr.s.addr), ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
+                        return 0;
+                    }
+                    else
+                    {
+                        /* Read 4 bytes from right after the data */
+                        uint32_t packet_crc1 = *(uint32_t*)(ptr + remaining_bytes);
+                        /* AND off the lower bits that are actually in the next buffer */
+                        packet_crc1 &= ~bdk_build_mask(8*(4-buffer_bytes));
+                        /* Get a pointer to the next buffer. The rest of the CRC should
+                        be at the beginning */
+                        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+                        /* Read the rest of the CRC */
+                        uint32_t packet_crc2 = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
+                        /* Shift off extra bytes read since some bytes are stored in part 1*/
+                        packet_crc2 >>= 32 - 8*(4-buffer_bytes);
+                        /* Compare the final CRC with both parts put together */
+                        uint32_t from_packet = packet_crc1|packet_crc2;
+                        //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
+                        return (crc != from_packet);
+                    }
                 }
                 else
                 {
                     /* Get a pointer to the next buffer. The CRC should be at the beginning */
                     buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-                    /* Read the CRC */
-                    uint32_t packet_crc = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
-                    /* Compare the final CRC with both parts put together */
-                    return (crc != packet_crc);
+                    if (fix)
+                    {
+                        //printf("write crc 0x%08x\n", crc);
+                        /* Write the CRC */
+                        *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr) = crc;
+                        return 0;
+                    }
+                    else
+                    {
+                        /* Read the CRC */
+                        uint32_t from_packet = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
+                        //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
+                        return (crc != from_packet);
+                    }
                 }
             }
         }
@@ -815,7 +858,7 @@ static void process_packet(bdk_if_packet_t *packet)
 
     if (bdk_likely((packet->rx_error == 0) && tg_port->pinfo.setup.validate))
     {
-        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet)))
+        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet, 0)))
             bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
     }
 

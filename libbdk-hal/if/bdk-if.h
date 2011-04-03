@@ -115,7 +115,10 @@ extern bdk_if_link_t __bdk_if_phy_get(int phy_addr);
 
 extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 extern int bdk_if_receive(bdk_if_packet_t *packet);
+extern int bdk_if_alloc(bdk_if_packet_t *packet, int length);
 extern void bdk_if_free(bdk_if_packet_t *packet);
+extern void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data);
+extern void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data);
 
 extern int __bdk_if_get_gmx_block(bdk_if_handle_t handle);
 extern int __bdk_if_get_gmx_index(bdk_if_handle_t handle);

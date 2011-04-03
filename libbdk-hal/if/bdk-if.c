@@ -632,10 +632,14 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     bdk_pko_command_word0_t pko_command;
     pko_command.u64 = 0;
+    pko_command.s.dontfree = packet->packet.s.i;
+    pko_command.s.ignore_i = 1;
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
+    bdk_buf_ptr_t buf = packet->packet;
+    buf.s.i = 0;
 
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue, 1, pko_command.u64, packet->packet.u64);
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue, 1, pko_command.u64, buf.u64);
 
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {
@@ -738,6 +742,130 @@ int bdk_if_receive(bdk_if_packet_t *packet)
     }
 
     return 1;
+}
+
+
+/**
+ * Allocate a packet with buffers for the supplied amount of data
+ *
+ * @param packet Packet to get buffers for
+ * @param length Length of the final packet in bytes
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_if_alloc(bdk_if_packet_t *packet, int length)
+{
+    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    bdk_buf_ptr_t *buffer_ptr = &packet->packet;
+
+    /* Start off with an empty packet */
+    packet->length = 0;
+    packet->segments = 0;
+
+    /* Add buffers while the packet is less that the needed length */
+    while (packet->length < length)
+    {
+        void *buffer = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
+        if (!buffer)
+        {
+            /* Free all buffers allocates so far */
+            bdk_if_free(packet);
+            return -1;
+        }
+        /* Fill in the packet link pointer */
+        buffer_ptr->u64 = 0;
+        buffer_ptr->s.pool = BDK_FPA_PACKET_POOL;
+        buffer_ptr->s.size = FPA_SIZE - 8;
+        buffer_ptr->s.addr = bdk_ptr_to_phys(buffer) + 8;
+        packet->length += buffer_ptr->s.size;
+        packet->segments++;
+        /* The next chain pointer is at the beginning of the buffer */
+        buffer_ptr = buffer;
+    }
+    /* Fix length as it will likely be too large since we increment in FPA
+        chunks */
+    packet->length = length;
+    return 0;
+}
+
+
+/**
+ * Read data from a packet starting at the given location. The packet
+ * must already be large enough to contain the data.
+ *
+ * @param packet   Packet to read from.
+ * @param location Location to read
+ * @param length   Length of data to read
+ * @param data     Buffer to receive the data
+ */
+void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data)
+{
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to read past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    while (location >= buffer_ptr.s.size)
+    {
+        location -= buffer_ptr.s.size;
+        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+    }
+
+    const uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+    uint8_t *out_data = data;
+    while (length > 0)
+    {
+        *out_data = ptr[location];
+        out_data++;
+        location++;
+        length--;
+        if (location >= buffer_ptr.s.size)
+        {
+            location -= buffer_ptr.s.size;
+            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+            ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+        }
+    }
+}
+
+
+/**
+ * Write data into a packet starting at the given location. The packet
+ * must already be large enough to contain the data.
+ *
+ * @param packet   Packet to write to.
+ * @param location Location to write
+ * @param length   Length of data to write
+ * @param data     Data to write
+ */
+void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data)
+{
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to write past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    while (location >= buffer_ptr.s.size)
+    {
+        location -= buffer_ptr.s.size;
+        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+    }
+
+    uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+    const uint8_t *in_data = data;
+    while (length > 0)
+    {
+        ptr[location] = *in_data;
+        in_data++;
+        location++;
+        length--;
+        if (location >= buffer_ptr.s.size)
+        {
+            location -= buffer_ptr.s.size;
+            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+            ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+        }
+    }
 }
 
 
