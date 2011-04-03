@@ -50,7 +50,7 @@ static void netstack_netif_poll_link(void *unused)
         }
     }
     netif = netif->next;
-    sys_timeout(1000, netstack_netif_poll_link, NULL);
+    sys_timeout(50, netstack_netif_poll_link, NULL);
 }
 
 
