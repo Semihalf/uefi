@@ -109,6 +109,51 @@ function remote.csr(args)
     -- csr <csr> <value>
     -- csr <csr> <value> decode
     assert(args[1] == "csr")
+    if #args == 1 then
+        local count = 0
+        for n in oremote.csr() do
+            printf("%-25s ", n)
+            count = count + 1
+            if count == 3 then
+                printf("\n")
+                count = 0
+            end
+        end
+        if count ~= 0 then
+            printf("\n")
+        end
+        return
+    end
+
+    local partial_matches = {}
+    local found = false
+    args[2] = args[2]:upper()
+    local len = #args[2]
+    for n in oremote.csr() do
+        if n == args[2] then
+            found = true
+            break
+        elseif n:sub(1,len) == args[2] then
+            table.insert(partial_matches, n)
+        end
+    end
+    if not found then
+        print("ERROR: CSR not found. Here some similar names:")
+        local count = 0
+        for i = 1, #partial_matches do
+            printf("%-25s ", partial_matches[i])
+            count = count + 1
+            if count == 3 then
+                printf("\n")
+                count = 0
+            end
+        end
+        if count ~= 0 then
+            printf("\n")
+        end
+        return
+    end
+
     if #args == 2 then
         oremote.decode_csr(args[2])
     elseif #args == 3 then
@@ -333,6 +378,8 @@ function remote.help(args)
     local message =
 [[
 bdk-remote:
+    csr
+        Print a list of all valid CSR names.
     csr <csr>
         Read the named CSR and decode it.
     csr <csr> <value>
@@ -409,6 +456,7 @@ end
 
 local function parse_args()
     local formats = {
+        "csr",
         "csr <csr>",
         "csr <csr> <value>",
         "csr <csr> <value> decode",
