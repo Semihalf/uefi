@@ -138,7 +138,7 @@ function remote.csr(args)
         end
     end
     if not found then
-        print("ERROR: CSR not found. Here some similar names:")
+        print("ERROR: CSR not found. Here are some similar names:")
         local count = 0
         for i = 1, #partial_matches do
             printf("%-25s ", partial_matches[i])
