@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#define USE_SOFTWARE_COUNTERS 1
+#define USE_SOFTWARE_COUNTERS 0
 
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
@@ -121,6 +121,11 @@ static int __bdk_if_setup_ipd_global(void)
     BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(0),
         pip_frm_len_chkx.s.minlen = 64;
         pip_frm_len_chkx.s.maxlen = -1);
+
+    /* Don't use clear on read as it has problems on CN68XX pass 1.x */
+    BDK_CSR_MODIFY(c, BDK_PIP_STAT_CTL,
+        c.s.mode = 0;
+        c.s.rdclr = 0);
 
     for (int queue=0; queue<8; queue++)
     {
@@ -523,6 +528,33 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
 
 
 /**
+ * Update a statistic that has a limited bit with. The hardware stats counters
+ * add up all packets but overflow with limited precision. This function checks
+ * for overflow and returns the correct sum.
+ *
+ * @param new_value New hardware value, limited to bit_size precision
+ * @param old_value Old value return by this function. This is a full 64 bit value.
+ * @param bit_size  The number of bits in the hardware counter
+ *
+ * @return New counter value, accounting for overflow
+ */
+static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size)
+{
+    uint64_t mask = bdk_build_mask(bit_size);
+    uint64_t tmp = old_value & bdk_build_mask(bit_size);
+
+    /* On overflow we need to add 1 in the upper bits */
+    if (tmp > new_value)
+        new_value += 1ull<<bit_size;
+
+    /* Add in the upper bits from the old value */
+    new_value += old_value & ~mask;
+
+    return new_value;
+}
+
+
+/**
  * Get the interface RX and TX counters.
  *
  * @param handle Handle of port
@@ -554,14 +586,9 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
             break;
     }
 
-    bdk_pip_stat_ctl_t pip_stat_ctl;
     bdk_pip_stat0_x_t stat0;
     bdk_pip_stat1_x_t stat1;
     bdk_pip_stat2_x_t stat2;
-
-    pip_stat_ctl.u64 = 0;
-    pip_stat_ctl.s.rdclr = 1;
-    BDK_CSR_WRITE(BDK_PIP_STAT_CTL, pip_stat_ctl.u64);
 
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX) && (handle->pknd >= 40))
     {
@@ -577,47 +604,28 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     }
     BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRS_PKNDX(handle->pknd));
 
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, stat0.s.drp_octs);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_packets, stat0.s.drp_pkts);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, stat1.s.octs);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.packets, stat2.s.pkts);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.errors, pip_stat_inb_errsx.s.errs);
+    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
+    handle->stats.rx.dropped_octets = update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);
+    handle->stats.rx.dropped_packets = update_stat_with_overflow(stat0.s.drp_pkts, handle->stats.rx.dropped_packets, 32);
+    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
 
-    /* Adjust for bytes_off_rx */
-    if (bytes_off_rx)
-    {
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, (int64_t)stat0.s.drp_octs * bytes_off_rx);
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, (int64_t)stat2.s.pkts * bytes_off_rx);
-    }
+    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
+    handle->stats.rx.octets = update_stat_with_overflow(stat1.s.octs, handle->stats.rx.octets, 48);
+    handle->stats.rx.packets = update_stat_with_overflow(stat2.s.pkts, handle->stats.rx.packets, 32);
+    handle->stats.rx.errors = update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
+    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
     bdk_pko_reg_read_idx_t pko_reg_read_idx;
-    bdk_pko_mem_count0_t pko_mem_count0;
-    bdk_pko_mem_count1_t pko_mem_count1;
-
     pko_reg_read_idx.u64 = 0;
     pko_reg_read_idx.s.index = handle->pko_port;
     BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    BDK_CSR_INIT(pko_mem_count0, BDK_PKO_MEM_COUNT0);
+    BDK_CSR_INIT(pko_mem_count1, BDK_PKO_MEM_COUNT1);
 
-    pko_mem_count0.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT0);
-    uint64_t tx_packets = pko_mem_count0.s.count;
-    uint64_t tmp = handle->stats.tx.packets & bdk_build_mask(32);
-    if (tmp > tx_packets)
-        tx_packets += (1ull<<32) - tmp;
-    tx_packets -= tmp;
-
-    pko_mem_count1.u64 = BDK_CSR_READ(BDK_PKO_MEM_COUNT1);
-    uint64_t tx_octets = pko_mem_count1.s.count;
-    tmp = (handle->stats.tx.octets - handle->stats.tx.packets*bytes_off_tx) & bdk_build_mask(48);
-    if (tmp > tx_octets)
-        tx_octets += (1ull<<48) - tmp;
-    tx_octets -= tmp;
-
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, tx_packets);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_octets);
-
-    /* Adjust for bytes_off_tx */
-    if (bytes_off_tx)
-        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * bytes_off_tx);
+    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
+    handle->stats.tx.octets = update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
+    handle->stats.tx.packets = update_stat_with_overflow(pko_mem_count0.s.count, handle->stats.tx.packets, 32);
+    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
 
     return &handle->stats;
 }
