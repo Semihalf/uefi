@@ -37,6 +37,7 @@
 #include "bdk-nand.h"
 #include "bdk-pcie.h"
 #include "bdk-pko.h"
+#include "bdk-qlm.h"
 #include "bdk-raid.h"
 #include "bdk-rng.h"
 #include "bdk-srio.h"
