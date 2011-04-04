@@ -321,6 +321,7 @@ function remote.profile(args)
                 printf("\n")
             end
             printf("\n")
+            io.flush()
             profile_data = {}
             show_time = os.time() + 5
         end
