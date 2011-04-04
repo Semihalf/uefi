@@ -548,7 +548,9 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
             bytes_off_rx = -(int)sizeof(bdk_srio_rx_message_header_t);
             break;
         default:
-            /* Nothing needed for most ports */
+            /* Account for TX lack of FCS for most ports */
+            bytes_off_tx = handle->has_fcs ? 4 : 0;
+            bytes_off_rx = 0;
             break;
     }
 
@@ -582,8 +584,11 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.errors, pip_stat_inb_errsx.s.errs);
 
     /* Adjust for bytes_off_rx */
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, (int64_t)stat0.s.drp_octs * bytes_off_rx);
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, (int64_t)stat2.s.pkts * bytes_off_rx);
+    if (bytes_off_rx)
+    {
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.dropped_octets, (int64_t)stat0.s.drp_octs * bytes_off_rx);
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.rx.octets, (int64_t)stat2.s.pkts * bytes_off_rx);
+    }
 
     bdk_pko_reg_read_idx_t pko_reg_read_idx;
     bdk_pko_mem_count0_t pko_mem_count0;
@@ -611,7 +616,8 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_octets);
 
     /* Adjust for bytes_off_tx */
-    bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * bytes_off_tx);
+    if (bytes_off_tx)
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, tx_packets * bytes_off_tx);
 
     return &handle->stats;
 }
