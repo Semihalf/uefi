@@ -331,6 +331,7 @@ static int macraigor_open(const char *remote_spec)
         return -1;
     }
 
+    int reduced_speed = 0;
     do
     {
         command[0] = 0xf4; /* Analyze JTAG Scan Chain */
@@ -338,7 +339,10 @@ static int macraigor_open(const char *remote_spec)
         command[2] = jtag_speed;
         l = do_command(0, command, i, response, sizeof(response));
         if (l < 12)
+        {
             jtag_speed++;
+            reduced_speed = 1;
+        }
     } while ((l < 12) && (jtag_speed < 8));
     if (l < 12)
     {
@@ -352,7 +356,7 @@ static int macraigor_open(const char *remote_spec)
         octeon_remote_debug(-1, "Illegal number of cores detected (%d)\n", __octeon_remote_num_cores);
         return -1;
     }
-    if (jtag_speed != 1)
+    if (reduced_speed)
         octeon_remote_debug(0, "JTAG speed reduced to %d. Board has EJTAG signal problems.\n", jtag_speed);
 
     i = 0;
