@@ -71,10 +71,6 @@ release: all
 	cp bdk-boot/bdk-boot.map $(RELEASE_DIR)/target-bin/
 	# Copy rom dir
 	cp -a rom $(RELEASE_DIR)/
-	# Copy SciTE
-	mkdir -p $(RELEASE_DIR)/utils
-	cp -a utils/bdk-scite $(RELEASE_DIR)/utils/
-	cp -a bin/bdk-scite $(RELEASE_DIR)/bin/
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
 	# Create release tar
