@@ -186,6 +186,11 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         /* Enable RED dropping */
         BDK_CSR_MODIFY(c, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
     }
+    else
+    {
+        /* Don't strip off FCS. We might want to see it when debugging */
+        BDK_CSR_MODIFY(c, BDK_IPD_SUB_PORT_FCS, c.u64 &= ~(1ull<<(handle->pknd)));
+    }
 
     /* Have the next port use a different input queue */
     qos = (qos + 1) & 7;
