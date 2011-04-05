@@ -651,10 +651,10 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
  */
 int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
-    if (__bdk_if_ops[handle->iftype]->if_transmit)
+    if (bdk_unlikely(__bdk_if_ops[handle->iftype]->if_transmit))
         return __bdk_if_ops[handle->iftype]->if_transmit(handle, packet);
 
-    if (packet->segments >= 64)
+    if (bdk_unlikely(packet->segments >= 64))
     {
         bdk_error("PKO can't transmit packets with more than 63 segments\n");
         return -1;
