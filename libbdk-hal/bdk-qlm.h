@@ -64,4 +64,11 @@ extern void bdk_qlm_jtag_update(int qlm);
  */
 extern void bdk_qlm_jtag_capture(int qlm);
 
+/**
+ * CN68XX pass 1.x QLM tweak. This function tweaks the JTAG setting for a QLMs
+ * to run better at 6.25Ghz. It will make no changes to QLMs running at other
+ * speeds.
+ */
+extern void bdk_qlm_cn68xx_6250(void);
+
 /** @} */

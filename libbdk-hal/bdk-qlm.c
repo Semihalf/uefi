@@ -153,3 +153,37 @@ void bdk_qlm_jtag_capture(int qlm)
     } while (jtgd.s.capture);
 }
 
+
+/**
+ * CN68XX pass 1.x QLM tweak. This function tweaks the JTAG setting for a QLMs
+ * to run better at 6.25Ghz. It will make no changes to QLMs running at other
+ * speeds.
+ */
+void bdk_qlm_cn68xx_6250(void)
+{
+    /* Initialize the internal JTAG */
+    bdk_qlm_jtag_init();
+
+    /* Loop through the 5 QLMs on CN68XX */
+    for (int qlm=0; qlm<5; qlm++)
+    {
+        /* Read the QLM speed */
+        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+        /* If the QLM is at 6.25Ghz then program JTAG */
+        if ((qlm_cfg.s.qlm_spd == 5) || (qlm_cfg.s.qlm_spd == 12))
+        {
+            /* Update all four lanes */
+            for (int lane=0; lane<4; lane++)
+            {
+                /* We're changing bits 15:8, so skip 8 */
+                bdk_qlm_jtag_shift_zeros(qlm, 8);
+                /* We want 0x1b, so default 0x3c xor 0x27 */
+                bdk_qlm_jtag_shift(qlm, 8, 0x27);
+                /* Skip the rest of the chain */
+                bdk_qlm_jtag_shift_zeros(qlm, 304 - 16);
+            }
+            /* Write our JTAG updates */
+            bdk_qlm_jtag_update(qlm);
+        }
+    }
+}
