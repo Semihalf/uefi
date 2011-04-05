@@ -54,6 +54,7 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
     BDK_SYNCW;
     int64_t combined = bdk_atomic_fetch_and_add64_nosync(&lock->combined, 1ull<<32);
+    BDK_PREFETCH(lock, 0); /* Prefetch the lock assuming other data is in it */
     int32_t ticket = combined >> 32;
     int32_t serving = (int32_t)combined;
 
