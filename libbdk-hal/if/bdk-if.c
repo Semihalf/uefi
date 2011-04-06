@@ -41,6 +41,10 @@ static int __bdk_if_setup_sso(void)
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 0;
 
+    /* Errata in CN68XX pass 1.x has the pool 8 threshold wrong */
+    BDK_CSR_MODIFY(c, BDK_FPA_FPF8_MARKS,
+        c.s.fpf_wr = 164);
+
     /* Set work timeout to 16k cycles */
     BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
         c.s.nw_tim = 16);
