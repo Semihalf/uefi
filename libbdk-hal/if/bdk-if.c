@@ -115,6 +115,7 @@ static int __bdk_if_setup_ipd_global(void)
     BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
         c.s.no_wptr = 1;    /* Store WQE in packet */
         c.s.len_m8 = 1;     /* Use correct lengths */
+        c.s.addpkt = 1;     /* Increment backpressure accounting for every packet */
         c.s.pbp_en = 1;     /* Enable per port backpressure accounting */
         c.s.opc_mode = 1);  /* Store into L2 */
 
@@ -183,10 +184,16 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
+        /* Set the default BPID to match the PKND */
+        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGBX(handle->pknd), c.s.bpid = handle->pknd);
         /* Don't strip off FCS. We might want to see it when debugging */
         BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
         /* Enable checking of the FCS */
         BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = handle->has_fcs);
+        /* Backpressure when this port has 256 buffers in use */
+        BDK_CSR_MODIFY(c, BDK_IPD_BPIDX_MBUF_TH(handle->pknd),
+            c.s.bp_enb = 1;
+            c.s.page_cnt = 1);
         /* Enable RED dropping */
         BDK_CSR_MODIFY(c, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
     }
@@ -755,6 +762,13 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             bdk_if_free(packet);
             return -1;
         }
+
+        /* Subtract this packet's segemnts from the port's IPD usage */
+        BDK_CSR_DEFINE(page_cnt, BDK_IPD_SUB_PORT_BP_PAGE_CNT);
+        page_cnt.u64 = 0;
+        page_cnt.s.port = packet->if_handle->pknd;
+        page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet->segments-1;
+        BDK_CSR_WRITE(BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
 
         /* Updates the statistics in software if need to. The simulator
             doesn't implement the hardware counters */
