@@ -337,7 +337,7 @@ int bdk_if_init(void)
         return 0;
 
     int result = 0;
-    int num_packet_buffers = 1536;
+    int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 256;
 
     /* CN68XX pass 1.x needs some tweaks for 6.25Ghz. This
         will apply them if necessary */
