@@ -92,11 +92,13 @@ clean:
 distclean: clean
 	rm -f $(deps)
 
-$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include -DBDK
-$(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include -I $(OCTEON_ROOT)/bootloader/u-boot/include
+UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot-new
+UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon
+$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE) -DBDK
+$(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE)
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
-	ln -fs $(OCTEON_ROOT)/bootloader/u-boot/lib_mips/lib_octeon_shared.c $@
+	ln -fs $(UBOOT_PATH)/arch/mips/cpu/octeon/lib_octeon_shared.c $@
 $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i:
-	ln -fs $(OCTEON_ROOT)/bootloader/u-boot/include/lib_octeon_board_table_entry.h $@
+	ln -fs $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon/lib_octeon_board_table_entry.h $@
 
 $(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
