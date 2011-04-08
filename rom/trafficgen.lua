@@ -175,7 +175,7 @@ function TrafficGen.new()
         for word in str:gmatch("[^ ]+") do
             word_num = word_num + 1
             if word_num == 1 then
-                for _,prefix in ipairs({"cmdp_", "cmdr_", "cmd_"}) do
+                for _,prefix in ipairs({"cmdp_", "cmd_"}) do
                     command = prefix .. word
                     if type(self[command]) == "function" then
                         break;
@@ -197,15 +197,6 @@ function TrafficGen.new()
                             end
                         end
                     end
-                elseif command:sub(1,5) == "cmdr_" then
-                    if word == "all" then
-                        range = known_rows
-                    else
-                        range = parse_range_list(word)
-                        if range == nil then
-                            table.insert(args, word)
-                        end
-                    end
                 elseif SPECIAL_WORDS[word] ~= nil then
                     table.insert(args, SPECIAL_WORDS[word])
                 else
@@ -220,8 +211,6 @@ function TrafficGen.new()
         if range == nil then
             if command:sub(1,5) == "cmdp_" then
                 range = default_ports
-            elseif command:sub(1,5) == "cmdr_" then
-                range = known_rows
             end
         end
         return command, range, args
@@ -292,9 +281,6 @@ function TrafficGen.new()
                 table.insert(commands, k:sub(5))
             end
             if k:sub(1,5) == "cmdp_" then
-                table.insert(commands, k:sub(6))
-            end
-            if k:sub(1,5) == "cmdr_" then
                 table.insert(commands, k:sub(6))
             end
         end
@@ -424,14 +410,6 @@ function TrafficGen.new()
             value = octeon.csr[name].read()
             octeon.c.bdk_csr_decode(name, value)
         end
-    end
-
-    function self:cmdr_row(row_range, args)
-        print "Not implemented"
-    end
-
-    function self:cmdr_hli(row_range, args)
-        print "Not implemented"
     end
 
     function self:cmd_cls(port_range, args)
