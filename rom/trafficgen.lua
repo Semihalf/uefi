@@ -312,6 +312,15 @@ function TrafficGen.new()
             end
             printf("\n")
         end
+        print()
+        print("Most commands take an optional port range.  The port range is")
+        print("specified as a series of names separated by commas or dashes.")
+        print("Dashes include all ports between the named ports.  No spaces")
+        print("are allowed in a port range. Some example port ranges are")
+        print("\"SGMII00-SGMII03\", \"XAUI00,XAUI10\", and \"LOOP00-LOOP03\".")
+        print("When not specified, the port range is taken from the range")
+        print("given in the last \"default\" command.  For a full list of the")
+        print("supported port names, type the command \"default all\".")
     end
 
     -- Select which ports to used by default
