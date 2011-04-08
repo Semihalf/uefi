@@ -66,70 +66,172 @@ static int if_probe(bdk_if_handle_t handle)
 {
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
-    /* Use PKO ports 72+ */
-    handle->pko_port = 72 + handle->interface*bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface) + handle->index;
+    handle->pko_port = __bdk_pko_alloc_port();
     handle->has_fcs = 1;
     return 0;
 }
 
+static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pipe)
+{
+    /* Calendar will be setup such that each 16 entries has the global
+        link status in the first entry. This allows the received to
+        send global backpressure in every contorl word. This means
+        we are putting 15 channel entries in every control word */
+    int calendar_16_block = channel / 15;
+    int calendar_16_index = channel % 15 + 1;
+    int table_chunk = calendar_16_block * 2 + calendar_16_index / 8;
+    int table_index = calendar_16_index % 8;
+
+    /* Setup TX write chunk */
+    BDK_CSR_DEFINE(ctidx, BDK_ILK_TXX_IDX_CAL(interface));
+    ctidx.u64 = 0;
+    ctidx.s.index = table_chunk;
+    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
+    /* Read the current values */
+    BDK_CSR_INIT(tcal0, BDK_ILK_TXX_MEM_CAL0(interface));
+    BDK_CSR_INIT(tcal1, BDK_ILK_TXX_MEM_CAL1(interface));
+
+    /* The first entry of every other calendar chunk is link status. This
+        corresponds to the first bit in every 16 bit block */
+    if ((table_chunk & 1) == 0)
+        tcal0.s.entry_ctl0 = 1;
+
+    /* Set the correct index */
+    switch (table_index)
+    {
+        case 0:
+            tcal0.s.entry_ctl0 = 0;
+            tcal0.s.bpid0 = bpid;
+            break;
+        case 1:
+            tcal0.s.entry_ctl1 = 0;
+            tcal0.s.bpid1 = bpid;
+            break;
+        case 2:
+            tcal0.s.entry_ctl2 = 0;
+            tcal0.s.bpid2 = bpid;
+            break;
+        case 3:
+            tcal0.s.entry_ctl3 = 0;
+            tcal0.s.bpid3 = bpid;
+            break;
+        case 4:
+            tcal1.s.entry_ctl4 = 0;
+            tcal1.s.bpid4 = bpid;
+            break;
+        case 5:
+            tcal1.s.entry_ctl5 = 0;
+            tcal1.s.bpid5 = bpid;
+            break;
+        case 6:
+            tcal1.s.entry_ctl6 = 0;
+            tcal1.s.bpid6 = bpid;
+            break;
+        case 7:
+            tcal1.s.entry_ctl7 = 0;
+            tcal1.s.bpid7 = bpid;
+            break;
+    }
+    /* Write the new values */
+    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
+    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
+
+    /* Setup RX write chunk */
+    BDK_CSR_DEFINE(cridx, BDK_ILK_RXX_IDX_CAL(interface));
+    cridx.u64 = 0;
+    cridx.s.index = table_chunk;
+    BDK_CSR_WRITE(BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
+    /* Read the current values */
+    BDK_CSR_INIT(rcal0, BDK_ILK_RXX_MEM_CAL0(interface));
+    BDK_CSR_INIT(rcal1, BDK_ILK_RXX_MEM_CAL1(interface));
+
+    /* The first entry of every other calendar chunk is link status. This
+        corresponds to the first bit in every 16 bit block */
+    if ((table_chunk & 1) == 0)
+        rcal0.s.entry_ctl0 = 1;
+
+    /* Set the correct index */
+    switch (table_index)
+    {
+        case 0:
+            rcal0.s.entry_ctl0 = 0;
+            rcal0.s.port_pipe0 = pko_pipe;
+            break;
+        case 1:
+            rcal0.s.entry_ctl1 = 0;
+            rcal0.s.port_pipe1 = pko_pipe;
+            break;
+        case 2:
+            rcal0.s.entry_ctl2 = 0;
+            rcal0.s.port_pipe2 = pko_pipe;
+            break;
+        case 3:
+            rcal0.s.entry_ctl3 = 0;
+            rcal0.s.port_pipe3 = pko_pipe;
+            break;
+        case 4:
+            rcal1.s.entry_ctl4 = 0;
+            rcal1.s.port_pipe4 = pko_pipe;
+            break;
+        case 5:
+            rcal1.s.entry_ctl5 = 0;
+            rcal1.s.port_pipe5 = pko_pipe;
+            break;
+        case 6:
+            rcal1.s.entry_ctl6 = 0;
+            rcal1.s.port_pipe6 = pko_pipe;
+            break;
+        case 7:
+            rcal1.s.entry_ctl7 = 0;
+            rcal1.s.port_pipe7 = pko_pipe;
+            break;
+    }
+    /* Write the new values */
+    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
+    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
+}
+
 static int if_init(bdk_if_handle_t handle)
 {
-    if (handle->index == 0)
+    int num_ilk = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
+    static int pko_eid[2] = {-1, -1};
+    static int pipe[2] = {-1, -1};
+    if (pko_eid[handle->interface] == -1)
     {
         /* All ports use same eid and intr */
-        int pko_eid = __bdk_pko_alloc_engine();
-        int num_ilk = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
-        int pipe = __bdk_pko_alloc_pipe(num_ilk);
+        pko_eid[handle->interface] = __bdk_pko_alloc_engine();
+        pipe[handle->interface] = __bdk_pko_alloc_pipe(num_ilk);
+    }
+
+    if (handle->index == 0)
+    {
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
             c.s.nump = num_ilk;
-            c.s.base = pipe);
-        for (int i=0; i<num_ilk; i++)
-        {
-            BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-            ptrs.u64 = 0;
-            ptrs.s.qos_mask = 0xff; /* QOS rounds */
-            ptrs.s.crc = 1;         /* Use CRC on packets */
-            ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-            ptrs.s.pipe = pipe+i;
-            ptrs.s.intr = 28+handle->interface; /* Which interface */
-            ptrs.s.eid = pko_eid;  /* Which engine */
-            ptrs.s.ipid = handle->pko_port + i;
-            BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-            /* Map pipes to channels */
-            BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
-            idx.u64 = 0;
-            idx.s.index = pipe+i;
-            BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
-            BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), i);
-        }
-
-        /* Figure out lanes used by this interface */
-        int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
-        if (handle->interface)
-            lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
+            c.s.base = pipe[handle->interface]);
 
         /* Set jabber to allow max sized packets */
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_JABBER(handle->interface),
             c.s.cnt = 0xfff8);
-
-        /* Bringup the TX side */
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
-            c.s.lane_ena = lane_mask;
-            c.s.cal_ena = 0;
-            c.s.cal_depth = num_ilk;
-            c.s.lnk_stats_ena = 1);
-        /* Ignore the global link flow control as we are using per pko port */
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG1(handle->interface),
-            c.s.rx_link_fc_ign = 1);
-        /* Configure the RX lanes */
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface),
-            c.s.lane_ena = lane_mask;
-            c.s.cal_ena = 0;
-            c.s.cal_depth = num_ilk;
-            c.s.lnk_stats_ena = 1);
-        /* RX is brought up during lin status polls */
     }
+
+    BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+    ptrs.u64 = 0;
+    ptrs.s.qos_mask = 0xff; /* QOS rounds */
+    ptrs.s.crc = 1;         /* Use CRC on packets */
+    ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
+    ptrs.s.pipe = pipe[handle->interface]+handle->index;
+    ptrs.s.intr = 28+handle->interface; /* Which interface */
+    ptrs.s.eid = pko_eid[handle->interface];  /* Which engine */
+    ptrs.s.ipid = handle->pko_port;
+    BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+
+    /* Map pipes to channels */
+    BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
+    idx.u64 = 0;
+    idx.s.index = pipe[handle->interface]+handle->index;
+    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
+    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
+    ilk_write_cal_entry(handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
 
     /* Setup PKIND */
     BDK_CSR_DEFINE(pidx, BDK_ILK_RXF_IDX_PMAP);
@@ -139,101 +241,30 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, BDK_ILK_RXF_MEM_PMAP,
         c.s.port_kind = handle->pknd);
 
-    /* Setup TX BPID */
-    BDK_CSR_DEFINE(ctidx, BDK_ILK_TXX_IDX_CAL(handle->interface));
-    ctidx.u64 = 0;
-    ctidx.s.index = handle->index / 8;
-    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(handle->interface), ctidx.u64);
-    BDK_CSR_INIT(tcal0, BDK_ILK_TXX_MEM_CAL0(handle->interface));
-    BDK_CSR_INIT(tcal1, BDK_ILK_TXX_MEM_CAL1(handle->interface));
-    switch (handle->index & 7)
+    if (handle->index+1 == num_ilk)
     {
-        case 0:
-            tcal0.s.entry_ctl0 = 0;
-            tcal0.s.bpid0 = handle->pknd;
-            break;
-        case 1:
-            tcal0.s.entry_ctl1 = 0;
-            tcal0.s.bpid1 = handle->pknd;
-            break;
-        case 2:
-            tcal0.s.entry_ctl2 = 0;
-            tcal0.s.bpid2 = handle->pknd;
-            break;
-        case 3:
-            tcal0.s.entry_ctl3 = 0;
-            tcal0.s.bpid3 = handle->pknd;
-            break;
-        case 4:
-            tcal1.s.entry_ctl4 = 0;
-            tcal1.s.bpid4 = handle->pknd;
-            break;
-        case 5:
-            tcal1.s.entry_ctl5 = 0;
-            tcal1.s.bpid5 = handle->pknd;
-            break;
-        case 6:
-            tcal1.s.entry_ctl6 = 0;
-            tcal1.s.bpid6 = handle->pknd;
-            break;
-        case 7:
-            tcal1.s.entry_ctl7 = 0;
-            tcal1.s.bpid7 = handle->pknd;
-            break;
-    }
-    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(handle->interface), tcal0.u64);
-    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(handle->interface), tcal1.u64);
+        /* For every 15 channels we have an extra calendar entry for link
+            status */
+        int cal_depth = num_ilk + (num_ilk-1)/15 + 1;
 
-    /* Setup RX BPID */
-    BDK_CSR_DEFINE(cridx, BDK_ILK_RXX_IDX_CAL(handle->interface));
-    cridx.u64 = 0;
-    cridx.s.index = handle->index / 8;
-    BDK_CSR_WRITE(BDK_ILK_RXX_IDX_CAL(handle->interface), cridx.u64);
-    BDK_CSR_INIT(rcal0, BDK_ILK_RXX_MEM_CAL0(handle->interface));
-    BDK_CSR_INIT(rcal1, BDK_ILK_RXX_MEM_CAL1(handle->interface));
-    switch (handle->index & 7)
-    {
-        case 0:
-            rcal0.s.entry_ctl0 = 0;
-            rcal0.s.port_pipe0 = handle->pko_port;
-            break;
-        case 1:
-            rcal0.s.entry_ctl1 = 0;
-            rcal0.s.port_pipe1 = handle->pko_port;
-            break;
-        case 2:
-            rcal0.s.entry_ctl2 = 0;
-            rcal0.s.port_pipe2 = handle->pko_port;
-            break;
-        case 3:
-            rcal0.s.entry_ctl3 = 0;
-            rcal0.s.port_pipe3 = handle->pko_port;
-            break;
-        case 4:
-            rcal1.s.entry_ctl4 = 0;
-            rcal1.s.port_pipe4 = handle->pko_port;
-            break;
-        case 5:
-            rcal1.s.entry_ctl5 = 0;
-            rcal1.s.port_pipe5 = handle->pko_port;
-            break;
-        case 6:
-            rcal1.s.entry_ctl6 = 0;
-            rcal1.s.port_pipe6 = handle->pko_port;
-            break;
-        case 7:
-            rcal1.s.entry_ctl7 = 0;
-            rcal1.s.port_pipe7 = handle->pko_port;
-            break;
-    }
-    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL0(handle->interface), rcal0.u64);
-    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(handle->interface), rcal1.u64);
+        /* Figure out lanes used by this interface */
+        int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
+        if (handle->interface)
+            lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
 
-    if (handle->index+1 == (int)bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface))
-    {
-            /* Enable calendar */
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface), c.s.cal_ena = 1);
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface), c.s.cal_ena = 1);
+        /* Bringup the TX side */
+        BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+            c.s.lane_ena = lane_mask;
+            c.s.cal_ena = 1;
+            c.s.cal_depth = (cal_depth+7) & 0x1f8; /* Round up */
+            c.s.lnk_stats_ena = 1);
+        /* Configure the RX lanes */
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface),
+            c.s.lane_ena = lane_mask;
+            c.s.cal_ena = 1;
+            c.s.cal_depth = cal_depth;
+            c.s.lnk_stats_ena = 1);
+        /* RX is brought up during link status polls */
     }
 
     return 0;

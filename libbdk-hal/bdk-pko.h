@@ -46,6 +46,7 @@ extern void bdk_pko_initialize(void);
 
 extern int __bdk_pko_alloc_pipe(int num_pipes);
 extern int __bdk_pko_alloc_engine(void);
+extern int __bdk_pko_alloc_port(void);
 
 
 /**

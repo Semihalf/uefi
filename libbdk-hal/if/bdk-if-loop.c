@@ -19,8 +19,7 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0 - 7 */
         handle->ipd_port = handle->index;
-        /* Use PKO ports 64 - 71 */
-        handle->pko_port = 64 + handle->index;
+        handle->pko_port = __bdk_pko_alloc_port();
     }
     else
     {
@@ -43,29 +42,25 @@ static int if_init(bdk_if_handle_t handle)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
+        static int pko_eid = -1;
+        if (pko_eid == -1)
+            pko_eid = __bdk_pko_alloc_engine();
+
         /* Configure the PKO internal port mappings */
         if (handle->index == 0)
-        {
-            int num_loop = if_num_ports(handle->interface);
-            int pko_eid = __bdk_pko_alloc_engine();
-
             BDK_CSR_MODIFY(t, BDK_PKO_REG_LOOPBACK_PKIND,
-                t.s.num_ports = num_loop);
+                t.s.num_ports = if_num_ports(handle->interface));
 
-            for (int i=0; i<num_loop; i++)
-            {
-                BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-                ptrs.u64 = 0;
-                ptrs.s.qos_mask = 0xff; /* QOS rounds */
-                ptrs.s.crc = 0;         /* No CRC on packets */
-                ptrs.s.min_pkt = 0;     /* No min packet */
-                ptrs.s.pipe = i;        /* Which loop */
-                ptrs.s.intr = 31;       /* Which interface */
-                ptrs.s.eid = pko_eid;   /* Which engine */
-                ptrs.s.ipid = handle->pko_port+i;
-                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-            }
-        }
+        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+        ptrs.u64 = 0;
+        ptrs.s.qos_mask = 0xff; /* QOS rounds */
+        ptrs.s.crc = 0;         /* No CRC on packets */
+        ptrs.s.min_pkt = 0;     /* No min packet */
+        ptrs.s.pipe = handle->index; /* Which loop */
+        ptrs.s.intr = 31;       /* Which interface */
+        ptrs.s.eid = pko_eid;   /* Which engine */
+        ptrs.s.ipid = handle->pko_port;
+        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* Setup the PKIND and BPID for this loopback port */
         switch (handle->index)

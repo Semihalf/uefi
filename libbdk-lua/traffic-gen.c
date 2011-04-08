@@ -381,20 +381,7 @@ int trafficgen_do_update(bool do_clear)
                 break;
             case BDK_IF_ILK:
             {
-                int interface = tg_port->handle->interface;
-                int pko_port = tg_port->handle->pko_port;
-                if (pko_port < 64)
-                {
-                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL0(interface));
-                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
-                        tg_port->pinfo.stats.rx_backpressure++;
-                }
-                else
-                {
-                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL1(interface));
-                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
-                        tg_port->pinfo.stats.rx_backpressure++;
-                }
+                // FIXME
                 break;
             }
             case __BDK_IF_LAST:

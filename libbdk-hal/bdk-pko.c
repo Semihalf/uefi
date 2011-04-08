@@ -75,6 +75,15 @@ int __bdk_pko_alloc_engine(void)
     return engine;
 }
 
+int __bdk_pko_alloc_port(void)
+{
+    static int next_free_port = 0;
+    int port = next_free_port++;
+    if (port > 127)
+        bdk_fatal("PKO ran out of ports. bdk_if_init() is incorrect\n");
+    return port;
+}
+
 /**
  * Enables the packet output hardware. It must already be
  * configured.

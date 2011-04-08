@@ -40,8 +40,7 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
         handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
-        /* Use PKO ports 0 - 3, 4 - 7, ... */
-        handle->pko_port = handle->interface*4 + handle->index;
+        handle->pko_port = __bdk_pko_alloc_port();
     }
     else
     {

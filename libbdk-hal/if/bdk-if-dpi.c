@@ -16,8 +16,7 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0x100 - 0x11f */
         handle->ipd_port = 0x100 + handle->index;
-        /* Use PKO ports 32-63 */
-        handle->pko_port = 32 + handle->index;
+        handle->pko_port = __bdk_pko_alloc_port();
     }
     else
     {
@@ -39,31 +38,29 @@ static int if_init(bdk_if_handle_t handle)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
+        static int base_pipe = -1;
+        static int pko_eid = -1;
+        if (base_pipe == -1)
+        {
+            base_pipe = __bdk_pko_alloc_pipe(if_num_ports(handle->interface));
+            pko_eid = __bdk_pko_alloc_engine();
+        }
         /* Configure the PKO internal port mappings */
         if (handle->index == 0)
-        {
-            int num_dpi = if_num_ports(handle->interface);
-            int base_pipe = __bdk_pko_alloc_pipe(num_dpi);
-            int pko_eid = __bdk_pko_alloc_engine();
-
             BDK_CSR_MODIFY(c, BDK_SLI_TX_PIPE,
-                c.s.nump = num_dpi;
+                c.s.nump = if_num_ports(handle->interface);
                 c.s.base = base_pipe);
 
-            for (int i=0; i<num_dpi; i++)
-            {
-                BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-                ptrs.u64 = 0;
-                ptrs.s.qos_mask = 0xff;     /* QOS rounds */
-                ptrs.s.crc = 0;             /* No CRC on packets */
-                ptrs.s.min_pkt = 0;         /* No min packet */
-                ptrs.s.pipe = base_pipe+i;  /* Which PKO pipe */
-                ptrs.s.intr = 30;           /* Which interface */
-                ptrs.s.eid = pko_eid;       /* Which engine */
-                ptrs.s.ipid = handle->pko_port+i;
-                BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-            }
-        }
+        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+        ptrs.u64 = 0;
+        ptrs.s.qos_mask = 0xff;     /* QOS rounds */
+        ptrs.s.crc = 0;             /* No CRC on packets */
+        ptrs.s.min_pkt = 0;         /* No min packet */
+        ptrs.s.pipe = base_pipe+handle->index;  /* Which PKO pipe */
+        ptrs.s.intr = 30;           /* Which interface */
+        ptrs.s.eid = pko_eid;       /* Which engine */
+        ptrs.s.ipid = handle->pko_port;
+        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* Setup PKIND and BPID */
         BDK_CSR_MODIFY(c, BDK_SLI_PORTX_PKIND(handle->index),
