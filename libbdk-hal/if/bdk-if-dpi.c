@@ -2,7 +2,7 @@
 
 static int if_num_interfaces(void)
 {
-    return 1;
+    return 0; /* FIXME: Change number of DPI interfaces to 1 once they are supported */
 }
 
 static int if_num_ports(int interface)
