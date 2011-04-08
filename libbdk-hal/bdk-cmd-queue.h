@@ -44,11 +44,10 @@ typedef enum
 typedef struct
 {
     bdk_spinlock_t lock;
-    uint64_t fpa_pool       : 3;    /**< FPA pool buffers come from */
-    uint64_t base_ptr_div128: 29;   /**< Top of command buffer pointer shifted 7 */
-    uint64_t unused2        : 6;
-    uint64_t pool_size_m1   : 13;   /**< FPA buffer size in 64bit words minus 1 */
-    uint64_t index          : 13;   /**< Number of commands already used in buffer */
+    uint64_t pool_size_m1   : 16;   /**< FPA buffer size in 64bit words minus 1 */
+    uint64_t index          : 16;   /**< Number of commands already used in buffer */
+    uint64_t *base_ptr;             /**< Top of command buffer pointer */
+    int fpa_pool;                   /**< FPA pool buffers come from */
 } bdk_cmd_queue_state_t;
 
 /**
@@ -142,7 +141,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_state_t *
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + cmd_count < qptr->pool_size_m1))
     {
-        uint64_t *ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        uint64_t *ptr = qptr->base_ptr;
         ptr += qptr->index;
         qptr->index += cmd_count;
         while (cmd_count--)
@@ -160,7 +159,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_state_t *
                 __bdk_cmd_queue_unlock(qptr);
             return BDK_CMD_QUEUE_NO_MEMORY;
         }
-        ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        ptr = qptr->base_ptr;
         /* Figure out how many command words will fit in this buffer. One
             location will be needed for the next buffer pointer */
         count = qptr->pool_size_m1 - qptr->index;
@@ -171,7 +170,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_state_t *
         *ptr = bdk_ptr_to_phys(new_buffer);
         /* The current buffer is full and has a link to the next buffer. Time
             to write the rest of the commands into the new buffer */
-        qptr->base_ptr_div128 = *ptr >> 7;
+        qptr->base_ptr = new_buffer;
         qptr->index = cmd_count;
         ptr = new_buffer;
         while (cmd_count--)
@@ -208,7 +207,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_state_t 
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + 2 < qptr->pool_size_m1))
     {
-        uint64_t *ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        uint64_t *ptr = qptr->base_ptr;
         ptr += qptr->index;
         qptr->index += 2;
         ptr[0] = cmd1;
@@ -229,7 +228,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_state_t 
             return BDK_CMD_QUEUE_NO_MEMORY;
         }
         count--;
-        ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        ptr = qptr->base_ptr;
         ptr += qptr->index;
         *ptr++ = cmd1;
         if (bdk_likely(count))
@@ -237,7 +236,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_state_t 
         *ptr = bdk_ptr_to_phys(new_buffer);
         /* The current buffer is full and has a link to the next buffer. Time
             to write the rest of the commands into the new buffer */
-        qptr->base_ptr_div128 = *ptr >> 7;
+        qptr->base_ptr = new_buffer;
         qptr->index = 0;
         if (bdk_unlikely(count == 0))
         {
@@ -277,7 +276,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_state_t 
     /* Normally there is plenty of room in the current buffer for the command */
     if (bdk_likely(qptr->index + 3 < qptr->pool_size_m1))
     {
-        uint64_t *ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        uint64_t *ptr = qptr->base_ptr;
         ptr += qptr->index;
         qptr->index += 3;
         ptr[0] = cmd1;
@@ -299,7 +298,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_state_t 
             return BDK_CMD_QUEUE_NO_MEMORY;
         }
         count--;
-        ptr = (uint64_t *)bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
+        ptr = qptr->base_ptr;
         ptr += qptr->index;
         *ptr++ = cmd1;
         if (count)
@@ -311,7 +310,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_state_t 
         *ptr = bdk_ptr_to_phys(new_buffer);
         /* The current buffer is full and has a link to the next buffer. Time
             to write the rest of the commands into the new buffer */
-        qptr->base_ptr_div128 = *ptr >> 7;
+        qptr->base_ptr = new_buffer;
         qptr->index = 0;
         ptr = new_buffer;
         if (count == 0)

@@ -28,7 +28,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate, i
     memset(qstate, 0, sizeof(*qstate));
     qstate->fpa_pool = fpa_pool;
     qstate->pool_size_m1 = (pool_size>>3)-1;
-    qstate->base_ptr_div128 = bdk_ptr_to_phys(buffer) / 128;
+    qstate->base_ptr = buffer;
     BDK_SYNCW;
     return BDK_CMD_QUEUE_SUCCESS;
 }
@@ -46,10 +46,10 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate, i
 bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_state_t *qptr)
 {
     __bdk_cmd_queue_lock(qptr);
-    if (qptr->base_ptr_div128)
+    if (qptr->base_ptr)
     {
-        bdk_fpa_free(bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7), qptr->fpa_pool, 0);
-        qptr->base_ptr_div128 = 0;
+        bdk_fpa_free(qptr->base_ptr, qptr->fpa_pool, 0);
+        qptr->base_ptr = NULL;
     }
     __bdk_cmd_queue_unlock(qptr);
 
@@ -69,9 +69,6 @@ bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_state_t *qptr)
  */
 void *bdk_cmd_queue_buffer(bdk_cmd_queue_state_t *qptr)
 {
-    if (qptr->base_ptr_div128)
-        return bdk_phys_to_ptr((uint64_t)qptr->base_ptr_div128<<7);
-    else
-        return NULL;
+    return qptr->base_ptr;
 }
 
