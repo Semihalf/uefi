@@ -40,4 +40,7 @@ static inline void *bdk_thread_get_id(void)
     return (void*)current;
 }
 
+extern void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size);
+extern void __bdk_thread_switch(void* next_context, int delete_old);
+
 /** @} */

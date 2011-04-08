@@ -19,7 +19,6 @@ typedef struct bdk_thread
 static bdk_thread_t*    bdk_thread_head;
 static bdk_thread_t*    bdk_thread_tail;
 static bdk_spinlock_t   bdk_thread_lock;
-extern void __bdk_thread_switch(bdk_thread_t* next_context, int delete_old);
 
 
 /**
@@ -109,6 +108,48 @@ void bdk_thread_yield(void)
 
 
 /**
+ * Create a new thread and return it. The thread will not be scheduled
+ * as it isn't put in the thread list.
+ *
+ * @param coremask   Mask of cores the thread can run on. Each set bit is an allowed
+ *                   core. Zero and -1 are both shortcuts for all cores.
+ * @param func       Function to run as a thread
+ * @param arg0       First argument to the function
+ * @param arg1       Second argument to the function
+ * @param stack_size Stack size for the new thread. Set to zero for the system default.
+ *
+ * @return Thread or NULL on failure
+ */
+void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
+{
+    extern void _gp;
+    bdk_thread_t *thread;
+    if (!stack_size)
+        stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
+
+    thread = calloc(1, sizeof(bdk_thread_t) + stack_size);
+    if (thread == NULL)
+    {
+        bdk_error("Unable to allocate memory for new thread\n");
+        return NULL;
+    }
+    if (coremask == 0)
+        coremask = -1;
+    thread->coremask = coremask;
+    thread->regs[4-1] = (uint64_t)func;
+    thread->regs[5-1] = arg0;
+    thread->regs[6-1] = (uint64_t)arg1;
+    thread->regs[28-1] = (uint64_t)&_gp;
+    thread->regs[29-1] = (uint64_t)thread->stack + stack_size;
+    thread->pc = (uint64_t)__bdk_thread_body;
+    _REENT_INIT_PTR(&thread->lib_state);
+    thread->stack_canary = STACK_CANARY;
+    thread->next = NULL;
+    return thread;
+}
+
+
+/**
  * Create a new thread. The thread may be scheduled to any of the
  * cores supplied in the coremask. Note that a single thread is
  * created and may only run on one core at a time. The thread may
@@ -126,29 +167,9 @@ void bdk_thread_yield(void)
  */
 int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
-    extern void _gp;
-    bdk_thread_t *thread;
-    if (!stack_size)
-        stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
-
-    thread = calloc(1, sizeof(bdk_thread_t) + stack_size);
+    bdk_thread_t *thread = __bdk_thread_create(coremask, func, arg0, arg1, stack_size);
     if (thread == NULL)
-    {
-        bdk_error("Unable to allocate memory for new thread\n");
         return -1;
-    }
-    if (coremask == 0)
-        coremask = -1;
-    thread->coremask = coremask;
-    thread->regs[4-1] = (uint64_t)func;
-    thread->regs[5-1] = arg0;
-    thread->regs[6-1] = (uint64_t)arg1;
-    thread->regs[28-1] = (uint64_t)&_gp;
-    thread->regs[29-1] = (uint64_t)thread->stack + stack_size;
-    thread->pc = (uint64_t)__bdk_thread_body;
-    _REENT_INIT_PTR(&thread->lib_state);
-    thread->stack_canary = STACK_CANARY;
-    thread->next = NULL;
 
     bdk_spinlock_lock(&bdk_thread_lock);
     if (bdk_thread_tail)

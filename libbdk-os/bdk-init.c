@@ -84,7 +84,13 @@ static void bdk_init_stage2(void)
 
     bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
 
-    if (bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL, 0))
+    /* Use the internal thread create so we can control that __bdk_init_main
+        is the next thread to run on this core. This is needed as
+        initialization isn't complete yet */
+    void *thread = __bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL, 0);
+    if (thread)
+        __bdk_thread_switch(thread, 0);
+    else
         bdk_fatal("Create of __bdk_init_main thread failed\n");
     bdk_thread_destroy();
 }
@@ -213,8 +219,14 @@ int bdk_init_cores(uint64_t coremask)
         BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
     }
 
-    bdk_wait_usec(1000);
-    if ((__bdk_alive_coremask & coremask) != coremask)
+    /* Wait up to 10ms for the cores to boot */
+    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE) / 100 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask))
+    {
+        /* Tight spin */
+    }
+
+    if ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask)
     {
         bdk_error("Some cores failed to start. Alive mask 0x%lx, requested 0x%lx\n",
             __bdk_alive_coremask, coremask);
