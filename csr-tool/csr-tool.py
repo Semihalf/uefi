@@ -116,7 +116,8 @@ if generate_html:
     print "Writing HTML"
     csr_output_html.writeAll(combined_list, diff=(("cn63xxp1", "cn63xx"),
                                                   ("cn63xx", "cn68xxp1"),
-                                                  ("cn68xxp1", "cn68xx")))
+                                                  ("cn68xxp1", "cn68xx"),
+                                                  ("cn63xx", "cn65xx")))
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
