@@ -894,7 +894,7 @@ void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void 
         out_data++;
         location++;
         length--;
-        if (location >= buffer_ptr.s.size)
+        if (length && (location >= buffer_ptr.s.size))
         {
             location -= buffer_ptr.s.size;
             buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
@@ -934,7 +934,7 @@ void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, cons
         in_data++;
         location++;
         length--;
-        if (location >= buffer_ptr.s.size)
+        if (length && (location >= buffer_ptr.s.size))
         {
             location -= buffer_ptr.s.size;
             buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
