@@ -38,13 +38,11 @@
 #include "bdk-pcie.h"
 #include "bdk-pko.h"
 #include "bdk-qlm.h"
-#include "bdk-raid.h"
 #include "bdk-rng.h"
 #include "bdk-srio.h"
 #include "bdk-swap.h"
 #include "bdk-tra.h"
 #include "bdk-twsi.h"
-#include "bdk-zip.h"
 #include "bdk-access-native.h"
 
 #endif
