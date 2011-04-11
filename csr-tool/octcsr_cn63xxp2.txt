@@ -331,6 +331,7 @@ Pos      Name    Type     Value     Value       Description
 
  *
  *                  PCIE_CFG012 = Thirteenth 32-bits of PCIE type 0 config space (Expansion ROM Base Address Register)
+ *                  This register is only enabled in PCIE0, PCIE1 does NOT have this bar enabled.
  *
  *
  *
@@ -9679,7 +9680,7 @@ Pos      Name    Type     Value     Value       Description
 <41>     EN             R/W NS     NS        Enable characterization
 <63:42>  NS             R/W NS     NS        RESERVED
 
-Notes:
+Notes: DR bit applies on the DQ port
 ----------------------------------------------------------------------------------------------------
 ===
  *

@@ -13279,7 +13279,13 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    CHANNEL              R/W      0x0      NS       Specify the channel for the port-pipe selected by              |
                                                          ILK_TXx_IDX_PMAP[IDX]                                          |
-<63:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<16>     REMAP                R/W      0x0      NS       Channel will be specified by an 8-byte header (bit[39:32] of   |
+                                                         each packet for the port-pipe selected by                      |
+ 								      				                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
+<63:17>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13384,8 +13390,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   STATUS               RO       0x0      NS       IPD flow control status for backpressue id 63-0, where a 1     |
-                                                         indicates the presence of backpressure (ie. XOFF) and 0        |
+<63:0>   STATUS               RO 0xffffffffffffffff  NS  IPD flow control status for backpressue id 63-0, where a 0     |
+                                                         indicates the presence of backpressure (ie. XOFF) and 1        |
                                                          indicates the absence of backpressure (ie. XON)                |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13739,10 +13745,16 @@ Pos      Name    Type     Value     Value       Description
 <4>      STAT_CNT_OVFL        R/W1C    0x0      NS       Statistics counter overflow                                    |
 <5>      LANE_BAD_WORD        R/W1C    0x0      NS       A lane encountered either a bad 64B/67B codeword or an unknown |
                                                          control word type.                                             |
-<6>      PKT_DROP_RXF         R/W1C    0x0      NS       Packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX               |
-<7>      PKT_DROP_RID         R/W1C    0x0      NS       Packet dropped due to the lack of reassembly-ids or because    |
-                                                         ILK_RX@_CFG1[PKT_ENA]=0                                        |
-<63:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<6>      PKT_DROP_RXF         R/W1C    0x0      NS       Some/all of a packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX |
+<7>      PKT_DROP_RID         R/W1C    0x0      NS       Entire packet dropped due to the lack of reassembly-ids or     |
+                                                         because ILK_RX@_CFG1[PKT_ENA]=0                                |
+<8>      PKT_DROP_SOP         R/W1C    0x0      NS       Entire packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX,       |
+                                                         lack of reassembly-ids or because ILK_RX@_CFG1[PKT_ENA]=0      | $RW
+                                                         because ILK_RX@_CFG1[PKT_ENA]=0  				|
+								      				                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
+<63:9>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13763,10 +13775,16 @@ Pos      Name    Type     Value     Value       Description
 <4>      STAT_CNT_OVFL        R/W      0x0      NS       Statistics counter overflow                                    |
 <5>      LANE_BAD_WORD        R/W      0x0      NS       A lane encountered either a bad 64B/67B codeword or an unknown |
                                                          control word type.                                             |
-<6>      PKT_DROP_RXF         R/W      0x0      NS       Packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX               |
-<7>      PKT_DROP_RID         R/W      0x0      NS       Packet dropped due to the lack of reassembly-ids or because    |
-                                                         ILK_RX@_CFG1[PKT_ENA]=0                                        |
-<63:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<6>      PKT_DROP_RXF         R/W      0x0      NS       Some/all of a packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX |
+<7>      PKT_DROP_RID         R/W      0x0      NS       Entire packet dropped due to the lack of reassembly-ids or     |
+                                                         because ILK_RX@_CFG1[PKT_ENA]=0                                |
+<8>      PKT_DROP_SOP         R/W      0x0      NS       Entire packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX,       |
+                                                         lack of reassembly-ids or because ILK_RX@_CFG1[PKT_ENA]=0      | $PRW
+                                                         because ILK_RX@_CFG1[PKT_ENA]=0  				|
+								      				                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
+<63:9>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24315,6 +24333,7 @@ Pos      Name    Type     Value     Value       Description
  <12:12> MSIRED   RO	   0	       0	 MSI summary bit, copy of 		   	    |
                                                   CIU2_MSIRED_PPx_IPy.INT, all IO interrupts        |
 						  CIU2_RAW_IO@_INT_IO[MSIRED] always zero.          |
+						  This bit is o68 pass2 only feature.               |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI					    |
                                                   See SLI_MSI_RCVn for bit <40+n>                   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
@@ -24657,7 +24676,8 @@ Pos      Name    Type     Value     Value       Description
 						 CIU2_RAW_IO[PCI_INTA] & CIU2_EN_xx_yy_IO[PCI_INTA] |
  <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:12> MSIRED   RO	   0	       0	 MSI summary bit source 		   	    |
-                                                 CIU2_RAW_IO[MSIRED] & CIU2_EN_xx_yy_IO[MSIRED]   |
+                                                 CIU2_RAW_IO[MSIRED] & CIU2_EN_xx_yy_IO[MSIRED]     |
+						  This bit is o68 pass2 only feature.               |
  <11:8>  PCI_MSI  RO	   0	       0	 PCIe/sRIO MSI source		         	    |
 						 CIU2_RAW_IO[PCI_MSI] & CIU2_EN_xx_yy_IO[PCI_MSI]   |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
@@ -24999,6 +25019,7 @@ Pos      Name    Type     Value     Value       Description
  <17:16> PCI_INTA R/W	   0	       0	 PCI_INTA interrupt-enable        		    |
  <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:12> MSIRED   R/W	   0	       0	 MSI summary bit interrupt-enable        	    |
+						  This bit is o68 pass2 only feature.               |
  <11:8>  PCI_MSI  R/W      0	       0	 PCIe/sRIO MSI	interrupt-enable		    |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W	   0	       0	 PCIe INTA/B/C/D interrupt-enable		    |
@@ -25327,6 +25348,7 @@ Pos      Name    Type     Value     Value       Description
  <17:16> PCI_INTA R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_INTA] 	    |
  <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:12> MSIRED   R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[MSIRED]  	    |
+						  This bit is o68 pass2 only feature.               |
  <11:8>  PCI_MSI  R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_MSI]        |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W1	   0	       0	 Write 1 to enable CIU2_EN_xx_yy_IO[PCI_INTR]       |
@@ -25654,6 +25676,7 @@ Pos      Name    Type     Value     Value       Description
  <17:16> PCI_INTA R/W1C    0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_INTA] 	    |
  <15:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <12:12> MSIRED   R/W1C	   0	       0	  Write 1 to clear CIU2_EN_xx_yy_IO[MSIRED]   	    |
+						  This bit is o68 pass2 only feature.               |
  <11:8>  PCI_MSI  R/W1C	   0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_MSI]         |
  <7:4>   NS       RAZ      NS          NS        Reserved for future expansion                      |
  <3:0>   PCI_INTR R/W1C	   0x0	       0	 Write 1 to clear CIU2_EN_xx_yy_IO[PCI_INTR]        |
@@ -25790,6 +25813,8 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+ * CIU2_ACK_PP@_IPx      (Pass 2)
+
 
      ==============================================================
      CIU2_ACK_PP(0..31)_IP2 Type=NCB
@@ -25824,6 +25849,7 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+ * CIU2_MSIRED_PP@_IPx      (Pass 2)
  * Contains reduced MSI interrupt numbers for delivery to software.
  * Note MSIRED delivery can only be made to PPs, not to IO; thus there are no CIU2_MSIRED_IO registers.
  *
@@ -25860,6 +25886,7 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+ * CIU2_MSI_RCV  Received MSI state bits    (Pass 2)
 
 
      ==============================================================
@@ -25881,6 +25908,7 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+ * CIU2_MSI_SEL  Received MSI SEL enable    (Pass 2)
 
 
      ==============================================================
@@ -25901,9 +25929,6 @@ Pos      Name    Type     Value     Value       Description
 						 Must be set for PP_NUM and IP_NUM to have effect.  |
 ----------------------------------------------------------------------------------------------------
 ===
-
-
-
 
 
 
@@ -26028,7 +26053,15 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1> NS        RAZ      NS          NS        Reserved				            |
- <0>    READY     RO       NS          0         Internal Debug feature.                            |
+ <0>    READY     RO       NS          0         Because of the delay of the IRQ updates which may  |
+                                                 take about 200 sclk cycles, software should read   |
+                                                 this register after servicing interrupts and wait  |
+                                                 for response before enabling interrupt watching.   |
+                                                 Or, the outdated interrupt will show up again.     |
+                                                 The read back data return when all interrupts have |
+                                                 been serviced, and read back data is always zero.  |
+						 In o68 pass2, CIU_READY gets replaced by CIU2_ACK  |
+						 This becomes an internal debug feature.            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35111,11 +35144,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:60> NS        RAZ      NS      NS       Reserved                                               |
- <59:32> PC        RO       0x0     NS       Work queue interrupt periodic counter                  |
- <31:28> NS        RAZ      NS      NS       Reserved                                               |
- <27:8>  PC_THR    R/W      0x0     NS       Work queue interrupt periodic counter threshold        |
- <7:0>   NS        RAZ      NS      NS       Reserved                                               |
+ <63:60> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <59:32> PC	   RO	    0x0	    NS	     Work queue interrupt periodic counter		    |
+ <31:28> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <27:8>	 PC_THR	   R/W	    0x0	    NS	     Work queue interrupt periodic counter threshold	    |
+ <7:0>	 NS	   RAZ	    NS	    NS	     Reserved						    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35964,17 +35997,17 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:33> NS        RAZ      NS      NS       Reserved                                               |
- <32>    TC_EN     R/W      0x0     NS       Time counter interrupt enable for group @              |
-                                               TC_EN must be zero when TC_THR==0                    |
- <31:28> TC_THR    R/W      0x0     NS       Time counter interrupt threshold for group @           |
-                                               When TC_THR==0, SSO_WQ_INT_CNT@[TC_CNT] is zero      |
- <27:26> NS        RAZ      NS      NS       Reserved                                               |
- <25:14> DS_THR    R/W      0x0     NS       De-schedule count threshold for group @                |
-                                               DS_THR==0 disables the threshold interrupt           |
- <13:12> NS        RAZ      NS      NS       Reserved                                               |
- <11:0>  IQ_THR    R/W      0x0     NS       Input queue count threshold for group @                |
-                                               IQ_THR==0 disables the threshold interrupt           |
+ <63:33> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <32>	 TC_EN	   R/W	    0x0	    NS	     Time counter interrupt enable for group @		    |
+					       TC_EN must be zero when TC_THR==0		    |
+ <31:28> TC_THR	   R/W	    0x0	    NS	     Time counter interrupt threshold for group @	    |
+					       When TC_THR==0, SSO_WQ_INT_CNT@[TC_CNT] is zero	    |
+ <27:26> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <25:14> DS_THR	   R/W	    0x0	    NS	     De-schedule count threshold for group @		    |
+					       DS_THR==0 disables the threshold interrupt	    |
+ <13:12> NS	   RAZ	    NS	    NS	     Reserved						    |
+ <11:0>	 IQ_THR	   R/W	    0x0	    NS	     Input queue count threshold for group @		    |
+					       IQ_THR==0 disables the threshold interrupt	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (64): 0x7200..0x73f8
@@ -36062,8 +36095,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:32> NS        RAZ      NS          NS          Reserved                                        |
- <31:0>  IQ_THR    R/W      0xffffffff  NS          Input queue threshold for QOS level @           |
+ <63:32> NS	   RAZ	    NS		NS	    Reserved					    |
+ <31:0>	 IQ_THR	   R/W	    0xffffffff	NS	    Input queue threshold for QOS level @	    |
 ----------------------------------------------------------------------------------------------------
 ===
  * CSR reserved addresses: (24): 0xa040..0xa0f8
