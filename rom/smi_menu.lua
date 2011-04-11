@@ -19,6 +19,7 @@ local function smi_read(smi_bus)
     local dev_addr = menu.prompt_number("Device address")
     local reg = menu.prompt_number("Device register")
     local data = octeon.c.bdk_mdio_read(smi_bus, dev_addr, reg)
+    assert(data ~= -1, "SMI/MDIO read failed")
     printf("SMI%d: Address %3d (0x%02x) reg %d (0x%x) responded with 0x%04x\n",
         smi_bus, dev_addr, dev_addr, reg, reg, data)
 end
@@ -27,14 +28,34 @@ local function smi_write(smi_bus)
     local dev_addr = menu.prompt_number("Device address")
     local reg = menu.prompt_number("Device register")
     local data = menu.prompt_number("Data")
-    octeon.c.bdk_mdio_write(smi_bus, dev_addr, reg, data)
+    assert(octeon.c.bdk_mdio_write(smi_bus, dev_addr, reg, data) ~= -1, "SMI/MDIO write failed")
+end
+
+local function smi_read45(smi_bus)
+    local phy_addr = menu.prompt_number("PHY address")
+    local dev_addr = menu.prompt_number("Device address")
+    local reg = menu.prompt_number("Device register")
+    local data = octeon.c.bdk_mdio_45_read(smi_bus, phy_addr, dev_addr, reg)
+    assert(data ~= -1, "SMI/MDIO read failed")
+    printf("SMI%d: PHY Address %3d (0x%02x) Device Address %3d (0x%02x) reg %d (0x%x) responded with 0x%04x\n",
+        smi_bus, phy_addr, phy_addr, dev_addr, dev_addr, reg, reg, data)
+end
+
+local function smi_write45(smi_bus)
+    local phy_addr = menu.prompt_number("PHY address")
+    local dev_addr = menu.prompt_number("Device address")
+    local reg = menu.prompt_number("Device register")
+    local data = menu.prompt_number("Data")
+    assert(octeon.c.bdk_mdio_45_write(smi_bus, phy_addr, dev_addr, reg, data) ~= -1, "SMI/MDIO write failed")
 end
 
 local function smi_submenu(smi_bus)
     local m = menu.new("SMI/MDIO Menu - Bus " .. smi_bus)
-    m:item("scan", "Scan bus", smi_scan, smi_bus)
-    m:item("read", "Read a register", smi_read, smi_bus)
-    m:item("write", "Write a register", smi_write, smi_bus)
+    m:item("scan", "Scan bus (Clause 22)", smi_scan, smi_bus)
+    m:item("read", "Read a register (Clause 22)", smi_read, smi_bus)
+    m:item("write", "Write a register (Clause 22)", smi_write, smi_bus)
+    m:item("read45", "Read a register (Clause 45)", smi_read45, smi_bus)
+    m:item("write45", "Write a register (Clause 45)", smi_write45, smi_bus)
     m:item("quit", "Main menu")
 
     while (m:show() ~= "quit") do
