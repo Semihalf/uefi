@@ -18,7 +18,7 @@ end
 local function twsi_scan(twsi_bus)
     printf("TWSI%d: Scanning bus...\n", twsi_bus)
     for dev_addr = 0, 127 do
-        local data = octeon.c.bdk_twsix_read_ia8(twsi_bus, dev_addr, 0, 1)
+        local data = octeon.c.bdk_twsix_read_ia(twsi_bus, dev_addr, 0, 1, 0)
         if data >= 0 then
             printf("TWSI%d: Address %3d (0x%02x) responded\n", twsi_bus, dev_addr, dev_addr)
         end

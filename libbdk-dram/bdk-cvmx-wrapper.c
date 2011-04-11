@@ -2,7 +2,11 @@
 
 int cvmx_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t *data)
 {
-    return bdk_twsix_read_ia(twsi_id, dev_addr, internal_addr, num_bytes, ia_width_bytes, data);
+    int64_t result = bdk_twsix_read_ia(twsi_id, dev_addr, internal_addr, num_bytes, ia_width_bytes);
+    if (result == -1)
+        return -1;
+    *data = result;
+    return num_bytes;
 }
 
 uint64_t cvmx_clock_get_rate(int clock)
