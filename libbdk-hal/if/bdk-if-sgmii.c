@@ -293,7 +293,10 @@ static int if_init(bdk_if_handle_t handle)
         contention. Any packet that fits entirely in the GMX FIFO can never
         have an under run regardless of memory load */
     BDK_CSR_MODIFY(gmx_tx_thresh, BDK_GMXX_TXX_THRESH(gmx_index, gmx_block),
-            gmx_tx_thresh.s.cnt = 0x100 / 4);
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+            gmx_tx_thresh.s.cnt = 0x200 / 4;
+        else
+            gmx_tx_thresh.s.cnt = 0x100 / 4;);
 
     /* Disable GMX */
     BDK_CSR_MODIFY(gmxx_prtx_cfg, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
