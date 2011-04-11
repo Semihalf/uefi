@@ -1,7 +1,10 @@
 #include <bdk.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "traffic-gen.i"
+
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
@@ -11,15 +14,67 @@ static const int PIP_IP_OFFSET = 4;       /* Number of dwords to reserve before 
 
 typedef struct
 {
+    uint64_t    tx_packets;
+    uint64_t    tx_octets;
+    uint64_t    tx_packets_total;
+    uint64_t    tx_octets_total;
+    uint64_t    tx_bits;
+
+    uint64_t    rx_packets;
+    uint64_t    rx_octets;
+    uint64_t    rx_packets_total;
+    uint64_t    rx_octets_total;
+    uint64_t    rx_dropped_octets;
+    uint64_t    rx_dropped_packets;
+    uint64_t    rx_errors;
+    uint64_t    rx_bits;
+    uint64_t    rx_backpressure;
+    uint64_t    rx_validation_errors;
+} trafficgen_port_stats_t;
+
+typedef struct
+{
+    int                     output_rate;
+    bool                    output_rate_is_mbps;
+    bool                    output_enable;
+    int                     output_packet_size;
+    uint64_t                output_count;
+    uint64_t                src_mac;    /* MACs are stored so a printf in hex will show them */
+    uint64_t                dest_mac;
+    uint32_t                src_ip;
+    uint32_t                dest_ip;
+    uint32_t                ip_tos;
+    uint16_t                src_port;
+    uint16_t                dest_port;
+    bool                    do_checksum;
+    bool                    display_packet;
+    bool                    validate;
+    bdk_srio_tx_message_header_t srio;
+} trafficgen_port_setup_t;
+
+typedef struct
+{
+    char name[8];
+    trafficgen_port_setup_t setup;
+    trafficgen_port_stats_t stats;
+    void *priv;
+} trafficgen_port_info_t;
+
+typedef struct tg_port
+{
     bdk_if_handle_t handle;
     bdk_if_stats_t clear_stats;
     bdk_if_stats_t delta_stats;
     uint64_t last_update;
     trafficgen_port_info_t pinfo;
+    struct tg_port *next;
 } tg_port_t;
 
-static trafficgen_port_set_t tg_all_set;
+static tg_port_t *tg_port_head;
+static tg_port_t *tg_port_tail;
+
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix);
+static int do_reset(tg_port_t *tg_port);
 
 /**
  *
@@ -47,17 +102,6 @@ static tg_port_t *tg_get_port(bdk_if_handle_t handle)
             return tg_port[i];
     }
     return NULL;
-}
-
-/**
- *
- * @param pinfo
- *
- * @return
- */
-static tg_port_t *tg_info_to_port(trafficgen_port_info_t *pinfo)
-{
-    return (tg_port_t*)pinfo->priv;
 }
 
 /**
@@ -93,20 +137,22 @@ static void tg_init(void)
     if (bdk_if_init())
         bdk_error("bdk_if_init() failed\n");
 
-    int count = 0;
     for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle!=NULL; handle = bdk_if_next_port(handle))
     {
         tg_port_t *tg_port = tg_get_port(handle);
         if (tg_port)
         {
             strcpy(tg_port->pinfo.name, bdk_if_name(handle));
+            tg_port->next = NULL;
+            if (tg_port_tail)
+                tg_port_tail->next = tg_port;
+            else
+                tg_port_head = tg_port;
+            tg_port_tail = tg_port;
             tg_init_port(tg_port);
-            tg_all_set.list[count++] = &tg_port->pinfo;
+            do_reset(tg_port);
         }
     }
-
-    tg_all_set.list[count] = NULL;
-    trafficgen_do_reset(&tg_all_set);
 }
 
 
@@ -122,26 +168,6 @@ static int get_size_wire_overhead(const tg_port_t *tg_port)
         return 0;
     else
         return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
-}
-
-/**
- *
- * @param pinfo
- *
- * @return
- */
-static int get_size_pre_l2(const tg_port_t *tg_port)
-{
-    if (tg_port->pinfo.setup.srio.u64)
-    {
-        /* TX needs to add SRIO header */
-        return sizeof(tg_port->pinfo.setup.srio);
-    }
-    else
-    {
-        /* The preamble is created by hardware, so the length is zero for SW. */
-        return 0;
-    }
 }
 
 /**
@@ -190,7 +216,16 @@ static int get_size_payload(const tg_port_t *tg_port)
  */
 static int get_end_pre_l2(const tg_port_t *tg_port)
 {
-    return get_size_pre_l2(tg_port);
+    if (tg_port->pinfo.setup.srio.u64)
+    {
+        /* TX needs to add SRIO header */
+        return sizeof(tg_port->pinfo.setup.srio);
+    }
+    else
+    {
+        /* The preamble is created by hardware, so the length is zero for SW. */
+        return 0;
+    }
 }
 
 /**
@@ -206,107 +241,15 @@ static int get_end_l2(const tg_port_t *tg_port)
 
 /**
  *
- * @param index
- *
  * @return
  */
-trafficgen_port_info_t *trafficgen_port_get(int index)
-{
-    if (tg_all_set.list[0] == NULL)
-        tg_init();
-    return tg_all_set.list[index];
-}
-
-/**
- *
- * @param set
- * @param pinfo
- */
-void trafficgen_port_add(trafficgen_port_set_t *set, trafficgen_port_info_t *pinfo)
-{
-    int i;
-    int max = sizeof(set->list) / sizeof(set->list[0]);
-    for (i=0; i<max; i++)
-    {
-        if (set->list[i] == pinfo)
-            break;
-        else if (set->list[i] == NULL)
-        {
-            set->list[i] = pinfo;
-            break;
-        }
-    }
-}
-
-/**
- *
- * @param range
- *
- * @return
- */
-int trafficgen_do_clear(const trafficgen_port_set_t *range)
-{
-    for (int i=0; range->list[i] != NULL; i++)
-    {
-        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
-        const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
-        tg_port->clear_stats = *stats;
-        tg_port->delta_stats = *stats;
-        memset(&tg_port->pinfo.stats, 0, sizeof(tg_port->pinfo.stats));
-    }
-    return 0;
-}
-
-/**
- *
- * @param range
- *
- * @return
- */
-int trafficgen_do_reset(const trafficgen_port_set_t *range)
-{
-    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
-
-    for (int i=0; range->list[i] != NULL; i++)
-    {
-        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
-        tg_port_t *connect_to = tg_port; // FIXME
-        uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(tg_port->handle);
-        uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->handle);
-        int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
-        int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
-
-        tg_port->pinfo.setup.output_rate                = 1000;
-        tg_port->pinfo.setup.output_rate_is_mbps        = true;
-        tg_port->pinfo.setup.output_enable              = 0;
-        tg_port->pinfo.setup.output_count               = 0;
-        tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
-        tg_port->pinfo.setup.src_mac                    = src_mac;
-        tg_port->pinfo.setup.dest_mac                   = dest_mac;
-        tg_port->pinfo.setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
-        tg_port->pinfo.setup.dest_ip                    = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */
-        tg_port->pinfo.setup.src_port                   = 4096;
-        tg_port->pinfo.setup.dest_port                  = 4097;
-        tg_port->pinfo.setup.ip_tos                     = 0;
-        tg_port->pinfo.setup.do_checksum                = 0;
-        tg_port->pinfo.setup.display_packet             = false;
-        tg_port->pinfo.setup.validate                   = true;
-    }
-    return trafficgen_do_clear(range);
-}
-
-/**
- *
- * @return
- */
-int trafficgen_do_update(bool do_clear)
+static int trafficgen_do_update(bool do_clear)
 {
     uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
 
     /* Get the statistics for displayed ports */
-    for (int i=0; tg_all_set.list[i] != NULL; i++)
+    for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
     {
-        tg_port_t *tg_port = tg_info_to_port(tg_all_set.list[i]);
         uint64_t update_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
         const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
 
@@ -381,7 +324,20 @@ int trafficgen_do_update(bool do_clear)
                 break;
             case BDK_IF_ILK:
             {
-                // FIXME
+                int interface = tg_port->handle->interface;
+                int pko_port = tg_port->handle->pko_port;
+                if (pko_port < 64)
+                {
+                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL0(interface));
+                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
+                        tg_port->pinfo.stats.rx_backpressure++;
+                }
+                else
+                {
+                    BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL1(interface));
+                    if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
+                        tg_port->pinfo.stats.rx_backpressure++;
+                }
                 break;
             }
             case __BDK_IF_LAST:
@@ -868,27 +824,95 @@ static void packet_receiver(int unused, void *unused2)
     }
 }
 
+
+static tg_port_t *lookup_name(lua_State* L, const char *name)
+{
+    for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
+        if (strcasecmp(name, tg_port->pinfo.name) == 0)
+            return tg_port;
+    luaL_error(L, "Invalid port name %s", name);
+    return NULL;
+}
+
+static int for_each_port(lua_State* L, int (*func)(tg_port_t *tg_port))
+{
+    luaL_checktype(L, 1, LUA_TTABLE);
+    int result = 0;
+    int length = luaL_len(L, 1);
+    for (int count=1; count<=length; count++)
+    {
+        lua_pushinteger(L, count);
+        lua_gettable(L, 1);
+        tg_port_t *tg_port = lookup_name(L, luaL_checkstring(L, -1));
+        lua_pop(L, 1);
+        result |= func(tg_port);
+    }
+    return result;
+}
+
+
 /**
  *
  * @param range
  *
  * @return
  */
-int trafficgen_do_transmit(const trafficgen_port_set_t *range)
+static int do_clear(tg_port_t *tg_port)
 {
-    static int have_rx;
+    const bdk_if_stats_t *stats = bdk_if_get_stats(tg_port->handle);
+    tg_port->clear_stats = *stats;
+    tg_port->delta_stats = *stats;
+    memset(&tg_port->pinfo.stats, 0, sizeof(tg_port->pinfo.stats));
+    return 0;
+}
 
-    if (!have_rx)
+/**
+ *
+ * @param range
+ *
+ * @return
+ */
+static int do_reset(tg_port_t *tg_port)
+{
+    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
+
+    tg_port_t *connect_to = tg_port; // FIXME
+    uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(tg_port->handle);
+    uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->handle);
+    int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
+    int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
+
+    tg_port->pinfo.setup.output_rate                = 1000;
+    tg_port->pinfo.setup.output_rate_is_mbps        = true;
+    tg_port->pinfo.setup.output_enable              = 0;
+    tg_port->pinfo.setup.output_count               = 0;
+    tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
+    tg_port->pinfo.setup.src_mac                    = src_mac;
+    tg_port->pinfo.setup.dest_mac                   = dest_mac;
+    tg_port->pinfo.setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
+    tg_port->pinfo.setup.dest_ip                    = 0x0a000063 | dest_inc;   /* 10.connect_to_port.0.99 */
+    tg_port->pinfo.setup.src_port                   = 4096;
+    tg_port->pinfo.setup.dest_port                  = 4097;
+    tg_port->pinfo.setup.ip_tos                     = 0;
+    tg_port->pinfo.setup.do_checksum                = 0;
+    tg_port->pinfo.setup.display_packet             = false;
+    tg_port->pinfo.setup.validate                   = true;
+    return do_clear(tg_port);
+}
+
+/**
+ *
+ * @param range
+ *
+ * @return
+ */
+static int do_start(tg_port_t *tg_port)
+{
+    if (tg_port->pinfo.setup.output_enable == 0)
     {
-        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
-        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
-        have_rx = 1;
-    }
-    for (int i=0; range->list[i] != NULL; i++)
-    {
-        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
         tg_port->pinfo.setup.output_enable = 1;
-        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, i, tg_port, 0);
+        BDK_SYNCW;
+        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, 0, tg_port, 0);
     }
     return 0;
 }
@@ -899,14 +923,296 @@ int trafficgen_do_transmit(const trafficgen_port_set_t *range)
  *
  * @return
  */
-bool trafficgen_is_transmitting(const trafficgen_port_set_t *range)
+static int do_stop(tg_port_t *tg_port)
 {
-    for (int i=0; range->list[i] != NULL; i++)
+    tg_port->pinfo.setup.output_enable = 0;
+    BDK_SYNCW;
+    return 0;
+}
+
+/**
+ *
+ * @param range
+ *
+ * @return
+ */
+static int do_is_transmitting(tg_port_t *tg_port)
+{
+    return tg_port->pinfo.setup.output_enable;
+}
+
+
+/**
+ * Lua interface function
+ * Get an array of all port names
+ * Input: Nothing
+ * Output: Array of port names
+ *
+ * @param L
+ *
+ * @return
+ */
+static int get_port_names(lua_State* L)
+{
+    if (!tg_port_head)
+        tg_init();
+    int count = 0;
+    lua_newtable(L);
+    for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
     {
-        tg_port_t *tg_port = tg_info_to_port(range->list[i]);
-        if (tg_port->pinfo.setup.output_enable)
-            return 1;
+        lua_pushinteger(L, ++count);
+        lua_pushstring(L, tg_port->pinfo.name);
+        lua_settable(L, -3);
     }
+    return 1;
+}
+
+
+/**
+ * Lua interface function
+ * Get the configuration of a single port
+ * Input: A single port name string
+ * Output: Table of setup data
+ *
+ * @param L
+ *
+ * @return
+ */
+static int get_config(lua_State* L)
+{
+    tg_port_t *tg_port = lookup_name(L, luaL_checkstring(L, 1));
+    #define pushfield(field, lua_type)                      \
+        lua_push##lua_type(L, tg_port->pinfo.setup.field);  \
+        lua_setfield (L, -2, #field);
+
+    lua_newtable(L);
+    pushfield(output_rate,          number);
+    pushfield(output_rate_is_mbps,  boolean);
+    pushfield(output_enable,        boolean);
+    pushfield(output_packet_size,   number);
+    pushfield(output_count,         number);
+    pushfield(src_mac,              number);
+    pushfield(dest_mac,             number);
+    pushfield(src_ip,               number);
+    pushfield(dest_ip,              number);
+    pushfield(ip_tos,               number);
+    pushfield(src_port,             number);
+    pushfield(dest_port,            number);
+    pushfield(do_checksum,          boolean);
+    pushfield(display_packet,       boolean);
+    pushfield(validate,             boolean);
+    //pushfield(srio, bdk_srio_tx_message_header_t);
+    return 1;
+}
+
+
+/**
+ * Lua interface function
+ * Set the configuration od a port. Only named paramters are changed.
+ * Input: A single port name string
+ * Input: Table of setup data
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int set_config(lua_State* L)
+{
+    tg_port_t *tg_port = lookup_name(L, luaL_checkstring(L, 1));
+
+    #define getfield(field,  lua_type)                              \
+        lua_getfield (L, 2, #field);                                \
+        if (!lua_isnil(L, -1))                                      \
+            tg_port->pinfo.setup.field = lua_to##lua_type(L, -1);   \
+        lua_pop(L, 1);
+
+    luaL_checktype(L, 2, LUA_TTABLE);
+    getfield(output_rate,          number);
+    getfield(output_rate_is_mbps,  boolean);
+    getfield(output_enable,        boolean);
+    getfield(output_packet_size,   number);
+    getfield(output_count,         number);
+    getfield(src_mac,              number);
+    getfield(dest_mac,             number);
+    getfield(src_ip,               number);
+    getfield(dest_ip,              number);
+    getfield(ip_tos,               number);
+    getfield(src_port,             number);
+    getfield(dest_port,            number);
+    getfield(do_checksum,          boolean);
+    getfield(display_packet,       boolean);
+    getfield(validate,             boolean);
+    //getfield(srio, bdk_srio_tx_message_header_t);
+    BDK_SYNCW;
+    return 0;
+}
+
+
+/**
+ * Lua interface function
+ * Clear the statistics for a range of ports
+ * Input: Array of port names
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int clear(lua_State* L)
+{
+    for_each_port(L, do_clear);
+    return 0;
+}
+
+
+/**
+ * Lua interface function
+ * Reset and clear a range of ports
+ * Input: Array of port names
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int reset(lua_State* L)
+{
+    for_each_port(L, do_reset);
+    return 0;
+}
+
+
+/**
+ * Lua interface function
+ * Update the statistics of all port and returns them
+ * Input: clear boolean
+ * Output: Table index by port name of table of stats
+ *
+ * @param L
+ *
+ * @return
+ */
+static int update(lua_State* L)
+{
+    #define pushstat(field)                             \
+        lua_pushnumber(L, tg_port->pinfo.stats.field);  \
+        lua_setfield (L, -2, #field);
+
+    trafficgen_do_update(lua_toboolean(L, 1));
+    lua_newtable(L);
+    for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
+    {
+        lua_newtable(L);
+        pushstat(tx_packets);
+        pushstat(tx_octets);
+        pushstat(tx_packets_total);
+        pushstat(tx_octets_total);
+        pushstat(tx_bits);
+        pushstat(rx_packets);
+        pushstat(rx_octets);
+        pushstat(rx_packets_total);
+        pushstat(rx_octets_total);
+        pushstat(rx_dropped_octets);
+        pushstat(rx_dropped_packets);
+        pushstat(rx_errors);
+        pushstat(rx_bits);
+        pushstat(rx_backpressure);
+        pushstat(rx_validation_errors);
+        lua_setfield(L, -2, tg_port->pinfo.name);
+    }
+    return 1;
+}
+
+
+/**
+ * Lua interface function
+ * Stop the supplied ports from transmitting
+ * Input: Array of port names
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int stop(lua_State* L)
+{
+    for_each_port(L, do_stop);
+    return 0;
+}
+
+
+/**
+ * Lua interface function
+ * Start the supplied ports transmitting
+ * Input: Array of port names
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int start(lua_State* L)
+{
+    static int have_rx;
+    if (!have_rx)
+    {
+        have_rx = 1;
+        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
+        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
+    }
+    for_each_port(L, do_start);
+    return 0;
+}
+
+
+/**
+ * Lua interface function
+ * Return a boolean of true if any of the supplied ports are transmitting
+ * Input: Array of port names
+ * Output: Bool, true if any of ports are transmitting
+ *
+ * @param L
+ *
+ * @return
+ */
+static int is_transmitting(lua_State* L)
+{
+    lua_pushboolean(L, for_each_port(L, do_is_transmitting));
+    return 1;
+}
+
+
+/**
+ * Initialize the trafficgen module
+ *
+ * @param L
+ *
+ * @return
+ */
+int luaopen_trafficgen(lua_State *L)
+{
+    lua_getglobal(L, "octeon");
+    lua_newtable(L);
+    lua_pushcfunction(L, get_port_names);
+    lua_setfield(L, -2, "get_port_names");
+    lua_pushcfunction(L, get_config);
+    lua_setfield(L, -2, "get_config");
+    lua_pushcfunction(L, set_config);
+    lua_setfield(L, -2, "set_config");
+    lua_pushcfunction(L, clear);
+    lua_setfield(L, -2, "clear");
+    lua_pushcfunction(L, reset);
+    lua_setfield(L, -2, "reset");
+    lua_pushcfunction(L, update);
+    lua_setfield(L, -2, "update");
+    lua_pushcfunction(L, stop);
+    lua_setfield(L, -2, "stop");
+    lua_pushcfunction(L, start);
+    lua_setfield(L, -2, "start");
+    lua_pushcfunction(L, is_transmitting);
+    lua_setfield(L, -2, "is_transmitting");
+    lua_setfield(L, -2, "trafficgen");
     return 0;
 }
 

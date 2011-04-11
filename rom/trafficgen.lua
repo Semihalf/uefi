@@ -26,67 +26,15 @@ local ALIASES = {
     ["PageDown"]="clear default",
 }
 
-local Row = {}
-local row_counter = 0
-function Row.new(name, struct, field, has_totals)
-    local self = {}
-    row_counter = row_counter + 1
-    -- Private variables
-
-    -- Public variables
-    self.name = name
-    self.visible = (struct == "stats")
-    self.number = row_counter
-
-    -- Private Methods
-
-    -- Public Methods
-    function self:display(ports)
-        local COL_SEP = ZEROHI .. "|" .. NORMAL
-        local totals = 0
-        local is_bits = self.name:sub(-5,-1) == "_bits"
-        if is_bits then
-            printf("%2d:%-20s", self.number, self.name:sub(1,-6) .. "Mbps")
-        else
-            printf("%2d:%-20s", self.number, self.name)
-        end
-        for _,p in ipairs(ports) do
-            local v = p[struct][field]
-            if type(v) == "number" then
-                totals = totals + v
-            else
-                has_totals = false
-            end
-            if is_bits then
-                printf("%s%10s", COL_SEP, tostring(v / 1000000))
-            else
-                printf("%s%10s", COL_SEP, tostring(v))
-            end
-        end
-        if has_totals then
-            if is_bits then
-                printf("%s%10d%s\n", COL_SEP, totals / 1000000, ERASE_EOL)
-            else
-                printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
-            end
-        else
-            printf(COL_SEP .. ERASE_EOL .. "\n")
-        end
-    end
-
-    return self
-end
-
 local TrafficGen = {}
 function TrafficGen.new()
     local self = {}
     --
     -- Private variables
     --
-    local known_ports = {}
+    local known_ports = octeon.trafficgen.get_port_names()
     local visible_ports = {}
     local default_ports = {}
-    local known_rows = {}
     local is_running = true
     local use_readline = true
     local input_file = nil
@@ -99,30 +47,6 @@ function TrafficGen.new()
     --
     -- Private Methods
     --
-
-    -- Get the list of possible ports from the C code. Result is stored in
-    -- known_ports
-    local function get_possible_ports()
-        local index = 0
-        repeat
-            local port_info = bdktrafficgen.port_get(index)
-            if port_info then
-                index = index + 1
-                known_ports[index] = port_info
-            end
-        until (port_info == nil)
-    end
-    get_possible_ports()
-
-    -- Convert a list of ports into a C port_set_t
-    -- FIXME: Does the port_set_t get GC?
-    local function get_port_set(range)
-        local set = bdktrafficgen.port_set_t()
-        for _,port in ipairs(range) do
-            bdktrafficgen.port_add(set, port)
-        end
-        return set
-    end
 
     -- Parse a port list string
     local function parse_port_list(str)
@@ -145,13 +69,13 @@ function TrafficGen.new()
                 end
                 local in_range = false
                 for _,port in ipairs(known_ports) do
-                    if port.name == start_name then
+                    if port == start_name then
                         in_range = true
                     end
                     if in_range then
                         table.insert(ports, port)
                     end
-                    if port.name == stop_name then
+                    if port == stop_name then
                         in_range = false
                     end
                 end
@@ -216,55 +140,62 @@ function TrafficGen.new()
         return command, range, args
     end
 
-    -- Create commands for getting and setting each value in the port.setup
+    -- Display a single statistic line
+    local function display_stat(stat_name, stats)
+        local COL_SEP = ZEROHI .. "|" .. NORMAL
+        local totals = 0
+        local is_bits = stat_name:sub(-5,-1) == "_bits"
+        if is_bits then
+            printf("%-20s", stat_name:sub(1,-6) .. " Mbps")
+        else
+            printf("%-20s", stat_name:gsub("_", " "))
+        end
+        for _,p in ipairs(visible_ports) do
+            local v = stats[p][stat_name]
+            if is_bits then
+                v = v / 1000000
+            end
+            totals = totals + v
+            printf("%s%10s", COL_SEP, v)
+        end
+        printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
+    end
+
+    -- Create commands for getting and setting each value in the port config
     -- structure.
-    local function create_struct_commands(name, struct)
-        -- SWIG struct have a ".get" meta field with a list of all structure members
-        local meta = getmetatable(struct)
-        local fields = meta[".get"]
+    local function create_config_commands()
+        local config = octeon.trafficgen.get_config(known_ports[1])
         -- Add in sorted order
-        for _,field_name in ipairs(table.sorted_keys(fields)) do
-            -- Skip complex types and fields beginning with "_"
-            if (type(struct[field_name]) ~= "userdata") and (field_name:sub(1,1) ~= '_') then
-                self["cmdp_" .. field_name] = function (self, port_range, args)
-                    for _, port in pairs(port_range) do
-                        if #args == 1 then
-                            port[name][field_name] = args[1]
-                        else
-                            printf("Port %s: %s = %s\n", port.name, field_name, tostring(port[name][field_name]))
-                        end
+        for _,field_name in ipairs(table.sorted_keys(config)) do
+            self["cmdp_" .. field_name] = function (self, port_range, args)
+                for _, port in pairs(port_range) do
+                    if #args == 1 then
+                        octeon.trafficgen.set_config(port, {[field_name]=args[1]})
+                    else
+                        local config = octeon.trafficgen.get_config(port)
+                        printf("Port %s: %s = %s\n", port, field_name, tostring(config[field_name]))
                     end
                 end
-                table.insert(known_rows, Row.new(field_name, name, field_name, true))
             end
         end
     end
-    create_struct_commands("stats", known_ports[1].stats)
-    create_struct_commands("setup", known_ports[1].setup)
+    create_config_commands()
 
-    -- Create a row reporting Lua's memory usage
-    do
-        local memusage = Row.new("Lua memory(KB)", nil, nil, false)
-        memusage.display = function (self, port_range)
-            local COL_SEP = ZEROHI .. "|" .. NORMAL
-            printf("%2d:%-20s", self.number, self.name)
-            printf("%s%10d%s\n", COL_SEP, collectgarbage("count"), ERASE_EOL)
+    -- Create commands for getting each value in the port statistics.
+    local function create_stats_commands()
+        local stats = octeon.trafficgen.update(false)
+        stats = stats[known_ports[1]]
+        -- Add in sorted order
+        for _,field_name in ipairs(table.sorted_keys(stats)) do
+            self["cmdp_" .. field_name] = function (self, port_range, args)
+                local stats = octeon.trafficgen.update(false)
+                for _, port in pairs(port_range) do
+                    printf("Port %s: %s = %s\n", port, field_name, tostring(stats[port][field_name]))
+                end
+            end
         end
-        memusage.visible = 1
-        table.insert(known_rows, memusage)
     end
-
-    -- Create a row reporting C's memory usage
-    do
-        local memusage = Row.new("C memory(KB)", nil, nil, false)
-        memusage.display = function (self, port_range)
-            local COL_SEP = ZEROHI .. "|" .. NORMAL
-            printf("%2d:%-20s", self.number, self.name)
-            printf("%s%10d%s\n", COL_SEP, octeon.get_sbrk() / 1024, ERASE_EOL)
-        end
-        memusage.visible = 1
-        table.insert(known_rows, memusage)
-    end
+    create_stats_commands()
 
     --
     -- Public Methods
@@ -317,7 +248,7 @@ function TrafficGen.new()
 
         printf("Default ports:")
         for _,port in ipairs(default_ports) do
-            printf(" %s", port.name)
+            printf(" %s", port)
         end
         printf("\n")
     end
@@ -340,7 +271,7 @@ function TrafficGen.new()
 
     function self:cmdp_start(port_range, args)
         assert (#args == 0, "No arguments expected")
-        bdktrafficgen.do_transmit(get_port_set(port_range))
+        octeon.trafficgen.start(port_range)
     end
 
     function self:cmdp_stop(port_range, args)
@@ -363,24 +294,24 @@ function TrafficGen.new()
 
     function self:cmdp_clear(port_range, args)
         assert (#args == 0, "No arguments expected")
-        bdktrafficgen.do_clear(get_port_set(port_range))
+        octeon.trafficgen.clear(port_range)
     end
 
     function self:cmdp_reset(port_range, args)
         assert (#args == 0, "No arguments expected")
-        bdktrafficgen.do_reset(get_port_set(port_range))
+        octeon.trafficgen.reset(port_range)
     end
 
     function self:cmdp_tx_percent(port_range, args)
         for _,port in pairs(port_range) do
             if #args == 1 then
-                port.setup.output_rate_is_mbps = true
-                port.setup.output_rate = args[1] * 10
+                octeon.trafficgen.set_config(port, {output_rate_is_mbps = true, output_rate = args[1] * 10})
             else
-                if port.setup.output_rate_is_mbps then
-                    printf("Port %s: %d Mbps\n", port.name, port.setup.output_rate)
+                local config = octeon.trafficgen.get_config(port)
+                if config.output_rate_is_mbps then
+                    printf("Port %s: %d Mbps\n", port, config.output_rate)
                 else
-                    printf("Port %s: %d packets/s\n", port.name, port.setup.output_rate)
+                    printf("Port %s: %d packets/s\n", port, config.output_rate)
                 end
             end
         end
@@ -389,13 +320,13 @@ function TrafficGen.new()
     function self:cmdp_tx_rate(port_range, args)
         for _,port in pairs(port_range) do
             if #args == 1 then
-                port.setup.output_rate_is_mbps = false
-                port.setup.output_rate = args[1]
+                octeon.trafficgen.set_config(port, {output_rate_is_mbps = false, output_rate = args[1]})
             else
-                if port.setup.output_rate_is_mbps then
-                    printf("Port %s: %d Mbps\n", port.name, port.setup.output_rate)
+                local config = octeon.trafficgen.get_config(port)
+                if config.output_rate_is_mbps then
+                    printf("Port %s: %d Mbps\n", port, config.output_rate)
                 else
-                    printf("Port %s: %d packets/s\n", port.name, port.setup.output_rate)
+                    printf("Port %s: %d packets/s\n", port, config.output_rate)
                 end
             end
         end
@@ -424,26 +355,21 @@ function TrafficGen.new()
         octeon.c.bdk_reset_octeon()
     end
 
-    function self:cmdp_find_max(port_range, args)
-        print "Not implemented"
-    end
-
     function self:cmdp_scan_sizes(port_range, args)
         -- Get our setup params
-        local port_set = get_port_set(port_range)
         local output_count = 100
         local size_start = 60
         local size_stop = 65524
         local size_incr = 1
         -- Get the latest statistics
-        bdktrafficgen.do_update(false)
+        local all_stats = self:display()
         -- Start with current counts
         local expected_packets = 0
         local expected_octets = 0
         local expected_rx_errors = 0
         local expected_validation_errors = 0
         for _,port in ipairs(port_range) do
-            if port.name:sub(1,4) == "SRIO" then
+            if port:sub(1,4) == "SRIO" then
                 -- SRIO rounds packets to multiples of 8 and can only handle
                 -- sizes up to 4096. It can handle smaller sizes, but the
                 -- packet building code requires at least 40 bytes
@@ -451,21 +377,22 @@ function TrafficGen.new()
                 size_stop = 4096
                 size_incr = 8
             end
-            expected_packets = expected_packets + port.stats.rx_packets_total
-            expected_octets = expected_octets + port.stats.rx_octets_total
-            expected_rx_errors = expected_rx_errors + port.stats.rx_errors
-            expected_validation_errors = expected_validation_errors + port.stats.rx_validation_errors
+            expected_packets = expected_packets + all_stats[port].rx_packets_total
+            expected_octets = expected_octets + all_stats[port].rx_octets_total
+            expected_rx_errors = expected_rx_errors + all_stats[port].rx_errors
+            expected_validation_errors = expected_validation_errors + all_stats[port].rx_validation_errors
         end
 
         -- Loop through the sizes
+        local new_config = {output_count = output_count}
         for size=size_start,size_stop,size_incr do
             printf("Size %d\n", size)
+            new_config.output_packet_size = size;
             -- Setup TX and count how many packets we expect
             for _,port in ipairs(port_range) do
-                port.setup.output_packet_size = size
-                port.setup.output_count = output_count
+                octeon.trafficgen.set_config(port, new_config)
                 expected_packets = expected_packets + output_count
-                if (port.name:sub(1,5) == "SGMII") or (port.name:sub(1,4) == "XAUI") or (port.name:sub(1,3) == "ILK") then
+                if (port:sub(1,5) == "SGMII") or (port:sub(1,4) == "XAUI") or (port:sub(1,3) == "ILK") then
                     -- Account for the extra 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * (size+4)
                 else
@@ -475,31 +402,33 @@ function TrafficGen.new()
             -- Limit to five seconds per size
             local timeout = os.time() + 5
             -- Do the TX
-            bdktrafficgen.do_transmit(port_set)
-            while bdktrafficgen.is_transmitting(port_set) and (os.time() < timeout) do
+            octeon.trafficgen.start(port_range)
+            while octeon.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
                 -- Waiting for TX to be done
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
                 self:display()
+                collectgarbage()
             end
             local rx_packets
             local rx_octets
             local rx_errors
             local validation_errors
             repeat
+                collectgarbage()
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
-                self:display()
+                all_stats = self:display()
                 -- Count the amount of data received
                 rx_packets = 0
                 rx_octets = 0
                 rx_errors = 0
                 validation_errors = 0
                 for _,port in ipairs(port_range) do
-                    rx_packets = rx_packets + port.stats.rx_packets_total
-                    rx_octets = rx_octets + port.stats.rx_octets_total
-                    rx_errors = rx_errors + port.stats.rx_errors
-                    validation_errors = validation_errors + port.stats.rx_validation_errors
+                    rx_packets = rx_packets + all_stats[port].rx_packets_total
+                    rx_octets = rx_octets + all_stats[port].rx_octets_total
+                    rx_errors = rx_errors + all_stats[port].rx_errors
+                    validation_errors = validation_errors + all_stats[port].rx_validation_errors
                 end
             until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
             -- Make sure we got the right amount of data
@@ -525,10 +454,6 @@ function TrafficGen.new()
         end
     end
 
-    function self:cmd_echo(port_range, args)
-        pprint(table.unpack(args))
-    end
-
     -- Issue a traffic gen comamnd line
     function self:command(command_line)
         local command, port_range, args = parse_command(command_line)
@@ -548,36 +473,42 @@ function TrafficGen.new()
         local display_cycle = os.time()
         if last_display == display_cycle then
             -- Make sure the stats are updated
-            bdktrafficgen.do_update(false)
-            return 0
+            return octeon.trafficgen.update(false)
         end
         last_display = display_cycle
-        bdktrafficgen.do_update(true)
+        local all_stats = octeon.trafficgen.update(true)
 
         if #visible_ports == 0 then
-            return 0
+            return all_stats
         end
 
         local num_rows = 0
         printf(CURSOR_OFF .. GOTO_TOP)
 
-        printf(ZEROHI .. "   %20s", "Port")
+        printf(ZEROHI .. "%20s", "Port")
         for _,port in ipairs(visible_ports) do
-            printf("|%10s", port.name)
+            printf("|%10s", port)
         end
         printf("|%10s%s\n%s", "Totals", ERASE_EOL, NORMAL);
-        for _,row in ipairs(known_rows) do
-            if row.visible then
-                row:display(visible_ports)
-                num_rows = num_rows + 1
-            end
+        local stat_names = table.sorted_keys(all_stats[known_ports[1]])
+        for _,stat_name in ipairs(stat_names) do
+            display_stat(stat_name, all_stats)
+            num_rows = num_rows + 1
         end
+        local COL_SEP = ZEROHI .. "|" .. NORMAL
+        -- Create a row reporting Lua's memory usage
+        printf("%-20s%s%10d%s\n", "Lua memory(KB)", COL_SEP, collectgarbage("count"), ERASE_EOL)
+        num_rows = num_rows + 1
+        -- Create a row reporting C's memory usage
+        printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.get_sbrk() / 1024, ERASE_EOL)
+        num_rows = num_rows + 1
+
         print(ZEROHI .. "-------" .. NORMAL .. ERASE_EOL)
         printf(ERASE_EOL .. "\n");
 
         -- Confine scrolling region
         printf("\27[%d;r" .. GOTO_BOTTOM .. CURSOR_ON, num_rows + 3)
-        return num_rows
+        return all_stats
     end
 
     -- Run traffic gen interactively

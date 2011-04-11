@@ -26,12 +26,9 @@ m:item("show", "Show all port configurations", function()
     print()
     print("Interface Configuration")
     print("--------- -------------")
-    for index=0,999 do
-        local port = bdktrafficgen.port_get(index)
-        if not port then
-            break
-        end
-        local name = port.name
+    local ports = octeon.trafficgen.get_port_names()
+    for index=1,#ports do
+        local name = ports[index]
         local ip = octeon.c.bdk_netstack_if_get_ip(name)
         local netmask = octeon.c.bdk_netstack_if_get_netmask(name)
         local gateway = octeon.c.bdk_netstack_if_get_gw(name)

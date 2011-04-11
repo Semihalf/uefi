@@ -505,13 +505,14 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     lua_setglobal(L, "octeon");
 
-    extern int luaopen_bdktrafficgen(lua_State *L);
-    luaopen_bdktrafficgen(L);
     extern int luaopen_bdk_board_table_entry(lua_State *L);
     luaopen_bdk_board_table_entry(L);
 
     extern int luaopen_readline(lua_State *L);
     luaopen_readline(L);
+
+    extern int luaopen_trafficgen(lua_State *L);
+    luaopen_trafficgen(L);
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);

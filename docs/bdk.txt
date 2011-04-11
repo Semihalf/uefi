@@ -1025,137 +1025,86 @@ creating interactive command lines and menus.
 * timeout_us = Microseconds to wait for input, of zero for no timeout.
 
 
-bdktrafficgen
-^^^^^^^^^^^^^
+octeon.trafficgen
+^^^^^^^^^^^^^^^^^
 
-The module *bdktrafficgen* allows Lua to generate and receive ethernet
+The module *octeon.trafficgen* allows Lua to generate and receive ethernet
 traffic on all chip interfaces. A user friendly interactive interface is
 available through *trafficgen.lua*.
 
-bdktrafficgen.port_get(index)::
-* index = 0 - .., sequential through ports.
-* Return port_info_t or nil
+octeon.trafficgen.get_port_names()::
+* Return all port names as an array of strings
 
-bdktrafficgen.port_add(set, pinfo)::
-* set = port_set_t to add port too.
-* pinfo = port_info_t returned from *bdktrafficgen.port_get()*.
-* No return value
+octeon.trafficgen.get_config(port_name)::
+* port_name = String port name to get the configuration for.
+* Returns a table containing the port configuration.
 
-bdktrafficgen.do_clear(range)::
-* range = port_set_t created with *bdktrafficgen.port_add()*.
-* Return zero on success, negative on failure.
+octeon.trafficgen.set_config(port_name, config_table)::
+* port_name = String port name to set the configuration for.
+* config_table = Table containing the configuration items to change.
+* No return value.
 
-bdktrafficgen.do_reset(range)::
-* range = port_set_t created with *bdktrafficgen.port_add()*.
-* Return zero on success, negative on failure.
+octeon.trafficgen.start(port_array)::
+* port_array = Array of port names to start transmitting on.
+* No return value.
 
-bdktrafficgen.do_update(bool do_clear)::
-* do_clear = boolean whether status should be cleared during update.
-* Return zero on success, negative on failure.
+octeon.trafficgen.stop(port_array)::
+* port_array = Array of port names to stop transmitting on.
+* No return value.
 
-bdktrafficgen.do_transmit(range)::
-* range = port_set_t created with *bdktrafficgen.port_add()*.
-* Return zero on success, negative on failure.
+octeon.trafficgen.is_transmitting(port_array)::
+* port_array = Array of port names to check if they are transmitting.
+* Returns a boolean true or false depending on if any ports are transmitting.
 
-bdktrafficgen.is_transmitting(range)::
-* range = port_set_t created with *bdktrafficgen.port_add()*.
-* Return true if any ports in the range are transmitting.
+octeon.trafficgen.clear(port_array)::
+* port_array = Array of port names to clear statistics for.
+* No return value.
 
-.bdktrafficgen.port_info_t fields
+octeon.trafficgen.reset(port_array)::
+* port_array = Array of port names to clear statistics and reset config for.
+* No return value.
+
+octeon.trafficgen.update(do_clear)::
+* do_clear = True if the current statistics counters should be cleared for deltas.
+* Table index by port name where each entry is a table of statistics.
+
+.octeon.trafficgen configuration fields
 ----
-	string name
-	port_setup_t setup
-	port_stats_t stats
-----
-
-.bdktrafficgen.port_stats_t fields
-----
-    number    tx_packets
-    number    tx_octets
-    number    tx_packets_total
-    number    tx_octets_total
-    number    tx_bits
-
-    number    rx_packets
-    number    rx_octets
-    number    rx_packets_total
-    number    rx_octets_total
-    number    rx_dropped_octets
-    number    rx_dropped_packets
-    number    rx_errors
-    number    rx_bits
-    number    rx_backpressure
-    number    rx_validation_errors
-----
-
-.bdktrafficgen.packet_type_t enumeration
-----
-    PACKET_TYPE_IPV4_UDP
-    PACKET_TYPE_IPV6_UDP
-    PACKET_TYPE_IPV4_TCP
-    PACKET_TYPE_IPV6_TCP
-    PACKET_TYPE_802_3_PAUSE
-    PACKET_TYPE_CBFC_PAUSE
-    PACKET_TYPE_CJPAT
+    number	dest_ip
+    number	dest_mac
+    number	dest_port
+    boolean	display_packet
+    boolean	do_checksum
+    number	ip_tos
+    number	output_count
+    boolean	output_enable
+    number	output_packet_size
+    number	output_rate
+    boolean	output_rate_is_mbps
+    number	src_ip
+    number	src_mac
+    number	src_port
+    boolean	validate
 ----
 
-.bdktrafficgen.payload_t enumeration
+.octeon.trafficgen statistics fields
 ----
-    DATA_TYPE_ABC=0
-    DATA_TYPE_ZERO
-    DATA_TYPE_ONE
-    DATA_TYPE_INC
-    DATA_TYPE_DEC
-    DATA_TYPE_RAND
+    number	rx_backpressure
+    number	rx_bits
+    number	rx_dropped_octets
+    number	rx_dropped_packets
+    number	rx_errors
+    number	rx_octets
+    number	rx_octets_total
+    number	rx_packets
+    number	rx_packets_total
+    number	rx_validation_errors
+    number	tx_bits
+    number	tx_octets
+    number	tx_octets_total
+    number	tx_packets
+    number	tx_packets_total
 ----
-
-.bdktrafficgen.port_setup_t fields
-----
-    int                     output_rate
-    bool                    output_rate_is_mbps
-    bool                    output_enable
-    int                     output_packet_size
-    number                  output_count
-    trafficgen_packet_type_t output_packet_type
-    trafficgen_payload_t    output_packet_payload
-    number                  src_mac
-    int32_t                 src_mac_inc
-    number                  src_mac_min
-    number                  src_mac_max
-    number                  dest_mac
-    int32_t                 dest_mac_inc
-    number                  dest_mac_min
-    number                  dest_mac_max
-    number                  vlan_size
-    uint8_t                 vlan[8]
-    uint32_t                src_ip
-    int32_t                 src_ip_inc
-    uint32_t                src_ip_min
-    uint32_t                src_ip_max
-    uint32_t                dest_ip
-    int32_t                 dest_ip_inc
-    uint32_t                dest_ip_min
-    uint32_t                dest_ip_max
-    uint32_t                ip_tos
-    uint16_t                src_port
-    int16_t                 src_port_inc
-    uint16_t                src_port_min
-    uint16_t                src_port_max
-    uint16_t                dest_port
-    int16_t                 dest_port_inc
-    uint16_t                dest_port_min
-    uint16_t                dest_port_max
-    bool                    do_checksum
-    bool                    display_packet
-    bool                    validate
-    bdk_srio_tx_message_header_t srio
-----
-
-bdktrafficgen.port_set_t::
-
-This is a opaque object that represents a set of port_info_t objects.
-Use *bdktrafficgen.port_add()* and *bdktrafficgen.port_get()* to build
-this.
 
 
 Source based modules available on both Host and Target
