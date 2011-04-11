@@ -15,7 +15,9 @@ end)
 
 m:item("hex",   "Hexdump file", function()
     local name = menu.prompt_filename("Enter filename")
-    fileio.hexdump(name)
+    local offset = menu.prompt_number("Starting offset")
+    local length = menu.prompt_number("Bytes to display")
+    fileio.hexdump(name, offset, length)
 end)
 
 m:item("copy",  "Copy file", function()

@@ -71,7 +71,7 @@ end
 --
 -- Hex dump a file.
 --
-function fileio.hexdump(source, seek_to)
+function fileio.hexdump(source, seek_to, length)
     local close_source = false
     if type(source) == "string" then
         source = fileio.open(source, "r", seek_to)
@@ -81,7 +81,12 @@ function fileio.hexdump(source, seek_to)
     local loc = source:seek("cur")
     local last_data
     local repeat_count = 0
-    local data = source:read(16)
+    local data
+    if (not length) or (length >= 16) then
+        data = source:read(16)
+    else
+        data = source:read(length)
+    end
     while data do
         if data == last_data then
             repeat_count = repeat_count + 1
@@ -117,7 +122,18 @@ function fileio.hexdump(source, seek_to)
             end
             printf("\n")
         end
-        data = source:read(16)
+        if length then
+            length = length - #data
+            if length >= 16 then
+                data = source:read(16)
+            elseif length == 0 then
+                data = nil
+            else
+                data = source:read(length)
+            end
+        else
+            data = source:read(16)
+        end
         loc = loc + 16
     end
     if close_source then

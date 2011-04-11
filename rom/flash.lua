@@ -10,9 +10,8 @@ local m = menu.new("Flash Menu")
 
 m:item("view", "View flash", function()
     local offset = menu.prompt_number("Starting offset")
-    if offset then
-        fileio.hexdump("/dev/nor/0", offset)
-    end
+    local length = menu.prompt_number("Bytes to display")
+    fileio.hexdump("/dev/nor/0", offset, length)
 end)
 
 m:item("write", "Write flash", function()
