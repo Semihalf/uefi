@@ -201,6 +201,33 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
     {
         /* Don't strip off FCS. We might want to see it when debugging */
         BDK_CSR_MODIFY(c, BDK_IPD_SUB_PORT_FCS, c.u64 &= ~(1ull<<(handle->pknd)));
+        if (handle->ipd_port < 36)
+        {
+            /* Backpressure when this port has 256 buffers in use */
+            BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT(handle->ipd_port),
+                c.s.bp_enb = 1;
+                c.s.page_cnt = 1);
+            /* Enable RED dropping */
+            BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE, c.s.prt_enb |= 1ull<<handle->ipd_port);
+        }
+        else if (handle->ipd_port < 40)
+        {
+            /* Backpressure when this port has 256 buffers in use */
+            BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT2(handle->ipd_port),
+                c.s.bp_enb = 1;
+                c.s.page_cnt = 1);
+            /* Enable RED dropping */
+            BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE2, c.s.prt_enb |= 1ull<<(handle->ipd_port-36));
+        }
+        else if (handle->ipd_port < 44)
+        {
+            /* Backpressure when this port has 256 buffers in use */
+            BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT3(handle->ipd_port),
+                c.s.bp_enb = 1;
+                c.s.page_cnt = 1);
+            /* Enable RED dropping */
+            BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE2, c.s.prt_enb |= 1ull<<(handle->ipd_port-36));
+        }
     }
 
     /* Have the next port use a different input queue */
