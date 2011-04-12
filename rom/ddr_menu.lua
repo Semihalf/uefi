@@ -5,6 +5,7 @@ require("strict")
 require("utils")
 require("menu")
 require("ddr")
+require("fileio")
 
 -- List of board strings that can be passed to ddr.set_config()
 local BOARD_CHOICES = {
@@ -22,9 +23,23 @@ end
 
 -- Add more options for testing DDR
 m:item("show", "Dump the current DRAM config", ddr.show_config)
+
 m:item("save", "Save the current DRAM config", function()
     local filename = menu.prompt_string("Filename")
     ddr.show_config(nil, filename)
+end)
+
+m:item("load", "Load a DRAM config", function()
+    local filename = menu.prompt_string("Filename")
+    local handle = fileio.open(filename, "r")
+    local data = handle:read("*a")
+    handle:close()
+    -- Some transfers (xmodem) get extra junk at the end which Lua doesn't like
+    data = data:gsub("\26", "")
+    declareGlobal("config", ddr.get_config())
+    local f = assert(loadstring(data))
+    f()
+    ddr.set_config(config)
 end)
 
 m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)
