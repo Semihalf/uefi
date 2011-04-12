@@ -4,60 +4,79 @@
 require("strict")
 require("utils")
 require("menu")
+require("fileio")
 local pcie = require("pcie")
 
 local pcie_root = {}
+
+local function do_initialize(pcie_port)
+    pcie_root[pcie_port] = pcie.initialize(pcie_port)
+end
+
+local function do_scan(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    pcie_root[pcie_port]:scan()
+end
+
+local function do_enumerate(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    pcie_root[pcie_port]:enumerate()
+end
+
+local function do_display(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    pcie_root[pcie_port]:display()
+end
+
+local function do_read(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    local address = menu.prompt_number("PCIe bus address")
+    local length = menu.prompt_number("Number of bytes to read")
+    local f = fileio.open("/dev/pcie/" .. pcie_port, "r", address)
+    local data = f:read(length)
+    f:close()
+    printf("Data: ")
+    for i=1, #data do
+        printf("%02x", data:byte(i))
+    end
+    printf("\n")
+end
+
+local function do_write(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    local address = menu.prompt_number("PCIe bus address")
+    local hex_data = menu.prompt_string("Data to write in hex")
+    local data = ""
+    for i=1,#hex_data,2 do
+        local c = tonumber(hex_data:sub(i,i+1), 16)
+        data = data .. string.char(c)
+    end
+
+    local f = fileio.open("/dev/pcie/" .. pcie_port, "w", address)
+    f:write(data)
+    f:close()
+end
+
+local function do_shutdown(pcie_port)
+    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    pcie_root[pcie_port]:shutdown()
+    pcie_root[pcie_port] = nil
+end
+
+
+
 local m = menu.new("PCIe Menu")
 
-m:item("p0i", "PCIe0: Initialize", function()
-    pcie_root[0] = pcie.initialize(0)
-end)
-
-m:item("p0s", "PCIe0: Scan for devices", function()
-    assert(pcie_root[0], "PCIe0 not initialized")
-    pcie_root[0]:scan()
-end)
-
-m:item("p0e", "PCIe0: Enumerate devices", function()
-    assert(pcie_root[0], "PCIe0 not initialized")
-    pcie_root[0]:enumerate()
-end)
-
-m:item("p0d", "PCIe0: Display devices", function()
-    assert(pcie_root[0], "PCIe0 not initialized")
-    pcie_root[0]:display()
-end)
-
-m:item("p0f", "PCIe0: Shutdown", function()
-    assert(pcie_root[0], "PCIe0 not initialized")
-    pcie_root[0]:shutdown()
-    pcie_root[0] = nil
-end)
-
-m:item("p1i", "PCIe1: Initialize", function()
-    pcie_root[1] = pcie.initialize(1)
-end)
-
-m:item("p1s", "PCIe1: Scan for devices", function()
-    assert(pcie_root[1], "PCIe1 not initialized")
-    pcie_root[1]:scan()
-end)
-
-m:item("p1e", "PCIe1: Enumerate devices", function()
-    assert(pcie_root[1], "PCIe1 not initialized")
-    pcie_root[1]:enumerate()
-end)
-
-m:item("p1d", "PCIe1: Display devices", function()
-    assert(pcie_root[1], "PCIe1 not initialized")
-    pcie_root[1]:display()
-end)
-
-m:item("p1f", "PCIe1: Shutdown", function()
-    assert(pcie_root[1], "PCIe1 not initialized")
-    pcie_root[1]:shutdown()
-    pcie_root[1] = nil
-end)
+for pcie_port=0,1 do
+    local prefix = "PCIe" .. pcie_port
+    m:item(prefix .. "i", prefix .. ": Initialize", do_initialize, pcie_port)
+    m:item(prefix .. "s", prefix .. ": Scan for devices", do_scan, pcie_port)
+    m:item(prefix .. "e", prefix .. ": Enumerate devices", do_enumerate, pcie_port)
+    m:item(prefix .. "d", prefix .. ": Display devices", do_display, pcie_port)
+    m:item(prefix .. "r", prefix .. ": Perform a memory read", do_read, pcie_port)
+    m:item(prefix .. "w", prefix .. ": Perform a memory write", do_write, pcie_port)
+    m:item(prefix .. "f", prefix .. ": Shutdown", do_shutdown, pcie_port)
+end
 
 m:item("quit", "Main menu")
 
