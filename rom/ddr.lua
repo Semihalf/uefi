@@ -6,6 +6,7 @@
 
 require("strict")
 require("utils")
+require("fileio")
 
 -- This is the table we use to contain the module
 ddr = {}
@@ -20,23 +21,25 @@ local bdk_dram_lookup_board = bdk_board_table_entry.bdk_dram_lookup_board
 -- SWIG structures are unusual as you need to iterate the metatable
 -- to figure out what the members are.
 --
-local function dump_swig_object(object, prefix)
+local function dump_swig_object(object, prefix, file_handle)
     local mt = getmetatable(object)
     if mt and mt[".get"] then
         prefix = prefix .. "."
         for _,k in ipairs(table.sorted_keys(mt[".get"])) do
-            dump_swig_object(object[k], prefix .. k)
+            dump_swig_object(object[k], prefix .. k, file_handle)
         end
     else
         if type(object) == "table" then
             for i=1,#object do
                 local p = "%s[%d]" % {prefix, i}
-                dump_swig_object(object[i], p)
+                dump_swig_object(object[i], p, file_handle)
             end
         elseif type(object) == "number" then
-            return printf("%s = 0x%x\n", prefix, object)
+            return file_handle:write("%s = 0x%x\n" % {prefix, object})
+        elseif type(object) == "string" then
+            return file_handle:write("%s = \"%s\"\n" % {prefix, object})
         else
-            return printf("%s = %s\n", prefix, tostring(object))
+            return file_handle:write("%s = %s\n" % {prefix, tostring(object)})
         end
     end
 end
@@ -46,13 +49,20 @@ end
 -- board_entry = DRAM config structure or board name
 -- No return value, raises error on failure
 --
-function ddr.show_config(board_entry)
+function ddr.show_config(board_entry, optional_filename)
     if not board_entry then
         board_entry = ddr.get_config()
     elseif type(board_entry) == "string" then
         board_entry = ddr.get_config(board_entry)
     end
-    dump_swig_object(board_entry, "  config")
+    local handle = io.stdout
+    if optional_filename then
+        handle = fileio.open(optional_filename, "w")
+    end
+    dump_swig_object(board_entry, "  config", handle)
+    if optional_filename then
+        handle:close()
+    end
 end
 
 --

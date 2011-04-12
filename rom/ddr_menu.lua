@@ -22,6 +22,11 @@ end
 
 -- Add more options for testing DDR
 m:item("show", "Dump the current DRAM config", ddr.show_config)
+m:item("save", "Save the current DRAM config", function()
+    local filename = menu.prompt_string("Filename")
+    ddr.show_config(nil, filename)
+end)
+
 m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)
 
 m:item("test", "Test DDR over a specified range", function()
