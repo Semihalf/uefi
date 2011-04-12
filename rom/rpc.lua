@@ -351,6 +351,18 @@ local function rpc_object_new(self, remoteid)
     return object
 end
 
+local function rpc_object_pairs(self)
+    local g = rpc_object_new(self, 0)
+    local p = rpc_object_remote(g, "[", "pairs")
+    return rpc_object_remote(p, "c", self)
+end
+
+local function rpc_object_ipairs(self)
+    local g = rpc_object_new(self, 0)
+    local p = rpc_object_remote(g, "[", "ipairs")
+    return rpc_object_remote(p, "c", self)
+end
+
 --
 -- Create a new RPC connection to a remote rpc.serve
 --
@@ -373,6 +385,8 @@ function rpc.connect(instream, outstream)
     meta.__newindex = rpc_object_setindex
     meta.__len  = rpc_object_len
     meta.__gc = rpc_object_gc
+    meta.__pairs = rpc_object_pairs
+    meta.__ipairs = rpc_object_ipairs
     -- File handles for communications
     meta.inf, meta.outf = connectStreams(instream, outstream)
     return object
