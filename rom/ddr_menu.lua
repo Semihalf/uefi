@@ -15,6 +15,9 @@ local BOARD_CHOICES = {
 
 local m = menu.new("DDR Menu")
 
+m:item("verbose", "Enable verbose output", octeon.c.bdk_dram_verbose, 1)
+m:item("quiet", "Disable verbose output", octeon.c.bdk_dram_verbose, 0)
+
 -- Build a list of choice for each board
 for _,board in ipairs(BOARD_CHOICES) do
     local text = "Initialize DDR for the \"%s\"" % board

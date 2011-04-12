@@ -18,4 +18,11 @@
  */
 extern int bdk_dram_config(const char *board_name);
 
+/**
+ * Enable or disable verbose output during dram config
+ *
+ * @param is_verbose Non zero if verbose mose should be on
+ */
+extern void bdk_dram_verbose(int is_verbose);
+
 /** @} */
