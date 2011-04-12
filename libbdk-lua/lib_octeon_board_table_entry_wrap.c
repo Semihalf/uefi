@@ -1520,6 +1520,42 @@ static swig_module_info swig_module = {swig_types, 16, 0, 0, 0, 0};
 /* Goofy macro to redefine LUA_GLOBALSINDEX as a sequence of comamnds that gets the global table  */
 #define LUA_GLOBALSINDEX LUA_REGISTRYINDEX); lua_pop(L, 1); lua_pushnumber(L, LUA_RIDX_GLOBALS); lua_gettable(L, LUA_REGISTRYINDEX
 
+static int spd_addrs_index(lua_State* L)
+{
+    int index = luaL_checkint(L, 2);
+    luaL_getmetafield(L, 1, "base");
+    luaL_getmetafield(L, 1, "size");
+    uint16_t *base = lua_touserdata(L, -2);
+    int size = luaL_checkint(L, -1);
+    lua_pop(L, 2);
+    if ((index < 1) || (index > size))
+        return luaL_error(L, "Invalid index to spd_addrs");
+    lua_pushnumber(L, base[index-1]);
+    return 1;
+}
+
+static int spd_addrs_newindex(lua_State* L)
+{
+    int index = luaL_checkint(L, 2);
+    int value = luaL_checkint(L, 3);
+    luaL_getmetafield(L, 1, "base");
+    luaL_getmetafield(L, 1, "size");
+    uint16_t *base = lua_touserdata(L, -2);
+    int size = luaL_checkint(L, -1);
+    lua_pop(L, 2);
+    if ((index < 1) || (index > size))
+        return luaL_error(L, "Invalid index to spd_addrs");
+    base[index-1] = value;
+    return 0;
+}
+
+static int spd_addrs_len(lua_State* L)
+{
+    luaL_getmetafield(L, 1, "size");
+    return 1;
+}
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1570,7 +1606,22 @@ static int _wrap_dimm_config_t_spd_addrs_get(lua_State* L) {
   }
   
   result = (uint16_t *)(uint16_t *) ((arg1)->spd_addrs);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_unsigned_short,0); SWIG_arg++; 
+  {
+    lua_newtable(L);
+    lua_newtable(L);
+    lua_pushlightuserdata(L, result);
+    lua_setfield(L, -2, "base");
+    lua_pushnumber(L, 2);
+    lua_setfield(L, -2, "size");
+    lua_pushcfunction(L, spd_addrs_index);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, spd_addrs_newindex);
+    lua_setfield(L, -2, "__newindex");
+    lua_pushcfunction(L, spd_addrs_len);
+    lua_setfield(L, -2, "__len");
+    lua_setmetatable(L, -2);
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -1628,7 +1679,16 @@ static int _wrap_dimm_config_t_spd_ptrs_get(lua_State* L) {
   }
   
   result = (uint8_t **)(uint8_t **) ((arg1)->spd_ptrs);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_p_unsigned_char,0); SWIG_arg++; 
+  {
+    int i;
+    lua_createtable(L, 2, 0);
+    for (i = 0; i < 2; i++) {
+      lua_pushnumber(L, i+1);
+      lua_pushnumber(L, (long)result[i]);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3117,7 +3177,7 @@ static int _wrap_ddr_configuration_t_dimm_config_table_get(lua_State* L) {
     lua_createtable(L, 5, 0);
     for (i = 0; i < 5; i++) {
       lua_pushnumber(L, i+1);
-      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_config_t, 0);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_dimm_config_t, 0);
       lua_settable(L, -3);
     }
     SWIG_arg++;
@@ -3184,7 +3244,7 @@ static int _wrap_ddr_configuration_t_odt_1rank_config_get(lua_State* L) {
     lua_createtable(L, 4, 0);
     for (i = 0; i < 4; i++) {
       lua_pushnumber(L, i+1);
-      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_odt_config_t, 0);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_dimm_odt_config_t, 0);
       lua_settable(L, -3);
     }
     SWIG_arg++;
@@ -3251,7 +3311,7 @@ static int _wrap_ddr_configuration_t_odt_2rank_config_get(lua_State* L) {
     lua_createtable(L, 4, 0);
     for (i = 0; i < 4; i++) {
       lua_pushnumber(L, i+1);
-      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_dimm_odt_config_t, 0);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_dimm_odt_config_t, 0);
       lua_settable(L, -3);
     }
     SWIG_arg++;
@@ -3670,7 +3730,7 @@ static int _wrap_ddr_config_table_t_ddr_config_get(lua_State* L) {
     lua_createtable(L, 4, 0);
     for (i = 0; i < 4; i++) {
       lua_pushnumber(L, i+1);
-      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_ddr_configuration_t, 0);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_ddr_configuration_t, 0);
       lua_settable(L, -3);
     }
     SWIG_arg++;
@@ -3822,7 +3882,7 @@ static int _wrap_board_table_entry_t_chip_ddr_config_get(lua_State* L) {
     lua_createtable(L, 2, 0);
     for (i = 0; i < 2; i++) {
       lua_pushnumber(L, i+1);
-      SWIG_NewPointerObj(L, result + i, SWIGTYPE_p_ddr_config_table_t, 0);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_ddr_config_table_t, 0);
       lua_settable(L, -3);
     }
     SWIG_arg++;
