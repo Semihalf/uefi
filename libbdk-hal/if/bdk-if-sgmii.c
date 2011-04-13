@@ -19,6 +19,10 @@ static int if_num_ports(int interface)
             return 0;
         else
         {
+            /* No ports if QLM speed says disabled */
+            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(interface));
+            if (qlm_cfg.s.qlm_spd == 15)
+                return 0;
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
             if (inf_mode.s.mode == 2)
                 return 4;

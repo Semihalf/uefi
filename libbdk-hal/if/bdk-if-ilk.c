@@ -8,7 +8,7 @@ static int if_num_interfaces(void)
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(1));
-        if (qlm_cfg.s.qlm_cfg != 1)
+        if ((qlm_cfg.s.qlm_spd == 15) || (qlm_cfg.s.qlm_cfg != 1))
             return 0;
 
         /* Configure the SERDES */

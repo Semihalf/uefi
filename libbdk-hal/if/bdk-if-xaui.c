@@ -17,6 +17,10 @@ static int if_num_ports(int interface)
         /* GMX1 is RXAUI only if GMX0 is RXAUI */
         if (interface == 1)
         {
+            /* No ports if QLM speed says disabled */
+            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(0));
+            if (qlm_cfg.s.qlm_spd == 15)
+                return 0;
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(0));
             if (inf_mode.s.mode == 7)
                 return 1;
@@ -25,6 +29,10 @@ static int if_num_ports(int interface)
         }
         else
         {
+            /* No ports if QLM speed says disabled */
+            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(interface));
+            if (qlm_cfg.s.qlm_spd == 15)
+                return 0;
             /* All other GMXs are the same mode as the QLM with same number */
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
             if ((inf_mode.s.mode == 3) || (inf_mode.s.mode == 7))
