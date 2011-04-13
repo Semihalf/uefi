@@ -27,8 +27,8 @@ end
 addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
 
 -- Add an item for each MGMT port
-for interface = 0,octeon.c.bdk_if_num_interfaces(5)-1 do
-    addMenu("RGMII/MII port " .. interface .. " PHY address", octeon.CONFIG_PHY_MGMT_PORT0 + interface)
+for port = 0,octeon.c.bdk_if_num_ports(5, 0)-1 do
+    addMenu("RGMII/MII port " .. port .. " PHY address", octeon.CONFIG_PHY_MGMT_PORT0 + port)
 end
 
 -- Add an item for each SGMII port
