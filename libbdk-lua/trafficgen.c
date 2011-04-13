@@ -572,6 +572,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     {
         /* Packet has not been freed on TX, so free it now */
         /* FIXME: What if the previous TX hasn't processed yet? */
+        bdk_wait_usec(5000);
         bdk_if_free(&packet);
     }
     port_tx->output_enable = 0;
