@@ -498,7 +498,14 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            bar0_write32(address & 0xffff, value);
+            address &= 0xffff;
+            if (size == 4)
+                bar0_write32(address, value);
+            else
+            {
+                bar0_write32(address, value);
+                bar0_write32(address+4, value>>32);
+            }
             break;
 
         case BDK_CSR_TYPE_RSL:
