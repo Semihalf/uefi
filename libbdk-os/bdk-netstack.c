@@ -15,42 +15,37 @@ static int init_done = 0;
  */
 static void netstack_netif_poll_link(void *unused)
 {
-    static struct netif *netif = NULL;
+    static bdk_if_handle_t handle = NULL;
 
-    if (netif == NULL)
-        netif = netif_list;
+    sys_timeout(50, netstack_netif_poll_link, NULL);
 
-    if (netif->state)
+    if (bdk_if_is_configured())
+        handle = bdk_if_next_port(handle);
+    if (!handle)
+        return;
+
+    /* Get the link state */
+    bdk_if_link_t link = bdk_if_link_autoconf(handle);
+
+    /* Find the netif device for this handle */
+    struct netif *netif = netif_list;
+    while (netif && (netif->state != handle))
+        netif = netif->next;
+    if (netif)
     {
-        bdk_if_handle_t handle = netif->state;
-        bdk_if_link_t link = bdk_if_link_autoconf(handle);
         if (link.s.up)
         {
             /* Bring the link up */
             if (!netif_is_link_up(netif))
-            {
                 netif_set_link_up(netif);
-                printf("%s: Link up, %d Mbps, %s duplex",
-                    bdk_if_name(handle), link.s.speed,
-                    (link.s.full_duplex) ? "Full" : "Half");
-                if (link.s.lanes)
-                    printf(", %d lanes\n", link.s.lanes);
-                else
-                    printf("\n");
-            }
         }
         else
         {
             /* Bring the link up */
             if (netif_is_link_up(netif))
-            {
                 netif_set_link_down(netif);
-                printf("%s: Link down\n", bdk_if_name(handle));
-            }
         }
     }
-    netif = netif->next;
-    sys_timeout(50, netstack_netif_poll_link, NULL);
 }
 
 
@@ -258,100 +253,50 @@ static err_t netstack_netif_init(struct netif *netif)
     return ERR_OK;
 }
 
-
-/**
- * Internal function to add a bdk_if interface to the TCP/IP stack
- *
- * @param handle bdk_if interface to add
- * @param flags  Optional flags
- *
- * @return Zero on success, egative on failure
- */
-static int netstack_if_add(bdk_if_handle_t handle, long flags)
-{
-    struct netif *netif = calloc(sizeof(struct netif), 1);
-    if (!netif)
-        return -1;
-
-    ip_addr_t ipaddr = {0x0a000002};
-    ip_addr_t netmask = {0xffffff00};
-    ip_addr_t gw = {0x0a000001};
-
-    if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, ethernet_input))
-    {
-        bdk_error("netifapi_netif_add failed\n");
-        return -1;
-    }
-    return 0;
-}
-
-
-/**
- * Function to add a bdk_if interface to the TCP/IP stack
- *
- * @param name   Name of the interface to add. Case doesn't matter.
- * @param flags  Optional flags
- *
- * @return Zero on success, egative on failure
- */
-int bdk_netstack_if_add(const char *name, long flags)
-{
-    for (bdk_if_handle_t handle=bdk_if_next_port(NULL); handle != NULL; handle=bdk_if_next_port(handle))
-    {
-        if (strcasecmp(name, bdk_if_name(handle)) == 0)
-            return netstack_if_add(handle, flags);
-    }
-    /* Not found */
-    return -1;
-}
-
-
-/**
- * Function to add all bdk_if interfaces to the TCP/IP stack.
- *
- * @param flags  Optional flags
- *
- * @return Zero on success, egative on failure
- */
-int bdk_netstack_if_add_all(long flags)
-{
-    for (bdk_if_handle_t handle=bdk_if_next_port(NULL); handle != NULL; handle=bdk_if_next_port(handle))
-    {
-        switch (bdk_if_get_type(handle))
-        {
-            case BDK_IF_SGMII:
-            case BDK_IF_XAUI:
-            case BDK_IF_MGMT:
-            case BDK_IF_ILK:
-                if (netstack_if_add(handle, flags))
-                    return -1;
-                break;
-            case BDK_IF_DPI:    /* Requires extra host setup */
-            case BDK_IF_LOOP:   /* Useless in this context */
-            case BDK_IF_SRIO:   /* We don't handle the headers correctly yet */
-            case __BDK_IF_LAST: /* Needed to supress warning */
-                /* Skip */
-                break;
-        }
-    }
-    return 0;
-}
-
-
-static struct netif *netstack_find_by_name(const char *name)
+static struct netif *netstack_find_by_name(const char *name, int allow_add)
 {
     struct netif *netif = netif_list;
-    while (netif && netif->state)
+
+    /* Search for an existing netif */
+    while (netif)
     {
         bdk_if_handle_t handle = netif->state;
-        if (strcasecmp(name, bdk_if_name(handle)) == 0)
-            break;
+        if (handle && (strcasecmp(name, bdk_if_name(handle)) == 0))
+            return netif;
         netif = netif->next;
     }
-    if (!netif || !netif->state)
+
+    if (!allow_add)
         return NULL;
-    else
+
+    /* Search for a bdk_if that matches the name but hasn't been connected to
+        the stack yet */
+    for (bdk_if_handle_t handle=bdk_if_next_port(NULL); handle != NULL; handle=bdk_if_next_port(handle))
+    {
+        if (strcasecmp(name, bdk_if_name(handle)))
+            continue;
+
+        netif = calloc(sizeof(struct netif), 1);
+        if (!netif)
+        {
+            bdk_error("netstack_find_by_name: Out of memory\n");
+            return NULL;
+        }
+
+        ip_addr_t ipaddr = {0x0a000002};
+        ip_addr_t netmask = {0xffffff00};
+        ip_addr_t gw = {0x0a000001};
+
+        if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, ethernet_input))
+        {
+            bdk_error("netstack_find_by_name: netifapi_netif_add failed\n");
+            free(netif);
+            return NULL;
+        }
         return netif;
+    }
+    bdk_error("netstack_find_by_name: Network interface not found\n");
+    return NULL;
 }
 
 
@@ -371,7 +316,7 @@ static struct netif *netstack_find_by_name(const char *name)
  */
 int bdk_netstack_if_configure(const char *name, const char *ip, const char *netmask, const char *gw)
 {
-    struct netif *netif = netstack_find_by_name(name);
+    struct netif *netif = netstack_find_by_name(name, 1);
     if (!netif)
         return -1;
 
@@ -413,7 +358,7 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
  */
 uint32_t bdk_netstack_if_get_ip(const char *name)
 {
-    struct netif *netif = netstack_find_by_name(name);
+    struct netif *netif = netstack_find_by_name(name, 0);
     if (netif && netif_is_up(netif))
         return netif->ip_addr.addr;
     else
@@ -430,7 +375,7 @@ uint32_t bdk_netstack_if_get_ip(const char *name)
  */
 uint32_t bdk_netstack_if_get_netmask(const char *name)
 {
-    struct netif *netif = netstack_find_by_name(name);
+    struct netif *netif = netstack_find_by_name(name, 0);
     if (netif)
         return netif->netmask.addr;
     else
@@ -447,7 +392,7 @@ uint32_t bdk_netstack_if_get_netmask(const char *name)
  */
 uint32_t bdk_netstack_if_get_gw(const char *name)
 {
-    struct netif *netif = netstack_find_by_name(name);
+    struct netif *netif = netstack_find_by_name(name, 0);
     if (netif)
         return netif->gw.addr;
     else

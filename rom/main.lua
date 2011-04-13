@@ -19,9 +19,6 @@ local function do_rpc()
     rpc.serve("/dev/uart/0")
 end
 
--- Connect the internals of the TCP/IP stack
-octeon.c.bdk_netstack_if_add_all(0)
-
 -- Start a TFTP server
 if octeon.c.bdk_tftp_server_initialize() ~= 0 then
     print("Failed to start TFTP server")
