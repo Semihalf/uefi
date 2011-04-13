@@ -28,6 +28,7 @@ if octeon.c.bdk_tftp_server_initialize() ~= 0 then
 end
 
 local m = menu.new("Main Menu")
+m:item("config","Configuration options",    dofile, "/rom/config_menu.lua")
 m:item("file",  "File options",             dofile, "/rom/file.lua")
 m:item("flash", "Flash options",            dofile, "/rom/flash.lua")
 m:item("ddr",   "DDR options",              dofile, "/rom/ddr_menu.lua")
