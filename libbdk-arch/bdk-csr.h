@@ -25,15 +25,15 @@ typedef enum {
 } bdk_csr_type_t;
 
 typedef struct {
-    uint16_t        name_index;
-    bdk_csr_type_t  type : 8;
-    uint8_t         width;
-    uint16_t        field_index;
-    uint8_t         offset_range;
-    uint8_t         block_range;
-    uint16_t        base_index;
-    uint16_t        offset_index;
-    uint16_t        block_index;
+    uint16_t        name_index;     /**< Index into __bdk_csr_db_string where the name is */
+    bdk_csr_type_t  type : 8;       /**< Enum type from above */
+    uint8_t         width;          /**< CSR width in bytes */
+    uint16_t        field_index;    /**< Index into __bdk_csr_db_fieldList where the fields start */
+    uint8_t         offset_range;   /**< Index into __bdk_csr_db_range where the offset range is */
+    uint8_t         block_range;    /**< Index into __bdk_csr_db_range where the block range is */
+    uint16_t        base_index;     /**< Index into __bdk_csr_db_number where the base address is */
+    uint16_t        offset_index;   /**< Index into __bdk_csr_db_number where the offset multiplier is */
+    uint16_t        block_index;    /**< Index into __bdk_csr_db_number where the block multiplier is */
 } __bdk_csr_db_type_t;
 
 typedef struct {
