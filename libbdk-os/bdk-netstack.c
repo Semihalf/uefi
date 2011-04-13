@@ -130,10 +130,6 @@ int bdk_netstack_initialize(long flags)
     if (init_done)
         return 0;
 
-    /* Make sure bdk_if is setup */
-    if (bdk_if_init())
-        return -1;
-
     /* Let lwip do its magic */
     tcpip_init(netstack_init_done, NULL);
 

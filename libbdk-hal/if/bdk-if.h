@@ -99,7 +99,7 @@ typedef struct
     int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* RX a packet. not needed if using IPD */
 } __bdk_if_ops_t;
 
-extern int bdk_if_init(void);
+extern int bdk_if_is_configured(void);
 extern int bdk_if_num_interfaces(bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);

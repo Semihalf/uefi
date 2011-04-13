@@ -364,12 +364,8 @@ fail:
  *
  * @return Zero on success, negative on failure
  */
-int bdk_if_init(void)
+static int __bdk_if_init(void)
 {
-    /* Return without doing anything if we've already been called */
-    if (__bdk_if_head)
-        return 0;
-
     int result = 0;
     int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 384;
 
@@ -451,6 +447,20 @@ int bdk_if_init(void)
 
 
 /**
+ * Return if the bdk_if system has been configured. This is useful
+ * for code that wants to use bdk_if if it is configured, but not
+ * force it to be configured. A good example is polling for link
+ * status.
+ *
+ * @return Non zero if bdk_if is configured.
+ */
+int bdk_if_is_configured(void)
+{
+    return __bdk_if_head != NULL;
+}
+
+
+/**
  * Get the number of interfaces for the given type
  *
  * @param iftype Interface type
@@ -492,7 +502,11 @@ bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)
     if (handle)
         return handle->next;
     else
+    {
+        if (!__bdk_if_head)
+            __bdk_if_init();
         return __bdk_if_head;
+    }
 }
 
 
@@ -570,6 +584,17 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
         handle->link_info = link_info;
         if (__bdk_if_ops[handle->iftype]->if_link_set)
             __bdk_if_ops[handle->iftype]->if_link_set(handle, handle->link_info);
+        if (handle->iftype != BDK_IF_LOOP)
+        {
+            printf("%s: Link %s", bdk_if_name(handle), (link_info.s.up) ? "up" : "down");
+            if (link_info.s.up)
+            {
+                printf(", %d Mbps, %s duplex", link_info.s.speed, (link_info.s.full_duplex) ? "Full" : "Half");
+                if (link_info.s.lanes)
+                    printf(", %d lanes", link_info.s.lanes);
+            }
+            printf("\n");
+        }
     }
     return handle->link_info;
 }

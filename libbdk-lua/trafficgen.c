@@ -134,9 +134,6 @@ static void tg_init_port(tg_port_t *tg_port)
  */
 static void tg_init(void)
 {
-    if (bdk_if_init())
-        bdk_error("bdk_if_init() failed\n");
-
     for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle!=NULL; handle = bdk_if_next_port(handle))
     {
         tg_port_t *tg_port = tg_get_port(handle);
