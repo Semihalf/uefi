@@ -432,7 +432,11 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            return bar0_read32(address & 0xffff);
+            address &= 0xffff;
+            if (size == 4)
+                return bar0_read32(address);
+            else
+                return (((uint64_t)bar0_read32(address+4))<<32) | (uint64_t)bar0_read32(address);
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
