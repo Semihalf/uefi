@@ -262,6 +262,10 @@ static int __bdk_if_setup_pko(bdk_if_handle_t handle)
     if (result < 0)
         return result;
     handle->pko_queue = result;
+
+    BDK_CSR_WRITE(BDK_PKO_MEM_COUNT0, handle->pko_port);
+    BDK_CSR_WRITE(BDK_PKO_MEM_COUNT1, handle->pko_port);
+
     return 0;
 }
 
@@ -614,7 +618,8 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
 static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size)
 {
     uint64_t mask = bdk_build_mask(bit_size);
-    uint64_t tmp = old_value & bdk_build_mask(bit_size);
+    uint64_t tmp = old_value & mask;
+    new_value &= mask;
 
     /* On overflow we need to add 1 in the upper bits */
     if (tmp > new_value)
