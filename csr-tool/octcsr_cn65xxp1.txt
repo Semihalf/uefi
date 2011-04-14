@@ -10060,8 +10060,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:45> NS       RAZ      NS          NS        Reserved				            |
- <44:0>  BIST     RO       0x0         0         BIST Results.                                      |
+ <63:47> NS       RAZ      NS          NS        Reserved				            |
+ <46:0>  BIST     RO       0x0         0         BIST Results.                                      |
                                                   HW sets a bit in BIST for for memory that fails   |
 						  BIST.						    |
 ----------------------------------------------------------------------------------------------------
@@ -23181,10 +23181,9 @@ Pos      Name    Type     Value     Value       Description
 						  which equal CIU_PCI_INTA[INT]			    |
  <31:16> GPIO     R/W1C	   0	       0	 16 GPIO interrupts                                 |
                                          	 When GPIO_MULTI_CAST[EN] == 1                      |
-						 Write 1 to clear either the per PP interrupt or    |
-					         common GPIO interrupt for all PP/IOs,depending     |
-						 on mode setting. This will apply to all 16 GPIOs.  |
-                                                 See GPIO_MULTI_CAST for all details                |
+						 Write 1 to clear either the per PP or common GPIO  |
+ 						 edge-triggered interrupts,depending on mode.       |
+                                                 See GPIO_MULTI_CAST for all details.                |
                                          	 When GPIO_MULTI_CAST[EN] == 0                      |
 						 Read Only, retain the same behavior as o63.        |
  <15:0>  WORKQ    RO	   0	       0	 16 work queue interrupts			    |
@@ -23257,10 +23256,9 @@ Pos      Name    Type     Value     Value       Description
  <33:32> MBOX     RO	   0	       0	 A read-only copy of CIU_PCI_INTA[INT]	            |
  <31:16> GPIO     R/W1C	   0	       0	 16 GPIO interrupts                                 |
                                          	 When GPIO_MULTI_CAST[EN] == 1                      |
-						 Write 1 to clear either the per PP interrupt or    |
-					         common GPIO interrupt for all PP/IOs,depending     |
-						 on mode setting. This will apply to all 16 GPIOs.  |
-                                                 See GPIO_MULTI_CAST for all details                |
+						 Write 1 to clear either the per PP or common GPIO  |
+ 						 edge-triggered interrupts,depending on mode.       |
+                                                 See GPIO_MULTI_CAST for all details.                |
                                          	 When GPIO_MULTI_CAST[EN] == 0                      |
 						 Read Only, retain the same behavior as o63.        |
  <15:0>  WORKQ    RO	   0	       0	 16 work queue interrupts			    |
@@ -24873,35 +24871,48 @@ Notes:
 
  GPIO<7:4> have the option of operating in GPIO Interrupt Multicast mode.  In
  this mode, the PP GPIO interrupts (CIU_INT<0-9>_SUM0/4[GPIO<7:4>] values are
- stored per cnMIPS core.  GPIO<x> (where x is in the range 4-7) will operate in
- multicast mode, when:
+ stored per cnMIPS core.
+ For GPIO<7:4> (x=4-7):
+    When GPIO_MULTI_CAST[EN] = 1:
+        When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt enabled):
+          * Reads to CIU_INT<0-19>_SUM0/<0-9>_SUM4[GPIO<x>] will return a unique interrupt state per
+            cnMIPS core.
+          * Reads to CIU_INT32/33_SUM0/4[GPIO<x>] will return the common GPIO<x>
+            interrupt state.
+          * Write of '1' to CIU_INT<0-19>_SUM0/<0-9>_SUM4[GPIO<x>] will clear the individual
+            interrupt associated with the cnMIPS core.
+          * Write of '1' to CIU_INT32/33_SUM0/4[GPIO<x>] will clear the common GPIO<x>
+            interrupt state.
+          * Write of '1' to GPIO_INT_CLR[TYPE<x>] will clear all
+            CIU_INT*_SUM0/4[GPIO<x>] state across all cnMIPS cores and common GPIO<x> interrupt states.
+        When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+          * either leveled interrupt or interrupt not enabled, write of '1' to CIU_INT*_SUM0/4[GPIO<x>]
+            will have no effects.
+     When GPIO_MULTI_CAST[EN] = 0:
+        * Write of '1' to CIU_INT_SUM0/4[GPIO<x>] will have no effects, as this field is RO,
+          backward compatible with o63.
+        When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt enabled):
+          * Reads to CIU_INT*_SUM0/4[GPIO<x>] will return the common GPIO<X> interrupt state.
+          * Write of '1' to GPIO_INT_CLR[TYPE<x>] will clear all
+            CIU_INT*_SUM0/4[GPIO<x>] state across all cnMIPS cores and common GPIO<x> interrupt states.
+        When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+          * either leveled interrupt or interrupt not enabled, write of '1' to CIU_INT*_SUM0/4[GPIO<x>]
+            will have no effects.
 
-    GPIO_BIT_CFGx[INT_EN]==1
-    GPIO_BIT_CFGx[INT_TYPE]==1
-    GPIO_MULTI_CAST[EN]==1
-
- For GPIO<x> in multicast mode (x=4-7):
-    * Reads to CIU_INT<0-9>_SUM0/4[GPIO<x>] will return a unique interrupt state per
-      cnMIPS core.
-    * Reads to CIU_INT32/33_SUM0/4[GPIO<x>] will return the common GPIO<x>
-      interrupt state.
-    * Write of '1' to CIU_INT<0-9>_SUM0/4[GPIO<x>] will clear the individual
-      interrupt associated with the cnMIPS core.
-    * Write of '1' to CIU_INT32/33_SUM0/4[GPIO<x>] will clear the common GPIO<x>
-      interrupt state.
-    * Write of '1' to GPIO_INT_CLR[TYPE<x>] will clear all
-      CIU_INT*_SUM0/4[GPIO<x>] state across all cnMIPS cores and common GPIO<x> interrupt states.
-
- For GPIO<y> not in multicast mode (y=0-15):
-    * Reads to CIU_INT*_SUM0/4[GPIO<y>] will return the common GPIO<y> interrupt
-      state.
-    * When GPIO_MULTI_CAST[EN] = 0:
-      Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] has no effect, as this field is RO.
-      When GPIO_MULTI_CAST[EN] = 1:
-      Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] will clear the common GPIO<y>
-      interrupt state.
-    * Write of '1' to GPIO_INT_CLR[TYPE<y>] will clear all
-      CIU_INT*_SUM0/4[GPIO<y>] state across all cnMIPS cores and common GPIO<y> interrupt states.
+ GPIO<15:8> and GPIO<3:0> will never be in multicast mode as those don't have per cnMIPS capabilities.
+ For GPIO<y> (y=0-3,8-15):
+    When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt enabled):
+       * Reads to CIU_INT*_SUM0/4[GPIO<y>] will return the common GPIO<y> interrupt state.
+       * Write of '1' to GPIO_INT_CLR[TYPE<y>] will clear all CIU_INT*_SUM0/4[GPIO<y>] common GPIO<y>
+         interrupt states.
+       When GPIO_MULTI_CAST[EN] = 1:
+         * Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] will clear the common GPIO<y> interrupt state.
+       When GPIO_MULTI_CAST[EN] = 0:
+         * Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] has no effect, as this field is RO,
+           backward compatible to o63.
+    When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+       * either leveled interrupt or interrupt not enabled, write of '1' to CIU_INT*_SUM0/4[GPIO<y>]
+         will have no effects.
 
  Whenever there is mode change, (GPIO_BIT_CFGx[INT_EN] or  GPIO_BIT_CFGx[INT_TYPE] or GPIO_MULTI_CAST[EN])
  software needs to write to  $GPIO_INT_CLR to clear up all pending/stale interrupts.
@@ -37830,7 +37841,7 @@ Clk_Rst:	SRIO(0..3)_BELL_LOOKUP[0:15]	hclk	hrst_n                               
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <31:16> DEVICE   RO       0x0090      NS        Product Identity                                   |
+ <31:16> DEVICE   RO       0x0092      NS        Product Identity                                   |
  <15:0>  VENDOR   RO       0x008C      0x008C    Cavium Vendor Identity                             |
                                                                                                     |
 Notes:                                                                                              |

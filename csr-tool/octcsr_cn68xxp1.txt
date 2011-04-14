@@ -11428,16 +11428,20 @@ Pos      Name    Type     Value     Value       Description
 						  before sending on the packet interface	    |
 						  This register should be large enough to prevent   |
 						  underflow on the packet interface and must never  |
-						  be set to zero.  This register cannot exceed the  |
+						  be set to zero.				    |
+						  Since XAUI/RXAUI mode uses a single TX FIFO and   |
+						  operates at higher data rates, the recommended    |
+						  value is increased.				    |
+						   XAUI/RXAUI Mode, CNT == 0x100		    |
+						  In all modes, this register cannot exceed the	    |
 						  the TX FIFO depth which is...			    |
-						   GMX_TX_PRTS==0,1:  CNT MAX = 0x200		    |
-						   GMX_TX_PRTS==2  :  CNT MAX = 0x100		    |
-						   GMX_TX_PRTS==3,4:  CNT MAX = 0x080		    |
+						   GMX_TX_PRTS==0,1:  CNT MAX = 0x1ff		    |
+						   GMX_TX_PRTS==2  :  CNT MAX = 0x0ff		    |
+						   GMX_TX_PRTS==3,4:  CNT MAX = 0x07f		    |
 
 Notes:
 
-In XAUI/RXAUI mode, prt0 is used for checking.  Since XAUI/RXAUI mode uses a
-single TX FIFO and is higher data rate, recommended value is 0x100.
+In XAUI/RXAUI mode, prt0 is used for transmission determination.
 ----------------------------------------------------------------------------------------------------
 ===
 

@@ -775,7 +775,8 @@ Pos      Name    Type     Value     Value       Description
                                                          Not supported, hardwired to 0x0.
  <20>    DLLARC          RO       0x0         0x0       Data Link Layer Active Reporting Capable
  <21>    LBNC            RO       0x0         0x0       Link Bandwith Notification Capability
- <23:22> NS              RAZ      NS          NS        Reserved
+ <22>    ASPM            RO/WRSL  0x1         0x1       ASPM Optionality Compliance
+ <23>    NS              RAZ      NS          NS        Reserved
  <31:24> PNUM            RO/WRSL  0x0         0x0       Port Number, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -931,12 +932,15 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   CTRS            RO       0x0         0x0       Completion Timeout Ranges Supported
+ <3:0>   CTRS            RO       0xf         0xf       Completion Timeout Ranges Supported
                                                          Value of 0 indicates that Completion Timeout Programming
                                                          is not supported
 							 Completion timeout is 16.7ms.
+							 This field is only applicable to Root-Port.
  <4>     CTDS            RO       0x1         0x1       Completion Timeout Disable Supported
- <31:5>  NS              RAZ      NS          NS        Reserved
+ <9:5>   NS              RAZ      NS          NS        Reserved
+ <10>    NS              RO       0x1         0x1       Reserved
+ <31:11> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -1239,7 +1243,9 @@ Pos      Name    Type     Value     Value       Description
  <18>    MTLPS           R/W      0x1         0x1       Malformed TLP Severity
  <19>    ECRCES          R/W      0x0         0x0       ECRC Error Severity
  <20>    URES            R/W      0x0         0x0       Unsupported Request Error Severity
- <31:21> NS              RAZ      NS          NS        Reserved
+ <21>    NS              RAZ      NS          NS        Reserved
+ <22>    NS              RO       0x1         0x1       Reserved
+ <31:23> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -1681,12 +1687,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   NTSS            R/W      0xA         0xA       Number of TS Symbols
-                                                         Sets the number of TS identifier symbols that are sent in TS1
-                                                         and TS2 ordered sets.
- <7:4>   NS              RO       NS          NS        Reserved
- <10:8>  NSKPS           R/W      0x3         0x3       Number of SKP Symbols
- <13:11> NS              RAZ      NS          NS        Reserved
+  <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
+                                                         Used for SRIOV
+ <13:8>  NS              RAZ      NS          NS        Reserved
+
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
                                                          of 64 clock cycles.
@@ -3208,7 +3212,8 @@ Pos      Name    Type     Value     Value       Description
  <20>    DLLARC          RO       0x1         0x1       Data Link Layer Active Reporting Capable
                                                          Set to 1 for Root Complex devices and 0 for Endpoint devices.
  <21>    LBNC            RO       0x1         0x1       Link Bandwith Notification Capability
- <23:22> NS              RAZ      NS          NS        Reserved
+ <22>    ASPM            RO/WRSL  0x1         0x1       ASPM Optionality Compliance
+ <23>    NS              RAZ      NS          NS        Reserved
  <31:24> PNUM            R/W      0x0         0x0       Port Number, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -3413,12 +3418,14 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   CTRS            RO       0x0         0x0       Completion Timeout Ranges Supported
+ <3:0>   CTRS            RO       0xf         0xf       Completion Timeout Ranges Supported
                                                          Value of 0 indicates that Completion Timeout Programming
                                                          is not supported
 							 Completion timeout is 16.7ms.
  <4>     CTDS            RO       0x1         0x1       Completion Timeout Disable Supported
- <31:5>  NS              RAZ      NS          NS        Reserved
+ <9:5>   NS              RAZ      NS          NS        Reserved
+ <10>    NS              RO       0x1         0x1       Reserved
+ <31:11> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3729,7 +3736,9 @@ Pos      Name    Type     Value     Value       Description
  <18>    MTLPS           R/W      0x1         0x1       Malformed TLP Severity
  <19>    ECRCES          R/W      0x0         0x0       ECRC Error Severity
  <20>    URES            R/W      0x0         0x0       Unsupported Request Error Severity
- <31:21> NS              RAZ      NS          NS        Reserved
+ <21>    NS              RAZ      NS          NS        Reserved
+ <22>    NS              RO       0x1         0x1       Reserved
+ <31:23> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -4257,12 +4266,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <3:0>   NTSS            R/W      0xA         0xA       Number of TS Symbols
-                                                         Sets the number of TS identifier symbols that are sent in TS1
-                                                         and TS2 ordered sets.
- <7:4>   NS              RO       NS          NS        Reserved
- <10:8>  NSKPS           R/W      0x3         0x3       Number of SKP Symbols
- <13:11> NS              RAZ      NS          NS        Reserved
+  <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
+                                                         Used for SRIOV
+ <13:8>  NS              RAZ      NS          NS        Reserved
+
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
                                                          of 64 clock cycles.
@@ -11138,6 +11145,27 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:8>  NS       RAZ      NS          NS        Reserved				            |
  <7:0>   EN       R/W      0x0         NS        CAM Entry Enables				    |
+						  Controls the enables for the eight legacy CAM	    |
+						  entries.  The full 32 enables are in		    |
+						  GMX_RX_ADR_CAM_ALL_EN.			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+ *
+ * GMX_RX_ADR_CAM_ALL_EN = Address Filtering Control Enable
+ *
+
+     ==============================================================
+     GMX(0..4)_RX(0..3)_ADR_CAM_ALL_EN Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:32> NS       RAZ      NS          NS        Reserved				            |
+ <31:0>  EN       R/W      0x0         NS        CAM Entry Enables				    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -11456,16 +11484,20 @@ Pos      Name    Type     Value     Value       Description
 						  before sending on the packet interface	    |
 						  This register should be large enough to prevent   |
 						  underflow on the packet interface and must never  |
-						  be set to zero.  This register cannot exceed the  |
+						  be set to zero.				    |
+						  Since XAUI/RXAUI mode uses a single TX FIFO and   |
+						  operates at higher data rates, the recommended    |
+						  value is increased.				    |
+						   XAUI/RXAUI Mode, CNT == 0x100		    |
+						  In all modes, this register cannot exceed the	    |
 						  the TX FIFO depth which is...			    |
-						   GMX_TX_PRTS==0,1:  CNT MAX = 0x200		    |
-						   GMX_TX_PRTS==2  :  CNT MAX = 0x100		    |
-						   GMX_TX_PRTS==3,4:  CNT MAX = 0x080		    |
+						   GMX_TX_PRTS==0,1:  CNT MAX = 0x1ff		    |
+						   GMX_TX_PRTS==2  :  CNT MAX = 0x0ff		    |
+						   GMX_TX_PRTS==3,4:  CNT MAX = 0x07f		    |
 
 Notes:
 
-In XAUI/RXAUI mode, prt0 is used for checking.  Since XAUI/RXAUI mode uses a
-single TX FIFO and is higher data rate, recommended value is 0x100.
+In XAUI/RXAUI mode, prt0 is used for transmission determination.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -13234,8 +13266,9 @@ Pos      Name    Type     Value     Value       Description
                                                          transmitting on all channels.                                  |
 <18>     TX_LINK_FC           RO       0x0      NS       Link flow control status transmitted by the Tx-Link            |
                                                          XON when RX_FIFO_CNT <= RX_FIFO_HWM and lane alignment is done |
-<19>     LA_MODE              R/W      0x0      NS       0 = Interlaken                                                 |
-                                                         1 = Interlaken Look-Aside                                      |
+<19>     LA_MODE              R/W      0x0      NS       Enable Interlaken Look-Aside traffic.   When LA_MODE=1 and 	|
+                                                         REMAP=1 for a given port-pipe, bit[39] of the 8-byte header    |
+                                                         specifies the packet should be decoded as an LA packet.        |
 <20>     PKT_ENA              R/W      0x1      NS       Packet transmit enable.  When PKT_ENA=0, the Tx-Link will stop |
                                                          transmitting packets, as per RX_LINK_FC_PKT                    |
 <21>     PKT_FLUSH            R/W      0x0      NS       Packet transmit flush.  While PKT_FLUSH=1, the TxFifo will     |
@@ -13280,9 +13313,10 @@ Pos      Name    Type     Value     Value       Description
 <7:0>    CHANNEL              R/W      0x0      NS       Specify the channel for the port-pipe selected by              |
                                                          ILK_TXx_IDX_PMAP[IDX]                                          |
 <15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
-<16>     REMAP                R/W      0x0      NS       Channel will be specified by an 8-byte header (bit[39:32] of   |
-                                                         each packet for the port-pipe selected by                      |
- 								      				                        |
+<16>     REMAP                R/W      0x0      NS       Dynamically select channel using bits[39:32] of an 8-byte 	|
+                                                         header prepended to any packet transmitted on the port-pipe 	|
+                                                         selected by ILK_TXx_IDX_PMAP[IDX].   				|
+ 															|
    	 				         	 ***NOTE: Added in pass 2.0                                     |
                                                                                                                         |
 <63:17>  NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -14290,6 +14324,9 @@ Pos      Name    Type     Value     Value       Description
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
 <5>      RX_PSH_SKIP          R/W      0x0      NS       Push skip words into the de-striper.   Otherwise, drop them in |
                                                          the lane logic.                                                |
+								      				                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
 <63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -46071,6 +46108,7 @@ GMX0_RX000_ADR_CAM2            0x0001180008000190  RSL
 GMX0_RX000_ADR_CAM3            0x0001180008000198  RSL
 GMX0_RX000_ADR_CAM4            0x00011800080001A0  RSL
 GMX0_RX000_ADR_CAM5            0x00011800080001A8  RSL
+GMX0_RX000_ADR_CAM_ALL_EN      0x0001180008000110  RSL
 GMX0_RX000_ADR_CAM_EN          0x0001180008000108  RSL
 GMX0_RX000_ADR_CTL             0x0001180008000100  RSL
 GMX0_RX000_DECISION            0x0001180008000040  RSL
@@ -46098,6 +46136,7 @@ GMX0_RX001_ADR_CAM2            0x0001180008000990  RSL
 GMX0_RX001_ADR_CAM3            0x0001180008000998  RSL
 GMX0_RX001_ADR_CAM4            0x00011800080009A0  RSL
 GMX0_RX001_ADR_CAM5            0x00011800080009A8  RSL
+GMX0_RX001_ADR_CAM_ALL_EN      0x0001180008000910  RSL
 GMX0_RX001_ADR_CAM_EN          0x0001180008000908  RSL
 GMX0_RX001_ADR_CTL             0x0001180008000900  RSL
 GMX0_RX001_DECISION            0x0001180008000840  RSL
@@ -46125,6 +46164,7 @@ GMX0_RX002_ADR_CAM2            0x0001180008001190  RSL
 GMX0_RX002_ADR_CAM3            0x0001180008001198  RSL
 GMX0_RX002_ADR_CAM4            0x00011800080011A0  RSL
 GMX0_RX002_ADR_CAM5            0x00011800080011A8  RSL
+GMX0_RX002_ADR_CAM_ALL_EN      0x0001180008001110  RSL
 GMX0_RX002_ADR_CAM_EN          0x0001180008001108  RSL
 GMX0_RX002_ADR_CTL             0x0001180008001100  RSL
 GMX0_RX002_DECISION            0x0001180008001040  RSL
@@ -46152,6 +46192,7 @@ GMX0_RX003_ADR_CAM2            0x0001180008001990  RSL
 GMX0_RX003_ADR_CAM3            0x0001180008001998  RSL
 GMX0_RX003_ADR_CAM4            0x00011800080019A0  RSL
 GMX0_RX003_ADR_CAM5            0x00011800080019A8  RSL
+GMX0_RX003_ADR_CAM_ALL_EN      0x0001180008001910  RSL
 GMX0_RX003_ADR_CAM_EN          0x0001180008001908  RSL
 GMX0_RX003_ADR_CTL             0x0001180008001900  RSL
 GMX0_RX003_DECISION            0x0001180008001840  RSL
@@ -46349,6 +46390,7 @@ GMX1_RX000_ADR_CAM2            0x0001180009000190  RSL
 GMX1_RX000_ADR_CAM3            0x0001180009000198  RSL
 GMX1_RX000_ADR_CAM4            0x00011800090001A0  RSL
 GMX1_RX000_ADR_CAM5            0x00011800090001A8  RSL
+GMX1_RX000_ADR_CAM_ALL_EN      0x0001180009000110  RSL
 GMX1_RX000_ADR_CAM_EN          0x0001180009000108  RSL
 GMX1_RX000_ADR_CTL             0x0001180009000100  RSL
 GMX1_RX000_DECISION            0x0001180009000040  RSL
@@ -46376,6 +46418,7 @@ GMX1_RX001_ADR_CAM2            0x0001180009000990  RSL
 GMX1_RX001_ADR_CAM3            0x0001180009000998  RSL
 GMX1_RX001_ADR_CAM4            0x00011800090009A0  RSL
 GMX1_RX001_ADR_CAM5            0x00011800090009A8  RSL
+GMX1_RX001_ADR_CAM_ALL_EN      0x0001180009000910  RSL
 GMX1_RX001_ADR_CAM_EN          0x0001180009000908  RSL
 GMX1_RX001_ADR_CTL             0x0001180009000900  RSL
 GMX1_RX001_DECISION            0x0001180009000840  RSL
@@ -46403,6 +46446,7 @@ GMX1_RX002_ADR_CAM2            0x0001180009001190  RSL
 GMX1_RX002_ADR_CAM3            0x0001180009001198  RSL
 GMX1_RX002_ADR_CAM4            0x00011800090011A0  RSL
 GMX1_RX002_ADR_CAM5            0x00011800090011A8  RSL
+GMX1_RX002_ADR_CAM_ALL_EN      0x0001180009001110  RSL
 GMX1_RX002_ADR_CAM_EN          0x0001180009001108  RSL
 GMX1_RX002_ADR_CTL             0x0001180009001100  RSL
 GMX1_RX002_DECISION            0x0001180009001040  RSL
@@ -46430,6 +46474,7 @@ GMX1_RX003_ADR_CAM2            0x0001180009001990  RSL
 GMX1_RX003_ADR_CAM3            0x0001180009001998  RSL
 GMX1_RX003_ADR_CAM4            0x00011800090019A0  RSL
 GMX1_RX003_ADR_CAM5            0x00011800090019A8  RSL
+GMX1_RX003_ADR_CAM_ALL_EN      0x0001180009001910  RSL
 GMX1_RX003_ADR_CAM_EN          0x0001180009001908  RSL
 GMX1_RX003_ADR_CTL             0x0001180009001900  RSL
 GMX1_RX003_DECISION            0x0001180009001840  RSL
@@ -46627,6 +46672,7 @@ GMX2_RX000_ADR_CAM2            0x000118000A000190  RSL
 GMX2_RX000_ADR_CAM3            0x000118000A000198  RSL
 GMX2_RX000_ADR_CAM4            0x000118000A0001A0  RSL
 GMX2_RX000_ADR_CAM5            0x000118000A0001A8  RSL
+GMX2_RX000_ADR_CAM_ALL_EN      0x000118000A000110  RSL
 GMX2_RX000_ADR_CAM_EN          0x000118000A000108  RSL
 GMX2_RX000_ADR_CTL             0x000118000A000100  RSL
 GMX2_RX000_DECISION            0x000118000A000040  RSL
@@ -46654,6 +46700,7 @@ GMX2_RX001_ADR_CAM2            0x000118000A000990  RSL
 GMX2_RX001_ADR_CAM3            0x000118000A000998  RSL
 GMX2_RX001_ADR_CAM4            0x000118000A0009A0  RSL
 GMX2_RX001_ADR_CAM5            0x000118000A0009A8  RSL
+GMX2_RX001_ADR_CAM_ALL_EN      0x000118000A000910  RSL
 GMX2_RX001_ADR_CAM_EN          0x000118000A000908  RSL
 GMX2_RX001_ADR_CTL             0x000118000A000900  RSL
 GMX2_RX001_DECISION            0x000118000A000840  RSL
@@ -46681,6 +46728,7 @@ GMX2_RX002_ADR_CAM2            0x000118000A001190  RSL
 GMX2_RX002_ADR_CAM3            0x000118000A001198  RSL
 GMX2_RX002_ADR_CAM4            0x000118000A0011A0  RSL
 GMX2_RX002_ADR_CAM5            0x000118000A0011A8  RSL
+GMX2_RX002_ADR_CAM_ALL_EN      0x000118000A001110  RSL
 GMX2_RX002_ADR_CAM_EN          0x000118000A001108  RSL
 GMX2_RX002_ADR_CTL             0x000118000A001100  RSL
 GMX2_RX002_DECISION            0x000118000A001040  RSL
@@ -46708,6 +46756,7 @@ GMX2_RX003_ADR_CAM2            0x000118000A001990  RSL
 GMX2_RX003_ADR_CAM3            0x000118000A001998  RSL
 GMX2_RX003_ADR_CAM4            0x000118000A0019A0  RSL
 GMX2_RX003_ADR_CAM5            0x000118000A0019A8  RSL
+GMX2_RX003_ADR_CAM_ALL_EN      0x000118000A001910  RSL
 GMX2_RX003_ADR_CAM_EN          0x000118000A001908  RSL
 GMX2_RX003_ADR_CTL             0x000118000A001900  RSL
 GMX2_RX003_DECISION            0x000118000A001840  RSL
@@ -46905,6 +46954,7 @@ GMX3_RX000_ADR_CAM2            0x000118000B000190  RSL
 GMX3_RX000_ADR_CAM3            0x000118000B000198  RSL
 GMX3_RX000_ADR_CAM4            0x000118000B0001A0  RSL
 GMX3_RX000_ADR_CAM5            0x000118000B0001A8  RSL
+GMX3_RX000_ADR_CAM_ALL_EN      0x000118000B000110  RSL
 GMX3_RX000_ADR_CAM_EN          0x000118000B000108  RSL
 GMX3_RX000_ADR_CTL             0x000118000B000100  RSL
 GMX3_RX000_DECISION            0x000118000B000040  RSL
@@ -46932,6 +46982,7 @@ GMX3_RX001_ADR_CAM2            0x000118000B000990  RSL
 GMX3_RX001_ADR_CAM3            0x000118000B000998  RSL
 GMX3_RX001_ADR_CAM4            0x000118000B0009A0  RSL
 GMX3_RX001_ADR_CAM5            0x000118000B0009A8  RSL
+GMX3_RX001_ADR_CAM_ALL_EN      0x000118000B000910  RSL
 GMX3_RX001_ADR_CAM_EN          0x000118000B000908  RSL
 GMX3_RX001_ADR_CTL             0x000118000B000900  RSL
 GMX3_RX001_DECISION            0x000118000B000840  RSL
@@ -46959,6 +47010,7 @@ GMX3_RX002_ADR_CAM2            0x000118000B001190  RSL
 GMX3_RX002_ADR_CAM3            0x000118000B001198  RSL
 GMX3_RX002_ADR_CAM4            0x000118000B0011A0  RSL
 GMX3_RX002_ADR_CAM5            0x000118000B0011A8  RSL
+GMX3_RX002_ADR_CAM_ALL_EN      0x000118000B001110  RSL
 GMX3_RX002_ADR_CAM_EN          0x000118000B001108  RSL
 GMX3_RX002_ADR_CTL             0x000118000B001100  RSL
 GMX3_RX002_DECISION            0x000118000B001040  RSL
@@ -46986,6 +47038,7 @@ GMX3_RX003_ADR_CAM2            0x000118000B001990  RSL
 GMX3_RX003_ADR_CAM3            0x000118000B001998  RSL
 GMX3_RX003_ADR_CAM4            0x000118000B0019A0  RSL
 GMX3_RX003_ADR_CAM5            0x000118000B0019A8  RSL
+GMX3_RX003_ADR_CAM_ALL_EN      0x000118000B001910  RSL
 GMX3_RX003_ADR_CAM_EN          0x000118000B001908  RSL
 GMX3_RX003_ADR_CTL             0x000118000B001900  RSL
 GMX3_RX003_DECISION            0x000118000B001840  RSL
@@ -47183,6 +47236,7 @@ GMX4_RX000_ADR_CAM2            0x000118000C000190  RSL
 GMX4_RX000_ADR_CAM3            0x000118000C000198  RSL
 GMX4_RX000_ADR_CAM4            0x000118000C0001A0  RSL
 GMX4_RX000_ADR_CAM5            0x000118000C0001A8  RSL
+GMX4_RX000_ADR_CAM_ALL_EN      0x000118000C000110  RSL
 GMX4_RX000_ADR_CAM_EN          0x000118000C000108  RSL
 GMX4_RX000_ADR_CTL             0x000118000C000100  RSL
 GMX4_RX000_DECISION            0x000118000C000040  RSL
@@ -47210,6 +47264,7 @@ GMX4_RX001_ADR_CAM2            0x000118000C000990  RSL
 GMX4_RX001_ADR_CAM3            0x000118000C000998  RSL
 GMX4_RX001_ADR_CAM4            0x000118000C0009A0  RSL
 GMX4_RX001_ADR_CAM5            0x000118000C0009A8  RSL
+GMX4_RX001_ADR_CAM_ALL_EN      0x000118000C000910  RSL
 GMX4_RX001_ADR_CAM_EN          0x000118000C000908  RSL
 GMX4_RX001_ADR_CTL             0x000118000C000900  RSL
 GMX4_RX001_DECISION            0x000118000C000840  RSL
@@ -47237,6 +47292,7 @@ GMX4_RX002_ADR_CAM2            0x000118000C001190  RSL
 GMX4_RX002_ADR_CAM3            0x000118000C001198  RSL
 GMX4_RX002_ADR_CAM4            0x000118000C0011A0  RSL
 GMX4_RX002_ADR_CAM5            0x000118000C0011A8  RSL
+GMX4_RX002_ADR_CAM_ALL_EN      0x000118000C001110  RSL
 GMX4_RX002_ADR_CAM_EN          0x000118000C001108  RSL
 GMX4_RX002_ADR_CTL             0x000118000C001100  RSL
 GMX4_RX002_DECISION            0x000118000C001040  RSL
@@ -47264,6 +47320,7 @@ GMX4_RX003_ADR_CAM2            0x000118000C001990  RSL
 GMX4_RX003_ADR_CAM3            0x000118000C001998  RSL
 GMX4_RX003_ADR_CAM4            0x000118000C0019A0  RSL
 GMX4_RX003_ADR_CAM5            0x000118000C0019A8  RSL
+GMX4_RX003_ADR_CAM_ALL_EN      0x000118000C001910  RSL
 GMX4_RX003_ADR_CAM_EN          0x000118000C001908  RSL
 GMX4_RX003_ADR_CTL             0x000118000C001900  RSL
 GMX4_RX003_DECISION            0x000118000C001840  RSL
