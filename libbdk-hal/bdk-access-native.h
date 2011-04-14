@@ -14,9 +14,10 @@
  * @param ptr    C style memory pointer
  * @return Hardware physical address
  */
+static inline uint64_t bdk_ptr_to_phys(void *ptr) __attribute__ ((pure, always_inline));
 static inline uint64_t bdk_ptr_to_phys(void *ptr)
 {
-    extern uint64_t __bdk_ptr_to_phys_slow(void *ptr);
+    extern uint64_t __bdk_ptr_to_phys_slow(void *ptr) __attribute__ ((pure));
     uint64_t address = (long)ptr;
 
     /* Kernel Unmapped */
@@ -35,6 +36,7 @@ static inline uint64_t bdk_ptr_to_phys(void *ptr)
  *               Hardware physical address to memory
  * @return Pointer to memory
  */
+static inline void *bdk_phys_to_ptr(uint64_t physical_address) __attribute__ ((pure, always_inline));
 static inline void *bdk_phys_to_ptr(uint64_t physical_address)
 {
     bdk_warn_if(physical_address==0, "bdk_phys_to_ptr() passed a zero address\n");

@@ -44,7 +44,7 @@ static inline int __OCTEON_MATCH_MASK__(uint32_t x, uint32_t y, uint32_t z)
     return (x & z) == (y & z);
 }
 
-static inline int OCTEON_IS_MODEL(uint32_t arg_model) __attribute__ ((pure));
+static inline int OCTEON_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int OCTEON_IS_MODEL(uint32_t arg_model)
 {
     /* The revision byte (low byte) has two different encodings.

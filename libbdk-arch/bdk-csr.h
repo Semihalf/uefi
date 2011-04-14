@@ -55,6 +55,7 @@ typedef struct {
  *
  * @return The value of the CSR
  */
+static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, uint64_t address) __attribute__ ((always_inline));
 static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
     extern uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address);
@@ -91,6 +92,7 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
  * @param address The address of the CSR
  * @param value   Value to write to the CSR
  */
+static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__ ((always_inline));
 static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
     extern void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
@@ -118,6 +120,7 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
     }
 }
 
+static inline void bdk_send_single(uint64_t data) __attribute__ ((always_inline));
 static inline void bdk_send_single(uint64_t data)
 {
     *(volatile uint64_t *)0xffffffffffffa200ull = data;

@@ -67,20 +67,20 @@ def writeAddress(out, csr, pci_alias, chip_list):
 
     if num_params == 0:
         out.write("#define %s %s_FUNC()\n" % (name, name))
-        out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure));\n" % name)
+        out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
         error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0")
     elif num_params == 1:
         if ("offset" in csr["s"].getAddressEquation()):
-            out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure));\n" % name)
+            out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure, always_inline));\n" % name)
             out.write("static inline uint64_t %s(unsigned long offset)\n" % name)
             error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 1, "offset", "0")
         else:
-            out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure));\n" % name)
+            out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
             out.write("static inline uint64_t %s(unsigned long block_id)\n" % name)
             error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 1, "block_id", "0")
     elif num_params == 2:
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id)\n" % name)
         error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 2, "offset", "block_id")
     else:

@@ -26,6 +26,7 @@ typedef enum{
  * @param clock - Enumeration of the clock type.
  * @return      - Get the number of cycles executed so far.
  */
+static inline uint64_t bdk_clock_get_count(bdk_clock_t clock) __attribute__ ((always_inline));
 static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
 {
     switch(clock)
@@ -46,6 +47,6 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
     return 0;
 }
 
-extern uint64_t bdk_clock_get_rate(bdk_clock_t clock);
+extern uint64_t bdk_clock_get_rate(bdk_clock_t clock) __attribute__ ((pure));
 
 /** @} */
