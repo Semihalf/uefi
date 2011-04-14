@@ -6,6 +6,7 @@
  * Internal state of packet output
  */
 static int bdk_pko_next_free_queue = 0;
+static int bdk_pko_next_free_engine = 0;
 
 /**
  * Call before any other calls to initialize the packet
@@ -68,8 +69,7 @@ int __bdk_pko_alloc_pipe(int num_pipes)
 
 int __bdk_pko_alloc_engine(void)
 {
-    static int next_free_engine = 0;
-    int engine = next_free_engine++;
+    int engine = bdk_pko_next_free_engine++;
     if (engine > 19)
         bdk_fatal("PKO ran out of engines. bdk_if_init() is incorrect\n");
     return engine;
@@ -84,6 +84,33 @@ int __bdk_pko_alloc_port(void)
     return port;
 }
 
+static int __bdk_pko_memory_per_engine(int engine)
+{
+    /* CN68XX has 40KB to devide between the engines in 2KB chunks */
+    int size_per_engine = 40 / 2 / bdk_pko_next_free_engine;
+    int size;
+
+    if (engine >= bdk_pko_next_free_engine)
+    {
+        /* Unused engines get no space */
+        size = 0;
+    }
+    else if (engine == bdk_pko_next_free_engine-1)
+    {
+        /* The last engine gets all the space lost by rounding. This means
+            the ILK gets the most space */
+        size = 40 / 2 - engine * size_per_engine;
+    }
+    else
+    {
+        /* All other engines get the same space */
+        size = size_per_engine;
+    }
+
+    return size;
+}
+
+
 /**
  * Enables the packet output hardware. It must already be
  * configured.
@@ -93,10 +120,39 @@ void bdk_pko_enable(void)
     bdk_pko_reg_flags_t flags;
 
     /* If we aren't using all of the queues optimize PKO's internal memory */
-    if (bdk_pko_next_free_queue <= 64)
+    /* <=32 is only supported on CN68XX */
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX) && (bdk_pko_next_free_queue <= 32))
+        BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_MODE, 3);
+    else if (bdk_pko_next_free_queue <= 64)
         BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_MODE, 2);
     else if (bdk_pko_next_free_queue <= 128)
         BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_MODE, 1);
+
+    /* Optimize the PKO engine memory */
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        for (int i=0; i<2; i++)
+        {
+            BDK_CSR_INIT(engine_storage, BDK_PKO_REG_ENGINE_STORAGEX(i));
+            engine_storage.s.engine0 = __bdk_pko_memory_per_engine(16*i + 0);
+            engine_storage.s.engine1 = __bdk_pko_memory_per_engine(16*i + 1);
+            engine_storage.s.engine2 = __bdk_pko_memory_per_engine(16*i + 2);
+            engine_storage.s.engine3 = __bdk_pko_memory_per_engine(16*i + 3);
+            engine_storage.s.engine4 = __bdk_pko_memory_per_engine(16*i + 4);
+            engine_storage.s.engine5 = __bdk_pko_memory_per_engine(16*i + 5);
+            engine_storage.s.engine6 = __bdk_pko_memory_per_engine(16*i + 6);
+            engine_storage.s.engine7 = __bdk_pko_memory_per_engine(16*i + 7);
+            engine_storage.s.engine8 = __bdk_pko_memory_per_engine(16*i + 8);
+            engine_storage.s.engine9 = __bdk_pko_memory_per_engine(16*i + 9);
+            engine_storage.s.engine10 = __bdk_pko_memory_per_engine(16*i + 10);
+            engine_storage.s.engine11 = __bdk_pko_memory_per_engine(16*i + 11);
+            engine_storage.s.engine12 = __bdk_pko_memory_per_engine(16*i + 12);
+            engine_storage.s.engine13 = __bdk_pko_memory_per_engine(16*i + 13);
+            engine_storage.s.engine14 = __bdk_pko_memory_per_engine(16*i + 14);
+            engine_storage.s.engine15 = __bdk_pko_memory_per_engine(16*i + 15);
+            BDK_CSR_WRITE(BDK_PKO_REG_ENGINE_STORAGEX(i), engine_storage.u64);
+        }
+    }
 
     flags.u64 = BDK_CSR_READ(BDK_PKO_REG_FLAGS);
     if (flags.s.ena_pko)
