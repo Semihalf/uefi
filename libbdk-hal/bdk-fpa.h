@@ -13,7 +13,6 @@ typedef enum
 {
     BDK_FPA_PACKET_POOL,
     BDK_FPA_OUTPUT_BUFFER_POOL,
-    BDK_FPA_TIMER_POOL,
 } bdk_fpa_pool_t;
 
 /**
