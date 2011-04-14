@@ -544,9 +544,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     while (port_tx->output_enable)
     {
-        int do_yield = 1;
         uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-        if (bdk_likely(cycle >= output_cycle))
+        int do_tx = cycle >= output_cycle;
+        if (bdk_likely(do_tx))
         {
             output_cycle += output_cycle_gap;
             /* Only free the packet on TX if this is the last packet "i=1"
@@ -557,15 +557,15 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
             {
                 if (bdk_unlikely(--count == 0))
                     break;
-                do_yield = 0;
             }
             else
             {
                 /* Transmit failed. Remember we need to free the packet */
                 packet.packet.s.i = 1;
+                do_tx = 0;
             }
         }
-        if (do_yield)
+        if (bdk_unlikely(!do_tx))
             bdk_thread_yield();
     }
     if (packet.packet.s.i)
