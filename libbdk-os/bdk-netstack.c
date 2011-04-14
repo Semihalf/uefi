@@ -6,6 +6,7 @@
  * Global used to track if initialization is complete.
  */
 static int init_done = 0;
+static int configed_netif = 0;
 
 
 /**
@@ -104,7 +105,6 @@ static void netstack_netif_rx(void *unused)
  */
 static void netstack_init_done(void *arg)
 {
-    sys_timeout(1, netstack_netif_rx, NULL);
     sys_timeout(1000, netstack_netif_poll_link, NULL);
     /* This is called whe nthe TCP/IP stack is
         done with intialization */
@@ -342,9 +342,12 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
         }
         netifapi_netif_set_addr(netif, &c_ipaddr, &c_netmask, &c_gw);
         netifapi_netif_set_up(netif);
-        return 0;
     }
 
+    /* Start the receive poll when the first port is configured */
+    if (!configed_netif)
+        sys_timeout(1, netstack_netif_rx, NULL);
+    configed_netif++;
     return 0;
 }
 
