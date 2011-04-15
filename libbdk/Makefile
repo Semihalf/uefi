@@ -102,3 +102,5 @@ $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i:
 	ln -fs $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon/lib_octeon_board_table_entry.h $@
 
 $(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
+$(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+="-O3"
+$(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+="-O3"
