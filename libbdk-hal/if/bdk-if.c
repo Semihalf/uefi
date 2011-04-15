@@ -781,12 +781,12 @@ int bdk_if_receive(bdk_if_packet_t *packet)
 
         packet->if_handle = __bdk_if_ipd_map[ipd_port];
         packet->length = wqe->word1.s.len;
-        if (wqe->word2.s.re)
+        if (bdk_unlikely(wqe->word2.s.re))
             packet->rx_error = wqe->word2.s.opcode;
         else
             packet->rx_error = 0;
 
-        if (wqe->word2.s.bufs == 0)
+        if (bdk_likely(wqe->word2.s.bufs == 0))
         {
             packet->segments = 1;
             packet->packet.u64 = 0;
