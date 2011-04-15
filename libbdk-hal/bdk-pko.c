@@ -21,7 +21,7 @@ void bdk_pko_initialize(void)
     BDK_CSR_DEFINE(config, BDK_PKO_REG_CMD_BUF);
     config.u64 = 0;
     config.s.pool = BDK_FPA_OUTPUT_BUFFER_POOL;
-    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8;
+    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8 - 1;
     BDK_CSR_WRITE(BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */

@@ -255,7 +255,7 @@ static int __bdk_if_setup_pko(bdk_if_handle_t handle)
         return -1;
 
     if (bdk_cmd_queue_initialize(&handle->cmd_queue, BDK_FPA_OUTPUT_BUFFER_POOL,
-        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)))
+        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)-8))
         return -1;
 
     int result = bdk_pko_config_port(handle->pko_port, num_queues, 0, &handle->cmd_queue);
