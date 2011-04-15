@@ -36,9 +36,7 @@ typedef enum
 {
     BDK_CMD_QUEUE_SUCCESS = 0,
     BDK_CMD_QUEUE_NO_MEMORY = -1,
-    BDK_CMD_QUEUE_FULL = -2,
-    BDK_CMD_QUEUE_INVALID_PARAM = -3,
-    BDK_CMD_QUEUE_ALREADY_SETUP = -4,
+    BDK_CMD_QUEUE_INVALID_PARAM = -2,
 } bdk_cmd_queue_result_t;
 
 typedef struct
