@@ -118,6 +118,8 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
  */
 u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
 {
+    if (mbox->count == 0)
+        return SYS_MBOX_EMPTY;
     if (bdk_rlock_try_lock(&mbox->lock) == 0)
     {
         if (mbox->count)
@@ -128,8 +130,8 @@ u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
             bdk_rlock_unlock(&mbox->lock);
             return 0;
         }
+        bdk_rlock_unlock(&mbox->lock);
     }
-    bdk_rlock_unlock(&mbox->lock);
     return SYS_MBOX_EMPTY;
 }
 
