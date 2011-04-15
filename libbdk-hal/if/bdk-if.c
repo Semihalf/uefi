@@ -615,6 +615,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
  *
  * @return New counter value, accounting for overflow
  */
+static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size) __attribute__ ((noinline));
 static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size)
 {
     uint64_t mask = bdk_build_mask(bit_size);
