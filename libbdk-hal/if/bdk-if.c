@@ -694,12 +694,11 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.errors = update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
-    bdk_pko_reg_read_idx_t pko_reg_read_idx;
-    pko_reg_read_idx.u64 = 0;
-    pko_reg_read_idx.s.index = handle->pko_port;
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    BDK_CSR_INIT(pko_reg_read_idx, BDK_PKO_REG_READ_IDX);
+    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, handle->pko_port);
     BDK_CSR_INIT(pko_mem_count0, BDK_PKO_MEM_COUNT0);
     BDK_CSR_INIT(pko_mem_count1, BDK_PKO_MEM_COUNT1);
+    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
