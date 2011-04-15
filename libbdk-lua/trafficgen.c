@@ -553,7 +553,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
                 means the packet isn't freed */
             packet.packet.s.i = (count != 1);
             /* We don't care if the send fails */
-            if (bdk_likely(bdk_if_transmit(tg_port->handle, &packet) == 0))
+            if (bdk_likely(bdk_if_transmit(packet.if_handle, &packet) == 0))
             {
                 if (bdk_unlikely(--count == 0))
                     break;
