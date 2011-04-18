@@ -270,14 +270,15 @@ static int trafficgen_do_update(bool do_clear)
         /* Scale to account for update interval */
         if (update_cycle > tg_port->last_update)
         {
-            uint64_t scale = (1ull<<32) * clock_rate / (update_cycle - tg_port->last_update);
-            tg_port->pinfo.stats.tx_packets = tg_port->pinfo.stats.tx_packets * scale >> 32;
-            tg_port->pinfo.stats.tx_octets = tg_port->pinfo.stats.tx_octets * scale >> 32;
+            const int scale_shift = 16;
+            uint64_t scale = (1ull<<scale_shift) * clock_rate / (update_cycle - tg_port->last_update);
+            tg_port->pinfo.stats.tx_packets = tg_port->pinfo.stats.tx_packets * scale >> scale_shift;
+            tg_port->pinfo.stats.tx_octets = tg_port->pinfo.stats.tx_octets * scale >> scale_shift;
 
-            tg_port->pinfo.stats.rx_dropped_octets = tg_port->pinfo.stats.rx_dropped_octets * scale >> 32;
-            tg_port->pinfo.stats.rx_dropped_packets = tg_port->pinfo.stats.rx_dropped_packets * scale >> 32;
-            tg_port->pinfo.stats.rx_octets = tg_port->pinfo.stats.rx_octets * scale >> 32;
-            tg_port->pinfo.stats.rx_packets = tg_port->pinfo.stats.rx_packets * scale >> 32;
+            tg_port->pinfo.stats.rx_dropped_octets = tg_port->pinfo.stats.rx_dropped_octets * scale >> scale_shift;
+            tg_port->pinfo.stats.rx_dropped_packets = tg_port->pinfo.stats.rx_dropped_packets * scale >> scale_shift;
+            tg_port->pinfo.stats.rx_octets = tg_port->pinfo.stats.rx_octets * scale >> scale_shift;
+            tg_port->pinfo.stats.rx_packets = tg_port->pinfo.stats.rx_packets * scale >> scale_shift;
         }
 
         /* Calculate the RX bits. By convention this include all packet
