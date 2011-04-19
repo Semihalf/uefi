@@ -71,4 +71,12 @@ extern void bdk_qlm_jtag_capture(int qlm);
  */
 extern void bdk_qlm_cn68xx_6250(void);
 
+/**
+ * Force link detection on a QLM. Useful for getting PCIe
+ * analyzers to work.
+ *
+ * @param qlm    QLM to configure
+ */
+extern void bdk_qlm_cn6xxx_force_link(int qlm);
+
 /** @} */

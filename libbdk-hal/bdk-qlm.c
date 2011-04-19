@@ -187,3 +187,24 @@ void bdk_qlm_cn68xx_6250(void)
         }
     }
 }
+
+
+/**
+ * Force link detection on a QLM. Useful for getting PCIe
+ * analyzers to work.
+ *
+ * @param qlm    QLM to configure
+ */
+void bdk_qlm_cn6xxx_force_link(int qlm)
+{
+    int chain_len = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 304 : 300;
+    bdk_qlm_jtag_init();
+    for (int lane=0; lane<4; lane++)
+    {
+        bdk_qlm_jtag_shift_zeros(qlm, 85);
+        bdk_qlm_jtag_shift(qlm, 1, 1);
+        bdk_qlm_jtag_shift_zeros(qlm, chain_len-86);
+    }
+    bdk_qlm_jtag_update(qlm);
+}
+
