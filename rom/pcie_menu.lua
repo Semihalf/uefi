@@ -33,6 +33,7 @@ local function do_read(pcie_port)
     local address = menu.prompt_number("PCIe bus address")
     local length = menu.prompt_number("Number of bytes to read")
     local f = fileio.open("/dev/pcie/" .. pcie_port, "r", address)
+    f:setvbuf("full", length)
     local data = f:read(length)
     f:close()
     printf("Data: ")
@@ -53,6 +54,7 @@ local function do_write(pcie_port)
     end
 
     local f = fileio.open("/dev/pcie/" .. pcie_port, "w", address)
+    f:setvbuf("full", #data)
     f:write(data)
     f:close()
 end

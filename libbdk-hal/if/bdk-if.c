@@ -379,7 +379,6 @@ static int __bdk_if_init(void)
         bdk_qlm_cn68xx_6250();
 
     /* Setup the FPA packet buffers */
-    bdk_fpa_enable();
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
 
     /* Setup the SSO */

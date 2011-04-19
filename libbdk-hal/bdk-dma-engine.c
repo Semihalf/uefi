@@ -21,6 +21,12 @@ int bdk_dma_engine_initialize(void)
 {
     int engine;
 
+    if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, bdk_dma_engine_get_num()*4))
+    {
+        bdk_error("Allocating DMA command buffers failed\n");
+        return -1;
+    }
+
     for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
     {
         bdk_cmd_queue_result_t result;

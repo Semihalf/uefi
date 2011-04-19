@@ -20,8 +20,17 @@ static int pcie_close(__bdk_fs_file_t *handle)
 static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int pcie_port = (long)handle->fs_state - 1;
-    uint64_t base = bdk_pcie_get_mem_base_address(pcie_port);
-    memcpy(buffer, bdk_phys_to_ptr(base + handle->location), length);
+    volatile char in_progress = 1;
+
+    bdk_dma_engine_header_t header;
+    header.u64 = 0;
+    header.s.lport = pcie_port;
+    header.s.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
+    header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
+    if (bdk_dma_engine_transfer(0, header, bdk_ptr_to_phys(buffer), handle->location, length))
+        return -1;
+    while (in_progress)
+        bdk_thread_yield();
     return length;
 }
 
@@ -29,8 +38,17 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     int pcie_port = (long)handle->fs_state - 1;
-    uint64_t base = bdk_pcie_get_mem_base_address(pcie_port);
-    memcpy(bdk_phys_to_ptr(base + handle->location), buffer, length);
+    volatile char in_progress = 1;
+
+    bdk_dma_engine_header_t header;
+    header.u64 = 0;
+    header.s.lport = pcie_port;
+    header.s.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
+    header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
+    if (bdk_dma_engine_transfer(0, header, bdk_ptr_to_phys((void*)buffer), handle->location, length))
+        return -1;
+    while (in_progress)
+        bdk_thread_yield();
     return length;
 }
 

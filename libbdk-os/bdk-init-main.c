@@ -76,6 +76,9 @@ void __bdk_init_main(int arg, void *arg1)
             bdk_flash_initialize();
         }
 
+        bdk_fpa_enable();
+        bdk_dma_engine_initialize();
+
         if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(0), cts, ==, 1, 1000))
         {
             bdk_warn("Not enabling hardware flow control on UART0 as CTS appears stuck\n");
