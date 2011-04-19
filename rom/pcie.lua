@@ -247,6 +247,10 @@ local function create_device(root, bus, deviceid, func)
                         end
                         pmem_address = pmem_address + size
                     end
+                    -- Enable IO, MEM, and Bus master
+                    local cmd = self:read16(PCICONFIG_COMMAND)
+                    cmd = bit64.bor(cmd, 7)
+                    self:write16(PCICONFIG_COMMAND, cmd)
                 end
             end
         end
