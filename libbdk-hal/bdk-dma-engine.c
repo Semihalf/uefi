@@ -60,6 +60,7 @@ int bdk_dma_engine_initialize(void)
     dma_control.s.dwb_denb = 1;
     dma_control.s.dwb_ichk = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
     dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
+    dma_control.s.o_es = 1;
     dma_control.s.o_mode = 1;
     BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
     dpi_ctl.u64 = BDK_CSR_READ(BDK_DPI_CTL);
