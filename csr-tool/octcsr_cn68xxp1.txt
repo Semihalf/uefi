@@ -32669,8 +32669,7 @@ Pos      Name    Type     Value     Value       Description
                                                  doorbell can be found in DPI_PINT_INFO[PSLDBOF]    |
  <50>    POUT_ERR  R/W1C   0x0         0         Set when PKO sends packet data with the error bit  |
 						 set.						    |
- <51>    PIN_BP    R/W1C   0x0         0         Packet input count has exceeded the WMARK.         |
-                                                 See SLI_PKT_IN_BP                                  |
+ <51>    NS        RAZ     NS          NS        Reserved                                           |
  <52>    PGL_ERR   R/W1C   0x0         0         When a read error occurs on a packet gather list   |
 						 read this bit is set.                              |
  <53>    PDI_ERR   R/W1C   0x0         0         When a read error occurs on a packet data read     |
@@ -32757,7 +32756,7 @@ Pos      Name    Type     Value     Value       Description
  <48>    PIDBOF    R/W     0x0         0         Packet Instruction Doorbell Count Overflow.	    |
  <49>    PSLDBOF   R/W     0x0         0         Packet Scatterlist Doorbell Count Overflow.	    |
  <50>    POUT_ERR  R/W     0x0         0         Packet Out Interrupt, Error From PKO.		    |
- <51>    PIN_BP    R/W     0x0         0         Packet Input Count exceeded WMARK.		    |
+ <51>    NS        R/W     0x0         0         Reserved	 				    |
  <52>    PGL_ERR   R/W     0x0         0         Read Error during gather list fetch.		    |
  <53>    PDI_ERR   R/W     0x0         0         Read Error during packet data fetch.		    |
  <54>    POP_ERR   R/W     0x0         0         Read Error during packet scatter pointer fetch.    |
@@ -34508,7 +34507,7 @@ Pos      Name    Type     Value     Value       Description
  <48>    PIDBOF    R/W     0x0         0         Packet Instruction Doorbell Count Overflow.	    |
  <49>    PSLDBOF   R/W     0x0         0         Packet Scatterlist Doorbell Count Overflow.	    |
  <50>    POUT_ERR  R/W     0x0         0         Packet Out Interrupt, Error From PKO.		    |
- <51>    PIN_BP    R/W     0x0         0         Packet Input Count exceeded WMARK.		    |
+ <51>    NS        R/W     0x0         0         Reserved	 				    |
  <52>    PGL_ERR   R/W     0x0         0         Read Error during gather list fetch.		    |
  <53>    PDI_ERR   R/W     0x0         0         Read Error during packet data fetch.		    |
  <54>    POP_ERR   R/W     0x0         0         Read Error during packet scatter pointer fetch.    |
