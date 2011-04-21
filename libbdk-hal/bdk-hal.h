@@ -12,6 +12,12 @@
  * @defgroup hal Hardware abstraction layer
  */
 
+/* Global define to control if the BDK configures units to send
+    don't write back requests for freed buffers. Set to 1 to enable
+    DWB, 0 to disable them. As the BDK normally fits inside L2, sending
+    DWB just causes more L2 operations without benefit */
+#define BDK_USE_DWB 0
+
 #include "bdk-access.h"
 #include "bdk-address.h"
 #include "bdk-utils.h"

@@ -158,7 +158,7 @@ void bdk_pko_enable(void)
     if (flags.s.ena_pko)
         bdk_warn("Enabling PKO when PKO already enabled.\n");
 
-    flags.s.ena_dwb = 1;
+    flags.s.ena_dwb = BDK_USE_DWB;
     flags.s.ena_pko = 1;
     flags.s.store_be =1;  /* always enable big endian for 3-word command. Does nothing for 2-word */
     BDK_CSR_WRITE(BDK_PKO_REG_FLAGS, flags.u64);

@@ -63,7 +63,7 @@ int bdk_dma_engine_initialize(void)
     dma_control.s.pkt_hp = 1;
     dma_control.s.pkt_en = 1;
     dma_control.s.dma_enb = 0x1f;
-    dma_control.s.dwb_denb = 1;
+    dma_control.s.dwb_denb = BDK_USE_DWB;
     dma_control.s.dwb_ichk = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
     dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
     dma_control.s.o_es = 1;
