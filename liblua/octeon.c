@@ -514,6 +514,9 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     extern int luaopen_trafficgen(lua_State *L);
     luaopen_trafficgen(L);
 
+    extern int luaopen_octeon_perf(lua_State *L);
+    luaopen_octeon_perf(L);
+
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
 #else

@@ -39,6 +39,8 @@ function TrafficGen.new()
     local use_readline = true
     local input_file = nil
     local last_display = 0
+    local l2_stats_table = {}
+    local show_l2_stats = false
 
     --
     -- Public variables
@@ -355,6 +357,11 @@ function TrafficGen.new()
         octeon.c.bdk_reset_octeon()
     end
 
+    function self:cmd_l2_stats(port_range, args)
+        assert (#args == 1, "One argument expected, on or off")
+        show_l2_stats = args[1]
+    end
+
     function self:cmdp_scan_sizes(port_range, args)
         -- Get our setup params
         local output_count = 100
@@ -502,6 +509,17 @@ function TrafficGen.new()
         -- Create a row reporting C's memory usage
         printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.get_sbrk() / 1024, ERASE_EOL)
         num_rows = num_rows + 1
+        if show_l2_stats then
+            local l2stats = octeon.perf.get_l2(l2_stats_table)
+            for _,n in ipairs(table.sorted_keys(l2stats["tad0"])) do
+                printf("%-20s", n)
+                for _,tad in ipairs(table.sorted_keys(l2stats)) do
+                    printf("%s%10s", COL_SEP, tostring(l2stats[tad][n]))
+                end
+                printf("%s\n", ERASE_EOL)
+                num_rows = num_rows + 1
+            end
+        end
 
         print(ZEROHI .. "-------" .. NORMAL .. ERASE_EOL)
         printf(ERASE_EOL .. "\n");
