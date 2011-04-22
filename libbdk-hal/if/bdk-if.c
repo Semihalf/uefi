@@ -248,17 +248,20 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
 static int __bdk_if_setup_pko(bdk_if_handle_t handle)
 {
     const int buffers_per_queue = 4;
-    int num_queues = 1;
+    int num_queues = sizeof(handle->cmd_queue) / sizeof(handle->cmd_queue[0]);
 
     /* Allocate command buffers per queue */
     if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, num_queues*buffers_per_queue))
         return -1;
 
-    if (bdk_cmd_queue_initialize(&handle->cmd_queue, BDK_FPA_OUTPUT_BUFFER_POOL,
-        bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)-8))
-        return -1;
+    for (int queue=0; queue<num_queues; queue++)
+    {
+        if (bdk_cmd_queue_initialize(&handle->cmd_queue[queue], BDK_FPA_OUTPUT_BUFFER_POOL,
+            bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)-8))
+            return -1;
+    }
 
-    int result = bdk_pko_config_port(handle->pko_port, num_queues, 0, &handle->cmd_queue);
+    int result = bdk_pko_config_port(handle->pko_port, num_queues, 0, handle->cmd_queue);
     if (result < 0)
         return result;
     handle->pko_queue = result;
@@ -736,7 +739,7 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     bdk_buf_ptr_t buf = packet->packet;
     buf.s.i = 0;
 
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue, 1, pko_command.u64, buf.u64);
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue[0], 1, pko_command.u64, buf.u64);
 
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
     {
