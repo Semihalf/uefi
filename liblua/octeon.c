@@ -466,6 +466,16 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setfield(L, -2, "CN68XX");
     lua_pushnumber(L, OCTEON_CN68XX_PASS1_X);
     lua_setfield(L, -2, "CN68XXP1");
+    lua_pushnumber(L, OCTEON_CN68XX_PASS2_X);
+    lua_setfield(L, -2, "CN68XXP2");
+    lua_pushnumber(L, OCTEON_CN65XX);
+    lua_setfield(L, -2, "CN65XX");
+    lua_pushnumber(L, OCTEON_CN65XX_PASS1_X);
+    lua_setfield(L, -2, "CN65XXP1");
+    lua_pushnumber(L, OCTEON_CN61XX);
+    lua_setfield(L, -2, "CN61XX");
+    lua_pushnumber(L, OCTEON_CN61XX_PASS1_X);
+    lua_setfield(L, -2, "CN61XXP1");
 
     /* Add octeon.csr, magic table access to Octeon CSRs */
     lua_newtable(L); /* csr table */
