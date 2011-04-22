@@ -8896,7 +8896,7 @@ Pos      Name    Type     Value     Value       Description
  <31:9>  NS       RAZ      NS          NS        Reserved					    |
  <8:4>   BASE     RO       NS          NS        The base address in 512B blocks of the engine fifo |
  <3:0>   BLKS     R/W      0x2         NS        The size of the engine fifo			    |
-						  Legal values are 0-8.				    |
+						  Legal values are 0-10.			    |
 						  0  = Engine is disabled			    |
 						  1  = 0.5KB buffer				    |
 						  2  = 1.0KB buffer				    |
@@ -19086,7 +19086,7 @@ Pos      Name    Type     Value     Value       Description
                                             where tFAW is from the DDR3 spec, and tCYC(ns)
                                             is the DDR clock frequency (not data rate).
                                             TYP=30-40ns
-<45:41>  TXPDLL      R/W    0xA     0xA     Indicates tXPDLL constraints.
+<45:41>  TXPDLL      R/W    0x0     0xA     Indicates tXPDLL constraints.
                                             Set TXPDLL (CSR field) = RNDUP[tXPDLL(ns)/tCYC(ns)]-1,
                                             where tXPDLL is from the DDR3 spec, and tCYC(ns)
                                             is the DDR clock frequency (not data rate).
@@ -19127,10 +19127,10 @@ Pos      Name    Type     Value     Value       Description
                                             See LMC*_CONFIG[SEQUENCE,INIT_START,RANKMASK].
                                             This value must equal the MR0[PPD] value in all the DDR3
                                             parts attached to all ranks during normal operation.
-<23:21>  WRP         R/W    0x1      0x1    Write recovery for auto precharge
+<23:21>  WRP         R/W    0x0      0x0    Write recovery for auto precharge
                                             Should be programmed to be equal to or greater than
                                             RNDUP[tWR(ns)/tCYC(ns)]
-					    000 = Reserved
+					    000 = 5
 					    001 = 5
 					    010 = 6
 					    011 = 7
@@ -39573,7 +39573,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
-*
+ *
  * UCTL_EHCI_FLA = UCTL EHCI Frame Length Adjument Register
  * This register configures the EHCI Frame Length Adjustment.
 
@@ -39585,14 +39585,29 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:6>   NS                RAZ      NS   NS        Reserved                                            |
-<5:0>    FLA               R/W      0x20 0x20      EHCI Frame Length Adjustment. This feature          |
-                                                   adjusts any offset from the clock source that drives|
-                                                   the uSOF counter.  The default value is 32(0x20),   |
-                                                   which gives an SOF cycle time of 60,0000 (each      |
-                                                   microframe has 60,000 bit times).                   |
-                                                   Note: keep this value to 0x20 (decimal 32) for no   |
-                                                   offset.                                             |
+<63:6>   NS                RAZ      NS   NS        Reserved                                                |
+<5:0>    FLA               R/W      0x0  0x20      EHCI Frame Length Adjustment. This feature              |
+                                                   adjusts any offset from the clock source that drives    |
+                                                   the uSOF counter.  The uSOF cycle time (number of       |
+                                                   uSOF counter clock periods to generate a uSOF           |
+                                                   microframe length) is equal to 59,488 plus this value.  |
+                                                   The default value is 32(0x20), which gives an SOF cycle |
+                                                   time of 60,000 (each microframe has 60,000 bit times).  |
+                                                   -------------------------------------------------       |
+                                                    Frame Length (decimal)      FLA Value                  |
+                                                   -------------------------------------------------       |
+                                                      59488                      0x00                      |
+                                                      59504                      0x01                      |
+                                                      59520                      0x02                      |
+                                                      ... ...                                              |
+                                                      59984                      0x1F                      |
+                                                      60000                      0x20                      |
+                                                      60016                      0x21                      |
+                                                      ... ...                                              |
+                                                      60496                      0x3F                      |
+                                                   --------------------------------------------------      |
+                                                   Note: keep this value to 0x20 (decimal 32) for no       |
+                                                   offset.                                                 |
 ----------------------------------------------------------------------------------------------------
 ===
 

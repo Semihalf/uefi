@@ -8839,6 +8839,26 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
+
+     ==============================================================
+     DPI_NCB(0..0)_CFG Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:6>  NS       RAZ      NS          NS        Reserved					    |
+ <5:0>   MOLR     R/W      0x20        0x20      Max Outstanding Load Requests                      |
+                                                  Limits the number of oustanding load requests on  |
+						  the NCB interface.  This value can range from 1   |
+						  to 32. Setting a value of 0 will halt all read    |
+						  traffic to the NCB interface.  There are no	    |
+						  restrictions on when this value can be changed.   |
+----------------------------------------------------------------------------------------------------
+===
+
+
  *
  *                  DPI_PINT_INFO = DPI Packet Interrupt Info
  *
@@ -8906,7 +8926,7 @@ Pos      Name    Type     Value     Value       Description
  <31:9>  NS       RAZ      NS          NS        Reserved					    |
  <8:4>   BASE     RO       NS          NS        The base address in 512B blocks of the engine fifo |
  <3:0>   BLKS     R/W      0x2         NS        The size of the engine fifo			    |
-						  Legal values are 0-8.				    |
+						  Legal values are 0-10.			    |
 						  0  = Engine is disabled			    |
 						  1  = 0.5KB buffer				    |
 						  2  = 1.0KB buffer				    |
@@ -19314,7 +19334,7 @@ Pos      Name    Type     Value     Value       Description
                                             where tFAW is from the DDR3 spec, and tCYC(ns)
                                             is the DDR clock frequency (not data rate).
                                             TYP=30-40ns
-<45:41>  TXPDLL      R/W    0xA     0xA     Indicates tXPDLL constraints.
+<45:41>  TXPDLL      R/W    0x0     0xA     Indicates tXPDLL constraints.
                                             Set TXPDLL (CSR field) = RNDUP[tXPDLL(ns)/tCYC(ns)]-1,
                                             where tXPDLL is from the DDR3 spec, and tCYC(ns)
                                             is the DDR clock frequency (not data rate).
@@ -19355,10 +19375,10 @@ Pos      Name    Type     Value     Value       Description
                                             See LMC*_CONFIG[SEQUENCE,INIT_START,RANKMASK].
                                             This value must equal the MR0[PPD] value in all the DDR3
                                             parts attached to all ranks during normal operation.
-<23:21>  WRP         R/W    0x1      0x1    Write recovery for auto precharge
+<23:21>  WRP         R/W    0x0      0x0    Write recovery for auto precharge
                                             Should be programmed to be equal to or greater than
                                             RNDUP[tWR(ns)/tCYC(ns)]
-					    000 = Reserved
+					    000 = 5
 					    001 = 5
 					    010 = 6
 					    011 = 7
@@ -23895,51 +23915,74 @@ Pos      Name    Type     Value     Value       Description
  <1>     EXT_CLK_EN R/W     0x0	       0	 Use positive edge of external clock                |
  <7:2>   EXT_CLK_IN R/W     0x0	       0	 Source for external clock                          |
                                                  0x00-0x0f : GPIO[EXT_CLK_IN[3:0]]
+                                                 0x20      : GPIO[16]
+                                                 0x21      : GPIO[17]
+                                                 0x22      : GPIO[18]
+                                                 0x23      : GPIO[19]
                                                  0x10      : QLM0_REF_CLK
                                                  0x11      : QLM1_REF_CLK
                                                  0x12      : QLM2_REF_CLK
                                                  0x13      : QLM3_REF_CLK
                                                  0x14      : QLM4_REF_CLK
-                                                 0x15-0x3f : Reserved
+                                                 0x15-0x1f : Reserved
+                                                 0x24-0x3f : Reserved
  <8>     TSTMP_EN   R/W     0x0	       0	 Enable external timestamp                          |
  <9>     TSTMP_EDGE R/W     0x0	       0	 External timestamp input edge                      |
                                                  0 = falling edge
                                                  1 = rising edge
  <15:10> TSTMP_IN   R/W     0x0	       0	 Source for timestamp input                         |
                                                  0x00-0x0f : GPIO[TSTMP_IN[3:0]]
+                                                 0x20      : GPIO[16]
+                                                 0x21      : GPIO[17]
+                                                 0x22      : GPIO[18]
+                                                 0x23      : GPIO[19]
                                                  0x10      : QLM0_REF_CLK
                                                  0x11      : QLM1_REF_CLK
                                                  0x12      : QLM2_REF_CLK
                                                  0x13      : QLM3_REF_CLK
                                                  0x14      : QLM4_REF_CLK
-                                                 0x15-0x3f : Reserved
+                                                 0x15-0x1f : Reserved
+                                                 0x24-0x3f : Reserved
  <16>    EVCNT_EN   R/W     0x0	       0	 Enable event counter                               |
  <17>    EVCNT_EDGE R/W     0x0	       0	 Event counter input edge                           |
                                                  0 = falling edge
                                                  1 = rising edge
  <23:18> EVCNT_IN   R/W     0x0	       0	 Source for event counter input                     |
                                                  0x00-0x0f : GPIO[EVCNT_IN[3:0]]
+                                                 0x20      : GPIO[16]
+                                                 0x21      : GPIO[17]
+                                                 0x22      : GPIO[18]
+                                                 0x23      : GPIO[19]
                                                  0x10      : QLM0_REF_CLK
                                                  0x11      : QLM1_REF_CLK
                                                  0x12      : QLM2_REF_CLK
                                                  0x13      : QLM3_REF_CLK
                                                  0x14      : QLM4_REF_CLK
-                                                 0x15-0x3f : Reserved
+                                                 0x15-0x1f : Reserved
+                                                 0x24-0x3f : Reserved
  <24>    CKOUT_EN   R/W     0x0	       0	 Enable PTP Clock Out                               |
  <25>    CKOUT_INV  R/W     0x0	       0	 Invert PTP Clock Out                               |
                                                  0 = don't invert
                                                  1 = invert
  <29:26> CKOUT_OUT  R/W     0x0	       0	 Destination for PTP Clock Out output               |
-                                                 0x00-0x0f : GPIO[CKOUT_OUT[3:0]]
+                                                 0-19 : GPIO[{CKOUT_OUT4,CKOUT_OUT[3:0]}]
 	                                         This should be different from PPS_OUT
  <30>    PPS_EN     R/W     0x0	       0	 Enable PTP PPS                                     |
  <31>    PPS_INV    R/W     0x0	       0	 Invert PTP PPS                                     |
                                                  0 = don't invert
                                                  1 = invert
- <35:32> PPS_OUT    R/W     0x0	       0	 Destination for PTP PPS       output               |
-                                                 0x00-0x0f : GPIO[PPS_OUT[3:0]]
+ <36:32> PPS_OUT    R/W     0x0	       0	 Destination for PTP PPS output                     |
+                                                 0-19 : GPIO[PPS_OUT[4:0]]
 	                                         This should be different from CKOUT_OUT
- <63:36> NS         RAZ     NS         NS        Reserved				            |
+ <37>    CKOUT_OUT4 R/W     0x0	       0	 Destination for PTP Clock Out output               |
+                                                 0-19 : GPIO[{CKOUT_OUT4,CKOUT_OUT[3:0]}]
+	                                         This should be different from PPS_OUT
+ <39:38> EXT_CLK_EDGE R/W   0x0	       0	 External Clock input edge                          |
+                                                 00 = rising edge
+                                                 01 = falling edge
+                                                 10 = both rising & falling edge
+                                                 11 = reserved
+ <63:40> NS         RAZ     NS         NS        Reserved				            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -40030,7 +40073,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
-*
+ *
  * UCTL_EHCI_FLA = UCTL EHCI Frame Length Adjument Register
  * This register configures the EHCI Frame Length Adjustment.
 
@@ -40042,14 +40085,29 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:6>   NS                RAZ      NS   NS        Reserved                                            |
-<5:0>    FLA               R/W      0x20 0x20      EHCI Frame Length Adjustment. This feature          |
-                                                   adjusts any offset from the clock source that drives|
-                                                   the uSOF counter.  The default value is 32(0x20),   |
-                                                   which gives an SOF cycle time of 60,0000 (each      |
-                                                   microframe has 60,000 bit times).                   |
-                                                   Note: keep this value to 0x20 (decimal 32) for no   |
-                                                   offset.                                             |
+<63:6>   NS                RAZ      NS   NS        Reserved                                                |
+<5:0>    FLA               R/W      0x20 0x20      EHCI Frame Length Adjustment. This feature              |
+                                                   adjusts any offset from the clock source that drives    |
+                                                   the uSOF counter.  The uSOF cycle time (number of       |
+                                                   uSOF counter clock periods to generate a uSOF           |
+                                                   microframe length) is equal to 59,488 plus this value.  |
+                                                   The default value is 32(0x20), which gives an SOF cycle |
+                                                   time of 60,000 (each microframe has 60,000 bit times).  |
+                                                   -------------------------------------------------       |
+                                                    Frame Length (decimal)      FLA Value                  |
+                                                   -------------------------------------------------       |
+                                                      59488                      0x00                      |
+                                                      59504                      0x01                      |
+                                                      59520                      0x02                      |
+                                                      ... ...                                              |
+                                                      59984                      0x1F                      |
+                                                      60000                      0x20                      |
+                                                      60016                      0x21                      |
+                                                      ... ...                                              |
+                                                      60496                      0x3F                      |
+                                                   --------------------------------------------------      |
+                                                   Note: keep this value to 0x20 (decimal 32) for no       |
+                                                   offset.                                                 |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -46093,6 +46151,7 @@ DPI_ENG5_BUF                   0x0001DF00000008A8  NCB
 DPI_INFO_REG                   0x0001DF0000000980  NCB
 DPI_INT_EN                     0x0001DF0000000010  NCB
 DPI_INT_REG                    0x0001DF0000000008  NCB
+DPI_NCB0_CFG                   0x0001DF0000000800  NCB
 DPI_PINT_INFO                  0x0001DF0000000830  NCB
 DPI_PKT_ERR_RSP                0x0001DF0000000078  NCB
 DPI_REQ_ERR_RSP                0x0001DF0000000058  NCB

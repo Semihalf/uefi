@@ -58,7 +58,7 @@ do
     sed -i "s/PCIERC#_/PCIERC(0..1)_/g" $f
     sed -i "s/GMX#_/GMX(0..1)_/g" $f
     sed -i "s/LMC#_/LMC(0)_/g" $f
-    sed -i "s/PCSX#_/PCSX(0)_/g" $f
+    sed -i "s/PCSX#_/PCSX(0..1)_/g" $f
     sed -i "s/PEM#_/PEM(0..1)_/g" $f
     sed -i "s/SRIO#_/SRIO(0..3)_/g" $f
     sed -i "s/SRIOMAINT#_/SRIOMAINT(0..3)_/g" $f
