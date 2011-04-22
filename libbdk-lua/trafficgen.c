@@ -515,11 +515,127 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     return 0;
 }
 
+
+/**
+ * Transmitter loop for generic ports. PKO based ports
+ * use the optimized version below. Currently this is
+ * only used for MGGMT ports.
+ *
+ * @param tg_port Trafficgen port to transmit on
+ * @param packet  Packet to send
+ * @param output_cycle_gap
+ *                Gap between each packet in core cycles shifted by CYCLE_SHIFT
+ */
+static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *packet, uint64_t output_cycle_gap)
+{
+    trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
+    uint64_t count = port_tx->output_count;
+    uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+
+    while (port_tx->output_enable)
+    {
+        uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+        int do_tx = cycle >= output_cycle;
+        if (bdk_likely(do_tx))
+        {
+            output_cycle += output_cycle_gap;
+            /* Only free the packet on TX if this is the last packet "i=1"
+                means the packet isn't freed */
+            packet->packet.s.i = (count != 1);
+            if (bdk_likely(bdk_if_transmit(packet->if_handle, packet) == 0))
+            {
+                if (bdk_unlikely(--count == 0))
+                    break;
+            }
+            else
+            {
+                /* Transmit failed. Remember we need to free the packet */
+                packet->packet.s.i = 1;
+                do_tx = 0;
+            }
+        }
+        if (bdk_unlikely(!do_tx))
+            bdk_thread_yield();
+    }
+}
+
+
+/**
+ * Transmitter loop for PKO ports. This is a PKO optimized
+ * version of the above generic implementation.
+ *
+ * @param tg_port Trafficgen port to transmit on
+ * @param packet  Packet to send
+ * @param output_cycle_gap
+ *                Gap between each packet in core cycles shifted by CYCLE_SHIFT
+ */
+static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, uint64_t output_cycle_gap)
+{
+    if (bdk_unlikely(packet->segments >= 64))
+    {
+        bdk_error("PKO can't transmit packets with more than 63 segments\n");
+        return;
+    }
+
+    const trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
+    const int pko_port = tg_port->handle->pko_port;
+    const int pko_queue = tg_port->handle->pko_queue + 1;
+    bdk_cmd_queue_state_t *cmd_queue = &tg_port->handle->cmd_queue[1];
+
+    uint64_t count = port_tx->output_count;
+    bdk_pko_command_word0_t pko_command;
+    pko_command.u64 = 0;
+    pko_command.s.dontfree = (count > 1);
+    pko_command.s.ignore_i = 1;
+    pko_command.s.segs = packet->segments;
+    pko_command.s.total_bytes = packet->length;
+    bdk_buf_ptr_t buf = packet->packet;
+    buf.s.i = 0;
+
+    uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+    uint64_t cycle;
+loop_begin:
+    cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+    if (bdk_unlikely(cycle < output_cycle))
+        goto idle;
+
+    output_cycle += output_cycle_gap;
+    /* Only free the packet on TX if this is the last packet "i=1"
+        means the packet isn't freed */
+    pko_command.s.dontfree = (count != 1);
+
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(cmd_queue, 0, pko_command.u64, buf.u64);
+    if (bdk_unlikely(result != BDK_CMD_QUEUE_SUCCESS))
+        goto tx_failed;
+
+    bdk_pko_doorbell(pko_port, pko_queue, 2);
+    count--;
+
+check_done:
+    if (bdk_likely(port_tx->output_enable && count))
+        goto loop_begin;
+    packet->packet.s.i = pko_command.s.dontfree;
+    return;
+
+tx_failed:
+    /* Transmit failed. Remember we need to free the packet */
+    pko_command.s.dontfree = 1;
+idle:
+    bdk_thread_yield();
+    goto check_done;
+}
+
+
+/**
+ * Transmit loop for each port. This is started as an independent
+ * thread.
+ *
+ * @param unused  Unused
+ * @param tg_port Port to transmit on
+ */
 static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
-    uint64_t output_cycle;
-    uint64_t count = port_tx->output_count;
     bdk_if_packet_t packet;
 
     packet.if_handle = tg_port->handle;
@@ -541,34 +657,13 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         packet_rate = 1;
     uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
 
-    output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
+    /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
+        as we need software stats that aren't updated in hte optimized PKO */
+    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation())
+        packet_transmitter_pko(tg_port, &packet, output_cycle_gap);
+    else
+        packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
 
-    while (port_tx->output_enable)
-    {
-        uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-        int do_tx = cycle >= output_cycle;
-        if (bdk_likely(do_tx))
-        {
-            output_cycle += output_cycle_gap;
-            /* Only free the packet on TX if this is the last packet "i=1"
-                means the packet isn't freed */
-            packet.packet.s.i = (count != 1);
-            /* We don't care if the send fails */
-            if (bdk_likely(bdk_if_transmit(packet.if_handle, &packet) == 0))
-            {
-                if (bdk_unlikely(--count == 0))
-                    break;
-            }
-            else
-            {
-                /* Transmit failed. Remember we need to free the packet */
-                packet.packet.s.i = 1;
-                do_tx = 0;
-            }
-        }
-        if (bdk_unlikely(!do_tx))
-            bdk_thread_yield();
-    }
     if (packet.packet.s.i)
     {
         /* Packet has not been freed on TX, so free it now */
@@ -579,6 +674,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     port_tx->output_enable = 0;
     BDK_SYNCW;
 }
+
 
 /**
  * Check the CRC on an incomming packet and return non zero if it
