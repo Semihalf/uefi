@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#define USE_SOFTWARE_COUNTERS 0
-
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
 extern const __bdk_if_ops_t __bdk_if_ops_dpi;
@@ -647,7 +645,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     if (__bdk_if_ops[handle->iftype]->if_get_stats)
         return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 
-    if (USE_SOFTWARE_COUNTERS || bdk_unlikely(bdk_is_simulation()))
+    if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
     int bytes_off_tx;
@@ -746,7 +744,7 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         bdk_pko_doorbell(handle->pko_port, handle->pko_queue, 2);
         /* Updates the statistics in software if need to. The simulator
             doesn't implement the hardware counters */
-        if (USE_SOFTWARE_COUNTERS || bdk_unlikely(bdk_is_simulation()))
+        if (bdk_unlikely(bdk_is_simulation()))
         {
             int octets = pko_command.s.total_bytes;
             if (handle->has_fcs)
@@ -831,7 +829,7 @@ int bdk_if_receive(bdk_if_packet_t *packet)
 
         /* Updates the statistics in software if need to. The simulator
             doesn't implement the hardware counters */
-        if (USE_SOFTWARE_COUNTERS || bdk_unlikely(bdk_is_simulation()))
+        if (bdk_unlikely(bdk_is_simulation()))
         {
             int octets = wqe->word1.s.len;
             bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
