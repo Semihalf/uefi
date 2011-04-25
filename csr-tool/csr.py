@@ -329,7 +329,6 @@ class Csr:
         else:
             base_address = self.address_base
         if self.range:
-            first_offset = self.range[0][0]
             offset_max = max(self.range[0])
             if len(self.range) > 1:
                 offset_max = max(self.range[1])
@@ -337,22 +336,19 @@ class Csr:
             else:
                 block_max = 0
         else:
-            first_offset = 0
             offset_max = 0
             block_max = 0
 
         if len(self.range) == 0:
             address_part = toHex(base_address, 16) + "ull"
         elif len(self.range) == 1:
-            address_part = "%sull" % toHex(base_address + self.address_offset_inc * first_offset, 16)
+            address_part = "%sull" % toHex(base_address, 16)
             bit_mask = getBitMask(offset_max)
             if bit_mask and self.address_offset_inc:
                 if self.address_offset_inc >= 65536:
                     address_part += " + (block_id & %d) * %sull" % (bit_mask, toHex(self.address_offset_inc))
                 elif self.address_offset_inc:
                     address_part += " + (offset & %d) * %d" % (bit_mask, self.address_offset_inc)
-            if first_offset and self.address_offset_inc:
-                address_part += " - %d*%d" % (self.address_offset_inc, first_offset)
         elif len(self.range) == 2:
             # The following is a workaround for a bug in the gcc expression
             # optimizer. If you have an expression x*A+y*B, gcc will attempt

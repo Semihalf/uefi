@@ -291,7 +291,6 @@ def read(name, file):
             if not n2 in current_address_list:
                 n2 = NAME_TO_ADDRESS_NAME_MAPPING[n2]
             address2 = current_address_list[n2][0]
-            csr.pci_alias = current_address_list[n1][1]
             csr.address_block_inc = 0xbadbadbadbad
             if offset_delta:
                 csr.address_offset_inc = (address2 - address1) / offset_delta
@@ -300,6 +299,10 @@ def read(name, file):
             # The base is the value if the index were zero. If it starts
             # higher than that we need to subtract stuff off
             csr.address_base = address1 - csr.address_offset_inc*offset
+            if current_address_list[n1][1] != -1:
+                csr.pci_alias = current_address_list[n1][1] - csr.address_offset_inc*offset
+            else:
+                csr.pci_alias = -1
 
             for name,calc_address,unused1,unused2 in csr.iterateAddresses():
                 if not name in current_address_list:
@@ -313,7 +316,6 @@ def read(name, file):
             block = csr.range[0][0]
             offset = csr.range[1][0]
             n1 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset, parts[2])
-            csr.pci_alias = current_address_list[n1][1]
             if csr.range[1][0] == csr.range[1][1]:
                 address1 = current_address_list[n1][0]
                 address2 = address1
@@ -336,6 +338,10 @@ def read(name, file):
                 else:
                     assert (csr.address_block_inc == 0x8000000) or (csr.address_block_inc == 0x60000000) or (csr.address_block_inc == 0x100000000000) or (csr.address_block_inc == 0x1000000), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_offset_inc, csr.address_block_inc)
             csr.address_base = address1 - csr.address_block_inc*csr.range[0][0] - csr.address_offset_inc*csr.range[1][0]
+            if current_address_list[n1][1] != -1:
+                csr.pci_alias = current_address_list[n1][1] - csr.address_block_inc*csr.range[0][0] - csr.address_offset_inc*csr.range[1][0]
+            else:
+                csr.pci_alias = -1
 
             for name,calc_address,unused1,unused2 in csr.iterateAddresses():
                 assert calc_address == current_address_list[name][0], "%x == %x[%s][0]" % (calc_address, current_address_list[name][0], name)
