@@ -644,22 +644,22 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
  *                  if transactions should use 8bit device IDs.
  * @param hopcount  Number of hops to the remote device. Use 0 for the local Octeon.
  * @param offset    Offset in config space. This must be a multiple of 32 bits.
- * @param result    Result of the read. This will be unmodified on failure.
  *
- * @return Zero on success, negative on failure.
+ * @return The value read, or -1 on failure
  */
-int bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
-                            int is16bit, uint8_t hopcount, uint32_t offset,
-                            uint32_t *result)
+int64_t bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
+                            int is16bit, uint8_t hopcount, uint32_t offset)
 {
+    uint32_t result;
     if (destid == -1)
     {
-        int status = __bdk_srio_local_read32(srio_port, offset, result);
+        int status = __bdk_srio_local_read32(srio_port, offset, &result);
 
         if ((status == 0) && (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG))
-            bdk_dprintf("SRIO%d: Local read [0x%06x] <= 0x%08x\n", srio_port, (unsigned int)offset, (unsigned int)*result);
-
-        return status;
+            bdk_dprintf("SRIO%d: Local read [0x%06x] <= 0x%08x\n", srio_port, (unsigned int)offset, (unsigned int)result);
+        if (status)
+            return -1;
+        return result;
     }
     else
     {
@@ -749,28 +749,31 @@ int bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
                 if (is16bit)
                 {
                     if (offset & 4)
-                        *result = *(uint32_t*)(rx_buffer + 15);
+                        result = *(uint32_t*)(rx_buffer + 15);
                     else
-                        *result = *(uint32_t*)(rx_buffer + 11);
+                        result = *(uint32_t*)(rx_buffer + 11);
                 }
                 else
                 {
                     if (offset & 4)
-                        *result = *(uint32_t*)(rx_buffer + 13);
+                        result = *(uint32_t*)(rx_buffer + 13);
                     else
-                        *result = *(uint32_t*)(rx_buffer + 9);
+                        result = *(uint32_t*)(rx_buffer + 9);
                 }
                 if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-                    bdk_dprintf("0x%08x\n", (unsigned int)*result);
+                    bdk_dprintf("0x%08x\n", (unsigned int)result);
                 return_code = 0;
             }
             else
             {
-                *result = 0xffffffff;
+                result = 0xffffffff;
                 return_code = -1;
             }
 
-            return return_code;
+            if (return_code)
+                return -1;
+            else
+                return result;
         }
         else
         {
@@ -786,13 +789,13 @@ int bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
                 bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, offset);
 
             /* Finally do the maintenance read to complete the config request */
-            *result = bdk_read64_uint32(BDK_ADD_IO_SEG(physical));
+            result = bdk_read64_uint32(BDK_ADD_IO_SEG(physical));
             bdk_srio_physical_unmap(physical, 4);
 
             if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
-                bdk_dprintf("0x%08x\n", *result);
+                bdk_dprintf("0x%08x\n", result);
 
-            return 0;
+            return result;
         }
     }
 }

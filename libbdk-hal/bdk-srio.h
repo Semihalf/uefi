@@ -345,13 +345,11 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags);
  *                  if transactions should use 8bit device IDs.
  * @param hopcount  Number of hops to the remote device. Use 0 for the local Octeon.
  * @param offset    Offset in config space. This must be a multiple of 32 bits.
- * @param result    Result of the read. This will be unmodified on failure.
  *
- * @return Zero on success, negative on failure.
+ * @return The value read, or -1 on failure
  */
-int bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
-                            int is16bit, uint8_t hopcount, uint32_t offset,
-                            uint32_t *result);
+int64_t bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
+                            int is16bit, uint8_t hopcount, uint32_t offset);
 
 /**
  * Write 32bits to a Device's config space

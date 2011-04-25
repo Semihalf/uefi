@@ -47,11 +47,7 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
 
         case BDK_CSR_TYPE_SRIOMAINT:
         {
-            uint32_t result;
-            if (bdk_srio_config_read32(busnum, 0, -1, 0, 0, address, &result) == 0)
-                return result;
-            else
-                return 0;
+            return bdk_srio_config_read32(busnum, 0, -1, 0, 0, address);
         }
     }
     return 0;
