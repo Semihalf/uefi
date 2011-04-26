@@ -96,6 +96,8 @@ static int __bdk_srio_alloc_s2m(int srio_port, bdk_sriox_s2m_typex_t s2m)
         {
             /* Unused location. Write our value */
             BDK_CSR_WRITE(BDK_SRIOX_S2M_TYPEX(s2m_index, srio_port), s2m.u64);
+            /* Read back to make sure the update is complete */
+            BDK_CSR_READ(BDK_SRIOX_S2M_TYPEX(s2m_index, srio_port));
             return s2m_index;
         }
         else
@@ -149,6 +151,8 @@ static int __bdk_srio_alloc_subid(bdk_sli_mem_access_subidx_t subid)
         {
             /* Unused location. Write our value */
             BDK_CSR_WRITE(BDK_SLI_MEM_ACCESS_SUBIDX(mem_index), subid.u64);
+            /* Read back to make sure the update is complete */
+            BDK_CSR_READ(BDK_SLI_MEM_ACCESS_SUBIDX(mem_index));
             return mem_index;
         }
         else
@@ -787,7 +791,6 @@ int64_t bdk_srio_config_read32(int srio_port, int srcid_index, int destid,
 
             if (__bdk_srio_state[srio_port].flags & BDK_SRIO_INITIALIZE_DEBUG)
                 bdk_dprintf("SRIO%d: Remote read [id=0x%04x hop=%3d offset=0x%06x] <= ", srio_port, destid, hopcount, offset);
-
             /* Finally do the maintenance read to complete the config request */
             result = bdk_read64_uint32(BDK_ADD_IO_SEG(physical));
             bdk_srio_physical_unmap(physical, 4);
