@@ -71,7 +71,54 @@ local function do_maintwrite(srio_port)
     end
 
     local result = octeon.c.bdk_srio_config_write32(srio_port, 0, devid, is16bit, hopcount, register, value)
-    assert(result ~= -1, "Maintenance write failed")
+    assert(result == 0, "Maintenance write failed")
+end
+
+local function do_doorbell_tx(srio_port)
+    local devid = menu.prompt_number("Device ID")
+    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local is16bit = menu.prompt_string("Do a 16 bit access(y/n)")
+    assert((is16bit == "y") or (is16bit == "n"), "Must specify 'y' or 'n'")
+    local priority = menu.prompt_number("Priority(0-3)")
+    assert((priority >= 0) and (priority <= 3), "Illegal priority")
+    local doorbell = menu.prompt_number("Doorbell Value")
+
+    if is16bit == "y" then
+        is16bit = 1
+    else
+        is16bit = 0
+    end
+
+    local result = octeon.c.bdk_srio_send_doorbell(srio_port, 0, devid, is16bit, priority, doorbell)
+    assert(result == 0, "Doorbell send failed")
+end
+
+local function do_doorbell_rx(srio_port)
+    local pending = octeon.csr.SRIOX_RX_BELL_SEQ(srio_port).decode()
+    if pending.COUNT == 0 then
+        printf("No doorbells received\n")
+        return
+    end
+
+    while pending.COUNT > 0 do
+        local doorbell = octeon.csr.SRIOX_RX_BELL(srio_port).decode()
+        printf("Received doorbell:\n")
+        printf("   Source ID:      %d\n", doorbell.SRC_ID)
+        if doorbell.DEST_ID == 1 then
+            printf("   Destination ID: Secondary\n")
+        else
+            printf("   Destination ID: Primary\n")
+        end
+        printf("   Data:           0x%x\n", doorbell.DATA)
+        printf("   Priority:       %d\n", doorbell.PRIORITY)
+        if doorbell.ID16 == 1 then
+            printf("   Type:           16 bit\n")
+        else
+            printf("   Type:           8 bit\n")
+        end
+        printf("   Sequence #:     %d\n", pending.SEQ)
+        pending = octeon.csr.SRIOX_RX_BELL_SEQ(srio_port).decode()
+    end
 end
 
 local function srio_submenu(srio_port)
@@ -83,8 +130,8 @@ local function srio_submenu(srio_port)
     m:item("show", prefix .. ": Display devices", do_display, srio_port)
     m:item("mread", prefix .. ": Perform a maintenance read", do_maintread, srio_port)
     m:item("mwrite", prefix .. ": Perform a maintenance write", do_maintwrite, srio_port)
-    m:item("sdb", prefix .. ": Send a doorbell", not_implemented, srio_port)
-    m:item("rdb", prefix .. ": Receive a doorbell", not_implemented, srio_port)
+    m:item("sdb", prefix .. ": Send a doorbell", do_doorbell_tx, srio_port)
+    m:item("rdb", prefix .. ": Receive a doorbell", do_doorbell_rx, srio_port)
     m:item("read", prefix .. ": Perform a memory read", not_implemented, srio_port)
     m:item("write", prefix .. ": Perform a memory write", not_implemented, srio_port)
     m:item("quit", "Main menu")
