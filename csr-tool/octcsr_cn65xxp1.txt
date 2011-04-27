@@ -9411,9 +9411,10 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   IFBCNT      RO      0       0      Performance Counter
+<63:0>   IFBCNT      RO      NS      NS     Performance Counter
                                             64-bit counter that increments every
                                             cycle there is something in the in-flight buffer.
+                                            Before using, clear counter via DFM_CONTROL.BWCNT.
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -9428,9 +9429,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   OPSCNT      RO      0       0      Performance Counter
+<63:0>   OPSCNT      RO      NS      NS     Performance Counter
                                             64-bit counter that increments when the DDR3 data bus
-                                            is being used.
+                                            is being used.  Before using, clear counter via
+                                            DFM_CONTROL.BWCNT
                                               DRAM bus utilization = DFM_OPS_CNT/DFM_FCLK_CNT
 ----------------------------------------------------------------------------------------------------
 ===
@@ -9654,7 +9656,7 @@ Pos      Name    Type     Value     Value       Description
                                              for back to back accesses across ranks of the same dimm
 <11:6>   R2W_XRANK_INIT R/W 0x6    NS        Read-to-write spacing control
                                              for back to back accesses across ranks of the same dimm
-<17:12>  W2R_XRANK_INIT R/W 0x4    NS        Write-to-read spacing control
+<17:12>  W2R_XRANK_INIT R/W 0x5    NS        Write-to-read spacing control
                                              for back to back accesses across ranks of the same dimm
 <23:18>  W2W_XRANK_INIT R/W 0x5    NS        Write-to-write spacing control
                                              for back to back accesses across ranks of the same dimm
@@ -10549,10 +10551,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:6>  NS       RAZ      NS          NS        Reserved					    |
- <5:0>   MOLR     R/W      0x10        0x10      Max Outstanding Load Requests                      |
+ <5:0>   MOLR     R/W      0x20        0x20      Max Outstanding Load Requests                      |
                                                   Limits the number of oustanding load requests on  |
 						  the NCB interface.  This value can range from 1   |
-						  to 16. Setting a value of 0 will halt all read    |
+						  to 32. Setting a value of 0 will halt all read    |
 						  traffic to the NCB interface.  There are no	    |
 						  restrictions on when this value can be changed.   |
 ----------------------------------------------------------------------------------------------------
@@ -25088,10 +25090,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved				            |
- <9:8>   QLM_SEL  R/W      0x1         0x1       Selects which QLM to select from		    |
+ <9:8>   QLM_SEL  R/W      0x0         0x1       Selects which QLM to select from		    |
 						 01 = select QLM1 as clock source 		    |
 						 1x = select QLM2 as clock source		    |
-						 0  = Invalid                                       |
+						 0  = Disabled                                      |
  <7:3>   NS       RAZ      NS          NS        Reserved				            |
  <2>     DIV      R/W      0x0         0x0       Internal clock divider				    |
 						  0=DIV2					    |
@@ -36479,9 +36481,9 @@ Pos      Name    Type     Value     Value       Description
 Notes:                                                                                              |
  This register contains the local controls for packet forwarding.  The global path selection is     |
  located in DPI_SRIO_FWD_CTL.  The typical operation involves selecting the global paths and then   |
- enabling the local MACs in this register.  Pathes may be switched by first clearing FWD_EN in all  |
+ enabling the local MACs in this register.  Paths may be switched by first clearing FWD_EN in all   |
  the MACs then polling FWD_RDY to insure the disable is completed, making changes to                |
- DPI_SRIO_FWD_CTL and finally reenabling FWD_ENA.                                                   |
+ DPI_SRIO_FWD_CTL and finally reenabling FWD_EN.                                                    |
                                                                                                     |
 Clk_Rst:	SRIO(0..3)_FWD_CTL	hclk	hrst_n		        	                            |
 ----------------------------------------------------------------------------------------------------

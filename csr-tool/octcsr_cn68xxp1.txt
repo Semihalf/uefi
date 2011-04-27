@@ -35893,7 +35893,7 @@ Pos      Name    Type     Value     Value       Description
  * are used to setup the SSO_RWQ_HEAD_PTR and SSO_RWQ_TAIL_PTRs, and the
  * remainder are pushed via this register.
  *
- * NOTES - NOT FOR SPEC:
+ * IMPLEMENTATION NOTES--NOT FOR SPEC:
  *      48 avoids false out of buffer error due to (16) FPA and in-sso FPA buffering (32)
  *      26 is number of WAE's per 256B buffer
  *

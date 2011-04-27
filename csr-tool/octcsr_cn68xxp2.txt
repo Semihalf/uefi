@@ -35700,7 +35700,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:10> NS        RAZ      NS      NS       Reserved                                               |
+ <63:11> NS        RAZ      NS      NS       Reserved                                               |
+ <10>    RWQ_ALLOC_DIS R/W  0x0     0x0      Disable FPA Alloc Requests when SSO_FPAGE_CNT < 16     |
  <9>     SOC_CCAM_DIS R/W   0x0     0x0      Disable power saving SOC conditional CAM               |
                                              (**NOTE: Added in pass 2.0)                            |
  <8>     SSO_CCLK_DIS R/W   0x0     0x0      Disable power saving SSO conditional clocking          |
@@ -36011,6 +36012,36 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  ACT_CYC   RO       0x0     NS       Counts number of active cycles.                        |
+----------------------------------------------------------------------------------------------------
+===
+
+
+ * SSO_RESET = SSO Soft Reset
+ *
+ * Writing a one to SSO_RESET[RESET] will reset the SSO.  After receiving a
+ * store to this CSR, the SSO must not be sent any other operations for 2500
+ * sclk cycles.
+ *
+ * Note that the contents of this register are reset along with the rest of the
+ * SSO.
+ *
+ * IMPLEMENTATION NOTES--NOT FOR SPEC:
+ *      The SSO must return the bus credit associated with the CSR store used
+ *      to write this register before reseting itself.  And the RSL tree
+ *      that passes through the SSO must continue to work for RSL operations
+ *      that do not target the SSO itself.
+ *
+
+     ==============================================================
+     SSO_RESET Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS        RAZ      NS      NS       Reserved                                               |
+ <0>     RESET     WR0      0x0     0x0      Reset the SSO                                          |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -36393,7 +36424,7 @@ Pos      Name    Type     Value     Value       Description
  * are used to setup the SSO_RWQ_HEAD_PTR and SSO_RWQ_TAIL_PTRs, and the
  * remainder are pushed via this register.
  *
- * NOTES - NOT FOR SPEC:
+ * IMPLEMENTATION NOTES--NOT FOR SPEC:
  *      48 avoids false out of buffer error due to (16) FPA and in-sso FPA buffering (32)
  *      26 is number of WAE's per 256B buffer
  *
@@ -69814,6 +69845,7 @@ SSO_QOS_THR5                   0x000167000000B028  NCB
 SSO_QOS_THR6                   0x000167000000B030  NCB
 SSO_QOS_THR7                   0x000167000000B038  NCB
 SSO_QOS_WE                     0x0001670000001080  NCB
+SSO_RESET                      0x00016700000010F0  NCB
 SSO_RWQ_HEAD_PTR0              0x000167000000C000  NCB
 SSO_RWQ_HEAD_PTR1              0x000167000000C008  NCB
 SSO_RWQ_HEAD_PTR2              0x000167000000C010  NCB
