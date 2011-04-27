@@ -20,8 +20,9 @@ end
 
 -- This is the table we use to contain the module
 srio = {}
+srio.debug = false
+srio.debug_maint = false
 
-local debug = false
 local IS16BIT = 0
 local ANY_ID = 0xff
 local UNUSED_HOP = 0xff
@@ -43,9 +44,12 @@ local CAR_HOST_LOCK = 0x68
 local CAR_SWITCH_ROUTE_DID = 0x70
 local CAR_SWITCH_ROUTE_PORT = 0x74
 local CAR_SWITCH_ROUTE_DEFAULT = 0x78
+local CAR_PORT_0_ERROR_STATUS = 0x58
+local CAR_PORT_0_CONTROL = 0x5c
+local CAR_PORT_INC = 0x7c - 0x5c
 
 local function dprintf(...)
-    if debug then
+    if srio.debug then
         printf(...)
     end
 end
@@ -71,9 +75,13 @@ local function maint_read(srio_root, devid, hopcount, maint)
         -- Hop count needs to be max when talking to a specific device
         assert(hopcount == UNUSED_HOP, "Illegal hopcount for specific device")
     end
-    --dprintf("MAINT READ devid=%d, hop=%d, maint=0x%x = ", devid, hopcount, maint)
+    if srio.debug_maint then
+        printf("MAINT READ devid=%d, hop=%d, maint=0x%x = ", devid, hopcount, maint)
+    end
     local result = bdk_srio_config_read32(srio_root.port, 0, devid, IS16BIT, hopcount, maint)
-    --dprintf("0x%08x\n", result)
+    if srio.debug_maint then
+        printf("0x%08x\n", result)
+    end
     assert(result ~= -1, "MAINT read failed")
     return result
 end
@@ -90,7 +98,9 @@ local function maint_write(srio_root, devid, hopcount, maint, value)
         -- Hop count needs to be max when talking to a specific device
         assert(hopcount == UNUSED_HOP, "Illegal hopcount for specific device")
     end
-    --dprintf("MAINT WRITE devid=%d, hop=%d, maint=0x%x value=0x%x\n", devid, hopcount, maint, value)
+    if srio.debug_maint then
+        printf("MAINT WRITE devid=%d, hop=%d, maint=0x%x value=0x%x\n", devid, hopcount, maint, value)
+    end
     local result = bdk_srio_config_write32(srio_root.port, 0, devid, IS16BIT, hopcount, maint, value)
     assert(result ~= -1, "MAINT write failed")
 end
@@ -98,6 +108,7 @@ end
 local function device_lock(srio_root, devid, hopcount)
     -- Read the current lock
     local lock = maint_read(srio_root, devid, hopcount, CAR_HOST_LOCK)
+    assert(lock ~= 0xffffffff, "Illegal read response for lock read")
     if lock == srio_root.host_id then
         dprintf("        Device already visited\n")
         return 1
@@ -111,11 +122,13 @@ local function device_lock(srio_root, devid, hopcount)
         -- Wait for the lock to be available
         while lock ~= 0xffff do
             lock = maint_read(srio_root, devid, hopcount, CAR_HOST_LOCK)
+            assert(lock ~= 0xffffffff, "Illegal read response for lock read")
         end
         -- Attempt to get the lock
         maint_write(srio_root, devid, hopcount, CAR_HOST_LOCK, srio_root.host_id)
         -- Read and make sure we got the lock
         lock = maint_read(srio_root, devid, hopcount, CAR_HOST_LOCK)
+        assert(lock ~= 0xffffffff, "Illegal read response for lock read")
     until lock == srio_root.host_id
     return 0
 end
@@ -134,24 +147,23 @@ local function device_unlock(srio_root, devid, hopcount)
 end
 
 --
--- Check the link status of a specific port on a SRIO switch.
--- Return is zero if the link is down, or the number of lanes for
--- a working link.
+-- Search the feature blocks and find the one specified by feature_id.
+-- Raises an error if any error happens or the block can't be found.
 --
-local function is_link_up(srio_root, devid, hopcount, link_port)
+local function get_feature_block(srio_root, devid, hopcount, feature_id)
     -- Make sure the extended features are available
     local feat = maint_read(srio_root, devid, hopcount, CAR_PE_FEAT)
     if not test_spec_bit(feat, 28) then
         error("Extended features not supported")
     end
 
-    -- Search the extended features looking for port status
+    -- Search the extended features looking for feature_id
     local data = maint_read(srio_root, devid, hopcount, CAR_ASSEMBLY_INFO)
     local efp = bit64.band(data, 0xffff)
     while efp ~= 0 do
         local data = maint_read(srio_root, devid, hopcount, efp)
         -- We're looking for a nine
-        if bit64.band(data, 0xffff) == 0x9 then
+        if bit64.band(data, 0xffff) == feature_id then
             break
         end
         efp = bit64.rshift(data, 16)
@@ -161,15 +173,25 @@ local function is_link_up(srio_root, devid, hopcount, link_port)
     if efp == 0 then
         error("Extended feature port not found")
     end
+    return efp
+end
 
+--
+-- Check the link status of a specific port on a SRIO switch.
+-- Return is zero if the link is down, or the number of lanes for
+-- a working link.
+--
+local function is_link_up(srio_root, devid, hopcount, link_port)
+    -- Search the extended features looking for port status
+    local efp = get_feature_block(srio_root, devid, hopcount, 0x9)
     -- Read the port's state
-    data = maint_read(srio_root, devid, hopcount, efp + 0x58 + link_port * 0x20)
+    local data = maint_read(srio_root, devid, hopcount, efp + CAR_PORT_0_ERROR_STATUS + link_port * CAR_PORT_INC)
     if  not test_spec_bit(data, 30) then
         return false
     end
 
     -- Read the port width
-    data = maint_read(srio_root, devid, hopcount, efp + 0x5c + link_port * 0x20)
+    data = maint_read(srio_root, devid, hopcount, efp + CAR_PORT_0_CONTROL + link_port * CAR_PORT_INC)
     data = bit64.rshift(data, 31-4)
     data = bit64.band(data, 3)
     if data == 0 then
@@ -183,6 +205,20 @@ local function is_link_up(srio_root, devid, hopcount, link_port)
     else
         return false    -- Unkown lane encoding, say link down
     end
+end
+
+
+--
+-- Set the SRIO input and output enables
+--
+local function set_srio_enables(srio_root, devid, hopcount, feature_id, port)
+    -- Search the extended features looking for generic endpoint device
+    local efp = get_feature_block(srio_root, devid, hopcount, feature_id)
+    local data = maint_read(srio_root, devid, hopcount, efp + CAR_PORT_0_CONTROL + port * CAR_PORT_INC)
+    assert(test_spec_bit(data, 31), "Port 0 control isn't SRIO")
+    data = bit64.bor(data, bit64.lshift(1, 22)) -- Output enable
+    data = bit64.bor(data, bit64.lshift(1, 21)) -- Input enable
+    maint_write(srio_root, devid, hopcount, efp + CAR_PORT_0_CONTROL + port * CAR_PORT_INC, data)
 end
 
 --
@@ -291,7 +327,12 @@ local function create_device(srio_root, hopcount)
         elseif device.devid == ANY_ID then
             printf("%sUnenumerated device\n", prefix)
         else
-            local data = maint_read(srio_root, device.devid, UNUSED_HOP, CAR_BASE_DEVICE_ID)
+            local data
+            if hopcount == -1 then
+                data = maint_read(srio_root, -1, hopcount, CAR_BASE_DEVICE_ID)
+            else
+                data = maint_read(srio_root, device.devid, UNUSED_HOP, CAR_BASE_DEVICE_ID)
+            end
             local devid8 = bit64.band(bit64.rshift(data, 16), 0xff)
             local devid16 = bit64.band(data, 0xffff)
             printf("%sDevice 0x%x (8bit) 0x%x (16bit)\n", prefix, devid8, devid16)
@@ -316,6 +357,7 @@ local function create_device(srio_root, hopcount)
         local feat = maint_read(srio_root, ANY_ID, hopcount, CAR_PE_FEAT)
         if not test_spec_bit(feat, 3) then
             dprintf("Device is not a switch\n")
+            device_unlock(srio_root, ANY_ID, hopcount)
             return
         end
         dprintf("Device is a switch\n")
@@ -323,6 +365,7 @@ local function create_device(srio_root, hopcount)
         -- Make sure the switch implements a standard routing table
         if not test_spec_bit(feat, 23) then
             dprintf("        Unknown switch table. skipping\n")
+            device_unlock(srio_root, ANY_ID, hopcount)
             return
         end
 
@@ -367,6 +410,8 @@ local function create_device(srio_root, hopcount)
                     dprintf("Down\n");
                 end
             end
+            -- Set the SRIO input and output enables for this switch port
+            set_srio_enables(srio_root, ANY_ID, hopcount, 0x9, port)
         end
         device_unlock(srio_root, ANY_ID, hopcount)
     end
@@ -377,7 +422,7 @@ local function create_device(srio_root, hopcount)
     function device:enumerate()
         -- lock the device so we can make changes needed for the enumeration
         local lock_state = device_lock(srio_root, ANY_ID, hopcount)
-        --assert(lock_state == 0, "Locking device again failed")
+        assert(lock_state == 0, "Locking device failed")
 
         -- Don't assign device IDs to switches as they don't use them
         if not device.parent_port then
@@ -387,8 +432,17 @@ local function create_device(srio_root, hopcount)
             dprintf("Assigning device id 0x%x to hopcount=%d\n", device.devid, hopcount);
             local my_id = device.devid + bit64.lshift(device.devid, 16)
             maint_write(srio_root, ANY_ID, hopcount, CAR_BASE_DEVICE_ID, my_id)
-            local readback = maint_read(srio_root, device.devid, UNUSED_HOP, CAR_BASE_DEVICE_ID)
-            assert(readback == my_id, "Read back of programmed device ID failed")
+            if hopcount == -1 then
+                -- My local device must be treated as a special case
+                local readback = maint_read(srio_root, -1, hopcount, CAR_BASE_DEVICE_ID)
+                assert(readback == my_id, "Read back of programmed device ID failed")
+            else
+                local readback = maint_read(srio_root, device.devid, UNUSED_HOP, CAR_BASE_DEVICE_ID)
+                assert(readback == my_id, "Read back of programmed device ID failed")
+            end
+
+            -- Set the SRIO input and output enables
+            set_srio_enables(srio_root, device.devid, UNUSED_HOP, 0x1, 0)
         end
 
         -- Iterate through all sub devices
@@ -402,7 +456,12 @@ local function create_device(srio_root, hopcount)
             switch_setup_final_routes(srio_root, hopcount, device)
             device_unlock(srio_root, ANY_ID, hopcount)
         else
-            device_unlock(srio_root, device.devid, UNUSED_HOP)
+            if hopcount == -1 then
+                -- My local device must be treated as a special case
+                device_unlock(srio_root, -1, hopcount)
+            else
+                device_unlock(srio_root, device.devid, UNUSED_HOP)
+            end
         end
     end
     return device

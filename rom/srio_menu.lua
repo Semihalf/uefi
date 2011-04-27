@@ -141,8 +141,17 @@ local function srio_submenu(srio_port)
     end
 end
 
-
 local m = menu.new("SRIO Menu")
+
+local function toggle_debug()
+    srio.debug = not srio.debug
+    m:item("debug", "Toggle extra debug output. Currently %s" % (srio.debug and "ON" or "OFF"), toggle_debug)
+end
+
+local function toggle_debug_maint()
+    srio.debug_maint = not srio.debug_maint
+    m:item("debug_maint", "Toggle logging of maintenance. Currently %s" % (srio.debug_maint and "ON" or "OFF"), toggle_debug_maint)
+end
 
 -- Build a list of SRIO ports
 local srio_ports = 0
@@ -154,6 +163,8 @@ end
 for port = 0, srio_ports-1 do
     m:item("port" .. port, "SRIO port " .. port, srio_submenu, port)
 end
+m:item("debug", "Toggle extra debug output. Currently %s" % (srio.debug and "ON" or "OFF"), toggle_debug)
+m:item("debug_maint", "Toggle logging of maintenance. Currently %s" % (srio.debug_maint and "ON" or "OFF"), toggle_debug_maint)
 m:item("quit", "Main menu")
 
 while (m:show() ~= "quit") do
