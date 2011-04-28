@@ -552,19 +552,23 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         BDK_CSR_WRITE(BDK_SRIOX_TX_CTRL(srio_port), sriox_tx_ctrl.u64);
     }
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+    /* Only change the link state in host mode */
+    if (mio_rst_ctl.s.prtmode == 1)
     {
-        /* Clear the ACK state */
-        if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port), 0))
+        if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+        {
+            /* Clear the ACK state */
+            if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_LOCAL_ACKID(srio_port), 0))
+                return -1;
+        }
+
+        /* Bring the link down, then up, by writing to the SRIO port's PORT_0_CTL2 CSR. */
+        bdk_sriomaintx_port_0_ctl2_t port_0_ctl2;
+        if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), &port_0_ctl2.u32))
+            return -1;
+        if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), port_0_ctl2.u32))
             return -1;
     }
-
-    /* Bring the link down, then up, by writing to the SRIO port's PORT_0_CTL2 CSR. */
-    bdk_sriomaintx_port_0_ctl2_t port_0_ctl2;
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), &port_0_ctl2.u32))
-        return -1;
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port), port_0_ctl2.u32))
-        return -1;
 
     /* Clear any pending interrupts */
     BDK_CSR_WRITE(BDK_SRIOX_INT_REG(srio_port), BDK_CSR_READ(BDK_SRIOX_INT_REG(srio_port)));
