@@ -1,8 +1,6 @@
 #include <bdk.h>
 #include <fcntl.h>
 
-extern int bdk_interrupt_flag;
-
 static void *uart_open(const char *name, int flags)
 {
     long id = atoi(name);
@@ -24,7 +22,6 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     while (count == 0)
     {
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-        bdk_interrupt_flag |= lsr.s.bi;
         if (!lsr.s.dr)
         {
             if (length == 1)
@@ -35,7 +32,6 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
         {
             *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
             lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-            bdk_interrupt_flag |= lsr.s.bi;
             buffer++;
             count++;
             length--;
@@ -52,7 +48,6 @@ static void uart_write_byte(int id, uint8_t byte)
     while (1)
     {
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
-        bdk_interrupt_flag |= lsr.s.bi;
         if (lsr.s.thre)
             break;
         bdk_thread_yield();
@@ -70,12 +65,10 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     const char *p = buffer;
 
     /* Consoles have some extra processing compared to files opened with
-        the O_NOCTTY flag. Consoles must insert '\r' after every '\n' to
-        get the terminal to do newlines properly. It also attempts to
-        write lines out as blocks such that multiple core output doesn't
-        get jumbled mid line. Files opened with the O_NOCTTY flag are
-        considered raw device and don't do any of this processing. This is
-        useful for XMODEM */
+        the O_NOCTTY flag. Consoles attempts to write lines out as blocks
+        such that multiple core output doesn't get jumbled mid line. Files
+        opened with the O_NOCTTY flag are considered raw device and don't
+        do any of this processing. This is useful for XMODEM */
 
     if (is_console)
     {
@@ -102,11 +95,9 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 
     while (l--)
     {
+        uart_write_byte(id, *p);
         if ((*p =='\n') && is_console)
         {
-            uart_write_byte(id, '\r');
-            uart_write_byte(id, '\n');
-
             /* Release ownership if we have no more data */
             if (!l)
             {
@@ -114,8 +105,6 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
                 BDK_SYNCW;
             }
         }
-        else
-            uart_write_byte(id, *p);
         p++;
     }
     return length;

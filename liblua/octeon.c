@@ -413,12 +413,8 @@ static int octeon_c_call(lua_State* L)
 
 static void control_c_check(lua_State *L, lua_Debug *ar)
 {
-    extern int bdk_interrupt_flag;
-    BDK_CSR_INIT(lsr, BDK_MIO_UARTX_LSR(0));
-    bdk_interrupt_flag |= lsr.s.bi;
-    if (bdk_interrupt_flag)
+    if (bdk_fs_check_break())
     {
-        bdk_interrupt_flag = 0;
         luaL_traceback(L,  L, "Interrupted!", 1);
         lua_error(L);
     }

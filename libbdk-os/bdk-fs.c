@@ -7,11 +7,6 @@
 #define MAX_FILE_HANDLES 8
 
 /**
- * This flag is set when a break signal is detected on uart0
- */
-int bdk_interrupt_flag;
-
-/**
  * Structure used for mount points. This maps filenames into
  * the proper file system operations
  */
@@ -21,6 +16,7 @@ typedef struct
     const __bdk_fs_ops_t *ops;
 } bdk_fs_mount_t;
 
+extern const __bdk_fs_ops_t bdk_fs_console_ops;
 extern const __bdk_fs_ops_t bdk_fs_uart_ops;
 extern const __bdk_fs_ops_t bdk_fs_rom_ops;
 extern const __bdk_fs_ops_t bdk_fs_ram_ops;
@@ -30,6 +26,7 @@ extern const __bdk_fs_ops_t bdk_fs_mem_ops;
 extern const __bdk_fs_ops_t bdk_fs_pcie_ops;
 extern const __bdk_fs_ops_t bdk_fs_tcp_ops;
 static const bdk_fs_mount_t mount_points[] = {
+    {"/dev/console", &bdk_fs_console_ops},
     {"/dev/uart/", &bdk_fs_uart_ops},
     {"/rom/", &bdk_fs_rom_ops},
     {"/ram/", &bdk_fs_ram_ops},
@@ -46,9 +43,10 @@ static const bdk_fs_mount_t mount_points[] = {
  * connected to uart 0. They can be closed later if needed.
  */
 static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
-    [0] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
-    [1] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
-    [2] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
+    [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
+    [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
+    [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
+    [3] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
 };
 #undef errno
 extern int errno;
@@ -285,20 +283,7 @@ int read(int handle, void *buffer, int length)
     __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->read)
     {
-        int result;
-        if ((file == &file_handle[0]) && (length > 1))
-        {
-            /* As a special case use readline for the original stdin handle */
-            const char *line = bdk_readline("", NULL, 0);
-            result = strlen(line);
-            result++;
-            if (result > length)
-                result = length;
-            memcpy(buffer, line, result);
-            ((char*)buffer)[result-1] = '\n';
-        }
-        else
-            result = file->ops->read(file, buffer, length);
+        int result = file->ops->read(file, buffer, length);
         if (result > 0)
             file->location += result;
         return result;

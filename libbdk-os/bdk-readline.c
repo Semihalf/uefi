@@ -805,7 +805,6 @@ process_input_done:
 
 const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us)
 {
-    int uart_id = 0;
     uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
     cmd_prompt = prompt;
     tab_complete_data = tab;
@@ -817,13 +816,13 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
     process_input_draw_current();
     while (1)
     {
-        int c;
-        do
+        char c;
+        while (1)
         {
             fflush(stdout);
-            BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(uart_id));
-            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(uart_id));
-            if (!lsr.s.dr)
+            if (read(0, &c, 1) == 1)
+                break;
+            else
             {
                 if (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_time)
                 {
@@ -831,11 +830,8 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
                     return NULL;
                 }
                 bdk_thread_yield();
-                c = 0;
             }
-            else
-                c = BDK_CSR_READ(BDK_MIO_UARTX_RBR(uart_id));
-        } while (!c);
+        }
 
         if ((cmd_len == 0) && (c == '$'))
         {
