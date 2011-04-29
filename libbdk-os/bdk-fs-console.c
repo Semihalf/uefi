@@ -110,6 +110,9 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
  */
 int bdk_fs_check_break(void)
 {
+    /* Disable Contorl-C if no readline */
+    if (!readline_enable)
+        return 0;
     char c;
     int result = console_read(NULL, &c, 1);
     return (result == 1) && (c == 0x3);
