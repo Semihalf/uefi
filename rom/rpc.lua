@@ -261,9 +261,7 @@ local function do_remote_command(remote, line)
         print("[RPC Request]", line)
     end
     -- Send the string and flush to make sure it goes immediately
-    meta.outf:write("$")
-    meta.outf:write(line)
-    meta.outf:write("\n")
+    meta.outf:write("$" .. line .. "\n")
     meta.outf:flush()
     -- Read lines unitl we get the response. Extra lines are displayed
     -- to stdout. We might be using the same serial channel for RPC and
@@ -500,9 +498,7 @@ local function rpc_serve(inf, outf, only_one)
             end
             line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
-            outf:write("$")
-            outf:write(line)
-            outf:write("\n")
+            outf:write("$" .. line .. "\n")
             outf:flush()
             if only_one then
                 break
@@ -521,10 +517,7 @@ function rpc.serve(instream, outstream, only_one)
     local inf, outf = connectStreams(instream, outstream)
     local status, message = xpcall(rpc_serve, debug.traceback, inf, outf, only_one)
     if not status then
-        outf:write("$")
-        outf:write("e")
-        outf:write(server_do_pack(rpc.objects, message))
-        outf:write("\n")
+        outf:write("$e" .. server_do_pack(rpc.objects, message) .. "\n")
     end
     inf:close()
     if inf ~= outf then

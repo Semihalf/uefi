@@ -41,20 +41,29 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
 {
     int fd = open_files[last_input];
     const char *ptr = buffer;
-    for (int i=0; i<length; i++)
+    int len = length;
+    while (len)
     {
-        int count;
-        if (*ptr == '\n')
-            count = write(fd, "\r\n", 2);
-        else
-            count = write(fd, ptr, 1);
-        if (count < 0)
+        /* Send all bytes up until the \n */
+        int count = 0;
+        while ((count < len) && (ptr[count] != '\n'))
+            count++;
+        if (count && (write(fd, ptr, count) < 0))
+            goto error;
+        /* Send a \r\n if we found a \n */
+        if ((count < len) && (ptr[count] == '\n'))
         {
-            close(fd);
-            open_files[last_input] = 0;
+            if (write(fd, "\r\n", 2) < 0)
+                goto error;
+            count++;
         }
-        ptr++;
+        ptr += count;
+        len -= count;
     }
+    return length;
+error:
+    close(fd);
+    open_files[last_input] = 0;
     return length;
 }
 
