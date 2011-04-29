@@ -44,6 +44,9 @@ static void telnet_server(int unused, void *unused2)
         /* Tell telnet that we transmit binary data */
         const uint8_t tx_binary[] = {255, 251, 0};
         lwip_write(new_sock, tx_binary, sizeof(tx_binary));
+        /* Set no delay */
+        int one = 1;
+        lwip_setsockopt(new_sock, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
         /* Open the TCP file object */
         char filename[8];
         sprintf(filename, "/tcp/@%d\n", new_sock);
