@@ -24,10 +24,12 @@ void __bdk_rpc_serve(void)
     lua_State *L = globalL;
     lua_getglobal(L, "rpc");
     lua_getfield(L, -1, "serve");
-    lua_pushstring(L, "/dev/uart/0");
-    lua_pushstring(L, "/dev/uart/0");
+    lua_pushstring(L, "/dev/console");
+    lua_pushstring(L, "/dev/console");
     lua_pushboolean(L, 1);
+    bdk_fs_readline_enable(0);
     lua_call(L, 3, 0);
+    bdk_fs_readline_enable(1);
     lua_pop(L, 1);
 }
 

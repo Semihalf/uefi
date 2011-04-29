@@ -5,6 +5,15 @@
 
 static void *tcp_open(const char *name, int flags)
 {
+    /* As a special hack for sockets that are already created, a name which
+        starts with a '@' is assumed to be a socket number. This is used
+        by the telnet server to pass already created sockets */
+    if (name[0] == '@')
+    {
+        int sock = atoi(name+1);
+        return (void*)(long)(sock + 1);
+    }
+
     struct addrinfo *addr;
     char *nodename = strdup(name);
     if (!nodename)
@@ -63,7 +72,7 @@ static int tcp_close(__bdk_fs_file_t *handle)
 static int tcp_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int sock = (long)handle->fs_state - 1;
-    return lwip_read(sock, buffer, length);
+    return lwip_recvfrom(sock, buffer, length, MSG_DONTWAIT, NULL, NULL);
 }
 
 

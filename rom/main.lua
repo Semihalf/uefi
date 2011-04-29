@@ -15,15 +15,14 @@ elseif octeon.is_model(octeon.CN65XX) then
     dofile("/rom/board-ebb6500.lua")
 end
 
-local function do_rpc()
-    print("Starting remote call server.")
-    print("Reset to exit.")
-    rpc.serve("/dev/uart/0")
-end
-
 -- Start a TFTP server
 if octeon.c.bdk_tftp_server_initialize() ~= 0 then
     print("Failed to start TFTP server")
+end
+
+-- Start a Telnet server
+if octeon.c.bdk_telnet_server_initialize() ~= 0 then
+    print("Failed to start Telnet server")
 end
 
 local m = menu.new("Main Menu")
@@ -38,7 +37,6 @@ end
 m:item("twsi",  "TWSI options",             dofile, "/rom/twsi_menu.lua")
 m:item("smi",   "SMI/MDIO options",         dofile, "/rom/smi_menu.lua")
 m:item("ilua",  "Interactive Lua prompt",   dofile, "/rom/ilua.lua")
-m:item("rpc",   "Start remote call server", do_rpc)
 m:item("net",   "TCP/IP networking",        dofile, "/rom/netstack_menu.lua")
 m:item("tg",    "Traffic Generator",        dofile, "/rom/trafficgen.lua")
 m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)

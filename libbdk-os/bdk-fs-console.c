@@ -1,10 +1,12 @@
 #include <bdk.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #define MAX_CONSOLE_FILES 4
 static int open_files[MAX_CONSOLE_FILES] = {3,};
 static int last_input;
+int readline_enable = 1;
 
 int console_open_file(const char *filename)
 {
@@ -41,10 +43,16 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
     const char *ptr = buffer;
     for (int i=0; i<length; i++)
     {
+        int count;
         if (*ptr == '\n')
-            write(fd, "\r\n", 2);
+            count = write(fd, "\r\n", 2);
         else
-            write(fd, ptr, 1);
+            count = write(fd, ptr, 1);
+        if (count < 0)
+        {
+            close(fd);
+            open_files[last_input] = 0;
+        }
         ptr++;
     }
     return length;
@@ -52,7 +60,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
 
 static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
-    if (length > 1)
+    if ((length > 1) && readline_enable)
     {
         /* As a special case use readline when requesting multiple bytes.
             Note that readline will call this function again for its input,
@@ -67,17 +75,22 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
         return result;
     }
 
-    for (int i=0; i<MAX_CONSOLE_FILES; i++)
+    do
     {
-        if (!open_files[i])
-            continue;
-        int bytes = read(open_files[i], buffer, length);
-        if (bytes > 0)
+        for (int i=0; i<MAX_CONSOLE_FILES; i++)
         {
-            last_input = i;
-            return bytes;
+            if (!open_files[i])
+                continue;
+            int bytes = read(open_files[i], buffer, 1);
+            if (bytes > 0)
+            {
+                last_input = i;
+                return bytes;
+            }
         }
-    }
+        if (!readline_enable)
+            bdk_thread_yield();
+    } while (!readline_enable);
     return 0;
 }
 
@@ -91,6 +104,19 @@ int bdk_fs_check_break(void)
     char c;
     int result = console_read(NULL, &c, 1);
     return (result == 1) && (c == 0x3);
+}
+
+
+/**
+ * Enable or disable automatic usage or readline for input. This
+ * is used by RPC to temporarily stop readline while executing
+ * a call.
+ *
+ * @param enable New readline state
+ */
+void bdk_fs_readline_enable(int enable)
+{
+    readline_enable = enable;
 }
 
 const __bdk_fs_ops_t bdk_fs_console_ops =
