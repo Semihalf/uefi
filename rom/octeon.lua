@@ -13,6 +13,11 @@ require("strict")
 require("utils")
 require("rpc")
 
+-- Do nothing if octeon is already defined
+if isglobal("octeon") then
+    return octeon
+end
+
 -- Table for this module
 octeon = {}
 
