@@ -2,7 +2,7 @@
 -- BDK Example Lua script
 --
 -- This script shows an example of how to try different DDR3 speed on
--- a EBB6300 using a serial remote connection. Although this example
+-- a EBB6300 using a remote connection. Although this example
 -- only changes the DDR3 clock speeds, other configuration parameters
 -- could easily be changed.
 --
@@ -14,23 +14,17 @@ local MEMORY_TEST_LENGTH = 0x1000000 -- Length of 16MB
 -- remind us if we mistakenly use globals
 require("strict")
 
--- We're using RPC, so load the module
-require("rpc")
-
--- The user must specify the serial port, or IP address and port, of the
--- remote Octeon
-assert(#arg == 1, "You must specify the file to do RPC over. Example /dev/ttyS0")
-
--- Create a RPC connection to Octeon
-print("Openning a remote connection through " .. arg[1])
-local remote = rpc.connect(arg[1])
+-- Open the octoen module, which is a remote connection. The environment
+-- variable OCTEON_REMOTE_CONSOLE needs to set to the device name of your
+-- serial port. "/dev/ttyS0" is likely a good choice.
+require("octeon")
 
 -- Make sure the "ddr" module is loaded on the Octeon side
-remote.require("ddr")
+octeon.global.require("ddr")
 
 -- Create a local variable to store a reference to the ddr module. This
 -- prevents us from looking it up over RPC constantly.
-local ddr = remote.ddr
+local ddr = octeon.global.ddr
 
 -- Get the DDR3 config for the EBB6300
 print("Getting the DDR3 config for the board \"" .. BOARD_NAME .. '"')

@@ -44,6 +44,10 @@ octeon = shallow_copy(remote_octeon)
 -- called it
 octeon.readline = nil
 
+-- Add a global member that has access to the global context on the remote
+-- system
+octeon.global = remote
+
 -- C functions are used often, so copy their table so we avoid an extra
 -- RPC call to lookup the function names later
 octeon.c = shallow_copy(remote_octeon.c)
