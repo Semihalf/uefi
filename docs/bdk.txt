@@ -378,19 +378,6 @@ t2           t3           t8           t9           v0           v1
 zero
 ----
 
-bdk-update-header
-~~~~~~~~~~~~~~~~~
-
-The BDK and the Octeon SDK use a common header format at the beginning
-of binary images.  The script *bdk-update-header* updates this header
-for specified image file.
-
-.Usage for *bdk-update-header*
-----
-Usage:
-    bdk-update-header <filename>
-----
-
 
 Lua Scripting
 -------------
