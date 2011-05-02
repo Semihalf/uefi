@@ -15,61 +15,61 @@ rpc = {}
 rpc.debug = false
 
 local function getconnection(stream, is_input)
-    local f
     if type(stream) == "string" then
-        if stream:find(":") then
-            f = {}
-            function f:read(arg)
-                local r, message = self.s:receive(arg)
-                if not r then
-                    error("socket:receive(): " .. message)
-                end
-                return r
-            end
-            function f:write(arg)
-                local status, message = self.s:send(arg)
-                if not status then
-                    error("socket:send(): " .. message)
-                end
-            end
-            function f:flush(arg)
-                -- Do nothing
-            end
-
-            local socket = require("socket")
-            f.s = socket.tcp()
-            local sep = stream:find(":")
-            local host = stream:sub(1,sep-1)
-            local port = tonumber(stream:sub(sep+1))
-            f.s:setoption("tcp-nodelay", true)
-            local status, message = f.s:connect(host, port)
-            if not status then
-                error("socket:connect(): " .. message)
-            end
-        else
-            -- Set the baud rate for filenames that start with "/". This
-            -- is a best guess of what should work for people
-            if stream:sub(1,1) == "/" then
-                os.execute("stty -F " .. stream .. " 115200 crtscts -cstopb -parenb")
-            end
-            -- Open for RW in case we are running over Pipes. Linux pipes
-            -- block until someone connects to the other side unless the
-            -- pipe is openned RW.
-            f = io.open(stream, "r+b")
-            if not f then
-                error("Failed to open file " .. stream)
-            end
+        -- Set the baud rate for filenames that start with "/". This
+        -- is a best guess of what should work for people
+        if stream:sub(1,1) == "/" then
+            os.execute("stty -F " .. stream .. " 115200 crtscts -cstopb -parenb")
         end
+        -- Open for RW in case we are running over Pipes. Linux pipes
+        -- block until someone connects to the other side unless the
+        -- pipe is openned RW.
+        local f = io.open(stream, "r+b")
+        if f then
+            return f
+        end
+        assert(not stream:find("/"), "Failed to open file " .. stream)
+        -- Not a file, try a TCP connection
+        -- Default to the telnet port if not specified
+        local host = stream
+        local port = 23
+        if stream:find(":") then
+            local sep = stream:find(":")
+            host = stream:sub(1,sep-1)
+            port = tonumber(stream:sub(sep+1))
+        end
+        -- Create a wrapper that makes a socket work like a file
+        f = {}
+        function f:read(arg)
+            local r, message = self.s:receive(arg)
+            assert(r, "socket:receive(): " .. tostring(message))
+            return r
+        end
+        function f:write(arg)
+            local status, message = self.s:send(arg)
+            assert(status == #arg, "socket:send(): " .. tostring(message))
+        end
+        function f:flush(arg)
+            -- Do nothing
+        end
+        -- Create a scoket connection
+        local socket = require("socket")
+        f.s = socket.tcp()
+        f.s:setoption("tcp-nodelay", true)
+        local status, message = f.s:connect(host, port)
+        assert(status, "socket:connect(): " .. tostring(message))
+        return f
     elseif not stream then
+        -- Use standard IO if nothing specified
         if is_input then
-            f = io.stdin
+            return io.stdin
         else
-            f = io.stdout
+            return io.stdout
         end
     else
-        f = stream
+        -- Assume the passed object supports read and write
+        return stream
     end
-    return f
 end
 
 --
