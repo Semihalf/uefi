@@ -6,20 +6,7 @@
 
 require("strict")
 require("utils")
-
-local c_func
-local csr
-if isglobal("octeon") then
-    -- We're running natively on Octeon
-    c_func = octeon.c
-    csr = octeon.csr
-else
-    -- We're running remotely. Assume arg[1] is where we should connect to
-    local rpc = require("rpc")
-    local remote = rpc.connect(arg[1])
-    c_func = remote.octeon.c
-    csr = remote.octeon.csr
-end
+require("octeon")
 
 -- This is the table we use to contain the module
 local pcie = {}
@@ -63,12 +50,12 @@ local PCICONFIG_IO_BASE_UPPER       = 0x30
 local PCICONFIG_IO_LIMIT_UPPER      = 0x32
 
 
-local configr8 = c_func.bdk_pcie_config_read8
-local configr16 = c_func.bdk_pcie_config_read16
-local configr32 = c_func.bdk_pcie_config_read32
-local configw8 = c_func.bdk_pcie_config_write8
-local configw16 = c_func.bdk_pcie_config_write16
-local configw32 = c_func.bdk_pcie_config_write32
+local configr8 = octeon.c.bdk_pcie_config_read8
+local configr16 = octeon.c.bdk_pcie_config_read16
+local configr32 = octeon.c.bdk_pcie_config_read32
+local configw8 = octeon.c.bdk_pcie_config_write8
+local configw16 = octeon.c.bdk_pcie_config_write16
+local configw32 = octeon.c.bdk_pcie_config_write32
 
 --
 -- This function creates a table representing a PCIe device. It reads
@@ -457,7 +444,7 @@ end
 --
 function pcie.initialize(pcie_port)
     -- Initialize the PCIe link
-    if c_func.bdk_pcie_rc_initialize(pcie_port) ~= 0 then
+    if octeon.c.bdk_pcie_rc_initialize(pcie_port) ~= 0 then
         error("bdk_pcie_rc_initialize() failed")
     end
 
@@ -473,7 +460,7 @@ function pcie.initialize(pcie_port)
     function pcie_root:scan()
         self.devices = {}
         -- Get the top level bus number
-        self.last_bus = csr.PCIERCX_CFG006(self.port).PBNUM
+        self.last_bus = octeon.csr.PCIERCX_CFG006(self.port).PBNUM
         -- Read device zero, which must exist per PCIe spec
         local device = create_device(self, self.last_bus, 0, 0)
         if not device then
@@ -535,21 +522,13 @@ function pcie.initialize(pcie_port)
     -- Shutdown a PCIe port
     --
     function pcie_root:shutdown()
-        local status = c_func.bdk_pcie_rc_shutdown(self.port)
+        local status = octeon.c.bdk_pcie_rc_shutdown(self.port)
         if status ~= 0 then
             error("bdk_pcie_rc_shutdown() failed")
         end
     end
 
     return pcie_root
-end
-
-if not isglobal("octeon") then
-    for port = 0,1 do
-        local pcie_root = pcie.initialize(port)
-        pcie_root:enumerate()
-        pcie_root:display()
-    end
 end
 
 return pcie
