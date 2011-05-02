@@ -6,17 +6,7 @@
 
 require("strict")
 require("utils")
-
-local c_func
-if isglobal("octeon") then
-    -- We're running natively on Octeon
-    c_func = octeon.c
-else
-    -- We're running remotely. Assume arg[1] is where we should connect to
-    local rpc = require("rpc")
-    local remote = rpc.connect(arg[1])
-    c_func = remote.octeon.c
-end
+require("octeon")
 
 -- This is the table we use to contain the module
 srio = {}
@@ -28,10 +18,10 @@ local ANY_ID = 0xff
 local UNUSED_HOP = 0xff
 
 -- Local variables to cache C functions to save RPC calls
-local bdk_srio_initialize = c_func.bdk_srio_initialize
-local bdk_srio_config_read32 = c_func.bdk_srio_config_read32
-local bdk_srio_config_write32 = c_func.bdk_srio_config_write32
-local bdk_wait_usec = c_func.bdk_wait_usec
+local bdk_srio_initialize = octeon.c.bdk_srio_initialize
+local bdk_srio_config_read32 = octeon.c.bdk_srio_config_read32
+local bdk_srio_config_write32 = octeon.c.bdk_srio_config_write32
+local bdk_wait_usec = octeon.c.bdk_wait_usec
 
 -- These are fixed MAINT register addresses from the SRIO spec
 local CAR_DEVICE_ID = 0x00
@@ -517,18 +507,6 @@ function srio.initialize(srio_port)
     end
 
     return srio_root
-end
-
-if not isglobal("octeon") then
-    local srio_root0 = srio.initialize(0)
-    local srio_root1 = srio.initialize(1)
-    bdk_wait_usec(100000)
-    srio_root0:scan()
-    srio_root0:enumerate()
-    srio_root0:display()
-    srio_root1:scan()
-    srio_root1:enumerate()
-    srio_root1:display()
 end
 
 return srio
