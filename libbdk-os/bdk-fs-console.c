@@ -64,6 +64,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
 error:
     close(fd);
     open_files[last_input] = 0;
+    last_input = 0;
     return length;
 }
 
@@ -95,6 +96,14 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
             {
                 last_input = i;
                 return bytes;
+            }
+            else if (i && (bytes == 0))
+            {
+                /* Close dead scokets */
+                close(open_files[i]);
+                open_files[i] = 0;
+                if (i == last_input)
+                    last_input = 0;
             }
         }
         if (!readline_enable)
