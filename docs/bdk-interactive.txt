@@ -1,0 +1,379 @@
+
+Interacting with the Bringup and Diagnostic Kit
+===============================================
+
+Overview
+--------
+
+The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
+scripts designed to ease the bringup of new hardware based on Cavium
+Networks line of Octeon processors.  This document covers the usage of
+the BDK from an interactive console after the BDK has been installed.
+For installation information, see the document link:bdk.html[Bringup and
+Diagnostic Kit].
+
+Navigating Menus and Answering Prompts
+--------------------------------------
+
+All menus in the BDK start with a banner followed by a list of
+numbered options.  Options are chosen by typing the associated number
+into the "Menu Choice:" prompt and pressing ENTER.  Leaving a prompt
+blank signals that input should be aborted.  All menus have the last
+option as an exit of the menu and return to the previous menu.
+
+Some menu options require extra input from the user.  These accept
+keyboard input followed by the ENTER key.  Leaving a field blank, or
+hitting Control-C abort input.  You are then taken back to the menu.
+Numeric input can be in decimal (default) or hexadecimal by beginning
+the number with "0x".
+
+Line Editing
+~~~~~~~~~~~~
+
+Any prompt ending with ">" supports full line editing and history. Generally
+speaking, arrow keys, home, end, insert, and delete work as you would expect.
+
+* Use ARROW KEYS, HOME, END or ESC-h,ESC-j,ESC-k,ESC-l,ESC-0,ESC-$,ESC-w,ESC-b, or ESC-fx for navigation.
+* Scroll through previous commands using the UP and DOWN arrow keys.
+* Use INSERT to toggle insert/overwrite mode, DELETE to delete, F1 for help.
+* Many vi style modes are available for command and history navigation.
+* Use TAB for command completion, multiple to cycle, or CTRL-D for a list of possible commands.
+* Use ESC-i,ESC-A,ESC-a,ESC-c for insert mode, ESC-R,ESC-r for overwrite mode (behavior like vi).
+* Use !!, !<num> or !<string> to repeat previous commands in the history.
+* Use ::, :<num> or :<string> to recall previous commands in the history to current.
+* Use ?<string>, /<string>, ESC-?<string>,ESC-/<string>,ESC-n,ESC-N to also recall to current.
+* Use CTRL-l erase the screen, ESC-D to clear the rest of the current line.
+* Use ESC-d<movement> to delete, ESC-~ to change case, ESC-u to undo (one level).
+* See the vi man page for more info on the operation of various commands.
+
+Getting started at the Main Menu
+--------------------------------
+
+After initial boot, the BDK displays the first, or main, menu.  This
+provides a list of high level options that are available
+interactively.  Most menu choices bringup sub menus of additional
+options.
+
+.Sample Main Menu
+----
+include::main_menu.capture[]
+----
+
+Each menu option supports a logically distinct set of options:
+
+Configuration options::
+
+Use this option to configure the BDK for your board.  The specifics of
+PHY addresses, MAC addresses, etc change for each board.
+
+File options::
+
+Here you'll find options for dealing with the BDK virtual filesystem.
+These are normally most useful when writing scripts for the BDK.
+
+Flash options::
+
+Option for dealing with a NOR flash connected to chip select 0.
+
+DDR options::
+
+Options for configuring DDR3.
+
+PCIe options::
+
+PCIe discovery, enumeration, and probing can be accessed through this
+menu.
+
+SRIO options::
+
+SRIO discovery, enumeration, and probing can be accessed through this
+menu.
+
+TWSI options::
+
+Scan or probe TWSI bus devices.
+
+SMI/MDIO options::
+
+Scan or probe SMI/MDIO bus devices.
+
+Interactive Lua prompt::
+
+This provides direct access to the Lua interpreter running in the BDK.
+This can be used to probe and configure any type of hardware inside or
+connected to Octeon.  Scripting using Lua is cover in another
+document, link:FIXME.
+
+TCP/IP networking::
+
+The BDK contains a full TCP/IP stack with servers for TFTP and Telnet.
+Use this menu option to configure an IP address on an Octeon network
+interface.
+
+Traffic Generator::
+
+This menu option starts a simple traffic generator on Octeon.  It can
+be used to transmit and receive packets on all Octeon packet
+interfaces.  In combination with an external loopback, this can
+quickly verify the interfaces on a board.
+
+Reboot::
+
+Perform a soft reset of Octeon.  This can be useful for a quick reboot
+without power cycling the entire board.
+
+
+Configuring the BDK for your Board
+----------------------------------
+
+The configuration menu allows access to the parameters used to
+configure the BDK.  These options control PHY address for various
+interfaces as well as other attributes.  These need to be configured
+for your board before the networking interfaces are brought up.
+
+.Sample Configuration Menu from CN68XX
+----
+include::configure_menu.capture[]
+----
+
+MAC address::
+
+The ethernet MAC address used for all ports.  This should be input as
+a sequence of hex digits beginning with "0x".
+
+RGMII/MII port X PHY address::
+
+The PHY address to use for the RGMII/MII management port.  The format
+of the PHY address is the SMI/MDIO address plus 0x100 time the Octeon
+SMI/MDIO bus number.  For example, 0x203 would program the RGMII/MII
+address to be on bus two, SMI/MDIO address three.
+
+SGMII interface X, port Y PHY address::
+
+The PHY address to use for the SGMII port Y on interface X.  The
+format of the PHY address is the SMI/MDIO address plus 0x100 time the
+Octeon SMI/MDIO bus number.  For example, 0x203 would program the
+RGMII/MII address to be on bus two, SMI/MDIO address three.
+
+
+Interlaken port X lanes::
+
+The number of QLM lanes to use for Interlaken port X.  Must be 0-8.
+
+Interlaken port X channels::
+
+The number of virtual channels to configure for Interlaken port X.
+Must be 0-16.
+
+
+Testing PCIe
+------------
+
+The BDK supports testing Octeon's PCIe ports in root complex mode.
+Basic bus initialization and enumeration can be performed even before
+DDR3 is working.  The sequence is simply to perform the items in the
+PCIe menu it order.
+
+.Sample PCIe Menu
+----
+include::pcie_menu.capture[]
+----
+
+PCIe#: Initialize::
+
+Bringup PCIe link "#" and report the number of lanes and speed of the interface.
+
+PCIe#: Scan for devices::
+
+Use PCIe config cycles to scan bus "#" for devices.  The devices found
+can be displayed in a following menu option.  Note that this option
+only finds devices and does not assign resources.  This makes it easier
+to see device discovery when a PCIe analyzer is connected.
+
+PCIe#: Enumerate devices::
+
+Iterate through the devices found in the scan an assign resources to
+them.  After this step is complete, devices will have valid BAR setups
+and respond to memory transactions.
+
+PCIe#: Display devices::
+
+Display the devices found on the bus and show details about each BAR
+register.
+
+PCIe#: Perform a memory read::
+
+Issue a PCIe memory read transaction on the bus.  Prompts will be
+issued for the PCIe address to read from and the number of bytes to
+read.
+
+PCIe#: Perform a memory write::
+
+Issue a PCIe memory write transaction on the bus.  Prompts will be
+issued for the PCIe address to write and the data.  The data should be
+input as a series of hex digits, two per byte.
+
+PCIe#: Shutdown::
+
+Shutdown the PCIe link.  This might be useful if you want to test link
+robustness by performing a series of initialization and shutdown
+sequences.
+
+
+Testing SRIO
+------------
+
+Serial Rapid IO ports support discovery, enumeration, and basic
+transactions.  The main SRIO menu allows you to toggle global debug
+options and select which hardware port to work with.
+
+.Sample SRIO Main Menu
+----
+include::srio_main_menu.capture[]
+----
+
+SRIO port #::
+
+Enter the SRIO sub menu for transaction for port "#".
+
+Toggle extra debug output. Currently OFF::
+
+Enable or disable extra debug option for SRIO operations.  These
+generally give extra information about SRIO switches and devices as
+they are discovered.
+
+Toggle logging of maintenance. Currently OFF::
+
+When this option is enable, every SRIO maintenance transaction is
+logged to the console.  This can be useful for determining exactly
+what transactions are happening to each device.
+
+.Sample SRIO Sub Menu
+----
+include::srio_sub_menu.capture[]
+----
+
+SRIO#: Initialize::
+
+Bringup the SRIO link and report its status.
+
+SRIO#: Scan for devices::
+
+Use maintenance transactions to scan the SRIO bus for devices.
+Devices found can be displayed using a following menu option.
+
+SRIO#: Enumerate devices::
+
+Iterate through all devices found in the scan and assign device IDs,
+set link enables, and program switch route tables.  After enumeration,
+devices are capable of responding to SRIO transactions.
+
+SRIO#: Display devices::
+
+Display the known device SRIO devices along with information about
+each device.
+
+SRIO#: Perform a maintenance read::
+
+Issue a maintenance read transaction.  Prompts will request the device
+ID to access, transaction format (8 or 16 bit), the SRIO hopcount, and
+the register address to read.
+
+SRIO#: Perform a maintenance write::
+
+Issue a maintenance write transaction.  Prompts will request the
+device ID to access, transaction format (8 or 16 bit), the SRIO
+hopcount, the register address to write, and the write data.
+
+SRIO#: Send a doorbell::
+
+Send a SRIO doorbell to a device.  Prompts will request the device ID
+to access, transaction format (8 or 16 bit), the priority if the
+doorbell (0-3), and the doorbell data (a 16bit number).
+
+SRIO#: Receive a doorbell::
+
+Displays a list of all doorbells received.
+
+SRIO#: Perform a memory read::
+
+TBD
+
+SRIO#: Perform a memory write::
+
+TBD
+
+
+Testing DDR
+-----------
+
+TBD
+
+Probing using TWSI
+------------------
+
+.Sample TWSI Main Menu
+----
+include::twsi_main_menu.capture[]
+----
+
+.Sample TWSI Sub Menu
+----
+include::twsi_sub_menu.capture[]
+----
+
+.TWSI Bus 0 scan on an EBB6800
+----
+TWSI0: Scanning bus...
+TWSI0: Address   0 (0x00) responded
+TWSI0: Address   1 (0x01) responded
+TWSI0: Address   2 (0x02) responded
+TWSI0: Address   3 (0x03) responded
+TWSI0: Address   4 (0x04) responded
+TWSI0: Address   5 (0x05) responded
+TWSI0: Address   6 (0x06) responded
+TWSI0: Address   7 (0x07) responded
+TWSI0: Address   8 (0x08) responded
+TWSI0: Address  27 (0x1b) responded
+TWSI0: Address  76 (0x4c) responded
+TWSI0: Address  86 (0x56) responded
+TWSI0: Address  88 (0x58) responded
+TWSI0: Address  90 (0x5a) responded
+TWSI0: Address  91 (0x5b) responded
+TWSI0: Address  96 (0x60) responded
+TWSI0: Address 104 (0x68) responded
+TWSI0: Address 112 (0x70) responded
+TWSI0: Address 113 (0x71) responded
+TWSI0: Address 116 (0x74) responded
+TWSI0: Address 124 (0x7c) responded
+TWSI0: Address 125 (0x7d) responded
+TWSI0: Address 126 (0x7e) responded
+TWSI0: Address 127 (0x7f) responded
+----
+
+.Sample TWSI read
+----
+Device address(13INS)> 1
+Internal address width (0, 1, or 2)(14INS)> 0
+Number of bytes to read(15INS)> 1
+Result: 246 (0xf6)
+----
+
+Probing using SMI / MDIO
+------------------------
+
+.Sample SMI/MDIO Main Menu
+----
+include::mdio_main_menu.capture[]
+----
+
+.Sample SMI/MDIO Sub Menu
+----
+include::mdio_sub_menu.capture[]
+----
+
+Generating Ethernet Traffic
+---------------------------
+
+Access the BDK through Telnet
+-----------------------------

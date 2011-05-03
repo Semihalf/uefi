@@ -54,6 +54,15 @@ version.txt::
 Version of the BDK
 
 
+Other Documents
+~~~~~~~~~~~~~~~
+
+* link:bdk-interactive.html[Interacting with the Bringup and Diagnostic Kit]
+* link:lua/readme.html[documentation for Lua]
+* link:lua/contents.html[Lua Reference]
+* link:bdk-internals.html[Bringup and Diagnostic Kit (BDK) Internals]
+
+
 Development Environment Setup
 -----------------------------
 
@@ -485,6 +494,10 @@ input selecting a valid choice from the list of options.  Generally
 the last menu choice returns to the previous menu.  The entire
 interactive menu interface is written in Lua for easy expansibility.
 The source for the menus can be found in the *rom* directory.
+
+TIP: More information about interactive use can be found in the
+document link:bdk-interactive.html[Interacting with the Bringup and
+Diagnostic Kit].
 
 .Main Menu
 ----

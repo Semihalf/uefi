@@ -1,0 +1,19 @@
+=================================
+PCIe Menu
+=================================
+ 1) PCIe0: Initialize
+ 2) PCIe0: Scan for devices
+ 3) PCIe0: Enumerate devices
+ 4) PCIe0: Display devices
+ 5) PCIe0: Perform a memory read
+ 6) PCIe0: Perform a memory write
+ 7) PCIe0: Shutdown
+ 8) PCIe1: Initialize
+ 9) PCIe1: Scan for devices
+10) PCIe1: Enumerate devices
+11) PCIe1: Display devices
+12) PCIe1: Perform a memory read
+13) PCIe1: Perform a memory write
+14) PCIe1: Shutdown
+15) Main menu
+

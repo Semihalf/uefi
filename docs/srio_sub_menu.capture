@@ -1,0 +1,15 @@
+=================================
+SRIO Menu - Port 0
+=================================
+ 1) SRIO0: Initialize
+ 2) SRIO0: Scan for devices
+ 3) SRIO0: Enumerate devices
+ 4) SRIO0: Display devices
+ 5) SRIO0: Perform a maintenance read
+ 6) SRIO0: Perform a maintenance write
+ 7) SRIO0: Send a doorbell
+ 8) SRIO0: Receive a doorbell
+ 9) SRIO0: Perform a memory read
+10) SRIO0: Perform a memory write
+11) Main menu
+
