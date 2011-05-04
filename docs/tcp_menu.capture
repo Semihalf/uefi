@@ -1,0 +1,10 @@
+=================================
+TCP/IP Networking Menu
+=================================
+ 1) Show all port configurations
+ 2) Configure MGMT0 with a static IP 10.0.0.2/24
+ 3) Configure a network port with DHCP
+ 4) Configure a network port with a static IP
+ 5) Configure a network port with auto IP
+ 6) Main menu
+
