@@ -312,16 +312,34 @@ TBD
 Probing using TWSI
 ------------------
 
+TWSI (I2C) operations allow you to probe various devices connected to
+the Octeon TWSI busses.  The top level menu selects which of the TWSI
+busses to use.
+
 .Sample TWSI Main Menu
 ----
 include::twsi_main_menu.capture[]
 ----
+
+Once a bus is selected, the TWSI sub menu allows operations on the bus.
 
 .Sample TWSI Sub Menu
 ----
 include::twsi_sub_menu.capture[]
 ----
 
+Initialize bus::
+
+Perform one time bus initialization of the Octeon TWSI controller.
+This needs to be done once before any other transactions are issued.
+
+Scan bus::
+
+Scan all valid TWSI addresses looking for devices.  Each device that
+responds is displayed in a list.  This can be useful way of
+determining what devices are available on a board.  Below is sample
+scan from a EBB6800 board.
++
 .TWSI Bus 0 scan on an EBB6800
 ----
 TWSI0: Scanning bus...
@@ -351,6 +369,12 @@ TWSI0: Address 126 (0x7e) responded
 TWSI0: Address 127 (0x7f) responded
 ----
 
+Read::
+
+Perform a TWSI read.  Prompts will ask for the device address,
+internal address width, internal address, and number of bytes to read
+(1,2,4).
++
 .Sample TWSI read
 ----
 Device address(13INS)> 1
@@ -359,21 +383,375 @@ Number of bytes to read(15INS)> 1
 Result: 246 (0xf6)
 ----
 
+Write::
+
+Perform a TWSI write.  Prompts will ask for the device address,
+internal address width, internal address, number of bytes to write
+(1,2,4), and the data to write.
+
+
 Probing using SMI / MDIO
 ------------------------
+
+SMI/MDIO busses are used to communicate with ethernet PHYs.  PHYs
+support one of two protocols, clause 22 amd clause 45.  Both of these
+protocols are supported through the BDK menuing interface.  The main
+SMI/MDIO menu selects which of the Octeon busses to access.
 
 .Sample SMI/MDIO Main Menu
 ----
 include::mdio_main_menu.capture[]
 ----
 
+Once a bus is selected, various operations are available for both
+protocol types.
+
 .Sample SMI/MDIO Sub Menu
 ----
 include::mdio_sub_menu.capture[]
 ----
 
+Scan bus (Clause 22)::
+
+Performs a read fro mall possible SMI/MDIO addresses and list the
+addreses where the reads succeeded.  This can be used to quickly find
+all the device connected to the bus.  Note that the scan performs
+clause 22 reads and may not show clause 45 only devices.
+
+Read a register (Clause 22)::
+
+Performs a SMI/MDIO read using the clause 22 protocol.
+
+Write a register (Clause 22)::
+
+Performs a SMI/MDIO write using the clause 22 protocol.
+
+Read a register (Clause 45)::
+
+Performs a SMI/MDIO read using the clause 45 protocol.
+
+Write a register (Clause 45)::
+
+Performs a SMI/MDIO write using the clause 45 protocol.
+
+
 Generating Ethernet Traffic
 ---------------------------
 
+TBD
+
+Traffic Generator Port Naming
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Device ports are named based on their type, interface collection, and
+port in a collection.  All names are of the form:
+
+----
+TYPE INTERFACE INDEX
+----
+
+TYPE::
+
+The port type is based on the underlying transport layer.  Some of the
+support types are SGMII, XAUI, ILK, SRIO, LOOP, and MGMT.
+
+INTERFACE::
+
+Each type of port has an internal chip interface.  These interfaces
+are number 0-X, where X is the maximum supported for the chip.  The
+exact numbering is dictated by the wiring of Octeon's IOs on the
+board.
+
+INDEX::
+
+Some port type, such as SGMII, have multiple ports in each interface.
+This number represents the index number into the interfaces.
+Interfaces not supporting multiple ports, such as XAUI, will always
+use zero for this number.  Channelized interfaces, such as ILK, will
+use this index as the channel number.
+
+Most commands take an optional port range.  The port range is
+specified as a series of names separated by commas or dashes.  Dashes
+include all ports between the named ports.  Commas are used to
+separate independent port, making a list.  No spaces are allowed in a
+port range.  Some example port ranges are "SGMII00-SGMII03",
+"XAUI00,XAUI10", and "LOOP00-LOOP03".  When not specified, the port
+range is taken from the range given in the last "default" command.
+
+The exact list of valid ports varies based on the Octeon chip being
+used and the wiring of the board it is on.  To get a list of all
+possible ports, issue the command *default all*.
+
+
+Traffic Generator Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Control Commands
+^^^^^^^^^^^^^^^^
+cls::
+
+Clear the screen.
+
+csr <csr name> [value]::
+
+Read or write a CSR by name.
+
+default [port range]::
+
+Set the range of ports commands should use when an explicit range is
+not specified.
+
+display_packet [port range] on|off::
+
+Enable or disable the diplay of each packet as it is received.
+
+help::
+
+Show a list of the possible commands.
+
+hide::
+
+Hide all statisitcs counters.
+
+output_count [port range] count::
+
+Set the number of packet to transmit on a port. Use zero to transmit forever.
+
+output_packet_size [port range] size::
+
+Set the size of the pakcet to transmit (60-65524).
+
+quit::
+
+Exit the traffic generator.  Note that this will not stop traffic, so
+you need to issue a *stop all* before quiting.
+
+readline on|off::
+
+Enable or disable readline support.  Turning readline support off can
+be useflu if you are driving the traffic generator with a script.
+Defaults to on.
+
+reboot::
+
+Perform a soft reset of Octeon.
+
+reset::
+
+Clear all counters and reset the port configuration to the default.
+
+scan_sizes [port range]::
+
+Scan through all possible packet sizes, making sure every packet sent
+is received back.  TBD.
+
+show [port range]::
+
+Display statistics for the port range on the screen as a constantly
+updating GUI.
+
+start [port range]::
+
+Start transmitting packets on the port range.
+
+stop [port range]::
+
+Stop transmitting packets on the port range.
+
+tx_percent [port range] percent::
+
+Set the transmit rate as a percentage of 1Gbps.  Note that this does
+not affect ports that are tranmitting until they stop and restart.
+
+tx_rate [port range] packet/s::
+
+Set the transmit rate in packets per second.  Note that this does not
+affect ports that are tranmitting until they stop and restart.
+
+validate [port range] on|off::
+
+Turn packet validation on or off. This should normally be on. TBD.
+
+Statistics Commands
+^^^^^^^^^^^^^^^^^^^
+
+clear [port range]::
+
+Clear the statistics for the port range.
+
+l2_stats on | off::
+
+Turn on/off detailed L2 usage and statistics counters. TBD.
+
+rx_backpressure [port range]::
+
+Display counters of backpressure received on a port range.
+
+rx_dropped_octets [port range]::
+
+Number of bytes dropped during reception for each port.
+
+rx_dropped_packets [port range]::
+
+Number of packets dropped during reception for each port.
+
+rx_errors [port range]::
+
+Number of receive errors for each port.
+
+rx_octets_total [port range]::
+
+Number of bytes received for each port.
+
+rx_packets_total [port range]::
+
+Number of packets received for each port.
+
+rx_validation_errors [port range]::
+
+Number of validation errors received for each port.
+
+tx_octets_total [port range]::
+
+Number of bytes transmitted for each port.
+
+tx_packets_total [port range]::
+
+Number of packets transmitted for each port.
+
+
+Traffic Generator Shortcut Keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* F1 = 'help': Show a list of supported comamnds.
+* F9 = 'validate all on': Enable packet validation on all ports.
+* F10 = 'stop all': Stop transmitting on all ports.
+* F11 = 'start default': Transmit on the ports specified in the last 'default' command.
+* F12 = 'stop default': Stop transmit on the ports specified in the last 'default' command.
+* PageDown = 'clear default': Clear the statistics counters for the ports in the default range.
+* PageUp = 'clear all': Clear the statistics counters for all ports.
+
+Below is a sample screen capture from the traffic generator.  Two
+commands were issued, one to set the default ports to SGMII40 through
+SGMII43, and the second to show the port statistics.
+
+.Sample Traffic Generator Screen
+----
+                Port|   SGMII40|   SGMII41|   SGMII42|   SGMII43|    Totals
+rx backpressure     |         0|         0|         0|         0|         0
+rx Mbps             |         0|         0|         0|         0|         0
+rx dropped octets   |         0|         0|         0|         0|         0
+rx dropped packets  |         0|         0|         0|         0|         0
+rx errors           |         0|         0|         0|         0|         0
+rx octets           |         0|         0|         0|         0|         0
+rx octets total     |         0|         0|         0|         0|         0
+rx packets          |         0|         0|         0|         0|         0
+rx packets total    |         0|         0|         0|         0|         0
+rx validation errors|         0|         0|         0|         0|         0
+tx Mbps             |         0|         0|         0|         0|         0
+tx octets           |         0|         0|         0|         0|         0
+tx octets total     |         0|         0|         0|         0|         0
+tx packets          |         0|         0|         0|         0|         0
+tx packets total    |         0|         0|         0|         0|         0
+Lua memory(KB)      |       277
+C memory(KB)        |      3732
+ -------
+
+BDK Traffic Generator
+
+Type "help" for a list of commands
+SGMII40: Link up, 1000 Mbps, Full duplex
+SGMII41: Link up, 1000 Mbps, Full duplex
+SGMII42: Link up, 1000 Mbps, Full duplex
+SGMII43: Link up, 1000 Mbps, Full duplex
+XAUI00: Link up, 10000 Mbps, Full duplex, 2 lanes
+XAUI10: Link up, 10000 Mbps, Full duplex, 2 lanes
+MGMT00: Link up, 1000 Mbps, Full duplex
+Command(1INS)> default SGMII40-SGMII43
+Default ports: SGMII40 SGMII41 SGMII42 SGMII43
+Command(2INS)> show
+Command(3INS)>
+----
+
+
 Access the BDK through Telnet
 -----------------------------
+
+The BDK contains a full TCP/IP stack with a builtin Telnet server.
+The server is automatically started on boot, but not accessible until
+an IPv4 address is assigned to an ethernet interface.  IPv4 addresses
+are controlled by the TCP/IP networking menu.  Once an IPv4 address is
+assigned, any Telnet client may connect to the BDK through port 23,
+the standard Telnet port.
+
+CAUTION: The builtin traffic generator interfers with TCP/IP.  If you
+use TCP/IP, do not use the builtin traffic generator.  Using the
+generator with disrupt TCP/IP and stop all connections.
+
+.Sample TCP/IP Networking Menu
+----
+include::tcp_menu.capture[]
+----
+
+Show all port configurations::
+
+This option list all supported ethernet devices and their current IPv4
+configuration.
+
+Configure MGMT0 with a static IP 10.0.0.2/24::
+
+This option allows you to quickly assign a fixed IPv4 address to
+management port 0.  This can be useful in a private network setup
+where two machines are directly connected.  Octeon will use 10.0.0.2,
+while the host machine will likely use 10.0.0.1.  This option should
+not be used on anything other than a small, private, test network.
+
+Configure a network port with DHCP::
+
+Use DHCP to automatically configure an ethernet device.  A prompt will
+ask for which interface to configure.  The valid options are shown in
+the list for "Show all port configurations".
+
+Configure a network port with a static IP::
+
+Statically configure an ethernet interface with pre determined IPv4
+address.  Prompts will request the device to configure, the IP address
+in dot notation, the netmask in dot notation, and the gateway in dot
+notation.
+
+Configure a network port with auto IP::
+
+Dynamically assigns a local 169.254.*.* based on the zero
+configuration method used by Microsoft Windows and Mac OS X.  This
+address is suitable for private networks, but should normally not be
+used on corporate LANs.  Note that configuring this method takes time
+to perform a number of ARPs and wait for responses.  The resulting
+address is not available for several seconds.
+
+
+Access the BDK through TFTP
+---------------------------
+
+In addition to the builtin Telnet server, the BDK also contains a TFTP
+server.  Once a valid IPv4 address is configured, the TFTP server can
+be used to transfer files to and from the BDK.  Most any TFTP client
+should work.  If you are running Linux, the recommended TFTP client is
+HPA enhanced TFTP client.  For Debian systems, this can be installed
+with:
+
+.Installing a TFTP client on Debian
+----
+aptitude install tftp-hpa
+----
+
+.Sample TFTP transfer (Octeon -> Host)
+[source, sh]
+----
+tftp 169.254.1.240 -c get /rom/ilua.lua
+----
+
+.Sample TFTP transfer (Host -> Octeon)
+[source, sh]
+----
+tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua
+----
+
