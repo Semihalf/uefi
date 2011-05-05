@@ -7,7 +7,7 @@ Overview
 
 The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
 scripts designed to ease the bringup of new hardware based on Cavium
-Networks line of Octeon processors.  To ease development and increase
+Networks line of OCTEON processors.  To ease development and increase
 maintainability, diagnostics are written in a high level scripting
 language, Lua.  Lua was chosen due to its simple syntax, ease of
 integration with C, and small resource requirements.  The BDK is
@@ -47,7 +47,7 @@ standard filesystem calls.
 
 target-bin/::
 
-All binaries, ELF files, and memory maps for use on Octeon targets.
+All binaries, ELF files, and memory maps for use on OCTEON targets.
 
 version.txt::
 
@@ -95,7 +95,7 @@ completely standalone and requires only minimal connections to the
 development PC.  The board's power supply and other necessities are all
 independent from the development PC.
 
-* PC serial COM1 is connected to the Octeon board's UART0 with a null modem
+* PC serial COM1 is connected to the OCTEON board's UART0 with a null modem
 	cable.
 +
 CAUTION: Cabling with hardware flow control signals is highly recommended. The BDK
@@ -104,13 +104,13 @@ degraded.
 
 * PC with two ethernet cards.
 ** Ethernet eth0 is connected to your local LAN
-** Ethernet eth1 is connected directly to Octeon's first management port.
+** Ethernet eth1 is connected directly to OCTEON's first management port.
 +
 TIP: Development can be performed using a single ethernet card. IP address
 management will be more complex.
 
 * The binary *bdk-boot.bin* is burned into the beginning of NOR flash
-connected to Octeon's bootbus.
+connected to OCTEON's bootbus.
 
 Connections for PCIe Target Boards
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -119,7 +119,7 @@ Another common setup is for the development board to be a PCIe card that runs
 inside the development PC. In this case the board appears to be a component
 of the development machine.
 
-* PC COM1 is connected to the Octeon board's UART0 with a null modem cable.
+* PC COM1 is connected to the OCTEON board's UART0 with a null modem cable.
 +
 CAUTION: Cabling with hardware flow control signals is highly recommended. The BDK
 will work without hardware flow control, but serial performance will be
@@ -130,11 +130,11 @@ degraded.
 TIP: Best performance will be available if the slot supports PCIe gen2 with at
 least four lanes.
 
-* Octeon is configured for PCI boot.
+* OCTEON is configured for PCI boot.
 
 TIP: The PCI to name database on most Linux distributions can easily
 be updated using the command *update-pciids*.  This can be useful to
-allow *lspci* to show text descriptions of Octeon based PCIe devices.
+allow *lspci* to show text descriptions of OCTEON based PCIe devices.
 
 Installing the BDK
 ~~~~~~~~~~~~~~~~~~
@@ -233,7 +233,7 @@ bdk-lua
 
 The BDK supplies the executable *bdk-lua* for scripting on a host PC.
 This should be used for the shell to execute Lua scripts for remote
-controlling Octeon either on the command line, or through scripts.
+controlling OCTEON either on the command line, or through scripts.
 
 .Usage for *bdk-lua*
 ----
@@ -301,10 +301,10 @@ An empty line is the same as "n".
 bdk-remote
 ~~~~~~~~~~
 
-The script *bdk-remote* provides access to a remote Octeon from a host
+The script *bdk-remote* provides access to a remote OCTEON from a host
 PC.  The script requires that the environment variable
 *OCTEON_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
-command line access to all Octeon registers, CSRs, memory, profiling
+command line access to all OCTEON registers, CSRs, memory, profiling
 data, and remote booting is supplied.
 
 .Usage for *bdk-remote*
@@ -318,9 +318,9 @@ bdk-remote:
         Decode <value> as if it were the named CSR.
 
     boot <filename>
-        Boot <filename> on Octeon.
+        Boot <filename> on OCTEON.
     reset
-        Reset Octeon.
+        Reset OCTEON.
 
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.
@@ -357,9 +357,9 @@ Parameter descriptions:
     <filename>
         Standard unix format file name.
     <core>
-        Octeon CPU core number, starting at zero.
+        OCTEON CPU core number, starting at zero.
     <address>
-        An Octeon physical memory address specified in either decimal or
+        An OCTEON physical memory address specified in either decimal or
         hexadecimal.
     <width>
         A byte width. Must be 8, 4, 2, or 1.
@@ -392,7 +392,7 @@ Lua Scripting
 -------------
 
 The BDK contains the scripting environment Lua.  Lua allows you to
-write simple scripts to easily control Octeon tests and perform remote
+write simple scripts to easily control OCTEON tests and perform remote
 operations.  Take a look at the link:lua/readme.html[documentation for
 Lua] for more information about the Lua language.  Many BDK functions
 can be called from Lua.  Under the Lua environment, a module *octeon*
@@ -406,7 +406,7 @@ Executing Lua on the Host
 
 The BDK supplies the executable *bdk-lua* for scripting on a host PC.
 This should be used for the shell to execute Lua scripts for remote
-controlling Octeon either on the command line, or through scripts.
+controlling OCTEON either on the command line, or through scripts.
 
 .Command line
 [source,sh]
@@ -485,7 +485,7 @@ Octeon ebb6300# go 0x400000
 ----
 
 
-Interactive Lua on the Octeon Target
+Interactive Lua on the OCTEON Target
 ------------------------------------
 
 The target side binary *bdk-boot.bin* supplies a text menu based
@@ -619,18 +619,18 @@ could store temporary data in '/ram/data.tmp'.
 
 This is a special file that translates file accesses to reads or
 writes to file transferred using XMODEM.  When opened for write the
-file to be downloaded from Octeon.  When opened for read the file will
-be uploaded to Octeon.  XMODEM, XMODEM-CRC, XMODEM-1K, and
+file to be downloaded from OCTEON.  When opened for read the file will
+be uploaded to OCTEON.  XMODEM, XMODEM-CRC, XMODEM-1K, and
 XMODEM-1K-CRC are all supported.
 
 /dev/uart/0::
 
-This is a special device representing Octeon's first uart.  This is
+This is a special device representing OCTEON's first uart.  This is
 the file that stdin, stdout, and stderr are connected to by default.
 
 /dev/uart/1::
 
-This is a special device representing Octeon's second uart.
+This is a special device representing OCTEON's second uart.
 
 /dev/nor/0::
 
@@ -678,13 +678,13 @@ examples are using the *tftp-hpa* client supplied with Debian.  Most
 other tftp clients are capable of similar operations although the
 syntax differs per client.
 
-.Sample TFTP transfer (Octeon -> Host)
+.Sample TFTP transfer (OCTEON -> Host)
 [source, sh]
 ----
 tftp 169.254.1.240 -c get /rom/ilua.lua
 ----
 
-.Sample TFTP transfer (Host -> Octeon)
+.Sample TFTP transfer (Host -> OCTEON)
 [source, sh]
 ----
 tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua
@@ -696,9 +696,9 @@ Lua Modules
 -----------
 
 Lua functions are organized in terms of packages. Each package implements
-many functions related to a specific task. Octeon's Lua contains the default
+many functions related to a specific task. OCTEON's Lua contains the default
 Lua packages along with some new packages specifically designed for remote
-control and testing of Octeon based hardware.
+control and testing of OCTEON based hardware.
 
 .Lua Base Modules
 [options="header"]
@@ -717,7 +717,7 @@ control and testing of Octeon based hardware.
 |socket			|link:luasocket/introduction.html[]
 |==========================================================================
 
-Host Modules Specific to Octeon
+Host Modules Specific to OCTEON
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cavium Networks provides some Lua modules specific for running Lua on a
@@ -727,8 +727,8 @@ oremote
 ^^^^^^^
 
 The *oremote* module provides functions for remotely controlling an
-Octeon over PCI or EJTAG. This allows Lua scripts to remotely probe and
-boot Octeon. Below is a list of the functions supported.
+OCTEON over PCI or EJTAG. This allows Lua scripts to remotely probe and
+boot OCTEON. Below is a list of the functions supported.
 
 oremote.open(protocol, debug)::
  * protocol = Remote protocol or nil
@@ -739,9 +739,9 @@ oremote.open(protocol, debug)::
 [options="header"]
 |==========================================================================
 |Format			|Description
-|PCI:<device>		|Use PCI/PCIe for <device>. Zero is the first Octeon.
+|PCI:<device>		|Use PCI/PCIe for <device>. Zero is the first OCTEON.
 |LINUX			|Assume Linux userspace native with direct access.
-|GDB:<name>,<tcp_port>	|Use GDB remote protocol to communicate with Octeon.
+|GDB:<name>,<tcp_port>	|Use GDB remote protocol to communicate with OCTEON.
 |MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>]	|Use Macraigor mpDemon EJTAG. Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.
 |==========================================================================
 
@@ -920,11 +920,11 @@ oremote.csr.NAME.FIELD = value::
 Performs a read, modify, and write of a CSR changing the specified field.
 
 
-Target modules specific to Octeon
+Target modules specific to OCTEON
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cavium Networks provides some Lua modules specific for running Lua on
-a target Octeon.
+a target OCTEON.
 
 octeon
 ^^^^^^
@@ -1136,7 +1136,7 @@ include::../examples/rpc-test.lua[]
 ----
 
 TIP: Lua garbage collection can cause issues with RPC.  The host
-running the RPC client normally has lots more memory than the Octeon
+running the RPC client normally has lots more memory than the OCTEON
 RPC target.  This can cause Lua to not garbage collect old RPC
 objects.  Since the RPC server can't free objects until the client
 releases all references, this can cause the client to run out of
@@ -1148,7 +1148,7 @@ supports RPC calls.  Whenever *bdk-boot.bin* is waiting for user
 input, you can send a RPC request and get a response.
 
 rpc.connect(instream, outstream)::
-Create a RPC connection to a remote Octeon.
+Create a RPC connection to a remote OCTEON.
 * instream = Lua IO stream for input, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`)
 * outstream = Lua IO stream for output, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
 * Return value is an RPC object to make calls with.
@@ -1193,7 +1193,7 @@ utils
 ^^^^^
 
 The *utils* module is a set of Lua functions written by Cavium
-Networks to ease writing scripts that deal with Octeon's registers.
+Networks to ease writing scripts that deal with OCTEON's registers.
 Below is a list of the functions provided.
 
 printf::
@@ -1235,7 +1235,7 @@ is a useful to automatically switch to RPC when running remotely.
 ----
 local csr
 if isglobal("octeon") then
-    -- We're running natively on Octeon
+    -- We're running natively on OCTEON
     csr = octeon.csr
 else
     -- We're running remotely. Assume arg[1] is where we should connect to
@@ -1280,7 +1280,7 @@ pcie_root:get_devices()::
 
 Get an array containing all devices on the PCIe root complex.  Each
 *pcie_device* in the array is a PCIe function directly connected to
-Octeon.  If the device is a bridge/switch then *pcie_device.isbridge*
+OCTEON.  If the device is a bridge/switch then *pcie_device.isbridge*
 will be *true* and *pcie_device.devices* will be an array containing
 all children of the device.
 
@@ -1338,7 +1338,7 @@ Set to *true* if the device is a switch or bridge, otherwise set to *false*.
 bit64
 ^^^^^
 
-The module *bit64* is specific to the Octeon BDK.  It supports
+The module *bit64* is specific to the OCTEON BDK.  It supports
 standard bit operations on 64 bit numbers.  In general this should be
 used instead of *bit32*.
 
@@ -1493,10 +1493,10 @@ Use the *rpc* module to develop scripts before running on the target::
 TBD
 
 
-Lua Startup Sequence on Octeon
+Lua Startup Sequence on OCTEON
 ------------------------------
 
-The following details which Lua scripts are executed on Octeon during
+The following details which Lua scripts are executed on OCTEON during
 boot of the BDK.
 
 . bdk-boot.bin binary boots.

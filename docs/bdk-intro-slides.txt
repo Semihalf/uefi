@@ -12,7 +12,7 @@ Bringup and Diagnostic Kit (BDK)
 .What is the BDK?
 
 The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
-scripts designed to ease the bringup of new hardware based on Octeon
+scripts designed to ease the bringup of new hardware based on OCTEON
 II processors.
 
 * New release package unrelated to the SDK.
@@ -43,8 +43,8 @@ Features
 
 .Unsupported chips
 
-* Octeon (CN3XXX)
-* Octeon+ (CN5XXX)
+* OCTEON (CN3XXX)
+* OCTEON+ (CN5XXX)
 
 
 Host Install
@@ -64,7 +64,7 @@ bin  docs  examples  readme.txt  rom  target-bin  version.txt
 bin:: All host binaries and scripts.
 docs:: All documentation for the BDK.
 rom:: All files in here are included into BDK applications for access using standard filesystem calls.
-target-bin:: All binaries, ELF files, and memory maps for use on Octeon targets.
+target-bin:: All binaries, ELF files, and memory maps for use on OCTEON targets.
 
 
 Target Install
@@ -203,13 +203,13 @@ Access the BDK through the Network
 
 * The BDK contains a TFTP server.
 
-.Sample TFTP transfer (Octeon -> Host)
+.Sample TFTP transfer (OCTEON -> Host)
 [source, sh]
 ----
 tftp 169.254.1.240 -c get /rom/ilua.lua
 ----
 
-.Sample TFTP transfer (Host -> Octeon)
+.Sample TFTP transfer (Host -> OCTEON)
 [source, sh]
 ----
 tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua
@@ -227,8 +227,8 @@ The Virtual File System
 |/rom/*		| Static files from the *rom* directory.
 |/ram/* 	| Free area to create temporary files.
 |/xmodem	| Translates files into XMODEM transfers.
-|/dev/uart/0	| Octeon's first uart.
-|/dev/uart/1	| Octeon's second uart.
+|/dev/uart/0	| OCTEON's first uart.
+|/dev/uart/1	| OCTEON's second uart.
 |/dev/nor/0	| NOR flash.
 |/dev/mem	| DRAM.
 |/dev/pcie/0	| Read and write access to memory on PCIe port 0.
@@ -253,7 +253,7 @@ Latest docs::
 
 link:http://chad-i7/bdk/bdk.html[]
 
-Octeon Bugzilla::
+OCTEON Bugzilla::
 
 link:http://caswbug/octeon_bugzilla/[]
 

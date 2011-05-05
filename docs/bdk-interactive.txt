@@ -7,7 +7,7 @@ Overview
 
 The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
 scripts designed to ease the bringup of new hardware based on Cavium
-Networks line of Octeon processors.  This document covers the usage of
+Networks line of OCTEON processors.  This document covers the usage of
 the BDK from an interactive console after the BDK has been installed.
 For installation information, see the document link:bdk.html[Bringup and
 Diagnostic Kit].
@@ -101,25 +101,25 @@ Interactive Lua prompt::
 
 This provides direct access to the Lua interpreter running in the BDK.
 This can be used to probe and configure any type of hardware inside or
-connected to Octeon.  Scripting using Lua is cover in another
+connected to OCTEON.  Scripting using Lua is cover in another
 document, link:FIXME.
 
 TCP/IP networking::
 
 The BDK contains a full TCP/IP stack with servers for TFTP and Telnet.
-Use this menu option to configure an IP address on an Octeon network
+Use this menu option to configure an IP address on an OCTEON network
 interface.
 
 Traffic Generator::
 
-This menu option starts a simple traffic generator on Octeon.  It can
-be used to transmit and receive packets on all Octeon packet
+This menu option starts a simple traffic generator on OCTEON.  It can
+be used to transmit and receive packets on all OCTEON packet
 interfaces.  In combination with an external loopback, this can
 quickly verify the interfaces on a board.
 
 Reboot::
 
-Perform a soft reset of Octeon.  This can be useful for a quick reboot
+Perform a soft reset of OCTEON.  This can be useful for a quick reboot
 without power cycling the entire board.
 
 
@@ -144,7 +144,7 @@ a sequence of hex digits beginning with "0x".
 RGMII/MII port X PHY address::
 
 The PHY address to use for the RGMII/MII management port.  The format
-of the PHY address is the SMI/MDIO address plus 0x100 time the Octeon
+of the PHY address is the SMI/MDIO address plus 0x100 time the OCTEON
 SMI/MDIO bus number.  For example, 0x203 would program the RGMII/MII
 address to be on bus two, SMI/MDIO address three.
 
@@ -152,7 +152,7 @@ SGMII interface X, port Y PHY address::
 
 The PHY address to use for the SGMII port Y on interface X.  The
 format of the PHY address is the SMI/MDIO address plus 0x100 time the
-Octeon SMI/MDIO bus number.  For example, 0x203 would program the
+OCTEON SMI/MDIO bus number.  For example, 0x203 would program the
 RGMII/MII address to be on bus two, SMI/MDIO address three.
 
 
@@ -169,7 +169,7 @@ Must be 0-16.
 Testing PCIe
 ------------
 
-The BDK supports testing Octeon's PCIe ports in root complex mode.
+The BDK supports testing OCTEON's PCIe ports in root complex mode.
 Basic bus initialization and enumeration can be performed even before
 DDR3 is working.  The sequence is simply to perform the items in the
 PCIe menu it order.
@@ -313,7 +313,7 @@ Probing using TWSI
 ------------------
 
 TWSI (I2C) operations allow you to probe various devices connected to
-the Octeon TWSI busses.  The top level menu selects which of the TWSI
+the OCTEON TWSI busses.  The top level menu selects which of the TWSI
 busses to use.
 
 .Sample TWSI Main Menu
@@ -330,7 +330,7 @@ include::twsi_sub_menu.capture[]
 
 Initialize bus::
 
-Perform one time bus initialization of the Octeon TWSI controller.
+Perform one time bus initialization of the OCTEON TWSI controller.
 This needs to be done once before any other transactions are issued.
 
 Scan bus::
@@ -396,7 +396,7 @@ Probing using SMI / MDIO
 SMI/MDIO busses are used to communicate with ethernet PHYs.  PHYs
 support one of two protocols, clause 22 amd clause 45.  Both of these
 protocols are supported through the BDK menuing interface.  The main
-SMI/MDIO menu selects which of the Octeon busses to access.
+SMI/MDIO menu selects which of the OCTEON busses to access.
 
 .Sample SMI/MDIO Main Menu
 ----
@@ -459,7 +459,7 @@ INTERFACE::
 
 Each type of port has an internal chip interface.  These interfaces
 are number 0-X, where X is the maximum supported for the chip.  The
-exact numbering is dictated by the wiring of Octeon's IOs on the
+exact numbering is dictated by the wiring of OCTEON's IOs on the
 board.
 
 INDEX::
@@ -478,7 +478,7 @@ port range.  Some example port ranges are "SGMII00-SGMII03",
 "XAUI00,XAUI10", and "LOOP00-LOOP03".  When not specified, the port
 range is taken from the range given in the last "default" command.
 
-The exact list of valid ports varies based on the Octeon chip being
+The exact list of valid ports varies based on the OCTEON chip being
 used and the wiring of the board it is on.  To get a list of all
 possible ports, issue the command *default all*.
 
@@ -533,7 +533,7 @@ Defaults to on.
 
 reboot::
 
-Perform a soft reset of Octeon.
+Perform a soft reset of OCTEON.
 
 reset::
 
@@ -701,7 +701,7 @@ Configure MGMT0 with a static IP 10.0.0.2/24::
 
 This option allows you to quickly assign a fixed IPv4 address to
 management port 0.  This can be useful in a private network setup
-where two machines are directly connected.  Octeon will use 10.0.0.2,
+where two machines are directly connected.  OCTEON will use 10.0.0.2,
 while the host machine will likely use 10.0.0.1.  This option should
 not be used on anything other than a small, private, test network.
 
@@ -743,13 +743,13 @@ with:
 aptitude install tftp-hpa
 ----
 
-.Sample TFTP transfer (Octeon -> Host)
+.Sample TFTP transfer (OCTEON -> Host)
 [source, sh]
 ----
 tftp 169.254.1.240 -c get /rom/ilua.lua
 ----
 
-.Sample TFTP transfer (Host -> Octeon)
+.Sample TFTP transfer (Host -> OCTEON)
 [source, sh]
 ----
 tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua

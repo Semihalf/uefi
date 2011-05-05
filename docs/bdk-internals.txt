@@ -32,23 +32,23 @@ directly from flash without any other software.  DRAM is optional.
 	All documentation for the BDK.
 
 .libbdk-arch/
-	Library and C files related to Octeon II architecture. This
-	contains the minimal code needed to write any code for Octeon II
+	Library and C files related to OCTEON II architecture. This
+	contains the minimal code needed to write any code for OCTEON II
 	with the minimal amount of abstractions as possible. This contains
 	CSR and assembly defines and access functions . Higher level APIs
 	are not part of this library.
 
 .libbdk-dram/
-	Library and C files related to Octeon II DRAM initialization. These
+	Library and C files related to OCTEON II DRAM initialization. These
 	files are meant to be shared by all loaders and early diagnostics
 	that need to setup DRAM.
 
 .libbdk-hal/
-	Library and C files providing a API for interfacing with Octeon II
-	hardware. This is similar to the "executive" in the Octeon SDK.
+	Library and C files providing a API for interfacing with OCTEON II
+	hardware. This is similar to the "executive" in the OCTEON SDK.
 
 .libbdk-lua/
-	Libraries for accessing Octeon hardware from the Lua scripting language.
+	Libraries for accessing OCTEON hardware from the Lua scripting language.
 
 .libbdk-os/
 	System call support and initialization code required for the C library
@@ -108,19 +108,19 @@ large block of memory.  The most useful library functions are:
 
 The function "memalign" should be used for most DMA buffer
 allocations.  The convenient FPA functions use it internally.
-Conversion between pointers an Octeon physical address are done using
+Conversion between pointers an OCTEON physical address are done using
 *bdk_ptr_to_phys()* and *bdk_phys_to_ptr()*.
 
 uint64_t bdk_ptr_to_phys(void *ptr)::
 
-Convert a C pointer into an Octeon physical address.  This works on
+Convert a C pointer into an OCTEON physical address.  This works on
 stack data, global variables, heap data, and even code.  Note that
 there is a performance impact for using the function on global
 variables and code.  It is fastest when used with stack and heap data.
 
 void *bdk_phys_to_ptr(uint64_t physical_address)::
 
-Convert an Octeon physical address into a C pointer.  This function is
+Convert an OCTEON physical address into a C pointer.  This function is
 quite fast as all it does is translate the address into XKPHYS.  Note
 that "*bdk_phys_to_ptr(bdk_ptr_to_phys(foo))*" may not be equal to the
 original address of "foo".  The result of
@@ -130,7 +130,7 @@ original address of "foo".  The result of
 Threading
 ---------
 
-The BDK takes a major departure from the Octeon SDK by choosing a
+The BDK takes a major departure from the OCTEON SDK by choosing a
 multi-threaded model of execution versus a forked model.  Threads are
 implemented on a low overhead cooperative threading scheme.  A thread
 only yields execution specifically with a call to *bdk_thread_yield()*.
@@ -173,7 +173,7 @@ Abstract Network Packet API
 ---------------------------
 
 The BDK provides a high level interface to all packet based interfaces
-that are similar to ethernet.  Octeon's SGMII, XAUI, RGMII, SRIO, ILK, Loop
+that are similar to ethernet.  OCTEON's SGMII, XAUI, RGMII, SRIO, ILK, Loop
 devices, and PCIe engines are all available through this common
 interface.
 
@@ -330,7 +330,7 @@ TIP: Uboot's 'go' command doesn't work for addresses above 256MB.
 The BDK API
 -----------
 
-The BDK contains many functions to support Octeon code development.
+The BDK contains many functions to support OCTEON code development.
 Here is a short list of the major areas:
 
 TIP: The doxygen generated link:api-docs/html/modules.html[BDK API Reference] can be useful.
@@ -385,7 +385,7 @@ Lua Scripting
 -------------
 
 The BDK contains the scripting environment Lua.  Lua allows you to
-write simple scripts to easily control Octeon tests and perform remote
+write simple scripts to easily control OCTEON tests and perform remote
 operations.  Take a look at the link:lua/readme.html[documentation for
 Lua] for more information about the Lua language.  Many BDK functions
 can be called from Lua.  Under the Lua environment, a module _octeon_
@@ -393,11 +393,11 @@ is supplied.
 
 TIP: The link:lua/contents.html[Lua Reference] can be useful.
 
-Checking Octeon Models
+Checking OCTEON Models
 ~~~~~~~~~~~~~~~~~~~~~~
 octeon.is_model()::
 
-Check which Octeon model you are using. Pass it one of the following:
+Check which OCTEON model you are using. Pass it one of the following:
 
 * octeon.CN63XX
 * octeon.CN63XXP1
