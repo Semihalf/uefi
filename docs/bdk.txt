@@ -15,9 +15,9 @@ capable of running a full interactive Lua environment from L2 cache
 before DRAM is configured.
 
 .Features of the BDK
-* Simple menu driven interface for testing many IOs.
-* Built in traffic generation for ethernet based IOs.
-* Many IOs can be tested before DRAM is configured.
+* Simple menu driven interface for testing many I/Os.
+* Built in traffic generation for ethernet based I/Os.
+* Many I/Os can be tested before DRAM is configured.
 * Prebuilt known good binaries for booting new hardware.
 * Easy automation of tasks through scripts running on a PC.
 * Fast PC based test development using a remote board.
@@ -1149,14 +1149,14 @@ input, you can send a RPC request and get a response.
 
 rpc.connect(instream, outstream)::
 Create a RPC connection to a remote OCTEON.
-* instream = Lua IO stream for input, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`)
-* outstream = Lua IO stream for output, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
+* instream = Lua I/O stream for input, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`)
+* outstream = Lua I/O stream for output, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
 * Return value is an RPC object to make calls with.
 
 rpc.serve(instream, outstream)::
 Wait for RPC commands and execute them.
-* instream = Lua IO stream for input, or a filename to open. (Example: `/dev/ttyS0`)
-* outstream = Lua IO stream for output, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
+* instream = Lua I/O stream for input, or a filename to open. (Example: `/dev/ttyS0`)
+* outstream = Lua I/O stream for output, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
 * No return value.
 
 strict

@@ -12,28 +12,29 @@ Bringup and Diagnostic Kit (BDK)
 .What is the BDK?
 
 The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
-scripts designed to ease the bringup of new hardware based on OCTEON
-II processors.
+scripts designed to ease the initial power on of new hardware based on
+OCTEON II processors.
 
-* New release package unrelated to the SDK.
-* Focused on board bringup.
+* New release package unrelated to the SDK
+* Focused on board bringup
 
 .What isn't the BDK?
 
-* The BDK is not a replacement for the SDK.
-* No source code.
-* Focus on IO testing, not software.
+* The BDK is not a replacement for the SDK
+* The BDK is not a generic bootloader
+* No source code
+* Focus on I/O testing, not software
 
 
 Features
 --------
 
-* Runs from L2, doesn't need working DRAM.
-* Simple menu driven interface for testing many IOs.
-* Built in traffic generation for ethernet based IOs.
-* Many IOs can be tested before DRAM is configured.
-* Prebuilt known good binaries for booting new hardware.
-* Remote booting over PCIe and EJTAG.
+* Runs from L2, doesn't need working DRAM
+* Simple menu driven interface for testing many I/Os
+* Built in traffic generation for ethernet based I/Os
+* Many I/Os can be tested before DRAM is configured
+* Prebuilt known good binaries for booting new hardware
+* Remote booting over PCIe and EJTAG
 
 .Supported chips
 
@@ -50,7 +51,7 @@ Features
 Host Install
 ------------
 
-* Released as a tar on the support site. Location TBD.
+* Released as a tar on the support site. Location TBD
 
 ----
 # This example used BDK version 2011.3, build r58169
@@ -119,8 +120,8 @@ Main Menu
 Interactive Demo - Configuration
 --------------------------------
 
-* PHY addresses are important.
-* Menu items change based on the detected configuration.
+* PHY addresses are important
+* Menu items change based on the detected configuration
 
 ----
 =================================
@@ -170,9 +171,9 @@ PCIe Menu
 Interactive Demo - Traffic Gen
 ------------------------------
 
-* Port ranges by name "SGMII00-SGMII03", "XAUI00,XAUI10", "LOOP00-LOOP03", etc.
-* *csr* command give direct access to CSRs.
-* Commands are different from SDK traffic-gen.
+* Port ranges by name "SGMII00-SGMII03", "XAUI00,XAUI10", "LOOP00-LOOP03", etc
+* *csr* command give direct access to CSRs
+* Commands are different from SDK traffic-gen
 * Key commands:
 ** csr <name> [value]
 ** default <port range>
@@ -197,11 +198,11 @@ Access the BDK through the Network
 
 .Telnet
 
-* The BDK contains a full TCP/IP stack with a builtin Telnet server.
+* The BDK contains a full TCP/IP stack with a builtin Telnet server
 
 .TFTP
 
-* The BDK contains a TFTP server.
+* The BDK contains a TFTP server
 
 .Sample TFTP transfer (OCTEON -> Host)
 [source, sh]

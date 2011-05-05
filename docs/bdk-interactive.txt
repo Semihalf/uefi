@@ -18,33 +18,35 @@ Navigating Menus and Answering Prompts
 All menus in the BDK start with a banner followed by a list of
 numbered options.  Options are chosen by typing the associated number
 into the "Menu Choice:" prompt and pressing ENTER.  Leaving a prompt
-blank signals that input should be aborted.  All menus have the last
-option as an exit of the menu and return to the previous menu.
+blank signals that input should be aborted, passing control passes
+back to the menu.  All menus have the last option as an exit of the
+menu and return to the previous menu.
 
 Some menu options require extra input from the user.  These accept
 keyboard input followed by the ENTER key.  Leaving a field blank, or
-hitting Control-C abort input.  You are then taken back to the menu.
+hitting Control-C abort input.  Control goes back to the menu.
 Numeric input can be in decimal (default) or hexadecimal by beginning
-the number with "0x".
+the number with "0x" (zero followed by "x", similar to the C
+programming language).
 
 Line Editing
 ~~~~~~~~~~~~
 
 Any prompt ending with ">" supports full line editing and history. Generally
-speaking, arrow keys, home, end, insert, and delete work as you would expect.
+speaking, arrow keys, home, end, insert, and delete work as expected.
 
-* Use ARROW KEYS, HOME, END or ESC-h,ESC-j,ESC-k,ESC-l,ESC-0,ESC-$,ESC-w,ESC-b, or ESC-fx for navigation.
-* Scroll through previous commands using the UP and DOWN arrow keys.
-* Use INSERT to toggle insert/overwrite mode, DELETE to delete, F1 for help.
-* Many vi style modes are available for command and history navigation.
-* Use TAB for command completion, multiple to cycle, or CTRL-D for a list of possible commands.
-* Use ESC-i,ESC-A,ESC-a,ESC-c for insert mode, ESC-R,ESC-r for overwrite mode (behavior like vi).
-* Use !!, !<num> or !<string> to repeat previous commands in the history.
-* Use ::, :<num> or :<string> to recall previous commands in the history to current.
-* Use ?<string>, /<string>, ESC-?<string>,ESC-/<string>,ESC-n,ESC-N to also recall to current.
-* Use CTRL-l erase the screen, ESC-D to clear the rest of the current line.
-* Use ESC-d<movement> to delete, ESC-~ to change case, ESC-u to undo (one level).
-* See the vi man page for more info on the operation of various commands.
+* Use 'ARROW KEYS', 'HOME', 'END' or *vi* style commands 'ESC-h', 'ESC-j', 'ESC-k', 'ESC-l', 'ESC-0', 'ESC-$', 'ESC-w', or 'ESC-b' for navigation.
+* Scroll through previous commands using the 'UP' and 'DOWN' arrow keys.
+* Use 'INSERT' to toggle insert/overwrite mode, 'DELETE' to delete, 'F1' for help.
+* Many *vi* style modes are available for command and history navigation.
+* Use 'TAB' for command completion, multiple to cycle, or 'CTRL-D' for a list of possible commands.
+* Use 'ESC-i', 'ESC-A' ,'ESC-a', 'ESC-c' for insert mode, 'ESC-R', 'ESC-r' for overwrite mode (behavior like *vi*).
+* Use '!!', '!<num>' or '!<string>' to repeat previous commands in the history.
+* Use '::', ':<num>' or ':<string>' to recall previous commands in the history to current.
+* Use '?<string>', '/<string>', 'ESC-?<string>', 'ESC-/<string>', 'ESC-n', 'ESC-N' to also recall to current.
+* Use 'CTRL-l' erase the screen, 'ESC-D' to clear the rest of the current line.
+* Use 'ESC-d<movement>' to delete, 'ESC-~' to change case, 'ESC-u' to undo (one level).
+* See the *vi* man page for more info on the operation of various commands.
 
 Getting started at the Main Menu
 --------------------------------
@@ -64,7 +66,8 @@ Each menu option supports a logically distinct set of options:
 Configuration options::
 
 Use this option to configure the BDK for your board.  The specifics of
-PHY addresses, MAC addresses, etc change for each board.
+PHY addresses, MAC addresses, etc change for each board.  See
+<<CONFIGURE, Configuring the BDK for your Board>>.
 
 File options::
 
@@ -82,12 +85,12 @@ Options for configuring DDR3.
 PCIe options::
 
 PCIe discovery, enumeration, and probing can be accessed through this
-menu.
+menu. See <<PCIE, Testing PCIe>>.
 
 SRIO options::
 
 SRIO discovery, enumeration, and probing can be accessed through this
-menu.
+menu. See <<SRIO, Testing SRIO>>.
 
 TWSI options::
 
@@ -122,7 +125,7 @@ Reboot::
 Perform a soft reset of OCTEON.  This can be useful for a quick reboot
 without power cycling the entire board.
 
-
+[[CONFIGURE]]
 Configuring the BDK for your Board
 ----------------------------------
 
@@ -138,7 +141,7 @@ include::configure_menu.capture[]
 
 MAC address::
 
-The ethernet MAC address used for all ports.  This should be input as
+The Ethernet MAC address used for all ports.  This should be input as
 a sequence of hex digits beginning with "0x".
 
 RGMII/MII port X PHY address::
@@ -166,6 +169,7 @@ The number of virtual channels to configure for Interlaken port X.
 Must be 0-16.
 
 
+[[PCIE]]
 Testing PCIe
 ------------
 
@@ -219,11 +223,11 @@ Shutdown the PCIe link.  This might be useful if you want to test link
 robustness by performing a series of initialization and shutdown
 sequences.
 
-
+[[SRIO]]
 Testing SRIO
 ------------
 
-Serial Rapid IO ports support discovery, enumeration, and basic
+Serial Rapid I/O ports support discovery, enumeration, and basic
 transactions.  The main SRIO menu allows you to toggle global debug
 options and select which hardware port to work with.
 
@@ -393,7 +397,7 @@ internal address width, internal address, number of bytes to write
 Probing using SMI / MDIO
 ------------------------
 
-SMI/MDIO busses are used to communicate with ethernet PHYs.  PHYs
+SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
 support one of two protocols, clause 22 amd clause 45.  Both of these
 protocols are supported through the BDK menuing interface.  The main
 SMI/MDIO menu selects which of the OCTEON busses to access.
@@ -459,16 +463,16 @@ INTERFACE::
 
 Each type of port has an internal chip interface.  These interfaces
 are number 0-X, where X is the maximum supported for the chip.  The
-exact numbering is dictated by the wiring of OCTEON's IOs on the
+exact numbering is dictated by the wiring of OCTEON's I/Os on the
 board.
 
 INDEX::
 
-Some port type, such as SGMII, have multiple ports in each interface.
+Some port types, such as SGMII, have multiple ports in each interface.
 This number represents the index number into the interfaces.
 Interfaces not supporting multiple ports, such as XAUI, will always
-use zero for this number.  Channelized interfaces, such as ILK, will
-use this index as the channel number.
+use zero for this number.  Channelized interfaces, such as Interlaken,
+will use this index as the channel number.
 
 Most commands take an optional port range.  The port range is
 specified as a series of names separated by commas or dashes.  Dashes
@@ -677,15 +681,15 @@ Access the BDK through Telnet
 -----------------------------
 
 The BDK contains a full TCP/IP stack with a builtin Telnet server.
-The server is automatically started on boot, but not accessible until
-an IPv4 address is assigned to an ethernet interface.  IPv4 addresses
-are controlled by the TCP/IP networking menu.  Once an IPv4 address is
-assigned, any Telnet client may connect to the BDK through port 23,
-the standard Telnet port.
+The server is automatically started on boot, but is not accessible
+until an IPv4 address is assigned to an Ethernet interface.  IPv4
+addresses are controlled by the TCP/IP networking menu.  Once an IPv4
+address is assigned, any Telnet client may connect to the BDK through
+port 23, the standard Telnet port.
 
 CAUTION: The builtin traffic generator interfers with TCP/IP.  If you
 use TCP/IP, do not use the builtin traffic generator.  Using the
-generator with disrupt TCP/IP and stop all connections.
+generator will disrupt TCP/IP and stop all connections.
 
 .Sample TCP/IP Networking Menu
 ----
@@ -694,7 +698,7 @@ include::tcp_menu.capture[]
 
 Show all port configurations::
 
-This option list all supported ethernet devices and their current IPv4
+This option list all supported Ethernet devices and their current IPv4
 configuration.
 
 Configure MGMT0 with a static IP 10.0.0.2/24::
@@ -707,13 +711,13 @@ not be used on anything other than a small, private, test network.
 
 Configure a network port with DHCP::
 
-Use DHCP to automatically configure an ethernet device.  A prompt will
+Use DHCP to automatically configure an Ethernet device.  A prompt will
 ask for which interface to configure.  The valid options are shown in
 the list for "Show all port configurations".
 
 Configure a network port with a static IP::
 
-Statically configure an ethernet interface with pre determined IPv4
+Statically configure an Ethernet interface with pre determined IPv4
 address.  Prompts will request the device to configure, the IP address
 in dot notation, the netmask in dot notation, and the gateway in dot
 notation.

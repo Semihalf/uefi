@@ -201,11 +201,11 @@ to write loops that iterate over ports.
 
 int bdk_if_enable(bdk_if_handle_t handle)::
 
-Enable the given port for packet IO.
+Enable the given port for packet I/O.
 
 int bdk_if_disable(bdk_if_handle_t handle)::
 
-Disable the given port for packet IO.
+Disable the given port for packet I/O.
 
 bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)::
 
