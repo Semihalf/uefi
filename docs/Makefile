@@ -2,6 +2,8 @@
 
 default: bdk.html bdk-internals.html bdk-interactive.html bdk-faqs.html api-docs
 
+slides: bdk-intro-slides.html
+
 clean:
 	rm -rf *.html api-docs
 
@@ -17,4 +19,4 @@ api-docs: Doxyfile
 .PHONY: copy
 copy:
 	rm -rf /var/www/bdk/*
-	cp -r *.html *.png api-docs lua* /var/www/bdk/
+	cp -r *.html *slides.txt *.png api-docs lua* /var/www/bdk/

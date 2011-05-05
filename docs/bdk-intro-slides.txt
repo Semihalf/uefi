@@ -1,0 +1,264 @@
+Bringup and Diagnostic Kit FAE Presentation
+===========================================
+:author:    Chad Reese
+:backend:   slidy
+:max-width: 45em
+:data-uri:
+
+
+Bringup and Diagnostic Kit (BDK)
+--------------------------------
+
+.What is the BDK?
+
+The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
+scripts designed to ease the bringup of new hardware based on Octeon
+II processors.
+
+* New release package unrelated to the SDK.
+* Focused on board bringup.
+
+.What isn't the BDK?
+
+* The BDK is not a replacement for the SDK.
+* No source code.
+* Focus on IO testing, not software.
+
+
+Features
+--------
+
+* Runs from L2, doesn't need working DRAM.
+* Simple menu driven interface for testing many IOs.
+* Built in traffic generation for ethernet based IOs.
+* Many IOs can be tested before DRAM is configured.
+* Prebuilt known good binaries for booting new hardware.
+* Remote booting over PCIe and EJTAG.
+
+.Supported chips
+
+* CN63XX
+* CN68XX
+* CN65XX (when released)
+
+.Unsupported chips
+
+* Octeon (CN3XXX)
+* Octeon+ (CN5XXX)
+
+
+Host Install
+------------
+
+* Released as a tar on the support site. Location TBD.
+
+----
+# This example used BDK version 2011.3, build r58169
+$ tar -zxf octeon-bdk-2011.03-r58169.tgz
+$ ls octeon-bdk-2011.03
+bin  docs  examples  readme.txt  rom  target-bin  version.txt
+----
+
+.The directory layout of the BDK
+
+bin:: All host binaries and scripts.
+docs:: All documentation for the BDK.
+rom:: All files in here are included into BDK applications for access using standard filesystem calls.
+target-bin:: All binaries, ELF files, and memory maps for use on Octeon targets.
+
+
+Target Install
+--------------
+
+.Booting from NOR flash
+
+Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash.
+
+.Booting using *bdk-remote* over PCIe
+[source, sh]
+----
+$ export OCTEON_REMOTE_PROTCOL=pci
+$ bdk-remote boot target-bin/bdk-boot.bin
+----
+
+.Booting using a pre-existing Uboot
+----
+Octeon ebb6300# dhcp
+Octeon ebb6300# setenv serverip 192.168.162.148
+Octeon ebb6300# tftpboot 0x400000 bdk-boot.bin
+Octeon ebb6300# go 0x400000
+----
+
+TIP: bdk-boot.bin is considered a bootloader image by Uboot.  It can
+be burned as the normal bootloader using "bootloaderupdate" from
+Uboot.
+
+
+Interactive Demo - Main Menu
+----------------------------
+
+----
+=================================
+Main Menu
+=================================
+ 1) Configuration options
+ 2) File options
+ 3) Flash options
+ 4) DDR options
+ 5) PCIe options
+ 6) SRIO options
+ 7) TWSI options
+ 8) SMI/MDIO options
+ 9) Interactive Lua prompt
+10) TCP/IP networking
+11) Traffic Generator
+12) Reboot
+----
+
+
+Interactive Demo - Configuration
+--------------------------------
+
+* PHY addresses are important.
+* Menu items change based on the detected configuration.
+
+----
+=================================
+Configuration Menu
+=================================
+ 1) MAC address (0xdeadbeef00)
+ 2) RGMII/MII port 0 PHY address (0x6)
+ 3) SGMII interface 4, port 0 PHY address (0x1)
+ 4) SGMII interface 4, port 1 PHY address (0x2)
+ 5) SGMII interface 4, port 2 PHY address (0x3)
+ 6) SGMII interface 4, port 3 PHY address (0x4)
+ 7) Interlaken port 0 lanes (0x4)
+ 8) Interlaken port 0 channels (0x8)
+ 9) Interlaken port 1 lanes (0x4)
+10) Interlaken port 1 channels (0x8)
+11) Main menu
+----
+
+
+Interactive Demo - PCIe
+-----------------------
+
+* Enumeration and basic device probing
+
+----
+=================================
+PCIe Menu
+=================================
+ 1) PCIe0: Initialize
+ 2) PCIe0: Scan for devices
+ 3) PCIe0: Enumerate devices
+ 4) PCIe0: Display devices
+ 5) PCIe0: Perform a memory read
+ 6) PCIe0: Perform a memory write
+ 7) PCIe0: Shutdown
+ 8) PCIe1: Initialize
+ 9) PCIe1: Scan for devices
+10) PCIe1: Enumerate devices
+11) PCIe1: Display devices
+12) PCIe1: Perform a memory read
+13) PCIe1: Perform a memory write
+14) PCIe1: Shutdown
+15) Main menu
+----
+
+
+Interactive Demo - Traffic Gen
+------------------------------
+
+* Port ranges by name "SGMII00-SGMII03", "XAUI00,XAUI10", "LOOP00-LOOP03", etc.
+* *csr* command give direct access to CSRs.
+* Commands are different from SDK traffic-gen.
+* Key commands:
+** csr <name> [value]
+** default <port range>
+** output_count [port range] <count>
+** output_packet_size [port range] <size>
+** scan_sizes
+** show [port range]
+** start [port range]
+** stop [port range]
+** tx_percent [port range] <precent of 1Gbps>
+** tx_rate [port range] <packets/sec>
+
+
+Interactive Demo - DRAM
+-----------------------
+
+TBD
+
+
+Access the BDK through the Network
+----------------------------------
+
+.Telnet
+
+* The BDK contains a full TCP/IP stack with a builtin Telnet server.
+
+.TFTP
+
+* The BDK contains a TFTP server.
+
+.Sample TFTP transfer (Octeon -> Host)
+[source, sh]
+----
+tftp 169.254.1.240 -c get /rom/ilua.lua
+----
+
+.Sample TFTP transfer (Host -> Octeon)
+[source, sh]
+----
+tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua
+----
+
+CAUTION: The builtin traffic generator interfers with TCP/IP.
+
+
+The Virtual File System
+-----------------------
+
+[options="header,footer"]
+|=======================
+|File		| Description
+|/rom/*		| Static files from the *rom* directory.
+|/ram/* 	| Free area to create temporary files.
+|/xmodem	| Translates files into XMODEM transfers.
+|/dev/uart/0	| Octeon's first uart.
+|/dev/uart/1	| Octeon's second uart.
+|/dev/nor/0	| NOR flash.
+|/dev/mem	| DRAM.
+|/dev/pcie/0	| Read and write access to memory on PCIe port 0.
+|/dev/pcie/1	| Read and write access to memory on PCIe port 1.
+|/tcp/host:port	| TCP connection to the supplied host and port.
+|=======================
+
+
+Future Changes
+--------------
+* Scripting
+	* Easy automation of tasks through scripts running on a PC.
+	* Fast PC based test development using a remote board.
+	* GUI based interactive script debugger.
+	* Lua remote procedure calls over serial and TCP/IP.
+
+
+Questions
+---------
+
+Latest docs::
+
+link:http://chad-i7/bdk/bdk.html[]
+
+Octeon Bugzilla::
+
+link:http://caswbug/octeon_bugzilla/[]
+
+These slides as a text file::
+
+link:bdk-intro-slides.txt[]
+
+
