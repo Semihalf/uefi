@@ -9411,7 +9411,7 @@ Notes:
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   IFBCNT      RO      NS      NS     Performance Counter
+<63:0>   IFBCNT      RO      1       NS     Performance Counter
                                             64-bit counter that increments every
                                             cycle there is something in the in-flight buffer.
                                             Before using, clear counter via DFM_CONTROL.BWCNT.
@@ -9429,7 +9429,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   OPSCNT      RO      NS      NS     Performance Counter
+<63:0>   OPSCNT      RO      1       NS     Performance Counter
                                             64-bit counter that increments when the DDR3 data bus
                                             is being used.  Before using, clear counter via
                                             DFM_CONTROL.BWCNT
@@ -9448,7 +9448,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   FCLKCNT     RO      0       0      Performance Counter that counts fclks
+<63:0>   FCLKCNT     RO      0      NS      Performance Counter that counts fclks
                                             64-bit counter.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -19857,7 +19857,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   IFBCNT      RO      0       0      Performance Counter
+<63:0>   IFBCNT      RO      1       NS     Performance Counter
                                             64-bit counter that increments every
                                             CK cycle there is something in the in-flight buffer.
 ----------------------------------------------------------------------------------------------------
@@ -19874,7 +19874,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   OPSCNT      RO      0       0      Performance Counter
+<63:0>   OPSCNT      RO      1      NS      Performance Counter
                                             64-bit counter that increments when the DDR3 data bus
                                             is being used
                                             DRAM bus utilization = LMC*_OPS_CNT/LMC*_DCLK_CNT
@@ -19892,7 +19892,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   DCLKCNT     RO      0       0      Performance Counter
+<63:0>   DCLKCNT     RO      0      NS      Performance Counter
                                             64-bit counter that increments every CK cycle
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23070,6 +23070,9 @@ Pos      Name    Type     Value     Value       Description
                                                    For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
 	 					   is reserved/RAZ.                                 |
                                                                                                     |
+                                                   QLM0_HOST_MODE corresponds to PCIe0/sRIO0        |
+                                                   QLM1_HOST_MODE corresponds to PCIe1/sRIO1        |
+                                                                                                    |
  <5:4>   PRTMODE    R/W      NS          NS        Port mode                                        |
  	 	    	     		   	      0 = port is EP mode		            |
 						      1 = port is RC mode		            |
@@ -23082,6 +23085,9 @@ Pos      Name    Type     Value     Value       Description
 												    |
                                                    For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
 	 					   is initialized to 0 on cold reset.               |
+                                                                                                    |
+                                                                                                    |
+                                                                                                    |
                                                                                                     |
  <3>     RST_DRV    R/W      NS          NS        Controls whether corresponding PERST*_L chip pin |
 						     is driven by the OCTEON.  A warm/soft reset    |
@@ -24403,7 +24409,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  * Contains the reset control for each PP.  Value of '1' will hold a PP in reset, '0' will release.
- * Resets to 0xffff when PCI boot is enabled, 0xfffe otherwise.
+ * Resets to 0x3ff when PCI boot is enabled, 0x3fe otherwise.
  *
 
      ==============================================================
@@ -24415,7 +24421,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved				            |
- <9:1>	 RST	  R/W	   0x1f        0	 PP Rst for PP's 9-1				    |
+ <9:1>	 RST	  R/W	   0x1ff       0	 PP Rst for PP's 9-1				    |
  <0>	 RST0     R/W	   NS	       NS	 PP Rst for PP0					    |
 						  depends on standalone mode			    |
 ----------------------------------------------------------------------------------------------------
@@ -25090,7 +25096,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved				            |
- <9:8>   QLM_SEL  R/W      0x0         0x1       Selects which QLM to select from		    |
+ <9:8>   QLM_SEL  R/W      0x1         0x1       Selects which QLM to select from		    |
 						 01 = select QLM1 as clock source 		    |
 						 1x = select QLM2 as clock source		    |
 						 0  = Disabled                                      |
@@ -26138,7 +26144,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <1:0>  MRQ_HWM  R/W      0x1         0x1       MIX CB-Request FIFO Programmable High Water Mark.
+ <1:0>  MRQ_HWM  R/W      0x0         0x1       MIX CB-Request FIFO Programmable High Water Mark.
                                                 The MRQ contains 16 CB-Requests which are CSR Rd/Wr
                                                 Requests. If the MRQ backs up with "HWM" entries,
                                                 then new CB-Requests are 'stalled'.
@@ -33393,18 +33399,13 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <7:0>   CHIP_REV  RO      NS          NS        The chip revision.                                 |
- <13:8>  P0_NTAGS  R/W     0x20        0x20      Number of tags available for SLI Order-FIFO0.      |
-                                                 One tag is needed for each outbound TLP that       |
+ <13:8>  P0_NTAGS  R/W     0x20        0x20      Number of tags available for outbound TLPs to the  |
+						 MACS. One tag is needed for each outbound TLP that |
                                                  requires a CPL TLP.                                |
                                                  This field should only be written as part of       |
                                                  reset sequence, before issuing any reads, CFGs, or |
                                                  IO transactions from the core(s).                  |
- <19:14> P1_NTAGS  R/W     0x20        0x20      Number of tags available for SLI Order-FIFO1.      |
-                                                 One tag is needed for each outbound TLP that       |
-                                                 requires a CPL TLP.                                |
-                                                 This field should only be written as part of       |
-                                                 reset sequence, before issuing any reads, CFGs, or |
-                                                 IO transactions from the core(s).                  |
+ <19:14> NS        R/W     0x20        0x20      Reserved                                           |
  <63:20> NS        RAZ     NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -38566,12 +38567,8 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <31>    HOST     R/W      NS          NS        Host Device.                                       |
                                                  The HOST reset value is based on corresponding     |
-                                                 MIO_RST_CTL*[PRTMODE], whose reset value is        |
-                                                 selected by the corresponding QLM*_HOST_MODE strap |
-                                                 on a chip cold reset (and can be later modified by |
-                                                 software). HOST resets to 1 when                   |
-                                                 MIO_RST_CTL*[PRTMODE] selects RC (i.e. host) mode, |
-                                                 else 0.                                            |
+                                                 MIO_RST_CTL*[PRTMODE].  HOST resets to 1 when      |
+                                                 this field selects RC (i.e. host) mode, else 0.    |
  <30>    MENABLE  R/W      NS          0x1       Master Enable.  Must be set for device to issue    |
                                                  read, write, doorbell, message requests.           |
  <29>    DISCOVER R/W      0x0         0x1       Discovered. The device has been discovered by the  |

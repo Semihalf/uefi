@@ -19943,7 +19943,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   IFBCNT      RO      0       0      Performance Counter
+<63:0>   IFBCNT      RO      1      NS      Performance Counter
                                             64-bit counter that increments every
                                             CK cycle there is something in the in-flight buffer.
 ----------------------------------------------------------------------------------------------------
@@ -19960,7 +19960,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   OPSCNT      RO      0       0      Performance Counter
+<63:0>   OPSCNT      RO      1      NS      Performance Counter
                                             64-bit counter that increments when the DDR3 data bus
                                             is being used
                                             DRAM bus utilization = LMC*_OPS_CNT/LMC*_DCLK_CNT
@@ -19978,7 +19978,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<63:0>   DCLKCNT     RO      0       0      Performance Counter
+<63:0>   DCLKCNT     RO      0      NS      Performance Counter
                                             64-bit counter that increments every CK cycle
 ----------------------------------------------------------------------------------------------------
 ===
@@ -26473,7 +26473,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <1:0>  MRQ_HWM  R/W      0x1         0x1       MIX CB-Request FIFO Programmable High Water Mark.
+ <1:0>  MRQ_HWM  R/W      0x0         0x1       MIX CB-Request FIFO Programmable High Water Mark.
                                                 The MRQ contains 16 CB-Requests which are CSR Rd/Wr
                                                 Requests. If the MRQ backs up with "HWM" entries,
                                                 then new CB-Requests are 'stalled'.
