@@ -837,6 +837,12 @@ static int macraigor_reset(int stop_core)
     conditional_stop_core(0);
     do_command(0, command, 2, response, sizeof(response));
     sleep(1);
+    if (stop_core)
+    {
+        conditional_stop_core(0);
+        /* Force DEPC */
+        octeon_remote_write_register(0, 0x100 + 24*8 + 0, 0xffffffffbfc00000ull);
+    }
     enable_64bit_addressing(0);
     return 0;
 }
