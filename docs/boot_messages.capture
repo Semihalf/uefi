@@ -1,0 +1,17 @@
+Bring and Diagnostic Kit (BDK)
+Setting up global data
+Clearing BSS
+Transferring to thread scheduler
+Performing common initialization
+Enabling hardware flow control on UART0
+Switching to main
+Lua 5.2.0 (work5)  Copyright (C) 1994-2010 Lua.org, PUC-Rio
+
+Octeon Bringup and Diagnostic Kit
+Copyright (C) 2010-2011 Cavium Networks
+
+Configuring for the EBB6800
+TFTP: Server started
+Telnet: Server started
+
+

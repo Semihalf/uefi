@@ -1,6 +1,6 @@
 
 
-default: bdk.html bdk-internals.html bdk-interactive.html bdk-faqs.html api-docs
+default: bdk.html bdk-internals.html bdk-interactive.html bdk-bringup-guide.html bdk-faqs.html api-docs
 
 slides: bdk-intro-slides.html
 
