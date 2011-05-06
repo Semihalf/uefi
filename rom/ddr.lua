@@ -50,8 +50,8 @@ end
 -- No return value, raises error on failure
 --
 function ddr.show_config(board_entry, optional_filename)
-    assert(board_entry)
-    assert(type(board_entry) ~= "string")
+    assert(board_entry, "board_entry is nil")
+    assert(type(board_entry) ~= "string", "board_entry is not a string")
     local handle = io.stdout
     if optional_filename then
         handle = fileio.open(optional_filename, "w")
@@ -89,7 +89,7 @@ end
 --
 function ddr.set_config(board_entry)
     -- A board name or structure is required
-    assert(board_entry)
+    assert(board_entry, "board_entry is nil")
 
     if type(board_entry) == "string" then
         error("Invalid set_config arg: " .. board_entry)
