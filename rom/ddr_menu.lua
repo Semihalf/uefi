@@ -31,9 +31,6 @@ end
 
 local m = menu.new("DDR Menu")
 
-m:item("verbose", "Enable verbose output", octeon.c.bdk_dram_verbose, 1)
-m:item("quiet", "Disable verbose output", octeon.c.bdk_dram_verbose, 0)
-
 -- Build a list of choice for each board
 for _,board in ipairs(BOARD_CHOICES) do
     local text = "Load current DDR config using \"%s\"" % board .. " board settings"
@@ -57,11 +54,11 @@ m:item("load", "Load current DDR config from a file", function()
     f()
     ddr_config = config
 end)
+
 m:item("save", "Save current DDR config to a file", function()
     local filename = menu.prompt_string("Filename")
     ddr.show_config(ddr_config, filename)
 end)
-
 
 -- Dump the current configuration.  Note that we need to provide an
 -- anonymous function to do this otherwise the ddr_config parameter is evaluated
@@ -70,21 +67,9 @@ m:item("show", "Display current DDR config", function()
     ddr.show_config(ddr_config)
 end)
 
-m:item("init", "Initialize DDR controller using current config", function()
-    if not ddr_config then
-        error "ERROR: unable to configure DDR controller with empty config.\n"
-    end
-    -- update the frequency
-    ddr_config.default_ddr_clock_hz = ddr_clock_hz
-    ddr.set_config(ddr_config)
-end)
-
-
-
 m:item("freq", "Change DDR clock frequency", function()
     ddr_clock_hz = menu.prompt_number("DDR clock Hertz (Currently " .. ddr_clock_hz .. " Hertz)")
 end)
-
 
 m:item("spd_addr", "Set SPD TWSI addresses", function()
     if not ddr_config then
@@ -129,6 +114,18 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
     end
 
 
+end)
+
+m:item("verbose", "Enable verbose output", octeon.c.bdk_dram_verbose, 1)
+m:item("quiet", "Disable verbose output", octeon.c.bdk_dram_verbose, 0)
+
+m:item("init", "Initialize DDR controller using current config", function()
+    if not ddr_config then
+        error "ERROR: unable to configure DDR controller with empty config.\n"
+    end
+    -- update the frequency
+    ddr_config.default_ddr_clock_hz = ddr_clock_hz
+    ddr.set_config(ddr_config)
 end)
 
 m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)
