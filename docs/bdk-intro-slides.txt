@@ -40,7 +40,7 @@ Features
 
 * CN63XX
 * CN68XX
-* CN65XX (when released)
+* CN66XX (when released)
 
 .Unsupported chips
 
@@ -247,12 +247,25 @@ Future Changes
 	* Lua remote procedure calls over serial and TCP/IP.
 
 
+BDK Release Rollout
+-------------------
+
+* Download now from support site. Location TBD
+* Engage with all CN68XX pre-alpha customers (even those with the SDK already)
+** Not to be just thrown over the wall
+** FAE needs to become familiar with the BDK on an CN6XXX EVB first
+** Once the customer's board is back from fab, either load the binary for them or give step by step instruction for their situation
+** Walk them through BDK menu and help with testing out the various I/Os.
+** Feedback issues / feature requests to the BDK team
+
+
 Questions
 ---------
 
 Latest docs::
 
 link:http://chad-i7/bdk/bdk.html[]
+link:http://chad-i7/bdk/bdk-bringup-guide.html[]
 
 OCTEON Bugzilla::
 
