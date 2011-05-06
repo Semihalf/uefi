@@ -92,7 +92,7 @@ clean:
 distclean: clean
 	rm -f $(deps)
 
-UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot-new
+UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot
 UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE) -DBDK
 $(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE)
