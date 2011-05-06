@@ -392,6 +392,15 @@ Write::
 Perform a TWSI write.  Prompts will ask for the device address,
 internal address width, internal address, number of bytes to write
 (1,2,4), and the data to write.
++
+.Sample TWSI write
+----
+Device address(10INS)> 11
+Internal address width (0, 1, or 2)(11INS)> 1
+Internal address(12INS)> 0
+Number of bytes to write(13INS)> 4
+Data to write(14INS)> 0x11223344
+----
 
 
 Probing using SMI / MDIO
