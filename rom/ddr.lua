@@ -46,15 +46,12 @@ end
 
 --
 -- Dump a board configuration in a human readable format
--- board_entry = DRAM config structure or board name
+-- board_entry = DRAM config structure
 -- No return value, raises error on failure
 --
 function ddr.show_config(board_entry, optional_filename)
-    if not board_entry then
-        board_entry = ddr.get_config()
-    elseif type(board_entry) == "string" then
-        board_entry = ddr.get_config(board_entry)
-    end
+    assert(board_entry)
+    assert(type(board_entry) ~= "string")
     local handle = io.stdout
     if optional_filename then
         handle = fileio.open(optional_filename, "w")
@@ -67,7 +64,7 @@ end
 
 --
 -- Get the DRAM configuration for a given board name. If the
--- board name is nil, the current runnign configuration is returned.
+-- board name is nil, and empty swig object is returned 
 -- board_name = Strign board name or nil
 -- Returns DRAM configuration or raises an error
 --
@@ -80,7 +77,7 @@ function ddr.get_config(board_name)
         end
         return result
     else
-        -- Lookup the current config
+        -- provide an empty swig object
         return bdk_dram_lookup_board("")
     end
 end
@@ -94,9 +91,9 @@ function ddr.set_config(board_entry)
     -- A board name or structure is required
     assert(board_entry)
 
-    -- Fetch the board config if we were given a board name
     if type(board_entry) == "string" then
-        board_entry = ddr.get_config(board_entry)
+        error("Invalid set_config arg: " .. board_entry)
+        return
     end
 
     -- Configure DRAM
@@ -138,6 +135,7 @@ function ddr.test(start_address, length)
         error("Test reported %d errors" % errors)
     end
 end
+
 
 return ddr
 
