@@ -21,7 +21,11 @@ board_table_entry_t *bdk_dram_lookup_board(const char *board_name)
 {
     const board_table_entry_t *board = NULL;
     if (board_name && board_name[0])
+    {
         board = lookup_board_table_entry(0, (char*)board_name);
+        if (!board)
+            return NULL;
+    }
 
 
     board_table_entry_t *copy = malloc(sizeof(board_table_entry_t));
