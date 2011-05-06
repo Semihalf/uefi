@@ -51,12 +51,12 @@ Features
 Host Install
 ------------
 
-* Released as a tar on the support site. Location TBD
+* Released as a tar on the support site.
 
 ----
-# This example used BDK version 2011.3, build r58169
-$ tar -zxf octeon-bdk-2011.03-r58169.tgz
-$ ls octeon-bdk-2011.03
+# This example used BDK version 2011.05, build r59937
+$ tar -zxf octeon-bdk-2011.05-r59937.tgz
+$ ls octeon-bdk-2011.05
 bin  docs  examples  readme.txt  rom  target-bin  version.txt
 ----
 
@@ -65,7 +65,7 @@ bin  docs  examples  readme.txt  rom  target-bin  version.txt
 bin:: All host binaries and scripts.
 docs:: All documentation for the BDK.
 rom:: All files in here are included into BDK applications for access using standard filesystem calls.
-target-bin:: All binaries, ELF files, and memory maps for use on OCTEON targets.
+target-bin:: All target binaries, ELF files, and memory maps for use on OCTEON targets.
 
 
 Target Install
@@ -250,7 +250,9 @@ Future Changes
 BDK Release Rollout
 -------------------
 
-* Download now from support site. Location TBD
+* Download now from support site.
+** Products -> Processors -> CN63XX -> BDK
+** Products -> Processors -> CN68XX -> BDK
 * Engage with all CN68XX pre-alpha customers (even those with the SDK already)
 ** Not to be just thrown over the wall
 ** FAE needs to become familiar with the BDK on an CN6XXX EVB first
@@ -264,8 +266,8 @@ Questions
 
 Latest docs::
 
-link:http://chad-i7/bdk/bdk.html[]
-link:http://chad-i7/bdk/bdk-bringup-guide.html[]
+* link:http://chad-i7/bdk/bdk.html[]
+* link:http://chad-i7/bdk/bdk-bringup-guide.html[]
 
 OCTEON Bugzilla::
 
