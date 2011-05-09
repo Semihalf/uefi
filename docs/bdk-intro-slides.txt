@@ -79,7 +79,7 @@ Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash (address 0).
 .Booting using the *bdk-remote* utility over PCIe from the host
 [source, sh]
 ----
-host$ export OCTEON_REMOTE_PROTCOL=pci
+host$ export OCTEON_REMOTE_PROTOCOL=pci
 host$ bdk-remote boot target-bin/bdk-boot.bin
 ----
 

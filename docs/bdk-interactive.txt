@@ -407,7 +407,7 @@ Probing using SMI / MDIO
 ------------------------
 
 SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
-support one of two protocols, clause 22 amd clause 45.  Both of these
+support one of two protocols, clause 22 and clause 45.  Both of these
 protocols are supported through the BDK menuing interface.  The main
 SMI/MDIO menu selects which of the OCTEON busses to access.
 
@@ -427,7 +427,7 @@ include::mdio_sub_menu.capture[]
 Scan bus (Clause 22)::
 
 Performs a read fro mall possible SMI/MDIO addresses and list the
-addreses where the reads succeeded.  This can be used to quickly find
+addresses where the reads succeeded.  This can be used to quickly find
 all the device connected to the bus.  Note that the scan performs
 clause 22 reads and may not show clause 45 only devices.
 
@@ -515,7 +515,7 @@ not specified.
 
 display_packet [port range] on|off::
 
-Enable or disable the diplay of each packet as it is received.
+Enable or disable the display of each packet as it is received.
 
 help::
 
@@ -523,7 +523,7 @@ Show a list of the possible commands.
 
 hide::
 
-Hide all statisitcs counters.
+Hide all statistics counters.
 
 output_count [port range] count::
 
@@ -531,7 +531,7 @@ Set the number of packet to transmit on a port. Use zero to transmit forever.
 
 output_packet_size [port range] size::
 
-Set the size of the pakcet to transmit (60-65524).
+Set the size of the packet to transmit (60-65524).
 
 quit::
 
@@ -541,7 +541,7 @@ you need to issue a *stop all* before quiting.
 readline on|off::
 
 Enable or disable readline support.  Turning readline support off can
-be useflu if you are driving the traffic generator with a script.
+be useful if you are driving the traffic generator with a script.
 Defaults to on.
 
 reboot::
@@ -573,12 +573,12 @@ Stop transmitting packets on the port range.
 tx_percent [port range] percent::
 
 Set the transmit rate as a percentage of 1Gbps.  Note that this does
-not affect ports that are tranmitting until they stop and restart.
+not affect ports that are transmitting until they stop and restart.
 
 tx_rate [port range] packet/s::
 
 Set the transmit rate in packets per second.  Note that this does not
-affect ports that are tranmitting until they stop and restart.
+affect ports that are transmitting until they stop and restart.
 
 validate [port range] on|off::
 
@@ -635,7 +635,7 @@ Number of packets transmitted for each port.
 Traffic Generator Shortcut Keys
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* F1 = 'help': Show a list of supported comamnds.
+* F1 = 'help': Show a list of supported commands.
 * F9 = 'validate all on': Enable packet validation on all ports.
 * F10 = 'stop all': Stop transmitting on all ports.
 * F11 = 'start default': Transmit on the ports specified in the last 'default' command.
@@ -696,7 +696,7 @@ addresses are controlled by the TCP/IP networking menu.  Once an IPv4
 address is assigned, any Telnet client may connect to the BDK through
 port 23, the standard Telnet port.
 
-CAUTION: The builtin traffic generator interfers with TCP/IP.  If you
+CAUTION: The builtin traffic generator interferes with TCP/IP.  If you
 use TCP/IP, do not use the builtin traffic generator.  Using the
 generator will disrupt TCP/IP and stop all connections.
 

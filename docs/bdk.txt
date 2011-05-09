@@ -473,7 +473,7 @@ connected to the bootbus chip select 0.
 .Booting using *bdk-remote* over PCIe
 [source, sh]
 ----
-$ export OCTEON_REMOTE_PROTCOL=pci
+$ export OCTEON_REMOTE_PROTOCOL=pci
 $ bdk-remote boot bdk-boot/bdk-boot.bin
 ----
 

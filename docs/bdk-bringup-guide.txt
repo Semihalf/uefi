@@ -7,16 +7,16 @@ Overview
 
 This document is a step by step procedure for verifying proper
 hardware functionality of boards based on OCTEON processors.  The
-target audenice is either board designers or validation engineers
-charged with the task of verifing hardware. By following this guide,
+target audience is either board designers or validation engineers
+charged with the task of verifying hardware. By following this guide,
 the following goals should be met.
 
 .Final Goals
 * The OCTEON processor booted and running software.
-* All packet interfaces verfied as operational.
-* Miscelanious I/O busses verfied as operational, such as TWSI and SMI/MDIO.
-* If applicable, PCIe as a root complex verfied as operational.
-* If applicable, SRIO verfied as operational.
+* All packet interfaces verified as operational.
+* Miscellaneous I/O busses verified as operational, such as TWSI and SMI/MDIO.
+* If applicable, PCIe as a root complex verified as operational.
+* If applicable, SRIO verified as operational.
 * DRAM configured and tested.
 * Board ready to be handed to software for further development.
 
@@ -57,7 +57,7 @@ running Linux.
 
 [source, sh]
 ----
-$ export OCTEON_REMOTE_PROTCOL=pci
+$ export OCTEON_REMOTE_PROTOCOL=pci
 $ bdk-remote boot bdk-boot/bdk-boot.bin
 ----
 
@@ -261,8 +261,8 @@ This is the EJTAG clock speed divider.  Generally the fastest speed of
 Booting the BDK
 ^^^^^^^^^^^^^^^
 
-Now that the mpDemon is configured and the *OCTEON_REMOTE_PROTCOL*
-envionment variable is set, the BDK can be booted on the board.  Issue
+Now that the mpDemon is configured and the *OCTEON_REMOTE_PROTOCOL*
+environment variable is set, the BDK can be booted on the board.  Issue
 the following *bdk-remote* command.
 
 [source, sh]
@@ -287,7 +287,7 @@ Menu choice: (0INS)>
 Step 3 - Configure the Board
 ----------------------------
 
-Before detailed testing begins, some paramters need to be set in order
+Before detailed testing begins, some parameters need to be set in order
 to customize the BDK for the board.  For ethernet tests, covered
 later, the PHY addresses and MAC address needs to be set.
 
@@ -313,32 +313,32 @@ Configure PHY Addresses
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 RGMII, MII, and SGMII ports on the board should have ethernet PHYs
-conencted to OCTEON using SMI/MDIO.  Before these ports can be used,
+connected to OCTEON using SMI/MDIO.  Before these ports can be used,
 the SMI/MDIO address for each PHY needs to be programmed.  Choose the menu option
 for each RGMII, MII, and SGMII port. When prompted, enter the PHY address encoded as follows:
 
 ----
-Address = <SMI/MDIO address> + 256 * <OCTEON SMI/BDIO bus>
+Address = <SMI/MDIO address> + 256 * <OCTEON SMI/MDIO bus>
 ----
 
 SMI/MDIO address::
 
 This is the address of the PHY as configured by strapping on the board.
 
-OCTEON SMI/BDIO bus::
+OCTEON SMI/MDIO bus::
 
 This is the number of the SMI/MDIO bus used on Octeon.
 
 TIP: If the PHY addresses are unknown, the scan utility in the
 SMI/MDIO menu can be useful.  It will display all the devices OCTEON
-can autoamtically find.
+can automatically find.
 
 
 Step 4 - Test TWSI
 ------------------
 
-The BDK support probing TWSI (I2C) usign basic operations.  Testing
-general conenctivity is done using an automated device address scan.
+The BDK support probing TWSI (I2C) using basic operations.  Testing
+general connectivity is done using an automated device address scan.
 Further details about individual TWSI devices can be probed using
 manual reads and writes.  The first step is to choose an OCTEON TWSI
 bus for testing.  This is done in the main TWSI menu.
@@ -439,7 +439,7 @@ Step 5 - Test SMI/MDIO
 ----------------------
 
 SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
-support one of two protocols, clause 22 amd clause 45.  Both of these
+support one of two protocols, clause 22 and clause 45.  Both of these
 protocols are supported through the BDK menuing interface.  The main
 SMI/MDIO menu selects which of the OCTEON busses to access.
 
@@ -460,7 +460,7 @@ Scan bus (Clause 22)
 ~~~~~~~~~~~~~~~~~~~~
 
 Performs a read from all possible SMI/MDIO addresses and list the
-addreses where the reads succeeded.  This can be used to quickly find
+addresses where the reads succeeded.  This can be used to quickly find
 all the device connected to the bus.  Note that the scan performs
 clause 22 reads and may not show clause 45 only devices.
 
@@ -728,6 +728,6 @@ Allows writing a file directly to flash.  Refer to the general BDK
 documentation for information about files.
 
 TIP: During the software development process it can be useful to have
-known good binaries that exersize the board.  Keep the BDK around as
+known good binaries that exercise the board.  Keep the BDK around as
 it makes a good test bench.  One board running the BDK can be used to
 help debug software running on another board.
