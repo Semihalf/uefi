@@ -11,14 +11,14 @@ Bringup and Diagnostic Kit (BDK)
 
 .What is the BDK?
 
-The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
-scripts designed to ease the initial power on of new hardware based on
-OCTEON II processors.
+The BDK is a set of executables and
+scripts used to validate new boards based on
+OCTEON II processors, and prove the board works independent of software.
 
 * New release package unrelated to the SDK
 * Focused on board bringup
 
-.What isn't the BDK?
+.What Isn't the BDK?
 
 * The BDK is not a replacement for the SDK
 * The BDK is not a generic bootloader
@@ -26,15 +26,15 @@ OCTEON II processors.
 * Focus on I/O testing, not software
 
 
-Features
---------
+BDK Features
+------------
 
 * Runs from L2, doesn't need working DRAM
-* Simple menu driven interface for testing many I/Os
-* Built in traffic generation for ethernet based I/Os
-* Many I/Os can be tested before DRAM is configured
-* Prebuilt known good binaries for booting new hardware
-* Remote booting over PCIe and EJTAG
+* Uses a simple menu-driven interface
+* Contains a built-in traffic generation for Ethernet-based I/Os
+* Provides the ability to test many I/Os before DRAM is configured
+* Provides prebuilt known-good binaries for booting new hardware
+* Provides the ability to remote boot over PCIe or EJTAG
 
 .Supported chips
 
@@ -48,41 +48,42 @@ Features
 * OCTEON+ (CN5XXX)
 
 
-Host Install
-------------
+Host Installation
+-----------------
 
-* Released as a tar on the support site.
+* Download BDK from support site (tar file format)
+* Host = x86 running Linux
 
 ----
 # This example used BDK version 2011.05, build r59937
-$ tar -zxf octeon-bdk-2011.05-r59937.tgz
-$ ls octeon-bdk-2011.05
+host$ tar -zxf octeon-bdk-2011.05-r59937.tgz
+host$ ls octeon-bdk-2011.05
 bin  docs  examples  readme.txt  rom  target-bin  version.txt
 ----
 
-.The directory layout of the BDK
+.The Directory Structure of the BDK
 
-bin:: All host binaries and scripts.
-docs:: All documentation for the BDK.
-rom:: All files in here are included into BDK applications for access using standard filesystem calls.
-target-bin:: All target binaries, ELF files, and memory maps for use on OCTEON targets.
+bin:: All host binaries and scripts
+docs:: All documentation for the BDK
+rom:: All files in here are included into BDK applications for access using standard filesystem calls
+target-bin:: All target binaries, ELF files, and memory maps for use on OCTEON targets
 
 
-Target Install
---------------
+Target Installation
+-------------------
 
 .Booting from NOR flash
 
-Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash.
+Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash (address 0).
 
-.Booting using *bdk-remote* over PCIe
+.Booting using the *bdk-remote* utility over PCIe from the host
 [source, sh]
 ----
-$ export OCTEON_REMOTE_PROTCOL=pci
-$ bdk-remote boot target-bin/bdk-boot.bin
+host$ export OCTEON_REMOTE_PROTCOL=pci
+host$ bdk-remote boot target-bin/bdk-boot.bin
 ----
 
-.Booting using a pre-existing Uboot
+.Booting using a pre-existing U-Boot, from the U-Boot prompt on the target
 ----
 Octeon ebb6300# dhcp
 Octeon ebb6300# setenv serverip 192.168.162.148
@@ -90,9 +91,8 @@ Octeon ebb6300# tftpboot 0x400000 bdk-boot.bin
 Octeon ebb6300# go 0x400000
 ----
 
-TIP: bdk-boot.bin is considered a bootloader image by Uboot.  It can
-be burned as the normal bootloader using "bootloaderupdate" from
-Uboot.
+TIP: U-Boot interprets bdk-boot.bin as a bootloader image file, so it can
+be burned into NOR flash as if it was a normal bootloader image file using "bootloaderupdate" from the U-Boot command prompt.
 
 
 Interactive Demo - Main Menu
@@ -171,8 +171,8 @@ PCIe Menu
 Interactive Demo - Traffic Gen
 ------------------------------
 
-* Port ranges by name "SGMII00-SGMII03", "XAUI00,XAUI10", "LOOP00-LOOP03", etc
-* *csr* command give direct access to CSRs
+* Port ranges by name "SGMII00-SGMII03", "XAUI00,XAUI10", "LOOP00-LOOP03", etc (no whitespace)
+* The *csr* command give direct access to CSRs
 * Commands are different from SDK traffic-gen
 * Key commands:
 ** csr <name> [value]
@@ -285,22 +285,22 @@ The Virtual File System
 Future Changes
 --------------
 * Scripting
-	* Easy automation of tasks through scripts running on a PC.
-	* Fast PC based test development using a remote board.
-	* GUI based interactive script debugger.
-	* Lua remote procedure calls over serial and TCP/IP.
+	* Easy automation of tasks through scripts run remotely from host
+	* Fast host-based test development on remote target board
+	* GUI-based interactive script debugger
+	* Lua remote-procedure calls over serial and TCP/IP
 
 
 BDK Release Rollout
 -------------------
 
-* Download now from support site.
+* Download now from support site
 ** Products -> Processors -> CN63XX -> BDK
 ** Products -> Processors -> CN68XX -> BDK
 * Engage with all CN68XX pre-alpha customers (even those with the SDK already)
 ** Not to be just thrown over the wall
 ** FAE needs to become familiar with the BDK on an CN6XXX EVB first
-** Once the customer's board is back from fab, either load the binary for them or give step by step instruction for their situation
+** Once the customer's board is back from fab, either load the binary for them or give step-by-step instruction for their situation
 ** Walk them through BDK menu and help with testing out the various I/Os.
 ** Feedback issues / feature requests to the BDK team
 
