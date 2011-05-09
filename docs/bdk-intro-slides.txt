@@ -187,6 +187,42 @@ Interactive Demo - Traffic Gen
 ** tx_rate [port range] <packets/sec>
 
 
+Configuring DRAM (Part 1)
+-------------------------
+
+.Loading a DDR configuration
+* Configuration must be loaded before any other operations
+* Can be loaded from an EVB config, or from a file
+** files can be loaded over xmodem/tftp
+
+.Modifying a DDR configuration
+* DIMM SPD addresses can be set on per-interface basis
+** Must provide Octeon TWSI bus and TWSI address on bus.
+** SPD addresses for DIMMS provided in order for each DDR interface.
+** provided SPD addresses replace existing SPD addresses for each DDR interface selected.
+* DDR clock frequency can be modified
+* Other arbitrary changes can be made by saving config, editing it, then loading it
+** Details of this documented separately.
+
+
+Configuring DRAM (Part 2)
+-------------------------
+
+.Initializing DDR controller
+* DDR controller is initialized using the current configuration
+** On success, DRAM size and clock frequency are listed.
+** Error message displayed on initialization failure.
+
+.Testing DDR
+* Simple option to test 64 Mbytes should catch most errors
+* Arbitrary ranges can be provided for more thorough tests.
+
+.Reporting problems
+* Verbose output is _always_ required when reporting problems
+** simply select the "Enable verbose output" menu option before init.
+** Capture output using terminal program.
+
+
 Interactive Demo - DRAM
 -----------------------
 
@@ -209,33 +245,6 @@ DDR Menu
 13) Main menu
 ----
 
-.Loading a DDR configuration
-* Configuration must be loaded before any other operations
-* Can be loaded from an EVB config, or from a file
-** files can be loaded over xmodem/tftp
-
-.Modifying a DDR configuration
-* DIMM SPD addresses can be set on per-interface basis
-** Must provide Octeon TWSI bus and TWSI address on bus.
-** SPD addresses for DIMMS provided in order for each DDR interface.
-** provided SPD addresses replace existing SPD addresses for each DDR interface selected.
-* DDR clock frequency can be modified
-* Other arbitrary changes can be made by saving config, editing it, then loading it
-** Details of this documented separately.
-
-.Initializing DDR controller
-* DDR controller is initialized using the current configuration
-** On success, DRAM size and clock frequency are listed.
-** Error message displayed on initialization failure.
-
-.Testing DDR
-* Simple option to test 64 Mbytes should catch most errors
-* Arbitrary ranges can be provided for more thorough tests.
-
-.Reporting problems
-* Verbose output is _always_ required when reporting problems
-** simply select the "Enable verbose output" menu option before init.
-** Capture output using terminal program.
 
 Access the BDK through the Network
 ----------------------------------
