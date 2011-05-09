@@ -108,7 +108,7 @@ function remote.csr(args)
     -- csr <csr>
     -- csr <csr> <value>
     -- csr <csr> <value> decode
-    assert(args[1] == "csr")
+    assert(args[1] == "csr", "Expected keyword 'csr'")
     if #args == 1 then
         local count = 0
         for n in oremote.csr() do
@@ -159,7 +159,7 @@ function remote.csr(args)
     elseif #args == 3 then
         oremote.write_csr(args[2], args[3])
     elseif #args == 4 then
-        assert(args[4] == "decode")
+        assert(args[4] == "decode", "Expected keyword 'decode'")
         oremote.decode_csr(args[2], args[3])
     else
         error("Invalid number of args")
@@ -168,9 +168,8 @@ end
 
 function remote.boot(args)
     -- boot <filename>
-    assert(args[1] == "boot")
-    local f = io.open(args[2], "r")
-    assert(f)
+    assert(args[1] == "boot", "Expected keyword 'boot'")
+    local f = assert(io.open(args[2], "r"))
     local d = f:read("*a")
     f:close()
 
@@ -199,13 +198,13 @@ end
 
 function remote.reset(args)
     -- boot <filename>
-    assert(args[1] == "reset")
+    assert(args[1] == "reset", "Expected keyword 'reset'")
     oremote.reset(0)
 end
 
 function remote.core(args)
     -- core <core>
-    assert(args[1] == "core")
+    assert(args[1] == "core", "Expected keyword 'core'")
     oremote.stop_cores(bit64.lshift(1,args[2]))
     local state = oremote.get_core_state(args[2])
     printf("Core %d\n", args[2]);
@@ -259,7 +258,7 @@ end
 function remote.reg(args)
     -- reg <core> <register>
     -- reg <core> <register> <value>
-    assert(args[1] == "reg")
+    assert(args[1] == "reg", "Expected keyword 'reg'")
     if #args == 3 then
         local v = oremote.read_register(args[2], args[3])
         printf("Core %d, register %s: hex 0x%016x decimal %d\n", args[2], REGISTER_NAMES[args[3]], v, v)
@@ -276,18 +275,16 @@ function remote.mem(args)
     -- mem <width> <address> <value>
     -- mem load <filename> <address>
     -- mem save <filename> <address> <length>
-    assert(args[1] == "mem")
+    assert(args[1] == "mem", "Expected keyword 'mem'")
     if args[2] == "load" then
-        assert(#args == 4)
-        local f = io.open(args[3], "r")
-        assert(f)
+        assert(#args == 4, "Expected four arguments")
+        local f = assert(io.open(args[3], "r"))
         local d = f:read("*a")
         f:close()
         oremote.write_mem(args[4], d)
     elseif args[2] == "save" then
-        assert(#args == 5)
-        local f = io.open(args[3], "w")
-        assert(f)
+        assert(#args == 5, "Expected five arguments")
+        local f = assert(io.open(args[3], "w"))
         local d = oremote.read_mem(args[4], args[5])
         f:write(d)
         f:close()
@@ -332,7 +329,7 @@ function remote.profile(args)
     -- profile
     -- profile <coremask>
     local coremask = -1
-    assert(args[1] == "profile")
+    assert(args[1] == "profile", "Expected keyword 'profile'")
     if #args == 1 then
         -- Do nothing
     elseif #args == 2 then
@@ -374,7 +371,7 @@ function remote.profile(args)
 end
 
 function remote.help(args)
-    assert(args[1] == "help")
+    assert(args[1] == "help", "Expected keyword 'help'")
     local message =
 [[
 bdk-remote:
