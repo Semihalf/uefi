@@ -369,7 +369,7 @@ Scan all valid TWSI addresses looking for devices.  Each device that
 responds is displayed in a list.  This can be useful way of
 determining what devices are available on a board.  Below is sample
 scan from a EBB6800 board.
-+
+
 .TWSI Bus 0 scan on an EBB6800
 ----
 TWSI0: Scanning bus...
@@ -409,7 +409,7 @@ Read
 Perform a TWSI read.  Prompts will ask for the device address,
 internal address width, internal address, and number of bytes to read
 (1,2,4).
-+
+
 .Sample TWSI read
 ----
 Device address(13INS)> 1
@@ -424,7 +424,7 @@ Write
 Perform a TWSI write.  Prompts will ask for the device address,
 internal address width, internal address, number of bytes to write
 (1,2,4), and the data to write.
-+
+
 .Sample TWSI write
 ----
 Device address(10INS)> 11
