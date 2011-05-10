@@ -11176,7 +11176,8 @@ Pos      Name    Type     Value     Value       Description
 						 four SGMII MACs or the XAUI MAC.		    |
 												    |
 						 Each port interface has independent control of	    |
-						 which of the 32 DMAC entries to CAM against.	    |
+						 which of the 32 DMAC entries to include in the	    |
+						 CAM lookup.					    |
 												    |
 						 Legacy GMX implementations were able to CAM	    |
 						 against eight DMAC entries while current	    |
@@ -11228,7 +11229,8 @@ Pos      Name    Type     Value     Value       Description
 						 four SGMII MACs or the XAUI MAC.		    |
 												    |
 						 Each port interface has independent control of	    |
-						 which of the 32 DMAC entries to CAM against.	    |
+						 which of the 32 DMAC entries to include in the	    |
+						 CAM lookup.					    |
 												    |
 						 GMX_RXx_ADR_CAM_ALL_EN was not present in legacy   |
 						 GMX implemenations which had only eight DMAC CAM   |
@@ -35447,7 +35449,7 @@ Pos      Name    Type     Value     Value       Description
  *      with tag specified as EMPTY
  *  <4> Received SWTAG_FULL/SWTAG_DESCH
  *      with tag specified as UNSCHEDULED
- *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
+ *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE/CLR_NSCHED
  *      from WS with GET_WORK pending
  *  <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
  *      from WS with ALLOC_WE pending
@@ -35708,7 +35710,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:11> NS        RAZ      NS      NS       Reserved                                               |
  <10>    RWQ_ALLOC_DIS R/W  0x0     0x0      Disable FPA Alloc Requests when SSO_FPAGE_CNT < 16     |
- <9>     SOC_CCAM_DIS R/W   0x0     0x0      Disable power saving SOC conditional CAM               |
+ <9>     SOC_CCAM_DIS R/W   0x1     0x0      Disable power saving SOC conditional CAM               |
                                              (**NOTE: Added in pass 2.0)                            |
  <8>     SSO_CCLK_DIS R/W   0x0     0x0      Disable power saving SSO conditional clocking          |
                                              (**NOTE: Added in pass 2.0)                            |

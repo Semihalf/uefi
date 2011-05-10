@@ -34976,7 +34976,7 @@ Pos      Name    Type     Value     Value       Description
  *      with tag specified as EMPTY
  *  <4> Received SWTAG_FULL/SWTAG_DESCH
  *      with tag specified as UNSCHEDULED
- *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
+ *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE/CLR_NSCHED
  *      from WS with GET_WORK pending
  *  <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
  *      from WS with ALLOC_WE pending
