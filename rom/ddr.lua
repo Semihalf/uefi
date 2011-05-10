@@ -64,7 +64,7 @@ end
 
 --
 -- Get the DRAM configuration for a given board name. If the
--- board name is nil, and empty swig object is returned 
+-- board name is nil, and empty swig object is returned
 -- board_name = Strign board name or nil
 -- Returns DRAM configuration or raises an error
 --
@@ -111,7 +111,7 @@ end
 -- Returns nothing but raises an error on failure.
 --
 function ddr.test(start_address, length)
-    printf("Testing DRR from 0x%x to 0x%x with sequential write+read\n",
+    printf("Testing DDR from 0x%x to 0x%x with sequential write+read\n",
         start_address, start_address + length - 1)
     local errors = octeon.c.bdk_dram_test(0, start_address, length)
 
@@ -123,7 +123,7 @@ function ddr.test(start_address, length)
         error("Test reported %d errors" % errors)
     end
 
-    printf("Testing DRR from 0x%x to 0x%x with random XOR\n",
+    printf("Testing DDR from 0x%x to 0x%x with random XOR\n",
         start_address, start_address + length - 1)
     errors = octeon.c.bdk_dram_test(1, start_address, length)
 
