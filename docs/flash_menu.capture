@@ -1,7 +1,8 @@
 =================================
 Flash Menu
 =================================
- 1) View flash
- 2) Write flash
- 3) Main menu
+ 1) Query for NOR flash
+ 2) View NOR flash (CS0)
+ 3) Write NOR flash (CS0)
+ 4) Main menu
 

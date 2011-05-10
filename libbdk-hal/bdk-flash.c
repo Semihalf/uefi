@@ -130,6 +130,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
         (__bdk_flash_read_cmd(chip_id, 0x12) != 'Y'))
     {
         flash->base_addr = NULL;
+        bdk_dprintf("NOR Flash %d:CFI Query failed\n", chip_id);
         return -1;
     }
 
@@ -208,11 +209,11 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     flash->write_timeout *= bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
     flash->erase_timeout *= bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000;
 
-#if DEBUG
     /* Print the information about the chip */
     bdk_dprintf(
-           "Flash %d:    Base address:  0x%lx\n"
+           "NOR Flash %d:Base address:  0x%lx\n"
            "            Vendor:        0x%04x\n"
+           "            16 bit:        %s\n"
            "            Size:          %d bytes\n"
            "            Num regions:   %d\n"
            "            Erase timeout: %llu cycles\n"
@@ -220,6 +221,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
            chip_id,
            flash->base_addr,
            (unsigned int)flash->vendor,
+           (flash->is_16bit) ? "yes" : "no",
            flash->size,
            flash->num_regions,
            (unsigned long long)flash->erase_timeout,
@@ -233,7 +235,6 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
                flash->region[region].num_blocks,
                flash->region[region].block_size);
     }
-#endif
 
     return 0;
 }
@@ -245,7 +246,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
 void bdk_flash_initialize(void)
 {
     int boot_region;
-    int chip_id = 0;
+    int num_flash = 0;
 
     memset(flash_info, 0, sizeof(flash_info));
 
@@ -258,16 +259,16 @@ void bdk_flash_initialize(void)
         if (region_cfg.s.en)
         {
             uint64_t base_addr = (1ull<<63) + (1ull<<48) + (region_cfg.s.base<<16);
-            if (__bdk_flash_queury_cfi(chip_id, base_addr) == 0)
+            if (__bdk_flash_queury_cfi(boot_region, base_addr) == 0)
             {
                 /* Valid CFI flash chip found */
-                chip_id++;
+                num_flash++;
             }
         }
     }
 
-    if (chip_id == 0)
-        bdk_warn("bdk-flash: No CFI chips found\n");
+    if (num_flash == 0)
+        bdk_warn("bdk-flash: No CFI NOR flash found\n");
 }
 
 

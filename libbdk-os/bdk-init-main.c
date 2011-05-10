@@ -71,10 +71,7 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_l2c_initialize();
 
         if (!bdk_is_simulation())
-        {
             __bdk_setup_bootbus();
-            bdk_flash_initialize();
-        }
 
         bdk_fpa_enable();
         bdk_dma_engine_initialize();
