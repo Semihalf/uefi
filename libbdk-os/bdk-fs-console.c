@@ -94,6 +94,9 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
             int bytes = read(open_files[i], buffer, 1);
             if (bytes > 0)
             {
+                /* Translate telnet backspace into the normal byte */
+                if (*(char*)buffer == 0x7f)
+                    *(char*)buffer = '\b';
                 last_input = i;
                 return bytes;
             }
