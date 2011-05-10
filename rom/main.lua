@@ -36,6 +36,7 @@ if octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN65XX) then
 end
 m:item("twsi",  "TWSI options",             dofile, "/rom/twsi_menu.lua")
 m:item("smi",   "SMI/MDIO options",         dofile, "/rom/smi_menu.lua")
+m:item("gpio",  "GPIO options",             dofile, "/rom/gpio_menu.lua")
 m:item("ilua",  "Interactive Lua prompt",   dofile, "/rom/ilua.lua")
 m:item("net",   "TCP/IP networking",        dofile, "/rom/netstack_menu.lua")
 m:item("tg",    "Traffic Generator",        dofile, "/rom/trafficgen.lua")

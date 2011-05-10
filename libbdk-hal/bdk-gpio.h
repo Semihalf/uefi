@@ -9,14 +9,20 @@
  * @{
  */
 
+
 /**
- * Clear the interrupt rising edge detector for the supplied
- * pins in the mask. Chips which have more than 16 GPIO pins
- * can't use them for interrupts.
+ * Initialize a single GPIO as either an input or output. If it is
+ * an output, also set its output value.
  *
- * @param clear_mask Mask of pins to clear
+ * @param gpio      GPIO to initialize
+ * @param is_output Non zero if this GPIO should be an output
+ * @param output_value
+ *                  Value of the GPIO if it should be an output. Not used if the
+ *                  GPIO isn't an output.
+ *
+ * @return Zero on success, negative ob failure
  */
-extern void bdk_gpio_interrupt_clear(uint16_t clear_mask);
+extern int bdk_gpio_initialize(int gpio, int is_output, int output_value);
 
 /**
  * GPIO Read Data
