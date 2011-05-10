@@ -29,9 +29,19 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
     header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
     if (bdk_dma_engine_transfer(0, header, bdk_ptr_to_phys(buffer), handle->location, length))
         return -1;
-    while (in_progress)
+
+    /* Wait up to 2 seconds for the DMA to complete */
+    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
         bdk_thread_yield();
-    return length;
+
+    if (in_progress)
+    {
+        bdk_error("Timeout waiting for DMA to complete\n");
+        return -1;
+    }
+    else
+        return length;
 }
 
 
@@ -47,9 +57,19 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
     if (bdk_dma_engine_transfer(0, header, bdk_ptr_to_phys((void*)buffer), handle->location, length))
         return -1;
-    while (in_progress)
+
+    /* Wait up to 2 seconds for the DMA to complete */
+    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
         bdk_thread_yield();
-    return length;
+
+    if (in_progress)
+    {
+        bdk_error("Timeout waiting for DMA to complete\n");
+        return -1;
+    }
+    else
+        return length;
 }
 
 const __bdk_fs_ops_t bdk_fs_pcie_ops =
