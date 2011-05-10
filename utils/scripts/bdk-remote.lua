@@ -197,7 +197,7 @@ function remote.boot(args)
 end
 
 function remote.reset(args)
-    -- boot <filename>
+    -- reset
     assert(args[1] == "reset", "Expected keyword 'reset'")
     oremote.reset(0)
 end
