@@ -105,7 +105,7 @@ Interactive Lua prompt::
 This provides direct access to the Lua interpreter running in the BDK.
 This can be used to probe and configure any type of hardware inside or
 connected to OCTEON.  Scripting using Lua is cover in another
-document, link:FIXME.
+document.
 
 TCP/IP networking::
 
