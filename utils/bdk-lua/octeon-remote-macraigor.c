@@ -173,6 +173,103 @@ static int do_command(const int core, const uint8_t *command, const int command_
     if ((response[2] != 0) && (response[2] != 6))
     {
         octeon_remote_debug(2, "EJTAG Error 0x%x\n", (int)response[2]);
+        const char *message;
+        switch (response[2])
+        {
+            case 0x01:
+                message = "Unknown Fault: the interface cannot get a valid response back from the target and cannotdetermine why this is happening.";
+                break;
+            case 0x02:
+                message = "Power Failed: the command cannot be executed because power is not applied to the target.";
+                break;
+            case 0x03:
+                message = "Cable: the command cannot be executed because the target cable is disconnected.";
+                break;
+            case 0x04:
+                message = "Response: the interface was not able to put the target in background mode.";
+                break;
+            case 0x05:
+                message = "Reset: the command could not be executed because the target was being held in reset.";
+                break;
+            case 0x06:
+                message = "The interface to the target has not yet been configured using the initialize command.";
+                break;
+            case 0x07:
+                message = "Write Verify: after writing data to target memory, the value read back from the same location did not match what was written.";
+                break;
+            case 0x08:
+                message = "Register buffer error: an attempt was made to read or write an MPC5xx floating point register without first setting the register buffer address.";
+            case 0x09:
+                message = "Invalid Register code: the host sent a command which attempted to access a CPU register which is not implemented on the target being controlled.";
+                break;
+            case 0x0a:
+                message = "Command Not Implemented.";
+                break;
+            case 0x0b:
+                message = "Clock frozen: unable to detect target clock.";
+                break;
+            case 0x0c:
+                message = "Processor Running.";
+                break;
+            case 0x0d:
+                message = "Command Error: an illegal command was received from the host.";
+                break;
+            case 0x0e:
+                message = "Command parameter error: a command was received with an illegal or out-of-range parameter.";
+                break;
+            case 0x0f:
+                message = "Internal processing error: an error occurred within the debug interface while processing the command.";
+                break;
+            case 0x10:
+                message = "unknown/invalid port specified.";
+                break;
+            case 0x11:
+                message = "Bus Error.";
+                break;
+            case 0x12:
+                message = "Command Checksum: A command received from the host had a checksum error.";
+                break;
+            case 0x13:
+                message = "Illegal Command : Command not allowed for this CPU type.";
+                break;
+            case 0x14:
+                message = "Invalid parameter value for this command.";
+                break;
+            case 0x15:
+                message = "Internal Error.";
+                break;
+            case 0x16:
+                message = "Internal Flash Memory Error.";
+                break;
+            case 0x17:
+                message = "Appropriate target driver not found/loaded.";
+                break;
+            case 0x18:
+                message = "BDM error.";
+                break;
+            case 0x19:
+                message = "Buffer Full.";
+                break;
+            case 0x1e:
+                message = "Command Timeout.";
+                break;
+            case 0x1f:
+                message = "DMA busy.";
+                break;
+            case 0x20:
+                message = "Jtag can't override.";
+                break;
+            case 0x21:
+                message = "CPU Frozen.";
+                break;
+            case 0x22:
+                message = "Can't stop MCU.";
+                break;
+            default:
+                message = "Unknown error.";
+                break;
+        }
+        octeon_remote_debug(2, "Error Message: %s\n", message);
         return -(int)response[2];
     }
     /* Return the response length */
@@ -190,12 +287,22 @@ static core_state_t get_core_state(int core)
     if (l==4)
     {
         if (response[1] & 1)
+        {
+            octeon_remote_debug(2, "Core %d in reset\n", core);
             return CORE_STATE_RESET;
+        }
         else if (response[1] & 4)
+        {
+            octeon_remote_debug(2, "Core %d is stopped\n", core);
             return CORE_STATE_STOPPED;
+        }
         else
+        {
+            octeon_remote_debug(2, "Core %d is running\n", core);
             return CORE_STATE_RUNNING;
+        }
     }
+    octeon_remote_debug(2, "Core %d in bad state\n", core);
     return CORE_STATE_BAD;
 }
 
@@ -205,6 +312,7 @@ static core_state_t conditional_stop_core(int core)
 
     if (old_state == CORE_STATE_RUNNING)
     {
+        octeon_remote_debug(2, "Stopping core %d\n", core);
         uint8_t command[1];
         uint8_t response[4];
         command[0] = 0x22; /* Stop */
@@ -221,6 +329,7 @@ static void conditional_start_core(int core, core_state_t state)
     if (state != CORE_STATE_RUNNING)
         return;
 
+    octeon_remote_debug(2, "Starting core %d\n", core);
     command[0] = 0x20; /* Run */
     do_command(core, command, 1, response, sizeof(response));
 }
