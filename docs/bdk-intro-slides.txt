@@ -1,6 +1,6 @@
-Bringup and Diagnostic Kit FAE Presentation
-===========================================
-:author:    Chad Reese
+Introducing the Bringup and Diagnostic Kit
+==========================================
+:author:    Chad Reese and Roy Franz
 :backend:   slidy
 :max-width: 45em
 :data-uri:
