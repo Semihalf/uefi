@@ -83,16 +83,7 @@ static void bdk_init_stage2(void)
     BDK_MT_COP0(status, COP0_STATUS);
 
     bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
-
-    /* Use the internal thread create so we can control that __bdk_init_main
-        is the next thread to run on this core. This is needed as
-        initialization isn't complete yet */
-    void *thread = __bdk_thread_create(1ull<<bdk_get_core_num(), __bdk_init_main, 0, NULL, 0);
-    if (thread)
-        __bdk_thread_switch(thread, 0);
-    else
-        bdk_fatal("Create of __bdk_init_main thread failed\n");
-    bdk_thread_destroy();
+    bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 
 void __bdk_init(long base_address) __attribute((noreturn));

@@ -20,6 +20,7 @@ static bdk_thread_t*    bdk_thread_head;
 static bdk_thread_t*    bdk_thread_tail;
 static bdk_spinlock_t   bdk_thread_lock;
 
+extern void __bdk_thread_switch(void* next_context, int delete_old);
 
 /**
  * Main thread body for all threads
@@ -120,7 +121,7 @@ void bdk_thread_yield(void)
  *
  * @return Thread or NULL on failure
  */
-void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
+static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
     extern void _gp;
     bdk_thread_t *thread;
@@ -249,3 +250,26 @@ void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
         bdk_spinlock_unlock(&bdk_thread_lock);
     }
 }
+
+
+/**
+ * Called to create the initial thread for a CPU. Must be called
+ * once for each CPU.
+ *
+ * @param func       Function to run as new thread. It is guaranteed that this will
+ *                   be the next thread run by the core.
+ * @param arg0       First thread argument
+ * @param arg1       Second thread argument
+ * @param stack_size Initial stack size, or zero for the default
+ */
+void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
+{
+    void *thread = __bdk_thread_create(1ull<<bdk_get_core_num(), func, arg0, arg1, stack_size);
+    if (thread)
+    {
+        bdk_spinlock_lock(&bdk_thread_lock);
+        __bdk_thread_switch(thread, 0);
+    }
+    bdk_fatal("Create of __bdk_init_main thread failed\n");
+}
+
