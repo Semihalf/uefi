@@ -12,9 +12,14 @@
 /**
  * Spinlocks for Octeon
  */
-typedef struct
+typedef union
 {
-    int32_t lock;
+    int64_t combined;
+    struct
+    {
+        int32_t ticket;
+        int32_t serving;
+    } s;
 } bdk_spinlock_t;
 
 /**
@@ -24,7 +29,8 @@ typedef struct
  */
 static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
 {
-    lock->lock = 0;
+    lock->s.ticket = 0;
+    lock->s.serving = 0;
 }
 
 /**
@@ -35,7 +41,7 @@ static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
     BDK_SYNCW;
-    lock->lock = 0;
+    lock->s.serving++;
     BDK_SYNCW;
 }
 
@@ -46,20 +52,13 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
  */
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
-    int32_t tmp;
     BDK_SYNCW;
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "1: ll   %[tmp], %[val] \n"
-    "   bnez %[tmp], 1b     \n"
-    "   li   %[tmp], 1      \n"
-    "   sc   %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "    nop                \n"
-    ".set reorder           \n"
-    : [val] "+m" (lock->lock), [tmp] "=&r" (tmp)
-    :
-    : "memory");
+    int64_t combined = bdk_atomic_fetch_and_add64_nosync(&lock->combined, 1ull<<32);
+    int32_t ticket = combined >> 32;
+    int32_t serving = (int32_t)combined;
+
+    while (bdk_unlikely(serving != ticket))
+        serving = *(volatile int32_t*)&lock->s.serving;
 }
 
 /** @} */
