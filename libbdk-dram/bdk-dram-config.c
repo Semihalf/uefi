@@ -17,25 +17,29 @@ extern int global_ddr_clock_initialized;
  * @return A copy of the requested DRAM config structure, or NULL on
  *         failure.
  */
-board_table_entry_t *bdk_dram_lookup_board(const char *board_name)
+ddr_config_table_t *bdk_dram_lookup_board(const char *board_name)
 {
     const board_table_entry_t *board = NULL;
+    const ddr_config_table_t *ddr = NULL;
     if (board_name && board_name[0])
     {
         board = lookup_board_table_entry(0, (char*)board_name);
         if (!board)
             return NULL;
+
+        /*get pointer to first config */
+        ddr = board->chip_ddr_config;
     }
 
 
-    board_table_entry_t *copy = malloc(sizeof(board_table_entry_t));
+    ddr_config_table_t *copy = malloc(sizeof(ddr_config_table_t));
     if (!copy)
         return NULL;
 
-    if (!board)
-        memset(copy, 0x0, sizeof(board_table_entry_t));
+    if (!ddr)
+        memset(copy, 0x0, sizeof(ddr_config_table_t));
     else
-        *copy = *board;
+        *copy = *ddr;
     return copy;
 }
 
@@ -49,23 +53,15 @@ board_table_entry_t *bdk_dram_lookup_board(const char *board_name)
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
-int bdk_dram_config_raw(const board_table_entry_t *board)
+
+int bdk_dram_config_raw(const ddr_config_table_t *ddr_config_table, int ddr_clock_hertz)
 {
     uint32_t cpu_id = cvmx_get_proc_id();
     uint32_t interface_mask = 0;
     uint32_t measured_ddr_hertz;
-    uint32_t ddr_clock_hertz = 533000000; 
     int interface_index;
 
-    board_table_entry_t current_board_config = *board;
-
-    /* Get pointer to ddr configuration that we will use.  Hardcode to first config, as
-    ** multiple configs are only used in very limited circumstances. We really only care about
-    ** the ddr_config member.*/
-    ddr_configuration_t *ddr_config = current_board_config.chip_ddr_config[0].ddr_config;
-
-    if (current_board_config.default_ddr_clock_hz)
-        ddr_clock_hertz = board->default_ddr_clock_hz;
+    const ddr_configuration_t *ddr_config = ddr_config_table->ddr_config;
 
     /* We need to calculate the interface mask based on the provided SPD addresses/contents.  This would
     ** normally be done by the lookup function in lib_octeon_shared, but since we are allowing user-modified
@@ -84,11 +80,11 @@ int bdk_dram_config_raw(const board_table_entry_t *board)
     int mbytes = octeon_ddr_initialize(cpu_id,
                               cvmx_clock_get_rate(CVMX_CLOCK_CORE),
                               ddr_clock_hertz,
-                              current_board_config.default_ddr_ref_hz,
+                              50000000,
                               interface_mask,
                               ddr_config,
                               &measured_ddr_hertz,
-                              current_board_config.board_type,
+                              0,
                               0,
                               0);
     if (mbytes <= 0)
@@ -107,25 +103,6 @@ int bdk_dram_config_raw(const board_table_entry_t *board)
     return mbytes;
 }
 
-
-/**
- * Configure DRAM for a particular board
- *
- * @param board_name Board name to configure
- *
- * @return Amount of DRAM in MB, or negative on failure
- */
-int bdk_dram_config(const char *board_name)
-{
-    const board_table_entry_t *board = lookup_board_table_entry(0, (char*)board_name);
-    if (!board)
-    {
-        printf("ERROR: Failed to find board table entry\n");
-        return -1;
-    }
-
-    return bdk_dram_config_raw(board);
-}
 
 /**
  * Enable or disable verbose output during dram config

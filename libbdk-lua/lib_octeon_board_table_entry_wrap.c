@@ -4195,13 +4195,13 @@ static swig_lua_class _wrap_class_board_table_entry_t = { "board_table_entry_t",
 static int _wrap_bdk_dram_lookup_board(lua_State* L) {
   int SWIG_arg = 0;
   char *arg1 = (char *) 0 ;
-  board_table_entry_t *result = 0 ;
+  ddr_config_table_t *result = 0 ;
   
   SWIG_check_num_args("bdk_dram_lookup_board",1,1)
   if(!lua_isstring(L,1)) SWIG_fail_arg("bdk_dram_lookup_board",1,"char const *");
   arg1 = (char *)lua_tostring(L, 1);
-  result = (board_table_entry_t *)bdk_dram_lookup_board((char const *)arg1);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_board_table_entry_t,0); SWIG_arg++; 
+  result = (ddr_config_table_t *)bdk_dram_lookup_board((char const *)arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_config_table_t,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -4214,17 +4214,20 @@ fail:
 
 static int _wrap_bdk_dram_config_raw(lua_State* L) {
   int SWIG_arg = 0;
-  board_table_entry_t *arg1 = (board_table_entry_t *) 0 ;
+  ddr_config_table_t *arg1 = (ddr_config_table_t *) 0 ;
+  int arg2 ;
   int result;
   
-  SWIG_check_num_args("bdk_dram_config_raw",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("bdk_dram_config_raw",1,"board_table_entry_t const *");
+  SWIG_check_num_args("bdk_dram_config_raw",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("bdk_dram_config_raw",1,"ddr_config_table_t const *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("bdk_dram_config_raw",2,"int");
   
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_board_table_entry_t,0))){
-    SWIG_fail_ptr("bdk_dram_config_raw",1,SWIGTYPE_p_board_table_entry_t);
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr_config_table_t,0))){
+    SWIG_fail_ptr("bdk_dram_config_raw",1,SWIGTYPE_p_ddr_config_table_t);
   }
   
-  result = (int)bdk_dram_config_raw((board_table_entry_t const *)arg1);
+  arg2 = (int)lua_tonumber(L, 2);
+  result = (int)bdk_dram_config_raw((ddr_config_table_t const *)arg1,arg2);
   lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
   return SWIG_arg;
   

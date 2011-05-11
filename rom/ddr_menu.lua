@@ -94,10 +94,10 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
     local index
 
     for index = 1,max_dimms do
-         ddr_config.chip_ddr_config[1].ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = 0
-         ddr_config.chip_ddr_config[1].ddr_config[ddr_int].dimm_config_table[index].spd_addrs[2] = 0
-         ddr_config.chip_ddr_config[1].ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[1] = 0
-         ddr_config.chip_ddr_config[1].ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[2] = 0
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = 0
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[2] = 0
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[1] = 0
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[2] = 0
     end
 
     print "Enter SPD address of 0 to end input.\n"
@@ -110,7 +110,7 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
         twsi_addr = twsi_addr + 256 * twsi_bus
 
         -- update the current ddr configuration
-        ddr_config.chip_ddr_config[1].ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = twsi_addr
+        ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = twsi_addr
     end
 
 
@@ -123,9 +123,7 @@ m:item("init", "Initialize DDR controller using current config", function()
     if not ddr_config then
         error "ERROR: unable to configure DDR controller with empty config.\n"
     end
-    -- update the frequency
-    ddr_config.default_ddr_clock_hz = ddr_clock_hz
-    ddr.set_config(ddr_config)
+    ddr.set_config(ddr_config, ddr_clock_hz)
 end)
 
 m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)

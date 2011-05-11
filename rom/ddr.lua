@@ -87,9 +87,11 @@ end
 -- board_entry = DRMA configuration of a string board name
 -- Returns the amount of memory in megabytes or raises an error
 --
-function ddr.set_config(board_entry)
+function ddr.set_config(board_entry, ddr_clock_hertz)
     -- A board name or structure is required
     assert(board_entry, "board_entry is nil")
+    -- set default clock hertz if not provided
+    ddr_clock_hertz = ddr_clock_hertz or 533000000
 
     if type(board_entry) == "string" then
         error("Invalid set_config arg: " .. board_entry)
@@ -97,7 +99,7 @@ function ddr.set_config(board_entry)
     end
 
     -- Configure DRAM
-    local mbytes = bdk_dram_config_raw(board_entry)
+    local mbytes = bdk_dram_config_raw(board_entry, ddr_clock_hertz)
     if mbytes < 0 then
         error("DRAM configuration failed")
     end
