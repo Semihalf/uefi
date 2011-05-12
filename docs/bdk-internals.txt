@@ -543,10 +543,9 @@ located anywhere in flash.
 |1FC0 0380	|General Exception
 |1FC0 0400	|Interrupt
 |1FC0 0480	|EJTAG Debug
-|1FC0 0500	|Init boot code
-|1FC0 0580	|Data starting after Exception Vectors
-|...            |
-|1FCx x000	|Code 4K Aligned
+|1FC0 0500	|Unused
+|1FC0 1000	|4KB for Uboot environment (Address hard coded in Uboot)
+|1FC0 2000	|BDK boot code, followed by data, followed by code
 |==========================================================================
 
 
@@ -570,10 +569,12 @@ the physical and virtual layout.
 |0000 0180	|8000 0180	|(kseg0) General Exception (EPC)
 |0000 0200	|8000 0200	|(kseg0) Interrupt (EPC)
 |0000 0280	|8000 0280	|Zero padding to the beginning of data
-|0000 0500	|8000 0500	|(kseg0) Init code
-|0000 0580	|C000 0580	|(ksseg) Data starting after init code
+|0000 0500	|8000 0500	|Unused
+|0000 1000	|8000 1000	|4KB for Uboot environment (Address hard coded in Uboot)
+|0000 2000	|8000 2000	|(kseg0) Init code
+|0000 2xxx	|C000 2xxx	|(ksseg) Data starting after init code
 |...            |               |
-|0xxx x000	|Exxx x000	|(kseg3) Code 4K Aligned
+|0xxx x000	|Exxx x000	|(kseg3) Code cache line aligned
 |...            |               |
 |0xxx xxxx	|XKPHYS		|(xkphys) Start of heap, after code
 |1000 0000	|B000 0000	|(kseg1) Bootbus
@@ -584,30 +585,22 @@ the physical and virtual layout.
 TLB
 ~~~
 
-CAUTION: This section still in flux (FIXME)
-
-* Need 32 pages to map code in 4MB chunks.
-* Need 32 pages to map data in 4MB chunks.
+BDK uses two wired TLB entries, currently 4MB each.  The two entries
+point to the same 4MB region starting at zero.  The first TLB entry
+maps the code starting at virtual address 0xE0000000.  The second TLB
+entry maps the data starting at virtual address 0xC0000000.  All other
+TLB entries are invalid.
 
 [options="header"]
 |==========================================================================
 |Virtual	|Physical	|Size	|Description
-|E000 0000	|0x17c00000..   |4MB	|Early init to run code from flash.
-|E000 0000	|1000 0000	|128MB	|After flash size set and BEV=0
-|E000 0000	|0000 0000	|128MB	|Code in L2/DRAM
-|C000 0000	|1000 0000	|128MB	|After flash size set and BEV=0
-|C000 0000	|0000 0000	|128MB	|Data in L2/DRAM
+|E000 0000	|0000 0000	|4MB	|Code in L2/DRAM
+|C000 0000	|0000 0000	|4MB	|Data in L2/DRAM
 |==========================================================================
 
 Notes
 ~~~~~
-* Init code in 0x1FC00000-0x1FC001ff needs to move flash to 0x1FC00000
-	minus 128MB. First 4MB aliases to 0x1FC00000. Maybe setup TLB too?
-* Later code needs to set flash start will be at 0x1FC00000 minus the flash
-	size.
-* Uboot compatible environment stored at the top of flash. Location based on
-	flash erase size.
-* Max supported flash is 128MB (256MB - 4MB for window, rounded down to a
-	power of 2).
+* Init code copies the entire image very early, before the TLB is setup.
+* BDK images can start at any alignment. They immediately relocate to zero.
 * Install bootbus region on reset vector to report reset/NMI. A real chip
 	reset will move it out of the way automatically.
