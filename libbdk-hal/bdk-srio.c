@@ -588,21 +588,19 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         sli_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
         sli_mem_access_ctl.s.timer = 127);      /* Wait up to 127 cycles for more data */
 
+    /* Wait a little to see if the link comes up */
+    uint64_t stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/4 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    bdk_sriomaintx_port_0_err_stat_t sriomaintx_port_0_err_stat;
+    do
+    {
+        /* Read the port link status */
+        if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port), &sriomaintx_port_0_err_stat.u32))
+            return -1;
+    } while (!sriomaintx_port_0_err_stat.s.pt_ok && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
+
     /* FIXME: Ask for a link and align our ACK state. CN63XXp1 didn't support this */
     if (0 && !OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
     {
-        uint64_t stop_cycle;
-        bdk_sriomaintx_port_0_err_stat_t sriomaintx_port_0_err_stat;
-
-        /* Wait a little to see if the link comes up */
-        stop_cycle = bdk_clock_get_rate(BDK_CLOCK_CORE)/4 + bdk_clock_get_count(BDK_CLOCK_CORE);
-        do
-        {
-            /* Read the port link status */
-            if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port), &sriomaintx_port_0_err_stat.u32))
-                return -1;
-        } while (!sriomaintx_port_0_err_stat.s.pt_ok && (bdk_clock_get_count(BDK_CLOCK_CORE) < stop_cycle));
-
         /* Send link request if link is up */
         if (sriomaintx_port_0_err_stat.s.pt_ok)
         {
@@ -637,7 +635,18 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         }
     }
 
-    return 0;
+    bdk_if_link_t link_info = bdk_srio_link_get(srio_port);
+
+    if (link_info.s.up)
+    {
+        bdk_dprintf("SRIO%d: %d Mhz, %d lanes\n", srio_port, link_info.s.speed, link_info.s.lanes);
+        return 0;
+    }
+    else
+    {
+        bdk_dprintf("SRIO%d: Link down\n", srio_port);
+        return -1;
+    }
 }
 
 
@@ -1313,5 +1322,72 @@ int bdk_srio_physical_unmap(uint64_t physical_address, uint64_t size)
     __bdk_srio_free_subid(mem_index);
     __bdk_srio_free_s2m(subid.s.port, read_s2m_type);
     return 0;
+}
+
+
+/**
+ * Get the link status of an SRIO port
+ *
+ * @param srio_port Port to get link status for
+ *
+ * @return Link status
+ */
+bdk_if_link_t bdk_srio_link_get(int srio_port)
+{
+    bdk_if_link_t result;
+
+    result.u64 = 0;
+
+    /* Make sure register access is allowed */
+    BDK_CSR_INIT(srio_status_reg, BDK_SRIOX_STATUS_REG(srio_port));
+    if (!srio_status_reg.s.access)
+        return result;
+
+    /* Read the port link status */
+    BDK_CSR_INIT(sriomaintx_port_0_err_stat, BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port));
+    if (!sriomaintx_port_0_err_stat.s.pt_ok)
+        return result;
+
+    /* Read the port link width and speed */
+    BDK_CSR_INIT(sriomaintx_port_0_ctl, BDK_SRIOMAINTX_PORT_0_CTL(srio_port));
+    BDK_CSR_INIT(sriomaintx_port_0_ctl2, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port));
+
+    /* Link is up */
+    result.s.full_duplex = 1;
+    result.s.up = 1;
+    switch (sriomaintx_port_0_ctl2.s.sel_baud)
+    {
+        case 1:
+            result.s.speed = 1250;
+            break;
+        case 2:
+            result.s.speed = 2500;
+            break;
+        case 3:
+            result.s.speed = 3125;
+            break;
+        case 4:
+            result.s.speed = 5000;
+            break;
+        case 5:
+            result.s.speed = 6250;
+            break;
+        default:
+            result.s.speed = 0;
+            break;
+    }
+    switch (sriomaintx_port_0_ctl.s.it_width)
+    {
+        case 2: /* Four lanes */
+            result.s.lanes = 4;
+            break;
+        case 3: /* Two lanes */
+            result.s.lanes = 2;
+            break;
+        default: /* One lane */
+            result.s.lanes = 1;
+            break;
+    }
+    return result;
 }
 

@@ -120,62 +120,7 @@ static int if_disable(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
-    bdk_if_link_t result;
-    int srio_port = handle->interface;
-
-    result.u64 = 0;
-
-    /* Make sure register access is allowed */
-    BDK_CSR_INIT(srio_status_reg, BDK_SRIOX_STATUS_REG(srio_port));
-    if (!srio_status_reg.s.access)
-        return result;
-
-    /* Read the port link status */
-    BDK_CSR_INIT(sriomaintx_port_0_err_stat, BDK_SRIOMAINTX_PORT_0_ERR_STAT(srio_port));
-    if (!sriomaintx_port_0_err_stat.s.pt_ok)
-        return result;
-
-    /* Read the port link width and speed */
-    BDK_CSR_INIT(sriomaintx_port_0_ctl, BDK_SRIOMAINTX_PORT_0_CTL(srio_port));
-    BDK_CSR_INIT(sriomaintx_port_0_ctl2, BDK_SRIOMAINTX_PORT_0_CTL2(srio_port));
-
-    /* Link is up */
-    result.s.full_duplex = 1;
-    result.s.up = 1;
-    switch (sriomaintx_port_0_ctl2.s.sel_baud)
-    {
-        case 1:
-            result.s.speed = 1250;
-            break;
-        case 2:
-            result.s.speed = 2500;
-            break;
-        case 3:
-            result.s.speed = 3125;
-            break;
-        case 4:
-            result.s.speed = 5000;
-            break;
-        case 5:
-            result.s.speed = 6250;
-            break;
-        default:
-            result.s.speed = 0;
-            break;
-    }
-    switch (sriomaintx_port_0_ctl.s.it_width)
-    {
-        case 2: /* Four lanes */
-            result.s.lanes = 4;
-            break;
-        case 3: /* Two lanes */
-            result.s.lanes = 2;
-            break;
-        default: /* One lane */
-            result.s.lanes = 1;
-            break;
-    }
-    return result;
+    return bdk_srio_link_get(handle->interface);
 }
 
 const __bdk_if_ops_t __bdk_if_ops_srio = {

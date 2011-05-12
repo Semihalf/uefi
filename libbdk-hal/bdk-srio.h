@@ -471,4 +471,13 @@ uint64_t bdk_srio_physical_map(int srio_port, bdk_srio_write_mode_t write_op,
  */
 int bdk_srio_physical_unmap(uint64_t physical_address, uint64_t size);
 
+/**
+ * Get the link status of an SRIO port
+ *
+ * @param srio_port Port to get link status for
+ *
+ * @return Link status
+ */
+bdk_if_link_t bdk_srio_link_get(int srio_port);
+
 /** @} */
