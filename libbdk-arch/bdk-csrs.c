@@ -5142,7 +5142,7 @@ static const __bdk_csr_db_type_t __bdk_csr_db_cn68xx[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}
 };
 
-static const __bdk_csr_db_type_t __bdk_csr_db_cn65xx[] = {
+static const __bdk_csr_db_type_t __bdk_csr_db_cn66xx[] = {
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,0,1,1},
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,2,1,1},
     {  189, BDK_CSR_TYPE_RSL,8, 18, 3, 0,3,4,1},
@@ -19738,7 +19738,7 @@ const __bdk_csr_db_map_t __bdk_csr_db[] = {
     {OCTEON_CN63XX_PASS2_X, __bdk_csr_db_cn63xx},
     {OCTEON_CN68XX_PASS1_X, __bdk_csr_db_cn68xxp1},
     {OCTEON_CN68XX_PASS2_X, __bdk_csr_db_cn68xx},
-    {OCTEON_CN65XX_PASS1_X, __bdk_csr_db_cn65xx},
+    {OCTEON_CN66XX_PASS1_X, __bdk_csr_db_cn66xx},
 #endif
     {0, NULL}
 };

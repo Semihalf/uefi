@@ -6,7 +6,7 @@ CHIP_TO_MODEL = {
     "cn63xx":   "OCTEON_CN63XX_PASS2_X",
     "cn68xxp1": "OCTEON_CN68XX_PASS1_X",
     "cn68xx":   "OCTEON_CN68XX_PASS2_X",
-    "cn65xx":   "OCTEON_CN65XX_PASS1_X",
+    "cn66xx":   "OCTEON_CN66XX_PASS1_X",
 }
 
 # This is filled in when write() is called. It is derived from the chip list

@@ -26,7 +26,7 @@ int bdk_gpio_initialize(int gpio, int is_output, int output_value)
         cfg.s.tx_oe = !!is_output;
         BDK_CSR_WRITE(BDK_GPIO_BIT_CFGX(gpio), cfg.u64);
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN65XX) && (gpio < 20))
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX) && (gpio < 20))
     {
         BDK_CSR_MODIFY(c, BDK_GPIO_PIN_ENA,
             c.u64 |= 1<<gpio);

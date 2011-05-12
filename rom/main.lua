@@ -11,8 +11,8 @@ if octeon.is_model(octeon.CN63XX) then
     dofile("/rom/board-ebb6300.lua")
 elseif octeon.is_model(octeon.CN68XX) then
     dofile("/rom/board-ebb6800.lua")
-elseif octeon.is_model(octeon.CN65XX) then
-    dofile("/rom/board-ebb6500.lua")
+elseif octeon.is_model(octeon.CN66XX) then
+    dofile("/rom/board-ebb6600.lua")
 end
 
 -- Start a TFTP server
@@ -31,7 +31,7 @@ m:item("file",  "File options",             dofile, "/rom/file.lua")
 m:item("flash", "Flash options",            dofile, "/rom/flash.lua")
 m:item("ddr",   "DDR options",              dofile, "/rom/ddr_menu.lua")
 m:item("pcie",  "PCIe options",             dofile, "/rom/pcie_menu.lua")
-if octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN65XX) then
+if octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN66XX) then
     m:item("srio",  "SRIO options",         dofile, "/rom/srio_menu.lua")
 end
 m:item("twsi",  "TWSI options",             dofile, "/rom/twsi_menu.lua")
