@@ -87,6 +87,11 @@ void __bdk_init_main(int arg, void *arg1)
                 mcr.s.afce = 1;
                 mcr.s.rts = 1);
         }
+
+        /* CN68XX pass 1.x needs some tweaks for QLM speeds. This
+            will apply them if necessary */
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
+            bdk_qlm_cn68xx_speed_tweak();
     }
 
     /* Core 0 start main as another thread. We create a new thread so that

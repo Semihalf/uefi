@@ -156,10 +156,10 @@ void bdk_qlm_jtag_capture(int qlm)
 
 /**
  * CN68XX pass 1.x QLM tweak. This function tweaks the JTAG setting for a QLMs
- * to run better at 6.25Ghz. It will make no changes to QLMs running at other
- * speeds.
+ * to run better at 5 and 6.25Ghz. It will make no changes to QLMs running at
+ * other speeds.
  */
-void bdk_qlm_cn68xx_6250(void)
+void bdk_qlm_cn68xx_speed_tweak(void)
 {
     /* Initialize the internal JTAG */
     bdk_qlm_jtag_init();
@@ -169,8 +169,10 @@ void bdk_qlm_cn68xx_6250(void)
     {
         /* Read the QLM speed */
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
-        /* If the QLM is at 6.25Ghz then program JTAG */
-        if ((qlm_cfg.s.qlm_spd == 5) || (qlm_cfg.s.qlm_spd == 12))
+        /* If the QLM is at 6.25Ghz or 5Ghz then program JTAG */
+        if ((qlm_cfg.s.qlm_spd == 5) || (qlm_cfg.s.qlm_spd == 12) ||
+            (qlm_cfg.s.qlm_spd == 0) || (qlm_cfg.s.qlm_spd == 6) ||
+            (qlm_cfg.s.qlm_spd == 11))
         {
             /* Update all four lanes */
             for (int lane=0; lane<4; lane++)

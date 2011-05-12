@@ -374,11 +374,6 @@ static int __bdk_if_init(void)
     int result = 0;
     int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 384;
 
-    /* CN68XX pass 1.x needs some tweaks for 6.25Ghz. This
-        will apply them if necessary */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
-        bdk_qlm_cn68xx_6250();
-
     /* Setup the FPA packet buffers */
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
 
