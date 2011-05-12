@@ -88,6 +88,14 @@ void __bdk_init_main(int arg, void *arg1)
                 mcr.s.rts = 1);
         }
 
+        /* Set the lower MAC address bits based on the chip manufacturing
+            information. This should give reasonable MAC address defaults
+            for production parts */
+        BDK_CSR_INIT(fus_dat0, BDK_MIO_FUS_DAT0);
+        uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
+        mac_address |= fus_dat0.u64 & 0xffffff;
+        bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
+
         /* CN68XX pass 1.x needs some tweaks for QLM speeds. This
             will apply them if necessary */
         if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
