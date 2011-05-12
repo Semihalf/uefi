@@ -23,7 +23,16 @@ octeon = {}
 
 -- Create a connection to the remote system
 local cnx = os.getenv("OCTEON_REMOTE_CONSOLE")
-assert(cnx, "The environment variable OCTEON_REMOTE_CONSOLE msut be defined")
+assert(cnx,
+[[
+Missing environment.
+
+The environment variable OCTEON_REMOTE_CONSOLE must be defined.
+OCTEON_REMOTE_CONSOLE should be a serial device (/dev/ttyS0) or
+an IPv4 address and port number for TCP/IP (10.0.0.2:23). A
+hostname can also be used for IPv4 address name lookup. The TCP
+port will default to 23 if omitted.
+]])
 local remote = rpc.connect(cnx)
 local remote_octeon = remote.octeon
 
