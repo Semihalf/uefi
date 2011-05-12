@@ -88,9 +88,9 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 # Clean targets
 #
 clean:
-	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp
+	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk-fs-rom-files.c bdk-fs-rom-files.o
 distclean: clean
-	rm -f $(deps)
+	rm -f $(deps) bdk.pch $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i
 
 UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot
 UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon

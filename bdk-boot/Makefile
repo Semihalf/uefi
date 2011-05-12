@@ -4,7 +4,7 @@ bdk-boot.bin: bdk-boot
 bdk-boot: bdk-boot.o $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
-	rm -f *.o bdk-boot bdk-boot.bin
+	rm -f *.o *.map bdk-boot bdk-boot.bin
 
 tftp: bdk-boot.bin
 	cp bdk-boot.bin /tftpboot/
