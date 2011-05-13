@@ -1517,8 +1517,10 @@ static swig_module_info swig_module = {swig_types, 16, 0, 0, 0, 0};
 
 #include <stdint.h>
 #include "lib_octeon_board_table_entry.i"
-/* Goofy macro to redefine LUA_GLOBALSINDEX as a sequence of comamnds that gets the global table  */
-#define LUA_GLOBALSINDEX LUA_REGISTRYINDEX); lua_pop(L, 1); lua_pushnumber(L, LUA_RIDX_GLOBALS); lua_gettable(L, LUA_REGISTRYINDEX
+/* Goofy macro to redefine LUA_GLOBALSINDEX as a sequence of commands that
+    gets the octeon table. This makes SWIG put its stuff in the octeon module
+    instead of the global space. LUA_GLOBALSINDEX isn't valid in Lua 5.2 */
+#define LUA_GLOBALSINDEX LUA_REGISTRYINDEX); lua_pop(L, 1); lua_getglobal(L, "octeon"
 
 static int spd_addrs_index(lua_State* L)
 {
