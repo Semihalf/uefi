@@ -24,6 +24,7 @@ bdkdebug.nest_level = 0     -- Nesting level used for step over
 bdkdebug.step_over = false  -- Are we doing a step over
 bdkdebug.stack_adjust = 0
 bdkdebug.show_gui = true    -- Should the text base GUI be shown
+bdkdebug.skip_list = {}     -- List of source files to skip through when debugging
 
 --
 -- Display comamnd line usage to the user
@@ -403,6 +404,31 @@ function do_commandline()
                 printf("Local: %s %s\n", vars.name[i], tostring(vars.value[i]))
             end
 
+        elseif  cmd == "skip" then
+            -- Breakpoint command
+            local arg = cmdline:match("%g+", 5)
+            if arg then
+                if arg == "-" then
+                    arg = bdkdebug.getsource(bdkdebug.stack_depth)
+                end
+                local found = nil
+                for n,f in ipairs(bdkdebug.skip_list) do
+                    if arg == f then
+                        found = n
+                    end
+                end
+                if found then
+                    table.remove(bdkdebug.skip_list, found)
+                else
+                    table.insert(bdkdebug.skip_list, arg)
+                end
+            else
+                for n,f in ipairs(bdkdebug.skip_list) do
+                    printf("Skip%d: %s\n", n, f)
+                end
+                print()
+            end
+
         elseif cmd == "quit" then
             os.exit(true)
 
@@ -426,6 +452,9 @@ function do_commandline()
             print("gui off          Disable the text based GUI")
             print("where            Show the current stackframe, file, and line")
             print("locals           Show a list of all active local variables")
+            print("skip             Display the files the debugger will skip.")
+            print("skip <file>      Add/remove file to/from skip list.")
+            print("skip -           Add/remove the current file to/from skip list.")
             print("quit             Quit the debugger.")
             print("An empty line is the same as \"n\".")
         else
@@ -450,13 +479,13 @@ function bdkdebug.debughook(reason, lineno)
         bdkdebug.nest_level = bdkdebug.nest_level - 1
         return
     end
-    -- Get the source for this code
-    local my_source = bdkdebug.getsource(-1)
     -- Get the current debug source and lineno
     local source, lineno = bdkdebug.getsource(1)
-    -- Return if we're trying to debug the debugger's source
-    if my_source == source then
-        return
+    -- Return if we're trying to debug something that should be skipped
+    for _,skip_file in ipairs(bdkdebug.skip_list) do
+        if skip_file == source then
+            return
+        end
     end
     -- Stop for step over
     if bdkdebug.step_over and (bdkdebug.nest_level <= 0) then
@@ -509,6 +538,12 @@ function bdkdebug.main()
     if #arg < 1 then
         return bdkdebug.help()
     end
+
+    -- Add the debugger's source to the skip list. Most people
+    -- aren't interested in debugging the debugger.
+    local my_source = bdkdebug.getsource(0)
+    table.insert(bdkdebug.skip_list, my_source)
+
     -- Clear the screen and start debugging
     --printf(ERASE_WIN .. GOTO_BOTTOM)
     rawset(_G, "debug_interrupt", false)
