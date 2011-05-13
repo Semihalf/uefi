@@ -69,9 +69,17 @@ out:
  */
 int bdk_telnet_server_initialize(void)
 {
+    static int init_complete = 0;
+    /* Return if we've already been called */
+    if (init_complete)
+        return 0;
+
     int result = bdk_thread_create(0, telnet_server, 0, NULL, 0);
     if (result == 0)
+    {
+        init_complete = 1;
         printf("Telnet: Server started\n");
+    }
     return result;
 }
 

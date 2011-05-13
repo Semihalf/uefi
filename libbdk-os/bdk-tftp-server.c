@@ -7,6 +7,7 @@
 
 typedef struct
 {
+    int init_complete;
     struct
     {
         ip_addr_t   remote_addr;        /* Remote IP this conenction is for */
@@ -354,7 +355,10 @@ skip:
 int bdk_tftp_server_initialize(void)
 {
     static tftp_server_t state;
-    memset(&state, 0, sizeof(state));
+
+    /* Return if we've already been called */
+    if (state.init_complete)
+        return 0;
 
     /* Create a new UDP lwip socket */
     struct udp_pcb *sock = udp_new();
@@ -373,6 +377,8 @@ int bdk_tftp_server_initialize(void)
 
     /* Register our receive function */
     udp_recv(sock, tftp_server_rx, &state);
+
+    state.init_complete = 1;
 
     printf("TFTP: Server started\n");
     return 0;
