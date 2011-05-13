@@ -303,6 +303,7 @@ local function create_device(srio_root, hopcount)
     device.parent_port = nil
     device.port_connections = {}
     device.ident = maint_read(srio_root, ANY_ID, hopcount, CAR_DEVICE_ID)
+    assert(device.ident ~= 0xffffffff, "Device didn't respond to CAR_DEVICE_ID read")
 
     --
     -- Dispaly a device and all other devices connected to it
