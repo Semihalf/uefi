@@ -54,9 +54,11 @@ end
 -- points to all the members of the remote octeon module.
 octeon = shallow_copy(remote_octeon)
 
--- Delete readline as it would cause problems if someone
--- called it
-octeon.readline = nil
+-- Create a local fake readline as calling the remote one would cause issues
+function octeon.readline(prompt, complete, timeout_us)
+    printf("%s: ", prompt)
+    return io.read("*l")
+end
 
 -- Add a global member that has access to the global context on the remote
 -- system
