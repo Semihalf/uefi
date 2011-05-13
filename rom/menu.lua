@@ -105,7 +105,7 @@ end
 -- Prompt the user for a string. Throw an error if the user aborts input.
 --
 function menu.prompt_string(prompt)
-    printf("%s", prompt)
+    printf("%s: ", prompt)
     local result = io.read("*l")
     if result == "" then
         error("User interrupted input")
