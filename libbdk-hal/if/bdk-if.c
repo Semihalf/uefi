@@ -372,7 +372,7 @@ fail:
 static int __bdk_if_init(void)
 {
     int result = 0;
-    int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 384;
+    int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 288;
 
     /* Setup the FPA packet buffers */
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
