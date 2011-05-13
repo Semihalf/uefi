@@ -38,8 +38,7 @@ ddr.show_config(config)
 for clock_mhz = 400, 800, 33 do
     local clock_hz = clock_mhz * 1000000
     print("DDR3 clock:", clock_hz)
-    config.default_ddr_clock_hz = clock_hz
-    ddr.set_config(config)
+    ddr.set_config(config, clock_hz)
     ddr.test(MEMORY_TEST_START, MEMORY_TEST_LENGTH)
 end
 
