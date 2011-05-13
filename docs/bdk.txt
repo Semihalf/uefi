@@ -921,11 +921,15 @@ oremote.csr.NAME.FIELD = value::
 Performs a read, modify, and write of a CSR changing the specified field.
 
 
-Target modules specific to OCTEON
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Modules Available on both Host and Target
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cavium Networks provides some Lua modules specific for running Lua on
-a target OCTEON.
+a target OCTEON.  When run on a host system, these modules
+automatically translate operations into remote procedure calls.  Any
+modules written in pure Lua can be used on both the host and target.
+These modules are loaded using the standard *require()* function call
+in Lua.
 
 octeon
 ^^^^^^
@@ -1108,57 +1112,36 @@ octeon.trafficgen.update(do_clear)::
 ----
 
 
-Source based modules available on both Host and Target
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Any modules written in pure Lua can be used on both the host and
-target.  These modules are loaded using the standard *require()*
-function call in Lua.  Here is a list of these extra modules provided
-by Cavium Networks.
-
 menu
 ^^^^
+
+The *menu* module provides a few simple functions for interacting with the user.
 
 menu.show(choices)::
 Show a menu to the user and prompt for a choice.
 * choices = Table array of menu strings
 * Return the selection number
 
-rpc
-^^^
+menu.prompt_string(prompt)::
+Prompt the user for a string. Throw an error if the user aborts input.
+* prompt = Prompt to display to the user
+* Returns the input
 
-This module allows you to make remote procedure calls to Lua.  All
-target Lua functions and data can be accessed by a remote host.
+menu.prompt_filename(prompt)::
+Prompt the user for a filename. Throw an error if the user aborts input.
+* prompt = Prompt to display to the user
+* Returns the input
 
-.Example RPC client
-[source,lua]
-----
-include::../examples/rpc-test.lua[]
-----
+menu.prompt_number(prompt)::
+Prompt the user for a number. Throw an error if the user aborts input.
+* prompt = Prompt to display to the user
+* Returns the input
 
-TIP: Lua garbage collection can cause issues with RPC.  The host
-running the RPC client normally has lots more memory than the OCTEON
-RPC target.  This can cause Lua to not garbage collect old RPC
-objects.  Since the RPC server can't free objects until the client
-releases all references, this can cause the client to run out of
-memory.  Simply calling *collectgarbage()* in the client periodically
-can solve this issue.
+menu.dofile(filename)::
+Execute a Lua file, searching the Lua path as needed to find it
+* filename = Filename to execute without the ".lua" extension
+* Returns the results of the file
 
-TIP: Any prompt supporting line editing in *bdk-boot.bin* also
-supports RPC calls.  Whenever *bdk-boot.bin* is waiting for user
-input, you can send a RPC request and get a response.
-
-rpc.connect(instream, outstream)::
-Create a RPC connection to a remote OCTEON.
-* instream = Lua I/O stream for input, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`)
-* outstream = Lua I/O stream for output, a host:port for TCP, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
-* Return value is an RPC object to make calls with.
-
-rpc.serve(instream, outstream)::
-Wait for RPC commands and execute them.
-* instream = Lua I/O stream for input, or a filename to open. (Example: `/dev/ttyS0`)
-* outstream = Lua I/O stream for output, or a filename to open. (Example: `/dev/ttyS0`). If nil, then instream is used.
-* No return value.
 
 strict
 ^^^^^^
@@ -1227,22 +1210,19 @@ Return a table's values in sorted order.
 isglobal(variable_name)::
 
 Determine if a global variable is defined. Use this function to check if
-a global is defiend without setting off the *strict* module checking. This
-is a useful to automatically switch to RPC when running remotely.
+a global is defiend without setting off the *strict* module checking.
 * variable_name = String name of a variable to check.
 * Returns true if the global exists, false if it doesn't exist.
 +
 [source,lua]
 ----
 local csr
-if isglobal("octeon") then
+if isglobal("oremote") then
+    -- We're running remotely
+    csr = oremote.csr
+else
     -- We're running natively on OCTEON
     csr = octeon.csr
-else
-    -- We're running remotely. Assume arg[1] is where we should connect to
-    local rpc = require("rpc")
-    local remote = rpc.connect(arg[1])
-    csr = remote.octeon.csr
 end
 print(csr.CIU_FUSE.FUSE)
 ----
@@ -1481,17 +1461,13 @@ advantage to make scripts portable between the host and target.
 ----
 require("utils")
 local csr
-if isglobal("octeon") then
-    csr = octeon.csr
-else
+if isglobal("oremote") then
     csr = oremote.csr
+else
+    csr = octeon.csr
 end
 pprint(csr.ciu_fuse.decode())
 ----
-
-Use the *rpc* module to develop scripts before running on the target::
-
-TBD
 
 
 Lua Startup Sequence on OCTEON
