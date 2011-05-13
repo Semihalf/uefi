@@ -1,3 +1,4 @@
+#!/usr/bin/env bdk-lua
 
 -- BDK Main menu
 
