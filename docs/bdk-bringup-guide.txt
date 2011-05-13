@@ -20,6 +20,12 @@ the following goals should be met.
 * DRAM configured and tested.
 * Board ready to be handed to software for further development.
 
+.Board Block Diagram
+
+Below is a high level block diagram for a generic board.  The board
+being tested will have connections similar to the diagram.
+
+image::board_block_diagram.png[Board block diagram]
 
 Step 1 - Minimum Prerequisites
 ------------------------------
