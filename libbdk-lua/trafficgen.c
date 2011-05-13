@@ -697,7 +697,12 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     /* Skip the L2 header in the CRC calculation */
     int skip = get_end_l2(tg_port);
     if (bdk_if_get_type(packet->if_handle) == BDK_IF_SRIO)
-        skip += 8;
+    {
+        if (fix)
+            skip += 8;
+        else
+            skip += 16;
+    }
     ptr += skip;
     remaining_bytes -= skip;
 

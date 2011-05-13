@@ -379,8 +379,8 @@ function TrafficGen.new()
             if port:sub(1,4) == "SRIO" then
                 -- SRIO rounds packets to multiples of 8 and can only handle
                 -- sizes up to 4096. It can handle smaller sizes, but the
-                -- packet building code requires at least 40 bytes
-                size_start = 40
+                -- packet building code requires at least 46 bytes
+                size_start = 48
                 size_stop = 4096
                 size_incr = 8
             end
