@@ -132,3 +132,11 @@ function menu.prompt_number(prompt)
     end
     return result
 end
+
+--
+-- Execute a Lua file, searching the Lua path as needed to find it
+--
+function menu.dofile(filename)
+    local fullname = assert(package.searchpath(filename, package.path))
+    dofile(fullname)
+end

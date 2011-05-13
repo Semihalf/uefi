@@ -5,14 +5,15 @@ require("strict")
 require("utils")
 require("menu")
 require("rpc")
+require("octeon")
 
 -- Do board specific setup
 if octeon.is_model(octeon.CN63XX) then
-    dofile("/rom/board-ebb6300.lua")
+    menu.dofile("board-ebb6300")
 elseif octeon.is_model(octeon.CN68XX) then
-    dofile("/rom/board-ebb6800.lua")
+    menu.dofile("board-ebb6800")
 elseif octeon.is_model(octeon.CN66XX) then
-    dofile("/rom/board-ebb6600.lua")
+    menu.dofile("board-ebb6600")
 end
 
 -- Start a TFTP server
@@ -26,20 +27,20 @@ if octeon.c.bdk_telnet_server_initialize() ~= 0 then
 end
 
 local m = menu.new("Main Menu")
-m:item("config","Configuration options",    dofile, "/rom/config_menu.lua")
-m:item("file",  "File options",             dofile, "/rom/file.lua")
-m:item("flash", "Flash options",            dofile, "/rom/flash.lua")
-m:item("ddr",   "DDR options",              dofile, "/rom/ddr_menu.lua")
-m:item("pcie",  "PCIe options",             dofile, "/rom/pcie_menu.lua")
+m:item("config","Configuration options",    menu.dofile, "config_menu")
+m:item("file",  "File options",             menu.dofile, "file")
+m:item("flash", "Flash options",            menu.dofile, "flash")
+m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
+m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
 if octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN66XX) then
-    m:item("srio",  "SRIO options",         dofile, "/rom/srio_menu.lua")
+    m:item("srio",  "SRIO options",         menu.dofile, "srio_menu")
 end
-m:item("twsi",  "TWSI options",             dofile, "/rom/twsi_menu.lua")
-m:item("smi",   "SMI/MDIO options",         dofile, "/rom/smi_menu.lua")
-m:item("gpio",  "GPIO options",             dofile, "/rom/gpio_menu.lua")
-m:item("ilua",  "Interactive Lua prompt",   dofile, "/rom/ilua.lua")
-m:item("net",   "TCP/IP networking",        dofile, "/rom/netstack_menu.lua")
-m:item("tg",    "Traffic Generator",        dofile, "/rom/trafficgen.lua")
+m:item("twsi",  "TWSI options",             menu.dofile, "twsi_menu")
+m:item("smi",   "SMI/MDIO options",         menu.dofile, "smi_menu")
+m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
+m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
+m:item("net",   "TCP/IP networking",        menu.dofile, "netstack_menu")
+m:item("tg",    "Traffic Generator",        menu.dofile, "trafficgen")
 m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)
 
 while (m:show() ~= "quit") do
