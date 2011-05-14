@@ -137,10 +137,3 @@ function isglobal(name)
     return rawget(_G, name) ~= nil
 end
 
-
---
--- Needed for compatibility with Lua 5.1
---
-if rawget(table, "unpack") == nil then
-    table.unpack = unpack
-end
