@@ -51,6 +51,7 @@ function coverage.report()
         "^ *end\n$", -- end by itself
         "^ *else\n$", -- else by itself
         "^local function", -- Local function prototypes
+        "^ *repeat\n$", -- repeat by itself
     }
     print("Coverage Report")
     coverage.stop()
