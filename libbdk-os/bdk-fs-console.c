@@ -6,7 +6,7 @@
 #define MAX_CONSOLE_FILES 4
 static int open_files[MAX_CONSOLE_FILES] = {3,};
 static int last_input;
-int readline_enable = 1;
+static int readline_enable = 1;
 
 int console_open_file(const char *filename)
 {
