@@ -138,7 +138,7 @@ int bdk_fs_check_break(void)
  *
  * @param enable New readline state
  */
-void bdk_fs_readline_enable(int enable)
+void __bdk_fs_readline_enable(int enable)
 {
     readline_enable = enable;
 }
