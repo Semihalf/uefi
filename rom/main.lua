@@ -43,6 +43,9 @@ m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("net",   "TCP/IP networking",        menu.dofile, "netstack_menu")
 m:item("tg",    "Traffic Generator",        menu.dofile, "trafficgen")
 m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)
+if isglobal("oremote") then
+    m:item("quit", "Exit menu")
+end
 
 while (m:show() ~= "quit") do
     -- Spinning on menu
