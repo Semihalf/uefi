@@ -6,6 +6,7 @@
 *.elf
 *.bin
 *.pickle
+*.coverage
 *.map
 /csr-tool/cisco
 /csr-tool/html
