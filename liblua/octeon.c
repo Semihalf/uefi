@@ -413,7 +413,7 @@ static int octeon_c_call(lua_State* L)
 
 static void control_c_check(lua_State *L, lua_Debug *ar)
 {
-    if (bdk_fs_check_break())
+    if (__bdk_fs_check_break())
     {
         luaL_traceback(L,  L, "Interrupted!", 1);
         lua_error(L);

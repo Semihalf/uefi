@@ -120,7 +120,7 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
  *
  * @return Non zero if a Control-C is seen
  */
-int bdk_fs_check_break(void)
+int __bdk_fs_check_break(void)
 {
     /* Disable Contorl-C if no readline */
     if (!readline_enable)

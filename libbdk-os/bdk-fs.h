@@ -33,7 +33,7 @@ typedef struct bdk_fs_ops_s
 
 uint64_t bdk_mmap(const char *name, int flags);
 int bdk_jump_address(uint64_t paddress);
-int bdk_fs_check_break(void);
+int __bdk_fs_check_break(void);
 void __bdk_fs_readline_enable(int enable);
 
 /** @} */
