@@ -1687,9 +1687,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-  <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
+ <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
                                                          Used for SRIOV
- <13:8>  NS              RAZ      NS          NS        Reserved
+ <13:8>  NS              RO       NS          NS        Reserved
 
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
@@ -4266,9 +4266,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-  <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
+ <7:0>   MFUNCN          R/W      0x0         0x0       Max Number Of Functions Supported
                                                          Used for SRIOV
- <13:8>  NS              RAZ      NS          NS        Reserved
+ <13:8>  NS              RO       NS          NS        Reserved
 
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
@@ -8498,7 +8498,7 @@ Pos      Name    Type     Value     Value       Description
  <63:62> NS       RAZ      NS          NS        Reserved				            |
  <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
 						  turns on mode to increment DPI_DMA_PPx_CNT        |
-						  counters.
+						  counters.					    |
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |

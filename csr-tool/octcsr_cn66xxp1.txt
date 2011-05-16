@@ -10196,9 +10196,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:62> NS       RAZ      NS          NS        Reserved				            |
- <61>    DICI_MODE R/W      0x0         NS        DMA Instruction Completion Interrupt Mode         |
+ <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
 						  turns on mode to increment DPI_DMA_PPx_CNT        |
-						  counters.
+						  counters.					    |
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -25143,12 +25143,12 @@ Pos      Name    Type     Value     Value       Description
  <63:29> RSVD3    RAZ      NS          NS        Reserved				            |         NS
  <28:16> CLKDIV   R/W      0x0         0         Fspi_clk = Fsclk / (2 * CLKDIV)                    |          NS
 						 CLKDIV = Fsclk / (2 * Fspi_clk)                    |
- <15>    CSENA3   R/W      0x0         0         If 0, UART1_RTS_N/SPI_CS3_L pin is UART pin        |          NS
-                                                    1, UART1_RTS_N/SPI_CS3_L pin is SPI pin         |
-						       SPI_CS3_L drives UART1_RTS_N/SPI_CS3_L       |
- <14>    CSENA2   R/W      0x0         0         If 0, UART0_RTS_N/SPI_CS2_L pin is UART pin        |          NS
-                                                    1, UART0_RTS_N/SPI_CS2_L pin is SPI pin         |
-						       SPI_CS2_L drives  UART0_RTS_N/SPI_CS2_L      |
+ <15>    CSENA3   R/W      0x0         0         If 0, UART1_RTS_L/SPI_CS3_L pin is UART pin        |          NS
+                                                    1, UART1_RTS_L/SPI_CS3_L pin is SPI pin         |
+						       SPI_CS3_L drives UART1_RTS_L/SPI_CS3_L       |
+ <14>    CSENA2   R/W      0x0         0         If 0, UART0_RTS_L/SPI_CS2_L pin is UART pin        |          NS
+                                                    1, UART0_RTS_L/SPI_CS2_L pin is SPI pin         |
+						       SPI_CS2_L drives  UART0_RTS_L/SPI_CS2_L      |
  <13:12> RSVD2    RAZ      NS          NS        Reserved				            |         NS
  <11>    CSLATE   R/W      0x0         0         If 0, SPI_CS asserts 1/2 SCLK before transaction   |          NS
 						    1, SPI_CS assert coincident with transaction    |
@@ -25178,23 +25178,23 @@ Pos      Name    Type     Value     Value       Description
 						       assertion between commands                   |
  <1>	 IDLELO	  R/W      0x0         0         If 0, SPI_CLK idles high, 1st transition is hi->lo |          NS
                                                     1, SPI_CLK idles low, 1st transition is lo->hi  |
- <0>	 ENABLE	  R/W      0x0         0         If 0, UART0_DTR_N/SPI_DO, UART0_DCD_N/SPI_DI       |          NS
-						       UART0_RTS_N/SPI_CS2_L, UART1_RTS_N/SPI_CS3_L |
+ <0>	 ENABLE	  R/W      0x0         0         If 0, UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI       |          NS
+						       UART0_RTS_L/SPI_CS2_L, UART1_RTS_L/SPI_CS3_L |
 						       pins are UART pins                           |
-						    1, UART0_DTR_N/SPI_DO and UART0_DCD_N/SPI_DI    |
+						    1, UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI    |
 						       pins are SPI/MPI pins. 			    |
-						       UART0_RTS_N/SPI_CS2_L is SPI pin if CSENA2=1 |
-						       UART1_RTS_N/SPI_CS3_L is SPI pin if CSENA3=1 |
+						       UART0_RTS_L/SPI_CS2_L is SPI pin if CSENA2=1 |
+						       UART1_RTS_L/SPI_CS3_L is SPI pin if CSENA3=1 |
 
 Note:
 Some of the SPI/MPI pins are muxed with UART pins.
 SPI_CLK		: spi clock, dedicated pin
-SPI_DI		: spi input, shared with UART0_DCD_N/SPI_DI, enabled when MPI_CFG[ENABLE]=1
-SPI_DO		: spi output, mux to UART0_DTR_N/SPI_DO, enabled when MPI_CFG[ENABLE]=1
+SPI_DI		: spi input, shared with UART0_DCD_L/SPI_DI, enabled when MPI_CFG[ENABLE]=1
+SPI_DO		: spi output, mux to UART0_DTR_L/SPI_DO, enabled when MPI_CFG[ENABLE]=1
 SPI_CSO_L	: chips select 0, dedicated pin
 SPI_CS1_L	: chips select 1, dedicated pin
-SPI_CS2_L	: chips select 2, mux to UART0_RTS_N/SPI_CS2_L pin, enabled when MPI_CFG[CSENA2]=1 and MPI_CFG[ENABLE]=1
-SPI_CS3_L	: chips select 3, mux to UART1_RTS_N/SPI_CS3_L pin, enabled when MPI_CFG[CSENA3]=1 and MPI_CFG[ENABLE]=1
+SPI_CS2_L	: chips select 2, mux to UART0_RTS_L/SPI_CS2_L pin, enabled when MPI_CFG[CSENA2]=1 and MPI_CFG[ENABLE]=1
+SPI_CS3_L	: chips select 3, mux to UART1_RTS_L/SPI_CS3_L pin, enabled when MPI_CFG[CSENA3]=1 and MPI_CFG[ENABLE]=1
 ----------------------------------------------------------------------------------------------------
 ===
 
