@@ -16,9 +16,9 @@ RANLIB=$(CROSS)ranlib
 STRIP=$(CROSS)strip
 SIM=cn63xx
 ifeq ($(shell uname -m),x86_64)
-    SIMULATOR=$(SIM)-simulator64
+    SIMULATOR=${OCTEON_ROOT}/host/bin/$(SIM)-simulator64
 else
-    SIMULATOR=$(SIM)-simulator
+    SIMULATOR=${OCTEON_ROOT}/host/bin/$(SIM)-simulator
 endif
 
 #
