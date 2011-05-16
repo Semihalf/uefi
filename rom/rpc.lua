@@ -8,6 +8,10 @@
 require("strict")
 local debug = require("debug")
 
+local RPC_BEGIN = "$"
+local RPC_END = "\n"
+local is_server = false
+
 --
 -- Table to contain our module
 --
@@ -253,44 +257,116 @@ local function do_unpack(remote, start_index, str, is_server)
 end
 
 --
+-- Calculate the correct checksum for a line and return it in a string read
+-- for transmit
+--
+local function get_checksum(line)
+    local checksum = 0
+    for i=1,#line do
+        checksum = checksum + line:sub(i,i):byte()
+    end
+    checksum = bit64.band(checksum, 0xff)
+    return "#%02x" % checksum
+end
+
+--
+-- Send a RPC command
+--
+local function send_command(inf, outf, line)
+    -- Add the checksum
+    line = line .. get_checksum(line)
+    -- Debug output as necessary
+    if rpc.debug then
+        if is_server then
+            io.write("[RPC Server Response]" .. line .. "\n")
+        else
+            io.write("[RPC Send]" .. line .. "\n")
+        end
+    end
+    -- Send the string and flush to make sure it goes immediately
+    outf:write(RPC_BEGIN .. line .. RPC_END)
+    outf:flush()
+end
+
+--
+-- Receive a RPC command
+--
+local function receive_command(inf, outf, have_begin)
+    -- Read lines unitl we get the response. Extra lines are displayed
+    -- to stdout. We might be using the same serial channel for RPC and
+    -- general output
+    local result
+    repeat
+        -- Read a line
+        result = inf:read()
+        -- Strip off ending carriage returns
+        if result:sub(-1) == '\r' then
+            result = result:sub(1,-2)
+        end
+        local d
+        if not have_begin then
+            -- Look for the start of response indicator
+            d = result:find(RPC_BEGIN, 1, true)
+            if d and (d > 1) then
+                -- Write any extra stuff to the console
+                io.write(result:sub(1, d-1))
+            elseif not d then
+                -- Write any extra stuff to the console
+                io.write(result)
+                io.write("\n")
+            end
+        else
+            d = 1
+        end
+    until d
+
+    -- Strip the RPC_BEGIN header
+    if not have_begin then
+        result = result:sub(2)
+    end
+
+    -- Log debug output of what we recieved
+    if rpc.debug then
+        if is_server then
+            io.write("[RPC Server Request]" .. result .. "\n")
+        else
+            io.write("[RPC Receive]" .. result .. "\n")
+        end
+    end
+
+    -- Check that the length could contain a checksum
+    if #result < 3 then
+        io.write("[RPC ERROR]Too short to have checksum\n")
+        return nil
+    end
+
+    -- Verify the checksum
+    local got_checksum = result:sub(-3)
+    local result = result:sub(1,-4)
+    local checksum = get_checksum(result)
+    if checksum ~= got_checksum then
+        io.write("[RPC ERROR]Incorrect checksum\n")
+        return nil
+    end
+
+    -- Everything is good
+    return result
+end
+
+--
 -- Do a remote command
 --
 local function do_remote_command(remote, line)
     local meta = getmetatable(remote)
-    if rpc.debug then
-        print("[RPC Request]", line)
-    end
-    -- Send the string and flush to make sure it goes immediately
-    meta.outf:write("$" .. line .. "\n")
-    meta.outf:flush()
-    -- Read lines unitl we get the response. Extra lines are displayed
-    -- to stdout. We might be using the same serial channel for RPC and
-    -- general output
-    local d
+    local command
     repeat
-        -- Read a line
-        line = meta.inf:read()
-        if line:sub(-1) == '\r' then
-            line = line:sub(1,-2)
-        end
-        -- Look for the start of response indicator
-        d = line:find("$", 1, true)
-        if d and (d > 1) then
-            -- Write any extra stuff to the console
-            io.write(line:sub(1, d-1))
-        elseif not d then
-            -- Write any extra stuff to the console
-            io.write(line)
-            io.write("\n")
-        end
-    until d
-    if rpc.debug then
-        print("[RPC Reply]", line)
-    end
+        send_command(meta.inf, meta.outf, line)
+        command = receive_command(meta.inf, meta.outf, false)
+    until command
     -- Convert the response to Lua data structures
-    local len, r = do_unpack(remote, d+1, line, false)
+    local len, r = do_unpack(remote, 1, command, false)
     -- Make sure we consumed all the input
-    assert(len == #line + 1)
+    assert(len == #command+1)
     -- Returned unpack data so calls work right
     return table.unpack(r, 1, r.n)
 end
@@ -446,22 +522,13 @@ local function rpc_serve(inf, outf, only_one)
         rpc.objects[0] = _ENV
         rpc.objects[_ENV] = {0, 1}
     end
-    while true do
-        local dollar
-        if only_one then
-            dollar = "$"
-        else
-            dollar = inf:read(1)
-        end
-        if dollar == "$" then
-            -- Read the command
-            local command = inf:read(1)
-            local obj = inf:read("*n")
-            local line = inf:read()
-
-            if rpc.debug then
-                printf("[RPC Command=%s, object=%d]\n", command, obj)
-            end
+    repeat
+        local full_command = receive_command(inf, outf, only_one)
+        if full_command then
+            local command = full_command:sub(1,1)
+            local obj = full_command:match("^%d+", 2)
+            local line = full_command:sub(#obj + 2)
+            obj = tonumber(obj)
 
             -- Convert the command into an object reference and arguments
             local object = rpc.objects[obj]
@@ -498,31 +565,26 @@ local function rpc_serve(inf, outf, only_one)
             end
             line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
-            outf:write("$" .. line .. "\n")
-            outf:flush()
-            if only_one then
-                break
-            end
-        else
-            -- Not a command, just echo out extra junk
-            io.write(dollar)
+            send_command(inf, outf, line)
         end
-    end
+    until only_one
 end
 
 --
 -- Create a RPC server
 --
 function rpc.serve(instream, outstream, only_one)
+    is_server = true
     local inf, outf = connectStreams(instream, outstream)
     local status, message = xpcall(rpc_serve, debug.traceback, inf, outf, only_one)
     if not status then
-        outf:write("$e" .. server_do_pack(rpc.objects, message) .. "\n")
+        send_command(inf, outf, "e" .. server_do_pack(rpc.objects, message))
     end
     inf:close()
     if inf ~= outf then
         outf:close()
     end
+    is_server = false
 end
 
 --
