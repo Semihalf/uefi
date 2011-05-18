@@ -73,6 +73,7 @@ void __bdk_init_main(int arg, void *arg1)
         if (!bdk_is_simulation())
             __bdk_setup_bootbus();
 
+        bdk_qlm_init();
         bdk_fpa_enable();
         bdk_dma_engine_initialize();
 
@@ -95,11 +96,6 @@ void __bdk_init_main(int arg, void *arg1)
         uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
         mac_address |= fus_dat0.u64 & 0xffffff;
         bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
-
-        /* CN68XX pass 1.x needs some tweaks for QLM speeds. This
-            will apply them if necessary */
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
-            bdk_qlm_cn68xx_speed_tweak();
     }
 
     /* Core 0 start main as another thread. We create a new thread so that

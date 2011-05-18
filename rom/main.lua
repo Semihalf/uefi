@@ -32,6 +32,7 @@ m:item("config","Configuration options",    menu.dofile, "config_menu")
 m:item("file",  "File options",             menu.dofile, "file")
 m:item("flash", "Flash options",            menu.dofile, "flash")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
+m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
 if octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN66XX) then
     m:item("srio",  "SRIO options",         menu.dofile, "srio_menu")

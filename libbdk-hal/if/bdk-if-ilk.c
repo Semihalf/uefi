@@ -7,8 +7,10 @@ static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
-        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(1));
-        if ((qlm_cfg.s.qlm_spd == 15) || (qlm_cfg.s.qlm_cfg != 1))
+        /* No ports if QLM speed says disabled */
+        if (bdk_qlm_get_gbaud_mhz(1) == 0)
+            return 0;
+        if (strstr(bdk_qlm_get_mode(1), "ILK") == NULL)
             return 0;
 
         /* Configure the SERDES */
@@ -27,11 +29,9 @@ static int if_num_interfaces(void)
 
 static int if_num_ports(int interface)
 {
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(2));
-
     /* See how many lanes we can potentially have. We already checked QLM1
         when probing the inteface number, now we check QLM2 */
-    int max_lanes = (qlm_cfg.s.qlm_cfg == 1) ? 8 : 4;
+    int max_lanes = (strstr(bdk_qlm_get_mode(2), "ILK")) ? 8 : 4;
 
     /* In ILK interface only exists if there are lanes configured for it */
     int lanes_interface0 = bdk_config_get(BDK_CONFIG_ILK0_LANES);
@@ -353,42 +353,7 @@ retry:
     result.s.up = 1;
     result.s.lanes = bdk_pop(ilk_rxx_cfg1.s.rx_bdry_lock_ena);
     result.s.full_duplex = 1;
-
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(1 + handle->interface));
-    switch (qlm_cfg.s.qlm_spd)
-    {
-        case 0: /* 5 Gbaud */
-        case 6: /* 5 Gbaud */
-        case 11: /* 5 Gbaud */
-            result.s.speed = 5000 * 64 / 67;
-            break;
-        case 1: /* 2.5 Gbaud */
-        case 2: /* 2.5 Gbaud */
-            result.s.speed = 2500 * 64 / 67;
-            break;
-        case 3: /* 1.25 Gbaud */
-        case 4: /* 1.25 Gbaud */
-        case 10: /* 1.25 Gbaud */
-            result.s.speed = 1250 * 64 / 67;
-            break;
-        case 5: /* 6.25 Gbaud */
-        case 12: /* 6.25 Gbaud */
-            result.s.speed = 6250 * 64 / 67;
-            break;
-        case 7: /* 2.5 Gbaud */
-        case 9: /* 2.5 Gbaud */
-            result.s.speed = 2500 * 64 / 67;
-            break;
-        case 8: /* 3.125 Gbaud */
-        case 14: /* 3.125 Gbaud */
-            result.s.speed = 3125 * 64 / 67;
-            break;
-        case 13: /* 3.75 Gbaud */
-            result.s.speed = 3750 * 64 / 67;
-            break;
-        default:
-            break;
-    }
+    result.s.speed = bdk_qlm_get_gbaud_mhz(1 + handle->interface) * 64 / 67;
     result.s.speed *= result.s.lanes;
 
 out:

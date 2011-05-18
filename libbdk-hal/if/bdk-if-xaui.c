@@ -18,8 +18,7 @@ static int if_num_ports(int interface)
         if (interface == 1)
         {
             /* No ports if QLM speed says disabled */
-            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(0));
-            if (qlm_cfg.s.qlm_spd == 15)
+            if (bdk_qlm_get_gbaud_mhz(0) == 0)
                 return 0;
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(0));
             if (inf_mode.s.mode == 7)
@@ -30,8 +29,7 @@ static int if_num_ports(int interface)
         else
         {
             /* No ports if QLM speed says disabled */
-            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(interface));
-            if (qlm_cfg.s.qlm_spd == 15)
+            if (bdk_qlm_get_gbaud_mhz(interface) == 0)
                 return 0;
             /* All other GMXs are the same mode as the QLM with same number */
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
@@ -284,47 +282,11 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         result.s.lanes = 4;
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
-            BDK_CSR_DEFINE(qlm_cfg, BDK_MIO_QLMX_CFG(0));
-            if (gmx_block < 2)
-                qlm_cfg.u64 = BDK_CSR_READ(BDK_MIO_QLMX_CFG(0));
-            else
-                qlm_cfg.u64 = BDK_CSR_READ(BDK_MIO_QLMX_CFG(gmx_block));
+            int qlm = (gmx_block == 1) ? 0 : gmx_block;
+            BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+            int speed = bdk_qlm_get_gbaud_mhz(qlm);
+            result.s.speed = speed * 8 / 10;
             result.s.lanes = (qlm_cfg.s.qlm_cfg == 7) ? 2 : 4;
-            switch (qlm_cfg.s.qlm_spd)
-            {
-                case 0: /* 5 Gbaud */
-                case 6: /* 5 Gbaud */
-                case 11: /* 5 Gbaud */
-                    result.s.speed = 5000 * 8 / 10;
-                    break;
-                case 1: /* 2.5 Gbaud */
-                case 2: /* 2.5 Gbaud */
-                    result.s.speed = 2500 * 8 / 10;
-                    break;
-                case 3: /* 1.25 Gbaud */
-                case 4: /* 1.25 Gbaud */
-                case 10: /* 1.25 Gbaud */
-                    result.s.speed = 1250 * 8 / 10;
-                    break;
-                case 5: /* 6.25 Gbaud */
-                case 12: /* 6.25 Gbaud */
-                    result.s.speed = 6250 * 8 / 10;
-                    break;
-                case 7: /* 2.5 Gbaud */
-                case 9: /* 2.5 Gbaud */
-                    result.s.speed = 2500 * 8 / 10;
-                    break;
-                case 8: /* 3.125 Gbaud */
-                case 14: /* 3.125 Gbaud */
-                    result.s.speed = 3125 * 8 / 10;
-                    break;
-                case 13: /* 3.75 Gbaud */
-                    result.s.speed = 3750 * 8 / 10;
-                    break;
-                default:
-                    result.s.speed = 0;
-                    break;
-            }
             result.s.speed *= result.s.lanes;
             BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
             if (misc_ctl.s.gmxeno)

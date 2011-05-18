@@ -11,65 +11,74 @@
  */
 
 /**
- * Initialize the internal QLM JTAG logic to allow programming
- * of the JTAG chain by the cvmx_qlm_jtag_*() functions. These functions should
- * only be used at the direction of Cavium Networks. Programming incorrect
- * values into the JTAG chain can cause chip damage.
+ * This structure is used to describe the QLM bits in bdk-qlm-table
  */
-extern void bdk_qlm_jtag_init(void);
+typedef struct
+{
+    const char *name;
+    uint16_t stop_bit;
+    uint16_t start_bit;
+} __bdk_qlm_jtag_field_t;
 
 /**
- * Write up to 32bits into the QLM jtag chain. Bits are shifted
- * into the MSB and out the LSB, so you should shift in the low
- * order bits followed by the high order bits. The JTAG chain for
- * CN52XX and CN56XX is 4 * 268 bits long, or 1072. The JTAG chain
- * for CN63XX is 4 * 300 bits long, or 1200. The JTAG chain
- * for CN68XX is 4 * 304 bits long, or 1216.
-
- *
- * @param qlm    QLM to shift value into
- * @param bits   Number of bits to shift in (1-32).
- * @param data   Data to shift in. Bit 0 enters the chain first, followed by
- *               bit 1, etc.
- *
- * @return The low order bits of the JTAG chain that shifted out of the
- *         circle.
+ * Initialize the QLM layer
  */
-extern uint32_t bdk_qlm_jtag_shift(int qlm, int bits, uint32_t data);
+extern void bdk_qlm_init(void);
 
 /**
- * Shift long sequences of zeros into the QLM JTAG chain. It is
- * common to need to shift more than 32 bits of zeros into the
- * chain. This function is a convience wrapper around cvmx_qlm_jtag_shift() to
- * shift more than 32 bits of zeros at a time.
+ * Return the number of QLMs supported for the chip
  *
- * @param qlm    QLM to shift zeros into
- * @param bits
+ * @return Number of QLMs
  */
-extern void bdk_qlm_jtag_shift_zeros(int qlm, int bits);
+extern int bdk_qlm_get_num(void);
 
 /**
- * Program the QLM JTAG chain into all lanes of the QLM. You must
- * have already shifted in the proper number of bits into the
- * JTAG chain. Updating invalid values can possibly cause chip damage.
+ * Get the mode of a QLM as a human readable string
  *
- * @param qlm    QLM to program
+ * @param qlm    QLM to examine
+ *
+ * @return String mode
  */
-extern void bdk_qlm_jtag_update(int qlm);
+extern const char *bdk_qlm_get_mode(int qlm);
 
 /**
- * Load the QLM JTAG chain with data from all lanes of the QLM.
+ * Get the speed (Gbaud) of the QLM in Mhz.
  *
- * @param qlm    QLM to program
+ * @param qlm    QLM to examine
+ *
+ * @return Speed in Mhz
  */
-extern void bdk_qlm_jtag_capture(int qlm);
+extern int bdk_qlm_get_gbaud_mhz(int qlm);
 
 /**
- * CN68XX pass 1.x QLM tweak. This function tweaks the JTAG setting for a QLMs
- * to run better at 5 and 6.25Ghz. It will make no changes to QLMs running at
- * other speeds.
+ * Measure the reference clock of a QLM
+ *
+ * @param qlm    QLM to measure
+ *
+ * @return Clock rate in Hz
  */
-extern void bdk_qlm_cn68xx_speed_tweak(void);
+extern int bdk_qlm_measure_clock(int qlm);
+
+/**
+ * Get a field in a QLM JTAG chain
+ *
+ * @param qlm    QLM to get
+ * @param lane   Lane in QLM to get
+ * @param name   String name of field
+ *
+ * @return JTAG field value
+ */
+extern uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name);
+
+/**
+ * Set a field in a QLM JTAG chain
+ *
+ * @param qlm    QLM to set
+ * @param lane   Lane in QLM to set, or -1 for all lanes
+ * @param name   String name of field
+ * @param value  Value of the field
+ */
+extern void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value);
 
 /**
  * Force link detection on a QLM. Useful for getting PCIe
