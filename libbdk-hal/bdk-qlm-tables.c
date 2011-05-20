@@ -106,8 +106,8 @@ const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn68xx[] =
     {"jtg_prbs_tx_rst_n",   253, 253},  // jtg_prbs_tx_rst_n
     {"jtg_prbs_mode",       252, 251},  // jtg_prbs_mode[252:251]
     {"jtg_prbs_rst_n",      250, 250},  // jtg_prbs_rst_n
-    {"jtg_run_prbs31",      249, 249},  // jtg_run_prbs31
-    {"jtg_run_prbs7",       248, 248},  // jtg_run_prbs7
+    {"jtg_run_prbs31",      249, 249},  // jtg_run_prbs31 - Use jtg_prbs_mode instead
+    {"jtg_run_prbs7",       248, 248},  // jtg_run_prbs7 - Use jtg_prbs_mode instead
     {"Unused1",             247, 245},  // 0
     {"cfg_pwrup_set",       244, 244},  // cfg_pwrup_set
     {"cfg_pwrup_clr",       243, 243},  // cfg_pwrup_clr

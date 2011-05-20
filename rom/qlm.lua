@@ -22,7 +22,7 @@ function qlm.measure_clock(qlm_num)
 end
 
 local function display_jtag_field(qlm_num, field)
-    printf("%20s: %4d %4d %4d %4d\n", field,
+    printf("%20s: %5d %5d %5d %5d\n", field,
         octeon.c.bdk_qlm_jtag_get(qlm_num, 0, field),
         octeon.c.bdk_qlm_jtag_get(qlm_num, 1, field),
         octeon.c.bdk_qlm_jtag_get(qlm_num, 2, field),
