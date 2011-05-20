@@ -22,6 +22,11 @@ def write_file(out, var_name, filename):
 out_filename = sys.argv[1]
 prefix = sys.argv[2]
 out = open(out_filename, "w")
+out.write("/**\n");
+out.write(" * DO NOT EDIT\n")
+out.write(" * This is a mechanically generated file. All changes made here will be lost\n")
+out.write(" * after the next file generation.\n")
+out.write(" */\n\n")
 out.write("#include \"bdk-fs-rom.h\"\n")
 count = 0
 for name in sys.argv[3:]:

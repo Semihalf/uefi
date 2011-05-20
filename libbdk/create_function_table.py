@@ -42,6 +42,11 @@ bdk_funcs = filter(all_funcs, "bdk_")
 bdk_funcs.sort()
 
 out = open(sys.argv[1], "w")
+out.write("/**\n");
+out.write(" * DO NOT EDIT\n")
+out.write(" * This is a mechanically generated file. All changes made here will be lost\n")
+out.write(" * after the next file generation.\n")
+out.write(" */\n\n")
 out.write("#include \"bdk-functions.h\"\n")
 write_function_table(out, "bdk_functions", bdk_funcs)
 out.close()
