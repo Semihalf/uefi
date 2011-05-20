@@ -397,6 +397,10 @@ static int octeon_c_call(lua_State* L)
         {
             args[i] = 0;
         }
+        else if(lua_isboolean(L, i+1))
+        {
+            args[i] = lua_toboolean(L, i+1);
+        }
         else
         {
             luaL_error(L, "Invalid argument type");
