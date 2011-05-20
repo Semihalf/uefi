@@ -319,6 +319,10 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
 
     /* Update the new data */
     __bdk_qlm_jtag_update(qlm);
+    /* Always give the QLM 1ms to settle after every update. This may not
+        always be needed, but some of the options make significant
+        electrical changes */
+    bdk_wait_usec(1000);
 }
 
 
