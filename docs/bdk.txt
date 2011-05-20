@@ -377,14 +377,14 @@ of loading the BDK.
 
 .Booting from NOR flash
 
-Burn *bdk-boot/bdk-boot.bin* to the beginning of the NOR flash
+Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash
 connected to the bootbus chip select 0.
 
 .Booting using *bdk-remote* over PCIe
 [source, sh]
 ----
 $ export OCTEON_REMOTE_PROTOCOL=pci
-$ bdk-remote boot bdk-boot/bdk-boot.bin
+$ bdk-remote boot target-bin/bdk-boot.bin
 ----
 
 .Booting using a pre-existing Uboot

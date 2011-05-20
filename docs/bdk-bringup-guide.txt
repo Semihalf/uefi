@@ -64,7 +64,7 @@ running Linux.
 [source, sh]
 ----
 $ export OCTEON_REMOTE_PROTOCOL=pci
-$ bdk-remote boot bdk-boot/bdk-boot.bin
+$ bdk-remote boot target-bin/bdk-boot.bin
 ----
 
 Boot over EJTAG
@@ -273,7 +273,7 @@ the following *bdk-remote* command.
 
 [source, sh]
 ----
-bdk-remote boot bdk-boot/bdk-boot.bin
+bdk-remote boot target-bin/bdk-boot.bin
 ----
 
 Successful Booting
