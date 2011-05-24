@@ -551,31 +551,102 @@ robustness by performing a series of initialization and shutdown
 sequences.
 
 
-Step 7 - Test the RGMII/MII Management Ports
+Step 7 - Test QLMs with PRBS
+----------------------------
+
+Low level QLM signalling can be configured and tested using "QLM
+Options" from the main menu.  The QLM options menu is most useful for
+checking SERDES lane signalling.
+
+.Sample QLM Main Menu
+----
+include::qlm_main_menu.capture[]
+----
+
+Once a QLM number is chosen from the main QLM menu, a sub menu of QLM
+options is displayed.
+
+.Sample QLM Sub Menu
+----
+include::qlm_sub_menu.capture[]
+----
+
+WARNING: Many QLM menu items place the SERDES in diagnostic modes
+where normal operation is not possible.  Power cycle the board after
+using the QLM menu options.
+
+QLM#: Show configuration::
+
+Displays the current configuration mode of the QLM.  The mode was
+determined based on the hardware strapping of the OCTEON chip.
+
+QLM#: Measure clock::
+
+Measures the clock rate of the QLM's reference clock, using OCTEON's
+clock as a reference.  Verify that the reported value is correct for
+the QLM configuration.
+
+QLM#: Reset and power down::
+
+Places the QLM into a low power reset state.
+
+QLM#: Shallow loopback::
+
+Configure the QLM to repeat all received traffic at the SERDES level.
+This allows signal traces to be verified using an external signal
+generator.  Some OCTEON chips can only loopback a limited number of
+lanes at a time.  If this is the case, this menu will show the
+possible combinations.
+
+QLM#: PRBS::
+
+The QLM begins generation PRBS signal patterns and the receive lanes
+lock on the incomming signal.  Statistics are displayed every 5
+seconds showing the number of PRBS errors detected.
+
+QLM#: Read JTAG field::
+
+Provides a low level interface for reading fields internal to the QLM.
+Only use this option at the specific direction of Cavium technical
+support.
+
+QLM#: Write JTAG field::
+
+Provides a low level interface for controlling fields internal to the
+QLM.  Only use this option at the specific direction of Cavium
+technical support.
+
+QLM#: Change de-emphasis and margin::
+
+Allows manual configuration of the QLM de-emphasis and margin
+(amplitude).
+
+
+Step 8 - Test the RGMII/MII Management Ports
 --------------------------------------------
 
 TBD
 
 
-Step 8 - Test SGMII
+Step 9 - Test SGMII
 -------------------
 
 TBD
 
 
-Step 9 - Test XAUI
-------------------
+Step 10 - Test XAUI
+-------------------
 
 TBD
 
 
-Step 10 - Test Interlaken
+Step 11 - Test Interlaken
 -------------------------
 
 TBD
 
 
-Step 11 - Test SRIO
+Step 12 - Test SRIO
 -------------------
 
 Serial Rapid I/O ports support discovery, enumeration, and basic
@@ -680,7 +751,7 @@ SRIO#: Perform a memory write
 TBD
 
 
-Step 12 - Configure and Test DDR
+Step 13 - Configure and Test DDR
 --------------------------------
 
 Configuring DDR for a board can be quite involved, so it is best to
@@ -799,19 +870,19 @@ DDR problems, so be sure to capture all output given.
 . Initialize DDR controller using current config
 
 
-Step 13 - Test NAND
+Step 14 - Test NAND
 -------------------
 
 TBD
 
 
-Step 14 - Test USB
+Step 15 - Test USB
 ------------------
 
 TBD
 
 
-Step 15 - Test GPIO
+Step 16 - Test GPIO
 -------------------
 
 Many boards use Octeon GPIOs to control other parts of the board.  The
