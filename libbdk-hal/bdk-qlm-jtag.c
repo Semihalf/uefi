@@ -15,7 +15,8 @@ void __bdk_qlm_jtag_init(void)
 {
     bdk_ciu_qlm_jtgc_t jtgc;
     int clock_div = 0;
-    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / (25 * 1000000);
+    /* Clock the JTAG chain at 10 Mhz */
+    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / (10 * 1000000);
     divisor = (divisor-1)>>2;
     /* Convert the divisor into a power of 2 shift */
     while (divisor)
