@@ -38,39 +38,56 @@ void __bdk_qlm_jtag_init(void)
 
 
 /**
- * Write up to 32bits into the QLM jtag chain. Bits are shifted
- * into the MSB and out the LSB, so you should shift in the low
- * order bits followed by the high order bits.
+ * Write up to 64bits into the QLM jtag chain. Bits are shifted into the MSB and
+ * out the LSB, so you should shift in the low order bits followed by the high
+ * order bits.
  *
  * @param qlm    QLM to shift value into
- * @param bits   Number of bits to shift in (1-32).
+ * @param bits   Number of bits to shift in (0-64).
  * @param data   Data to shift in. Bit 0 enters the chain first, followed by
  *               bit 1, etc.
  *
  * @return The low order bits of the JTAG chain that shifted out of the
  *         circle.
  */
-uint32_t __bdk_qlm_jtag_shift(int qlm, int bits, uint32_t data)
+uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
 {
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
+    if ((bits < 0) || (bits > 64))
+    {
+        bdk_error("__bdk_qlm_jtag_shift: Illegal shift of %d passed\n", bits);
+        return 0;
+    }
+
+    /* Choose the QLM */
     jtgc.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGC);
     jtgc.s.mux_sel = qlm;
     BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
     BDK_CSR_READ(BDK_CIU_QLM_JTGC);
 
-    jtgd.u64 = 0;
-    jtgd.s.shift = 1;
-    jtgd.s.shft_cnt = bits-1;
-    jtgd.s.shft_reg = data;
-    jtgd.s.select = 1 << qlm;
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
-    do
+    uint64_t result = 0;
+    int shifted = 0;
+    while (shifted < bits)
     {
-        jtgd.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGD);
-    } while (jtgd.s.shift);
-    return jtgd.s.shft_reg >> (32-bits);
+        int n = bits - shifted;
+        if (n > 32)
+            n = 32;
+        jtgd.u64 = 0;
+        jtgd.s.shift = 1;
+        jtgd.s.shft_cnt = n-1;
+        jtgd.s.shft_reg = data >> shifted;
+        jtgd.s.select = 1 << qlm;
+        BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
+        do
+        {
+            jtgd.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGD);
+        } while (jtgd.s.shift);
+        result |= ((uint64_t)jtgd.s.shft_reg >> (32-n)) << shifted;
+        shifted += n;
+    }
+    return result;
 }
 
 

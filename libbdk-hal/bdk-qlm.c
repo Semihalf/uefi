@@ -430,7 +430,7 @@ void bdk_qlm_init(void)
         __bdk_qlm_cn68xx_speed_tweak();
 }
 
-#if 0 // Not to be enabled for customer builds
+#if 1 // Not to be enabled for customer builds
 /**
  * Display the state of all register for all lanes
  * on a QLM.
@@ -448,8 +448,8 @@ void bdk_qlm_dump_jtag(int qlm)
         printf("%20s[%3d:%3d]", ptr->name, ptr->stop_bit, ptr->start_bit);
         for (int lane=0; lane<4; lane++)
         {
-            uint32_t val = bdk_qlm_jtag_get(qlm, lane, ptr->name);
-            printf("\t%4u (0x%04x)", val, val);
+            uint64_t val = bdk_qlm_jtag_get(qlm, lane, ptr->name);
+            printf("\t%4lu (0x%04lx)", val, val);
         }
         printf("\n");
         ptr++;

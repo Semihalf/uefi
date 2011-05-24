@@ -3,7 +3,7 @@
     the higher level functions in bdk-qlm */
 
 extern void __bdk_qlm_jtag_init(void);
-extern uint32_t __bdk_qlm_jtag_shift(int qlm, int bits, uint32_t data);
+extern uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data);
 extern void __bdk_qlm_jtag_shift_zeros(int qlm, int bits);
 extern void __bdk_qlm_jtag_update(int qlm);
 extern void __bdk_qlm_jtag_capture(int qlm);
