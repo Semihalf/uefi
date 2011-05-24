@@ -55,6 +55,7 @@ local function qlm_submenu(qlm_num)
     local m = menu.new(prefix .. " Menu")
     m:item("show", prefix .. ": Show configuration", show_config, qlm_num)
     m:item("clock", prefix .. ": Measure clock", measure_clock, qlm_num)
+    m:item("down", prefix .. ": Reset and power down", qlm.do_reset, qlm_num)
     m:item("loop", prefix .. ": Shallow Loopback", qlm.do_loop, qlm_num)
     m:item("prbs7", prefix .. ": PRBS7", qlm.do_prbs, qlm_num, 7)
     if octeon.is_model(octeon.CN68XX) then

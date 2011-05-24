@@ -29,7 +29,7 @@ local function display_jtag_field(qlm_num, field)
         octeon.c.bdk_qlm_jtag_get(qlm_num, 3, field))
 end
 
-local function reset_qlm_state(qlm_num)
+function qlm.do_reset(qlm_num)
     -- Place QLM in reset
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 1)
@@ -57,7 +57,7 @@ local function reset_qlm_state(qlm_num)
 end
 
 function qlm.do_loop(qlm_num)
-    reset_qlm_state(qlm_num)
+    qlm.do_reset(qlm_num)
 
     -- Power up the QLM
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
@@ -75,14 +75,14 @@ function qlm.do_loop(qlm_num)
 end
 
 function qlm.do_prbs(qlm_num, mode)
-    reset_qlm_state(qlm_num)
+    qlm.do_reset(qlm_num)
 
     if octeon.is_model(octeon.CN63XX) then
         --[[
             63xx PRBS:
-            cfg_pwrup_set 0 (Covered in reset_qlm_state)
-            cfg_pwrup_clr 1 (Covered in reset_qlm_state)
-            cfg_rst_n_set 1 (Covered in reset_qlm_state)
+            cfg_pwrup_set 0 (Covered in qlm.do_reset)
+            cfg_pwrup_clr 1 (Covered in qlm.do_reset)
+            cfg_rst_n_set 1 (Covered in qlm.do_reset)
             cfg_pwrup_set 1
             jtg_run_prbs7 1
             jtg_prbs_rst_n 1
@@ -99,9 +99,9 @@ function qlm.do_prbs(qlm_num, mode)
     elseif octeon.is_model(octeon.CN68XX) then
         --[[
             68xx PRBS:
-            cfg_pwrup_set 0 (Covered in reset_qlm_state)
-            cfg_pwrup_clr 1 (Covered in reset_qlm_state)
-            cfg_rst_n_set 1 (Covered in reset_qlm_state)
+            cfg_pwrup_set 0 (Covered in qlm.do_reset)
+            cfg_pwrup_clr 1 (Covered in qlm.do_reset)
+            cfg_rst_n_set 1 (Covered in qlm.do_reset)
             jtg_prbs_mode 0 (0=PRBS7, 1=PRBS15, 2=PRBS23, 3=PRBS31)
             cfg_pwrup_set 1
             jtg_prbs_tx_rst_n 1
@@ -130,6 +130,8 @@ function qlm.do_prbs(qlm_num, mode)
     else
         error("Unsupported chip model")
     end
+
+    printf("PRBS%d running. Statistics shown every 5 seconds\n", mode)
 
     -- Periodically show the PRBS error counter and other status fields.
     local start_time = os.time()
