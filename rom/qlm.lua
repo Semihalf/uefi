@@ -30,25 +30,36 @@ local function display_jtag_field(qlm_num, field)
 end
 
 local function reset_qlm_state(qlm_num)
-    -- Reset the QLM, bringing it to a known condition
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 0)
+    -- Place QLM in reset
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 0)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 1)
+    -- Place QLM in power down
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 1)
+    -- Take QLM out of reset
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 1)
+    -- Clear force power down. Note that QLM is still powered down
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 0)
 
     -- Turn off Shallow Loopback
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "sl_enable", 0)
 
-    -- Turn off PRBS7 and PRBS31
+    -- Turn off PRBS
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rst_n", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs7", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs31", 0)
+    if not octeon.is_model(octeon.CN63XX) then
+        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 0)
+        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 0)
+    end
 end
 
 function qlm.do_loop(qlm_num)
     reset_qlm_state(qlm_num)
 
+    -- Power up the QLM
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
 
       -- Turn on Shallow Loopback
@@ -76,11 +87,13 @@ function qlm.do_prbs(qlm_num, mode)
             jtg_run_prbs7 1
             jtg_prbs_rst_n 1
         ]]--
+        -- Power up the QLM
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
         -- Enable PRBS7 if necessary
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs7", (mode == 7))
         -- Enable PRBS31 if necessary
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs31", (mode == 31))
+        -- Take PRBS out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rst_n", 1)
 
     elseif octeon.is_model(octeon.CN68XX) then
@@ -109,7 +122,9 @@ function qlm.do_prbs(qlm_num, mode)
         else
             error("Illegal PRBS mode")
         end
+        -- Power up the QLM
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
+        -- Take PRBS out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 1)
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 1)
     else
