@@ -56,7 +56,12 @@ local function qlm_submenu(qlm_num)
     m:item("show", prefix .. ": Show configuration", show_config, qlm_num)
     m:item("clock", prefix .. ": Measure clock", measure_clock, qlm_num)
     m:item("down", prefix .. ": Reset and power down", qlm.do_reset, qlm_num)
-    m:item("loop", prefix .. ": Shallow Loopback", qlm.do_loop, qlm_num)
+    if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN66XX) then
+        m:item("loop1", prefix .. ": Shallow loopback lane 0 and 3", qlm.do_loop, qlm_num, 1)
+        m:item("loop3", prefix .. ": Shallow loopback lane 1 and 2", qlm.do_loop, qlm_num, 3)
+    else
+        m:item("loop", prefix .. ": Shallow loopback", qlm.do_loop, qlm_num, 1)
+    end
     m:item("prbs7", prefix .. ": PRBS7", qlm.do_prbs, qlm_num, 7)
     if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN66XX) then
         m:item("prbs15", prefix .. ": PRBS15", qlm.do_prbs, qlm_num, 15)

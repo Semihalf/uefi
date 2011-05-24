@@ -30,17 +30,11 @@ local function display_jtag_field(qlm_num, field)
 end
 
 function qlm.do_reset(qlm_num)
-    -- Place QLM in reset
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 0)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 1)
     -- Place QLM in power down
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 1)
-    -- Take QLM out of reset
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 0)
+    -- Take and hold QLM out of reset
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 1)
-    -- Clear force power down. Note that QLM is still powered down
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 0)
 
     -- Turn off Shallow Loopback
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", 0)
@@ -56,19 +50,16 @@ function qlm.do_reset(qlm_num)
     end
 end
 
-function qlm.do_loop(qlm_num)
+function qlm.do_loop(qlm_num, mode)
     qlm.do_reset(qlm_num)
 
-    -- Power up the QLM
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
-
       -- Turn on Shallow Loopback
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", 1)  -- or 3, it should be a mode
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", mode)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "sl_posedge_sample", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "sl_enable", 1)
 
-      -- Release the QLM from RESET
-    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 1)
+    -- Power up the QLM
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
 
     display_jtag_field(qlm_num, "shlpbck")
     display_jtag_field(qlm_num, "sl_enable")
