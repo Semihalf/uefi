@@ -58,7 +58,7 @@ local function qlm_submenu(qlm_num)
     m:item("down", prefix .. ": Reset and power down", qlm.do_reset, qlm_num)
     m:item("loop", prefix .. ": Shallow Loopback", qlm.do_loop, qlm_num)
     m:item("prbs7", prefix .. ": PRBS7", qlm.do_prbs, qlm_num, 7)
-    if octeon.is_model(octeon.CN68XX) then
+    if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN66XX) then
         m:item("prbs15", prefix .. ": PRBS15", qlm.do_prbs, qlm_num, 15)
         m:item("prbs23", prefix .. ": PRBS23", qlm.do_prbs, qlm_num, 23)
     end
