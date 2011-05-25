@@ -72,7 +72,10 @@ static int tcp_close(__bdk_fs_file_t *handle)
 static int tcp_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int sock = (long)handle->fs_state - 1;
-    return lwip_recvfrom(sock, buffer, length, MSG_DONTWAIT, NULL, NULL);
+    if (length == 1)
+        return lwip_recvfrom(sock, buffer, length, MSG_DONTWAIT, NULL, NULL);
+    else
+        return lwip_recvfrom(sock, buffer, length, 0, NULL, NULL);
 }
 
 
