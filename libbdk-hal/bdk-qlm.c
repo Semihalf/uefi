@@ -165,15 +165,27 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
         }
         else
         {
-            BDK_CSR_INIT(sriomaintx_port_0_ctl2, BDK_SRIOMAINTX_PORT_0_CTL2(qlm));
-            switch (sriomaintx_port_0_ctl2.s.sel_baud)
+            BDK_CSR_INIT(status_reg, BDK_SRIOX_STATUS_REG(qlm));
+            if (status_reg.s.srio)
             {
-                case 1: return 1250;    /* 1.25  Gbaud */
-                case 2: return 2500;    /* 2.5   Gbaud */
-                case 3: return 3125;    /* 3.125 Gbaud */
-                case 4: return 5000;    /* 5     Gbaud */
-                case 5: return 6250;    /* 6.250 Gbaud */
-                default: return 0;      /* Disabled */
+                BDK_CSR_INIT(sriomaintx_port_0_ctl2, BDK_SRIOMAINTX_PORT_0_CTL2(qlm));
+                switch (sriomaintx_port_0_ctl2.s.sel_baud)
+                {
+                    case 1: return 1250;    /* 1.25  Gbaud */
+                    case 2: return 2500;    /* 2.5   Gbaud */
+                    case 3: return 3125;    /* 3.125 Gbaud */
+                    case 4: return 5000;    /* 5     Gbaud */
+                    case 5: return 6250;    /* 6.250 Gbaud */
+                    default: return 0;      /* Disabled */
+                }
+            }
+            else
+            {
+                BDK_CSR_INIT(pciercx_cfg032, BDK_PCIERCX_CFG032(qlm));
+                if (pciercx_cfg032.s.ls == 2)
+                    return 2500;
+                else
+                    return 5000;
             }
         }
     }
