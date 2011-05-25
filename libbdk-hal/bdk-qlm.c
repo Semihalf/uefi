@@ -192,25 +192,31 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
 int bdk_qlm_measure_clock(int qlm)
 {
     /* Disable the PTP event counter while we configure it */
+    BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
     /* Count on rising edge, Choose which QLM to count */
+    BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG,
         c.s.evcnt_edge = 0;
         c.s.evcnt_in = 0x10 + qlm);
     /* Clear MIO_PTP_EVT_CNT */
+    BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT); /* For CN63XXp1 errata */
     int64_t count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
     BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, -count);
     /* Set MIO_PTP_EVT_CNT to 1 billion */
     BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, 1000000000);
     /* Enable the PTP event counter */
+    BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
     uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     /* Wait for 1 second */
     bdk_wait_usec(1000000);
     /* Read the counter */
+    BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT); /* For CN63XXp1 errata */
     count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
     uint64_t stop_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     /* Disable the PTP event counter */
+    BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
     /* Clock counted down, so reverse it */
     count = 1000000000 - count;
