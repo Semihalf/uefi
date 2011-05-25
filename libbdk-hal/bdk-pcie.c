@@ -311,7 +311,6 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bdk_pemx_bist_status_t pemx_bist_status;
     bdk_pemx_bist_status2_t pemx_bist_status2;
     bdk_pciercx_cfg032_t pciercx_cfg032;
-    bdk_pciercx_cfg515_t pciercx_cfg515;
     bdk_sli_ctl_portx_t sli_ctl_portx;
     bdk_sli_mem_access_ctl_t sli_mem_access_ctl;
     bdk_sli_mem_access_subidx_t mem_access_subid;
@@ -430,19 +429,16 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     __bdk_pcie_rc_initialize_config_space(pcie_port);
 
     /* Enable gen2 speed selection */
-    pciercx_cfg515.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG515(pcie_port));
-    pciercx_cfg515.s.dsc = 1;
-    BDK_CSR_WRITE(BDK_PCIERCX_CFG515(pcie_port), pciercx_cfg515.u32);
+    BDK_CSR_MODIFY(c, BDK_PCIERCX_CFG515(pcie_port),
+        c.s.dsc = 1);
 
     /* Bring the link up */
     if (__bdk_pcie_rc_initialize_link_gen2(pcie_port))
     {
         /* Some gen1 devices don't handle the gen 2 training correctly. Disable
             gen2 and try again with only gen1 */
-        bdk_pciercx_cfg031_t pciercx_cfg031;
-        pciercx_cfg031.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG031(pcie_port));
-        pciercx_cfg031.s.mls = 1;
-        BDK_CSR_WRITE(BDK_PCIERCX_CFG031(pcie_port), pciercx_cfg515.u32);
+        BDK_CSR_MODIFY(c, BDK_PCIERCX_CFG031(pcie_port),
+            c.s.mls = 1);
         if (__bdk_pcie_rc_initialize_link_gen2(pcie_port))
         {
             bdk_dprintf("PCIe: Link timeout on port %d, probably the slot is empty\n", pcie_port);
