@@ -65,7 +65,7 @@ static int nor_read(__bdk_fs_file_t *handle, void *buffer, int length)
     {
         nor_loc_t nor_loc = get_loc(chip_id, pos);
         if (!nor_loc.block_size)
-            return (read_count) ? read_count : -1;
+            return (read_count || pos) ? read_count : -1;
         int len = nor_loc.block_size - nor_loc.offset;
         if (read_count + len > length)
             len = length - read_count;
