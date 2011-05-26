@@ -314,7 +314,6 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bdk_sli_ctl_portx_t sli_ctl_portx;
     bdk_sli_mem_access_ctl_t sli_mem_access_ctl;
     bdk_sli_mem_access_subidx_t mem_access_subid;
-    bdk_mio_rst_ctlx_t mio_rst_ctlx;
     bdk_sriox_status_reg_t sriox_status_reg;
     bdk_pemx_bar1_indexx_t bar1_index;
 
@@ -407,8 +406,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     /* Check and make sure PCIe came out of reset. If it doesn't the board
         probably hasn't wired the clocks up and the interface should be
         skipped */
-    mio_rst_ctlx.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
-    if (!mio_rst_ctlx.s.rst_done)
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_RST_CTLX(pcie_port), rst_done, ==, 1, 10000))
     {
         bdk_dprintf("PCIe: Port %d stuck in reset, skipping.\n", pcie_port);
         return -1;
