@@ -503,6 +503,15 @@ LUALIB_API int luaopen_octeon(lua_State* L)
         lua_setfield(L, -2, bdk_functions[i].name);
         i++;
     }
+    /* Manually add CSR read and write as these are inline functions
+        that are missed by bdk_functions */
+    lua_pushlightuserdata(L, bdk_csr_read);
+    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_setfield(L, -2, "bdk_csr_read");
+    lua_pushlightuserdata(L, bdk_csr_write);
+    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_setfield(L, -2, "bdk_csr_write");
+
     lua_setfield(L, -2, "c");
 
     /* Add constants for bdk_config */
