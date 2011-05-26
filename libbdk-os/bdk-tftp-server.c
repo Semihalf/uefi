@@ -92,7 +92,8 @@ static int tftp_server_send_block(tftp_server_t *state, struct udp_pcb *pcb, int
         return -1;
     }
 
-    pbuf_realloc(pout, count + 4);
+    if (count != state->open_files[fileid].block_size)
+        pbuf_realloc(pout, count + 4);
 
     if (udp_sendto(pcb, pout, &state->open_files[fileid].remote_addr, state->open_files[fileid].remote_port))
     {
@@ -100,6 +101,7 @@ static int tftp_server_send_block(tftp_server_t *state, struct udp_pcb *pcb, int
         pbuf_free(pout);
         return -1;
     }
+    pbuf_free(pout);
     state->open_files[fileid].last_block_size = count;
     return 0;
 }
@@ -132,6 +134,7 @@ static int tftp_server_send_ack(tftp_server_t *state, struct udp_pcb *pcb, int f
         pbuf_free(pout);
         return -1;
     }
+    pbuf_free(pout);
     return 0;
 }
 
@@ -163,8 +166,8 @@ static void tftp_server_send_error(tftp_server_t *state, struct udp_pcb *pcb, in
     if (udp_sendto(pcb, pout, &state->open_files[fileid].remote_addr, state->open_files[fileid].remote_port))
     {
         bdk_error("TFTP: tftp_server_send_error: udp_sendto() failed\n");
-        pbuf_free(pout);
     }
+    pbuf_free(pout);
 
 skip:
     /* Close the connection state */
