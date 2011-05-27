@@ -35,18 +35,11 @@ end
 local function do_maintread(srio_port)
     local devid = menu.prompt_number("Device ID")
     assert((devid >= -1) and (devid < 65536), "Illegal device ID")
-    local is16bit = menu.prompt_string("Do a 16 bit access(y/n)")
-    assert((is16bit == "y") or (is16bit == "n"), "Must specify 'y' or 'n'")
+    local is16bit = menu.prompt_yes_no("Do a 16 bit access")
     local hopcount = menu.prompt_number("Hop count")
     assert((hopcount >= 0) and (hopcount < 256), "Illegal hop count")
     local register = menu.prompt_number("Register address")
     assert((register >= 0), "Illegal register")
-
-    if is16bit == "y" then
-        is16bit = 1
-    else
-        is16bit = 0
-    end
 
     local result = octeon.c.bdk_srio_config_read32(srio_port, 0, devid, is16bit, hopcount, register)
     assert(result ~= -1, "Maintenance read failed")
@@ -56,19 +49,12 @@ end
 local function do_maintwrite(srio_port)
     local devid = menu.prompt_number("Device ID")
     assert((devid >= -1) and (devid < 65536), "Illegal device ID")
-    local is16bit = menu.prompt_string("Do a 16 bit access(y/n)")
-    assert((is16bit == "y") or (is16bit == "n"), "Must specify 'y' or 'n'")
+    local is16bit = menu.prompt_yes_no("Do a 16 bit access")
     local hopcount = menu.prompt_number("Hop count")
     assert((hopcount >= 0) and (hopcount < 256), "Illegal hop count")
     local register = menu.prompt_number("Register address")
     assert((register >= 0), "Illegal register")
     local value = menu.prompt_number("Write value")
-
-    if is16bit == "y" then
-        is16bit = 1
-    else
-        is16bit = 0
-    end
 
     local result = octeon.c.bdk_srio_config_write32(srio_port, 0, devid, is16bit, hopcount, register, value)
     assert(result == 0, "Maintenance write failed")
@@ -77,17 +63,10 @@ end
 local function do_doorbell_tx(srio_port)
     local devid = menu.prompt_number("Device ID")
     assert((devid >= -1) and (devid < 65536), "Illegal device ID")
-    local is16bit = menu.prompt_string("Do a 16 bit access(y/n)")
-    assert((is16bit == "y") or (is16bit == "n"), "Must specify 'y' or 'n'")
+    local is16bit = menu.prompt_yes_no("Do a 16 bit access")
     local priority = menu.prompt_number("Priority(0-3)")
     assert((priority >= 0) and (priority <= 3), "Illegal priority")
     local doorbell = menu.prompt_number("Doorbell Value")
-
-    if is16bit == "y" then
-        is16bit = 1
-    else
-        is16bit = 0
-    end
 
     local result = octeon.c.bdk_srio_send_doorbell(srio_port, 0, devid, is16bit, priority, doorbell)
     assert(result == 0, "Doorbell send failed")

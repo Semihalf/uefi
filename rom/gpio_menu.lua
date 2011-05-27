@@ -7,15 +7,12 @@ require("menu")
 
 local function gpio_config()
     local gpio = menu.prompt_number("GPIO number")
-    local is_output = menu.prompt_string("Configure as output(y/n)")
-    assert((is_output == "y") or (is_output == "n"), "Expected y or n")
+    local is_output = menu.prompt_yes_no("Configure as output")
     local value
-    if is_output == "y" then
-        is_output = 1
+    if is_output then
         value = menu.prompt_number("GPIO state (0/1)")
         assert((value == 0) or (value == 1), "Expected 0 or 1")
     else
-        is_output = 0
         value = 0
     end
     assert(octeon.c.bdk_gpio_initialize(gpio, is_output, value) == 0, "GPIO configure failed")

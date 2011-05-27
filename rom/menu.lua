@@ -134,6 +134,21 @@ function menu.prompt_number(prompt)
 end
 
 --
+-- Prompt the user for a yes or no question(y/n). Throw an error if the
+-- user aborts input. Output is true or false
+--
+function menu.prompt_yes_no(prompt)
+    local result = menu.prompt_string(prompt .. "(y/n)")
+    if result == "y" then
+        return true
+    elseif result == "n" then
+        return false
+    else
+        error("Invalid input, expected \"y\" or \"n\"")
+    end
+end
+
+--
 -- Execute a Lua file, searching the Lua path as needed to find it
 --
 function menu.dofile(filename)
