@@ -2,6 +2,7 @@ require("strict")
 require("utils")
 
 menu = {}
+menu.show_keys = false
 
 -- Shown before and after menu titles
 local BANNER = "================================="
@@ -43,17 +44,29 @@ local function show(m)
 
         -- print the menu, one item per line
         for i=1,#m.items do
+            if menu.show_keys then
+                printf("%-8s ", m.items[i].key)
+            end
             printf("%2d) %s\n", i, m.items[i].description)
         end
 
         -- Read a number from the user
         printf("Menu choice: ")
-        local c = io.read()
-        if c then
-            c = tonumber(c)
-        end
-        if not c then
-            c = 999
+        local c = 999
+        local response = io.read()
+        if response then
+            if response == "keys" then
+                menu.show_keys = not menu.show_keys
+            elseif tonumber(response) then
+                c = tonumber(response)
+            else
+                for i = 1,#m.items do
+                    if m.items[i].key == response then
+                        c = i
+                        break
+                    end
+                end
+            end
         end
 
         -- Validate the user's choice
