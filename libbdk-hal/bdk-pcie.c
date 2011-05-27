@@ -256,7 +256,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(int pcie_port)
     pem_ctl_status.s.lnk_enb = 1;
     BDK_CSR_WRITE(BDK_PEMX_CTL_STATUS(pcie_port), pem_ctl_status.u64);
 
-    /* Wait for the link to come up */
+    /* Wait for the link to come up and link training to be complete */
     start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     do
     {
@@ -264,7 +264,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(int pcie_port)
             return -1;
         bdk_wait(10000);
         pciercx_cfg032.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG032(pcie_port));
-    } while (pciercx_cfg032.s.dlla == 0);
+    } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
 
     /* Update the Replay Time Limit. Empirically, some PCIe devices take a
         little longer to respond than expected under load. As a workaround for
