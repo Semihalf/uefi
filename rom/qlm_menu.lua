@@ -55,6 +55,7 @@ local function qlm_submenu(qlm_num)
     local m = menu.new(prefix .. " Menu")
     m:item("show", prefix .. ": Show configuration", show_config, qlm_num)
     m:item("clock", prefix .. ": Measure clock", measure_clock, qlm_num)
+    m:item("deemph", prefix .. ": Change de-emphasis and margin", change_deemphasis_margin, qlm_num)
     m:item("down", prefix .. ": Reset and power down", qlm.do_reset, qlm_num)
     if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN66XX) then
         m:item("loop1", prefix .. ": Shallow loopback lane 0 and 3", qlm.do_loop, qlm_num, 1)
@@ -73,7 +74,6 @@ local function qlm_submenu(qlm_num)
     if octeon.c.bdk_qlm_dump_jtag then
         m:item("dump", prefix .. ": Dump JTAG chain", octeon.c.bdk_qlm_dump_jtag, qlm_num)
     end
-    m:item("deemph", prefix .. ": Change de-emphasis and margin", change_deemphasis_margin, qlm_num)
     m:item("quit", "Main menu")
 
     while (m:show() ~= "quit") do

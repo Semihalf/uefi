@@ -31,10 +31,13 @@ end
 
 function qlm.do_reset(qlm_num)
     -- Place QLM in power down
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 1)
+
     -- Take and hold QLM out of reset
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 1)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 0)
 
     -- Turn off Shallow Loopback
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", 0)
@@ -50,10 +53,13 @@ function qlm.do_reset(qlm_num)
     end
 end
 
+-- Turn on the QLM Shallow Loopback. Some chips can't loopback all lanes
+-- at once. Which lanes are controlled by the mode parameter, which is a
+-- raw JTAG value.
 function qlm.do_loop(qlm_num, mode)
     qlm.do_reset(qlm_num)
 
-      -- Turn on Shallow Loopback
+    -- Turn on Shallow Loopback
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "shlpbck", mode)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "sl_posedge_sample", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "sl_enable", 1)
@@ -65,6 +71,10 @@ function qlm.do_loop(qlm_num, mode)
     display_jtag_field(qlm_num, "sl_enable")
 end
 
+-- Turn on the QLM PRBS generator. If operating in a loopback configuration
+-- this also turns on the PRBS Error Counter and PRBS Lock status bit. The
+-- types of PRBS generators vary by OCTEON. The scan chain bits controlling
+-- the generators also vary by OCTEON.
 function qlm.do_prbs(qlm_num, mode)
     qlm.do_reset(qlm_num)
 
@@ -113,6 +123,12 @@ function qlm.do_prbs(qlm_num, mode)
         else
             error("Illegal PRBS mode")
         end
+
+        -- Disable pattern inversion. Octeon's default (0) has the PRBS
+        -- pattern inverted. These are persistent and need clearing.
+        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_tx_pol_set", 1)
+        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rx_pol_set", 1)
+
         -- Power up the QLM
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
         -- Take PRBS out of reset
@@ -128,7 +144,7 @@ function qlm.do_prbs(qlm_num, mode)
     local start_time = os.time()
     while true do
         sleep(5)
-	    printf("time: %d seconds\n" % (os.time() - start_time))
+        printf("PRBS%d time: %d seconds\n", mode, os.time() - start_time)
         display_jtag_field(qlm_num, "prbs_lock")
         display_jtag_field(qlm_num, "prbs_err_cnt")
         print()
