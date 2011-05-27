@@ -93,22 +93,16 @@ local function connectStreams(instream, outstream)
     return inf, outf
 end
 
-local REPLACE_STRINGS = {
-    ["\\"] = "\\\\",
-    ['"']  = '\\"',
-    ["\n"] = "\\n",
-    ["\r"] = "\\r",
-    ["\t"] = "\\t",
-}
-
 local function string_pack(s)
     local r = {'"'}
     for i=1,#s do
-        local c = s:sub(i,i)
-        if REPLACE_STRINGS[c] then
-            table.insert(r, REPLACE_STRINGS[c])
+        local b = s:byte(i,i)
+        -- Escape control chars (<32), high characters (>126), double
+        -- quote (34), and backslash (92)
+        if (b < 32) or (b > 126) or (b == 34) or (b == 92) then
+            table.insert(r, "\\%02x" % b)
         else
-            table.insert(r, c)
+            table.insert(r, s:sub(i,i))
         end
     end
     table.insert(r, '"')
@@ -122,21 +116,9 @@ local function string_unpack(index, str)
     while i <= fin do
         local c = str:sub(i,i)
         if c == "\\" then
-            local c2 = str:sub(i+1,i+1)
-            if c2 == "\\" then
-                table.insert(r, "\\")
-            elseif c2 == '"' then
-                table.insert(r, '"')
-            elseif c2 == "n" then
-                table.insert(r, "\n")
-            elseif c2 == "r" then
-                table.insert(r, "\r")
-            elseif c2 == "t" then
-                table.insert(r, "\t")
-            else
-                error("Invalid backslash escape sequence")
-            end
-            i = i + 1
+            local hex = assert(tonumber(str:sub(i+1,i+2), 16), "Expected two hex digits")
+            table.insert(r, string.char(hex))
+            i = i + 2
         elseif c == '"' then
             return i+1, table.concat(r)
         else

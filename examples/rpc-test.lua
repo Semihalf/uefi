@@ -47,3 +47,13 @@ octeon.global.foo = nil
 local r, message = pcall(octeon.global.assert, false)
 assert(r == false, "r should be false: " .. tostring(r))
 
+-- Make sure all possible bytes can be sent in a string
+local t = {}
+for i = 0, 255 do
+    table.insert(t, string.char(i))
+end
+t = table.concat(t)
+octeon.global.foo = t
+local t2 = octeon.global.foo
+assert(t == t2, "All character string corrupted")
+
