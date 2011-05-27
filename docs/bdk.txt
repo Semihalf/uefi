@@ -560,13 +560,13 @@ syntax differs per client.
 .Sample TFTP transfer (OCTEON -> Host)
 [source, sh]
 ----
-tftp 169.254.1.240 -c get /rom/ilua.lua
+tftp 169.254.1.240 -m binary -c get /rom/ilua.lua
 ----
 
 .Sample TFTP transfer (Host -> OCTEON)
 [source, sh]
 ----
-tftp 169.254.1.240 -c put myscript.lua /ram/myscript.lua
+tftp 169.254.1.240 -m binary -c put myscript.lua /ram/myscript.lua
 ----
 
 
