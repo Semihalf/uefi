@@ -310,6 +310,7 @@ local function receive_command(inf, outf, have_begin)
             if d and (d > 1) then
                 -- Write any extra stuff to the console
                 io.write(result:sub(1, d-1))
+                result = result:sub(d)
             elseif not d then
                 -- Write any extra stuff to the console
                 io.write(result)
