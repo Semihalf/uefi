@@ -104,10 +104,17 @@ end
 --
 -- Prompt the user for a string. Throw an error if the user aborts input.
 --
-function menu.prompt_string(prompt)
-    printf("%s: ", prompt)
+function menu.prompt_string(prompt, optional_default)
+    if optional_default then
+        printf("%s [%s]: ", prompt, tostring(optional_default))
+    else
+        printf("%s: ", prompt)
+    end
     local result = io.read("*l")
     if result == "" then
+        if optional_default then
+            return optional_default
+        end
         error("User interrupted input")
     end
     return result
@@ -116,16 +123,16 @@ end
 --
 -- Prompt the user for a filename. Throw an error if the user aborts input.
 --
-function menu.prompt_filename(prompt)
+function menu.prompt_filename(prompt, optional_default)
     -- FIXME: Do tab completion of filenames
-    return menu.prompt_string(prompt)
+    return menu.prompt_string(prompt, optional_default)
 end
 
 --
 -- Prompt the user for a number. Throw an error if the user aborts input.
 --
-function menu.prompt_number(prompt)
-    local result = menu.prompt_string(prompt)
+function menu.prompt_number(prompt, optional_default)
+    local result = menu.prompt_string(prompt, optional_default)
     result = tonumber(result)
     if not result then
         error("Invalid number")
@@ -137,8 +144,8 @@ end
 -- Prompt the user for a yes or no question(y/n). Throw an error if the
 -- user aborts input. Output is true or false
 --
-function menu.prompt_yes_no(prompt)
-    local result = menu.prompt_string(prompt .. "(y/n)")
+function menu.prompt_yes_no(prompt, optional_default)
+    local result = menu.prompt_string(prompt .. "(y/n)", optional_default)
     if result == "y" then
         return true
     elseif result == "n" then
