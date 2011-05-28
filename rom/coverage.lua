@@ -60,13 +60,15 @@ function coverage.report()
         if infile then
             local outfile = assert(io.open(filename .. ".coverage", "w"))
             local count = 0
+            local hit = 0
             local miss = 0
             local line = infile:read("*L")
             while line do
                 count = count + 1
                 local prefix = nil
                 if filedata[count] then
-                    prefix = string.format("%7d:", count)
+                    prefix = string.format("%7d:", filedata[count])
+                    hit = hit + 1
                 else
                     for _,pattern in ipairs(skip_expressions) do
                         if line:match(pattern) then
@@ -86,7 +88,7 @@ function coverage.report()
             outfile:close()
             infile:close()
             if count > 0 then
-                print(filename, tostring(100*(count - miss) / count) .. "%")
+                print(filename, tostring(100 * hit / (hit + miss)) .. "%")
             end
         end
     end
