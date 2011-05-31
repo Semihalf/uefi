@@ -384,12 +384,20 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
     result.u64 = 0;
 
+    int qlm;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        qlm = gmx_block;
+    else
+        qlm = 2 - gmx_block;
+    int speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
+
     if (bdk_is_simulation())
     {
         /* The simulator gives you a simulated 1Gbps full duplex link */
         result.s.up = 1;
         result.s.full_duplex = 1;
-        result.s.speed = 1000;
+        result.s.speed = speed;
         return result;
     }
 
@@ -399,7 +407,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         /* Force 1Gbps full duplex link for internal loopback */
         result.s.up = 1;
         result.s.full_duplex = 1;
-        result.s.speed = 1000;
+        result.s.speed = speed;
         return result;
     }
 
@@ -433,13 +441,13 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
                 switch (pcsx_anx_results_reg.s.spd)
                 {
                     case 0:
-                        result.s.speed = 10;
+                        result.s.speed = speed / 100;
                         break;
                     case 1:
-                        result.s.speed = 100;
+                        result.s.speed = speed / 10;
                         break;
                     case 2:
-                        result.s.speed = 1000;
+                        result.s.speed = speed;
                         break;
                     default:
                         result.s.speed = 0;
