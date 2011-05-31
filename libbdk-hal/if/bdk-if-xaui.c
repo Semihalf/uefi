@@ -280,8 +280,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     {
         result.s.up = 1;
         result.s.full_duplex = 1;
-        result.s.speed = 10000;
-        result.s.lanes = 4;
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
             int qlm = (gmx_block == 1) ? 0 : gmx_block;
@@ -293,6 +291,13 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
             if (misc_ctl.s.gmxeno)
                 xaui_link_init(handle);
+        }
+        else
+        {
+            int qlm = (gmx_block == 1) ? 1 : 2;
+            result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
+            result.s.lanes = 4;
+            result.s.speed *= result.s.lanes;
         }
     }
     else
