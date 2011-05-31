@@ -424,6 +424,10 @@ void bdk_qlm_init(void)
     if (4 * __bdk_qlm_jtag_length > (int)sizeof(__bdk_qlm_jtag_xor_ref[0]) * 8)
         bdk_fatal("bdk_qlm_init: JTAG chain larger than XOR ref size\n");
 
+    /* Skip actual JTAG accesses on simulator */
+    if (bdk_is_simulation())
+        return;
+
     /* Initialize the internal JTAG */
     __bdk_qlm_jtag_init();
 
