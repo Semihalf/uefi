@@ -288,9 +288,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             result.s.speed = speed * 8 / 10;
             result.s.lanes = (qlm_cfg.s.qlm_cfg == 7) ? 2 : 4;
             result.s.speed *= result.s.lanes;
-            BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
-            if (misc_ctl.s.gmxeno)
-                xaui_link_init(handle);
         }
         else
         {
@@ -299,6 +296,9 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             result.s.lanes = 4;
             result.s.speed *= result.s.lanes;
         }
+        BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
+        if (misc_ctl.s.gmxeno)
+            xaui_link_init(handle);
     }
     else
     {
