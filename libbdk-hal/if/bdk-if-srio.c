@@ -12,6 +12,16 @@ static int if_num_interfaces(void)
         }
         return 2;
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+    {
+        for (int i=0; i<4; i++)
+        {
+            BDK_CSR_INIT(sriox_status_reg, BDK_SRIOX_STATUS_REG(i));
+            if (sriox_status_reg.s.srio)
+                bdk_srio_initialize(i, 0);
+        }
+        return 4;
+    }
     else
         return 0;
 }
@@ -27,7 +37,7 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    /* Use IPD ports 40 - 41, 42 - 43 */
+    /* Use IPD ports 40 - 41, 42 - 43, 44 - 45, 46 - 47 */
     handle->ipd_port = handle->index + handle->interface*2 + 40;
     /* PKO ports are the same as IPD */
     handle->pko_port = handle->ipd_port;
