@@ -10196,9 +10196,9 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:62> NS       RAZ      NS          NS        Reserved				            |
- <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
+ <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode (65xx)   |
 						  turns on mode to increment DPI_DMA_PPx_CNT        |
-						  counters.					    |
+						  counters. 					    |
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -10883,9 +10883,9 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  DPI_DMA_PP[0..9]_CNT  = DMA per PP Instr Done Counter
+ *                  DPI_DMA_PP[0..9]_CNT  = DMA per PP Instr Done Counter (65xx)
  *
- * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.INT_MODE is enabled, every dma instruction
+ * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.DICI_MODE is enabled, every dma instruction
  * that has the WQP=0 and a PTR value of 1..0xB will incremrement DPI_DMA_PPx_CNT value-1 counter.
  * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
  * Hardware reserves that values 0xC..0x3F for future use and will treat them as a PTR of 0 and do nothing.
@@ -10907,7 +10907,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- *                  DPI_SRIO_FWD_CTL  = DPI SRIO Forwarding Control
+ *                  DPI_SRIO_FWD_CTL  = DPI SRIO Forwarding Control (65xx)
  *
  *  Globally configures the four SRIO ports such that the following wired fowarding paths are established.
  *   PATH  Forwarding Paths
@@ -10936,7 +10936,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  DPI_SRIO_RX_BELL[0..63]  = DPI SRIO Receive Doorbell
+ *                  DPI_SRIO_RX_BELL[0..63]  = DPI SRIO Receive Doorbell (65xx)
  *
  * Contains the SRIO Incoming (RX) Doorbell.
  * The 64 registers are indexed by [5:4] Mac encoded bits [3:0] FIFO encoded bits
@@ -10972,7 +10972,7 @@ Notes:                                                                          
 ===
 
  *
- *                  DPI_SRIO_RX_BELL_SEQ[0..63]  = DPI SRIO Receive Doorbell Sequence Count
+ *                  DPI_SRIO_RX_BELL_SEQ[0..63]  = DPI SRIO Receive Doorbell Sequence Count (65xx)
  *
  *  Contains the SRIO Incoming (RX) Doorbell Sequence Count.
  * The 64 registers are indexed by [5:4] Mac encoded bits [3:0] FIFO encoded bits.
@@ -21220,6 +21220,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:32> NS       RAZ      NS          NS        Reserved                                           |
  <31:16> USER1    RO       NS          NS        BOOT_AD [31:16] latched during power up            |
+						  (65xx)					    |
  <15>    ALE      RO       NS          NS        Region 0 default ALE mode                          |
  <14>    WIDTH    RO       NS          NS        Region 0 default bus width                         |
  <13>    NS       RAZ      NS          NS        Reserved                                           |
@@ -21228,6 +21229,7 @@ Pos      Name    Type     Value     Value       Description
  <10:9>  TERM     RO       NS          NS        Selects default driver termination                 |
  <8>     NAND     RO       NS          NS        Region 0 is NAND flash                             |
  <7:0>   USER0    RO       NS          NS        BOOT_AD [7:0] latched during power up              |
+						  (65xx)					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23172,25 +23174,25 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS         RAZ      NS          NS        Reserved                                         |
- <9>     PERST1     R/W1C    0x0         NS        PERST1_L asserted while MIO_RST_CTL1[RST_RCV]=1  |
-                                                   and MIO_RST_CTL1[RST_CHIP]=0                     |
- <8>     PERST0     R/W1C    0x0         NS        PERST0_L asserted while MIO_RST_CTL0[RST_RCV]=1  |
-                                                   and MIO_RST_CTL0[RST_CHIP]=0                     |
+ <9>     PERST1     R/W1C    0x0         NS        PERST1_L asserted while MIO_RST_CNTL1[RST_RCV]=1 |
+                                                   and MIO_RST_CNTL1[RST_CHIP]=0                    |
+ <8>     PERST0     R/W1C    0x0         NS        PERST0_L asserted while MIO_RST_CNTL0[RST_RCV]=1 |
+                                                   and MIO_RST_CNTL0[RST_CHIP]=0                    |
  <7:4>   NS         RAZ      NS          NS        Reserved                                         |
  <3>     RST_LINK3  R/W1C    0x0         NS        A controller3 link-down/hot-reset occurred while |
-                                                   MIO_RST_CTL3[RST_LINK]=0.  Software must assert  |
+                                                   MIO_RST_CNTL3[RST_LINK]=0.  Software must assert |
                                                    then de-assert CIU_SOFT_PRST3[SOFT_PRST]         |
 												    |
  <2>     RST_LINK2  R/W1C    0x0         NS        A controller2 link-down/hot-reset occurred while |
-                                                   MIO_RST_CTL2[RST_LINK]=0.  Software must assert  |
+                                                   MIO_RST_CNTL2[RST_LINK]=0.  Software must assert |
                                                    then de-assert CIU_SOFT_PRST2[SOFT_PRST]         |
 												    |
  <1>     RST_LINK1  R/W1C    0x0         NS        A controller1 link-down/hot-reset occurred while |
-                                                   MIO_RST_CTL1[RST_LINK]=0.  Software must assert  |
+                                                   MIO_RST_CNTL1[RST_LINK]=0.  Software must assert |
                                                    then de-assert CIU_SOFT_PRST1[SOFT_PRST]         |
 												    |
  <0>     RST_LINK0  R/W1C    0x0         NS        A controller0 link-down/hot-reset occurred while |
-                                                   MIO_RST_CTL0[RST_LINK]=0.  Software must assert  |
+                                                   MIO_RST_CNTL0[RST_LINK]=0.  Software must assert |
                                                    then de-assert CIU_SOFT_PRST[SOFT_PRST]          |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23534,6 +23536,7 @@ Pos      Name    Type     Value     Value       Description
  <43:41> NS       RAZ      NS          NS        Reserved                                           |
  <40>    DPI_DMA  RO       0x0         0         DPI DMA instruction completion  interrupt          |
                                                  TBD, See DPI DMA instruction completion            |
+						  (65xx)					    |
  <39:38> NS       RAZ      NS          NS        Reserved for GMX expansion			    |
  <37>    AGX1     RO       0x0         0         GMX1 interrupt                                     |
                                                  See GMX1_RX*_INT_REG, GMX1_TX_INT_REG,             |
@@ -23586,7 +23589,7 @@ Note:
 SUM1 becomes per IPx in o65/6 and afterwards. Only Field  <62> RIO_BELL and <40> DPI_DMA will have
 different value per PP(IP) for  $CIU_SUM1_PPx_IPy, and <62> RIO_BELL and <40> DPI_DMA will always
 be zero for  $CIU_SUM1_IO@_INT. All other fields ([63:41] and [39:0]) values  are idential for
-different PPs, same value as $CIU_INT_SUM1.
+different PPs, same value as $CIU_INT_SUM1. (65xx)
 Write to any IRQ's PTP fields will clear PTP for all IRQ's PTP field.
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23668,6 +23671,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W      0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W      0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W      0x0         0         DPI_DMA interrupt enable                           |
+						  (65xx)					    |
  <39:38> NS       R/W      0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W      0x0         0         GMX1 interrupt enable                              |
  <36>    AGX0     R/W      0x0         0         GMX0 interrupt enable                              |
@@ -23874,6 +23878,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W      0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W      0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W      0x0         0         DPI_DMA interrupt enable                           |
+						  (65xx)					    |
  <39:38> NS       R/W      0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W      0x0         0         GMX1 interrupt enable                              |
  <36>    AGX0     R/W      0x0         0         GMX0 interrupt enable                              |
@@ -23974,6 +23979,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W1     0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W1     0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W1     0x0         0         Write 1 to set DPI_DMA interrupt enable            |
+						  (65xx)					    |
  <39:38> NS       R/W1     0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W1     0x0         0         Write 1 to set GMX1 interrupt enable               |
  <36>    AGX0     R/W1     0x0         0         Write 1 to set GMX0 interrupt enable               |
@@ -24074,6 +24080,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W1     0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W1     0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W1     0x0         0         Write 1 to set DPI_DMA interrupt enable            |
+						  (65xx)					    |
  <39:38> NS       R/W1     0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W1     0x0         0         Write 1 to set GMX1 interrupt enable               |
  <36>    AGX0     R/W1     0x0         0         Write 1 to set GMX0 interrupt enable               |
@@ -24175,6 +24182,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W1C    0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W1C    0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W1C    0x0         0         Write 1 to clear DPI_DMA interrupt enable          |
+						  (65xx)					    |
  <39:38> NS       R/W1C    0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W1C    0x0         0         Write 1 to clear GMX1 interrupt enable             |
  <36>    AGX0     R/W1C    0x0         0         Write 1 to clear GMX0 interrupt enable             |
@@ -24275,6 +24283,7 @@ Pos      Name    Type     Value     Value       Description
  <45:44> NS       R/W1C    0x0         0         Reserved for future Interlaken                     |
  <43:41> NS       R/W1C    0x0         0         Reserved                                           |
  <40>    DPI_DMA  R/W1C    0x0         0         Write 1 to clear DPI_DMA interrupt enable          |
+						  (65xx)					    |
  <39:38> NS       R/W1C    0x0         0         Reserved for GMX expansion			    |
  <37>    AGX1     R/W1C    0x0         0         Write 1 to clear GMX1 interrupt enable             |
  <36>    AGX0     R/W1C    0x0         0         Write 1 to clear GMX0 interrupt enable             |
@@ -24559,11 +24568,11 @@ Pos      Name    Type     Value     Value       Description
  <63:1> NS        RAZ      NS          NS        Reserved				            |
  <0>    SOFT_PRST R/W      NS          0         Resets the PCIe/sRIO logic in all modes, not just  |
 						 RC mode. The reset value is based on the	    |
-						 corresponding MIO_RST_CTL[PRTMODE] CSR field:	    |
+						 corresponding MIO_RST_CNTL[PRTMODE] CSR field:	    |
 						  If PRTMODE == 0, then SOFT_PRST resets to 0	    |
 						  If PRTMODE != 0, then SOFT_PRST resets to 1	    |
 						 When OCTEON is configured to drive the PERST*_L    |
-                                                 chip pin (ie. MIO_RST_CTL0[RST_DRV] is set), this  |
+                                                 chip pin (ie. MIO_RST_CNTL0[RST_DRV] is set), this |
                                                  controls the PERST*_L chip pin.                    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -24596,11 +24605,11 @@ Pos      Name    Type     Value     Value       Description
  <63:1> NS        RAZ      NS          NS        Reserved				            |
  <0>    SOFT_PRST R/W      NS          0         Resets the PCIe/sRIO logic in all modes, not just  |
 						 RC mode. The reset value is based on the	    |
-						 corresponding MIO_RST_CTL[PRTMODE] CSR field:	    |
+						 corresponding MIO_RST_CNTL[PRTMODE] CSR field:	    |
 						  If PRTMODE == 0, then SOFT_PRST resets to 0	    |
 						  If PRTMODE != 0, then SOFT_PRST resets to 1	    |
 						 When OCTEON is configured to drive the PERST*_L    |
-                                                 chip pin (ie. MIO_RST_CTL1[RST_DRV] is set), this  |
+                                                 chip pin (ie. MIO_RST_CNTL1[RST_DRV] is set), this |
                                                  controls the PERST*_L chip pin.                    |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -24853,7 +24862,7 @@ Pos      Name    Type     Value     Value       Description
  <63:1> NS        RAZ      NS          NS        Reserved				            |
  <0>    SOFT_PRST R/W      NS          0         Resets the      sRIO logic in all modes, not just  |
 						 RC mode. The reset value is based on the	    |
-						 corresponding MIO_RST_CTL[PRTMODE] CSR field:	    |
+						 corresponding MIO_RST_CNTL[PRTMODE] CSR field:	    |
 						  If PRTMODE == 0, then SOFT_PRST resets to 0	    |
 						  If PRTMODE != 0, then SOFT_PRST resets to 1	    |
 ----------------------------------------------------------------------------------------------------
@@ -24871,7 +24880,7 @@ Pos      Name    Type     Value     Value       Description
  <63:1> NS        RAZ      NS          NS        Reserved				            |
  <0>    SOFT_PRST R/W      NS          0         Resets the      sRIO logic in all modes, not just  |
 						 RC mode. The reset value is based on the	    |
-						 corresponding MIO_RST_CTL[PRTMODE] CSR field:	    |
+						 corresponding MIO_RST_CNTL[PRTMODE] CSR field:	    |
 						  If PRTMODE == 0, then SOFT_PRST resets to 0	    |
 						  If PRTMODE != 0, then SOFT_PRST resets to 1	    |
 ----------------------------------------------------------------------------------------------------
@@ -29544,7 +29553,9 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:56> NS       RAZ      NS          NS        Reserved				            |
  <55>    BSEL_EN  R/W	   0x0	       0x0	 Enable to turn on/off use of bit select extractor  |
+						  (65xx)					    |
  <54:53> BSEL_NUM R/W	   0x0	       0x0	 Which of the 4 bit select extractors to use	    |
+						  (65xx)					    |
  <52>	 PAD_LEN  R/W      0x0         0         When set, disables the length check for pkts with  |
 						  padding in the client data			    |
  <51>	 VLAN_LEN R/W      0x0         0         When set, disables the length check for DSA/VLAN   |
@@ -30363,6 +30374,9 @@ Pos      Name    Type     Value     Value       Description
  <15:7>  NS       RAZ      NS          NS        Reserved				            |
  <6:0>   SKIP     R/W      0x0         NS        Indicates number of bytes to skip from start of    |
 						  packet 0-64  					    |
+
+Notes:
+(65xx)
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30412,6 +30426,9 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   POS0     R/W      0x0         NS        Bit position for the 1st bit  from 128 bit segment |
 	                                          of pkt that is defined by the SKIP field of       |
                                                   PIP_BSEL_EXT_CFG register.                        |
+
+Notes:
+(65xx)
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30440,6 +30457,9 @@ Pos      Name    Type     Value     Value       Description
  <9:8>   TT       R/W      0x0         NS        TT field to be used if TT_EN is set                |
  <7:3>   NS       RAZ      NS          NS        Reserved				            |
  <2:0>   QOS      R/W      0x0         NS        QOS field to be used if QOS_EN is set              |
+
+Notes:
+(65xx)
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -37787,7 +37807,7 @@ Clk_Rst:	SRIO(0..3)_IMSG_INST_HDR[0:1]	hclk	hrst_n                              
 ===
 
  *
- *                  SRIO_IMSG_VPORT_THR2 = SRIO Incoming Message Virtual Port Additional Threshold (65xx)
+ *                  SRIO_IMSG_VPORT_THR2 = SRIO Incoming Message Virtual Port Additional Threshold
  *
  * The SRIO Incoming Message Virtual Port Additional Threshold Register
  *
@@ -37802,7 +37822,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:46> NS       RAZ      NS          NS        Reserved                                           |
  <45:40> MAX_S3   R/W      48          NS        Sets max number of vports available to SRIO3       |
-                                                 This field is only used in SRIO0.                  |
+                                                 This field is only used in SRIO0. (65xx)           |
  <39:38> NS       RAZ      NS          NS        Reserved                                           |
  <37:32> MAX_S2   R/W      48          NS        Sets max number of vports available to SRIO2       |
                                                  This field is only used in SRIO0.                  |

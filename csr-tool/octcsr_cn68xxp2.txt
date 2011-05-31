@@ -8495,10 +8495,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:62> NS       RAZ      NS          NS        Reserved				            |
- <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
-						  turns on mode to increment DPI_DMA_PPx_CNT        |
-						  counters.					    |
+ <63:61> NS       RAZ      NS          NS        Reserved				            |
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -9154,32 +9151,6 @@ Pos      Name    Type     Value     Value       Description
 						  Otherwise, it completed normally.		    |
 ----------------------------------------------------------------------------------------------------
 ===
-
- *Pass2.0 and above only*
- *
- *                  DPI_DMA_PP[0..31]_CNT  = DMA per PP Instr Done Counter
- *
- * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.INT_MODE is enabled, every dma instruction
- * that has the WQP=0 and a PTR value of 1..0x20 will incremrement DPI_DMA_PPx_CNT value-1 counter.
- * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
- * Hardware reserves that values 0x21..0x3F for future use and will treat them as a PTR of 0 and do nothing.
-
-     ==============================================================
-     DPI_DMA_PP(0..31)_CNT Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:16> NS       RAZ      NS          NS        Reserved					    |
- <15:0>  CNT      R/W      0x0         NS        Counter incremented according to conditions 	    |
-						  described above and decremented by values written |
-                                                  to this field.  A CNT of non zero, will cause     |
-						  an interrupt in the CIU_SUM1_PP@_IPX register     |
-----------------------------------------------------------------------------------------------------
-===
-
 
 
  *
@@ -24381,10 +24352,7 @@ Pos      Name    Type     Value     Value       Description
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      RO       0x0         0         DFA interrupt                                      |
                                                   See DFA_ERROR                                     |
- <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <36>    DPI_DMA  RO       0x0         0         DPI DMA instruction completion  interrupt          |
-                                                 TBD, See DPI DMA instruction completion            |
- <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      RO       0x0         0         DPI interrupt                                      |
                                                   See DPI_INT_REG                                   |
  <32>    SLI      RO       0x0         0         SLI interrupt                                      |
@@ -24733,10 +24701,7 @@ Pos      Name    Type     Value     Value       Description
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      RO       0x0         0         DFA interrupt source                               |
 						 CIU2_RAW_RML[DFA] & CIU2_EN_xx_yy_RML[DFA]         |
- <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <36>    DPI_DMA  RO       0x0         0         DPI DMA instruction completion  interrupt          |
-                                                 TBD, See DPI DMA instruction completion            |
- <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      RO       0x0         0         DPI interrupt source                               |
 						 CIU2_RAW_RML[DPI] & CIU2_EN_xx_yy_RML[DPI]         |
  <32>    SLI      RO       0x0         0         SLI interrupt source                               |
@@ -25108,9 +25073,7 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W      0x0          0        DFA interrupt-enable                               |
- <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <36>    DPI_DMA  RO       0x0         0         DPI DMA interrupt-enable                           |
- <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W      0x0          0        DPI interrupt-enable                               |
  <32>    SLI      R/W      0x0          0        SLI interrupt-enable                               |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -25439,9 +25402,7 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DFA]           |
- <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <36>    DPI_DMA  R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DPI_DMA]       |
- <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DPI]           |
  <32>    SLI      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[SLI]           |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -25771,9 +25732,7 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DFA]            |
- <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <36>    DPI_DMA  R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DPI_DMA]        |
- <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DPI]            |
  <32>    SLI      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[SLI]            |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -36447,7 +36406,8 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63>    FULL      RO       0x0     NS       FIFO Full.  When set, the FPA is busy writing entries  |
                                              and software must wait before adding new entries.
- <62:38> NS        RAZ      NS      NS       Reserved                                               |
+ <62:59> CNT       RO       0x0     NS       fptr_out count                                         |
+ <58:38> NS        RAZ      NS      NS       Reserved                                               |
  <37:7>  FPTR      WO       0x0     NS       Free Pointer                                           |
  <6:0>   NS        RAZ      NS      NS       Reserved                                               |
 ----------------------------------------------------------------------------------------------------
@@ -36473,7 +36433,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63>    VAL       RO       0x0     NS       Free Pointer Valid                                     |
- <62:38> NS        RAZ      NS      NS       Reserved                                               |
+ <62:57> CNT       RO       0x0     NS       fptr_in count                                         |
+ <56:38> NS        RAZ      NS      NS       Reserved                                               |
  <37:7>  FPTR      RO       0x0     NS       Free Pointer                                           |
  <6:0>   NS        RAZ      NS      NS       Reserved                                               |
 ----------------------------------------------------------------------------------------------------
@@ -46149,38 +46110,6 @@ DPI_DMA_ENG2_EN                0x0001DF0000000090  NCB
 DPI_DMA_ENG3_EN                0x0001DF0000000098  NCB
 DPI_DMA_ENG4_EN                0x0001DF00000000A0  NCB
 DPI_DMA_ENG5_EN                0x0001DF00000000A8  NCB
-DPI_DMA_PP0_CNT                0x0001DF0000000B00  NCB
-DPI_DMA_PP1_CNT                0x0001DF0000000B08  NCB
-DPI_DMA_PP2_CNT                0x0001DF0000000B10  NCB
-DPI_DMA_PP3_CNT                0x0001DF0000000B18  NCB
-DPI_DMA_PP4_CNT                0x0001DF0000000B20  NCB
-DPI_DMA_PP5_CNT                0x0001DF0000000B28  NCB
-DPI_DMA_PP6_CNT                0x0001DF0000000B30  NCB
-DPI_DMA_PP7_CNT                0x0001DF0000000B38  NCB
-DPI_DMA_PP8_CNT                0x0001DF0000000B40  NCB
-DPI_DMA_PP9_CNT                0x0001DF0000000B48  NCB
-DPI_DMA_PP10_CNT               0x0001DF0000000B50  NCB
-DPI_DMA_PP11_CNT               0x0001DF0000000B58  NCB
-DPI_DMA_PP12_CNT               0x0001DF0000000B60  NCB
-DPI_DMA_PP13_CNT               0x0001DF0000000B68  NCB
-DPI_DMA_PP14_CNT               0x0001DF0000000B70  NCB
-DPI_DMA_PP15_CNT               0x0001DF0000000B78  NCB
-DPI_DMA_PP16_CNT               0x0001DF0000000B80  NCB
-DPI_DMA_PP17_CNT               0x0001DF0000000B88  NCB
-DPI_DMA_PP18_CNT               0x0001DF0000000B90  NCB
-DPI_DMA_PP19_CNT               0x0001DF0000000B98  NCB
-DPI_DMA_PP20_CNT               0x0001DF0000000BA0  NCB
-DPI_DMA_PP21_CNT               0x0001DF0000000BA8  NCB
-DPI_DMA_PP22_CNT               0x0001DF0000000BB0  NCB
-DPI_DMA_PP23_CNT               0x0001DF0000000BB8  NCB
-DPI_DMA_PP24_CNT               0x0001DF0000000BC0  NCB
-DPI_DMA_PP25_CNT               0x0001DF0000000BC8  NCB
-DPI_DMA_PP26_CNT               0x0001DF0000000BD0  NCB
-DPI_DMA_PP27_CNT               0x0001DF0000000BD8  NCB
-DPI_DMA_PP28_CNT               0x0001DF0000000BE0  NCB
-DPI_DMA_PP29_CNT               0x0001DF0000000BE8  NCB
-DPI_DMA_PP30_CNT               0x0001DF0000000BF0  NCB
-DPI_DMA_PP31_CNT               0x0001DF0000000BF8  NCB
 DPI_ENG0_BUF                   0x0001DF0000000880  NCB
 DPI_ENG1_BUF                   0x0001DF0000000888  NCB
 DPI_ENG2_BUF                   0x0001DF0000000890  NCB
