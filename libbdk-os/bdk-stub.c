@@ -67,6 +67,18 @@ caddr_t sbrk(int incr)
         }
     }
 
+    /* See of DRAM was setup and we can use more memory */
+    const char *dram_mbytes = getenv("dram_size_mbytes");
+    if (dram_mbytes)
+    {
+        uint64_t dram_top = atoi(dram_mbytes);
+        dram_top <<= 20;
+        /* More than 256MB gets offset by 256MB due to the bootbus hole */
+        if (dram_top > 0x10000000)
+            dram_top += 0x10000000;
+        end = bdk_phys_to_ptr(dram_top);
+    }
+
     /* Skip 256MB-512MB which is the bootbus. Note that this doesn't affect
         end, so it needs to be set correctly. If end is less that 256MB, this
         code will increment past it and fail all allocations */
