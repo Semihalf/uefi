@@ -95,6 +95,20 @@ def getRangeTable(range):
     return globalRangeTable[key]
 
 #
+# Store a CSR into a global table and return its index
+#
+globalCsrTable = {}
+globalCsrTableLen = 0
+def getCsrTable(csr_str):
+    global globalCsrTable
+    global globalCsrTableLen
+    key = csr_str
+    if not key in globalCsrTable:
+        globalCsrTable[key] = globalCsrTableLen
+        globalCsrTableLen += 1
+    return globalCsrTable[key]
+
+#
 # Create a CSR database
 #
 def write(file, separate_chip_lists, include_cisco_only):
@@ -105,11 +119,12 @@ def write(file, separate_chip_lists, include_cisco_only):
     empty_range = getRangeTable([-1,-1])
 
     #
-    # Write the CSR table
+    # Write the per chip CSR tables
     #
+    null_csr = getCsrTable("{-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}")
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
-        out.write("static const __bdk_csr_db_type_t __bdk_csr_db_%s[] = {\n" % chip)
+        out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
         for csr in separate_chip_lists[chip_index]:
             if csr.cisco_only and not include_cisco_only:
                 continue
@@ -130,12 +145,26 @@ def write(file, separate_chip_lists, include_cisco_only):
                 range2 = getRangeTable(csr.range[0])
                 offset_inc = csr.address_offset_inc
                 block_inc = csr.address_block_inc
-            out.write("    {%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s},\n" %
-                      (getStringTable(csr.name.replace("#", "X")), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
-                       range1, range2, getNumberTable(csr.address_base), getNumberTable(offset_inc), getNumberTable(block_inc)))
-        out.write("    {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}\n")
+            name = csr.name.replace("#", "X")
+            csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s}" % (
+                        getStringTable(name), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
+                        range1, range2, getNumberTable(csr.address_base), getNumberTable(offset_inc), getNumberTable(block_inc))
+            csr_index = getCsrTable(csr_str)
+            out.write("    %d, /* %s */\n" % (csr_index, name))
+
+        out.write("    %d\n" % null_csr)
         out.write("};\n\n")
     out.write("#endif\n")
+    #
+    # Write the global CSR table
+    #
+    out.write("const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {\n")
+    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
+    keys = getKeysSorted(globalCsrTable)
+    for key in keys:
+        out.write("    %s, /* %d */\n" % (key, globalCsrTable[key]))
+    out.write("#endif\n")
+    out.write("};\n\n")
     #
     # Write the CSR fieldList table
     #

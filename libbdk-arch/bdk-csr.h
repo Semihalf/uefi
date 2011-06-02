@@ -38,7 +38,7 @@ typedef struct {
 
 typedef struct {
     uint32_t model;
-    const __bdk_csr_db_type_t *data;
+    const int16_t *data;            /**< Array of integers indexing __bdk_csr_db_csr */
 } __bdk_csr_db_map_t;
 
 #ifndef BDK_BUILD_HOST

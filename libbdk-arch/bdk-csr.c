@@ -1,12 +1,20 @@
 #include <bdk.h>
 #include <stdio.h>
 
+#ifndef BDK_DISABLE_CSR_DB
 extern const __bdk_csr_db_map_t __bdk_csr_db[];
+extern const __bdk_csr_db_type_t __bdk_csr_db_csr[];
 extern const uint16_t __bdk_csr_db_fieldList[];
 extern const uint16_t __bdk_csr_db_field[];
 extern const int __bdk_csr_db_range[];
 extern const char __bdk_csr_db_string[];
 extern const uint64_t __bdk_csr_db_number[];
+
+/* This will point to one of the "data" arrays listed in __bdk_csr_db. The
+    numbers index __bdk_csr_db_csr[] to find the CSR. The last one is zero,
+    which has a null CSR at __bdk_csr_db_csr[0] */
+static const int16_t *csr_list = NULL;
+#endif
 
 #ifndef BDK_BUILD_HOST
 
@@ -146,30 +154,30 @@ static int __bdk_csr_check_range(int rangeid, int value, int *next)
  * @param offset Filled with the argument in parenthesis from the name
  * @param block  Filled with the argument in parenthesis from the name
  *
- * @return Non NULL on success
+ * @return Index into csr_list table, or -1 on failure
  */
-static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset, int *block)
+static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
 {
-    const __bdk_csr_db_map_t *map;
-    const __bdk_csr_db_type_t *db;
-    char *compare;
-
-    /* Search the CSR DB to chip map for this chip */
-    map = __bdk_csr_db;
-    while (map->model && !OCTEON_IS_MODEL(map->model))
-        map++;
-    if (map->model == 0)
+    if (!csr_list)
     {
-        bdk_error("CSR lookup can't find this chip\n");
-        return NULL;
+        /* Search the CSR DB for a csr map for this chip */
+        const __bdk_csr_db_map_t *map = __bdk_csr_db;
+        while (map->model && !OCTEON_IS_MODEL(map->model))
+            map++;
+        if (map->model == 0)
+        {
+            bdk_error("CSR lookup can't find this chip\n");
+            return -1;
+        }
+        csr_list = map->data;
     }
 
     /* Return the first DB entry if no name was supplied */
     if (name == NULL)
-        return map->data;
+        return 0;
 
     /* Extract the CSR index info from the name */
-    compare = strdup(name);
+    char *compare = strdup(name);
     char *ptr = strchr(compare, '(');
     if (ptr)
     {
@@ -191,30 +199,58 @@ static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset
     }
 
     /* Search the DB for this CSR */
-    db = map->data;
-    while (db->width && strcasecmp(compare, __bdk_csr_db_string + db->name_index))
-        db++;
+    int index=0;
+    const __bdk_csr_db_type_t *db = &__bdk_csr_db_csr[csr_list[index]];
+    while (db->width)
+    {
+        if (strcasecmp(compare, __bdk_csr_db_string + db->name_index) == 0)
+            break;
+        index++;
+        db = &__bdk_csr_db_csr[csr_list[index]];
+    }
     free(compare);
 
     /* Fail if we reached the end of the list without finding it */
     if (db->width == 0)
-        return NULL;
+        return -1;
 
     /* Fail if offset in invalid */
     if (__bdk_csr_check_range(db->offset_range, *offset, NULL))
     {
         //bdk_error("CSR lookup with invalid offset\n");
-        return NULL;
+        return -1;
     }
 
     /* Fail if block in invalid */
     if (__bdk_csr_check_range(db->block_range, *block, NULL))
     {
         //bdk_error("CSR lookup with invalid block\n");
-        return NULL;
+        return -1;
     }
 
-    return db;
+    return index;
+}
+
+
+/**
+ * Given a name, find the CSR associated with it.
+ *
+ * @param name   Name to find. It can contain extra range info in parenthesis
+ * @param offset Filled with the argument in parenthesis from the name
+ * @param block  Filled with the argument in parenthesis from the name
+ *
+ * @return Non NULL on success
+ */
+static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset, int *block)
+{
+    int db_index = __bdk_csr_lookup_index(name, offset, block);
+    /* Fail if we can't find the CSR */
+    if (db_index == -1)
+    {
+        bdk_error("CSR lookup can't find this CSR\n");
+        return NULL;
+    }
+    return &__bdk_csr_db_csr[csr_list[db_index]];
 }
 
 
@@ -258,10 +294,7 @@ int bdk_csr_decode(const char *name, uint64_t value)
 
     /* Fail if we can't find the CSR */
     if (!db)
-    {
-        bdk_error("CSR lookup can't find this CSR\n");
         return -1;
-    }
 
     /* Print the official CSR name */
     if (block != -1)
@@ -322,10 +355,7 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
 
     /* Fail if we can't find the CSR */
     if (!db)
-    {
-        bdk_error("CSR lookup can't find this CSR\n");
         return -1;
-    }
 
     num_fields = __bdk_csr_db_fieldList[db->field_index];
     i = db->field_index + 1;
@@ -423,9 +453,10 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     const __bdk_csr_db_type_t *db;
 
     /* Find our current DB spot */
-    db = __bdk_csr_lookup(last_name, &offset, &block);
-    if (db == NULL)
+    int db_index = __bdk_csr_lookup_index(last_name, &offset, &block);
+    if (db_index == -1)
         return -1;
+    db = &__bdk_csr_db_csr[csr_list[db_index]];
 
     /* We we are continuing we need to process the range data and figure out what is next */
     if (last_name)
@@ -451,7 +482,7 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
                     if (next == -1)
                     {
                         /* End of block range, so skip to next CSR */
-                        db++;
+                        db = &__bdk_csr_db_csr[csr_list[++db_index]];
                         offset = __bdk_csr_db_range[db->offset_range+1];
                         block = __bdk_csr_db_range[db->block_range+1];
                     }
@@ -461,7 +492,7 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
                 else
                 {
                     /* No block range, so skip to next CSR */
-                    db++;
+                    db = &__bdk_csr_db_csr[csr_list[++db_index]];
                     offset = __bdk_csr_db_range[db->offset_range+1];
                     block = __bdk_csr_db_range[db->block_range+1];
                 }
@@ -472,7 +503,7 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
         else
         {
             /* No range data, so skip to next CSR */
-            db++;
+            db = &__bdk_csr_db_csr[csr_list[++db_index]];
             offset = __bdk_csr_db_range[db->offset_range+1];
             block = __bdk_csr_db_range[db->block_range+1];
         }
