@@ -207,37 +207,6 @@ static int get_size_payload(const tg_port_t *tg_port)
 
 /**
  *
- * @param pinfo
- *
- * @return
- */
-static int get_end_pre_l2(const tg_port_t *tg_port)
-{
-    if (tg_port->pinfo.setup.srio.u64)
-    {
-        /* TX needs to add SRIO header */
-        return sizeof(tg_port->pinfo.setup.srio);
-    }
-    else
-    {
-        /* The preamble is created by hardware, so the length is zero for SW. */
-        return 0;
-    }
-}
-
-/**
- *
- * @param pinfo
- *
- * @return
- */
-static int get_end_l2(const tg_port_t *tg_port)
-{
-    return get_end_pre_l2(tg_port) + get_size_l2(tg_port);
-}
-
-/**
- *
  * @return
  */
 static int trafficgen_do_update(bool do_clear)
@@ -414,7 +383,8 @@ static unsigned short ip_fast_csum(char *iph, unsigned int ihl)
 
 static int write_packet(bdk_if_packet_t *packet, int loc, uint8_t data)
 {
-    bdk_if_packet_write(packet, loc, 1, &data);
+    if (loc < packet->length)
+        bdk_if_packet_write(packet, loc, 1, &data);
     return loc + 1;
 }
 
@@ -425,6 +395,20 @@ static int write_packet(bdk_if_packet_t *packet, int loc, uint8_t data)
  */
 static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
+    if (tg_port->pinfo.setup.output_packet_size < 1)
+    {
+        bdk_error("%s: Packet must be at least 1 byte\n", tg_port->pinfo.name);
+        return -1;
+    }
+
+    if (tg_port->pinfo.setup.validate && (tg_port->pinfo.setup.output_packet_size < 19))
+    {
+        /* Packets smaller than 19 bytes will skip validation. 14 bytes
+            skipped for L2, 1 byte of data, and 4 bytes of CRC is the
+            minimum for validation */
+        bdk_warn("%s: Packets smaller than 19 bytes will not be validated\n", tg_port->pinfo.name);
+    }
+
     int total_length = tg_port->pinfo.setup.output_packet_size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0);
     if (bdk_if_alloc(packet, total_length))
     {
@@ -485,11 +469,17 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     loc = write_packet(packet, loc, (tg_port->pinfo.setup.dest_ip>>0) & 0xff);
 
     /* Fix the IP checksum */
+    int begin_ip = get_size_l2(tg_port);
+    if (tg_port->pinfo.setup.srio.u64)
+        begin_ip += sizeof(tg_port->pinfo.setup.srio);
     char buffer[20];
-    bdk_if_packet_read(packet, get_end_l2(tg_port), sizeof(buffer), buffer);
-    uint16_t ip_checksum = ip_fast_csum(buffer, sizeof(buffer)/4);
-    write_packet(packet, ip_checksum_loc, ip_checksum >> 8);
-    write_packet(packet, ip_checksum_loc+1, ip_checksum >> 8);
+    if (packet->length >= begin_ip + (int)sizeof(buffer))
+    {
+        bdk_if_packet_read(packet, begin_ip, sizeof(buffer), buffer);
+        uint16_t ip_checksum = ip_fast_csum(buffer, sizeof(buffer)/4);
+        write_packet(packet, ip_checksum_loc, ip_checksum >> 8);
+        write_packet(packet, ip_checksum_loc+1, ip_checksum >> 8);
+    }
 
     /* UDP source port */
     loc = write_packet(packet, loc, tg_port->pinfo.setup.src_port >> 8);
@@ -695,7 +685,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     int remaining_bytes = packet->length;
 
     /* Skip the L2 header in the CRC calculation */
-    int skip = get_end_l2(tg_port);
+    int skip = get_size_l2(tg_port);
     if (bdk_if_get_type(packet->if_handle) == BDK_IF_SRIO)
     {
         if (fix)
@@ -739,7 +729,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     }
 #endif
 
-    while (remaining_bytes)
+    while (remaining_bytes > 0)
     {
         /* Figure out the maximum bytes this buffer could hold for us */
         void *start_of_buffer = bdk_phys_to_ptr(((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7);
@@ -899,7 +889,7 @@ static void process_packet(bdk_if_packet_t *packet)
 {
     tg_port_t *tg_port = tg_get_port(packet->if_handle);
 
-    if (bdk_likely((packet->rx_error == 0) && tg_port->pinfo.setup.validate))
+    if (bdk_likely(tg_port->pinfo.setup.validate))
     {
         if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet, 0)))
             bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
