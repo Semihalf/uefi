@@ -51,9 +51,8 @@ local function show(m)
         end
 
         -- Read a number from the user
-        printf("Menu choice: ")
         local c = 999
-        local response = io.read()
+        local response = menu.prompt_string("Menu choice", "")
         if response then
             if response == "keys" then
                 menu.show_keys = not menu.show_keys
@@ -101,17 +100,6 @@ function menu.new(title)
     m.item = set_item
     m.show = show
     return m
-end
-
---
--- Show a simple menu and get the user's selection
---
-function menu.show(choices)
-    local m = menu.new()
-    for i=1,#choices do
-        m:item(i, choices[i])
-    end
-    return m:show()
 end
 
 --
