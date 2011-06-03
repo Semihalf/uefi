@@ -7,6 +7,8 @@
 static int open_files[MAX_CONSOLE_FILES] = {3,};
 static int last_input;
 static int readline_enable = 1;
+static char pending_rx[32];
+static int pending_rx_count = 0;
 
 int console_open_file(const char *filename)
 {
@@ -91,7 +93,16 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
         {
             if (!open_files[i])
                 continue;
-            int bytes = read(open_files[i], buffer, 1);
+            int bytes;
+            if (pending_rx_count)
+            {
+                *(char*)buffer = pending_rx[0];
+                pending_rx_count--;
+                memcpy(pending_rx, pending_rx+1, pending_rx_count);
+                bytes = 1;
+            }
+            else
+                bytes = read(open_files[i], buffer, 1);
             if (bytes > 0)
             {
                 /* Translate telnet backspace into the normal byte */
@@ -127,7 +138,23 @@ int __bdk_fs_check_break(void)
         return 0;
     char c;
     int result = console_read(NULL, &c, 1);
-    return (result == 1) && (c == 0x3);
+    if (result != 1)
+        return 0;
+
+    /* Check for Control-C */
+    if (c == 0x3)
+    {
+        /* Cancel any buffered RX when we receive a Contorl-C */
+        pending_rx_count = 0;
+        return 1;
+    }
+    else
+    {
+        /* Store this character in our internal buffer */
+        if (pending_rx_count < (int)sizeof(pending_rx))
+            pending_rx[pending_rx_count++] = c;
+        return 0;
+    }
 }
 
 
