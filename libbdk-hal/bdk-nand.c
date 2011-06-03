@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+#if 0 /* NAND disabled to save space. Enable when we actually use it */
+
 #define NAND_COMMAND_READ_ID            0x90
 #define NAND_COMMAND_READ_PARAM_PAGE    0xec
 #define NAND_COMMAND_RESET              0xff
@@ -1839,3 +1841,5 @@ bdk_nand_status_t bdk_nand_set_defaults(int page_size, int oob_size, int pages_p
 
     BDK_NAND_RETURN(BDK_NAND_SUCCESS);
 }
+
+#endif
