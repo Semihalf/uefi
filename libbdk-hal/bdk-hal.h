@@ -28,7 +28,6 @@
 #include "bdk-scratch.h"
 #include "bdk-fpa.h"
 #include "bdk-cmd-queue.h"
-#include "bdk-compactflash.h"
 #include "bdk-core.h"
 #include "bdk-crc.h"
 #include "bdk-dma-engine.h"
