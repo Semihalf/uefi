@@ -65,7 +65,7 @@ typedef struct
     int32_t s2m_ref_count[16];   /* Reference count for SRIOX_S2M_TYPE[0-15]. */
 } __bdk_srio_state_t;
 
-static __bdk_srio_state_t __bdk_srio_state[2];
+static __bdk_srio_state_t __bdk_srio_state[4];
 
 
 /**
@@ -351,30 +351,59 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         (mio_rst_ctl.s.prtmode) ? "host" : "endpoint");
 
     /* Bring the port out of reset if necessary */
-    if (srio_port)
+    switch (srio_port)
     {
-        bdk_ciu_soft_prst1_t prst;
-        prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
-        if (prst.s.soft_prst)
+        case 0:
         {
-            prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, prst.u64);
-            /* Wait up to 250ms for the port to come out of reset */
-            if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
-                return -1;
+            BDK_CSR_INIT(prst, BDK_CIU_SOFT_PRST);
+            if (prst.s.soft_prst)
+            {
+                prst.s.soft_prst = 0;
+                BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, prst.u64);
+                /* Wait up to 250ms for the port to come out of reset */
+                if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                    return -1;
+            }
+            break;
         }
-    }
-    else
-    {
-        bdk_ciu_soft_prst_t prst;
-        prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST);
-        if (prst.s.soft_prst)
+        case 1:
         {
-            prst.s.soft_prst = 0;
-            BDK_CSR_WRITE(BDK_CIU_SOFT_PRST, prst.u64);
-            /* Wait up to 250ms for the port to come out of reset */
-            if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
-                return -1;
+            BDK_CSR_INIT(prst, BDK_CIU_SOFT_PRST1);
+            if (prst.s.soft_prst)
+            {
+                prst.s.soft_prst = 0;
+                BDK_CSR_WRITE(BDK_CIU_SOFT_PRST1, prst.u64);
+                /* Wait up to 250ms for the port to come out of reset */
+                if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                    return -1;
+            }
+            break;
+        }
+        case 2:
+        {
+            BDK_CSR_INIT(prst, BDK_CIU_SOFT_PRST2);
+            if (prst.s.soft_prst)
+            {
+                prst.s.soft_prst = 0;
+                BDK_CSR_WRITE(BDK_CIU_SOFT_PRST2, prst.u64);
+                /* Wait up to 250ms for the port to come out of reset */
+                if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                    return -1;
+            }
+            break;
+        }
+        case 3:
+        {
+            BDK_CSR_INIT(prst, BDK_CIU_SOFT_PRST3);
+            if (prst.s.soft_prst)
+            {
+                prst.s.soft_prst = 0;
+                BDK_CSR_WRITE(BDK_CIU_SOFT_PRST3, prst.u64);
+                /* Wait up to 250ms for the port to come out of reset */
+                if (BDK_CSR_WAIT_FOR_FIELD(BDK_SRIOX_STATUS_REG(srio_port), access, ==, 1, 250000))
+                    return -1;
+            }
+            break;
         }
     }
 
