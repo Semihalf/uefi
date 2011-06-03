@@ -217,7 +217,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
             /* Enable RED dropping */
             BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE2, c.s.prt_enb |= 1ull<<(handle->ipd_port-36));
         }
-        else if (handle->ipd_port < 44)
+        else
         {
             /* Backpressure when this port has 256 buffers in use */
             BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT3(handle->ipd_port),
