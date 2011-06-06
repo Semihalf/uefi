@@ -13,7 +13,8 @@ run: crypto.bin
 	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=6
 
 test: crypto.bin
-	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=6 -maxcycles=10000000 > test-crypto.log
+	oct-uart-io -b test-crypto.log &
+	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=6 -maxcycles=10000000 -uart0=2020 > test-crypto-sim.log
 	grep "Core 0 beginning crypto" test-crypto.log
 	grep "Core 1 beginning crypto" test-crypto.log
 	grep "Core 2 beginning crypto" test-crypto.log
@@ -34,11 +35,11 @@ test: crypto.bin
 	grep "sms4 cbc: 0b15a6c212d85b67e7cdef840362e352896227805c2a1fad643b88bf7b2ba4af" test-crypto.log
 	grep "snow3g:   5d5bfe75eb04f68ce0a12377ea00b37d47c6a0ba06309155086a859c4341b37c" test-crypto.log
 	if grep "FAIL" test-crypto.log; then false; else true; fi
-	grep "PP0: stopping due to BREAK instruction" test-crypto.log
-	grep "PP1: stopping due to BREAK instruction" test-crypto.log
-	grep "PP2: stopping due to BREAK instruction" test-crypto.log
-	grep "PP3: stopping due to BREAK instruction" test-crypto.log
-	grep "PP4: stopping due to BREAK instruction" test-crypto.log
-	grep "PP5: stopping due to BREAK instruction" test-crypto.log
+	grep "PP0: stopping due to BREAK instruction" test-crypto-sim.log
+	grep "PP1: stopping due to BREAK instruction" test-crypto-sim.log
+	grep "PP2: stopping due to BREAK instruction" test-crypto-sim.log
+	grep "PP3: stopping due to BREAK instruction" test-crypto-sim.log
+	grep "PP4: stopping due to BREAK instruction" test-crypto-sim.log
+	grep "PP5: stopping due to BREAK instruction" test-crypto-sim.log
 
 
