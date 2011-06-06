@@ -835,9 +835,12 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
 
         if ((cmd_len == 0) && (c == '$'))
         {
-            extern void __bdk_rpc_serve(void);
-            __bdk_rpc_serve();
-            continue;
+            extern void __bdk_rpc_serve(void) __attribute__ ((weak));
+            if (__bdk_rpc_serve)
+            {
+                __bdk_rpc_serve();
+                continue;
+            }
         }
 
         const char *result = process_input(c);
