@@ -1241,6 +1241,16 @@ output = bit64.rshift(input, shift)::
 
 Perform right shift, filling zeros on the left.
 
+output = bit64.bextract(input, start, stop)::
+
+Extract the bits [stop:start] from input and return them. If stop is not
+supplied, it defaults to start.
+
+output = bit64.bisnert(original, input, start, stop)::
+
+Bits [stop:start] from oriignal are replaced with input. If stop is not
+supplied, it defaults to start.
+
 
 fileio
 ^^^^^^

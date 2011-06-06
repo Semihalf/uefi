@@ -140,6 +140,60 @@ static int b_rrot (lua_State *L) {
   return b_rot(L, -luaL_checkint(L, 2));
 }
 
+/**
+ * Extract bits out of a number
+ * v = bit64.bextract(0x11223344, 8, 15)
+ * v = 0x33
+ *
+ * @param L
+ *
+ * @return
+ */
+static int b_extract(lua_State *L) {
+    b_uint r = getbitarg(L, 1);
+    int start_bit = luaL_checkint(L, 2);
+    int stop_bit = luaL_optint(L, 3, start_bit);
+    int width = stop_bit - start_bit + 1;
+
+    if (start_bit)
+        r >>= start_bit;
+    if (width < NBITS)
+        r &= (1ull<<width) - 1;
+    pushbit(L, trim(r));
+    return 1;
+}
+
+/**
+ * Insert bits into a number
+ * v = bit64.binsert(0x11223344, 0x55, 8, 15)
+ * v = 0x11225544
+ *
+ * @param L
+ *
+ * @return
+ */
+static int b_insert(lua_State *L) {
+    b_uint r = getbitarg(L, 1); /* Original value */
+    b_uint n = getbitarg(L, 2); /* Value to insert */
+    int start_bit = luaL_checkint(L, 3); /* Start bit for insert */
+    int stop_bit = luaL_optint(L, 4, start_bit); /* Stop bit, defaults to start */
+
+    int width = stop_bit - start_bit + 1;
+    b_uint mask = ALLONES;
+    if (width < NBITS)
+        mask = (1ull<<width) - 1;
+    if (start_bit)
+    {
+        mask <<= start_bit;
+        n <<= start_bit;
+    }
+    n &= mask;
+    r &= ~mask;
+    r |= n;
+    pushbit(L, trim(r));
+    return 1;
+}
+
 
 static const luaL_Reg bitlib[] = {
   {"arshift", b_arshift},
@@ -152,6 +206,8 @@ static const luaL_Reg bitlib[] = {
   {"rrotate", b_rrot},
   {"rshift", b_rshift},
   {"btest", b_test},
+  {"bextract", b_extract},
+  {"binsert", b_insert},
   {NULL, NULL}
 };
 
