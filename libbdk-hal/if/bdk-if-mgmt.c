@@ -237,8 +237,12 @@ static int if_init(bdk_if_handle_t handle)
  */
 static int if_enable(bdk_if_handle_t handle)
 {
-    bdk_agl_gmx_rxx_frm_ctl_t rxx_frm_ctl;
+    /* Return immediately if the port is already enabled */
+    BDK_CSR_INIT(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index));
+    if (agl_gmx_prtx.s.en)
+        return 0;
 
+    bdk_agl_gmx_rxx_frm_ctl_t rxx_frm_ctl;
     rxx_frm_ctl.u64 = 0;
     rxx_frm_ctl.s.pre_align = 1;
     rxx_frm_ctl.s.pad_len = 1;  /* When set, disables the length check for non-min sized pkts with padding in the client data */
