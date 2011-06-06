@@ -135,7 +135,7 @@ uint64_t ram_mmap(const char *name, int flags)
     return bdk_ptr_to_phys(fptr->data);
 }
 
-const __bdk_fs_ops_t bdk_fs_ram_ops =
+static const __bdk_fs_ops_t bdk_fs_ram_ops =
 {
     .stat = NULL,
     .unlink = ram_unlink,
@@ -147,3 +147,7 @@ const __bdk_fs_ops_t bdk_fs_ram_ops =
     .mmap = ram_mmap,
 };
 
+int bdk_fs_ram_init(void)
+{
+    return bdk_fs_register("/ram/", &bdk_fs_ram_ops);
+}

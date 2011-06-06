@@ -45,7 +45,7 @@ uint64_t rom_mmap(const char *name, int flags)
         return -1;
 }
 
-const __bdk_fs_ops_t bdk_fs_rom_ops =
+static const __bdk_fs_ops_t bdk_fs_rom_ops =
 {
     .stat = NULL,
     .unlink = NULL,
@@ -57,3 +57,7 @@ const __bdk_fs_ops_t bdk_fs_rom_ops =
     .mmap = rom_mmap,
 };
 
+int bdk_fs_rom_init(void)
+{
+    return bdk_fs_register("/rom/", &bdk_fs_rom_ops);
+}

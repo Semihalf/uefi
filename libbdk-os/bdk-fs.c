@@ -5,6 +5,7 @@
 #include <errno.h>
 
 #define MAX_FILE_HANDLES 8
+#define MAX_MOUNT_POINTS 12
 
 /**
  * Structure used for mount points. This maps filenames into
@@ -18,23 +19,9 @@ typedef struct
 
 extern const __bdk_fs_ops_t bdk_fs_console_ops;
 extern const __bdk_fs_ops_t bdk_fs_uart_ops;
-extern const __bdk_fs_ops_t bdk_fs_rom_ops;
-extern const __bdk_fs_ops_t bdk_fs_ram_ops;
-extern const __bdk_fs_ops_t bdk_fs_xmodem_ops;
-extern const __bdk_fs_ops_t bdk_fs_nor_ops;
-extern const __bdk_fs_ops_t bdk_fs_mem_ops;
-extern const __bdk_fs_ops_t bdk_fs_pcie_ops;
-extern const __bdk_fs_ops_t bdk_fs_tcp_ops;
-static const bdk_fs_mount_t mount_points[] = {
+static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {"/dev/console", &bdk_fs_console_ops},
     {"/dev/uart/", &bdk_fs_uart_ops},
-    {"/rom/", &bdk_fs_rom_ops},
-    {"/ram/", &bdk_fs_ram_ops},
-    {"/xmodem", &bdk_fs_xmodem_ops},
-    {"/dev/nor/", &bdk_fs_nor_ops},
-    {"/dev/mem", &bdk_fs_mem_ops},
-    {"/dev/pcie/", &bdk_fs_pcie_ops},
-    {"/tcp/", &bdk_fs_tcp_ops},
     {NULL, NULL}
 };
 
@@ -50,6 +37,39 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
 };
 #undef errno
 extern int errno;
+
+
+/**
+ * Dynamically register a new filesystem mount point. This is so
+ * dependencies on stdout don't pull in all possible filesystems.
+ *
+ * @param prefix Prefix for mount
+ * @param ops    File operations
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_fs_register(const char *prefix, const __bdk_fs_ops_t *ops)
+{
+    /* Find the first empty mount point */
+    int i = 0;
+    while (mount_points[i].prefix)
+        i++;
+
+    /* Fail if all spots are full. Note that we must keep the last
+        one as NULL to mark the end */
+    if (i >= MAX_MOUNT_POINTS - 1)
+    {
+        bdk_error("bdk_fs_register: Too many mount points\n");
+        return -1;
+    }
+
+    /* Add the new mount point */
+    mount_points[i].prefix = prefix;
+    mount_points[i].ops = ops;
+    mount_points[i+1].prefix = NULL;
+    mount_points[i+1].ops = NULL;
+    return 0;
+}
 
 
 /**

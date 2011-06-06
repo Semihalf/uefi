@@ -544,7 +544,7 @@ static int xmodem_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     return bytes_written;
 }
 
-const __bdk_fs_ops_t bdk_fs_xmodem_ops =
+static const __bdk_fs_ops_t bdk_fs_xmodem_ops =
 {
     .stat = NULL,
     .open = xmodem_open,
@@ -554,3 +554,7 @@ const __bdk_fs_ops_t bdk_fs_xmodem_ops =
     .write = xmodem_write,
 };
 
+int bdk_fs_xmodem_init(void)
+{
+    return bdk_fs_register("/xmodem", &bdk_fs_xmodem_ops);
+}

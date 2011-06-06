@@ -72,7 +72,7 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         return length;
 }
 
-const __bdk_fs_ops_t bdk_fs_pcie_ops =
+static const __bdk_fs_ops_t bdk_fs_pcie_ops =
 {
     .stat = NULL,
     .unlink = NULL,
@@ -83,3 +83,7 @@ const __bdk_fs_ops_t bdk_fs_pcie_ops =
     .write = pcie_write,
 };
 
+int bdk_fs_pcie_init(void)
+{
+    return bdk_fs_register("/dev/pcie/", &bdk_fs_pcie_ops);
+}
