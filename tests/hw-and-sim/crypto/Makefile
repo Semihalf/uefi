@@ -13,7 +13,7 @@ run: crypto.bin
 	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=6
 
 test: crypto.bin
-	oct-uart-io -b test-crypto.log &
+	$(OCTEON_ROOT)/host/bin/oct-uart-io -b test-crypto.log &
 	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=6 -maxcycles=10000000 -uart0=2020 > test-crypto-sim.log
 	grep "Core 0 beginning crypto" test-crypto.log
 	grep "Core 1 beginning crypto" test-crypto.log
