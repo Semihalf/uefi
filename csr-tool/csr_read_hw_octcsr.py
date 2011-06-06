@@ -314,25 +314,28 @@ def read(name, file):
             parts = csr.name.upper().split("#")
             assert len(parts) == 3, csr.name
             block = csr.range[0][0]
+            block2 = csr.range[0][-1]
             offset = csr.range[1][0]
+            offset2 = csr.range[1][-1]
             n1 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset, parts[2])
-            if csr.range[1][0] == csr.range[1][1]:
+            if offset == offset2:
                 address1 = current_address_list[n1][0]
                 address2 = address1
+                csr.address_offset_inc = 0
             else:
                 address1 = current_address_list[n1][0]
-                n2 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset+1, parts[2])
+                n2 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset2, parts[2])
                 address2 = current_address_list[n2][0]
-            csr.address_offset_inc = address2 - address1
-            if csr.range[0][0] == csr.range[0][1]:
+                csr.address_offset_inc = (address2 - address1) / (offset2 - offset)
+            if block == block2:
                 address1 = current_address_list[n1][0]
                 address2 = address1
                 csr.address_block_inc = 0
             else:
                 address1 = current_address_list[n1][0]
-                n2 = "%s%d%s%03d%s" % (parts[0], block+1, parts[1], offset, parts[2])
+                n2 = "%s%d%s%03d%s" % (parts[0], block2, parts[1], offset, parts[2])
                 address2 = current_address_list[n2][0]
-                csr.address_block_inc = address2 - address1
+                csr.address_block_inc = (address2 - address1) / (block2 - block)
                 if csr.type == "SRIOMAINT":
                     assert (csr.address_block_inc == 0)
                 else:
