@@ -532,6 +532,11 @@ PCIe bus address.
 Read and write access to memory on PCIe port 1.  The file location is a raw
 PCIe bus address.
 
+/dev/srio/'<port>'/'<device>'::
+
+Read and write access to memory on device '<device>' connected to SRIO
+port '<port>'.  The file location is the raw SRIO bus address.
+
 /tcp/host:port::
 
 Opens a TCP connection to the supplied host and port.  File read/write

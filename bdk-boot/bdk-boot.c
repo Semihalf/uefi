@@ -33,6 +33,8 @@ int main(void)
     bdk_fs_tcp_init();
     extern int bdk_fs_xmodem_init(void);
     bdk_fs_xmodem_init();
+    extern int bdk_fs_srio_init(void);
+    bdk_fs_srio_init();
 
     if (bdk_thread_create(0, (bdk_thread_func_t)bdk_lua_main, 3, argv, 16384))
         bdk_fatal("Create of Lua thread failed\n");

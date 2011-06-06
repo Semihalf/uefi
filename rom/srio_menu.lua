@@ -5,12 +5,9 @@ require("strict")
 require("utils")
 require("menu")
 require("srio")
+require("fileio")
 
 local srio_root = {}
-
-local function not_implemented()
-    error("Not implemented")
-end
 
 local function do_initialize(srio_port)
     assert(srio_root[srio_port] == nil, "SRIO" .. srio_port .. " already initialized")
@@ -100,6 +97,43 @@ local function do_doorbell_rx(srio_port)
     end
 end
 
+
+local function do_memread(srio_port)
+    assert(srio_root[srio_port], "SRIO" .. srio_port .. " not initialized")
+    local devid = menu.prompt_number("Device ID")
+    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local address = menu.prompt_number("SRIO bus address")
+    local length = menu.prompt_number("Number of bytes to read")
+    local f = fileio.open("/dev/srio/" .. srio_port .. "/" .. devid, "r", address)
+    f:setvbuf("full", length)
+    local data = f:read(length)
+    f:close()
+    printf("Data: ")
+    for i=1, #data do
+        printf("%02x", data:byte(i))
+    end
+    printf("\n")
+end
+
+local function do_memwrite(srio_port)
+    assert(srio_root[srio_port], "SRIO" .. srio_port .. " not initialized")
+    local devid = menu.prompt_number("Device ID")
+    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local address = menu.prompt_number("SRIO bus address")
+    local hex_data = menu.prompt_string("Data to write in hex")
+    local data = ""
+    for i=1,#hex_data,2 do
+        local c = tonumber(hex_data:sub(i,i+1), 16)
+        data = data .. string.char(c)
+    end
+
+    local f = fileio.open("/dev/srio/" .. srio_port .. "/" .. devid, "w", address)
+    f:setvbuf("full", #data)
+    f:write(data)
+    f:close()
+end
+
+
 local function srio_submenu(srio_port)
     local prefix = "SRIO" .. srio_port
     local m = menu.new("SRIO Menu - Port " .. srio_port)
@@ -111,8 +145,8 @@ local function srio_submenu(srio_port)
     m:item("mwrite", prefix .. ": Perform a maintenance write", do_maintwrite, srio_port)
     m:item("sdb", prefix .. ": Send a doorbell", do_doorbell_tx, srio_port)
     m:item("rdb", prefix .. ": Receive a doorbell", do_doorbell_rx, srio_port)
-    m:item("read", prefix .. ": Perform a memory read", not_implemented, srio_port)
-    m:item("write", prefix .. ": Perform a memory write", not_implemented, srio_port)
+    m:item("read", prefix .. ": Perform a memory read", do_memread, srio_port)
+    m:item("write", prefix .. ": Perform a memory write", do_memwrite, srio_port)
     m:item("quit", "Main menu")
 
     while (m:show() ~= "quit") do
