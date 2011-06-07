@@ -103,6 +103,23 @@ int bdk_dram_config_raw(const ddr_config_table_t *ddr_config_table, int ddr_cloc
     return mbytes;
 }
 
+/**
+ * Configure DRAM for a particular board
+ *
+ * @param board_name Board name to configure
+ * @param ddr_clock_hertz
+ *                   DDR clock in hertz
+ *
+ * @return Amount of DRAM in MB, or negative on failure
+ */
+int bdk_dram_config(const char *board_name, int ddr_clock_hertz)
+{
+    ddr_config_table_t *ddr_config = bdk_dram_lookup_board(board_name);
+    if (!ddr_config)
+        return -1;
+    return bdk_dram_config_raw(ddr_config, ddr_clock_hertz);
+}
+
 
 /**
  * Enable or disable verbose output during dram config

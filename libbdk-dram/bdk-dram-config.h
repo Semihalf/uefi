@@ -13,10 +13,12 @@
  * Configure DRAM for a particular board
  *
  * @param board_name Board name to configure
+ * @param ddr_clock_hertz
+ *                   DDR clock in hertz
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
-extern int bdk_dram_config(const char *board_name);
+extern int bdk_dram_config(const char *board_name, int ddr_clock_hertz);
 
 /**
  * Enable or disable verbose output during dram config
