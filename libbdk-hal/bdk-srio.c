@@ -301,7 +301,6 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     bdk_sriomaintx_core_enables_t core_enables;
     bdk_sriomaintx_port_gen_ctl_t port_gen_ctl;
     bdk_sriox_status_reg_t sriox_status_reg;
-    bdk_mio_rst_ctlx_t mio_rst_ctl;
     bdk_sriox_imsg_vport_thr_t sriox_imsg_vport_thr;
     bdk_dpi_sli_prtx_cfg_t prt_cfg;
     bdk_sli_s2m_portx_ctl_t sli_s2m_portx_ctl;
@@ -339,16 +338,29 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         }
     }
 
+    int is_host_mode;
     /* Don't receive or drive reset signals for the SRIO QLM */
-    mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(srio_port));
-    mio_rst_ctl.s.rst_drv = 0;
-    mio_rst_ctl.s.rst_rcv = 0;
-    mio_rst_ctl.s.rst_chip = 0;
-    BDK_CSR_WRITE(BDK_MIO_RST_CTLX(srio_port), mio_rst_ctl.u64);
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        BDK_CSR_MODIFY(c, BDK_MIO_RST_CTLX(srio_port),
+            c.s.rst_drv = 0;
+            c.s.rst_rcv = 0;
+            c.s.rst_chip = 0);
+        BDK_CSR_INIT(mio_rst_ctl, BDK_MIO_RST_CTLX(srio_port));
+        is_host_mode = mio_rst_ctl.s.prtmode;
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, BDK_MIO_RST_CNTLX(srio_port),
+            c.s.rst_drv = 0;
+            c.s.rst_rcv = 0;
+            c.s.rst_chip = 0);
+        BDK_CSR_INIT(mio_rst_cntl, BDK_MIO_RST_CNTLX(srio_port));
+        is_host_mode = mio_rst_cntl.s.prtmode;
+    }
 
-    mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(srio_port));
     bdk_dprintf("SRIO%d: Port in %s mode\n", srio_port,
-        (mio_rst_ctl.s.prtmode) ? "host" : "endpoint");
+        (is_host_mode) ? "host" : "endpoint");
 
     /* Bring the port out of reset if necessary */
     switch (srio_port)
@@ -582,7 +594,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     }
 
     /* Only change the link state in host mode */
-    if (mio_rst_ctl.s.prtmode == 1)
+    if (is_host_mode)
     {
         if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
         {
