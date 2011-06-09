@@ -503,6 +503,9 @@ function TrafficGen.new()
             num_rows = num_rows + 1
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
+        -- Create a row reporting free packet buffers
+        printf("%-20s%s%10d%s\n", "Free packets", COL_SEP, octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(), ERASE_EOL)
+        num_rows = num_rows + 1
         -- Create a row reporting Lua's memory usage
         printf("%-20s%s%10d%s\n", "Lua memory(KB)", COL_SEP, collectgarbage("count"), ERASE_EOL)
         num_rows = num_rows + 1
