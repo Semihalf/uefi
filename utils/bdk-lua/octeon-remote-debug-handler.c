@@ -58,10 +58,10 @@ static uint64_t debug_handler_base = 0;
 
 int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
 {
-    extern void octeon_remote_debug_handler2_begin;
-    extern void octeon_remote_debug_handler2_end;
-    extern void octeon_remote_profile_handler_begin;
-    extern void octeon_remote_profile_handler_end;
+    extern void *octeon_remote_debug_handler2_begin;
+    extern void *octeon_remote_debug_handler2_end;
+    extern void *octeon_remote_profile_handler_begin;
+    extern void *octeon_remote_profile_handler_end;
     unsigned long profile_size = &octeon_remote_profile_handler_end - &octeon_remote_profile_handler_begin;
 
     OCTEON_REMOTE_DEBUG_CALLED("handler=%d", handler);
