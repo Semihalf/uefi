@@ -3,25 +3,9 @@
 static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        for (int i=0; i<2; i++)
-        {
-            BDK_CSR_INIT(sriox_status_reg, BDK_SRIOX_STATUS_REG(i));
-            if (sriox_status_reg.s.srio)
-                bdk_srio_initialize(i, 0);
-        }
         return 2;
-    }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-    {
-        for (int i=0; i<4; i++)
-        {
-            BDK_CSR_INIT(sriox_status_reg, BDK_SRIOX_STATUS_REG(i));
-            if (sriox_status_reg.s.srio)
-                bdk_srio_initialize(i, 0);
-        }
         return 4;
-    }
     else
         return 0;
 }
@@ -46,6 +30,10 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int if_init(bdk_if_handle_t handle)
 {
+    /* Initialize SRIO */
+    if (handle->index == 0)
+        bdk_srio_initialize(handle->interface, 0);
+
     /* SRIO ports have a bdk_srio_rx_message_header_t header
         on them that must be skipped by IPD */
     BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd),
