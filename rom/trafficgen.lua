@@ -363,10 +363,19 @@ function TrafficGen.new()
     end
 
     function self:cmdp_scan_sizes(port_range, args)
+        -- Get the size of one FPA buffer
+        local fpa_size = 8 * octeon.csr.IPD_PACKET_MBUFF_SIZE.MB_SIZE
+        -- PKO can only handle a maximum of 63 segments. Each segment has
+        -- 8 bytes to link to the next one
+        local max_packet = 63 * (fpa_size - 8)
+        -- IPD can't handle packets larger than 65524
+        if max_packet > 65524 then
+            max_packet = 65524
+        end
         -- Get our setup params
         local output_count = 100
         local size_start = 60
-        local size_stop = 65524
+        local size_stop = max_packet
         local size_incr = 1
         -- Get the latest statistics
         local all_stats = self:display()
@@ -378,9 +387,8 @@ function TrafficGen.new()
         for _,port in ipairs(port_range) do
             if port:sub(1,4) == "SRIO" then
                 -- SRIO rounds packets to multiples of 8 and can only handle
-                -- sizes up to 4096. It can handle smaller sizes, but the
-                -- packet building code requires at least 46 bytes
-                size_start = 48
+                -- sizes up to 4096. It can handle packets down to 8 bytes.
+                size_start = 8
                 size_stop = 4096
                 size_incr = 8
             end
