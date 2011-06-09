@@ -13,7 +13,7 @@ typedef struct
 #define AS_INIT(name, default_value) [name] = {#name, default_value}
 static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 {
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE0, 1024 + 128), /* Add extra cache line to improve striping */
+    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE0, 256 + 128), /* Add extra cache line to improve striping */
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE1, 128),
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE2, 0),
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE3, 0),
