@@ -10,6 +10,9 @@
  * @{
  */
 
+/* CVMSEG location to use for async work */
+#define BDK_IF_SCR_WORK 0
+
 /**
  * Enumeration of different interfaces in Octeon.
  */
@@ -64,6 +67,8 @@ typedef struct __bdk_if_port
     int         pko_port    : 8;
     int         pko_queue   : 8;
     int         has_fcs     : 8;
+    void *      receiver; /* This is a bdk_if_packet_receiver_t */
+    void *      receiver_arg;
     void *      priv;
     bdk_cmd_queue_state_t cmd_queue[2];
     bdk_if_stats_t stats;
@@ -82,6 +87,8 @@ typedef struct
     int             rx_error; /* FIXME: Should be an enum */
     bdk_buf_ptr_t   packet;
 } bdk_if_packet_t;
+
+typedef void (*bdk_if_packet_receiver_t)(const bdk_if_packet_t *packet, void *arg);
 
 typedef struct
 {
@@ -114,7 +121,8 @@ extern const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle);
 extern bdk_if_link_t __bdk_if_phy_get(int phy_addr);
 
 extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
-extern int bdk_if_receive(bdk_if_packet_t *packet);
+extern void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg);
+extern int bdk_if_dispatch(void);
 extern int bdk_if_alloc(bdk_if_packet_t *packet, int length);
 extern void bdk_if_free(bdk_if_packet_t *packet);
 extern void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data);

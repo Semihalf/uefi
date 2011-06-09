@@ -27,6 +27,31 @@ static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
 
+static inline void sso_get_work_async(int scr_addr, int wait)
+{
+    union
+    {
+        uint64_t u64;
+        struct
+        {
+            uint64_t    scraddr : 8;    /**< the (64-bit word) location in scratchpad to write to (if len != 0) */
+            uint64_t    len     : 8;    /**< the number of words in the response (0 => no response) */
+            uint64_t    did     : 8;    /**< the ID of the device on the non-coherent bus */
+            uint64_t    unused  :36;
+            uint64_t    wait    : 1;    /**< if set, don't return load response until work is available */
+            uint64_t    unused2 : 3;
+        } s;
+    } data;
+
+    /* scr_addr must be 8 byte aligned */
+    data.u64 = 0;
+    data.s.scraddr = scr_addr >> 3;
+    data.s.len = 1;
+    data.s.did = 12<<3 | 0;
+    data.s.wait = wait;
+    bdk_send_single(data.u64);
+}
+
 /**
  * One time init of the SSO
  *
@@ -495,8 +520,8 @@ int bdk_if_num_ports(bdk_if_t iftype, int interface)
  * easy to write loops that iterate over ports.
  *
  * @param handle Port to get handle after. NULL means get the first port.
- *
- * @return Next port handle or NULL when the end is reached.
+**
+   @return Next port handle or NULL when the end is reached.
  */
 bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)
 {
@@ -755,19 +780,65 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
 
 /**
- * Receive a packet from any enabled interface.
+ * Register to receive packet from an interface
  *
- * @param packet Receives the packet. Unmodified if no packet is found.
- *
- * @return Zero on getting a packet, positive on no packets available,
- *         negative on failure.
+ * @param handle   Interface to register for
+ * @param receiver Function to call
+ * @param arg      Second argument to the function
  */
-int bdk_if_receive(bdk_if_packet_t *packet)
+void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg)
 {
-    /* Get work without waiting */
-    uint64_t raw_work = bdk_read64_uint64(0x8001600000000000ull);
-    if ((raw_work>>63) == 0)
+    handle->receiver = receiver;
+    handle->receiver_arg = arg;
+}
+
+
+static inline void dispatch(bdk_if_packet_t *packet)
+{
+    bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
+    if (receiver)
+        receiver(packet, packet->if_handle->receiver_arg);
+    bdk_if_free(packet);
+}
+
+
+/**
+ * Called by the thread OS layer to dispatch pending packets
+ */
+int bdk_if_dispatch(void)
+{
+    int count = 0;
+    bdk_if_packet_t packet;
+
+    while (count < 100)
     {
+        /* Get the current status of the async get work */
+        uint64_t raw_work = bdk_scratch_read64(BDK_IF_SCR_WORK);
+
+        /* Issue an async get work if the previous one completed */
+        if (raw_work)
+        {
+            /* Store zero before doing async get work so we can tell when
+                it is done */
+            bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
+            sso_get_work_async(BDK_IF_SCR_WORK, 1);
+        }
+
+        /* Check devices that msut be polled if no work was available */
+        if (!raw_work || (raw_work>>63))
+        {
+            for (bdk_if_handle_t handle=__bdk_if_poll_head; handle!=NULL; handle=handle->poll_next)
+                if (__bdk_if_ops[handle->iftype]->if_receive(handle, &packet) == 0)
+                {
+                    count++;
+                    dispatch(&packet);
+                }
+            return count;
+        }
+
+        count++;
+
+        /* Get a pointer to the work */
         bdk_wqe_t *wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
 
         /* Get the IPD port number */
@@ -775,25 +846,25 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
             ipd_port = wqe->word1.v1.ipprt;
 
-        packet->if_handle = __bdk_if_ipd_map[ipd_port];
-        packet->length = wqe->word1.s.len;
+        packet.if_handle = __bdk_if_ipd_map[ipd_port];
+        packet.length = wqe->word1.s.len;
         if (bdk_unlikely(wqe->word2.s.re))
-            packet->rx_error = wqe->word2.s.opcode;
+            packet.rx_error = wqe->word2.s.opcode;
         else
-            packet->rx_error = 0;
+            packet.rx_error = 0;
 
         if (bdk_likely(wqe->word2.s.bufs == 0))
         {
-            packet->segments = 1;
-            packet->packet.u64 = 0;
-            packet->packet.s.back = 0;
-            packet->packet.s.pool = BDK_FPA_PACKET_POOL;
-            packet->packet.s.size = 128; // FIXME packet size
-            packet->packet.s.addr = bdk_ptr_to_phys(wqe->packet_data);
+            packet.segments = 1;
+            packet.packet.u64 = 0;
+            packet.packet.s.back = 0;
+            packet.packet.s.pool = BDK_FPA_PACKET_POOL;
+            packet.packet.s.size = 128; // FIXME packet size
+            packet.packet.s.addr = bdk_ptr_to_phys(wqe->packet_data);
             if (bdk_likely(!wqe->word2.s.ni))
             {
-                packet->packet.s.addr += (4<<3) - wqe->word2.ip.ip_offset;
-                packet->packet.s.addr += (wqe->word2.ip.v6^1)<<2;
+                packet.packet.s.addr += (4<<3) - wqe->word2.ip.ip_offset;
+                packet.packet.s.addr += (wqe->word2.ip.v6^1)<<2;
             }
             else
             {
@@ -801,20 +872,20 @@ int bdk_if_receive(bdk_if_packet_t *packet)
                     we would use PIP_GBL_CFG[RAW_SHF] instead of
                     PIP_GBL_CFG[NIP_SHF] */
                 BDK_CSR_INIT(pip_gbl_cfg, BDK_PIP_GBL_CFG);
-                packet->packet.s.addr += pip_gbl_cfg.s.nip_shf;
+                packet.packet.s.addr += pip_gbl_cfg.s.nip_shf;
             }
         }
         else
         {
-            packet->segments = wqe->word2.s.bufs;
-            packet->packet = wqe->packet_ptr;
+            packet.segments = wqe->word2.s.bufs;
+            packet.packet = wqe->packet_ptr;
         }
 
-        if (bdk_unlikely(!packet->if_handle))
+        if (bdk_unlikely(!packet.if_handle))
         {
             bdk_error("Unable to find IF for ipd_port %d\n", ipd_port);
-            bdk_if_free(packet);
-            return -1;
+            bdk_if_free(&packet);
+            return count;
         }
 
         if (USE_PER_PORT_BACKPRESSURE)
@@ -822,8 +893,8 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             /* Subtract this packet's segemnts from the port's IPD usage */
             BDK_CSR_DEFINE(page_cnt, BDK_IPD_SUB_PORT_BP_PAGE_CNT);
             page_cnt.u64 = 0;
-            page_cnt.s.port = packet->if_handle->pknd;
-            page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet->segments-1;
+            page_cnt.s.port = packet.if_handle->pknd;
+            page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet.segments-1;
             BDK_CSR_WRITE(BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
         }
 
@@ -832,21 +903,14 @@ int bdk_if_receive(bdk_if_packet_t *packet)
         if (bdk_unlikely(bdk_is_simulation()))
         {
             int octets = wqe->word1.s.len;
-            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.octets, octets);
-            bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.packets, 1);
-            if (packet->rx_error)
-                bdk_atomic_add64_nosync((int64_t*)&packet->if_handle->stats.rx.errors, 1);
+            bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.octets, octets);
+            bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.packets, 1);
+            if (packet.rx_error)
+                bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.errors, 1);
         }
-        return 0;
+        dispatch(&packet);
     }
-
-    for (bdk_if_handle_t handle=__bdk_if_poll_head; handle!=NULL; handle=handle->poll_next)
-    {
-        if (__bdk_if_ops[handle->iftype]->if_receive(handle, packet) == 0)
-            return 0;
-    }
-
-    return 1;
+    return count;
 }
 
 

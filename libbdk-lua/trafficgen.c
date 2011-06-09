@@ -75,6 +75,7 @@ static tg_port_t *tg_port_tail;
 
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix);
 static int do_reset(tg_port_t *tg_port);
+static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg);
 
 /**
  *
@@ -127,6 +128,7 @@ static void tg_init_port(tg_port_t *tg_port)
         default:
             break;
     }
+    bdk_if_register_for_packets(tg_port->handle, tg_packet_receiver, tg_port);
     bdk_if_enable(tg_port->handle);
 }
 
@@ -823,7 +825,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     return 0;
 }
 
-static void dump_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
+static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
 {
     uint64_t        count;
     uint64_t        remaining_bytes;
@@ -885,33 +887,18 @@ static void dump_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
  * @param work   Work to be processed. Ideally it should already be prefetched
  *               into memory.
  */
-static void process_packet(bdk_if_packet_t *packet)
+static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg)
 {
-    tg_port_t *tg_port = tg_get_port(packet->if_handle);
+    tg_port_t *tg_port = arg;
 
     if (bdk_likely(tg_port->pinfo.setup.validate))
     {
-        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, packet, 0)))
+        if (bdk_unlikely(is_packet_crc32c_wrong(tg_port, (bdk_if_packet_t *)packet, 0)))
             bdk_atomic_add64((int64_t*)&tg_port->pinfo.stats.rx_validation_errors, 1);
     }
 
     if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
         dump_packet(tg_port, packet);
-
-    bdk_if_free(packet);
-}
-
-static void packet_receiver(int unused, void *unused2)
-{
-    bdk_if_packet_t packet;
-    while (1)
-    {
-        int status = bdk_if_receive(&packet);
-        if (status == 0)
-            process_packet(&packet);
-        else
-            bdk_thread_yield();
-    }
 }
 
 
@@ -1244,13 +1231,6 @@ static int stop(lua_State* L)
  */
 static int start(lua_State* L)
 {
-    static int have_rx;
-    if (!have_rx)
-    {
-        have_rx = 1;
-        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
-        bdk_thread_create(0, packet_receiver, 0, NULL, 0);
-    }
     for_each_port(L, do_start);
     return 0;
 }

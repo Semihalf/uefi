@@ -82,6 +82,8 @@ void bdk_thread_yield(void)
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
+    bdk_if_dispatch();
+
     if (bdk_unlikely(!current))
         return;
 
@@ -198,6 +200,7 @@ void bdk_thread_destroy(void)
     bdk_atomic_add32(&dead_cores, 1);
     while (1)
     {
+        int have_packets = bdk_if_dispatch();
         if (bdk_thread_head)
         {
             bdk_spinlock_lock(&bdk_thread_lock);
@@ -214,7 +217,11 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&bdk_thread_lock);
         }
-        BDK_ASM_PAUSE;
+        /* If we had nothing to do perform a synciobdma to force the core to
+            sleep until the last async work completes, This conserves power
+            for cores that aren't doing anything */
+        if (!have_packets)
+            BDK_SYNCIOBDMA;
         if (bdk_atomic_get32(&dead_cores) == bdk_octeon_num_cores())
             __bdk_die();
     }

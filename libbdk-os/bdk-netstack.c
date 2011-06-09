@@ -55,45 +55,32 @@ static void netstack_netif_poll_link(void *unused)
  *
  * @param unused
  */
-static void netstack_netif_rx(void *unused)
+static void netstack_netif_rx(const bdk_if_packet_t *packet, void *arg)
 {
-    bdk_if_packet_t packet;
-    int count = 0;
-    while (bdk_if_receive(&packet) == 0)
+    struct netif *netif = arg;
+    struct pbuf *p = pbuf_alloc(PBUF_RAW, ETH_PAD_SIZE + packet->length, PBUF_RAM);
+    if (p)
     {
-        struct netif *netif = netif_list;
-        while (netif && (netif->state != packet.if_handle))
-            netif = netif->next;
-        if (netif)
+        const bdk_buf_ptr_t *buf_ptr = &packet->packet;
+        int to_go = packet->length;
+        char *ptr = p->payload + ETH_PAD_SIZE;
+        while (to_go)
         {
-            struct pbuf *p = pbuf_alloc(PBUF_RAW, ETH_PAD_SIZE + packet.length, PBUF_RAM);
-            if (p)
-            {
-                const bdk_buf_ptr_t *buf_ptr = &packet.packet;
-                int to_go = packet.length;
-                char *ptr = p->payload + ETH_PAD_SIZE;
-                while (to_go)
-                {
-                    const void *buf = bdk_phys_to_ptr(buf_ptr->s.addr);
-                    int l = (buf_ptr->s.size < to_go) ? buf_ptr->s.size : to_go;
-                    memcpy(ptr, buf, l);
-                    buf_ptr = buf - 8;
-                    to_go -= l;
-                    ptr += l;
-                }
-                if (netif->input(p, netif))
-                {
-                    bdk_error("netif->input() failed\n");
-                    pbuf_free(p);
-                }
-                count++;
-            }
-            else
-                bdk_error("pbuf_alloc() failed\n");
+            const void *buf = bdk_phys_to_ptr(buf_ptr->s.addr);
+            int l = (buf_ptr->s.size < to_go) ? buf_ptr->s.size : to_go;
+            memcpy(ptr, buf, l);
+            buf_ptr = buf - 8;
+            to_go -= l;
+            ptr += l;
         }
-        bdk_if_free(&packet);
+        if (netif->input(p, netif))
+        {
+            bdk_error("netif->input() failed\n");
+            pbuf_free(p);
+        }
     }
-    sys_timeout((count) ? 0 : 1, netstack_netif_rx, NULL);
+    else
+        bdk_error("pbuf_alloc() failed\n");
 }
 
 
@@ -320,6 +307,7 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
     if (!netif)
         return -1;
 
+    bdk_if_register_for_packets(netif->state, netstack_netif_rx, netif);
     bdk_if_enable(netif->state);
     if (strcasecmp(ip, "dhcp") == 0)
     {
@@ -344,9 +332,6 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
         netifapi_netif_set_up(netif);
     }
 
-    /* Start the receive poll when the first port is configured */
-    if (!configed_netif)
-        sys_timeout(1, netstack_netif_rx, NULL);
     configed_netif++;
     return 0;
 }
