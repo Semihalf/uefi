@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define USE_PER_PORT_BACKPRESSURE 1
+
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
 extern const __bdk_if_ops_t __bdk_if_ops_dpi;
@@ -113,7 +115,7 @@ static int __bdk_if_setup_ipd_global(void)
     BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
         c.s.no_wptr = 1;    /* Store WQE in packet */
         c.s.len_m8 = 1;     /* Use correct lengths */
-        c.s.addpkt = 1;     /* Increment backpressure accounting for every packet */
+        c.s.addpkt = USE_PER_PORT_BACKPRESSURE; /* Increment backpressure accounting for every packet */
         c.s.pbp_en = 1;     /* Enable per port backpressure accounting */
         c.s.opc_mode = 1);  /* Store into L2 */
 
@@ -203,7 +205,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         {
             /* Backpressure when this port has 256 buffers in use */
             BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT(handle->ipd_port),
-                c.s.bp_enb = 1;
+                c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
                 c.s.page_cnt = 1);
             /* Enable RED dropping */
             BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE, c.s.prt_enb |= 1ull<<handle->ipd_port);
@@ -212,7 +214,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         {
             /* Backpressure when this port has 256 buffers in use */
             BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT2(handle->ipd_port),
-                c.s.bp_enb = 1;
+                c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
                 c.s.page_cnt = 1);
             /* Enable RED dropping */
             BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE2, c.s.prt_enb |= 1ull<<(handle->ipd_port-36));
@@ -221,7 +223,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         {
             /* Backpressure when this port has 256 buffers in use */
             BDK_CSR_MODIFY(c, BDK_IPD_PORTX_BP_PAGE_CNT3(handle->ipd_port),
-                c.s.bp_enb = 1;
+                c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
                 c.s.page_cnt = 1);
             /* Enable RED dropping */
             BDK_CSR_MODIFY(c, BDK_IPD_RED_PORT_ENABLE2, c.s.prt_enb |= 1ull<<(handle->ipd_port-36));
@@ -815,12 +817,15 @@ int bdk_if_receive(bdk_if_packet_t *packet)
             return -1;
         }
 
-        /* Subtract this packet's segemnts from the port's IPD usage */
-        BDK_CSR_DEFINE(page_cnt, BDK_IPD_SUB_PORT_BP_PAGE_CNT);
-        page_cnt.u64 = 0;
-        page_cnt.s.port = packet->if_handle->pknd;
-        page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet->segments-1;
-        BDK_CSR_WRITE(BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
+        if (USE_PER_PORT_BACKPRESSURE)
+        {
+            /* Subtract this packet's segemnts from the port's IPD usage */
+            BDK_CSR_DEFINE(page_cnt, BDK_IPD_SUB_PORT_BP_PAGE_CNT);
+            page_cnt.u64 = 0;
+            page_cnt.s.port = packet->if_handle->pknd;
+            page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet->segments-1;
+            BDK_CSR_WRITE(BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
+        }
 
         /* Updates the statistics in software if need to. The simulator
             doesn't implement the hardware counters */
