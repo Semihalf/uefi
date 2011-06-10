@@ -28,9 +28,6 @@ static void __bdk_init_cop0(void)
     /* Sync cycle counter */
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * bdk_clock_get_rate(BDK_CLOCK_CORE) / bdk_clock_get_rate(BDK_CLOCK_SCLK);
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
-
-    /* Initialize async WQE area with no work */
-    bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
 }
 
 
