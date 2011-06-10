@@ -818,6 +818,8 @@ int bdk_if_dispatch(void)
         /* Issue an async get work if the previous one completed */
         if (raw_work)
         {
+            /* The get work should already be done, but this insures that it is */
+            BDK_SYNCIOBDMA;
             /* Store zero before doing async get work so we can tell when
                 it is done */
             bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
