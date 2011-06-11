@@ -9,7 +9,7 @@ local debug = require("debug")
 
 -- Start the main menu.
 while true do
-    status, result = xpcall(dofile, debug.traceback, "/rom/main.lua")
+    local status, result = xpcall(dofile, debug.traceback, "/rom/main.lua")
     if not status then
         print("ERROR:", result)
     end
