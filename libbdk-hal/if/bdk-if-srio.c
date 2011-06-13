@@ -44,49 +44,12 @@ static int if_init(bdk_if_handle_t handle)
         c.s.port = handle->interface * 2 + (handle->index&1);
         c.s.enable = 1);
 
-    /* Allow OMSG controller to send regardless of the state of any other
-        controller. Allow messages to different IDs and MBOXes to go in
-        parallel */
-    BDK_CSR_DEFINE(sriox_omsg_sp_mrx, BDK_SRIOX_OMSG_SP_MRX(handle->index, handle->interface));
-    sriox_omsg_sp_mrx.u64 = 0;
-    sriox_omsg_sp_mrx.s.xmbox_sp = 1;
-    sriox_omsg_sp_mrx.s.ctlr_sp = 1;
-    sriox_omsg_sp_mrx.s.ctlr_fmp = 1;
-    sriox_omsg_sp_mrx.s.ctlr_nmp = 1;
-    sriox_omsg_sp_mrx.s.id_sp = 1;
-    sriox_omsg_sp_mrx.s.id_fmp = 1;
-    sriox_omsg_sp_mrx.s.id_nmp = 1;
-    sriox_omsg_sp_mrx.s.mbox_sp = 1;
-    sriox_omsg_sp_mrx.s.mbox_fmp = 1;
-    sriox_omsg_sp_mrx.s.mbox_nmp = 1;
-    sriox_omsg_sp_mrx.s.all_psd = 1;
-    BDK_CSR_WRITE(BDK_SRIOX_OMSG_SP_MRX(handle->index, handle->interface), sriox_omsg_sp_mrx.u64);
-
-    /* Allow OMSG controller to send regardless of the state of any other
-        controller. Allow messages to different IDs and MBOXes to go in
-        parallel */
-    BDK_CSR_DEFINE(sriox_omsg_fmp_mrx, BDK_SRIOX_OMSG_FMP_MRX(handle->index, handle->interface));
-    sriox_omsg_fmp_mrx.u64 = 0;
-    sriox_omsg_fmp_mrx.s.ctlr_sp = 1;
-    sriox_omsg_fmp_mrx.s.ctlr_fmp = 1;
-    sriox_omsg_fmp_mrx.s.ctlr_nmp = 1;
-    sriox_omsg_fmp_mrx.s.id_sp = 1;
-    sriox_omsg_fmp_mrx.s.id_fmp = 1;
-    sriox_omsg_fmp_mrx.s.id_nmp = 1;
-    sriox_omsg_fmp_mrx.s.mbox_sp = 1;
-    sriox_omsg_fmp_mrx.s.mbox_fmp = 1;
-    sriox_omsg_fmp_mrx.s.mbox_nmp = 1;
-    sriox_omsg_fmp_mrx.s.all_psd = 1;
-    BDK_CSR_WRITE(BDK_SRIOX_OMSG_FMP_MRX(handle->index, handle->interface), sriox_omsg_fmp_mrx.u64);
-
-    /* Once the first part of a message is accepted, always acept the rest
-        of the message */
-    BDK_CSR_DEFINE(sriox_omsg_nmp_mrx, BDK_SRIOX_OMSG_NMP_MRX(handle->index, handle->interface));
-    sriox_omsg_nmp_mrx.u64 = 0;
-    sriox_omsg_nmp_mrx.s.all_sp = 1;
-    sriox_omsg_nmp_mrx.s.all_fmp = 1;
-    sriox_omsg_nmp_mrx.s.all_nmp = 1;
-    BDK_CSR_WRITE(BDK_SRIOX_OMSG_NMP_MRX(handle->index, handle->interface), sriox_omsg_nmp_mrx.u64);
+    /* The BDK only cares about performance and doesn't need message
+        ordering. Configure the message controllers to send regardless
+        of other pending messages */
+    BDK_CSR_WRITE(BDK_SRIOX_OMSG_SP_MRX(handle->index, handle->interface), -1);
+    BDK_CSR_WRITE(BDK_SRIOX_OMSG_FMP_MRX(handle->index, handle->interface), -1);
+    BDK_CSR_WRITE(BDK_SRIOX_OMSG_NMP_MRX(handle->index, handle->interface), -1);
 
     /* Choose the receive controller based on the mailbox */
     BDK_CSR_MODIFY(c, BDK_SRIOX_IMSG_CTRL(handle->interface),

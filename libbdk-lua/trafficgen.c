@@ -122,7 +122,7 @@ static void tg_init_port(tg_port_t *tg_port)
             tg_port->pinfo.setup.srio.s.xmbox = 0;
             tg_port->pinfo.setup.srio.s.mbox = tg_port->handle->index&3;
             tg_port->pinfo.setup.srio.s.letter = 0;
-            tg_port->pinfo.setup.srio.s.lns = 0;
+            tg_port->pinfo.setup.srio.s.lns = 1;
             tg_port->pinfo.setup.srio.s.intr = 0;
             break;
         default:
