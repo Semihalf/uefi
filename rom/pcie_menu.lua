@@ -31,7 +31,7 @@ end
 local function do_read(pcie_port)
     assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
     local address = menu.prompt_number("PCIe bus address")
-    local length = menu.prompt_number("Number of bytes to read")
+    local length = menu.prompt_number("Number of bytes to read", nil, 1, 65536)
     local f = fileio.open("/dev/pcie/" .. pcie_port, "r", address)
     f:setvbuf("full", length)
     local data = f:read(length)

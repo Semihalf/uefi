@@ -26,32 +26,26 @@ local function twsi_scan(twsi_bus)
 end
 
 local function twsi_read(twsi_bus)
-    local dev_addr = menu.prompt_number("Device address")
-    assert((dev_addr>=0) and (dev_addr<128), "Invalid TWSI address")
-    local ia_width = menu.prompt_number("Internal address width (0, 1, or 2)")
-    assert((ia_width>=0) and (ia_width<=2), "Invalid TWSI internal address width")
+    local dev_addr = menu.prompt_number("Device address", nil, 0, 127)
+    local ia_width = menu.prompt_number("Internal address width", nil, 0, 2)
     local ia_address = 0
     if ia_width > 0 then
         ia_address = menu.prompt_number("Internal address")
     end
-    local num_bytes = menu.prompt_number("Number of bytes to read")
-    assert((num_bytes>0) and (num_bytes<=4), "Invalid read width")
+    local num_bytes = menu.prompt_number("Number of bytes to read", nil, 1, 4)
     local result = octeon.c.bdk_twsix_read_ia(twsi_bus, dev_addr, ia_address, num_bytes, ia_width)
     assert(result ~= -1, "TWSI read failed")
     printf("Result: %d (0x%x)\n", result, result)
 end
 
 local function twsi_write(twsi_bus)
-    local dev_addr = menu.prompt_number("Device address")
-    assert((dev_addr>=0) and (dev_addr<128), "Invalid TWSI address")
-    local ia_width = menu.prompt_number("Internal address width (0, 1, or 2)")
-    assert((ia_width>=0) and (ia_width<=2), "Invalid TWSI internal address width")
+    local dev_addr = menu.prompt_number("Device address", nil, 0, 127)
+    local ia_width = menu.prompt_number("Internal address width", nil, 0, 2)
     local ia_address = 0
     if ia_width > 0 then
         ia_address = menu.prompt_number("Internal address")
     end
-    local num_bytes = menu.prompt_number("Number of bytes to write")
-    assert((num_bytes>0) and (num_bytes<=4), "Invalid write width")
+    local num_bytes = menu.prompt_number("Number of bytes to write", nil, 1, 4)
     local data = menu.prompt_number("Data to write")
     local result = octeon.c.bdk_twsix_write_ia(twsi_bus, dev_addr, ia_address, num_bytes, ia_width, data)
     assert(result ~= -1, "TWSI write failed")

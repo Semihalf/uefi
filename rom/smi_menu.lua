@@ -16,7 +16,7 @@ local function smi_scan(smi_bus)
 end
 
 local function smi_read(smi_bus)
-    local dev_addr = menu.prompt_number("Device address")
+    local dev_addr = menu.prompt_number("Device address", nil, 0, 63)
     local reg = menu.prompt_number("Device register")
     local data = octeon.c.bdk_mdio_read(smi_bus, dev_addr, reg)
     assert(data ~= -1, "SMI/MDIO read failed")
@@ -25,7 +25,7 @@ local function smi_read(smi_bus)
 end
 
 local function smi_write(smi_bus)
-    local dev_addr = menu.prompt_number("Device address")
+    local dev_addr = menu.prompt_number("Device address", nil, 0, 63)
     local reg = menu.prompt_number("Device register")
     local data = menu.prompt_number("Data")
     assert(octeon.c.bdk_mdio_write(smi_bus, dev_addr, reg, data) ~= -1, "SMI/MDIO write failed")

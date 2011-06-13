@@ -10,8 +10,7 @@ local function gpio_config()
     local is_output = menu.prompt_yes_no("Configure as output")
     local value
     if is_output then
-        value = menu.prompt_number("GPIO state (0/1)")
-        assert((value == 0) or (value == 1), "Expected 0 or 1")
+        value = menu.prompt_number("GPIO state", nil, 0, 1)
     else
         value = 0
     end

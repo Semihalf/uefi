@@ -30,13 +30,10 @@ local function do_display(srio_port)
 end
 
 local function do_maintread(srio_port)
-    local devid = menu.prompt_number("Device ID")
-    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local devid = menu.prompt_number("Device ID", nil, -1, 65535)
     local is16bit = menu.prompt_yes_no("Do a 16 bit access")
-    local hopcount = menu.prompt_number("Hop count")
-    assert((hopcount >= 0) and (hopcount < 256), "Illegal hop count")
-    local register = menu.prompt_number("Register address")
-    assert((register >= 0), "Illegal register")
+    local hopcount = menu.prompt_number("Hop count", nil, 0, 255)
+    local register = menu.prompt_number("Register address", nil, 0)
 
     local result = octeon.c.bdk_srio_config_read32(srio_port, 0, devid, is16bit, hopcount, register)
     assert(result ~= -1, "Maintenance read failed")
@@ -44,13 +41,10 @@ local function do_maintread(srio_port)
 end
 
 local function do_maintwrite(srio_port)
-    local devid = menu.prompt_number("Device ID")
-    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local devid = menu.prompt_number("Device ID", nil, -1, 65535)
     local is16bit = menu.prompt_yes_no("Do a 16 bit access")
-    local hopcount = menu.prompt_number("Hop count")
-    assert((hopcount >= 0) and (hopcount < 256), "Illegal hop count")
-    local register = menu.prompt_number("Register address")
-    assert((register >= 0), "Illegal register")
+    local hopcount = menu.prompt_number("Hop count", nil, 0, 255)
+    local register = menu.prompt_number("Register address", nil, 0)
     local value = menu.prompt_number("Write value")
 
     local result = octeon.c.bdk_srio_config_write32(srio_port, 0, devid, is16bit, hopcount, register, value)
@@ -58,12 +52,10 @@ local function do_maintwrite(srio_port)
 end
 
 local function do_doorbell_tx(srio_port)
-    local devid = menu.prompt_number("Device ID")
-    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
+    local devid = menu.prompt_number("Device ID", nil, 0, 65535)
     local is16bit = menu.prompt_yes_no("Do a 16 bit access")
-    local priority = menu.prompt_number("Priority(0-3)")
-    assert((priority >= 0) and (priority <= 3), "Illegal priority")
-    local doorbell = menu.prompt_number("Doorbell Value")
+    local priority = menu.prompt_number("Priority", nil, 0, 3)
+    local doorbell = menu.prompt_number("Doorbell Value", nil, 0, 65535)
 
     local result = octeon.c.bdk_srio_send_doorbell(srio_port, 0, devid, is16bit, priority, doorbell)
     assert(result == 0, "Doorbell send failed")
@@ -100,10 +92,9 @@ end
 
 local function do_memread(srio_port)
     assert(srio_root[srio_port], "SRIO" .. srio_port .. " not initialized")
-    local devid = menu.prompt_number("Device ID")
-    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
-    local address = menu.prompt_number("SRIO bus address")
-    local length = menu.prompt_number("Number of bytes to read")
+    local devid = menu.prompt_number("Device ID", nil, 0, 65535)
+    local address = menu.prompt_number("SRIO bus address", nil, 0)
+    local length = menu.prompt_number("Number of bytes to read", nil, 1, 65536)
     local f = fileio.open("/dev/srio/" .. srio_port .. "/" .. devid, "r", address)
     f:setvbuf("full", length)
     local data = f:read(length)
@@ -117,9 +108,8 @@ end
 
 local function do_memwrite(srio_port)
     assert(srio_root[srio_port], "SRIO" .. srio_port .. " not initialized")
-    local devid = menu.prompt_number("Device ID")
-    assert((devid >= -1) and (devid < 65536), "Illegal device ID")
-    local address = menu.prompt_number("SRIO bus address")
+    local devid = menu.prompt_number("Device ID", nil, 0, 65535)
+    local address = menu.prompt_number("SRIO bus address", nil, 0)
     local hex_data = menu.prompt_string("Data to write in hex")
     local data = ""
     for i=1,#hex_data,2 do
