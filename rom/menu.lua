@@ -132,11 +132,26 @@ end
 --
 -- Prompt the user for a number. Throw an error if the user aborts input.
 --
-function menu.prompt_number(prompt, optional_default)
+function menu.prompt_number(prompt, optional_default, optional_min, optional_max)
+    if optional_min then
+        if optional_max then
+            prompt = prompt .. " (" .. tostring(optional_min) .. " - " .. tostring(optional_max) .. ")"
+        else
+            prompt = prompt .. " (min " .. tostring(optional_min) .. ")"
+        end
+    elseif optional_max then
+        prompt = prompt .. " (max " .. tostring(optional_max) .. ")"
+    end
     local result = menu.prompt_string(prompt, optional_default)
     result = tonumber(result)
     if not result then
         error("Invalid number")
+    end
+    if optional_min and (result < optional_min) then
+        error("Out of range")
+    end
+    if optional_max and (result > optional_max) then
+        error("Out of range")
     end
     return result
 end
