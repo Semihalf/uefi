@@ -468,29 +468,11 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
 
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
-        {
-            bdk_pemx_cfg_rd_t pemx_cfg_rd;
-            pemx_cfg_rd.u = 0;
-            pemx_cfg_rd.s.addr = address;
-            OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
-            pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(BDK_PEMX_CFG_RD(busnum));
-            return pemx_cfg_rd.s.data;
-        }
-
         case BDK_CSR_TYPE_SRIOMAINT:
-        {
-#if 1
-            return 0;
-#else
-            uint32_t result;
-            if (bdk_srio_config_read32(busnum, 0, -1, 0, 0, address, &result) == 0)
-                return result;
-            else
-                return 0;
-#endif
-        }
+            /* The generic code can be used here */
+            return __octeon_remote_default_read_csr(type, busnum, size, address);
     }
-    return 0;
+    return -1;
 }
 
 
@@ -539,19 +521,9 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
-        {
-            bdk_pemx_cfg_wr_t pemx_cfg_wr;
-            pemx_cfg_wr.u = 0;
-            pemx_cfg_wr.s.addr = address;
-            pemx_cfg_wr.s.data = value;
-            OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
-            break;
-        }
-
         case BDK_CSR_TYPE_SRIOMAINT:
-#if 0
-            bdk_srio_config_write32(busnum, 0, -1, 0, 0, address, value);
-#endif
+            /* The generic code can be used here */
+            __octeon_remote_default_write_csr(type, busnum, size, address, value);
             break;
     }
 }

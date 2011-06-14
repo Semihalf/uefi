@@ -200,7 +200,7 @@ static int default_reset(int stop_core __attribute__ ((unused)))
     return 0;
 }
 
-static uint64_t default_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address)
+uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
     switch (type)
     {
@@ -235,21 +235,48 @@ static uint64_t default_read_csr(bdk_csr_type_t type, int busnum, int size, uint
 
         case BDK_CSR_TYPE_SRIOMAINT:
         {
-#if 1
-            return 0;
-#else
-            uint32_t result;
-            if (bdk_srio_config_read32(busnum, 0, -1, 0, 0, address, &result) == 0)
-                return result;
-            else
-                return 0;
-#endif
+            bdk_sriox_maint_op_t maint_op = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum))};
+            /* Make sure SRIO isn't already busy */
+            if (maint_op.s.pending)
+            {
+                octeon_remote_debug(0, "SRIO%d: Pending bit stuck before config read\n", busnum);
+                return -1;
+            }
+
+            /* Issue the read to the hardware */
+            maint_op.u64 = 0;
+            maint_op.s.op = 0; /* Read */
+            maint_op.s.addr = address;
+            OCTEON_REMOTE_WRITE_CSR(BDK_SRIOX_MAINT_OP(busnum), maint_op.u64);
+
+            /* Wait for the hardware to complete the operation */
+            do
+            {
+                maint_op.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum));
+            } while (maint_op.s.pending);
+
+            /* Display and error and return if the operation failed to issue */
+            if (maint_op.s.fail)
+            {
+                octeon_remote_debug(0, "SRIO%d: Config read addressing error (offset=0x%x)\n", busnum, (unsigned int)address);
+                return -1;
+            }
+
+            /* Wait for the read data to become valid */
+            bdk_sriox_maint_rd_data_t maint_rd_data = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_RD_DATA(busnum))};
+            while (!maint_rd_data.s.valid)
+            {
+                maint_rd_data.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_RD_DATA(busnum));
+            }
+
+            /* Get the read data */
+            return maint_rd_data.s.rd_data;
         }
     }
-    return 0;
+    return -1;
 }
 
-static void default_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
+void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
     switch (type)
     {
@@ -285,10 +312,33 @@ static void default_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_
         }
 
         case BDK_CSR_TYPE_SRIOMAINT:
-#if 0
-            bdk_srio_config_write32(busnum, 0, -1, 0, 0, address, value);
-#endif
+        {
+            bdk_sriox_maint_op_t maint_op = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum))};
+            /* Make sure SRIO isn't already busy */
+            if (maint_op.s.pending)
+            {
+                octeon_remote_debug(0, "SRIO%d: Pending bit stuck before config write\n", busnum);
+                return;
+            }
+
+            /* Issue the write to the hardware */
+            maint_op.u64 = 0;
+            maint_op.s.wr_data = value;
+            maint_op.s.op = 1; /* Write */
+            maint_op.s.addr = address;
+            OCTEON_REMOTE_WRITE_CSR(BDK_SRIOX_MAINT_OP(busnum), maint_op.u64);
+
+            /* Wait for the hardware to complete the operation */
+            do
+            {
+                maint_op.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum));
+            } while (maint_op.s.pending);
+
+            /* Display and error and return if the operation failed to issue */
+            if (maint_op.s.fail)
+                octeon_remote_debug(0, "SRIO%d: Config write addressing error (offset=0x%x)\n", busnum, (unsigned int)address);
             break;
+        }
     }
 }
 
@@ -503,8 +553,8 @@ int octeon_remote_open(const char *remote_spec, int debug)
     remote_funcs.reset = default_reset;
     remote_funcs.read_register = default_read_register;
     remote_funcs.write_register = default_write_register;
-    remote_funcs.read_csr = default_read_csr;
-    remote_funcs.write_csr = default_write_csr;
+    remote_funcs.read_csr = __octeon_remote_default_read_csr;
+    remote_funcs.write_csr = __octeon_remote_default_write_csr;
 
     octeon_remote_debug(1, "Remote protocol is %s\n", remote_spec);
     octeon_remote_debug(1, "Remote debug is %d\n", remote_funcs.debug);

@@ -191,6 +191,7 @@ void octeon_remote_close(void);
  */
 uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
 #define OCTEON_REMOTE_READ_CSR(csr) octeon_remote_read_csr(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)
+uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
 
 /**
  * Write a CSR on a remote Octeon
@@ -201,6 +202,7 @@ uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint6
  */
 void octeon_remote_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
 #define OCTEON_REMOTE_WRITE_CSR(csr, value) octeon_remote_write_csr(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
+void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
 
 /**
  * Read data from a physical memory address.
