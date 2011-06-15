@@ -35,11 +35,13 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
         case BDK_CSR_TYPE_PEXP_NCB:
-            /* Handled by inline code */
-            return 0;
+            /* Handled by inline code, we should never get here */
+            bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
+            break;
 
         case BDK_CSR_TYPE_PEXP:
             /* We don't handle BAR0 CSRs */
+            bdk_error("%s: PEXP registers not supported\n", __FUNCTION__);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGEP:
@@ -54,11 +56,9 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
         }
 
         case BDK_CSR_TYPE_SRIOMAINT:
-        {
             return bdk_srio_config_read32(busnum, 0, -1, 0, 0, address);
-        }
     }
-    return 0;
+    return -1; /* Return -1 as this looks invalid in register dumps. Zero is too common as a good value */
 }
 
 
@@ -78,11 +78,13 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
         case BDK_CSR_TYPE_PEXP_NCB:
-            /* Handled by inline code */
+            /* Handled by inline code, we should never get here */
+            bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
             break;
 
         case BDK_CSR_TYPE_PEXP:
             /* We don't handle BAR0 CSRs */
+            bdk_error("%s: PEXP registers not supported\n", __FUNCTION__);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGEP:
