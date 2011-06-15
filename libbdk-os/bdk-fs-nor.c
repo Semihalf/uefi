@@ -48,12 +48,6 @@ static void *nor_open(const char *name, int flags)
 }
 
 
-static int nor_close(__bdk_fs_file_t *handle)
-{
-    return 0;
-}
-
-
 static int nor_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int chip_id = (long)handle->fs_state - 1;
@@ -123,7 +117,7 @@ static const __bdk_fs_ops_t bdk_fs_nor_ops =
     .stat = NULL,
     .unlink = NULL,
     .open = nor_open,
-    .close = nor_close,
+    .close = NULL,
     .lseek = NULL,
     .read = nor_read,
     .write = nor_write,

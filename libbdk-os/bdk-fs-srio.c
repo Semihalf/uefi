@@ -42,12 +42,6 @@ static void *srio_open(const char *name, int flags)
 }
 
 
-static int srio_close(__bdk_fs_file_t *handle)
-{
-    return 0;
-}
-
-
 static int srio_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     srio_file_state_t state;
@@ -98,7 +92,7 @@ static const __bdk_fs_ops_t bdk_fs_srio_ops =
     .stat = NULL,
     .unlink = NULL,
     .open = srio_open,
-    .close = srio_close,
+    .close = NULL,
     .lseek = NULL,
     .read = srio_read,
     .write = srio_write,

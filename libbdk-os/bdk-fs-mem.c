@@ -7,12 +7,6 @@ static void *mem_open(const char *name, int flags)
 }
 
 
-static int mem_close(__bdk_fs_file_t *handle)
-{
-    return 0;
-}
-
-
 static int mem_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     /* Check location to avoid warning from bdk_phys_to_ptr */
@@ -35,7 +29,7 @@ static const __bdk_fs_ops_t bdk_fs_mem_ops =
     .stat = NULL,
     .unlink = NULL,
     .open = mem_open,
-    .close = mem_close,
+    .close = NULL,
     .lseek = NULL,
     .read = mem_read,
     .write = mem_write,

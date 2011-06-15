@@ -11,12 +11,6 @@ static void *pcie_open(const char *name, int flags)
 }
 
 
-static int pcie_close(__bdk_fs_file_t *handle)
-{
-    return 0;
-}
-
-
 static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int pcie_port = (long)handle->fs_state - 1;
@@ -77,7 +71,7 @@ static const __bdk_fs_ops_t bdk_fs_pcie_ops =
     .stat = NULL,
     .unlink = NULL,
     .open = pcie_open,
-    .close = pcie_close,
+    .close = NULL,
     .lseek = NULL,
     .read = pcie_read,
     .write = pcie_write,
