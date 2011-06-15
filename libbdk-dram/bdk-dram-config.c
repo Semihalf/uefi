@@ -120,17 +120,3 @@ int bdk_dram_config(const char *board_name, int ddr_clock_hertz)
     return bdk_dram_config_raw(ddr_config, ddr_clock_hertz);
 }
 
-
-/**
- * Enable or disable verbose output during dram config
- *
- * @param is_verbose Non zero if verbose mose should be on
- */
-void bdk_dram_verbose(int is_verbose)
-{
-    if (is_verbose)
-        setenv("ddr_verbose", "yes", 1);
-    else
-        unsetenv("ddr_verbose");
-}
-

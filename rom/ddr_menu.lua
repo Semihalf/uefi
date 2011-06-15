@@ -34,7 +34,7 @@ local m = menu.new("DDR Menu")
 -- Build a list of choice for each board
 for _,board in ipairs(BOARD_CHOICES) do
     local text = "Load current DDR config using \"%s\"" % board .. " board settings"
-    m:item(board, text, function() 
+    m:item(board, text, function()
         print("Loading config for board " .. board)
         ddr_config = ddr.get_config(board)
     end)
@@ -116,8 +116,41 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
 
 end)
 
-m:item("verbose", "Enable verbose output", octeon.c.bdk_dram_verbose, 1)
-m:item("quiet", "Disable verbose output", octeon.c.bdk_dram_verbose, 0)
+local function update_verbose_label()
+    local label = "Toggle verbose output (Currently OFF)"
+    if os.getenv("ddr_verbose") then
+        label = "Toggle verbose output (Currently ON)"
+    end
+    m:item("verbose", label, function()
+        local value = os.getenv("ddr_verbose")
+        if value then
+            octeon.c.bdk_setenv("ddr_verbose", nil)
+        else
+            octeon.c.bdk_setenv("ddr_verbose", "yes")
+        end
+        update_verbose_label()
+    end)
+end
+update_verbose_label()
+
+m:item("setenv", "Set environment variable", function()
+    local name = menu.prompt_string("Name")
+    local value = menu.prompt_string("Value", "")
+    if value == "" then
+        value = nil
+    end
+    octeon.c.bdk_setenv(name, value)
+end)
+
+m:item("getenv", "Get environment variable", function()
+    local name = menu.prompt_string("Name")
+    local value = os.getenv(name)
+    if value then
+        printf("%s = %s\n", name, value)
+    else
+        printf("%s is not in the environment\n", name)
+    end
+end)
 
 m:item("init", "Initialize DDR controller using current config", function()
     if not ddr_config then

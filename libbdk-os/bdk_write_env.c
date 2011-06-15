@@ -2,6 +2,14 @@
 
 extern char **environ;
 
+void bdk_setenv(const char *name, const char *value)
+{
+    if (value)
+       setenv(name, value, 1);
+    else
+       unsetenv(name);
+}
+
 void bdk_write_env(void)
 {
     if (!*environ)
