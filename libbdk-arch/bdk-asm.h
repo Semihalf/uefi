@@ -424,41 +424,11 @@
 #define BDK_MF_COP0(val, cop0)           asm volatile ("dmfc0 %[rt]," __BDK_VASTR(cop0) : [rt] "=d" (val));
 #define BDK_MT_COP0(val, cop0)           asm volatile ("dmtc0 %[rt]," __BDK_VASTR(cop0) : : [rt] "d" (val));
 
-#define BDK_MF_CACHE_ERR(val)            BDK_MF_COP0(val, COP0_CACHEERRI)
-#define BDK_MF_DCACHE_ERR(val)           BDK_MF_COP0(val, COP0_CACHEERRD)
-#define BDK_MF_CVM_MEM_CTL(val)          BDK_MF_COP0(val, COP0_CVMMEMCTL)
-#define BDK_MF_CVM_CTL(val)              BDK_MF_COP0(val, COP0_CVMCTL)
-#define BDK_MT_CACHE_ERR(val)            BDK_MT_COP0(val, COP0_CACHEERRI)
-#define BDK_MT_DCACHE_ERR(val)           BDK_MT_COP0(val, COP0_CACHEERRD)
-#define BDK_MT_CVM_MEM_CTL(val)          BDK_MT_COP0(val, COP0_CVMMEMCTL)
-#define BDK_MT_CVM_CTL(val)              BDK_MT_COP0(val, COP0_CVMCTL)
-
 /* Macros for TLB */
 #define BDK_TLBWI                       asm volatile ("tlbwi" : : )
 #define BDK_TLBWR                       asm volatile ("tlbwr" : : )
 #define BDK_TLBR                        asm volatile ("tlbr" : : )
 #define BDK_TLBP                        asm volatile ("tlbp" : : )
-#define BDK_MT_ENTRY_HIGH(val)          asm volatile ("dmtc0 %[rt],$10,0" : : [rt] "d" (val))
-#define BDK_MT_ENTRY_LO_0(val)          asm volatile ("dmtc0 %[rt],$2,0" : : [rt] "d" (val))
-#define BDK_MT_ENTRY_LO_1(val)          asm volatile ("dmtc0 %[rt],$3,0" : : [rt] "d" (val))
-#define BDK_MT_PAGEMASK(val)            asm volatile ("mtc0 %[rt],$5,0" : : [rt] "d" (val))
-#define BDK_MT_PAGEGRAIN(val)           asm volatile ("mtc0 %[rt],$5,1" : : [rt] "d" (val))
-#define BDK_MT_TLB_INDEX(val)           asm volatile ("mtc0 %[rt],$0,0" : : [rt] "d" (val))
-#define BDK_MT_TLB_CONTEXT(val)         asm volatile ("dmtc0 %[rt],$4,0" : : [rt] "d" (val))
-#define BDK_MT_TLB_WIRED(val)           asm volatile ("mtc0 %[rt],$6,0" : : [rt] "d" (val))
-#define BDK_MT_TLB_RANDOM(val)          asm volatile ("mtc0 %[rt],$1,0" : : [rt] "d" (val))
-#define BDK_MF_ENTRY_LO_0(val)          asm volatile ("dmfc0 %[rt],$2,0" :  [rt] "=d" (val):)
-#define BDK_MF_ENTRY_LO_1(val)          asm volatile ("dmfc0 %[rt],$3,0" :  [rt] "=d" (val):)
-#define BDK_MF_ENTRY_HIGH(val)          asm volatile ("dmfc0 %[rt],$10,0" :  [rt] "=d" (val):)
-#define BDK_MF_PAGEMASK(val)            asm volatile ("mfc0 %[rt],$5,0" :  [rt] "=d" (val):)
-#define BDK_MF_PAGEGRAIN(val)           asm volatile ("mfc0 %[rt],$5,1" :  [rt] "=d" (val):)
-#define BDK_MF_TLB_WIRED(val)           asm volatile ("mfc0 %[rt],$6,0" :  [rt] "=d" (val):)
-#define BDK_MF_TLB_INDEX(val)           asm volatile ("mfc0 %[rt],$0,0" :  [rt] "=d" (val):)
-#define BDK_MF_TLB_RANDOM(val)          asm volatile ("mfc0 %[rt],$1,0" :  [rt] "=d" (val):)
-#define TLB_DIRTY   (0x1ULL<<2)
-#define TLB_VALID   (0x1ULL<<1)
-#define TLB_GLOBAL  (0x1ULL<<0)
-
 
 /* Macros to PUSH and POP Octeon2 ISA. */
 #define BDK_PUSH_OCTEON2    asm volatile (".set push\n.set arch=octeon2")
