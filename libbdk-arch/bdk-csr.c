@@ -292,7 +292,6 @@ int bdk_csr_decode(const char *name, uint64_t value)
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
     int num_fields;
-    int i;
 
     /* Fail if we can't find the CSR */
     if (!db)
@@ -310,10 +309,9 @@ int bdk_csr_decode(const char *name, uint64_t value)
     printf("[0x%016llx] = 0x%016llx\n", (unsigned long long)__bdk_csr_lookup_address(db, offset, block), (unsigned long long)value);
 
     num_fields = __bdk_csr_db_fieldList[db->field_index];
-    i = db->field_index + 1;
     while (num_fields--)
     {
-        int field = __bdk_csr_db_fieldList[i++];
+        int field = __bdk_csr_db_fieldList[db->field_index + 1 + num_fields];
         const char *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field];
         int start_bit = __bdk_csr_db_field[field+1];
         int stop_bit = __bdk_csr_db_field[field+2];
