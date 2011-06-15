@@ -406,13 +406,13 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     /* Check BIST status */
     pemx_bist_status.u64 = BDK_CSR_READ(BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u64)
-        bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016llx)\n", pcie_port, CAST64(pemx_bist_status.u64));
+        bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u64);
     pemx_bist_status2.u64 = BDK_CSR_READ(BDK_PEMX_BIST_STATUS2(pcie_port));
     /* Errata PCIE-14766 may cause the lower 6 bits to be randomly set on CN63XXp1 */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
         pemx_bist_status2.u64 &= ~0x3full;
     if (pemx_bist_status2.u64)
-        bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016llx)\n", pcie_port, CAST64(pemx_bist_status2.u64));
+        bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status2.u64);
 
     /* Initialize the config space CSRs */
     __bdk_pcie_rc_initialize_config_space(pcie_port);

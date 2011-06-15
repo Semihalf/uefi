@@ -20,7 +20,6 @@
 #define bdk_likely(x)      __builtin_expect(!!(x), 1)
 #define bdk_unlikely(x)    __builtin_expect(!!(x), 0)
 
-#define CAST64(v) ((long long)(long)(v)) // use only when 'v' is a pointer
 #define CASTPTR(type, v) ((type *)(long)(v))
 #define BDK_CACHE_LINE_SIZE    (128)   // In bytes
 #define BDK_CACHE_LINE_MASK    (BDK_CACHE_LINE_SIZE - 1)   // In bytes
