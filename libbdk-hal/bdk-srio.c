@@ -67,6 +67,17 @@ typedef struct
 
 static __bdk_srio_state_t __bdk_srio_state[4];
 
+/* This macro is the equivalent of BDK_CSR_MODIFY for SRIOMAINT registers.
+   It works identically excpet that it returns -1 on failures. The standard
+   BDK_CSR_MODIFY will quietly ignore errors */
+#define SRIOMANT_MODIFY(name, csr, code_block) do { \
+        typedef_##csr name; \
+        if (__bdk_srio_local_read32(busnum_##csr, csr, &name.u32)) \
+            return -1; \
+        code_block; \
+        if (__bdk_srio_local_write32(busnum_##csr, csr, name.u32)) \
+            return -1; \
+    } while (0)
 
 /**
  * @INTERNAL
@@ -295,15 +306,7 @@ static int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t dat
  */
 int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
 {
-    bdk_sriomaintx_port_lt_ctl_t port_lt_ctl;
-    bdk_sriomaintx_port_rt_ctl_t port_rt_ctl;
-    bdk_sriomaintx_port_0_ctl_t port_0_ctl;
-    bdk_sriomaintx_core_enables_t core_enables;
-    bdk_sriomaintx_port_gen_ctl_t port_gen_ctl;
     bdk_sriox_status_reg_t sriox_status_reg;
-    bdk_sriox_imsg_vport_thr_t sriox_imsg_vport_thr;
-    bdk_dpi_sli_prtx_cfg_t prt_cfg;
-    bdk_sli_s2m_portx_ctl_t sli_s2m_portx_ctl;
 
     sriox_status_reg.u64 = BDK_CSR_READ(BDK_SRIOX_STATUS_REG(srio_port));
     if (!sriox_status_reg.s.srio)
@@ -320,21 +323,17 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     {
         if (srio_port)
         {
-            bdk_ciu_qlm1_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM1);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM1, ciu_qlm.u64);
+            BDK_CSR_MODIFY(c, BDK_CIU_QLM1,
+                c.s.txbypass = 1;
+                c.s.txdeemph = 5;
+                c.s.txmargin = 0x17);
         }
         else
         {
-            bdk_ciu_qlm0_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM0);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM0, ciu_qlm.u64);
+            BDK_CSR_MODIFY(c, BDK_CIU_QLM0,
+                c.s.txbypass = 1;
+                c.s.txdeemph = 5;
+                c.s.txmargin = 0x17);
         }
     }
 
@@ -420,14 +419,11 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     }
 
     /* Disable the link while we make changes */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), &port_0_ctl.u32))
-        return -1;
-    port_0_ctl.s.o_enable = 0;
-    port_0_ctl.s.i_enable = 0;
-    port_0_ctl.s.prt_lock = 1;
-    port_0_ctl.s.disable = 0;
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), port_0_ctl.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_PORT_0_CTL(srio_port),
+        c.s.o_enable = 0;
+        c.s.i_enable = 0;
+        c.s.prt_lock = 1;
+        c.s.disable = 0);
 
     /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM De-emphasis be
         programmed when using a 156.25Mhz ref clock */
@@ -522,75 +518,54 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         cause packet ACCEPT to be lost */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
     {
-        bdk_sriomaintx_mac_ctrl_t mac_ctrl;
-        if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_MAC_CTRL(srio_port), &mac_ctrl.u32))
-            return -1;
-        mac_ctrl.s.type_mrg = 0;
-        if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_MAC_CTRL(srio_port), mac_ctrl.u32))
-            return -1;
+        SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_MAC_CTRL(srio_port),
+            c.s.type_mrg = 0);
     }
 
     /* Set the link layer timeout to 1ms. The default is too high and causes
         core bus errors */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_LT_CTL(srio_port), &port_lt_ctl.u32))
-        return -1;
-    port_lt_ctl.s.timeout = 1000000 / 200; /* 1ms = 1000000ns / 200ns */
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_LT_CTL(srio_port), port_lt_ctl.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_PORT_LT_CTL(srio_port),
+        c.s.timeout = 1000000 / 200); /* 1ms = 1000000ns / 200ns */
 
     /* Set the logical layer timeout to 100ms. The default is too high and causes
         core bus errors */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_RT_CTL(srio_port), &port_rt_ctl.u32))
-        return -1;
-    port_rt_ctl.s.timeout = 100000000 / 200; /* 100ms = 100000000ns / 200ns */
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_RT_CTL(srio_port), port_rt_ctl.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_PORT_RT_CTL(srio_port),
+        c.s.timeout = 100000000 / 200); /* 100ms = 100000000ns / 200ns */
 
     /* Allow memory and doorbells. Messaging is enabled later */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_CORE_ENABLES(srio_port), &core_enables.u32))
-        return -1;
-    core_enables.s.doorbell = 1;
-    core_enables.s.memory = 1;
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_CORE_ENABLES(srio_port), core_enables.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_CORE_ENABLES(srio_port),
+        c.s.doorbell = 1;
+        c.s.memory = 1);
 
     /* Allow us to master transactions */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_GEN_CTL(srio_port), &port_gen_ctl.u32))
-        return -1;
-    port_gen_ctl.s.menable = 1;
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_GEN_CTL(srio_port), port_gen_ctl.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_PORT_GEN_CTL(srio_port),
+        c.s.menable = 1);
 
     /* Set the MRRS and MPS for optimal SRIO performance */
-    prt_cfg.u64 = BDK_CSR_READ(BDK_DPI_SLI_PRTX_CFG(srio_port));
-    prt_cfg.s.mps = 1;
-    prt_cfg.s.mrrs = 1;
-    BDK_CSR_WRITE(BDK_DPI_SLI_PRTX_CFG(srio_port), prt_cfg.u64);
+    BDK_CSR_MODIFY(c, BDK_DPI_SLI_PRTX_CFG(srio_port),
+        c.s.mps = 1;
+        c.s.mrrs = 1);
 
-    sli_s2m_portx_ctl.u64 = BDK_CSR_READ(BDK_SLI_S2M_PORTX_CTL(srio_port));
-    sli_s2m_portx_ctl.s.mrrs = 1;
-    BDK_CSR_WRITE(BDK_SLI_S2M_PORTX_CTL(srio_port), sli_s2m_portx_ctl.u64);
+    BDK_CSR_MODIFY(c, BDK_SLI_S2M_PORTX_CTL(srio_port),
+        c.s.mrrs = 1);
 
     /* Setup RX messaging thresholds */
-    sriox_imsg_vport_thr.u64 = BDK_CSR_READ(BDK_SRIOX_IMSG_VPORT_THR(srio_port));
-    sriox_imsg_vport_thr.s.max_tot = 48;
-    sriox_imsg_vport_thr.s.max_s1 = 24;
-    sriox_imsg_vport_thr.s.max_s0 = 24;
-    sriox_imsg_vport_thr.s.sp_vport = 1;
-    sriox_imsg_vport_thr.s.buf_thr = 4;
-    sriox_imsg_vport_thr.s.max_p1 = 12;
-    sriox_imsg_vport_thr.s.max_p0 = 12;
-    BDK_CSR_WRITE(BDK_SRIOX_IMSG_VPORT_THR(srio_port), sriox_imsg_vport_thr.u64);
+    BDK_CSR_MODIFY(c, BDK_SRIOX_IMSG_VPORT_THR(srio_port),
+        c.s.max_tot = 48;
+        c.s.max_s1 = 24;
+        c.s.max_s0 = 24;
+        c.s.sp_vport = 1;
+        c.s.buf_thr = 4;
+        c.s.max_p1 = 12;
+        c.s.max_p0 = 12);
 
     /* Errata SRIO-X: SRIO error behavior may not be optimal in CN63XX pass 1.x */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
     {
-        bdk_sriox_tx_ctrl_t sriox_tx_ctrl;
-        sriox_tx_ctrl.u64 = BDK_CSR_READ(BDK_SRIOX_TX_CTRL(srio_port));
-        sriox_tx_ctrl.s.tag_th2 = 2;
-        sriox_tx_ctrl.s.tag_th1 = 3;
-        sriox_tx_ctrl.s.tag_th0 = 4;
-        BDK_CSR_WRITE(BDK_SRIOX_TX_CTRL(srio_port), sriox_tx_ctrl.u64);
+        BDK_CSR_MODIFY(c, BDK_SRIOX_TX_CTRL(srio_port),
+            c.s.tag_th2 = 2;
+            c.s.tag_th1 = 3;
+            c.s.tag_th0 = 4);
     }
 
     /* Only change the link state in host mode */
@@ -615,14 +590,11 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     BDK_CSR_WRITE(BDK_SRIOX_INT_REG(srio_port), BDK_CSR_READ(BDK_SRIOX_INT_REG(srio_port)));
 
     /* Finally enable the link */
-    if (__bdk_srio_local_read32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), &port_0_ctl.u32))
-        return -1;
-    port_0_ctl.s.o_enable = 1;
-    port_0_ctl.s.i_enable = 1;
-    port_0_ctl.s.disable = 0;
-    port_0_ctl.s.prt_lock = 0;
-    if (__bdk_srio_local_write32(srio_port, BDK_SRIOMAINTX_PORT_0_CTL(srio_port), port_0_ctl.u32))
-        return -1;
+    SRIOMANT_MODIFY(c, BDK_SRIOMAINTX_PORT_0_CTL(srio_port),
+        c.s.o_enable = 1;
+        c.s.i_enable = 1;
+        c.s.disable = 0;
+        c.s.prt_lock = 0);
 
     /* Store merge control (SLI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
     BDK_CSR_MODIFY(sli_mem_access_ctl, BDK_SLI_MEM_ACCESS_CTL,
