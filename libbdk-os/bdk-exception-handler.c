@@ -8,39 +8,39 @@ static const char reg_names[][3] = {  "r0","at","v0","v1","a0","a1","a2","a3",
                                       "s0","s1","s2","s3","s4","s5","s6","s7",
                                       "t8","t9","k0","k1","gp","sp","s8","ra" };
 /* Textual descriptions of cause codes */
-static const char cause_names[][32] = {
+static const char *cause_names[] = {
         /*  0 */ "Interrupt",
         /*  1 */ "TLB modification",
-        /*  2 */ "tlb load/fetch",
-        /*  3 */ "tlb store",
-        /*  4 */ "address exc, load/fetch",
-        /*  5 */ "address exc, store",
-        /*  6 */ "bus error, instruction fetch",
-        /*  7 */ "bus error, load/store",
-        /*  8 */ "syscall",
-        /*  9 */ "breakpoint",
-        /* 10 */ "reserved instruction",
-        /* 11 */ "cop unusable",
-        /* 12 */ "arithmetic overflow",
-        /* 13 */ "trap",
-        /* 14 */ "",
-        /* 15 */ "floating point exc",
-        /* 16 */ "",
-        /* 17 */ "",
-        /* 18 */ "cop2 exception",
-        /* 19 */ "",
-        /* 20 */ "",
-        /* 21 */ "",
-        /* 22 */ "mdmx unusable",
-        /* 23 */ "watch",
-        /* 24 */ "machine check",
-        /* 25 */ "",
-        /* 26 */ "",
-        /* 27 */ "",
-        /* 28 */ "",
-        /* 29 */ "",
-        /* 30 */ "cache error",
-        /* 31 */ ""
+        /*  2 */ "TLB load/fetch",
+        /*  3 */ "TLB store",
+        /*  4 */ "Address exc, load/fetch",
+        /*  5 */ "Address exc, store",
+        /*  6 */ "Bus error, instruction fetch",
+        /*  7 */ "Bus error, load/store",
+        /*  8 */ "Syscall",
+        /*  9 */ "Breakpoint",
+        /* 10 */ "Reserved instruction",
+        /* 11 */ "Coprocessor unusable",
+        /* 12 */ "Arithmetic overflow",
+        /* 13 */ "Trap",
+        /* 14 */ "Reserved",
+        /* 15 */ "Floating point",
+        /* 16 */ "Implementation dependent",
+        /* 17 */ "Implementation dependent",
+        /* 18 */ "COP2 exception",
+        /* 19 */ "TLB read inhibit",
+        /* 20 */ "TLB execution inhibit",
+        /* 21 */ "Reserved",
+        /* 22 */ "MDMX unusable",
+        /* 23 */ "Watch",
+        /* 24 */ "Machine check",
+        /* 25 */ "Reserved",
+        /* 26 */ "Reserved",
+        /* 27 */ "Reserved",
+        /* 28 */ "Reserved",
+        /* 29 */ "Reserved",
+        /* 30 */ "Cache error",
+        /* 31 */ "Reserved"
 };
 
 void __bdk_exception_handler(uint64_t saved_regs[34])
@@ -51,7 +51,7 @@ void __bdk_exception_handler(uint64_t saved_regs[34])
     printf("******************************************************************\n");
     BDK_MF_COP0(r, COP0_CAUSE);
     const char *str = cause_names[(r >> 2) & 0x1f];
-    printf("Core %d: Unhandled Exception. Cause register decodes to:\n%s\n", bdk_get_core_num(), str && *str ? str : "Reserved exception cause");
+    printf("Core %d: Unhandled Exception. Cause register decodes to:\n%s\n", bdk_get_core_num(), str);
     printf("******************************************************************\n");
     for (reg=0; reg<16; reg++)
     {
