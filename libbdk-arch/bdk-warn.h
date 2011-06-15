@@ -14,6 +14,6 @@ extern void bdk_fatal(const char *format, ...) __attribute__ ((noreturn, format(
 extern void bdk_error(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 extern void bdk_dprintf(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
-#define bdk_warn_if(expression, format, ...) if (expression) bdk_warn(format, ##__VA_ARGS__)
+#define bdk_warn_if(expression, format, ...) if (bdk_unlikely(expression)) bdk_warn(format, ##__VA_ARGS__)
 
 /** @} */
