@@ -10587,6 +10587,10 @@ Pos      Name    Type     Value     Value       Description
                                                   is cleared in SLI_CTL_PORTx[DIS_PORT].            |
  <23:21> NS       RAZ      NS          NS        Reserved					    |
  <20>    QLM_CFG  RO       NS          NS        Read only copy of the QLM CFG pin		    |
+						  Since QLM_CFG is simply a copy of the QLM CFG	    |
+						  pins, it may reflect values that are not normal   |
+						  for DMA or packet operations. QLM_CFG does not    |
+						  indicate if a port is disabled.		    |
 						  0= MAC is PCIe				    |
 						  1= MAC is SRIO				    |
  <19:17> NS       RAZ      NS          NS        Reserved					    |

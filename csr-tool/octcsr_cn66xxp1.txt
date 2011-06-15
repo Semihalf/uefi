@@ -10667,6 +10667,12 @@ Pos      Name    Type     Value     Value       Description
                                                   issued until the MAC comes out of reset and HALT  |
                                                   is cleared in SLI_CTL_PORTx[DIS_PORT].            |
  <23:20> QLM_CFG  RO       NS          NS        Read only copy of the QLM CFG pins		    |
+						  Since QLM_CFG is simply a copy of the QLM CFG	    |
+						  pins, it may reflect values that are not normal   |
+						  for DMA or packet operations. QLM_CFG does not    |
+						  indicate if a port is disabled.		    |
+						  MIO_QLMx_CFG can be used for more complete QLM    |
+						  configuration	information.			    |
 						  0000 = MAC is PCIE gen2			    |
 						  0001 = MAC is SRIO 1x4 short			    |
 						  0010 = MAC is PCIE gen1 only			    |

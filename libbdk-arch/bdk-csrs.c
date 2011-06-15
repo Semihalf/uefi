@@ -4589,22 +4589,18 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     570, /* pcieepX_cfg022 */
     571, /* pcieepX_cfg023 */
     572, /* pcieepX_cfg028 */
-    573, /* pcieepX_cfg029 */
-    574, /* pcieepX_cfg030 */
-    2276, /* pcieepX_cfg031 */
-    576, /* pcieepX_cfg032 */
-    577, /* pcieepX_cfg033 */
-    578, /* pcieepX_cfg034 */
-    579, /* pcieepX_cfg037 */
-    580, /* pcieepX_cfg038 */
+    2276, /* pcieepX_cfg029 */
+    2277, /* pcieepX_cfg030 */
+    2278, /* pcieepX_cfg031 */
+    2279, /* pcieepX_cfg032 */
+    2280, /* pcieepX_cfg037 */
+    2281, /* pcieepX_cfg038 */
     1362, /* pcieepX_cfg039 */
-    582, /* pcieepX_cfg040 */
-    583, /* pcieepX_cfg041 */
-    584, /* pcieepX_cfg042 */
+    2282, /* pcieepX_cfg040 */
     585, /* pcieepX_cfg064 */
-    586, /* pcieepX_cfg065 */
-    587, /* pcieepX_cfg066 */
-    588, /* pcieepX_cfg067 */
+    2283, /* pcieepX_cfg065 */
+    2284, /* pcieepX_cfg066 */
+    2285, /* pcieepX_cfg067 */
     589, /* pcieepX_cfg068 */
     590, /* pcieepX_cfg069 */
     591, /* pcieepX_cfg070 */
@@ -4615,12 +4611,13 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     596, /* pcieepX_cfg448 */
     597, /* pcieepX_cfg449 */
     598, /* pcieepX_cfg450 */
-    599, /* pcieepX_cfg451 */
-    600, /* pcieepX_cfg452 */
+    2286, /* pcieepX_cfg451 */
+    2287, /* pcieepX_cfg452 */
     601, /* pcieepX_cfg453 */
-    2277, /* pcieepX_cfg454 */
+    2288, /* pcieepX_cfg454 */
     603, /* pcieepX_cfg455 */
-    604, /* pcieepX_cfg456 */
+    2289, /* pcieepX_cfg456 */
+    2290, /* pcieepX_cfg457 */
     605, /* pcieepX_cfg458 */
     606, /* pcieepX_cfg459 */
     607, /* pcieepX_cfg460 */
@@ -4663,22 +4660,20 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     644, /* pciercX_cfg028 */
     645, /* pciercX_cfg029 */
     646, /* pciercX_cfg030 */
-    2278, /* pciercX_cfg031 */
+    2291, /* pciercX_cfg031 */
     648, /* pciercX_cfg032 */
     649, /* pciercX_cfg033 */
     650, /* pciercX_cfg034 */
     651, /* pciercX_cfg035 */
     652, /* pciercX_cfg036 */
-    653, /* pciercX_cfg037 */
-    654, /* pciercX_cfg038 */
+    2292, /* pciercX_cfg037 */
+    2293, /* pciercX_cfg038 */
     1363, /* pciercX_cfg039 */
-    656, /* pciercX_cfg040 */
-    657, /* pciercX_cfg041 */
-    658, /* pciercX_cfg042 */
+    2294, /* pciercX_cfg040 */
     659, /* pciercX_cfg064 */
-    660, /* pciercX_cfg065 */
-    661, /* pciercX_cfg066 */
-    662, /* pciercX_cfg067 */
+    2295, /* pciercX_cfg065 */
+    2296, /* pciercX_cfg066 */
+    2297, /* pciercX_cfg067 */
     663, /* pciercX_cfg068 */
     664, /* pciercX_cfg069 */
     665, /* pciercX_cfg070 */
@@ -4692,12 +4687,13 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     673, /* pciercX_cfg448 */
     674, /* pciercX_cfg449 */
     675, /* pciercX_cfg450 */
-    676, /* pciercX_cfg451 */
-    677, /* pciercX_cfg452 */
+    2298, /* pciercX_cfg451 */
+    2299, /* pciercX_cfg452 */
     678, /* pciercX_cfg453 */
-    2279, /* pciercX_cfg454 */
+    2300, /* pciercX_cfg454 */
     680, /* pciercX_cfg455 */
-    681, /* pciercX_cfg456 */
+    2301, /* pciercX_cfg456 */
+    2302, /* pciercX_cfg457 */
     682, /* pciercX_cfg458 */
     683, /* pciercX_cfg459 */
     684, /* pciercX_cfg460 */
@@ -4808,7 +4804,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     788, /* pip_tag_mask */
     789, /* pip_tag_secret */
     790, /* pip_todo_entry */
-    2280, /* pip_vlan_etypesX */
+    2303, /* pip_vlan_etypesX */
     803, /* pko_mem_count0 */
     804, /* pko_mem_count1 */
     805, /* pko_mem_debug0 */
@@ -4833,7 +4829,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2105, /* pko_mem_port_rate1 */
     2106, /* pko_mem_throttle_int */
     2107, /* pko_mem_throttle_pipe */
-    2281, /* pko_reg_bist_result */
+    2304, /* pko_reg_bist_result */
     827, /* pko_reg_cmd_buf */
     828, /* pko_reg_debug0 */
     829, /* pko_reg_debug1 */
@@ -4845,7 +4841,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2112, /* pko_reg_engine_storageX */
     2113, /* pko_reg_engine_thresh */
     2114, /* pko_reg_error */
-    2282, /* pko_reg_flags */
+    2305, /* pko_reg_flags */
     2116, /* pko_reg_int_mask */
     2117, /* pko_reg_loopback_bpid */
     2118, /* pko_reg_loopback_pkind */
@@ -4928,7 +4924,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     912, /* sli_pktX_instr_baddr */
     913, /* sli_pktX_instr_baoff_dbell */
     914, /* sli_pktX_instr_fifo_rsize */
-    2283, /* sli_pktX_instr_header */
+    2306, /* sli_pktX_instr_header */
     916, /* sli_pktX_out_size */
     917, /* sli_pktX_slist_baddr */
     918, /* sli_pktX_slist_baoff_dbell */
@@ -4980,16 +4976,16 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2133, /* smiX_rd_dat */
     2134, /* smiX_wr_dat */
     964, /* smi_drv_ctl */
-    2284, /* sso_active_cycles */
-    2285, /* sso_bist_stat */
-    2286, /* sso_cfg */
+    2307, /* sso_active_cycles */
+    2308, /* sso_bist_stat */
+    2309, /* sso_cfg */
     2137, /* sso_ds_pc */
     2138, /* sso_err */
     2139, /* sso_err_enb */
     2140, /* sso_fidx_ecc_ctl */
     2141, /* sso_fidx_ecc_st */
     2142, /* sso_fpage_cnt */
-    2287, /* sso_gwe_cfg */
+    2310, /* sso_gwe_cfg */
     2144, /* sso_idx_ecc_ctl */
     2145, /* sso_idx_ecc_st */
     2146, /* sso_iq_cntX */
@@ -5009,10 +5005,10 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2160, /* sso_qosX_rnd */
     2161, /* sso_qos_thrX */
     2162, /* sso_qos_we */
-    2288, /* sso_reset */
+    2311, /* sso_reset */
     2163, /* sso_rwq_head_ptrX */
-    2289, /* sso_rwq_pop_fptr */
-    2290, /* sso_rwq_psh_fptr */
+    2312, /* sso_rwq_pop_fptr */
+    2313, /* sso_rwq_psh_fptr */
     2166, /* sso_rwq_tail_ptrX */
     2167, /* sso_ts_pc */
     2168, /* sso_wa_com_pc */
@@ -5027,7 +5023,8 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2177, /* tim_dbg2 */
     2178, /* tim_dbg3 */
     2179, /* tim_ecc_cfg */
-    2180, /* tim_fr_rn_tt */
+    2314, /* tim_fr_rn_tt */
+    2315, /* tim_gpio_en */
     2181, /* tim_int0 */
     2182, /* tim_int0_en */
     2183, /* tim_int0_event */
@@ -5037,7 +5034,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     2187, /* tim_int_eccerr_event1 */
     2188, /* tim_reg_flags */
     2189, /* tim_ringX_ctl0 */
-    2291, /* tim_ringX_ctl1 */
+    2316, /* tim_ringX_ctl1 */
     2191, /* tim_ringX_ctl2 */
     2192, /* tim_ringX_dbg0 */
     2193, /* tim_ringX_dbg1 */
@@ -5119,7 +5116,7 @@ static const int16_t __bdk_csr_db_cn68xx[] = {
     1447, /* zip_cmd_bist_result */
     1172, /* zip_cmd_buf */
     1173, /* zip_cmd_ctl */
-    2292, /* zip_constants */
+    2317, /* zip_constants */
     2216, /* zip_coreX_bist_status */
     2217, /* zip_ctl_bist_status */
     2218, /* zip_ctl_cfg */
@@ -5214,35 +5211,35 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     70, /* agl_gmx_tx_pause_pkt_dmac */
     71, /* agl_gmx_tx_pause_pkt_type */
     72, /* agl_prtX_ctl */
-    2293, /* ciu_bist */
-    2294, /* ciu_block_int */
-    2295, /* ciu_dint */
-    2296, /* ciu_fuse */
+    2318, /* ciu_bist */
+    2319, /* ciu_block_int */
+    2320, /* ciu_dint */
+    2321, /* ciu_fuse */
     77, /* ciu_gstop */
-    2297, /* ciu_intX_en0 */
-    2298, /* ciu_intX_en0_w1c */
-    2299, /* ciu_intX_en0_w1s */
-    2300, /* ciu_intX_en1 */
-    2301, /* ciu_intX_en1_w1c */
-    2302, /* ciu_intX_en1_w1s */
-    2303, /* ciu_intX_en4_0 */
-    2304, /* ciu_intX_en4_0_w1c */
-    2305, /* ciu_intX_en4_0_w1s */
-    2306, /* ciu_intX_en4_1 */
-    2307, /* ciu_intX_en4_1_w1c */
-    2308, /* ciu_intX_en4_1_w1s */
-    2309, /* ciu_intX_sum0 */
-    2310, /* ciu_intX_sum4 */
-    2311, /* ciu_int33_sum0 */
-    2312, /* ciu_int_dbg_sel */
-    2313, /* ciu_int_sum1 */
-    2314, /* ciu_mbox_clrX */
-    2315, /* ciu_mbox_setX */
-    2316, /* ciu_nmi */
+    2322, /* ciu_intX_en0 */
+    2323, /* ciu_intX_en0_w1c */
+    2324, /* ciu_intX_en0_w1s */
+    2325, /* ciu_intX_en1 */
+    2326, /* ciu_intX_en1_w1c */
+    2327, /* ciu_intX_en1_w1s */
+    2328, /* ciu_intX_en4_0 */
+    2329, /* ciu_intX_en4_0_w1c */
+    2330, /* ciu_intX_en4_0_w1s */
+    2331, /* ciu_intX_en4_1 */
+    2332, /* ciu_intX_en4_1_w1c */
+    2333, /* ciu_intX_en4_1_w1s */
+    2334, /* ciu_intX_sum0 */
+    2335, /* ciu_intX_sum4 */
+    2336, /* ciu_int33_sum0 */
+    2337, /* ciu_int_dbg_sel */
+    2338, /* ciu_int_sum1 */
+    2339, /* ciu_mbox_clrX */
+    2340, /* ciu_mbox_setX */
+    2341, /* ciu_nmi */
     97, /* ciu_pci_inta */
-    2317, /* ciu_pp_dbg */
-    2318, /* ciu_pp_pokeX */
-    2319, /* ciu_pp_rst */
+    2342, /* ciu_pp_dbg */
+    2343, /* ciu_pp_pokeX */
+    2344, /* ciu_pp_rst */
     1180, /* ciu_qlm0 */
     1181, /* ciu_qlm1 */
     1182, /* ciu_qlm2 */
@@ -5251,17 +5248,17 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     106, /* ciu_soft_bist */
     107, /* ciu_soft_prst */
     108, /* ciu_soft_prst1 */
-    2320, /* ciu_soft_prst2 */
-    2321, /* ciu_soft_prst3 */
+    2345, /* ciu_soft_prst2 */
+    2346, /* ciu_soft_prst3 */
     109, /* ciu_soft_rst */
-    2322, /* ciu_srio_bell_mapX */
-    2323, /* ciu_srio_bell_status */
-    2324, /* ciu_sum1_ioX_int */
-    2325, /* ciu_sum1_ppX_ip2 */
-    2326, /* ciu_sum1_ppX_ip3 */
-    2327, /* ciu_sum1_ppX_ip4 */
+    2347, /* ciu_srio_bell_mapX */
+    2348, /* ciu_srio_bell_status */
+    2349, /* ciu_sum1_ioX_int */
+    2350, /* ciu_sum1_ppX_ip2 */
+    2351, /* ciu_sum1_ppX_ip3 */
+    2352, /* ciu_sum1_ppX_ip4 */
     110, /* ciu_timX */
-    2328, /* ciu_wdogX */
+    2353, /* ciu_wdogX */
     112, /* dfa_bist0 */
     113, /* dfa_bist1 */
     1183, /* dfa_config */
@@ -5286,7 +5283,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     133, /* dfa_pfc3_cnt */
     134, /* dfa_pfc3_ctl */
     135, /* dfa_pfc_gctl */
-    2329, /* dfm_char_ctl */
+    2354, /* dfm_char_ctl */
     137, /* dfm_char_mask0 */
     138, /* dfm_char_mask2 */
     1184, /* dfm_char_mask4 */
@@ -5319,7 +5316,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     165, /* dfm_wlevel_dbg */
     166, /* dfm_wlevel_rankX */
     167, /* dfm_wodt_mask */
-    2330, /* dpi_bist_status */
+    2355, /* dpi_bist_status */
     169, /* dpi_ctl */
     170, /* dpi_dmaX_counts */
     171, /* dpi_dmaX_dbell */
@@ -5329,13 +5326,13 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     173, /* dpi_dmaX_naddr */
     174, /* dpi_dmaX_reqbnk0 */
     175, /* dpi_dmaX_reqbnk1 */
-    2331, /* dpi_dma_control */
+    2356, /* dpi_dma_control */
     177, /* dpi_dma_engX_en */
-    2332, /* dpi_dma_ppX_cnt */
+    2357, /* dpi_dma_ppX_cnt */
     1727, /* dpi_engX_buf */
     1195, /* dpi_info_reg */
-    2333, /* dpi_int_en */
-    2334, /* dpi_int_reg */
+    2358, /* dpi_int_en */
+    2359, /* dpi_int_reg */
     2252, /* dpi_ncbX_cfg */
     182, /* dpi_pint_info */
     183, /* dpi_pkt_err_rsp */
@@ -5345,12 +5342,12 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     187, /* dpi_req_err_rst_en */
     1728, /* dpi_req_err_skip_comp */
     188, /* dpi_req_gbl_en */
-    2335, /* dpi_sli_prtX_cfg */
-    2336, /* dpi_sli_prtX_err */
-    2337, /* dpi_sli_prtX_err_info */
-    2338, /* dpi_srio_fwd_ctl */
-    2339, /* dpi_srio_rx_bellX */
-    2340, /* dpi_srio_rx_bell_seqX */
+    2360, /* dpi_sli_prtX_cfg */
+    2361, /* dpi_sli_prtX_err */
+    2362, /* dpi_sli_prtX_err_info */
+    2363, /* dpi_srio_fwd_ctl */
+    2364, /* dpi_srio_rx_bellX */
+    2365, /* dpi_srio_rx_bell_seqX */
     1729, /* fpa_addr_range_error */
     192, /* fpa_bist_status */
     1196, /* fpa_ctl_status */
@@ -5358,118 +5355,118 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     195, /* fpa_fpfX_size */
     196, /* fpa_fpf0_marks */
     197, /* fpa_fpf0_size */
-    2341, /* fpa_int_enb */
-    2342, /* fpa_int_sum */
+    2366, /* fpa_int_enb */
+    2367, /* fpa_int_sum */
     1199, /* fpa_packet_threshold */
-    2343, /* fpa_poolX_end_addr */
-    2344, /* fpa_poolX_start_addr */
+    2368, /* fpa_poolX_end_addr */
+    2369, /* fpa_poolX_start_addr */
     1200, /* fpa_poolX_threshold */
     200, /* fpa_queX_available */
     201, /* fpa_queX_page_index */
     202, /* fpa_que_act */
     203, /* fpa_que_exp */
     1201, /* fpa_wqe_threshold */
-    2345, /* gmxX_bad_reg */
-    2346, /* gmxX_bist */
-    2347, /* gmxX_clk_en */
-    2348, /* gmxX_hg2_control */
-    2349, /* gmxX_inf_mode */
-    2350, /* gmxX_nxa_adr */
-    2351, /* gmxX_prtX_cbfc_ctl */
-    2352, /* gmxX_prtX_cfg */
-    2353, /* gmxX_rxX_adr_cam0 */
-    2354, /* gmxX_rxX_adr_cam1 */
-    2355, /* gmxX_rxX_adr_cam2 */
-    2356, /* gmxX_rxX_adr_cam3 */
-    2357, /* gmxX_rxX_adr_cam4 */
-    2358, /* gmxX_rxX_adr_cam5 */
-    2359, /* gmxX_rxX_adr_cam_all_en */
-    2360, /* gmxX_rxX_adr_cam_en */
-    2361, /* gmxX_rxX_adr_ctl */
-    2362, /* gmxX_rxX_decision */
-    2363, /* gmxX_rxX_frm_chk */
-    2364, /* gmxX_rxX_frm_ctl */
-    2365, /* gmxX_rxX_ifg */
-    2366, /* gmxX_rxX_int_en */
-    2367, /* gmxX_rxX_int_reg */
-    2368, /* gmxX_rxX_jabber */
-    2369, /* gmxX_rxX_pause_drop_time */
-    2370, /* gmxX_rxX_stats_ctl */
-    2371, /* gmxX_rxX_stats_octs */
-    2372, /* gmxX_rxX_stats_octs_ctl */
-    2373, /* gmxX_rxX_stats_octs_dmac */
-    2374, /* gmxX_rxX_stats_octs_drp */
-    2375, /* gmxX_rxX_stats_pkts */
-    2376, /* gmxX_rxX_stats_pkts_bad */
-    2377, /* gmxX_rxX_stats_pkts_ctl */
-    2378, /* gmxX_rxX_stats_pkts_dmac */
-    2379, /* gmxX_rxX_stats_pkts_drp */
-    2380, /* gmxX_rxX_udd_skp */
-    2381, /* gmxX_rx_bp_dropX */
-    2382, /* gmxX_rx_bp_offX */
-    2383, /* gmxX_rx_bp_onX */
-    2384, /* gmxX_rx_hg2_status */
-    2385, /* gmxX_rx_prt_info */
-    2386, /* gmxX_rx_prts */
-    2387, /* gmxX_rx_xaui_bad_col */
-    2388, /* gmxX_rx_xaui_ctl */
-    2389, /* gmxX_smacX */
-    2390, /* gmxX_soft_bist */
-    2391, /* gmxX_stat_bp */
-    2392, /* gmxX_tb_reg */
-    2393, /* gmxX_txX_append */
-    2394, /* gmxX_txX_burst */
-    2395, /* gmxX_txX_cbfc_xoff */
-    2396, /* gmxX_txX_cbfc_xon */
-    2397, /* gmxX_txX_ctl */
-    2398, /* gmxX_txX_min_pkt */
-    2399, /* gmxX_txX_pause_pkt_interval */
-    2400, /* gmxX_txX_pause_pkt_time */
-    2401, /* gmxX_txX_pause_togo */
-    2402, /* gmxX_txX_pause_zero */
-    2403, /* gmxX_txX_sgmii_ctl */
-    2404, /* gmxX_txX_slot */
-    2405, /* gmxX_txX_soft_pause */
-    2406, /* gmxX_txX_stat0 */
-    2407, /* gmxX_txX_stat1 */
-    2408, /* gmxX_txX_stat2 */
-    2409, /* gmxX_txX_stat3 */
-    2410, /* gmxX_txX_stat4 */
-    2411, /* gmxX_txX_stat5 */
-    2412, /* gmxX_txX_stat6 */
-    2413, /* gmxX_txX_stat7 */
-    2414, /* gmxX_txX_stat8 */
-    2415, /* gmxX_txX_stat9 */
-    2416, /* gmxX_txX_stats_ctl */
-    2417, /* gmxX_txX_thresh */
-    2418, /* gmxX_tx_bp */
-    2419, /* gmxX_tx_col_attempt */
-    2420, /* gmxX_tx_corrupt */
-    2421, /* gmxX_tx_hg2_reg1 */
-    2422, /* gmxX_tx_hg2_reg2 */
-    2423, /* gmxX_tx_ifg */
-    2424, /* gmxX_tx_int_en */
-    2425, /* gmxX_tx_int_reg */
-    2426, /* gmxX_tx_jam */
-    2427, /* gmxX_tx_lfsr */
-    2428, /* gmxX_tx_ovr_bp */
-    2429, /* gmxX_tx_pause_pkt_dmac */
-    2430, /* gmxX_tx_pause_pkt_type */
-    2431, /* gmxX_tx_prts */
-    2432, /* gmxX_tx_xaui_ctl */
-    2433, /* gmxX_xaui_ext_loopback */
+    2370, /* gmxX_bad_reg */
+    2371, /* gmxX_bist */
+    2372, /* gmxX_clk_en */
+    2373, /* gmxX_hg2_control */
+    2374, /* gmxX_inf_mode */
+    2375, /* gmxX_nxa_adr */
+    2376, /* gmxX_prtX_cbfc_ctl */
+    2377, /* gmxX_prtX_cfg */
+    2378, /* gmxX_rxX_adr_cam0 */
+    2379, /* gmxX_rxX_adr_cam1 */
+    2380, /* gmxX_rxX_adr_cam2 */
+    2381, /* gmxX_rxX_adr_cam3 */
+    2382, /* gmxX_rxX_adr_cam4 */
+    2383, /* gmxX_rxX_adr_cam5 */
+    2384, /* gmxX_rxX_adr_cam_all_en */
+    2385, /* gmxX_rxX_adr_cam_en */
+    2386, /* gmxX_rxX_adr_ctl */
+    2387, /* gmxX_rxX_decision */
+    2388, /* gmxX_rxX_frm_chk */
+    2389, /* gmxX_rxX_frm_ctl */
+    2390, /* gmxX_rxX_ifg */
+    2391, /* gmxX_rxX_int_en */
+    2392, /* gmxX_rxX_int_reg */
+    2393, /* gmxX_rxX_jabber */
+    2394, /* gmxX_rxX_pause_drop_time */
+    2395, /* gmxX_rxX_stats_ctl */
+    2396, /* gmxX_rxX_stats_octs */
+    2397, /* gmxX_rxX_stats_octs_ctl */
+    2398, /* gmxX_rxX_stats_octs_dmac */
+    2399, /* gmxX_rxX_stats_octs_drp */
+    2400, /* gmxX_rxX_stats_pkts */
+    2401, /* gmxX_rxX_stats_pkts_bad */
+    2402, /* gmxX_rxX_stats_pkts_ctl */
+    2403, /* gmxX_rxX_stats_pkts_dmac */
+    2404, /* gmxX_rxX_stats_pkts_drp */
+    2405, /* gmxX_rxX_udd_skp */
+    2406, /* gmxX_rx_bp_dropX */
+    2407, /* gmxX_rx_bp_offX */
+    2408, /* gmxX_rx_bp_onX */
+    2409, /* gmxX_rx_hg2_status */
+    2410, /* gmxX_rx_prt_info */
+    2411, /* gmxX_rx_prts */
+    2412, /* gmxX_rx_xaui_bad_col */
+    2413, /* gmxX_rx_xaui_ctl */
+    2414, /* gmxX_smacX */
+    2415, /* gmxX_soft_bist */
+    2416, /* gmxX_stat_bp */
+    2417, /* gmxX_tb_reg */
+    2418, /* gmxX_txX_append */
+    2419, /* gmxX_txX_burst */
+    2420, /* gmxX_txX_cbfc_xoff */
+    2421, /* gmxX_txX_cbfc_xon */
+    2422, /* gmxX_txX_ctl */
+    2423, /* gmxX_txX_min_pkt */
+    2424, /* gmxX_txX_pause_pkt_interval */
+    2425, /* gmxX_txX_pause_pkt_time */
+    2426, /* gmxX_txX_pause_togo */
+    2427, /* gmxX_txX_pause_zero */
+    2428, /* gmxX_txX_sgmii_ctl */
+    2429, /* gmxX_txX_slot */
+    2430, /* gmxX_txX_soft_pause */
+    2431, /* gmxX_txX_stat0 */
+    2432, /* gmxX_txX_stat1 */
+    2433, /* gmxX_txX_stat2 */
+    2434, /* gmxX_txX_stat3 */
+    2435, /* gmxX_txX_stat4 */
+    2436, /* gmxX_txX_stat5 */
+    2437, /* gmxX_txX_stat6 */
+    2438, /* gmxX_txX_stat7 */
+    2439, /* gmxX_txX_stat8 */
+    2440, /* gmxX_txX_stat9 */
+    2441, /* gmxX_txX_stats_ctl */
+    2442, /* gmxX_txX_thresh */
+    2443, /* gmxX_tx_bp */
+    2444, /* gmxX_tx_col_attempt */
+    2445, /* gmxX_tx_corrupt */
+    2446, /* gmxX_tx_hg2_reg1 */
+    2447, /* gmxX_tx_hg2_reg2 */
+    2448, /* gmxX_tx_ifg */
+    2449, /* gmxX_tx_int_en */
+    2450, /* gmxX_tx_int_reg */
+    2451, /* gmxX_tx_jam */
+    2452, /* gmxX_tx_lfsr */
+    2453, /* gmxX_tx_ovr_bp */
+    2454, /* gmxX_tx_pause_pkt_dmac */
+    2455, /* gmxX_tx_pause_pkt_type */
+    2456, /* gmxX_tx_prts */
+    2457, /* gmxX_tx_xaui_ctl */
+    2458, /* gmxX_xaui_ext_loopback */
     291, /* gpio_bit_cfgX */
     292, /* gpio_clk_genX */
-    2434, /* gpio_clk_qlmX */
+    2459, /* gpio_clk_qlmX */
     294, /* gpio_int_clr */
-    2435, /* gpio_multi_cast */
-    2436, /* gpio_pin_ena */
-    2437, /* gpio_rx_dat */
-    2438, /* gpio_tx_clr */
-    2439, /* gpio_tx_set */
-    2440, /* gpio_xbit_cfgX */
+    2460, /* gpio_multi_cast */
+    2461, /* gpio_pin_ena */
+    2462, /* gpio_rx_dat */
+    2463, /* gpio_tx_clr */
+    2464, /* gpio_tx_set */
+    2465, /* gpio_xbit_cfgX */
     298, /* iob0_bist_status */
-    2441, /* iob0_ctl_status */
+    2466, /* iob0_ctl_status */
     300, /* iob0_dwb_pri_cnt */
     301, /* iob0_fau_timeout */
     302, /* iob0_i2c_pri_cnt */
@@ -5495,7 +5492,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     322, /* ipd_1st_next_ptr_back */
     323, /* ipd_2nd_next_ptr_back */
     324, /* ipd_bist_status */
-    2442, /* ipd_bp_prt_red_end */
+    2467, /* ipd_bp_prt_red_end */
     326, /* ipd_clk_count */
     1289, /* ipd_ctl_status */
     328, /* ipd_int_enb */
@@ -5503,16 +5500,16 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     330, /* ipd_not_1st_mbuff_skip */
     331, /* ipd_packet_mbuff_size */
     332, /* ipd_pkt_ptr_valid */
-    2443, /* ipd_portX_bp_page_cnt */
+    2468, /* ipd_portX_bp_page_cnt */
     334, /* ipd_portX_bp_page_cnt2 */
-    2444, /* ipd_portX_bp_page_cnt3 */
+    2469, /* ipd_portX_bp_page_cnt3 */
     336, /* ipd_port_bp_counters2_pairX */
     337, /* ipd_port_bp_counters3_pairX */
-    2445, /* ipd_port_bp_counters4_pairX */
-    2446, /* ipd_port_bp_counters_pairX */
-    2447, /* ipd_port_qos_X_cnt */
-    2448, /* ipd_port_qos_intX */
-    2449, /* ipd_port_qos_int_enbX */
+    2470, /* ipd_port_bp_counters4_pairX */
+    2471, /* ipd_port_bp_counters_pairX */
+    2472, /* ipd_port_qos_X_cnt */
+    2473, /* ipd_port_qos_intX */
+    2474, /* ipd_port_qos_int_enbX */
     342, /* ipd_prc_hold_ptr_fifo_ctl */
     343, /* ipd_prc_port_ptr_fifo_ctl */
     344, /* ipd_ptr_count */
@@ -5520,7 +5517,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     346, /* ipd_qosX_red_marks */
     347, /* ipd_que0_free_page_cnt */
     348, /* ipd_red_port_enable */
-    2450, /* ipd_red_port_enable2 */
+    2475, /* ipd_red_port_enable2 */
     350, /* ipd_red_queX_param */
     351, /* ipd_sub_port_bp_page_cnt */
     352, /* ipd_sub_port_fcs */
@@ -5532,30 +5529,30 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     358, /* key_int_enb */
     359, /* key_int_sum */
     1290, /* l2c_big_ctl */
-    2451, /* l2c_bst */
+    2476, /* l2c_bst */
     361, /* l2c_bst_memX */
-    2452, /* l2c_bst_tdtX */
+    2477, /* l2c_bst_tdtX */
     363, /* l2c_bst_ttgX */
-    2453, /* l2c_cop0_mapX */
+    2478, /* l2c_cop0_mapX */
     2264, /* l2c_ctl */
-    2454, /* l2c_dut_mapX */
+    2479, /* l2c_dut_mapX */
     367, /* l2c_err_tdtX */
     368, /* l2c_err_ttgX */
     369, /* l2c_err_vbfX */
-    2455, /* l2c_err_xmc */
+    2480, /* l2c_err_xmc */
     1298, /* l2c_int_ena */
     1299, /* l2c_int_reg */
     373, /* l2c_iocX_pfc */
     374, /* l2c_iorX_pfc */
     375, /* l2c_qos_iobX */
-    2456, /* l2c_qos_ppX */
+    2481, /* l2c_qos_ppX */
     377, /* l2c_qos_wgt */
     378, /* l2c_rscX_pfc */
     379, /* l2c_rsdX_pfc */
     380, /* l2c_tadX_ecc0 */
     381, /* l2c_tadX_ecc1 */
-    2457, /* l2c_tadX_ien */
-    2458, /* l2c_tadX_int */
+    2482, /* l2c_tadX_ien */
+    2483, /* l2c_tadX_int */
     383, /* l2c_tadX_pfc0 */
     384, /* l2c_tadX_pfc1 */
     385, /* l2c_tadX_pfc2 */
@@ -5565,25 +5562,25 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     389, /* l2c_ver_id */
     390, /* l2c_ver_iob */
     1313, /* l2c_ver_msc */
-    2459, /* l2c_ver_pp */
+    2484, /* l2c_ver_pp */
     392, /* l2c_virtid_iobX */
-    2460, /* l2c_virtid_ppX */
+    2485, /* l2c_virtid_ppX */
     394, /* l2c_vrt_ctl */
     395, /* l2c_vrt_memX */
     396, /* l2c_wpar_iobX */
-    2461, /* l2c_wpar_ppX */
+    2486, /* l2c_wpar_ppX */
     398, /* l2c_xmcX_pfc */
     399, /* l2c_xmc_cmd */
     400, /* l2c_xmdX_pfc */
-    2462, /* lmcX_char_ctl */
+    2487, /* lmcX_char_ctl */
     402, /* lmcX_char_mask0 */
     403, /* lmcX_char_mask1 */
     404, /* lmcX_char_mask2 */
     405, /* lmcX_char_mask3 */
     406, /* lmcX_char_mask4 */
     407, /* lmcX_comp_ctl2 */
-    2463, /* lmcX_config */
-    2464, /* lmcX_control */
+    2488, /* lmcX_config */
+    2489, /* lmcX_control */
     410, /* lmcX_dclk_cnt */
     411, /* lmcX_ddr_pll_ctl */
     412, /* lmcX_dimmX_params */
@@ -5600,23 +5597,23 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     423, /* lmcX_modereg_params1 */
     424, /* lmcX_nxm */
     425, /* lmcX_ops_cnt */
-    2465, /* lmcX_phy_ctl */
+    2490, /* lmcX_phy_ctl */
     427, /* lmcX_reset_ctl */
-    2466, /* lmcX_rlevel_ctl */
+    2491, /* lmcX_rlevel_ctl */
     429, /* lmcX_rlevel_dbg */
     430, /* lmcX_rlevel_rankX */
     431, /* lmcX_rodt_mask */
-    2467, /* lmcX_scramble_cfg0 */
-    2468, /* lmcX_scramble_cfg1 */
-    2469, /* lmcX_scrambled_fadr */
+    2492, /* lmcX_scramble_cfg0 */
+    2493, /* lmcX_scramble_cfg1 */
+    2494, /* lmcX_scrambled_fadr */
     432, /* lmcX_slot_ctl0 */
     433, /* lmcX_slot_ctl1 */
     434, /* lmcX_slot_ctl2 */
-    2470, /* lmcX_timing_params0 */
-    2471, /* lmcX_timing_params1 */
+    2495, /* lmcX_timing_params0 */
+    2496, /* lmcX_timing_params1 */
     437, /* lmcX_tro_ctl */
     438, /* lmcX_tro_stat */
-    2472, /* lmcX_wlevel_ctl */
+    2497, /* lmcX_wlevel_ctl */
     440, /* lmcX_wlevel_dbg */
     441, /* lmcX_wlevel_rankX */
     442, /* lmcX_wodt_mask */
@@ -5631,14 +5628,14 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     451, /* mio_boot_loc_adr */
     452, /* mio_boot_loc_cfgX */
     453, /* mio_boot_loc_dat */
-    2473, /* mio_boot_pin_defs */
+    2498, /* mio_boot_pin_defs */
     455, /* mio_boot_reg_cfgX */
     456, /* mio_boot_reg_timX */
     457, /* mio_boot_thr */
     458, /* mio_fus_bnk_datX */
     459, /* mio_fus_dat0 */
     460, /* mio_fus_dat1 */
-    2474, /* mio_fus_dat2 */
+    2499, /* mio_fus_dat2 */
     462, /* mio_fus_dat3 */
     463, /* mio_fus_ema */
     464, /* mio_fus_pdf */
@@ -5652,7 +5649,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     472, /* mio_fus_repair_res2 */
     473, /* mio_fus_spr_repair_res */
     474, /* mio_fus_spr_repair_sum */
-    2475, /* mio_fus_tgg */
+    2500, /* mio_fus_tgg */
     475, /* mio_fus_wadr */
     476, /* mio_gpio_comp */
     477, /* mio_ndf_dma_cfg */
@@ -5672,15 +5669,15 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     2273, /* mio_ptp_pps_thresh_hi */
     2274, /* mio_ptp_pps_thresh_lo */
     485, /* mio_ptp_timestamp */
-    2476, /* mio_qlmX_cfg */
-    2477, /* mio_rst_boot */
+    2501, /* mio_qlmX_cfg */
+    2502, /* mio_rst_boot */
     1360, /* mio_rst_cfg */
-    2478, /* mio_rst_ckill */
-    2479, /* mio_rst_cntlX */
+    2503, /* mio_rst_ckill */
+    2504, /* mio_rst_cntlX */
     1361, /* mio_rst_ctlX */
     489, /* mio_rst_delay */
-    2480, /* mio_rst_int */
-    2481, /* mio_rst_int_en */
+    2505, /* mio_rst_int */
+    2506, /* mio_rst_int_en */
     492, /* mio_twsX_int */
     493, /* mio_twsX_sw_twsi */
     494, /* mio_twsX_sw_twsi_ext */
@@ -5725,10 +5722,10 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     533, /* mixX_remcnt */
     534, /* mixX_tsctl */
     535, /* mixX_tstamp */
-    2482, /* mpi_cfg */
-    2483, /* mpi_datX */
-    2484, /* mpi_sts */
-    2485, /* mpi_tx */
+    2507, /* mpi_cfg */
+    2508, /* mpi_datX */
+    2509, /* mpi_sts */
+    2510, /* mpi_tx */
     536, /* ndf_bt_pg_info */
     537, /* ndf_cmd */
     538, /* ndf_drbell */
@@ -5768,7 +5765,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     572, /* pcieepX_cfg028 */
     573, /* pcieepX_cfg029 */
     574, /* pcieepX_cfg030 */
-    2276, /* pcieepX_cfg031 */
+    2278, /* pcieepX_cfg031 */
     576, /* pcieepX_cfg032 */
     577, /* pcieepX_cfg033 */
     578, /* pcieepX_cfg034 */
@@ -5795,7 +5792,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     599, /* pcieepX_cfg451 */
     600, /* pcieepX_cfg452 */
     601, /* pcieepX_cfg453 */
-    2277, /* pcieepX_cfg454 */
+    2511, /* pcieepX_cfg454 */
     603, /* pcieepX_cfg455 */
     604, /* pcieepX_cfg456 */
     605, /* pcieepX_cfg458 */
@@ -5840,7 +5837,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     644, /* pciercX_cfg028 */
     645, /* pciercX_cfg029 */
     646, /* pciercX_cfg030 */
-    2278, /* pciercX_cfg031 */
+    2291, /* pciercX_cfg031 */
     648, /* pciercX_cfg032 */
     649, /* pciercX_cfg033 */
     650, /* pciercX_cfg034 */
@@ -5872,7 +5869,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     676, /* pciercX_cfg451 */
     677, /* pciercX_cfg452 */
     678, /* pciercX_cfg453 */
-    2279, /* pciercX_cfg454 */
+    2512, /* pciercX_cfg454 */
     680, /* pciercX_cfg455 */
     681, /* pciercX_cfg456 */
     682, /* pciercX_cfg458 */
@@ -5892,38 +5889,38 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     696, /* pciercX_cfg515 */
     697, /* pciercX_cfg516 */
     698, /* pciercX_cfg517 */
-    2486, /* pcsX_anX_adv_reg */
-    2487, /* pcsX_anX_ext_st_reg */
-    2488, /* pcsX_anX_lp_abil_reg */
-    2489, /* pcsX_anX_results_reg */
-    2490, /* pcsX_intX_en_reg */
-    2491, /* pcsX_intX_reg */
-    2492, /* pcsX_linkX_timer_count_reg */
-    2493, /* pcsX_log_anlX_reg */
-    2494, /* pcsX_miscX_ctl_reg */
-    2495, /* pcsX_mrX_control_reg */
-    2496, /* pcsX_mrX_status_reg */
-    2497, /* pcsX_rxX_states_reg */
-    2498, /* pcsX_rxX_sync_reg */
-    2499, /* pcsX_sgmX_an_adv_reg */
-    2500, /* pcsX_sgmX_lp_adv_reg */
-    2501, /* pcsX_txX_states_reg */
-    2502, /* pcsX_tx_rxX_polarity_reg */
-    2503, /* pcsxX_10gbx_status_reg */
-    2504, /* pcsxX_bist_status_reg */
-    2505, /* pcsxX_bit_lock_status_reg */
-    2506, /* pcsxX_control1_reg */
-    2507, /* pcsxX_control2_reg */
-    2508, /* pcsxX_int_en_reg */
-    2509, /* pcsxX_int_reg */
-    2510, /* pcsxX_log_anl_reg */
-    2511, /* pcsxX_misc_ctl_reg */
-    2512, /* pcsxX_rx_sync_states_reg */
-    2513, /* pcsxX_spd_abil_reg */
-    2514, /* pcsxX_status1_reg */
-    2515, /* pcsxX_status2_reg */
-    2516, /* pcsxX_tx_rx_polarity_reg */
-    2517, /* pcsxX_tx_rx_states_reg */
+    2513, /* pcsX_anX_adv_reg */
+    2514, /* pcsX_anX_ext_st_reg */
+    2515, /* pcsX_anX_lp_abil_reg */
+    2516, /* pcsX_anX_results_reg */
+    2517, /* pcsX_intX_en_reg */
+    2518, /* pcsX_intX_reg */
+    2519, /* pcsX_linkX_timer_count_reg */
+    2520, /* pcsX_log_anlX_reg */
+    2521, /* pcsX_miscX_ctl_reg */
+    2522, /* pcsX_mrX_control_reg */
+    2523, /* pcsX_mrX_status_reg */
+    2524, /* pcsX_rxX_states_reg */
+    2525, /* pcsX_rxX_sync_reg */
+    2526, /* pcsX_sgmX_an_adv_reg */
+    2527, /* pcsX_sgmX_lp_adv_reg */
+    2528, /* pcsX_txX_states_reg */
+    2529, /* pcsX_tx_rxX_polarity_reg */
+    2530, /* pcsxX_10gbx_status_reg */
+    2531, /* pcsxX_bist_status_reg */
+    2532, /* pcsxX_bit_lock_status_reg */
+    2533, /* pcsxX_control1_reg */
+    2534, /* pcsxX_control2_reg */
+    2535, /* pcsxX_int_en_reg */
+    2536, /* pcsxX_int_reg */
+    2537, /* pcsxX_log_anl_reg */
+    2538, /* pcsxX_misc_ctl_reg */
+    2539, /* pcsxX_rx_sync_states_reg */
+    2540, /* pcsxX_spd_abil_reg */
+    2541, /* pcsxX_status1_reg */
+    2542, /* pcsxX_status2_reg */
+    2543, /* pcsxX_tx_rx_polarity_reg */
+    2544, /* pcsxX_tx_rx_states_reg */
     731, /* pemX_bar1_indexX */
     2069, /* pemX_bar2_mask */
     732, /* pemX_bar_ctl */
@@ -5947,9 +5944,9 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     750, /* pemX_tlp_credits */
     751, /* pip_bck_prs */
     2070, /* pip_bist_status */
-    2518, /* pip_bsel_ext_cfgX */
-    2519, /* pip_bsel_ext_posX */
-    2520, /* pip_bsel_tbl_entX */
+    2545, /* pip_bsel_ext_cfgX */
+    2546, /* pip_bsel_ext_posX */
+    2547, /* pip_bsel_tbl_entX */
     753, /* pip_clken */
     754, /* pip_dec_ipsecX */
     755, /* pip_dsa_src_grp */
@@ -5961,46 +5958,46 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     761, /* pip_int_en */
     762, /* pip_int_reg */
     763, /* pip_ip_offset */
-    2521, /* pip_prt_cfgX */
-    2522, /* pip_prt_tagX */
+    2548, /* pip_prt_cfgX */
+    2549, /* pip_prt_tagX */
     766, /* pip_qos_diffX */
     767, /* pip_qos_vlanX */
     768, /* pip_qos_watchX */
     769, /* pip_raw_word */
     770, /* pip_sft_rst */
-    2523, /* pip_stat0_X */
-    2524, /* pip_stat10_X */
-    2525, /* pip_stat11_X */
-    2526, /* pip_stat1_X */
-    2527, /* pip_stat2_X */
-    2528, /* pip_stat3_X */
-    2529, /* pip_stat4_X */
-    2530, /* pip_stat5_X */
-    2531, /* pip_stat6_X */
-    2532, /* pip_stat7_X */
-    2533, /* pip_stat8_X */
-    2534, /* pip_stat9_X */
+    2550, /* pip_stat0_X */
+    2551, /* pip_stat10_X */
+    2552, /* pip_stat11_X */
+    2553, /* pip_stat1_X */
+    2554, /* pip_stat2_X */
+    2555, /* pip_stat3_X */
+    2556, /* pip_stat4_X */
+    2557, /* pip_stat5_X */
+    2558, /* pip_stat6_X */
+    2559, /* pip_stat7_X */
+    2560, /* pip_stat8_X */
+    2561, /* pip_stat9_X */
     783, /* pip_stat_ctl */
-    2535, /* pip_stat_inb_errs_pkndX */
-    2536, /* pip_stat_inb_octs_pkndX */
-    2537, /* pip_stat_inb_pkts_pkndX */
+    2562, /* pip_stat_inb_errs_pkndX */
+    2563, /* pip_stat_inb_octs_pkndX */
+    2564, /* pip_stat_inb_pkts_pkndX */
     787, /* pip_tag_incX */
     788, /* pip_tag_mask */
     789, /* pip_tag_secret */
     790, /* pip_todo_entry */
-    2280, /* pip_vlan_etypesX */
-    2538, /* pip_xstat0_prtX */
-    2539, /* pip_xstat10_prtX */
-    2540, /* pip_xstat11_prtX */
-    2541, /* pip_xstat1_prtX */
-    2542, /* pip_xstat2_prtX */
-    2543, /* pip_xstat3_prtX */
-    2544, /* pip_xstat4_prtX */
-    2545, /* pip_xstat5_prtX */
-    2546, /* pip_xstat6_prtX */
-    2547, /* pip_xstat7_prtX */
-    2548, /* pip_xstat8_prtX */
-    2549, /* pip_xstat9_prtX */
+    2303, /* pip_vlan_etypesX */
+    2565, /* pip_xstat0_prtX */
+    2566, /* pip_xstat10_prtX */
+    2567, /* pip_xstat11_prtX */
+    2568, /* pip_xstat1_prtX */
+    2569, /* pip_xstat2_prtX */
+    2570, /* pip_xstat3_prtX */
+    2571, /* pip_xstat4_prtX */
+    2572, /* pip_xstat5_prtX */
+    2573, /* pip_xstat6_prtX */
+    2574, /* pip_xstat7_prtX */
+    2575, /* pip_xstat8_prtX */
+    2576, /* pip_xstat9_prtX */
     803, /* pko_mem_count0 */
     804, /* pko_mem_count1 */
     805, /* pko_mem_debug0 */
@@ -6016,7 +6013,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     815, /* pko_mem_debug5 */
     816, /* pko_mem_debug6 */
     817, /* pko_mem_debug7 */
-    2550, /* pko_mem_debug8 */
+    2577, /* pko_mem_debug8 */
     819, /* pko_mem_debug9 */
     820, /* pko_mem_port_ptrs */
     821, /* pko_mem_port_qos */
@@ -6030,10 +6027,10 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     829, /* pko_reg_debug1 */
     830, /* pko_reg_debug2 */
     831, /* pko_reg_debug3 */
-    2551, /* pko_reg_engine_inflight */
-    2552, /* pko_reg_engine_thresh */
+    2578, /* pko_reg_engine_inflight */
+    2579, /* pko_reg_engine_thresh */
     834, /* pko_reg_error */
-    2553, /* pko_reg_flags */
+    2580, /* pko_reg_flags */
     836, /* pko_reg_gmx_port_mode */
     837, /* pko_reg_int_mask */
     838, /* pko_reg_preempt */
@@ -6066,29 +6063,29 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     865, /* rad_reg_polynomial */
     866, /* rad_reg_read_idx */
     867, /* rnm_bist_status */
-    2554, /* rnm_ctl_status */
+    2581, /* rnm_ctl_status */
     869, /* rnm_eer_dbg */
     870, /* rnm_eer_key */
     1397, /* rnm_serial_num */
-    2555, /* sli_bist_status */
-    2556, /* sli_ctl_portX */
-    2557, /* sli_ctl_status */
+    2582, /* sli_bist_status */
+    2583, /* sli_ctl_portX */
+    2584, /* sli_ctl_status */
     874, /* sli_data_out_cnt */
     875, /* sli_dbg_data */
     876, /* sli_dbg_select */
     877, /* sli_dmaX_cnt */
     878, /* sli_dmaX_int_level */
     879, /* sli_dmaX_tim */
-    2558, /* sli_int_enb_ciu */
-    2559, /* sli_int_enb_portX */
-    2560, /* sli_int_sum */
+    2585, /* sli_int_enb_ciu */
+    2586, /* sli_int_enb_portX */
+    2587, /* sli_int_sum */
     883, /* sli_last_win_rdata0 */
     884, /* sli_last_win_rdata1 */
-    2561, /* sli_last_win_rdata2 */
-    2562, /* sli_last_win_rdata3 */
+    2588, /* sli_last_win_rdata2 */
+    2589, /* sli_last_win_rdata3 */
     1398, /* sli_mac_credit_cnt */
-    2563, /* sli_mac_credit_cnt2 */
-    2564, /* sli_mac_number */
+    2590, /* sli_mac_credit_cnt2 */
+    2591, /* sli_mac_number */
     886, /* sli_mem_access_ctl */
     887, /* sli_mem_access_subidX */
     888, /* sli_msi_enb0 */
@@ -6150,7 +6147,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     944, /* sli_pkt_slist_ror */
     945, /* sli_pkt_time_int */
     946, /* sli_pkt_time_int_enb */
-    2565, /* sli_s2m_portX_ctl */
+    2592, /* sli_s2m_portX_ctl */
     948, /* sli_scratch_1 */
     949, /* sli_scratch_2 */
     950, /* sli_state1 */
@@ -6168,125 +6165,125 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     962, /* smiX_rd_dat */
     963, /* smiX_wr_dat */
     964, /* smi_drv_ctl */
-    2566, /* srioX_acc_ctrl */
-    2567, /* srioX_asmbly_id */
-    2568, /* srioX_asmbly_info */
-    2569, /* srioX_bell_lookupX */
-    2570, /* srioX_bell_resp_ctrl */
-    2571, /* srioX_bell_select */
-    2572, /* srioX_bist_status */
-    2573, /* srioX_fwd_ctl */
-    2574, /* srioX_imsg_ctrl */
-    2575, /* srioX_imsg_inst_hdrX */
-    2576, /* srioX_imsg_qos_grpX */
-    2577, /* srioX_imsg_statusX */
-    2578, /* srioX_imsg_vport_thr */
-    2579, /* srioX_imsg_vport_thr2 */
-    2580, /* srioX_int2_enable */
-    2581, /* srioX_int2_reg */
-    2582, /* srioX_int_enable */
-    2583, /* srioX_int_info0 */
-    2584, /* srioX_int_info1 */
-    2585, /* srioX_int_info2 */
-    2586, /* srioX_int_info3 */
-    2587, /* srioX_int_reg */
-    2588, /* srioX_ip_feature */
-    2589, /* srioX_mac_buffers */
-    2590, /* srioX_maint_op */
-    2591, /* srioX_maint_rd_data */
-    2592, /* srioX_mce_tx_ctl */
-    2593, /* srioX_mem_op_ctrl */
-    2594, /* srioX_omsg_ctrlX */
-    2595, /* srioX_omsg_done_countsX */
-    2596, /* srioX_omsg_fmp_mrX */
-    2597, /* srioX_omsg_nmp_mrX */
-    2598, /* srioX_omsg_portX */
-    2599, /* srioX_omsg_silo_thr */
-    2600, /* srioX_omsg_sp_mrX */
-    2601, /* srioX_prioX_in_use */
-    2602, /* srioX_rx_bell */
-    2603, /* srioX_rx_bell_ctrl */
-    2604, /* srioX_rx_bell_seq */
-    2605, /* srioX_rx_status */
-    2606, /* srioX_s2m_typeX */
-    2607, /* srioX_seq */
-    2608, /* srioX_status_reg */
-    2609, /* srioX_tag_ctrl */
-    2610, /* srioX_tlp_credits */
-    2611, /* srioX_tx_bell */
-    2612, /* srioX_tx_bell_info */
-    2613, /* srioX_tx_ctrl */
-    2614, /* srioX_tx_emphasis */
-    2615, /* srioX_tx_status */
-    2616, /* srioX_wr_done_counts */
-    2617, /* sriomaintX_asmbly_id */
-    2618, /* sriomaintX_asmbly_info */
-    2619, /* sriomaintX_bar1_idxX */
-    2620, /* sriomaintX_bell_status */
-    2621, /* sriomaintX_comp_tag */
-    2622, /* sriomaintX_core_enables */
-    2623, /* sriomaintX_dev_id */
-    2624, /* sriomaintX_dev_rev */
-    2625, /* sriomaintX_dst_ops */
-    2626, /* sriomaintX_erb_attr_capt */
-    2627, /* sriomaintX_erb_err_det */
-    2628, /* sriomaintX_erb_err_rate */
-    2629, /* sriomaintX_erb_err_rate_en */
-    2630, /* sriomaintX_erb_err_rate_thr */
-    2631, /* sriomaintX_erb_hdr */
-    2632, /* sriomaintX_erb_lt_addr_capt_h */
-    2633, /* sriomaintX_erb_lt_addr_capt_l */
-    2634, /* sriomaintX_erb_lt_ctrl_capt */
-    2635, /* sriomaintX_erb_lt_dev_id */
-    2636, /* sriomaintX_erb_lt_dev_id_capt */
-    2637, /* sriomaintX_erb_lt_err_det */
-    2638, /* sriomaintX_erb_lt_err_en */
-    2639, /* sriomaintX_erb_pack_capt_1 */
-    2640, /* sriomaintX_erb_pack_capt_2 */
-    2641, /* sriomaintX_erb_pack_capt_3 */
-    2642, /* sriomaintX_erb_pack_sym_capt */
-    2643, /* sriomaintX_hb_dev_id_lock */
-    2644, /* sriomaintX_ir_buffer_config */
-    2645, /* sriomaintX_ir_buffer_config2 */
-    2646, /* sriomaintX_ir_pd_phy_ctrl */
-    2647, /* sriomaintX_ir_pd_phy_stat */
-    2648, /* sriomaintX_ir_pi_phy_ctrl */
-    2649, /* sriomaintX_ir_pi_phy_stat */
-    2650, /* sriomaintX_ir_sp_rx_ctrl */
-    2651, /* sriomaintX_ir_sp_rx_data */
-    2652, /* sriomaintX_ir_sp_rx_stat */
-    2653, /* sriomaintX_ir_sp_tx_ctrl */
-    2654, /* sriomaintX_ir_sp_tx_data */
-    2655, /* sriomaintX_ir_sp_tx_stat */
-    2656, /* sriomaintX_lane_X_status_0 */
-    2657, /* sriomaintX_lcs_ba0 */
-    2658, /* sriomaintX_lcs_ba1 */
-    2659, /* sriomaintX_m2s_bar0_start0 */
-    2660, /* sriomaintX_m2s_bar0_start1 */
-    2661, /* sriomaintX_m2s_bar1_start0 */
-    2662, /* sriomaintX_m2s_bar1_start1 */
-    2663, /* sriomaintX_m2s_bar2_start */
-    2664, /* sriomaintX_mac_ctrl */
-    2665, /* sriomaintX_pe_feat */
-    2666, /* sriomaintX_pe_llc */
-    2667, /* sriomaintX_port_0_ctl */
-    2668, /* sriomaintX_port_0_ctl2 */
-    2669, /* sriomaintX_port_0_err_stat */
-    2670, /* sriomaintX_port_0_link_req */
-    2671, /* sriomaintX_port_0_link_resp */
-    2672, /* sriomaintX_port_0_local_ackid */
-    2673, /* sriomaintX_port_gen_ctl */
-    2674, /* sriomaintX_port_lt_ctl */
-    2675, /* sriomaintX_port_mbh0 */
-    2676, /* sriomaintX_port_rt_ctl */
-    2677, /* sriomaintX_port_ttl_ctl */
-    2678, /* sriomaintX_pri_dev_id */
-    2679, /* sriomaintX_sec_dev_ctrl */
-    2680, /* sriomaintX_sec_dev_id */
-    2681, /* sriomaintX_serial_lane_hdr */
-    2682, /* sriomaintX_src_ops */
-    2683, /* sriomaintX_tx_drop */
-    2684, /* sso_bist_stat */
+    2593, /* srioX_acc_ctrl */
+    2594, /* srioX_asmbly_id */
+    2595, /* srioX_asmbly_info */
+    2596, /* srioX_bell_lookupX */
+    2597, /* srioX_bell_resp_ctrl */
+    2598, /* srioX_bell_select */
+    2599, /* srioX_bist_status */
+    2600, /* srioX_fwd_ctl */
+    2601, /* srioX_imsg_ctrl */
+    2602, /* srioX_imsg_inst_hdrX */
+    2603, /* srioX_imsg_qos_grpX */
+    2604, /* srioX_imsg_statusX */
+    2605, /* srioX_imsg_vport_thr */
+    2606, /* srioX_imsg_vport_thr2 */
+    2607, /* srioX_int2_enable */
+    2608, /* srioX_int2_reg */
+    2609, /* srioX_int_enable */
+    2610, /* srioX_int_info0 */
+    2611, /* srioX_int_info1 */
+    2612, /* srioX_int_info2 */
+    2613, /* srioX_int_info3 */
+    2614, /* srioX_int_reg */
+    2615, /* srioX_ip_feature */
+    2616, /* srioX_mac_buffers */
+    2617, /* srioX_maint_op */
+    2618, /* srioX_maint_rd_data */
+    2619, /* srioX_mce_tx_ctl */
+    2620, /* srioX_mem_op_ctrl */
+    2621, /* srioX_omsg_ctrlX */
+    2622, /* srioX_omsg_done_countsX */
+    2623, /* srioX_omsg_fmp_mrX */
+    2624, /* srioX_omsg_nmp_mrX */
+    2625, /* srioX_omsg_portX */
+    2626, /* srioX_omsg_silo_thr */
+    2627, /* srioX_omsg_sp_mrX */
+    2628, /* srioX_prioX_in_use */
+    2629, /* srioX_rx_bell */
+    2630, /* srioX_rx_bell_ctrl */
+    2631, /* srioX_rx_bell_seq */
+    2632, /* srioX_rx_status */
+    2633, /* srioX_s2m_typeX */
+    2634, /* srioX_seq */
+    2635, /* srioX_status_reg */
+    2636, /* srioX_tag_ctrl */
+    2637, /* srioX_tlp_credits */
+    2638, /* srioX_tx_bell */
+    2639, /* srioX_tx_bell_info */
+    2640, /* srioX_tx_ctrl */
+    2641, /* srioX_tx_emphasis */
+    2642, /* srioX_tx_status */
+    2643, /* srioX_wr_done_counts */
+    2644, /* sriomaintX_asmbly_id */
+    2645, /* sriomaintX_asmbly_info */
+    2646, /* sriomaintX_bar1_idxX */
+    2647, /* sriomaintX_bell_status */
+    2648, /* sriomaintX_comp_tag */
+    2649, /* sriomaintX_core_enables */
+    2650, /* sriomaintX_dev_id */
+    2651, /* sriomaintX_dev_rev */
+    2652, /* sriomaintX_dst_ops */
+    2653, /* sriomaintX_erb_attr_capt */
+    2654, /* sriomaintX_erb_err_det */
+    2655, /* sriomaintX_erb_err_rate */
+    2656, /* sriomaintX_erb_err_rate_en */
+    2657, /* sriomaintX_erb_err_rate_thr */
+    2658, /* sriomaintX_erb_hdr */
+    2659, /* sriomaintX_erb_lt_addr_capt_h */
+    2660, /* sriomaintX_erb_lt_addr_capt_l */
+    2661, /* sriomaintX_erb_lt_ctrl_capt */
+    2662, /* sriomaintX_erb_lt_dev_id */
+    2663, /* sriomaintX_erb_lt_dev_id_capt */
+    2664, /* sriomaintX_erb_lt_err_det */
+    2665, /* sriomaintX_erb_lt_err_en */
+    2666, /* sriomaintX_erb_pack_capt_1 */
+    2667, /* sriomaintX_erb_pack_capt_2 */
+    2668, /* sriomaintX_erb_pack_capt_3 */
+    2669, /* sriomaintX_erb_pack_sym_capt */
+    2670, /* sriomaintX_hb_dev_id_lock */
+    2671, /* sriomaintX_ir_buffer_config */
+    2672, /* sriomaintX_ir_buffer_config2 */
+    2673, /* sriomaintX_ir_pd_phy_ctrl */
+    2674, /* sriomaintX_ir_pd_phy_stat */
+    2675, /* sriomaintX_ir_pi_phy_ctrl */
+    2676, /* sriomaintX_ir_pi_phy_stat */
+    2677, /* sriomaintX_ir_sp_rx_ctrl */
+    2678, /* sriomaintX_ir_sp_rx_data */
+    2679, /* sriomaintX_ir_sp_rx_stat */
+    2680, /* sriomaintX_ir_sp_tx_ctrl */
+    2681, /* sriomaintX_ir_sp_tx_data */
+    2682, /* sriomaintX_ir_sp_tx_stat */
+    2683, /* sriomaintX_lane_X_status_0 */
+    2684, /* sriomaintX_lcs_ba0 */
+    2685, /* sriomaintX_lcs_ba1 */
+    2686, /* sriomaintX_m2s_bar0_start0 */
+    2687, /* sriomaintX_m2s_bar0_start1 */
+    2688, /* sriomaintX_m2s_bar1_start0 */
+    2689, /* sriomaintX_m2s_bar1_start1 */
+    2690, /* sriomaintX_m2s_bar2_start */
+    2691, /* sriomaintX_mac_ctrl */
+    2692, /* sriomaintX_pe_feat */
+    2693, /* sriomaintX_pe_llc */
+    2694, /* sriomaintX_port_0_ctl */
+    2695, /* sriomaintX_port_0_ctl2 */
+    2696, /* sriomaintX_port_0_err_stat */
+    2697, /* sriomaintX_port_0_link_req */
+    2698, /* sriomaintX_port_0_link_resp */
+    2699, /* sriomaintX_port_0_local_ackid */
+    2700, /* sriomaintX_port_gen_ctl */
+    2701, /* sriomaintX_port_lt_ctl */
+    2702, /* sriomaintX_port_mbh0 */
+    2703, /* sriomaintX_port_rt_ctl */
+    2704, /* sriomaintX_port_ttl_ctl */
+    2705, /* sriomaintX_pri_dev_id */
+    2706, /* sriomaintX_sec_dev_ctrl */
+    2707, /* sriomaintX_sec_dev_id */
+    2708, /* sriomaintX_serial_lane_hdr */
+    2709, /* sriomaintX_src_ops */
+    2710, /* sriomaintX_tx_drop */
+    2711, /* sso_bist_stat */
     1064, /* sso_ds_pc */
     1065, /* sso_ecc_err */
     1066, /* sso_int_ctl */
@@ -6298,7 +6295,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     1072, /* sso_nos_cnt */
     1073, /* sso_nw_tim */
     1074, /* sso_pf_rst_msk */
-    2685, /* sso_pp_grp_mskX */
+    2712, /* sso_pp_grp_mskX */
     1076, /* sso_qos_rndX */
     1077, /* sso_qos_thrX */
     1078, /* sso_ts_pc */
@@ -6320,27 +6317,27 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     1094, /* tim_reg_int_mask */
     1095, /* tim_reg_read_idx */
     1096, /* traX_bist_status */
-    2686, /* traX_ctl */
+    2713, /* traX_ctl */
     1098, /* traX_cycles_since */
     1099, /* traX_cycles_since1 */
     1100, /* traX_filt_adr_adr */
     1101, /* traX_filt_adr_msk */
     1102, /* traX_filt_cmd */
     1103, /* traX_filt_did */
-    2687, /* traX_filt_sid */
+    2714, /* traX_filt_sid */
     1105, /* traX_int_status */
     1106, /* traX_read_dat */
-    2688, /* traX_read_dat_hi */
+    2715, /* traX_read_dat_hi */
     1107, /* traX_trig0_adr_adr */
     1108, /* traX_trig0_adr_msk */
     1109, /* traX_trig0_cmd */
     1110, /* traX_trig0_did */
-    2689, /* traX_trig0_sid */
+    2716, /* traX_trig0_sid */
     1112, /* traX_trig1_adr_adr */
     1113, /* traX_trig1_adr_msk */
     1114, /* traX_trig1_cmd */
     1115, /* traX_trig1_did */
-    2690, /* traX_trig1_sid */
+    2717, /* traX_trig1_sid */
     1117, /* uahcX_ehci_asynclistaddr */
     1118, /* uahcX_ehci_configflag */
     1119, /* uahcX_ehci_ctrldssegment */
@@ -6398,7 +6395,7 @@ static const int16_t __bdk_csr_db_cn66xx[] = {
     1447, /* zip_cmd_bist_result */
     1172, /* zip_cmd_buf */
     1173, /* zip_cmd_ctl */
-    2292, /* zip_constants */
+    2317, /* zip_constants */
     1175, /* zip_debug0 */
     1176, /* zip_error */
     1177, /* zip_int_mask */
@@ -8685,421 +8682,448 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {58845, BDK_CSR_TYPE_NCB,8,2024, 0, 0,1551,1,1}, /* 2273 */
     {58867, BDK_CSR_TYPE_NCB,8,2026, 0, 0,1552,1,1}, /* 2274 */
     {58889, BDK_CSR_TYPE_RSL,8,5890, 3, 0,1553,36,1}, /* 2275 */
-    {20847, BDK_CSR_TYPE_PCICONFIGEP,4,8213, 3, 0,575,1,1}, /* 2276 */
-    {22143, BDK_CSR_TYPE_PCICONFIGEP,4,8226, 3, 0,602,1,1}, /* 2277 */
-    {23644, BDK_CSR_TYPE_PCICONFIGRC,4,8213, 3, 0,575,1,1}, /* 2278 */
-    {24359, BDK_CSR_TYPE_PCICONFIGRC,4,8226, 3, 0,602,1,1}, /* 2279 */
-    {58929, BDK_CSR_TYPE_RSL,8,8233, 3, 0,1554,36,1}, /* 2280 */
-    {30202, BDK_CSR_TYPE_RSL,8,8238, 0, 0,754,1,1}, /* 2281 */
-    {30596, BDK_CSR_TYPE_RSL,8,8259, 0, 0,763,1,1}, /* 2282 */
-    {33097, BDK_CSR_TYPE_PEXP_NCB,8,8270,90, 0,843,81,1}, /* 2283 */
-    {59007, BDK_CSR_TYPE_NCB,8,8292, 0, 0,1555,1,1}, /* 2284 */
-    {39514, BDK_CSR_TYPE_NCB,8,8294, 0, 0,1469,1,1}, /* 2285 */
-    {56682, BDK_CSR_TYPE_NCB,8,8316, 0, 0,1470,1,1}, /* 2286 */
-    {57111, BDK_CSR_TYPE_NCB,8,8329, 0, 0,1477,1,1}, /* 2287 */
-    {59133, BDK_CSR_TYPE_NCB,8,8339, 0, 0,1556,1,1}, /* 2288 */
-    {57476, BDK_CSR_TYPE_NCB,8,8342, 0, 0,1498,1,1}, /* 2289 */
-    {57508, BDK_CSR_TYPE_NCB,8,8348, 0, 0,1499,1,1}, /* 2290 */
-    {58037, BDK_CSR_TYPE_RSL,8,8354,77, 0,1523,36,1}, /* 2291 */
-    {44098, BDK_CSR_TYPE_RSL,8,8362, 0, 0,1083,1,1}, /* 2292 */
-    { 2914, BDK_CSR_TYPE_NCB,8,8371, 0, 0,75,1,1}, /* 2293 */
-    { 2928, BDK_CSR_TYPE_NCB,8,8374, 0, 0,76,1,1}, /* 2294 */
-    { 3204, BDK_CSR_TYPE_NCB,8,8416, 0, 0,77,1,1}, /* 2295 */
-    { 3218, BDK_CSR_TYPE_NCB,8,8419, 0, 0,78,1,1}, /* 2296 */
-    { 3248, BDK_CSR_TYPE_NCB,8,8422,119, 0,80,81,1}, /* 2297 */
-    { 3428, BDK_CSR_TYPE_NCB,8,8422,119, 0,82,81,1}, /* 2298 */
-    { 3445, BDK_CSR_TYPE_NCB,8,8422,119, 0,83,81,1}, /* 2299 */
-    { 3462, BDK_CSR_TYPE_NCB,8,8445,119, 0,84,81,1}, /* 2300 */
-    { 3558, BDK_CSR_TYPE_NCB,8,8445,119, 0,85,81,1}, /* 2301 */
-    { 3575, BDK_CSR_TYPE_NCB,8,8445,119, 0,86,81,1}, /* 2302 */
-    { 3592, BDK_CSR_TYPE_NCB,8,8422,124, 0,87,81,1}, /* 2303 */
-    { 3607, BDK_CSR_TYPE_NCB,8,8422,124, 0,88,81,1}, /* 2304 */
-    { 3626, BDK_CSR_TYPE_NCB,8,8422,124, 0,89,81,1}, /* 2305 */
-    { 3645, BDK_CSR_TYPE_NCB,8,8445,124, 0,90,81,1}, /* 2306 */
-    { 3660, BDK_CSR_TYPE_NCB,8,8445,124, 0,91,81,1}, /* 2307 */
-    { 3679, BDK_CSR_TYPE_NCB,8,8445,124, 0,92,81,1}, /* 2308 */
-    { 3698, BDK_CSR_TYPE_NCB,8,8485,127, 0,93,36,1}, /* 2309 */
-    { 3721, BDK_CSR_TYPE_NCB,8,8485,124, 0,94,36,1}, /* 2310 */
-    { 3735, BDK_CSR_TYPE_NCB,8,8485, 0, 0,95,1,1}, /* 2311 */
-    {44212, BDK_CSR_TYPE_NCB,8,8508, 0, 0,1088,1,1}, /* 2312 */
-    { 3750, BDK_CSR_TYPE_NCB,8,8515, 0, 0,96,1,1}, /* 2313 */
-    { 3763, BDK_CSR_TYPE_NCB,8,402,124, 0,97,36,1}, /* 2314 */
-    { 3782, BDK_CSR_TYPE_NCB,8,402,124, 0,98,36,1}, /* 2315 */
-    { 3796, BDK_CSR_TYPE_NCB,8,8553, 0, 0,99,1,1}, /* 2316 */
-    { 3826, BDK_CSR_TYPE_NCB,8,8556, 0, 0,101,1,1}, /* 2317 */
-    { 3843, BDK_CSR_TYPE_NCB,8,414,124, 0,102,36,1}, /* 2318 */
-    { 3861, BDK_CSR_TYPE_NCB,8,8559, 0, 0,103,1,1}, /* 2319 */
-    {59346, BDK_CSR_TYPE_NCB,8,448, 0, 0,1557,1,1}, /* 2320 */
-    {59361, BDK_CSR_TYPE_NCB,8,448, 0, 0,1313,1,1}, /* 2321 */
-    {59376, BDK_CSR_TYPE_NCB,8,8563,124, 0,1558,36,1}, /* 2322 */
-    {59415, BDK_CSR_TYPE_NCB,8,8563, 0, 0,1559,1,1}, /* 2323 */
-    {59436, BDK_CSR_TYPE_NCB,8,8445, 3, 0,1560,36,1}, /* 2324 */
-    {59453, BDK_CSR_TYPE_NCB,8,8445,124, 0,1561,36,1}, /* 2325 */
-    {59470, BDK_CSR_TYPE_NCB,8,8445,124, 0,1562,36,1}, /* 2326 */
-    {59487, BDK_CSR_TYPE_NCB,8,8445,124, 0,1563,36,1}, /* 2327 */
-    { 4240, BDK_CSR_TYPE_NCB,8,458,124, 0,114,36,1}, /* 2328 */
-    { 5150, BDK_CSR_TYPE_RSL,8,8186, 0, 0,139,1,1}, /* 2329 */
-    { 7334, BDK_CSR_TYPE_NCB,8,8568, 0, 0,171,1,1}, /* 2330 */
-    { 7578, BDK_CSR_TYPE_NCB,8,8571, 0, 0,179,1,1}, /* 2331 */
-    {59514, BDK_CSR_TYPE_NCB,8,100,124, 0,1564,36,1}, /* 2332 */
-    { 7799, BDK_CSR_TYPE_NCB,8,8592, 0, 0,183,1,1}, /* 2333 */
-    { 7967, BDK_CSR_TYPE_NCB,8,8592, 0, 0,184,1,1}, /* 2334 */
-    { 8118, BDK_CSR_TYPE_NCB,8,8610,19, 0,192,36,1}, /* 2335 */
-    { 8230, BDK_CSR_TYPE_NCB,8,927,19, 0,193,36,1}, /* 2336 */
-    { 8260, BDK_CSR_TYPE_NCB,8,930,19, 0,194,36,1}, /* 2337 */
-    {59550, BDK_CSR_TYPE_NCB,8,8624, 0, 0,1565,1,1}, /* 2338 */
-    {59572, BDK_CSR_TYPE_NCB,8,8627,77, 0,1566,36,1}, /* 2339 */
-    {59600, BDK_CSR_TYPE_NCB,8,8637,77, 0,1567,36,1}, /* 2340 */
-    { 8463, BDK_CSR_TYPE_RSL,8,8641, 0, 0,199,1,1}, /* 2341 */
-    { 8710, BDK_CSR_TYPE_RSL,8,8689, 0, 0,200,1,1}, /* 2342 */
-    {50905, BDK_CSR_TYPE_RSL,8,6497,22, 0,1322,36,1}, /* 2343 */
-    {50924, BDK_CSR_TYPE_RSL,8,6497,22, 0,1323,36,1}, /* 2344 */
-    { 8834, BDK_CSR_TYPE_RSL,8,1010, 3, 0,205,1093,1}, /* 2345 */
-    { 8884, BDK_CSR_TYPE_RSL,8, 15, 3, 0,206,1093,1}, /* 2346 */
-    { 8894, BDK_CSR_TYPE_RSL,8,1018, 3, 0,207,1093,1}, /* 2347 */
-    { 8913, BDK_CSR_TYPE_RSL,8,1021, 3, 0,208,1093,1}, /* 2348 */
-    { 8979, BDK_CSR_TYPE_RSL,8,8737, 3, 0,209,1093,1}, /* 2349 */
-    { 8993, BDK_CSR_TYPE_RSL,8,1035, 3, 0,210,1093,1}, /* 2350 */
-    { 9010, BDK_CSR_TYPE_RSL,8,1038,28, 3,211,1,1093}, /* 2351 */
-    { 9051, BDK_CSR_TYPE_RSL,8,1047,19, 3,212,4,1093}, /* 2352 */
-    { 9065, BDK_CSR_TYPE_RSL,8, 32,19, 3,213,4,1093}, /* 2353 */
-    { 9083, BDK_CSR_TYPE_RSL,8, 32,19, 3,214,4,1093}, /* 2354 */
-    { 9101, BDK_CSR_TYPE_RSL,8, 32,19, 3,215,4,1093}, /* 2355 */
-    { 9119, BDK_CSR_TYPE_RSL,8, 32,19, 3,216,4,1093}, /* 2356 */
-    { 9137, BDK_CSR_TYPE_RSL,8, 32,19, 3,217,4,1093}, /* 2357 */
-    { 9155, BDK_CSR_TYPE_RSL,8, 32,19, 3,218,4,1093}, /* 2358 */
-    {58523, BDK_CSR_TYPE_RSL,8,8112,19, 3,1542,4,1093}, /* 2359 */
-    { 9173, BDK_CSR_TYPE_RSL,8, 34,19, 3,219,4,1093}, /* 2360 */
-    { 9193, BDK_CSR_TYPE_RSL,8, 37,19, 3,220,4,1093}, /* 2361 */
-    { 9210, BDK_CSR_TYPE_RSL,8, 42,19, 3,221,4,1093}, /* 2362 */
-    { 9228, BDK_CSR_TYPE_RSL,8,1058,19, 3,222,4,1093}, /* 2363 */
-    { 9245, BDK_CSR_TYPE_RSL,8,1068,19, 3,223,4,1093}, /* 2364 */
-    { 9275, BDK_CSR_TYPE_RSL,8, 75,19, 3,224,4,1093}, /* 2365 */
-    { 9288, BDK_CSR_TYPE_RSL,8,1082,19, 3,225,4,1093}, /* 2366 */
-    { 9400, BDK_CSR_TYPE_RSL,8,1082,19, 3,226,4,1093}, /* 2367 */
-    { 9417, BDK_CSR_TYPE_RSL,8,100,19, 3,227,4,1093}, /* 2368 */
-    { 9433, BDK_CSR_TYPE_RSL,8,103,19, 3,228,4,1093}, /* 2369 */
-    { 9458, BDK_CSR_TYPE_RSL,8,111,19, 3,229,4,1093}, /* 2370 */
-    { 9477, BDK_CSR_TYPE_RSL,8,114,19, 3,230,4,1093}, /* 2371 */
-    { 9497, BDK_CSR_TYPE_RSL,8,114,19, 3,231,4,1093}, /* 2372 */
-    { 9521, BDK_CSR_TYPE_RSL,8,114,19, 3,232,4,1093}, /* 2373 */
-    { 9546, BDK_CSR_TYPE_RSL,8,114,19, 3,233,4,1093}, /* 2374 */
-    { 9570, BDK_CSR_TYPE_RSL,8,117,19, 3,234,4,1093}, /* 2375 */
-    { 9590, BDK_CSR_TYPE_RSL,8,117,19, 3,235,4,1093}, /* 2376 */
-    { 9614, BDK_CSR_TYPE_RSL,8,117,19, 3,236,4,1093}, /* 2377 */
-    { 9638, BDK_CSR_TYPE_RSL,8,117,19, 3,237,4,1093}, /* 2378 */
-    { 9663, BDK_CSR_TYPE_RSL,8,117,19, 3,238,4,1093}, /* 2379 */
-    { 9687, BDK_CSR_TYPE_RSL,8,120,19, 3,239,4,1093}, /* 2380 */
-    { 9704, BDK_CSR_TYPE_RSL,8,125,19, 3,240,36,1093}, /* 2381 */
-    { 9721, BDK_CSR_TYPE_RSL,8,125,19, 3,241,36,1093}, /* 2382 */
-    { 9737, BDK_CSR_TYPE_RSL,8,128,19, 3,242,36,1093}, /* 2383 */
-    { 9752, BDK_CSR_TYPE_RSL,8,1110, 3, 0,243,1093,1}, /* 2384 */
-    { 9793, BDK_CSR_TYPE_RSL,8,1115, 3, 0,244,1093,1}, /* 2385 */
-    { 9810, BDK_CSR_TYPE_RSL,8,1120, 3, 0,245,1093,1}, /* 2386 */
-    { 9828, BDK_CSR_TYPE_RSL,8,1123, 3, 0,246,1093,1}, /* 2387 */
-    { 9871, BDK_CSR_TYPE_RSL,8,1129, 3, 0,247,1093,1}, /* 2388 */
-    { 9888, BDK_CSR_TYPE_RSL,8,141,19, 3,248,4,1093}, /* 2389 */
-    { 9899, BDK_CSR_TYPE_RSL,8,1132, 3, 0,249,1093,1}, /* 2390 */
-    { 9925, BDK_CSR_TYPE_RSL,8,144, 3, 0,250,1093,1}, /* 2391 */
-    {58547, BDK_CSR_TYPE_RSL,8,8115, 3, 0,1543,1093,1}, /* 2392 */
-    { 9938, BDK_CSR_TYPE_RSL,8,148,19, 3,251,4,1093}, /* 2393 */
-    { 9954, BDK_CSR_TYPE_RSL,8,1136,19, 3,252,4,1093}, /* 2394 */
-    { 9969, BDK_CSR_TYPE_RSL,8,1139,28, 3,253,1,1093}, /* 2395 */
-    { 9993, BDK_CSR_TYPE_RSL,8,1142,28, 3,254,1,1093}, /* 2396 */
-    {10015, BDK_CSR_TYPE_RSL,8,157,19, 3,255,4,1093}, /* 2397 */
-    {10028, BDK_CSR_TYPE_RSL,8,161,19, 3,256,4,1093}, /* 2398 */
-    {10045, BDK_CSR_TYPE_RSL,8,164,19, 3,257,4,1093}, /* 2399 */
-    {10073, BDK_CSR_TYPE_RSL,8,167,19, 3,258,4,1093}, /* 2400 */
-    {10097, BDK_CSR_TYPE_RSL,8,1145,19, 3,259,4,1093}, /* 2401 */
-    {10126, BDK_CSR_TYPE_RSL,8,170,19, 3,260,4,1093}, /* 2402 */
-    {10146, BDK_CSR_TYPE_RSL,8,1149,19, 3,261,4,1093}, /* 2403 */
-    {10171, BDK_CSR_TYPE_RSL,8,1152,19, 3,262,4,1093}, /* 2404 */
-    {10190, BDK_CSR_TYPE_RSL,8,167,19, 3,263,4,1093}, /* 2405 */
-    {10210, BDK_CSR_TYPE_RSL,8,173,19, 3,264,4,1093}, /* 2406 */
-    {10225, BDK_CSR_TYPE_RSL,8,176,19, 3,265,4,1093}, /* 2407 */
-    {10240, BDK_CSR_TYPE_RSL,8,179,19, 3,266,4,1093}, /* 2408 */
-    {10255, BDK_CSR_TYPE_RSL,8,182,19, 3,267,4,1093}, /* 2409 */
-    {10270, BDK_CSR_TYPE_RSL,8,185,19, 3,268,4,1093}, /* 2410 */
-    {10285, BDK_CSR_TYPE_RSL,8,188,19, 3,269,4,1093}, /* 2411 */
-    {10300, BDK_CSR_TYPE_RSL,8,191,19, 3,270,4,1093}, /* 2412 */
-    {10315, BDK_CSR_TYPE_RSL,8,194,19, 3,271,4,1093}, /* 2413 */
-    {10330, BDK_CSR_TYPE_RSL,8,197,19, 3,272,4,1093}, /* 2414 */
-    {10345, BDK_CSR_TYPE_RSL,8,200,19, 3,273,4,1093}, /* 2415 */
-    {10360, BDK_CSR_TYPE_RSL,8,111,19, 3,274,4,1093}, /* 2416 */
-    {10379, BDK_CSR_TYPE_RSL,8,1155,19, 3,275,4,1093}, /* 2417 */
-    {10395, BDK_CSR_TYPE_RSL,8,1158, 3, 0,276,1093,1}, /* 2418 */
-    {10406, BDK_CSR_TYPE_RSL,8,209, 3, 0,277,1093,1}, /* 2419 */
-    {10426, BDK_CSR_TYPE_RSL,8,1161, 3, 0,278,1093,1}, /* 2420 */
-    {10450, BDK_CSR_TYPE_RSL,8,1164, 3, 0,279,1093,1}, /* 2421 */
-    {10474, BDK_CSR_TYPE_RSL,8,1167, 3, 0,280,1093,1}, /* 2422 */
-    {10498, BDK_CSR_TYPE_RSL,8,212, 3, 0,281,1093,1}, /* 2423 */
-    {10510, BDK_CSR_TYPE_RSL,8,8747, 3, 0,282,1093,1}, /* 2424 */
-    {10525, BDK_CSR_TYPE_RSL,8,8747, 3, 0,283,1093,1}, /* 2425 */
-    {10541, BDK_CSR_TYPE_RSL,8,229, 3, 0,284,1093,1}, /* 2426 */
-    {10553, BDK_CSR_TYPE_RSL,8,232, 3, 0,285,1093,1}, /* 2427 */
-    {10566, BDK_CSR_TYPE_RSL,8,1180, 3, 0,286,1093,1}, /* 2428 */
-    {10606, BDK_CSR_TYPE_RSL,8,242, 3, 0,287,1093,1}, /* 2429 */
-    {10629, BDK_CSR_TYPE_RSL,8,245, 3, 0,288,1093,1}, /* 2430 */
-    {10652, BDK_CSR_TYPE_RSL,8,1187, 3, 0,289,1093,1}, /* 2431 */
-    {10665, BDK_CSR_TYPE_RSL,8,1190, 3, 0,290,1093,1}, /* 2432 */
-    {10725, BDK_CSR_TYPE_RSL,8,1200, 3, 0,291,1093,1}, /* 2433 */
-    {10856, BDK_CSR_TYPE_NCB,8,8758, 3, 0,294,36,1}, /* 2434 */
-    {59649, BDK_CSR_TYPE_NCB,8,4213, 0, 0,1568,1,1}, /* 2435 */
-    {59665, BDK_CSR_TYPE_NCB,8,8764, 0, 0,1569,1,1}, /* 2436 */
-    {10896, BDK_CSR_TYPE_NCB,8,8769, 0, 0,296,1,1}, /* 2437 */
-    {10912, BDK_CSR_TYPE_NCB,8,8772, 0, 0,297,1,1}, /* 2438 */
-    {10928, BDK_CSR_TYPE_NCB,8,8775, 0, 0,298,1,1}, /* 2439 */
-    {59704, BDK_CSR_TYPE_NCB,8,1204,132, 0,296,36,1}, /* 2440 */
-    {11112, BDK_CSR_TYPE_RSL,8,8778, 0, 0,300,1,1}, /* 2441 */
-    {11961, BDK_CSR_TYPE_NCB,8,8788, 0, 0,326,1,1}, /* 2442 */
-    {12319, BDK_CSR_TYPE_NCB,8,1372,135, 0,334,36,1}, /* 2443 */
-    {12380, BDK_CSR_TYPE_NCB,8,1372,142, 0,336,36,1}, /* 2444 */
-    {59719, BDK_CSR_TYPE_NCB,8,1376,145, 0,1570,36,1}, /* 2445 */
-    {12459, BDK_CSR_TYPE_NCB,8,1376,135, 0,339,36,1}, /* 2446 */
-    {12486, BDK_CSR_TYPE_NCB,8,1379,148, 0,340,36,1}, /* 2447 */
-    {12511, BDK_CSR_TYPE_NCB,8,1382,155, 0,341,36,1}, /* 2448 */
-    {12529, BDK_CSR_TYPE_NCB,8,1384,155, 0,342,36,1}, /* 2449 */
-    {12831, BDK_CSR_TYPE_NCB,8,8791, 0, 0,350,1,1}, /* 2450 */
-    {13187, BDK_CSR_TYPE_RSL,8,8794, 0, 0,361,1,1}, /* 2451 */
-    {13294, BDK_CSR_TYPE_RSL,8,5826,28, 0,363,1,1}, /* 2452 */
-    {13350, BDK_CSR_TYPE_RSL,8,1279,164, 0,365,36,1}, /* 2453 */
-    {13464, BDK_CSR_TYPE_RSL,8,1504,169, 0,367,36,1}, /* 2454 */
-    {13636, BDK_CSR_TYPE_RSL,8,8807, 0, 0,371,1,1}, /* 2455 */
-    {13829, BDK_CSR_TYPE_RSL,8,1567,124, 0,377,36,1}, /* 2456 */
-    {14028, BDK_CSR_TYPE_RSL,8,5869,28, 0,383,1,1}, /* 2457 */
-    {44834, BDK_CSR_TYPE_RSL,8,5869,28, 0,1096,1,1}, /* 2458 */
-    {14262, BDK_CSR_TYPE_RSL,8,8813, 0, 0,392,1,1}, /* 2459 */
-    {14298, BDK_CSR_TYPE_RSL,8,1632,124, 0,394,36,1}, /* 2460 */
-    {14378, BDK_CSR_TYPE_RSL,8,583,124, 0,398,36,1}, /* 2461 */
-    {14450, BDK_CSR_TYPE_RSL,8,8186,28, 0,402,1,1}, /* 2462 */
-    {14685, BDK_CSR_TYPE_RSL,8,8816,28, 0,409,1,1}, /* 2463 */
-    {14697, BDK_CSR_TYPE_RSL,8,8839,28, 0,410,1,1}, /* 2464 */
-    {15451, BDK_CSR_TYPE_RSL,8,5654,28, 0,427,1,1}, /* 2465 */
-    {15479, BDK_CSR_TYPE_RSL,8,5665,28, 0,429,1,1}, /* 2466 */
-    {59795, BDK_CSR_TYPE_RSL,8,3851,28, 0,1571,1,1}, /* 2467 */
-    {59814, BDK_CSR_TYPE_RSL,8,3851,28, 0,1572,1,1}, /* 2468 */
-    {59833, BDK_CSR_TYPE_RSL,8,1736,28, 0,1573,1,1}, /* 2469 */
-    {15691, BDK_CSR_TYPE_RSL,8,5676,28, 0,436,1,1}, /* 2470 */
-    {15711, BDK_CSR_TYPE_RSL,8,5689,28, 0,437,1,1}, /* 2471 */
-    {15783, BDK_CSR_TYPE_RSL,8,5703,28, 0,440,1,1}, /* 2472 */
-    {16255, BDK_CSR_TYPE_RSL,8,8861, 0, 0,455,1,1}, /* 2473 */
-    {16534, BDK_CSR_TYPE_RSL,8,8872, 0, 0,462,1,1}, /* 2474 */
-    {59881, BDK_CSR_TYPE_RSL,8,8888, 0, 0,1574,1,1}, /* 2475 */
-    {55569, BDK_CSR_TYPE_RSL,8,8891,172, 0,1428,36,1}, /* 2476 */
-    {17547, BDK_CSR_TYPE_RSL,8,8896, 0, 0,487,1,1}, /* 2477 */
-    {59978, BDK_CSR_TYPE_RSL,8,8913, 0, 0,1575,1,1}, /* 2478 */
-    {58889, BDK_CSR_TYPE_RSL,8,5890,19, 0,1553,36,1}, /* 2479 */
-    {17809, BDK_CSR_TYPE_RSL,8,8916, 0, 0,491,1,1}, /* 2480 */
-    {17855, BDK_CSR_TYPE_RSL,8,8916, 0, 0,492,1,1}, /* 2481 */
-    {60012, BDK_CSR_TYPE_NCB,8,8925, 0, 0,1576,1,1}, /* 2482 */
-    {60108, BDK_CSR_TYPE_NCB,8,8942,102, 0,1577,36,1}, /* 2483 */
-    {60117, BDK_CSR_TYPE_NCB,8,8945, 0, 0,1578,1,1}, /* 2484 */
-    {60131, BDK_CSR_TYPE_NCB,8,8950, 0, 0,1579,1,1}, /* 2485 */
-    {24659, BDK_CSR_TYPE_RSL,8,2916,19, 3,628,499,1093}, /* 2486 */
-    {24709, BDK_CSR_TYPE_RSL,8,2926,19, 3,629,499,1093}, /* 2487 */
-    {24779, BDK_CSR_TYPE_RSL,8,2933,19, 3,630,499,1093}, /* 2488 */
-    {24804, BDK_CSR_TYPE_RSL,8,2943,19, 3,631,499,1093}, /* 2489 */
-    {24848, BDK_CSR_TYPE_RSL,8,2950,19, 3,632,499,1093}, /* 2490 */
-    {24984, BDK_CSR_TYPE_RSL,8,2965,19, 3,633,499,1093}, /* 2491 */
-    {25081, BDK_CSR_TYPE_RSL,8,2980,19, 3,634,499,1093}, /* 2492 */
-    {25108, BDK_CSR_TYPE_RSL,8,2983,19, 3,635,499,1093}, /* 2493 */
-    {25149, BDK_CSR_TYPE_RSL,8,2988,19, 3,636,499,1093}, /* 2494 */
-    {25214, BDK_CSR_TYPE_RSL,8,2997,19, 3,637,499,1093}, /* 2495 */
-    {25304, BDK_CSR_TYPE_RSL,8,3011,19, 3,638,499,1093}, /* 2496 */
-    {25422, BDK_CSR_TYPE_RSL,8,3029,19, 3,639,499,1093}, /* 2497 */
-    {25466, BDK_CSR_TYPE_RSL,8,3037,19, 3,640,499,1093}, /* 2498 */
-    {25493, BDK_CSR_TYPE_RSL,8,3041,19, 3,641,499,1093}, /* 2499 */
-    {25523, BDK_CSR_TYPE_RSL,8,3050,19, 3,642,499,1093}, /* 2500 */
-    {25544, BDK_CSR_TYPE_RSL,8,3058,19, 3,643,499,1093}, /* 2501 */
-    {25578, BDK_CSR_TYPE_RSL,8,3063,19, 3,644,499,1093}, /* 2502 */
-    {25633, BDK_CSR_TYPE_RSL,8,3069, 3, 0,645,1093,1}, /* 2503 */
-    {25712, BDK_CSR_TYPE_RSL,8,3078, 3, 0,646,1093,1}, /* 2504 */
-    {25746, BDK_CSR_TYPE_RSL,8,3081, 3, 0,647,1093,1}, /* 2505 */
-    {25804, BDK_CSR_TYPE_RSL,8,3087, 3, 0,648,1093,1}, /* 2506 */
-    {25875, BDK_CSR_TYPE_RSL,8,3098, 3, 0,649,1093,1}, /* 2507 */
-    {25894, BDK_CSR_TYPE_RSL,8,3101, 3, 0,650,1093,1}, /* 2508 */
-    {25965, BDK_CSR_TYPE_RSL,8,3110, 3, 0,651,1093,1}, /* 2509 */
-    {26018, BDK_CSR_TYPE_RSL,8,3119, 3, 0,652,1093,1}, /* 2510 */
-    {26053, BDK_CSR_TYPE_RSL,8,3126, 3, 0,653,1093,1}, /* 2511 */
-    {26093, BDK_CSR_TYPE_RSL,8,3132, 3, 0,654,1093,1}, /* 2512 */
-    {26150, BDK_CSR_TYPE_RSL,8,3138, 3, 0,655,1093,1}, /* 2513 */
-    {26184, BDK_CSR_TYPE_RSL,8,3142, 3, 0,656,1093,1}, /* 2514 */
-    {26247, BDK_CSR_TYPE_RSL,8,3149, 3, 0,657,1093,1}, /* 2515 */
-    {26335, BDK_CSR_TYPE_RSL,8,3159, 3, 0,658,1093,1}, /* 2516 */
-    {26382, BDK_CSR_TYPE_RSL,8,3165, 3, 0,659,1093,1}, /* 2517 */
-    {60164, BDK_CSR_TYPE_RSL,8,8959,19, 0,1580,81,1}, /* 2518 */
-    {60182, BDK_CSR_TYPE_RSL,8,8966,19, 0,1581,81,1}, /* 2519 */
-    {60312, BDK_CSR_TYPE_RSL,8,8983,108, 0,1582,36,1}, /* 2520 */
-    {28130, BDK_CSR_TYPE_RSL,8,8996,175, 0,694,36,1}, /* 2521 */
-    {28327, BDK_CSR_TYPE_RSL,8,3436,175, 0,695,36,1}, /* 2522 */
-    {28743, BDK_CSR_TYPE_RSL,8,3486,188, 0,701,568,1}, /* 2523 */
-    {28773, BDK_CSR_TYPE_RSL,8,3489,188, 0,702,81,1}, /* 2524 */
-    {28798, BDK_CSR_TYPE_RSL,8,3489,188, 0,703,81,1}, /* 2525 */
-    {28811, BDK_CSR_TYPE_RSL,8,179,188, 0,704,568,1}, /* 2526 */
-    {28823, BDK_CSR_TYPE_RSL,8,3492,188, 0,705,568,1}, /* 2527 */
-    {28839, BDK_CSR_TYPE_RSL,8,3495,188, 0,706,568,1}, /* 2528 */
-    {28851, BDK_CSR_TYPE_RSL,8,3498,188, 0,707,568,1}, /* 2529 */
-    {28876, BDK_CSR_TYPE_RSL,8,3501,188, 0,708,568,1}, /* 2530 */
-    {28908, BDK_CSR_TYPE_RSL,8,3504,188, 0,709,568,1}, /* 2531 */
-    {28943, BDK_CSR_TYPE_RSL,8,3507,188, 0,710,568,1}, /* 2532 */
-    {28961, BDK_CSR_TYPE_RSL,8,3510,188, 0,711,568,1}, /* 2533 */
-    {28986, BDK_CSR_TYPE_RSL,8,3513,188, 0,712,568,1}, /* 2534 */
-    {29024, BDK_CSR_TYPE_RSL,8,3519,175, 0,714,556,1}, /* 2535 */
-    {29053, BDK_CSR_TYPE_RSL,8,179,175, 0,715,556,1}, /* 2536 */
-    {29077, BDK_CSR_TYPE_RSL,8,182,175, 0,716,556,1}, /* 2537 */
-    {29163, BDK_CSR_TYPE_RSL,8,3486,197, 0,721,568,1}, /* 2538 */
-    {29179, BDK_CSR_TYPE_RSL,8,3489,197, 0,702,81,1}, /* 2539 */
-    {29196, BDK_CSR_TYPE_RSL,8,3489,197, 0,703,81,1}, /* 2540 */
-    {29213, BDK_CSR_TYPE_RSL,8,179,197, 0,722,568,1}, /* 2541 */
-    {29229, BDK_CSR_TYPE_RSL,8,3492,197, 0,723,568,1}, /* 2542 */
-    {29245, BDK_CSR_TYPE_RSL,8,3495,197, 0,724,568,1}, /* 2543 */
-    {29261, BDK_CSR_TYPE_RSL,8,3498,197, 0,725,568,1}, /* 2544 */
-    {29277, BDK_CSR_TYPE_RSL,8,3501,197, 0,726,568,1}, /* 2545 */
-    {29293, BDK_CSR_TYPE_RSL,8,3504,197, 0,727,568,1}, /* 2546 */
-    {29309, BDK_CSR_TYPE_RSL,8,3507,197, 0,728,568,1}, /* 2547 */
-    {29325, BDK_CSR_TYPE_RSL,8,3510,197, 0,729,568,1}, /* 2548 */
-    {29341, BDK_CSR_TYPE_RSL,8,3513,197, 0,730,568,1}, /* 2549 */
-    {29887, BDK_CSR_TYPE_RSL,8,9027, 0, 0,746,1,1}, /* 2550 */
-    {30429, BDK_CSR_TYPE_RSL,8,9040, 0, 0,760,1,1}, /* 2551 */
-    {30551, BDK_CSR_TYPE_RSL,8,9056, 0, 0,761,1,1}, /* 2552 */
-    {30596, BDK_CSR_TYPE_RSL,8,9059, 0, 0,763,1,1}, /* 2553 */
-    {31476, BDK_CSR_TYPE_RSL,8,9068, 0, 0,796,1,1}, /* 2554 */
-    {31577, BDK_CSR_TYPE_PEXP_NCB,8,9079, 0, 0,799,1,1}, /* 2555 */
-    {31781, BDK_CSR_TYPE_PEXP_NCB,8,3879,19, 0,800,81,1}, /* 2556 */
-    {31903, BDK_CSR_TYPE_PEXP_NCB,8,9104, 0, 0,801,1,1}, /* 2557 */
-    {32093, BDK_CSR_TYPE_PEXP_NCB,8,9108, 0, 0,808,1,1}, /* 2558 */
-    {32351, BDK_CSR_TYPE_PEXP_NCB,8,9154, 3, 0,809,81,1}, /* 2559 */
-    {32387, BDK_CSR_TYPE_PEXP_NCB,8,9154, 0, 0,810,1,1}, /* 2560 */
-    {60521, BDK_CSR_TYPE_PEXP_NCB,8,1279, 0, 0,1583,1,1}, /* 2561 */
-    {60541, BDK_CSR_TYPE_PEXP_NCB,8,1279, 0, 0,1584,1,1}, /* 2562 */
-    {60561, BDK_CSR_TYPE_PEXP_NCB,8,9201, 0, 0,1585,1,1}, /* 2563 */
-    {44958, BDK_CSR_TYPE_PEXP,8,9215, 0, 0,1099,1,1}, /* 2564 */
-    {33967, BDK_CSR_TYPE_PEXP_NCB,8,4150,19, 0,875,81,1}, /* 2565 */
-    {34422, BDK_CSR_TYPE_RSL,8,9219,19, 0,888,661,1}, /* 2566 */
-    {34467, BDK_CSR_TYPE_RSL,8,4231,19, 0,889,661,1}, /* 2567 */
-    {34500, BDK_CSR_TYPE_RSL,8,4235,19, 0,890,661,1}, /* 2568 */
-    {60708, BDK_CSR_TYPE_RSL,8,9228,31,19,1586,36,661}, /* 2569 */
-    {34527, BDK_CSR_TYPE_RSL,8,4239,19, 0,891,661,1}, /* 2570 */
-    {60845, BDK_CSR_TYPE_RSL,8,9245,19, 0,1587,661,1}, /* 2571 */
-    {34580, BDK_CSR_TYPE_RSL,8,9262,19, 0,892,661,1}, /* 2572 */
-    {60895, BDK_CSR_TYPE_RSL,8,9283,19, 0,1588,661,1}, /* 2573 */
-    {34697, BDK_CSR_TYPE_RSL,8,4264,19, 0,893,661,1}, /* 2574 */
-    {34762, BDK_CSR_TYPE_RSL,8,4279, 3,19,894,36,661}, /* 2575 */
-    {34840, BDK_CSR_TYPE_RSL,8,4294,90,19,895,36,661}, /* 2576 */
-    {34965, BDK_CSR_TYPE_RSL,8,4319,93,19,896,36,661}, /* 2577 */
-    {35111, BDK_CSR_TYPE_RSL,8,4344,19, 0,897,661,1}, /* 2578 */
-    {60933, BDK_CSR_TYPE_RSL,8,9288,19, 0,1589,661,1}, /* 2579 */
-    {44990, BDK_CSR_TYPE_RSL,8,5943,19, 0,1100,661,1}, /* 2580 */
-    {45016, BDK_CSR_TYPE_RSL,8,5946,19, 0,1101,661,1}, /* 2581 */
-    {35185, BDK_CSR_TYPE_RSL,8,5951,19, 0,898,661,1}, /* 2582 */
-    {35375, BDK_CSR_TYPE_RSL,8,4382,19, 0,899,661,1}, /* 2583 */
-    {35421, BDK_CSR_TYPE_RSL,8,4392,19, 0,900,661,1}, /* 2584 */
-    {35443, BDK_CSR_TYPE_RSL,8,4394,19, 0,901,661,1}, /* 2585 */
-    {35496, BDK_CSR_TYPE_RSL,8,4406,19, 0,902,661,1}, /* 2586 */
-    {35518, BDK_CSR_TYPE_RSL,8,5980,19, 0,903,661,1}, /* 2587 */
-    {35532, BDK_CSR_TYPE_RSL,8,9294,19, 0,904,661,1}, /* 2588 */
-    {45118, BDK_CSR_TYPE_RSL,8,6011,19, 0,1102,661,1}, /* 2589 */
-    {35592, BDK_CSR_TYPE_RSL,8,4422,19, 0,905,661,1}, /* 2590 */
-    {35612, BDK_CSR_TYPE_RSL,8,4429,19, 0,906,661,1}, /* 2591 */
-    {35632, BDK_CSR_TYPE_RSL,8,4433,19, 0,907,661,1}, /* 2592 */
-    {35653, BDK_CSR_TYPE_RSL,8,4436,19, 0,908,661,1}, /* 2593 */
-    {35682, BDK_CSR_TYPE_RSL,8,6022, 3,19,909,566,661}, /* 2594 */
-    {45223, BDK_CSR_TYPE_RSL,8,6034, 3,19,1103,566,661}, /* 2595 */
-    {35779, BDK_CSR_TYPE_RSL,8,4456, 3,19,910,566,661}, /* 2596 */
-    {35917, BDK_CSR_TYPE_RSL,8,4473, 3,19,911,566,661}, /* 2597 */
-    {35936, BDK_CSR_TYPE_RSL,8,9305, 3,19,912,566,661}, /* 2598 */
-    {45256, BDK_CSR_TYPE_RSL,8,6038,19, 0,1104,661,1}, /* 2599 */
-    {35967, BDK_CSR_TYPE_RSL,8,4495, 3,19,913,566,661}, /* 2600 */
-    {45285, BDK_CSR_TYPE_RSL,8,6041,19,19,1105,36,661}, /* 2601 */
-    {35994, BDK_CSR_TYPE_RSL,8,4513,19, 0,914,661,1}, /* 2602 */
-    {61006, BDK_CSR_TYPE_RSL,8,9310,19, 0,1590,661,1}, /* 2603 */
-    {36037, BDK_CSR_TYPE_RSL,8,4523,19, 0,915,661,1}, /* 2604 */
-    {36059, BDK_CSR_TYPE_RSL,8,4527,19, 0,916,661,1}, /* 2605 */
-    {36126, BDK_CSR_TYPE_RSL,8,4537,31,19,917,36,661}, /* 2606 */
-    {36181, BDK_CSR_TYPE_RSL,8,4549,19, 0,918,661,1}, /* 2607 */
-    {36191, BDK_CSR_TYPE_RSL,8,4552,19, 0,919,661,1}, /* 2608 */
-    {36220, BDK_CSR_TYPE_RSL,8,4556,19, 0,920,661,1}, /* 2609 */
-    {36241, BDK_CSR_TYPE_RSL,8,4563,19, 0,921,661,1}, /* 2610 */
-    {36259, BDK_CSR_TYPE_RSL,8,4570,19, 0,922,661,1}, /* 2611 */
-    {36287, BDK_CSR_TYPE_RSL,8,4581,19, 0,923,661,1}, /* 2612 */
-    {36320, BDK_CSR_TYPE_RSL,8,4593,19, 0,924,661,1}, /* 2613 */
-    {45322, BDK_CSR_TYPE_RSL,8,6045,19, 0,1106,661,1}, /* 2614 */
-    {36394, BDK_CSR_TYPE_RSL,8,4606,19, 0,925,661,1}, /* 2615 */
-    {45345, BDK_CSR_TYPE_RSL,8,6034,19, 0,1107,661,1}, /* 2616 */
-    {36442, BDK_CSR_TYPE_SRIOMAINT,4,4612,19, 0,36,1,1}, /* 2617 */
-    {36463, BDK_CSR_TYPE_SRIOMAINT,4,4615,19, 0,548,1,1}, /* 2618 */
-    {36495, BDK_CSR_TYPE_SRIOMAINT,4,4618,31,19,926,547,1}, /* 2619 */
-    {36536, BDK_CSR_TYPE_SRIOMAINT,4,4626,19, 0,927,1,1}, /* 2620 */
-    {36573, BDK_CSR_TYPE_SRIOMAINT,4,4629,19, 0,928,1,1}, /* 2621 */
-    {36602, BDK_CSR_TYPE_SRIOMAINT,4,4631,19, 0,929,1,1}, /* 2622 */
-    {36645, BDK_CSR_TYPE_SRIOMAINT,4,4638,19, 0,1,1,1}, /* 2623 */
-    {36677, BDK_CSR_TYPE_SRIOMAINT,4,4641,19, 0,547,1,1}, /* 2624 */
-    {36705, BDK_CSR_TYPE_SRIOMAINT,4,4644,19, 0,554,1,1}, /* 2625 */
-    {36907, BDK_CSR_TYPE_SRIOMAINT,4,6048,19, 0,930,1,1}, /* 2626 */
-    {36964, BDK_CSR_TYPE_SRIOMAINT,4,6054,19, 0,931,1,1}, /* 2627 */
-    {37102, BDK_CSR_TYPE_SRIOMAINT,4,4691,19, 0,932,1,1}, /* 2628 */
-    {37152, BDK_CSR_TYPE_SRIOMAINT,4,6054,19, 0,933,1,1}, /* 2629 */
-    {37179, BDK_CSR_TYPE_SRIOMAINT,4,4697,19, 0,934,1,1}, /* 2630 */
-    {37224, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,935,1,1}, /* 2631 */
-    {37256, BDK_CSR_TYPE_SRIOMAINT,4,4704,19, 0,936,1,1}, /* 2632 */
-    {37286, BDK_CSR_TYPE_SRIOMAINT,4,4706,19, 0,937,1,1}, /* 2633 */
-    {37322, BDK_CSR_TYPE_SRIOMAINT,4,4710,19, 0,938,1,1}, /* 2634 */
-    {37383, BDK_CSR_TYPE_SRIOMAINT,4,4720,19, 0,939,1,1}, /* 2635 */
-    {37426, BDK_CSR_TYPE_SRIOMAINT,4,4725,19, 0,940,1,1}, /* 2636 */
-    {37490, BDK_CSR_TYPE_SRIOMAINT,4,4730,19, 0,941,1,1}, /* 2637 */
-    {37622, BDK_CSR_TYPE_SRIOMAINT,4,4730,19, 0,942,1,1}, /* 2638 */
-    {37647, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,943,1,1}, /* 2639 */
-    {37674, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,944,1,1}, /* 2640 */
-    {37701, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,945,1,1}, /* 2641 */
-    {37728, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,946,1,1}, /* 2642 */
-    {37757, BDK_CSR_TYPE_SRIOMAINT,4,4745,19, 0,947,1,1}, /* 2643 */
-    {37790, BDK_CSR_TYPE_SRIOMAINT,4,4748,19, 0,948,1,1}, /* 2644 */
-    {45430, BDK_CSR_TYPE_SRIOMAINT,4,6072,19, 0,1108,1,1}, /* 2645 */
-    {37869, BDK_CSR_TYPE_SRIOMAINT,4,4756,19, 0,949,1,1}, /* 2646 */
-    {37903, BDK_CSR_TYPE_SRIOMAINT,4,4758,19, 0,950,1,1}, /* 2647 */
-    {37989, BDK_CSR_TYPE_SRIOMAINT,4,4768,19, 0,951,1,1}, /* 2648 */
-    {38047, BDK_CSR_TYPE_SRIOMAINT,4,6081,19, 0,952,1,1}, /* 2649 */
-    {38096, BDK_CSR_TYPE_SRIOMAINT,4,4777,19, 0,953,1,1}, /* 2650 */
-    {38129, BDK_CSR_TYPE_SRIOMAINT,4,4780,19, 0,954,1,1}, /* 2651 */
-    {38163, BDK_CSR_TYPE_SRIOMAINT,4,6086,19, 0,955,1,1}, /* 2652 */
-    {38225, BDK_CSR_TYPE_SRIOMAINT,4,4788,19, 0,956,1,1}, /* 2653 */
-    {38250, BDK_CSR_TYPE_SRIOMAINT,4,4780,19, 0,957,1,1}, /* 2654 */
-    {38275, BDK_CSR_TYPE_SRIOMAINT,4,4782,19, 0,958,1,1}, /* 2655 */
-    {38300, BDK_CSR_TYPE_SRIOMAINT,4,4791,19,19,959,556,1}, /* 2656 */
-    {38418, BDK_CSR_TYPE_SRIOMAINT,4,4807,19, 0,570,1,1}, /* 2657 */
-    {38443, BDK_CSR_TYPE_SRIOMAINT,4,4810,19, 0,571,1,1}, /* 2658 */
-    {38476, BDK_CSR_TYPE_SRIOMAINT,4,4813,19, 0,960,1,1}, /* 2659 */
-    {38517, BDK_CSR_TYPE_SRIOMAINT,4,4816,19, 0,961,1,1}, /* 2660 */
-    {38572, BDK_CSR_TYPE_SRIOMAINT,4,4813,19, 0,962,1,1}, /* 2661 */
-    {38599, BDK_CSR_TYPE_SRIOMAINT,4,6092,19, 0,963,1,1}, /* 2662 */
-    {38648, BDK_CSR_TYPE_SRIOMAINT,4,4827,19, 0,964,1,1}, /* 2663 */
-    {45531, BDK_CSR_TYPE_SRIOMAINT,4,9313,19, 0,1109,1,1}, /* 2664 */
-    {38682, BDK_CSR_TYPE_SRIOMAINT,4,4835,19, 0,81,1,1}, /* 2665 */
-    {38767, BDK_CSR_TYPE_SRIOMAINT,4,4847,19, 0,965,1,1}, /* 2666 */
-    {38785, BDK_CSR_TYPE_SRIOMAINT,4,4850,19, 0,966,1,1}, /* 2667 */
-    {38947, BDK_CSR_TYPE_SRIOMAINT,4,4869,19, 0,967,1,1}, /* 2668 */
-    {39103, BDK_CSR_TYPE_SRIOMAINT,4,4886,19, 0,968,1,1}, /* 2669 */
-    {45593, BDK_CSR_TYPE_SRIOMAINT,4,6105,19, 0,1110,1,1}, /* 2670 */
-    {45620, BDK_CSR_TYPE_SRIOMAINT,4,6108,19, 0,1111,1,1}, /* 2671 */
-    {45669, BDK_CSR_TYPE_SRIOMAINT,4,6113,19, 0,1112,1,1}, /* 2672 */
-    {39256, BDK_CSR_TYPE_SRIOMAINT,4,4907,19, 0,969,1,1}, /* 2673 */
-    {39316, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,593,1,1}, /* 2674 */
-    {39339, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,585,1,1}, /* 2675 */
-    {39360, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,594,1,1}, /* 2676 */
-    {45738, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,625,1,1}, /* 2677 */
-    {39383, BDK_CSR_TYPE_SRIOMAINT,4,4915,19, 0,970,1,1}, /* 2678 */
-    {39405, BDK_CSR_TYPE_SRIOMAINT,4,4919,19, 0,971,1,1}, /* 2679 */
-    {39446, BDK_CSR_TYPE_SRIOMAINT,4,4915,19, 0,972,1,1}, /* 2680 */
-    {39468, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,973,1,1}, /* 2681 */
-    {39495, BDK_CSR_TYPE_SRIOMAINT,4,4644,19, 0,552,1,1}, /* 2682 */
-    {45762, BDK_CSR_TYPE_SRIOMAINT,4,6120,19, 0,1113,1,1}, /* 2683 */
-    {39514, BDK_CSR_TYPE_NCB,8,9321, 0, 0,974,1,1}, /* 2684 */
-    {39790, BDK_CSR_TYPE_NCB,8,4976,124, 0,986,36,1}, /* 2685 */
-    {40436, BDK_CSR_TYPE_RSL,8,6124,28, 0,1008,1,1}, /* 2686 */
-    {41060, BDK_CSR_TYPE_RSL,8,9332,28, 0,1015,1,1}, /* 2687 */
-    {45789, BDK_CSR_TYPE_RSL,8,6139,28, 0,1115,1,1}, /* 2688 */
-    {41183, BDK_CSR_TYPE_RSL,8,9332,28, 0,1022,1,1}, /* 2689 */
-    {41266, BDK_CSR_TYPE_RSL,8,9332,28, 0,1027,1,1}, /* 2690 */
+    {20629, BDK_CSR_TYPE_PCICONFIGEP,4,8213, 3, 0,573,1,1}, /* 2276 */
+    {20732, BDK_CSR_TYPE_PCICONFIGEP,4,8226, 3, 0,574,1,1}, /* 2277 */
+    {20847, BDK_CSR_TYPE_PCICONFIGEP,4,8246, 3, 0,575,1,1}, /* 2278 */
+    {20929, BDK_CSR_TYPE_PCICONFIGEP,4,2863, 3, 0,576,1,1}, /* 2279 */
+    {21209, BDK_CSR_TYPE_PCICONFIGEP,4,8259, 3, 0,579,1,1}, /* 2280 */
+    {21248, BDK_CSR_TYPE_PCICONFIGEP,4,8271, 3, 0,580,1,1}, /* 2281 */
+    {21300, BDK_CSR_TYPE_PCICONFIGEP,4,8280, 3, 0,582,1,1}, /* 2282 */
+    {21407, BDK_CSR_TYPE_PCICONFIGEP,4,8297, 3, 0,586,1,1}, /* 2283 */
+    {21517, BDK_CSR_TYPE_PCICONFIGEP,4,8314, 3, 0,587,1,1}, /* 2284 */
+    {21589, BDK_CSR_TYPE_PCICONFIGEP,4,8297, 3, 0,588,1,1}, /* 2285 */
+    {21967, BDK_CSR_TYPE_PCICONFIGEP,4,8331, 3, 0,599,1,1}, /* 2286 */
+    {22006, BDK_CSR_TYPE_PCICONFIGEP,4,8339, 3, 0,600,1,1}, /* 2287 */
+    {22143, BDK_CSR_TYPE_PCICONFIGEP,4,8356, 3, 0,602,1,1}, /* 2288 */
+    {22440, BDK_CSR_TYPE_PCICONFIGEP,4,8364, 3, 0,604,1,1}, /* 2289 */
+    {59110, BDK_CSR_TYPE_PCICONFIGEP,4,8370, 3, 0,1554,1,1}, /* 2290 */
+    {23644, BDK_CSR_TYPE_PCICONFIGRC,4,8246, 3, 0,575,1,1}, /* 2291 */
+    {23874, BDK_CSR_TYPE_PCICONFIGRC,4,8259, 3, 0,579,1,1}, /* 2292 */
+    {23889, BDK_CSR_TYPE_PCICONFIGRC,4,8271, 3, 0,580,1,1}, /* 2293 */
+    {23919, BDK_CSR_TYPE_PCICONFIGRC,4,8280, 3, 0,582,1,1}, /* 2294 */
+    {23979, BDK_CSR_TYPE_PCICONFIGRC,4,8297, 3, 0,586,1,1}, /* 2295 */
+    {23994, BDK_CSR_TYPE_PCICONFIGRC,4,8314, 3, 0,587,1,1}, /* 2296 */
+    {24009, BDK_CSR_TYPE_PCICONFIGRC,4,8297, 3, 0,588,1,1}, /* 2297 */
+    {24314, BDK_CSR_TYPE_PCICONFIGRC,4,8331, 3, 0,599,1,1}, /* 2298 */
+    {24329, BDK_CSR_TYPE_PCICONFIGRC,4,8339, 3, 0,600,1,1}, /* 2299 */
+    {24359, BDK_CSR_TYPE_PCICONFIGRC,4,8356, 3, 0,602,1,1}, /* 2300 */
+    {24389, BDK_CSR_TYPE_PCICONFIGRC,4,8364, 3, 0,604,1,1}, /* 2301 */
+    {59139, BDK_CSR_TYPE_PCICONFIGRC,4,8370, 3, 0,1554,1,1}, /* 2302 */
+    {59154, BDK_CSR_TYPE_RSL,8,8373, 3, 0,1555,36,1}, /* 2303 */
+    {30202, BDK_CSR_TYPE_RSL,8,8378, 0, 0,754,1,1}, /* 2304 */
+    {30596, BDK_CSR_TYPE_RSL,8,8399, 0, 0,763,1,1}, /* 2305 */
+    {33097, BDK_CSR_TYPE_PEXP_NCB,8,8410,90, 0,843,81,1}, /* 2306 */
+    {59232, BDK_CSR_TYPE_NCB,8,8432, 0, 0,1556,1,1}, /* 2307 */
+    {39514, BDK_CSR_TYPE_NCB,8,8434, 0, 0,1469,1,1}, /* 2308 */
+    {56682, BDK_CSR_TYPE_NCB,8,8456, 0, 0,1470,1,1}, /* 2309 */
+    {57111, BDK_CSR_TYPE_NCB,8,8469, 0, 0,1477,1,1}, /* 2310 */
+    {59358, BDK_CSR_TYPE_NCB,8,8479, 0, 0,1557,1,1}, /* 2311 */
+    {57476, BDK_CSR_TYPE_NCB,8,8482, 0, 0,1498,1,1}, /* 2312 */
+    {57508, BDK_CSR_TYPE_NCB,8,8488, 0, 0,1499,1,1}, /* 2313 */
+    {57785, BDK_CSR_TYPE_RSL,8,8494, 0, 0,1514,1,1}, /* 2314 */
+    {59391, BDK_CSR_TYPE_RSL,8,8499, 0, 0,1002,1,1}, /* 2315 */
+    {58037, BDK_CSR_TYPE_RSL,8,8501,77, 0,1523,36,1}, /* 2316 */
+    {44098, BDK_CSR_TYPE_RSL,8,8509, 0, 0,1083,1,1}, /* 2317 */
+    { 2914, BDK_CSR_TYPE_NCB,8,8518, 0, 0,75,1,1}, /* 2318 */
+    { 2928, BDK_CSR_TYPE_NCB,8,8521, 0, 0,76,1,1}, /* 2319 */
+    { 3204, BDK_CSR_TYPE_NCB,8,8563, 0, 0,77,1,1}, /* 2320 */
+    { 3218, BDK_CSR_TYPE_NCB,8,8566, 0, 0,78,1,1}, /* 2321 */
+    { 3248, BDK_CSR_TYPE_NCB,8,8569,119, 0,80,81,1}, /* 2322 */
+    { 3428, BDK_CSR_TYPE_NCB,8,8569,119, 0,82,81,1}, /* 2323 */
+    { 3445, BDK_CSR_TYPE_NCB,8,8569,119, 0,83,81,1}, /* 2324 */
+    { 3462, BDK_CSR_TYPE_NCB,8,8592,119, 0,84,81,1}, /* 2325 */
+    { 3558, BDK_CSR_TYPE_NCB,8,8592,119, 0,85,81,1}, /* 2326 */
+    { 3575, BDK_CSR_TYPE_NCB,8,8592,119, 0,86,81,1}, /* 2327 */
+    { 3592, BDK_CSR_TYPE_NCB,8,8569,124, 0,87,81,1}, /* 2328 */
+    { 3607, BDK_CSR_TYPE_NCB,8,8569,124, 0,88,81,1}, /* 2329 */
+    { 3626, BDK_CSR_TYPE_NCB,8,8569,124, 0,89,81,1}, /* 2330 */
+    { 3645, BDK_CSR_TYPE_NCB,8,8592,124, 0,90,81,1}, /* 2331 */
+    { 3660, BDK_CSR_TYPE_NCB,8,8592,124, 0,91,81,1}, /* 2332 */
+    { 3679, BDK_CSR_TYPE_NCB,8,8592,124, 0,92,81,1}, /* 2333 */
+    { 3698, BDK_CSR_TYPE_NCB,8,8632,127, 0,93,36,1}, /* 2334 */
+    { 3721, BDK_CSR_TYPE_NCB,8,8632,124, 0,94,36,1}, /* 2335 */
+    { 3735, BDK_CSR_TYPE_NCB,8,8632, 0, 0,95,1,1}, /* 2336 */
+    {44212, BDK_CSR_TYPE_NCB,8,8655, 0, 0,1088,1,1}, /* 2337 */
+    { 3750, BDK_CSR_TYPE_NCB,8,8662, 0, 0,96,1,1}, /* 2338 */
+    { 3763, BDK_CSR_TYPE_NCB,8,402,124, 0,97,36,1}, /* 2339 */
+    { 3782, BDK_CSR_TYPE_NCB,8,402,124, 0,98,36,1}, /* 2340 */
+    { 3796, BDK_CSR_TYPE_NCB,8,8700, 0, 0,99,1,1}, /* 2341 */
+    { 3826, BDK_CSR_TYPE_NCB,8,8703, 0, 0,101,1,1}, /* 2342 */
+    { 3843, BDK_CSR_TYPE_NCB,8,414,124, 0,102,36,1}, /* 2343 */
+    { 3861, BDK_CSR_TYPE_NCB,8,8706, 0, 0,103,1,1}, /* 2344 */
+    {59599, BDK_CSR_TYPE_NCB,8,448, 0, 0,1558,1,1}, /* 2345 */
+    {59614, BDK_CSR_TYPE_NCB,8,448, 0, 0,1313,1,1}, /* 2346 */
+    {59629, BDK_CSR_TYPE_NCB,8,8710,124, 0,1559,36,1}, /* 2347 */
+    {59668, BDK_CSR_TYPE_NCB,8,8710, 0, 0,1560,1,1}, /* 2348 */
+    {59689, BDK_CSR_TYPE_NCB,8,8592, 3, 0,1561,36,1}, /* 2349 */
+    {59706, BDK_CSR_TYPE_NCB,8,8592,124, 0,1562,36,1}, /* 2350 */
+    {59723, BDK_CSR_TYPE_NCB,8,8592,124, 0,1563,36,1}, /* 2351 */
+    {59740, BDK_CSR_TYPE_NCB,8,8592,124, 0,1564,36,1}, /* 2352 */
+    { 4240, BDK_CSR_TYPE_NCB,8,458,124, 0,114,36,1}, /* 2353 */
+    { 5150, BDK_CSR_TYPE_RSL,8,8186, 0, 0,139,1,1}, /* 2354 */
+    { 7334, BDK_CSR_TYPE_NCB,8,8715, 0, 0,171,1,1}, /* 2355 */
+    { 7578, BDK_CSR_TYPE_NCB,8,8718, 0, 0,179,1,1}, /* 2356 */
+    {59767, BDK_CSR_TYPE_NCB,8,100,124, 0,1565,36,1}, /* 2357 */
+    { 7799, BDK_CSR_TYPE_NCB,8,8739, 0, 0,183,1,1}, /* 2358 */
+    { 7967, BDK_CSR_TYPE_NCB,8,8739, 0, 0,184,1,1}, /* 2359 */
+    { 8118, BDK_CSR_TYPE_NCB,8,8757,19, 0,192,36,1}, /* 2360 */
+    { 8230, BDK_CSR_TYPE_NCB,8,927,19, 0,193,36,1}, /* 2361 */
+    { 8260, BDK_CSR_TYPE_NCB,8,930,19, 0,194,36,1}, /* 2362 */
+    {59803, BDK_CSR_TYPE_NCB,8,8771, 0, 0,1566,1,1}, /* 2363 */
+    {59825, BDK_CSR_TYPE_NCB,8,8774,77, 0,1567,36,1}, /* 2364 */
+    {59853, BDK_CSR_TYPE_NCB,8,8784,77, 0,1568,36,1}, /* 2365 */
+    { 8463, BDK_CSR_TYPE_RSL,8,8788, 0, 0,199,1,1}, /* 2366 */
+    { 8710, BDK_CSR_TYPE_RSL,8,8836, 0, 0,200,1,1}, /* 2367 */
+    {50905, BDK_CSR_TYPE_RSL,8,6497,22, 0,1322,36,1}, /* 2368 */
+    {50924, BDK_CSR_TYPE_RSL,8,6497,22, 0,1323,36,1}, /* 2369 */
+    { 8834, BDK_CSR_TYPE_RSL,8,1010, 3, 0,205,1093,1}, /* 2370 */
+    { 8884, BDK_CSR_TYPE_RSL,8, 15, 3, 0,206,1093,1}, /* 2371 */
+    { 8894, BDK_CSR_TYPE_RSL,8,1018, 3, 0,207,1093,1}, /* 2372 */
+    { 8913, BDK_CSR_TYPE_RSL,8,1021, 3, 0,208,1093,1}, /* 2373 */
+    { 8979, BDK_CSR_TYPE_RSL,8,8884, 3, 0,209,1093,1}, /* 2374 */
+    { 8993, BDK_CSR_TYPE_RSL,8,1035, 3, 0,210,1093,1}, /* 2375 */
+    { 9010, BDK_CSR_TYPE_RSL,8,1038,28, 3,211,1,1093}, /* 2376 */
+    { 9051, BDK_CSR_TYPE_RSL,8,1047,19, 3,212,4,1093}, /* 2377 */
+    { 9065, BDK_CSR_TYPE_RSL,8, 32,19, 3,213,4,1093}, /* 2378 */
+    { 9083, BDK_CSR_TYPE_RSL,8, 32,19, 3,214,4,1093}, /* 2379 */
+    { 9101, BDK_CSR_TYPE_RSL,8, 32,19, 3,215,4,1093}, /* 2380 */
+    { 9119, BDK_CSR_TYPE_RSL,8, 32,19, 3,216,4,1093}, /* 2381 */
+    { 9137, BDK_CSR_TYPE_RSL,8, 32,19, 3,217,4,1093}, /* 2382 */
+    { 9155, BDK_CSR_TYPE_RSL,8, 32,19, 3,218,4,1093}, /* 2383 */
+    {58523, BDK_CSR_TYPE_RSL,8,8112,19, 3,1542,4,1093}, /* 2384 */
+    { 9173, BDK_CSR_TYPE_RSL,8, 34,19, 3,219,4,1093}, /* 2385 */
+    { 9193, BDK_CSR_TYPE_RSL,8, 37,19, 3,220,4,1093}, /* 2386 */
+    { 9210, BDK_CSR_TYPE_RSL,8, 42,19, 3,221,4,1093}, /* 2387 */
+    { 9228, BDK_CSR_TYPE_RSL,8,1058,19, 3,222,4,1093}, /* 2388 */
+    { 9245, BDK_CSR_TYPE_RSL,8,1068,19, 3,223,4,1093}, /* 2389 */
+    { 9275, BDK_CSR_TYPE_RSL,8, 75,19, 3,224,4,1093}, /* 2390 */
+    { 9288, BDK_CSR_TYPE_RSL,8,1082,19, 3,225,4,1093}, /* 2391 */
+    { 9400, BDK_CSR_TYPE_RSL,8,1082,19, 3,226,4,1093}, /* 2392 */
+    { 9417, BDK_CSR_TYPE_RSL,8,100,19, 3,227,4,1093}, /* 2393 */
+    { 9433, BDK_CSR_TYPE_RSL,8,103,19, 3,228,4,1093}, /* 2394 */
+    { 9458, BDK_CSR_TYPE_RSL,8,111,19, 3,229,4,1093}, /* 2395 */
+    { 9477, BDK_CSR_TYPE_RSL,8,114,19, 3,230,4,1093}, /* 2396 */
+    { 9497, BDK_CSR_TYPE_RSL,8,114,19, 3,231,4,1093}, /* 2397 */
+    { 9521, BDK_CSR_TYPE_RSL,8,114,19, 3,232,4,1093}, /* 2398 */
+    { 9546, BDK_CSR_TYPE_RSL,8,114,19, 3,233,4,1093}, /* 2399 */
+    { 9570, BDK_CSR_TYPE_RSL,8,117,19, 3,234,4,1093}, /* 2400 */
+    { 9590, BDK_CSR_TYPE_RSL,8,117,19, 3,235,4,1093}, /* 2401 */
+    { 9614, BDK_CSR_TYPE_RSL,8,117,19, 3,236,4,1093}, /* 2402 */
+    { 9638, BDK_CSR_TYPE_RSL,8,117,19, 3,237,4,1093}, /* 2403 */
+    { 9663, BDK_CSR_TYPE_RSL,8,117,19, 3,238,4,1093}, /* 2404 */
+    { 9687, BDK_CSR_TYPE_RSL,8,120,19, 3,239,4,1093}, /* 2405 */
+    { 9704, BDK_CSR_TYPE_RSL,8,125,19, 3,240,36,1093}, /* 2406 */
+    { 9721, BDK_CSR_TYPE_RSL,8,125,19, 3,241,36,1093}, /* 2407 */
+    { 9737, BDK_CSR_TYPE_RSL,8,128,19, 3,242,36,1093}, /* 2408 */
+    { 9752, BDK_CSR_TYPE_RSL,8,1110, 3, 0,243,1093,1}, /* 2409 */
+    { 9793, BDK_CSR_TYPE_RSL,8,1115, 3, 0,244,1093,1}, /* 2410 */
+    { 9810, BDK_CSR_TYPE_RSL,8,1120, 3, 0,245,1093,1}, /* 2411 */
+    { 9828, BDK_CSR_TYPE_RSL,8,1123, 3, 0,246,1093,1}, /* 2412 */
+    { 9871, BDK_CSR_TYPE_RSL,8,1129, 3, 0,247,1093,1}, /* 2413 */
+    { 9888, BDK_CSR_TYPE_RSL,8,141,19, 3,248,4,1093}, /* 2414 */
+    { 9899, BDK_CSR_TYPE_RSL,8,1132, 3, 0,249,1093,1}, /* 2415 */
+    { 9925, BDK_CSR_TYPE_RSL,8,144, 3, 0,250,1093,1}, /* 2416 */
+    {58547, BDK_CSR_TYPE_RSL,8,8115, 3, 0,1543,1093,1}, /* 2417 */
+    { 9938, BDK_CSR_TYPE_RSL,8,148,19, 3,251,4,1093}, /* 2418 */
+    { 9954, BDK_CSR_TYPE_RSL,8,1136,19, 3,252,4,1093}, /* 2419 */
+    { 9969, BDK_CSR_TYPE_RSL,8,1139,28, 3,253,1,1093}, /* 2420 */
+    { 9993, BDK_CSR_TYPE_RSL,8,1142,28, 3,254,1,1093}, /* 2421 */
+    {10015, BDK_CSR_TYPE_RSL,8,157,19, 3,255,4,1093}, /* 2422 */
+    {10028, BDK_CSR_TYPE_RSL,8,161,19, 3,256,4,1093}, /* 2423 */
+    {10045, BDK_CSR_TYPE_RSL,8,164,19, 3,257,4,1093}, /* 2424 */
+    {10073, BDK_CSR_TYPE_RSL,8,167,19, 3,258,4,1093}, /* 2425 */
+    {10097, BDK_CSR_TYPE_RSL,8,1145,19, 3,259,4,1093}, /* 2426 */
+    {10126, BDK_CSR_TYPE_RSL,8,170,19, 3,260,4,1093}, /* 2427 */
+    {10146, BDK_CSR_TYPE_RSL,8,1149,19, 3,261,4,1093}, /* 2428 */
+    {10171, BDK_CSR_TYPE_RSL,8,1152,19, 3,262,4,1093}, /* 2429 */
+    {10190, BDK_CSR_TYPE_RSL,8,167,19, 3,263,4,1093}, /* 2430 */
+    {10210, BDK_CSR_TYPE_RSL,8,173,19, 3,264,4,1093}, /* 2431 */
+    {10225, BDK_CSR_TYPE_RSL,8,176,19, 3,265,4,1093}, /* 2432 */
+    {10240, BDK_CSR_TYPE_RSL,8,179,19, 3,266,4,1093}, /* 2433 */
+    {10255, BDK_CSR_TYPE_RSL,8,182,19, 3,267,4,1093}, /* 2434 */
+    {10270, BDK_CSR_TYPE_RSL,8,185,19, 3,268,4,1093}, /* 2435 */
+    {10285, BDK_CSR_TYPE_RSL,8,188,19, 3,269,4,1093}, /* 2436 */
+    {10300, BDK_CSR_TYPE_RSL,8,191,19, 3,270,4,1093}, /* 2437 */
+    {10315, BDK_CSR_TYPE_RSL,8,194,19, 3,271,4,1093}, /* 2438 */
+    {10330, BDK_CSR_TYPE_RSL,8,197,19, 3,272,4,1093}, /* 2439 */
+    {10345, BDK_CSR_TYPE_RSL,8,200,19, 3,273,4,1093}, /* 2440 */
+    {10360, BDK_CSR_TYPE_RSL,8,111,19, 3,274,4,1093}, /* 2441 */
+    {10379, BDK_CSR_TYPE_RSL,8,1155,19, 3,275,4,1093}, /* 2442 */
+    {10395, BDK_CSR_TYPE_RSL,8,1158, 3, 0,276,1093,1}, /* 2443 */
+    {10406, BDK_CSR_TYPE_RSL,8,209, 3, 0,277,1093,1}, /* 2444 */
+    {10426, BDK_CSR_TYPE_RSL,8,1161, 3, 0,278,1093,1}, /* 2445 */
+    {10450, BDK_CSR_TYPE_RSL,8,1164, 3, 0,279,1093,1}, /* 2446 */
+    {10474, BDK_CSR_TYPE_RSL,8,1167, 3, 0,280,1093,1}, /* 2447 */
+    {10498, BDK_CSR_TYPE_RSL,8,212, 3, 0,281,1093,1}, /* 2448 */
+    {10510, BDK_CSR_TYPE_RSL,8,8894, 3, 0,282,1093,1}, /* 2449 */
+    {10525, BDK_CSR_TYPE_RSL,8,8894, 3, 0,283,1093,1}, /* 2450 */
+    {10541, BDK_CSR_TYPE_RSL,8,229, 3, 0,284,1093,1}, /* 2451 */
+    {10553, BDK_CSR_TYPE_RSL,8,232, 3, 0,285,1093,1}, /* 2452 */
+    {10566, BDK_CSR_TYPE_RSL,8,1180, 3, 0,286,1093,1}, /* 2453 */
+    {10606, BDK_CSR_TYPE_RSL,8,242, 3, 0,287,1093,1}, /* 2454 */
+    {10629, BDK_CSR_TYPE_RSL,8,245, 3, 0,288,1093,1}, /* 2455 */
+    {10652, BDK_CSR_TYPE_RSL,8,1187, 3, 0,289,1093,1}, /* 2456 */
+    {10665, BDK_CSR_TYPE_RSL,8,1190, 3, 0,290,1093,1}, /* 2457 */
+    {10725, BDK_CSR_TYPE_RSL,8,1200, 3, 0,291,1093,1}, /* 2458 */
+    {10856, BDK_CSR_TYPE_NCB,8,8905, 3, 0,294,36,1}, /* 2459 */
+    {59902, BDK_CSR_TYPE_NCB,8,4213, 0, 0,1569,1,1}, /* 2460 */
+    {59918, BDK_CSR_TYPE_NCB,8,8911, 0, 0,1570,1,1}, /* 2461 */
+    {10896, BDK_CSR_TYPE_NCB,8,8916, 0, 0,296,1,1}, /* 2462 */
+    {10912, BDK_CSR_TYPE_NCB,8,8919, 0, 0,297,1,1}, /* 2463 */
+    {10928, BDK_CSR_TYPE_NCB,8,8922, 0, 0,298,1,1}, /* 2464 */
+    {59957, BDK_CSR_TYPE_NCB,8,1204,132, 0,296,36,1}, /* 2465 */
+    {11112, BDK_CSR_TYPE_RSL,8,8925, 0, 0,300,1,1}, /* 2466 */
+    {11961, BDK_CSR_TYPE_NCB,8,8935, 0, 0,326,1,1}, /* 2467 */
+    {12319, BDK_CSR_TYPE_NCB,8,1372,135, 0,334,36,1}, /* 2468 */
+    {12380, BDK_CSR_TYPE_NCB,8,1372,142, 0,336,36,1}, /* 2469 */
+    {59972, BDK_CSR_TYPE_NCB,8,1376,145, 0,1571,36,1}, /* 2470 */
+    {12459, BDK_CSR_TYPE_NCB,8,1376,135, 0,339,36,1}, /* 2471 */
+    {12486, BDK_CSR_TYPE_NCB,8,1379,148, 0,340,36,1}, /* 2472 */
+    {12511, BDK_CSR_TYPE_NCB,8,1382,155, 0,341,36,1}, /* 2473 */
+    {12529, BDK_CSR_TYPE_NCB,8,1384,155, 0,342,36,1}, /* 2474 */
+    {12831, BDK_CSR_TYPE_NCB,8,8938, 0, 0,350,1,1}, /* 2475 */
+    {13187, BDK_CSR_TYPE_RSL,8,8941, 0, 0,361,1,1}, /* 2476 */
+    {13294, BDK_CSR_TYPE_RSL,8,5826,28, 0,363,1,1}, /* 2477 */
+    {13350, BDK_CSR_TYPE_RSL,8,1279,164, 0,365,36,1}, /* 2478 */
+    {13464, BDK_CSR_TYPE_RSL,8,1504,169, 0,367,36,1}, /* 2479 */
+    {13636, BDK_CSR_TYPE_RSL,8,8954, 0, 0,371,1,1}, /* 2480 */
+    {13829, BDK_CSR_TYPE_RSL,8,1567,124, 0,377,36,1}, /* 2481 */
+    {14028, BDK_CSR_TYPE_RSL,8,5869,28, 0,383,1,1}, /* 2482 */
+    {44834, BDK_CSR_TYPE_RSL,8,5869,28, 0,1096,1,1}, /* 2483 */
+    {14262, BDK_CSR_TYPE_RSL,8,8960, 0, 0,392,1,1}, /* 2484 */
+    {14298, BDK_CSR_TYPE_RSL,8,1632,124, 0,394,36,1}, /* 2485 */
+    {14378, BDK_CSR_TYPE_RSL,8,583,124, 0,398,36,1}, /* 2486 */
+    {14450, BDK_CSR_TYPE_RSL,8,8186,28, 0,402,1,1}, /* 2487 */
+    {14685, BDK_CSR_TYPE_RSL,8,8963,28, 0,409,1,1}, /* 2488 */
+    {14697, BDK_CSR_TYPE_RSL,8,8986,28, 0,410,1,1}, /* 2489 */
+    {15451, BDK_CSR_TYPE_RSL,8,5654,28, 0,427,1,1}, /* 2490 */
+    {15479, BDK_CSR_TYPE_RSL,8,5665,28, 0,429,1,1}, /* 2491 */
+    {60048, BDK_CSR_TYPE_RSL,8,3851,28, 0,1572,1,1}, /* 2492 */
+    {60067, BDK_CSR_TYPE_RSL,8,3851,28, 0,1573,1,1}, /* 2493 */
+    {60086, BDK_CSR_TYPE_RSL,8,1736,28, 0,1574,1,1}, /* 2494 */
+    {15691, BDK_CSR_TYPE_RSL,8,5676,28, 0,436,1,1}, /* 2495 */
+    {15711, BDK_CSR_TYPE_RSL,8,5689,28, 0,437,1,1}, /* 2496 */
+    {15783, BDK_CSR_TYPE_RSL,8,5703,28, 0,440,1,1}, /* 2497 */
+    {16255, BDK_CSR_TYPE_RSL,8,9008, 0, 0,455,1,1}, /* 2498 */
+    {16534, BDK_CSR_TYPE_RSL,8,9019, 0, 0,462,1,1}, /* 2499 */
+    {60134, BDK_CSR_TYPE_RSL,8,9035, 0, 0,1575,1,1}, /* 2500 */
+    {55569, BDK_CSR_TYPE_RSL,8,9038,172, 0,1428,36,1}, /* 2501 */
+    {17547, BDK_CSR_TYPE_RSL,8,9043, 0, 0,487,1,1}, /* 2502 */
+    {60231, BDK_CSR_TYPE_RSL,8,9060, 0, 0,1576,1,1}, /* 2503 */
+    {58889, BDK_CSR_TYPE_RSL,8,5890,19, 0,1553,36,1}, /* 2504 */
+    {17809, BDK_CSR_TYPE_RSL,8,9063, 0, 0,491,1,1}, /* 2505 */
+    {17855, BDK_CSR_TYPE_RSL,8,9063, 0, 0,492,1,1}, /* 2506 */
+    {60265, BDK_CSR_TYPE_NCB,8,9072, 0, 0,1577,1,1}, /* 2507 */
+    {60361, BDK_CSR_TYPE_NCB,8,9089,102, 0,1578,36,1}, /* 2508 */
+    {60370, BDK_CSR_TYPE_NCB,8,9092, 0, 0,1579,1,1}, /* 2509 */
+    {60384, BDK_CSR_TYPE_NCB,8,9097, 0, 0,1580,1,1}, /* 2510 */
+    {22143, BDK_CSR_TYPE_PCICONFIGEP,4,9106, 3, 0,602,1,1}, /* 2511 */
+    {24359, BDK_CSR_TYPE_PCICONFIGRC,4,9106, 3, 0,602,1,1}, /* 2512 */
+    {24659, BDK_CSR_TYPE_RSL,8,2916,19, 3,628,499,1093}, /* 2513 */
+    {24709, BDK_CSR_TYPE_RSL,8,2926,19, 3,629,499,1093}, /* 2514 */
+    {24779, BDK_CSR_TYPE_RSL,8,2933,19, 3,630,499,1093}, /* 2515 */
+    {24804, BDK_CSR_TYPE_RSL,8,2943,19, 3,631,499,1093}, /* 2516 */
+    {24848, BDK_CSR_TYPE_RSL,8,2950,19, 3,632,499,1093}, /* 2517 */
+    {24984, BDK_CSR_TYPE_RSL,8,2965,19, 3,633,499,1093}, /* 2518 */
+    {25081, BDK_CSR_TYPE_RSL,8,2980,19, 3,634,499,1093}, /* 2519 */
+    {25108, BDK_CSR_TYPE_RSL,8,2983,19, 3,635,499,1093}, /* 2520 */
+    {25149, BDK_CSR_TYPE_RSL,8,2988,19, 3,636,499,1093}, /* 2521 */
+    {25214, BDK_CSR_TYPE_RSL,8,2997,19, 3,637,499,1093}, /* 2522 */
+    {25304, BDK_CSR_TYPE_RSL,8,3011,19, 3,638,499,1093}, /* 2523 */
+    {25422, BDK_CSR_TYPE_RSL,8,3029,19, 3,639,499,1093}, /* 2524 */
+    {25466, BDK_CSR_TYPE_RSL,8,3037,19, 3,640,499,1093}, /* 2525 */
+    {25493, BDK_CSR_TYPE_RSL,8,3041,19, 3,641,499,1093}, /* 2526 */
+    {25523, BDK_CSR_TYPE_RSL,8,3050,19, 3,642,499,1093}, /* 2527 */
+    {25544, BDK_CSR_TYPE_RSL,8,3058,19, 3,643,499,1093}, /* 2528 */
+    {25578, BDK_CSR_TYPE_RSL,8,3063,19, 3,644,499,1093}, /* 2529 */
+    {25633, BDK_CSR_TYPE_RSL,8,3069, 3, 0,645,1093,1}, /* 2530 */
+    {25712, BDK_CSR_TYPE_RSL,8,3078, 3, 0,646,1093,1}, /* 2531 */
+    {25746, BDK_CSR_TYPE_RSL,8,3081, 3, 0,647,1093,1}, /* 2532 */
+    {25804, BDK_CSR_TYPE_RSL,8,3087, 3, 0,648,1093,1}, /* 2533 */
+    {25875, BDK_CSR_TYPE_RSL,8,3098, 3, 0,649,1093,1}, /* 2534 */
+    {25894, BDK_CSR_TYPE_RSL,8,3101, 3, 0,650,1093,1}, /* 2535 */
+    {25965, BDK_CSR_TYPE_RSL,8,3110, 3, 0,651,1093,1}, /* 2536 */
+    {26018, BDK_CSR_TYPE_RSL,8,3119, 3, 0,652,1093,1}, /* 2537 */
+    {26053, BDK_CSR_TYPE_RSL,8,3126, 3, 0,653,1093,1}, /* 2538 */
+    {26093, BDK_CSR_TYPE_RSL,8,3132, 3, 0,654,1093,1}, /* 2539 */
+    {26150, BDK_CSR_TYPE_RSL,8,3138, 3, 0,655,1093,1}, /* 2540 */
+    {26184, BDK_CSR_TYPE_RSL,8,3142, 3, 0,656,1093,1}, /* 2541 */
+    {26247, BDK_CSR_TYPE_RSL,8,3149, 3, 0,657,1093,1}, /* 2542 */
+    {26335, BDK_CSR_TYPE_RSL,8,3159, 3, 0,658,1093,1}, /* 2543 */
+    {26382, BDK_CSR_TYPE_RSL,8,3165, 3, 0,659,1093,1}, /* 2544 */
+    {60438, BDK_CSR_TYPE_RSL,8,9113,19, 0,1581,81,1}, /* 2545 */
+    {60456, BDK_CSR_TYPE_RSL,8,9120,19, 0,1582,81,1}, /* 2546 */
+    {60586, BDK_CSR_TYPE_RSL,8,9137,108, 0,1583,36,1}, /* 2547 */
+    {28130, BDK_CSR_TYPE_RSL,8,9150,175, 0,694,36,1}, /* 2548 */
+    {28327, BDK_CSR_TYPE_RSL,8,3436,175, 0,695,36,1}, /* 2549 */
+    {28743, BDK_CSR_TYPE_RSL,8,3486,188, 0,701,568,1}, /* 2550 */
+    {28773, BDK_CSR_TYPE_RSL,8,3489,188, 0,702,81,1}, /* 2551 */
+    {28798, BDK_CSR_TYPE_RSL,8,3489,188, 0,703,81,1}, /* 2552 */
+    {28811, BDK_CSR_TYPE_RSL,8,179,188, 0,704,568,1}, /* 2553 */
+    {28823, BDK_CSR_TYPE_RSL,8,3492,188, 0,705,568,1}, /* 2554 */
+    {28839, BDK_CSR_TYPE_RSL,8,3495,188, 0,706,568,1}, /* 2555 */
+    {28851, BDK_CSR_TYPE_RSL,8,3498,188, 0,707,568,1}, /* 2556 */
+    {28876, BDK_CSR_TYPE_RSL,8,3501,188, 0,708,568,1}, /* 2557 */
+    {28908, BDK_CSR_TYPE_RSL,8,3504,188, 0,709,568,1}, /* 2558 */
+    {28943, BDK_CSR_TYPE_RSL,8,3507,188, 0,710,568,1}, /* 2559 */
+    {28961, BDK_CSR_TYPE_RSL,8,3510,188, 0,711,568,1}, /* 2560 */
+    {28986, BDK_CSR_TYPE_RSL,8,3513,188, 0,712,568,1}, /* 2561 */
+    {29024, BDK_CSR_TYPE_RSL,8,3519,175, 0,714,556,1}, /* 2562 */
+    {29053, BDK_CSR_TYPE_RSL,8,179,175, 0,715,556,1}, /* 2563 */
+    {29077, BDK_CSR_TYPE_RSL,8,182,175, 0,716,556,1}, /* 2564 */
+    {29163, BDK_CSR_TYPE_RSL,8,3486,197, 0,721,568,1}, /* 2565 */
+    {29179, BDK_CSR_TYPE_RSL,8,3489,197, 0,702,81,1}, /* 2566 */
+    {29196, BDK_CSR_TYPE_RSL,8,3489,197, 0,703,81,1}, /* 2567 */
+    {29213, BDK_CSR_TYPE_RSL,8,179,197, 0,722,568,1}, /* 2568 */
+    {29229, BDK_CSR_TYPE_RSL,8,3492,197, 0,723,568,1}, /* 2569 */
+    {29245, BDK_CSR_TYPE_RSL,8,3495,197, 0,724,568,1}, /* 2570 */
+    {29261, BDK_CSR_TYPE_RSL,8,3498,197, 0,725,568,1}, /* 2571 */
+    {29277, BDK_CSR_TYPE_RSL,8,3501,197, 0,726,568,1}, /* 2572 */
+    {29293, BDK_CSR_TYPE_RSL,8,3504,197, 0,727,568,1}, /* 2573 */
+    {29309, BDK_CSR_TYPE_RSL,8,3507,197, 0,728,568,1}, /* 2574 */
+    {29325, BDK_CSR_TYPE_RSL,8,3510,197, 0,729,568,1}, /* 2575 */
+    {29341, BDK_CSR_TYPE_RSL,8,3513,197, 0,730,568,1}, /* 2576 */
+    {29887, BDK_CSR_TYPE_RSL,8,9181, 0, 0,746,1,1}, /* 2577 */
+    {30429, BDK_CSR_TYPE_RSL,8,9194, 0, 0,760,1,1}, /* 2578 */
+    {30551, BDK_CSR_TYPE_RSL,8,9210, 0, 0,761,1,1}, /* 2579 */
+    {30596, BDK_CSR_TYPE_RSL,8,9213, 0, 0,763,1,1}, /* 2580 */
+    {31476, BDK_CSR_TYPE_RSL,8,9222, 0, 0,796,1,1}, /* 2581 */
+    {31577, BDK_CSR_TYPE_PEXP_NCB,8,9233, 0, 0,799,1,1}, /* 2582 */
+    {31781, BDK_CSR_TYPE_PEXP_NCB,8,3879,19, 0,800,81,1}, /* 2583 */
+    {31903, BDK_CSR_TYPE_PEXP_NCB,8,9258, 0, 0,801,1,1}, /* 2584 */
+    {32093, BDK_CSR_TYPE_PEXP_NCB,8,9262, 0, 0,808,1,1}, /* 2585 */
+    {32351, BDK_CSR_TYPE_PEXP_NCB,8,9308, 3, 0,809,81,1}, /* 2586 */
+    {32387, BDK_CSR_TYPE_PEXP_NCB,8,9308, 0, 0,810,1,1}, /* 2587 */
+    {60795, BDK_CSR_TYPE_PEXP_NCB,8,1279, 0, 0,1584,1,1}, /* 2588 */
+    {60815, BDK_CSR_TYPE_PEXP_NCB,8,1279, 0, 0,1585,1,1}, /* 2589 */
+    {60835, BDK_CSR_TYPE_PEXP_NCB,8,9355, 0, 0,1586,1,1}, /* 2590 */
+    {44958, BDK_CSR_TYPE_PEXP,8,9369, 0, 0,1099,1,1}, /* 2591 */
+    {33967, BDK_CSR_TYPE_PEXP_NCB,8,4150,19, 0,875,81,1}, /* 2592 */
+    {34422, BDK_CSR_TYPE_RSL,8,9373,19, 0,888,661,1}, /* 2593 */
+    {34467, BDK_CSR_TYPE_RSL,8,4231,19, 0,889,661,1}, /* 2594 */
+    {34500, BDK_CSR_TYPE_RSL,8,4235,19, 0,890,661,1}, /* 2595 */
+    {60982, BDK_CSR_TYPE_RSL,8,9382,31,19,1587,36,661}, /* 2596 */
+    {34527, BDK_CSR_TYPE_RSL,8,4239,19, 0,891,661,1}, /* 2597 */
+    {61119, BDK_CSR_TYPE_RSL,8,9399,19, 0,1588,661,1}, /* 2598 */
+    {34580, BDK_CSR_TYPE_RSL,8,9416,19, 0,892,661,1}, /* 2599 */
+    {61169, BDK_CSR_TYPE_RSL,8,9437,19, 0,1589,661,1}, /* 2600 */
+    {34697, BDK_CSR_TYPE_RSL,8,4264,19, 0,893,661,1}, /* 2601 */
+    {34762, BDK_CSR_TYPE_RSL,8,4279, 3,19,894,36,661}, /* 2602 */
+    {34840, BDK_CSR_TYPE_RSL,8,4294,90,19,895,36,661}, /* 2603 */
+    {34965, BDK_CSR_TYPE_RSL,8,4319,93,19,896,36,661}, /* 2604 */
+    {35111, BDK_CSR_TYPE_RSL,8,4344,19, 0,897,661,1}, /* 2605 */
+    {61207, BDK_CSR_TYPE_RSL,8,9442,19, 0,1590,661,1}, /* 2606 */
+    {44990, BDK_CSR_TYPE_RSL,8,5943,19, 0,1100,661,1}, /* 2607 */
+    {45016, BDK_CSR_TYPE_RSL,8,5946,19, 0,1101,661,1}, /* 2608 */
+    {35185, BDK_CSR_TYPE_RSL,8,5951,19, 0,898,661,1}, /* 2609 */
+    {35375, BDK_CSR_TYPE_RSL,8,4382,19, 0,899,661,1}, /* 2610 */
+    {35421, BDK_CSR_TYPE_RSL,8,4392,19, 0,900,661,1}, /* 2611 */
+    {35443, BDK_CSR_TYPE_RSL,8,4394,19, 0,901,661,1}, /* 2612 */
+    {35496, BDK_CSR_TYPE_RSL,8,4406,19, 0,902,661,1}, /* 2613 */
+    {35518, BDK_CSR_TYPE_RSL,8,5980,19, 0,903,661,1}, /* 2614 */
+    {35532, BDK_CSR_TYPE_RSL,8,9448,19, 0,904,661,1}, /* 2615 */
+    {45118, BDK_CSR_TYPE_RSL,8,6011,19, 0,1102,661,1}, /* 2616 */
+    {35592, BDK_CSR_TYPE_RSL,8,4422,19, 0,905,661,1}, /* 2617 */
+    {35612, BDK_CSR_TYPE_RSL,8,4429,19, 0,906,661,1}, /* 2618 */
+    {35632, BDK_CSR_TYPE_RSL,8,4433,19, 0,907,661,1}, /* 2619 */
+    {35653, BDK_CSR_TYPE_RSL,8,4436,19, 0,908,661,1}, /* 2620 */
+    {35682, BDK_CSR_TYPE_RSL,8,6022, 3,19,909,566,661}, /* 2621 */
+    {45223, BDK_CSR_TYPE_RSL,8,6034, 3,19,1103,566,661}, /* 2622 */
+    {35779, BDK_CSR_TYPE_RSL,8,4456, 3,19,910,566,661}, /* 2623 */
+    {35917, BDK_CSR_TYPE_RSL,8,4473, 3,19,911,566,661}, /* 2624 */
+    {35936, BDK_CSR_TYPE_RSL,8,9459, 3,19,912,566,661}, /* 2625 */
+    {45256, BDK_CSR_TYPE_RSL,8,6038,19, 0,1104,661,1}, /* 2626 */
+    {35967, BDK_CSR_TYPE_RSL,8,4495, 3,19,913,566,661}, /* 2627 */
+    {45285, BDK_CSR_TYPE_RSL,8,6041,19,19,1105,36,661}, /* 2628 */
+    {35994, BDK_CSR_TYPE_RSL,8,4513,19, 0,914,661,1}, /* 2629 */
+    {61280, BDK_CSR_TYPE_RSL,8,9464,19, 0,1591,661,1}, /* 2630 */
+    {36037, BDK_CSR_TYPE_RSL,8,4523,19, 0,915,661,1}, /* 2631 */
+    {36059, BDK_CSR_TYPE_RSL,8,4527,19, 0,916,661,1}, /* 2632 */
+    {36126, BDK_CSR_TYPE_RSL,8,4537,31,19,917,36,661}, /* 2633 */
+    {36181, BDK_CSR_TYPE_RSL,8,4549,19, 0,918,661,1}, /* 2634 */
+    {36191, BDK_CSR_TYPE_RSL,8,4552,19, 0,919,661,1}, /* 2635 */
+    {36220, BDK_CSR_TYPE_RSL,8,4556,19, 0,920,661,1}, /* 2636 */
+    {36241, BDK_CSR_TYPE_RSL,8,4563,19, 0,921,661,1}, /* 2637 */
+    {36259, BDK_CSR_TYPE_RSL,8,4570,19, 0,922,661,1}, /* 2638 */
+    {36287, BDK_CSR_TYPE_RSL,8,4581,19, 0,923,661,1}, /* 2639 */
+    {36320, BDK_CSR_TYPE_RSL,8,4593,19, 0,924,661,1}, /* 2640 */
+    {45322, BDK_CSR_TYPE_RSL,8,6045,19, 0,1106,661,1}, /* 2641 */
+    {36394, BDK_CSR_TYPE_RSL,8,4606,19, 0,925,661,1}, /* 2642 */
+    {45345, BDK_CSR_TYPE_RSL,8,6034,19, 0,1107,661,1}, /* 2643 */
+    {36442, BDK_CSR_TYPE_SRIOMAINT,4,4612,19, 0,36,1,1}, /* 2644 */
+    {36463, BDK_CSR_TYPE_SRIOMAINT,4,4615,19, 0,548,1,1}, /* 2645 */
+    {36495, BDK_CSR_TYPE_SRIOMAINT,4,4618,31,19,926,547,1}, /* 2646 */
+    {36536, BDK_CSR_TYPE_SRIOMAINT,4,4626,19, 0,927,1,1}, /* 2647 */
+    {36573, BDK_CSR_TYPE_SRIOMAINT,4,4629,19, 0,928,1,1}, /* 2648 */
+    {36602, BDK_CSR_TYPE_SRIOMAINT,4,4631,19, 0,929,1,1}, /* 2649 */
+    {36645, BDK_CSR_TYPE_SRIOMAINT,4,4638,19, 0,1,1,1}, /* 2650 */
+    {36677, BDK_CSR_TYPE_SRIOMAINT,4,4641,19, 0,547,1,1}, /* 2651 */
+    {36705, BDK_CSR_TYPE_SRIOMAINT,4,4644,19, 0,554,1,1}, /* 2652 */
+    {36907, BDK_CSR_TYPE_SRIOMAINT,4,6048,19, 0,930,1,1}, /* 2653 */
+    {36964, BDK_CSR_TYPE_SRIOMAINT,4,6054,19, 0,931,1,1}, /* 2654 */
+    {37102, BDK_CSR_TYPE_SRIOMAINT,4,4691,19, 0,932,1,1}, /* 2655 */
+    {37152, BDK_CSR_TYPE_SRIOMAINT,4,6054,19, 0,933,1,1}, /* 2656 */
+    {37179, BDK_CSR_TYPE_SRIOMAINT,4,4697,19, 0,934,1,1}, /* 2657 */
+    {37224, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,935,1,1}, /* 2658 */
+    {37256, BDK_CSR_TYPE_SRIOMAINT,4,4704,19, 0,936,1,1}, /* 2659 */
+    {37286, BDK_CSR_TYPE_SRIOMAINT,4,4706,19, 0,937,1,1}, /* 2660 */
+    {37322, BDK_CSR_TYPE_SRIOMAINT,4,4710,19, 0,938,1,1}, /* 2661 */
+    {37383, BDK_CSR_TYPE_SRIOMAINT,4,4720,19, 0,939,1,1}, /* 2662 */
+    {37426, BDK_CSR_TYPE_SRIOMAINT,4,4725,19, 0,940,1,1}, /* 2663 */
+    {37490, BDK_CSR_TYPE_SRIOMAINT,4,4730,19, 0,941,1,1}, /* 2664 */
+    {37622, BDK_CSR_TYPE_SRIOMAINT,4,4730,19, 0,942,1,1}, /* 2665 */
+    {37647, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,943,1,1}, /* 2666 */
+    {37674, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,944,1,1}, /* 2667 */
+    {37701, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,945,1,1}, /* 2668 */
+    {37728, BDK_CSR_TYPE_SRIOMAINT,4,4743,19, 0,946,1,1}, /* 2669 */
+    {37757, BDK_CSR_TYPE_SRIOMAINT,4,4745,19, 0,947,1,1}, /* 2670 */
+    {37790, BDK_CSR_TYPE_SRIOMAINT,4,4748,19, 0,948,1,1}, /* 2671 */
+    {45430, BDK_CSR_TYPE_SRIOMAINT,4,6072,19, 0,1108,1,1}, /* 2672 */
+    {37869, BDK_CSR_TYPE_SRIOMAINT,4,4756,19, 0,949,1,1}, /* 2673 */
+    {37903, BDK_CSR_TYPE_SRIOMAINT,4,4758,19, 0,950,1,1}, /* 2674 */
+    {37989, BDK_CSR_TYPE_SRIOMAINT,4,4768,19, 0,951,1,1}, /* 2675 */
+    {38047, BDK_CSR_TYPE_SRIOMAINT,4,6081,19, 0,952,1,1}, /* 2676 */
+    {38096, BDK_CSR_TYPE_SRIOMAINT,4,4777,19, 0,953,1,1}, /* 2677 */
+    {38129, BDK_CSR_TYPE_SRIOMAINT,4,4780,19, 0,954,1,1}, /* 2678 */
+    {38163, BDK_CSR_TYPE_SRIOMAINT,4,6086,19, 0,955,1,1}, /* 2679 */
+    {38225, BDK_CSR_TYPE_SRIOMAINT,4,4788,19, 0,956,1,1}, /* 2680 */
+    {38250, BDK_CSR_TYPE_SRIOMAINT,4,4780,19, 0,957,1,1}, /* 2681 */
+    {38275, BDK_CSR_TYPE_SRIOMAINT,4,4782,19, 0,958,1,1}, /* 2682 */
+    {38300, BDK_CSR_TYPE_SRIOMAINT,4,4791,19,19,959,556,1}, /* 2683 */
+    {38418, BDK_CSR_TYPE_SRIOMAINT,4,4807,19, 0,570,1,1}, /* 2684 */
+    {38443, BDK_CSR_TYPE_SRIOMAINT,4,4810,19, 0,571,1,1}, /* 2685 */
+    {38476, BDK_CSR_TYPE_SRIOMAINT,4,4813,19, 0,960,1,1}, /* 2686 */
+    {38517, BDK_CSR_TYPE_SRIOMAINT,4,4816,19, 0,961,1,1}, /* 2687 */
+    {38572, BDK_CSR_TYPE_SRIOMAINT,4,4813,19, 0,962,1,1}, /* 2688 */
+    {38599, BDK_CSR_TYPE_SRIOMAINT,4,6092,19, 0,963,1,1}, /* 2689 */
+    {38648, BDK_CSR_TYPE_SRIOMAINT,4,4827,19, 0,964,1,1}, /* 2690 */
+    {45531, BDK_CSR_TYPE_SRIOMAINT,4,9467,19, 0,1109,1,1}, /* 2691 */
+    {38682, BDK_CSR_TYPE_SRIOMAINT,4,4835,19, 0,81,1,1}, /* 2692 */
+    {38767, BDK_CSR_TYPE_SRIOMAINT,4,4847,19, 0,965,1,1}, /* 2693 */
+    {38785, BDK_CSR_TYPE_SRIOMAINT,4,4850,19, 0,966,1,1}, /* 2694 */
+    {38947, BDK_CSR_TYPE_SRIOMAINT,4,4869,19, 0,967,1,1}, /* 2695 */
+    {39103, BDK_CSR_TYPE_SRIOMAINT,4,4886,19, 0,968,1,1}, /* 2696 */
+    {45593, BDK_CSR_TYPE_SRIOMAINT,4,6105,19, 0,1110,1,1}, /* 2697 */
+    {45620, BDK_CSR_TYPE_SRIOMAINT,4,6108,19, 0,1111,1,1}, /* 2698 */
+    {45669, BDK_CSR_TYPE_SRIOMAINT,4,6113,19, 0,1112,1,1}, /* 2699 */
+    {39256, BDK_CSR_TYPE_SRIOMAINT,4,4907,19, 0,969,1,1}, /* 2700 */
+    {39316, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,593,1,1}, /* 2701 */
+    {39339, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,585,1,1}, /* 2702 */
+    {39360, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,594,1,1}, /* 2703 */
+    {45738, BDK_CSR_TYPE_SRIOMAINT,4,4912,19, 0,625,1,1}, /* 2704 */
+    {39383, BDK_CSR_TYPE_SRIOMAINT,4,4915,19, 0,970,1,1}, /* 2705 */
+    {39405, BDK_CSR_TYPE_SRIOMAINT,4,4919,19, 0,971,1,1}, /* 2706 */
+    {39446, BDK_CSR_TYPE_SRIOMAINT,4,4915,19, 0,972,1,1}, /* 2707 */
+    {39468, BDK_CSR_TYPE_SRIOMAINT,4,4701,19, 0,973,1,1}, /* 2708 */
+    {39495, BDK_CSR_TYPE_SRIOMAINT,4,4644,19, 0,552,1,1}, /* 2709 */
+    {45762, BDK_CSR_TYPE_SRIOMAINT,4,6120,19, 0,1113,1,1}, /* 2710 */
+    {39514, BDK_CSR_TYPE_NCB,8,9475, 0, 0,974,1,1}, /* 2711 */
+    {39790, BDK_CSR_TYPE_NCB,8,4976,124, 0,986,36,1}, /* 2712 */
+    {40436, BDK_CSR_TYPE_RSL,8,6124,28, 0,1008,1,1}, /* 2713 */
+    {41060, BDK_CSR_TYPE_RSL,8,9486,28, 0,1015,1,1}, /* 2714 */
+    {45789, BDK_CSR_TYPE_RSL,8,6139,28, 0,1115,1,1}, /* 2715 */
+    {41183, BDK_CSR_TYPE_RSL,8,9486,28, 0,1022,1,1}, /* 2716 */
+    {41266, BDK_CSR_TYPE_RSL,8,9486,28, 0,1027,1,1}, /* 2717 */
 #endif
 };
 
@@ -10250,96 +10274,110 @@ const uint16_t __bdk_csr_db_fieldList[] = {
     15,2970,2973,2976,2979,2982,2985,2988,2991,2994,2997,11073,11076,11079,13704,981, /* 8170 */
     7,1182,1185,1188,1191,13707,13710,1086, /* 8186 */
     18,3954,3957,3960,3963,3966,3969,3972,3975,3978,13713,13716,13719,13722,13725,13728,13731,13734,1071, /* 8194 */
-    12,4986,4989,4992,4995,4998,5001,5004,5007,5010,13737,1935,5016, /* 8213 */
-    6,13740,13743,5454,5457,5460,516, /* 8226 */
-    4,13746,13749,13752,13755, /* 8233 */
-    20,7350,7353,7356,7359,7362,7365,12966,606,12969,7371,7374,7377,7380,12972,633,7386,7389,7392,13758,1833, /* 8238 */
-    10,7455,7458,7461,7464,13005,13008,13011,13761,13764,270, /* 8259 */
-    21,8058,8061,8064,8067,13767,8070,3660,8073,5655,8076,8079,8082,8085,8088,13770,8094,8097,8100,8103,8106,1086, /* 8270 */
-    1,13773, /* 8292 */
-    21,13140,1908,13143,963,13146,1980,13149,1986,13152,3639,13155,6432,13158,8439,13161,13164,13167,13170,13776,13779,1827, /* 8294 */
-    12,13173,13176,13179,13182,13185,13188,13191,13194,13782,13785,13788,885, /* 8316 */
-    9,13308,13311,13314,13317,13791,492,13794,13797,144, /* 8329 */
-    2,7530,249, /* 8339 */
-    5,1809,13407,3237,13800,7092, /* 8342 */
-    5,1809,13407,13803,13806,13413, /* 8348 */
-    7,9867,13545,13548,13809,13812,13815,948, /* 8354 */
-    8,10875,10878,10881,10884,10887,13818,13821,13824, /* 8362 */
-    2,13827,276, /* 8371 */
-    41,549,552,13830,558,561,564,567,570,573,576,579,582,585,588,591,594,597,600,444,603,606,609,13833,12426,615,618,621,624,627,630,633,636,639,642,645,648,651,13836,13839,13842,1827, /* 8374 */
-    2,13845,144, /* 8416 */
-    2,13848,144, /* 8419 */
-    22,666,669,672,675,678,681,684,687,690,693,13851,702,705,708,711,13854,13857,717,720,723,726,729, /* 8422 */
-    39,13860,13863,738,741,744,747,750,753,756,759,762,765,768,771,774,777,780,783,786,789,792,13866,522,13869,13872,798,801,804,807,810,813,816,819,822,13875,13839,13842,13878,828, /* 8445 */
-    22,666,669,672,675,678,681,831,687,690,693,13851,702,705,708,711,13854,13857,717,720,723,726,729, /* 8485 */
-    6,13881,426,10899,963,10902,2190, /* 8508 */
-    37,13860,13863,738,741,744,747,750,753,756,759,762,765,768,771,774,777,780,783,786,789,792,13866,13884,798,801,804,807,810,813,816,819,822,13875,13839,13842,540,828, /* 8515 */
-    2,13887,144, /* 8553 */
-    2,13890,144, /* 8556 */
-    3,849,13893,144, /* 8559 */
-    4,13896,13899,13902,13905, /* 8563 */
-    2,13908,1764, /* 8568 */
-    20,1839,1842,1845,1848,1851,1854,1857,1860,1863,1866,1869,1872,534,1875,1878,1881,10986,10989,13911,1827, /* 8571 */
-    17,1902,1905,1908,1911,1914,1917,1920,1923,1926,1929,1932,1935,1938,1941,13914,13917,2139, /* 8592 */
-    13,1959,555,1962,1965,1968,1971,1974,438,1977,1980,13920,1989,45, /* 8610 */
-    2,13923,333, /* 8624 */
-    9,13926,555,8883,8886,492,8889,13929,8895,255, /* 8627 */
-    3,13932,8901,1071, /* 8637 */
-    47,2055,2058,2061,2064,2067,2070,2073,2076,2079,2082,2085,2088,2091,2094,2097,2100,2103,2106,2109,2112,2115,2118,2121,2124,2127,2130,2133,2136,11004,11007,11010,11013,11016,11019,11022,11025,11028,11031,11034,11037,11040,11043,11046,11049,13935,11745,11748, /* 8641 */
-    47,2055,2058,2061,2064,2067,2070,2073,2076,2079,2082,2085,2088,2091,2094,2097,2100,2103,2106,2109,2112,2115,2118,2121,2124,2127,2130,2133,2136,11004,11007,11010,11013,11016,11019,11022,11025,11028,11031,11034,11037,11040,11043,11046,11049,13938,11745,11748, /* 8689 */
-    9,2193,2196,297,2199,492,2202,5733,13941,228, /* 8737 */
-    10,417,420,2337,465,2340,2343,2346,2349,11817,45, /* 8747 */
-    5,2424,2427,6714,13944,144, /* 8758 */
-    4,13947,13950,13953,228, /* 8764 */
-    2,13956,228, /* 8769 */
-    2,13959,228, /* 8772 */
-    2,13962,228, /* 8775 */
-    9,2511,2514,2517,2520,2523,2526,2529,12522,885, /* 8778 */
-    2,13965,255, /* 8788 */
-    2,13968,1749, /* 8791 */
-    12,2919,954,2922,492,2925,75,2928,861,2931,2934,13971,1194, /* 8794 */
-    5,3054,3057,13974,13977,3066, /* 8807 */
-    2,13980,144, /* 8813 */
-    22,1233,1236,1239,1242,1245,1248,1251,1254,1257,1260,1263,1266,1269,1272,1275,1278,10929,10932,10935,10938,13983,4431, /* 8816 */
-    21,1284,1287,1290,1293,1296,1299,1302,1305,1308,1311,1314,1317,1320,3285,1326,1329,1332,3288,3291,13986,13989, /* 8839 */
-    10,13992,3648,3651,3654,3657,3660,3663,3666,13995,261, /* 8861 */
-    15,13998,963,3759,12,3762,3765,3768,516,3771,3774,3777,12777,14001,14004,255, /* 8872 */
-    2,14007,7092, /* 8888 */
-    4,14010,426,12789,1749, /* 8891 */
-    16,3993,3996,3999,4002,4005,4008,4011,4014,14013,14016,14019,14022,14025,14028,14031,14034, /* 8896 */
-    2,14037,1764, /* 8913 */
-    8,4059,4062,14040,14043,426,4065,4068,144, /* 8916 */
-    16,3219,14046,14049,14052,14055,14058,5415,14061,14064,14067,14070,6273,14073,14076,14079,981, /* 8925 */
-    2,14082,93, /* 8942 */
-    4,4335,10878,14085,186, /* 8945 */
-    8,14088,492,14091,861,14094,1980,14097,450, /* 8950 */
-    6,6840,11802,14100,1080,14103,1071, /* 8959 */
-    16,14106,14109,14112,14115,14118,14121,14124,14127,14130,14133,14136,14139,14142,14145,14148,14151, /* 8966 */
-    12,6987,6714,14154,963,14157,4437,14103,14160,14163,14166,14169,14172, /* 8983 */
-    30,6840,69,6843,6846,6849,6852,861,6855,6858,6861,6864,6867,6870,6873,6876,6879,6882,6885,6888,894,6891,6894,6897,6900,6903,6906,6909,14175,14178,1623, /* 8996 */
-    12,6987,7263,7266,7269,7272,69,7275,7236,14181,12432,14184,1194, /* 9027 */
-    15,7407,7410,7413,7416,7419,7422,7425,7428,7431,7434,7437,7440,12975,12978,1623, /* 9040 */
-    2,14187,84, /* 9056 */
-    8,7455,7458,7461,7464,4182,13761,13764,270, /* 9059 */
-    10,7683,7686,7689,7692,7695,7698,7701,7704,14190,1749, /* 9068 */
-    24,7710,7713,7716,7719,7722,7725,7728,7731,7734,7737,7740,7743,7746,7749,7752,7755,7758,7761,7764,7767,14193,7776,7779,2172, /* 9079 */
-    3,7824,7827,84, /* 9104 */
-    45,7863,420,7866,7869,7872,7875,465,7878,7881,7884,7887,7890,7893,7896,7899,7902,7905,444,14196,14199,14202,14205,14208,14211,14214,14217,4929,7908,7911,7914,3057,7917,7920,7923,7926,7929,7932,7935,7938,7941,7944,14220,14223,7950,2835, /* 9108 */
-    46,7863,420,7866,7869,7872,7875,465,7878,7881,7884,7887,7890,7893,7896,7899,7902,7905,7953,7956,14196,14199,14202,14205,14208,14211,14214,14217,4929,7908,7911,7914,3057,7917,7920,7923,7926,7929,7932,7935,7938,7941,7944,14220,14223,7950,2835, /* 9154 */
-    13,14226,14229,14232,14235,14238,14241,14244,14247,14250,14253,14256,14259,3933, /* 9201 */
-    3,11133,14262,270, /* 9215 */
-    8,8319,8322,8325,876,14265,14268,14271,3168, /* 9219 */
-    16,14274,14277,14280,14283,14286,14289,14292,14295,14298,14301,14304,14307,14310,14313,14316,14319, /* 9228 */
-    16,14322,465,14325,438,14328,5013,14331,4896,14334,522,14337,528,14340,534,14343,1827, /* 9245 */
-    20,8349,8352,8355,8358,8361,8364,8367,11136,11139,8373,8376,8379,8382,8385,8388,8391,8394,8397,14346,9729, /* 9262 */
-    4,14349,14352,14355,1425, /* 9283 */
-    5,5172,14358,522,14361,948, /* 9288 */
-    10,8745,8748,8751,8754,180,8757,8760,14364,14367,8763, /* 9294 */
-    4,14370,14373,8874,261, /* 9305 */
-    2,14376,1425, /* 9310 */
-    7,11277,11280,11283,11286,11289,14379,5250, /* 9313 */
-    10,9675,9678,9681,9684,9687,9690,9693,5733,14382,1944, /* 9321 */
-    7,14385,963,10176,10179,10182,10185,228, /* 9332 */
+    12,4899,4902,4905,4908,4911,4914,4917,4920,4923,4926,13737,516, /* 8213 */
+    19,4932,4935,4938,4941,4944,4947,4950,4953,4956,4959,4962,13740,4965,4968,4971,4974,4977,4980,4983, /* 8226 */
+    12,4986,4989,4992,4995,4998,5001,5004,5007,5010,13743,1935,5016, /* 8246 */
+    11,5157,5160,13746,13749,13752,13755,13758,13761,180,13764,5307, /* 8259 */
+    8,5166,5169,13746,13767,13770,13773,13776,9369, /* 8271 */
+    16,5175,5178,5181,5184,5187,5190,5193,5196,861,5199,13779,13782,13785,13788,13791,4983, /* 8280 */
+    16,5211,5214,5217,5220,5223,5226,5229,5232,5235,5238,5241,5244,5247,1986,13794,1080, /* 8297 */
+    16,5211,5253,5256,5220,5259,5262,5265,5268,5271,5274,5277,5280,5283,1986,13797,1080, /* 8314 */
+    7,5382,5385,5388,5391,5394,13800,633, /* 8331 */
+    16,5397,5400,5403,5406,5409,5412,5415,5418,13803,5733,5421,13806,13809,12426,5427,3120, /* 8339 */
+    7,13812,13815,5451,5454,5457,5460,13818, /* 8356 */
+    5,5520,5523,13821,13824,4743, /* 8364 */
+    2,13827,9036, /* 8370 */
+    4,13830,13833,13836,13839, /* 8373 */
+    20,7350,7353,7356,7359,7362,7365,12966,606,12969,7371,7374,7377,7380,12972,633,7386,7389,7392,13842,1833, /* 8378 */
+    10,7455,7458,7461,7464,13005,13008,13011,13845,13848,270, /* 8399 */
+    21,8058,8061,8064,8067,13851,8070,3660,8073,5655,8076,8079,8082,8085,8088,13854,8094,8097,8100,8103,8106,1086, /* 8410 */
+    1,13857, /* 8432 */
+    21,13140,1908,13143,963,13146,1980,13149,1986,13152,3639,13155,6432,13158,8439,13161,13164,13167,13170,13860,13863,1827, /* 8434 */
+    12,13173,13176,13179,13182,13185,13188,13191,13194,13866,13869,13872,885, /* 8456 */
+    9,13308,13311,13314,13317,13875,492,13878,13881,144, /* 8469 */
+    2,7530,249, /* 8479 */
+    5,1809,13407,3237,13884,7092, /* 8482 */
+    5,1809,13407,13887,13890,13413, /* 8488 */
+    4,13497,4983,13893,3933, /* 8494 */
+    1,13896, /* 8499 */
+    7,9867,13545,13548,13899,13902,13905,948, /* 8501 */
+    8,10875,10878,10881,10884,10887,13908,13911,13914, /* 8509 */
+    2,13917,276, /* 8518 */
+    41,549,552,13920,558,561,564,567,570,573,576,579,582,585,588,591,594,597,600,444,603,606,609,13923,12426,615,618,621,624,627,630,633,636,639,642,645,648,651,13926,13929,13932,1827, /* 8521 */
+    2,13935,144, /* 8563 */
+    2,13938,144, /* 8566 */
+    22,666,669,672,675,678,681,684,687,690,693,13941,702,705,708,711,13944,13947,717,720,723,726,729, /* 8569 */
+    39,13950,13953,738,741,744,747,750,753,756,759,762,765,768,771,774,777,780,783,786,789,792,13956,522,13959,13962,798,801,804,807,810,813,816,819,822,13965,13929,13932,13968,828, /* 8592 */
+    22,666,669,672,675,678,681,831,687,690,693,13941,702,705,708,711,13944,13947,717,720,723,726,729, /* 8632 */
+    6,13971,426,10899,963,10902,2190, /* 8655 */
+    37,13950,13953,738,741,744,747,750,753,756,759,762,765,768,771,774,777,780,783,786,789,792,13956,13974,798,801,804,807,810,813,816,819,822,13965,13929,13932,540,828, /* 8662 */
+    2,13977,144, /* 8700 */
+    2,13980,144, /* 8703 */
+    3,849,13983,144, /* 8706 */
+    4,13986,13989,13992,13995, /* 8710 */
+    2,13998,1764, /* 8715 */
+    20,1839,1842,1845,1848,1851,1854,1857,1860,1863,1866,1869,1872,534,1875,1878,1881,10986,10989,14001,1827, /* 8718 */
+    17,1902,1905,1908,1911,1914,1917,1920,1923,1926,1929,1932,1935,1938,1941,14004,14007,2139, /* 8739 */
+    13,1959,555,1962,1965,1968,1971,1974,438,1977,1980,14010,1989,45, /* 8757 */
+    2,14013,333, /* 8771 */
+    9,14016,555,8883,8886,492,8889,14019,8895,255, /* 8774 */
+    3,14022,8901,1071, /* 8784 */
+    47,2055,2058,2061,2064,2067,2070,2073,2076,2079,2082,2085,2088,2091,2094,2097,2100,2103,2106,2109,2112,2115,2118,2121,2124,2127,2130,2133,2136,11004,11007,11010,11013,11016,11019,11022,11025,11028,11031,11034,11037,11040,11043,11046,11049,14025,11745,11748, /* 8788 */
+    47,2055,2058,2061,2064,2067,2070,2073,2076,2079,2082,2085,2088,2091,2094,2097,2100,2103,2106,2109,2112,2115,2118,2121,2124,2127,2130,2133,2136,11004,11007,11010,11013,11016,11019,11022,11025,11028,11031,11034,11037,11040,11043,11046,11049,14028,11745,11748, /* 8836 */
+    9,2193,2196,297,2199,492,2202,5733,14031,228, /* 8884 */
+    10,417,420,2337,465,2340,2343,2346,2349,11817,45, /* 8894 */
+    5,2424,2427,6714,14034,144, /* 8905 */
+    4,14037,14040,14043,228, /* 8911 */
+    2,14046,228, /* 8916 */
+    2,14049,228, /* 8919 */
+    2,14052,228, /* 8922 */
+    9,2511,2514,2517,2520,2523,2526,2529,12522,885, /* 8925 */
+    2,14055,255, /* 8935 */
+    2,14058,1749, /* 8938 */
+    12,2919,954,2922,492,2925,75,2928,861,2931,2934,14061,1194, /* 8941 */
+    5,3054,3057,14064,14067,3066, /* 8954 */
+    2,14070,144, /* 8960 */
+    22,1233,1236,1239,1242,1245,1248,1251,1254,1257,1260,1263,1266,1269,1272,1275,1278,10929,10932,10935,10938,14073,4431, /* 8963 */
+    21,1284,1287,1290,1293,1296,1299,1302,1305,1308,1311,1314,1317,1320,3285,1326,1329,1332,3288,3291,14076,14079, /* 8986 */
+    10,14082,3648,3651,3654,3657,3660,3663,3666,14085,261, /* 9008 */
+    15,14088,963,3759,12,3762,3765,3768,516,3771,3774,3777,12777,14091,14094,255, /* 9019 */
+    2,14097,7092, /* 9035 */
+    4,14100,426,12789,1749, /* 9038 */
+    16,3993,3996,3999,4002,4005,4008,4011,4014,14103,14106,14109,14112,14115,14118,14121,14124, /* 9043 */
+    2,14127,1764, /* 9060 */
+    8,4059,4062,14130,14133,426,4065,4068,144, /* 9063 */
+    16,3219,14136,14139,14142,14145,14148,5415,14151,14154,14157,14160,6273,14163,14166,14169,981, /* 9072 */
+    2,14172,93, /* 9089 */
+    4,4335,10878,14175,186, /* 9092 */
+    8,14178,492,14181,861,14184,1980,14187,450, /* 9097 */
+    6,14190,14193,5454,5457,5460,516, /* 9106 */
+    6,6840,11802,14196,1080,14199,1071, /* 9113 */
+    16,14202,14205,14208,14211,14214,14217,14220,14223,14226,14229,14232,14235,14238,14241,14244,14247, /* 9120 */
+    12,6987,6714,14250,963,14253,4437,14199,14256,14259,14262,14265,14268, /* 9137 */
+    30,6840,69,6843,6846,6849,6852,861,6855,6858,6861,6864,6867,6870,6873,6876,6879,6882,6885,6888,894,6891,6894,6897,6900,6903,6906,6909,14271,14274,1623, /* 9150 */
+    12,6987,7263,7266,7269,7272,69,7275,7236,14277,12432,14280,1194, /* 9181 */
+    15,7407,7410,7413,7416,7419,7422,7425,7428,7431,7434,7437,7440,12975,12978,1623, /* 9194 */
+    2,14283,84, /* 9210 */
+    8,7455,7458,7461,7464,4182,13845,13848,270, /* 9213 */
+    10,7683,7686,7689,7692,7695,7698,7701,7704,14286,1749, /* 9222 */
+    24,7710,7713,7716,7719,7722,7725,7728,7731,7734,7737,7740,7743,7746,7749,7752,7755,7758,7761,7764,7767,14289,7776,7779,2172, /* 9233 */
+    3,7824,7827,84, /* 9258 */
+    45,7863,420,7866,7869,7872,7875,465,7878,7881,7884,7887,7890,7893,7896,7899,7902,7905,444,14292,14295,14298,14301,14304,14307,14310,14313,4929,7908,7911,7914,3057,7917,7920,7923,7926,7929,7932,7935,7938,7941,7944,14316,14319,7950,2835, /* 9262 */
+    46,7863,420,7866,7869,7872,7875,465,7878,7881,7884,7887,7890,7893,7896,7899,7902,7905,7953,7956,14292,14295,14298,14301,14304,14307,14310,14313,4929,7908,7911,7914,3057,7917,7920,7923,7926,7929,7932,7935,7938,7941,7944,14316,14319,7950,2835, /* 9308 */
+    13,14322,14325,14328,14331,14334,14337,14340,14343,14346,14349,14352,14355,3933, /* 9355 */
+    3,11133,14358,270, /* 9369 */
+    8,8319,8322,8325,876,14361,14364,14367,3168, /* 9373 */
+    16,14370,14373,14376,14379,14382,14385,14388,14391,14394,14397,14400,14403,14406,14409,14412,14415, /* 9382 */
+    16,14418,465,14421,438,14424,5013,14427,4896,14430,522,14433,528,14436,534,14439,1827, /* 9399 */
+    20,8349,8352,8355,8358,8361,8364,8367,11136,11139,8373,8376,8379,8382,8385,8388,8391,8394,8397,14442,9729, /* 9416 */
+    4,14445,14448,14451,1425, /* 9437 */
+    5,5172,14454,522,14457,948, /* 9442 */
+    10,8745,8748,8751,8754,180,8757,8760,14460,14463,8763, /* 9448 */
+    4,14466,14469,8874,261, /* 9459 */
+    2,14472,1425, /* 9464 */
+    7,11277,11280,11283,11286,11289,14475,5250, /* 9467 */
+    10,9675,9678,9681,9684,9687,9690,9693,5733,14478,1944, /* 9475 */
+    7,14481,963,10176,10179,10182,10185,228, /* 9486 */
 #endif
 };
 
@@ -14924,223 +14962,255 @@ const uint16_t __bdk_csr_db_field[] = {
     58773,32,36, /* 13728 */
     58781,37,37, /* 13731 */
     58792,38,39, /* 13734 */
-    58903,22,22, /* 13737 */
-    58908,0,7, /* 13740 */
-    58915,8,13, /* 13743 */
-    58946,0,15, /* 13746 */
-    58952,16,31, /* 13749 */
-    58958,32,47, /* 13752 */
-    58964,48,63, /* 13755 */
-    55920,35,35, /* 13758 */
-    58970,7,7, /* 13761 */
-    58980,8,8, /* 13764 */
-    58990,4,5, /* 13767 */
-    58998,26,27, /* 13770 */
-    59025,0,63, /* 13773 */
-    59033,54,59, /* 13776 */
-    59048,60,61, /* 13779 */
-    59057,8,8, /* 13782 */
-    59070,9,9, /* 13785 */
-    59083,10,10, /* 13788 */
-    59097,4,4, /* 13791 */
-    59109,8,8, /* 13794 */
-    59121,9,9, /* 13797 */
-    558,57,62, /* 13800 */
-    59143,38,58, /* 13803 */
-    558,59,62, /* 13806 */
-    57984,43,43, /* 13809 */
-    30618,44,44, /* 13812 */
-    59158,45,45, /* 13815 */
-    59166,48,48, /* 13818 */
-    59184,49,55, /* 13821 */
-    59199,56,63, /* 13824 */
-    2923,0,5, /* 13827 */
-    59205,2,2, /* 13830 */
-    59210,23,23, /* 13833 */
-    59218,43,59, /* 13836 */
-    59233,60,60, /* 13839 */
-    59239,61,61, /* 13842 */
-    3213,0,9, /* 13845 */
-    3227,0,9, /* 13848 */
-    3328,48,49, /* 13851 */
-    59245,57,57, /* 13854 */
-    59260,58,58, /* 13857 */
-    3475,0,9, /* 13860 */
-    59264,10,17, /* 13863 */
-    59279,37,37, /* 13866 */
-    59284,40,40, /* 13869 */
-    59292,41,45, /* 13872 */
-    59307,57,59, /* 13875 */
-    59322,62,62, /* 13878 */
-    33587,0,3, /* 13881 */
-    59331,38,45, /* 13884 */
-    3804,0,9, /* 13887 */
-    3837,0,9, /* 13890 */
-    3554,1,9, /* 13893 */
-    59395,0,15, /* 13896 */
-    59400,16,31, /* 13899 */
-    59405,32,47, /* 13902 */
-    59410,48,63, /* 13905 */
-    2923,0,46, /* 13908 */
-    59504,61,61, /* 13911 */
-    59530,26,26, /* 13914 */
-    59540,27,27, /* 13917 */
-    8202,20,23, /* 13920 */
-    59567,0,1, /* 13923 */
-    59590,0,1, /* 13926 */
-    13663,16,31, /* 13929 */
-    13663,0,31, /* 13932 */
-    59622,44,48, /* 13935 */
-    59629,44,48, /* 13938 */
-    59644,16,19, /* 13941 */
-    51160,8,9, /* 13944 */
-    59678,0,17, /* 13947 */
-    59692,18,18, /* 13950 */
-    59698,19,19, /* 13953 */
-    10908,0,19, /* 13956 */
-    10924,0,19, /* 13959 */
-    10940,0,19, /* 13962 */
-    11980,0,47, /* 13965 */
-    11980,0,11, /* 13968 */
-    13249,32,41, /* 13971 */
-    13663,48,52, /* 13974 */
-    59747,53,57, /* 13977 */
-    5207,0,9, /* 13980 */
-    59762,59,59, /* 13983 */
-    59767,24,62, /* 13986 */
-    59782,63,63, /* 13989 */
-    59853,0,7, /* 13992 */
-    59859,16,31, /* 13995 */
-    16547,0,9, /* 13998 */
-    59865,37,46, /* 14001 */
-    59874,47,47, /* 14004 */
-    10908,0,62, /* 14007 */
-    8202,0,3, /* 14010 */
-    59893,36,47, /* 14013 */
-    59908,48,49, /* 14016 */
-    59918,50,58, /* 14019 */
-    59933,59,59, /* 14022 */
-    59945,60,60, /* 14025 */
-    59951,61,61, /* 14028 */
-    59960,62,62, /* 14031 */
-    59969,63,63, /* 14034 */
-    3374,0,46, /* 14037 */
-    59992,2,2, /* 14040 */
-    60002,3,3, /* 14043 */
-    60020,1,1, /* 14046 */
-    60027,2,2, /* 14049 */
-    60036,3,3, /* 14052 */
-    60043,4,4, /* 14055 */
-    60052,5,5, /* 14058 */
-    60060,7,7, /* 14061 */
-    60065,8,9, /* 14064 */
-    60074,10,10, /* 14067 */
-    60080,11,11, /* 14070 */
-    60087,14,14, /* 14073 */
-    60094,15,15, /* 14076 */
-    60101,16,28, /* 14079 */
-    11352,0,7, /* 14082 */
-    60125,8,12, /* 14085 */
-    60138,0,4, /* 14088 */
-    60145,8,12, /* 14091 */
-    60151,16,16, /* 14094 */
-    60159,20,21, /* 14097 */
-    5797,16,24, /* 14100 */
-    13496,32,39, /* 14103 */
-    60200,0,6, /* 14106 */
-    60205,7,7, /* 14109 */
-    60214,8,14, /* 14112 */
-    60219,15,15, /* 14115 */
-    60228,16,22, /* 14118 */
-    60233,23,23, /* 14121 */
-    60242,24,30, /* 14124 */
-    60247,31,31, /* 14127 */
-    60256,32,38, /* 14130 */
-    60261,39,39, /* 14133 */
-    60270,40,46, /* 14136 */
-    60275,47,47, /* 14139 */
-    60284,48,54, /* 14142 */
-    60289,55,55, /* 14145 */
-    60298,56,62, /* 14148 */
-    60303,63,63, /* 14151 */
-    34783,8,9, /* 14154 */
-    28340,16,19, /* 14157 */
-    60330,40,59, /* 14160 */
-    60345,60,60, /* 14163 */
-    60352,61,61, /* 14166 */
-    60358,62,62, /* 14169 */
-    60365,63,63, /* 14172 */
-    60372,53,54, /* 14175 */
-    60381,55,55, /* 14178 */
-    60389,29,32, /* 14181 */
-    60397,34,41, /* 14184 */
-    5207,0,13, /* 14187 */
-    60406,11,11, /* 14190 */
-    60414,27,28, /* 14193 */
-    60429,20,20, /* 14196 */
-    60438,21,21, /* 14199 */
-    60447,22,22, /* 14202 */
-    60456,23,23, /* 14205 */
-    60465,24,24, /* 14208 */
-    60474,25,25, /* 14211 */
-    60483,26,26, /* 14214 */
-    60492,27,27, /* 14217 */
-    60501,58,58, /* 14220 */
-    60511,59,59, /* 14223 */
-    60581,0,7, /* 14226 */
-    60589,8,15, /* 14229 */
-    60597,16,23, /* 14232 */
-    60605,24,31, /* 14235 */
-    60613,32,39, /* 14238 */
-    60621,40,47, /* 14241 */
-    60629,48,48, /* 14244 */
-    60636,49,49, /* 14247 */
-    60643,50,50, /* 14250 */
-    60650,51,51, /* 14253 */
-    60657,52,52, /* 14256 */
-    60664,53,53, /* 14259 */
-    60671,8,8, /* 14262 */
-    60678,4,4, /* 14265 */
-    60688,5,5, /* 14268 */
-    60698,6,6, /* 14271 */
-    60727,0,3, /* 14274 */
-    60734,4,7, /* 14277 */
-    60741,8,11, /* 14280 */
-    60748,12,15, /* 14283 */
-    60755,16,19, /* 14286 */
-    60762,20,23, /* 14289 */
-    60769,24,27, /* 14292 */
-    60776,28,31, /* 14295 */
-    60783,32,35, /* 14298 */
-    60790,36,39, /* 14301 */
-    60797,40,43, /* 14304 */
-    60805,44,47, /* 14307 */
-    60813,48,51, /* 14310 */
-    60821,52,55, /* 14313 */
-    60829,56,59, /* 14316 */
-    60837,60,63, /* 14319 */
-    60863,0,5, /* 14322 */
-    60868,8,13, /* 14325 */
-    60873,16,21, /* 14328 */
-    30768,24,29, /* 14331 */
-    57267,32,37, /* 14334 */
-    57312,40,45, /* 14337 */
-    60878,48,53, /* 14340 */
-    60884,56,61, /* 14343 */
-    60890,44,44, /* 14346 */
-    60909,0,0, /* 14349 */
-    60916,1,1, /* 14352 */
-    60925,2,2, /* 14355 */
-    60955,32,37, /* 14358 */
-    60962,40,45, /* 14361 */
-    60969,14,14, /* 14364 */
-    60977,15,31, /* 14367 */
-    11690,0,2, /* 14370 */
-    60992,3,30, /* 14373 */
-    61025,0,2, /* 14376 */
-    61034,20,20, /* 14379 */
-    33587,16,25, /* 14382 */
-    33587,0,9, /* 14385 */
+    58903,28,28, /* 13737 */
+    58907,15,15, /* 13740 */
+    58913,22,22, /* 13743 */
+    58918,5,5, /* 13746 */
+    58922,6,6, /* 13749 */
+    58931,7,7, /* 13752 */
+    58939,8,8, /* 13755 */
+    58947,9,9, /* 13758 */
+    58956,10,10, /* 13761 */
+    58965,12,13, /* 13764 */
+    58969,6,6, /* 13767 */
+    58977,7,7, /* 13770 */
+    58988,8,8, /* 13773 */
+    58995,9,9, /* 13776 */
+    59002,17,17, /* 13779 */
+    59005,18,18, /* 13782 */
+    59010,19,19, /* 13785 */
+    59015,20,20, /* 13788 */
+    59020,21,21, /* 13791 */
+    59024,24,24, /* 13794 */
+    59032,24,24, /* 13797 */
+    59040,30,30, /* 13800 */
+    59048,8,11, /* 13803 */
+    59052,22,22, /* 13806 */
+    59056,23,23, /* 13809 */
+    59060,0,7, /* 13812 */
+    59066,8,10, /* 13815 */
+    59071,29,31, /* 13818 */
+    59080,2,2, /* 13821 */
+    59095,3,3, /* 13824 */
+    59125,0,0, /* 13827 */
+    59171,0,15, /* 13830 */
+    59177,16,31, /* 13833 */
+    59183,32,47, /* 13836 */
+    59189,48,63, /* 13839 */
+    55920,35,35, /* 13842 */
+    59195,7,7, /* 13845 */
+    59205,8,8, /* 13848 */
+    59215,4,5, /* 13851 */
+    59223,26,27, /* 13854 */
+    59250,0,63, /* 13857 */
+    59258,54,59, /* 13860 */
+    59273,60,61, /* 13863 */
+    59282,8,8, /* 13866 */
+    59295,9,9, /* 13869 */
+    59308,10,10, /* 13872 */
+    59322,4,4, /* 13875 */
+    59334,8,8, /* 13878 */
+    59346,9,9, /* 13881 */
+    558,57,62, /* 13884 */
+    59368,38,58, /* 13887 */
+    558,59,62, /* 13890 */
+    59383,32,53, /* 13893 */
+    59403,0,63, /* 13896 */
+    57984,43,43, /* 13899 */
+    30618,44,44, /* 13902 */
+    59411,45,45, /* 13905 */
+    59419,48,48, /* 13908 */
+    59437,49,55, /* 13911 */
+    59452,56,63, /* 13914 */
+    2923,0,5, /* 13917 */
+    59458,2,2, /* 13920 */
+    59463,23,23, /* 13923 */
+    59471,43,59, /* 13926 */
+    59486,60,60, /* 13929 */
+    59492,61,61, /* 13932 */
+    3213,0,9, /* 13935 */
+    3227,0,9, /* 13938 */
+    3328,48,49, /* 13941 */
+    59498,57,57, /* 13944 */
+    59513,58,58, /* 13947 */
+    3475,0,9, /* 13950 */
+    59517,10,17, /* 13953 */
+    59532,37,37, /* 13956 */
+    59537,40,40, /* 13959 */
+    59545,41,45, /* 13962 */
+    59560,57,59, /* 13965 */
+    59575,62,62, /* 13968 */
+    33587,0,3, /* 13971 */
+    59584,38,45, /* 13974 */
+    3804,0,9, /* 13977 */
+    3837,0,9, /* 13980 */
+    3554,1,9, /* 13983 */
+    59648,0,15, /* 13986 */
+    59653,16,31, /* 13989 */
+    59658,32,47, /* 13992 */
+    59663,48,63, /* 13995 */
+    2923,0,46, /* 13998 */
+    59757,61,61, /* 14001 */
+    59783,26,26, /* 14004 */
+    59793,27,27, /* 14007 */
+    8202,20,23, /* 14010 */
+    59820,0,1, /* 14013 */
+    59843,0,1, /* 14016 */
+    13663,16,31, /* 14019 */
+    13663,0,31, /* 14022 */
+    59875,44,48, /* 14025 */
+    59882,44,48, /* 14028 */
+    59897,16,19, /* 14031 */
+    51160,8,9, /* 14034 */
+    59931,0,17, /* 14037 */
+    59945,18,18, /* 14040 */
+    59951,19,19, /* 14043 */
+    10908,0,19, /* 14046 */
+    10924,0,19, /* 14049 */
+    10940,0,19, /* 14052 */
+    11980,0,47, /* 14055 */
+    11980,0,11, /* 14058 */
+    13249,32,41, /* 14061 */
+    13663,48,52, /* 14064 */
+    60000,53,57, /* 14067 */
+    5207,0,9, /* 14070 */
+    60015,59,59, /* 14073 */
+    60020,24,62, /* 14076 */
+    60035,63,63, /* 14079 */
+    60106,0,7, /* 14082 */
+    60112,16,31, /* 14085 */
+    16547,0,9, /* 14088 */
+    60118,37,46, /* 14091 */
+    60127,47,47, /* 14094 */
+    10908,0,62, /* 14097 */
+    8202,0,3, /* 14100 */
+    60146,36,47, /* 14103 */
+    60161,48,49, /* 14106 */
+    60171,50,58, /* 14109 */
+    60186,59,59, /* 14112 */
+    60198,60,60, /* 14115 */
+    60204,61,61, /* 14118 */
+    60213,62,62, /* 14121 */
+    60222,63,63, /* 14124 */
+    3374,0,46, /* 14127 */
+    60245,2,2, /* 14130 */
+    60255,3,3, /* 14133 */
+    60273,1,1, /* 14136 */
+    60280,2,2, /* 14139 */
+    60289,3,3, /* 14142 */
+    60296,4,4, /* 14145 */
+    60305,5,5, /* 14148 */
+    60313,7,7, /* 14151 */
+    60318,8,9, /* 14154 */
+    60327,10,10, /* 14157 */
+    60333,11,11, /* 14160 */
+    60340,14,14, /* 14163 */
+    60347,15,15, /* 14166 */
+    60354,16,28, /* 14169 */
+    11352,0,7, /* 14172 */
+    60378,8,12, /* 14175 */
+    60391,0,4, /* 14178 */
+    60398,8,12, /* 14181 */
+    60404,16,16, /* 14184 */
+    60412,20,21, /* 14187 */
+    60417,0,7, /* 14190 */
+    60424,8,13, /* 14193 */
+    5797,16,24, /* 14196 */
+    13496,32,39, /* 14199 */
+    60474,0,6, /* 14202 */
+    60479,7,7, /* 14205 */
+    60488,8,14, /* 14208 */
+    60493,15,15, /* 14211 */
+    60502,16,22, /* 14214 */
+    60507,23,23, /* 14217 */
+    60516,24,30, /* 14220 */
+    60521,31,31, /* 14223 */
+    60530,32,38, /* 14226 */
+    60535,39,39, /* 14229 */
+    60544,40,46, /* 14232 */
+    60549,47,47, /* 14235 */
+    60558,48,54, /* 14238 */
+    60563,55,55, /* 14241 */
+    60572,56,62, /* 14244 */
+    60577,63,63, /* 14247 */
+    34783,8,9, /* 14250 */
+    28340,16,19, /* 14253 */
+    60604,40,59, /* 14256 */
+    60619,60,60, /* 14259 */
+    60626,61,61, /* 14262 */
+    60632,62,62, /* 14265 */
+    60639,63,63, /* 14268 */
+    60646,53,54, /* 14271 */
+    60655,55,55, /* 14274 */
+    60663,29,32, /* 14277 */
+    60671,34,41, /* 14280 */
+    5207,0,13, /* 14283 */
+    60680,11,11, /* 14286 */
+    60688,27,28, /* 14289 */
+    60703,20,20, /* 14292 */
+    60712,21,21, /* 14295 */
+    60721,22,22, /* 14298 */
+    60730,23,23, /* 14301 */
+    60739,24,24, /* 14304 */
+    60748,25,25, /* 14307 */
+    60757,26,26, /* 14310 */
+    60766,27,27, /* 14313 */
+    60775,58,58, /* 14316 */
+    60785,59,59, /* 14319 */
+    60855,0,7, /* 14322 */
+    60863,8,15, /* 14325 */
+    60871,16,23, /* 14328 */
+    60879,24,31, /* 14331 */
+    60887,32,39, /* 14334 */
+    60895,40,47, /* 14337 */
+    60903,48,48, /* 14340 */
+    60910,49,49, /* 14343 */
+    60917,50,50, /* 14346 */
+    60924,51,51, /* 14349 */
+    60931,52,52, /* 14352 */
+    60938,53,53, /* 14355 */
+    60945,8,8, /* 14358 */
+    60952,4,4, /* 14361 */
+    60962,5,5, /* 14364 */
+    60972,6,6, /* 14367 */
+    61001,0,3, /* 14370 */
+    61008,4,7, /* 14373 */
+    61015,8,11, /* 14376 */
+    61022,12,15, /* 14379 */
+    61029,16,19, /* 14382 */
+    61036,20,23, /* 14385 */
+    61043,24,27, /* 14388 */
+    61050,28,31, /* 14391 */
+    61057,32,35, /* 14394 */
+    61064,36,39, /* 14397 */
+    61071,40,43, /* 14400 */
+    61079,44,47, /* 14403 */
+    61087,48,51, /* 14406 */
+    61095,52,55, /* 14409 */
+    61103,56,59, /* 14412 */
+    61111,60,63, /* 14415 */
+    61137,0,5, /* 14418 */
+    61142,8,13, /* 14421 */
+    61147,16,21, /* 14424 */
+    30768,24,29, /* 14427 */
+    57267,32,37, /* 14430 */
+    57312,40,45, /* 14433 */
+    61152,48,53, /* 14436 */
+    61158,56,61, /* 14439 */
+    61164,44,44, /* 14442 */
+    61183,0,0, /* 14445 */
+    61190,1,1, /* 14448 */
+    61199,2,2, /* 14451 */
+    61229,32,37, /* 14454 */
+    61236,40,45, /* 14457 */
+    61243,14,14, /* 14460 */
+    61251,15,31, /* 14463 */
+    11690,0,2, /* 14466 */
+    61266,3,30, /* 14469 */
+    61299,0,2, /* 14472 */
+    61308,20,20, /* 14475 */
+    33587,16,25, /* 14478 */
+    33587,0,9, /* 14481 */
 #endif
 };
 
@@ -20624,219 +20694,254 @@ const char __bdk_csr_db_string[] =
     "MIO_PTP_PPS_THRESH_HI\0" /* 58845 */
     "MIO_PTP_PPS_THRESH_LO\0" /* 58867 */
     "MIO_RST_CNTLX\0" /* 58889 */
-    "ASPM\0" /* 58903 */
-    "MFUNCN\0" /* 58908 */
-    "RESERVED_8_13\0" /* 58915 */
-    "PIP_VLAN_ETYPESX\0" /* 58929 */
-    "TYPE0\0" /* 58946 */
-    "TYPE1\0" /* 58952 */
-    "TYPE2\0" /* 58958 */
-    "TYPE3\0" /* 58964 */
-    "DIS_PERF2\0" /* 58970 */
-    "DIS_PERF3\0" /* 58980 */
-    "NGRPEXT\0" /* 58990 */
-    "RNGRPEXT\0" /* 58998 */
-    "SSO_ACTIVE_CYCLES\0" /* 59007 */
-    "ACT_CYC\0" /* 59025 */
-    "RESERVED_54_59\0" /* 59033 */
-    "ODU_PREF\0" /* 59048 */
-    "SSO_CCLK_DIS\0" /* 59057 */
-    "SOC_CCAM_DIS\0" /* 59070 */
-    "RWQ_ALLOC_DIS\0" /* 59083 */
-    "GWE_HVY_DIS\0" /* 59097 */
-    "ODU_BMP_DIS\0" /* 59109 */
-    "ODU_PRF_DIS\0" /* 59121 */
-    "SSO_RESET\0" /* 59133 */
-    "RESERVED_38_58\0" /* 59143 */
-    "ENA_PRD\0" /* 59158 */
-    "SYNCFLUSH_CAPABLE\0" /* 59166 */
-    "RESERVED_49_55\0" /* 59184 */
-    "NEXEC\0" /* 59199 */
-    "GMX1\0" /* 59205 */
-    "ASXPCS1\0" /* 59210 */
-    "RESERVED_43_59\0" /* 59218 */
-    "SRIO2\0" /* 59233 */
-    "SRIO3\0" /* 59239 */
-    "RESERVED_57_57\0" /* 59245 */
-    "MPI\0" /* 59260 */
-    "RESERVED_10_17\0" /* 59264 */
-    "AGX1\0" /* 59279 */
-    "DPI_DMA\0" /* 59284 */
-    "RESERVED_41_45\0" /* 59292 */
-    "RESERVED_57_59\0" /* 59307 */
-    "RIO_BELL\0" /* 59322 */
-    "RESERVED_38_45\0" /* 59331 */
-    "CIU_SOFT_PRST2\0" /* 59346 */
-    "CIU_SOFT_PRST3\0" /* 59361 */
-    "CIU_SRIO_BELL_MAPX\0" /* 59376 */
-    "MAC0\0" /* 59395 */
-    "MAC1\0" /* 59400 */
-    "MAC2\0" /* 59405 */
-    "MAC3\0" /* 59410 */
-    "CIU_SRIO_BELL_STATUS\0" /* 59415 */
-    "CIU_SUM1_IOX_INT\0" /* 59436 */
-    "CIU_SUM1_PPX_IP2\0" /* 59453 */
-    "CIU_SUM1_PPX_IP3\0" /* 59470 */
-    "CIU_SUM1_PPX_IP4\0" /* 59487 */
-    "DICI_MODE\0" /* 59504 */
-    "DPI_DMA_PPX_CNT\0" /* 59514 */
-    "SPRT2_RST\0" /* 59530 */
-    "SPRT3_RST\0" /* 59540 */
-    "DPI_SRIO_FWD_CTL\0" /* 59550 */
-    "PATH\0" /* 59567 */
-    "DPI_SRIO_RX_BELLX\0" /* 59572 */
-    "DPRIORITY\0" /* 59590 */
-    "DPI_SRIO_RX_BELL_SEQX\0" /* 59600 */
-    "RES_44\0" /* 59622 */
-    "RESERVED_44_48\0" /* 59629 */
-    "RATE\0" /* 59644 */
-    "GPIO_MULTI_CAST\0" /* 59649 */
-    "GPIO_PIN_ENA\0" /* 59665 */
-    "RESERVED_0_17\0" /* 59678 */
-    "ENA18\0" /* 59692 */
-    "ENA19\0" /* 59698 */
-    "GPIO_XBIT_CFGX\0" /* 59704 */
-    "IPD_PORT_BP_COUNTERS4_PAIRX\0" /* 59719 */
-    "RESERVED_53_57\0" /* 59747 */
-    "SCRZ\0" /* 59762 */
-    "RESERVED_24_62\0" /* 59767 */
-    "SCRAMBLE_ENA\0" /* 59782 */
-    "LMCX_SCRAMBLE_CFG0\0" /* 59795 */
-    "LMCX_SCRAMBLE_CFG1\0" /* 59814 */
-    "LMCX_SCRAMBLED_FADR\0" /* 59833 */
-    "USER0\0" /* 59853 */
-    "USER1\0" /* 59859 */
-    "ROM_INFO\0" /* 59865 */
-    "FUS118\0" /* 59874 */
-    "MIO_FUS_TGG\0" /* 59881 */
-    "RESERVED_36_47\0" /* 59893 */
-    "LBOOT_EXT\0" /* 59908 */
-    "RESERVED_50_58\0" /* 59918 */
-    "CKILL_PPDIS\0" /* 59933 */
-    "ROMEN\0" /* 59945 */
-    "EJTAGDIS\0" /* 59951 */
-    "JTCSRDIS\0" /* 59960 */
-    "CHIPKILL\0" /* 59969 */
-    "MIO_RST_CKILL\0" /* 59978 */
-    "RST_LINK2\0" /* 59992 */
-    "RST_LINK3\0" /* 60002 */
-    "MPI_CFG\0" /* 60012 */
-    "IDLELO\0" /* 60020 */
-    "CLK_CONT\0" /* 60027 */
-    "WIREOR\0" /* 60036 */
-    "LSBFIRST\0" /* 60043 */
-    "INT_ENA\0" /* 60052 */
-    "CSHI\0" /* 60060 */
-    "IDLECLKS\0" /* 60065 */
-    "TRITX\0" /* 60074 */
-    "CSLATE\0" /* 60080 */
-    "CSENA2\0" /* 60087 */
-    "CSENA3\0" /* 60094 */
-    "CLKDIV\0" /* 60101 */
-    "MPI_DATX\0" /* 60108 */
-    "MPI_STS\0" /* 60117 */
-    "RXNUM\0" /* 60125 */
-    "MPI_TX\0" /* 60131 */
-    "TOTNUM\0" /* 60138 */
-    "TXNUM\0" /* 60145 */
-    "LEAVECS\0" /* 60151 */
-    "CSID\0" /* 60159 */
-    "PIP_BSEL_EXT_CFGX\0" /* 60164 */
-    "PIP_BSEL_EXT_POSX\0" /* 60182 */
-    "POS0\0" /* 60200 */
-    "POS0_VAL\0" /* 60205 */
-    "POS1\0" /* 60214 */
-    "POS1_VAL\0" /* 60219 */
-    "POS2\0" /* 60228 */
-    "POS2_VAL\0" /* 60233 */
-    "POS3\0" /* 60242 */
-    "POS3_VAL\0" /* 60247 */
-    "POS4\0" /* 60256 */
-    "POS4_VAL\0" /* 60261 */
-    "POS5\0" /* 60270 */
-    "POS5_VAL\0" /* 60275 */
-    "POS6\0" /* 60284 */
-    "POS6_VAL\0" /* 60289 */
-    "POS7\0" /* 60298 */
-    "POS7_VAL\0" /* 60303 */
-    "PIP_BSEL_TBL_ENTX\0" /* 60312 */
-    "RESERVED_40_59\0" /* 60330 */
-    "QOS_EN\0" /* 60345 */
-    "TT_EN\0" /* 60352 */
-    "GRP_EN\0" /* 60358 */
-    "TAG_EN\0" /* 60365 */
-    "BSEL_NUM\0" /* 60372 */
-    "BSEL_EN\0" /* 60381 */
-    "QID_IDX\0" /* 60389 */
-    "QID_QQOS\0" /* 60397 */
-    "DIS_MAK\0" /* 60406 */
-    "RESERVED_27_28\0" /* 60414 */
-    "M2_UP_B0\0" /* 60429 */
-    "M2_UP_WI\0" /* 60438 */
-    "M2_UN_B0\0" /* 60447 */
-    "M2_UN_WI\0" /* 60456 */
-    "M3_UP_B0\0" /* 60465 */
-    "M3_UP_WI\0" /* 60474 */
-    "M3_UN_B0\0" /* 60483 */
-    "M3_UN_WI\0" /* 60492 */
-    "SPRT2_ERR\0" /* 60501 */
-    "SPRT3_ERR\0" /* 60511 */
-    "SLI_LAST_WIN_RDATA2\0" /* 60521 */
-    "SLI_LAST_WIN_RDATA3\0" /* 60541 */
-    "SLI_MAC_CREDIT_CNT2\0" /* 60561 */
-    "P2_PCNT\0" /* 60581 */
-    "P2_NCNT\0" /* 60589 */
-    "P2_CCNT\0" /* 60597 */
-    "P3_PCNT\0" /* 60605 */
-    "P3_NCNT\0" /* 60613 */
-    "P3_CCNT\0" /* 60621 */
-    "P2_P_D\0" /* 60629 */
-    "P2_N_D\0" /* 60636 */
-    "P2_C_D\0" /* 60643 */
-    "P3_P_D\0" /* 60650 */
-    "P3_N_D\0" /* 60657 */
-    "P3_C_D\0" /* 60664 */
-    "A_MODE\0" /* 60671 */
-    "DENY_ADR0\0" /* 60678 */
-    "DENY_ADR1\0" /* 60688 */
-    "DENY_ADR2\0" /* 60698 */
-    "SRIOX_BELL_LOOKUPX\0" /* 60708 */
-    "ENTRY0\0" /* 60727 */
-    "ENTRY1\0" /* 60734 */
-    "ENTRY2\0" /* 60741 */
-    "ENTRY3\0" /* 60748 */
-    "ENTRY4\0" /* 60755 */
-    "ENTRY5\0" /* 60762 */
-    "ENTRY6\0" /* 60769 */
-    "ENTRY7\0" /* 60776 */
-    "ENTRY8\0" /* 60783 */
-    "ENTRY9\0" /* 60790 */
-    "ENTRY10\0" /* 60797 */
-    "ENTRY11\0" /* 60805 */
-    "ENTRY12\0" /* 60813 */
-    "ENTRY13\0" /* 60821 */
-    "ENTRY14\0" /* 60829 */
-    "ENTRY15\0" /* 60837 */
-    "SRIOX_BELL_SELECT\0" /* 60845 */
-    "IDX0\0" /* 60863 */
-    "IDX1\0" /* 60868 */
-    "IDX2\0" /* 60873 */
-    "ADDR2\0" /* 60878 */
-    "ADDR3\0" /* 60884 */
-    "LRAM\0" /* 60890 */
-    "SRIOX_FWD_CTL\0" /* 60895 */
-    "FWD_EN\0" /* 60909 */
-    "FWD_TYPE\0" /* 60916 */
-    "FWD_RDY\0" /* 60925 */
-    "SRIOX_IMSG_VPORT_THR2\0" /* 60933 */
-    "MAX_S2\0" /* 60955 */
-    "MAX_S3\0" /* 60962 */
-    "NO_VMIN\0" /* 60969 */
-    "RESERVED_15_31\0" /* 60977 */
-    "RESERVED_3_30\0" /* 60992 */
-    "SRIOX_RX_BELL_CTRL\0" /* 61006 */
-    "NUM_FIFO\0" /* 61025 */
-    "SEC_SPF\0" /* 61034 */
+    "FLR\0" /* 58903 */
+    "I_FLR\0" /* 58907 */
+    "ASPM\0" /* 58913 */
+    "ARI\0" /* 58918 */
+    "ATOM_OPS\0" /* 58922 */
+    "ATOM32S\0" /* 58931 */
+    "ATOM64S\0" /* 58939 */
+    "ATOM128S\0" /* 58947 */
+    "NOROPRPR\0" /* 58956 */
+    "TPH\0" /* 58965 */
+    "ATOM_OP\0" /* 58969 */
+    "ATOM_OP_EB\0" /* 58977 */
+    "ID0_RQ\0" /* 58988 */
+    "ID0_CP\0" /* 58995 */
+    "EQ\0" /* 59002 */
+    "EP1S\0" /* 59005 */
+    "EP2S\0" /* 59010 */
+    "EP3S\0" /* 59015 */
+    "LER\0" /* 59020 */
+    "UATOMBS\0" /* 59024 */
+    "UATOMBM\0" /* 59032 */
+    "EASPML1\0" /* 59040 */
+    "DLR\0" /* 59048 */
+    "ECL\0" /* 59052 */
+    "CLA\0" /* 59056 */
+    "MFUNC\0" /* 59060 */
+    "NSKP\0" /* 59066 */
+    "CX_NFUNC\0" /* 59071 */
+    "M_DABORT_4UCPL\0" /* 59080 */
+    "M_HANDLE_FLUSH\0" /* 59095 */
+    "PCIEEPX_CFG457\0" /* 59110 */
+    "E_AMBA_MODNSR\0" /* 59125 */
+    "PCIERCX_CFG457\0" /* 59139 */
+    "PIP_VLAN_ETYPESX\0" /* 59154 */
+    "TYPE0\0" /* 59171 */
+    "TYPE1\0" /* 59177 */
+    "TYPE2\0" /* 59183 */
+    "TYPE3\0" /* 59189 */
+    "DIS_PERF2\0" /* 59195 */
+    "DIS_PERF3\0" /* 59205 */
+    "NGRPEXT\0" /* 59215 */
+    "RNGRPEXT\0" /* 59223 */
+    "SSO_ACTIVE_CYCLES\0" /* 59232 */
+    "ACT_CYC\0" /* 59250 */
+    "RESERVED_54_59\0" /* 59258 */
+    "ODU_PREF\0" /* 59273 */
+    "SSO_CCLK_DIS\0" /* 59282 */
+    "SOC_CCAM_DIS\0" /* 59295 */
+    "RWQ_ALLOC_DIS\0" /* 59308 */
+    "GWE_HVY_DIS\0" /* 59322 */
+    "ODU_BMP_DIS\0" /* 59334 */
+    "ODU_PRF_DIS\0" /* 59346 */
+    "SSO_RESET\0" /* 59358 */
+    "RESERVED_38_58\0" /* 59368 */
+    "THLD_GP\0" /* 59383 */
+    "TIM_GPIO_EN\0" /* 59391 */
+    "GPIO_EN\0" /* 59403 */
+    "ENA_PRD\0" /* 59411 */
+    "SYNCFLUSH_CAPABLE\0" /* 59419 */
+    "RESERVED_49_55\0" /* 59437 */
+    "NEXEC\0" /* 59452 */
+    "GMX1\0" /* 59458 */
+    "ASXPCS1\0" /* 59463 */
+    "RESERVED_43_59\0" /* 59471 */
+    "SRIO2\0" /* 59486 */
+    "SRIO3\0" /* 59492 */
+    "RESERVED_57_57\0" /* 59498 */
+    "MPI\0" /* 59513 */
+    "RESERVED_10_17\0" /* 59517 */
+    "AGX1\0" /* 59532 */
+    "DPI_DMA\0" /* 59537 */
+    "RESERVED_41_45\0" /* 59545 */
+    "RESERVED_57_59\0" /* 59560 */
+    "RIO_BELL\0" /* 59575 */
+    "RESERVED_38_45\0" /* 59584 */
+    "CIU_SOFT_PRST2\0" /* 59599 */
+    "CIU_SOFT_PRST3\0" /* 59614 */
+    "CIU_SRIO_BELL_MAPX\0" /* 59629 */
+    "MAC0\0" /* 59648 */
+    "MAC1\0" /* 59653 */
+    "MAC2\0" /* 59658 */
+    "MAC3\0" /* 59663 */
+    "CIU_SRIO_BELL_STATUS\0" /* 59668 */
+    "CIU_SUM1_IOX_INT\0" /* 59689 */
+    "CIU_SUM1_PPX_IP2\0" /* 59706 */
+    "CIU_SUM1_PPX_IP3\0" /* 59723 */
+    "CIU_SUM1_PPX_IP4\0" /* 59740 */
+    "DICI_MODE\0" /* 59757 */
+    "DPI_DMA_PPX_CNT\0" /* 59767 */
+    "SPRT2_RST\0" /* 59783 */
+    "SPRT3_RST\0" /* 59793 */
+    "DPI_SRIO_FWD_CTL\0" /* 59803 */
+    "PATH\0" /* 59820 */
+    "DPI_SRIO_RX_BELLX\0" /* 59825 */
+    "DPRIORITY\0" /* 59843 */
+    "DPI_SRIO_RX_BELL_SEQX\0" /* 59853 */
+    "RES_44\0" /* 59875 */
+    "RESERVED_44_48\0" /* 59882 */
+    "RATE\0" /* 59897 */
+    "GPIO_MULTI_CAST\0" /* 59902 */
+    "GPIO_PIN_ENA\0" /* 59918 */
+    "RESERVED_0_17\0" /* 59931 */
+    "ENA18\0" /* 59945 */
+    "ENA19\0" /* 59951 */
+    "GPIO_XBIT_CFGX\0" /* 59957 */
+    "IPD_PORT_BP_COUNTERS4_PAIRX\0" /* 59972 */
+    "RESERVED_53_57\0" /* 60000 */
+    "SCRZ\0" /* 60015 */
+    "RESERVED_24_62\0" /* 60020 */
+    "SCRAMBLE_ENA\0" /* 60035 */
+    "LMCX_SCRAMBLE_CFG0\0" /* 60048 */
+    "LMCX_SCRAMBLE_CFG1\0" /* 60067 */
+    "LMCX_SCRAMBLED_FADR\0" /* 60086 */
+    "USER0\0" /* 60106 */
+    "USER1\0" /* 60112 */
+    "ROM_INFO\0" /* 60118 */
+    "FUS118\0" /* 60127 */
+    "MIO_FUS_TGG\0" /* 60134 */
+    "RESERVED_36_47\0" /* 60146 */
+    "LBOOT_EXT\0" /* 60161 */
+    "RESERVED_50_58\0" /* 60171 */
+    "CKILL_PPDIS\0" /* 60186 */
+    "ROMEN\0" /* 60198 */
+    "EJTAGDIS\0" /* 60204 */
+    "JTCSRDIS\0" /* 60213 */
+    "CHIPKILL\0" /* 60222 */
+    "MIO_RST_CKILL\0" /* 60231 */
+    "RST_LINK2\0" /* 60245 */
+    "RST_LINK3\0" /* 60255 */
+    "MPI_CFG\0" /* 60265 */
+    "IDLELO\0" /* 60273 */
+    "CLK_CONT\0" /* 60280 */
+    "WIREOR\0" /* 60289 */
+    "LSBFIRST\0" /* 60296 */
+    "INT_ENA\0" /* 60305 */
+    "CSHI\0" /* 60313 */
+    "IDLECLKS\0" /* 60318 */
+    "TRITX\0" /* 60327 */
+    "CSLATE\0" /* 60333 */
+    "CSENA2\0" /* 60340 */
+    "CSENA3\0" /* 60347 */
+    "CLKDIV\0" /* 60354 */
+    "MPI_DATX\0" /* 60361 */
+    "MPI_STS\0" /* 60370 */
+    "RXNUM\0" /* 60378 */
+    "MPI_TX\0" /* 60384 */
+    "TOTNUM\0" /* 60391 */
+    "TXNUM\0" /* 60398 */
+    "LEAVECS\0" /* 60404 */
+    "CSID\0" /* 60412 */
+    "MFUNCN\0" /* 60417 */
+    "RESERVED_8_13\0" /* 60424 */
+    "PIP_BSEL_EXT_CFGX\0" /* 60438 */
+    "PIP_BSEL_EXT_POSX\0" /* 60456 */
+    "POS0\0" /* 60474 */
+    "POS0_VAL\0" /* 60479 */
+    "POS1\0" /* 60488 */
+    "POS1_VAL\0" /* 60493 */
+    "POS2\0" /* 60502 */
+    "POS2_VAL\0" /* 60507 */
+    "POS3\0" /* 60516 */
+    "POS3_VAL\0" /* 60521 */
+    "POS4\0" /* 60530 */
+    "POS4_VAL\0" /* 60535 */
+    "POS5\0" /* 60544 */
+    "POS5_VAL\0" /* 60549 */
+    "POS6\0" /* 60558 */
+    "POS6_VAL\0" /* 60563 */
+    "POS7\0" /* 60572 */
+    "POS7_VAL\0" /* 60577 */
+    "PIP_BSEL_TBL_ENTX\0" /* 60586 */
+    "RESERVED_40_59\0" /* 60604 */
+    "QOS_EN\0" /* 60619 */
+    "TT_EN\0" /* 60626 */
+    "GRP_EN\0" /* 60632 */
+    "TAG_EN\0" /* 60639 */
+    "BSEL_NUM\0" /* 60646 */
+    "BSEL_EN\0" /* 60655 */
+    "QID_IDX\0" /* 60663 */
+    "QID_QQOS\0" /* 60671 */
+    "DIS_MAK\0" /* 60680 */
+    "RESERVED_27_28\0" /* 60688 */
+    "M2_UP_B0\0" /* 60703 */
+    "M2_UP_WI\0" /* 60712 */
+    "M2_UN_B0\0" /* 60721 */
+    "M2_UN_WI\0" /* 60730 */
+    "M3_UP_B0\0" /* 60739 */
+    "M3_UP_WI\0" /* 60748 */
+    "M3_UN_B0\0" /* 60757 */
+    "M3_UN_WI\0" /* 60766 */
+    "SPRT2_ERR\0" /* 60775 */
+    "SPRT3_ERR\0" /* 60785 */
+    "SLI_LAST_WIN_RDATA2\0" /* 60795 */
+    "SLI_LAST_WIN_RDATA3\0" /* 60815 */
+    "SLI_MAC_CREDIT_CNT2\0" /* 60835 */
+    "P2_PCNT\0" /* 60855 */
+    "P2_NCNT\0" /* 60863 */
+    "P2_CCNT\0" /* 60871 */
+    "P3_PCNT\0" /* 60879 */
+    "P3_NCNT\0" /* 60887 */
+    "P3_CCNT\0" /* 60895 */
+    "P2_P_D\0" /* 60903 */
+    "P2_N_D\0" /* 60910 */
+    "P2_C_D\0" /* 60917 */
+    "P3_P_D\0" /* 60924 */
+    "P3_N_D\0" /* 60931 */
+    "P3_C_D\0" /* 60938 */
+    "A_MODE\0" /* 60945 */
+    "DENY_ADR0\0" /* 60952 */
+    "DENY_ADR1\0" /* 60962 */
+    "DENY_ADR2\0" /* 60972 */
+    "SRIOX_BELL_LOOKUPX\0" /* 60982 */
+    "ENTRY0\0" /* 61001 */
+    "ENTRY1\0" /* 61008 */
+    "ENTRY2\0" /* 61015 */
+    "ENTRY3\0" /* 61022 */
+    "ENTRY4\0" /* 61029 */
+    "ENTRY5\0" /* 61036 */
+    "ENTRY6\0" /* 61043 */
+    "ENTRY7\0" /* 61050 */
+    "ENTRY8\0" /* 61057 */
+    "ENTRY9\0" /* 61064 */
+    "ENTRY10\0" /* 61071 */
+    "ENTRY11\0" /* 61079 */
+    "ENTRY12\0" /* 61087 */
+    "ENTRY13\0" /* 61095 */
+    "ENTRY14\0" /* 61103 */
+    "ENTRY15\0" /* 61111 */
+    "SRIOX_BELL_SELECT\0" /* 61119 */
+    "IDX0\0" /* 61137 */
+    "IDX1\0" /* 61142 */
+    "IDX2\0" /* 61147 */
+    "ADDR2\0" /* 61152 */
+    "ADDR3\0" /* 61158 */
+    "LRAM\0" /* 61164 */
+    "SRIOX_FWD_CTL\0" /* 61169 */
+    "FWD_EN\0" /* 61183 */
+    "FWD_TYPE\0" /* 61190 */
+    "FWD_RDY\0" /* 61199 */
+    "SRIOX_IMSG_VPORT_THR2\0" /* 61207 */
+    "MAX_S2\0" /* 61229 */
+    "MAX_S3\0" /* 61236 */
+    "NO_VMIN\0" /* 61243 */
+    "RESERVED_15_31\0" /* 61251 */
+    "RESERVED_3_30\0" /* 61266 */
+    "SRIOX_RX_BELL_CTRL\0" /* 61280 */
+    "NUM_FIFO\0" /* 61299 */
+    "SEC_SPF\0" /* 61308 */
 #endif
     "";
 
@@ -22396,43 +22501,44 @@ const uint64_t __bdk_csr_db_number[] = {
        0x1070000000f58ull, /* 1551 */
        0x1070000000f50ull, /* 1552 */
        0x1180000001648ull, /* 1553 */
-       0x11800a00001c0ull, /* 1554 */
-       0x16700000010e8ull, /* 1555 */
-       0x16700000010f0ull, /* 1556 */
-       0x10700000007d8ull, /* 1557 */
-       0x107000000c100ull, /* 1558 */
-       0x107000000c000ull, /* 1559 */
-       0x1070000008600ull, /* 1560 */
-       0x1070000008000ull, /* 1561 */
-       0x1070000008200ull, /* 1562 */
-       0x1070000008400ull, /* 1563 */
-       0x1df0000000b00ull, /* 1564 */
-       0x1df0000080000ull, /* 1565 */
-       0x1df0000080200ull, /* 1566 */
-       0x1df0000080400ull, /* 1567 */
-       0x10700000008b0ull, /* 1568 */
-       0x10700000008b8ull, /* 1569 */
-       0x14f00000002b0ull, /* 1570 */
-       0x1180088000320ull, /* 1571 */
-       0x1180088000328ull, /* 1572 */
-       0x1180088000330ull, /* 1573 */
-       0x1180000001428ull, /* 1574 */
-       0x1180000001638ull, /* 1575 */
-       0x1070000001000ull, /* 1576 */
-       0x1070000001080ull, /* 1577 */
-       0x1070000001008ull, /* 1578 */
-       0x1070000001010ull, /* 1579 */
-       0x11800a0002800ull, /* 1580 */
-       0x11800a0002808ull, /* 1581 */
-       0x11800a0003000ull, /* 1582 */
-       0x11f00000106c0ull, /* 1583 */
-       0x11f00000106d0ull, /* 1584 */
-       0x11f0000013e10ull, /* 1585 */
-       0x11800c8000800ull, /* 1586 */
-       0x11800c8000320ull, /* 1587 */
-       0x11800c8000220ull, /* 1588 */
-       0x11800c8000528ull, /* 1589 */
-       0x11800c8000318ull, /* 1590 */
+                 0x724ull, /* 1554 */
+       0x11800a00001c0ull, /* 1555 */
+       0x16700000010e8ull, /* 1556 */
+       0x16700000010f0ull, /* 1557 */
+       0x10700000007d8ull, /* 1558 */
+       0x107000000c100ull, /* 1559 */
+       0x107000000c000ull, /* 1560 */
+       0x1070000008600ull, /* 1561 */
+       0x1070000008000ull, /* 1562 */
+       0x1070000008200ull, /* 1563 */
+       0x1070000008400ull, /* 1564 */
+       0x1df0000000b00ull, /* 1565 */
+       0x1df0000080000ull, /* 1566 */
+       0x1df0000080200ull, /* 1567 */
+       0x1df0000080400ull, /* 1568 */
+       0x10700000008b0ull, /* 1569 */
+       0x10700000008b8ull, /* 1570 */
+       0x14f00000002b0ull, /* 1571 */
+       0x1180088000320ull, /* 1572 */
+       0x1180088000328ull, /* 1573 */
+       0x1180088000330ull, /* 1574 */
+       0x1180000001428ull, /* 1575 */
+       0x1180000001638ull, /* 1576 */
+       0x1070000001000ull, /* 1577 */
+       0x1070000001080ull, /* 1578 */
+       0x1070000001008ull, /* 1579 */
+       0x1070000001010ull, /* 1580 */
+       0x11800a0002800ull, /* 1581 */
+       0x11800a0002808ull, /* 1582 */
+       0x11800a0003000ull, /* 1583 */
+       0x11f00000106c0ull, /* 1584 */
+       0x11f00000106d0ull, /* 1585 */
+       0x11f0000013e10ull, /* 1586 */
+       0x11800c8000800ull, /* 1587 */
+       0x11800c8000320ull, /* 1588 */
+       0x11800c8000220ull, /* 1589 */
+       0x11800c8000528ull, /* 1590 */
+       0x11800c8000318ull, /* 1591 */
 #endif
 };
 
