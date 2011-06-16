@@ -274,7 +274,7 @@ static struct netif *netstack_find_by_name(const char *name, int allow_add)
         ip_addr_t netmask = {0xffffff00};
         ip_addr_t gw = {0x0a000001};
 
-        if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, ethernet_input))
+        if (netifapi_netif_add(netif, &ipaddr, &netmask, &gw, handle, netstack_netif_init, tcpip_input))
         {
             bdk_error("netstack_find_by_name: netifapi_netif_add failed\n");
             free(netif);
