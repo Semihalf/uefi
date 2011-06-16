@@ -59,12 +59,6 @@ caddr_t sbrk(int incr)
         uint64_t start_paddr = bdk_ptr_to_phys(ptr);
         next = bdk_phys_to_ptr(start_paddr);
         end = bdk_phys_to_ptr(l2_size);
-        if (next > end)
-        {
-            /* We must have been loaded by uboot into memory. Make the heap
-                bigger as memory is already setup */
-            end = next + (16<<20); // FIXME: Need to handle real memory size
-        }
     }
 
     /* See of DRAM was setup and we can use more memory */
