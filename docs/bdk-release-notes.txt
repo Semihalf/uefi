@@ -1,0 +1,63 @@
+//
+// This is a asciidoc document. Edit here, but view the HTML
+//
+
+Bringup and Diagnostic Kit (BDK) Release Notes
+==============================================
+
+Overview
+--------
+This document gives a short overview of the major changes
+incorporated into each BDK release.
+
+
+octeon-bdk-2011.06-latest (~61430)
+---------------------------------
+
+* Decode register from high bit to low bit, not low to high. This
+	matches the documentation better.
+* Update DDR menu to allow setting any environment variables.
+* Implement SRIOMAINT read and write for the remote utilities.
+* Improve SRIO messaging performance.
+* Reduce buffer size to save memory and have more packet buffers.
+	With a size of (256+128), PKO will be limited to 23688 bytes
+	(63 * (256+128-8)). Buffers are now roughly 1/4 the size they
+	were before. Double the number of buffers.
+* Redo packet receive handling to use a dispatcher that runs on all cores.
+* Display the number of free packets in traffic-gen.
+* Implement SRIO memory read/write.
+* Add methods for bit insert and extract in bit64.
+* Buffer characters read while we poll for Control-C. This should stop
+	us from dropping characters while traffic-gen updates the screen.
+* Update traffic-gen to support packets all the way down to one byte
+	for interfaces that can support it (SRIO, LOOP).
+* Update SGMII code to report speed based on QLM clock instead of hard
+	coded 1Gbps
+* Update CN63XX to calculate the XAUI speed based on the QLM
+	rate instead of hard coding 10Gbps.
+* Preliminary and untested support for CN66XX.
+
+
+octeon-bdk-2011.05-r60866
+-------------------------
+
+* Improvements to RPC marshalling to handle arbitrary strings.
+* Check for link training while waiting for PCIe link. This fixes an issue
+	where gen2 speeds were sometimes reported when the link was actually
+	gen1.
+* Allow choosing menu items based on their internal key. Unlike the
+	numbers, these don't change when items are added to the menu. The
+	special word "keys" turns on/off the display of the keys. This
+	should make it easier to script the menus.
+* Initial support for QLM diagnostics such as PRBS.
+* Add binary flag to all TFTP client documentation examples. Some clients
+	defaults to doing line conversions, causing corruption.
+* Support for CN63XX pass 2.2.
+* Improvements in the telnet server and TCP/IP connections.
+* Add support for passing booleans into C functions.
+
+octeon-bdk-2011.05-r60390
+-------------------------
+
+* Change logs are not published for this version and previous versions.
+

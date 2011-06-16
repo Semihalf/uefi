@@ -62,6 +62,7 @@ Other Documents
 * link:lua/readme.html[Documentation for Lua]
 * link:lua/contents.html[Lua Reference]
 * link:bdk-internals.html[Bringup and Diagnostic Kit (BDK) Internals]
+* link:bdk-release-notes.html[Bringup and Diagnostic Kit (BDK) Release Notes]
 
 
 Development Environment Setup
