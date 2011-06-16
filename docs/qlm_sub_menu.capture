@@ -3,16 +3,16 @@ QLM2 Menu
 =================================
  1) QLM2: Show configuration
  2) QLM2: Measure clock
- 3) QLM2: Reset and power down
- 4) QLM2: Shallow loopback lane 0 and 3
- 5) QLM2: Shallow loopback lane 1 and 2
- 6) QLM2: PRBS7
- 7) QLM2: PRBS15
- 8) QLM2: PRBS23
- 9) QLM2: PRBS31
-10) QLM2: Read JTAG field
-11) QLM2: Write JTAG field
-12) QLM2: Dump JTAG chain
-13) QLM2: Change de-emphasis and margin
+ 3) QLM2: Change de-emphasis and margin
+ 4) QLM2: Reset and power down
+ 5) QLM2: Shallow loopback lane 0 and 3
+ 6) QLM2: Shallow loopback lane 1 and 2
+ 7) QLM2: PRBS7
+ 8) QLM2: PRBS15
+ 9) QLM2: PRBS23
+10) QLM2: PRBS31
+11) QLM2: Read JTAG field
+12) QLM2: Write JTAG field
+13) QLM2: Dump JTAG chain
 14) Main menu
 

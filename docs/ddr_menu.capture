@@ -8,10 +8,10 @@ DDR Menu
  5) Display current DDR config
  6) Change DDR clock frequency
  7) Set SPD TWSI addresses
- 8) Enable verbose output
- 9) Disable verbose output
-10) Initialize DDR controller using current config
-11) Test DDR from 64MB to 128MB
-12) Test DDR over a specified range
-13) Main menu
-
+ 8) Toggle verbose output (Currently OFF)
+ 9) Set environment variable
+10) Get environment variable
+11) Initialize DDR controller using current config
+12) Test DDR from 64MB to 128MB
+13) Test DDR over a specified range
+14) Main menu

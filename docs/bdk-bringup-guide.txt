@@ -586,6 +586,11 @@ Measures the clock rate of the QLM's reference clock, using OCTEON's
 clock as a reference.  Verify that the reported value is correct for
 the QLM configuration.
 
+QLM#: Change de-emphasis and margin::
+
+Allows manual configuration of the QLM de-emphasis and margin
+(amplitude).
+
 QLM#: Reset and power down::
 
 Places the QLM into a low power reset state.
@@ -615,11 +620,6 @@ QLM#: Write JTAG field::
 Provides a low level interface for controlling fields internal to the
 QLM.  Only use this option at the specific direction of Cavium
 technical support.
-
-QLM#: Change de-emphasis and margin::
-
-Allows manual configuration of the QLM de-emphasis and margin
-(amplitude).
 
 
 Step 8 - Test the RGMII/MII Management Ports
