@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+#define MAX_REPORT_ERRORS 100
+
 /**
  * Convert a test enumeration into a string
  *
@@ -64,7 +66,8 @@ static int __bdk_dram_test_sequencial_write_read(uint64_t start_address, uint64_
         uint64_t received = *ptr;
         if (received != (uint64_t)ptr)
         {
-            __bdk_dram_report_error(BDK_DRAM_TEST_SEQUENCIAL_WRITE_READ, bdk_ptr_to_phys(ptr), (uint64_t)ptr, received);
+            if (errors < MAX_REPORT_ERRORS)
+                __bdk_dram_report_error(BDK_DRAM_TEST_SEQUENCIAL_WRITE_READ, bdk_ptr_to_phys(ptr), (uint64_t)ptr, received);
             errors++;
         }
     }
@@ -127,7 +130,8 @@ static int __bdk_dram_test_random_xor(uint64_t start_address, uint64_t length)
             uint64_t d2 = *p2;
             if (d1 != d2)
             {
-                __bdk_dram_report_error(BDK_DRAM_TEST_RANDOM_XOR, bdk_ptr_to_phys(p2), d1, d2);
+                if (errors < MAX_REPORT_ERRORS)
+                    __bdk_dram_report_error(BDK_DRAM_TEST_RANDOM_XOR, bdk_ptr_to_phys(p2), d1, d2);
                 /* Synchronize the two areas, adjusting for the error. */
                 *p1 = d2;
                 errors++;
