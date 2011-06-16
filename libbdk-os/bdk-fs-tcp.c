@@ -3,6 +3,8 @@
 #include <lwip/sockets.h>
 #include <lwip/netdb.h>
 
+static bdk_spinlock_t lock;
+
 static void *tcp_open(const char *name, int flags)
 {
     /* As a special hack for sockets that are already created, a name which
@@ -31,9 +33,11 @@ static void *tcp_open(const char *name, int flags)
     *port = 0;
     port++;
 
+    bdk_spinlock_lock(&lock);
     int status = lwip_getaddrinfo(nodename, port, NULL, &addr);
     if (status)
     {
+        bdk_spinlock_unlock(&lock);
         bdk_error("lwip_getaddrinfo() failed\n");
         free(nodename);
         errno = status;
@@ -44,6 +48,7 @@ static void *tcp_open(const char *name, int flags)
     int sock = lwip_socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
     {
+        bdk_spinlock_unlock(&lock);
         bdk_error("lwip_socket() failed\n");
         free(addr);
         return NULL;
@@ -53,10 +58,12 @@ static void *tcp_open(const char *name, int flags)
     free(addr);
     if (status)
     {
-        bdk_error("lwip_connect() failed\n");
         lwip_close(sock);
+        bdk_spinlock_unlock(&lock);
+        bdk_error("lwip_connect() failed\n");
         return NULL;
     }
+    bdk_spinlock_unlock(&lock);
 
     return (void*)(long)(sock + 1);
 }
@@ -65,24 +72,34 @@ static void *tcp_open(const char *name, int flags)
 static int tcp_close(__bdk_fs_file_t *handle)
 {
     int sock = (long)handle->fs_state - 1;
-    return lwip_close(sock);
+    bdk_spinlock_lock(&lock);
+    int status = lwip_close(sock);
+    bdk_spinlock_unlock(&lock);
+    return status;
 }
 
 
 static int tcp_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int sock = (long)handle->fs_state - 1;
+    bdk_spinlock_lock(&lock);
+    int bytes;
     if (length == 1)
-        return lwip_recvfrom(sock, buffer, length, MSG_DONTWAIT, NULL, NULL);
+        bytes = lwip_recvfrom(sock, buffer, length, MSG_DONTWAIT, NULL, NULL);
     else
-        return lwip_recvfrom(sock, buffer, length, 0, NULL, NULL);
+        bytes = lwip_recvfrom(sock, buffer, length, 0, NULL, NULL);
+    bdk_spinlock_unlock(&lock);
+    return bytes;
 }
 
 
 static int tcp_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     int sock = (long)handle->fs_state - 1;
-    return lwip_write(sock, buffer, length);
+    bdk_spinlock_lock(&lock);
+    int bytes = lwip_write(sock, buffer, length);
+    bdk_spinlock_unlock(&lock);
+    return bytes;
 }
 
 static const __bdk_fs_ops_t bdk_fs_tcp_ops =
@@ -98,5 +115,6 @@ static const __bdk_fs_ops_t bdk_fs_tcp_ops =
 
 int bdk_fs_tcp_init(void)
 {
+    bdk_spinlock_init(&lock);
     return bdk_fs_register("/tcp/", &bdk_fs_tcp_ops);
 }
