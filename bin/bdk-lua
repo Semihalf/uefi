@@ -6,7 +6,7 @@ then
     return 1
 fi
 
-LUA_BIN=${BDK_ROOT}/utils/bdk-lua/bdk-lua
+LUA_BIN=${BDK_ROOT}/bin/bdk-lua-x86
 
 if [ ! -x "${LUA_BIN}" ]
 then
