@@ -15,6 +15,12 @@ require("rpc")
 
 -- Do nothing if octeon is already defined
 if isglobal("octeon") then
+    if not octeon.devopen then
+        function octeon.devopen(name, ...)
+            assert(name:sub(1,5) == "/dev/", "Device files must start with /dev/")
+            return io.open(name, ...)
+        end
+    end
     return octeon
 end
 
@@ -73,6 +79,11 @@ octeon.trafficgen = shallow_copy(remote_octeon.trafficgen)
 
 --- Make a local copy of the perf member
 octeon.perf = shallow_copy(remote_octeon.perf)
+
+function octeon.devopen(name, ...)
+    assert(name:sub(1,5) == "/dev/", "Device files must start with /dev/")
+    return octeon.global.io.open(name, ...)
+end
 
 return octeon
 

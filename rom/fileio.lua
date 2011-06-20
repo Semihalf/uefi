@@ -15,7 +15,12 @@ function fileio.open(filename, mode, seek_to)
     assert(type(filename) == "string")
     assert(type(mode) == "string")
     assert((seek_to == nil) or tonumber(seek_to))
-    local handle = assert(io.open(filename, mode))
+    local handle
+    if filename:sub(1,5) == "/dev/" then
+        handle = assert(octeon.devopen(filename, mode))
+    else
+        handle = assert(io.open(filename, mode))
+    end
     if seek_to then
         local loc = handle:seek("set", seek_to)
         if not loc then
