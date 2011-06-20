@@ -509,7 +509,8 @@ Pos      Name    Type     Value     Value       Description
                                                          or equal to the Multiple Message Capable value.
  <23>    M64             RO/WRSL  0x1         0x1       64-bit Address Capable, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
- <31:24> NS              RAZ      NS          NS        Reserved
+ <24>    PVM             RO       0x0         0x0       Per-vector masking capable
+ <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -694,7 +695,7 @@ Pos      Name    Type     Value     Value       Description
 							      also must be set properly.
                                                               SLI_S2M_PORT#_CTL[MRRS] and DPI_SLI_PRT#_CFG[MRRS] must
                                                               not exceed the desired max read request size.
- <15>    I_FLR           R/W      0x0         0x0       Initiate Function Level Reset
+ <15>    I_FLR           RO       0x0         0x0       Initiate Function Level Reset
 							 (Not Supported)
  <16>    CE_D            R/W1C    0x0         0x0       Correctable Error Detected
                                                          Errors are logged in this register regardless of whether
@@ -779,6 +780,7 @@ Pos      Name    Type     Value     Value       Description
                                                          Not supported, hardwired to 0x0.
  <20>    DLLARC          RO       0x0         0x0       Data Link Layer Active Reporting Capable
  <21>    LBNC            RO       0x0         0x0       Link Bandwidth Notification Capability
+                                                         Set 0 for Endpoint devices.
  <22>    ASPM            RO/WRSL  0x1         0x1       ASPM Optionality Compliance
  <23>    NS              RAZ      NS          NS        Reserved
  <31:24> PNUM            RO/WRSL  0x0         0x0       Port Number
@@ -816,14 +818,12 @@ Pos      Name    Type     Value     Value       Description
  <8>     ECPM            R/W      0x0         0x0       Enable Clock Power Management
                                                          Hardwired to 0 if Clock Power Management is disabled in
                                                          the Link Capabilities register.
- <9>     HAWD            R/W      0x0         0x0       Hardware Autonomous Width Disable
+ <9>     HAWD            RO       0x0         0x0       Hardware Autonomous Width Disable
                                                          (Not Supported)
- <10>    LBM_INT_ENB     R/W      0x0         0x0       Link Bandwidth Management Interrupt Enable
-                                                         When set, enables the generation of an interrupt to indicate
-                                                         that the Link Bandwidth Management Status bit has been set.
- <11>    LAB_INT_ENB     R/W      0x0         0x0       Link Autonomous Bandwidth Interrupt Enable
-                                                         When set, enables the generation of an interrupt to indicate
-                                                         that the Link Autonomous Bandwidth Status bit has been set.
+ <10>    LBM_INT_ENB     RO       0x0         0x0       Link Bandwidth Management Interrupt Enable
+                                                         This bit is not applicable and is reserved for endpoints
+ <11>    LAB_INT_ENB     RO       0x0         0x0       Link Autonomous Bandwidth Interrupt Enable
+                                                         This bit is not applicable and is reserved for endpoints
  <15:12> NS              RAZ      NS          NS        Reserved
  <19:16> LS              RO       0x1         0x1       Link Speed
                                                          1 == The negotiated Link speed: 2.5 Gbps
@@ -905,15 +905,15 @@ Pos      Name    Type     Value     Value       Description
                                                          Completion Timeout Programming is not supported
 							 Completion timeout is 16.7ms.
  <4>     CTD             R/W      0x0         0x0       Completion Timeout Disable
- <5>     ARI             R/W      0x0         0x0       Alternate Routing ID Forwarding Supported
+ <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
- <6>     ATOM_OP         R/W      0x0         0x0       AtomicOp Requester Enable
+ <6>     ATOM_OP         RO       0x0         0x0       AtomicOp Requester Enable
 							 (Not Supported)
- <7>     ATOM_OP_EB      R/W      0x0         0x0       AtomicOp Egress Blocking
+ <7>     ATOM_OP_EB      RO       0x0         0x0       AtomicOp Egress Blocking
 							 (Not Supported)m
- <8>     ID0_RQ          R/W      0x0         0x0       ID Based Ordering Request Enable
+ <8>     ID0_RQ          RO       0x0         0x0       ID Based Ordering Request Enable
 							 (Not Supported)
- <9>     ID0_CP          R/W      0x0         0x0       ID Based Ordering Completion Enable
+ <9>     ID0_CP          RO       0x0         0x0       ID Based Ordering Completion Enable
 							 (Not Supported)
  <31:10> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
@@ -1043,12 +1043,7 @@ Pos      Name    Type     Value     Value       Description
                                                           0b: -6 dB
                                                          Note: The value in this bit is undefined when the Link is
                                                          operating at 2.5 GT/s speed
- <17>    EQ              RO       0x0         0x0       Equalization Complete
- <18>    EP1S            RO       0x0         0x0       Equalization Phase 1 Successful
- <19>    EP2S            RO       0x0         0x0       Equalization Phase 2 Successful
- <20>    EP3S            RO       0x0         0x0       Equalization Phase 3 Successful
- <21>    LER             R/W1C    0x0         0x0       Link Equalization Request
- <31:22> NS              RAZ      NS          NS        Reserved
+ <31:17> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -1069,6 +1064,8 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
  <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x0         0x0       Next Capability Offset
+                                                         writable through PEM(0..1)_CFG_WR.
+                                                         However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -1101,7 +1098,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCES          R/W1C    0x0         0x0       ECRC Error Status
  <20>    URES            R/W1C    0x0         0x0       Unsupported Request Error Status
  <23:21> NS              RAZ      NS          NS        Reserved
- <24>    UATOMBS         R/W1C    0x0         0x0       Unsupported AtomicOp Egress Blocked Status
+ <24>    UATOMBS         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Status
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -1136,7 +1133,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCEM          R/W      0x0         0x0       ECRC Error Mask
  <20>    UREM            R/W      0x0         0x0       Unsupported Request Error Mask
  <23:21> NS              RAZ      NS          NS        Reserved
- <24>    UATOMBM         R/W      0x0         0x0       Unsupported AtomicOp Egress Blocked Mask
+ <24>    UATOMBM         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Mask
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -1171,7 +1168,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCES          R/W      0x0         0x0       ECRC Error Severity
  <20>    URES            R/W      0x0         0x0       Unsupported Request Error Severity
  <23:21> NS              RO       0x2         0x2       Reserved
- <24>    UATOMBS         R/W      0x0         0x0       Unsupported AtomicOp Egress Blocked Severity
+ <24>    UATOMBS         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Severity
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -1546,7 +1543,6 @@ Pos      Name    Type     Value     Value       Description
                                                          If during an eeprom load, the first word loaded is 0xffffffff,
                                                          then the EEPROM load will be terminated and this bit will be set.
  <11:8>  DLR             RO       0x1         0x1       Default Link Rate
-							 o 001: 2.5GHz
  <15:12> NS              RAZ      NS          NS        Reserved
  <21:16> LME             R/W      0xF         0xF       Link Mode Enable
                                                          o 000001: x1
@@ -1567,16 +1563,15 @@ Pos      Name    Type     Value     Value       Description
 							  the PCIe core can negotiate a smaller link width, so all
 							  of x4, x2, and x1 are supported when LME=0x7,
 							  for example.)
- <22>    ECL            R/W      0x0         0x0        Enable Crosslink
-							 (Not Supported)
- <23>    CLA            RO       0x0         0x0        Crosslink Active
-							 (Not Supported)
- <24>    NS             RAZ      NS          NS         Reserved
+ <24:22> NS             RAZ      NS          NS         Reserved
  <25>    ECCRC          R/W      0x0         0x0        Enable Corrupted CRC
                                                          Causes corrupt LCRC for TLPs when set,
                                                          using the pattern contained in the Other Message register.
                                                          This is a test feature, not to be used in normal operation.
- <31:26> NS             RAZ      NS          NS         Reserved
+ <26>    NS             RAZ      NS          NS         Reserved
+ <27>    ECL            R/W      0x0         0x0        Enable Crosslink
+							 (Not Supported)
+ <31:28> NS             RAZ      NS          NS         Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -1624,10 +1619,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <7:0>   MFUNC           R/W      0x0         0x0       Max Number of Functions Supported
+ <7:0>   MFUNCN          R/W      0x0         0x0       Max Number of Functions Supported
 							 Used for SR-IOV
- <10:8>  NSKP            R/W      0x0         0x0       Number of SKP Symbols
- <13:11> NS              RAZ      NS          NS        Reserved
+ <13:8>  NS              RAZ      NS          NS        Reserved
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
                                                          of 64 clock cycles.
@@ -1637,7 +1631,7 @@ Pos      Name    Type     Value     Value       Description
  <28:24> TMFCWT          R/W      0x0         0x0       Timer Modifier for Flow Control Watchdog Timer
                                                          Increases the timer value for the Flow Control watchdog timer,
                                                          in increments of 16 clock cycles.
- <31:29> CX_NFUNC        R/W      0x0         0x0       Number of Functions
+ <31:29> CX_NFUNC        R/W      0x0         0x0       Number of Functions (minus 1)
 							 Configuration Requests targeted at function numbers above this
 							 value will be returned with unsupported request
 ----------------------------------------------------------------------------------------------------
@@ -1700,27 +1694,6 @@ Pos      Name    Type     Value     Value       Description
  <2>     M_DABORT_4UCPL  R/W      0x0         0x0       Mask DLLP abort for unexpected CPL
  <3>     M_HANDLE_FLUSH  R/W      0x0         0x0       Mask Core Filter to handle flush request
  <31:4>  NS              RAZ      NS          NS        Reserved
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  PCIE_CFG457 = Four hundred fifty-eighth 32-bits of PCIE type 0 config space
- *                  (AMBA Multiple Outbound Decomposed NP Sub-Requests Control Register)
- *
- *
- *
-
-     ==============================================================
-     PCIEEP(0..1)_CFG457 Type=PCICONFIGEP
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <0>     E_AMBA_MODNSR   R/W      0x0         0x0       Enable AMBA Multiple Outbound Decomposed NP Sub-Requests
-							 (Not Supported)
- <31:1>  NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -2155,8 +2128,8 @@ Pos      Name    Type     Value     Value       Description
                                                          idle and
                                                          would otherwise prevent a valid link from being configured.
  <17>    DSC             R/W      0x0         0x0       Directed Speed Change
-                                                         Indicates to the LTSSM whether or not to initiate a speed
-                                                         change.
+                                                         o a write of '1' will initiate a speed change
+                                                         o always reads a zero
  <18>    CPYTS           R/W      0x0         0x0       Config PHY Tx Swing
                                                          Indicates the voltage level the PHY should drive. When set to
                                                          1, indicates Full Swing. When set to 0, indicates Low Swing
@@ -3121,8 +3094,7 @@ Pos      Name    Type     Value     Value       Description
  <20>    AP_D            RO       0x0         0x0       Aux Power Detected
                                                          Set to 1 if Aux power detected.
  <21>    TP              RO       0x0         0x0       Transaction Pending
-                                                         Set to 1 when Non-Posted Requests are not yet completed
-                                                         and clear when they are completed.
+                                                         Hard-wired to 0.
  <31:22> NS              RAZ      NS       NS           Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -3173,8 +3145,9 @@ Pos      Name    Type     Value     Value       Description
                                                          Not supported, hardwired to 0x0.
  <20>    DLLARC          RO       0x1         0x1       Data Link Layer Active Reporting Capable
                                                          Set to 1 for Root Complex devices and 0 for Endpoint devices.
- <21>    LBNC            RO       0x1         0x1       Link Bandwidth Notification Capability
-                                                         Set to 1 for Root Complex devices and 0 for Endpoint devices.
+ <21>    LBNC            R/W      0x1         0x1       Link Bandwidth Notification Capability
+                                                         Set to 1 for Root Complex devices. writable through PEM(0..1)_CFG_WR.
+                                                         However, the application must not change this field.
  <22>    ASPM            RO/WRSL  0x1         0x1       ASPM Optionality Compliance
  <23>    NS              RAZ      NS          NS        Reserved
  <31:24> PNUM            R/W      0x0         0x0       Port Number
@@ -3213,11 +3186,11 @@ Pos      Name    Type     Value     Value       Description
  <9>     HAWD            R/W      0x0         0x0       Hardware Autonomous Width Disable
                                                          (Not Supported)
  <10>    LBM_INT_ENB     R/W      0x0         0x0       Link Bandwidth Management Interrupt Enable
-                                                         This bit is not applicable and is reserved for endpoints
-							 and should always be written to zero.
+                                                         When set, enables the generation of an interrupt to indicate
+                                                         that the Link Bandwidth Management Status bit has been set.
  <11>    LAB_INT_ENB     R/W      0x0         0x0       Link Autonomous Bandwidth Interrupt Enable
-                                                         This bit is not applicable and is reserved for endpoints
-							 and should always be written to zero.
+                                                         When set, enables the generation of an interrupt to indicate
+                                                         that the Link Autonomous Bandwidth Status bit has been set.
  <15:12> NS              RAZ      NS          NS        Reserved
  <19:16> LS              RO       NS          NS        Link Speed
                                                          0001 == The negotiated Link speed: 2.5 Gbps
@@ -3227,8 +3200,6 @@ Pos      Name    Type     Value     Value       Description
                                                          Set automatically by hardware after Link initialization.
  <26>    NS              RAZ      NS          NS        Undefined
  <27>    LT              RO       0x0         0x0       Link Training
-                                                         This bit is not applicable and is reserved for endpoints
-							 and should always be written to zero.
  <28>    SCC             R/W      0x1         0x0       Slot Clock Configuration
                                                          Indicates that the component uses the same physical reference
                                                          clock that the platform provides on the connector. The default
@@ -3237,9 +3208,21 @@ Pos      Name    Type     Value     Value       Description
                                                          However, the application must not change this field.
  <29>    DLLA            RO       0x0         0x1       Data Link Layer Active
  <30>    LBM             R/W1C    0x0         0x0       Link Bandwidth Management Status
-                                                         This bit is not applicable and is reserved for endpoints
+                                                         This bit is set to indicate either of the following has
+                                                         occurred without the Port transitioning through DL_DOWN status
+                                                         o A link retraining has completed following a write of 1b to
+                                                           the Retrain Link bit
+                                                         o Hardware has changed the Link speed or width to attempt to
+                                                           correct unreliable Link operation, either through a LTSSM
+                                                           timeout of higher level process.  This bit must be set if
+                                                           the Physical Layer reports a speed or width change was
+                                                           inititiated by the Downstream component tha was not
+                                                           indicated as an autonomous change
  <31>    LAB             R/W1C    0x0         0x0       Link Autonomous Bandwidth Status
-                                                         This bit is not applicable and is reserved for endpoints
+                                                         this bit is set to indicate that hardware has autonomously
+                                                         changed Link speed or width, without the Port transitioning
+                                                         through DL_Down status, for reasons other than to attempt
+                                                         to correct unreliable Link operation.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3430,15 +3413,15 @@ Pos      Name    Type     Value     Value       Description
                                                          Completion Timeout Programming is not supported
 							 Completion timeout is 16.7ms.
  <4>     CTD             R/W      0x0         0x0       Completion Timeout Disable
- <5>     ARI             R/W      0x0         0x0       Alternate Routing ID Forwarding Supported
+ <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
- <6>     ATOM_OP         R/W      0x0         0x0       AtomicOp Requester Enable
+ <6>     ATOM_OP         RO       0x0         0x0       AtomicOp Requester Enable
 							 (Not Supported)
- <7>     ATOM_OP_EB      R/W      0x0         0x0       AtomicOp Egress Blocking
+ <7>     ATOM_OP_EB      RO       0x0         0x0       AtomicOp Egress Blocking
 							 (Not Supported)m
- <8>     ID0_RQ          R/W      0x0         0x0       ID Based Ordering Request Enable
+ <8>     ID0_RQ          RO       0x0         0x0       ID Based Ordering Request Enable
 							 (Not Supported)
- <9>     ID0_CP          R/W      0x0         0x0       ID Based Ordering Completion Enable
+ <9>     ID0_CP          RO       0x0         0x0       ID Based Ordering Completion Enable
 							 (Not Supported)
  <31:10> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
@@ -3571,12 +3554,43 @@ Pos      Name    Type     Value     Value       Description
                                                           0b: -6 dB
                                                          Note: The value in this bit is undefined when the Link is
                                                          operating at 2.5 GT/s speed
- <17>    EQ              RO       0x0         0x0       Equalization Complete
- <18>    EP1S            RO       0x0         0x0       Equalization Phase 1 Successful
- <19>    EP2S            RO       0x0         0x0       Equalization Phase 2 Successful
- <20>    EP3S            RO       0x0         0x0       Equalization Phase 3 Successful
- <21>    LER             R/W1C    0x0         0x0       Link Equalization Request
- <31:22> NS              RAZ      NS          NS        Reserved
+ <31:17> NS              RAZ      NS          NS        Reserved
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  PCIE_CFG041 = Fourty-second 32-bits of PCIE type 1 config space
+ *                  (Slot Capabilities 2 Register)
+ *
+ *
+
+     ==============================================================
+     PCIERC(0..1)_CFG041 Type=PCICONFIGRC
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  NS              RAZ      NS          NS        Reserved
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  PCIE_CFG042 = Fourty-second 32-bits of PCIE type 1 config space
+ *                  (Slot Capabilities 2 Register/Slot Status 2 Register)
+ *
+ *
+
+     ==============================================================
+     PCIERC(0..1)_CFG042 Type=PCICONFIGRC
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <31:0>  NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3598,6 +3612,8 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
  <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x000       0x0       Next Capability Offset
+                                                         writable through PEM(0..1)_CFG_WR.
+                                                         However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3632,7 +3648,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCES          R/W1C    0x0         0x0       ECRC Error Status
  <20>    URES            R/W1C    0x0         0x0       Unsupported Request Error Status
  <23:21> NS              RAZ      NS          NS        Reserved
- <24>    UATOMBS         R/W1C    0x0         0x0       Unsupported AtomicOp Egress Blocked Status
+ <24>    UATOMBS         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Status
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -3668,7 +3684,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCEM          R/W      0x0         0x0       ECRC Error Mask
  <20>    UREM            R/W      0x0         0x0       Unsupported Request Error Mask
  <23:21> NS              RAZ      NS          NS        Reserved
- <24>    UATOMBM         R/W      0x0         0x0       Unsupported AtomicOp Egress Blocked Mask
+ <24>    UATOMBM         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Mask
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -3704,7 +3720,7 @@ Pos      Name    Type     Value     Value       Description
  <19>    ECRCES          R/W      0x0         0x0       ECRC Error Severity
  <20>    URES            R/W      0x0         0x0       Unsupported Request Error Severity
  <23:21> NS              RO       0x2         0x2       Reserved
- <24>    UATOMBS         R/W      0x0         0x0       Unsupported AtomicOp Egress Blocked Severity
+ <24>    UATOMBS         RO       0x0         0x0       Unsupported AtomicOp Egress Blocked Severity
  <31:25> NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -4164,7 +4180,6 @@ Pos      Name    Type     Value     Value       Description
  <7>     FLM             R/W      0x0         0x0       Fast Link Mode
                                                          Sets all internal timers to fast mode for simulation purposes.
  <11:8>  DLR             RO       0x1         0x1       Default Link Rate
-							 o 001: 2.5GHz
  <15:12> NS              RAZ      NS          NS        Reserved
  <21:16> LME             R/W      0xF         0xF       Link Mode Enable
                                                          o 000001: x1
@@ -4184,16 +4199,15 @@ Pos      Name    Type     Value     Value       Description
 							  the PCIe core can negotiate a smaller link width, so all
 							  of x4, x2, and x1 are supported when LME=0x7,
 							  for example.)
- <22>    ECL            R/W      0x0         0x0        Enable Crosslink
-							(Not Supported)
- <23>    CLA            RO       0x0         0x0        Crosslink Active
-							(Not Supported)
- <24>    NS             RAZ      NS          NS         Reserved
+ <24:22> NS             RAZ      NS          NS         Reserved
  <25>    ECCRC          R/W      0x0         0x0        Enable Corrupted CRC
                                                          Causes corrupt LCRC for TLPs when set,
                                                          using the pattern contained in the Other Message register.
                                                          This is a test feature, not to be used in normal operation.
- <31:26> NS             RAZ      NS          NS         Reserved
+ <26>    NS             RAZ      NS          NS         Reserved
+ <27>    ECL            R/W      0x0         0x0        Enable Crosslink
+							 (Not Supported)
+ <31:28> NS             RAZ      NS          NS         Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -4243,10 +4257,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <7:0>   MFUNC           R/W      0x0         0x0       Max Number of Functions Supported
+ <7:0>   MFUNCN          R/W      0x0         0x0       Max Number of Functions Supported
 							 Used for SR-IOV
- <10:8>  NSKP            R/W      0x0         0x0       Number of SKP Symbols
- <13:11> NS              RAZ      NS          NS        Reserved
+ <13:8>  NS              RAZ      NS          NS        Reserved
  <18:14> TMRT            R/W      0x8         0x8       Timer Modifier for Replay Timer
                                                          Increases the timer value for the replay timer, in increments
                                                          of 64 clock cycles.
@@ -4256,7 +4269,7 @@ Pos      Name    Type     Value     Value       Description
  <28:24> TMFCWT          R/W      0x0         0x0       Timer Modifier for Flow Control Watchdog Timer
                                                          Increases the timer value for the Flow Control watchdog timer,
                                                          in increments of 16 clock cycles.
- <31:29> CX_NFUNC        R/W      0x0         0x0       Number of Functions
+ <31:29> CX_NFUNC        R/W      0x0         0x0       Number of Functions (minus 1)
 							 Configuration Requests targeted at function numbers above this
 							 value will be returned with unsupported request
 ----------------------------------------------------------------------------------------------------
@@ -4320,27 +4333,6 @@ Pos      Name    Type     Value     Value       Description
  <2>     M_DABORT_4UCPL  R/W      0x0         0x0       Mask DLLP abort for unexpected CPL
  <3>     M_HANDLE_FLUSH  R/W      0x0         0x0       Mask Core Filter to handle flush request
  <31:4>  NS              RAZ      NS          NS        Reserved
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  PCIE_CFG457 = Four hundred fifty-eighth 32-bits of PCIE type 0 config space
- *                  (AMBA Multiple Outbound Decomposed NP Sub-Requests Control Register)
- *
- *
- *
-
-     ==============================================================
-     PCIERC(0..1)_CFG457 Type=PCICONFIGRC
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <0>     E_AMBA_MODNSR   R/W      0x0         0x0       Enable AMBA Multiple Outbound Decomposed NP Sub-Requests
-							 (Not Supported)
- <31:1>  NS              RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -4781,8 +4773,8 @@ Pos      Name    Type     Value     Value       Description
                                                          idle and
                                                          would otherwise prevent a valid link from being configured.
  <17>    DSC             R/W      0x0         0x0       Directed Speed Change
-                                                         Indicates to the LTSSM whether or not to initiate a speed
-                                                         change.
+                                                         o a write of '1' will initiate a speed change
+                                                         o always reads a zero
  <18>    CPYTS           R/W      0x0         0x0       Config PHY Tx Swing
                                                          Indicates the voltage level the PHY should drive. When set to
                                                          1, indicates Full Swing. When set to 0, indicates Low Swing
@@ -66904,7 +66896,6 @@ PCIEEP0_CFG453                 0x0000000000000714  PCICONFIGEP0
 PCIEEP0_CFG454                 0x0000000000000718  PCICONFIGEP0
 PCIEEP0_CFG455                 0x000000000000071C  PCICONFIGEP0
 PCIEEP0_CFG456                 0x0000000000000720  PCICONFIGEP0
-PCIEEP0_CFG457                 0x0000000000000724  PCICONFIGEP0
 PCIEEP0_CFG458                 0x0000000000000728  PCICONFIGEP0
 PCIEEP0_CFG459                 0x000000000000072C  PCICONFIGEP0
 PCIEEP0_CFG460                 0x0000000000000730  PCICONFIGEP0
@@ -66979,7 +66970,6 @@ PCIEEP1_CFG453                 0x0000000000000714  PCICONFIGEP1
 PCIEEP1_CFG454                 0x0000000000000718  PCICONFIGEP1
 PCIEEP1_CFG455                 0x000000000000071C  PCICONFIGEP1
 PCIEEP1_CFG456                 0x0000000000000720  PCICONFIGEP1
-PCIEEP1_CFG457                 0x0000000000000724  PCICONFIGEP1
 PCIEEP1_CFG458                 0x0000000000000728  PCICONFIGEP1
 PCIEEP1_CFG459                 0x000000000000072C  PCICONFIGEP1
 PCIEEP1_CFG460                 0x0000000000000730  PCICONFIGEP1
@@ -67032,6 +67022,8 @@ PCIERC0_CFG037                 0x0000000000000094  PCICONFIGRC0
 PCIERC0_CFG038                 0x0000000000000098  PCICONFIGRC0
 PCIERC0_CFG039                 0x000000000000009C  PCICONFIGRC0
 PCIERC0_CFG040                 0x00000000000000A0  PCICONFIGRC0
+PCIERC0_CFG041                 0x00000000000000A4  PCICONFIGRC0
+PCIERC0_CFG042                 0x00000000000000A8  PCICONFIGRC0
 PCIERC0_CFG064                 0x0000000000000100  PCICONFIGRC0
 PCIERC0_CFG065                 0x0000000000000104  PCICONFIGRC0
 PCIERC0_CFG066                 0x0000000000000108  PCICONFIGRC0
@@ -67055,7 +67047,6 @@ PCIERC0_CFG453                 0x0000000000000714  PCICONFIGRC0
 PCIERC0_CFG454                 0x0000000000000718  PCICONFIGRC0
 PCIERC0_CFG455                 0x000000000000071C  PCICONFIGRC0
 PCIERC0_CFG456                 0x0000000000000720  PCICONFIGRC0
-PCIERC0_CFG457                 0x0000000000000724  PCICONFIGRC0
 PCIERC0_CFG458                 0x0000000000000728  PCICONFIGRC0
 PCIERC0_CFG459                 0x000000000000072C  PCICONFIGRC0
 PCIERC0_CFG460                 0x0000000000000730  PCICONFIGRC0
@@ -67108,6 +67099,8 @@ PCIERC1_CFG037                 0x0000000000000094  PCICONFIGRC1
 PCIERC1_CFG038                 0x0000000000000098  PCICONFIGRC1
 PCIERC1_CFG039                 0x000000000000009C  PCICONFIGRC1
 PCIERC1_CFG040                 0x00000000000000A0  PCICONFIGRC1
+PCIERC1_CFG041                 0x00000000000000A4  PCICONFIGRC1
+PCIERC1_CFG042                 0x00000000000000A8  PCICONFIGRC1
 PCIERC1_CFG064                 0x0000000000000100  PCICONFIGRC1
 PCIERC1_CFG065                 0x0000000000000104  PCICONFIGRC1
 PCIERC1_CFG066                 0x0000000000000108  PCICONFIGRC1
@@ -67131,7 +67124,6 @@ PCIERC1_CFG453                 0x0000000000000714  PCICONFIGRC1
 PCIERC1_CFG454                 0x0000000000000718  PCICONFIGRC1
 PCIERC1_CFG455                 0x000000000000071C  PCICONFIGRC1
 PCIERC1_CFG456                 0x0000000000000720  PCICONFIGRC1
-PCIERC1_CFG457                 0x0000000000000724  PCICONFIGRC1
 PCIERC1_CFG458                 0x0000000000000728  PCICONFIGRC1
 PCIERC1_CFG459                 0x000000000000072C  PCICONFIGRC1
 PCIERC1_CFG460                 0x0000000000000730  PCICONFIGRC1
