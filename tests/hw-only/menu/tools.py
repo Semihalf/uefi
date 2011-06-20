@@ -18,6 +18,8 @@ def send_menu(child, line):
     return result
 
 def start_connection():
+    assert os.getenv("BDK_ROOT"), "BDK_ROOT not defined"
+    assert os.getenv("OCTEON_REMOTE_CONSOLE"), "OCTEON_REMOTE_CONSOLE not defined"
     child = pexpect.spawn("bdk-lua -l coverage " + os.getenv("BDK_ROOT") + "/rom/main.lua")
     child.logfile = sys.stdout
     #child.logfile = file("menu_automate.log", "w")
