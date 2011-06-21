@@ -432,8 +432,11 @@ local function create_device(srio_root, hopcount)
                 assert(readback == my_id, "Read back of programmed device ID failed")
             end
 
-            -- Set the SRIO input and output enables
-            set_srio_enables(srio_root, device.devid, UNUSED_HOP, 0x1, 0)
+            -- Set the SRIO input and output enables. Skip the local device as
+            -- SRIO init already set the enables
+            if hopcount > -1 then
+                set_srio_enables(srio_root, device.devid, UNUSED_HOP, 0x1, 0)
+            end
         end
 
         -- Iterate through all sub devices
