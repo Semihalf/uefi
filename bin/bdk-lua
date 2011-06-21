@@ -6,7 +6,16 @@ then
     return 1
 fi
 
-LUA_BIN=${BDK_ROOT}/bin/bdk-lua-x86
+ARCH=`uname -m`
+if [ "${ARCH}" = "octeon" ]
+then
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
+elif [ "${ARCH}" = "octeon2" ]
+then
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
+else
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-x86
+fi
 
 if [ ! -x "${LUA_BIN}" ]
 then

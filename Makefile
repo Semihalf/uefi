@@ -60,7 +60,8 @@ release: all
 	mkdir -p $(RELEASE_DIR)/bin
 	cp utils/scripts/bdk-remote.lua $(RELEASE_DIR)/bin/bdk-remote
 	cp utils/scripts/bdk-debug.lua $(RELEASE_DIR)/bin/bdk-debug
-	cp utils/bdk-lua/bdk-lua $(RELEASE_DIR)/bin/bdk-lua-x86
+	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
+	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	# Copy host examples
 	cp -r examples $(RELEASE_DIR)/

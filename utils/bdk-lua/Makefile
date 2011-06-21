@@ -6,24 +6,26 @@ CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lm -ldl
 
-# If we're not building for Octeon userspace then:
+# These are needed for luasocket to compile cleanly
+CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
+
+# Building for x86
 #    1) Add readline support
 #    2) Build for 32bit
 #    3) Link static
-ifndef OCTEON
-    CPPFLAGS += -DLUA_USE_LINUX
-    CFLAGS += -march=i686 -m32
-    ASFLAGS += -march=i686 -m32
-    LDFLAGS += -static -lreadline -lncurses
-else
-    CFLAGS += -march=octeon2
-    ASFLAGS += -march=octeon2
-    CC = mips64-octeon-linux-gnu-gcc
-endif
+CPPFLAGS_x86 = -DLUA_USE_LINUX
+CFLAGS_x86 = -march=i686 -m32
+ASFLAGS_x86 = -march=i686 -m32
+LDFLAGS_x86 = -static -lreadline -lncurses
+CC_x86 = gcc
 
-
-# These are needed for luasocket to compile cleanly
-CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
+# Building for Octeon
+CPPFLAGS_octeon =
+CFLAGS_octeon = -march=octeon2
+ASFLAGS_octeon = -march=octeon2
+LDFLAGS_octeon =
+CC_octeon = mips64-octeon-linux-gnu-gcc
+arch=$(patsubst %.o,%,$(lastword $(subst -, ,$@)))
 
 #
 # These are the directories where source files are found
@@ -41,18 +43,21 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-csr.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-csrs.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 
-bdk-lua: $(src) octeon-remote-mips-asm.o
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+bdk-lua-%: $(src) octeon-remote-mips-asm-%.o
+	$(CC_$(arch)) $(CPPFLAGS) $(CPPFLAGS_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -o $@ $^ $(LDFLAGS) $(LDFLAGS_$(arch))
 
-octeon-remote-mips-asm.o: mips-octeon_debug_handler.bin mips-octeon2_debug_handler.bin mips-octeon_profile_handler.bin
-	$(CC) $(CFLAGS) -c -o $@ octeon-remote-mips-asm.S
+octeon-remote-mips-asm-%.o: mips-octeon_debug_handler.bin mips-octeon2_debug_handler.bin mips-octeon_profile_handler.bin
+	$(CC_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -c -o $@ octeon-remote-mips-asm.S
 
 mips-%.o: mips-%.S
 	mips64-octeon-linux-gnu-gcc -W -Wall -o $@ -c $<
 mips-%.bin: mips-%.o
 	mips64-octeon-linux-gnu-objcopy -j .text -O binary $< $@
 
+.DEFAULT: all
+all: bdk-lua-x86 bdk-lua-octeon
+
 .PHONY: clean
 clean:
-	rm -f bdk-lua *.o *.bin
+	rm -f bdk-lua-* *.o *.bin
 
