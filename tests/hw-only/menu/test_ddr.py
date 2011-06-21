@@ -5,3 +5,4 @@ def test(child):
     child.expect("DDR Menu")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "DDR")

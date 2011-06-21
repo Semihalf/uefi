@@ -30,3 +30,4 @@ def test(child):
     child.expect("foo: No such file or directory")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "Flash")

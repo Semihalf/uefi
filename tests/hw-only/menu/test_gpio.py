@@ -32,3 +32,4 @@ def test(child):
     child.sendline("n")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "GPIO")

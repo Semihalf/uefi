@@ -5,3 +5,4 @@ def test(child):
     child.expect("SRIO Menu")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "SRIO")

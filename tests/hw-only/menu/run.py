@@ -1,5 +1,3 @@
-import sys
-import os
 import pexpect
 import tools
 
@@ -17,12 +15,8 @@ import test_ilua
 import test_net
 
 child = tools.start_connection()
-
-for test in [test_config.test, test_file.test, test_flash.test, test_ddr.test,
-             test_qlm.test, test_pcie.test, test_srio.test, test_twsi.test,
-             test_smi.test, test_gpio.test, test_ilua.test, test_net.test]:
-    test(child)
-    tools.wait_for_main_menu(child)
+for test in tools.get_tests():
+    test.run()
 
 child.sendline("quit")
 child.expect(pexpect.EOF)

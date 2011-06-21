@@ -29,3 +29,4 @@ def test(child):
     child.sendline("foo")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "Net")

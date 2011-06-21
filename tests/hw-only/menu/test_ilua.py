@@ -17,3 +17,4 @@ def test(child):
     child.expect(">")
     child.sendline("quit")
 
+tools.add_test(test, "iLua")

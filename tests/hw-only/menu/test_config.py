@@ -10,4 +10,5 @@ def test(child):
     child.expect("User interrupted input")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "Configuration")
 

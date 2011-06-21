@@ -37,3 +37,4 @@ def test(child):
     tools.send_menu(child, "quit")
     tools.send_menu(child, "quit")
 
+tools.add_test(test, "QLM")
