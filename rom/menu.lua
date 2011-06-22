@@ -103,6 +103,34 @@ function menu.new(title)
 end
 
 --
+-- Function for reading all menu prompts. This reads a word at a time
+-- from the input. Lines with multiple words are returned across multiple
+-- calls. As a special case an empty line is returned as is. Word based
+-- input allows you to answer multiple prompts on one line, making line
+-- editing more useful.
+--
+local pending_input = nil
+local function read_input()
+    local word
+    repeat
+        if not pending_input then
+            pending_input = io.read("*l")
+            if pending_input == "" then
+                pending_input = nil
+                return ""
+            end
+        end
+        word = pending_input:match("%s*%g+")
+        if not word then
+            pending_input = nil
+        end
+    until word
+    pending_input = pending_input:sub(#word+1)
+    word = word:match("%s*(%g+)")
+    return word
+end
+
+--
 -- Prompt the user for a string. Throw an error if the user aborts input.
 --
 function menu.prompt_string(prompt, optional_default)
@@ -111,7 +139,7 @@ function menu.prompt_string(prompt, optional_default)
     else
         printf("%s: ", prompt)
     end
-    local result = io.read("*l")
+    local result = read_input()
     if result == "" then
         if optional_default then
             return optional_default
