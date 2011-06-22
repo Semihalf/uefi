@@ -6,7 +6,6 @@
  * Global used to track if initialization is complete.
  */
 static int init_done = 0;
-static int configed_netif = 0;
 
 
 /**
@@ -332,7 +331,6 @@ int bdk_netstack_if_configure(const char *name, const char *ip, const char *netm
         netifapi_netif_set_up(netif);
     }
 
-    configed_netif++;
     return 0;
 }
 
