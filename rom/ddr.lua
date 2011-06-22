@@ -22,6 +22,14 @@ local bdk_dram_lookup_board = octeon.bdk_board_table_entry.bdk_dram_lookup_board
 -- to figure out what the members are.
 --
 local function dump_swig_object(object, prefix, file_handle)
+    local getmetatable = getmetatable
+    local type = type
+    local tostring = tostring
+    if octeon.global then
+        getmetatable = octeon.global.getmetatable
+        type = octeon.global.type
+        tostring = octeon.global.tostring
+    end
     local mt = getmetatable(object)
     if mt and mt[".get"] then
         prefix = prefix .. "."
