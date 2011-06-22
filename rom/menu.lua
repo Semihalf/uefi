@@ -111,9 +111,11 @@ end
 --
 local pending_input = nil
 local function read_input()
+    local need_echo = true
     local word
     repeat
         if not pending_input then
+            need_echo = false
             pending_input = io.read("*l")
             if pending_input == "" then
                 pending_input = nil
@@ -127,6 +129,9 @@ local function read_input()
     until word
     pending_input = pending_input:sub(#word+1)
     word = word:match("%s*(%g+)")
+    if need_echo then
+        print(word)
+    end
     return word
 end
 
