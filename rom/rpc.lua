@@ -358,6 +358,7 @@ end
 -- Do a remote on a specific object
 --
 local function rpc_object_remote(self, command, ...)
+    collectgarbage()
     local meta = getmetatable(self)
     -- Cleanup any remote objects that have been garbage collected
     while #meta.need_cleanup > 0 do
