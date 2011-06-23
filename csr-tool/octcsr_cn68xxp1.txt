@@ -864,7 +864,6 @@ Pos      Name    Type     Value     Value       Description
                                                          Value of 0 indicates that Completion Timeout Programming
                                                          is not supported
 							 Completion timeout is 16.7ms.
-							 This field is only applicable to Root-Port.
  <4>     CTDS            RO       0x1         0x1       Completion Timeout Disable Supported
  <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)

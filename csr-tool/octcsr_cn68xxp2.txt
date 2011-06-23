@@ -863,10 +863,6 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <3:0>   CTRS            RO       0xf         0xf       Completion Timeout Ranges Supported
-                                                         Value of 0 indicates that Completion Timeout Programming
-                                                         is not supported
-							 Completion timeout is 16.7ms.
-							 This field is only applicable to Root-Port.
  <4>     CTDS            RO       0x1         0x1       Completion Timeout Disable Supported
  <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
@@ -902,8 +898,16 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <3:0>   CTV             RO       0x0         0x0       Completion Timeout Value
-                                                         Completion Timeout Programming is not supported
-							 Completion timeout is 16.7ms.
+                                                         o 0000b Default range: 16 ms to 55 ms
+                                                         o 0001b 50 us to 100 us
+                                                         o 0010b 1 ms to 10 ms
+                                                         o 0101b 16 ms to 55 ms
+                                                         o 0110b 65 ms to 210 ms
+                                                         o 1001b 260 ms to 900 ms
+                                                         o 1010b 1 s to 3.5 s
+                                                         o 1101b 4 s to 13 s
+                                                         o 1110b 17 s to 64 s
+                                                         Values not defined are reserved
  <4>     CTD             R/W      0x0         0x0       Completion Timeout Disable
  <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
@@ -1064,8 +1068,6 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
  <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x0         0x0       Next Capability Offset
-                                                         writable through PEM(0..1)_CFG_WR.
-                                                         However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -3145,12 +3147,12 @@ Pos      Name    Type     Value     Value       Description
                                                          Not supported, hardwired to 0x0.
  <20>    DLLARC          RO       0x1         0x1       Data Link Layer Active Reporting Capable
                                                          Set to 1 for Root Complex devices and 0 for Endpoint devices.
- <21>    LBNC            R/W      0x1         0x1       Link Bandwidth Notification Capability
+ <21>    LBNC            RO/WRSL  0x1         0x1       Link Bandwidth Notification Capability
                                                          Set to 1 for Root Complex devices. writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <22>    ASPM            RO/WRSL  0x1         0x1       ASPM Optionality Compliance
  <23>    NS              RAZ      NS          NS        Reserved
- <31:24> PNUM            R/W      0x0         0x0       Port Number
+ <31:24> PNUM            RO/WRSL  0x0         0x0       Port Number
 							 writable through PEM(0..1)_CFG_WR, however the application
                                                          must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -3371,9 +3373,6 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <3:0>   CTRS            RO       0xf         0xf       Completion Timeout Ranges Supported
-                                                         Value of 0 indicates that Completion Timeout Programming
-                                                         is not supported
-							 Completion timeout is 16.7ms.
  <4>     CTDS            RO       0x1         0x1       Completion Timeout Disable Supported
  <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
@@ -3410,8 +3409,16 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <3:0>   CTV             RO       0x0         0x0       Completion Timeout Value
-                                                         Completion Timeout Programming is not supported
-							 Completion timeout is 16.7ms.
+                                                         o 0000b Default range: 16 ms to 55 ms
+                                                         o 0001b 50 us to 100 us
+                                                         o 0010b 1 ms to 10 ms
+                                                         o 0101b 16 ms to 55 ms
+                                                         o 0110b 65 ms to 210 ms
+                                                         o 1001b 260 ms to 900 ms
+                                                         o 1010b 1 s to 3.5 s
+                                                         o 1101b 4 s to 13 s
+                                                         o 1110b 17 s to 64 s
+                                                         Values not defined are reserved
  <4>     CTD             R/W      0x0         0x0       Completion Timeout Disable
  <5>     ARI             RO       0x0         0x0       Alternate Routing ID Forwarding Supported
 							 (Not Supported)
@@ -3577,8 +3584,8 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  PCIE_CFG042 = Fourty-second 32-bits of PCIE type 1 config space
- *                  (Slot Capabilities 2 Register/Slot Status 2 Register)
+ *                  PCIE_CFG042 = Fourty-third 32-bits of PCIE type 1 config space
+ *                  (Slot Control 2 Register/Slot Status 2 Register)
  *
  *
 
@@ -3612,8 +3619,6 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  PCIEEC          RO       0x1         0x1       PCIE Express Extended Capability
  <19:16> CV              RO       0x2         0x2       Capability Version
  <31:20> NCO             RO       0x000       0x0       Next Capability Offset
-                                                         writable through PEM(0..1)_CFG_WR.
-                                                         However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14415,14 +14420,19 @@ Pos      Name    Type     Value     Value       Description
                                                          returning its current value.                                   |
 <2>      RX_DIS_SCRAM         R/W      0x0      NS       Disable lane scrambler (debug)                                 |
 <3>      RX_DIS_UKWN          R/W      0x0      NS       Disable normal response to unknown words.  They are still      |
-                                                         logged but do not cause an error to all open channels..        |
+                                                         logged but do not cause an error to all open channels.         |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
-<5>      RX_PSH_SKIP          R/W      0x0      NS       Push skip words into the de-striper.   Otherwise, drop them in |
+<5>      RX_SCRM_SYNC         RO       0x0      NS       Rx scrambler synchronization status                            |
+								      				                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
+<7:6>    NS                   RAZ      0x0      NS       Reserved                                                       |
+<8>      RX_PSH_SKIP          R/W      0x1      NS       Push skip words into the de-striper.   Otherwise, drop them in |
                                                          the lane logic.                                                |
 								      				                        |
    	 				         	 ***NOTE: Added in pass 2.0                                     |
                                                                                                                         |
-<63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:9>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
