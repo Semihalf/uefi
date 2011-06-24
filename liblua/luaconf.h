@@ -573,6 +573,8 @@ union luai_Cast { double l_d; LUA_INT32 l_p[2]; };
 */
 
 
+extern void bdk_lua_init(void *lua_state);
+#define luai_userstateopen(L) bdk_lua_init(L)
 
 #endif
 

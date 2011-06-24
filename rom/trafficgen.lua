@@ -518,7 +518,7 @@ function TrafficGen.new()
         printf("%-20s%s%10d%s\n", "Lua memory(KB)", COL_SEP, collectgarbage("count"), ERASE_EOL)
         num_rows = num_rows + 1
         -- Create a row reporting C's memory usage
-        printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.get_sbrk() / 1024, ERASE_EOL)
+        printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.c.get_sbrk() / 1024, ERASE_EOL)
         num_rows = num_rows + 1
         if show_l2_stats then
             local l2stats = octeon.perf.get_l2(l2_stats_table)

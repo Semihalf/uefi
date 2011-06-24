@@ -33,12 +33,10 @@ void __bdk_rpc_serve(void)
     lua_pop(L, 1);
 }
 
-int luaopen_readline(lua_State *L)
+void register_readline(lua_State *L)
 {
     globalL = L;
-    lua_getglobal(L, "octeon");
     lua_pushcfunction(L, readline);
     lua_setfield(L, -2, "readline");
-    return 1;
 }
 

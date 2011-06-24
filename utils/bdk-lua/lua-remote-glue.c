@@ -585,6 +585,13 @@ LUALIB_API int luaopen_oremote(lua_State* L)
     lua_pushcfunction(L, oremote_read_mem64);
     lua_setfield(L, -2, "read_mem64");
 
+    #define REGISTER(L, name) \
+        extern void register_##name(lua_State* L); \
+        register_##name(L)
+
+    REGISTER(L, octeon_model);
+    REGISTER(L, octeon_csr);
+
     lua_setglobal(L, "oremote");
     return 1;
 }

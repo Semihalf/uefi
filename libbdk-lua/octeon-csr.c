@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
-#include <libbdk-arch/bdk-model.h>
 #include <libbdk-arch/bdk-csr.h>
 #endif
 // Module for interfacing with Octeon
@@ -20,20 +19,6 @@ static uint64_t build_mask(int bits, int left_shift)
     if (bits == 64)
         mask = -1;
     return mask << left_shift;
-}
-
-/**
- * Lua wrapper for OCTEON_IS_MODEL
- *
- * @param L
- *
- * @return
- */
-static int octeon_is_model(lua_State* L)
-{
-    uint32_t m = luaL_checkinteger(L, 1);
-    lua_pushboolean(L, OCTEON_IS_MODEL(m));
-    return 1;
 }
 
 /**
@@ -364,77 +349,6 @@ static int octeon_csr_call(lua_State* L)
     return 2;
 }
 
-#ifndef BDK_BUILD_HOST
-/**
- * Wrapper to call a generic C function from Lua. A maximum
- * of 8 arguments are supported. Each argument can either be a
- * number or string. Function can only return numbers.
- *
- * @param L
- *
- * @return
- */
-static int octeon_c_call(lua_State* L)
-{
-    long (*func)(long arg1, long arg2, long arg3, long arg4, long arg5, long arg6, long arg7, long arg8);
-    long args[8];
-    int num_args = lua_gettop(L);
-    func = lua_topointer(L, lua_upvalueindex(1));
-
-    int i;
-    for(i=0; i<num_args; i++)
-    {
-        if(lua_isnumber(L, i+1))
-        {
-            args[i] = lua_tonumber(L, i+1);
-        }
-        else if(lua_isstring(L, i+1))
-        {
-            const char *str = lua_tostring(L, i+1);
-            args[i] = (long)str;
-        }
-        else if(lua_isnil(L, i+1))
-        {
-            args[i] = 0;
-        }
-        else if(lua_isboolean(L, i+1))
-        {
-            args[i] = lua_toboolean(L, i+1);
-        }
-        else
-        {
-            luaL_error(L, "Invalid argument type");
-            return 0;
-        }
-    }
-
-    long result = func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
-    if (func == (void*)bdk_qlm_get_mode)
-        lua_pushstring(L, (const char*)result);
-    else
-        lua_pushnumber(L, result);
-
-    return 1;
-}
-
-
-static void control_c_check(lua_State *L, lua_Debug *ar)
-{
-    if (__bdk_fs_check_break())
-    {
-        luaL_traceback(L,  L, "Interrupted!", 1);
-        lua_error(L);
-    }
-    lua_gc(L, LUA_GCCOLLECT, 0);
-}
-
-static int get_sbrk(lua_State* L)
-{
-    lua_pushnumber(L, bdk_ptr_to_phys(sbrk(0)));
-    return 1;
-}
-#endif
-
 /**
  * Called to register the octeon module
  *
@@ -442,44 +356,8 @@ static int get_sbrk(lua_State* L)
  *
  * @return
  */
-LUALIB_API int luaopen_octeon(lua_State* L)
+void register_octeon_csr(lua_State* L)
 {
-#ifndef BDK_BUILD_HOST
-    /* Create a new table for the module */
-    lua_newtable(L);
-#else
-    LUALIB_API int luaopen_oremote(lua_State* L);
-    if (luaopen_oremote(L) != 1)
-        return 0;
-    lua_getglobal(L, "oremote");
-#endif
-
-    lua_pushcfunction(L, octeon_is_model);
-    lua_setfield(L, -2, "is_model");
-
-    /* Add constants for the different models that can be used with
-        octeon.is_model() */
-    lua_pushnumber(L, OCTEON_CN63XX);
-    lua_setfield(L, -2, "CN63XX");
-    lua_pushnumber(L, OCTEON_CN63XX_PASS1_X);
-    lua_setfield(L, -2, "CN63XXP1");
-    lua_pushnumber(L, OCTEON_CN63XX_PASS2_X);
-    lua_setfield(L, -2, "CN63XXP2");
-    lua_pushnumber(L, OCTEON_CN68XX);
-    lua_setfield(L, -2, "CN68XX");
-    lua_pushnumber(L, OCTEON_CN68XX_PASS1_X);
-    lua_setfield(L, -2, "CN68XXP1");
-    lua_pushnumber(L, OCTEON_CN68XX_PASS2_X);
-    lua_setfield(L, -2, "CN68XXP2");
-    lua_pushnumber(L, OCTEON_CN66XX);
-    lua_setfield(L, -2, "CN66XX");
-    lua_pushnumber(L, OCTEON_CN66XX_PASS1_X);
-    lua_setfield(L, -2, "CN66XXP1");
-    lua_pushnumber(L, OCTEON_CN61XX);
-    lua_setfield(L, -2, "CN61XX");
-    lua_pushnumber(L, OCTEON_CN61XX_PASS1_X);
-    lua_setfield(L, -2, "CN61XXP1");
-
     /* Add octeon.csr, magic table access to Octeon CSRs */
     lua_newtable(L); /* csr table */
     lua_newtable(L); /* csr metatable */
@@ -491,72 +369,5 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setfield(L, -2, "__call");
     lua_setmetatable(L, -2);
     lua_setfield(L, -2, "csr");
-
-#ifndef BDK_BUILD_HOST
-    /* Create a new table of all C functions that can be called */
-    lua_newtable(L);
-    int i = 0;
-    while(bdk_functions[i].name)
-    {
-        lua_pushlightuserdata(L, bdk_functions[i].func);
-        lua_pushcclosure(L, octeon_c_call, 1);
-        lua_setfield(L, -2, bdk_functions[i].name);
-        i++;
-    }
-    /* Manually add CSR read and write as these are inline functions
-        that are missed by bdk_functions */
-    lua_pushlightuserdata(L, bdk_csr_read);
-    lua_pushcclosure(L, octeon_c_call, 1);
-    lua_setfield(L, -2, "bdk_csr_read");
-    lua_pushlightuserdata(L, bdk_csr_write);
-    lua_pushcclosure(L, octeon_c_call, 1);
-    lua_setfield(L, -2, "bdk_csr_write");
-
-    lua_setfield(L, -2, "c");
-
-    /* Add constants for bdk_config */
-    for (bdk_config_t c=0; c<__BDK_CONFIG_END; c++)
-    {
-        lua_pushnumber(L, c);
-        lua_setfield(L, -2, bdk_config_get_name(c));
-    }
-
-    /* Add function for seeing the size of the heap */
-    lua_pushcfunction(L, get_sbrk);
-    lua_setfield(L, -2, "get_sbrk");
-
-    lua_setglobal(L, "octeon");
-
-    extern int luaopen_bdk_board_table_entry(lua_State *L);
-    luaopen_bdk_board_table_entry(L);
-
-    extern int luaopen_readline(lua_State *L);
-    luaopen_readline(L);
-
-    extern int luaopen_trafficgen(lua_State *L);
-    luaopen_trafficgen(L);
-
-    extern int luaopen_octeon_perf(lua_State *L);
-    luaopen_octeon_perf(L);
-
-    /* Enable Interrupt on uart break signal */
-    lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
-#else
-    extern int luaopen_socket_core(lua_State *L);
-    luaL_findtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
-    lua_pushcfunction(L, luaopen_socket_core);
-    lua_setfield(L, -2, "socket");
-    lua_pop(L, 1);  /* remove _PRELOAD table */
-#endif
-    return 1;
 }
-
-#ifdef BDK_BUILD_HOST
-int main(int argc, const char **argv)
-{
-    extern int bdk_lua_main(int argc, const char **argv);
-    return bdk_lua_main(argc, argv);
-}
-#endif
-
 

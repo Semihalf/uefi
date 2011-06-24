@@ -1260,9 +1260,8 @@ static int is_transmitting(lua_State* L)
  *
  * @return
  */
-int luaopen_trafficgen(lua_State *L)
+void register_trafficgen(lua_State *L)
 {
-    lua_getglobal(L, "octeon");
     lua_newtable(L);
     lua_pushcfunction(L, get_port_names);
     lua_setfield(L, -2, "get_port_names");
@@ -1283,6 +1282,5 @@ int luaopen_trafficgen(lua_State *L)
     lua_pushcfunction(L, is_transmitting);
     lua_setfield(L, -2, "is_transmitting");
     lua_setfield(L, -2, "trafficgen");
-    return 0;
 }
 

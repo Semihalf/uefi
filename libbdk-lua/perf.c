@@ -332,13 +332,11 @@ static int l2_perf(lua_State* L)
     return 1;
 }
 
-int luaopen_octeon_perf(lua_State *L)
+void register_octeon_perf(lua_State *L)
 {
-    lua_getglobal(L, "octeon");
     lua_newtable(L);
     lua_pushcfunction(L, l2_perf);
     lua_setfield(L, -2, "get_l2");
     lua_setfield(L, -2, "perf");
-    return 1;
 }
 

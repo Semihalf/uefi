@@ -14,7 +14,7 @@ for count=1,100 do
     print("Is CN63XX?", octeon.is_model(octeon.CN63XX))
     print("Is CN68XX?", octeon.is_model(octeon.CN68XX))
     print("Lua mem:", octeon.global.collectgarbage("count"))
-    print("C mem:", octeon.get_sbrk() / 1024)
+    print("C mem:", octeon.c.get_sbrk() / 1024)
     collectgarbage()
 end
 
