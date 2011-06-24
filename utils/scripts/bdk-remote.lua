@@ -7,6 +7,7 @@
 
 require("strict")
 require("utils")
+local oremote = require("oremote")
 
 local remote = {}
 
