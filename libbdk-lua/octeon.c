@@ -36,11 +36,10 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     REGISTER(L, trafficgen);
     REGISTER(L, octeon_perf);
 
-    lua_setglobal(L, "octeon");
-
     extern int luaopen_bdk_board_table_entry(lua_State *L);
     luaopen_bdk_board_table_entry(L);
 
+    lua_setglobal(L, "octeon");
     lua_getglobal(L, "octeon");
     return 1;
 }
