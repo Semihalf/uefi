@@ -146,3 +146,4 @@ function fileio.hexdump(source, seek_to, length)
     end
 end
 
+return fileio
