@@ -8,6 +8,7 @@
 require("strict")
 require("utils")
 local oremote = require("oremote")
+local bit64 = require("bit64")
 
 local remote = {}
 

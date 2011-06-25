@@ -7,6 +7,7 @@
 require("strict")
 require("utils")
 require("octeon")
+local bit64 = require("bit64")
 
 -- This is the table we use to contain the module
 srio = {}

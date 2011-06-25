@@ -34,6 +34,8 @@ void bdk_lua_init(void *lua_state)
         lua_pushcfunction(L, func);     \
         lua_setfield(L, -2, name)
 
+    PRELOAD("bit64", luaopen_bit64);
+
 #ifdef BDK_BUILD_HOST
 
     PRELOAD("socket", luaopen_socket_core);

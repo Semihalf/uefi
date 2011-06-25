@@ -4,6 +4,7 @@
 require("strict")
 require("utils")
 require("menu")
+local bit64 = require("bit64")
 
 local function gpio_config()
     local gpio = menu.prompt_number("GPIO number")
