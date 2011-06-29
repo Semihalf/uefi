@@ -1531,7 +1531,7 @@ Pos      Name    Type     Value     Value       Description
                                                          Sets all internal timers to fast mode for simulation purposes.
                                                          If during an eeprom load, the first word loaded is 0xffffffff,
                                                          then the EEPROM load will be terminated and this bit will be set.
- <11:8>  DLR             RO       0x1         0x1       Default Link Rate
+ <11:8>  NS              RO       0x1         0x1       Reserved
  <15:12> NS              RAZ      NS          NS        Reserved
  <21:16> LME             R/W      0xF         0xF       Link Mode Enable
                                                          o 000001: x1
@@ -1552,12 +1552,7 @@ Pos      Name    Type     Value     Value       Description
 							  the PCIe core can negotiate a smaller link width, so all
 							  of x4, x2, and x1 are supported when LME=0x7,
 							  for example.)
- <24:22> NS             RAZ      NS          NS         Reserved
- <25>    ECCRC          R/W      0x0         0x0        Enable Corrupted CRC
-                                                         Causes corrupt LCRC for TLPs when set,
-                                                         using the pattern contained in the Other Message register.
-                                                         This is a test feature, not to be used in normal operation.
- <31:26> NS             RAZ      NS          NS         Reserved
+ <31:22> NS             RAZ      NS          NS         Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -4153,7 +4148,7 @@ Pos      Name    Type     Value     Value       Description
  <6>     NS              RAZ      NS          NS        Reserved
  <7>     FLM             R/W      0x0         0x0       Fast Link Mode
                                                          Sets all internal timers to fast mode for simulation purposes.
- <11:8>  DLR             RO       0x1         0x1       Default Link Rate
+ <11:8>  NS              RO       0x1         0x1       Reserved
  <15:12> NS              RAZ      NS          NS        Reserved
  <21:16> LME             R/W      0xF         0xF       Link Mode Enable
                                                          o 000001: x1
@@ -4173,12 +4168,7 @@ Pos      Name    Type     Value     Value       Description
 							  the PCIe core can negotiate a smaller link width, so all
 							  of x4, x2, and x1 are supported when LME=0x7,
 							  for example.)
- <24:22> NS             RAZ      NS          NS         Reserved
- <25>    ECCRC          R/W      0x0         0x0        Enable Corrupted CRC
-                                                         Causes corrupt LCRC for TLPs when set,
-                                                         using the pattern contained in the Other Message register.
-                                                         This is a test feature, not to be used in normal operation.
- <31:26> NS             RAZ      NS          NS         Reserved
+ <31:22> NS             RAZ      NS          NS         Reserved
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22950,8 +22940,6 @@ Pos      Name    Type     Value     Value       Description
                                                    A warm/soft reset will not change this field.    |
  						   On cold reset, this field is initialized to 0    |
 												    |
-   	 					   ***NOTE: Added in pass 2.0                       |
-                                                                                                    |
  <8>     RST_DONE   RO       NS          NS        Read-only access to controller reset status      |
                                                                                                     |
                                                    RESET_DONE is always zero (i.e. the controller   |
@@ -23768,6 +23756,7 @@ Pos      Name    Type     Value     Value       Description
 
 
 
+
      ==============================================================
      CIU2_SUM_PP(0..31)_IP2 Type=NCB
      ==============================================================
@@ -24141,7 +24130,7 @@ Pos      Name    Type     Value     Value       Description
  <32>    AGL      RO       0x0         0         AGL interrupt                                      |
                                                   See AGL_GMX_RX*_INT_REG, AGL_GMX_TX_INT_REG       |
  <31:13> NS       RAZ      NS          NS        Reserved for future expansion                      |
- <12:8>  GMX_DRP  R/W1C	   0	       0	 GMX 0-4 packet drop interrupt			    |
+ <12:8>  GMX_DRP  R/W1C	   0	       0	 GMX 0-4 packet drop interrupt pulse		    |
                                                   Set any time corresponding GMX drops a packet     |
  <7:5>   NS       RAZ      NS          NS        Reserved for PKT expansion                         |
  <4:0>   AGX      RO       0x0         0         GMX 0-4 interrupt                                  |
