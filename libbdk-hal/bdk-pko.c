@@ -170,10 +170,8 @@ void bdk_pko_enable(void)
  */
 void bdk_pko_disable(void)
 {
-    bdk_pko_reg_flags_t pko_reg_flags;
-    pko_reg_flags.u64 = BDK_CSR_READ(BDK_PKO_REG_FLAGS);
-    pko_reg_flags.s.ena_pko = 0;
-    BDK_CSR_WRITE(BDK_PKO_REG_FLAGS, pko_reg_flags.u64);
+    BDK_CSR_MODIFY(c, BDK_PKO_REG_FLAGS,
+        c.s.ena_pko = 0);
 }
 
 
