@@ -61,6 +61,7 @@ static void bdk_init_stage2(void)
     if (bdk_get_core_num() == 0)
     {
         __bdk_init_uart(0);
+        __bdk_init_uart(1);
 
         write(1, BANNER_1, sizeof(BANNER_1)-1);
         __bdk_init_exception();
