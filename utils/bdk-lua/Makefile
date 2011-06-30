@@ -65,3 +65,8 @@ all: bdk-lua-x86 bdk-lua-octeon
 clean:
 	rm -f bdk-lua-* *.o *.bin
 
+.PHONY: suid
+suid:
+	sudo chown root bdk-lua-x86
+	sudo chmod +s bdk-lua-x86
+
