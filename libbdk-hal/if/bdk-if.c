@@ -419,11 +419,9 @@ static int __bdk_if_init(void)
     /* Tell L2 to give the IOB statically higher priority compared to the
         cores. This avoids conditions where IO blocks might be starved under
         very high L2 loads */
-    bdk_l2c_ctl_t l2c_ctl;
-    l2c_ctl.u64 = BDK_CSR_READ(BDK_L2C_CTL);
-    l2c_ctl.s.rsp_arb_mode = 1;
-    l2c_ctl.s.xmc_arb_mode = 0;
-    BDK_CSR_WRITE(BDK_L2C_CTL, l2c_ctl.u64);
+    BDK_CSR_MODIFY(c, BDK_L2C_CTL,
+        c.s.rsp_arb_mode = 1;
+        c.s.xmc_arb_mode = 0);
 
     /* Setup the common global IPD/PIP settings. Per port stuff will be
         done later */
