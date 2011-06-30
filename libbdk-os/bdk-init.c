@@ -58,6 +58,9 @@ static void bdk_init_stage2(void)
 
     BDK_MT_COP0(0, COP0_USERLOCAL);
 
+    /* Initialize async WQE area with no work */
+    bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
+
     if (bdk_get_core_num() == 0)
     {
         __bdk_init_uart(0);
@@ -81,9 +84,6 @@ static void bdk_init_stage2(void)
     BDK_MF_COP0(status, COP0_STATUS);
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
-
-    /* Initialize async WQE area with no work */
-    bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
 
     bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
