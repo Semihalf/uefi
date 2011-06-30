@@ -217,7 +217,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = handle->has_fcs);
         /* Backpressure when this port has 256 buffers in use */
         BDK_CSR_MODIFY(c, BDK_IPD_BPIDX_MBUF_TH(handle->pknd),
-            c.s.bp_enb = 1;
+            c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
             c.s.page_cnt = 1);
         /* Enable RED dropping */
         BDK_CSR_MODIFY(c, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
