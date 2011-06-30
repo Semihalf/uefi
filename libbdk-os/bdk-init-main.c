@@ -33,18 +33,15 @@ static void __bdk_init_cop0(void)
 
 static void __bdk_setup_bootbus(void)
 {
-    const int region_size = 256 << 20;
-    /* Skip region 0 as it's location is set earlier in boot. We reserve
-        0-region_size to be used by region 0. Normally it only uses a small
-        part of that */
-    for (int region=1; region<8; region++)
+    /* Set each region to be max size, 256MB. Align regions such that
+        a 128MB flash would alias to allow the MIPS boot region to see
+        the first 4MB. This is only needed on region 0, but we do it on
+        all regions to make the code easier */
+    for (int region=0; region<8; region++)
     {
-        /* Set each region to be region_size, one after the other. We're
-            going to use 64bit addressing to access them, so we cna make
-            them big */
         BDK_CSR_MODIFY(c, BDK_MIO_BOOT_REG_CFGX(region),
-            c.s.size = (region_size >> 16) - 1;
-            c.s.base = region_size >> 16);
+            c.s.size = 0xfff;
+            c.s.base = 0x0fc0 + region*0x2000);
     }
 }
 

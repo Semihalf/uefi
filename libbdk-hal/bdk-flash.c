@@ -120,8 +120,12 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     flash->base_addr = base_addr;
     flash->is_16bit = 1;   /* FIXME: Currently assumes the chip is 16bits */
 
+    /* Read a single byte from flash to put the flash in normal mode */
+    __bdk_flash_read8(chip_id, 0);
+
     /* Put flash in CFI query mode */
-    __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip */
+    __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip - AMD */
+    __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip - Intel */
     __bdk_flash_write_cmd(chip_id, 0x55, 0x98);
 
     /* Make sure we get the QRY response we should */
