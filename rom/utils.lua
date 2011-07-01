@@ -137,3 +137,10 @@ function isglobal(name)
     return rawget(_G, name) ~= nil
 end
 
+function string.hex(str)
+    local hex = ""
+    for i = 1,#str do
+        hex = "%s%02x" % {hex, str:byte(i,i)}
+    end
+    return hex
+end
