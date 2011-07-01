@@ -39,7 +39,7 @@ local function pprint_str(param, indent, visited)
             return "false"
         end
     elseif type(param) == "number" then
-        return "%d" % param
+        return "%d (0x%x)" % {param, param}
     elseif type(param) == "string" then
         return "%q" % param
     elseif type(param) == "function" then
