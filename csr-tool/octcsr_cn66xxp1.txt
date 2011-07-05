@@ -37670,7 +37670,7 @@ Pos      Name    Type     Value     Value       Description
                                                  This field is only used in SRIO0.                  |
  <47:46> NS       RAZ      NS          NS        Reserved                                           |
  <45:40> MAX_S1   R/W      48          NS        Sets max number of vports available to SRIO1       |
-                                                 This field is only used in SRIO0.                  |
+                                                 This field is only used in SRIO0. (65xx)           |
  <39:38> NS       RAZ      NS          NS        Reserved                                           |
  <37:32> MAX_S0   R/W      48          NS        Sets max number of vports available to SRIO0       |
                                                  This field is only used in SRIO0.                  |
@@ -37812,7 +37812,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:46> NS       RAZ      NS          NS        Reserved                                           |
  <45:40> MAX_S3   R/W      48          NS        Sets max number of vports available to SRIO3       |
-                                                 This field is only used in SRIO0. (65xx)           |
+                                                 This field is only used in SRIO0.            |
  <39:38> NS       RAZ      NS          NS        Reserved                                           |
  <37:32> MAX_S2   R/W      48          NS        Sets max number of vports available to SRIO2       |
                                                  This field is only used in SRIO0.                  |
@@ -37820,9 +37820,10 @@ Pos      Name    Type     Value     Value       Description
                                                                                                     |
 Notes:                                                                                              |
 Additional vport thresholds for SRIO MACs 2 and 3.  This register is only used in SRIO0 and is only |
-used when the QLM0 is configured for four x1 lanes.  In that case the maximum number of VPORTs is   |
-limited to 44.  These values are ignored in other configurations.  This register can be accessed    |
-regardless of the value in SRIO(0..3)_STATUS_REG.ACCESS and is not effected by MAC reset.                |
+used when the QLM0 is configured as x1 lanes or x2 lanes.  In the x1 case the maximum number of     |
+VPORTs is limited to 44.  In the x2 case the maximum number of VPORTs is limited to 46.  These      |
+values are ignored in the x4 configuration.  This register can be accessed regardless of the value  |
+in SRIO(0..3)_STATUS_REG.ACCESS and is not effected by MAC reset.                                        |
                                                                                                     |
 Clk_Rst:	SRIO(0..3)_IMSG_VPORT_THR	sclk	srst_n                                              |
 ----------------------------------------------------------------------------------------------------
