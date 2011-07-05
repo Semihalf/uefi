@@ -328,6 +328,11 @@ class Csr:
             base_address = self.pci_alias
         else:
             base_address = self.address_base
+        if self.getNumBits() == 32:
+            # XOR 32bit CSRs on the RSL and NCB busses with 4 to convert
+            # the base address from little endian to big endian
+            if self.type in ["RSL", "NCB", "PEXP_NCB"]:
+                base_address ^= 4
         if self.range:
             offset_max = max(self.range[0])
             if len(self.range) > 1:
