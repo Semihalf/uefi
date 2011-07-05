@@ -61,20 +61,23 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
     extern uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address);
     switch (type)
     {
+        case BDK_CSR_TYPE_PEXP_NCB:
+            address |= 0x80011F0000010000ull;
+            /* Fall through */
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
-            if (size == 4)
-                return *(volatile uint32_t *)(address ^ 4);
-            else
-                return *(volatile uint64_t *)address;
-
-        case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x80011F0000010000ull;
-            if (size == 4)
-                return *(volatile uint32_t *)(address ^ 4);
-            else
-                return *(volatile uint64_t *)address;
+            switch (size)
+            {
+                case 1:
+                    return *(volatile uint8_t *)address;
+                case 2:
+                    return *(volatile uint16_t *)address;
+                case 4:
+                    return *(volatile uint32_t *)address;
+                default:
+                    return *(volatile uint64_t *)address;
+            }
         default:
             return __bdk_csr_read_slow(type, busnum, size, address);
     }
@@ -98,21 +101,27 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
     extern void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
     switch (type)
     {
+        case BDK_CSR_TYPE_PEXP_NCB:
+            address |= 0x80011F0000010000ull;
+            /* Fall through */
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
-            if (size == 4)
-                *(volatile uint32_t *)(address ^ 4) = value;
-            else
-                *(volatile uint64_t *)address = value;
-            break;
-
-        case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x80011F0000010000ull;
-            if (size == 4)
-                *(volatile uint32_t *)(address ^ 4) = value;
-            else
-                *(volatile uint64_t *)address = value;
+            switch (size)
+            {
+                case 1:
+                    *(volatile uint8_t *)address = value;
+                    break;
+                case 2:
+                    *(volatile uint16_t *)address = value;
+                    break;
+                case 4:
+                    *(volatile uint32_t *)address = value;
+                    break;
+                default:
+                    *(volatile uint64_t *)address = value;
+                    break;
+            }
             break;
 
         default:

@@ -449,18 +449,33 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             /* Octeon II needs the read width to be set */
-            if (size == 4)
-                address |= 2ull<<49;
-            else
-                address |= 3ull<<49;
-            /* Writing the lo part of the address actually triggers the read. That
-                means the high part must be written first */
+            switch (size)
+            {
+                case 1:
+                    address |= 0ull<<49;
+                    break;
+                case 2:
+                    address |= 1ull<<49;
+                    break;
+                case 4:
+                    address |= 2ull<<49;
+                    break;
+                default:
+                    address |= 3ull<<49;
+                    break;
+            }
+            /* Writing the lo part of the address actually triggers the read.
+                That means the high part must be written first */
             bar0_write32(BDK_SLI_WIN_RD_ADDR+4, address>>32);
-            bar0_read32(BDK_SLI_WIN_RD_ADDR+4); /* This read is needed to enforce ordering on PowerPC */
+            /* This read is needed to enforce ordering on PowerPC */
+            bar0_read32(BDK_SLI_WIN_RD_ADDR+4);
             bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
-            bar0_read32(BDK_SLI_WIN_RD_ADDR); /* This read is needed to enforce ordering on Freescale PowerPC */
-
-            return (((uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4))<<32) | (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+            /* This read is needed to enforce ordering on Freescale PowerPC */
+            bar0_read32(BDK_SLI_WIN_RD_ADDR);
+            uint64_t v = (((uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4))<<32) | (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+            if (size != 8)
+                v &= (1<<(size*8)) - 1;
+            return v;
 
         case BDK_CSR_TYPE_PEXP:
             /* The SLI CSRs are accessed directly using external address. */
@@ -500,17 +515,28 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
-            /* Writing the low part of the data triggers the actual write. It needs to
-                be last */
+            /* High order 4 bytes of BDK_SLI_WIN_WR_MASK is unused */
             bar0_write32(BDK_SLI_WIN_WR_MASK+4, 0);
-            if (size == 4)
-                bar0_write32(BDK_SLI_WIN_WR_MASK, (address & 4) ? 0x0f : 0xf0);
-            else
-                bar0_write32(BDK_SLI_WIN_WR_MASK, 0xff);
+            /* Create a mask telling which bits to write in a 64bit word. The
+                bytes are big endian order so address 0 is bit 7, address 7 is
+                bit 0 */
+            int write_mask = (1<<size)-1;
+            write_mask <<= 8 - (address & 7) - size;
+            bar0_write32(BDK_SLI_WIN_WR_MASK, write_mask);
+            /* Shift the value to the correct bytes in a 64bit word */
+            value <<= (8 - (address & 7) - size) * 8;
+            /* Mask off the lower address bits as they are encoded in the
+                mask above */
+            address &= -8;
+            /* Write the address to the hardware */
             bar0_write32(BDK_SLI_WIN_WR_ADDR+4, address>>32);
             bar0_write32(BDK_SLI_WIN_WR_ADDR, address);
+            /* Write the high part of value to the hardware */
             bar0_write32(BDK_SLI_WIN_WR_DATA+4, value>>32);
-            bar0_read32(BDK_SLI_WIN_WR_DATA+4); /* This read is needed to enforce ordering on PowerPC */
+            /* This read is needed to enforce ordering on PowerPC */
+            bar0_read32(BDK_SLI_WIN_WR_DATA+4);
+            /* Writing the low part of the data triggers the actual write. It
+                needs to be last */
             bar0_write32(BDK_SLI_WIN_WR_DATA, value);
             break;
 

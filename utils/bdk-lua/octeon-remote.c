@@ -204,22 +204,30 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_RSL:
-        case BDK_CSR_TYPE_NCB:
-            if (size == 4)
-                return octeon_remote_read_mem32(address ^ 4);
-            else
-                return octeon_remote_read_mem64(address);
-
         case BDK_CSR_TYPE_PEXP_NCB:
             address |= 0x00011F0000010000ull;
-            if (size == 4)
-                return octeon_remote_read_mem32(address ^ 4);
-            else
-                return octeon_remote_read_mem64(address);
+            /* Fall through */
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_NCB:
+            switch (size)
+            {
+                case 1:
+                {
+                    uint8_t c;
+                    octeon_remote_read_mem(&c, address, 1);
+                    return c;
+                }
+                case 2:
+                    return octeon_remote_read_mem16(address);
+                case 4:
+                    return octeon_remote_read_mem32(address);
+                default:
+                    return octeon_remote_read_mem64(address);
+            }
 
         case BDK_CSR_TYPE_PEXP:
             /* We don't handle BAR0 CSRs */
+            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGEP:
@@ -280,24 +288,34 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_RSL:
-        case BDK_CSR_TYPE_NCB:
-            if (size == 4)
-                octeon_remote_write_mem32(address ^ 4, value);
-            else
-                octeon_remote_write_mem64(address, value);
-            break;
-
         case BDK_CSR_TYPE_PEXP_NCB:
             address |= 0x00011F0000010000ull;
-            if (size == 4)
-                octeon_remote_write_mem32(address ^ 4, value);
-            else
-                octeon_remote_write_mem64(address, value);
+            /* Fall through */
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_NCB:
+            switch (size)
+            {
+                case 1:
+                {
+                    uint8_t c = value;
+                    octeon_remote_write_mem(address, &c, 1);
+                    break;
+                }
+                case 2:
+                    octeon_remote_write_mem16(address, value);
+                    break;
+                case 4:
+                    octeon_remote_write_mem32(address, value);
+                    break;
+                default:
+                    octeon_remote_write_mem64(address, value);
+                    break;
+            }
             break;
 
         case BDK_CSR_TYPE_PEXP:
             /* We don't handle BAR0 CSRs */
+            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGEP:
