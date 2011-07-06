@@ -7,6 +7,7 @@ local log = logging.new("NOR")
 
 local norflash = {}
 local use_oremote = true
+local init_complete = false
 
 local oremote
 local csr
@@ -431,6 +432,10 @@ end
 -- it to get the NOR object instance.
 --
 function norflash.query(chip_sel)
+    if not init_complete then
+        init_bootbus()
+        init_complete = true
+    end
     return assert(cfi_query(chip_sel), "CFI Query failed")
 end
 

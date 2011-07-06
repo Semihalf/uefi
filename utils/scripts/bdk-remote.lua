@@ -213,7 +213,7 @@ function remote.flash(args)
     if args[2] == "info" then
         assert(#args == 2, "Expected two arguments")
         local nor = assert(norflash.query(0))
-        pprint(nor)
+        pprint(nor.params)
     elseif args[2] == "read" then
         assert(#args == 5, "Expected five arguments")
         local nor = assert(norflash.query(0))
