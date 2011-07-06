@@ -9,6 +9,7 @@ require("strict")
 require("utils")
 local oremote = require("oremote")
 local bit64 = require("bit64")
+local norflash = require("norflash")
 
 local remote = {}
 
@@ -204,6 +205,35 @@ function remote.reset(args)
     oremote.reset(0)
 end
 
+function remote.flash(args)
+    -- flash info
+    -- flash read <filename> <address> <length>
+    -- flash write <filename> <address>
+    assert(args[1] == "flash", "Expected keyword 'flash'")
+    if args[2] == "info" then
+        assert(#args == 2, "Expected two arguments")
+        local nor = assert(norflash.query(0))
+        pprint(nor)
+    elseif args[2] == "read" then
+        assert(#args == 5, "Expected five arguments")
+        local nor = assert(norflash.query(0))
+        local f = assert(io.open(args[3], "w"))
+        local d = nor:read(args[4], args[5])
+        f:write(d)
+        f:close()
+    elseif args[2] == "write" then
+        assert(#args == 4, "Expected four arguments")
+        local nor = assert(norflash.query(0))
+        local f = assert(io.open(args[3], "r"))
+        local d = f:read("*a")
+        f:close()
+        printf("Writing %s: ", args[3])
+        nor:burn(args[4], d, true)
+    else
+        error("Invalid number of args")
+    end
+end
+
 function remote.core(args)
     -- core <core>
     assert(args[1] == "core", "Expected keyword 'core'")
@@ -391,6 +421,14 @@ bdk-remote:
     reset
         Reset Octeon.
 
+    flash info
+        Probe a NOR flash and display information about it.
+    flash read <filename> <address> <length>
+        Read <length> bytes from <address> in NOR flash on
+        CS0 and save it to <filename>.
+    flash write <filename> <address>
+        Write <filename> to a NOR flash on CS0 starting at <address>.
+
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.
 
@@ -461,6 +499,9 @@ local function parse_args()
         "csr <csr> <value> decode",
         "boot <filename>",
         "reset",
+        "flash info",
+        "flash read <filename> <address> <length>",
+        "flash write <filename> <address>",
         "core <core>",
         "reg <core> <register>",
         "reg <core> <register> <value>",

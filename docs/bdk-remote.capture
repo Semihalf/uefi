@@ -13,6 +13,14 @@ bdk-remote:
     reset
         Reset Octeon.
 
+    flash info
+        Probe a NOR flash and display information about it.
+    flash read <filename> <address> <length>
+        Read <length> bytes from <address> in NOR flash on
+        CS0 and save it to <filename>.
+    flash write <filename> <address>
+        Write <filename> to a NOR flash on CS0 starting at <address>.
+
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.
 
@@ -60,19 +68,19 @@ Parameter descriptions:
         and 5.
     <register>
         One of the following CPU register names.
-BadVAddr     Cause        Compare      Config       Config1      Config2      
-Config3      Config4      Context      Count        CvmCount     CvmCtl       
-CvmMemCt     DEPC         DESAVE       DcacheDataHi DcacheDataLo DcacheError  
-DcacheTagHi  DcacheTagLo  Debug        Debug2       EPC          Ebase        
-EntryHi      EntryLo0     EntryLo1     ErrorEPC     HWREna       IcacheDataHi 
-IcacheDataLo IcacheError  IcacheTagLo  Index        IntCtl       Kscratch1    
-Kscratch2    Kscratch3    MultiCoreDebugPRId         PageGrain    PageMask     
-PerfControl0 PerfControl1 PerfCount0   PerfCount1   PowThr       Random       
-SRSCtl       Status       UserLocal    WatchHi0     WatchHi1     WatchLo0     
-WatchLo1     Wired        XContext     a0           a1           a2           
-a3           a4           a5           a6           a7           at           
-gp           hi           k0           k1           lo           ra           
-s0           s1           s2           s3           s4           s5           
-s6           s7           s8/fp        sp           t0           t1           
-t2           t3           t8           t9           v0           v1           
-zero         
+BadVAddr     Cause        Compare      Config       Config1      Config2
+Config3      Config4      Context      Count        CvmCount     CvmCtl
+CvmMemCt     DEPC         DESAVE       DcacheDataHi DcacheDataLo DcacheError
+DcacheTagHi  DcacheTagLo  Debug        Debug2       EPC          Ebase
+EntryHi      EntryLo0     EntryLo1     ErrorEPC     HWREna       IcacheDataHi
+IcacheDataLo IcacheError  IcacheTagLo  Index        IntCtl       Kscratch1
+Kscratch2    Kscratch3    MultiCoreDebugPRId         PageGrain    PageMask
+PerfControl0 PerfControl1 PerfCount0   PerfCount1   PowThr       Random
+SRSCtl       Status       UserLocal    WatchHi0     WatchHi1     WatchLo0
+WatchLo1     Wired        XContext     a0           a1           a2
+a3           a4           a5           a6           a7           at
+gp           hi           k0           k1           lo           ra
+s0           s1           s2           s3           s4           s5
+s6           s7           s8/fp        sp           t0           t1
+t2           t3           t8           t9           v0           v1
+zero
