@@ -16,7 +16,7 @@ function fileio.open(filename, mode, seek_to)
     assert(type(mode) == "string")
     assert((seek_to == nil) or tonumber(seek_to))
     local handle
-    if octeon.devopen and (filename:sub(1,5) == "/dev/") then
+    if isglobal("octeon") and octeon.devopen and (filename:sub(1,5) == "/dev/") then
         handle = assert(octeon.devopen(filename, mode))
     else
         handle = assert(io.open(filename, mode))
