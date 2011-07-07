@@ -53,6 +53,26 @@ static int octeon_csr_write(lua_State* L)
 }
 
 /**
+ * Called when octeon.csr.NAME.display(optional) is invoked
+ *
+ * @param L
+ *
+ * @return
+ */
+static int octeon_csr_display(lua_State* L)
+{
+    const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    uint64_t value;
+    if (lua_isnumber(L, 1))
+        value = luaL_checknumber(L, 1);
+    else
+        value = bdk_csr_read_by_name(csr_name);
+    if (bdk_csr_decode(csr_name, value))
+        return luaL_error(L, "%s: CSR not found", __FUNCTION__);
+    return 0;
+}
+
+/**
  * Called when octeon.csr.NAME.decode(optional) is invoked
  *
  * @param L
@@ -213,6 +233,9 @@ static int octeon_csr_lookup(lua_State* L)
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_write, 1);
     lua_setfield(L, -2, "write");
+    lua_pushstring(L, name);
+    lua_pushcclosure(L, octeon_csr_display, 1);
+    lua_setfield(L, -2, "display");
     lua_pushstring(L, name);
     lua_pushcclosure(L, octeon_csr_decode, 1);
     lua_setfield(L, -2, "decode");

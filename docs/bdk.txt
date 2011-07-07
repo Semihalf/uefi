@@ -764,6 +764,14 @@ or "CIU_INTX_SUM0(0)".
 * value = Value to write
 * No return value.
 
+oremote.csr.NAME.display(optional_value)::
+
+Uses *optional_value* as a numeric value for the CSR.  It then decodes
+each field and dispaly it.  If *optional_value* is not supplied the actual
+value is read from the hardware.
+* optional_value = If supplied, value of CSR to decode.
+* No return value.
+
 oremote.csr.NAME.decode(optional_value)::
 
 Uses *optional_value* as a numeric value for the CSR.  It then decodes
@@ -857,6 +865,14 @@ octeon.csr.NAME.write(value)::
 Write the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
 or "CIU_INTX_SUM0(0)".
 * value = Value to write
+* No return value.
+
+octeon.csr.NAME.display(optional_value)::
+
+Uses *optional_value* as a numeric value for the CSR.  It then decodes
+each field and dispaly it.  If *optional_value* is not supplied the actual
+value is read from the hardware.
+* optional_value = If supplied, value of CSR to decode.
 * No return value.
 
 octeon.csr.NAME.decode(optional_value)::
