@@ -72,6 +72,8 @@ release: all
 	cp bdk-boot/bdk-boot.map $(RELEASE_DIR)/target-bin/
 	# Copy rom dir
 	cp -a rom $(RELEASE_DIR)/
+	# Copy lua-modules dir
+	cp -a lua-modules $(RELEASE_DIR)/
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
 	# Create release tar
