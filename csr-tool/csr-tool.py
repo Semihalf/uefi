@@ -8,6 +8,7 @@ import csr_output_html
 import csr_list_combiner
 import csr_output_header
 import csr_output_db
+import csr_output_lua
 import csr_output_error_decodes
 
 #
@@ -16,6 +17,7 @@ import csr_output_error_decodes
 
 OUTPUT_FILENAME_TYPEDEFS        = "bdk-csrs.h"
 OUTPUT_FILENAME_DB              = "bdk-csrs.c"
+OUTPUT_FILENAME_LUA             = "csr_db.lua"
 
 csr_files = []          # List of CSR files to load. Each item is a chip,file tuple
 generate_html = 0       # Non zero if HTML output of the CSRs should be generated
@@ -129,6 +131,8 @@ combined_list = None
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_lists, 0)
+print "Writing " + OUTPUT_FILENAME_LUA
+csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_lists, 0)
 #print "Writing Error decodes"
 #csr_output_error_decodes.write(separate_chip_lists)
 
