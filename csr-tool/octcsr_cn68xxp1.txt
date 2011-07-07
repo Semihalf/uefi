@@ -14195,8 +14195,8 @@ Pos      Name    Type     Value     Value       Description
 <0>      STAT_ENA             R/W      0x0      NS       Enable RX lane statistics counters                             |
 <1>      STAT_RDCLR           R/W      0x0      NS       CSR read to ILK_RX_LNEx_STAT* clears the selected counter after|
                                                          returning its current value.                                   |
-<2>      RX_DIS_SCRAM         R/W      0x0      NS       Disable lane scrambler (debug)                                 |
-<3>      RX_DIS_UKWN          R/W      0x0      NS       Disable normal response to unknown words.  They are still      |
+<2>      RX_DIS_SCRAM         R/W      0x0      0x0      Disable lane scrambler (debug)                                 |
+<3>      RX_DIS_UKWN          R/W      0x0      0x0      Disable normal response to unknown words.  They are still      |
                                                          logged but do not cause an error to all open channels..        |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
 <63:5>   NS                   RAZ      0x0      NS       Reserved                                                       |

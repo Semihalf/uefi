@@ -13793,8 +13793,15 @@ Pos      Name    Type     Value     Value       Description
 <54>     LNK_STATS_ENA        R/W      0x0      NS       Enable link statistics counters                                |
 <55>     LNK_STATS_RDCLR      R/W      0x0      NS       CSR read to ILK_RXx_STAT* clears the counter after returning   |
                                                          its current value.                                             |
-<56>     PTRN_MODE            R/W      0x0      NS       Enable programmable test pattern mode                          |
-<61:57>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<56>     PTRN_MODE            RAZ      0x0      NS       Reserved                                                       |
+<57>     MPROTO_IGN           R/W      0x0      0x0      When LA_MODE=1 and MPROTO_IGN=0, the multi-protocol bit of the |
+ 							 LA control word is used to determine if the burst is an LA or	|
+                                                         non-LA burst.   When LA_MODE=1 and MPROTO_IGN=1, all bursts    |
+                                                         are treated LA.   When LA_MODE=0, this field is ignored        |
+                                                                                                                        |
+   	 				         	 ***NOTE: Added in pass 2.0                                     |
+                                                                                                                        |
+<61:58>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <62>     EXT_LPBK             R/W      0x0      NS       Enable Rx-Tx data loopback (external). Note that with differing|
                                                          transmit & receive clocks, skip word are  inserted/deleted     |
 <63>     EXT_LPBK_FC          R/W      0x0      NS       Enable Rx-Tx flowcontrol loopback (external)                   |
@@ -14402,8 +14409,8 @@ Pos      Name    Type     Value     Value       Description
 <0>      STAT_ENA             R/W      0x0      NS       Enable RX lane statistics counters                             |
 <1>      STAT_RDCLR           R/W      0x0      NS       CSR read to ILK_RX_LNEx_STAT* clears the selected counter after|
                                                          returning its current value.                                   |
-<2>      RX_DIS_SCRAM         R/W      0x0      NS       Disable lane scrambler (debug)                                 |
-<3>      RX_DIS_UKWN          R/W      0x0      NS       Disable normal response to unknown words.  They are still      |
+<2>      RX_DIS_SCRAM         R/W      0x0      0x0      Disable lane scrambler (debug)                                 |
+<3>      RX_DIS_UKWN          R/W      0x0      0x0      Disable normal response to unknown words.  They are still      |
                                                          logged but do not cause an error to all open channels.         |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
 <5>      RX_SCRM_SYNC         RO       0x0      NS       Rx scrambler synchronization status                            |
@@ -14411,9 +14418,14 @@ Pos      Name    Type     Value     Value       Description
    	 				         	 ***NOTE: Added in pass 2.0                                     |
                                                                                                                         |
 <7:6>    NS                   RAZ      0x0      NS       Reserved                                                       |
-<8>      RX_PSH_SKIP          R/W      0x0      NS       Push skip words into the de-striper.   Otherwise, drop them in |
-                                                         the lane logic.                                                |
-								      				                        |
+<8>      RX_DIS_PSH_SKIP      R/W      0x0      0x0      When RX_DIS_PSH_SKIP=0, skip words are de-stripped.            |
+                                                         When RX_DIS_PSH_SKIP=1, skip words are discarded in the lane   |
+                                                         logic.  							|
+                                                                                                                        |
+                                                         If the lane is in internal loopback mode, RX_DIS_PSH_SKIP      |
+                                                         is ignored and skip words are always discarded in the lane     |
+                                                         logic.                                                         |
+															|
    	 				         	 ***NOTE: Added in pass 2.0                                     |
                                                                                                                         |
 <63:9>   NS                   RAZ      0x0      NS       Reserved                                                       |
