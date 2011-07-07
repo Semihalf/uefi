@@ -28,6 +28,13 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     /* Create a new table for the module */
     lua_newtable(L);
 
+    /* Add function for opening device files. Used by RPC. This is just
+        another way to get to the local io.open */
+    lua_getglobal(L, "io");
+    lua_getfield (L, -1, "open");
+    lua_setfield(L, -3, "devopen");
+    lua_pop(L, 1);
+
     REGISTER(L, octeon_model);
     REGISTER(L, octeon_c);
     REGISTER(L, octeon_config);
