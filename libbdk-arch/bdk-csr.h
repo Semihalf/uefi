@@ -9,8 +9,6 @@
  * @{
  */
 
-//#define BDK_DISABLE_CSR_DB
-
 /**
  * Possible CSR bus types
  */
@@ -40,6 +38,18 @@ typedef struct {
     uint32_t model;
     const int16_t *data;            /**< Array of integers indexing __bdk_csr_db_csr */
 } __bdk_csr_db_map_t;
+
+extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2) __attribute__ ((noreturn));
+
+#ifndef BDK_DISABLE_CSR_DB
+
+extern int bdk_csr_decode(const char *name, uint64_t value);
+extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
+extern uint64_t bdk_csr_read_by_name(const char *name);
+extern int bdk_csr_write_by_name(const char *name, uint64_t value);
+extern int bdk_csr_get_name(const char *last_name, char *buffer);
+
+#endif
 
 #ifndef BDK_BUILD_HOST
 
@@ -134,17 +144,6 @@ static inline void bdk_send_single(uint64_t data)
 {
     *(volatile uint64_t *)0xffffffffffffa200ull = data;
 }
-
-#endif
-
-extern int bdk_csr_decode(const char *name, uint64_t value);
-extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
-extern uint64_t bdk_csr_read_by_name(const char *name);
-extern int bdk_csr_write_by_name(const char *name, uint64_t value);
-extern int bdk_csr_get_name(const char *last_name, char *buffer);
-extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2) __attribute__ ((noreturn));
-
-#ifndef BDK_BUILD_HOST
 
 /**
  * This macro makes it easy to define a variable of the correct

@@ -55,6 +55,8 @@ static int oremote_close(lua_State* L)
     return 0;
 }
 
+#ifndef BDK_DISABLE_CSR_DB
+
 /**
  * oremote.read_csr(csr)
  * csr = Name of CSR as a string
@@ -70,6 +72,8 @@ static int oremote_read_csr(lua_State* L)
     lua_pushnumber(L, bdk_csr_read_by_name(name));
     return 1;
 }
+
+#endif
 
 /**
  * oremote.read_csr_raw(type, busnum, size, address)
@@ -93,6 +97,8 @@ static int oremote_read_csr_raw(lua_State* L)
     return 1;
 }
 
+#ifndef BDK_DISABLE_CSR_DB
+
 /**
  * oremote.write_csr(name, value)
  * name = Name of CSR as a string
@@ -110,6 +116,8 @@ static int oremote_write_csr(lua_State* L)
         return luaL_error(L, "bdk_csr_write_by_name failed");
     return 0;
 }
+
+#endif
 
 /**
  * oremote.write_csr_raw(type, busnum, size, address, value)
@@ -135,6 +143,8 @@ static int oremote_write_csr_raw(lua_State* L)
     return 0;
 }
 
+#ifndef BDK_DISABLE_CSR_DB
+
 /**
  * oremote.decode_csr(name, value)
  * name = Name of CSR as a string
@@ -157,6 +167,8 @@ static int oremote_decode_csr(lua_State* L)
         return luaL_error(L, "bdk_csr_decode failed");
     return 0;
 }
+
+#endif
 
 /**
  * oremote.read_mem(address, length)
@@ -586,16 +598,18 @@ LUALIB_API int luaopen_oremote(lua_State* L)
     lua_setfield(L, -2, "open");
     lua_pushcfunction(L, oremote_close);
     lua_setfield(L, -2, "close");
-    lua_pushcfunction(L, oremote_read_csr);
-    lua_setfield(L, -2, "read_csr");
     lua_pushcfunction(L, oremote_read_csr_raw);
     lua_setfield(L, -2, "read_csr_raw");
-    lua_pushcfunction(L, oremote_write_csr);
-    lua_setfield(L, -2, "write_csr");
     lua_pushcfunction(L, oremote_write_csr_raw);
     lua_setfield(L, -2, "write_csr_raw");
+#ifndef BDK_DISABLE_CSR_DB
+    lua_pushcfunction(L, oremote_read_csr);
+    lua_setfield(L, -2, "read_csr");
+    lua_pushcfunction(L, oremote_write_csr);
+    lua_setfield(L, -2, "write_csr");
     lua_pushcfunction(L, oremote_decode_csr);
     lua_setfield(L, -2, "decode_csr");
+#endif
     lua_pushcfunction(L, oremote_read_mem);
     lua_setfield(L, -2, "read_mem");
     lua_pushcfunction(L, oremote_write_mem);
@@ -640,8 +654,10 @@ LUALIB_API int luaopen_oremote(lua_State* L)
         register_##name(L)
 
     REGISTER(L, octeon_model);
-    REGISTER(L, octeon_csr);
     REGISTER(L, octeon_constants);
+#ifndef BDK_DISABLE_CSR_DB
+    REGISTER(L, octeon_csr);
+#endif
 
     return 1;
 }

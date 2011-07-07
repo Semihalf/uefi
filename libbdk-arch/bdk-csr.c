@@ -274,7 +274,6 @@ static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offs
         address += __bdk_csr_db_number[db->block_index] * block;
     return address;
 }
-#endif
 
 
 /**
@@ -287,7 +286,6 @@ static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offs
  */
 int bdk_csr_decode(const char *name, uint64_t value)
 {
-#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -327,9 +325,6 @@ int bdk_csr_decode(const char *name, uint64_t value)
                 (unsigned long long)v, (unsigned long long)v);
     }
     return 0;
-#else
-    return -1;
-#endif
 }
 
 
@@ -346,7 +341,6 @@ int bdk_csr_decode(const char *name, uint64_t value)
  */
 int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name)
 {
-#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(csr_name, &offset, &block);
@@ -370,7 +364,6 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
             return stop_bit - start_bit + 1;
         }
     }
-#endif
     return -1;
 }
 
@@ -384,7 +377,6 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
  */
 uint64_t bdk_csr_read_by_name(const char *name)
 {
-#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -399,9 +391,6 @@ uint64_t bdk_csr_read_by_name(const char *name)
     return octeon_remote_read_csr(db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
 #endif
-#else
-    return 0;
-#endif
 }
 
 
@@ -415,7 +404,6 @@ uint64_t bdk_csr_read_by_name(const char *name)
  */
 int bdk_csr_write_by_name(const char *name, uint64_t value)
 {
-#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
@@ -430,9 +418,6 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
         __bdk_csr_lookup_address(db, offset, block), value);
 #endif
     return 0;
-#else
-    return -1;
-#endif
 }
 
 
@@ -447,7 +432,6 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
  */
 int bdk_csr_get_name(const char *last_name, char *buffer)
 {
-#ifndef BDK_DISABLE_CSR_DB
     int offset = -1;
     int block = -1;
     const __bdk_csr_db_type_t *db;
@@ -525,10 +509,9 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     }
 
     return 0;
-#else
-    return -1;
-#endif
 }
+
+#endif
 
 void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2)
 {

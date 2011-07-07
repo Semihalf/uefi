@@ -13,6 +13,8 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#ifndef BDK_DISABLE_CSR_DB
+
 static uint64_t build_mask(int bits, int left_shift)
 {
     uint64_t mask = ~((~0x0ull) << bits);
@@ -371,3 +373,4 @@ void register_octeon_csr(lua_State* L)
     lua_setfield(L, -2, "csr");
 }
 
+#endif

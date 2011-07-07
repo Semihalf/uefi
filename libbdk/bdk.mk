@@ -34,6 +34,11 @@ ASFLAGS = $(CFLAGS)
 CPPFLAGS += -I$(BDK_ROOT)/liblwip/src/include
 CPPFLAGS += -I$(BDK_ROOT)/liblwip/src/include/ipv4
 
+#
+# Flag to enable or disable the CSR database in the target
+#
+#CPPFLAGS += -DBDK_DISABLE_CSR_DB=1
+
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map
