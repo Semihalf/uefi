@@ -141,6 +141,14 @@ after_relocate:
     dmtc0   t0, COP0_CVMMEMCTL
     li      sp, -32768 + STACK_CACHE_LINES * 128
 
+    # Zero the scratch stack. This is needed due to an errata on CN63XXp1
+    li      t0, STACK_CACHE_LINES * 128 / 8
+    li      t1, -32768
+1:  sd      $0, (t1)
+    sub     t0, 1
+    bnez    t0, 1b
+     daddu   t1, 8
+
     # Convert __bdk_init into an address based on my current location
     li      t0, 0x1fffffff  /* 512MB mask */
     dla     a0, __bdk_init  /* Virtual address of __bdk_init */
