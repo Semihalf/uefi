@@ -26,6 +26,10 @@ distclean: clean
 tftp: all
 	$(MAKE) -C bdk-boot tftp
 
+.PHONY: suid
+suid: all
+	$(MAKE) -C utils/bdk-lua suid
+
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
     BUILD_REV := $(word 4, $(BUILD_REV))
