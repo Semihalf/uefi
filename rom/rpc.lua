@@ -434,7 +434,7 @@ function rpc.connect(instream, outstream)
     m.__mode = "k"
     meta.remoteid = {}
     setmetatable(meta.remoteid, m)
-    meta.remoteid[object] = 0
+    meta.remoteid[object] = "0"
     -- Table used to track objects to delete
     meta.need_cleanup = {}
     -- Methods for the remote object
