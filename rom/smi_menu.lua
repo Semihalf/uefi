@@ -50,6 +50,10 @@ local function smi_write45(smi_bus)
 end
 
 local function smi_submenu(smi_bus)
+    -- Enable the SMI/MDIO bus if it hasn't been enabled yet
+    if octeon.csr.SMIX_EN(smi_bus).EN == 0 then
+        octeon.csr.SMIX_EN(smi_bus).EN = 1
+    end
     local m = menu.new("SMI/MDIO Menu - Bus " .. smi_bus)
     m:item("scan", "Scan bus (Clause 22)", smi_scan, smi_bus)
     m:item("read", "Read a register (Clause 22)", smi_read, smi_bus)
