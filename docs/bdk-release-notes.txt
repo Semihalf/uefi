@@ -13,6 +13,37 @@ incorporated into each BDK release.
 octeon-bdk-2011.06-latest
 -------------------------
 
+octeon-bdk-2011.06-62169
+-------------------------
+
+* Only display a message for the first 100 errors when testing DDR.
+	The total error count will be displayed at the end of the
+	test.
+* Improvements in TCP/IP reliability.
+* "bdk-lua" is now a shell script that performs some environment
+	variable setup before executing the real file. This fixes
+	issues with the Lua search path not being correct.
+* Host binaries are supplied for Octeon as well as x86.
+* Menu prompts now support multiple word input. This allows you to
+	string multiple inputs together.
+* Many Lua modules no longer create global variables. Importing a module
+	should now use a local variable to store the module. For example:
++
+[source, lua]
+----
+local oremote = require("oremote")
+----
+* Fixed possible crash due to unintialized CVMSEG state.
+* Fix issue causing CFI flash probing to fail. When using
+	remote boot, the moveable region was placed over the reset
+	vector. This was capturing accesses to NOR and stopping CFI
+	query from working. The code now programs all bootbus
+	regions to avoid this problem.
+* bdk-remote can now read and write NOR flash.
+* Add octeon.csr.NAME.display() and oremote.csr.NAME.display().
+* Add workaround for CN63XXp1 errata where scratch has invalid parity.
+* Enable SMI/MDIO bus in menu if it isn't already enabled.
+
 
 octeon-bdk-2011.06-61431
 ------------------------
