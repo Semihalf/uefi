@@ -13,7 +13,7 @@ incorporated into each BDK release.
 octeon-bdk-2011.06-latest
 -------------------------
 
-octeon-bdk-2011.06-62169
+octeon-bdk-2011.06-r62169
 -------------------------
 
 * Only display a message for the first 100 errors when testing DDR.
@@ -45,7 +45,7 @@ local oremote = require("oremote")
 * Enable SMI/MDIO bus in menu if it isn't already enabled.
 
 
-octeon-bdk-2011.06-61431
+octeon-bdk-2011.06-r61431
 ------------------------
 
 * Decode register from high bit to low bit, not low to high. This
