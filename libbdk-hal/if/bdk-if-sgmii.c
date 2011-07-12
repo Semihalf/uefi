@@ -31,10 +31,13 @@ static int if_num_ports(int interface)
                 return 0;
         }
     }
-
-    BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
-    if (mode.s.type == 0)
-        return 4;
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    {
+        if (strstr(bdk_qlm_get_mode(2 - interface), "SGMII"))
+            return 4;
+        else
+            return 0;
+    }
     else
         return 0;
 }
