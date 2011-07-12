@@ -14,7 +14,6 @@ typedef enum
 {
     OCTEON_FEATURE_ZIP,         /**<  Does this Octeon support the ZIP offload engine? */
     OCTEON_FEATURE_CRYPTO,      /**<  Does this Octeon support crypto acceleration using COP2? */
-    OCTEON_FEATURE_SRIO,	/**<  Does this Octeon support SRIOs */
 } octeon_feature_t;
 
 /**
@@ -49,9 +48,6 @@ static inline int octeon_has_feature(octeon_feature_t feature)
                 return st.s.eer_val;
             }
         }
-
-	case OCTEON_FEATURE_SRIO:
-	    return (OCTEON_IS_MODEL(OCTEON_CN63XX));
     }
     return 0;
 }
