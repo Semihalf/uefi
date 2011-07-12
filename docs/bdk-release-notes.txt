@@ -10,10 +10,10 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2011.06-latest
+octeon-bdk-2011.07-latest
 -------------------------
 
-octeon-bdk-2011.06-r62169
+octeon-bdk-2011.07-r62169
 -------------------------
 
 * Only display a message for the first 100 errors when testing DDR.
