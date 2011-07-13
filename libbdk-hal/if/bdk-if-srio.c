@@ -21,6 +21,10 @@ static int if_num_ports(int interface)
                     return 2;
                 break;
             case 1:
+                /* Controller 1 is stolen by PCIe if QLM1
+                    is in PCIe mode with a valid clock rate */
+                if (strstr(bdk_qlm_get_mode(1), "PCIE") && bdk_qlm_get_gbaud_mhz(1))
+                    return 0;
                 if (strstr(bdk_qlm_get_mode(0), "SRIO 4x1"))
                     return 2;
                 break;

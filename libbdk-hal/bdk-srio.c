@@ -315,6 +315,17 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         return -1;
     }
 
+    if (OCTEON_IS_MODEL(OCTEON_CN66XX) && (srio_port == 1))
+    {
+        /* Controller 1 is stolen by PCIe if QLM1 is in PCIe mode with a
+            valid clock rate */
+        if (strstr(bdk_qlm_get_mode(1), "PCIE") && bdk_qlm_get_gbaud_mhz(1))
+        {
+            bdk_error("SRIO1: Disabled due to PCIe1\n");
+            return -1;
+        }
+    }
+
     __bdk_srio_state[srio_port].flags = flags;
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be
@@ -348,7 +359,7 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         BDK_CSR_INIT(mio_rst_ctl, BDK_MIO_RST_CTLX(srio_port));
         is_host_mode = mio_rst_ctl.s.prtmode;
     }
-    else
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
     {
         BDK_CSR_MODIFY(c, BDK_MIO_RST_CNTLX(srio_port),
             c.s.rst_drv = 0;
@@ -357,6 +368,12 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         BDK_CSR_INIT(mio_rst_cntl, BDK_MIO_RST_CNTLX(srio_port));
         is_host_mode = mio_rst_cntl.s.prtmode;
     }
+    else
+    {
+        bdk_error("SRIO%d: Unsupported chip\n", srio_port);
+        return -1;
+    }
+
 
     bdk_dprintf("SRIO%d: Port in %s mode\n", srio_port,
         (is_host_mode) ? "host" : "endpoint");
