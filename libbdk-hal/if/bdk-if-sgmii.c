@@ -402,6 +402,17 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         qlm = 2 - gmx_block;
     int speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
 
+    if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+    {
+        /* This chip can support two fixed speeds based on the configured
+            rate */
+        BDK_CSR_INIT(gmx_inf_mode, BDK_GMXX_INF_MODE(gmx_block));
+        if (gmx_inf_mode.s.rate & (1<<gmx_index))
+            speed = 2500;
+        else
+            speed = 1000;
+    }
+
     if (bdk_is_simulation())
     {
         /* The simulator gives you a simulated 1Gbps full duplex link */
