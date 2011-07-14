@@ -345,11 +345,18 @@ static int if_init(bdk_if_handle_t handle)
     }
     else
     {
+        if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == -1) &&
+            !pcsx_miscx_ctl_reg.s.mac_phy)
+        {
+            bdk_dprintf("SGMII%d%d: Forcing PHY mode as PHY address is not set\n", gmx_block, gmx_index);
+            pcsx_miscx_ctl_reg.s.mac_phy = 1;
+            BDK_CSR_WRITE(BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block), pcsx_miscx_ctl_reg.u64);
+        }
+
         if (pcsx_miscx_ctl_reg.s.mac_phy)
         {
             /* PHY Mode */
             BDK_CSR_MODIFY(pcsx_sgmx_an_adv_reg, BDK_PCSX_SGMX_AN_ADV_REG(gmx_index, gmx_block),
-                pcsx_sgmx_an_adv_reg.s.link = 1;
                 pcsx_sgmx_an_adv_reg.s.dup = 1;
                 pcsx_sgmx_an_adv_reg.s.speed= 2);
         }
