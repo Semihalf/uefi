@@ -13,7 +13,6 @@ local oremote
 local csr
 if use_oremote then
     oremote = require("oremote")
-    oremote.open()
     csr = oremote.csr
 else
     require("octeon")
