@@ -182,10 +182,17 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
             else
             {
                 BDK_CSR_INIT(pciercx_cfg032, BDK_PCIERCX_CFG032(qlm));
-                if (pciercx_cfg032.s.ls == 2)
-                    return 2500;
-                else
-                    return 5000;
+                switch (pciercx_cfg032.s.ls)
+                {
+                    case 1:
+                        return 2500;
+                    case 2:
+                        return 5000;
+                    case 4:
+                        return 8000;
+                    default:
+                        return 0;
+                }
             }
         }
     }
