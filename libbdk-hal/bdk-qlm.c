@@ -96,7 +96,7 @@ const char *bdk_qlm_get_mode(int qlm)
         {
             BDK_CSR_INIT(status_reg, BDK_SRIOX_STATUS_REG(qlm));
             if (status_reg.s.srio)
-                return "SRIO";
+                return "SRIO 1x4";
             else
                 return "PCIE";
         }
