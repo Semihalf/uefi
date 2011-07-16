@@ -10,10 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2011.07-latest
--------------------------
-
-octeon-bdk-2011.07-r62169
+octeon-bdk-2011.07-r62444
 -------------------------
 
 * Only display a message for the first 100 errors when testing DDR.
@@ -43,6 +40,15 @@ local oremote = require("oremote")
 * Add octeon.csr.NAME.display() and oremote.csr.NAME.display().
 * Add workaround for CN63XXp1 errata where scratch has invalid parity.
 * Enable SMI/MDIO bus in menu if it isn't already enabled.
+* CN66XX: Fix detection when QLM1 is not SGMII and mistakenly think it is SGMII.
+* CN66XX: Fix detection of SRIO message interfaces.
+* Add DDR config for EBB6600.
+* Disable SRIO1 on CN66XX if PCIe1 exists. They share controller logic
+	and PCIe1 has priority.
+* Update SGMII to support running without external PHYs.
+* Update SGMII speed detection to work with dual speed config of CN65XX
+* Fix QLM speed reported for PCIe on CN63XX
+* Fix order of QLM JTAG shift. CN6XXX parts shift in lane 3 LSB first.
 
 
 octeon-bdk-2011.06-r61431
