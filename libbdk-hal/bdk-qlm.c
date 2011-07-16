@@ -4,10 +4,13 @@
 
 /**
  * The JTAG chain for CN52XX and CN56XX is 4 * 268 bits long, or 1072.
+ * CN5XXX full chain shift is:
+ *     new data => lane 3 => lane 2 => lane 1 => lane 0 => data out
  * The JTAG chain for CN63XX is 4 * 300 bits long, or 1200.
  * The JTAG chain for CN68XX is 4 * 304 bits long, or 1216.
- * Full chain shift is:
- *     new data => lane 3 => lane 2 => lane 1 => lane 0 => data out
+ * The JTAG chain for CN66XX is 4 * 304 bits long, or 1216.
+ * CN6XXX full chain shift is:
+ *     new data => lane 0 => lane 1 => lane 2 => lane 3 => data out
  * Shift LSB first, get LSB out
  */
 extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn63xx[];
@@ -281,8 +284,8 @@ uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name)
 
     /* Capture the current settings */
     __bdk_qlm_jtag_capture(qlm);
-    /* Shift past lanes we don't care about */
-    __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * lane);
+    /* Shift past lanes we don't care about. CN6XXX shifts lane 3 first */
+    __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * (3-lane));
     /* Shift to the start of the field */
     __bdk_qlm_jtag_shift_zeros(qlm, field->start_bit);
     /* Shift out the value and return it */
@@ -317,8 +320,8 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
         if ((l != lane) && (lane != -1))
             continue;
         uint64_t new_value = value;
-        for (int bits = field->start_bit + l*__bdk_qlm_jtag_length;
-              bits <= field->stop_bit + l*__bdk_qlm_jtag_length;
+        for (int bits = field->start_bit + (3-l)*__bdk_qlm_jtag_length;
+              bits <= field->stop_bit + (3-l)*__bdk_qlm_jtag_length;
               bits++)
         {
             if (new_value & 1)
