@@ -210,6 +210,7 @@ function remote.flash(args)
     -- flash read <filename> <address> <length>
     -- flash write <filename> <address>
     assert(args[1] == "flash", "Expected keyword 'flash'")
+    oremote.stop_cores(-1)
     if args[2] == "info" then
         assert(#args == 2, "Expected two arguments")
         local nor = assert(norflash.query(0))
