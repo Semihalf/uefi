@@ -941,6 +941,16 @@ int octeon_remote_get_core_state(int core, octeon_remote_registers_t *registers)
 {
     int result;
     OCTEON_REMOTE_DEBUG_CALLED("core=%d, registers=%p", core, registers);
+
+    /* Put bad data in all registers in case the protocol doesn't get all
+        registers */
+    for (int s=0; s<2; s++)
+        for (int r=0; r<256; r++)
+            registers->regs[s][r] = 0x0bad0bad0bad0badull;
+    for (int t=0; t<128; t++)
+        for (int i=0; i<4; i++)
+            registers->tlb[t][i] = 0x0bad0bad0bad0badull;
+
     octeon_remote_lock();
     uint64_t start_time = timing_get_clock();
     result = remote_funcs.get_core_state(core, registers);
