@@ -1,6 +1,6 @@
-* : .*in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+.* : .*in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
 loslib.c : .*the use of `tmpnam' is dangerous, better use `mkstemp'
 Makefile : .*overriding commands for target.*
 Makefile : .*ignoring old commands for target.*
-* : .*-jN forced in submake: disabling jobserver mode.
+.* : .*-jN forced in submake: disabling jobserver mode.
 
