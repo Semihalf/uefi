@@ -260,6 +260,10 @@ function remote.core(args)
     if count then
         printf("\n")
     end
+    -- Skip the TLB if the pagemask isn't filled in
+    if state[3][1][2] == 0x0bad0bad0bad0bad then
+        return
+    end
     printf("TLB:\n");
     for r=1,128 do
         local va = state[3][r][1]/4096*4096
