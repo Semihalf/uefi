@@ -219,8 +219,24 @@ function remote.flash(args)
         assert(#args == 5, "Expected five arguments")
         local nor = assert(norflash.query(0))
         local f = assert(io.open(args[3], "w"))
-        local d = nor:read(args[4], args[5])
-        f:write(d)
+        local len = args[5]
+        local address = args[4]
+        printf("Reading %s: ", args[3])
+        printf("  0%%")
+        local loc = 0
+        while loc < len do
+            local percent = 100 * loc / len
+            printf("\b\b\b\b%3d%%", percent)
+            io.flush()
+            local s = len - loc
+            if s > 0x10000 then
+                s = 0x10000
+            end
+            f:write(nor:read(address, s))
+            address = address + s
+            loc = loc + s
+        end
+        printf("\b\b\b\b100%%\n")
         f:close()
     elseif args[2] == "write" then
         assert(#args == 4, "Expected four arguments")
