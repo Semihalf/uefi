@@ -25,7 +25,7 @@ local function getconnection(stream, is_input)
         -- Set the baud rate for filenames that start with "/". This
         -- is a best guess of what should work for people
         if stream:sub(1,1) == "/" then
-            os.execute("stty -F " .. stream .. " 115200 crtscts -cstopb -parenb")
+            os.execute("stty -F " .. stream .. " 115200 -crtscts -cstopb -parenb")
         end
         -- Open for RW in case we are running over Pipes. Linux pipes
         -- block until someone connects to the other side unless the
