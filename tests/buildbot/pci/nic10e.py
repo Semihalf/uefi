@@ -16,7 +16,7 @@ assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "pci"
 os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS4"
 
-BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/bdk-boot/bdk-boot.bin"
+BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-boot.bin"
 BDK_BOOT_IMAGE_SIZE = os.stat(BDK_BOOT_IMAGE).st_size
 
 # Make sure the Octeon is there and responds correctly
