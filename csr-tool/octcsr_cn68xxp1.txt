@@ -13172,7 +13172,7 @@ Pos      Name    Type     Value     Value       Description
                                                          continuously drain; all data will be dropped.  Software should |
                                                          first write PKT_ENA=0 and wait packet transmission to stop.    |
 <25:22>  SKIP_CNT             R/W      0x1      NS       Number of skip words to insert after the scrambler state       |
-<30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay.                                        |
+<30:26>  PTP_DELAY            R/W      0x1a     NS       Timestamp commit delay.  Must not be zero.                     |
 <31>     PIPE_CRD_DIS         R/W      0x0      NS       Disable pipe credits.   Should be set when PKO is configure to |
                                                          ignore pipe credits.                                           |
 <63:32>  NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13262,7 +13262,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <27:0>   TX_PKT               RO       0x0      NS       Number of packets transmitted per channel (256M)               |
-                                                         Channel selected by ILK_TXx_IDX_STAT1[IDX].  Interrupt on      |
+                                                         Channel selected by ILK_TXx_IDX_STAT0[IDX].  Interrupt on      |
                                                          saturation if ILK_TX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
@@ -13278,7 +13278,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <35:0>   TX_BYTES             RO       0x0      NS       Number of bytes transmitted per channel (64GB) Channel selected|
-                                                         by ILK_TXx_IDX_STAT0[IDX].    Saturates.  Interrupt on         |
+                                                         by ILK_TXx_IDX_STAT1[IDX].    Saturates.  Interrupt on         |
                                                          saturation if ILK_TX@_INT_EN[STAT_CNT_OVFL]=1.                 |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
@@ -13907,7 +13907,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <27:0>   RX_PKT               RO       0x0      NS       Number of packets received (256M)                              |
-                                                         Channel selected by ILK_RXx_IDX_STAT1[IDX].  Saturates.        |
+                                                         Channel selected by ILK_RXx_IDX_STAT0[IDX].  Saturates.        |
                                                          Interrupt on saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.    |
 <63:28>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
@@ -13923,7 +13923,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <35:0>   RX_BYTES             RO       0x0      NS       Number of bytes received (64GB)                                |
-                                                         Channel selected by ILK_RXx_IDX_STAT0[IDX].    Saturates.      |
+                                                         Channel selected by ILK_RXx_IDX_STAT1[IDX].    Saturates.      |
                                                          Interrupt on saturation if ILK_RX@_INT_EN[STAT_CNT_OVFL]=1.    |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
@@ -29238,7 +29238,7 @@ Pos      Name    Type     Value     Value       Description
  <19:17> SPARE    R/W	   0	       0	 Spare Bits                                	    |
  <16>    IGNRS    R/W	   0	       0	 Ignore the PKT_INST_HDR[RS] bit when set	    |
 						  Does not apply to incoming packets on the DPI	    |
-						  ports.					    |
+						  rings.					    |
 						  When using 2-byte instruction header words,	    |
 						  either PIP_PRT_CFG[DYN_RS] or IGNRS should be set |
  <15>    VS_WQE   R/W      0           0	 Which DSA/VLAN CFI/ID to use when VLAN Stacking    |
@@ -29791,7 +29791,7 @@ Pos      Name    Type     Value     Value       Description
  <50>	 LENERR_EN R/W     0x1         1         L2 length error check enable			    |
 						  Frame was received with length error		    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the DPI ports		    |
+						   incoming packets on the DPI rings		    |
 						   because the CRC bytes may not normally be	    |
 						   present.					    |
  <49>	 MAXERR_EN R/W     0x1         1	 Max frame error check enable			    |
@@ -29800,7 +29800,7 @@ Pos      Name    Type     Value     Value       Description
  <48>	 MINERR_EN R/W     0x1         1         Min frame error check enable			    |
 						  Frame was received with length < min_length	    |
 						   Typically, this check will not be enabled for    |
-						   incoming packets on the DPI ports		    |
+						   incoming packets on the DPI rings		    |
 						   because the CRC bytes may not normally be	    |
 						   present.					    |
 						   min_length is defined by PIP_FRM_LEN_CHK[MINLEN] |
@@ -29822,8 +29822,8 @@ Pos      Name    Type     Value     Value       Description
 						  instruction header words, either DYN_RS or	    |
 						  PIP_GBL_CTL[IGNRS] should be set.		    |
  <32>    INST_HDR R/W      0x0         0x0       8-byte INST_HDR is present on all packets	    |
-						  Internally set for RAWFULL/RAWSCHED packets	    |
-						  on the DPI ports (32-35).			    |
+						  Internally set for packets that include a         |
+                                                  PKT_INST_HDR prepended by DPI hardware.           |
 						  Must be zero in DSA mode			    |
  <31:28> GRP_WAT  R/W      0x0         0x0       GRP Watcher enable				    |
  <27>    HG_QOS   R/W      0x0         0x0       When set, uses the HiGig priority bits as a	    |
@@ -29844,7 +29844,7 @@ Pos      Name    Type     Value     Value       Description
  <15:13> NS       RAZ      NS          NS        Reserved				            |
  <12>    CRC_EN   R/W      0x0         0x0       CRC Checking enabled                               |
  <11>    HIGIG_EN R/W      0x0         0x0       Enable HiGig parsing				    |
-						  Should not be set for DPI ports		    |
+						  Should not be set for DPI rings		    |
 						  Should not be set for ports in which PTP_MODE=1   |
                                                   When HIGIG_EN=1:                                  |
                                                    DSA_EN field below must be zero                  |
@@ -29858,10 +29858,9 @@ Pos      Name    Type     Value     Value       Description
                                                      12 bytes) rather than the size of Skip I       |
                                                    total SKIP (Skip I + header + Skip II            |
                                                      must be zero                                   |
-                                                   INST_HDR field above must be zero (non-DPI       |
-                                                     ports)                                         |
-                                                   For DPI ports, SLI_PKT*_INSTR_HEADER[USE_IHDR]   |
-                                                     and DPI_INST_HDR[R] should be clear            |
+                                                   INST_HDR field above must be zero                |
+                                                   For DPI rings, DPI hardware must not prepend     |
+                                                   a PKT_INST_HDR when DSA_EN=1.                    |
                                                    MODE field below must be "skip to L2"            |
  <9:8>   MODE     R/W      0x0         0x0       Parse Mode                                         |
                                                   0 = no packet inspection (Uninterpreted)	    |
@@ -29871,9 +29870,10 @@ Pos      Name    Type     Value     Value       Description
                                                   Must be 2 ("skip to L2") when in DSA mode.        |
  <7>     NS       RAZ      NS          NS        Reserved				            |
  <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.  SKIP must be  |
-						  zero for packets on DPI ports when a PKT_INST_HDR |
-						  is present.  See section 7.2.7 - Legal Skip	    |
-						  Values for further details.			    |
+						  zero for packets on DPI rings when a PKT_INST_HDR |
+						  is prepended by DPI hardware.                     |
+                                                  See section 7.2.7 - Legal Skip Values for further |
+                                                  details.   			                    |
 						  In DSA mode, indicates the DSA header length, not |
                                                     Skip I size. (Must be 4,8,or 12)                |
                                                   In HIGIG mode, indicates both the Skip I size and |
