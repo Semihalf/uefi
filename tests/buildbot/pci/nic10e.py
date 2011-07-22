@@ -53,7 +53,7 @@ do_command("bdk-remote reset", [])
 do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [])
 
 # Test flash
-if False:
+if True:
     do_command("bdk-remote flash info", [
         "region = {",
         "block_size = 131072 \(0x20000\)",
