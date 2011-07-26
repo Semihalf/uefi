@@ -11,8 +11,11 @@ below.
 ----
 Model		Minimum Firmware
 -----		----------------
-mpDemon		3.0.3.9
+mpDemon		3.0.4.3
 ----
+
+WARNING: Firmware prior to 3.0.4.3 doesn't support CN63XX pass 2
+chips.  Be sure to use firmware 3.0.4.3 or higher.
 
 Macraigor website with details about the mpDemon::
 
@@ -31,7 +34,7 @@ serial cable. Using a baud rate of 19200, no parity, 8 bits, and 1 stop bit,
 you should get the following menu after hitting return:
 
 ----
-    Macraigor Systems mpDemon(tm) version 3.0.3.9
+    Macraigor Systems mpDemon(tm) version 3.0.4.3
 
 Licenses           :
 API Baud Rate      : 115200
@@ -126,7 +129,7 @@ Are you sure you want to reboot? y
 Rebooting...
 OK
 
-    Macraigor Systems mpDemon(tm) version 3.0.3.9
+    Macraigor Systems mpDemon(tm) version 3.0.4.3
 
 Licenses           :
 API Baud Rate      : 115200
