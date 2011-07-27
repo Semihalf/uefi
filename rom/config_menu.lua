@@ -24,17 +24,62 @@ configPrompt = function(description, config_item)
     addMenu(description, config_item)
 end
 
+
+local promptPhy -- This is needed so variable is defined in addPhyMenu
+
+local function addPhyMenu(port_name, config_item)
+    local v = octeon.c.bdk_config_get(config_item)
+    local text
+    if v == -1 then
+        text = "PHY not present"
+    elseif v == 0x1000 then
+        text = "PHY fixed at 1Gbps, full duplex"
+    elseif v == 0x1001 then
+        text = "PHY fixed at 100Mbps, full duplex"
+    else
+        text = "PHY on SMI/MDIO bus %d, address %d" % {v/256, v % 256}
+    end
+    local menu_text = "%s - %s" % {port_name, text}
+    m:item("item" .. config_item, menu_text, promptPhy, port_name, config_item)
+end
+
+promptPhy = function(port_name, config_item)
+    local phy_addr
+    local has_phy = menu.prompt_yes_no("Does %s have a PHY" % port_name)
+    if has_phy then
+        local has_mdio = menu.prompt_yes_no("Does the PHY connect to OCTEON's SMI/MDIO")
+        if has_mdio then
+            local bus = menu.prompt_number("SMI/MDIO bus", nil, 0, 3)
+            local address = menu.prompt_number("PHY address on bus", nil, 0, 63)
+            phy_addr = bus * 256 + address
+        else
+            local t = menu.prompt_yes_no("Is PHY at 1Gbps")
+            if t then
+                phy_addr = 0x1000
+                print("Setting PHY up for 1Gbps, full duplex")
+            else
+                phy_addr = 0x1001
+                print("Setting PHY up for 100Mbps, full duplex")
+            end
+        end
+    else
+        phy_addr = -1
+    end
+    octeon.c.bdk_config_set(config_item, phy_addr)
+    addPhyMenu(port_name, config_item)
+end
+
 addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
 
 -- Add an item for each MGMT port
 for port = 0,octeon.c.bdk_if_num_ports(5, 0)-1 do
-    addMenu("RGMII/MII port " .. port .. " PHY address", octeon.CONFIG_PHY_MGMT_PORT0 + port)
+    addPhyMenu("RGMII/MII port " .. port, octeon.CONFIG_PHY_MGMT_PORT0 + port)
 end
 
 -- Add an item for each SGMII port
 for interface = 0,octeon.c.bdk_if_num_interfaces(0)-1 do
     for port = 0, octeon.c.bdk_if_num_ports(0, interface)-1 do
-        addMenu("SGMII interface " .. interface .. ", port " .. port .. " PHY address", octeon.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
+        addPhyMenu("SGMII interface " .. interface .. ", port " .. port, octeon.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
     end
 end
 
