@@ -194,7 +194,14 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
                     case 4:
                         return 8000;
                     default:
-                        return 0;
+                    {
+                        BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
+                        if ((qlm == 0) && mio_rst_boot.s.qlm0_spd == 0xf)
+                            return 0;
+                        if ((qlm == 1) && mio_rst_boot.s.qlm1_spd == 0xf)
+                            return 0;
+                        return 5000; /* Best guess I can make */
+                    }
                 }
             }
         }
