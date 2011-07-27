@@ -158,6 +158,17 @@ static int __bdk_dram_test_random_xor(uint64_t start_address, uint64_t length)
  */
 int bdk_dram_test(bdk_dram_test_t test, uint64_t start_address, uint64_t length)
 {
+    if (start_address & 0xf)
+    {
+        bdk_error("DRAM test start address must be aligned on a 16 byte boundary\n");
+        return -1;
+    }
+    if (length & 0xf)
+    {
+        bdk_error("DRAM test length must be aligned on a 16 byte boundary\n");
+        return -1;
+    }
+
     switch (test)
     {
         case BDK_DRAM_TEST_SEQUENCIAL_WRITE_READ:
