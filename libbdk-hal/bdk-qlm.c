@@ -376,8 +376,8 @@ static void __bdk_qlm_cn68xx_speed_tweak(void)
             {
                 /* We're changing bits 15:8, so skip 8 */
                 __bdk_qlm_jtag_shift_zeros(qlm, 8);
-                /* We want 0x1b, so default 0x3c xor 0x27 */
-                __bdk_qlm_jtag_shift(qlm, 8, 0x27);
+                /* We want 0x18, so default 0x3c xor 0x24 */
+                __bdk_qlm_jtag_shift(qlm, 8, 0x24);
                 /* Skip the rest of the chain */
                 __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length - 16);
             }
