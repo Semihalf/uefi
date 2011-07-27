@@ -7,9 +7,32 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
     bdk_if_link_t result;
     result.u64 = 0;
 
+    /* PHY address of -1 menas there is no PHY and we should have never
+        gotten here */
     if (phy_addr < 0)
         return result;
 
+    /* A PHY address with the special value 0x1000 represents a PHY we can't
+        connect to through MDIO which is assumed to be at 1Gbps */
+    if (phy_addr == 0x1000)
+    {
+        result.s.up = 1;
+        result.s.full_duplex = 1;
+        result.s.speed = 1000;
+        return result;
+    }
+
+    /* A PHY address with the special value 0x1001 represents a PHY we can't
+        connect to through MDIO which is assumed to be at 100Mbps */
+    if (phy_addr == 0x1001)
+    {
+        result.s.up = 1;
+        result.s.full_duplex = 1;
+        result.s.speed = 100;
+        return result;
+    }
+
+    /* The simulator doesn't model PHYs, so just assume a 1Gbps connection */
     if (bdk_is_simulation())
     {
         result.s.up = 1;
