@@ -852,3 +852,32 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
     }
 }
 
+char bdk_kbhit(int timeout_us)
+{
+    uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
+    static char c = 0;
+    if (timeout_us < 1)
+        stop_time = -1;
+
+    while (1)
+    {
+        if (read(0, &c, 1) == 1)
+        {
+            char d = c;
+            while(1)
+            {
+                if (read(0, &c, 1) != 1) break; /* Clear the input buffer */
+            } 
+            return d;
+        }
+        else
+        {
+            if (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_time)
+            {
+                return 0;
+            }
+            bdk_thread_yield();
+        }
+    }
+}
+

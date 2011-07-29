@@ -36,4 +36,14 @@ typedef struct bdk_readline_tab
  */
 extern const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us);
 
+/**
+ * Function which checks for keyboard input from the user
+ *
+ * @param timeout_us Return 0 if no input is entered in this amount of time.
+ *                   If timeout_us is 0, program waits for input until it is given.
+ *
+ * @return Value of character that was entered.  Returns 0 instead on timeout.
+ */
+extern char bdk_kbhit(int timeout_us);
+
 /** @} */
