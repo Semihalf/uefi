@@ -19,6 +19,16 @@ ASFLAGS_x86 = -march=i686 -m32
 LDFLAGS_x86 = -static -lreadline -lncurses
 CC_x86 = gcc
 
+# Building for PPC
+#    1) Add readline support
+#    2) Link static
+PPC_ROOT=/home/creese/work/debian_ppc_lenny
+CPPFLAGS_ppc = -DLUA_USE_LINUX
+CFLAGS_ppc = -I$(PPC_ROOT)/usr/include
+ASFLAGS_ppc =
+LDFLAGS_ppc = -L$(PPC_ROOT)/lib:$(PPC_ROOT)/usr/lib -static -lreadline -lncurses
+CC_ppc = LD_LIBRARY_PATH=$(PPC_ROOT)/lib:$(PPC_ROOT)/usr/lib $(PPC_ROOT)/usr/bin/gcc -B$(PPC_ROOT)/usr/bin/
+
 # Building for Octeon
 CPPFLAGS_octeon =
 CFLAGS_octeon = -march=octeon2
@@ -61,6 +71,9 @@ mips-%.bin: mips-%.o
 
 .DEFAULT: all
 all: bdk-lua-x86 bdk-lua-octeon
+
+.PHONY: ppc
+ppc: bdk-lua-ppc
 
 .PHONY: clean
 clean:

@@ -50,6 +50,7 @@ RELEASE_DIR = "octeon-bdk-$(VERSION)"
 
 .PHONY: release
 release: all
+	$(MAKE) -C utils/bdk-lua ppc
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
 	# Copy Docs
@@ -66,6 +67,7 @@ release: all
 	cp utils/scripts/bdk-debug.lua $(RELEASE_DIR)/bin/bdk-debug
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
+	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	# Copy host examples
 	cp -r examples $(RELEASE_DIR)/

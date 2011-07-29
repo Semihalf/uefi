@@ -71,9 +71,9 @@ Development Environment Setup
 Requirements
 ~~~~~~~~~~~~
 
-* PC compatible system running a Linux distribution supporting 32bit
-userspace binaries.  Most 64bit Linux distributions are also capable
-of running 32bit binaries.
+* PC compatible, Octeon, or PowerPC system running a Linux distribution
+supporting 32bit userspace binaries.  Most 64bit Linux distributions are
+also capable of running 32bit binaries.
 ** Recommended: Debian 6.0 (Squeeze) 32bit or 64bit.
 
 * Python 2.x, version 2.3 or higher. Python 3.x is not supported.
