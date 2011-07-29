@@ -641,7 +641,7 @@ to the size of L2.
 
 TIP: When specifying memory addresses, keep in mind that OCTEON's
 memory is in two disjoint regions.  '0 - 256MB' and '512MB +'.  A
-board with 4GB of memory uses addresses '0x0 - 0x01fffffff' and
+board with 4GB of memory uses addresses '0x0 - 0x001fffffff' and
 '0x020000000 - 0x10fffffff'.
 
 Dealing with Complex DDR Customization
