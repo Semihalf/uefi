@@ -3081,6 +3081,108 @@ fail:
 }
 
 
+static int _wrap_ddr3_custom_config_t_ddr2t_udimm_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t arg2 ;
+  
+  SWIG_check_num_args("ddr2t_udimm",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ddr2t_udimm",1,"ddr3_custom_config_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("ddr2t_udimm",2,"uint8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ddr2t_udimm_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint8_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->ddr2t_udimm = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_ddr2t_udimm_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t result;
+  
+  SWIG_check_num_args("ddr2t_udimm",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ddr2t_udimm",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ddr2t_udimm_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (uint8_t) ((arg1)->ddr2t_udimm);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_ddr2t_rdimm_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t arg2 ;
+  
+  SWIG_check_num_args("ddr2t_rdimm",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ddr2t_rdimm",1,"ddr3_custom_config_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("ddr2t_rdimm",2,"uint8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ddr2t_rdimm_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint8_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->ddr2t_rdimm = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_ddr2t_rdimm_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t result;
+  
+  SWIG_check_num_args("ddr2t_rdimm",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ddr2t_rdimm",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ddr2t_rdimm_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (uint8_t) ((arg1)->ddr2t_rdimm);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_new_ddr3_custom_config_t(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *result = 0 ;
@@ -3121,6 +3223,8 @@ static swig_lua_attribute swig_ddr3_custom_config_t_attributes[] = {
     { "ddr_rtt_nom_auto", _wrap_ddr3_custom_config_t_ddr_rtt_nom_auto_get, _wrap_ddr3_custom_config_t_ddr_rtt_nom_auto_set},
     { "ddr_rodt_ctl_auto", _wrap_ddr3_custom_config_t_ddr_rodt_ctl_auto_get, _wrap_ddr3_custom_config_t_ddr_rodt_ctl_auto_set},
     { "rlevel_comp_offset", _wrap_ddr3_custom_config_t_rlevel_comp_offset_get, _wrap_ddr3_custom_config_t_rlevel_comp_offset_set},
+    { "ddr2t_udimm", _wrap_ddr3_custom_config_t_ddr2t_udimm_get, _wrap_ddr3_custom_config_t_ddr2t_udimm_set},
+    { "ddr2t_rdimm", _wrap_ddr3_custom_config_t_ddr2t_rdimm_get, _wrap_ddr3_custom_config_t_ddr2t_rdimm_set},
     {0,0,0}
 };
 static swig_lua_class *swig_ddr3_custom_config_t_bases[] = {0};
