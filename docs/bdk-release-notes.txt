@@ -10,6 +10,27 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2011.08-r63049
+-------------------------
+
+* Stop cores before probing flash. This speeds of flash support over EJTAG.
+* Add support for Mentor Graphics Majic.
+* Show progress percentage on flash reads.
+* Don't force RTS/CTS in RPC setup. RTS/CTS doesn't work on all boards.
+* Add note about minimum mpDemon firmware version for CN63XX pass 2.x.
+* Update CN68XX QLM settings to work better with PCIe gen2.
+* Display the number of free command buffers in traffic-gen.
+* Add two special PHY addresses that encode a fixed 1Gbps or 100Mbps
+	connection. This is for systems where there is a PHY but it isn't
+	connected to Octeon's MDIO.
+* Update PHY configuration menu to make more sense to new users.
+* Improve detection of PCIe speed on CN63XX.
+* Add PowerPC host support. The script "bdk-lua" executes the correct host
+	binary based on "uname -m".
+* "bdk-lua" script: Use exit instead of return for compatibility with older
+	distributions.
+
+
 octeon-bdk-2011.07-r62444
 -------------------------
 
