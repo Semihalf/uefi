@@ -81,8 +81,20 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         }
         else
         {
-            octeon_remote_debug(-1, "Unable to determine scratch memory address. Set OCTEON_REMOTE_SCRATCH_ADDRESS to the address dedicated for remote utility use.\n");
-            return -1;
+            /* The debug stub requires 8192 + 8192*num_cores */
+            if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+                debug_handler_base = 0x200000 - 8192 * (6 + 1);
+            else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+                debug_handler_base = 0x200000 - 8192 * (10 + 1);
+            else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+                debug_handler_base = 0x400000 - 8192 * (32 + 1);
+            else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+                debug_handler_base = 0x100000 - 8192 * (4 + 1);
+            else
+            {
+                octeon_remote_debug(-1, "Unknown OCTEON model in octeon_remote_debug_handler_install.\n");
+                return -1;
+            }
         }
         octeon_remote_debug(2, "Copying profile handler to 0x%llx\n", (ULL)debug_handler_base);
         octeon_remote_write_mem(debug_handler_base, &octeon_remote_profile_handler_begin, profile_size);
