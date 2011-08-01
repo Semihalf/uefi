@@ -1,7 +1,7 @@
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -DLUA_ROOT='"./"' -D_GNU_SOURCE -DBDK_BUILD_HOST
+CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -D_GNU_SOURCE -DBDK_BUILD_HOST
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lm -ldl
@@ -24,10 +24,10 @@ CC_x86 = gcc
 #    2) Link static
 PPC_ROOT=/home/creese/work/debian_ppc_lenny
 CPPFLAGS_ppc = -DLUA_USE_LINUX
-CFLAGS_ppc = -I$(PPC_ROOT)/usr/include
+CFLAGS_ppc =
 ASFLAGS_ppc =
-LDFLAGS_ppc = -L$(PPC_ROOT)/lib:$(PPC_ROOT)/usr/lib -static -lreadline -lncurses
-CC_ppc = LD_LIBRARY_PATH=$(PPC_ROOT)/lib:$(PPC_ROOT)/usr/lib $(PPC_ROOT)/usr/bin/gcc -B$(PPC_ROOT)/usr/bin/
+LDFLAGS_ppc = -static -lreadline -lncurses
+CC_ppc = ssh bdk-build-ppc "cd `pwd` && gcc"
 
 # Building for Octeon
 CPPFLAGS_octeon =
