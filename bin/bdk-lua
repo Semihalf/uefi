@@ -3,7 +3,7 @@
 if [ "${BDK_ROOT}" = "" ]
 then
     echo "The BDK_ROOT environment variable is not set"
-    return 1
+    exit 1
 fi
 
 ARCH=`uname -m`
@@ -25,7 +25,7 @@ then
     echo "Unable to find executable bdk-lua at the expected path."
     echo "Are you sure BDK_ROOT is correct?"
     echo "BDK_ROOT=${BDK_ROOT}"
-    return 1
+    exit 1
 fi
 
 LUA_PATH="${LUA_PATH};${BDK_ROOT}/lua-modules/?.lua;${BDK_ROOT}/rom/?.lua" "${LUA_BIN}" $*
