@@ -93,7 +93,11 @@
 
 #define LUA_VDIR	LUA_VERSION_MAJOR "." LUA_VERSION_MINOR "/"
 #ifndef LUA_ROOT
-#define LUA_ROOT	"./"
+    #ifdef BDK_BUILD_HOST
+        #define LUA_ROOT	"./"
+    #else
+        #define LUA_ROOT	"/"
+    #endif
 #endif
 #define LUA_LDIR	LUA_ROOT "rom/" //LUA_VDIR
 #define LUA_CDIR	LUA_ROOT "rom/" //LUA_VDIR
