@@ -108,5 +108,6 @@ do_command("bdk-remote help", [
     "zero"])
 
 # Test RPC over serial
+do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [])
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
