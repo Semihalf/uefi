@@ -30356,8 +30356,12 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:40> NS       RAZ      NS          NS        Reserved				            |
+ <63:56> NS       RAZ      NS          NS        Reserved				            |
+ <55:40> UPPER_TAG R/W     0x0         NS        Extra Tag bits to be added to tag field from table |
+						  Only included when PIP_PRT_TAG[INC_PRT]=0	    |
+						  WORD2[TAG<31:16>]				    |
  <39:32> TAG      R/W      0x0         NS        Extra Tag bits to be added to tag field from table |
+						  WORD2[TAG<15:8>]				    |
  <31:25> NS       RAZ      NS          NS        Reserved				            |
  <24:16> OFFSET   R/W      0x0         NS        Indicates offset to add to extractor mem adr       |
 						  to get final address to the lookup table          |
@@ -34655,44 +34659,58 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     NTAG     R/W      0x0         NS        NTAG. Used when packet is raw and PBP==0.
- <1>     NTT      R/W      0x0         NS        NTT. Used when packet is raw and PBP==0.
- <2>     NGRP     R/W      0x0         NS        NGRP. Used when packet is raw and PBP==0.
- <3>     NQOS     R/W      0x0         NS        NQOS. Used when packet is raw and PBP==0.
+ <0>     NTAG     R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <1>     NTT      R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <2>     NGRP     R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <3>     NQOS     R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
  <5:4>   NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <13>    NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
                                                  instruction header sent to IPD.
- <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <20:16> NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <21>    USE_IHDR R/W      0x0         NS        When set '1' the instruction header will be sent
-                                                 as part of the packet data, regardless of the
-                                                 value of bit [63] of the instruction header.
+ <21>    USE_IHDR R/W      0x0         NS        When set '1' DPI always prepends a PKT_INST_HDR
+                                                 as part of the packet data sent to PIP/IPD,
+                                                 regardless of DPI_INST_HDR[R]. (DPI also always
+                                                 prepends a PKT_INST_HDR when DPI_INST_HDR[R]=1.)
                                                  USE_IHDR must be set whenever PBP is set.
- <22>    RNTAG    R/W      0x0         NS        RNTAG. Used when packet is raw and PBP==0.
- <23>    RNTT     R/W      0x0         NS        RNTT. Used when packet is raw and PBP==0.
- <24>    RNGRP    R/W      0x0         NS        RNGRP. Used when packet is raw and PBP==0.
- <25>    RNQOS    R/W      0x0         NS        RNQOS. Used when packet is raw and PBP==0.
+ <22>    RNTAG    R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==1
+ <23>    RNTT     R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==1
+ <24>    RNGRP    R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==1
+ <25>    RNQOS    R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==1
  <27:26> NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Used when packet is raw and PBP==0.
+ <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <35>    NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Used when packet is raw and PBP==0.
+ <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <42:38> NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
  <43>    PBP      R/W      0x0         NS        Enable Packet-by-packet mode.
+                                                 Allows DPI to generate PKT_INST_HDR[PM,SL]
+                                                 differently per DPI instruction.
+                                                 USE_IHDR must be set whenever PBP is set.
  <63:44> NS       RAZ      NS          NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
@@ -38816,6 +38834,7 @@ Pos      Name    Type     Value     Value       Description
  <7:5>   NS       RAZ      NS          NS        Reserved.                                          |
  <4>     PT_WRITE R/W1C    0x0         0         Port has encountered a condition which required it |
                                                  initiate a Maintenance Port-Write Operation.       |
+                                                 Never set by hardware.                             |
  <3>     NS       RAZ      NS          NS        Reserved.                                          |
  <2>     PT_ERROR R/W1C    0x0         0         Input or Output Port has encountered an            |
                                                  unrecoverable error condition.                     |
@@ -38828,6 +38847,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:                                                                                              |
  This register displays port error and status information.  Several port error conditions are       |
  captured here and must be cleared by writing 1's to the individual bits.                           |
+ Bits are R/W on 65/66xx pass 1 and R/W1C on pass 1.2                                               |
                                                                                                     |
 Clk_Rst:	SRIOMAINT(0..3)_PORT_0_ERR_STAT	hclk	hrst_n                                      |
 ----------------------------------------------------------------------------------------------------
@@ -38860,6 +38880,7 @@ Pos      Name    Type     Value     Value       Description
                                                  001 = Single-lane, Lane 1 or 2                     |
                                                  010 = Four-lane                                    |
                                                  011 = Two-lane                                     |
+                                                 111 = Link Uninitialized                           |
                                                  Others = Reserved                                  |
  <26:24> OV_WIDTH R/W      0x0         0         Override Port Width.  Writing this register causes |
                                                  the port to reinitialize.                          |

@@ -29237,8 +29237,6 @@ Pos      Name    Type     Value     Value       Description
  <23:20> NS       RAZ      NS          NS        Reserved				            |
  <19:17> SPARE    R/W	   0	       0	 Spare Bits                                	    |
  <16>    IGNRS    R/W	   0	       0	 Ignore the PKT_INST_HDR[RS] bit when set	    |
-						  Does not apply to incoming packets on the DPI	    |
-						  rings.					    |
 						  When using 2-byte instruction header words,	    |
 						  either PIP_PRT_CFG[DYN_RS] or IGNRS should be set |
  <15>    VS_WQE   R/W      0           0	 Which DSA/VLAN CFI/ID to use when VLAN Stacking    |
@@ -29810,8 +29808,8 @@ Pos      Name    Type     Value     Value       Description
 						  (Watchers 4-7)				    |
  <39:37> NS       RAZ      NS          NS        Reserved				            |
  <36>    RAWDRP   R/W      0x0         0x0       Allow the IPD to RED drop a packet.		    |
-						  Normally, IPD will never drop a packet that PIP   |
-						  indicates is RAW.				    |
+						  Normally, IPD will never drop a packet in which   |
+						  PKT_INST_HDR[R] is set.			    |
 						  0=never drop RAW packets based on RED algorithm   |
 						  1=allow RAW packet drops based on RED algorithm   |
  <35:34> TAG_INC  R/W	   0x0	       0x0	 Which of the 4 PIP_TAG_INC to use when		    |
@@ -29822,8 +29820,8 @@ Pos      Name    Type     Value     Value       Description
 						  instruction header words, either DYN_RS or	    |
 						  PIP_GBL_CTL[IGNRS] should be set.		    |
  <32>    INST_HDR R/W      0x0         0x0       8-byte INST_HDR is present on all packets	    |
-						  Internally set for packets that include a         |
-                                                  PKT_INST_HDR prepended by DPI hardware.           |
+						  Normally INST_HDR should be set for packets that  |
+						  include a PKT_INST_HDR prepended by DPI hardware. |
 						  Must be zero in DSA mode			    |
  <31:28> GRP_WAT  R/W      0x0         0x0       GRP Watcher enable				    |
  <27>    HG_QOS   R/W      0x0         0x0       When set, uses the HiGig priority bits as a	    |
@@ -29844,7 +29842,8 @@ Pos      Name    Type     Value     Value       Description
  <15:13> NS       RAZ      NS          NS        Reserved				            |
  <12>    CRC_EN   R/W      0x0         0x0       CRC Checking enabled                               |
  <11>    HIGIG_EN R/W      0x0         0x0       Enable HiGig parsing				    |
-						  Should not be set for DPI rings		    |
+						  Normally HIGIG_EN should be clear for packets that|
+						  include a PKT_INST_HDR prepended by DPI hardware. |
 						  Should not be set for ports in which PTP_MODE=1   |
                                                   When HIGIG_EN=1:                                  |
                                                    DSA_EN field below must be zero                  |
@@ -29869,9 +29868,10 @@ Pos      Name    Type     Value     Value       Description
 						  3 = (illegal)	                                    |
                                                   Must be 2 ("skip to L2") when in DSA mode.        |
  <7>     NS       RAZ      NS          NS        Reserved				            |
- <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.  SKIP must be  |
-						  zero for packets on DPI rings when a PKT_INST_HDR |
-						  is prepended by DPI hardware.                     |
+ <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.		    |
+						  Should normally be zero for  packets on	    |
+						  DPI rings when a PKT_INST_HDR is prepended by DPI |
+						  hardware.					    |
                                                   See section 7.2.7 - Legal Skip Values for further |
                                                   details.   			                    |
 						  In DSA mode, indicates the DSA header length, not |
@@ -34146,44 +34146,58 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     NTAG     R/W      0x0         NS        NTAG. Used when packet is raw and PBP==0.
- <1>     NTT      R/W      0x0         NS        NTT. Used when packet is raw and PBP==0.
- <2>     NGRP     R/W      0x0         NS        NGRP. Used when packet is raw and PBP==0.
- <3>     NQOS     R/W      0x0         NS        NQOS. Used when packet is raw and PBP==0.
+ <0>     NTAG     R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <1>     NTT      R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <2>     NGRP     R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <3>     NQOS     R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
  <5:4>   NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <13>    NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
                                                  instruction header sent to IPD.
- <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <20:16> NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <21>    USE_IHDR R/W      0x0         NS        When set '1' the instruction header will be sent
-                                                 as part of the packet data, regardless of the
-                                                 value of bit [63] of the instruction header.
+ <21>    USE_IHDR R/W      0x0         NS        When set '1' DPI always prepends a PKT_INST_HDR
+                                                 as part of the packet data sent to PIP/IPD,
+                                                 regardless of DPI_INST_HDR[R]. (DPI also always
+                                                 prepends a PKT_INST_HDR when DPI_INST_HDR[R]=1.)
                                                  USE_IHDR must be set whenever PBP is set.
- <22>    RNTAG    R/W      0x0         NS        RNTAG. Used when packet is raw and PBP==0.
- <23>    RNTT     R/W      0x0         NS        RNTT. Used when packet is raw and PBP==0.
- <24>    RNGRP    R/W      0x0         NS        RNGRP. Used when packet is raw and PBP==0.
- <25>    RNQOS    R/W      0x0         NS        RNQOS. Used when packet is raw and PBP==0.
+ <22>    RNTAG    R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==1
+ <23>    RNTT     R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==1
+ <24>    RNGRP    R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==1
+ <25>    RNQOS    R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==1
  <27:26> NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Used when packet is raw and PBP==0.
+ <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <35>    NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Used when packet is raw and PBP==0.
+ <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <42:38> NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
  <43>    PBP      R/W      0x0         NS        Enable Packet-by-packet mode.
+                                                 Allows DPI to generate PKT_INST_HDR[PM,SL]
+                                                 differently per DPI instruction.
+                                                 USE_IHDR must be set whenever PBP is set.
  <63:44> NS       RAZ      NS          NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)

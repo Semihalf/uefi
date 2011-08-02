@@ -8478,7 +8478,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:61> NS       RAZ      NS          NS        Reserved				            |
+ <63:62> NS       RAZ      NS          NS        Reserved				            |
+ <61>    DICI_MODE R/W     0x0         NS        DMA Instruction Completion Interrupt Mode          |
+						  turns on mode to increment DPI_DMA_PPx_CNT        |
+						  counters.					    |
  <60>    PKT_EN1  R/W      0x0         NS        Enables the 2nd packet interface.		    |
 						  When the packet interface is enabled, engine 4    |
 						  is used for packets and is not available for DMA. |
@@ -9140,6 +9143,32 @@ Pos      Name    Type     Value     Value       Description
 						  Otherwise, it completed normally.		    |
 ----------------------------------------------------------------------------------------------------
 ===
+
+ *Pass2.0 and above only*
+ *
+ *                  DPI_DMA_PP[0..31]_CNT  = DMA per PP Instr Done Counter
+ *
+ * When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.DICI_MODE is enabled, every dma instruction
+ * that has the WQP=0 and a PTR value of 1..0x20 will incremrement DPI_DMA_PPx_CNT value-1 counter.
+ * Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
+ * Hardware reserves that values 0x21..0x3F for future use and will treat them as a PTR of 0 and do nothing.
+
+     ==============================================================
+     DPI_DMA_PP(0..31)_CNT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:16> NS       RAZ      NS          NS        Reserved					    |
+ <15:0>  CNT      R/W      0x0         NS        Counter incremented according to conditions 	    |
+						  described above and decremented by values written |
+                                                  to this field.  A CNT of non zero, will cause     |
+						  an interrupt in the CIU_SUM1_PP@_IPX register     |
+----------------------------------------------------------------------------------------------------
+===
+
 
 
  *
@@ -23965,7 +23994,11 @@ Pos      Name    Type     Value     Value       Description
                                                  01 = falling edge
                                                  10 = both rising & falling edge
                                                  11 = reserved
- <63:40> NS         RAZ     NS         NS        Reserved				            |
+ <40>    CKOUT      RO      NS	       0	 PTP Clock Output                                   |
+                                                 reflects ptp__ckout after CKOUT_INV inverter       |
+ <41>    PPS        RO      NS	       0	 PTP PPS Output                                     |
+                                                 reflects ptp__pps after PPS_INV inverter           |
+ <63:42> NS         RAZ     NS         NS        Reserved				            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24363,7 +24396,10 @@ Pos      Name    Type     Value     Value       Description
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      RO       0x0         0         DFA interrupt                                      |
                                                   See DFA_ERROR                                     |
- <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <36>    DPI_DMA  RO       0x0         0         DPI DMA instruction completion  interrupt          |
+                                                  See DPI DMA instruction completion                |
+ <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      RO       0x0         0         DPI interrupt                                      |
                                                   See DPI_INT_REG                                   |
  <32>    SLI      RO       0x0         0         SLI interrupt                                      |
@@ -24393,7 +24429,8 @@ Pos      Name    Type     Value     Value       Description
  <3:1>   NS       RAZ      NS          NS        Reserved for IOB expansion                         |
  <0>     IOB      RO       0x0         0         IOB interrupt                                      |
                                                   See IOB_INT_SUM                                   |
-						  For RML, all 98 RAW readout will be same value    |
+						  For RML, DPI_DMA will read differently for each PP|
+						  all other field readout will be same value        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24712,7 +24749,10 @@ Pos      Name    Type     Value     Value       Description
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      RO       0x0         0         DFA interrupt source                               |
 						 CIU2_RAW_RML[DFA] & CIU2_EN_xx_yy_RML[DFA]         |
- <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <36>    DPI_DMA  RO       0x0         0         DPI DMA instruction completion  interrupt          |
+                                                 See DPI DMA instruction completion            |
+ <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      RO       0x0         0         DPI interrupt source                               |
 						 CIU2_RAW_RML[DPI] & CIU2_EN_xx_yy_RML[DPI]         |
  <32>    SLI      RO       0x0         0         SLI interrupt source                               |
@@ -25084,7 +25124,9 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W      0x0          0        DFA interrupt-enable                               |
- <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <36>    DPI_DMA  R/W      0x0         0         DPI DMA interrupt-enable                           |
+ <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W      0x0          0        DPI interrupt-enable                               |
  <32>    SLI      R/W      0x0          0        SLI interrupt-enable                               |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -25413,7 +25455,9 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DFA]           |
- <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <36>    DPI_DMA  R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DPI_DMA]       |
+ <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[DPI]           |
  <32>    SLI      R/W1     0x0         0         Write 1 to enable CIU2_EN_xx_yy_RML[SLI]           |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -25743,7 +25787,9 @@ Pos      Name    Type     Value     Value       Description
  <47:44> NS       RAZ      NS          NS        Reserved for DFM expansion                         |
  <43:41> NS       RAZ      NS          NS        Reserved for DFA expansion                         |
  <40>    DFA      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DFA]            |
- <39:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <39:37> NS       RAZ      NS          NS        Reserved for future expansion                      |
+ <36>    DPI_DMA  R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DPI_DMA]        |
+ <35:34> NS       RAZ      NS          NS        Reserved for future expansion                      |
  <33>    DPI      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[DPI]            |
  <32>    SLI      R/W1C    0x0         0         Write 1 to clear CIU2_EN_xx_yy_RML[SLI]            |
  <31>    NS       RAZ      NS          NS        Reserved                                           |
@@ -29316,11 +29362,11 @@ Pos      Name    Type     Value     Value       Description
  *
  *                  PEM_INB_READ_CREDITS
  *
- * The mask pattern that is ANDED with the address from PCIe core for BAR2 hits.
+ * The number of in flight reads from PCIe core to SLI
  *
 
      ==============================================================
-     PEM(0..1)_INB_READ_CREDTIS Type=RSL
+     PEM(0..1)_INB_READ_CREDITS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29709,8 +29755,6 @@ Pos      Name    Type     Value     Value       Description
  <23:20> NS       RAZ      NS          NS        Reserved				            |
  <19:17> SPARE    R/W	   0	       0	 Spare Bits                                	    |
  <16>    IGNRS    R/W	   0	       0	 Ignore the PKT_INST_HDR[RS] bit when set	    |
-						  Does not apply to incoming packets on the DPI	    |
-						  rings.					    |
 						  When using 2-byte instruction header words,	    |
 						  either PIP_PRT_CFG[DYN_RS] or IGNRS should be set |
  <15>    VS_WQE   R/W      0           0	 Which DSA/VLAN CFI/ID to use when VLAN Stacking    |
@@ -30304,8 +30348,8 @@ Pos      Name    Type     Value     Value       Description
 						  (Watchers 4-7)				    |
  <39:37> NS       RAZ      NS          NS        Reserved				            |
  <36>    RAWDRP   R/W      0x0         0x0       Allow the IPD to RED drop a packet.		    |
-						  Normally, IPD will never drop a packet that PIP   |
-						  indicates is RAW.				    |
+						  Normally, IPD will never drop a packet in which   |
+						  PKT_INST_HDR[R] is set.			    |
 						  0=never drop RAW packets based on RED algorithm   |
 						  1=allow RAW packet drops based on RED algorithm   |
  <35:34> TAG_INC  R/W	   0x0	       0x0	 Which of the 4 PIP_TAG_INC to use when		    |
@@ -30316,8 +30360,11 @@ Pos      Name    Type     Value     Value       Description
 						  instruction header words, either DYN_RS or	    |
 						  PIP_GBL_CTL[IGNRS] should be set.		    |
  <32>    INST_HDR R/W      0x0         0x0       8-byte INST_HDR is present on all packets	    |
-						  Internally set for packets that include a         |
-                                                  PKT_INST_HDR prepended by DPI hardware.           |
+						  Normally INST_HDR should be set for packets that  |
+						  include a PKT_INST_HDR prepended by DPI hardware. |
+						  (If SLI_PORTx_PKIND[RPK_ENB]=0, for packets that  |
+                                                  include a PKT_INST_HDR prepended by DPI,          |
+                                                  PIP internally sets INST_HDR before using it.)    |
 						  Must be zero in DSA mode			    |
  <31:28> GRP_WAT  R/W      0x0         0x0       GRP Watcher enable				    |
  <27>    HG_QOS   R/W      0x0         0x0       When set, uses the HiGig priority bits as a	    |
@@ -30338,7 +30385,11 @@ Pos      Name    Type     Value     Value       Description
  <15:13> NS       RAZ      NS          NS        Reserved				            |
  <12>    CRC_EN   R/W      0x0         0x0       CRC Checking enabled                               |
  <11>    HIGIG_EN R/W      0x0         0x0       Enable HiGig parsing				    |
-						  Should not be set for DPI rings		    |
+						  Normally HIGIG_EN should be clear for packets that|
+						  include a PKT_INST_HDR prepended by DPI hardware. |
+						  (If SLI_PORTx_PKIND[RPK_ENB]=0, for packets that  |
+                                                  include a PKT_INST_HDR prepended by DPI,          |
+                                                  PIP internally clears HIGIG_EN before using it.)  |
 						  Should not be set for ports in which PTP_MODE=1   |
                                                   When HIGIG_EN=1:                                  |
                                                    DSA_EN field below must be zero                  |
@@ -30363,9 +30414,10 @@ Pos      Name    Type     Value     Value       Description
 						  3 = (illegal)	                                    |
                                                   Must be 2 ("skip to L2") when in DSA mode.        |
  <7>     NS       RAZ      NS          NS        Reserved				            |
- <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.  SKIP must be  |
-						  zero for packets on DPI rings when a PKT_INST_HDR |
-						  is prepended by DPI hardware.                     |
+ <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.		    |
+						  Should normally be zero for  packets on	    |
+						  DPI rings when a PKT_INST_HDR is prepended by DPI |
+						  hardware.					    |
                                                   See section 7.2.7 - Legal Skip Values for further |
                                                   details.   			                    |
 						  In DSA mode, indicates the DSA header length, not |
@@ -33672,7 +33724,25 @@ Pos      Name    Type     Value     Value       Description
  <5:0>   PKIND    R/W      0x0         NS        Port Kind For this Ring.                           |
  <7:6>   NS       RAZ      NS          NS        Reserved					    |
  <13:8>  BPKIND   R/W      0x0         NS        Back-pressure pkind for this Ring.                 |
- <63:14> NS       RAZ      NS          NS        Reserved					    |
+ <15:14> NS       RAZ      NS          NS        Reserved					    |
+ <21:16> PKINDR   R/W      0x0         NS        Port Kind For this Ring used with packets          |
+                                                 that include a DPI-prepended PKT_INST_HDR          |
+                                                 when RPK_ENB is set.                               |
+ <23:22> NS       RAZ      NS          NS        Reserved					    |
+ <24>    RPK_ENB  R/W      0x0         NS        Alternate PKT_INST_HDR PKind Enable for this ring. |
+                                                 When RPK_ENB==1 and DPI prepends                   |
+                                                 a PKT_INST_HDR to a packet, the pkind for the      |
+                                                 packet is PKINDR (rather than PKIND), and any      |
+                                                 special PIP/IPD processing of the DPI packet is    |
+                                                 disabled (see PIP_PRT_CFG*[INST_HDR,HIGIG_EN]).    |
+                                                 (DPI prepends a PKT_INST_HDR when either           |
+                                                 DPI_INST_HDR[R]==1 for the packet or               |
+                                                 SLI_PKT*_INSTR_HEADER[USE_IHDR]==1 for the ring.)  |
+                                                 When RPK_ENB==0, PKIND is the pkind for all        |
+                                                 packets through the input ring, and                |
+                                                 PIP/IPD will process a DPI packet that has a       |
+                                                 PKT_INST_HDR specially.                            |
+ <63:25> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -34643,40 +34713,56 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     NTAG     R/W      0x0         NS        NTAG. Used when packet is raw and PBP==0.
- <1>     NTT      R/W      0x0         NS        NTT. Used when packet is raw and PBP==0.
- <2>     NGRP     R/W      0x0         NS        NGRP. Used when packet is raw and PBP==0.
- <3>     NQOS     R/W      0x0         NS        NQOS. Used when packet is raw and PBP==0.
- <5:4>   NGRPEXT  R/W      0x0         NS        NGRPEXT. Used when packet is raw and PBP==0.
- <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <0>     NTAG     R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <1>     NTT      R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <2>     NGRP     R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <3>     NQOS     R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <5:4>   NGRPEXT  R/W      0x0         NS        Becomes PKT_INST_HDR[GRPEXT]
+                                                 when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
+ <12:6>  SKP_LEN  R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <13>    NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
                                                  instruction header sent to IPD.
- <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Used when USE_IHDR is set and packet
-                                                 is not raw and PBP is not set.
+ <15:14> PAR_MODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
  <20:16> NS       R/W      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <21>    USE_IHDR R/W      0x0         NS        When set '1' the instruction header will be sent
-                                                 as part of the packet data, regardless of the
-                                                 value of bit [63] of the instruction header.
+ <21>    USE_IHDR R/W      0x0         NS        When set '1' DPI always prepends a PKT_INST_HDR
+                                                 as part of the packet data sent to PIP/IPD,
+                                                 regardless of DPI_INST_HDR[R]. (DPI also always
+                                                 prepends a PKT_INST_HDR when DPI_INST_HDR[R]=1.)
                                                  USE_IHDR must be set whenever PBP is set.
- <22>    RNTAG    R/W      0x0         NS        RNTAG. Used when packet is raw and PBP==0.
- <23>    RNTT     R/W      0x0         NS        RNTT. Used when packet is raw and PBP==0.
- <24>    RNGRP    R/W      0x0         NS        RNGRP. Used when packet is raw and PBP==0.
- <25>    RNQOS    R/W      0x0         NS        RNQOS. Used when packet is raw and PBP==0.
- <27:26> RNGRPEXT R/W      0x0         NS        RNGRPEXT. Used when packet is raw and PBP==0.
- <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Used when packet is raw and PBP==0.
+ <22>    RNTAG    R/W      0x0         NS        Becomes PKT_INST_HDR[NTAG]
+                                                 when DPI_INST_HDR[R]==1
+ <23>    RNTT     R/W      0x0         NS        Becomes PKT_INST_HDR[NTT]
+                                                 when DPI_INST_HDR[R]==1
+ <24>    RNGRP    R/W      0x0         NS        Becomes PKT_INST_HDR[NGRP]
+                                                 when DPI_INST_HDR[R]==1
+ <25>    RNQOS    R/W      0x0         NS        Becomes PKT_INST_HDR[NQOS]
+                                                 when DPI_INST_HDR[R]==1
+ <27:26> RNGRPEXT R/W      0x0         NS        Becomes PKT_INST_HDR[GRPEXT]
+                                                 when DPI_INST_HDR[R]==1
+ <34:28> RSKP_LEN R/W      0x0         NS        Skip Length. Becomes PKT_INST_HDR[SL]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <35>    NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
- <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Used when packet is raw and PBP==0.
+ <37:36> RPARMODE R/W      0x0         NS        Parse Mode. Becomes PKT_INST_HDR[PM]
+                                                 when DPI_INST_HDR[R]==1 and PBP==0
  <42:38> NS       RAZ      0x0         NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
  <43>    PBP      R/W      0x0         NS        Enable Packet-by-packet mode.
+                                                 Allows DPI to generate PKT_INST_HDR[PM,SL]
+                                                 differently per DPI instruction.
+                                                 USE_IHDR must be set whenever PBP is set.
  <63:44> NS       RAZ      NS          NS        Reserved
                                                  (A R/W field in real HW, but we require SW to
                                                  always write zeroes.)
@@ -46180,6 +46266,38 @@ DPI_DMA_ENG2_EN                0x0001DF0000000090  NCB
 DPI_DMA_ENG3_EN                0x0001DF0000000098  NCB
 DPI_DMA_ENG4_EN                0x0001DF00000000A0  NCB
 DPI_DMA_ENG5_EN                0x0001DF00000000A8  NCB
+DPI_DMA_PP0_CNT                0x0001DF0000000B00  NCB
+DPI_DMA_PP1_CNT                0x0001DF0000000B08  NCB
+DPI_DMA_PP2_CNT                0x0001DF0000000B10  NCB
+DPI_DMA_PP3_CNT                0x0001DF0000000B18  NCB
+DPI_DMA_PP4_CNT                0x0001DF0000000B20  NCB
+DPI_DMA_PP5_CNT                0x0001DF0000000B28  NCB
+DPI_DMA_PP6_CNT                0x0001DF0000000B30  NCB
+DPI_DMA_PP7_CNT                0x0001DF0000000B38  NCB
+DPI_DMA_PP8_CNT                0x0001DF0000000B40  NCB
+DPI_DMA_PP9_CNT                0x0001DF0000000B48  NCB
+DPI_DMA_PP10_CNT               0x0001DF0000000B50  NCB
+DPI_DMA_PP11_CNT               0x0001DF0000000B58  NCB
+DPI_DMA_PP12_CNT               0x0001DF0000000B60  NCB
+DPI_DMA_PP13_CNT               0x0001DF0000000B68  NCB
+DPI_DMA_PP14_CNT               0x0001DF0000000B70  NCB
+DPI_DMA_PP15_CNT               0x0001DF0000000B78  NCB
+DPI_DMA_PP16_CNT               0x0001DF0000000B80  NCB
+DPI_DMA_PP17_CNT               0x0001DF0000000B88  NCB
+DPI_DMA_PP18_CNT               0x0001DF0000000B90  NCB
+DPI_DMA_PP19_CNT               0x0001DF0000000B98  NCB
+DPI_DMA_PP20_CNT               0x0001DF0000000BA0  NCB
+DPI_DMA_PP21_CNT               0x0001DF0000000BA8  NCB
+DPI_DMA_PP22_CNT               0x0001DF0000000BB0  NCB
+DPI_DMA_PP23_CNT               0x0001DF0000000BB8  NCB
+DPI_DMA_PP24_CNT               0x0001DF0000000BC0  NCB
+DPI_DMA_PP25_CNT               0x0001DF0000000BC8  NCB
+DPI_DMA_PP26_CNT               0x0001DF0000000BD0  NCB
+DPI_DMA_PP27_CNT               0x0001DF0000000BD8  NCB
+DPI_DMA_PP28_CNT               0x0001DF0000000BE0  NCB
+DPI_DMA_PP29_CNT               0x0001DF0000000BE8  NCB
+DPI_DMA_PP30_CNT               0x0001DF0000000BF0  NCB
+DPI_DMA_PP31_CNT               0x0001DF0000000BF8  NCB
 DPI_ENG0_BUF                   0x0001DF0000000880  NCB
 DPI_ENG1_BUF                   0x0001DF0000000888  NCB
 DPI_ENG2_BUF                   0x0001DF0000000890  NCB
@@ -67614,7 +67732,7 @@ PEM0_CTL_STATUS                0x00011800C0000000  RSL
 PEM0_DBG_INFO                  0x00011800C0000008  RSL
 PEM0_DBG_INFO_EN               0x00011800C00000A0  RSL
 PEM0_DIAG_STATUS               0x00011800C0000020  RSL
-PEM0_INB_READ_CREDTIS          0x00011800C0000138  RSL
+PEM0_INB_READ_CREDITS          0x00011800C0000138  RSL
 PEM0_INT_ENB                   0x00011800C0000410  RSL
 PEM0_INT_ENB_INT               0x00011800C0000418  RSL
 PEM0_INT_SUM                   0x00011800C0000408  RSL
@@ -67657,7 +67775,7 @@ PEM1_CTL_STATUS                0x00011800C1000000  RSL
 PEM1_DBG_INFO                  0x00011800C1000008  RSL
 PEM1_DBG_INFO_EN               0x00011800C10000A0  RSL
 PEM1_DIAG_STATUS               0x00011800C1000020  RSL
-PEM1_INB_READ_CREDTIS          0x00011800C1000138  RSL
+PEM1_INB_READ_CREDITS          0x00011800C1000138  RSL
 PEM1_INT_ENB                   0x00011800C1000410  RSL
 PEM1_INT_ENB_INT               0x00011800C1000418  RSL
 PEM1_INT_SUM                   0x00011800C1000408  RSL
