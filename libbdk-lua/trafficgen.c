@@ -1125,6 +1125,47 @@ static int set_config(lua_State* L)
     return 0;
 }
 
+/**
+ * Lua interface function
+ * Set the loopback state of a port.
+ * Input: A single port name string
+ * Input: A string for loopback mode
+ * Output: Nothing
+ *
+ * @param L
+ *
+ * @return
+ */
+static int set_loopback(lua_State* L)
+{
+    tg_port_t *tg_port = lookup_name(L, luaL_checkstring(L, 1));
+    const char *loop_mode = luaL_checkstring(L, 2);
+
+    if (strcasecmp(loop_mode, "none") == 0)
+    {
+        if (bdk_if_loopback(tg_port->handle, BDK_IF_LOOPBACK_NONE))
+            return luaL_error(L, "Setting loopback failed");
+    }
+    else if (strcasecmp(loop_mode, "internal") == 0)
+    {
+        if (bdk_if_loopback(tg_port->handle, BDK_IF_LOOPBACK_INTERNAL))
+            return luaL_error(L, "Setting loopback failed");
+    }
+    else if (strcasecmp(loop_mode, "external") == 0)
+    {
+        if (bdk_if_loopback(tg_port->handle, BDK_IF_LOOPBACK_EXTERNAL))
+            return luaL_error(L, "Setting loopback failed");
+    }
+    else if (strcasecmp(loop_mode, "internal+external") == 0)
+    {
+        if (bdk_if_loopback(tg_port->handle, BDK_IF_LOOPBACK_INTERNAL_EXTERNAL))
+            return luaL_error(L, "Setting loopback failed");
+    }
+    else
+        return luaL_error(L, "Illegal loopback mode \"%s\"", loop_mode);
+    return 0;
+}
+
 
 /**
  * Lua interface function
@@ -1269,6 +1310,8 @@ void register_trafficgen(lua_State *L)
     lua_setfield(L, -2, "get_config");
     lua_pushcfunction(L, set_config);
     lua_setfield(L, -2, "set_config");
+    lua_pushcfunction(L, set_loopback);
+    lua_setfield(L, -2, "set_loopback");
     lua_pushcfunction(L, clear);
     lua_setfield(L, -2, "clear");
     lua_pushcfunction(L, reset);

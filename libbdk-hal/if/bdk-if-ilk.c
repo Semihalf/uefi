@@ -371,6 +371,21 @@ out:
     return result;
 }
 
+static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
+{
+    int internal = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0);
+    int external = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0);
+    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+        c.s.int_lpbk = internal);
+    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+        c.s.ext_lpbk_fc = external;
+        c.s.ext_lpbk = external);
+    BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface),
+        c.s.ext_lpbk_fc = external;
+        c.s.ext_lpbk = external);
+    return 0;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_ilk = {
     .name = "ILK",
     .if_num_interfaces = if_num_interfaces,
@@ -380,5 +395,6 @@ const __bdk_if_ops_t __bdk_if_ops_ilk = {
     .if_enable = if_enable,
     .if_disable = if_disable,
     .if_link_get = if_link_get,
+    .if_loopback = if_loopback,
 };
 

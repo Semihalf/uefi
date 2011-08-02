@@ -328,6 +328,20 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
         xaui_link_init(handle);
 }
 
+static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
+{
+    int gmx_block = __bdk_if_get_gmx_block(handle);
+
+    /* Set the internal loop */
+    BDK_CSR_MODIFY(c, BDK_PCSXX_CONTROL1_REG(gmx_block),
+        c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
+
+    /* Set the external loop */
+    BDK_CSR_MODIFY(c, BDK_GMXX_XAUI_EXT_LOOPBACK(gmx_block),
+        c.s.en = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
+    return 0;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_xaui = {
     .name = "XAUI",
     .if_num_interfaces = if_num_interfaces,
@@ -338,5 +352,6 @@ const __bdk_if_ops_t __bdk_if_ops_xaui = {
     .if_disable = if_disable,
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
+    .if_loopback = if_loopback,
 };
 

@@ -304,6 +304,13 @@ function TrafficGen.new()
         octeon.trafficgen.reset(port_range)
     end
 
+    function self:cmdp_loopback(port_range, args)
+        assert (#args == 1, "Argument expected, either INTERNAL, EXTERNAL, INTERNAL+EXTERNAL, or NONE")
+        for _,port in pairs(port_range) do
+            octeon.trafficgen.set_loopback(port, args[1])
+        end
+    end
+
     function self:cmdp_tx_percent(port_range, args)
         for _,port in pairs(port_range) do
             if #args == 1 then

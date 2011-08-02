@@ -88,6 +88,14 @@ typedef struct
     bdk_buf_ptr_t   packet;
 } bdk_if_packet_t;
 
+typedef enum
+{
+    BDK_IF_LOOPBACK_NONE = 0,
+    BDK_IF_LOOPBACK_INTERNAL = 1,
+    BDK_IF_LOOPBACK_EXTERNAL = 2,
+    BDK_IF_LOOPBACK_INTERNAL_EXTERNAL = 3,
+} bdk_if_loopback_t;
+
 typedef void (*bdk_if_packet_receiver_t)(const bdk_if_packet_t *packet, void *arg);
 
 typedef struct
@@ -104,6 +112,7 @@ typedef struct
     const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle); /* Get stats. Not needed if using IPD/PKO */
     int (*if_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* TX a packet. Not needed if using PKO */
     int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* RX a packet. not needed if using IPD */
+    int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
 } __bdk_if_ops_t;
 
 extern int bdk_if_is_configured(void);
@@ -113,6 +122,7 @@ extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
 
 extern int bdk_if_enable(bdk_if_handle_t handle);
 extern int bdk_if_disable(bdk_if_handle_t handle);
+extern int bdk_if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback);
 
 extern const char *bdk_if_name(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle);

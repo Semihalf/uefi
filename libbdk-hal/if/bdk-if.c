@@ -564,6 +564,26 @@ int bdk_if_disable(bdk_if_handle_t handle)
 
 
 /**
+ * Configure loopback on an interface
+ *
+ * @param handle   Handle of interface
+ * @param loopback Type of loopback
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
+{
+    if (__bdk_if_ops[handle->iftype]->if_loopback)
+        return __bdk_if_ops[handle->iftype]->if_loopback(handle, loopback);
+    else
+    {
+        bdk_error("%s: Loopback not implemented\n", bdk_if_name(handle));
+        return -1;
+    }
+}
+
+
+/**
  * Return the human readable name of a handle
  *
  * @param handle Handle to name

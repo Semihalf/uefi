@@ -498,6 +498,22 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
         status = init_link_speed(handle, link_info);
 }
 
+
+static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
+{
+    int gmx_block = __bdk_if_get_gmx_block(handle);
+    int gmx_index = __bdk_if_get_gmx_index(handle);
+
+    BDK_CSR_MODIFY(c, BDK_PCSX_MRX_CONTROL_REG(gmx_index, gmx_block),
+        c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
+
+    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
+        c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
+
+    init_link(handle);
+    return 0;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_sgmii = {
     .name = "SGMII",
     .if_num_interfaces = if_num_interfaces,
@@ -508,5 +524,6 @@ const __bdk_if_ops_t __bdk_if_ops_sgmii = {
     .if_disable = if_disable,
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
+    .if_loopback = if_loopback,
 };
 
