@@ -808,8 +808,9 @@ static int pci_get_sample(uint64_t coremask, octeon_remote_sample_t sample[])
             sample[core].pc = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(16<<3)|0));
             if (sample[core].pc & 2)
                 sample[core].pc = 0; /* The sample is invalid */
-            else if (sample[core].pc >> 62 == 3)
+            else if (sample[core].pc >> 32 == 0xc001ffffull)
                 sample[core].pc |= 0x3ffe000000000000ull; /* The hardware doesn't store these bits */
+            sample[core].pc &= -4; /* AND off the lower two bits where extra data is encoded */
             sample[core].perf_count[0] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|1));
             sample[core].perf_count[1] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|3));
         }
