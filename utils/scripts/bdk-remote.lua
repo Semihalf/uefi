@@ -283,8 +283,8 @@ function remote.core(args)
     printf("TLB:\n");
     for r=1,128 do
         local va = state[3][r][1]/4096*4096
-        if (va/2^62) == 3 then
-            va = va + 0x3ffe000000000000
+        if bit64.bextract(va, 32,63) == 0xc001ffff then
+            va = bit64.bor(va, 0x3ffe000000000000)
         end
         local asid       = state[3][r][1] % 256
         local pagemask   = (state[3][r][2] + 0x1fff) / 2
