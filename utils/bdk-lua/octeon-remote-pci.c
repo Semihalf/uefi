@@ -800,27 +800,20 @@ static int pci_reset(int stop_core __attribute__ ((unused)))
  */
 static int pci_get_sample(uint64_t coremask, octeon_remote_sample_t sample[])
 {
-    int core;
-    uint64_t temp;
-    if (octeon_remote_debug_handler_install(OCTEON_REMOTE_PROFILE_HANDLER))
-        return -1;
-    OCTEON_REMOTE_WRITE_CSR(BDK_CIU_DINT, coremask);
-    /* Give the cores time to stop */
-    usleep(100);
-    for (core=0; core<64; core++)
+    int num_cores = octeon_remote_get_num_cores();
+    for (int core=0; core<num_cores; core++)
     {
         if ((1ull<<core) & coremask)
         {
-            uint64_t base = octeon_remote_debug_handler_get_base(core);
-            octeon_remote_read_mem(&temp, base + (256 + 192) * 8, sizeof(temp));
-            sample[core].pc = bdk_be64_to_cpu(temp);
-            octeon_remote_read_mem(&temp, base + (256 + 201) * 8, sizeof(temp));
-            sample[core].perf_count[0] = bdk_be64_to_cpu(temp);
-            octeon_remote_read_mem(&temp, base + (256 + 203) * 8, sizeof(temp));
-            sample[core].perf_count[1] = bdk_be64_to_cpu(temp);
+            sample[core].pc = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(16<<3)|0));
+            if (sample[core].pc & 2)
+                sample[core].pc = 0; /* The sample is invalid */
+            else if (sample[core].pc >> 62 == 3)
+                sample[core].pc |= 0x3ffe000000000000ull; /* The hardware doesn't store these bits */
+            sample[core].perf_count[0] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|1));
+            sample[core].perf_count[1] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|3));
         }
     }
-    /* The cores will automatically restart */
     return 0;
 }
 

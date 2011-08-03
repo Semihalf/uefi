@@ -263,26 +263,18 @@ static int linux_set_core_state(int core __attribute__ ((unused)), const octeon_
  */
 static int linux_get_sample(uint64_t coremask, octeon_remote_sample_t sample[64])
 {
-    int core;
-
-    if (octeon_remote_debug_handler_install(OCTEON_REMOTE_PROFILE_HANDLER))
-        return -1;
-
-    /* Pulse the debug interrupt */
-    OCTEON_REMOTE_WRITE_CSR(BDK_CIU_DINT, coremask);
-    /* Give the cores time to do their sample */
-    usleep(1);
-    /* Read the samples */
-    for (core=0; core<64; core++)
+    int num_cores = octeon_remote_get_num_cores();
+    for (int core=0; core<num_cores; core++)
     {
         if ((1ull<<core) & coremask)
         {
-            uint64_t base = octeon_remote_debug_handler_get_base(core);
-            if (!base)
-                return -1;
-            sample[core].pc = octeon_remote_read_mem64(base + 8*(256 + 24*8 + 0));
-            sample[core].perf_count[0] = octeon_remote_read_mem64(base + 8*(256 + 25*8 + 1));
-            sample[core].perf_count[1] = octeon_remote_read_mem64(base + 8*(256 + 25*8 + 3));
+            sample[core].pc = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(16<<3)|0));
+            if (sample[core].pc & 2)
+                sample[core].pc = 0; /* The sample is invalid */
+            else if (sample[core].pc >> 62 == 3)
+                sample[core].pc |= 0x3ffe000000000000ull; /* The hardware doesn't store these bits */
+            sample[core].perf_count[0] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|1));
+            sample[core].perf_count[1] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|3));
         }
     }
     return 0;

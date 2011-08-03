@@ -55,7 +55,6 @@ extern "C" {
 typedef enum
 {
     OCTEON_REMOTE_DEBUG_HANDLER,    /* Save all registers, stop, and then restore all registers */
-    OCTEON_REMOTE_PROFILE_HANDLER,  /* Sample PC and performance counters and keep running */
     OCTEON_REMOTE_SAVE_HANDLER,     /* Save all registers and keep running */
 } octeon_remote_debug_handler_t;
 

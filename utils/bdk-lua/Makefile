@@ -61,7 +61,7 @@ src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
 bdk-lua-%: $(src) octeon-remote-mips-asm-%.o
 	$(CC_$(arch)) $(CPPFLAGS) $(CPPFLAGS_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -o $@ $^ $(LDFLAGS) $(LDFLAGS_$(arch))
 
-octeon-remote-mips-asm-%.o: mips-octeon_debug_handler.bin mips-octeon2_debug_handler.bin mips-octeon_profile_handler.bin
+octeon-remote-mips-asm-%.o: mips-octeon2_debug_handler.bin
 	$(CC_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -c -o $@ octeon-remote-mips-asm.S
 
 mips-%.o: mips-%.S

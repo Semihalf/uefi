@@ -60,9 +60,6 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
 {
     extern void *octeon_remote_debug_handler2_begin;
     extern void *octeon_remote_debug_handler2_end;
-    extern void *octeon_remote_profile_handler_begin;
-    extern void *octeon_remote_profile_handler_end;
-    unsigned long profile_size = &octeon_remote_profile_handler_end - &octeon_remote_profile_handler_begin;
 
     OCTEON_REMOTE_DEBUG_CALLED("handler=%d", handler);
     if (installed_handler == (int)handler)
@@ -96,27 +93,17 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
                 return -1;
             }
         }
-        octeon_remote_debug(2, "Copying profile handler to 0x%llx\n", (ULL)debug_handler_base);
-        octeon_remote_write_mem(debug_handler_base, &octeon_remote_profile_handler_begin, profile_size);
-
-        octeon_remote_debug(2, "Copying debug handler to 0x%llx\n", (ULL)debug_handler_base + profile_size);
-        octeon_remote_write_mem(debug_handler_base + profile_size, &octeon_remote_debug_handler2_begin,
+        octeon_remote_debug(2, "Copying debug handler to 0x%llx\n", (ULL)debug_handler_base);
+        octeon_remote_write_mem(debug_handler_base, &octeon_remote_debug_handler2_begin,
             &octeon_remote_debug_handler2_end - &octeon_remote_debug_handler2_begin);
 
-        /* Fixup the address calculations in the profile handler */
+        /* Fixup the address calculations in the debug handler */
         uint64_t core_base = debug_handler_base + 8192;
         octeon_remote_write_mem32(debug_handler_base + 16, 0x675a0000 | ((core_base>>0)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 24, 0x675a0000 | ((core_base>>15)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 32, 0x675a0000 | ((core_base>>30)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 40, 0x675a0000 | ((core_base>>45)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 48, 0x675a0000 | ((core_base>>60)&0xf) | 8);
-
-        /* Fixup the address calculations in the debug handler */
-        octeon_remote_write_mem32(debug_handler_base + profile_size + 16, 0x675a0000 | ((core_base>>0)&0x7fff));
-        octeon_remote_write_mem32(debug_handler_base + profile_size + 24, 0x675a0000 | ((core_base>>15)&0x7fff));
-        octeon_remote_write_mem32(debug_handler_base + profile_size + 32, 0x675a0000 | ((core_base>>30)&0x7fff));
-        octeon_remote_write_mem32(debug_handler_base + profile_size + 40, 0x675a0000 | ((core_base>>45)&0x7fff));
-        octeon_remote_write_mem32(debug_handler_base + profile_size + 48, 0x675a0000 | ((core_base>>60)&0xf) | 8);
 
         octeon_remote_debug(2, "Installing bootbus region 1\n");
         OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_CFGX(1), (1ull << 31) | (0x1fc00480 >> 4));
@@ -134,24 +121,20 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
     }
 
     uint64_t address = debug_handler_base;
-    if (handler != OCTEON_REMOTE_PROFILE_HANDLER)
-        address += profile_size;
     octeon_remote_debug(2, "Writing secondary handler address 0x%llx\n", (1ull<<63) | address);
     OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_ADR, 0x98);
     OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_DAT, (1ull<<63) | address);
     OCTEON_REMOTE_READ_CSR(BDK_MIO_BOOT_LOC_DAT);  /* Ensure write has completed */
 
-    /* For the handler other than the profile one we must set the core stop
+    /* For the handlers we must set the core stop
         mode. A value of "2" in the R0 storage location tells the low level
         stub to continue after saving the registers. A value of "0" tells
         it to stop, writing a "1" to this loc, and wait for someone to write
         a zero */
-    if (handler != OCTEON_REMOTE_PROFILE_HANDLER)
     {
         int stop_type = (handler == OCTEON_REMOTE_SAVE_HANDLER) ? 2 : 0;
         int num_cores = octeon_remote_get_num_cores();
-        int core;
-        for (core=0; core<num_cores; core++)
+        for (int core=0; core<num_cores; core++)
             octeon_remote_write_mem64(debug_handler_base + (core+1) * 8192, stop_type);
     }
 
