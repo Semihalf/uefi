@@ -593,11 +593,6 @@ int octeon_remote_open(const char *remote_spec, int debug)
         extern int octeon_remote_pci(octeon_remote_funcs_t *remote_funcs);
         result = octeon_remote_pci(&remote_funcs);
     }
-    else if (strcasecmp(remote_spec, "LINUX") == 0)
-    {
-        extern int octeon_remote_linux(octeon_remote_funcs_t *remote_funcs);
-        result = octeon_remote_linux(&remote_funcs);
-    }
     else if (strncasecmp(remote_spec, "GDB:", 4) == 0)
     {
         extern int octeon_remote_gdbremote(octeon_remote_funcs_t *remote_funcs);
@@ -682,7 +677,6 @@ int octeon_remote_open(const char *remote_spec, int debug)
     {
         octeon_remote_debug(0, "    Valid protocols for OCTEON_REMOTE_PROTOCOL are:\n");
         octeon_remote_debug(0, "        PCI:<device> - Use PCI/PCIe for <device> (0 is the first Octeon)\n");
-        octeon_remote_debug(0, "        LINUX - Assume Linux userspace native with direct access\n");
         octeon_remote_debug(0, "        GDB:<name>,<tcp_port> - Use GDB remote protocol to communicate with Octeon.\n");
         octeon_remote_debug(0, "        MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>] - Use Macraigor mpDemon EJTAG.\n");
         octeon_remote_debug(0, "            Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.\n");
