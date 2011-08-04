@@ -254,7 +254,6 @@ end
 function remote.core(args)
     -- core <core>
     assert(args[1] == "core", "Expected keyword 'core'")
-    oremote.stop_cores(bit64.lshift(1,args[2]))
     local state = oremote.get_core_state(args[2])
     printf("Core %d\n", args[2]);
     printf("CPU registers:\n");

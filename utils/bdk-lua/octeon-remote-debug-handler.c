@@ -93,9 +93,9 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
                 return -1;
             }
         }
-        octeon_remote_debug(2, "Copying debug handler to 0x%llx\n", (ULL)debug_handler_base);
-        octeon_remote_write_mem(debug_handler_base, &octeon_remote_debug_handler2_begin,
-            &octeon_remote_debug_handler2_end - &octeon_remote_debug_handler2_begin);
+        int size = (long)&octeon_remote_debug_handler2_end - (long)&octeon_remote_debug_handler2_begin;
+        octeon_remote_debug(2, "Copying debug handler to 0x%llx, len=%d\n", (ULL)debug_handler_base, size);
+        octeon_remote_write_mem(debug_handler_base, &octeon_remote_debug_handler2_begin, size);
 
         /* Fixup the address calculations in the debug handler */
         uint64_t core_base = debug_handler_base + 8192;

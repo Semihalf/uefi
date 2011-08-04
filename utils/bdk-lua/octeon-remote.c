@@ -392,9 +392,17 @@ static void default_write_register(int core, int reg, uint64_t value)
 {
     octeon_remote_registers_t registers;
     OCTEON_REMOTE_DEBUG_CALLED("%d, 0x%x, 0x%llx", core, reg, (ULL)value);
+    int temp_stop = 0;
+    if (octeon_remote_get_running_cores() & (1ull<<core))
+    {
+        temp_stop = 1;
+        octeon_remote_stop_cores(1ull<<core);
+    }
     octeon_remote_get_core_state(core, &registers);
     registers.regs[reg>>8][reg&255] = value;
     octeon_remote_set_core_state(core, &registers);
+    if (temp_stop)
+        octeon_remote_start_cores(1ull<<core);
     OCTEON_REMOTE_DEBUG_RETURNED();
 }
 

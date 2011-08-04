@@ -51,6 +51,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <signal.h>
+#include <time.h>
 #include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 #include "octeon-remote-map.h"
@@ -616,6 +617,8 @@ static void pci_write_mem(uint64_t physical_address, const void *buffer_ptr, int
         buffer += length;
         physical_address += length;
     } while (physical_address < end_address);
+    /* Read from BAR1 to make sure writes are complete */
+    *(volatile uint32_t *)octeon_pci_bar1_ptr;
 }
 
 
@@ -640,6 +643,7 @@ static void pci_start_cores(uint64_t start_mask)
 {
     int core;
     uint64_t reset_status;
+    octeon_remote_debug(2, "Starting coremask 0x%llx\n", (ULL)start_mask);
 
     /* Handle Core 0 in reset as a special case. If core 0 is in reset, interpret
         this as a request to take it out of reset */
@@ -669,6 +673,7 @@ static void pci_start_cores(uint64_t start_mask)
  */
 static void pci_stop_cores(uint64_t stop_mask)
 {
+    octeon_remote_debug(2, "Stopping coremask 0x%llx\n", (ULL)stop_mask);
     if (octeon_remote_debug_handler_install(OCTEON_REMOTE_DEBUG_HANDLER))
         return;
     OCTEON_REMOTE_WRITE_CSR(BDK_CIU_DINT, stop_mask);
@@ -698,10 +703,26 @@ static uint64_t pci_get_running_cores(void)
 static int pci_get_core_state(int core, octeon_remote_registers_t *registers)
 {
     int i, j;
+    int temp_stop = 0;
+    if (pci_get_running_cores() & (1ull<<core))
+    {
+        temp_stop = 1;
+        pci_stop_cores(1ull<<core);
+    }
     uint64_t base = octeon_remote_debug_handler_get_base(core);
     if (!base)
         return -1;
-    octeon_remote_read_mem(registers, base, sizeof(*registers));
+
+    /* Sometimes the host can get here before the PCIe block has propagated
+        the CSR write to stop the cores. Spin here waiting for the core to
+        stop */
+    time_t timeout = time(NULL) + 2;
+    do
+    {
+        if (time(NULL) >= timeout)
+            return -1;
+        octeon_remote_read_mem(registers, base, sizeof(*registers));
+    } while (bdk_be64_to_cpu(registers->regs[0][0]) != 1);
 
     for (i=0; i<2; i++)
         for (j=0; j<256; j++)
@@ -711,13 +732,11 @@ static int pci_get_core_state(int core, octeon_remote_registers_t *registers)
         for (j=0; j<4; j++)
             registers->tlb[i][j] = bdk_be64_to_cpu(registers->tlb[i][j]);
 
-    if (registers->regs[0][0] == 1)
-    {
-        registers->regs[0][0] = 0;
-        return 0;
-    }
-    else
-        return -1;
+    registers->regs[0][0] = 0;
+
+    if (temp_stop)
+        pci_start_cores(1ull<<core);
+    return 0;
 }
 
 
