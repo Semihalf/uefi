@@ -303,7 +303,7 @@ function remote.core(args)
         local glbl1      = state[3][r][4] % 2
         local ri1        = (state[3][r][4]/2^63) % 2
         local xi1        = (state[3][r][4]/2^62) % 2
-        printf("%2d: Virtual=0x%016x Page0=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d Page1=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d ASID=%3d Size=%dKB\n",
+        printf("%3d: Virtual=0x%016x Page0=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d Page1=0x%09x,C=%d,D=%d,V=%d,G=%d,RI=%d,XI=%d ASID=%3d Size=%dKB\n",
             r, va, page0, cache0, dirty0, valid0, glbl0, ri0, xi0, page1, cache1, dirty1, valid1, glbl1, ri1, xi1, asid, pagesize)
     end
 end
