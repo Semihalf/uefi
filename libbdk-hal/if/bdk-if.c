@@ -66,7 +66,7 @@ static int __bdk_if_setup_sso(void)
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 0;
 
-    /* Errata in CN68XX pass 1.x has the pool 8 threshold wrong */
+    /* Errata FPA-15816 in CN68XX pass 1.x has the pool 8 threshold wrong */
     BDK_CSR_MODIFY(c, BDK_FPA_FPF8_MARKS,
         c.s.fpf_wr = 164);
 
