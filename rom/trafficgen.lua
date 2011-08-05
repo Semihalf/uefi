@@ -482,7 +482,6 @@ function TrafficGen.new()
 
     -- Delete commands that were created based on fields that aren't useful
     self.cmdp_do_checksum = nil
-    self.cmdp_output_enable = nil
     self.cmdp_output_rate = nil
     self.cmdp_output_rate_is_mbps = nil
     self.cmdp_ip_tos = nil
