@@ -70,3 +70,26 @@ do
     sed -i "s/PIP_STAT\\([0-9]*\\)_PRT/PIP_STAT\\1_/g" $f
     sed -i "s/PIP_STAT_INB_\\([A-Z]*\\)\\([*@0-9(]\\)/PIP_STAT_INB_\1_PKND\2/g" $f
 done
+
+#(DPI-15413) DPI_SLI_PRT*_ERR are at the wrong address
+#
+# The DPI_SLI_PRT*_ERR CSRs are implemented at the wrong
+# address in the hardware.
+#
+# Here is the intended hardware addresses:
+#
+# DPI_SLI_PRT0_ERR               0x0001DF0000000920  NCB
+# DPI_SLI_PRT1_ERR               0x0001DF0000000928  NCB
+#
+# Here are the actual hardware addresses:
+#
+# DPI_SLI_PRT0_ERR               0x0001DF0000000928  NCB
+# DPI_SLI_PRT1_ERR               0x0001DF0000000930  NCB
+#
+# Applies to CN63XXp1, CN63XXp2, CN68XXp1
+for f in octcsr_cn63xxp1.txt octcsr_cn63xxp2.txt octcsr_cn68xxp1.txt
+do
+    sed -i "s/DPI_SLI_PRT0_ERR               0x0001DF0000000920  NCB/DPI_SLI_PRT0_ERR               0x0001DF0000000928  NCB/g" $f
+    sed -i "s/DPI_SLI_PRT1_ERR               0x0001DF0000000928  NCB/DPI_SLI_PRT1_ERR               0x0001DF0000000930  NCB/g" $f
+done
+

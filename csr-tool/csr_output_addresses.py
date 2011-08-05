@@ -143,6 +143,7 @@ def writeAddress(out, csr, pci_alias, chip_list):
                 if not match_line:
                     match_line = line
                 if line[1:] != match_line[1:]:
+                    print "Different address lines for passes of %s:" % chip_model
                     print "match", match_line
                     print "line", line
                     all_passes = False
