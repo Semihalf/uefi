@@ -359,6 +359,15 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         }
     }
 
+    /* CN66XX Pass 1.0 and 1.1 errata G-16094 requires the QLM De-emphasis be
+        programmed for Gen2 */
+    if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_0) || OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_1))
+    {
+        /* RxCap=0x1 RxEq=0x8 */
+        bdk_qlm_jtag_set(pcie_port, -1, "rx_cap_gen2", 0x1);
+        bdk_qlm_jtag_set(pcie_port, -1, "rx_eq_gen2", 0x8);
+    }
+
     /* Bring the PCIe out of reset */
     if (pcie_port)
         ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
