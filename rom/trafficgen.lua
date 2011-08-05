@@ -476,6 +476,17 @@ function TrafficGen.new()
         end
     end
 
+    -- Short aliases for common commands
+    self.cmdp_size = self.cmdp_output_packet_size
+    self.cmdp_count = self.cmdp_output_count
+
+    -- Delete commands that were created based on fields that aren't useful
+    self.cmdp_do_checksum = nil
+    self.cmdp_output_enable = nil
+    self.cmdp_output_rate = nil
+    self.cmdp_output_rate_is_mbps = nil
+    self.cmdp_ip_tos = nil
+
     -- Issue a traffic gen comamnd line
     function self:command(command_line)
         local command, port_range, args = parse_command(command_line)
