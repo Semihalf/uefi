@@ -18,7 +18,7 @@ def test(child):
     child.sendline("32")
     output = tools.send_menu(child, "copy")
     assert("00000000: 0a2d2d20 5072696e 74206f75 74206120    .-- Print out a" in output)
-    assert("00000010: 62616e6e 65720a70 72696e74 28222229    banner.print(\"\")" in output)
+    assert("00000010: 62616e6e 65720a70 72696e74 28225c32    banner.print(\"\\2" in output)
     child.expect("Enter source filename: ")
     child.sendline(os.getenv("BDK_ROOT") + "/rom/init.lua")
     child.expect("Enter destination filename: ")

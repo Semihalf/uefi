@@ -4,7 +4,7 @@ def test(child):
     child.sendline("flash")
     child.expect("Flash Menu")
     tools.send_menu(child, "init")
-    child.expect("NOR Flash 0:Base address:  0x800100001f400000")
+    child.expect("NOR Flash 0:Base address:  0x800100000fc00000")
     child.expect("Vendor:        0x0002")
     child.expect("16 bit:        yes")
     child.expect("Size:          8388608 bytes")
