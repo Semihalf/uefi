@@ -17,7 +17,9 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_XAUI] = &__bdk_if_ops_xaui,
     [BDK_IF_DPI] = &__bdk_if_ops_dpi,
     [BDK_IF_LOOP] = &__bdk_if_ops_loop,
-    [BDK_IF_SRIO] = &__bdk_if_ops_srio,
+#ifndef BDK_DISABLE_SRIO
+        [BDK_IF_SRIO] = &__bdk_if_ops_srio,
+#endif
     [BDK_IF_MGMT] = &__bdk_if_ops_mgmt,
     [BDK_IF_ILK] = &__bdk_if_ops_ilk,
 };
@@ -493,7 +495,10 @@ int bdk_if_is_configured(void)
  */
 int bdk_if_num_interfaces(bdk_if_t iftype)
 {
-    return __bdk_if_ops[iftype]->if_num_interfaces();
+    if (__bdk_if_ops[iftype])
+        return __bdk_if_ops[iftype]->if_num_interfaces();
+    else
+        return 0;
 }
 
 

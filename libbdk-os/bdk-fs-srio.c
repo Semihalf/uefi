@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <stdio.h>
 
+#ifndef BDK_DISABLE_SRIO
+
 typedef union
 {
     long u;
@@ -102,3 +104,6 @@ int bdk_fs_srio_init(void)
 {
     return bdk_fs_register("/dev/srio/", &bdk_fs_srio_ops);
 }
+
+#endif /* BDK_DISABLE_SRIO */
+

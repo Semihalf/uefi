@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+#ifndef BDK_DISABLE_SRIO
+
 #define BDK_SRIO_CONFIG_TIMEOUT        10000 /* 10ms */
 #define BDK_SRIO_DOORBELL_TIMEOUT      10000 /* 10ms */
 #define BDK_SRIO_CONFIG_PRIORITY       0
@@ -1421,3 +1423,4 @@ bdk_if_link_t bdk_srio_link_get(int srio_port)
     return result;
 }
 
+#endif /* BDK_DISABLE_SRIO */
