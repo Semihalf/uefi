@@ -22,15 +22,22 @@ def getKeysSorted(dict):
 # Store a string into a global table and return its index
 #
 globalStringTable = {}
+globalStringTableLookup = {}
 globalStringTableLen = 0
 def getStringTable(str):
     global globalStringTable
+    global globalStringTableLookup
     global globalStringTableLen
     str = str.upper()   # Force all strings to upper case
-    if not str in globalStringTable:
+    if not str in globalStringTableLookup:
+        for k in globalStringTable:
+            if k.endswith(str):
+                globalStringTableLookup[str] = globalStringTable[k] + len(k) - len(str)
+                return globalStringTableLookup[str]
         globalStringTable[str] = globalStringTableLen
+        globalStringTableLookup[str] = globalStringTableLen
         globalStringTableLen += len(str) + 1
-    return globalStringTable[str]
+    return globalStringTableLookup[str]
 
 #
 # Store a number into a global table and return its index
