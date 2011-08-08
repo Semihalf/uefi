@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#ifndef BDK_DISABLE_LWIP
+
 #define MAX_TFTP 2  /* Max number of simultaneous transfers */
 
 typedef struct
@@ -387,5 +389,6 @@ int bdk_tftp_server_initialize(void)
     return 0;
 }
 
+#endif /* BDK_DISABLE_LWIP */
 
 

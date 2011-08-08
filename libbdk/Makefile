@@ -10,12 +10,14 @@ dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua
 dirs += libbdk-lua
+ifeq (,$(findstring BDK_DISABLE_LWIP,$(CPPFLAGS)))
 dirs += liblwip/src/core
 dirs += liblwip/src/core/ipv4
 dirs += liblwip/src/core
 dirs += liblwip/src/netif
 dirs += liblwip/src/api
 dirs += liblwip/src/arch
+endif
 
 #
 # Create a list of all source files

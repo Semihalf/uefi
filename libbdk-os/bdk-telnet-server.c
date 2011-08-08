@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <lwip/sockets.h>
 
+#ifndef BDK_DISABLE_LWIP
+
 static void telnet_server(int unused, void *unused2)
 {
     int sock = lwip_socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -83,5 +85,6 @@ int bdk_telnet_server_initialize(void)
     return result;
 }
 
+#endif /* BDK_DISABLE_LWIP */
 
 

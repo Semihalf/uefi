@@ -2,6 +2,8 @@
 #include <lwip/tcpip.h>
 #include <lwip/inet.h>
 
+#ifndef BDK_DISABLE_LWIP
+
 /**
  * Global used to track if initialization is complete.
  */
@@ -384,4 +386,6 @@ uint32_t bdk_netstack_if_get_gw(const char *name)
     else
         return 0;
 }
+
+#endif /* BDK_DISABLE_LWIP */
 
