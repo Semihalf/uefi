@@ -7,6 +7,7 @@
     .globl __start
     .globl __init
     .globl __bdk_reset_vector
+    .globl __bdk_remote_console
 
     .macro exception_stub label
 exception_\label:
@@ -43,11 +44,14 @@ __start:
      exception_stub ejtag
     .set pop
 
-    # 0x500 - 0x1000 is unused
-    # 0x1000 - 0x2000 is reserved for a Uboot style environment
-
     .set push
     .set noreorder
+.org 0x500
+__bdk_remote_console:
+    # 0x500 - 0x700 is used for the remote console, see bdk-fs-remote.c
+    # 0x700 - 0x1000 is unused
+    # 0x1000 - 0x2000 is reserved for a Uboot style environment
+
 .org 0x2000
 __init:
     /* Enable 64bit addressing */

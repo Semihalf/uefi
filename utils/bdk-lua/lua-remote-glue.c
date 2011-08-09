@@ -7,6 +7,7 @@
 #include <memory.h>
 #include <time.h>
 #include <errno.h>
+#include <termios.h>
 #include <sys/file.h>
 #include <sys/time.h>
 #include "octeon-remote-bdk.h"
@@ -583,6 +584,46 @@ static int oremote_read_mem64(lua_State* L)
 }
 
 /**
+ * oremote.getkey()
+ * Return a pending input byte if available
+ *
+ * @param L
+ *
+ * @return
+ */
+static int oremote_getkey(lua_State* L)
+{
+    fd_set rset;
+    struct timeval tv;
+    struct termios orig_termios;
+    struct termios raw_termios;
+    FD_ZERO(&rset);
+    FD_SET(fileno(stdin), &rset);
+    tv.tv_sec = 0;
+    tv.tv_usec = 1000;
+
+    /* Switch to RAW terminal IO */
+    tcgetattr(fileno(stdin), &orig_termios);
+    raw_termios = orig_termios;
+    cfmakeraw(&raw_termios);
+    tcsetattr(fileno(stdin), TCSANOW, &raw_termios);
+
+    if (select(fileno(stdin) + 1, &rset, NULL, NULL, &tv) > 0)
+    {
+        char c;
+        fread(&c, 1, 1, stdin);
+        lua_pushlstring(L, &c, 1);
+    }
+    else
+    {
+        lua_pushnil(L);
+    }
+    /* Restore normal RAW terminal IO */
+    tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
+    return 1;
+}
+
+/**
  * Called to register the octeon module
  *
  * @param L
@@ -648,6 +689,8 @@ LUALIB_API int luaopen_oremote(lua_State* L)
     lua_setfield(L, -2, "read_mem32");
     lua_pushcfunction(L, oremote_read_mem64);
     lua_setfield(L, -2, "read_mem64");
+    lua_pushcfunction(L, oremote_getkey);
+    lua_setfield(L, -2, "getkey");
 
     #define REGISTER(L, name) \
         extern void register_##name(lua_State* L); \

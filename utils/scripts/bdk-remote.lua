@@ -10,6 +10,7 @@ require("utils")
 local oremote = require("oremote")
 local bit64 = require("bit64")
 local norflash = require("norflash")
+local remoteconsole = require("remoteconsole")
 
 local remote = {}
 
@@ -203,6 +204,12 @@ function remote.reset(args)
     -- reset
     assert(args[1] == "reset", "Expected keyword 'reset'")
     oremote.reset(0)
+end
+
+function remote.console(args)
+    -- reset
+    assert(args[1] == "console", "Expected keyword 'console'")
+    remoteconsole.run()
 end
 
 function remote.flash(args)
@@ -440,6 +447,8 @@ bdk-remote:
         Boot <filename> on Octeon.
     reset
         Reset Octeon.
+    console
+        Access the BDK console remotely.
 
     flash info
         Probe a NOR flash and display information about it.
@@ -519,6 +528,7 @@ local function parse_args()
         "csr <csr> <value> decode",
         "boot <filename>",
         "reset",
+        "console",
         "flash info",
         "flash read <filename> <address> <length>",
         "flash write <filename> <address>",

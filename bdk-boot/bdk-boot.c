@@ -21,6 +21,8 @@ int main(void)
         bdk_error("bdk_netstack_if_initialize() failed\n");
 #endif
 
+    extern int bdk_fs_remote_init(void);
+    bdk_fs_remote_init();
     extern int bdk_fs_rom_init(void);
     bdk_fs_rom_init();
     extern int bdk_fs_mem_init(void);
