@@ -23251,7 +23251,8 @@ Pos      Name    Type     Value     Value       Description
                                                  See SSO_IQ_INT                                     |
  <59>    TWSI2	  RO       0           0         2nd TWSI Interrupt			            |
                                                  See MIO_TWS1_INT                                   |
- <58>    MPI	  R/W1C    0	       0	 MPI/SPI interrupt				    |
+ <58>    MPI	  R/W1C    0	       0	 MPI/SPI interrupt, Set when MPI transaction        |
+                                                 finished, see MPI_CFG[INT_ENA] and MPI_STS[BUSY]   |
  <57>    NS       RAZ      0           0         Reserved for PCM and MPI		            |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
@@ -38778,7 +38779,9 @@ Pos      Name    Type     Value     Value       Description
                                                                                                     |
 Notes:                                                                                              |
  These registers are accessed when a local processor or an external device wishes to examine the    |
- port baudrate information.  WARNING:  Writes to this register will reinitialize the SRIO link.     |
+ port baudrate information.  The Automatic Baud Rate Feature is not available on this device.  The  |
+ SUP_* and ENB_* fields are set directly by the QLM_SPD bits as a reference but otherwise have      |
+ no effect.  WARNING:  Writes to this register will reinitialize the SRIO link.                     |
                                                                                                     |
 Clk_Rst:	SRIOMAINT(0..3)_PORT_0_CTL2	hclk	hrst_n                                              |
 ----------------------------------------------------------------------------------------------------

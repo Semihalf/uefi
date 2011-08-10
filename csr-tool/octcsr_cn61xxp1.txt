@@ -21538,7 +21538,8 @@ Pos      Name    Type     Value     Value       Description
                                                  See SSO_IQ_INT                                     |
  <59>    TWSI2	  RO       0           0         2nd TWSI Interrupt			            |
                                                  See MIO_TWS1_INT                                   |
- <58>    MPI	  R/W1C    0	       0	 MPI/SPI interrupt				    |
+ <58>    MPI	  R/W1C    0	       0	 MPI/SPI interrupt, Set when MPI transaction        |
+                                                 finished, see MPI_CFG[INT_ENA] and MPI_STS[BUSY]   |
  <57>    PCM	  RO	   0	       0	 PCM/TDM interrupt				    |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
@@ -24424,7 +24425,11 @@ Pos      Name    Type     Value     Value       Description
                                                  01 = falling edge
                                                  10 = both rising & falling edge
                                                  11 = reserved
- <63:40> NS         RAZ     NS         NS        Reserved				            |
+ <40>    CKOUT      RO      NS	       0	 PTP Clock Output                                   |
+                                                 reflects ptp__ckout after CKOUT_INV inverter       |
+ <41>    PPS        RO      NS	       0	 PTP PPS Output                                     |
+                                                 reflects ptp__pps after PPS_INV inverter           |
+ <63:42> NS         RAZ     NS         NS        Reserved				            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27390,6 +27395,27 @@ Pos      Name    Type     Value     Value       Description
  <37:3>  MASK     R/W      0x7ffffffff 0x7ffffffff The value to be ANDED with the address sent to   |
                                                    the Octeon memory.                               |
  <2:0>   NS       RAZ      NS          NS          Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  PEM_INB_READ_CREDITS
+ *
+ * The number of in flight reads from PCIe core to SLI
+ *
+
+     ==============================================================
+     PEM(0..1)_INB_READ_CREDITS Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:6> NS       RAZ      NS          NS          Reserved				            |
+ <5:0>  NUM      R/W      32          32          The number of reads that may be in flight from    |
+                                                  the PCIe core to the SLI. Min number is 2 max     |
+                                                  number is 32.                                     |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -36239,11 +36265,10 @@ Pos      Name    Type     Value     Value       Description
                                                  read-data/commit in 0xffff core clocks.            |
  <3>     IOB2BIG  R/W1C    0x0         0         A requested IOBDMA is to large.                    |
  <4>     PCNT     RO       0x0         0         Packet Counter has an interrupt. Which rings can   |
-                                                 be found in SLI_PKT_CNT_INT.                       |
+                                                 be found in SLI_PKT_INT.                           |
  <5>     PTIME    RO       0x0         0         Packet Timer has an interrupt. Which rings can     |
-                                                 be found in SLI_PKT_TIME_INT.                      |
+                                                 be found in SLI_PKT_INT.                           |
  <7:6>   NS       R/W1C    0x0         0         Reserved	 				    |
-
  <8>     M0_UP_B0 R/W1C    0x0         0         Received Unsupported P-TLP for Bar0 from MAC 0.    |
                                                  This occurs when the BAR 0 address space is        |
                                                  disabeled.                                         |
@@ -36337,6 +36362,7 @@ Pos      Name    Type     Value     Value       Description
 						 set.						    |
  <51>    PIN_BP    R/W1C   0x0         0         Packet input count has exceeded the WMARK.         |
                                                  See SLI_PKT_IN_BP                                  |
+                                                 See SLI_PKT_INPUT_CONTROL[BP]                      |
  <52>    PGL_ERR   R/W1C   0x0         0         When a read error occurs on a packet gather list   |
 						 read this bit is set.                              |
  <53>    PDI_ERR   R/W1C   0x0         0         When a read error occurs on a packet data read     |
@@ -36911,6 +36937,7 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_PKT[0..31]_OUT_SIZE = SLI Packet Out Size
  *
  * Contains the BSIZE and ISIZE for output packet ports.
+ * VF
  *
 
      ==============================================================
@@ -36929,12 +36956,11 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
-
  *
  *                  SLI_PKT_INSTR_ENB = SLI's Packet Instruction Enable
  *
  * Enables the instruction fetch for a Packet-ring.
- * VF
+ * PF
  *
 
      ==============================================================
@@ -36953,7 +36979,7 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_PKT_OUT_ENB = SLI's Packet Output Enable
  *
  * Enables the output packet engines.
- * VF
+ * PF
  *
 
      ==============================================================
@@ -36970,452 +36996,6 @@ Pos      Name    Type     Value     Value       Description
 						 the bit associated with the ring to '0'.           |
 ----------------------------------------------------------------------------------------------------
 ===
-
- *
- *                  SLI_PKT_INSTR_SIZE = SLI's Packet Instruction Size
- *
- * Determines if instructions are 64 or 32 byte in size for a Packet-ring.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_INSTR_SIZE Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  IS_64B   R/W      0           NS        When IS_64B<i>=1, instruction input ring i uses 64B|
-                                                 instructions, else 32B instructions.               |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_SLIST_ROR = SLI's Packet Scatter List Relaxed Ordering
- *
- * The ROR field for the TLP when fetching Scatter List.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_SLIST_ROR Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ROR      R/W      0           NS        ADDRTYPE<0> for the packet output ring reads that  |
-                                                 fetch buffer/info pointer pairs.                   |
-                                                 ROR<i> becomes ADDRTYPE<0> in DPI/SLI reads that   |
-                                                 fetch buffer/info pairs from packet output ring i  |
-                                                 (from address SLI_PKTi_SLIST_BADDR+ in MAC memory  |
-                                                 space.)                                            |
-                                                 ADDRTYPE<0> is the relaxed-order attribute for PCIe|
-                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_SLIST_NS = SLI's Packet Scatter List No Snoop
- *
- * The NS field for the TLP when fetching Scatter List.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_SLIST_NS Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  NSR      R/W      0           NS        ADDRTYPE<1> for the packet output ring reads that  |
-                                                 fetch buffer/info pointer pairs.                   |
-                                                 NSR<i> becomes ADDRTYPE<1> in DPI/SLI reads that   |
-                                                 fetch buffer/info pairs from packet output ring i  |
-                                                 (from address SLI_PKTi_SLIST_BADDR+ in MAC memory  |
-                                                 space.)                                            |
-                                                 ADDRTYPE<1> is the relaxed-order attribute for PCIe|
-                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
-----------------------------------------------------------------------------------------------------
-===
-
-
- *
- *                  SLI_PKT_SLIST_ES = SLI's Packet Scatter List Endian Swap
- *
- * The Endian Swap for Scatter List Read. For ports 0-31.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_SLIST_ES Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ES       R/W      0           NS        ES<1:0> for the packet output ring reads that      |
-                                                 fetch buffer/info pointer pairs.                   |
-                                                 ES<2i+1:2i> becomes ES<1:0> in DPI/SLI reads that  |
-                                                 fetch buffer/info pairs from packet output ring i  |
-                                                 (from address SLI_PKTi_SLIST_BADDR+ in MAC memory  |
-                                                 space.)                                            |
-                                                 ES<1:0> is the endian-swap attribute for these MAC |
-                                                 memory space reads.                                |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_SLIST_ES2 = SLI's Packet Scatter List Endian Swap
- *
- * The Endian Swap for Scatter List Read. For ports 32-63.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_SLIST_ES2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ES       R/W      0           NS        ES<1:0> for the packet output ring reads that        |
-                                                 fetch buffer/info pointer pairs.                     |
-                                                 ES<2i+1:2i> becomes ES<1:0> in DPI/SLI reads that    |
-                                                 fetch buffer/info pairs from packet output ring i+32 |
-                                                 (from address SLI_PKTi_SLIST_BADDR+ in MAC memory    |
-                                                 space.)                                              |
-                                                 ES<1:0> is the endian-swap attribute for these MAC   |
-                                                 memory space reads.                                  |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_IPTR = SLI's Packet Info Poitner
- *
- * Controls using the Info-Pointer to store length and data.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_IPTR Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  IPTR     R/W      0           NS        When IPTR<i>=1, packet output ring i is in info-   |
-                                                 pointer mode, else buffer-pointer-only mode.       |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_DPADDR = SLI's Packet Data Pointer Addr
- *
- * Used to detemine address and attributes for packet data writes.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_DPADDR Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  DPTR     R/W      0         0xffffffff  Determines whether buffer/info pointers are        |
-                                                 DPTR format 0 or DPTR format 1.                    |
-                                                 When DPTR<i>=1, the buffer/info pointers fetched   |
-                                                 from packet output ring i are DPTR format 0.       |
-                                                 When DPTR<i>=0, the buffer/info pointers fetched   |
-                                                 from packet output ring i are DPTR format 1.       |
-                                                 (Replace SLI_PKT_INPUT_CONTROL[D_ESR,D_NSR,D_ROR]  |
-                                                 in the HRM descriptions of DPTR format 0/1 with    |
-                                                 SLI_PKT_DATA_OUT_ES[ES<2i+1:2i>],                  |
-                                                 SLI_PKT_DATA_OUT_NS[NSR<i>], and                   |
-                                                 SLI_PKT_DATA_OUT_ROR[ROR<i>], respectively,        |
-                                                 though.)                                           |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_DATA_OUT_ROR = SLI's Packet Data Out Relaxed Ordering
- *
- * The ROR field for the TLP when writing Packet Data.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_DATA_OUT_ROR Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ROR      R/W      0           NS        ADDRTYPE<0> or MACADD<60> for buffer/info writes.  |
-                                                 ROR<i> becomes either ADDRTYPE<0> or MACADD<60>    |
-                                                 for writes to buffer/info pair MAC memory space    |
-                                                 addresses fetched from packet output ring i.       |
-                                                 ADDRTYPE<0> if SLI_PKT_DPADDR[DPTR<i>]=1, else     |
-                                                 MACADD<60>.                                        |
-                                                 In the latter case,ADDRTYPE<0> comes from DPTR<60>.|
-                                                 ADDRTYPE<0> is the relaxed-order attribute for PCIe|
-                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_DATA_OUT_NS = SLI's Packet Data Out No Snoop
- *
- * The NS field for the TLP when writing packet data.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_DATA_OUT_NS Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  NSR      R/W      0           NS        ADDRTYPE<1> or MACADD<61> for buffer/info writes.  |
-                                                 NSR<i> becomes either ADDRTYPE<1> or MACADD<61>    |
-                                                 for writes to buffer/info pair MAC memory space    |
-                                                 addresses fetched from packet output ring i.       |
-                                                 ADDRTYPE<1> if SLI_PKT_DPADDR[DPTR<i>]=1, else     |
-                                                 MACADD<61>.                                        |
-                                                 In the latter case,ADDRTYPE<1> comes from DPTR<61>.|
-                                                 ADDRTYPE<1> is the no-snoop attribute for PCIe     |
-                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_DATA_OUT_ES = SLI's Packet Data Out Endian Swap
- *
- * The Endian Swap for writing Data Out. For ports 0-31
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_DATA_OUT_ES Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ES       R/W      0           NS        ES<1:0> or MACADD<63:62> for buffer/info writes.   |
-                                                 ES<2i+1:2i> becomes either ES<1:0> or              |
-                                                 MACADD<63:62> for writes to buffer/info pair       |
-                                                 MAC memory space addresses fetched from packet     |
-                                                 output ring i. ES<1:0> if SLI_PKT_DPADDR[DPTR<i>]=1|
-                                                 , else MACADD<63:62>.                              |
-                                                 In the latter case, ES<1:0> comes from DPTR<63:62>.|
-                                                 ES<1:0> is the endian-swap attribute for these MAC |
-                                                 memory space writes.                               |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_DATA_OUT_ES2 = SLI's Packet Data Out Endian Swap
- *
- * The Endian Swap for writing Data Out. For ports 32-63
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_DATA_OUT_ES2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  ES       R/W      0           NS        ES<1:0> or MACADD<63:62> for buffer/info writes.   |
-                                                 ES<2i+1:2i> becomes either ES<1:0> or              |
-                                                 MACADD<63:62> for writes to buffer/info pair       |
-                                                 MAC memory space addresses fetched from packet     |
-                                                 output ring i. ES<1:0> if SLI_PKT_DPADDR[DPTR<i>]=1|
-                                                 , else MACADD<63:62>.                              |
-                                                 In the latter case, ES<1:0> comes from DPTR<63:62>.|
-                                                 ES<1:0> is the endian-swap attribute for these MAC |
-                                                 memory space writes.                               |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_OUT_BMODE = SLI's Packet Out Byte Mode
- *
- * Control the updating of the SLI_PKT#_CNT register.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_OUT_BMODE Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0> BMODE     R/W      0           NS        Determines whether SLI_PKTi_CNTS[CNT] is a byte or |
-                                                 packet counter.                                    |
-                                                 When BMODE<i>=1, SLI_PKTi_CNTS[CNT] is a byte      |
-                                                 counter, else SLI_PKTi_CNTS[CNT] is a packet       |
-                                                 counter.                                           |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_PCIE_PORT = SLI's Packet To MAC Port Assignment
- *
- * Assigns Packet Ports to MAC ports. For ports 0-31
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_PCIE_PORT Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  PP       R/W      0           NS        The physical MAC  port that the output ring uses.  |
-						 Two bits are used per ring (i.e. ring 0 [1:0],     |
-                                                 ring 1 [3:2], ....). A value of '0 means           |
-  						 that the Packetring is assign to MAC Port 0, a '1' |
-						 MAC Port 1, '2' and '3' are reserved.              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_PCIE_PORT2 = SLI's Packet To MAC Port Assignment
- *
- * Assigns Packet Ports to MAC ports. For ports 32-63
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_PCIE_PORT2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  PP       R/W      0           NS        The physical MAC  port that the output ring uses.  |
-						 Two bits are used per ring (i.e. ring 0 [1:0],     |
-                                                 ring 1 [3:2], ....). A value of '0 means           |
-  						 that the Packetring is assign to MAC Port 0, a '1' |
-						 MAC Port 1, '2' and '3' are reserved.              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_CNT_INT = SLI Packet Counter Interrupt
- *
- * The packets rings that are interrupting because of Packet Counters.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_CNT_INT Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>   PORT     R/W1C   0x0         NS        Output ring packet counter interrupt bits          |
-                                                 SLI sets PORT<i> whenever                          |
-						 SLI_PKTi_CNTS[CNT] > SLI_PKT_INT_LEVELS[CNT].      |
-                                                 SLI_PKT_CNT_INT_ENB[PORT<i>] is the corresponding  |
-                                                 enable.                                            |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_TIME_INT = SLI Packet Timer Interrupt
- *
- * The packets rings that are interrupting because of Packet Timers.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_TIME_INT Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>   PORT     R/W1C   0x0         NS        Output ring packet timer interrupt bits            |
-                                                 SLI sets PORT<i> whenever                          |
-						 SLI_PKTi_CNTS[TIMER] > SLI_PKT_INT_LEVELS[TIME].   |
-                                                 SLI_PKT_TIME_INT_ENB[PORT<i>] is the corresponding |
-                                                 enable.                                            |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_CNT_INT_ENB = SLI Packet Counter Interrupt Enable
- *
- * Enable for the packets rings that are interrupting because of Packet Counters.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_CNT_INT_ENB Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>   PORT     R/W     0x0         NS        Output ring packet counter interrupt enables       |
-                                                 When both PORT<i> and corresponding                |
-                                                 SLI_PKT_CNT_INT[PORT<i>] are set, for any i,       |
-                                                 then SLI_INT_SUM[PCNT] is set, which can cause     |
-                                                 an interrupt.                                      |
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_TIME_INT_ENB = SLI Packet Timer Interrupt Enable
- *
- * The packets rings that are interrupting because of Packet Timers.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_TIME_INT_ENB Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>   PORT     R/W     0x0         NS        Output ring packet timer interrupt enables         |
-                                                 When both PORT<i> and corresponding                |
-                                                 SLI_PKT_TIME_INT[PORT<i>] are set, for any i,      |
-                                                 then SLI_INT_SUM[PTIME] is set, which can cause    |
-                                                 an interrupt.                                      |
-----------------------------------------------------------------------------------------------------
-===
-// 0x11170 was SLI_PKT_INPUT_CONTROL
-
 
  *
  *                  SLI_PKT_OUTPUT_WMARK = SLI's Packet Output Water Mark
@@ -37440,159 +37020,42 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
- *                  SLI_PKT_INSTR_RD_SIZE2 = SLI Instruction Read Size
+ *                  SLI_PKT_RING_INPUT_RST = SLI Packet Ring Input Reset
  *
- * The number of instruction allowed to be read at one time. For ports 32-63.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_INSTR_RD_SIZE2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  RDSIZE   R/W      0x0         NS        Number of instructions to be read in one MAC read  |
-                                                 request for the 4 ports - 8 rings. Every two bits  |
-                                                 (i.e. 1:0, 3:2, 5:4..) are assign to the port/ring |
-                                                 combinations.                                      |
-                                                 15:0  PKIPort0,Ring 7..0  31:16 PKIPort1,Ring 7..0 |
-                                                 47:32 PKIPort2,Ring 7..0  63:48 PKIPort3,Ring 7..0 |
-                                                 Two bit value are:                                 |
-                                                 0 - 1 Instruction                                  |
-                                                 1 - 2 Instructions                                 |
-                                                 2 - 3 Instructions                                 |
-                                                 3 - 4 Instructions                                 |
-----------------------------------------------------------------------------------------------------
-===
-
-
- *
- *                  SLI_PKT_INSTR_RD_SIZE = SLI Instruction Read Size
- *
- * The number of instruction allowed to be read at one time. For ports 0-31.
- * VF
+ * Which input rings are in reset.
+ * PF
  *
 
      ==============================================================
-     SLI_PKT_INSTR_RD_SIZE Type=PEXP_NCB
+     SLI_PKT_RING_INPUT_RST Type=PEXP_NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  RDSIZE   R/W      0x0         NS        Number of instructions to be read in one MAC read  |
-                                                 request for the 4 ports - 8 rings. Every two bits  |
-                                                 (i.e. 1:0, 3:2, 5:4..) are assign to the port/ring |
-                                                 combinations.                                      |
-                                                 15:0  PKIPort0,Ring 7..0  31:16 PKIPort1,Ring 7..0 |
-                                                 47:32 PKIPort2,Ring 7..0  63:48 PKIPort3,Ring 7..0 |
-                                                 Two bit value are:                                 |
-                                                 0 - 1 Instruction                                  |
-                                                 1 - 2 Instructions                                 |
-                                                 2 - 3 Instructions                                 |
-                                                 3 - 4 Instructions                                 |
-----------------------------------------------------------------------------------------------------
-===
-
-
- *
- *                  SLI_PKT_IN_PCIE_PORT = SLI's Packet In To MAC Port Assignment
- *
- * Assigns Packet Input rings to MAC ports. For ports 0-31.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_IN_PCIE_PORT Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  PP       R/W      0           NS        The MAC port that the Packet ring number is        |
-						 assigned. Two bits are used per ring (i.e. ring 0  |
-						 [1:0], ring 1 [3:2], ....). A value of '0 means    |
-  						 that the Packetring is assign to MAC Port 0, a '1' |
-						 MAC Port 1, a '2' MAC Port 2, and a '3' MAC Port 3.|
-----------------------------------------------------------------------------------------------------
-===
-
- *
- *                  SLI_PKT_IN_PCIE_PORT2 = SLI's Packet In To MAC Port Assignment
- *
- * Assigns Packet Input rings to MAC ports. For ports 0-31.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_IN_PCIE_PORT2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <63:0>  PP       R/W      0           NS        The MAC port that the Packet ring number is        |
-						 assigned. Two bits are used per ring (i.e. ring 0  |
-						 [1:0], ring 1 [3:2], ....). A value of '0 means    |
-  						 that the Packetring is assign to MAC Port 0, a '1' |
-						 MAC Port 1, a '2' MAC Port 2, and a '3' MAC Port 3.|
-----------------------------------------------------------------------------------------------------
-===
-
-*
-*91d0 reserved
-*91e0 reserved
-*
-
-
-
- *
- *                  SLI_PKT_PORT_IN_RST2 = SLI Packet Port In Reset
- *
- * Vector bits related to ring-port for ones that are reset. Covers ports 32-63.
- * VF
- *
-
-     ==============================================================
-     SLI_PKT_PORT_IN_RST2 Type=PEXP_NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
- <31:0>  OUT_RST  RO       0           NS        When asserted '1' the vector bit cooresponding     |
-                                                 to the outbound Packet-ring is in reset.           |
- <63:32> IN_RST   RO       0           NS        When asserted '1' the vector bit cooresponding     |
+ <63:0>  IN_RST   RO       0           NS        When asserted '1' the vector bit cooresponding     |
                                                  to the inbound Packet-ring is in reset.            |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- *                  SLI_PKT_PORT_IN_RST = SLI Packet Port In Reset
+ *                  SLI_PKT_RING_OUTPUT_RST = SLI Packet Ring Output Reset
  *
- * Vector bits related to ring-port for ones that are reset. Covers ports 0-31.
- * VF
+ * Whcih output rings are in reset.
+ * PF
  *
 
      ==============================================================
-     SLI_PKT_PORT_IN_RST Type=PEXP_NCB
+     SLI_PKT_RING_OUTPUT_RST Type=PEXP_NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <31:0>  OUT_RST  RO       0           NS        When asserted '1' the vector bit cooresponding     |
+ <63:0>  OUT_RST  RO       0           NS        When asserted '1' the vector bit cooresponding     |
                                                  to the outbound Packet-ring is in reset.           |
- <63:32> IN_RST   RO       0           NS        When asserted '1' the vector bit cooresponding     |
-                                                 to the inbound Packet-ring is in reset.            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -37622,7 +37085,7 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_PKT_IN_BP = SLI Packet Input Backpressure
  *
  * Which input rings have backpressure applied.
- * VF
+ * PF
  *
 
      ==============================================================
@@ -37635,7 +37098,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:0>  BP       RO       0           NS        A packet input  ring that has its count greater    |
 						 than its WMARK will have backpressure applied.     |
-						 Each of the 32 bits coorespond to an input ring.   |
+						 Each of the 64 bits coorespond to an input ring.   |
 						 When '1' that ring has backpressure applied an     |
 						 will fetch no more instructions, but will process  |
 						 any previously fetched instructions.               |
@@ -37790,9 +37253,8 @@ Pos      Name    Type     Value     Value       Description
 						 field.  					    |
  <53:32> TIMER    RO       0x0         0         Timer incremented every 1024 core clocks           |
                                                  when SLI_PKTS#_CNTS[CNT] is non zero. Field        |
-                                                 cleared when SLI_PKTS#_CNTS[CNT] goes to 0.        |
-                                                 Field is also cleared when SLI_PKT_TIME_INT is     |
-                                                 cleared.                                           |
+                                                 cleared when                                       |
+                                                 SLI_PKTi_CNTS[CNT]   <= SLI_PKTi_INT_LEVELS[CNT].  |
                                                  The first increment of this count can occur        |
                                                  between 0 to 1023 core clocks.                     |
  <63:54> NS       RO      NS          NS        Reserved					    |
@@ -37970,16 +37432,34 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_PKT_INT = SLI PKT_INT
  *
  * When read by a VF this CSR will inform which rings owned by the VF (1 to 8) has an interrupt pending.
- * VF
+ * In PF mode this register returns an unpredictable value. When writing '1's to clear this register will
+ * clear both Packet Count an Packet Time interrupts. The clearing of the interrupts will be reflected in
+ * the SLI_PKT_CNT_INT and SLI_PKT_TIME_INT CSRs.
  *
- * $SLI_PKT_INT =  0x13C00  RegType=(PEXP_NCB)
- *-----------------------------------------------------------------------------------------------------------------------------------
- * Bit     Field    Field    Reset       Typical   Field					                Verif
- * Pos     Name     Type     Value       Value     Description				                Type
- *----------------------------------------------------------------------------------------------------+------------------------------
- * <7:0>   RINGI    R/W1C    0           0         Ring 7-0 has Packet Count or Packet Time interrupt.|   $R
- * <63:8>  NS       RAZ      NS          NS        Reserved					      |   $PRW
- *-----------------------------------------------------------------------------------------------------------------------------------
+ *
+ *
+
+     ==============================================================
+     SLI_PKT_INT Type=PEXP_NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:0>  RINGI    RO       0           0         Asserted when output ring has an interrupt due to    |
+                                                 SLI_PKTi_CNTS[CNT]   > SLI_PKTi_INT_LEVELS[CNT] or   |
+ 					         SLI_PKTi_CNTS[TIMER] > SLI_PKTi_INT_LEVELS[TIMEL].   |
+                                                 RINGI bit is cleared when                            |
+                                                 a write occurs to SLI_PKTi_CNTS[CNT] that causes     |
+                                                 SLI_PKTi_CNTS[CNT]   <= SLI_PKTi_INT_LEVELS[CNT]     |
+                                                 if the interrupt was caused by                       |
+                                                 SLI_PKTi_CNTS[CNT]   > SLI_PKTi_INT_LEVELS[CNT] or   |
+                                                 when SLI_PKTi_CNTS[CNT] == 0 if the interrupt was    |
+                                                 caused by                                            |
+ 					         SLI_PKTi_CNTS[TIMER] > SLI_PKT@_INT_LEVELS[TIMEL].   |
+----------------------------------------------------------------------------------------------------
+===
 
 
  *
@@ -38669,7 +38149,7 @@ Pos      Name    Type     Value     Value       Description
                                                  "First Direct" or "First Indirect" in the HRM.
                                                  When PBP=1, if "First Direct" and USE_CSR=0, PBP_DHI
                                                  becomes MACADD<59:51>, else MACADD<63:55>.
- <22>    NS       RAZ      NS          NS        Reserved
+ <22>    ENB      R/W      0           NS        When ENB=1, instruction input ring i is enabled.
  <23>    PIN_RST  R/W      0x0         0         Packet In Reset. This bit is set for a ring when the
                                                  ring enters the reset state. This can be done by
                                                  writing a 1 to the field, when a FLR associated with
@@ -38681,13 +38161,26 @@ Pos      Name    Type     Value     Value       Description
                                                  2. Write a '0' to this bit.
                                                  3. Startup the packet input again (all previous
                                                     CSR setting of the packet-input will be lost).
- <39:24> NS       RAZ      NS          NS        Reserved					    |
- <40>    PRC_IDLE RO       0           NS        PRC In IDLE
- <47:41> NS       RAZ      NS          NS        Reserved
- <54:48> GII_RDS  RO       0           NS        GII Reads Out
- <55>    GII_ERST RO       0           NS        GII Error Reset
- <62:56> PRD_RDS  RO       0           NS        PRD Reads Out
- <63>    PRD_ERST RO       0           NS        PRD Error Reset
+ <24>    IS_64B   R/W      0           NS        When IS_64B=1, instruction input ring i uses 64B
+ <26:25> RDSIZE   R/W      0x0         NS        Number of instructions to be read in one MAC read  |
+                                                 request for the 4 ports - 16 rings.
+                                                 Two bit value are:                                 |
+                                                 0 - 1 Instruction                                  |
+                                                 1 - 2 Instructions                                 |
+                                                 2 - 3 Instructions                                 |
+                                                 3 - 4 Instructions                                 |
+
+ <28:27> PP       R/W      0           NS        The MAC port that the Packet ring number is        |
+						 assigned. A value of '0 means that the Packetring  |
+  						 is assign to MAC Port 0, a '1' MAC Port 1,         |
+						 a '2' MAC Port 2, and a '3' MAC Port 3.            |
+
+ <29>    BP       RO       0           NS        A packet input  ring that has its count greater    |
+						 than its WMARK will have backpressure applied.     |
+						 When '1' that ring has backpressure applied an     |
+						 will fetch no more instructions, but will process  |
+						 any previously fetched instructions.               |
+ <63:30> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -38720,7 +38213,7 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_PKT_OUTPUT_CONTROL = SLI's Packet Input Control
  *
  * Control for reads for gather list and instructions.
- * VF, add 63 new registers
+ * VF
  *
 
      ==============================================================
@@ -38731,20 +38224,127 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     POUT_RST R/W      0x0         0         Packet Out Reset. This bit is set for a ring when the
-                                                 ring enters the reset state. This can be done by
-                                                 writing a 1 to the field, when a FLR associated with
-                                                 the ring occurs or when an error response is received
-                                                 for a read done by the ring.
-                                                 1. Wait 2ms to allow any outstanding reads to return
-                                                    or be timed out.
-                                                 2. Write a '0' to this bit.
-                                                 3. Startup the packet output again (all previous
-                                                    CSR setting of the packet-input may be lost).
-                                                    SLI_PKT@_SLIST_BAOFF_DBELL will be cleared.
- <63:1>  NS       RAZ      NS          NS        Reserved					    |
+ <0>     POUT_RST R/W      0x0         0         Packet Out Reset. This bit is set for a ring when  |
+                                                 the ring enters the reset state. This can be done  |
+                                                 by writing a 1 to the field, when a FLR associated |
+                                                 with the ring occurs or when an error response is  |
+                                                 received for a read done by the ring.              |
+                                                 1. Wait 2ms to allow any outstanding reads to      |
+                                                    return or be timed out.                         |
+                                                 2. Write a '0' to this bit.                        |
+                                                 3. Startup the packet output again (all previous   |
+                                                    CSR setting of the packet-input may be lost).   |
+                                                    SLI_PKT@_SLIST_BAOFF_DBELL will be cleared.     |
+ <1>     ENB      R/W      0           NS        When ENB=1, packet output ring is enabled.         |
+                                                 If an error occurs on reading pointers or a FLR    |
+                                                 occurs that the ring belongs to, this bit will be  |
+                                                 set to '0'.                                        |
+                                                 Also see SLI_PKT_OUT_ENB.                          |
+ <2>     ROR_P    R/W      0           NS        ADDRTYPE<0> for the packet output ring reads that  |
+                                                 fetch buffer/info pointer pairs.                   |
+                                                 ROR    becomes ADDRTYPE<0> in DPI/SLI reads that   |
+                                                 fetch buffer/info pairs from packet output ring    |
+                                                 (from address SLI_PKTi_SLIST_BADDR+ in MAC memory  |
+                                                 space.)                                            |
+                                                 ADDRTYPE<0> is the relaxed-order attribute for PCIe|
+                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
+ <3>     NSR_P    R/W      0           NS        ADDRTYPE<1> or MACADD<61> for buffer/info writes.  |
+                                                 NSR    becomes either ADDRTYPE<1> or MACADD<61>    |
+                                                 for writes to buffer/info pair MAC memory space    |
+                                                 addresses fetched from packet output ring.         |
+                                                 ADDRTYPE<1> if SLI_PKT_DPADDR[DPTR<i>]=1, else     |
+                                                 MACADD<61>.                                        |
+                                                 In the latter case,ADDRTYPE<1> comes from DPTR<61>.|
+                                                 ADDRTYPE<1> is the no-snoop attribute for PCIe     |
+                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
+ <5:4>   ES_P     R/W      0           NS        ES<1:0> for the packet output ring reads that      |
+                                                 fetch buffer/info pointer pairs.                   |
+                                                 ES<1:0> is the endian-swap attribute for these MAC |
+                                                 memory space reads.                                |
+ <7:6>   PP       R/W      0           NS        The physical MAC  port that the output ring uses.  |
+						 A value of '0 means that the Packetring is         |
+  						 assign to MAC Port 0, a '1'                        |
+						 MAC Port 1, '2' and '3' are reserved.              |
+ <8>    BMODE     R/W      0           NS        Determines whether SLI_PKTi_CNTS[CNT] is a byte or |
+                                                 packet counter.                                    |
+                                                 When BMODE=1,    SLI_PKTi_CNTS[CNT] is a byte      |
+                                                 counter, else SLI_PKTi_CNTS[CNT] is a packet       |
+                                                 counter.                                           |
+ <9>    DPTR      R/W      0         0x1         Determines whether buffer/info pointers are        |
+                                                 DPTR format 0 or DPTR format 1.                    |
+                                                 When DPTR=1,    the buffer/info pointers fetched   |
+                                                 from packet output ring   are DPTR format 0.       |
+                                                 When DPTR=0,    the buffer/info pointers fetched   |
+                                                 from packet output ring i are DPTR format 1.       |
+                                                 (Replace SLI_PKT_INPUT_CONTROL[D_ESR,D_NSR,D_ROR]  |
+                                                 in the HRM descriptions of DPTR format 0/1 with    |
+                                                 SLI_PKT@_OUTPUT_CONTROL[ES],                       |
+                                                 SLI_PKT@_OUTPUT_CONTROL[NSR], and                  |
+                                                 SLI_PKT@_OUTPUT_CONTROL[ROR], respectively,        |
+                                                 though.)                                           |
+ <10>    ROR      R/W      0           NS        ADDRTYPE<0> or MACADD<60> for buffer/info writes.  |
+                                                 ROR    becomes either ADDRTYPE<0> or MACADD<60>    |
+                                                 for writes to buffer/info pair MAC memory space    |
+                                                 addresses fetched from packet output ring.         |
+                                                 ADDRTYPE<0> if SLI_PKT@_OUTPUT_CONTROL[DPTR]=1,    |
+                                                 else MACADD<60>.                                   |
+                                                 In the latter case,ADDRTYPE<0> comes from DPTR<60>.|
+                                                 ADDRTYPE<0> is the relaxed-order attribute for PCIe|
+                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
+ <11>    NSR      R/W      0           NS        ADDRTYPE<1> or MACADD<61> for buffer/info writes.  |
+                                                 NSR    becomes either ADDRTYPE<1> or MACADD<61>    |
+                                                 for writes to buffer/info pair MAC memory space    |
+                                                 addresses fetched from packet output ring.         |
+                                                 ADDRTYPE<1> if SLI_PKT@_OUTPUT_CONTROL[DPTR]=1,    |
+                                                 else  MACADD<61>.                                  |
+                                                 In the latter case,ADDRTYPE<1> comes from DPTR<61>.|
+                                                 ADDRTYPE<1> is the no-snoop attribute for PCIe     |
+                                                 , helps select an SRIO*_S2M_TYPE* entry with sRIO. |
+ <13:12> ES       R/W      0           NS        ES or MACADD<63:62> for buffer/info writes to      |
+						 buffer/info pair MAC memory space addresses        |
+                                                 fetched from packet output ring.                   |
+                                                 ES<1:0> if SLI_PKT@_OUTPUT_CONTROL[DPTR]=1         |
+                                                 , else MACADD<63:62>.                              |
+                                                 In the latter case, ES<1:0> comes from DPTR<63:62>.|
+                                                 ES<1:0> is the endian-swap attribute for these MAC |
+                                                 memory space writes.                               |
+ <14>    IPTR     R/W      0           NS        When IPTR=1,    packet output ring   is in info-   |
+                                                 pointer mode, else buffer-pointer-only mode.       |
+ <15>    CENB     R/W     0x0          NS        Output ring packet counter interrupt enable.       |
+                                                 When both CENB and corresponding                   |
+                                                 SLI_PKT_INT[PORT<i>] are set, for any i,       |
+                                                 then SLI_INT_SUM[PCNT] is set, which can cause     |
+                                                 an interrupt.                                      |
+ <16>    TENB     R/W     0x0          NS        Output ring packet timer interrupt enable.         |
+                                                 When both TENB and corresponding                   |
+                                                 SLI_PKT_INT[PORT<i>] are set, for any i,      |
+                                                 then SLI_INT_SUM[PTIME] is set, which can cause    |
+                                                 an interrupt.                                      |
+ <63:17> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  *
  *                  SLI_MSIX_TABLE_ADDR (MSIX Table Entry - Address)
@@ -48318,6 +47918,7 @@ PEM0_CTL_STATUS                0x00011800C0000000  RSL
 PEM0_DBG_INFO                  0x00011800C0000008  RSL
 PEM0_DBG_INFO_EN               0x00011800C00000A0  RSL
 PEM0_DIAG_STATUS               0x00011800C0000020  RSL
+PEM0_INB_READ_CREDITS          0x00011800C0000138  RSL
 PEM0_INT_ENB                   0x00011800C0000410  RSL
 PEM0_INT_ENB_INT               0x00011800C0000418  RSL
 PEM0_INT_SUM                   0x00011800C0000408  RSL
@@ -48352,6 +47953,7 @@ PEM1_CTL_STATUS                0x00011800C1000000  RSL
 PEM1_DBG_INFO                  0x00011800C1000008  RSL
 PEM1_DBG_INFO_EN               0x00011800C10000A0  RSL
 PEM1_DIAG_STATUS               0x00011800C1000020  RSL
+PEM1_INB_READ_CREDITS          0x00011800C1000138  RSL
 PEM1_INT_ENB                   0x00011800C1000410  RSL
 PEM1_INT_ENB_INT               0x00011800C1000418  RSL
 PEM1_INT_SUM                   0x00011800C1000408  RSL
@@ -50523,18 +50125,9 @@ SLI_PKT63_OUT_SIZE             0x0000000000000FF0  PEXP_NCB     0x00011F0000010F
 SLI_PKT63_SLIST_BADDR          0x00000000000017F0  PEXP_NCB     0x00011F00000117F0  NCB
 SLI_PKT63_SLIST_BAOFF_DBELL    0x0000000000001BF0  PEXP_NCB     0x00011F0000011BF0  NCB
 SLI_PKT63_SLIST_FIFO_RSIZE     0x0000000000001FF0  PEXP_NCB     0x00011F0000011FF0  NCB
-SLI_PKT_CNT_INT                0x0000000000001130  PEXP_NCB     0x00011F0000011130  NCB
-SLI_PKT_CNT_INT_ENB            0x0000000000001150  PEXP_NCB     0x00011F0000011150  NCB
 SLI_PKT_CTL                    0x0000000000001220  PEXP_NCB     0x00011F0000011220  NCB
-SLI_PKT_DATA_OUT_ES            0x00000000000010B0  PEXP_NCB     0x00011F00000110B0  NCB
-SLI_PKT_DATA_OUT_ES2           0x00000000000010C0  PEXP_NCB     0x00011F00000110C0  NCB
-SLI_PKT_DATA_OUT_NS            0x00000000000010A0  PEXP_NCB     0x00011F00000110A0  NCB
-SLI_PKT_DATA_OUT_ROR           0x0000000000001090  PEXP_NCB     0x00011F0000011090  NCB
-SLI_PKT_DPADDR                 0x0000000000001080  PEXP_NCB     0x00011F0000011080  NCB
 SLI_PKT_INSTR_ENB              0x0000000000001000  PEXP_NCB     0x00011F0000011000  NCB
-SLI_PKT_INSTR_RD_SIZE          0x00000000000011A0  PEXP_NCB     0x00011F00000111A0  NCB
-SLI_PKT_INSTR_RD_SIZE2         0x0000000000001190  PEXP_NCB     0x00011F0000011190  NCB
-SLI_PKT_INSTR_SIZE             0x0000000000001020  PEXP_NCB     0x00011F0000011020  NCB
+SLI_PKT_INT                    0x0000000000003C00  PEXP_NCB     0x00011F0000013C00  NCB
 SLI_PKT_IN_BP                  0x0000000000001210  PEXP_NCB     0x00011F0000011210  NCB
 SLI_PKT_IN_DONE0_CNTS          0x0000000000002000  PEXP_NCB     0x00011F0000012000  NCB
 SLI_PKT_IN_DONE1_CNTS          0x0000000000002010  PEXP_NCB     0x00011F0000012010  NCB
@@ -50601,22 +50194,10 @@ SLI_PKT_IN_DONE61_CNTS         0x00000000000023D0  PEXP_NCB     0x00011F00000123
 SLI_PKT_IN_DONE62_CNTS         0x00000000000023E0  PEXP_NCB     0x00011F00000123E0  NCB
 SLI_PKT_IN_DONE63_CNTS         0x00000000000023F0  PEXP_NCB     0x00011F00000123F0  NCB
 SLI_PKT_IN_INSTR_COUNTS        0x0000000000001200  PEXP_NCB     0x00011F0000011200  NCB
-SLI_PKT_IN_PCIE_PORT           0x00000000000011B0  PEXP_NCB     0x00011F00000111B0  NCB
-SLI_PKT_IN_PCIE_PORT2          0x00000000000011C0  PEXP_NCB     0x00011F00000111C0  NCB
-SLI_PKT_IPTR                   0x0000000000001070  PEXP_NCB     0x00011F0000011070  NCB
 SLI_PKT_OUTPUT_WMARK           0x0000000000001180  PEXP_NCB     0x00011F0000011180  NCB
-SLI_PKT_OUT_BMODE              0x00000000000010D0  PEXP_NCB     0x00011F00000110D0  NCB
 SLI_PKT_OUT_ENB                0x0000000000001010  PEXP_NCB     0x00011F0000011010  NCB
-SLI_PKT_PCIE_PORT              0x00000000000010E0  PEXP_NCB     0x00011F00000110E0  NCB
-SLI_PKT_PCIE_PORT2             0x00000000000010F0  PEXP_NCB     0x00011F00000110F0  NCB
-SLI_PKT_PORT_IN_RST            0x00000000000011F0  PEXP_NCB     0x00011F00000111F0  NCB
-SLI_PKT_PORT_IN_RST2           0x00000000000011E0  PEXP_NCB     0x00011F00000111E0  NCB
-SLI_PKT_SLIST_ES               0x0000000000001050  PEXP_NCB     0x00011F0000011050  NCB
-SLI_PKT_SLIST_ES2              0x0000000000001060  PEXP_NCB     0x00011F0000011060  NCB
-SLI_PKT_SLIST_NS               0x0000000000001040  PEXP_NCB     0x00011F0000011040  NCB
-SLI_PKT_SLIST_ROR              0x0000000000001030  PEXP_NCB     0x00011F0000011030  NCB
-SLI_PKT_TIME_INT               0x0000000000001140  PEXP_NCB     0x00011F0000011140  NCB
-SLI_PKT_TIME_INT_ENB           0x0000000000001160  PEXP_NCB     0x00011F0000011160  NCB
+SLI_PKT_RING_INPUT_RST         0x00000000000011E0  PEXP_NCB     0x00011F00000111E0  NCB
+SLI_PKT_RING_OUTPUT_RST        0x00000000000011F0  PEXP_NCB     0x00011F00000111F0  NCB
 SLI_S2M_PORT0_CTL              0x0000000000003D80  PEXP_NCB     0x00011F0000013D80  NCB
 SLI_S2M_PORT1_CTL              0x0000000000003D90  PEXP_NCB     0x00011F0000013D90  NCB
 SLI_S2M_PORT2_CTL              0x0000000000003DA0  PEXP_NCB     0x00011F0000013DA0  NCB

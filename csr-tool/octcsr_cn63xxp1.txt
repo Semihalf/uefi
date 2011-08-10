@@ -35657,7 +35657,9 @@ Pos      Name    Type     Value     Value       Description
                                                                                                     |
 Notes:                                                                                              |
  These registers are accessed when a local processor or an external device wishes to examine the    |
- port baudrate information.  WARNING:  Writes to this register will reinitialize the SRIO link.     |
+ port baudrate information.  The Automatic Baud Rate Feature is not available on this device.  The  |
+ SUP_* and ENB_* fields are set directly by the QLM_SPD bits as a reference but otherwise have      |
+ no effect.  WARNING:  Writes to this register will reinitialize the SRIO link.                     |
                                                                                                     |
 Clk_Rst:	SRIOMAINT(0..1)_PORT_0_CTL2	hclk	hrst_n                                              |
 ----------------------------------------------------------------------------------------------------
