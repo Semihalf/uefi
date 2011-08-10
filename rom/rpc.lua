@@ -84,6 +84,13 @@ end
 --
 local function connectStreams(instream, outstream)
     local inf, outf
+    if instream == "remote" then
+        local oremote = require("oremote")
+        oremote.open()
+        local remoteconsole = require("remoteconsole")
+        local handle = remoteconsole.open()
+        return handle, handle
+    end
     inf = getconnection(instream, true)
     if outstream then
         outf = getconnection(outstream, false)
