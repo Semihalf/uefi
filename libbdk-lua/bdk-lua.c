@@ -39,7 +39,7 @@ void bdk_lua_init(void *lua_state)
 #ifdef BDK_BUILD_HOST
 
     PRELOAD("socket", luaopen_socket_core);
-    PRELOAD("oremote", luaopen_oremote);
+    PRELOAD("oremote-internal", luaopen_oremote);
 
 #else
 
