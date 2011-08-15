@@ -55,7 +55,7 @@ void __bdk_exception_handler(uint64_t saved_regs[34])
     printf("******************************************************************\n");
     for (reg=0; reg<16; reg++)
     {
-        printf("%3s ($%02d): 0x%016lx \t %3s ($%02d): 0x%016lx\n",
+        printf("%3s (r%02d): 0x%016lx \t %3s (r%02d): 0x%016lx\n",
             reg_names[reg], reg, saved_regs[reg],
             reg_names[reg+16], reg+16, saved_regs[reg+16]);
     }
