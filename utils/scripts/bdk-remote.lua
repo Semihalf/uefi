@@ -143,6 +143,7 @@ function remote.csr(args)
     end
     if not found then
         print("ERROR: CSR not found. Here are some similar names:")
+        partial_matches = table.sorted_values(partial_matches)
         local count = 0
         for i = 1, #partial_matches do
             printf("%-25s ", partial_matches[i])
@@ -159,12 +160,12 @@ function remote.csr(args)
     end
 
     if #args == 2 then
-        oremote.decode_csr(args[2])
+        oremote.csr[args[2]].display()
     elseif #args == 3 then
-        oremote.write_csr(args[2], args[3])
+        oremote.csr[args[2]].write(args[3])
     elseif #args == 4 then
         assert(args[4] == "decode", "Expected keyword 'decode'")
-        oremote.decode_csr(args[2], args[3])
+        oremote.csr[args[2]].display(args[3])
     else
         error("Invalid number of args")
     end
@@ -180,22 +181,20 @@ function remote.boot(args)
     -- Reset and stop the cores
     oremote.reset(1)
     -- Disable L2 aliasing
-    local l2 = oremote.read_csr("L2C_CTL")
-    if not bit64.btest(l2, 1) then
-        l2 = l2 + 1
-        oremote.write_csr("L2C_CTL", l2)
+    if oremote.csr.L2C_CTL.DISIDXALIAS == 0 then
+        oremote.csr.L2C_CTL.DISIDXALIAS = 1
     end
     -- Write the image to L2
     oremote.write_mem(0, d)
     -- Setup the Bootbus moveable region
-    oremote.write_csr("MIO_BOOT_LOC_CFGX(0)", 0x81fc0000)
-    oremote.write_csr("MIO_BOOT_LOC_ADR", 0);
+    oremote.csr.MIO_BOOT_LOC_CFGX(0).write(0x81fc0000)
+    oremote.csr.MIO_BOOT_LOC_ADR.write(0);
     -- 0:   3c1a8000        lui     k0,0x8000
     -- 4:   03400008        jr      k0
     -- 8:   00000000        nop
     -- c:   00000000        nop
-    oremote.write_csr("MIO_BOOT_LOC_DAT", 0x3c1a800003400008);
-    oremote.write_csr("MIO_BOOT_LOC_DAT", 0x0000000000000000);
+    oremote.csr.MIO_BOOT_LOC_DAT.write(0x3c1a800003400008);
+    oremote.csr.MIO_BOOT_LOC_DAT.write(0x0000000000000000);
     -- Start core 0
     oremote.start_cores(1)
 end
