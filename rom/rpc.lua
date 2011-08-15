@@ -370,9 +370,9 @@ local function rpc_object_remote(self, command, ...)
     collectgarbage()
     local meta = getmetatable(self)
     -- Cleanup any remote objects that have been garbage collected
-    while #meta.need_cleanup > 0 do
-        do_remote_command(self, "~" .. meta.need_cleanup[1])
-        table.remove(meta.need_cleanup, 1)
+    if #meta.need_cleanup > 0 then
+        do_remote_command(self, "~" .. table.concat(meta.need_cleanup, "#"))
+        meta.need_cleanup = {}
     end
     -- Build the comamnd
     local line = command .. meta.getid(self) .. do_pack(...)
@@ -546,12 +546,16 @@ local function rpc_serve(inf, outf, only_one)
                 result[1] = #object
                 result.n = 1
             elseif command == "~" then  -- Delete reference to object
-                local obj_info = rpc.objects[object]
-                obj_info[2] = obj_info[2] - 1
-                if (obj ~= 0) and (obj_info[2] == 0) then
-                    -- All references are gone, allow garbage collection
-                    rpc.objects[object] = nil
-                    rpc.objects[obj] = nil
+                table.insert(args, obj)
+                for _,obj in ipairs(args) do
+                    local object = rpc.objects[obj]
+                    local obj_info = rpc.objects[object]
+                    obj_info[2] = obj_info[2] - 1
+                    if (obj ~= 0) and (obj_info[2] == 0) then
+                        -- All references are gone, allow garbage collection
+                        rpc.objects[object] = nil
+                        rpc.objects[obj] = nil
+                    end
                 end
             else
                 error ("Illegal remote command " .. command)
