@@ -278,7 +278,7 @@ function TrafficGen.new()
 
     function self:cmdp_stop(port_range, args)
         assert (#args == 0, "No arguments expected")
-        self:cmdp_output_enable(port_range, {false})
+        octeon.trafficgen.stop(port_range)
     end
 
     function self:cmdp_show(port_range, args)
@@ -482,6 +482,7 @@ function TrafficGen.new()
 
     -- Delete commands that were created based on fields that aren't useful
     self.cmdp_do_checksum = nil
+    self.cmdp_output_enable = nil
     self.cmdp_output_rate = nil
     self.cmdp_output_rate_is_mbps = nil
     self.cmdp_ip_tos = nil
