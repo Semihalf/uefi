@@ -481,6 +481,12 @@ local function server_do_pack(objects, ...)
             table.insert(result, arg)
         elseif argtype == "string" then
             table.insert(result, string_pack(arg))
+        elseif (argtype == "table") and not getmetatable(arg) then
+            table.insert(result, "{")
+            for k,v in pairs(arg) do
+                table.insert(result, server_do_pack(objects, k, v))
+            end
+            table.insert(result, "}")
         else
             -- Try and treat any other types as generic remote objects
             -- All accesses to them will cause RPC calls
