@@ -407,6 +407,10 @@ function TrafficGen.new()
 
         -- Loop through the sizes
         local new_config = {output_count = output_count}
+        for _,port in ipairs(port_range) do
+            octeon.trafficgen.set_config(port, new_config)
+        end
+        new_config.output_count=nil
         for size=size_start,size_stop,size_incr do
             printf("Size %d\n", size)
             new_config.output_packet_size = size;
