@@ -37,7 +37,7 @@ typedef struct
     int                     output_rate;
     bool                    output_rate_is_mbps;
     bool                    output_enable;
-    int                     output_packet_size;
+    int                     size;
     uint64_t                output_count;
     uint64_t                src_mac;    /* MACs are stored so a printf in hex will show them */
     uint64_t                dest_mac;
@@ -204,7 +204,7 @@ static int get_size_payload(const tg_port_t *tg_port)
 {
     /* The payload area is whatever is left after the previous headers. Note
         that this does not include any UDP or TCP header */
-    return tg_port->pinfo.setup.output_packet_size - get_size_ip_header(tg_port) - get_size_l2(tg_port);
+    return tg_port->pinfo.setup.size - get_size_ip_header(tg_port) - get_size_l2(tg_port);
 }
 
 /**
@@ -397,13 +397,13 @@ static int write_packet(bdk_if_packet_t *packet, int loc, uint8_t data)
  */
 static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
-    if (tg_port->pinfo.setup.output_packet_size < 1)
+    if (tg_port->pinfo.setup.size < 1)
     {
         bdk_error("%s: Packet must be at least 1 byte\n", tg_port->pinfo.name);
         return -1;
     }
 
-    if (tg_port->pinfo.setup.validate && (tg_port->pinfo.setup.output_packet_size < 19))
+    if (tg_port->pinfo.setup.validate && (tg_port->pinfo.setup.size < 19))
     {
         /* Packets smaller than 19 bytes will skip validation. 14 bytes
             skipped for L2, 1 byte of data, and 4 bytes of CRC is the
@@ -411,7 +411,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         bdk_warn("%s: Packets smaller than 19 bytes will not be validated\n", tg_port->pinfo.name);
     }
 
-    int total_length = tg_port->pinfo.setup.output_packet_size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0);
+    int total_length = tg_port->pinfo.setup.size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0);
     if (bdk_if_alloc(packet, total_length))
     {
         bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);
@@ -644,7 +644,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
     if (port_tx->output_rate_is_mbps)
-        packet_rate = packet_rate * 125000ull / (tg_port->pinfo.setup.output_packet_size + get_size_wire_overhead(tg_port));
+        packet_rate = packet_rate * 125000ull / (tg_port->pinfo.setup.size + get_size_wire_overhead(tg_port));
     if (packet_rate == 0)
         packet_rate = 1;
     uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
@@ -963,7 +963,7 @@ static int do_reset(tg_port_t *tg_port)
     tg_port->pinfo.setup.output_rate_is_mbps        = true;
     tg_port->pinfo.setup.output_enable              = 0;
     tg_port->pinfo.setup.output_count               = 0;
-    tg_port->pinfo.setup.output_packet_size         = 64 - ETHERNET_CRC;
+    tg_port->pinfo.setup.size                       = 64 - ETHERNET_CRC;
     tg_port->pinfo.setup.src_mac                    = src_mac;
     tg_port->pinfo.setup.dest_mac                   = dest_mac;
     tg_port->pinfo.setup.src_ip                     = 0x0a000063 | src_inc;        /* 10.port.0.99 */
@@ -1066,7 +1066,7 @@ static int get_config(lua_State* L)
     pushfield(output_rate,          number);
     pushfield(output_rate_is_mbps,  boolean);
     pushfield(output_enable,        boolean);
-    pushfield(output_packet_size,   number);
+    pushfield(size,                 number);
     pushfield(output_count,         number);
     pushfield(src_mac,              number);
     pushfield(dest_mac,             number);
@@ -1108,7 +1108,7 @@ static int set_config(lua_State* L)
     getfield(output_rate,          number);
     getfield(output_rate_is_mbps,  boolean);
     getfield(output_enable,        boolean);
-    getfield(output_packet_size,   number);
+    getfield(size,                 number);
     getfield(output_count,         number);
     getfield(src_mac,              number);
     getfield(dest_mac,             number);

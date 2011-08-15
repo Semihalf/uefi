@@ -412,7 +412,7 @@ function TrafficGen.new()
         new_config.output_count=nil
         for size=size_start,size_stop,size_incr do
             printf("Size %d\n", size)
-            new_config.output_packet_size = size;
+            new_config.size = size;
             -- Setup TX and count how many packets we expect
             for _,port in ipairs(port_range) do
                 octeon.trafficgen.set_config(port, new_config)
@@ -480,8 +480,9 @@ function TrafficGen.new()
     end
 
     -- Short aliases for common commands
-    self.cmdp_size = self.cmdp_output_packet_size
     self.cmdp_count = self.cmdp_output_count
+    -- This command is kept around for backwards compatibility
+    self.cmdp_output_packet_size = self.cmdp_size
 
     -- Delete commands that were created based on fields that aren't useful
     self.cmdp_do_checksum = nil
