@@ -563,6 +563,11 @@ local function rpc_serve(inf, outf, only_one)
             line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
             send_command(inf, outf, line)
+            -- Force a GC if we released objects. We do this here so the
+            -- response isn't delayed by GC
+            if command == "~" then
+                collectgarbage()
+            end
         end
     until only_one
 end
