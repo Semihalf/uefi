@@ -209,7 +209,7 @@ end
 --
 function menu.dofile(filename)
     local fullname = assert(package.searchpath(filename, package.path))
-    dofile(fullname)
+    return dofile(fullname)
 end
 
 return menu
