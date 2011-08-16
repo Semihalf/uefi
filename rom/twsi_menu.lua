@@ -9,10 +9,10 @@ local function twsi_init(twsi_bus)
     -- Slow down the TWSI clock, as some boards (Thunder) seem to need
     -- it slower than the default, especially when a spi4000 is
     -- connected.
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).op = 0x6
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).eop_ia = 0x3
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).d = 0x78
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).v = 1
+    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).OP = 0x6
+    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).EOP_IA = 0x3
+    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).D = 0x78
+    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).V = 1
 end
 
 local function twsi_scan(twsi_bus)
