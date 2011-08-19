@@ -908,6 +908,17 @@ void test_crypto(int unused0, void *unused1)
     BDK_SYNCW;
 }
 
+/**
+ * This function is not defined by the BDK libraries. It must be
+ * defined by all BDK applications. It should be empty except for
+ * containing BDK_REQUIRE() lines. The bdk-init code has a strong
+ * reference to bdk_requires_depends() which then contains strong
+ * references to all needed components.
+ */
+void __bdk_require_depends(void)
+{
+    /* This code doesn't need any extra components */
+}
 
 int main()
 {
