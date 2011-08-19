@@ -4,7 +4,7 @@ import os
 import sys
 
 def read_functions(elf, func_list):
-    file = os.popen("mipsisa64-octeon-elf-readelf --wide -s %s | grep GLOBAL | grep FUNC" % elf)
+    file = os.popen("mipsisa64-octeon-elf-readelf --wide -s %s | grep -v LOCAL | grep FUNC" % elf)
     for line in file:
         parts = line.split()
         func = parts[-1]
@@ -23,7 +23,7 @@ def filter(list, prefix):
 def write_function_table(out, table_name, functions):
     out.write("\n")
     for f in functions:
-        out.write("extern void %s();\n" % f)
+        out.write("extern void %s() __attribute__((weak));\n" % f)
     out.write("\n")
     out.write("const bdk_functions_t %s[] = {\n" % table_name)
     for f in functions:

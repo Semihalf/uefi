@@ -84,9 +84,16 @@ void register_octeon_c(lua_State* L)
     int i = 0;
     while(bdk_functions[i].name)
     {
-        lua_pushlightuserdata(L, bdk_functions[i].func);
-        lua_pushcclosure(L, octeon_c_call, 1);
-        lua_setfield(L, -2, bdk_functions[i].name);
+        if (bdk_functions[i].func)
+        {
+            lua_pushlightuserdata(L, bdk_functions[i].func);
+            lua_pushcclosure(L, octeon_c_call, 1);
+            lua_setfield(L, -2, bdk_functions[i].name);
+        }
+        else
+        {
+            //bdk_warn("Symbol %s is not defined\n", bdk_functions[i].name);
+        }
         i++;
     }
 
