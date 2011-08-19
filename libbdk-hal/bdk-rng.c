@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(RNG);
+
 #define BDK_RNG_LOAD_ADDRESS BDK_ADD_IO_SEG(bdk_build_io_address(BDK_OCT_DID_RNG, 0))
 
 /**
