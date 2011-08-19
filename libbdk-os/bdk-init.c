@@ -52,7 +52,7 @@ static void bdk_init_stage2(void)
     extern void _fbss;  /* Beginning of .bss */
     extern void _ebss;  /* End of .bss */
     static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
-    static const char BANNER_2[] = "Setting up global data\n";
+    static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Clearing BSS\n";
     static const char BANNER_4[] = "Transferring to thread scheduler\n";
 
@@ -69,8 +69,13 @@ static void bdk_init_stage2(void)
         write(1, BANNER_1, sizeof(BANNER_1)-1);
         __bdk_init_exception();
 
-        write(1, BANNER_2, sizeof(BANNER_2)-1);
-        bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1) * BDK_CACHE_LINE_SIZE);
+        /* Only lock L2 if DDR3 isn't initialized */
+        BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
+        if (lmcx_dclk_cnt.u64 == -1ull)
+        {
+            write(1, BANNER_2, sizeof(BANNER_2)-1);
+            bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1) * BDK_CACHE_LINE_SIZE);
+        }
 
         /* Zero BSS */
         write(1, BANNER_3, sizeof(BANNER_3)-1);
