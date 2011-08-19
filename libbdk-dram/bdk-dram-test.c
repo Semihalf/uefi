@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(DRAM_TEST);
+
 #define MAX_REPORT_ERRORS 100
 
 /**
