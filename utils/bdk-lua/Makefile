@@ -10,23 +10,21 @@ LDFLAGS = -lm -ldl
 CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
 
 # Building for x86
-#    1) Add readline support
-#    2) Build for 32bit
-#    3) Link static
-CPPFLAGS_x86 = -DLUA_USE_LINUX
+#    1) Build for 32bit
+#    2) Link static
+CPPFLAGS_x86 =
 CFLAGS_x86 = -march=i686 -m32
 ASFLAGS_x86 = -march=i686 -m32
-LDFLAGS_x86 = -static -lreadline -lncurses
+LDFLAGS_x86 = -static
 CC_x86 = gcc
 
 # Building for PPC
-#    1) Add readline support
-#    2) Link static
+#    1) Link static
 PPC_ROOT=/home/creese/work/debian_ppc_lenny
-CPPFLAGS_ppc = -DLUA_USE_LINUX
+CPPFLAGS_ppc =
 CFLAGS_ppc =
 ASFLAGS_ppc =
-LDFLAGS_ppc = -static -lreadline -lncurses
+LDFLAGS_ppc = -static
 CC_ppc = ssh bdk-build-ppc "cd `pwd` && gcc"
 
 # Building for Octeon
@@ -52,6 +50,7 @@ src := $(wildcard $(src))
 src += $(BDK_ROOT)/libbdk-arch/bdk-csr.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-csrs.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
+src += $(BDK_ROOT)/libbdk-os/bdk-readline.c
 src += $(BDK_ROOT)/libbdk-lua/bdk-lua.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-model.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-csr.c

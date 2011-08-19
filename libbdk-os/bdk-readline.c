@@ -1,8 +1,16 @@
+#ifndef BDK_BUILD_HOST
 #include <bdk.h>
+#endif
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#ifdef BDK_BUILD_HOST
+#include <termios.h>
+#include <sys/time.h>
+#include "bdk-readline.h"
+#endif
 
 #define MAX_INSERT 8
 
@@ -91,13 +99,11 @@ static const char *process_function_key(int function)
 
 static void process_input_draw_current()
 {
-    char prompt[32];
-    snprintf(prompt, sizeof(prompt), "%s(%d%s)> ", cmd_prompt,
-        history_index, delete_mode ? "DEL" : find_mode ? "FND" : escape_mode ? "ESC" : insert_mode ? "INS":"OVR");
-    prompt[sizeof(prompt)-1] = 0;
     command_history[history_index][cmd_len] = 0;
     /* Erase to end of line, put cursor at correct pos */
-    printf(CURSOR_OFF CURSOR_RESTORE "%s%s" ERASE_EOL, prompt, command_history[history_index]);
+    printf(CURSOR_OFF CURSOR_RESTORE "(%s)%s%s" ERASE_EOL,
+        delete_mode ? "DEL" : find_mode ? "FND" : escape_mode ? "ESC" : insert_mode ? "INS" : "OVR",
+        cmd_prompt, command_history[history_index]);
     if (cmd_pos != cmd_len)
         printf(CURSOR_LEFT, cmd_len - cmd_pos);
     printf(CURSOR_ON);
@@ -721,7 +727,7 @@ parse_input:
     {
         return "\032";
     }
-    else if (c == '\b')         /* backspace */
+    else if ((c == '\b') || (c == 127)) /* backspace or telnet backspace */
     {
         if (cmd_pos)
         {
@@ -802,10 +808,66 @@ process_input_done:
     return NULL;
 }
 
+static uint64_t gettime(void)
+{
+#ifdef BDK_BUILD_HOST
+    struct timeval tv;
+    if (gettimeofday(&tv, NULL))
+        return 0;
+    return (uint64_t)tv.tv_sec * 1000000 + (uint64_t)tv.tv_usec;
+#else
+    uint64_t rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
+    return bdk_clock_get_count(BDK_CLOCK_CORE) / rate;
+#endif
+}
+
+
+int bdk_readline_getkey(int timeout_us)
+{
+#ifdef BDK_BUILD_HOST
+    /* Switch to RAW terminal IO */
+    struct termios orig_termios;
+    struct termios raw_termios;
+    tcgetattr(fileno(stdin), &orig_termios);
+    raw_termios = orig_termios;
+    cfmakeraw(&raw_termios);
+    tcsetattr(fileno(stdin), TCSANOW, &raw_termios);
+
+    fd_set rset;
+    struct timeval tv;
+    FD_ZERO(&rset);
+    FD_SET(fileno(stdin), &rset);
+    tv.tv_sec = timeout_us / 1000000;
+    tv.tv_usec = timeout_us % 1000000;
+
+    if (select(fileno(stdin) + 1, &rset, NULL, NULL, &tv) > 0)
+    {
+        char c;
+        read(fileno(stdin), &c, 1);
+        /* Restore normal RAW terminal IO */
+        tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
+        return 0xff & c;
+    }
+    /* Restore normal RAW terminal IO */
+    tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
+    return -1;
+#else
+    uint64_t stop_time = gettime() + timeout_us;
+
+    do
+    {
+        char c;
+        if (read(0, &c, 1) == 1)
+            return 0xff & c;
+        bdk_thread_yield();
+    } while (gettime() < stop_time);
+    return -1;
+#endif
+}
 
 const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us)
 {
-    uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
+    uint64_t stop_time = gettime() + timeout_us;
     cmd_prompt = prompt;
     tab_complete_data = tab;
 
@@ -814,25 +876,30 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
 
     printf(CURSOR_SAVE);
     process_input_draw_current();
+    const char *result = NULL;
     while (1)
     {
-        char c;
-        while (1)
+        int c;
+        do
         {
             fflush(stdout);
-            if (read(0, &c, 1) == 1)
-                break;
-            else
+            uint64_t cur_time = gettime();
+            if (cur_time >= stop_time)
             {
-                if (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_time)
-                {
-                    printf(CURSOR_RESTORE);
-                    return NULL;
-                }
-                bdk_thread_yield();
+                printf(CURSOR_RESTORE);
+                goto done;
             }
-        }
+            uint64_t to = stop_time - cur_time;
+            if (to > 10000000)
+                to = 10000000;
+            c = bdk_readline_getkey(to);
+        } while (c == -1);
 
+#ifdef BDK_BUILD_HOST
+        /* Have Control-D signal EOF */
+        if (c == 4)
+            goto done;
+#else
         if ((cmd_len == 0) && (c == '$'))
         {
             extern void __bdk_rpc_serve(void) __attribute__ ((weak));
@@ -842,42 +909,16 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
                 continue;
             }
         }
+#endif
 
-        const char *result = process_input(c);
+        result = process_input(c);
         if (result)
         {
             printf("\n");
-            return result;
+            goto done;
         }
     }
-}
-
-char bdk_kbhit(int timeout_us)
-{
-    uint64_t stop_time = bdk_clock_get_count(BDK_CLOCK_CORE) + (bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000) * (uint64_t)timeout_us;
-    static char c = 0;
-    if (timeout_us < 1)
-        stop_time = -1;
-
-    while (1)
-    {
-        if (read(0, &c, 1) == 1)
-        {
-            char d = c;
-            while(1)
-            {
-                if (read(0, &c, 1) != 1) break; /* Clear the input buffer */
-            } 
-            return d;
-        }
-        else
-        {
-            if (bdk_clock_get_count(BDK_CLOCK_CORE) > stop_time)
-            {
-                return 0;
-            }
-            bdk_thread_yield();
-        }
-    }
+done:
+    return result;
 }
 

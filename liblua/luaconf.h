@@ -580,5 +580,12 @@ union luai_Cast { double l_d; LUA_INT32 l_p[2]; };
 extern void bdk_lua_init(void *lua_state);
 #define luai_userstateopen(L) bdk_lua_init(L)
 
+#ifdef BDK_BUILD_HOST
+extern char *bdk_readline(const char *prompt, const void *tab, int timeout_us);
+#define lua_readline(L,b,p)     (((b)=bdk_readline(p, NULL, 0)) != NULL)
+#define lua_saveline(L,idx)     { (void)L; (void)idx; }
+#define lua_freeline(L,b)       { (void)L; (void)b; }
+#endif
+
 #endif
 
