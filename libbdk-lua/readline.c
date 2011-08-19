@@ -46,7 +46,22 @@ static int lreadline(lua_State* L)
 
     const char *result = bdk_readline(prompt, NULL, timeout_us);
     if (result && (result[0] == 3))
-        return luaL_error(L, "Control-C Break");
+    {
+        lua_getglobal(L, "debug_interrupt");
+        int isnil = lua_isnil(L, -1);
+        lua_pop(L, 1);
+        if (isnil)
+        {
+            return luaL_error(L, "interrupted!");
+        }
+        else
+        {
+            /* The BDK debugger looks for a global debug_interrupt=true */
+            lua_pushboolean(L, 1);
+            lua_setglobal(L, "debug_interrupt");
+            result = NULL;
+        }
+    }
     lua_pushstring(L, result);
     return 1;
 }
