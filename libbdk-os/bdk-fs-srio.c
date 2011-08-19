@@ -1,7 +1,9 @@
 #include <bdk.h>
 #include <stdio.h>
 
-#ifndef BDK_DISABLE_SRIO
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_SRIO);
 
 typedef union
 {
@@ -104,6 +106,4 @@ int bdk_fs_srio_init(void)
 {
     return bdk_fs_register("/dev/srio/", &bdk_fs_srio_ops);
 }
-
-#endif /* BDK_DISABLE_SRIO */
 

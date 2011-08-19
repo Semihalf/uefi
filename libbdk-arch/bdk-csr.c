@@ -56,11 +56,12 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
         }
 
         case BDK_CSR_TYPE_SRIOMAINT:
-#ifndef BDK_DISABLE_SRIO
-            return bdk_srio_config_read32(busnum, 0, -1, 0, 0, address);
-#else
-            return -1;
-#endif
+        {
+            if (BDK_IS_REQUIRED(SRIO))
+                return bdk_srio_config_read32(busnum, 0, -1, 0, 0, address);
+            else
+                return -1;
+        }
     }
     return -1; /* Return -1 as this looks invalid in register dumps. Zero is too common as a good value */
 }
@@ -103,9 +104,8 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
         }
 
         case BDK_CSR_TYPE_SRIOMAINT:
-#ifndef BDK_DISABLE_SRIO
-            bdk_srio_config_write32(busnum, 0, -1, 0, 0, address, value);
-#endif
+            if (BDK_IS_REQUIRED(SRIO))
+                bdk_srio_config_write32(busnum, 0, -1, 0, 0, address, value);
             break;
     }
 }

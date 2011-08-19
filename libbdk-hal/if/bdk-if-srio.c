@@ -1,7 +1,5 @@
 #include <bdk.h>
 
-#ifndef BDK_DISABLE_SRIO
-
 static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
@@ -126,4 +124,3 @@ const __bdk_if_ops_t __bdk_if_ops_srio = {
     .if_link_get = if_link_get,
 };
 
-#endif /* BDK_DISABLE_SRIO */

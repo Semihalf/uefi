@@ -41,10 +41,11 @@ int main(void)
     }
     extern int bdk_fs_xmodem_init(void);
     bdk_fs_xmodem_init();
-#ifndef BDK_DISABLE_SRIO
-    extern int bdk_fs_srio_init(void);
-    bdk_fs_srio_init();
-#endif
+    if (BDK_IS_REQUIRED(FS_SRIO))
+    {
+        extern int bdk_fs_srio_init(void) BDK_WEAK;
+        bdk_fs_srio_init();
+    }
 
     if (bdk_thread_create(0, (bdk_thread_func_t)bdk_lua_main, 3, argv, 16384))
         bdk_fatal("Create of Lua thread failed\n");
@@ -62,6 +63,8 @@ void __bdk_require_depends(void)
 {
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(FS_PCIE);
+    BDK_REQUIRE(SRIO);
+    BDK_REQUIRE(FS_SRIO);
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(RNG);
     BDK_REQUIRE(TRA);
