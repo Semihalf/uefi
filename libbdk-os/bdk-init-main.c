@@ -109,6 +109,11 @@ void __bdk_init_main(int arg, void *arg1)
         printf("Switching to main\n");
         if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, 0))
             bdk_fatal("Create of main thread failed\n");
+
+        /* The following code doesn't do anything useful. It forces a link
+            dependency on bdk_require_depends(), which forces link dependency
+            on needed components using BDK_REQUIRE() */
+        __bdk_require_depends();
     }
 }
 
