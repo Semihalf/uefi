@@ -74,11 +74,8 @@ void __bdk_rpc_serve(void)
     lua_pushstring(L, "rpc");
     lua_call(L, 1, 1);
     lua_getfield(L, -1, "serve");
-    lua_pushstring(L, "/dev/console");
-    lua_pushstring(L, "/dev/console");
     lua_pushboolean(L, 1);
-    lua_call(L, 3, 0);
-    lua_pop(L, 1);
+    lua_call(L, 1, 0);
 }
 
 LUALIB_API int luaopen_readline(lua_State *L)

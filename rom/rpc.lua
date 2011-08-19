@@ -282,7 +282,7 @@ end
 --
 -- Receive a RPC command
 --
-local function receive_command(inf, outf, have_begin)
+local function receive_command(inf, outf)
     -- Read lines unitl we get the response. Extra lines are displayed
     -- to stdout. We might be using the same serial channel for RPC and
     -- general output
@@ -294,28 +294,21 @@ local function receive_command(inf, outf, have_begin)
         if result:sub(-1) == '\r' then
             result = result:sub(1,-2)
         end
-        local d
-        if not have_begin then
-            -- Look for the start of response indicator
-            d = result:find(RPC_BEGIN, 1, true)
-            if d and (d > 1) then
-                -- Write any extra stuff to the console
-                io.write(result:sub(1, d-1))
-                result = result:sub(d)
-            elseif not d then
-                -- Write any extra stuff to the console
-                io.write(result)
-                io.write("\n")
-            end
-        else
-            d = 1
+        -- Look for the start of response indicator
+        local d = result:find(RPC_BEGIN, 1, true)
+        if d and (d > 1) then
+            -- Write any extra stuff to the console
+            io.write(result:sub(1, d-1))
+            result = result:sub(d)
+        elseif not d then
+            -- Write any extra stuff to the console
+            io.write(result)
+            io.write("\n")
         end
     until d
 
     -- Strip the RPC_BEGIN header
-    if not have_begin then
-        result = result:sub(2)
-    end
+    result = result:sub(2)
 
     -- Log debug output of what we recieved
     if rpc.debug then
@@ -353,7 +346,7 @@ local function do_remote_command(remote, line)
     local command
     repeat
         send_command(meta.inf, meta.outf, line)
-        command = receive_command(meta.inf, meta.outf, false)
+        command = receive_command(meta.inf, meta.outf)
     until command
     -- Convert the response to Lua data structures
     local len, r = do_unpack(remote, 1, command, false)
@@ -522,7 +515,7 @@ local function rpc_serve(inf, outf, only_one)
         rpc.objects[_ENV] = {0, 1}
     end
     repeat
-        local full_command = receive_command(inf, outf, only_one)
+        local full_command = receive_command(inf, outf)
         if full_command then
             local command = full_command:sub(1,1)
             local obj = full_command:match("^%d+", 2)
@@ -581,16 +574,11 @@ end
 --
 -- Create a RPC server
 --
-function rpc.serve(instream, outstream, only_one)
+function rpc.serve(only_one)
     is_server = true
-    local inf, outf = connectStreams(instream, outstream)
-    local status, message = xpcall(rpc_serve, debug.traceback, inf, outf, only_one)
+    local status, message = xpcall(rpc_serve, debug.traceback, io.stdin, io.stdout, only_one)
     if not status then
-        send_command(inf, outf, "e" .. server_do_pack(rpc.objects, message))
-    end
-    inf:close()
-    if inf ~= outf then
-        outf:close()
+        send_command(io.stdin, io.stdout, "e" .. server_do_pack(rpc.objects, message))
     end
     is_server = false
 end

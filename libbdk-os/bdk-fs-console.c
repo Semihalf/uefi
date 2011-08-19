@@ -77,21 +77,16 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
         {
             if (!open_files[i])
                 continue;
-            int bytes;
             if (pending_rx_count)
             {
                 *(char*)buffer = pending_rx[0];
                 pending_rx_count--;
                 memcpy(pending_rx, pending_rx+1, pending_rx_count);
-                bytes = 1;
+                return 1;
             }
-            else
-                bytes = read(open_files[i], buffer, 1);
+            int bytes = read(open_files[i], buffer, 1);
             if (bytes > 0)
             {
-                /* Translate telnet backspace into the normal byte */
-                if (*(char*)buffer == 0x7f)
-                    *(char*)buffer = '\b';
                 last_input = i;
                 return bytes;
             }
