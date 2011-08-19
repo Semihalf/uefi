@@ -6,7 +6,6 @@
 #define MAX_CONSOLE_FILES 8
 static int open_files[MAX_CONSOLE_FILES] = {3,4,};
 static int last_input;
-static int readline_enable = 1;
 static char pending_rx[32];
 static int pending_rx_count = 0;
 
@@ -72,22 +71,7 @@ error:
 
 static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
-    if ((length > 1) && readline_enable)
-    {
-        /* As a special case use readline when requesting multiple bytes.
-            Note that readline will call this function again for its input,
-            but the read length will be one */
-        const char *line = bdk_readline("", NULL, 0);
-        int result = strlen(line);
-        result++;
-        if (result > length)
-            result = length;
-        memcpy(buffer, line, result);
-        ((char*)buffer)[result-1] = '\n';
-        return result;
-    }
-
-    do
+    while (1)
     {
         for (int i=0; i<MAX_CONSOLE_FILES; i++)
         {
@@ -120,9 +104,10 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
                     last_input = 0;
             }
         }
-        if (!readline_enable)
-            bdk_thread_yield();
-    } while (!readline_enable);
+        if (length == 1)
+            break;
+        bdk_thread_yield();
+    }
     return 0;
 }
 
@@ -133,9 +118,6 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
  */
 int __bdk_fs_check_break(void)
 {
-    /* Disable Contorl-C if no readline */
-    if (!readline_enable)
-        return 0;
     char c;
     int result = console_read(NULL, &c, 1);
     if (result != 1)
@@ -155,19 +137,6 @@ int __bdk_fs_check_break(void)
             pending_rx[pending_rx_count++] = c;
         return 0;
     }
-}
-
-
-/**
- * Enable or disable automatic usage or readline for input. This
- * is used by RPC to temporarily stop readline while executing
- * a call.
- *
- * @param enable New readline state
- */
-void __bdk_fs_readline_enable(int enable)
-{
-    readline_enable = enable;
 }
 
 const __bdk_fs_ops_t bdk_fs_console_ops =

@@ -77,13 +77,7 @@ void __bdk_rpc_serve(void)
     lua_pushstring(L, "/dev/console");
     lua_pushstring(L, "/dev/console");
     lua_pushboolean(L, 1);
-#ifndef BDK_BUILD_HOST
-    __bdk_fs_readline_enable(0);
-#endif
     lua_call(L, 3, 0);
-#ifndef BDK_BUILD_HOST
-    __bdk_fs_readline_enable(1);
-#endif
     lua_pop(L, 1);
 }
 
