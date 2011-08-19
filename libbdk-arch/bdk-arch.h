@@ -24,6 +24,7 @@
     #endif
 #endif
 
+#include "bdk-require.h"
 #ifndef BDK_BUILD_HOST
 #include "bdk-asm.h"
 #endif
