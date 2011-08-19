@@ -62,6 +62,7 @@ void __bdk_require_depends(void)
 {
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(FS_PCIE);
+    BDK_REQUIRE(GPIO);
     BDK_REQUIRE(LWIP);
     BDK_REQUIRE(FS_TCP);
     BDK_REQUIRE(TELNET);
