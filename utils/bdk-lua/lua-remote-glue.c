@@ -5,11 +5,6 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <memory.h>
-#include <time.h>
-#include <errno.h>
-#include <termios.h>
-#include <sys/file.h>
-#include <sys/time.h>
 #include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 
@@ -593,33 +588,15 @@ static int oremote_read_mem64(lua_State* L)
  */
 static int oremote_getkey(lua_State* L)
 {
-    fd_set rset;
-    struct timeval tv;
-    struct termios orig_termios;
-    struct termios raw_termios;
-    FD_ZERO(&rset);
-    FD_SET(fileno(stdin), &rset);
-    tv.tv_sec = 0;
-    tv.tv_usec = 1000;
-
-    /* Switch to RAW terminal IO */
-    tcgetattr(fileno(stdin), &orig_termios);
-    raw_termios = orig_termios;
-    cfmakeraw(&raw_termios);
-    tcsetattr(fileno(stdin), TCSANOW, &raw_termios);
-
-    if (select(fileno(stdin) + 1, &rset, NULL, NULL, &tv) > 0)
+    extern int bdk_readline_getkey(int timeout_us);
+    int key = bdk_readline_getkey(1000);
+    if (key != -1)
     {
-        char c;
-        fread(&c, 1, 1, stdin);
+        char c = key;
         lua_pushlstring(L, &c, 1);
     }
     else
-    {
         lua_pushnil(L);
-    }
-    /* Restore normal RAW terminal IO */
-    tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
     return 1;
 }
 
