@@ -3,8 +3,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define MAX_CONSOLE_FILES 4
-static int open_files[MAX_CONSOLE_FILES] = {3,};
+#define MAX_CONSOLE_FILES 8
+static int open_files[MAX_CONSOLE_FILES] = {3,4,};
 static int last_input;
 static int readline_enable = 1;
 static char pending_rx[32];
@@ -111,7 +111,7 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
                 last_input = i;
                 return bytes;
             }
-            else if (i && (bytes == 0))
+            else if ((i>1) && (bytes == 0))
             {
                 /* Close dead scokets */
                 close(open_files[i]);

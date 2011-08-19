@@ -74,18 +74,21 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_fpa_enable();
         bdk_dma_engine_initialize();
 
-        /* Always enable flow control in the simulator. The simulator reports
-            CTS=0, but it prevents the FIFO being overrun */
-        if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(0), cts, ==, 1, 1000))
+        for (int i=0; i<2; i++)
         {
-            bdk_warn("Not enabling hardware flow control on UART0 as CTS appears stuck\n");
-        }
-        else
-        {
-            printf("Enabling hardware flow control on UART0\n");
-            BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(0),
-                mcr.s.afce = 1;
-                mcr.s.rts = 1);
+            /* Always enable flow control in the simulator. The simulator reports
+                CTS=0, but it prevents the FIFO being overrun */
+            if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
+            {
+                bdk_warn("Not enabling hardware flow control on UART%d as CTS appears stuck\n", i);
+            }
+            else
+            {
+                printf("Enabling hardware flow control on UART%d\n", i);
+                BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(i),
+                    mcr.s.afce = 1;
+                    mcr.s.rts = 1);
+            }
         }
 
         /* Set the lower MAC address bits based on the chip manufacturing

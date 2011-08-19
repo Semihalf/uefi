@@ -34,6 +34,7 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
     [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
     [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
     [3] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
+    [4] = { .fs_state = (void*)2, .ops = &bdk_fs_uart_ops },
 };
 #undef errno
 extern int errno;
