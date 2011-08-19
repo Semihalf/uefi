@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(PCIE);
+
 #define MRRS_CN5XXX 0 /* 128 byte Max Read Request Size */
 #define MPS_CN5XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */
 #define MRRS_CN6XXX 3 /* 1024 byte Max Read Request Size */

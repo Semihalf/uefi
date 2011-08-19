@@ -27,8 +27,11 @@ int main(void)
     bdk_fs_mem_init();
     extern int bdk_fs_nor_init(void);
     bdk_fs_nor_init();
-    extern int bdk_fs_pcie_init(void);
-    bdk_fs_pcie_init();
+    if (BDK_IS_REQUIRED(FS_PCIE))
+    {
+        extern int bdk_fs_pcie_init(void) BDK_WEAK;
+        bdk_fs_pcie_init();
+    }
     extern int bdk_fs_ram_init(void);
     bdk_fs_ram_init();
     if (BDK_IS_REQUIRED(FS_TCP))
@@ -57,6 +60,8 @@ int main(void)
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(PCIE);
+    BDK_REQUIRE(FS_PCIE);
     BDK_REQUIRE(LWIP);
     BDK_REQUIRE(FS_TCP);
     BDK_REQUIRE(TELNET);

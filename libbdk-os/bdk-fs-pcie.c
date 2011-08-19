@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include <fcntl.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_PCIE);
+
 static void *pcie_open(const char *name, int flags)
 {
     long pcie_port = atoi(name);
