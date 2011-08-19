@@ -35,6 +35,7 @@ void bdk_lua_init(void *lua_state)
         lua_setfield(L, -2, name)
 
     PRELOAD("bit64", luaopen_bit64);
+    PRELOAD("readline", luaopen_readline);
 
 #ifdef BDK_BUILD_HOST
 

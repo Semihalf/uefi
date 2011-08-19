@@ -1,6 +1,7 @@
 
 require("strict")
 require("utils")
+local readline = require("readline")
 
 local GOTO_TOP      = "\27[1;1H"   -- ESC[1;1H begins output at the top of the terminal (line 1)
 local GOTO_BOTTOM   = "\27[100;1H" -- ESC[1;1H begins output at the bottom of the terminal (actually line 100)
@@ -572,7 +573,7 @@ function TrafficGen.new()
             self:display()
             local cmd
             if use_readline then
-                cmd = octeon.readline("Command", nil, 1000000)
+                cmd = readline.readline("Command> ", nil, 1000000)
             else
                 printf("Command> ")
                 io.flush()

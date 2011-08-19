@@ -3,6 +3,7 @@ require("utils")
 local oremote = require("oremote")
 local logging = require("logging")
 local log = logging.new("RemoteConsole")
+local readline = require("readline")
 
 local remoteconsole = {}
 local REMOTE_ADDRESS = 0x500
@@ -90,7 +91,7 @@ function remoteconsole.run()
             io.write(input)
             io.flush()
         end
-        local output = oremote.getkey()
+        local output = readline.getkey(1000)
         if output then
             if output == "\x01" then
                 printf("\nConsole exited due to Control-A\n")

@@ -289,19 +289,17 @@ pcall(function()
     require 'ilua-defs'
 end)
 
--- Unix readline support, if readline.so is available...
-local rl,readline,saveline
+-- BDK readline support, if readline is available...
+local rl,readline
 err = pcall(function()
     rl = require 'readline'
     readline = rl.readline
-    saveline = rl.add_history
 end)
 if not rl then
     readline = function(prompt)
         write(prompt)
         return read()
     end
-    saveline = function(s) end
 end
 
 -- process command-line parameters
@@ -373,12 +371,11 @@ if strict then
     set_strict()
 end
 
-local line = readline(prompt)
+local line = readline(prompt, nil, 0)
 while line do
     if line == 'quit' then break end
     eval_lua(line)
-    saveline(line)
-    line = readline(prompt)
+    line = readline(prompt, nil, 0)
 end
 
 if savef then

@@ -579,28 +579,6 @@ static int oremote_read_mem64(lua_State* L)
 }
 
 /**
- * oremote.getkey()
- * Return a pending input byte if available
- *
- * @param L
- *
- * @return
- */
-static int oremote_getkey(lua_State* L)
-{
-    extern int bdk_readline_getkey(int timeout_us);
-    int key = bdk_readline_getkey(1000);
-    if (key != -1)
-    {
-        char c = key;
-        lua_pushlstring(L, &c, 1);
-    }
-    else
-        lua_pushnil(L);
-    return 1;
-}
-
-/**
  * Called to register the octeon module
  *
  * @param L
@@ -666,8 +644,6 @@ LUALIB_API int luaopen_oremote(lua_State* L)
     lua_setfield(L, -2, "read_mem32");
     lua_pushcfunction(L, oremote_read_mem64);
     lua_setfield(L, -2, "read_mem64");
-    lua_pushcfunction(L, oremote_getkey);
-    lua_setfield(L, -2, "getkey");
 
     #define REGISTER(L, name) \
         extern void register_##name(lua_State* L); \

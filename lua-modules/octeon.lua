@@ -33,12 +33,6 @@ access the remote console.
 local remote = rpc.connect(cnx)
 octeon = remote.octeon
 
--- Create a local fake readline as calling the remote one would cause issues
-function octeon.readline(prompt, complete, timeout_us)
-    printf("%s: ", prompt)
-    return io.read("*l")
-end
-
 -- Add a global member that has access to the global context on the remote
 -- system
 octeon.global = remote

@@ -1,5 +1,6 @@
 require("strict")
 require("utils")
+local readline = require("readline")
 
 menu = {}
 menu.show_keys = false
@@ -110,14 +111,14 @@ end
 -- editing more useful.
 --
 local pending_input = nil
-local function read_input()
+local function read_input(prompt)
     local need_echo = true
     local word
     repeat
         if not pending_input then
             need_echo = false
-            pending_input = io.read("*l")
-            if pending_input == "" then
+            pending_input = readline.readline(prompt, nil, 0)
+            if (pending_input == nil) or (pending_input == "") then
                 pending_input = nil
                 return ""
             end
@@ -139,12 +140,13 @@ end
 -- Prompt the user for a string. Throw an error if the user aborts input.
 --
 function menu.prompt_string(prompt, optional_default)
+    local full_prompt
     if optional_default then
-        printf("%s [%s]: ", prompt, tostring(optional_default))
+        full_prompt = "%s [%s]: " % {prompt, tostring(optional_default)}
     else
-        printf("%s: ", prompt)
+        full_prompt = "%s: " % prompt
     end
-    local result = read_input()
+    local result = read_input(full_prompt)
     if result == "" then
         if optional_default then
             return optional_default

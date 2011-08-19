@@ -56,6 +56,7 @@ src += $(BDK_ROOT)/libbdk-lua/octeon-model.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-csr.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-constants.c
 src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
+src += $(BDK_ROOT)/libbdk-lua/readline.c
 
 bdk-lua-%: $(src) octeon-remote-mips-asm-%.o
 	$(CC_$(arch)) $(CPPFLAGS) $(CPPFLAGS_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -o $@ $^ $(LDFLAGS) $(LDFLAGS_$(arch))

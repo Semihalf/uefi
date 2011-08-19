@@ -39,7 +39,6 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     REGISTER(L, octeon_c);
     REGISTER(L, octeon_config);
     REGISTER(L, octeon_constants);
-    REGISTER(L, readline);
     REGISTER(L, trafficgen);
     REGISTER(L, octeon_perf);
 #ifndef BDK_DISABLE_CSR_DB
