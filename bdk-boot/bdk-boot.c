@@ -39,8 +39,11 @@ int main(void)
         extern int bdk_fs_tcp_init(void) BDK_WEAK;
         bdk_fs_tcp_init();
     }
-    extern int bdk_fs_xmodem_init(void);
-    bdk_fs_xmodem_init();
+    if (BDK_IS_REQUIRED(FS_XMODEM))
+    {
+        extern int bdk_fs_xmodem_init(void) BDK_WEAK;
+        bdk_fs_xmodem_init();
+    }
     if (BDK_IS_REQUIRED(FS_SRIO))
     {
         extern int bdk_fs_srio_init(void) BDK_WEAK;
@@ -75,5 +78,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(FS_TCP);
     BDK_REQUIRE(TELNET);
     BDK_REQUIRE(TFTP);
+    BDK_REQUIRE(FS_XMODEM);
 }
 
