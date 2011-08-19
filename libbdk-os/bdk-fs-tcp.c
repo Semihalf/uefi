@@ -3,7 +3,9 @@
 #include <lwip/sockets.h>
 #include <lwip/netdb.h>
 
-#ifndef BDK_DISABLE_LWIP
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_TCP);
 
 static bdk_spinlock_t lock;
 
@@ -120,6 +122,4 @@ int bdk_fs_tcp_init(void)
     bdk_spinlock_init(&lock);
     return bdk_fs_register("/tcp/", &bdk_fs_tcp_ops);
 }
-
-#endif /* BDK_DISABLE_LWIP */
 

@@ -1,7 +1,9 @@
 #include <bdk.h>
 #include <lwip/sockets.h>
 
-#ifndef BDK_DISABLE_LWIP
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(TELNET);
 
 static void telnet_server(int unused, void *unused2)
 {
@@ -84,7 +86,4 @@ int bdk_telnet_server_initialize(void)
     }
     return result;
 }
-
-#endif /* BDK_DISABLE_LWIP */
-
 

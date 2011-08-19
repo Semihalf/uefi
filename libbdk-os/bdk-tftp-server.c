@@ -3,7 +3,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifndef BDK_DISABLE_LWIP
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(TFTP);
 
 #define MAX_TFTP 2  /* Max number of simultaneous transfers */
 
@@ -388,7 +390,4 @@ int bdk_tftp_server_initialize(void)
     printf("TFTP: Server started\n");
     return 0;
 }
-
-#endif /* BDK_DISABLE_LWIP */
-
 

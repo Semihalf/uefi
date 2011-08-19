@@ -39,7 +39,6 @@ CPPFLAGS += -I$(BDK_ROOT)/liblwip/src/include/ipv4
 #
 #CPPFLAGS += -DBDK_DISABLE_CSR_DB=1
 #CPPFLAGS += -DBDK_DISABLE_SRIO=1
-#CPPFLAGS += -DBDK_DISABLE_LWIP=1
 
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o

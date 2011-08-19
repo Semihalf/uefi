@@ -2,7 +2,9 @@
 #include <lwip/tcpip.h>
 #include <lwip/inet.h>
 
-#ifndef BDK_DISABLE_LWIP
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(LWIP);
 
 /**
  * Global used to track if initialization is complete.
@@ -386,6 +388,4 @@ uint32_t bdk_netstack_if_get_gw(const char *name)
     else
         return 0;
 }
-
-#endif /* BDK_DISABLE_LWIP */
 
