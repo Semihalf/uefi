@@ -19,7 +19,6 @@
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
 #include "bdk-functions.h"
-#include "bdk-fs-rom.h"
 #endif
 
 /**

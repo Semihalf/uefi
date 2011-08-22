@@ -49,14 +49,11 @@ caddr_t sbrk(int incr)
 
     if (next == NULL)
     {
-        extern void _end;
+        extern uint64_t bdk_fs_romfs_get_end(void);
         unsigned int l2_size = bdk_l2c_get_cache_size_bytes();
-        /* Convert the _end symbol from the text to the data virtual
-            address space */
-        void *ptr = &_end - 0x20000000;
         /* Heap starts after the _end symbol and goes until the end of
             the L2 cache */
-        uint64_t start_paddr = bdk_ptr_to_phys(ptr);
+        uint64_t start_paddr = bdk_fs_romfs_get_end();
         next = bdk_phys_to_ptr(start_paddr);
         end = bdk_phys_to_ptr(l2_size);
     }

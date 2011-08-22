@@ -50,7 +50,8 @@ TEXT_SECTIONS=.text .rodata
 INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
 DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
 TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
-TEXT_START=`mipsisa64-octeon-elf-objdump -t $^ | grep _ftext | sed "s/^e\([0-9a-f]*\).*/print 0x\1/g" | python`
+TEXT_START=`mipsisa64-octeon-elf-objdump -t $^ | grep " _ftext$$" | sed "s/^e\([0-9a-f]*\).*/print 0x\1/g" | python`
+IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^e\([0-9a-f]*\).*/print 0x\1/g" | python`
 #
 # This is needed to generate the depends files
 #
@@ -66,9 +67,9 @@ TEXT_START=`mipsisa64-octeon-elf-objdump -t $^ | grep _ftext | sed "s/^e\([0-9a-
 	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
 	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
 	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
-	cat init+data.tmp text.tmp > $@
+	cat init+data.tmp text.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm init.tmp data.tmp init+data.tmp text.tmp
-	$(BDK_ROOT)/bin/bdk-update-header $@
+	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
 
 
 

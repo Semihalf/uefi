@@ -18,6 +18,7 @@
 /libbdk-lua/lib_octeon_board_table_entry.i
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
+/bdk-boot/bdk-base
 /bdk-boot/bdk-boot
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-only/pcie-dma-test/pcie-dma-test

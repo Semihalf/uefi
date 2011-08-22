@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import sys
 import binascii
 import struct
@@ -27,12 +28,16 @@ def pack(width, data):
     else:
         raise Exception("Invalid width")
 
-def update_header(filename):
-    fhandle = open(filename, "rb")
-    raw_instructions = fhandle.read(8)
-    fhandle.seek(BOOTLOADER_HEADER_SIZE)
-    data = fhandle.read()
-    fhandle.close()
+
+def load_file(filename):
+    inf = open(filename, "rb")
+    file = inf.read()
+    inf.close()
+    return file
+
+def update_header(filename, data):
+    raw_instructions = data[0:8]
+    data = data[BOOTLOADER_HEADER_SIZE:]
     # Header begins with two raw mips instructions for 8 bytes
     header = raw_instructions
     # Four bytes of magic number
@@ -85,13 +90,41 @@ def update_header(filename):
     # Close, we're done
     fhandle.close()
 
-if len(sys.argv) == 2:
-    update_header(sys.argv[1])
-else:
-    print("Usage:")
-    print("    bdk-update-header <filename>")
+if len(sys.argv) < 3:
+    print
+    print "Usage:"
+    print "    %s new_image old_image [rom files...]" % sys.argv[0]
+    print
+    print "Update the Uboot image header in a '*.bin' file and possibly"
+    print "add files to the image for use in the '/rom' filesystem."
+    print
+    print "    new_image: File name to write new bin image to."
+    print "    old_image: File name of base bin image."
+    print "    rom files: Optional list of file names to add to the image"
+    print "               for use by the '/rom' file system. For example,"
+    print "               'rom/*' includes all files in the BDK rom directory."
+    print
+    sys.exit(1)
 
 
+out_filename = sys.argv[1]
+in_filename = sys.argv[2]
+rom_filenames = sys.argv[3:]
 
+image_file = load_file(in_filename)
+# ROM files are stored sequencially after the end of the image, starting
+# at the _end symbol. Each ROM file starts with six bytes "ROM-FS",
+# a two byte filename length, a four byte file length, the bytes for
+# the filename, and the file's data. The filename is not \0 terminated.
+for rom in rom_filenames:
+    rom_file = load_file(rom)
+    name = rom.split("/")[-1]
+    tmp = "ROM-FS"
+    tmp += pack(2, len(name))
+    tmp += pack(4, len(rom_file))
+    tmp += name
+    tmp += rom_file
+    image_file += tmp
 
+update_header(out_filename, image_file)
 
