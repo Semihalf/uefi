@@ -17,7 +17,7 @@
 #define BDK_REQUIRE(component)                                  \
     do                                                          \
     {                                                           \
-        extern int __bdk_require_symbol_##component;            \
+        extern char __bdk_require_symbol_##component;           \
         bdk_warn_if(__bdk_require_symbol_##component,           \
             "Require of %s failed\n", #component);              \
     } while (0)
@@ -30,8 +30,8 @@
  * macro in the function bdk_require_depends().
  */
 #define BDK_REQUIRE_DEFINE(component)           \
-    int __bdk_require_symbol_##component;       \
-    int __bdk_is_required_symbol_##component
+    char __bdk_require_symbol_##component;      \
+    char __bdk_is_required_symbol_##component
 
 /**
  * Return if a component has been required. Useful for if
@@ -41,7 +41,7 @@
     ({int is_required;                                                      \
     do                                                                      \
     {                                                                       \
-        extern int __bdk_is_required_symbol_##component __attribute__((weak));\
+        extern char __bdk_is_required_symbol_##component __attribute__((weak));\
         is_required = (&__bdk_is_required_symbol_##component != NULL);      \
     } while (0);                                                            \
     is_required;})
