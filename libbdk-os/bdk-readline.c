@@ -700,6 +700,7 @@ parse_input:
         char *p = strchr(&cmd[cmd_pos],' ');
         if ((p==NULL) || ((p-cmd+1) > (int)cmd_len)) {
             cmd_pos = cmd_len;          /* move to end of command */
+            process_input_commit_character(c);
         }
         else {
             cmd_pos = p-cmd+1;          /* move to just after next space */
@@ -870,6 +871,7 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
     uint64_t stop_time = gettime() + timeout_us;
     cmd_prompt = prompt;
     tab_complete_data = tab;
+    saved_avail_p = NULL;
 
     if (timeout_us < 1)
         stop_time = -1;
@@ -895,11 +897,7 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
             c = bdk_readline_getkey(to);
         } while (c == -1);
 
-#ifdef BDK_BUILD_HOST
-        /* Have Control-D signal EOF */
-        if (c == 4)
-            goto done;
-#else
+#ifndef BDK_BUILD_HOST
         if ((cmd_len == 0) && (c == '$'))
         {
             extern void __bdk_rpc_serve(void) __attribute__ ((weak));

@@ -566,14 +566,27 @@ function TrafficGen.new()
         return all_stats
     end
 
+    function self:build_tab()
+        local tab = {}
+        for n,v in pairs(self) do
+            if n:sub(1,5) == "cmdp_" then
+                tab[n:sub(6)] = known_ports
+            elseif n:sub(1,4) == "cmd_" then
+                tab[#tab+1] = n:sub(5)
+            end
+        end
+        return tab
+    end
+
     -- Run traffic gen interactively
     function self:run()
+        local tab = self:build_tab()
         is_running = true
         while is_running do
             self:display()
             local cmd
             if use_readline then
-                cmd = readline.readline("Command> ", nil, 1000000)
+                cmd = readline.readline("Command> ", tab, 1000000)
             else
                 printf("Command> ")
                 io.flush()

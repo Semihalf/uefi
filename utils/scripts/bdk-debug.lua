@@ -27,6 +27,8 @@ bdkdebug.stack_adjust = 0
 bdkdebug.show_gui = true    -- Should the text base GUI be shown
 bdkdebug.skip_list = {}     -- List of source files to skip through when debugging
 
+local tab_complete = {"help", "h", "s", "n", "c", "b", "db", "bt", "p", "e", "up", "down", gui = {"on", "off"}, "where", "locals", "skip", "quit"}
+
 --
 -- Display comamnd line usage to the user
 --
@@ -237,7 +239,7 @@ function do_commandline()
         -- Ask for input
         local cmdline
         repeat
-            cmdline = readline.readline("dbg> ", nil, 0)
+            cmdline = readline.readline("dbg> ", tab_complete, 0)
         until cmdline
         local cmd = cmdline:match("%g+")
 
