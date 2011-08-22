@@ -8,6 +8,7 @@
 require("strict")
 require("utils")
 local debug = require("debug")
+local readline = require("readline")
 
 local GOTO_TOP      = "\27[1;1H"
 local GOTO_BOTTOM   = "\27[100;1H"  -- ESC[1;1H begins output at the bottom of the terminal (actually line 100)
@@ -236,8 +237,7 @@ function do_commandline()
         -- Ask for input
         local cmdline
         repeat
-            printf("dbg> ")
-            cmdline = io.read("*l")
+            cmdline = readline.readline("dbg> ", nil, 0)
         until cmdline
         local cmd = cmdline:match("%g+")
 
