@@ -1,7 +1,7 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 bdk-boot.bin: bdk-base.bin $(BDK_ROOT)/rom/*
-	bdk-update-romfs $@ $^
+	$(BDK_ROOT)/bin/bdk-update-romfs $@ $^
 
 bdk-base.bin: bdk-base
 bdk-base: bdk-base.o $(BDK_ROOT)/libbdk/libbdk.a
