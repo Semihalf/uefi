@@ -132,8 +132,8 @@ combined_list = None
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_lists, 0)
-print "Writing " + OUTPUT_FILENAME_LUA
-csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_lists, 0)
+#print "Writing " + OUTPUT_FILENAME_LUA
+#csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_lists, 0)
 #print "Writing Error decodes"
 #csr_output_error_decodes.write(separate_chip_lists)
 
