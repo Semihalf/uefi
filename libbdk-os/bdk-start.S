@@ -24,6 +24,16 @@ exception_\label:
 __start:
     b   __init              /* This is replaced with the header, so jump to __init */
      nop
+    .word 0     /* Header Magic     (4 bytes) */
+    .word 0     /* Header CRC       (4 bytes) */
+#define OFFSET_HEADER_LENGTH 16
+    .hword 0    /* Header length    (2 bytes) */
+    .hword 0    /* Header major rev (2 bytes) */
+    .hword 0    /* Header minor rev (2 bytes) */
+    .hword 0    /* Board type       (2 bytes) */
+#define OFFSET_DATA_LENGTH 24
+    .word 0     /* Data length      (4 bytes) */
+    .word 0     /* Data CRC         (4 bytes) */
 
     #
     # Exception handlers
@@ -88,7 +98,7 @@ __init:
 
 skip_l2_disidxalias:
     /* Copy copy_code to L2 at address 0 */
-    li      a0, 0x80000000  /* Where we are putting copy_code */
+    li      a0, 0x80000100  /* Where we are putting copy_code */
     dla     a1, copy_code   /* Load the address of the copy_code */
     pref    30, (a0)        /* Prepare to store to zero the entire cache line */
     daddu   a1, s0          /* Convert it into the current location */
@@ -104,18 +114,21 @@ skip_l2_disidxalias:
     /* Flush pending writes and jump to the copy code in L2 */
     sync                    /* Force out all writes */
     cache   0, ($0)         /* Flush Icache */
-    li      a0, 0x80000000  /* Load new location of copy_code */
+    li      a0, 0x80000100  /* Load new location of copy_code */
     j       a0              /* Jump to it */
      nop
 .align 3
 copy_code:
-    dla     a2, _end        /* We're copy everything up to __end */
+    li      a0, 0x80002000  /* Where we're copying to (skip first 0x2000) */
     dla     a1, __init      /* VA of __init */
-    daddu   a2, 7           /* Add 7 to _end so that it will be 8 byte aligned after mask */
-    li      a0, 0x80002000  /* Where we're copying to */
-    and     a2, 0x0ffffff8  /* Strip off upper bits of _end to remove VA bits and round to 8 byte */
     daddu   a1, s0          /* Convert __start to the current location */
-    dsubu   a2, 0x500       /* Subtract out the 0x500 we skipped from the length */
+                            /* We're copy all data defined by the header */
+    lhu     a2, OFFSET_HEADER_LENGTH-0x2000(a1)
+    lw      t0, OFFSET_DATA_LENGTH-0x2000(a1)
+    addu    a2, 7           /* Add 7 to _end so that it will be 8 byte aligned after mask */
+    addu    a2, t0          /* Length = header + data */
+    and     a2, -8          /* Strip off lower bits, rounding to 8 byte */
+    subu    a2, 0x2000      /* Subtract out the 0x2000 we skipped from the length */
 1:
     ld      t0, (a1)        /* Copy loop, load */
     daddu   a1, 8           /* Increment source */
