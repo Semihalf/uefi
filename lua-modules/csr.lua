@@ -175,6 +175,32 @@ local function build_table(chip_csr, container, read_func, write_func)
             read_func, write_func)
     end
 
+    --
+    -- Lookup a CSR by name
+    --
+    function csr_table.lookup(csr_str)
+        csr_str = csr_str:upper()
+        local p = csr_str:find("%(")
+        if p then
+            local c = csr_str:find(",")
+            if c then
+                local name, arg1, arg2 = csr_str:match("^([%w_]+)%((%d+),(%d+)%)$")
+                assert(name and arg1 and arg2, "Illegally formatted CSR name")
+                local csr = assert(csr_table[name], "CSR not found")
+                return csr(tonumber(arg1), tonumber(arg2))
+            else
+                local name, arg = csr_str:match("^([%w_]+)%((%d+)%)$")
+                assert(name and arg, "Illegally formatted CSR name")
+                local csr = assert(csr_table[name], "CSR not found")
+                return csr(tonumber(arg))
+            end
+        else
+            local csr = assert(csr_table[csr_str], "CSR not found")
+            assert(type(csr) ~= "function", "CSR requires arguments")
+            return csr
+        end
+    end
+
     -- Install the meta table to support call access to names
     local meta = {}
     setmetatable(csr_table, meta)

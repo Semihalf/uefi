@@ -131,18 +131,31 @@ function remote.csr(args)
 
     local partial_matches = {}
     local found = false
-    args[2] = args[2]:upper()
-    local len = #args[2]
-    for n in oremote.csr() do
-        if n == args[2] then
-            found = true
-            break
-        elseif n:sub(1,len) == args[2] then
-            table.insert(partial_matches, n)
+    local is_csr, csr = pcall(oremote.csr.lookup, args[2])
+    if is_csr then
+        if #args == 2 then
+            csr.display()
+        elseif #args == 3 then
+            csr.write(args[3])
+        elseif #args == 4 then
+            assert(args[4] == "decode", "Expected keyword 'decode'")
+            csr.display(args[3])
+        else
+            error("Invalid number of args")
         end
-    end
-    if not found then
-        print("ERROR: CSR not found. Here are some similar names:")
+    else
+        print(csr)
+        args[2] = args[2]:upper()
+        local len = #args[2]
+        for n in oremote.csr() do
+            if n == args[2] then
+                found = true
+                break
+            elseif n:sub(1,len) == args[2] then
+                table.insert(partial_matches, n)
+            end
+        end
+        print("Here are some similar names:")
         partial_matches = table.sorted_values(partial_matches)
         local count = 0
         for i = 1, #partial_matches do
@@ -156,18 +169,6 @@ function remote.csr(args)
         if count ~= 0 then
             printf("\n")
         end
-        return
-    end
-
-    if #args == 2 then
-        oremote.csr[args[2]].display()
-    elseif #args == 3 then
-        oremote.csr[args[2]].write(args[3])
-    elseif #args == 4 then
-        assert(args[4] == "decode", "Expected keyword 'decode'")
-        oremote.csr[args[2]].display(args[3])
-    else
-        error("Invalid number of args")
     end
 end
 
