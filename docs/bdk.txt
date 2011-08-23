@@ -1392,20 +1392,20 @@ boot of the BDK.
 +
 [source,lua]
 ----
-include::../rom/init.lua[]
+include::../rom/full/init.lua[]
 ----
 
 . */rom/main.lua* is executed.
 +
 [source,lua]
 ----
-include::../rom/main.lua[]
+include::../rom/full/main.lua[]
 ----
 
 . Board specific file is loaded.
 +
 [source,lua]
 ----
-include::../rom/board-ebb6300.lua[]
+include::../rom/full/board-ebb6300.lua[]
 ----
 
