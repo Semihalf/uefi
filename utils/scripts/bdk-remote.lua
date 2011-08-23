@@ -635,9 +635,7 @@ end
 local function main()
     local status, my_args = pcall(parse_args)
     if status then
-        oremote.open()
         remote[my_args[1]](my_args)
-        oremote.close()
     else
         print("ERROR:", my_args)
         remote.help({"help"})
@@ -645,3 +643,4 @@ local function main()
 end
 
 main()
+oremote.close()
