@@ -1,7 +1,7 @@
 require("strict")
 require("utils")
+require("menu")
 local bit64 = require("bit64")
-local csr_db = require("csr_db")
 
 --
 -- Create an instance of a CSR object that can perform operations on a CSR.
@@ -226,6 +226,7 @@ end
 -- Find which chip we are using and build a csr table for it
 --
 local function lookup_chip(container, read_func, write_func)
+    local csr_db = menu.dofile("csr_db")
     for n,v in pairs(csr_db) do
         if container.is_model(container[n]) then
             return build_table(v, container, read_func, write_func)
