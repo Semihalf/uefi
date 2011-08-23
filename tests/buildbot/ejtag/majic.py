@@ -114,3 +114,8 @@ do_command("bdk-remote help", [
 do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [], timeout=120)
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
+
+# Test RPC over serial using minimal image
+do_command("bdk-remote boot " .. os.environ["BDK_ROOT"] .. "/target-bin/bdk-minimal.bin", [], timeout=120)
+do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
+    "800000000"])
