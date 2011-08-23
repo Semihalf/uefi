@@ -434,13 +434,13 @@ function TrafficGen.new()
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
                 self:display()
-                collectgarbage()
             end
             local rx_packets
             local rx_octets
             local rx_errors
             local validation_errors
             repeat
+                -- Perform GC while we're going ot be waiting anyway
                 collectgarbage()
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
