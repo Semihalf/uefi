@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ "${BDK_ROOT}" = "" ]
+then
+    echo "The BDK_ROOT environment variable is not set"
+    exit 1
+fi
+
+TARGET=${BDK_ROOT}/target-bin
+
+${BDK_ROOT}/bin/bdk-update-romfs ${BDK_ROOT}/target-bin/bdk-minimal.bin ${BDK_ROOT}/target-bin/bdk-no-romfs.bin ${BDK_ROOT}/rom/minimal/*
+${BDK_ROOT}/bin/bdk-update-romfs ${BDK_ROOT}/target-bin/bdk-boot.bin ${BDK_ROOT}/target-bin/bdk-no-romfs.bin ${BDK_ROOT}/rom/full/*
+

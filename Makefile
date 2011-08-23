@@ -1,12 +1,14 @@
 ifndef BDK_ROOT
 $(error Define BDK_ROOT in the environment)
 endif
+include $(BDK_ROOT)/libbdk/bdk.mk
 
 .PHONY: all
 all:
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C bdk-boot
+	$(BDK_ROOT)/bin/bdk-update-all
 	$(MAKE) -C utils
 	$(MAKE) -C docs
 
@@ -24,11 +26,15 @@ distclean: clean
 
 .PHONY: tftp
 tftp: all
-	$(MAKE) -C bdk-boot tftp
+	cp target-bin/*.bin /tftpboot/
 
 .PHONY: suid
 suid: all
 	$(MAKE) -C utils/bdk-lua suid
+
+.PHONY: run
+run: target-bin/bdk-boot.bin
+	$(SIMULATOR) -ld0x1fc00000:bdk-boot/bdk-base -ld0x1fc00000:$^ -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
