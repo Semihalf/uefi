@@ -23230,9 +23230,6 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
-
-
-
      ==============================================================
      CIU_INT(0..19,32)_SUM0 Type=NCB
      ==============================================================
@@ -23256,8 +23253,14 @@ Pos      Name    Type     Value     Value       Description
  <57>    NS       RAZ      0           0         Reserved for PCM and MPI		            |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
- <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
+ <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts.			    |
+                                        	 Prior to pass 1.2 or                               |
+                                                  when CIU_TIM_MULTI_CAST[EN]==0, this interrupt is |
+                                                  common for all PP/IRQs, writing '1' to any PP/IRQ |
+                                                  will clear all TIMERx(x=0..3) interrupts.         |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..3)   |
+					          are set at the same time, but clearing is per     |
+						  cnMIPS core. See CIU_TIM_MULTI_CAST for detail.   |
  <51>    NS 	  RAZ      0           0         Reserved for Key Zeroization interrupt             |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
@@ -23303,7 +23306,7 @@ Pos      Name    Type     Value     Value       Description
                                          	 When GPIO_MULTI_CAST[EN] == 1                      |
 						 Write 1 to clear either the per PP or common GPIO  |
  						 edge-triggered interrupts,depending on mode.       |
-                                                 See GPIO_MULTI_CAST for all details.                |
+                                                 See GPIO_MULTI_CAST for all details.               |
                                          	 When GPIO_MULTI_CAST[EN] == 0                      |
 						 Read Only, retain the same behavior as o63.        |
  <15:0>  WORKQ    RO	   0	       0	 16 work queue interrupts			    |
@@ -23335,8 +23338,14 @@ Pos      Name    Type     Value     Value       Description
  <57>    NS       RAZ      0           0         Reserved for PCM and MPI		            |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
- <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
+ <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts.			    |
+                                        	 Prior to pass 1.2 or                               |
+                                                  when CIU_TIM_MULTI_CAST[EN]==0, this interrupt is |
+                                                  common for all PP/IRQs, writing '1' to any PP/IRQ |
+                                                  will clear all TIMERx(x=0..3) interrupts.         |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..3)   |
+					          are set at the same time, but clearing is per     |
+						  cnMIPS core. See CIU_TIM_MULTI_CAST for detail.   |
  <51>    NS 	  RAZ      0           0         Reserved for Key Zeroization interrupt             |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
@@ -23743,7 +23752,7 @@ Pos      Name    Type     Value     Value       Description
  <61>    IPDPPTHR RO       0           0         IPD per-port counter threshold interrupt           |
                                                  See IPD_PORT_QOS_INT*                              |
  <60>    POWIQ	  RO       0           0         POW IQ interrupt			            |
-                                                 See SSO_IQ_INT                                     |
+                                                  See SSO_IQ_INT                                    |
  <59>    TWSI2	  RO       0           0         2nd TWSI Interrupt			            |
                                                  See MIO_TWS1_INT                                   |
  <58>    MPI	  R/W1C	   0	       0	 MPI/SPI interrupt				    |
@@ -23751,7 +23760,13 @@ Pos      Name    Type     Value     Value       Description
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
  <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
+                                        	 Prior to pass 1.2 or                               |
+                                                  when CIU_TIM_MULTI_CAST[EN]==0, this interrupt is |
+                                                  common for all PP/IRQs, writing '1' to any PP/IRQ |
+                                                  will clear all TIMERx(x=0..3) interrupts.         |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..3)   |
+					          are set at the same time, but clearing is per     |
+						  cnMIPS core. See CIU_TIM_MULTI_CAST for detail.   |
  <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
@@ -24324,6 +24339,30 @@ Pos      Name    Type     Value     Value       Description
 						  Periodic interrupts will occur every LEN+1 core   |
 						  clock cycles when ONE_SHOT==0			    |
 						  Timer disabled when LEN==0			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_TIM_MULTI_CAST Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     EN       R/W      0           0         General Timer Interrupt Mutli-Cast mode:           |
+                                                 0: Timer interrupt is common for all PP/IRQs.      |
+                                                 1: Timer interrupts are set at the same time for   |
+                                                   all PP/IRQs, but interrupt clearings can/need    |
+                                                   to be done Individually based on per cnMIPS core.|
+                                                 Timer interrupts for IOs (@=32,33) will always use |
+                                                 common interrupts. Clear any of the I/O interrupt  |
+                                                 will clear the common interrupt.                   |
+Notes:
+This register does not exist prior to pass 1.2 silicon. Those earlier chip passes operate as if
+EN==0.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -28560,6 +28599,28 @@ Pos      Name    Type     Value     Value       Description
  <37:3>  MASK     R/W      0x7ffffffff 0x7ffffffff The value to be ANDED with the address sent to   |
                                                    the Octeon memory.                               |
  <2:0>   NS       RAZ      NS          NS          Reserved				            |
+----------------------------------------------------------------------------------------------------
+===
+
+ *
+ *                  PEM_INB_READ_CREDITS
+ *
+ * The number of in flight reads from PCIe core to SLI
+ * This CSR is present in pass 1.2 and subsequent passes. This CSR is not present prior to pass 1.2.
+ *
+
+     ==============================================================
+     PEM(0..1)_INB_READ_CREDITS Type=RSL
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:6> NS       RAZ      NS          NS          Reserved				            |
+ <5:0>  NUM      R/W      32          32          The number of reads that may be in flight from    |
+                                                  the PCIe core to the SLI. Min number is 2 max     |
+                                                  number is 32.                                     |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -44962,6 +45023,7 @@ CIU_TIM0                       0x0001070000000480  NCB
 CIU_TIM1                       0x0001070000000488  NCB
 CIU_TIM2                       0x0001070000000490  NCB
 CIU_TIM3                       0x0001070000000498  NCB
+CIU_TIM_MULTI_CAST             0x00010700000004A0  NCB
 CIU_WDOG0                      0x0001070000000500  NCB
 CIU_WDOG1                      0x0001070000000508  NCB
 CIU_WDOG2                      0x0001070000000510  NCB
@@ -53409,6 +53471,7 @@ PEM0_CTL_STATUS                0x00011800C0000000  RSL
 PEM0_DBG_INFO                  0x00011800C0000008  RSL
 PEM0_DBG_INFO_EN               0x00011800C00000A0  RSL
 PEM0_DIAG_STATUS               0x00011800C0000020  RSL
+PEM0_INB_READ_CREDITS          0x00011800C0000138  RSL
 PEM0_INT_ENB                   0x00011800C0000410  RSL
 PEM0_INT_ENB_INT               0x00011800C0000418  RSL
 PEM0_INT_SUM                   0x00011800C0000408  RSL
@@ -53451,6 +53514,7 @@ PEM1_CTL_STATUS                0x00011800C1000000  RSL
 PEM1_DBG_INFO                  0x00011800C1000008  RSL
 PEM1_DBG_INFO_EN               0x00011800C10000A0  RSL
 PEM1_DIAG_STATUS               0x00011800C1000020  RSL
+PEM1_INB_READ_CREDITS          0x00011800C1000138  RSL
 PEM1_INT_ENB                   0x00011800C1000410  RSL
 PEM1_INT_ENB_INT               0x00011800C1000418  RSL
 PEM1_INT_SUM                   0x00011800C1000408  RSL

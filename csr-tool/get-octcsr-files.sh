@@ -75,7 +75,7 @@ done
 # Fixups for CN61XX
 for f in octcsr_cn61xxp1.txt
 do
-    sed -i "s/PCIEEP#_/PCIEEP(1)_/g" $f
+    sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" $f
     sed -i "s/PCIERC#_/PCIERC(0..1)_/g" $f
     sed -i "s/PCIEEPVF#_/PCIEEPVF(0)_/g" $f
     sed -i "s/PCIEEPPF#_/PCIEEPPF(0)_/g" $f
