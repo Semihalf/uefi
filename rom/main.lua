@@ -2,6 +2,9 @@
 
 -- BDK Main menu
 
+-- Reset scroll region and goto bottom
+print("\27[1;r\27[100;1H")
+
 require("strict")
 require("utils")
 require("menu")

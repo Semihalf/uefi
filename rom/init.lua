@@ -1,6 +1,5 @@
 
 -- Print out a banner
-print("\27[1;r\27[100;1H") -- Reset scroll region and goto bottom
 print("")
 print("Octeon Bringup and Diagnostic Kit")
 print("Copyright (C) 2010-2011 Cavium Networks")
