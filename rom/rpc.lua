@@ -5,7 +5,6 @@
 -- This module is released under the standard Lua MIT license
 --
 
-require("strict")
 require("utils")
 local bit64 = require("bit64")
 local debug = require("debug")
