@@ -345,10 +345,9 @@ function TrafficGen.new()
         local name = args[1]
         local value = args[2]
         if value then
-            octeon.csr[name].write(value)
+            octeon.csr.lookup(name).write(value)
         else
-            value = octeon.csr[name].read()
-            octeon.c.bdk_csr_decode(name, value)
+            octeon.csr.lookup(name).display()
         end
     end
 
