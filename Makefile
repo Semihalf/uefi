@@ -76,14 +76,12 @@ release: all
 	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
+	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
 	# Copy host examples
 	cp -r examples $(RELEASE_DIR)/
 	# Copy target binaries
-	mkdir -p $(RELEASE_DIR)/target-bin
-	cp bdk-boot/bdk-base $(RELEASE_DIR)/target-bin/
-	cp bdk-boot/bdk-base.bin $(RELEASE_DIR)/target-bin/
-	cp bdk-boot/bdk-base.map $(RELEASE_DIR)/target-bin/
-	cp bdk-boot/bdk-boot.bin $(RELEASE_DIR)/target-bin/
+	mkdir -p $(RELEASE_DIR)/
+	cp -a target-bin $(RELEASE_DIR)/target-bin
 	# Copy rom dir
 	cp -a rom $(RELEASE_DIR)/
 	# Copy lua-modules dir
