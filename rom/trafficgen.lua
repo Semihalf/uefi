@@ -546,11 +546,11 @@ function TrafficGen.new()
         printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.c.get_sbrk() / 1024, ERASE_EOL)
         num_rows = num_rows + 1
         if show_l2_stats then
-            local l2stats = octeon.perf.get_l2(l2_stats_table)
-            for _,n in ipairs(table.sorted_keys(l2stats["tad0"])) do
+            l2_stats_table = octeon.perf.get_l2(l2_stats_table)
+            for _,n in ipairs(table.sorted_keys(l2_stats_table["tad0"])) do
                 printf("%-20s", n)
-                for _,tad in ipairs(table.sorted_keys(l2stats)) do
-                    printf("%s%10s", COL_SEP, tostring(l2stats[tad][n]))
+                for _,tad in ipairs(table.sorted_keys(l2_stats_table)) do
+                    printf("%s%10s", COL_SEP, tostring(l2_stats_table[tad][n]))
                 end
                 printf("%s\n", ERASE_EOL)
                 num_rows = num_rows + 1
