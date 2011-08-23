@@ -87,9 +87,12 @@ local function csr_instance(csr_name, csr_type, busnum, csr_size, address, field
     -- read a field.
     --
     function meta.__index(unused, field_name)
-        local t = csr.decode()
-        assert(t[field_name], "Illegal CSR field %s.%s" % {csr_name, field_name})
-        return t[field_name]
+        for _,f in pairs(fields) do
+            if f.name == field_name then
+                return bit64.bextract(csr.read(), f.start, f.stop)
+            end
+        end
+        error("Illegal CSR field %s.%s" % {csr_name, field_name})
     end
 
     --
@@ -97,10 +100,12 @@ local function csr_instance(csr_name, csr_type, busnum, csr_size, address, field
     -- write a field.
     --
     function meta.__newindex(unused, field_name, value)
-        local t = csr.decode(0)
-        assert(t[field_name], "Illegal CSR field %s.%s" % {csr_name, field_name})
-        t[field_name] = value
-        csr.encode(t)
+        for _,f in pairs(fields) do
+            if field_name == f.name then
+                return csr.write(bit64.binsert(csr.read(), value, f.start, f.stop))
+            end
+        end
+        error("Illegal CSR field %s.%s" % {csr_name, field_name})
     end
 
     return csr
@@ -169,6 +174,25 @@ local function build_table(chip_csr, container, read_func, write_func)
             c.range1, c.range1_inc, c.range2, c.range2_inc, c.fields,
             read_func, write_func)
     end
+
+    -- Install the meta table to support call access to names
+    local meta = {}
+    setmetatable(csr_table, meta)
+
+    function meta.__call(self)
+        local names = {}
+        for n in pairs(self) do
+            table.insert(names, n)
+        end
+        names = table.sorted_values(names)
+        local function next_name(names, previous_name)
+            local r = names[1]
+            table.remove(names, 1)
+            return r
+        end
+        return next_name, names, nil
+    end
+
     return csr_table
 end
 
