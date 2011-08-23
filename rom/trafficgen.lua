@@ -384,7 +384,7 @@ function TrafficGen.new()
         local size_stop = max_packet
         local size_incr = 1
         -- Get the latest statistics
-        local all_stats = self:display()
+        local all_stats = self:display(true)
         -- Start with current counts
         local expected_packets = 0
         local expected_octets = 0
@@ -432,7 +432,7 @@ function TrafficGen.new()
                 -- Waiting for TX to be done
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
-                self:display()
+                self:display(false)
             end
             local rx_packets
             local rx_octets
@@ -443,7 +443,7 @@ function TrafficGen.new()
                 collectgarbage()
                 octeon.c.bdk_thread_yield();
                 -- Get the latest statistics
-                all_stats = self:display()
+                all_stats = self:display(true)
                 -- Count the amount of data received
                 rx_packets = 0
                 rx_octets = 0
@@ -506,11 +506,15 @@ function TrafficGen.new()
         end
     end
 
-    function self:display()
+    function self:display(need_stats)
         local display_cycle = os.time()
         if last_display == display_cycle then
-            -- Make sure the stats are updated
-            return octeon.trafficgen.update(false)
+            if need_stats then
+                -- Make sure the stats are updated
+                return octeon.trafficgen.update(false)
+            else
+                return
+            end
         end
         last_display = display_cycle
         local all_stats = octeon.trafficgen.update(true)
@@ -562,7 +566,11 @@ function TrafficGen.new()
 
         -- Confine scrolling region
         printf("\27[%d;r" .. GOTO_BOTTOM .. CURSOR_ON, num_rows + 3)
-        return all_stats
+        if need_stats then
+            return all_stats
+        else
+            return
+        end
     end
 
     function self:build_tab()
@@ -582,7 +590,7 @@ function TrafficGen.new()
         local tab = self:build_tab()
         is_running = true
         while is_running do
-            self:display()
+            self:display(false)
             local cmd
             if use_readline then
                 cmd = readline.readline("Command> ", tab, 1000000)
