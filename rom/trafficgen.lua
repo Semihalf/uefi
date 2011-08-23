@@ -443,8 +443,10 @@ function TrafficGen.new()
             -- Do the TX
             octeon.trafficgen.start(port_range)
             while octeon.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
-                -- Waiting for TX to be done
-                octeon.c.bdk_thread_yield();
+                if octeon.global == nil then
+                    -- Waiting for TX to be done
+                    octeon.c.bdk_thread_yield();
+                end
                 -- Get the latest statistics
                 self:display(false)
             end
@@ -455,7 +457,9 @@ function TrafficGen.new()
             repeat
                 -- Perform GC while we're going ot be waiting anyway
                 collectgarbage()
-                octeon.c.bdk_thread_yield();
+                if octeon.global == nil then
+                    octeon.c.bdk_thread_yield();
+                end
                 -- Get the latest statistics
                 all_stats = self:display(true)
                 -- Count the amount of data received
