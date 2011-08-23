@@ -1213,30 +1213,59 @@ static int reset(lua_State* L)
  */
 static int update(lua_State* L)
 {
-    #define pushstat(field)                             \
+    #define pushlabel(i, field)                         \
+        lua_pushnumber(L, i);                           \
+        lua_pushstring(L, #field);                      \
+        lua_settable(L, -3);
+
+    #define pushstat(i, field)                          \
+        lua_pushnumber(L, i);                           \
         lua_pushnumber(L, tg_port->pinfo.stats.field);  \
-        lua_setfield (L, -2, #field);
+        lua_settable(L, -3);
 
     trafficgen_do_update(lua_toboolean(L, 1));
+
+    /* This is the table that contains the entire response */
     lua_newtable(L);
+
+    /* This table will contains the labels for the stats. It is names "labels" */
+    lua_newtable(L);
+    pushlabel(1, tx_packets);
+    pushlabel(2, tx_octets);
+    pushlabel(3, tx_packets_total);
+    pushlabel(4, tx_octets_total);
+    pushlabel(5, tx_bits);
+    pushlabel(6, rx_packets);
+    pushlabel(7, rx_octets);
+    pushlabel(8, rx_packets_total);
+    pushlabel(9, rx_octets_total);
+    pushlabel(10, rx_dropped_octets);
+    pushlabel(11, rx_dropped_packets);
+    pushlabel(12, rx_errors);
+    pushlabel(13, rx_bits);
+    pushlabel(14, rx_backpressure);
+    pushlabel(15, rx_validation_errors);
+    lua_setfield(L, -2, "labels");
+
+    /* Add stats for each interface */
     for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
     {
         lua_newtable(L);
-        pushstat(tx_packets);
-        pushstat(tx_octets);
-        pushstat(tx_packets_total);
-        pushstat(tx_octets_total);
-        pushstat(tx_bits);
-        pushstat(rx_packets);
-        pushstat(rx_octets);
-        pushstat(rx_packets_total);
-        pushstat(rx_octets_total);
-        pushstat(rx_dropped_octets);
-        pushstat(rx_dropped_packets);
-        pushstat(rx_errors);
-        pushstat(rx_bits);
-        pushstat(rx_backpressure);
-        pushstat(rx_validation_errors);
+        pushstat(1, tx_packets);
+        pushstat(2, tx_octets);
+        pushstat(3, tx_packets_total);
+        pushstat(4, tx_octets_total);
+        pushstat(5, tx_bits);
+        pushstat(6, rx_packets);
+        pushstat(7, rx_octets);
+        pushstat(8, rx_packets_total);
+        pushstat(9, rx_octets_total);
+        pushstat(10, rx_dropped_octets);
+        pushstat(11, rx_dropped_packets);
+        pushstat(12, rx_errors);
+        pushstat(13, rx_bits);
+        pushstat(14, rx_backpressure);
+        pushstat(15, rx_validation_errors);
         lua_setfield(L, -2, tg_port->pinfo.name);
     }
     return 1;

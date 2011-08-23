@@ -92,6 +92,20 @@ function TrafficGen.new()
         end
     end
 
+    local function do_update(zero_stats)
+        local stats = octeon.trafficgen.update(zero_stats)
+        local labels = stats.labels
+        stats.labels = nil
+        local result = {}
+        for p,s in pairs(stats) do
+            result[p] = {}
+            for i=1, #labels do
+                result[p][labels[i]] = s[i]
+            end
+        end
+        return result
+    end
+
     -- Parse a command line into a command, a port range, and arguments
     local function parse_command(str)
         local SPECIAL_WORDS = {["true"]=true, ["false"]=false, ["on"]=true, ["off"]=false}
@@ -186,7 +200,7 @@ function TrafficGen.new()
 
     -- Create commands for getting each value in the port statistics.
     local function create_stats_commands()
-        local stats = octeon.trafficgen.update(false)
+        local stats = do_update(false)
         local stat_names = stats[known_ports[1]]
         -- Add in sorted order
         for _,field_name in ipairs(table.sorted_keys(stat_names)) do
@@ -511,13 +525,13 @@ function TrafficGen.new()
         if last_display == display_cycle then
             if need_stats then
                 -- Make sure the stats are updated
-                return octeon.trafficgen.update(false)
+                return do_update(false)
             else
                 return
             end
         end
         last_display = display_cycle
-        local all_stats = octeon.trafficgen.update(true)
+        local all_stats = do_update(true)
 
         if #visible_ports == 0 then
             return all_stats
