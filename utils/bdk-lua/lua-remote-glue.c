@@ -51,28 +51,8 @@ static int oremote_close(lua_State* L)
     return 0;
 }
 
-#ifndef BDK_DISABLE_CSR_DB
-
 /**
- * oremote.read_csr(csr)
- * csr = Name of CSR as a string
- * Return csr value as a number
- *
- * @param L
- *
- * @return
- */
-static int oremote_read_csr(lua_State* L)
-{
-    const char *name = luaL_checkstring(L, 1);
-    lua_pushnumber(L, bdk_csr_read_by_name(name));
-    return 1;
-}
-
-#endif
-
-/**
- * oremote.read_csr_raw(type, busnum, size, address)
+ * oremote.read_csr(type, busnum, size, address)
  * type = CSR enum type
  * busnum = Bus number
  * size = Read size in bytes
@@ -83,7 +63,7 @@ static int oremote_read_csr(lua_State* L)
  *
  * @return
  */
-static int oremote_read_csr_raw(lua_State* L)
+static int oremote_read_csr(lua_State* L)
 {
     int type = luaL_checknumber(L, 1);
     int busnum = luaL_checknumber(L, 2);
@@ -93,30 +73,8 @@ static int oremote_read_csr_raw(lua_State* L)
     return 1;
 }
 
-#ifndef BDK_DISABLE_CSR_DB
-
 /**
- * oremote.write_csr(name, value)
- * name = Name of CSR as a string
- * value = Value of CSR as a number
- * No return value
- *
- * @param L
- *
- * @return
- */
-static int oremote_write_csr(lua_State* L)
-{
-    const char *name = luaL_checkstring(L, 1);
-    if (bdk_csr_write_by_name(name, luaL_checknumber(L, 2)))
-        return luaL_error(L, "bdk_csr_write_by_name failed");
-    return 0;
-}
-
-#endif
-
-/**
- * oremote.write_csr_raw(type, busnum, size, address, value)
+ * oremote.write_csr(type, busnum, size, address, value)
  * type = CSR enum type
  * busnum = Bus number
  * size = Read size in bytes
@@ -128,7 +86,7 @@ static int oremote_write_csr(lua_State* L)
  *
  * @return
  */
-static int oremote_write_csr_raw(lua_State* L)
+static int oremote_write_csr(lua_State* L)
 {
     int type = luaL_checknumber(L, 1);
     int busnum = luaL_checknumber(L, 2);
@@ -138,33 +96,6 @@ static int oremote_write_csr_raw(lua_State* L)
     octeon_remote_write_csr(type, busnum, size, address, value);
     return 0;
 }
-
-#ifndef BDK_DISABLE_CSR_DB
-
-/**
- * oremote.decode_csr(name, value)
- * name = Name of CSR as a string
- * value = Value of CSR as a number. If nil, a read_csr is done
- * No return value. Output goes to stdout
- *
- * @param L
- *
- * @return
- */
-static int oremote_decode_csr(lua_State* L)
-{
-    const char *name = luaL_checkstring(L, 1);
-    uint64_t value;
-    if (lua_isnumber(L, 2))
-        value = luaL_checknumber(L, 2);
-    else
-        value = bdk_csr_read_by_name(name);
-    if (bdk_csr_decode(name, value))
-        return luaL_error(L, "bdk_csr_decode failed");
-    return 0;
-}
-
-#endif
 
 /**
  * oremote.read_mem(address, length)
@@ -594,18 +525,10 @@ LUALIB_API int luaopen_oremote(lua_State* L)
     lua_setfield(L, -2, "open");
     lua_pushcfunction(L, oremote_close);
     lua_setfield(L, -2, "close");
-    lua_pushcfunction(L, oremote_read_csr_raw);
-    lua_setfield(L, -2, "read_csr_raw");
-    lua_pushcfunction(L, oremote_write_csr_raw);
-    lua_setfield(L, -2, "write_csr_raw");
-#ifndef BDK_DISABLE_CSR_DB
     lua_pushcfunction(L, oremote_read_csr);
     lua_setfield(L, -2, "read_csr");
     lua_pushcfunction(L, oremote_write_csr);
     lua_setfield(L, -2, "write_csr");
-    lua_pushcfunction(L, oremote_decode_csr);
-    lua_setfield(L, -2, "decode_csr");
-#endif
     lua_pushcfunction(L, oremote_read_mem);
     lua_setfield(L, -2, "read_mem");
     lua_pushcfunction(L, oremote_write_mem);

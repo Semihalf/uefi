@@ -63,7 +63,7 @@ local function nor_read(bootbus_info, offset, length)
     if use_oremote then
         data = {}
         for i=1,length do
-            local v = oremote.read_csr_raw(oremote.CSR_TYPE_NCB, 0, 1, address+i-1)
+            local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 1, address+i-1)
             data[i] = string.char(v)
         end
         data = table.concat(data)
@@ -89,7 +89,7 @@ local function nor_write(bootbus_info, offset, data)
     if use_oremote then
         for i=1,#data do
             local v = data:sub(i,i):byte()
-            oremote.write_csr_raw(oremote.CSR_TYPE_NCB, 0, 1, address, v)
+            oremote.write_csr(oremote.CSR_TYPE_NCB, 0, 1, address, v)
             address = address + 1
         end
     else

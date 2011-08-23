@@ -7,7 +7,7 @@ oremote.open()
 
 -- Create the oremote.csr table
 local lookup = require("csr")
-oremote.csr = lookup(oremote, oremote.read_csr_raw, oremote.write_csr_raw)
+oremote.csr = lookup(oremote, oremote.read_csr, oremote.write_csr)
 
 -- Return the complete module
 return oremote
