@@ -37,5 +37,9 @@ octeon = remote.octeon
 -- system
 octeon.global = remote
 
+-- Create the octeon.csr table
+local lookup = require("csr")
+octeon.csr = lookup(octeon, octeon.c.bdk_csr_read, octeon.c.bdk_csr_write)
+
 return octeon
 
