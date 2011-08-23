@@ -651,9 +651,6 @@ LUALIB_API int luaopen_oremote(lua_State* L)
 
     REGISTER(L, octeon_model);
     REGISTER(L, octeon_constants);
-#ifndef BDK_DISABLE_CSR_DB
-    REGISTER(L, octeon_csr);
-#endif
 
     return 1;
 }

@@ -1,7 +1,7 @@
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -D_GNU_SOURCE -DBDK_BUILD_HOST
+CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -D_GNU_SOURCE -DBDK_BUILD_HOST -DBDK_DISABLE_CSR_DB=1
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lm -ldl
@@ -48,7 +48,6 @@ dirs += utils/bdk-lua/libluasocket
 src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[c])
 src := $(wildcard $(src))
 src += $(BDK_ROOT)/libbdk-arch/bdk-csr.c
-src += $(BDK_ROOT)/libbdk-arch/bdk-csrs.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 src += $(BDK_ROOT)/libbdk-os/bdk-readline.c
 src += $(BDK_ROOT)/libbdk-lua/bdk-lua.c
