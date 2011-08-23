@@ -13,6 +13,9 @@ static void __bdk_init_cop0(void)
     BDK_MF_COP0(ctl, COP0_CVMCTL);
     ctl &= ~(7<<7);         // Set perf interrupts to IRQ 6
     ctl |= 6<<7;
+    /* CN63XXp1 Errata Core-14317 - Disable CvmCtl[DEFET] */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+        ctl |= 1<<19;
     BDK_MT_COP0(ctl, COP0_CVMCTL);
 
     uint64_t memctl;
