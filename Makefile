@@ -65,6 +65,7 @@ release: all
 	mkdir -p $(RELEASE_DIR)/bin
 	cp utils/scripts/bdk-remote.lua $(RELEASE_DIR)/bin/bdk-remote
 	cp utils/scripts/bdk-debug.lua $(RELEASE_DIR)/bin/bdk-debug
+	cp utils/scripts/bdk-update-romfs.py $(RELEASE_DIR)/bin/bdk-update-romfs
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
@@ -73,9 +74,10 @@ release: all
 	cp -r examples $(RELEASE_DIR)/
 	# Copy target binaries
 	mkdir -p $(RELEASE_DIR)/target-bin
-	cp bdk-boot/bdk-boot $(RELEASE_DIR)/target-bin/
+	cp bdk-boot/bdk-base $(RELEASE_DIR)/target-bin/
+	cp bdk-boot/bdk-base.bin $(RELEASE_DIR)/target-bin/
+	cp bdk-boot/bdk-base.map $(RELEASE_DIR)/target-bin/
 	cp bdk-boot/bdk-boot.bin $(RELEASE_DIR)/target-bin/
-	cp bdk-boot/bdk-boot.map $(RELEASE_DIR)/target-bin/
 	# Copy rom dir
 	cp -a rom $(RELEASE_DIR)/
 	# Copy lua-modules dir
