@@ -1,24 +1,23 @@
 --
 -- Lua module supporting remote Octeon connections through
--- RPC. When running on the target, the module "octeon" is
--- already pre-loaded, so this file is never executed. On the
--- host, this will be called when a script does a
--- "require(octeon)". We then use RPC to connect this host
--- "octeon" module with the one on the target.
+-- RPC or locally on the target. When running on the target,
+-- the module "octeon-internal" is already pre-loaded, so
+-- this file use it as a base. On the host, this will be
+-- called when a script does a "require(octeon)". We then
+-- use RPC to connect this host "octeon" module with the
+-- one on the target.
 -- Written by Chad Reese
 -- Copyright (C) 2010-2011 Cavium Networks
 --
 
-require("strict")
 require("utils")
-require("rpc")
 
--- Table for this module
-octeon = {}
+local status, base = pcall(require, "octeon-internal")
 
--- Create a connection to the remote system
-local cnx = os.getenv("OCTEON_REMOTE_CONSOLE")
-assert(cnx,
+if not status then
+    -- Create a connection to the remote system
+    local cnx = os.getenv("OCTEON_REMOTE_CONSOLE")
+    assert(cnx,
 [[
 Missing environment.
 
@@ -30,16 +29,23 @@ address name lookup. The TCP port will default to 23 if omitted.
 The special value of "remote" uses the OCTEON_REMOTE_PROTOCOL to
 access the remote console.
 ]])
-local remote = rpc.connect(cnx)
-octeon = remote.octeon
+    require("rpc")
+    local remote = rpc.connect(cnx)
+    base = remote.octeon
 
--- Add a global member that has access to the global context on the remote
--- system
-octeon.global = remote
+    -- Add a global member that has access to the global context on the remote
+    -- system
+    base.global = remote
+end
 
--- Create the octeon.csr table
-local lookup = require("csr")
-octeon.csr = lookup(octeon, octeon.c.bdk_csr_read, octeon.c.bdk_csr_write)
+-- Create the CSR table
+local status, lookup = pcall(require, "csr")
+if status then
+    base.csr = lookup(base, base.c.bdk_csr_read, base.c.bdk_csr_write)
+end
 
-return octeon
+-- Make the octeon module global by default
+octeon = base
+
+return base
 
