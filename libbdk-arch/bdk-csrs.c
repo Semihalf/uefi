@@ -1,6 +1,5 @@
 #include <bdk.h>
 
-#ifndef BDK_DISABLE_CSR_DB
 static const int16_t __bdk_csr_db_cn63xxp1[] = {
     1, /* agl_gmx_bad_reg */
     2, /* agl_gmx_bist */
@@ -7520,9 +7519,7 @@ static const int16_t __bdk_csr_db_cn61xx[] = {
     0
 };
 
-#endif
 const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
-#ifndef BDK_DISABLE_CSR_DB
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}, /* 0 */
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,0,1,1}, /* 1 */
     {  154, BDK_CSR_TYPE_RSL,8, 15, 0, 0,2,1,1}, /* 2 */
@@ -10290,11 +10287,9 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {40080, BDK_CSR_TYPE_RSL,8,5107,28, 0,1026,1526,1}, /* 2764 */
     {40095, BDK_CSR_TYPE_RSL,8,5165,28, 0,1027,1526,1}, /* 2765 */
     {40110, BDK_CSR_TYPE_RSL,8,9647,28, 0,1028,1526,1}, /* 2766 */
-#endif
 };
 
 const uint16_t __bdk_csr_db_fieldList[] = {
-#ifndef BDK_DISABLE_CSR_DB
     14,0,3,6,9,12,15,18,21,24,27,30,33,36,39, /* 0 */
     2,42,45, /* 15 */
     13,48,51,54,57,60,63,66,69,72,75,78,81,84, /* 18 */
@@ -11621,11 +11616,9 @@ const uint16_t __bdk_csr_db_fieldList[] = {
     10,15207,75,15210,1986,15213,11385,15216,528,15219,3132, /* 10448 */
     6,15222,432,15225,5013,9831,2139, /* 10459 */
     7,15228,75,15231,1986,9846,9849,981, /* 10466 */
-#endif
 };
 
 const uint16_t __bdk_csr_db_field[] = {
-#ifndef BDK_DISABLE_CSR_DB
     16,0,1, /* 0 */
     29,2,3, /* 3 */
     37,4,21, /* 6 */
@@ -16704,11 +16697,9 @@ const uint16_t __bdk_csr_db_field[] = {
     38935,12,21, /* 15225 */
     38627,0,8, /* 15228 */
     38986,12,20, /* 15231 */
-#endif
 };
 
 const int __bdk_csr_db_range[] = {
-#ifndef BDK_DISABLE_CSR_DB
     2,-1,-1, /* 0 */
     2,0,1, /* 3 */
     4,0,11,32,33, /* 6 */
@@ -16759,11 +16750,9 @@ const int __bdk_csr_db_range[] = {
     4,0,7,32,32, /* 207 */
     4,0,1023,16128,16383, /* 212 */
     2,0,64, /* 217 */
-#endif
 };
 
 const char __bdk_csr_db_string[] = 
-#ifndef BDK_DISABLE_CSR_DB
     "AGL_GMX_BAD_REG\0" /* 0 */
     "RESERVED_0_1\0" /* 16 */
     "OUT_OVR\0" /* 29 */
@@ -22366,11 +22355,9 @@ const char __bdk_csr_db_string[] =
     "RINGI\0" /* 62324 */
     "SLI_PKT_RING_INPUT_RST\0" /* 62330 */
     "SLI_PKT_RING_OUTPUT_RST\0" /* 62353 */
-#endif
     "";
 
 const uint64_t __bdk_csr_db_number[] = {
-#ifndef BDK_DISABLE_CSR_DB
        0x11800e0000518ull, /* 0 */
                    0x0ull, /* 1 */
        0x11800e0000400ull, /* 2 */
@@ -24022,18 +24009,15 @@ const uint64_t __bdk_csr_db_number[] = {
        0x11f0000014800ull, /* 1648 */
        0x11f0000013c00ull, /* 1649 */
        0x11f00000111e0ull, /* 1650 */
-#endif
 };
 
 const __bdk_csr_db_map_t __bdk_csr_db[] = {
-#ifndef BDK_DISABLE_CSR_DB
     {OCTEON_CN63XX_PASS1_X, __bdk_csr_db_cn63xxp1},
     {OCTEON_CN63XX_PASS2_X, __bdk_csr_db_cn63xx},
     {OCTEON_CN68XX_PASS1_X, __bdk_csr_db_cn68xxp1},
     {OCTEON_CN68XX_PASS2_X, __bdk_csr_db_cn68xx},
     {OCTEON_CN66XX_PASS1_X, __bdk_csr_db_cn66xx},
     {OCTEON_CN61XX_PASS1_X, __bdk_csr_db_cn61xx},
-#endif
     {0, NULL}
 };
 

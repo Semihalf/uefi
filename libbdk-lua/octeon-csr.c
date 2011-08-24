@@ -6,7 +6,9 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
-#ifndef BDK_DISABLE_CSR_DB
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(CSR_DB);
 
 static uint64_t build_mask(int bits, int left_shift)
 {
@@ -391,4 +393,3 @@ void register_octeon_csr(lua_State* L)
     lua_setfield(L, -2, "csr");
 }
 
-#endif

@@ -122,7 +122,6 @@ def write(file, separate_chip_lists, include_cisco_only):
     out = open(file, "w")
     out.write('#include <bdk.h>\n')
     out.write("\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     empty_range = getRangeTable([-1,-1])
 
     #
@@ -161,76 +160,61 @@ def write(file, separate_chip_lists, include_cisco_only):
 
         out.write("    %d\n" % null_csr)
         out.write("};\n\n")
-    out.write("#endif\n")
     #
     # Write the global CSR table
     #
     out.write("const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalCsrTable)
     for key in keys:
         out.write("    %s, /* %d */\n" % (key, globalCsrTable[key]))
-    out.write("#endif\n")
     out.write("};\n\n")
     #
     # Write the CSR fieldList table
     #
     out.write("const uint16_t __bdk_csr_db_fieldList[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalFieldListTable)
     for key in keys:
         out.write("    %s, /* %d */\n" % (key, globalFieldListTable[key]))
-    out.write("#endif\n")
     out.write("};\n\n")
     #
     # Write the CSR field table
     #
     out.write("const uint16_t __bdk_csr_db_field[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalFieldTable)
     for key in keys:
         out.write("    %s, /* %d */\n" % (key, globalFieldTable[key]))
-    out.write("#endif\n")
     out.write("};\n\n")
     #
     # Write the CSR range table
     #
     out.write("const int __bdk_csr_db_range[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalRangeTable)
     for key in keys:
         out.write("    %s, /* %d */\n" % (key, globalRangeTable[key]))
-    out.write("#endif\n")
     out.write("};\n\n")
     #
     # Write the CSR string table
     #
     out.write("const char __bdk_csr_db_string[] = ")
-    out.write("\n#ifndef BDK_DISABLE_CSR_DB")
     keys = getKeysSorted(globalStringTable)
     for key in keys:
         out.write("\n    \"%s\\0\" /* %s */" % (key, globalStringTable[key]))
-    out.write("\n#endif")
     out.write("\n    \"\";\n\n")
     #
     # Write the CSR number table
     #
     out.write("const uint64_t __bdk_csr_db_number[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     keys = getKeysSorted(globalNumberTable)
     for key in keys:
         out.write("    %sull, /* %s */\n" % (toHex(key), globalNumberTable[key]))
-    out.write("#endif\n")
     out.write("};\n\n")
     #
     # Write the chip id to CSR table map
     #
     out.write("const __bdk_csr_db_map_t __bdk_csr_db[] = {\n")
-    out.write("#ifndef BDK_DISABLE_CSR_DB\n")
     for chip_index in range(len(separate_chip_lists)):
         chip = separate_chip_lists[chip_index].name
         out.write("    {%s, __bdk_csr_db_%s},\n" % (CHIP_TO_MODEL[chip], chip))
-    out.write("#endif\n")
     out.write("    {0, NULL}\n")
     out.write("};\n\n")
     out.close()

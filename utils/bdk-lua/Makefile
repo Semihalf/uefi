@@ -1,7 +1,7 @@
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -D_GNU_SOURCE -DBDK_BUILD_HOST -DBDK_DISABLE_CSR_DB=1
+CPPFLAGS = -I $(BDK_ROOT) -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libbdk -D_GNU_SOURCE -DBDK_BUILD_HOST
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lm -ldl
