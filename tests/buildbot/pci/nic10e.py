@@ -1,6 +1,7 @@
 import os
 import sys
 import pexpect
+import time
 
 def do_command(command, expected, timeout=-1):
     print("**** Command: \"%s\"" % command)
@@ -119,10 +120,12 @@ do_command("bdk-remote help", [
 
 # Test RPC over serial
 do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [])
+time.sleep(1);
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
 
 # Test RPC over serial using minimal image
 do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-minimal.bin", [])
+time.sleep(1);
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
