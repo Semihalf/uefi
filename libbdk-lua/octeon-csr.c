@@ -378,6 +378,8 @@ void register_octeon_csr(lua_State* L)
 {
     /* Add octeon.csr, magic table access to Octeon CSRs */
     lua_newtable(L); /* csr table */
+    lua_pushcfunction(L, octeon_csr_lookup);
+    lua_setfield(L, -2, "lookup");
     lua_newtable(L); /* csr metatable */
     lua_pushcfunction(L, octeon_csr_index);
     lua_setfield(L, -2, "__index");
