@@ -56,6 +56,11 @@ caddr_t sbrk(int incr)
         uint64_t start_paddr = bdk_fs_romfs_get_end();
         next = bdk_phys_to_ptr(start_paddr);
         end = bdk_phys_to_ptr(l2_size);
+
+        /* If DRAM is setup assume there is at least 256MB */
+        BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
+        if (lmcx_dclk_cnt.u64 != -1ull)
+            end = bdk_phys_to_ptr(256<<20);
     }
 
     /* See of DRAM was setup and we can use more memory */
