@@ -455,8 +455,6 @@ function TrafficGen.new()
             local rx_errors
             local validation_errors
             repeat
-                -- Perform GC while we're going ot be waiting anyway
-                collectgarbage()
                 if octeon.global == nil then
                     octeon.c.bdk_thread_yield();
                 end
