@@ -1,11 +1,5 @@
-#ifndef BDK_BUILD_HOST
 #include <bdk.h>
 #include <unistd.h>
-#else
-#include <stdint.h>
-#include <unistd.h>
-#include <string.h>
-#endif
 // Module for interfacing with Octeon
 
 #include "lua.h"

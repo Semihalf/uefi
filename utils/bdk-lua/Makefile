@@ -52,7 +52,6 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 src += $(BDK_ROOT)/libbdk-os/bdk-readline.c
 src += $(BDK_ROOT)/libbdk-lua/bdk-lua.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-model.c
-src += $(BDK_ROOT)/libbdk-lua/octeon-csr.c
 src += $(BDK_ROOT)/libbdk-lua/octeon-constants.c
 src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
 src += $(BDK_ROOT)/libbdk-lua/readline.c
