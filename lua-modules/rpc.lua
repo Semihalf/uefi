@@ -567,11 +567,6 @@ end
 -- Create a RPC server
 --
 function rpc.serve(only_one)
-    if not only_one then
-        -- FIXME: For some unknown reason the C library is mangling input on
-        -- the first read call
-        io.stdin:read(1)
-    end
     is_server = true
     local status, message = xpcall(rpc_serve, debug.traceback, io.stdin, io.stdout, only_one)
     if not status then
