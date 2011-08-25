@@ -33,8 +33,8 @@ suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
 .PHONY: run
-run: target-bin/bdk-boot.bin
-	$(SIMULATOR) -ld0x1fc00000:bdk-boot/bdk-base -ld0x1fc00000:$^ -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
+run:
+	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
