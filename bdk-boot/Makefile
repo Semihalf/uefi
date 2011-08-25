@@ -1,13 +1,20 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
-$(BDK_ROOT)/target-bin/bdk-no-romfs.bin: bdk-base.bin
-	cp bdk-base $(BDK_ROOT)/target-bin/bdk-no-romfs
-	cp bdk-base.map $(BDK_ROOT)/target-bin/bdk-no-romfs.map
-	cp bdk-base.bin $(BDK_ROOT)/target-bin/bdk-no-romfs.bin
+IMAGES = bdk-full bdk-minimal
 
-bdk-base.bin: bdk-base
-bdk-base: bdk-base.o $(BDK_ROOT)/libbdk/libbdk.a
+BINS = $(IMAGES:%=%.bin)
+TARGETS = $(IMAGES:%=$(BDK_ROOT)/target-bin/%-no-romfs.bin)
+
+$(TARGETS): $(BINS)
+	for f in $(IMAGES); do \
+		cp $$f $(BDK_ROOT)/target-bin/$$f-no-romfs; \
+		cp $$f.map $(BDK_ROOT)/target-bin/$$f-no-romfs.map; \
+		cp $$f.bin $(BDK_ROOT)/target-bin/$$f-no-romfs.bin; \
+	done
+
+bdk-full: bdk-full.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
+bdk-minimal: bdk-minimal.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
-	rm -f *.o *.map bdk-base bdk-base.bin $(BDK_ROOT)/target-bin/bdk-no-romfs.bin
+	rm -f *.o *.map *.bin $(IMAGES) $(BDK_ROOT)/target-bin/*-no-romfs*
 
