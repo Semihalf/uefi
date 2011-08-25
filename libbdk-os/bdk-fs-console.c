@@ -103,9 +103,9 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
                     last_input = 0;
             }
         }
+        bdk_thread_yield();
         if (length == 1)
             break;
-        bdk_thread_yield();
     }
     return 0;
 }
