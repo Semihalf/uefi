@@ -79,12 +79,16 @@ static int console_read(__bdk_fs_file_t *handle, void *buffer, int length)
                 continue;
             if (pending_rx_count)
             {
-                *(char*)buffer = pending_rx[0];
-                pending_rx_count--;
-                memcpy(pending_rx, pending_rx+1, pending_rx_count);
-                return 1;
+                int len = pending_rx_count;
+                if (length < len)
+                    len = length;
+                memcpy(buffer, pending_rx, len);
+                pending_rx_count -= len;
+                if (pending_rx_count)
+                    memcpy(pending_rx, pending_rx+len, pending_rx_count);
+                return len;
             }
-            int bytes = read(open_files[i], buffer, 1);
+            int bytes = read(open_files[i], buffer, length);
             if (bytes > 0)
             {
                 last_input = i;
