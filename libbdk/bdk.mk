@@ -58,12 +58,12 @@ IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^e\([0-9
 # Convert an ELF file into a binary
 #
 %.bin: %
-	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary init.tmp
-	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary data.tmp
-	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary text.tmp
-	cat init.tmp data.tmp /dev/zero | dd of="init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
-	cat init+data.tmp text.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
-	rm init.tmp data.tmp init+data.tmp text.tmp
+	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
+	mipsisa64-octeon-elf-objcopy $^ $(DATA_SECTIONS) -O binary $@-data.tmp
+	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) -O binary $@-text.tmp
+	cat $@-init.tmp $@-data.tmp /dev/zero | dd of="$@-init+data.tmp" bs=1 count=$(TEXT_START) &> /dev/null
+	cat $@-init+data.tmp $@-text.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
+	rm $@-init.tmp $@-data.tmp $@-init+data.tmp $@-text.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
 
 
