@@ -59,7 +59,7 @@ caddr_t sbrk(int incr)
 
         /* If DRAM is setup assume there is at least 256MB */
         BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
-        if (lmcx_dclk_cnt.u64 != -1ull)
+        if ((lmcx_dclk_cnt.u64 != -1ull) && (lmcx_dclk_cnt.u64 != 0))
             end = bdk_phys_to_ptr(256<<20);
     }
 
