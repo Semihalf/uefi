@@ -36,16 +36,13 @@ for k,v in ipairs(octeon.global.foo) do
     assert(k==v)
 end
 
-octeon.global.foo[5] = 5
-assert(octeon.global.foo[5] == 5)
-
-for k,v in pairs(octeon.global.foo) do
-    assert(k==v)
-end
-
 octeon.global.foo = nil
+print("About to test remote assert. Expect spurious output")
 local r, message = pcall(octeon.global.assert, false)
 assert(r == false, "r should be false: " .. tostring(r))
+local r, message = pcall(octeon.global.assert, true)
+assert(r == true, "r should be true: " .. tostring(r))
+print("Remote assert worked")
 
 -- Make sure all possible bytes can be sent in a string
 local t = {}
@@ -56,4 +53,5 @@ t = table.concat(t)
 octeon.global.foo = t
 local t2 = octeon.global.foo
 assert(t == t2, "All character string corrupted")
+print("Test complete")
 
