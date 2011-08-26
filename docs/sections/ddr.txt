@@ -1,0 +1,116 @@
+
+Configuring DDR for a board can be quite involved, so it is best to
+start with a working configuration and customize it.  The recommended
+procedure is to copy an existing DDR configuration for one of Cavium's
+evaluation boards and then perform the minimal changes needed for the
+new board.  Starting in the DDR menu, follow these steps.
+
+.Sample DDR Menu
+----
+include::../captures/ddr_menu.capture[]
+----
+
+Step 1 - Copy an Existing Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Choose one of the menu options which most closely matches the board.
+Make sure to pick a board configuration that has the same OCTEON chip.
+
+Step 2 - Set the DDR Clock Frequency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Choose the DDR frequency which memory will be clocked at.  The
+frequency specified here is the base frequency of the clock.  DDR
+DIMMs are generally labeled by data rate instead of clock rate.  Since
+data is transferred on every clock edge, the clock rate is always half
+the data rate.  For example, a DIMM labeled "DDR3 - 1333" has a
+maximum data rate of 1333 64bit words per second, corresponding to a
+clock rate of 666.5 Mhz.  This clock rate would be entered as
+'666500000'.  During initial configuration, start with a low clock
+rate and raise it later after DRAM is tested.  A good starting clock
+rate is 500Mhz, so enter '500000000'.
+
+Step 3 - Enter DIMM SPD Addresses
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When designing the board, the DIMM slots must be connected to one of
+OCTEON's TWSI busses to allow for access to the DIMM SPD.  DDR
+configuration must include the TWSI bus and address used for the
+board.  Choose the menu option 'Set SPD TWSI addresses'.
+
+.Sample SPD Entry
+----
+DDR interface (0 - 3): (14INS)> 0
+OCTEON TWSI interface number  (0-4): (15INS)> 0
+Enter SPD address of 0 to end input.
+
+SPD address for dimm 0: (16INS)> 0x50
+SPD address for dimm 1: (17INS)> 0x51
+SPD address for dimm 2: (18INS)> 0
+----
+
+Step 4 - Apply the new Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now that your DDR configuration has been customized for the board.
+Apply the configuration using the menu option.  Choose 'Initialize DDR
+controller using current config'.
+
+Step 5 - Test DDR
+~~~~~~~~~~~~~~~~~
+
+Once DRAM is configured, test to make sure memory is working.  Two
+menu options are available to facilitate testing.
+
+.Test DDR from 64MB to 128MB
+
+This option performs two quick memory tests over a fixed range.  The
+first test sequentially writes to memory between 64MB and 128MB and
+then reads the results, verifying data was correctly stored.  This
+test finds gross errors in DDR, but may miss some errors.  The second
+tests performs a random write/read access with XOR patterns.  This
+test is much more thorough than the sequential test.  Once both tests
+pass, you should move on to more detailed memory tests.
+
+.Test DDR over a specified range
+
+This option performs the same tests as the previous menu option with
+the addition of allowing for the range of memory to be selected.  This
+can be used to test all of memory except for the lower few megabytes.
+The BDK is loaded as memory address zero and locks the entire L2
+cache.  This means that the lower memory address can't be tested as
+the BDK image would be erased.  The amount of memory reserved is equal
+to the size of L2.
+
+TIP: When specifying memory addresses, keep in mind that OCTEON's
+memory is in two disjoint regions.  '0 - 256MB' and '512MB +'.  A
+board with 4GB of memory uses addresses '0x0 - 0x001fffffff' and
+'0x020000000 - 0x10fffffff'.
+
+Dealing with Complex DDR Customization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The menu interface presents option to configure DDR on the most common
+board configurations.  In the event that the board needs further
+customization.  DDR configurations can be saved and restored from
+files.  All DDR options may be customized by first saving a
+configuration to a file.  Use either XMODEM or the builtin TFTP server
+to transfer the file off of OCTEON.  After editing the configuration
+file, transfer it back to OCTEON.
+
+CAUTION: The DDR configuration file format may change in future BDKs.
+Be sure to track your specific changes such that they can be applied
+to a new configuration exported from a future BDK.
+
+Asking for Help
+~~~~~~~~~~~~~~~
+
+When contacting Cavium's customer support, the following information
+will be needed.  Detailed logs are _very_ important for diagnosing
+DDR problems, so be sure to capture all output given.
+
+. Give details about the board's configuration
+. Enable Verbose Output
+. Display the current DDR config
+. Initialize DDR controller using current config
+

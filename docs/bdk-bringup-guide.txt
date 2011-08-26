@@ -25,7 +25,7 @@ the following goals should be met.
 Below is a high level block diagram for a generic board.  The board
 being tested will have connections similar to the diagram.
 
-image::board_block_diagram.png[Board block diagram]
+image::images/board_block_diagram.png[Board block diagram]
 
 Step 1 - Minimum Prerequisites
 ------------------------------
@@ -75,8 +75,8 @@ supported probe is the Macraigor mpDemon, followed by the Mentor
 Graphics Majic.  The following sections details the process of booting
 the BDK using either probe.  Other EJTAG probes should be similar.
 
-include::bdk-ejtag-macraigor-mpdemon.txt[]
-include::bdk-ejtag-mentor-majic.txt[]
+include::sections/bdk-ejtag-macraigor-mpdemon.txt[]
+include::sections/bdk-ejtag-mentor-majic.txt[]
 
 Successful Booting
 ~~~~~~~~~~~~~~~~~~
@@ -86,8 +86,8 @@ serial terminal.  If booting did not succeed, re-check step 1.
 
 .Example Successful Boot
 ----
-include::boot_messages.capture[]
-include::main_menu.capture[]
+include::captures/boot_messages.capture[]
+include::captures/main_menu.capture[]
 Menu choice: (0INS)>
 ----
 
@@ -95,333 +95,31 @@ Menu choice: (0INS)>
 Step 3 - Configure the Board
 ----------------------------
 
-Before detailed testing begins, some parameters need to be set in order
-to customize the BDK for the board.  For ethernet tests, covered
-later, the PHY addresses and MAC address needs to be set.
-
-CAUTION: Configuration options are *not saved* and will be lost on
-reset.  Configuration needs to be redone after every boot.
-
-.Sample Configuration Menu from CN68XX
-----
-include::configure_menu.capture[]
-----
-
-Configure the MAC Address
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The BDK creates a semi random MAC address based on internal chip
-parameters.  This default is normally good enough for lab testing, but
-it should be replaced before the board is used on a large LAN.  The
-BDK default starts with Cavium's OUI with the locally administered bit
-set, '02:0f:b7'.  The next three bytes are derived based on internal
-chip data.
-
-Configure PHY Addresses
-~~~~~~~~~~~~~~~~~~~~~~~
-
-RGMII, MII, and SGMII ports on the board should have ethernet PHYs
-connected to OCTEON using SMI/MDIO.  Before these ports can be used,
-the SMI/MDIO address for each PHY needs to be programmed.  Choose the menu option
-for each RGMII, MII, and SGMII port. When prompted, enter the PHY address encoded as follows:
-
-----
-Address = <SMI/MDIO address> + 256 * <OCTEON SMI/MDIO bus>
-----
-
-SMI/MDIO address::
-
-This is the address of the PHY as configured by strapping on the board.
-
-OCTEON SMI/MDIO bus::
-
-This is the number of the SMI/MDIO bus used on OCTEON.
-
-TIP: If the PHY addresses are unknown, the scan utility in the
-SMI/MDIO menu can be useful.  It will display all the devices OCTEON
-can automatically find.
+include::sections/configure.txt[]
 
 
 Step 4 - Test TWSI
 ------------------
 
-The BDK support probing TWSI (I2C) using basic operations.  Testing
-general connectivity is done using an automated device address scan.
-Further details about individual TWSI devices can be probed using
-manual reads and writes.  The first step is to choose an OCTEON TWSI
-bus for testing.  This is done in the main TWSI menu.
-
-.Sample TWSI Main Menu
-----
-include::twsi_main_menu.capture[]
-----
-
-Once a bus is selected, the TWSI sub menu allows operations on the bus.
-
-.Sample TWSI Sub Menu
-----
-include::twsi_sub_menu.capture[]
-----
-
-Initialize TWSI
-~~~~~~~~~~~~~~~
-
-Perform one time bus initialization of the OCTEON TWSI controller.
-This needs to be done once before any other transactions are issued.
-
-
-Scan TWSI
-~~~~~~~~~
-
-Scan all valid TWSI addresses looking for devices.  Each device that
-responds is displayed in a list.  This can be useful way of
-determining what devices are available on a board.  Below is sample
-scan from a EBB6800 board.
-
-.TWSI Bus 0 scan on an EBB6800
-----
-TWSI0: Scanning bus...
-TWSI0: Address   0 (0x00) responded
-TWSI0: Address   1 (0x01) responded
-TWSI0: Address   2 (0x02) responded
-TWSI0: Address   3 (0x03) responded
-TWSI0: Address   4 (0x04) responded
-TWSI0: Address   5 (0x05) responded
-TWSI0: Address   6 (0x06) responded
-TWSI0: Address   7 (0x07) responded
-TWSI0: Address   8 (0x08) responded
-TWSI0: Address  27 (0x1b) responded
-TWSI0: Address  76 (0x4c) responded
-TWSI0: Address  86 (0x56) responded
-TWSI0: Address  88 (0x58) responded
-TWSI0: Address  90 (0x5a) responded
-TWSI0: Address  91 (0x5b) responded
-TWSI0: Address  96 (0x60) responded
-TWSI0: Address 104 (0x68) responded
-TWSI0: Address 112 (0x70) responded
-TWSI0: Address 113 (0x71) responded
-TWSI0: Address 116 (0x74) responded
-TWSI0: Address 124 (0x7c) responded
-TWSI0: Address 125 (0x7d) responded
-TWSI0: Address 126 (0x7e) responded
-TWSI0: Address 127 (0x7f) responded
-----
-
-TIP: Be sure to note the address and bus of any DIMMs.  Later when
-DDR3 is tested, SPD data will need to be read from TWSI using these
-addresses.
-
-Read
-~~~~
-
-Perform a TWSI read.  Prompts will ask for the device address,
-internal address width, internal address, and number of bytes to read
-(1,2,4).
-
-.Sample TWSI read
-----
-Device address(13INS)> 1
-Internal address width (0, 1, or 2)(14INS)> 0
-Number of bytes to read(15INS)> 1
-Result: 246 (0xf6)
-----
-
-Write
-~~~~~
-
-Perform a TWSI write.  Prompts will ask for the device address,
-internal address width, internal address, number of bytes to write
-(1,2,4), and the data to write.
-
-.Sample TWSI write
-----
-Device address(10INS)> 11
-Internal address width (0, 1, or 2)(11INS)> 1
-Internal address(12INS)> 0
-Number of bytes to write(13INS)> 4
-Data to write(14INS)> 0x11223344
-----
+include::sections/twsi.txt[]
 
 
 Step 5 - Test SMI/MDIO
 ----------------------
 
-SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
-support one of two protocols, clause 22 and clause 45.  Both of these
-protocols are supported through the BDK menuing interface.  The main
-SMI/MDIO menu selects which of the OCTEON busses to access.
-
-.Sample SMI/MDIO Main Menu
-----
-include::mdio_main_menu.capture[]
-----
-
-Once a bus is selected, various operations are available for both
-protocol types.
-
-.Sample SMI/MDIO Sub Menu
-----
-include::mdio_sub_menu.capture[]
-----
-
-Scan bus (Clause 22)
-~~~~~~~~~~~~~~~~~~~~
-
-Performs a read from all possible SMI/MDIO addresses and list the
-addresses where the reads succeeded.  This can be used to quickly find
-all the device connected to the bus.  Note that the scan performs
-clause 22 reads and may not show clause 45 only devices.
-
-TIP: Note that the PHY address found here should match the PHY address
-set in the configuration menu.
-
-Read a register (Clause 22)::
-
-Performs a SMI/MDIO read using the clause 22 protocol.
-
-Write a register (Clause 22)::
-
-Performs a SMI/MDIO write using the clause 22 protocol.
-
-Read a register (Clause 45)::
-
-Performs a SMI/MDIO read using the clause 45 protocol.
-
-Write a register (Clause 45)::
-
-Performs a SMI/MDIO write using the clause 45 protocol.
+include::sections/mdio.txt[]
 
 
 Step 6 - Test PCIe
 ------------------
 
-The BDK supports testing OCTEON's PCIe ports in root complex mode.
-Basic bus initialization and enumeration can be performed even before
-DDR3 is working.  The sequence is simply to perform the items in the
-PCIe menu it order.
-
-.Sample PCIe Menu
-----
-include::pcie_menu.capture[]
-----
-
-PCIe#: Initialize
-~~~~~~~~~~~~~~~~~
-
-Bringup PCIe link "#" and report the number of lanes and speed of the interface.
-
-PCIe#: Scan for devices
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Use PCIe config cycles to scan bus "#" for devices.  The devices found
-can be displayed in a following menu option.  Note that this option
-only finds devices and does not assign resources.  This makes it easier
-to see device discovery when a PCIe analyzer is connected.
-
-PCIe#: Enumerate devices
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Iterate through the devices found in the scan an assign resources to
-them.  After this step is complete, devices will have valid BAR setups
-and respond to memory transactions.
-
-PCIe#: Display devices
-~~~~~~~~~~~~~~~~~~~~~~
-
-Display the devices found on the bus and show details about each BAR
-register.
-
-PCIe#: Perform a memory read
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue a PCIe memory read transaction on the bus.  Prompts will be
-issued for the PCIe address to read from and the number of bytes to
-read.
-
-PCIe#: Perform a memory write
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue a PCIe memory write transaction on the bus.  Prompts will be
-issued for the PCIe address to write and the data.  The data should be
-input as a series of hex digits, two per byte.
-
-PCIe#: Shutdown
-~~~~~~~~~~~~~~~
-
-Shutdown the PCIe link.  This might be useful if you want to test link
-robustness by performing a series of initialization and shutdown
-sequences.
+include::sections/pcie.txt[]
 
 
 Step 7 - Test QLMs with PRBS
 ----------------------------
 
-Low level QLM signalling can be configured and tested using "QLM
-Options" from the main menu.  The QLM options menu is most useful for
-checking SERDES lane signalling.
-
-.Sample QLM Main Menu
-----
-include::qlm_main_menu.capture[]
-----
-
-Once a QLM number is chosen from the main QLM menu, a sub menu of QLM
-options is displayed.
-
-.Sample QLM Sub Menu
-----
-include::qlm_sub_menu.capture[]
-----
-
-WARNING: Many QLM menu items place the SERDES in diagnostic modes
-where normal operation is not possible.  Power cycle the board after
-using the QLM menu options.
-
-QLM#: Show configuration::
-
-Displays the current configuration mode of the QLM.  The mode was
-determined based on the hardware strapping of the OCTEON chip.
-
-QLM#: Measure clock::
-
-Measures the clock rate of the QLM's reference clock, using OCTEON's
-clock as a reference.  Verify that the reported value is correct for
-the QLM configuration.
-
-QLM#: Change de-emphasis and margin::
-
-Allows manual configuration of the QLM de-emphasis and margin
-(amplitude).
-
-QLM#: Reset and power down::
-
-Places the QLM into a low power reset state.
-
-QLM#: Shallow loopback::
-
-Configure the QLM to repeat all received traffic at the SERDES level.
-This allows signal traces to be verified using an external signal
-generator.  Some OCTEON chips can only loopback a limited number of
-lanes at a time.  If this is the case, this menu will show the
-possible combinations.
-
-QLM#: PRBS::
-
-The QLM begins generation PRBS signal patterns and the receive lanes
-lock on the incomming signal.  Statistics are displayed every 5
-seconds showing the number of PRBS errors detected.
-
-QLM#: Read JTAG field::
-
-Provides a low level interface for reading fields internal to the QLM.
-Only use this option at the specific direction of Cavium technical
-support.
-
-QLM#: Write JTAG field::
-
-Provides a low level interface for controlling fields internal to the
-QLM.  Only use this option at the specific direction of Cavium
-technical support.
+include::sections/qlm.txt[]
 
 
 Step 8 - Test the RGMII/MII Management Ports
@@ -451,225 +149,13 @@ TBD
 Step 12 - Test SRIO
 -------------------
 
-Serial Rapid I/O ports support discovery, enumeration, and basic
-transactions.  The main SRIO menu allows you to toggle global debug
-options and select which hardware port to work with.
-
-.Sample SRIO Main Menu
-----
-include::srio_main_menu.capture[]
-----
-
-SRIO port #::
-
-Enter the SRIO sub menu for transaction for port "#".
-
-Toggle extra debug output. Currently OFF::
-
-Enable or disable extra debug option for SRIO operations.  These
-generally give extra information about SRIO switches and devices as
-they are discovered.
-
-Toggle logging of maintenance. Currently OFF::
-
-When this option is enable, every SRIO maintenance transaction is
-logged to the console.  This can be useful for determining exactly
-what transactions are happening to each device.
-
-.Sample SRIO Sub Menu
-----
-include::srio_sub_menu.capture[]
-----
-
-SRIO#: Initialize
-~~~~~~~~~~~~~~~~~
-
-Bringup the SRIO link and report its status.
-
-SRIO#: Scan for devices
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Use maintenance transactions to scan the SRIO bus for devices.
-Devices found can be displayed using a following menu option.
-
-SRIO#: Enumerate devices
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Iterate through all devices found in the scan and assign device IDs,
-set link enables, and program switch route tables.  After enumeration,
-devices are capable of responding to SRIO transactions.
-
-SRIO#: Display devices
-~~~~~~~~~~~~~~~~~~~~~~
-
-Display the known device SRIO devices along with information about
-each device.
-
-SRIO#: Perform a maintenance read
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue a maintenance read transaction.  Prompts will request the device
-ID to access, transaction format (8 or 16 bit), the SRIO hopcount, and
-the register address to read.
-
-SRIO#: Perform a maintenance write
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue a maintenance write transaction.  Prompts will request the
-device ID to access, transaction format (8 or 16 bit), the SRIO
-hopcount, the register address to write, and the write data.
-
-
-More Advanced SRIO Testing
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-After basic enumeration completes successfully, SRIO is known to be in
-a working state.  If you have devices connected to SRIO which support
-more advanced operation, you can perform more detailed probing.  The
-exact sequence to perform varies based on the connected device.  The
-following section give a brief overview of some of the functions
-available in the BDK.
-
-SRIO#: Send a doorbell
-^^^^^^^^^^^^^^^^^^^^^^
-
-Send a SRIO doorbell to a device.  Prompts will request the device ID
-to access, transaction format (8 or 16 bit), the priority if the
-doorbell (0-3), and the doorbell data (a 16bit number).
-
-SRIO#: Receive a doorbell
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Displays a list of all doorbells received.
-
-SRIO#: Perform a memory read
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TBD
-
-SRIO#: Perform a memory write
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TBD
+include::sections/srio.txt[]
 
 
 Step 13 - Configure and Test DDR
 --------------------------------
 
-Configuring DDR for a board can be quite involved, so it is best to
-start with a working configuration and customize it.  The recommended
-procedure is to copy an existing DDR configuration for one of Cavium's
-evaluation boards and then perform the minimal changes needed for the
-new board.  Starting in the DDR menu, follow these steps.
-
-.Sample DDR Menu
-----
-include::ddr_menu.capture[]
-----
-
-Step 1 - Copy an Existing Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Choose one of the menu options which most closely matches the board.
-Make sure to pick a board configuration that has the same OCTEON chip.
-
-Step 2 - Set the DDR Clock Frequency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Choose the DDR frequency which memory will be clocked at.  The
-frequency specified here is the base frequency of the clock.  DDR
-DIMMs are generally labeled by data rate instead of clock rate.  Since
-data is transferred on every clock edge, the clock rate is always half
-the data rate.  For example, a DIMM labeled "DDR3 - 1333" has a
-maximum data rate of 1333 64bit words per second, corresponding to a
-clock rate of 666.5 Mhz.  This clock rate would be entered as
-'666500000'.  During initial configuration, start with a low clock
-rate and raise it later after DRAM is tested.  A good starting clock
-rate is 500Mhz, so enter '500000000'.
-
-Step 3 - Enter DIMM SPD Addresses
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When designing the board, the DIMM slots must be connected to one of
-OCTEON's TWSI busses to allow for access to the DIMM SPD.  DDR
-configuration must include the TWSI bus and address used for the
-board.  Choose the menu option 'Set SPD TWSI addresses'.
-
-.Sample SPD Entry
-----
-DDR interface (0 - 3): (14INS)> 0
-OCTEON TWSI interface number  (0-4): (15INS)> 0
-Enter SPD address of 0 to end input.
-
-SPD address for dimm 0: (16INS)> 0x50
-SPD address for dimm 1: (17INS)> 0x51
-SPD address for dimm 2: (18INS)> 0
-----
-
-Step 4 - Apply the new Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Now that your DDR configuration has been customized for the board.
-Apply the configuration using the menu option.  Choose 'Initialize DDR
-controller using current config'.
-
-Step 5 - Test DDR
-~~~~~~~~~~~~~~~~~
-
-Once DRAM is configured, test to make sure memory is working.  Two
-menu options are available to facilitate testing.
-
-.Test DDR from 64MB to 128MB
-
-This option performs two quick memory tests over a fixed range.  The
-first test sequentially writes to memory between 64MB and 128MB and
-then reads the results, verifying data was correctly stored.  This
-test finds gross errors in DDR, but may miss some errors.  The second
-tests performs a random write/read access with XOR patterns.  This
-test is much more thorough than the sequential test.  Once both tests
-pass, you should move on to more detailed memory tests.
-
-.Test DDR over a specified range
-
-This option performs the same tests as the previous menu option with
-the addition of allowing for the range of memory to be selected.  This
-can be used to test all of memory except for the lower few megabytes.
-The BDK is loaded as memory address zero and locks the entire L2
-cache.  This means that the lower memory address can't be tested as
-the BDK image would be erased.  The amount of memory reserved is equal
-to the size of L2.
-
-TIP: When specifying memory addresses, keep in mind that OCTEON's
-memory is in two disjoint regions.  '0 - 256MB' and '512MB +'.  A
-board with 4GB of memory uses addresses '0x0 - 0x001fffffff' and
-'0x020000000 - 0x10fffffff'.
-
-Dealing with Complex DDR Customization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The menu interface presents option to configure DDR on the most common
-board configurations.  In the event that the board needs further
-customization.  DDR configurations can be saved and restored from
-files.  All DDR options may be customized by first saving a
-configuration to a file.  Use either XMODEM or the builtin TFTP server
-to transfer the file off of OCTEON.  After editing the configuration
-file, transfer it back to OCTEON.
-
-CAUTION: The DDR configuration file format may change in future BDKs.
-Be sure to track your specific changes such that they can be applied
-to a new configuration exported from a future BDK.
-
-Asking for Help
-~~~~~~~~~~~~~~~
-
-When contacting Cavium's customer support, the following information
-will be needed.  Detailed logs are _very_ important for diagnosing
-DDR problems, so be sure to capture all output given.
-
-. Give details about the board's configuration
-. Enable Verbose Output
-. Display the current DDR config
-. Initialize DDR controller using current config
+include::sections/ddr.txt[]
 
 
 Step 14 - Test NAND
@@ -692,7 +178,7 @@ GPIO menu can be used to manually control the GPIO pins.
 
 .The GPIO Menu
 ----
-include::gpio_menu.capture[]
+include::captures/gpio_menu.capture[]
 ----
 
 Configure a GPIO::
@@ -729,7 +215,7 @@ BDK.
 
 .The Flash Menu
 ----
-include::flash_menu.capture[]
+include::captures/flash_menu.capture[]
 ----
 
 View flash::

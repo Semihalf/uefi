@@ -13,26 +13,26 @@ The setup for a Majic must be performed under Microsoft Windows.
 Connect to the 9 pin serial port on the Majic with a straight through
 serial cable.  Start the "MAJIC Setup Wizard".
 
-image::mentor-setup-ip-1.png[Mentor MAJIC Setup Wizard part 1]
+image::images/mentor-setup-ip-1.png[Mentor MAJIC Setup Wizard part 1]
 
 Click the "NEXT" button.
 
-image::mentor-setup-ip-2.png[Mentor MAJIC Setup Wizard part 2]
+image::images/mentor-setup-ip-2.png[Mentor MAJIC Setup Wizard part 2]
 
 Choose "Configure MAJIC's Ethernet Port" and click "NEXT".
 
-image::mentor-setup-ip-3.png[Mentor MAJIC Setup Wizard part 3]
+image::images/mentor-setup-ip-3.png[Mentor MAJIC Setup Wizard part 3]
 
 Choose RS-232 and set the port and speed.  The speed should be 115200.
 Click "NEXT".
 
-image::mentor-setup-ip-4.png[Mentor MAJIC Setup Wizard part 4]
+image::images/mentor-setup-ip-4.png[Mentor MAJIC Setup Wizard part 4]
 
 Enter the IP address, subnet, and default gateway for the MAJIC.  Get
 these from your IT department as the MAJIC is not capable of using
 DHCP. Clock "Program IP Settings".
 
-image::mentor-setup-ip-5.png[Mentor MAJIC Setup Wizard part 5]
+image::images/mentor-setup-ip-5.png[Mentor MAJIC Setup Wizard part 5]
 
 After about 30 seconds the update will be complete. Select "Close" to terminate the setup wizard. You should now be able to ping the Majic.
 

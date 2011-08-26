@@ -19,4 +19,4 @@ api-docs: Doxyfile
 .PHONY: copy
 copy:
 	rm -rf /var/www/bdk/*
-	cp -r *.html *slides.txt *.png api-docs lua* /var/www/bdk/
+	cp -r *.html *slides.txt images api-docs lua* /var/www/bdk/

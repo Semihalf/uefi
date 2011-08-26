@@ -64,7 +64,7 @@ release: all
 	cp -a docs/lua $(RELEASE_DIR)/docs/
 	cp -a docs/luasocket $(RELEASE_DIR)/docs/
 	cp docs/*.html $(RELEASE_DIR)/docs/
-	cp docs/*.png $(RELEASE_DIR)/docs/
+	cp -a docs/images $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
 	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
 	# Copy host binaries

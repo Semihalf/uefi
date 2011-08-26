@@ -259,7 +259,7 @@ script.  Start your Lua scripts as follows to debug them:
 bdk-debug <script.lua> <script arguments>
 ----
 
-image::bdk-debug.png[bdk-debug screenshot]
+image::images/bdk-debug.png[bdk-debug screenshot]
 
 The *bdk-debug* user interface is divided into four regions.
 
@@ -281,7 +281,7 @@ the debugger command line.
 
 .Commands supported by *bdk-debug*
 ----
-include::bdk-debug-help.capture[]
+include::captures/bdk-debug-help.capture[]
 ----
 
 
@@ -296,7 +296,7 @@ data, and remote booting is supplied.
 
 .Usage for *bdk-remote*
 ----
-include::bdk-remote.capture[]
+include::captures/bdk-remote.capture[]
 ----
 
 
@@ -413,8 +413,8 @@ Diagnostic Kit].
 
 .Main Menu
 ----
-include::boot_messages.capture[]
-include::main_menu.capture[]
+include::captures/boot_messages.capture[]
+include::captures/main_menu.capture[]
 Menu choice: (0INS)>
 ----
 
@@ -454,7 +454,7 @@ zero configuration standard.
 
 .TCP/IP Networking Menu
 ----
-include::tcp_menu.capture[]
+include::captures/tcp_menu.capture[]
 ----
 
 The simplest way of using networking is to directly connect the board

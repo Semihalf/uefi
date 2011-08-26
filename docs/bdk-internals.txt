@@ -86,10 +86,8 @@ build the BDK.
 * build-essential
 * swig
 * gcc-multilib
-* lib32readline6-dev
-* libreadline-dev
-* asciidoc
-* doxygen
+* asciidoc 8.6.5
+* doxygen 1.7.1
 * graphviz
 
 
@@ -544,7 +542,6 @@ located anywhere in flash.
 |1FC0 0400	|Interrupt
 |1FC0 0480	|EJTAG Debug
 |1FC0 0500	|Unused
-|1FC0 1000	|4KB for Uboot environment (Address hard coded in Uboot)
 |1FC0 2000	|BDK boot code, followed by data, followed by code
 |==========================================================================
 
@@ -569,7 +566,8 @@ the physical and virtual layout.
 |0000 0180	|8000 0180	|(kseg0) General Exception (EPC)
 |0000 0200	|8000 0200	|(kseg0) Interrupt (EPC)
 |0000 0280	|8000 0280	|Zero padding to the beginning of data
-|0000 0500	|8000 0500	|Unused
+|0000 0500	|8000 0500	|Remote console
+|0000 0700	|8000 0700	|Unused
 |0000 1000	|8000 1000	|4KB for Uboot environment (Address hard coded in Uboot)
 |0000 2000	|8000 2000	|(kseg0) Init code
 |0000 2xxx	|C000 2xxx	|(ksseg) Data starting after init code
