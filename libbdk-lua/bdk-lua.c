@@ -36,6 +36,7 @@ void bdk_lua_init(void *lua_state)
 
     PRELOAD("bit64", luaopen_bit64);
     PRELOAD("readline", luaopen_readline);
+    PRELOAD("rpc-support", luaopen_rpc_support);
 
 #ifdef BDK_BUILD_HOST
 

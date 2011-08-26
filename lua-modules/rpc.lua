@@ -8,6 +8,7 @@
 require("utils")
 local bit64 = require("bit64")
 local debug = require("debug")
+local rpc_support = require("rpc-support")
 
 local RPC_BEGIN = "$"
 local RPC_END = "\n"
@@ -100,42 +101,6 @@ local function connectStreams(instream, outstream)
     return inf, outf
 end
 
-local function string_pack(s)
-    local r = {'"'}
-    for i=1,#s do
-        local b = s:byte(i,i)
-        -- Escape control chars (<32), high characters (>126), double
-        -- quote (34), and backslash (92)
-        if (b < 32) or (b > 126) or (b == 34) or (b == 92) then
-            table.insert(r, "\\%02x" % b)
-        else
-            table.insert(r, s:sub(i,i))
-        end
-    end
-    table.insert(r, '"')
-    return table.concat(r)
-end
-
-local function string_unpack(index, str)
-    local fin = #str
-    local i = index
-    local r = {}
-    while i <= fin do
-        local c = str:sub(i,i)
-        if c == "\\" then
-            local hex = assert(tonumber(str:sub(i+1,i+2), 16), "Expected two hex digits")
-            table.insert(r, string.char(hex))
-            i = i + 2
-        elseif c == '"' then
-            return i+1, table.concat(r)
-        else
-            table.insert(r, c)
-        end
-        i = i + 1
-    end
-    error("Ran out of data processing string")
-end
-
 --
 -- Pack arguments into a remote param string
 --
@@ -157,7 +122,7 @@ local function do_pack(...)
             table.insert(result, "#")
             table.insert(result, arg)
         elseif argtype == "string" then
-            table.insert(result, string_pack(arg))
+            table.insert(result, rpc_support.string_pack(arg))
         elseif argtype == "table" then
             table.insert(result, "{")
             for k,v in pairs(arg) do
@@ -200,7 +165,7 @@ local function do_unpack(remote, start_index, str, is_server)
         elseif c == "f" then    -- Boolean false
             v = false
         elseif c == '"' then    -- String
-            index, v = string_unpack(index, str)
+            index, v = rpc_support.string_unpack(index, str)
         elseif c == "#" then    -- Number
             -- Numbers are a sequnce of decimal digits. The protocol guarantees
             -- that either a non digit follows a number or it is at the EOL
@@ -450,54 +415,6 @@ function rpc.connect(instream, outstream)
 end
 
 --
--- Pack arguments into a remote param string
---
-local function server_do_pack(objects, ...)
-    local result = {}
-    local args = {...}
-    for i=1, #args do
-        local arg = args[i]
-        local argtype = type(arg)
-        if arg == nil then
-            table.insert(result, "n")
-        elseif argtype == "boolean" then
-            if arg then
-                table.insert(result, "t")
-            else
-                table.insert(result, "f")
-            end
-        elseif argtype == "number" then
-            table.insert(result, "#")
-            table.insert(result, arg)
-        elseif argtype == "string" then
-            table.insert(result, string_pack(arg))
-        elseif (argtype == "table") and not getmetatable(arg) then
-            table.insert(result, "{")
-            for k,v in pairs(arg) do
-                table.insert(result, server_do_pack(objects, k, v))
-            end
-            table.insert(result, "}")
-        else
-            -- Try and treat any other types as generic remote objects
-            -- All accesses to them will cause RPC calls
-            local id
-            if objects[arg] then
-                local obj_info = objects[arg]
-                id = obj_info[1]
-                obj_info[2] = obj_info[2] + 1
-            else
-                id = #objects + 1
-                objects[id] = arg
-                objects[arg] = {id, 1}
-            end
-            table.insert(result, '@')
-            table.insert(result, id)
-        end
-    end
-    return table.concat(result)
-end
-
---
 -- Create a RPC server
 --
 local function rpc_serve(inf, outf, only_one)
@@ -556,7 +473,7 @@ local function rpc_serve(inf, outf, only_one)
             else
                 error ("Illegal remote command " .. command)
             end
-            line = server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
+            line = rpc_support.server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
             send_command(inf, outf, line)
         end
@@ -570,7 +487,7 @@ function rpc.serve(only_one)
     is_server = true
     local status, message = xpcall(rpc_serve, debug.traceback, io.stdin, io.stdout, only_one)
     if not status then
-        send_command(io.stdin, io.stdout, "e" .. server_do_pack(rpc.objects, message))
+        send_command(io.stdin, io.stdout, "e" .. rpc_support.server_do_pack(rpc.objects, message))
     end
     is_server = false
 end
