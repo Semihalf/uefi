@@ -8,7 +8,7 @@ clean:
 	rm -rf *.html api-docs
 
 %.html: %.txt
-	asciidoc -a toc -a toclevels=5 -a numbered $^
+	asciidoc -a toc2 -a theme=flask -a toclevels=5 -a numbered $^
 
 %.pdf: %.txt
 	a2x -f pdf $^
