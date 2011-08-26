@@ -6,6 +6,9 @@ CFLAGS = -Wall -Wextra -Wno-unused-parameter -O3 -g -std=gnu99
 ASFLAGS = $(CFLAGS)
 LDFLAGS = -lm -ldl
 
+# This is needed to avoid using tmpnam, which creates a warning
+CPPFLAGS += -DLUA_USE_MKSTEMP
+
 # These are needed for luasocket to compile cleanly
 CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
 
