@@ -28,4 +28,4 @@ then
     exit 1
 fi
 
-LUA_PATH="${LUA_PATH};${BDK_ROOT}/lua-modules/?.lua;${BDK_ROOT}/rom/?.lua" "${LUA_BIN}" $*
+LUA_PATH="${LUA_PATH};${BDK_ROOT}/lua-modules/?.lua" "${LUA_BIN}" $*
