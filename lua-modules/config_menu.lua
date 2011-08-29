@@ -72,19 +72,30 @@ end
 addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
 
 -- Add an item for each MGMT port
-for port = 0,octeon.c.bdk_if_num_ports(5, 0)-1 do
+local if_mgmt = 6
+for port = 0,octeon.c.bdk_if_num_ports(if_mgmt, 0)-1 do
     addPhyMenu("RGMII/MII port " .. port, octeon.CONFIG_PHY_MGMT_PORT0 + port)
 end
 
 -- Add an item for each SGMII port
-for interface = 0,octeon.c.bdk_if_num_interfaces(0)-1 do
-    for port = 0, octeon.c.bdk_if_num_ports(0, interface)-1 do
+local if_sgmii = 0
+for interface = 0,octeon.c.bdk_if_num_interfaces(if_sgmii)-1 do
+    for port = 0, octeon.c.bdk_if_num_ports(if_sgmii, interface)-1 do
         addPhyMenu("SGMII interface " .. interface .. ", port " .. port, octeon.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
     end
 end
 
+-- Add an item for each XAUI port
+local if_xaui = 1
+for interface = 0,octeon.c.bdk_if_num_interfaces(if_xaui)-1 do
+    if octeon.c.bdk_if_num_ports(if_xaui, interface) > 0 then
+        addMenu("XAUI interface " .. interface .. " Higig mode", octeon.CONFIG_HIGIG_MODE_IF0 + interface)
+    end
+end
+
 -- Add an item for each ILK port
-for interface = 0,octeon.c.bdk_if_num_interfaces(6)-1 do
+local if_ilk = 7
+for interface = 0,octeon.c.bdk_if_num_interfaces(if_ilk)-1 do
     addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface)
     addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface)
 end

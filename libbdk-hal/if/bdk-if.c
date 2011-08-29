@@ -6,6 +6,7 @@
 
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
+extern const __bdk_if_ops_t __bdk_if_ops_higig;
 extern const __bdk_if_ops_t __bdk_if_ops_dpi;
 extern const __bdk_if_ops_t __bdk_if_ops_loop;
 extern const __bdk_if_ops_t __bdk_if_ops_srio BDK_WEAK;
@@ -15,6 +16,7 @@ extern const __bdk_if_ops_t __bdk_if_ops_ilk;
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_SGMII] = &__bdk_if_ops_sgmii,
     [BDK_IF_XAUI] = &__bdk_if_ops_xaui,
+    [BDK_IF_HIGIG] = &__bdk_if_ops_higig,
     [BDK_IF_DPI] = &__bdk_if_ops_dpi,
     [BDK_IF_LOOP] = &__bdk_if_ops_loop,
     [BDK_IF_SRIO] = &__bdk_if_ops_srio,
@@ -700,6 +702,13 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
             /* Subtract SRIO header */
             bytes_off_tx = -(int)sizeof(bdk_srio_tx_message_header_t);
             bytes_off_rx = -(int)sizeof(bdk_srio_rx_message_header_t);
+            break;
+        case BDK_IF_HIGIG:
+            /* Subtract Higig header */
+            bytes_off_tx = handle->has_fcs ? 4 : 0;
+            int header_size = (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface) == 2) ? sizeof(bdk_higig2_header_t) : sizeof(bdk_higig_header_t);
+            bytes_off_tx += -header_size;
+            bytes_off_rx = -header_size;
             break;
         default:
             /* Account for TX lack of FCS for most ports */

@@ -34,6 +34,7 @@
 #include "bdk-fau.h"
 #include "bdk-flash.h"
 #include "bdk-gpio.h"
+#include "bdk-higig.h"
 #include "bdk-wqe.h"
 #include "if/bdk-if.h"
 #include "bdk-key.h"

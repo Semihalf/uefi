@@ -50,6 +50,9 @@ typedef struct
     bool                    display_packet;
     bool                    validate;
     bdk_srio_tx_message_header_t srio;
+    int                     higig_mode;
+    bdk_higig_header_t      higig;
+    bdk_higig2_header_t     higig2;
 } trafficgen_port_setup_t;
 
 typedef struct
@@ -125,6 +128,12 @@ static void tg_init_port(tg_port_t *tg_port)
             tg_port->pinfo.setup.srio.s.lns = 1;
             tg_port->pinfo.setup.srio.s.intr = 0;
             break;
+        case BDK_IF_HIGIG:
+            tg_port->pinfo.setup.higig_mode = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + tg_port->handle->interface);
+            /* HiGig headers always start with 0xfb */
+            tg_port->pinfo.setup.higig.dw0.s.start = 0xfb;
+            tg_port->pinfo.setup.higig2.dw0.s.k_sop = 0xfb;
+            break;
         default:
             break;
     }
@@ -165,6 +174,10 @@ static int get_size_wire_overhead(const tg_port_t *tg_port)
 {
     if (tg_port->pinfo.setup.srio.u64)
         return 0;
+    else if (tg_port->pinfo.setup.higig_mode == 1)
+        return 8 /*INTERFRAME_GAP*/ + 12 /*Higig header*/ + ETHERNET_CRC;
+    else if (tg_port->pinfo.setup.higig_mode == 2)
+        return 8 /*INTERFRAME_GAP*/ + 16 /*Higig2 header*/ + ETHERNET_CRC;
     else
         return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
 }
@@ -281,6 +294,11 @@ static int trafficgen_do_update(bool do_clear)
             {
                 BDK_CSR_INIT(txx_pause_togo, BDK_GMXX_TXX_PAUSE_TOGO(0, __bdk_if_get_gmx_block(tg_port->handle)));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
+                break;
+            }
+            case BDK_IF_HIGIG:
+            {
+                // FIXME: Higig backpressure counters
                 break;
             }
             case BDK_IF_SGMII:
@@ -411,7 +429,13 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         bdk_warn("%s: Packets smaller than 19 bytes will not be validated\n", tg_port->pinfo.name);
     }
 
-    int total_length = tg_port->pinfo.setup.size + ((tg_port->pinfo.setup.srio.u64) ? 8 : 0);
+    int total_length = tg_port->pinfo.setup.size;
+    if (tg_port->pinfo.setup.srio.u64)
+        total_length += sizeof(tg_port->pinfo.setup.srio);
+    if (tg_port->pinfo.setup.higig_mode == 1)
+        total_length += sizeof(tg_port->pinfo.setup.higig);
+    if (tg_port->pinfo.setup.higig_mode == 2)
+        total_length += sizeof(tg_port->pinfo.setup.higig2);
     if (bdk_if_alloc(packet, total_length))
     {
         bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);
@@ -424,6 +448,18 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     {
         bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.srio), &tg_port->pinfo.setup.srio);
         loc += sizeof(tg_port->pinfo.setup.srio);
+    }
+    /* Add the Higig header before L2 if needed */
+    if (tg_port->pinfo.setup.higig_mode == 1)
+    {
+        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.higig), &tg_port->pinfo.setup.higig);
+        loc += sizeof(tg_port->pinfo.setup.higig);
+    }
+    /* Add the Higig2 header before L2 if needed */
+    if (tg_port->pinfo.setup.higig_mode == 2)
+    {
+        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.higig2), &tg_port->pinfo.setup.higig2);
+        loc += sizeof(tg_port->pinfo.setup.higig2);
     }
 
     /* Ethernet dest address */
@@ -474,6 +510,10 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     int begin_ip = get_size_l2(tg_port);
     if (tg_port->pinfo.setup.srio.u64)
         begin_ip += sizeof(tg_port->pinfo.setup.srio);
+    if (tg_port->pinfo.setup.higig_mode == 1)
+        begin_ip += sizeof(tg_port->pinfo.setup.higig);
+    if (tg_port->pinfo.setup.higig_mode == 2)
+        begin_ip += sizeof(tg_port->pinfo.setup.higig2);
     char buffer[20];
     if (packet->length >= begin_ip + (int)sizeof(buffer))
     {
@@ -694,6 +734,13 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
             skip += 8;
         else
             skip += 16;
+    }
+    if (bdk_if_get_type(packet->if_handle) == BDK_IF_HIGIG)
+    {
+        if (tg_port->pinfo.setup.higig_mode == 2)
+            skip += sizeof(tg_port->pinfo.setup.higig2);
+        else
+            skip += sizeof(tg_port->pinfo.setup.higig);
     }
     ptr += skip;
     remaining_bytes -= skip;

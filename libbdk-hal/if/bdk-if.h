@@ -20,6 +20,7 @@ typedef enum
 {
     BDK_IF_SGMII,
     BDK_IF_XAUI,
+    BDK_IF_HIGIG,
     BDK_IF_DPI,
     BDK_IF_LOOP,
     BDK_IF_SRIO,

@@ -60,6 +60,13 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     AS_INIT(BDK_CONFIG_ILK1_LANES, 4),
     AS_INIT(BDK_CONFIG_ILK0_PORTS, 8),
     AS_INIT(BDK_CONFIG_ILK1_PORTS, 8),
+
+    /* No ports default to Higig mode. 0 = XAUI, 1 = Higig(+), 2 = Higig2 */
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF0, 0),
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF1, 0),
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF2, 0),
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF3, 0),
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF4, 0),
 };
 #undef AS_INIT
 

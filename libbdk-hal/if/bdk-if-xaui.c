@@ -14,6 +14,23 @@ static int if_num_interfaces(void)
 
 static int if_num_ports(int interface)
 {
+    /* As a kludge to reuse code, the Higig IFs call this function
+        to tell if XAUI is there. Normally this routine would return
+        no ports, but a negative interface overrides this. When
+        a negative interface is supplied then we should return the
+        number of XAUI ports ignoring the fact that they are in Higig
+        mode */
+    int skip_higig_check = (interface < 0);
+    /* Higig calls us with "-interface-1", so fix the interface number
+        here */
+    if (interface < 0)
+        interface = -interface-1;
+
+    /* Check if we should skip this port if we are probing XAUI and it is
+        in Higig mode */
+    if (!skip_higig_check && bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface))
+        return 0;
+
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* GMX1 is RXAUI only if GMX0 is RXAUI */
