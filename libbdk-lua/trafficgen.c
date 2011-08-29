@@ -298,7 +298,8 @@ static int trafficgen_do_update(bool do_clear)
             }
             case BDK_IF_HIGIG:
             {
-                // FIXME: Higig backpressure counters
+                BDK_CSR_INIT(gmxx_rx_hg2_status, BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
+                tg_port->pinfo.stats.rx_backpressure += gmxx_rx_hg2_status.s.lgtim2go;
                 break;
             }
             case BDK_IF_SGMII:
