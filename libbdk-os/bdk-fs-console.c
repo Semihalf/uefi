@@ -42,7 +42,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
 {
     static uint64_t last_tx_cycle;
     static void *last_tx_thread = NULL;
-    const uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 20;
+    const uint64_t timeout = (bdk_is_simulation()) ? 100 : bdk_clock_get_rate(BDK_CLOCK_SCLK) / 20;
     int fd = open_files[last_input];
     const char *ptr = buffer;
     int len = length;
