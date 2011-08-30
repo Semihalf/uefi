@@ -1,5 +1,4 @@
 #include <bdk.h>
-#include <fcntl.h>
 
 static void *uart_open(const char *name, int flags)
 {
@@ -7,16 +6,13 @@ static void *uart_open(const char *name, int flags)
     if ((id < 0) || (id >= 2))
         return NULL;
     /* Return the uart number plus one as our internal state */
-    if (flags & O_NOCTTY)
-        return (void*)(id+1 + 0x100);
-    else
-        return (void*)(id+1);
+    return (void*)(id+1);
 }
 
 static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int count = 0;
-    int id = ((long)handle->fs_state & 0xff) - 1;
+    int id = (long)handle->fs_state - 1;
 
     BDK_CSR_INIT(lsr, BDK_MIO_UARTX_LSR(id));
     while (lsr.s.dr && length)
@@ -48,55 +44,12 @@ static void uart_write_byte(int id, uint8_t byte)
 
 static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
-    static volatile void *owner = NULL;
     int l = length;
-    int id = ((long)handle->fs_state & 0xff) - 1;
-    int is_console = (((long)handle->fs_state & 0x100) == 0);
+    int id = (long)handle->fs_state - 1;
     const char *p = buffer;
 
-    /* Consoles have some extra processing compared to files opened with
-        the O_NOCTTY flag. Consoles attempts to write lines out as blocks
-        such that multiple core output doesn't get jumbled mid line. Files
-        opened with the O_NOCTTY flag are considered raw device and don't
-        do any of this processing. This is useful for XMODEM */
-
-    if (is_console)
-    {
-        void *me = bdk_thread_get_id();
-        if (owner != me)
-        {
-            void *current_owner;
-            do
-            {
-                current_owner = (void*)owner;
-                /* Spin waiting for another thread to finish it's current line */
-                uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
-                while (current_owner && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
-                {
-                    bdk_thread_yield();
-                    current_owner = (void*)owner;
-                }
-                /* Take ownership of the uarts */
-            } while (bdk_atomic_compare_and_store64_nosync((uint64_t*)&owner, (uint64_t)current_owner, (uint64_t)me) == 0);
-        }
-    }
-    else
-        owner = NULL;
-
     while (l--)
-    {
-        uart_write_byte(id, *p);
-        if ((*p =='\n') && is_console)
-        {
-            /* Release ownership if we have no more data */
-            if (!l)
-            {
-                owner = NULL;
-                BDK_SYNCW;
-            }
-        }
-        p++;
-    }
+        uart_write_byte(id, *p++);
     return length;
 }
 
