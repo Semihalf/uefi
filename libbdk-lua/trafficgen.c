@@ -548,6 +548,61 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     return 0;
 }
 
+static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
+{
+    uint64_t        count;
+    uint64_t        remaining_bytes;
+    bdk_buf_ptr_t  buffer_ptr;
+    uint64_t        start_of_buffer;
+    uint8_t *       data_address;
+    uint8_t *       end_of_data;
+
+    printf("\nPacket Length:   %u\n", packet->length);
+    printf("    Port:        %s\n", tg_port->pinfo.name);
+    printf("    Buffers:     %u\n", packet->segments);
+    if (packet->rx_error)
+        printf("    Error code:  %u\n", packet->rx_error);
+
+    buffer_ptr = packet->packet;
+    remaining_bytes = packet->length;
+
+    while (remaining_bytes)
+    {
+        start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
+        printf("    Pool:        %u\n", buffer_ptr.s.pool);
+        printf("    Address:     0x%llx\n", (unsigned long long)buffer_ptr.s.addr);
+        printf("                 ");
+        data_address = (uint8_t *)bdk_phys_to_ptr(buffer_ptr.s.addr);
+        end_of_data = data_address + buffer_ptr.s.size;
+        count = 0;
+        while (data_address < end_of_data)
+        {
+            if (remaining_bytes == 0)
+                break;
+            else
+                remaining_bytes--;
+            printf("%02x", (unsigned int)*data_address);
+            data_address++;
+            if (remaining_bytes && (count == 15))
+            {
+                printf("\n                 ");
+                count = 0;
+            }
+            else if (remaining_bytes && ((count&3) == 3))
+            {
+                printf(" ");
+                count++;
+            }
+            else
+                count++;
+        }
+        printf("\n");
+
+        if (remaining_bytes)
+            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+    }
+    fflush(stdout);
+}
 
 /**
  * Transmitter loop for generic ports. PKO based ports
@@ -677,6 +732,11 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         port_tx->output_enable = 0;
         BDK_SYNCW;
         return;
+    }
+    if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
+    {
+        printf("Transmit packet:\n");
+        dump_packet(tg_port, &packet);
     }
 
     /* Signal that this packet should not be freed */
@@ -871,62 +931,6 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
         }
     }
     return 0;
-}
-
-static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
-{
-    uint64_t        count;
-    uint64_t        remaining_bytes;
-    bdk_buf_ptr_t  buffer_ptr;
-    uint64_t        start_of_buffer;
-    uint8_t *       data_address;
-    uint8_t *       end_of_data;
-
-    printf("\nPacket Length:   %u\n", packet->length);
-    printf("    Input Port:  %s\n", tg_port->pinfo.name);
-    printf("    Buffers:     %u\n", packet->segments);
-    if (packet->rx_error)
-        printf("    Error code:  %u\n", packet->rx_error);
-
-    buffer_ptr = packet->packet;
-    remaining_bytes = packet->length;
-
-    while (remaining_bytes)
-    {
-        start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        printf("    Pool:        %u\n", buffer_ptr.s.pool);
-        printf("    Address:     0x%llx\n", (unsigned long long)buffer_ptr.s.addr);
-        printf("                 ");
-        data_address = (uint8_t *)bdk_phys_to_ptr(buffer_ptr.s.addr);
-        end_of_data = data_address + buffer_ptr.s.size;
-        count = 0;
-        while (data_address < end_of_data)
-        {
-            if (remaining_bytes == 0)
-                break;
-            else
-                remaining_bytes--;
-            printf("%02x", (unsigned int)*data_address);
-            data_address++;
-            if (remaining_bytes && (count == 15))
-            {
-                printf("\n                 ");
-                count = 0;
-            }
-            else if (remaining_bytes && ((count&3) == 3))
-            {
-                printf(" ");
-                count++;
-            }
-            else
-                count++;
-        }
-        printf("\n");
-
-        if (remaining_bytes)
-            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-    }
-    fflush(stdout);
 }
 
 /**
