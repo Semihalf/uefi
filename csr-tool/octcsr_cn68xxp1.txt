@@ -13987,68 +13987,120 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<6:0>    PORT_PIPE0           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+0 (unused|
-                                                         if ENTRY_CTL0 == 1)                                            |
-                                                         Software must ensure the selected port-pipe does not match any |
-                                                         of the other 8 for this entry.                                 |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+<6:0>    PORT_PIPE0           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+0        |
+                                                                                                                        |
+                                                         PORT_PIPE0 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL0 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <8:7>    ENTRY_CTL0           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+0                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<15:9>   PORT_PIPE1           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+1 (unused|
-                                                         if ENTRY_CTL1 == 1)                                            |
-                                                         Software must ensure the selected port-pipe does not match any |
-                                                         of the other 8 for this entry.                                 |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE0.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE0 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE0.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE0. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPEx is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<15:9>   PORT_PIPE1           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+1        |
+                                                                                                                        |
+                                                         PORT_PIPE1 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL1 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <17:16>  ENTRY_CTL1           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+1                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<24:18>  PORT_PIPE2           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+2 (unused|
-                                                         if ENTRY_CTL2 == 1)                                            |
-                                                         Software must ensure the selected port-pipe does not match any |
-                                                         of the other 8 for this entry.                                 |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE1.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE1 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE1.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE1. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE1 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<24:18>  PORT_PIPE2           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+2        |
+                                                                                                                        |
+                                                         PORT_PIPE2 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL2 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <26:25>  ENTRY_CTL2           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+2                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<33:27>  PORT_PIPE3           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+3 (unused|
-                                                         if ENTRY_CTL3 == 1)                                            |
-                                                         Software must ensure the selected port-pipe does not match any |
-                                                         of the other 8 for this entry.                                 |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE2.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE2 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE2.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE2. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE2 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<33:27>  PORT_PIPE3           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+3        |
+                                                                                                                        |
+                                                         PORT_PIPE3 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL3 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <35:34>  ENTRY_CTL3           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+3                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE3.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE3 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE3.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE3. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE3 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
 Notes:                                                                                                                  |
-    Software must always read ILK_RXx_MEM_CAL0 then ILK_RXx_MEM_CAL1.  Software                                         |
-    must never read them in reverse order or read one without reading the                                               |
-    other.                                                                                                              |
+    Software must program the calendar table prior to enabling the                                                      |
+    link.                                                                                                               |
                                                                                                                         |
     Software must always write ILK_RXx_MEM_CAL0 then ILK_RXx_MEM_CAL1.                                                  |
     Software must never write them in reverse order or write one without                                                |
     writing the other.                                                                                                  |
+                                                                                                                        |
+    A given calendar table entry has no effect on PKO pipe                                                              |
+    backpressure when either:                                                                                           |
+     - ENTRY_CTLx=Link (1), or                                                                                          |
+     - ENTRY_CTLx=XON (3) and PORT_PIPEx is outside the range of ILK_TXx_PIPE[BASE/NUMP].                               |
+                                                                                                                        |
+    Within the 8 calendar table entries of one IDX value, if more                                                       |
+    than one affects the same PKO pipe, XOFF always wins over XON,                                                      |
+    regardless of the calendar table order.                                                                             |
+                                                                                                                        |
+    Software must always read ILK_RXx_MEM_CAL0 then ILK_RXx_MEM_CAL1.  Software                                         |
+    must never read them in reverse order or read one without reading the                                               |
+    other.                                                                                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -14061,60 +14113,120 @@ Notes:                                                                          
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<6:0>    PORT_PIPE4           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+4 (unused|
-                                                         if ENTRY_CTL4 == 1)                                            |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+<6:0>    PORT_PIPE4           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+4        |
+                                                                                                                        |
+                                                         PORT_PIPE4 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL4 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <8:7>    ENTRY_CTL4           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+4                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<15:9>   PORT_PIPE5           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+5 (unused|
-                                                         if ENTRY_CTL5 == 1)                                            |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE4.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE4 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE4.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE4. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE4 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<15:9>   PORT_PIPE5           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+5        |
+                                                                                                                        |
+                                                         PORT_PIPE5 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL5 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <17:16>  ENTRY_CTL5           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+5                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<24:18>  PORT_PIPE6           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+6 (unused|
-                                                         if ENTRY_CTL6 == 1)                                            |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE5.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE5 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE5.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE5. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE5 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<24:18>  PORT_PIPE6           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+6        |
+                                                                                                                        |
+                                                         PORT_PIPE6 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL6 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <26:25>  ENTRY_CTL6           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+6                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
-<33:27>  PORT_PIPE7           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+7 (unused|
-                                                         if ENTRY_CTL7 == 1)                                            |
-                                                         Software must ensure the selected port-pipe is within          |
-                                                         ILK_TXx_PIPE[BASE/NUMP].                                       |
-                                                         Software must program the calendar table prior to enabling the |
-                                                         link.                                                          |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE6.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE6 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE6.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE6. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE6 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+<33:27>  PORT_PIPE7           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+7        |
+                                                                                                                        |
+                                                         PORT_PIPE7 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
+                                                         when ENTRY_CTL7 is "XOFF" (2) or "PKO port-pipe" (0).          |
+                                                                                                                        |
 <35:34>  ENTRY_CTL7           R/W      0x0      NS       XON/XOFF destination for entry (IDX*8)+7                       |
-                                                             0: PKO port-pipe                                           |
-                                                             1: Link                                                    |
-                                                             2: XOFF                                                    |
-                                                             3: XON                                                     |
+                                                                                                                        |
+                                                          0: PKO port-pipe  Apply backpressure received from the        |
+                                                                            remote tranmitter to the PKO pipe selected  |
+                                                                            by PORT_PIPE7.
+                                                                                                                        |
+                                                          1: Link           Apply the backpressure received from the    |
+                                                                            remote transmitter to link backpressure.    |
+                                                                            PORT_PIPE7 is unused.                       |
+                                                                                                                        |
+                                                          2: XOFF           Apply XOFF to the PKO pipe selected by      |
+                                                                            PORT_PIPE7.                                 |
+                                                                                                                        |
+                                                          3: XON            Apply XON to the PKO pipe selected by       |
+                                                                            PORT_PIPE7. The calendar table entry is     |
+                                                                            effectively unused if PORT_PIPE3 is out of  |
+                                                                            range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
 Notes:                                                                                                                  |
-    Software must always read ILK_RXx_MEM_CAL0 then ILK_Rx_MEM_CAL1.  Software                                          |
-    must never read them in reverse order or read one without reading the                                               |
-    other.                                                                                                              |
+    Software must program the calendar table prior to enabling the                                                      |
+    link.                                                                                                               |
                                                                                                                         |
     Software must always write ILK_RXx_MEM_CAL0 then ILK_RXx_MEM_CAL1.                                                  |
     Software must never write them in reverse order or write one without                                                |
     writing the other.                                                                                                  |
+                                                                                                                        |
+    A given calendar table entry has no effect on PKO pipe                                                              |
+    backpressure when either:                                                                                           |
+     - ENTRY_CTLx=Link (1), or                                                                                          |
+     - ENTRY_CTLx=XON (3) and PORT_PIPEx is outside the range of ILK_TXx_PIPE[BASE/NUMP].                               |
+                                                                                                                        |
+    Within the 8 calendar table entries of one IDX value, if more                                                       |
+    than one affects the same PKO pipe, XOFF always wins over XON,                                                      |
+    regardless of the calendar table order.                                                                             |
+                                                                                                                        |
+    Software must always read ILK_RXx_MEM_CAL0 then ILK_Rx_MEM_CAL1.  Software                                          |
+    must never read them in reverse order or read one without reading the                                               |
+    other.                                                                                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -35218,22 +35330,22 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:8>  NS        RAZ      NS      NS       Reserved                                               |
- <7>     RWO_FLUSH WR0      0x0     0x0      Flush RWO engine                                       |
-                                             Allows outbound NCB entries to go immediately rather
-                                             than waiting for a complete fill packet. This register
-                                             is one-shot and clears itself each time it is set.
- <6>     WFE_THR   R/W      0x0     0x0      Use 1 Work-fetch engine (instead of 4)                 |
- <5>     RWIO_BYP_DIS R/W   0x0     0x0      Disable Bypass path in RWI/RWO Engines                 |
- <4>     RWQ_BYP_DIS R/W    0x0     0x0      Disable Bypass path in RWQ Engine                      |
- <3>     STT       R/W      0x1     0x1      STT Setting for RW Stores                              |
- <2>     LDT       R/W      0x1     0x1      LDT Setting for RW Loads                               |
- <1>     DWB       R/W      0x0     0x0      DWB Setting for Return Page Requests                   |
-                                             1 = 2 128B cache pages to issue DWB for
-                                             0 = 0 128B cache pages ro issue DWB for
- <0>     RWEN      R/W      0x0     0x1      Enable RWI/RWO operations                              |
-                                             This bit should be set after SSO_RWQ_HEAD_PTR@ and
-                                             SSO_RWQ_TAIL_PTR@ have been programmed.
+ <63:8>  NS             RAZ      NS      NS       Reserved                                               |
+ <7>     RWO_FLUSH      WR0      0x0     0x0      Flush RWO engine                                       |
+                                                  Allows outbound NCB entries to go immediately rather   |
+                                                  than waiting for a complete fill packet. This register |
+                                                  is one-shot and clears itself each time it is set.     |
+ <6>     WFE_THR        R/W      0x0     0x0      Use 1 Work-fetch engine (instead of 4)                 |
+ <5>     RWIO_BYP_DIS   R/W      0x0     0x0      Disable Bypass path in RWI/RWO Engines                 |
+ <4>     RWQ_BYP_DIS    R/W      0x0     0x0      Disable Bypass path in RWQ Engine                      |
+ <3>     STT            R/W      0x1     0x1      STT Setting for RW Stores                              |
+ <2>     LDT            R/W      0x1     0x1      LDT Setting for RW Loads                               |
+ <1>     DWB            R/W      0x0     0x0      DWB Setting for Return Page Requests                   |
+                                                  1 = 2 128B cache pages to issue DWB for                |
+                                                  0 = 0 128B cache pages ro issue DWB for                |
+ <0>     RWEN           R/W      0x0     0x1      Enable RWI/RWO operations                              |
+                                                  This bit should be set after SSO_RWQ_HEAD_PTR@ and     |
+                                                  SSO_RWQ_TAIL_PTR@ have been programmed.                |
 ----------------------------------------------------------------------------------------------------
 ===
 
