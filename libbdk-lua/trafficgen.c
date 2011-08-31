@@ -1130,7 +1130,14 @@ static int get_config(lua_State* L)
     pushfield(do_checksum,          boolean);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
-    //pushfield(srio, bdk_srio_tx_message_header_t);
+    pushfield(srio.u64,             number);
+    pushfield(higig.dw0.u32,        number);
+    pushfield(higig.dw1.u32,        number);
+    pushfield(higig.dw2.u32,        number);
+    pushfield(higig2.dw0.u32,       number);
+    pushfield(higig2.dw1.u32,       number);
+    pushfield(higig2.dw2.u32,       number);
+    pushfield(higig2.dw3.u32,       number);
     return 1;
 }
 
@@ -1172,7 +1179,14 @@ static int set_config(lua_State* L)
     getfield(do_checksum,          boolean);
     getfield(display_packet,       boolean);
     getfield(validate,             boolean);
-    //getfield(srio, bdk_srio_tx_message_header_t);
+    getfield(srio.u64,             number);
+    getfield(higig.dw0.u32,        number);
+    getfield(higig.dw1.u32,        number);
+    getfield(higig.dw2.u32,        number);
+    getfield(higig2.dw0.u32,       number);
+    getfield(higig2.dw1.u32,       number);
+    getfield(higig2.dw2.u32,       number);
+    getfield(higig2.dw3.u32,       number);
     BDK_SYNCW;
     return 0;
 }
