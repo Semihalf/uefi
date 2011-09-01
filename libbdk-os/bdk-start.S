@@ -81,6 +81,8 @@ __init:
      nop
 1:
     dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
+    li      t0, 0xc0400000  /* Skip relocate if we're already there */
+    beq     t0, s0, after_relocate
 
     /* See if we're running from a bootbus address */
     dsra    t0, ra, 28              /* Shift PC 28 bits, leaving the top nibble */
