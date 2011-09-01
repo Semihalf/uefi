@@ -49,12 +49,9 @@ static void __bdk_init_exception(void)
 static void bdk_init_stage2(void) __attribute((noreturn, noinline));
 static void bdk_init_stage2(void)
 {
-    extern void _fbss;  /* Beginning of .bss */
-    extern void _ebss;  /* End of .bss */
     static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
-    static const char BANNER_3[] = "Clearing BSS\n";
-    static const char BANNER_4[] = "Transferring to thread scheduler\n";
+    static const char BANNER_3[] = "Transferring to thread scheduler\n";
 
     BDK_MT_COP0(0, COP0_USERLOCAL);
 
@@ -77,11 +74,7 @@ static void bdk_init_stage2(void)
             bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1) * BDK_CACHE_LINE_SIZE);
         }
 
-        /* Zero BSS */
         write(1, BANNER_3, sizeof(BANNER_3)-1);
-        memset(&_fbss, 0, &_ebss - &_fbss);
-
-        write(1, BANNER_4, sizeof(BANNER_4)-1);
         bdk_thread_initialize();
     }
 
