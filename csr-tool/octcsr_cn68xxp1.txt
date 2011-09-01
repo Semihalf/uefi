@@ -36281,12 +36281,12 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:47> NS          RAZ      NS     NS     RESERVED                                      	    |
-<46>    ENA         R/W      0      0      Ring timer enable                                        |
-<45:44> INTC	    R/W      0      0      Interval count for Error. Defines how many intervals     |
+<46>    ENA         R/W      NS      0      Ring timer enable                                        |
+<45:44> INTC	    R/W      NS      0      Interval count for Error. Defines how many intervals     |
 					   could elapse from bucket expiration till actual          |
 					   bucket traversal before HW asserts an error.		    |
                                            Typical value is 0,1,2.                                    |
-<43:22> TIMERCOUNT  R/W      0      0      Timer Count represents the ring offset; how many timer   |
+<43:22> TIMERCOUNT  R/W      NS      0      Timer Count represents the ring offset; how many timer   |
 					   ticks have left till the interval expiration.	    |
 					   Typical initialization value should be Interval/Constant,|
 					   it is recommended that constant should be unique per ring|
@@ -36301,7 +36301,7 @@ Pos      Name    Type     Value     Value       Description
 		                           When the field is set to X it would take X+1 timer tick  |
 	                                   for the interval to expire.                              |
                                                  						    |
-<21:0>  INTERVAL    R/W      0     0       Timer interval. Measured in Timer Ticks, where timer     |
+<21:0>  INTERVAL    R/W      NS     0       Timer interval. Measured in Timer Ticks, where timer     |
 			 	       	   ticks are defined by TIM_FR_RN_TT.FR_RN_TT.		    |
 												    |
 Notes:												    |
@@ -36322,11 +36322,11 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:43> NS        RAZ       NS      NS       RESERVED    				      	    |
-<42:40> CPOOL     R/W       0       0        FPA Free list to free chunks to.                       |
-<39:20> BUCKET    R/W       0       0        Current bucket. Should be set to zero by SW at         |
+<42:40> CPOOL     R/W       NS       0        FPA Free list to free chunks to.                       |
+<39:20> BUCKET    R/W       NS       0        Current bucket. Should be set to zero by SW at         |
                                              enable time.					    |
                                              Incremented once per bucket traversal.		    |
-<19:0>  BSIZE     R/W       0       0        Number of buckets minus one. If BSIZE==0 there is      |
+<19:0>  BSIZE     R/W       NS       0        Number of buckets minus one. If BSIZE==0 there is      |
 					     only one bucket in the ring.  			    |
 												    |
 Notes:												    |
@@ -36345,10 +36345,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <63:47> NS       RAZ        NS        NS        RESERVED                                            |
-<46:34> CSIZE    R/W        0         0         Number of words per chunk. CSIZE mod(16) should be  |
+<46:34> CSIZE    R/W        NS         0         Number of words per chunk. CSIZE mod(16) should be  |
                                                 zero.                                               |
 <33:31> NS       RAZ        NS        NS        RESERVED                                            |
-<30:0>  BASE     R/W        0         0         Pointer[35:5] to bucket[0]                          |
+<30:0>  BASE     R/W        NS         0         Pointer[35:5] to bucket[0]                          |
 												    |
 Notes:												    |
  BASE is a 32-byte aligned pointer[35:0].  Only pointer[35:5] are stored because pointer[4:0] = 0.  |
@@ -36371,7 +36371,7 @@ Pos      Name    Type     Value     Value       Description
 					     used to generate the Timer Tick based on 		    |
 				             FR_RN_TT.            				    |
 												    |
-<41:20>  TIMERCOUNT   RO      0      0       Timer Count represents the ring's offset.              |
+<41:20>  TIMERCOUNT   RO   0x1000    0       Timer Count represents the ring's offset.              |
                                              Refer to TIM_RING@_CTL0. 				    |
                                                  						    |
 <19:0>   CUR_BUCKET   RO      0      0       Current bucket. Indicates the ring's current bucket.   |
@@ -39406,9 +39406,16 @@ Pos      Name    Type     Value     Value       Description
                                                    to 1'b0.                                            |
 <33>     PORTRESET         R/W      0    0         Per-port reset                                      |
 <32:31>  TXHSVXTUNE        R/W      0x0  0x0       Transmitter High-Speed Crossover Adjustment         |
-<30:27>  TXVREFTUNE        R/W      0x5  0x5       HS DC Voltage Level Adjustment                      |
-<26>     TXRISETUNE        R/W      0    0         HS Transmitter Rise/Fall Time Adjustment            |
-<25>     TXPREEMPHASISTUNE R/W      0    0         HS transmitter pre-emphasis enable.                 |
+<30:27>  TXVREFTUNE        R/W      0x5  15        HS DC Voltage Level Adjustment                      |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXVREFTUNE value is 15 |
+<26>     TXRISETUNE        R/W      0    1         HS Transmitter Rise/Fall Time Adjustment            |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXRISETUNE value is 1  |
+<25>     TXPREEMPHASISTUNE R/W      0    1         HS transmitter pre-emphasis enable.                 |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXPREEMPHASISTUNE      |
+                                                   value is 1                                          |
 <24:21>  TXFSLSTUNE        R/W      0x3  0x3       FS/LS Source Impedance Adjustment                   |
 <20:18>  SQRXTUNE          R/W      0x4  0x4       Squelch Threshold Adjustment                        |
 <17:15>  COMPDISTUNE       R/W      0x4  0x4       Disconnect Threshold Adjustment                     |

@@ -23270,7 +23270,7 @@ Pos      Name    Type     Value     Value       Description
                                                   CIU_SUM2_PP@_IPx (CIU_SUM2_IO@_INT)  bit is set   |
 						  and corresponding enable bit in CIU_EN2_PP@_IPx   |
 					          (CIU_EN2_IO@_INT) is set.                         |
-                                                  Note that WDOG_SUM only summarizes the SUM2/EN2   |
+                                                  Note that SUM2 only summarizes the SUM2/EN2       |
                                                   result and does not have a corresponding enable   |
                                                   bit, so does not directly contribute to           |
                                                   interrupts.                                       |
@@ -23366,7 +23366,7 @@ Pos      Name    Type     Value     Value       Description
                                                   CIU_SUM2_PP@_IPx (CIU_SUM2_IO@_INT)  bit is set   |
 						  and corresponding enable bit in CIU_EN2_PP@_IPx   |
 					          (CIU_EN2_IO@_INT) is set.                         |
-                                                  Note that WDOG_SUM only summarizes the SUM2/EN2   |
+                                                  Note that SUM2 only summarizes the SUM2/EN2       |
                                                   result and does not have a corresponding enable   |
                                                   bit, so does not directly contribute to           |
                                                   interrupts.                                       |
@@ -23784,17 +23784,17 @@ CIU_INT33_EN1: IO1
 PPx/IP2 will be raised when...
 
    n = x*2
-   PPx/IP2 = |({CIU_SUM1_PPx_IP2, CIU_INTn_SUM0} & {CIU_INTn_EN1, CIU_INTn_EN0})
+   PPx/IP2 = |({CIU_SUM2_PPx_IP2,CIU_SUM1_PPx_IP2, CIU_INTn_SUM0} & {CIU_EN2_PPx_IP2,CIU_INTn_EN1, CIU_INTn_EN0})
 
 PPx/IP3 will be raised when...
 
    n = x*2 + 1
-   PPx/IP3 =  |({CIU_SUM1_PPx_IP3, CIU_INTn_SUM0} & {CIU_INTn_EN1, CIU_INTn_EN0})
+   PPx/IP3 =  |({CIU_SUM2_PPx_IP3,CIU_SUM1_PPx_IP3, CIU_INTn_SUM0} & {CIU_EN2_PPx_IP3,CIU_INTn_EN1, CIU_INTn_EN0})
 
 PCI/INT will be raised when...
 
-   PCI/INT = |({CIU_SUM1_IO0_INT, CIU_INT32_SUM0} & {CIU_INT32_EN1, CIU_INT32_EN0})
-   PCI/INT = |({CIU_SUM1_IO1_INT, CIU_INT33_SUM0} & {CIU_INT33_EN1, CIU_INT33_EN0})
+   PCI/INT = |({CIU_SUM2_IO0_INT,CIU_SUM1_IO0_INT, CIU_INT32_SUM0} & {CIU_EN2_IO0_INT,CIU_INT32_EN1, CIU_INT32_EN0})
+   PCI/INT = |({CIU_SUM2_IO1_INT,CIU_SUM1_IO1_INT, CIU_INT33_SUM0} & {CIU_EN2_IO1_INT,CIU_INT33_EN1, CIU_INT33_EN0})
 @endverbatim
 
 ----------------------------------------------------------------------------------------------------
@@ -24198,7 +24198,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1	   0	       0	 Write 1s to set work queue interrupt enables	    |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-set version of the CIU_INT@_EN4_0 register, read back always zero.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24258,7 +24258,7 @@ Pos      Name    Type     Value     Value       Description
  <9:0>	 WDOG     R/W1	   0	       0	 Write 1s to set Watchdog summary interrupt enable  |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-set version of the CIU_INT@_EN4_1 register, read back always zero.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -44326,9 +44326,16 @@ Pos      Name    Type     Value     Value       Description
                                                    to 1'b0.                                            |
 <33>     PORTRESET         R/W      0    0         Per-port reset                                      |
 <32:31>  TXHSVXTUNE        R/W      0x0  0x0       Transmitter High-Speed Crossover Adjustment         |
-<30:27>  TXVREFTUNE        R/W      0x5  0x5       HS DC Voltage Level Adjustment                      |
-<26>     TXRISETUNE        R/W      0    0         HS Transmitter Rise/Fall Time Adjustment            |
-<25>     TXPREEMPHASISTUNE R/W      0    0         HS transmitter pre-emphasis enable.                 |
+<30:27>  TXVREFTUNE        R/W      0x5  15        HS DC Voltage Level Adjustment                      |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXVREFTUNE value is 15 |
+<26>     TXRISETUNE        R/W      0    1         HS Transmitter Rise/Fall Time Adjustment            |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXRISETUNE value is 1  |
+<25>     TXPREEMPHASISTUNE R/W      0    1         HS transmitter pre-emphasis enable.                 |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXPREEMPHASISTUNE      |
+                                                   value is 1                                          |
 <24:21>  TXFSLSTUNE        R/W      0x3  0x3       FS/LS Source Impedance Adjustment                   |
 <20:18>  SQRXTUNE          R/W      0x4  0x4       Squelch Threshold Adjustment                        |
 <17:15>  COMPDISTUNE       R/W      0x4  0x4       Disconnect Threshold Adjustment                     |

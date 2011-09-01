@@ -37152,9 +37152,16 @@ Pos      Name    Type     Value     Value       Description
                                                    to 1'b0.                                            |
 <33>     PORTRESET         R/W      0    0         Per-port reset                                      |
 <32:31>  TXHSVXTUNE        R/W      0x0  0x0       Transmitter High-Speed Crossover Adjustment         |
-<30:27>  TXVREFTUNE        R/W      0x5  0x5       HS DC Voltage Level Adjustment                      |
-<26>     TXRISETUNE        R/W      0    0         HS Transmitter Rise/Fall Time Adjustment            |
-<25>     TXPREEMPHASISTUNE R/W      0    0         HS transmitter pre-emphasis enable.                 |
+<30:27>  TXVREFTUNE        R/W      0x5  15        HS DC Voltage Level Adjustment                      |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXVREFTUNE value is 15 |
+<26>     TXRISETUNE        R/W      0    1         HS Transmitter Rise/Fall Time Adjustment            |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXRISETUNE value is 1  |
+<25>     TXPREEMPHASISTUNE R/W      0    1         HS transmitter pre-emphasis enable.                 |
+                                                   When the recommended 37.4 Ohm resistor is present   |
+                                                   on USB_REXT, the recommended TXPREEMPHASISTUNE      |
+                                                   value is 1                                          |
 <24:21>  TXFSLSTUNE        R/W      0x3  0x3       FS/LS Source Impedance Adjustment                   |
 <20:18>  SQRXTUNE          R/W      0x4  0x4       Squelch Threshold Adjustment                        |
 <17:15>  COMPDISTUNE       R/W      0x4  0x4       Disconnect Threshold Adjustment                     |
