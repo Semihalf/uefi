@@ -468,11 +468,15 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
             /* Writing the lo part of the address actually triggers the read.
                 That means the high part must be written first */
             bar0_write32(BDK_SLI_WIN_RD_ADDR+4, address>>32);
+#ifdef __ppc__
             /* This read is needed to enforce ordering on PowerPC */
             bar0_read32(BDK_SLI_WIN_RD_ADDR+4);
+#endif
             bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
+#ifdef __ppc__
             /* This read is needed to enforce ordering on Freescale PowerPC */
             bar0_read32(BDK_SLI_WIN_RD_ADDR);
+#endif
             uint64_t v = (((uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4))<<32) | (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
             if (size != 8)
                 v &= (1<<(size*8)) - 1;
@@ -534,8 +538,10 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
             bar0_write32(BDK_SLI_WIN_WR_ADDR, address);
             /* Write the high part of value to the hardware */
             bar0_write32(BDK_SLI_WIN_WR_DATA+4, value>>32);
+#ifdef __ppc__
             /* This read is needed to enforce ordering on PowerPC */
             bar0_read32(BDK_SLI_WIN_WR_DATA+4);
+#endif
             /* Writing the low part of the data triggers the actual write. It
                 needs to be last */
             bar0_write32(BDK_SLI_WIN_WR_DATA, value);
