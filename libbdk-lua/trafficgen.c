@@ -667,8 +667,10 @@ static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, 
 
     const trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     const int pko_port = tg_port->handle->pko_port;
-    const int pko_queue = tg_port->handle->pko_queue + 1;
-    bdk_cmd_queue_state_t *cmd_queue = &tg_port->handle->cmd_queue[1];
+    /* Use a second queue if it exists, otherwise use the first queue */
+    const int queue_offset = (sizeof(tg_port->handle->cmd_queue) > sizeof(tg_port->handle->cmd_queue[0])) ? 1 : 0;
+    const int pko_queue = tg_port->handle->pko_queue + queue_offset;
+    bdk_cmd_queue_state_t *cmd_queue = &tg_port->handle->cmd_queue[queue_offset];
 
     uint64_t count = port_tx->output_count;
     bdk_pko_command_word0_t pko_command;
