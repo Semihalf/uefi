@@ -46,9 +46,37 @@ static void __bdk_init_exception(void)
     BDK_ICACHE_INVALIDATE;
 }
 
-static void bdk_init_stage2(void) __attribute((noreturn, noinline));
-static void bdk_init_stage2(void)
+void __bdk_init(long base_address) __attribute((noreturn));
+void __bdk_init(long base_address)
 {
+    /* Enable RDHWR */
+    BDK_MT_COP0(0xe000000f, COP0_HWRENA);
+
+    /* Clear cause */
+    BDK_MT_COP0(0, COP0_CAUSE);
+
+    /* Clear ENTRYHI[ASID] to keep simulator happy */
+    BDK_MT_COP0(0, COP0_ENTRYHI);
+
+    /* Disable ERL, EXL, and IE */
+    uint32_t status;
+    BDK_MF_COP0(status, COP0_STATUS);
+    status &= ~(0xff<<8);   /* Clear IM enables */
+    status |= 1<<23;        /* Enable 64bit user opcodes */
+    status |= 7<<5;         /* Enable 64bit in Kernel, super, and user */
+    status &= ~(3<<3);      /* Set kernel mode */
+    status &= ~(1<<2);      /* Disable ERL */
+    status &= ~(1<<1);      /* Disable EXL */
+    status &= ~(1<<0);      /* Disable IE */
+    BDK_MT_COP0(status, COP0_STATUS);
+
+    /* Use unaligned instructions */
+    uint64_t cvmctl;
+    BDK_MF_COP0(cvmctl, COP0_CVMCTL);
+    cvmctl |= 1<<12;    /* Use unaligned instructions */
+    cvmctl |= 1<<14;    /* Fix unaligned accesses */
+    BDK_MT_COP0(cvmctl, COP0_CVMCTL);
+
     static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
@@ -78,105 +106,12 @@ static void bdk_init_stage2(void)
         bdk_thread_initialize();
     }
 
-    int status;
     BDK_MF_COP0(status, COP0_STATUS);
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
 
     bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
-}
-
-void __bdk_init(long base_address) __attribute((noreturn));
-void __bdk_init(long base_address)
-{
-    /* Although we are running C code, we have not setup the TLB yet. This
-        means that all data accessed will fault and we can't make subroutine
-        calls. Once the basic TLB stuff is setup, we will jump to
-        bdk_init_stage2(), which is a normal C environment */
-    extern void _fdata; /* Beginning of .data section */
-    const uint64_t mask_512MB = 0x1fffffff;
-
-    /* Enable RDHWR */
-    BDK_MT_COP0(0xe000000f, COP0_HWRENA);
-
-    /* Clear cause */
-    BDK_MT_COP0(0, COP0_CAUSE);
-
-    /* Clear ENTRYHI[ASID] to keep simulator happy */
-    BDK_MT_COP0(0, COP0_ENTRYHI);
-
-    /* Disable ERL, EXL, and IE */
-    uint32_t status;
-    BDK_MF_COP0(status, COP0_STATUS);
-    status &= ~(0xff<<8);   /* Clear IM enables */
-    status |= 1<<23;        /* Enable 64bit user opcodes */
-    status |= 7<<5;         /* Enable 64bit in Kernel, super, and user */
-    status &= ~(3<<3);      /* Set kernel mode */
-    status &= ~(1<<2);      /* Disable ERL */
-    status &= ~(1<<1);      /* Disable EXL */
-    status &= ~(1<<0);      /* Disable IE */
-    BDK_MT_COP0(status, COP0_STATUS);
-
-    /* Use unaligned instructions */
-    uint64_t cvmctl;
-    BDK_MF_COP0(cvmctl, COP0_CVMCTL);
-    cvmctl |= 1<<12;    /* Use unaligned instructions */
-    cvmctl |= 1<<14;    /* Fix unaligned accesses */
-    BDK_MT_COP0(cvmctl, COP0_CVMCTL);
-
-    /* Clear the TLB */
-    BDK_MT_COP0(0, COP0_ENTRYLO0);
-    BDK_MT_COP0(0, COP0_ENTRYLO1);
-    BDK_MT_COP0(0, COP0_PAGEMASK);
-    uint64_t vaddr = 3ull<<62;
-    int count = 128;
-    while (count-- > 0)
-    {
-        uint64_t index;
-        do
-        {
-            BDK_MT_COP0(vaddr, COP0_ENTRYHI);
-            BDK_TLBP;
-            BDK_MF_COP0(index, COP0_INDEX);
-            vaddr += 0x2000;
-        } while ((index & (1ull<<31)) == 0);
-        BDK_MT_COP0(count, COP0_INDEX);
-        BDK_TLBWI;
-    }
-
-    /* Enable RI/XI and large physical addresses */
-    BDK_MT_COP0(7<<29, COP0_PAGEGRAIN);
-    /* Use 4MB pages */
-    BDK_MT_COP0((4<<(20+1))-1, COP0_PAGEMASK);
-
-    /* Create an EntryLo */
-    uint64_t entrylo = 0 >> 6; /* Map PA of zero */
-    entrylo |= 3; /* Set Valid and Global */
-
-    /* Add TLB for Text */
-    const uint64_t vma_text = ~mask_512MB & (long)&__bdk_init;
-    BDK_MT_COP0(entrylo, COP0_ENTRYLO0);
-    BDK_MT_COP0(1, COP0_ENTRYLO1); /* Global bit must be set in both */
-    BDK_MT_COP0(vma_text, COP0_ENTRYHI);
-    BDK_MT_COP0(0, COP0_INDEX);
-    BDK_TLBWI;
-
-    /* Add TLB for Data */
-    const uint64_t vma_data = ~mask_512MB & (long)&_fdata;
-    entrylo |= 4; /* Set dirty */
-    BDK_MT_COP0(entrylo, COP0_ENTRYLO0);
-    BDK_MT_COP0(1, COP0_ENTRYLO1); /* Global bit must be set in both */
-    BDK_MT_COP0(vma_data, COP0_ENTRYHI);
-    BDK_MT_COP0(1, COP0_INDEX);
-    BDK_TLBWI;
-
-    /* Set wired to be two entries */
-    BDK_MT_COP0(2, COP0_WIRED);
-
-    asm volatile ("j %0" :: "r" (&bdk_init_stage2) : "memory");
-    /* We never get here, but the C complier doesn't know that */
-    while (1) {}
 }
 
 int bdk_init_cores(uint64_t coremask)

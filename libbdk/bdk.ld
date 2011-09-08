@@ -5,46 +5,8 @@ SECTIONS
 {
   . = 0xBFC00000; /* Bootbus link address */
   .init           : { *(.init) }
-  . = . + 0x00400000; /* Data is in C0000580 */
-  .sdata2         : { *(.sdata2 .sdata2.* .gnu.linkonce.s2.*) }
-  .data           :
-  {
-    _fdata = . ;
-    *(.data .data.* .gnu.linkonce.d.*)
-    SORT(CONSTRUCTORS)
-  }
-  .data1          : { *(.data1) }
-  .got.plt        : { *(.got.plt) }
-  _gp = ALIGN(16) + 0x7ff0;
-  .got            : { *(.got) }
-  /* We want the small data sections together, so single-instruction offsets
-     can access them all, and initialized data all before uninitialized, so
-     we can shorten the on-disk segment size.  */
-  .sdata          : { *(.sdata .sdata.* .gnu.linkonce.s.*) }
-  .lit8           : { *(.lit8) }
-  .lit4           : { *(.lit4) }
-  /* Exception handling  */
-  .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) }
-  .gcc_except_table   : ONLY_IF_RW { *(.gcc_except_table .gcc_except_table.*) }
-  . = ALIGN(128); /* Aligned so we can copy/clear a cache line at a time */
-  _edata = .;
-  _fbss = .;
-  .sbss           :
-  {
-    *(.dynsbss)
-    *(.sbss .sbss.* .gnu.linkonce.sb.*)
-    *(.scommon)
-  }
-  .sbss2          : { *(.sbss2 .sbss2.* .gnu.linkonce.sb2.*) }
-  .bss            :
-  {
-   *(.dynbss)
-   *(.bss .bss.* .gnu.linkonce.b.*)
-   *(COMMON)
-  }
-  . = ALIGN(128); /* Aligned so we can copy/clear a cache line at a time */
-  _ebss = .;
-  . = . + 0x20000000; /* Code is in E0000000 */
+  . = . + 0x00400000; /* Text link address */
+  . = . - 0x40000000;
   _ftext = .;
   .text           :
   {
@@ -113,6 +75,44 @@ SECTIONS
   .jcr            : { KEEP (*(.jcr)) }
   .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro* .gnu.linkonce.d.rel.ro.*) }
   . = DATA_SEGMENT_RELRO_END (0, .);
+  .sdata2         : { *(.sdata2 .sdata2.* .gnu.linkonce.s2.*) }
+  .data           :
+  {
+    _fdata = . ;
+    *(.data .data.* .gnu.linkonce.d.*)
+    SORT(CONSTRUCTORS)
+  }
+  .data1          : { *(.data1) }
+  .got.plt        : { *(.got.plt) }
+  _gp = ALIGN(16) + 0x7ff0;
+  .got            : { *(.got) }
+  /* We want the small data sections together, so single-instruction offsets
+     can access them all, and initialized data all before uninitialized, so
+     we can shorten the on-disk segment size.  */
+  .sdata          : { *(.sdata .sdata.* .gnu.linkonce.s.*) }
+  .lit8           : { *(.lit8) }
+  .lit4           : { *(.lit4) }
+  /* Exception handling  */
+  .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) }
+  .gcc_except_table   : ONLY_IF_RW { *(.gcc_except_table .gcc_except_table.*) }
+  . = ALIGN(128); /* Aligned so we can copy/clear a cache line at a time */
+  _edata = .;
+  _fbss = .;
+  .sbss           :
+  {
+    *(.dynsbss)
+    *(.sbss .sbss.* .gnu.linkonce.sb.*)
+    *(.scommon)
+  }
+  .sbss2          : { *(.sbss2 .sbss2.* .gnu.linkonce.sb2.*) }
+  .bss            :
+  {
+   *(.dynbss)
+   *(.bss .bss.* .gnu.linkonce.b.*)
+   *(COMMON)
+  }
+  . = ALIGN(128); /* Aligned so we can copy/clear a cache line at a time */
+  _ebss = .;
   _end = .; PROVIDE (end = .);
   /* Stabs debugging sections.  */
   .stab          0 : { *(.stab) }
