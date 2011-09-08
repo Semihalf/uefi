@@ -103,6 +103,9 @@ void __bdk_init(long base_address)
     /* Clear cause */
     BDK_MT_COP0(0, COP0_CAUSE);
 
+    /* Clear ENTRYHI[ASID] to keep simulator happy */
+    BDK_MT_COP0(0, COP0_ENTRYHI);
+
     /* Disable ERL, EXL, and IE */
     uint32_t status;
     BDK_MF_COP0(status, COP0_STATUS);
