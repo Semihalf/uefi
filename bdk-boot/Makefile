@@ -3,12 +3,12 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 IMAGES = bdk-full bdk-minimal
 
 BINS = $(IMAGES:%=%.bin)
-TARGETS = $(IMAGES:%=$(BDK_ROOT)/target-bin/%-no-romfs.bin)
 
 .PHONY: all
-all: $(TARGETS) bdk-reset-rtl
+all: target-bin bdk-reset-rtl
 
-$(TARGETS): $(BINS)
+.PHONY: target-bin
+target-bin: $(BINS)
 	for f in $(IMAGES); do \
 		cp $$f $(BDK_ROOT)/target-bin/$$f-no-romfs; \
 		cp $$f.map $(BDK_ROOT)/target-bin/$$f-no-romfs.map; \
