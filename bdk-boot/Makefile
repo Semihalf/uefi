@@ -3,17 +3,20 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 IMAGES = bdk-full bdk-minimal
 
 BINS = $(IMAGES:%=%.bin)
+TARGETS = $(IMAGES:%=$(BDK_ROOT)/target-bin/%-no-romfs.bin)
 
 .PHONY: all
-all: target-bin bdk-reset-rtl
+all: $(TARGETS) bdk-reset-rtl
 
-.PHONY: target-bin
-target-bin: $(BINS)
-	for f in $(IMAGES); do \
-		cp $$f $(BDK_ROOT)/target-bin/$$f-no-romfs; \
-		cp $$f.map $(BDK_ROOT)/target-bin/$$f-no-romfs.map; \
-		cp $$f.bin $(BDK_ROOT)/target-bin/$$f-no-romfs.bin; \
-	done
+$(BDK_ROOT)/target-bin/bdk-minimal-no-romfs.bin: bdk-minimal.bin
+	cp $(^:%.bin=%) $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs
+	cp $(^:%.bin=%.map) $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.map
+	cp $^ $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.bin
+
+$(BDK_ROOT)/target-bin/bdk-full-no-romfs.bin: bdk-full.bin
+	cp $(^:%.bin=%) $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs
+	cp $(^:%.bin=%.map) $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.map
+	cp $^ $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.bin
 
 bdk-full: bdk-full.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
 bdk-minimal: bdk-minimal.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
