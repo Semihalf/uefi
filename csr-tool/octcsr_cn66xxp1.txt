@@ -23641,8 +23641,8 @@ Write to any IRQ's PTP fields will clear PTP for all IRQ's PTP field.
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS	  RAZ      NS          NS        Reserved for additional USB Interrupts		    |
- <5:0>   TIMER	  R/W1C	   0	       0	 General timer 4-9 interrupts.			    |
+ <63:10>  NS	  RAZ      NS          NS        Reserved 					    |
+ <9:4>   TIMER	  R/W1C	   0	       0	 General timer 4-9 interrupts.			    |
                                         	 When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is|
                                                  common for all PP/IRQs, writing '1' to any PP/IRQ  |
                                                  will clear all TIMERx(x=0..9) interrupts.          |
@@ -23652,6 +23652,7 @@ Pos      Name    Type     Value     Value       Description
                                                  The combination of this field and the              |
                                                  CIU_INT*_SUM0/4[TIMER] field implement all 10      |
                                                  CIU_TIM* interrupts.                               |
+ <3:0>   NS	  RAZ      NS          NS        Reserved for TIMER Interrupts		            |
 Notes:                                                                                              |
  These SUM2 CSR's did not exist prior to pass 1.2. CIU_TIM4-9 did not exist prior to pass 1.2.      |
 ----------------------------------------------------------------------------------------------------
@@ -23824,8 +23825,9 @@ PCI/INT will be raised when...
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS	  RAZ      NS          NS        Reserved                   		            |
- <5:0>   TIMER	  R/W	   0	       0	 General timer 4-9 interrupt enable		    |
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W	   0	       0	 General timer 4-9 interrupt enable		    |
+ <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
 Notes:                                                                                              |
  These SUM2 CSR's did not exist prior to pass 1.2. CIU_TIM4-9 did not exist prior to pass 1.2.      |
 ----------------------------------------------------------------------------------------------------
@@ -24064,7 +24066,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1	   0	       0	 Write 1s to set work queue interrupt enables	    |
 
 Notes:
-Write-1-to-set version of the CIU_INTx_EN0 register, read back always zero.
+Write-1-to-set version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24124,7 +24126,7 @@ Pos      Name    Type     Value     Value       Description
  <9:0>	 WDOG     R/W1	   0	       0	 Write 1s to set Watchdog summary interrupt enable  |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-set version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24152,12 +24154,14 @@ Write-1-to-set version of the CIU_INT@_EN1 register, read back always zero.
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS	  RAZ      NS          NS        Reserved                   		            |
- <5:0>   TIMER	  R/W1	   0	       0	 Write 1 to set General timer 4-9 interrupt enbale  |
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W1	   0	       0	 Write 1 to set General timer 4-9 interrupt enbale  |
+ <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
 
 Notes:
  These SUM2 CSR's did not exist prior to pass 1.2. CIU_TIM4-9 did not exist prior to pass 1.2.      |
-Write-1-to-set version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-set version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+CIU_EN2_PP(IO)@_IPx(INT) value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24198,7 +24202,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1	   0	       0	 Write 1s to set work queue interrupt enables	    |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN4_0 register, read back always zero.
+Write-1-to-set version of the CIU_INT@_EN4_0 register, read back corresponding CIU_INT@_EN4_0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24258,7 +24262,7 @@ Pos      Name    Type     Value     Value       Description
  <9:0>	 WDOG     R/W1	   0	       0	 Write 1s to set Watchdog summary interrupt enable  |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN4_1 register, read back always zero.
+Write-1-to-set version of the CIU_INT@_EN4_1 register, read back corresponding CIU_INT@_EN4_1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24300,7 +24304,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1C	   0	       0	 Write 1s to clear work queue interrupt enables	    |
 
 Notes:
-Write-1-to-clear version of the CIU_INTx_EN0 register, read back always zero.
+Write-1-to-clear version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24360,7 +24364,7 @@ Pos      Name    Type     Value     Value       Description
  <9:0>	 WDOG     R/W1C	   0	       0	 Write 1s to clear Watchdog summary interrupt enable|
 
 Notes:
-Write-1-to-clear version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-clear version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24388,12 +24392,14 @@ Write-1-to-clear version of the CIU_INT@_EN1 register, read back always zero.
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:6>  NS	  RAZ      NS          NS        Reserved                   		            |
- <5:0>   TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer 4-9 interrupt enbale|
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer 4-9 interrupt enbale|
+ <3:0>  NS	  RAZ      NS          NS        Reserved                   		            |
 
 Notes:
  These SUM2 CSR's did not exist prior to pass 1.2. CIU_TIM4-9 did not exist prior to pass 1.2.      |
-Write-1-to-clear version of the CIU_INT@_EN1 register, read back always zero.
+Write-1-to-clear version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+CIU_EN2_PP(IO)@_IPx(INT) value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24434,7 +24440,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1C	   0	       0	 Write 1s to clear work queue interrupt enables	    |
 
 Notes:
-Write-1-to-clear version of the CIU_INTx_EN4_0 register, read back always zero.
+Write-1-to-clear version of the CIU_INTx_EN4_0 register, read back corresponding CIU_INTx_EN4_0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24494,7 +24500,7 @@ Pos      Name    Type     Value     Value       Description
  <9:0>	 WDOG     R/W1C	   0	       0	 Write 1s to clear Watchdog summary interrupt enable|
 
 Notes:
-Write-1-to-clear version of the CIU_INT@_EN4_1 register, read back always zero.
+Write-1-to-clear version of the CIU_INT@_EN4_1 register, read back corresponding CIU_INT@_EN4_1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24535,7 +24541,7 @@ Pos      Name    Type     Value     Value       Description
                                                    all PP/IRQs, but interrupt clearings can/need    |
                                                    to be done Individually based on per cnMIPS core.|
                                                  Timer interrupts for IOs (@=32,33) will always use |
-                                                 common interrupts. Clear any of the I/O interrupt  |
+                                                 common interrupts. Clear any of the I/O interrupts |
                                                  will clear the common interrupt.                   |
 Notes:
 This register does not exist prior to pass 1.2 silicon. Those earlier chip passes operate as if
