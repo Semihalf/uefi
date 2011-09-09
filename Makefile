@@ -38,7 +38,7 @@ run:
 
 .PHONY: run-rtl
 run-rtl:
-	$(SIMULATOR) bdk-boot/bdk-reset-rtl -ld0:0x200000 -ld0:target-bin/bdk-full.bin -modes=pass2 -uart0=2020 -quiet -serve=2000 -vz
+	$(SIMULATOR) bdk-boot/bdk-reset-rtl -ld0:0x200000 -ld0:target-bin/bdk-full.bin -modes=pass2 -uart0=2020 -quiet -serve=2000
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
