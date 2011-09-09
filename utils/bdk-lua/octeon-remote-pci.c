@@ -75,6 +75,7 @@ static uint32_t octeon_pci_bar1_size    = 0;    /* Size of the BAR1 memory mappe
 static uint64_t octeon_pci_bar1_address = 0;    /* Physical address of the BAR1 region */
 static char *   octeon_pci_bar1_ptr     = NULL; /* Virtual address of the BAR1 region */
 static uint32_t octeon_pci_model        = 0;    /* Octeon model we're connected to */
+static int      octeon_pci_port         = 0;    /* Octeon PCIe we're connected to */
 static octeon_remote_map_cookie_t bar0_cookie;
 static octeon_remote_map_cookie_t bar1_cookie;
 
@@ -318,17 +319,13 @@ static void fast_memcpy(void *dest, const void *src, unsigned long length)
  */
 static void pci_bar1_setup(uint64_t address)
 {
-    int pcie_port = 0;
-    // FIXME: We can't determine this for CN63XX pass 1.x
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-        pcie_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER);
     bdk_pemx_bar1_indexx_t bar1_entry;
     bar1_entry.u64          = 0;            /* Unused fields should be zero */
     bar1_entry.s.addr_idx   = address>>22;  /* Physical memory address in 4MB pages */
     bar1_entry.s.end_swp    = 1;            /* 1=little endian order */
     bar1_entry.s.addr_v     = 1;            /* Valid */
-    OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_BAR1_INDEXX(0, pcie_port), bar1_entry.u64);
-    OCTEON_REMOTE_READ_CSR(BDK_PEMX_BAR1_INDEXX(0, pcie_port));
+    OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_BAR1_INDEXX(0, octeon_pci_port), bar1_entry.u64);
+    OCTEON_REMOTE_READ_CSR(BDK_PEMX_BAR1_INDEXX(0, octeon_pci_port));
 }
 
 
@@ -410,6 +407,9 @@ static int pci_open(const char *remote_spec)
     sli_ctl_status.u64 = bar0_read32(BDK_SLI_CTL_STATUS);
     octeon_pci_model |= sli_ctl_status.s.chip_rev;
 
+    /* Determine the port number */
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+        octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER);
     return 0;
 }
 
@@ -465,19 +465,16 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
                     address |= 3ull<<49;
                     break;
             }
-            /* Writing the lo part of the address actually triggers the read.
-                That means the high part must be written first */
             bar0_write32(BDK_SLI_WIN_RD_ADDR+4, address>>32);
-#ifdef __ppc__
-            /* This read is needed to enforce ordering on PowerPC */
-            bar0_read32(BDK_SLI_WIN_RD_ADDR+4);
-#endif
             bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
 #ifdef __ppc__
-            /* This read is needed to enforce ordering on Freescale PowerPC */
+            /* This read is needed to enforce ordering on PowerPC */
             bar0_read32(BDK_SLI_WIN_RD_ADDR);
 #endif
-            uint64_t v = (((uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4))<<32) | (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+            /* This read triggers the actual read */
+            uint64_t v = (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+            uint64_t reg_addr = (octeon_pci_port) ? BDK_SLI_LAST_WIN_RDATA1 : BDK_SLI_LAST_WIN_RDATA0;
+            v |= ((uint64_t)bar0_read32(reg_addr+4))<<32;
             if (size != 8)
                 v &= (1<<(size*8)) - 1;
             return v;
