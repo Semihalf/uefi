@@ -55,9 +55,9 @@ def update_header(filename, data):
     # Data length
     header += pack(4, len(data))
     # Data CRC
-    header += pack(4, 0xffffffff & binascii.crc32(data))
+    header += pack(4, 0xffffffffL & binascii.crc32(data))
     # Load virtual address
-    header += pack(8, 0xffffffffe0000000)
+    header += pack(8, 0xffffffffe0000000L)
     # Flags
     header += pack(4, 0)
     # Image type
@@ -73,13 +73,13 @@ def update_header(filename, data):
     # Reserved4
     header += pack(4, 0)
     # Comment string
-    header += "".ljust(BOOTLOADER_HEADER_COMMENT_LEN, "\0")
+    header += "".ljust(BOOTLOADER_HEADER_COMMENT_LEN).replace(" ", "\0")
     # Version string
-    header += "".ljust(BOOTLOADER_HEADER_VERSION_LEN, "\0")
+    header += "".ljust(BOOTLOADER_HEADER_VERSION_LEN).replace(" ", "\0")
     # Fix Header length
     header = header[0:16] + pack(2, len(header)) + header[18:]
     # Fix the Header CRC
-    header = header[0:12] + pack(4, 0xffffffff & binascii.crc32(header[0:12]+header[16:])) + header[16:]
+    header = header[0:12] + pack(4, 0xffffffffL & binascii.crc32(header[0:12]+header[16:])) + header[16:]
     # Write the new file
     fhandle = open(filename, "wb")
     # Write the header
