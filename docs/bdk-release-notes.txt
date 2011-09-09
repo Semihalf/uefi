@@ -10,7 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2011.09-r64596
+octeon-bdk-2011.09-r64642
 -------------------------
 
 * Script updates to bdk-lua for compatibility with older distributions.
@@ -48,6 +48,9 @@ octeon-bdk-2011.09-r64596
 	poorly before.
 * Add raw access to SRIO and Higig headers from trafficgen. Most people will
 	never touch this.
+* Fixed bug in bdk-remote that caused PCIe CSRs to be read twice on
+	every read. This didn't cause any issues unless reading the CSR
+	had side effects.
 
 
 octeon-bdk-2011.08-r63049
