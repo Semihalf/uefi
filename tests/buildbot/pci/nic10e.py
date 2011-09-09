@@ -57,9 +57,7 @@ do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [])
 do_command("bdk-remote core 0", [
     "zero           = 0x0000000000000000",
     "Ebase          = 0x0000000080000000",
-    "  1: Virtual=0xffffffffe0000000 Page0=0x000000000,C=0,D=0,V=1,G=1,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=1,RI=0,XI=0 ASID=  0 Size=4096KB",
-    "  2: Virtual=0xffffffffc0000000 Page0=0x000000000,C=0,D=1,V=1,G=1,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=1,RI=0,XI=0 ASID=  0 Size=4096KB",
-    "128: Virtual=0xc000000000002000 Page0=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 ASID=  0 Size=4KB"])
+    "128: Virtual=", "Page0=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 ASID=  0 Size=4KB"])
 do_command("bdk-remote reg 0 zero", [
     "Core 0, register zero: hex 0x0000000000000000 decimal 0"])
 do_command("bdk-remote reg 0 ebase", [
@@ -128,6 +126,6 @@ do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
 do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-minimal.bin", [])
 time.sleep(1);
 # Hack needed for some unknown reason
-do_command("echo > /dev/ttyS4", [])
+os.system("echo > /dev/ttyS4")
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
