@@ -81,6 +81,7 @@ release: all
 	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
+	cp -a bin/bdk-menu $(RELEASE_DIR)/bin/
 	# Copy host examples
 	cp -r examples $(RELEASE_DIR)/
 	# Copy target binaries
