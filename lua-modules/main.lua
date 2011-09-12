@@ -18,6 +18,8 @@ elseif octeon.is_model(octeon.CN68XX) then
     menu.dofile("board-ebb6800")
 elseif octeon.is_model(octeon.CN66XX) then
     menu.dofile("board-ebb6600")
+elseif octeon.is_model(octeon.CN61XX) then
+    menu.dofile("board-ebb6100")
 end
 
 -- Start a TFTP server
