@@ -401,7 +401,18 @@ fail:
 static int __bdk_if_init(void)
 {
     int result = 0;
-    int num_packet_buffers = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 1536 : 768;
+    int num_packet_buffers;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        num_packet_buffers = 196;
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+        num_packet_buffers = 768;
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+        num_packet_buffers = 768;
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        num_packet_buffers = 1536;
+    else
+        bdk_fatal("__bdk_if_init needs update for this chip\n");
 
     /* Setup the FPA packet buffers */
     bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
