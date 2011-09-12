@@ -35,6 +35,8 @@ int bdk_qlm_get_num(void)
         return 3;
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 3;
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        return 3;
 
     bdk_error("bdk_qlm_get_num: Needs update for this chip\n");
     return 0;
@@ -104,6 +106,38 @@ const char *bdk_qlm_get_mode(int qlm)
                 return "PCIE";
         }
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    {
+        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+        switch (qlm)
+        {
+            case 0:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 0: return "PCIE 1x4";
+                    case 2: return "SGMII";
+                    case 3: return "XAUI";
+                    default: return "RESERVED";
+                }
+                break;
+            case 1:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 0: return "PCIE 1x2";
+                    case 1: return "PCIE 2x1";
+                    default: return "RESERVED";
+                }
+                break;
+            case 2:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 2: return "SGMII";
+                    case 3: return "XAUI";
+                    default: return "RESERVED";
+                }
+                break;
+        }
+    }
     bdk_error("bdk_qlm_get_mode: Needs update for this chip\n");
     return "UNKNOWN";
 }
@@ -118,7 +152,7 @@ const char *bdk_qlm_get_mode(int qlm)
  */
 int bdk_qlm_get_gbaud_mhz(int qlm)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CN61XX))
     {
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
         switch (qlm_cfg.s.qlm_spd)
@@ -425,6 +459,8 @@ void bdk_qlm_init(void)
         __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn66xx;
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn63xx;
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn66xx; /* Same as 66 */
     else
         bdk_error("bdk_qlm_init: Needs update for this chip\n");
 
