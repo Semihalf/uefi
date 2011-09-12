@@ -2,9 +2,11 @@
 
 static int if_num_interfaces(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        return 2;
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 1;
-    if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
@@ -31,7 +33,7 @@ static int if_num_ports(int interface)
                 return 0;
         }
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
     {
         if (strstr(bdk_qlm_get_mode(2 - interface), "SGMII"))
             return 4;
@@ -281,7 +283,7 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(gmx_block),
             gmx_rx_prts.s.prts = 4);
 
-        if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
         {
             /* Tell PKO the number of ports on this interface */
             BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,
@@ -398,6 +400,8 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         qlm = gmx_block;
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        qlm = 2 - gmx_block * 2;
     else
         qlm = 2 - gmx_block;
     int speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
