@@ -159,11 +159,17 @@ static int __bdk_if_setup_ipd_global(void)
         c.s.mode = 0;
         c.s.rdclr = 0);
 
+    int thresh_pass = 64;
+    int thresh_drop = 32;
+    /* Skip RED on CN61XX as we have too few buffers for it to work */
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    {
+        thresh_pass = 1;
+        thresh_drop = 0;
+    }
+
     for (int queue=0; queue<8; queue++)
     {
-        int thresh_pass = 64;
-        int thresh_drop = 32;
-
         /* Set RED to begin dropping packets when we're low on buffers */
         BDK_CSR_MODIFY(c, BDK_IPD_QOSX_RED_MARKS(queue),
             c.s.drop = thresh_drop;
