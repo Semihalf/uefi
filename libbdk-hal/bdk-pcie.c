@@ -325,6 +325,15 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         /* PCIe is on QLM 3 and QLM 1 on CN68XX */
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
             qlm = 3 - pcie_port * 2;
+        /* PCIe is on QLM 0 or 1 for CN61XX, depending on the mode of QLM1 */
+        if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        {
+            BDK_CSR_INIT(qlmcfg, BDK_MIO_QLMX_CFG(1));
+            if (qlmcfg.s.qlm_cfg == 1)
+                qlm = 1;
+            else
+                qlm = (pcie_port) ? 1 : 0;
+        }
         if (strstr(bdk_qlm_get_mode(qlm), "PCIE") == NULL)
         {
             bdk_dprintf("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
