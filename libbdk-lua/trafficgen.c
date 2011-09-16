@@ -521,7 +521,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         bdk_if_packet_read(packet, begin_ip, sizeof(buffer), buffer);
         uint16_t ip_checksum = ip_fast_csum(buffer, sizeof(buffer)/4);
         write_packet(packet, ip_checksum_loc, ip_checksum >> 8);
-        write_packet(packet, ip_checksum_loc+1, ip_checksum >> 8);
+        write_packet(packet, ip_checksum_loc+1, ip_checksum);
     }
 
     /* UDP source port */
