@@ -29,20 +29,11 @@ extern void bdk_fpa_enable(void);
  */
 static inline void *bdk_fpa_alloc(bdk_fpa_pool_t pool)
 {
-    uint64_t address;
-
-    for (;;) {
-        address = bdk_read64_uint64(BDK_ADDR_DID(BDK_FULL_DID(BDK_OCT_DID_FPA,pool)));
-        if (bdk_likely(address)) {
-            return bdk_phys_to_ptr(address);
-        } else {
-	   /* If pointers are available, continuously retry.  */
-           if (BDK_CSR_READ(BDK_FPA_QUEX_AVAILABLE(pool)) > 0)
-               bdk_wait(50);
-           else
-               return NULL;
-	}
-    }
+    uint64_t address = bdk_read64_uint64(BDK_ADDR_DID(BDK_FULL_DID(BDK_OCT_DID_FPA, pool)));
+    if (bdk_likely(address))
+        return bdk_phys_to_ptr(address);
+    else
+        return NULL;
 }
 
 /**
@@ -98,7 +89,7 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
     if (bdk_likely(address))
         return bdk_phys_to_ptr(address);
     else
-        return bdk_fpa_alloc(pool);
+        return NULL;
 }
 
 /**
