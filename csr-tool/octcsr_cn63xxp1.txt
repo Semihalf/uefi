@@ -7042,6 +7042,40 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
 
+The RGMII timing specification requires that devices transmit clock and
+data synchronously. The specification requires external sources (namely
+the PC board trace routes) to introduce the appropriate 1.5 to 2.0 ns of
+delay.
+
+To eliminate the need for the PC board delays, the MIX RGMII interface
+has optional onboard DLL's for both transmit and receive. For correct
+operation, at most one of the transmitter, board, or receiver involved
+in an RGMII link should introduce delay. By default/reset,
+the MIX RGMII receivers delay the received clock, and the MIX
+RGMII transmitters do not delay the transmitted clock. Whether this
+default works as-is with a given link partner depends on the behavior
+of the link partner and the PC board.
+
+These are the possible modes of MIX RGMII receive operation:
+ o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) - The OCTEON MIX RGMII
+   receive interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote
+   transmitter nor the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 - The OCTEON MIX
+   RGMII receive interface introduces no clock delay. This mode
+   is appropriate if either the remote transmitter or the PC board
+   delays the clock.
+
+These are the possible modes of MIX RGMII transmit operation:
+ o AGL_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
+   The OCTEON MIX RGMII transmit interface introduces no clock
+   delay. This mode is appropriate is either the remote receiver
+   or the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKTX_BYP] = 0 - The OCTEON MIX RGMII transmit
+   interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote receiver
+   nor the PC board delays the clock.
+
 AGL_PRT0_CTL will be reset when MIX0_CTL[RESET] is set to 1.
 AGL_PRT1_CTL will be reset when MIX1_CTL[RESET] is set to 1.
 ----------------------------------------------------------------------------------------------------
@@ -26236,7 +26270,9 @@ Pos      Name    Type     Value     Value       Description
  <47:40> PEM_CPL  R/W      128         128       TLP credits for Completion TLPs in the Peer.       |
                                                  Legal values are 0x24 to 0x80.                     |
  <55:48> PEAI_PPF R/W      128         128       TLP credits for Completion TLPs in the Peer.       |
-                                                 Legal values are 0x24 to 0x80.                     |
+                                                 The value in this register should not be changed.  |
+                                                 Values other than 0x80 can lead to unpredictable   |
+                                                 behavior                                           |
  <63:56> NS       RAZ      NS          NS        Reserved		                            |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -27517,7 +27553,8 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.		    |
 						  HW forces the SKIP to zero for packets on DPI	    |
 						  ports (32-35) when a PKT_INST_HDR is present.	    |
-						  See section - Legal Skip Values		    |
+						  See HRM sections "Parse Mode and Skip Length      |
+                                                  Selection" and "Legal Skip Values"		    |
 						  for further details.				    |
 						  In DSA mode, indicates the DSA header length, not |
                                                     Skip I size. (Must be 4,8,or 12)                |

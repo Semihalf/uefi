@@ -7029,6 +7029,40 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
 
+The RGMII timing specification requires that devices transmit clock and
+data synchronously. The specification requires external sources (namely
+the PC board trace routes) to introduce the appropriate 1.5 to 2.0 ns of
+delay.
+
+To eliminate the need for the PC board delays, the MIX RGMII interface
+has optional onboard DLL's for both transmit and receive. For correct
+operation, at most one of the transmitter, board, or receiver involved
+in an RGMII link should introduce delay. By default/reset,
+the MIX RGMII receivers delay the received clock, and the MIX
+RGMII transmitters do not delay the transmitted clock. Whether this
+default works as-is with a given link partner depends on the behavior
+of the link partner and the PC board.
+
+These are the possible modes of MIX RGMII receive operation:
+ o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) - The OCTEON MIX RGMII
+   receive interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote
+   transmitter nor the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 - The OCTEON MIX
+   RGMII receive interface introduces no clock delay. This mode
+   is appropriate if either the remote transmitter or the PC board
+   delays the clock.
+
+These are the possible modes of MIX RGMII transmit operation:
+ o AGL_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
+   The OCTEON MIX RGMII transmit interface introduces no clock
+   delay. This mode is appropriate is either the remote receiver
+   or the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKTX_BYP] = 0 - The OCTEON MIX RGMII transmit
+   interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote receiver
+   nor the PC board delays the clock.
+
 AGL_PRT0_CTL will be reset when MIX0_CTL[RESET] is set to 1.
 AGL_PRT1_CTL will be reset when MIX1_CTL[RESET] is set to 1.
 ----------------------------------------------------------------------------------------------------
@@ -22737,6 +22771,7 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
+ *DON'T PUT IN HRM*
 
      ==============================================================
      MIO_FUS_EMA Type=RSL
@@ -28724,7 +28759,9 @@ Pos      Name    Type     Value     Value       Description
  <47:40> PEM_CPL  R/W      128         128       TLP credits for Completion TLPs in the Peer.       |
                                                  Legal values are 0x24 to 0x80.                     |
  <55:48> PEAI_PPF R/W      128         128       TLP credits for Completion TLPs in the Peer.       |
-                                                 Legal values are 0x24 to 0x80.                     |
+                                                 The value in this register should not be changed.  |
+                                                 Values other than 0x80 can lead to unpredictable   |
+                                                 behavior                                           |
  <63:56> NS       RAZ      NS          NS        Reserved		                            |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -29984,8 +30021,9 @@ Pos      Name    Type     Value     Value       Description
 						  Should normally be zero for  packets on	    |
 						  DPI rings when a PKT_INST_HDR is prepended by DPI |
 						  hardware.					    |
-                                                  See section 7.2.7 - Legal Skip Values for further |
-                                                  details.   			                    |
+						  See HRM sections "Parse Mode and Skip Length      |
+                                                  Selection" and "Legal Skip Values"		    |
+ 						  for further details.				    |
 						  In DSA mode, indicates the DSA header length, not |
                                                     Skip I size. (Must be 4,8,or 12)                |
                                                   In HIGIG mode, indicates both the Skip I size and |
@@ -35061,28 +35099,34 @@ Pos      Name    Type     Value     Value       Description
  * SSO_ERR = SSO Error Register
  *
  * Contains ECC and other misc error bits.
- * This register also contains the illegal operation error bits.
  *
- *  <0> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP
- *      from WS in EMPTY state
- *  <1> Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP
- *      from WS in UNSCHEDULED state
- *  <2> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK
- *      from WS with pending tag switch to ORDERED or ATOMIC
- *  <3> Received SWTAG/SWTAG_FULL/SWTAG_DESCH
- *      with tag specified as EMPTY
- *  <4> Received SWTAG_FULL/SWTAG_DESCH
- *      with tag specified as UNSCHEDULED
- *  <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE/CLR_NSCHED
- *      from WS with GET_WORK pending
- *  <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
- *      from WS with ALLOC_WE pending
- *  <7> Received CLR_NSCHED
- *      from WS with SWTAG_DESCH/DESCH/CLR_NSCHED pending
- *  <8> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
+ * <45> The free page error bit will assert when SSO_FPAGE_CNT <= 16 and
+ *      SSO_CFG[RWEN] is 1.  Software will want to disable the interrupt
+ *      associated with this error when recovering SSO pointers from the
+ *      FPA and SSO.
+ *
+ * This register also contains the illegal operation error bits:
+ *
+ * <42> Received ADDWQ with tag specified as EMPTY
+ * <41> Received illegal opcode
+ * <40> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
  *      from WS with CLR_NSCHED pending
- *  <9> Received illegal opcode
- * <10> Received ADDWQ with tag specified as EMPTY
+ * <39> Received CLR_NSCHED
+ *      from WS with SWTAG_DESCH/DESCH/CLR_NSCHED pending
+ * <38> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE
+ *      from WS with ALLOC_WE pending
+ * <37> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/ALLOC_WE/CLR_NSCHED
+ *      from WS with GET_WORK pending
+ * <36> Received SWTAG_FULL/SWTAG_DESCH
+ *      with tag specified as UNSCHEDULED
+ * <35> Received SWTAG/SWTAG_FULL/SWTAG_DESCH
+ *      with tag specified as EMPTY
+ * <34> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK
+ *      from WS with pending tag switch to ORDERED or ATOMIC
+ * <33> Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP
+ *      from WS in UNSCHEDULED state
+ * <32> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP
+ *      from WS in EMPTY state
  *
 
      ==============================================================

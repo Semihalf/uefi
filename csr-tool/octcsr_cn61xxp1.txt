@@ -7049,6 +7049,40 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
 
+The RGMII timing specification requires that devices transmit clock and
+data synchronously. The specification requires external sources (namely
+the PC board trace routes) to introduce the appropriate 1.5 to 2.0 ns of
+delay.
+
+To eliminate the need for the PC board delays, the MIX RGMII interface
+has optional onboard DLL's for both transmit and receive. For correct
+operation, at most one of the transmitter, board, or receiver involved
+in an RGMII link should introduce delay. By default/reset,
+the MIX RGMII receivers delay the received clock, and the MIX
+RGMII transmitters do not delay the transmitted clock. Whether this
+default works as-is with a given link partner depends on the behavior
+of the link partner and the PC board.
+
+These are the possible modes of MIX RGMII receive operation:
+ o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) - The OCTEON MIX RGMII
+   receive interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote
+   transmitter nor the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 - The OCTEON MIX
+   RGMII receive interface introduces no clock delay. This mode
+   is appropriate if either the remote transmitter or the PC board
+   delays the clock.
+
+These are the possible modes of MIX RGMII transmit operation:
+ o AGL_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
+   The OCTEON MIX RGMII transmit interface introduces no clock
+   delay. This mode is appropriate is either the remote receiver
+   or the PC board delays the clock.
+ o AGL_PRTx_CTL[CLKTX_BYP] = 0 - The OCTEON MIX RGMII transmit
+   interface introduces clock delay using its internal DLL.
+   This mode is appropriate if neither the remote receiver
+   nor the PC board delays the clock.
+
 AGL_PRT0_CTL will be reset when MIX0_CTL[RESET] is set to 1.
 AGL_PRT1_CTL will be reset when MIX1_CTL[RESET] is set to 1.
 ----------------------------------------------------------------------------------------------------
@@ -21072,13 +21106,13 @@ Pos      Name    Type     Value     Value       Description
  <7:2>   NS           RAZ      NS        NS        Reserved                                         |
  <1:0>   QLM_CFG      R/W      0         NS        QLM configuration mode                           |
 					           For Interface 0:                                 |
-                                                      00 PCIE 1x4 (PEV0)                            |
+                                                      00 PCIE 1x4 (PEM0)                            |
                                                       01 Reserved                      	            |
                                                       10 SGMII (AGX1)                               |
                                                       11 XAUI (AGX1)                                |
 					           For Interface 1:                                 |
                                                       00 PCIE 1x2 (PEM1)                            |
-                                                      01 PCIE 2x1 (PEV0/PEM1)         	            |
+                                                      01 PCIE 2x1 (PEM0/PEM1)         	            |
                                                       10 Reserved                                   |
                                                       11 Reserved                                   |
 					           For Interface 2:                                 |
@@ -21108,12 +21142,13 @@ Pos      Name    Type     Value     Value       Description
  <62>    JTCSRDIS   R/W      NS          NS        If JTCSRDIS=1, internal CSR access via JTAG TAP  |
                                                    controller is disabled                           |
  <61>    EJTAGDIS   R/W      NS          NS        If EJTAGDIS=1, external EJTAG access is disabled |
- <60>    ROMEN      R/W      NS          NS        If ROMEN=1, Authentik ROM is visible in the boot |
-                                                   bus address space.                               |
+ <60>    ROMEN      R/W      NS          NS        If ROMEN=1, Authentik/eMMC boot ROM is visible   |
+                                                   in the boot bus address space.                   |
  <59>    CKILL_PPDIS R/W     1           NS        If CK_PPDIS=1, PPs other than 0 are disabled     |
                                                    during a CHIPKILL.  Writes have no effect when   |
                                                    MIO_RST_BOOT[CHIPKILL]=1.	                    |
- <58:50> NS         RAZ      NS          NS        Reserved				            |
+ <58>    JT_TSTMODE RO       NS          NS        JTAG test mode                                   |
+ <57:50> NS         RAZ      NS          NS        Reserved				            |
  <49:48> LBOOT_EXT  R/W1C    NS          NS        Extended Last boot cause mask, resets only with  |
                                                    dock.					    |
 												    |
@@ -21134,9 +21169,9 @@ Pos      Name    Type     Value     Value       Description
                                                       PNR_MUL = (coprocessor clk speed) /           |
                                                                       (ref clock speed)             |
                                                     See C_MUL comments about ref clock.             |
- <23:20> QLM2_SPD   RO       NS          NS        QLM2_SPD pins sampled at DCOK assertion          |
- <19:16> QLM1_SPD   RO       NS          NS        QLM1_SPD pins sampled at DCOK assertion          |
- <15:12> QLM0_SPD   RO       NS          NS        QLM0_SPD pins sampled at DCOK assertion          |
+ <23:20> QLM2_SPD   RO       NS          NS        QLM2_SPD, report MIO_QLM2_CFG[SPD]               |
+ <19:16> QLM1_SPD   RO       NS          NS        QLM1_SPD, report MIO_QLM1_CFG[SPD]               |
+ <15:12> QLM0_SPD   RO       NS          NS        QLM0_SPD, report MIO_QLM0_CFG[SPD]               |
  <11:2>  LBOOT      R/W1C    NS          NS        Last boot cause mask, resets only with dock.     |
 												    |
                                                      bit9 - Soft reset due to watchdog		    |
@@ -21228,23 +21263,22 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:13> NS         RAZ      NS          NS        Reserved				            |
 												    |
- <12>    IN_REV_LN  RO       NS          NS        RO access to corresponding pin INT*_REV_LANES    |
+ <12>    IN_REV_LN  RO       NS          NS        RO access to corresponding pin PCIE*_REV_LANES   |
                                                    which is used for initial value for REV_LANES    |
-                                                   For INT0/CNTL0: pin INT0_REV_LANES               |
-                                                   For INT1/CNTL1: always zero as no INT1 pin       |
+                                                   For INT0/CNTL0: pin PCIE0_REV_LANES              |
+                                                   For INT1/CNTL1: always zero as no PCIE1 pin      |
 												    |
  <11>    REV_LANES  R/W      NS          NS        Reverse the lanes for INT*.                      |
                                                    A warm/soft reset will not change this field.    |
  						   On cold reset, this field is initialized to      |
                                                    IN_REVLANE value.                                |
-                                                   When QLM1_CFG=1, INT0(PEV0) REV_LANES internal   |
+                                                   When QLM1_CFG=1, INT0(PEM0) REV_LANES internal   |
                                                    setting will be always forced to '0', INT1(PEM1) |
                                                    will be forced to '1' regardless CSR value.      |
 												    |
- <10>    GEN1_ONLY  R/W      0           NS        Advertise PCIE GEN2 Capability, default to Gen2  |
-                                                   capable. A warm/soft reset will not change this  |
-                                                   field. When sclk is slower than 550MHz, Gen2     |
-                                                   is disabled internally regardless of CSR value.  |
+ <10>    GEN1_ONLY  RO       0           NS        Advertise PCIE GEN2 Capability, defined by       |
+                                                   QLM@_SPD[0], When sclk is slower than 550MHz,    |
+					           Gen2 is disabled regardless of QLM@_SPD value.   |
 												    |
  <9>     PRST_LINK  R/W      0           NS        Controls whether corresponding controller        |
                                                    link-down or hot-reset causes the assertion of   |
@@ -21264,20 +21298,17 @@ Pos      Name    Type     Value     Value       Description
                                                    link-down or hot-reset causes a warm chip reset  |
 						   On cold reset, this field is initialized as 	    |
                                                    follows:					    |
-                                                      0 = when corresponding strap INT*_HOST_MODE=1 |
-                                                      1 = when corresponding strap INT*_HOST_MODE=0 |
-                                                                                                    |
-                                                   For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
-	 					   is initialized to 1 on cold reset.               |
+                                                      0 = when corresponding HOST_MODE=1            |
+                                                      1 = when corresponding HOST_MODE=0            |
                                                                                                     |
                                                    Note that a link-down or hot-reset event can     |
                                                    never cause a warm chip reset when the           |
                                                    controller is in reset (i.e. can never cause a   |
                                                    warm reset when RST_DONE==0).                    |
 												    |
- <6>     HOST_MODE  RO       NS          NS        RO access to corresponding strap INT*_HOST_MODE  |
+ <6>     HOST_MODE  RO       NS          NS        RO access to corresponding strap PCIE*_HOST_MODE |
                                                    For CNTL1/INT1, HOST_MODE is always '1' for o61  |
-	                                           and no pin INT1_HOST_MODE input.                 |
+	                                           and no pin PCIE1_HOST_MODE input.                |
                                                                                                     |
  <5:4>   PRTMODE    R/W      NS          NS        Port mode                                        |
  	 	    	     		   	      0 = port is EP mode		            |
@@ -21285,28 +21316,26 @@ Pos      Name    Type     Value     Value       Description
 						      2,3 = Reserved                                |
                                                    A warm/soft reset will not change this field.    |
 						   On cold reset, this field is initialized as 	    |
-                                                   HOST_MODE (corresponding strap INT*_HOST_MODE)   |
+                                                   HOST_MODE (corresponding strap PCIE*_HOST_MODE)  |
                                                                                                     |
  <3>     RST_DRV    R/W      NS          NS        Controls whether corresponding PERST*_L chip pin |
 						     is driven by the OCTEON.  A warm/soft reset    |
 						     will not change this field.  On cold reset,    |
                                                      this field is initialized as follows:	    |
-                                                      0 = when corresponding strap QLM*_HOST_MODE=0 |
-                                                      1 = when corresponding strap QLM*_HOST_MODE=1 |
+                                                      0 = when corresponding HOST_MODE=0            |
+                                                      1 = when corresponding HOST_MODE=1            |
                                                                                                     |
                                                      When set, OCTEON drives the corresponding      |
                                                      PERST*_L pin. Otherwise, OCTEON does not drive |
                                                      the corresponding PERST*_L pin.                |
 						     						    |
-                                                   For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
-	 					   is reserved/RAZ.                                 |
                                                                                                     |
  <2>     RST_RCV    R/W      NS          NS        Controls whether corresponding PERST*_L chip pin |
                                                      is recieved by OCTEON.  A warm/soft reset	    |
 						     will not change this field.  On cold reset,    |
                                                      this field is initialized as follows:	    |
-                                                      0 = when corresponding strap QLM*_HOST_MODE=1 |
-                                                      1 = when corresponding strap QLM*_HOST_MODE=0 |
+                                                      0 = when corresponding HOST_MODE=1            |
+                                                      1 = when corresponding HOST_MODE=0            |
                                                                                                     |
                                                      When RST_RCV==1, the PERST*_L value is         |
                                                      received and may be used to reset the          |
@@ -21325,8 +21354,6 @@ Pos      Name    Type     Value     Value       Description
                                                      When RST_RCV==0, the PERST*_L pin value is     |
                                                      ignored.                                       |
 						     						    |
-                                                   For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
-	 					   is reserved/RAZ.                                 |
 						     						    |
  <1>     RST_CHIP   R/W       0          NS        Controls whether corresponding PERST*_L chip     |
                                                      pin causes a chip warm reset like CHIP_RESET_L.|
@@ -21340,8 +21367,6 @@ Pos      Name    Type     Value     Value       Description
                                                      When RST_RCV==1, RST_CHIP==1, and PERST*_L     |
                                                      asserts, a chip warm reset will be generated.  |
 												    |
-                                                   For MIO_RST_CNTL2 and MIO_RST_CNTL3, this field  |
-	 					   is reserved/RAZ.                                 |
 												    |
  <0>     RST_VAL    RO       NS          NS        Read-only access to corresponding PERST*_L pin   |
                                                      Unpredictable when RST_RCV==0. Reads as 1 when |
@@ -21420,9 +21445,6 @@ Pos      Name    Type     Value     Value       Description
 ===
 
 
-
-
-
      ==============================================================
      CIU_INT(0..7,32)_SUM0 Type=NCB
      ==============================================================
@@ -21446,9 +21468,25 @@ Pos      Name    Type     Value     Value       Description
  <57>    PCM	  RO	   0	       0	 PCM/TDM interrupt				    |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
- <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
- <51>    NS 	  RAZ      0           0         Reserved for Key Zeroization interrupt             |
+ <55:52> TIMER	  R/W1C	   0	       0	 General timer 0-3 interrupts.			    |
+                                        	 When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is|
+                                                 common for all PP/IRQs, writing '1' to any PP/IRQ  |
+                                                 will clear all TIMERx(x=0..9) interrupts.          |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..9)   |
+					         are set at the same time, but clearing are based on|
+						 per cnMIPS core. See CIU_TIM_MULTI_CAST for detail.|
+                                                 The combination of this field and the              |
+                                                 CIU_SUM2_*[TIMER] field implement all 10 CIU_TIM*  |
+                                                 interrupts.                                        |
+ <51>    SUM2 	  RO       0           0         SUM2&EN2 SUMMARY bit                               |
+                                                  This read-only bit reads as a one whenever any    |
+                                                  CIU_SUM2_PP@_IPx (CIU_SUM2_IO@_INT)  bit is set   |
+						  and corresponding enable bit in CIU_EN2_PP@_IPx   |
+					          (CIU_EN2_IO@_INT) is set.                         |
+                                                  Note that SUM2 only summarizes the SUM2/EN2       |
+                                                  result and does not have a corresponding enable   |
+                                                  bit, so does not directly contribute to           |
+                                                  interrupts.                                       |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
  <49:48> GMX_DRP  R/W1C	   0	       0	 GMX0/1 packet drop interrupt			    |
@@ -21462,14 +21500,11 @@ Pos      Name    Type     Value     Value       Description
                                                  See MIO_TWS0_INT                                   |
  <44>	 WDOG_SUM RO	   0	       0	 SUM1&EN1 summary bit				    |
                                                   This read-only bit reads as a one whenever any    |
-                                                  CIU_INT_SUM1 bit is set and corresponding         |
-                                                  enable bit in CIU_INTx_EN is set, where x         |
-                                                  is the same as x in this CIU_INTx_SUM0.           |
+                                                  CIU_SUM1_PP@_IPx (CIU_SUM1_IO@_INT)  bit is set   |
+						  and corresponding enable bit in CIU_INTx_EN is set|
 						  PPs use CIU_INTx_SUM0 where x=0-7		    |
 						  PCIe uses the CIU_INTx_SUM0 where x=32-33.        |
-						  Even INTx registers report WDOG to IP2	    |
-						  Odd INTx registers report WDOG to IP3		    |
-                                                  Note that WDOG_SUM only summarizes the SUM/EN1    |
+                                                  Note that WDOG_SUM only summarizes the SUM1/EN1   |
                                                   result and does not have a corresponding enable   |
                                                   bit, so does not directly contribute to           |
                                                   interrupts.                                       |
@@ -21493,7 +21528,7 @@ Pos      Name    Type     Value     Value       Description
                                          	 When GPIO_MULTI_CAST[EN] == 1                      |
 						 Write 1 to clear either the per PP or common GPIO  |
  						 edge-triggered interrupts,depending on mode.       |
-                                                 See GPIO_MULTI_CAST for all details.                |
+                                                 See GPIO_MULTI_CAST for all details.               |
                                          	 When GPIO_MULTI_CAST[EN] == 0                      |
 						 Read Only, retain the same behavior as o63.        |
  <15:0>  WORKQ    RO	   0	       0	 16 work queue interrupts			    |
@@ -21525,9 +21560,25 @@ Pos      Name    Type     Value     Value       Description
  <57>    PCM	  RO	   0	       0	 PCM/TDM interrupt				    |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
- <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
- <51>    NS 	  RAZ      0           0         Reserved for Key Zeroization interrupt             |
+ <55:52> TIMER	  R/W1C	   0	       0	 General timer 0-3 interrupts.			    |
+                                        	 When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is|
+                                                 common for all PP/IRQs, writing '1' to any PP/IRQ  |
+                                                 will clear all TIMERx(x=0..9) interrupts.          |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..9)   |
+					         are set at the same time, but clearing are based on|
+						 per cnMIPS core. See CIU_TIM_MULTI_CAST for detail.|
+                                                 The combination of this field and the              |
+                                                 CIU_SUM2_*[TIMER] field implement all 10 CIU_TIM*  |
+                                                 interrupts.                                        |
+ <51>    SUM2 	  RO       0           0         SUM2&EN2 SUMMARY bit                               |
+                                                  This read-only bit reads as a one whenever any    |
+                                                  CIU_SUM2_PP@_IPx (CIU_SUM2_IO@_INT)  bit is set   |
+						  and corresponding enable bit in CIU_EN2_PP@_IPx   |
+					          (CIU_EN2_IO@_INT) is set.                         |
+                                                  Note that SUM2 only summarizes the SUM2/EN2       |
+                                                  result and does not have a corresponding enable   |
+                                                  bit, so does not directly contribute to           |
+                                                  interrupts.                                       |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
  <49:48> GMX_DRP  R/W1C	   0	       0	 GMX packet drop interrupt			    |
@@ -21546,9 +21597,7 @@ Pos      Name    Type     Value     Value       Description
                                                   is the same as x in this CIU_INTx_SUM0.           |
 						  PPs use CIU_INTx_SUM0 where x=0-7.		    |
 						  PCIe uses the CIU_INTx_SUM0 where x=32-33.        |
-						  Even INTx registers report WDOG to IP2	    |
-						  Odd INTx registers report WDOG to IP3		    |
-                                                  Note that WDOG_SUM only summarizes the SUM/EN1    |
+                                                  Note that WDOG_SUM only summarizes the SUM1/EN1   |
                                                   result and does not have a corresponding enable   |
                                                   bit, so does not directly contribute to           |
                                                   interrupts.                                       |
@@ -21598,8 +21647,8 @@ Pos      Name    Type     Value     Value       Description
  <51:50> NS       RAZ      NS          NS        Reserved 		    		    	    |
  <49>    PEM1     RO       0x0         0         PEM1 interrupt                                     |
                                                  See PEM1_INT_SUM (enabled by PEM1_INT_ENB)         |
- <48>    PEM0     RO       0x0         0         PEV0 interrupt                                     |
-                                                 See PEV0_INT_SUM (enabled by PEV0_INT_ENB)         |
+ <48>    PEM0     RO       0x0         0         PEM0 interrupt                                     |
+                                                 See PEM0_INT_SUM (enabled by PEM0_INT_ENB)         |
  <47>    PTP      R/W1C    0x0         0         PTP interrupt                                      |
                                                  Set when HW decrements MIO_PTP_EVT_CNT to zero     |
  <46>    AGL      RO       0x0         0         AGL interrupt                                      |
@@ -21692,8 +21741,8 @@ Pos      Name    Type     Value     Value       Description
  <51:50> NS       RAZ      NS          NS        Reserved                                           |
  <49>    PEM1     RO       0x0         0         PEM1 interrupt                                     |
                                                  See PEM1_INT_SUM (enabled by PEM1_INT_ENB)         |
- <48>    PEM0     RO       0x0         0         PEV0 interrupt                                     |
-                                                 See PEV0_INT_SUM (enabled by PEV0_INT_ENB)         |
+ <48>    PEM0     RO       0x0         0         PEM0 interrupt                                     |
+                                                 See PEM0_INT_SUM (enabled by PEM0_INT_ENB)         |
  <47>    PTP      R/W1C    0x0         0         PTP interrupt                                      |
                                                  Set when HW decrements MIO_PTP_EVT_CNT to zero     |
  <46>    AGL      RO       0x0         0         AGL interrupt                                      |
@@ -21756,6 +21805,46 @@ different value per PP(IP) for  $CIU_SUM1_PPx_IPy, and <40> DPI_DMA will always
 be zero for  $CIU_SUM1_IO@_INT. All other fields ([63:41] and [39:0]) values  are idential for
 different PPs, same value as $CIU_INT_SUM1.
 Write to any IRQ's PTP fields will clear PTP for all IRQ's PTP field.
+
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_SUM2_PP(0..3)_IP2 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_SUM2_PP(0..3)_IP3 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_SUM2_PP(0..3)_IP4 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_SUM2_IO(0..1)_INT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:10>  NS	  RAZ      NS          NS        Reserved 					    |
+ <9:4>   TIMER	  R/W1C	   0	       0	 General timer 4-9 interrupts.			    |
+                                        	 When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is|
+                                                 common for all PP/IRQs, writing '1' to any PP/IRQ  |
+                                                 will clear all TIMERx(x=0..9) interrupts.          |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..9)   |
+					         are set at the same time, but clearing are based on|
+						 per cnMIPS core. See CIU_TIM_MULTI_CAST for detail.|
+                                                 The combination of this field and the              |
+                                                 CIU_INT*_SUM0/4[TIMER] field implement all 10      |
+                                                 CIU_TIM* interrupts.                               |
+ <3:0>   NS	  RAZ      NS          NS        Reserved for TIMER Interrupts		            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21769,7 +21858,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63>    BOOTDMA  R/W      0           0         Boot bus DMA engines Interrupt enable	            |
- <62>    MII	  R/W      0           0         RGMII/MIX Interface 0 Interrupt enable	    |
+ <62>    MII	  R/W      0           0         RGMII/MIX Interface 0 Interrupt enable	            |
  <61>    IPDPPTHR R/W      0           0         IPD per-port counter threshold interrupt enable    |
  <60>    POWIQ	  R/W      0           0         POW IQ interrupt enable		            |
  <59>    TWSI2	  R/W      0           0         2nd TWSI Interrupt enable		            |
@@ -21777,7 +21866,7 @@ Pos      Name    Type     Value     Value       Description
  <57>    PCM	  R/W	   0	       0	 PCM/TDM interrupt enable		            |
  <56>    USB	  R/W      0           0         USB EHCI or OHCI Interrupt enable		    |
  <55:52> TIMER	  R/W	   0	       0	 General timer interrupt enables		    |
- <51>	 NS       RAZ	   0	       0	 Reserved for Key Zeroization interrupt  	    |
+ <51>	 NS       RAZ	   0	       0	 Reserved for SUM2			 	    |
  <50>	 IPD_DRP  R/W	   0	       0	 IPD QOS packet drop interrupt enable		    |
  <49:48> GMX_DRP  R/W	   0	       0	 GMX packet drop interrupt enable		    |
  <47>	 TRACE	  R/W	   0	       0	 Trace buffer interrupt enable 			    |
@@ -21787,7 +21876,7 @@ Pos      Name    Type     Value     Value       Description
  <43:40> PCI_MSI  R/W	   0	       0	 PCIe MSI enables				    |
  <39:36> PCI_INT  R/W	   0	       0	 PCIe INTA/B/C/D enables			    |
  <35:34> UART     R/W	   0	       0	 Two UART interrupt enables			    |
- <33:32> MBOX     R/W	   0	       0	 Two mailbox/PCIe interrupt enables	            |
+ <33:32> MBOX     R/W	   0	       0	 Two mailbox/PCIe interrupt enables     	    |
  <31:16> GPIO     R/W	   0	       0	 16 GPIO interrupt enables			    |
  <15:0>  WORKQ    R/W	   0	       0	 16 work queue interrupt enables		    |
 
@@ -21825,7 +21914,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W      0x0         0         LMC0 interrupt enable                              |
  <51:50> NS       R/W      0x0         0         Reserved               		    	    |
  <49>    PEM1     R/W      0x0         0         PEM1 interrupt enable                              |
- <48>    PEM0     R/W      0x0         0         PEV0 interrupt enable                              |
+ <48>    PEM0     R/W      0x0         0         PEM0 interrupt enable                              |
  <47>    PTP      R/W      0x0         0         PTP interrupt enable                               |
  <46>    AGL      R/W      0x0         0         AGL interrupt enable                               |
  <45:44> NS       R/W      0x0         0         Reserved for future Interlaken                     |
@@ -21878,18 +21967,49 @@ CIU_INT33_EN1: IO1
 PPx/IP2 will be raised when...
 
    n = x*2
-   PPx/IP2 = |({CIU_SUM1_PPx_IP2, CIU_INTn_SUM0} & {CIU_INTn_EN1, CIU_INTn_EN0})
+   PPx/IP2 = |({CIU_SUM2_PPx_IP2,CIU_SUM1_PPx_IP2, CIU_INTn_SUM0} & {CIU_EN2_PPx_IP2,CIU_INTn_EN1, CIU_INTn_EN0})
 
 PPx/IP3 will be raised when...
 
    n = x*2 + 1
-   PPx/IP3 =  |({CIU_SUM1_PPx_IP3, CIU_INTn_SUM0} & {CIU_INTn_EN1, CIU_INTn_EN0})
+   PPx/IP3 =  |({CIU_SUM2_PPx_IP3,CIU_SUM1_PPx_IP3, CIU_INTn_SUM0} & {CIU_EN2_PPx_IP3,CIU_INTn_EN1, CIU_INTn_EN0})
 
 PCI/INT will be raised when...
 
-   PCI/INT = |({CIU_SUM1_IO0_INT, CIU_INT32_SUM0} & {CIU_INT32_EN1, CIU_INT32_EN0})
-   PCI/INT = |({CIU_SUM1_IO1_INT, CIU_INT33_SUM0} & {CIU_INT33_EN1, CIU_INT33_EN0})
+   PCI/INT = |({CIU_SUM2_IO0_INT,CIU_SUM1_IO0_INT, CIU_INT32_SUM0} & {CIU_EN2_IO0_INT,CIU_INT32_EN1, CIU_INT32_EN0})
+   PCI/INT = |({CIU_SUM2_IO1_INT,CIU_SUM1_IO1_INT, CIU_INT33_SUM0} & {CIU_EN2_IO1_INT,CIU_INT33_EN1, CIU_INT33_EN0})
 @endverbatim
+
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP2 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP3 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP4 Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_IO(0..1)_INT Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W	   0	       0	 General timer 4-9 interrupt enable		    |
+ <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21909,16 +22029,32 @@ Pos      Name    Type     Value     Value       Description
  <61>    IPDPPTHR RO       0           0         IPD per-port counter threshold interrupt           |
                                                  See IPD_PORT_QOS_INT*                              |
  <60>    POWIQ	  RO       0           0         POW IQ interrupt			            |
-                                                 See SSO_IQ_INT                                     |
+                                                  See SSO_IQ_INT                                    |
  <59>    TWSI2	  RO       0           0         2nd TWSI Interrupt			            |
                                                  See MIO_TWS1_INT                                   |
  <58>    MPI	  R/W1C	   0	       0	 MPI/SPI interrupt				    |
  <57>    PCM	  R/W1C	   0	       0	 PCM/TDM interrupt				    |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
- <55:52> TIMER	  R/W1C	   0	       0	 General timer interrupts			    |
-                                                 Set any time the corresponding CIU timer expires   |
- <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
+ <55:52> TIMER	  R/W1C	   0	       0	 General timer 0-3 interrupts			    |
+                                        	 When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is|
+                                                 common for all PP/IRQs, writing '1' to any PP/IRQ  |
+                                                 will clear all TIMERx(x=0..9) interrupts.          |
+                                         	 When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..9)   |
+					         are set at the same time, but clearing are based on|
+						 per cnMIPS core. See CIU_TIM_MULTI_CAST for detail.|
+                                                 The combination of this field and the              |
+                                                 CIU_SUM2_*[TIMER] field implement all 10 CIU_TIM*  |
+                                                 interrupts.                                        |
+ <51>    SUM2 	  RO       0           0         SUM2&EN2 SUMMARY bit                               |
+                                                  This read-only bit reads as a one whenever any    |
+                                                  CIU_SUM2_PP@_IPx (CIU_SUM2_IO@_INT)  bit is set   |
+						  and corresponding enable bit in CIU_EN2_PP@_IPx   |
+					          (CIU_EN2_IO@_INT) is set.                         |
+                                                  Note that WDOG_SUM only summarizes the SUM2/EN2   |
+                                                  result and does not have a corresponding enable   |
+                                                  bit, so does not directly contribute to           |
+                                                  interrupts.                                       |
  <50>	 IPD_DRP  R/W1C	   0	       0	 IPD QOS packet drop interrupt			    |
                                                  Set any time PIP/IPD drops a packet                |
  <49:48> GMX_DRP  R/W1C	   0	       0	 GMX packet drop interrupt			    |
@@ -21930,13 +22066,13 @@ Pos      Name    Type     Value     Value       Description
 						  CIU_BLOCK_INT.         			    |
  <45>	 TWSI	  RO	   0	       0	 TWSI Interrupt					    |
                                                  See MIO_TWS0_INT                                   |
- <44>	 WDOG_SUM RO	   0	       0	 SUM1&EN4_1 summary bit				    |
+ <44>	 WDOG_SUM RO	   0	       0	 SUM1&EN1 summary bit				    |
                                                   This read-only bit reads as a one whenever any    |
-                                                  CIU_INT_SUM1 bit is set and corresponding         |
-                                                  enable bit in CIU_INTx_EN4_1 is set, where x      |
-                                                  is the same as x in this CIU_INTx_SUM4.           |
-						  PPs use CIU_INTx_SUM4 for IP4, where x=PPid.	    |
-                                                  Note that WDOG_SUM only summarizes the SUM/EN4_1  |
+                                                  CIU_SUM1_PP@_IPx (CIU_SUM1_IO@_INT)  bit is set   |
+						  and corresponding enable bit in CIU_INTx_EN is set|
+						  PPs use CIU_INTx_SUM0 where x=0-19		    |
+						  PCIe uses the CIU_INTx_SUM0 where x=32-33.        |
+                                                  Note that WDOG_SUM only summarizes the SUM1/EN1   |
                                                   result and does not have a corresponding enable   |
                                                   bit, so does not directly contribute to           |
                                                   interrupts.                                       |
@@ -22026,7 +22162,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W      0x0         0         LMC0 interrupt enable                              |
  <51:50> NS       R/W      0x0         0         Reserved                                           |
  <49>    PEM1     R/W      0x0         0         PEM1 interrupt enable                              |
- <48>    PEM0     R/W      0x0         0         PEV0 interrupt enable                              |
+ <48>    PEM0     R/W      0x0         0         PEM0 interrupt enable                              |
  <47>    PTP      R/W      0x0         0         PTP interrupt enable                               |
  <46>    AGL      R/W      0x0         0         AGL interrupt enable                               |
  <45:44> NS       R/W      0x0         0         Reserved for future Interlaken                     |
@@ -22082,7 +22218,7 @@ Pos      Name    Type     Value     Value       Description
  <60>    POWIQ	  R/W1     0           0         Write 1 to set POW IQ interrupt	            |
  <59>    TWSI2	  R/W1     0           0         Write 1 to set 2nd TWSI Interrupt	            |
  <58>    MPI	  R/W1	   0	       0	 Write 1 to set MPI/SPI interrupt                   |
- <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM?TDM interrupt                   |
+ <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM/TDM interrupt                   |
  <56>    USB	  R/W1     0           0         Write 1 to set USB EHCI or OHCI Interrupt	    |
  <55:52> TIMER	  R/W1	   0	       0	 Write 1 to set General timer interrupts	    |
  <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
@@ -22102,7 +22238,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1	   0	       0	 Write 1s to set work queue interrupt enables	    |
 
 Notes:
-Write-1-to-set version of the CIU_INTx_EN0 register
+Write-1-to-set version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22123,7 +22259,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W1     0x0         0         Write 1 to set LMC0 interrupt enable               |
  <51:50> NS       R/W1     0x0         0         Reserved                                           |
  <49>    PEM1     R/W1     0x0         0         Write 1 to set PEM1 interrupt enable               |
- <48>    PEM0     R/W1     0x0         0         Write 1 to set PEV0 interrupt enable               |
+ <48>    PEM0     R/W1     0x0         0         Write 1 to set PEM0 interrupt enable               |
  <47>    PTP      R/W1     0x0         0         Write 1 to set PTP interrupt enable                |
  <46>    AGL      R/W1     0x0         0         Write 1 to set AGL interrupt enable                |
  <45:44> NS       R/W1     0x0         0         Reserved for future Interlaken                     |
@@ -22158,7 +22294,41 @@ Pos      Name    Type     Value     Value       Description
  <3:0>	 WDOG     R/W1	   0	       0	 Write 1s to set Watchdog summary interrupt enable  |
 
 Notes:
-Write-1-to-set version of the CIU_INT@_EN1 register
+Write-1-to-set version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP2_W1S Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP3_W1S Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP4_W1S Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_IO(0..1)_INT_W1S Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W1	   0	       0	 Write 1 to set General timer 4-9 interrupt enbale  |
+ <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
+
+Notes:
+Write-1-to-set version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+CIU_EN2_PP(IO)@_IPx(INT) value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22199,7 +22369,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1	   0	       0	 Write 1s to set work queue interrupt enables	    |
 
 Notes:
-Write-1-to-set version of the CIU_INTx_EN4_0 register
+Write-1-to-set version of the CIU_INT@_EN4_0 register, read back corresponding CIU_INT@_EN4_0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22220,7 +22390,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W1     0x0         0         Write 1 to set LMC0 interrupt enable               |
  <51:50> NS       R/W1     0x0         0         Reserved                                           |
  <49>    PEM1     R/W1     0x0         0         Write 1 to set PEM1 interrupt enable               |
- <48>    PEM0     R/W1     0x0         0         Write 1 to set PEV0 interrupt enable               |
+ <48>    PEM0     R/W1     0x0         0         Write 1 to set PEM0 interrupt enable               |
  <47>    PTP      R/W1     0x0         0         Write 1 to set PTP interrupt enable                |
  <46>    AGL      R/W1     0x0         0         Write 1 to set AGL interrupt enable                |
  <45:44> NS       R/W1     0x0         0         Reserved for future Interlaken                     |
@@ -22255,7 +22425,7 @@ Pos      Name    Type     Value     Value       Description
  <3:0>	 WDOG     R/W1	   0	       0	 Write 1s to set Watchdog summary interrupt enable  |
 
 Notes:
-Write-1-to-set version of the  CIU_INT@_EN4_1 register
+Write-1-to-set version of the CIU_INT@_EN4_1 register, read back corresponding CIU_INT@_EN4_1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22297,7 +22467,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1C	   0	       0	 Write 1s to clear work queue interrupt enables	    |
 
 Notes:
-Write-1-to-clear version of the CIU_INTx_EN0 register
+Write-1-to-clear version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22318,7 +22488,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W1C    0x0         0         Write 1 to clear LMC0 interrupt enable             |
  <51:50> NS       R/W1C    0x0         0         Reserved                                           |
  <49>    PEM1     R/W1C    0x0         0         Write 1 to clear PEM1 interrupt enable             |
- <48>    PEM0     R/W1C    0x0         0         Write 1 to clear PEV0 interrupt enable             |
+ <48>    PEM0     R/W1C    0x0         0         Write 1 to clear PEM0 interrupt enable             |
  <47>    PTP      R/W1C    0x0         0         Write 1 to clear PTP interrupt enable              |
  <46>    AGL      R/W1C    0x0         0         Write 1 to clear AGL interrupt enable              |
  <45:44> NS       R/W1C    0x0         0         Reserved for future Interlaken                     |
@@ -22353,7 +22523,41 @@ Pos      Name    Type     Value     Value       Description
  <3:0>	 WDOG     R/W1C	   0	       0	 Write 1s to clear Watchdog summary interrupt enable|
 
 Notes:
-Write-1-to-clear version of the CIU_INT@_EN1 register
+Write-1-to-clear version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP2_W1C Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP3_W1C Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_PP(0..3)_IP4_W1C Type=NCB
+     ==============================================================
+
+
+     ==============================================================
+     CIU_EN2_IO(0..1)_INT_W1C Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer 4-9 interrupt enbale|
+ <3:0>  NS	  RAZ      NS          NS        Reserved                   		            |
+
+Notes:
+Write-1-to-clear version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+CIU_EN2_PP(IO)@_IPx(INT) value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22394,7 +22598,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  WORKQ    R/W1C	   0	       0	 Write 1s to clear work queue interrupt enables	    |
 
 Notes:
-Write-1-to-clear version of the CIU_INTx_EN4_0 register
+Write-1-to-clear version of the CIU_INTx_EN4_0 register, read back corresponding CIU_INTx_EN4_0 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22415,7 +22619,7 @@ Pos      Name    Type     Value     Value       Description
  <52>    LMC0     R/W1C    0x0         0         Write 1 to clear LMC0 interrupt enable             |
  <51:50> NS       R/W1C    0x0         0         Reserved                                           |
  <49>    PEM1     R/W1C    0x0         0         Write 1 to clear PEM1 interrupt enable             |
- <48>    PEM0     R/W1C    0x0         0         Write 1 to clear PEV0 interrupt enable             |
+ <48>    PEM0     R/W1C    0x0         0         Write 1 to clear PEM0 interrupt enable             |
  <47>    PTP      R/W1C    0x0         0         Write 1 to clear PTP interrupt enable              |
  <46>    AGL      R/W1C    0x0         0         Write 1 to clear AGL interrupt enable              |
  <45:44> NS       R/W1C    0x0         0         Reserved for future Interlaken                     |
@@ -22450,14 +22654,14 @@ Pos      Name    Type     Value     Value       Description
  <3:0>	 WDOG     R/W1C	   0	       0	 Write 1s to clear Watchdog summary interrupt enable|
 
 Notes:
-Write-1-to-clear version of the CIU_INT@_EN4_1 register
+Write-1-to-clear version of the CIU_INT@_EN4_1 register, read back corresponding CIU_INT@_EN4_1 value.
 ----------------------------------------------------------------------------------------------------
 ===
 
 
 
      ==============================================================
-     CIU_TIM(0..3) Type=NCB
+     CIU_TIM(0..9) Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -22470,6 +22674,27 @@ Pos      Name    Type     Value     Value       Description
 						  Periodic interrupts will occur every LEN+1 core   |
 						  clock cycles when ONE_SHOT==0			    |
 						  Timer disabled when LEN==0			    |
+----------------------------------------------------------------------------------------------------
+===
+
+
+     ==============================================================
+     CIU_TIM_MULTI_CAST Type=NCB
+     ==============================================================
+
+----------------------------------------------------------------------------------------------------
+Bit      Field   Field    Reset     Typical     Field
+Pos      Name    Type     Value     Value       Description
+----------------------------------------------------------------------------------------------------
+ <63:1>  NS       RAZ      NS          NS        Reserved				            |
+ <0>     EN       R/W      0           0         General Timer Interrupt Mutli-Cast mode:           |
+                                                 0: Timer interrupt is common for all PP/IRQs.      |
+                                                 1: Timer interrupts are set at the same time for   |
+                                                   all PP/IRQs, but interrupt clearings can/need    |
+                                                   to be done Individually based on per cnMIPS core.|
+                                                 Timer interrupts for IOs (@=32,33) will always use |
+                                                 common interrupts. Clear any of the I/O interrupts |
+                                                 will clear the common interrupt.                   |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22928,8 +23153,8 @@ Pos      Name    Type     Value     Value       Description
  <22>    ASXPCS0  RO       0x0         0         See PCS0_INT*_REG, PCSX0_INT_REG                   |
  <23>    ASXPCS1  RO       0x0         0         See PCS1_INT*_REG, PCSX1_INT_REG                   |
  <24>    NS       RAZ      NS          NS        Reserved   				            |
- <25>    PEM0     RO       0x0         0         PEV0 interrupt                                     |
-                                                 See PEV0_INT_SUM (enabled by PEV0_INT_ENB)         |
+ <25>    PEM0     RO       0x0         0         PEM0 interrupt                                     |
+                                                 See PEM0_INT_SUM (enabled by PEM0_INT_ENB)         |
  <26>    PEM1     RO       0x0         0         PEM1 interrupt                                     |
                                                  See PEM1_INT_SUM (enabled by PEM1_INT_ENB)         |
  <27>    NS       RAZ      NS          NS        Reserved				            |
@@ -23098,16 +23323,16 @@ Pos      Name    Type     Value     Value       Description
 Notes:
 
  GPIO<7:4> have the option of operating in GPIO Interrupt Multicast mode.  In
- this mode, the PP GPIO interrupts (CIU_INT<0-9>_SUM0/4[GPIO<7:4>] values are
+ this mode, the PP GPIO interrupts (CIU_INT<0-7>_SUM0/CIU_INT<0-3>_SUM4[GPIO<7:4>] values are
  stored per cnMIPS core.
  For GPIO<7:4> (x=4-7):
     When GPIO_MULTI_CAST[EN] = 1:
         When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt enabled):
-          * Reads to CIU_INT<0-19>_SUM0/<0-9>_SUM4[GPIO<x>] will return a unique interrupt state per
+          * Reads to CIU_INT<0-7>_SUM0/<0-3>_SUM4[GPIO<x>] will return a unique interrupt state per
             cnMIPS core.
           * Reads to CIU_INT32/33_SUM0/4[GPIO<x>] will return the common GPIO<x>
             interrupt state.
-          * Write of '1' to CIU_INT<0-19>_SUM0/<0-9>_SUM4[GPIO<x>] will clear the individual
+          * Write of '1' to CIU_INT<0-7>_SUM0/<0-3>_SUM4[GPIO<x>] will clear the individual
             interrupt associated with the cnMIPS core.
           * Write of '1' to CIU_INT32/33_SUM0/4[GPIO<x>] will clear the common GPIO<x>
             interrupt state.
@@ -24270,7 +24495,7 @@ Pos      Name    Type     Value     Value       Description
                                                  0x21      : GPIO[17]
                                                  0x22      : GPIO[18]
                                                  0x23      : GPIO[19]
-                                                 0x10      : QLM0_REF_CLK
+                                                 0x10      : QLM0_EF_CLK
                                                  0x11      : QLM1_REF_CLK
                                                  0x12      : QLM2_REF_CLK
                                                  0x13-0x1f : Reserved
@@ -24953,9 +25178,9 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<17:0>   CLK_CNT              R/W      0xffff   NS       Number of CLK_CNT cycles to wait for the card to return a      |
+<25:0>   CLK_CNT              R/W      0x27ea818 NS      Number of CLK_CNT cycles to wait for the card to return a      |
                                                          response, read data, or the 3-bit CRC status token.            |
-<63:18>  NS                   RAZ      0x0      NS       Reserved                                                       |
+<63:26>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -27094,7 +27319,9 @@ Pos      Name    Type     Value     Value       Description
                                                  Legal values are 0x24 to 0x80.                     |
  <47:24> NS       RAZ      NS          NS        Reserved		                            |
  <55:48> PEAI_PPF R/W      128         128       TLP credits for Completion TLPs in the Peer.       |
-                                                 Legal values are 0x24 to 0x80.                     |
+                                                 The value in this register should not be changed.  |
+                                                 Values other than 0x80 can lead to unpredictable   |
+                                                 behavior                                           |
  <63:56> NS       RAZ      NS          NS        Reserved		                            |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -28372,6 +28599,7 @@ Pos      Name    Type     Value     Value       Description
 						  Should not be set for ports in which PTP_MODE=1   |
                                                   When HIGIG_EN=1:                                  |
                                                    DSA_EN field below must be zero                  |
+						   PIP_PRT_CFGB[ALT_SKP_EN] must be zero.	    |
                                                    SKIP field below is both Skip I size and the     |
                                                      size of the HiGig* header (12 or 16 bytes)     |
  <10>    DSA_EN   R/W      0x0         0x0       Enable DSA tag parsing				    |
@@ -28399,7 +28627,9 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   SKIP     R/W      0x0         0x0       Optional Skip I amount for packets.		    |
 						  HW forces the SKIP to zero for packets on DPI	    |
 						  ports (32-35) when a PKT_INST_HDR is present.	    |
-						  See section - Legal Skip Values		    |
+                                                  See PIP_PRT_CFGB[ALT_SKP*] and PIP_ALT_SKIP_CFG.  |
+						  See HRM sections "Parse Mode and Skip Length      |
+                                                  Selection" and "Legal Skip Values"		    |
 						  for further details.				    |
 						  In DSA mode, indicates the DSA header length, not |
                                                     Skip I size. (Must be 4,8,or 12)                |
@@ -28434,7 +28664,10 @@ Pos      Name    Type     Value     Value       Description
 						  determine the updated SKIP I value.		    |
 						  The bits of the packet used should be present in  |
 						  all packets.					    |
-						  PIP_PRT_CFG[DSA_EN] should be disabled.	    |
+						  PIP_PRT_CFG[DSA_EN,HIGIG_EN] must be disabled     |
+                                                  when ALT_SKP_EN is set.                           |
+                                                  ALT_SKP_EN must not be set for DPI ports (32-35)  |
+                                                  when a PKT_INST_HDR is present.                   |
  <35>    NS       RAZ      NS          NS        Reserved				            |
  <34:33> BSEL_NUM R/W      0x0         0x0       Which of the 4 bit select extractors to use        |
 						  (Alias to PIP_PRT_CFG)			    |
@@ -28976,6 +29209,17 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   POS0     R/W      0x0         NS        Bit position for the 1st bit  from 128 bit segment |
 	                                          of pkt that is defined by the SKIP field of       |
                                                   PIP_BSEL_EXT_CFG register.                        |
+
+Notes:
+ Examples on bit positioning:
+   the most-significant-bit of the 3rd byte         ... PIP_BSEL_EXT_CFG*[SKIP]=1 POSn=15 (decimal) or
+                                                        PIP_BSEL_EXT_CFG*[SKIP]=0 POSn=23 (decimal)
+   the least-significant-bit of the 5th byte        ... PIP_BSEL_EXT_CFG*[SKIP]=4 POSn=0
+   the second-least-significant bit of the 1st byte ... PIP_BSEL_EXT_CFG*[SKIP]=0 POSn=1
+
+ POSn_VAL and POSn correspond to <n> in the resultant index into
+ PIP_BSEL_TBL_ENT. When only x bits (0 < x < 7) are to be extracted,
+ POS[7:x] should normally be clear.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -37798,6 +38042,48 @@ AGL_PRT1_CTL                   0x00011800E0002008  RSL
 CIU_BIST                       0x0001070000000730  NCB
 CIU_BLOCK_INT                  0x00010700000007C0  NCB
 CIU_DINT                       0x0001070000000720  NCB
+CIU_EN2_IO0_INT                0x000107000000A600  NCB
+CIU_EN2_IO0_INT_W1C            0x000107000000CE00  NCB
+CIU_EN2_IO0_INT_W1S            0x000107000000AE00  NCB
+CIU_EN2_IO1_INT                0x000107000000A608  NCB
+CIU_EN2_IO1_INT_W1C            0x000107000000CE08  NCB
+CIU_EN2_IO1_INT_W1S            0x000107000000AE08  NCB
+CIU_EN2_PP0_IP2                0x000107000000A000  NCB
+CIU_EN2_PP0_IP2_W1C            0x000107000000C800  NCB
+CIU_EN2_PP0_IP2_W1S            0x000107000000A800  NCB
+CIU_EN2_PP0_IP3                0x000107000000A200  NCB
+CIU_EN2_PP0_IP3_W1C            0x000107000000CA00  NCB
+CIU_EN2_PP0_IP3_W1S            0x000107000000AA00  NCB
+CIU_EN2_PP0_IP4                0x000107000000A400  NCB
+CIU_EN2_PP0_IP4_W1C            0x000107000000CC00  NCB
+CIU_EN2_PP0_IP4_W1S            0x000107000000AC00  NCB
+CIU_EN2_PP1_IP2                0x000107000000A008  NCB
+CIU_EN2_PP1_IP2_W1C            0x000107000000C808  NCB
+CIU_EN2_PP1_IP2_W1S            0x000107000000A808  NCB
+CIU_EN2_PP1_IP3                0x000107000000A208  NCB
+CIU_EN2_PP1_IP3_W1C            0x000107000000CA08  NCB
+CIU_EN2_PP1_IP3_W1S            0x000107000000AA08  NCB
+CIU_EN2_PP1_IP4                0x000107000000A408  NCB
+CIU_EN2_PP1_IP4_W1C            0x000107000000CC08  NCB
+CIU_EN2_PP1_IP4_W1S            0x000107000000AC08  NCB
+CIU_EN2_PP2_IP2                0x000107000000A010  NCB
+CIU_EN2_PP2_IP2_W1C            0x000107000000C810  NCB
+CIU_EN2_PP2_IP2_W1S            0x000107000000A810  NCB
+CIU_EN2_PP2_IP3                0x000107000000A210  NCB
+CIU_EN2_PP2_IP3_W1C            0x000107000000CA10  NCB
+CIU_EN2_PP2_IP3_W1S            0x000107000000AA10  NCB
+CIU_EN2_PP2_IP4                0x000107000000A410  NCB
+CIU_EN2_PP2_IP4_W1C            0x000107000000CC10  NCB
+CIU_EN2_PP2_IP4_W1S            0x000107000000AC10  NCB
+CIU_EN2_PP3_IP2                0x000107000000A018  NCB
+CIU_EN2_PP3_IP2_W1C            0x000107000000C818  NCB
+CIU_EN2_PP3_IP2_W1S            0x000107000000A818  NCB
+CIU_EN2_PP3_IP3                0x000107000000A218  NCB
+CIU_EN2_PP3_IP3_W1C            0x000107000000CA18  NCB
+CIU_EN2_PP3_IP3_W1S            0x000107000000AA18  NCB
+CIU_EN2_PP3_IP4                0x000107000000A418  NCB
+CIU_EN2_PP3_IP4_W1C            0x000107000000CC18  NCB
+CIU_EN2_PP3_IP4_W1S            0x000107000000AC18  NCB
 CIU_FUSE                       0x0001070000000728  NCB
 CIU_GSTOP                      0x0001070000000710  NCB
 CIU_INT0_EN0                   0x0001070000000200  NCB
@@ -37939,10 +38225,31 @@ CIU_SUM1_PP2_IP4               0x0001070000008410  NCB
 CIU_SUM1_PP3_IP2               0x0001070000008018  NCB
 CIU_SUM1_PP3_IP3               0x0001070000008218  NCB
 CIU_SUM1_PP3_IP4               0x0001070000008418  NCB
+CIU_SUM2_IO0_INT               0x0001070000008E00  NCB
+CIU_SUM2_IO1_INT               0x0001070000008E08  NCB
+CIU_SUM2_PP0_IP2               0x0001070000008800  NCB
+CIU_SUM2_PP0_IP3               0x0001070000008A00  NCB
+CIU_SUM2_PP0_IP4               0x0001070000008C00  NCB
+CIU_SUM2_PP1_IP2               0x0001070000008808  NCB
+CIU_SUM2_PP1_IP3               0x0001070000008A08  NCB
+CIU_SUM2_PP1_IP4               0x0001070000008C08  NCB
+CIU_SUM2_PP2_IP2               0x0001070000008810  NCB
+CIU_SUM2_PP2_IP3               0x0001070000008A10  NCB
+CIU_SUM2_PP2_IP4               0x0001070000008C10  NCB
+CIU_SUM2_PP3_IP2               0x0001070000008818  NCB
+CIU_SUM2_PP3_IP3               0x0001070000008A18  NCB
+CIU_SUM2_PP3_IP4               0x0001070000008C18  NCB
 CIU_TIM0                       0x0001070000000480  NCB
 CIU_TIM1                       0x0001070000000488  NCB
 CIU_TIM2                       0x0001070000000490  NCB
 CIU_TIM3                       0x0001070000000498  NCB
+CIU_TIM4                       0x00010700000004A0  NCB
+CIU_TIM5                       0x00010700000004A8  NCB
+CIU_TIM6                       0x00010700000004B0  NCB
+CIU_TIM7                       0x00010700000004B8  NCB
+CIU_TIM8                       0x00010700000004C0  NCB
+CIU_TIM9                       0x00010700000004C8  NCB
+CIU_TIM_MULTI_CAST             0x000107000000C200  NCB
 CIU_WDOG0                      0x0001070000000500  NCB
 CIU_WDOG1                      0x0001070000000508  NCB
 CIU_WDOG2                      0x0001070000000510  NCB
