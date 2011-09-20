@@ -675,7 +675,7 @@ static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, 
     uint64_t count = port_tx->output_count;
     bdk_pko_command_word0_t pko_command;
     pko_command.u64 = 0;
-    pko_command.s.dontfree = (count > 1);
+    pko_command.s.dontfree = (count != 1);
     pko_command.s.ignore_i = 1;
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
