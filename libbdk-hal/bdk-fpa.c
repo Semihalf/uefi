@@ -7,6 +7,15 @@
  */
 void bdk_fpa_enable(void)
 {
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        /* Initialize the range checking so that no memory is in range */
+        for (int i=0; i<8; i++)
+        {
+            BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(i), -1);
+            BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(i), 0);
+        }
+    }
     BDK_CSR_MODIFY(status, BDK_FPA_CTL_STATUS,
         status.s.enb = 1);
 }
@@ -36,6 +45,22 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
     {
         bdk_error("bdk_fpa_fill_pool: Pool %d failed with %d blocks to alloc\n", pool, num_blocks);
         return -num_blocks;
+    }
+
+    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        /* Update the start address to contain the new memory */
+        uint64_t addr = bdk_ptr_to_phys(buf);
+        BDK_CSR_INIT(start_addr, BDK_FPA_POOLX_START_ADDR(pool));
+        if (addr>>7 < start_addr.s.addr)
+            BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(pool), addr>>7);
+
+        /* The end address needs to only contain the last buffers address,
+            not the full buffer */
+        addr += (num_blocks-1) * size;
+        BDK_CSR_INIT(end_addr, BDK_FPA_POOLX_END_ADDR(pool));
+        if (addr>>7 > end_addr.s.addr)
+            BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(pool), addr>>7);
     }
 
     while (num_blocks--)
