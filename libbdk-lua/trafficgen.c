@@ -8,9 +8,7 @@
 
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
-static const int IP_ADDR_LEN = 4;
 static const int CYCLE_SHIFT = 12;
-static const int PIP_IP_OFFSET = 4;       /* Number of dwords to reserve before IP packets */
 
 typedef struct
 {
