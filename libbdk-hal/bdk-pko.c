@@ -152,6 +152,8 @@ void bdk_pko_enable(void)
             engine_storage.s.engine15 = __bdk_pko_memory_per_engine(16*i + 15);
             BDK_CSR_WRITE(BDK_PKO_REG_ENGINE_STORAGEX(i), engine_storage.u64);
         }
+        /* Enable using the internal storage for all engines */
+        BDK_CSR_WRITE(BDK_PKO_REG_ENGINE_THRESH, (1<<bdk_pko_next_free_engine)-1);
     }
 
     flags.u64 = BDK_CSR_READ(BDK_PKO_REG_FLAGS);
