@@ -157,19 +157,40 @@ function TrafficGen.new()
         return command, range, args
     end
 
+    local zero_hide = {
+        rx_backpressure=0,
+        rx_dropped_octets=0,
+        rx_dropped_packets=0,
+        rx_errors=0,
+        rx_validation_errors=0,
+    }
     -- Display a single statistic line
     local function display_stat(stat_name, stats)
-        local COL_SEP = ZEROHI .. "|" .. NORMAL
         local totals = 0
+        for _,p in ipairs(visible_ports) do
+            totals = totals + stats[p][stat_name]
+        end
+        local color = NORMAL
+        if zero_hide[stat_name] then
+            if totals == 0 then
+                if zero_hide[stat_name] + 5 < os.time() then
+                    return 0
+                end
+                color = ZEROHI
+            else
+                zero_hide[stat_name] = os.time()
+                color = NONZEROHI
+            end
+        end
+        local COL_SEP = ZEROHI .. "|" .. color
         local is_bits = stat_name:sub(-5,-1) == "_bits"
         if is_bits then
-            printf("%-20s", stat_name:sub(1,-6) .. " Mbps")
+            printf(color .. "%-20s", stat_name:sub(1,-6) .. " Mbps")
         else
-            printf("%-20s", stat_name:gsub("_", " "))
+            printf(color .. "%-20s", stat_name:gsub("_", " "))
         end
         for _,p in ipairs(visible_ports) do
             local v = stats[p][stat_name]
-            totals = totals + v
             if is_bits then
                 v = v / 1000000
             end
@@ -178,7 +199,8 @@ function TrafficGen.new()
         if is_bits then
             totals = totals / 1000000
         end
-        printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
+        printf("%s%10d%s%s\n", COL_SEP, totals, NORMAL, ERASE_EOL)
+        return 1
     end
 
     -- Create commands for getting and setting each value in the port config
@@ -557,8 +579,7 @@ function TrafficGen.new()
         printf("|%10s%s\n%s", "Totals", ERASE_EOL, NORMAL);
         local stat_names = table.sorted_keys(all_stats[known_ports[1]])
         for _,stat_name in ipairs(stat_names) do
-            display_stat(stat_name, all_stats)
-            num_rows = num_rows + 1
+            num_rows = num_rows + display_stat(stat_name, all_stats)
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
         -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
