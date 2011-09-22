@@ -169,11 +169,14 @@ function TrafficGen.new()
         end
         for _,p in ipairs(visible_ports) do
             local v = stats[p][stat_name]
+            totals = totals + v
             if is_bits then
                 v = v / 1000000
             end
-            totals = totals + v
             printf("%s%10s", COL_SEP, v)
+        end
+        if is_bits then
+            totals = totals / 1000000
         end
         printf("%s%10d%s\n", COL_SEP, totals, ERASE_EOL)
     end
