@@ -558,17 +558,13 @@ function TrafficGen.new()
             num_rows = num_rows + 1
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
-        -- Create a row reporting free packet buffers
-        printf("%-20s%s%10d%s\n", "Free packets", COL_SEP, octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(), ERASE_EOL)
-        num_rows = num_rows + 1
-        -- Create a row reporting free packet buffers
-        printf("%-20s%s%10d%s\n", "Free cmd buffers", COL_SEP, octeon.csr.FPA_QUEX_AVAILABLE(1).read(), ERASE_EOL)
-        num_rows = num_rows + 1
-        -- Create a row reporting Lua's memory usage
-        printf("%-20s%s%10d%s\n", "Lua memory(KB)", COL_SEP, collectgarbage("count"), ERASE_EOL)
-        num_rows = num_rows + 1
-        -- Create a row reporting C's memory usage
-        printf("%-20s%s%10d%s\n", "C memory(KB)", COL_SEP, octeon.c.get_sbrk() / 1024, ERASE_EOL)
+        -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
+        printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
+            octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(),
+            octeon.csr.FPA_QUEX_AVAILABLE(1).read(),
+            collectgarbage("count"),
+            octeon.c.get_sbrk() / 1024,
+            ERASE_EOL);
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = octeon.perf.get_l2(l2_stats_table)
