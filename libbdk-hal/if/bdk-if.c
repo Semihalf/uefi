@@ -3,6 +3,7 @@
 #include <malloc.h>
 
 #define USE_PER_PORT_BACKPRESSURE 1
+#define PIP_IP_OFFSET 2
 
 extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
 extern const __bdk_if_ops_t __bdk_if_ops_xaui;
@@ -147,7 +148,7 @@ static int __bdk_if_setup_ipd_global(void)
         c.s.opc_mode = 1);  /* Store into L2 */
 
     /* Needed to support dynamic short */
-    BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, 4);
+    BDK_CSR_WRITE(BDK_PIP_IP_OFFSET, PIP_IP_OFFSET);
 
     /* Configure to allow max sized frames */
     BDK_CSR_MODIFY(pip_frm_len_chkx, BDK_PIP_FRM_LEN_CHKX(0),
@@ -912,7 +913,7 @@ int bdk_if_dispatch(void)
             packet.packet.s.addr = bdk_ptr_to_phys(wqe->packet_data);
             if (bdk_likely(!wqe->word2.s.ni))
             {
-                packet.packet.s.addr += (4<<3) - wqe->word2.ip.ip_offset;
+                packet.packet.s.addr += (PIP_IP_OFFSET<<3) - wqe->word2.ip.ip_offset;
                 packet.packet.s.addr += (wqe->word2.ip.v6^1)<<2;
             }
             else
