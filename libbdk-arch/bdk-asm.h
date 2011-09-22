@@ -113,6 +113,10 @@
 #define BDK_CACHE_WBIL2(address, offset) BDK_CACHE(23, address, offset) // unlock the state.
 #define BDK_CACHE_WBIL2I(address, offset) BDK_CACHE(3, address, offset) // invalidate the cache block and clear the USED bits for the block
 #define BDK_CACHE_LTGL2I(address, offset) BDK_CACHE(7, address, offset) // load virtual tag and data for the L2 cache block into L2C_TAD0_TAG register
+/* Zero a cache block */
+#define BDK_ZCB(address) asm volatile ("zcb (%[rbase])" : : [rbase] "d" (address) )
+/* Zero a cache block skipping L2 */
+#define BDK_ZCBT(address) asm volatile ("zcbt (%[rbase])" : : [rbase] "d" (address) )
 
 /* new instruction to make RC4 run faster */
 #define BDK_BADDU(result, input1, input2) asm ("baddu %[rd],%[rs],%[rt]" : [rd] "=d" (result) : [rs] "d" (input1) , [rt] "d" (input2))
