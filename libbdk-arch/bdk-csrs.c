@@ -21933,7 +21933,7 @@ const char __bdk_csr_db_string[] =
     "RESERVED_54_59\0" /* 58256 */
     "ODU_PREF\0" /* 58271 */
     "SSO_CCLK_DIS\0" /* 58280 */
-    "SOC_CCAM_ENB\0" /* 58293 */
+    "SOC_CCAM_DIS\0" /* 58293 */
     "RWQ_ALLOC_DIS\0" /* 58306 */
     "QCK_SW_ENB\0" /* 58320 */
     "QCK_GW_RSP_ENB\0" /* 58331 */

@@ -828,8 +828,9 @@ Pos      Name    Type     Value     Value       Description
                                                          1 == The negotiated Link speed: 2.5 Gbps
                                                          2 == The negotiated Link speed: 5.0 Gbps
                                                          4 == The negotiated Link speed: 8.0 Gbps (Not Supported)
- <25:20> NLW             RO       0x0         0x8       Negotiated Link Width
+ <25:20> NLW             RO       0x1         0x4       Negotiated Link Width
                                                          Set automatically by hardware after Link initialization.
+                                                         Value is undefined when link is not up.
  <26>    NS              RAZ      NS          NS        Undefined
  <27>    LT              RO       0x0         0x0       Link Training
                                                          Not applicable for an upstream Port or Endpoint device,
@@ -3182,8 +3183,9 @@ Pos      Name    Type     Value     Value       Description
                                                          0001 == The negotiated Link speed: 2.5 Gbps
                                                          0010 == The negotiated Link speed: 5.0 Gbps
                                                          0100 == The negotiated Link speed: 8.0 Gbps (Not Supported)
- <25:20> NLW             RO       0x0         0x0       Negotiated Link Width
+ <25:20> NLW             RO       0x1         0x4       Negotiated Link Width
                                                          Set automatically by hardware after Link initialization.
+                                                         Value is undefined when link is not up.
  <26>    NS              RAZ      NS          NS        Undefined
  <27>    LT              RO       0x0         0x0       Link Training
  <28>    SCC             R/W      0x1         0x0       Slot Clock Configuration
@@ -8948,22 +8950,11 @@ Pos      Name    Type     Value     Value       Description
 						  indicate if a port is disabled.		    |
 						  MIO_QLMx_CFG can be used for more complete QLM    |
 						  configuration	information.			    |
-						  0000 = MAC is PCIE gen2			    |
-						  0001 = MAC is SRIO 1x4 short			    |
-						  0010 = MAC is PCIE gen1 only			    |
-						  0011 = MAC is SRIO 1x4 long			    |
-						  0100 = MAC is SRIO 2x2 short			    |
-						  0101 = MAC is SRIO 4x1 short			    |
-						  0110 = MAC is SRIO 2x2 long			    |
-						  0111 = MAC is SRIO 4x1 long			    |
-						  1000 = MAC is PCIE gen2 (alias)		    |
-						  1001 = MAC is SGMII				    |
-						  1010 = MAC is PCIE gen1 only (alias)		    |
-						  1011 = MAC is XAUI				    |
-						  1100 = MAC is RESERVED			    |
-						  1101 = MAC is RESERVED			    |
-						  1110 = MAC is RESERVED			    |
-						  1111 = MAC is RESERVED			    |
+						  0000 = MAC is PCIe 1x4 (QLM) or 1x2 (DLM)	    |
+						  0001 = MAC is PCIe 2x1 (DLM only)		    |
+						  0010 = MAC is SGMII				    |
+						  0011 = MAC is XAUI				    |
+						  all other encodings are RESERVED		    |
  <19:17> NS       RAZ      NS          NS        Reserved					    |
  <16>    RD_MODE  R/W      0x0         0x0       Read Mode					    |
 						  0=Exact Read Mode				    |
@@ -21086,7 +21077,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
- <11:8>  QLM_SPD      R/W      0         NS        QLM speed                                        |
+ <11:8>  QLM_SPD      R/W      0         NS        QLM speed for SGMii/XAUI                         |
                                                       0   = 5     Gbaud	                            |
                                                       1   = 2.5   Gbaud	                            |
                                                       2   = 2.5   Gbaud                             |
@@ -21103,6 +21094,18 @@ Pos      Name    Type     Value     Value       Description
                                                       13  = 3.75  Gbaud                             |
                                                       14  = 3.125 Gbaud                             |
                                                       15  = QLM Disabled                            |
+                                                                                                    |
+                                                   QLM speed PEM0   PEM1                            |
+                                                      0   =  2.5/5  2.5/5 Gbaud	                    |
+                                                      1   =  2.5    2.5/5 Gbaud	                    |
+                                                      2   =  2.5/5  2.5   Gbaud                     |
+                                                      3   =  2.5    2.5   Gbaud                     |
+                                                      4   =  2.5/5  2.5/5 Gbaud	                    |
+                                                      6   =  2.5/5  2.5   Gbaud                     |
+                                                      7   =  2.5    2.5   Gbaud                     |
+                                                      9   =  2.5    2.5/5 Gbaud	                    |
+                                                      15  =  QLM Disabled                           |
+                                                      5,8,10-14 are reserved                        |
  <7:2>   NS           RAZ      NS        NS        Reserved                                         |
  <1:0>   QLM_CFG      R/W      0         NS        QLM configuration mode                           |
 					           For Interface 0:                                 |
@@ -21120,6 +21123,12 @@ Pos      Name    Type     Value     Value       Description
                                                       01 Reserved                      	            |
                                                       10 SGMII (AGX0)                               |
                                                       11 XAUI (AGX0)                                |
+                                                                                                    |
+Note:                                                                                               |
+When QLM0 is configured as PCIE(QLM_CFG=0x0) and enabled (QLM_SPD!=0xf),                            |
+QLM1 cannot be configured as PCIE 2x1 mode (QLM_CFG=0x1) and enabled (QLM_SPD!=0xf).                |
+Certain QLM_SPD is valid only for certain QLM_CFG configuration, refer to HRM for valid combinations|
+PEM0 uses QLM0_SPD bits to determine Gbaud rate unless operating in PCIE 2x1 mode                   |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21149,14 +21158,7 @@ Pos      Name    Type     Value     Value       Description
                                                    MIO_RST_BOOT[CHIPKILL]=1.	                    |
  <58>    JT_TSTMODE RO       NS          NS        JTAG test mode                                   |
  <57:50> NS         RAZ      NS          NS        Reserved				            |
- <49:48> LBOOT_EXT  R/W1C    NS          NS        Extended Last boot cause mask, resets only with  |
-                                                   dock.					    |
-												    |
-                                                     bit1 - Warm reset due to cntl3 link-down or    |
-                                                            hot-reset                               |
-                                                     bit0 - Warm reset due to cntl2 link-down or    |
-                                                            hot-reset                               |
-												    |
+ <49:48> LBOOT_EXT  R/W1C    NS          NS        Reserved                                         |
  <47:36> NS         RAZ      NS          NS        Reserved				            |
  <35:30> C_MUL      RO       NS          NS        Core clock multiplier:                           |
                                                       C_MUL = (core clk speed) / (ref clock speed)  |
@@ -21277,8 +21279,9 @@ Pos      Name    Type     Value     Value       Description
                                                    will be forced to '1' regardless CSR value.      |
 												    |
  <10>    GEN1_ONLY  RO       0           NS        Advertise PCIE GEN2 Capability, defined by       |
-                                                   QLM@_SPD[0], When sclk is slower than 550MHz,    |
-					           Gen2 is disabled regardless of QLM@_SPD value.   |
+                                                   QLM@_SPD[0] for CNTL0 or QLM1_SPD[1] for CNTL1.  |
+                                                   When sclk is slower than 550MHz, GEN2 is         |
+                                                   disabled regardless of QLM@_SPD value.           |
 												    |
  <9>     PRST_LINK  R/W      0           NS        Controls whether corresponding controller        |
                                                    link-down or hot-reset causes the assertion of   |
@@ -21401,6 +21404,11 @@ Pos      Name    Type     Value     Value       Description
  <0>     RST_LINK0  R/W1C    0x0         NS        A controller0 link-down/hot-reset occurred while |
                                                    MIO_RST_CTL0[RST_LINK]=0.  Software must assert  |
                                                    then de-assert CIU_SOFT_PRST[SOFT_PRST]          |
+                                                                                                    |
+Note:                                                                                               |
+GEN1_Only mode is enabled for PEM0 when QLM0_CFG is PCI and QLM0_SPD[0] is set or when QLM0_CFG is  |
+  not PCI and QLM1_CFG is 2x1 and QLM1_SPD[0] is set or when sclk < 550Mhz.                         |
+GEN1_Only mode is enabled for PEM1 when QLM1_SPD[1] is set or sclk < 550Mhz.                        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -22033,7 +22041,7 @@ Pos      Name    Type     Value     Value       Description
  <59>    TWSI2	  RO       0           0         2nd TWSI Interrupt			            |
                                                  See MIO_TWS1_INT                                   |
  <58>    MPI	  R/W1C	   0	       0	 MPI/SPI interrupt				    |
- <57>    PCM	  R/W1C	   0	       0	 PCM/TDM interrupt				    |
+ <57>    PCM	  RO	   0	       0	 PCM/TDM interrupt				    |
  <56>    USB	  RO       0           0         USB EHCI or OHCI Interrupt			    |
                                                  See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS|
  <55:52> TIMER	  R/W1C	   0	       0	 General timer 0-3 interrupts			    |
@@ -22215,13 +22223,13 @@ Pos      Name    Type     Value     Value       Description
                                                  enable                                             |
  <61>    IPDPPTHR R/W1     0           0         Write 1 to set IPD per-port counter threshold	    |
                                                  interrupt enable                                   |
- <60>    POWIQ	  R/W1     0           0         Write 1 to set POW IQ interrupt	            |
- <59>    TWSI2	  R/W1     0           0         Write 1 to set 2nd TWSI Interrupt	            |
- <58>    MPI	  R/W1	   0	       0	 Write 1 to set MPI/SPI interrupt                   |
- <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM/TDM interrupt                   |
- <56>    USB	  R/W1     0           0         Write 1 to set USB EHCI or OHCI Interrupt	    |
- <55:52> TIMER	  R/W1	   0	       0	 Write 1 to set General timer interrupts	    |
- <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
+ <60>    POWIQ	  R/W1     0           0         Write 1 to set POW IQ interrupt enable	            |
+ <59>    TWSI2	  R/W1     0           0         Write 1 to set 2nd TWSI Interrupt enable           |
+ <58>    MPI	  R/W1	   0	       0	 Write 1 to set MPI/SPI interrupt enable            |
+ <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM/TDM interrupt enable            |
+ <56>    USB	  R/W1     0           0         Write 1 to set USB EHCI or OHCI Interrupt enable   |
+ <55:52> TIMER	  R/W1	   0	       0	 Write 1 to set General timer interrupt enables	    |
+ <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt	enable	    |
  <50>	 IPD_DRP  R/W1	   0	       0	 Write 1 to set IPD QOS packet drop interrupt 	    |
                                                  enable                                             |
  <49:48> GMX_DRP  R/W1	   0	       0	 Write 1 to set GMX packet drop interrupt enable    |
@@ -22323,7 +22331,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
- <9:4>   TIMER	  R/W1	   0	       0	 Write 1 to set General timer 4-9 interrupt enbale  |
+ <9:4>   TIMER	  R/W1	   0	       0	 Write 1 to set General timer 4-9 interrupt enables |
  <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
 
 Notes:
@@ -22347,13 +22355,13 @@ Pos      Name    Type     Value     Value       Description
                                                  enable                                             |
  <61>    IPDPPTHR R/W1     0           0         Write 1 to set IPD per-port counter threshold	    |
                                                  interrupt enable                                   |
- <60>    POWIQ	  R/W1     0           0         Write 1 to set POW IQ interrupt	            |
- <59>    TWSI2	  R/W1     0           0         Write 1 to set 2nd TWSI Interrupt	            |
- <58>    MPI	  R/W1	   0	       0	 Write 1 to set MPI/SPI interrupt		    |
- <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM/TDM interrupt		    |
- <56>    USB	  R/W1     0           0         Write 1 to set USB EHCI or OHCI Interrupt	    |
- <55:52> TIMER	  R/W1	   0	       0	 Write 1 to set General timer interrupts	    |
- <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
+ <60>    POWIQ	  R/W1     0           0         Write 1 to set POW IQ interrupt enable	            |
+ <59>    TWSI2	  R/W1     0           0         Write 1 to set 2nd TWSI Interrupt enable           |
+ <58>    MPI	  R/W1	   0	       0	 Write 1 to set MPI/SPI interrupt enable	    |
+ <57>    PCM	  R/W1	   0	       0	 Write 1 to set PCM/TDM interrupt enable	    |
+ <56>    USB	  R/W1     0           0         Write 1 to set USB EHCI or OHCI Interrupt enable   |
+ <55:52> TIMER	  R/W1	   0	       0	 Write 1 to set General timer interrupt enables	    |
+ <51>	 NS 	  RAZ	   0	       0	 Reserved for SUM2 interrupt enable		    |
  <50>	 IPD_DRP  R/W1	   0	       0	 Write 1 to set IPD QOS packet drop interrupt 	    |
                                                  enable                                             |
  <49:48> GMX_DRP  R/W1	   0	       0	 Write 1 to set GMX packet drop interrupt enable    |
@@ -22444,13 +22452,13 @@ Pos      Name    Type     Value     Value       Description
                                                  enable                                             |
  <61>    IPDPPTHR R/W1C    0           0         Write 1 to clear IPD per-port counter threshold    |
                                                  interrupt enable                                   |
- <60>    POWIQ	  R/W1C    0           0         Write 1 to clear POW IQ interrupt	            |
- <59>    TWSI2	  R/W1C    0           0         Write 1 to clear 2nd TWSI Interrupt	            |
- <58>    MPI	  R/W1C	   0	       0	 Write 1 to clear MPI/SPI interrupt		    |
- <57>    PCM	  R/W1C	   0	       0	 Write 1 to clear PCM/TDM interrupt		    |
- <56>    USB	  R/W1C    0           0         Write 1 to clear USB EHCI or OHCI Interrupt	    |
- <55:52> TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer interrupts	    |
- <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
+ <60>    POWIQ	  R/W1C    0           0         Write 1 to clear POW IQ interrupt enable           |
+ <59>    TWSI2	  R/W1C    0           0         Write 1 to clear 2nd TWSI Interrupt enable	    |
+ <58>    MPI	  R/W1C	   0	       0	 Write 1 to clear MPI/SPI interrupt enable	    |
+ <57>    PCM	  R/W1C	   0	       0	 Write 1 to clear PCM/TDM interrupt enable	    |
+ <56>    USB	  R/W1C    0           0         Write 1 to clear USB EHCI or OHCI Interrupt enable |
+ <55:52> TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer interrupt enables   |
+ <51>	 NS 	  RAZ	   0	       0	 Reserved for SUM2 interrupt enable	            |
  <50>	 IPD_DRP  R/W1C	   0	       0	 Write 1 to clear IPD QOS packet drop interrupt     |
                                                  enable                                             |
  <49:48> GMX_DRP  R/W1C	   0	       0	 Write 1 to clear GMX packet drop interrupt enable  |
@@ -22552,8 +22560,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10>  NS	  RAZ      NS          NS        Reserved                   		            |
- <9:4>   TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer 4-9 interrupt enbale|
- <3:0>  NS	  RAZ      NS          NS        Reserved                   		            |
+ <9:4>   TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer 4-9 interrupt enable|
+ <3:0>    NS	  RAZ      NS          NS        Reserved                   		            |
 
 Notes:
 Write-1-to-clear version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
@@ -22576,13 +22584,13 @@ Pos      Name    Type     Value     Value       Description
                                                  enable                                             |
  <61>    IPDPPTHR R/W1C    0           0         Write 1 to clear IPD per-port counter threshold    |
                                                  interrupt enable                                   |
- <60>    POWIQ	  R/W1C    0           0         Write 1 to clear POW IQ interrupt	            |
- <59>    TWSI2	  R/W1C    0           0         Write 1 to clear 2nd TWSI Interrupt	            |
- <58>    MPI	  R/W1C	   0	       0	 Write 1 to clear MPI/SPI interrupt		    |
- <57>    PCM	  R/W1C	   0	       0	 Write 1 to clear PCM/TDM interrupt		    |
- <56>    USB	  R/W1C    0           0         Write 1 to clear USB EHCI or OHCI Interrupt	    |
- <55:52> TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer interrupts	    |
- <51>	 NS 	  RAZ	   0	       0	 Reserved for Key Zeroization interrupt		    |
+ <60>    POWIQ	  R/W1C    0           0         Write 1 to clear POW IQ interrupt enable           |
+ <59>    TWSI2	  R/W1C    0           0         Write 1 to clear 2nd TWSI Interrupt enable         |
+ <58>    MPI	  R/W1C	   0	       0	 Write 1 to clear MPI/SPI interrupt enable	    |
+ <57>    PCM	  R/W1C	   0	       0	 Write 1 to clear PCM/TDM interrupt enable	    |
+ <56>    USB	  R/W1C    0           0         Write 1 to clear USB EHCI or OHCI Interrupt enable |
+ <55:52> TIMER	  R/W1C	   0	       0	 Write 1 to clear General timer interrupt enables   |
+ <51>	 NS 	  RAZ	   0	       0	 Reserved for SUM2 interrupt enable	            |
  <50>	 IPD_DRP  R/W1C	   0	       0	 Write 1 to clear IPD QOS packet drop interrupt     |
                                                  enable                                             |
  <49:48> GMX_DRP  R/W1C	   0	       0	 Write 1 to clear GMX packet drop interrupt enable  |
@@ -31937,32 +31945,14 @@ Pos      Name    Type     Value     Value       Description
                                                  See PEM1_INT_SUM (enabled by PEM1_INT_ENB_INT)     |
 
 
- <20>    M2_UP_B0 R/W1C    0x0         0         Received Unsupported P-TLP for Bar0 from MAC 2.    |
-                                                 This occurs when the BAR 0 address space is        |
-                                                 disabeled.                                         |
- <21>    M2_UP_WI R/W1C    0x0         0         Received Unsupported P-TLP for Window Register     |
-                                                 from MAC 2. This occurs when the window registers  |
-                                                 are disabeld and a window register access occurs.  |
- <22>    M2_UN_B0 R/W1C    0x0         0         Received Unsupported N-TLP for Bar0 from MAC 2.    |
-                                                 This occurs when the BAR 0 address space is        |
-                                                 disabeled.                                         |
- <23>    M2_UN_WI R/W1C    0x0         0         Received Unsupported N-TLP for Window Register     |
-                                                 from MAC 2. This occurs when the window registers  |
-                                                 are disabeld and a window register access occurs.  |
-
- <24>    M3_UP_B0 R/W1C    0x0         0         Received Unsupported P-TLP for Bar0 from MAC 3.    |
-                                                 This occurs when the BAR 0 address space is        |
-                                                 disabeled.                                         |
- <25>    M3_UP_WI R/W1C    0x0         0         Received Unsupported P-TLP for Window Register     |
-                                                 from MAC 3. This occurs when the window registers  |
-                                                 are disabeld and a window register access occurs.  |
- <26>    M3_UN_B0 R/W1C    0x0         0         Received Unsupported N-TLP for Bar0 from MAC 3.    |
-                                                 This occurs when the BAR 0 address space is        |
-                                                 disabeled.                                         |
- <27>    M3_UN_WI R/W1C    0x0         0         Received Unsupported N-TLP for Window Register     |
-                                                 from MAC 3. This occurs when the window registers  |
-                                                 are disabeld and a window register access occurs.  |
-
+ <20>    M2_UP_B0 R/W1C    0x0         0         Reserved.                                          |
+ <21>    M2_UP_WI R/W1C    0x0         0         Reserved.                                          |
+ <22>    M2_UN_B0 R/W1C    0x0         0         Reserved.                                          |
+ <23>    M2_UN_WI R/W1C    0x0         0         Reserved.                                          |
+ <24>    M3_UP_B0 R/W1C    0x0         0         Reserved.                                          |
+ <25>    M3_UP_WI R/W1C    0x0         0         Reserved.                                          |
+ <26>    M3_UN_B0 R/W1C    0x0         0         Reserved.                                          |
+ <27>    M3_UN_WI R/W1C    0x0         0         Reserved.                                          |
  <31:28> NS       RAZ      NS          NS        Reserved                                           |
 
 
@@ -32002,10 +31992,8 @@ Pos      Name    Type     Value     Value       Description
 						 this bit is set.				    |
  <57>    SPRT1_ERR R/W1C   0x0         0         When an error response received on SLI port 1 	    |
                                                  this bit is set.                                   |
- <58>    SPRT2_ERR R/W1C   0x0         0         When an error response received on SLI port 2 	    |
-                                                 this bit is set.                                   |
- <59>    SPRT3_ERR R/W1C   0x0         0         When an error response received on SLI port 3 	    |
-                                                 this bit is set.                                   |
+ <58>    SPRT2_ERR R/W1C   0x0         0         Reserved.                                          |
+ <59>    SPRT3_ERR R/W1C   0x0         0         Reserved.                                          |
  <60>    ILL_PAD   R/W1C   0x0         0         Set when a BAR0 address R/W falls into theaddress  |
                                                  range of the Packet-CSR, but for an unused         |
 						 address.                                           |
@@ -32073,24 +32061,14 @@ Pos      Name    Type     Value     Value       Description
                                                  The valuse of this bit has NO effect on PCIE Port0.|
 						 SLI_INT_ENB_PORT0[MAC1_INT] sould NEVER be set.    |
 
- <20>    M2_UP_B0  R/W     0x0         1         Enables SLI_INT_SUM[20] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <21>    M2_UP_WI  R/W     0x0         1         Enables SLI_INT_SUM[21] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <22>    M2_UN_B0  R/W     0x0         1         Enables SLI_INT_SUM[22] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <23>    M2_UN_WI  R/W     0x0         1         Enables SLI_INT_SUM[23] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
-
- <24>    M3_UP_B0  R/W     0x0         1         Enables SLI_INT_SUM[24] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <25>    M3_UP_WI  R/W     0x0         1         Enables SLI_INT_SUM[25] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <26>    M3_UN_B0  R/W     0x0         1         Enables SLI_INT_SUM[26] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
- <27>    M3_UN_WI  R/W     0x0         1         Enables SLI_INT_SUM[27] to generate an             |
-                                                 interrupt to the PCIE core for MSI/inta.           |
-
+ <20>    M2_UP_B0  R/W     0x0         0         Reserved.                                          |
+ <21>    M2_UP_WI  R/W     0x0         0         Reserved.                                          |
+ <22>    M2_UN_B0  R/W     0x0         0         Reserved.                                          |
+ <23>    M2_UN_WI  R/W     0x0         0         Reserved.                                          |
+ <24>    M3_UP_B0  R/W     0x0         0         Reserved.                                          |
+ <25>    M3_UP_WI  R/W     0x0         0         Reserved.                                          |
+ <26>    M3_UN_B0  R/W     0x0         0         Reserved.                                          |
+ <27>    M3_UN_WI  R/W     0x0         0         Reserved.                                          |
  <31:28> NS        R/W     0x0         0         Reserved	 				    |
  <33:32> DMAFI     R/W     0x0         0         DMA set Forced Interrupts                          |
  <35:34> DCNT      R/W     0x0         0         DMA Count Interrupts				    |
@@ -33842,24 +33820,14 @@ Pos      Name    Type     Value     Value       Description
 
  <19:18> NS        R/W     0x0         0         Reserved                                           |
 
- <20>    M2_UP_B0  R/W     0x0         1         Enables SLI_INT_SUM[20] to generate an             |
-                                                 interrupt on the RSL.                              |
- <21>    M2_UP_WI  R/W     0x0         1         Enables SLI_INT_SUM[21] to generate an             |
-                                                 interrupt on the RSL.                              |
- <22>    M2_UN_B0  R/W     0x0         1         Enables SLI_INT_SUM[22] to generate an             |
-                                                 interrupt on the RSL.                              |
- <23>    M2_UN_WI  R/W     0x0         1         Enables SLI_INT_SUM[23] to generate an             |
-                                                 interrupt on the RSL.                              |
-
- <24>    M3_UP_B0  R/W     0x0         1         Enables SLI_INT_SUM[24] to generate an             |
-                                                 interrupt on the RSL.                              |
- <25>    M3_UP_WI  R/W     0x0         1         Enables SLI_INT_SUM[25] to generate an             |
-                                                 interrupt on the RSL.                              |
- <26>    M3_UN_B0  R/W     0x0         1         Enables SLI_INT_SUM[26] to generate an             |
-                                                 interrupt on the RSL.                              |
- <27>    M3_UN_WI  R/W     0x0         1         Enables SLI_INT_SUM[27] to generate an             |
-                                                 interrupt on the RSL.                              |
-
+ <20>    M2_UP_B0  R/W     0x0         0         Reserved.                                          |
+ <21>    M2_UP_WI  R/W     0x0         0         Reserved.                                          |
+ <22>    M2_UN_B0  R/W     0x0         0         Reserved.                                          |
+ <23>    M2_UN_WI  R/W     0x0         0         Reserved.                                          |
+ <24>    M3_UP_B0  R/W     0x0         0         Reserved.                                          |
+ <25>    M3_UP_WI  R/W     0x0         0         Reserved.                                          |
+ <26>    M3_UN_B0  R/W     0x0         0         Reserved.                                          |
+ <27>    M3_UN_WI  R/W     0x0         0         Reserved.                                          |
  <31:28> NS        R/W     0x0         0         Reserved	 				    |
  <33:32> DMAFI     R/W     0x0         0         DMA set Forced Interrupts                          |
  <35:34> DCNT      R/W     0x0         0         DMA Count Interrupts				    |
@@ -37293,15 +37261,18 @@ Pos      Name    Type     Value     Value       Description
 <8:7>   P_REFCLK_SEL   R/W    0x0    0x0        PHY PLL Reference Clock Select.                     |
                                                 00: uses 12Mhz crystal at USB_XO and USB_XI;        |
                                                 01: uses 12/24/48Mhz 2.5V clock source at USB_XO.   |
-                                                    USB_XI should be tied to GND.                   |
+                                                    USB_XI should be tied to GND(Not Supported).    |
                                                 1x: Reserved.                                       |
 <6:5>   P_REFCLK_DIV    R/W    0x0    0x0       PHY Reference Clock Frequency Select.               |
-                                                00: 12MHz, 01: 24Mhz, 10: 48Mhz, 11: Reserved.      |
+                                                  00: 12MHz,                                        |
+                                                  01: 24Mhz (Not Supported),                        |
+	                                          10: 48Mhz (Not Supported),                        |
+                                                  11: Reserved.                                     |
                                                 Note: This value must be set during POR is active.  |
                                                 If a crystal is used as a reference clock,this field|
                                                 must be set to 12 MHz. Values 01 and 10 are reserved|
                                                 when a crystal is used.                             |
-<4>     NS             R/W     0        NS      Reserved                                            |
+<4>     NS             R/W     0      NS        Reserved                                            |
 <3>     P_COM_ON       R/W     0      0         PHY Common Block Power-Down Control.                |
                                                 1: The XO, Bias, and PLL blocks are powered down in |
                                                    Suspend mode.                                    |

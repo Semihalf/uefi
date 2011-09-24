@@ -41918,10 +41918,13 @@ Pos      Name    Type     Value     Value       Description
 <8:7>   P_REFCLK_SEL   R/W    0x0    0x0        PHY PLL Reference Clock Select.                     |
                                                 00: uses 12Mhz crystal at USB_XO and USB_XI;        |
                                                 01: uses 12/24/48Mhz 2.5V clock source at USB_XO.   |
-                                                    USB_XI should be tied to GND.                   |
+                                                    USB_XI should be tied to GND(Not Supported).    |
                                                 1x: Reserved.                                       |
 <6:5>   P_REFCLK_DIV    R/W    0x0    0x0       PHY Reference Clock Frequency Select.               |
-                                                00: 12MHz, 01: 24Mhz, 10: 48Mhz, 11: Reserved.      |
+                                                  00: 12MHz,                                        |
+                                                  01: 24Mhz (Not Supported),                        |
+	                                          10: 48Mhz (Not Supported),                        |
+                                                  11: Reserved.                                     |
                                                 Note: This value must be set during POR is active.  |
                                                 If a crystal is used as a reference clock,this field|
                                                 must be set to 12 MHz. Values 01 and 10 are reserved|
