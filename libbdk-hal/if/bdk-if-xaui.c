@@ -332,6 +332,11 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         BDK_CSR_WRITE (BDK_GMXX_RXX_INT_EN(gmx_index,gmx_block), 0x0);
         BDK_CSR_WRITE (BDK_GMXX_TX_INT_EN(gmx_block), 0x0);
         BDK_CSR_WRITE (BDK_PCSXX_INT_EN_REG(gmx_block), 0x0);
+        /* Reset PCS if some lanes are up but not others */
+        BDK_CSR_INIT(status, BDK_PCSXX_10GBX_STATUS_REG(gmx_block));
+        if (!status.s.alignd && (status.s.l0sync || status.s.l1sync || status.s.l2sync || status.s.l3sync))
+            BDK_CSR_MODIFY(c, BDK_PCSXX_CONTROL1_REG(gmx_block),
+                c.s.reset=1);
     }
     return result;
 }
