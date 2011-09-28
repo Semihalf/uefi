@@ -1,6 +1,5 @@
-
--- BDK File menu
-
+-- BDK Network stack menu.
+-- Displays the GUI interface for configuring the network stack.
 require("strict")
 require("utils")
 require("menu")

@@ -1,6 +1,5 @@
-
--- BDK DDR menu
-
+-- BDK DDR menu.
+-- Displays the GUI interface for configuring and testing DRAM.
 require("strict")
 require("utils")
 require("menu")

@@ -1,6 +1,6 @@
---
--- Lua Strict by Thomas Lauer
--- http://thomaslauer.com/comp/LuaStrict
+---
+-- Lua Strict by Thomas Lauer.
+-- * http://thomaslauer.com/comp/LuaStrict
 --
 -- Strict implements a somewhat stricter handling of global variables than
 -- Lua. There are two basic modes: weak and strong. In the weak mode you
@@ -54,6 +54,7 @@ local function noaccess2() -- for __index
     return w~='C'
 end
 
+--- Declare a global variable
 function declareGlobal(n,v,m)
     m=m or g; -- no module means n will go into _G
     if not isDeclared(n,m) then -- if not there, go ahead

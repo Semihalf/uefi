@@ -1,8 +1,7 @@
---
--- Lua coverage implementation
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
--- This module is released under the standard Lua MIT license
+--- Lua coverage implementation.
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+-- * This module is released under the standard Lua MIT license
 --
 
 local debug = require("debug")
@@ -26,21 +25,21 @@ local function coverage_hook(reason, lineno)
     coverage.data[filename][lineno] = coverage.data[filename][lineno] + 1
 end
 
---
+---
 -- Start coverage analysis
 --
 function coverage.start()
     debug.sethook(coverage_hook, "l")
 end
 
---
+---
 -- Stop coverage analysis
 --
 function coverage.stop()
     debug.sethook()
 end
 
---
+---
 -- Report coverage analysis
 --
 function coverage.report()

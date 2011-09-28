@@ -1,3 +1,4 @@
+--- Access NOR flash connected to OCTEON's bootbus
 require("strict")
 require("utils")
 require("fileio")
@@ -160,6 +161,42 @@ local function nor_get_block(nor, offset)
     end
     return nil, "Offset not found in flash"
 end
+
+--- @class nor
+-- Object returned by query()
+
+--- NOR flash programming parameters.
+-- Table containing information about the NOR chip.
+-- @table nor:param
+
+--- Reset NOR flash
+-- @function nor:reset()
+
+--- Erase a page in NOR flash
+-- @function nor:erase(offset)
+-- @param offset Location in flash to erase
+
+--- Write data to flash
+-- @function nor:write(offset, data)
+-- @param offset Location in flash to write
+-- @param data Data to write to flash
+
+--- Erase and write to flash in a single step
+-- @function nor:burn(offset, data, show_status)
+-- @param offset Location in flash to burn
+-- @param data Data to write to flash
+-- @param show_status Set to true to see progress during burn
+
+--- Read bytes from flash
+-- @function nor:read(offset, length)
+-- @param offset Location in flash to read
+-- @param length Number of bytes to read
+-- @return Data bytes as a string
+
+--- Read a single byte from flash
+-- @function nor:readb(offset)
+-- @param offset Location in flash to read
+-- @return Data byte as a string
 
 --
 -- Erase and write to flash in a single step
@@ -413,6 +450,7 @@ local function cfi_query(chip_sel)
     else
         error("NOR: Unknown command set")
     end
+
     nor.burn = nor_burn
     function nor:read(offset, length)
         return nor_read(nor.bootbus, offset, length)
@@ -426,9 +464,11 @@ local function cfi_query(chip_sel)
     return nor
 end
 
---
+---
 -- This query function is the only module level function exposed. Call
 -- it to get the NOR object instance.
+-- @param chip_sel OCTEON bootbus chip select the NOR flash is connected to.
+-- @return Object of class "nor" representing the NOR flash.
 --
 function norflash.query(chip_sel)
     if not init_complete then

@@ -1,6 +1,5 @@
-
--- BDK DDR menu
-
+-- BDK TWSI menu.
+-- Displays the GUI interface for accessing TWSI.
 require("strict")
 require("utils")
 require("menu")

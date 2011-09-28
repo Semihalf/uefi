@@ -1,6 +1,5 @@
-
--- BDK DDR menu
-
+-- BDK SMI/MDIO menu.
+-- Displays the GUI interface for configuring and accessing SMI/MDIO.
 require("strict")
 require("utils")
 require("menu")

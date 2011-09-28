@@ -1,30 +1,43 @@
+--- Pure Lua implementation of OCTEON CSR access by name.
+-- This module creates a "csr" table that contains names for each CSR
+-- supported by the OCTEON chip. CSRs can then be accessed with code
+-- using names and field names.
+--
+-- * value = X.csr.NAME.read()
+-- * X.csr.NAME.write(value)
+-- * X.csr.NAME.display()
+-- * value = X.csr.NAME.FIELD
+-- * X.csr.NAME.FIELD = value
+-- * tbl = X.csr.NAME.decode()
+-- * X.csr.NAME.encode(tbl)
+
 require("strict")
 require("utils")
 require("menu")
 local bit64 = require("bit64")
 
---
+---
 -- Create an instance of a CSR object that can perform operations on a CSR.
 -- Instances are created once the full address information is resolved.
 --
 local function csr_instance(csr_name, csr_type, busnum, csr_size, address, fields, read_func, write_func)
     local csr = {}
 
-    --
+    ---
     -- Read a CSR and return its value
     --
     function csr.read()
         return read_func(csr_type, busnum, csr_size, address)
     end
 
-    --
+    ---
     -- Write a value to a CSR
     --
     function csr.write(value)
         write_func(csr_type, busnum, csr_size, address, value)
     end
 
-    --
+    ---
     -- Display a CSR value in a pretty format
     --
     function csr.display(optional_value)
@@ -43,7 +56,7 @@ local function csr_instance(csr_name, csr_type, busnum, csr_size, address, field
         end
     end
 
-    --
+    ---
     -- Decode a CSR into a table of fields
     --
     function csr.decode(optional_value)
@@ -56,7 +69,7 @@ local function csr_instance(csr_name, csr_type, busnum, csr_size, address, field
         return t
     end
 
-    --
+    ---
     -- Update a CSR based on a table of fields
     --
     function csr.encode(new_values)

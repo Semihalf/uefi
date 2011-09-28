@@ -1,6 +1,5 @@
-
--- BDK GPIO menu
-
+-- BDK GPIO menu.
+-- Displays the GUI interface for configuring and accessing GPIO pins.
 require("strict")
 require("utils")
 require("menu")

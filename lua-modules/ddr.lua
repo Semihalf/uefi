@@ -1,7 +1,7 @@
---
--- Lua module supporting DDR DRAM
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
+---
+-- Lua module supporting DDR DRAM.
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
 --
 
 require("strict")
@@ -52,10 +52,11 @@ local function dump_swig_object(object, prefix, file_handle)
     end
 end
 
---
+---
 -- Dump a board configuration in a human readable format
--- board_entry = DRAM config structure
--- No return value, raises error on failure
+-- @param board_entry DRAM config structure
+-- @param optional_filename Filename to write config to, or nil for stdout.
+-- @return No return value, raises error on failure
 --
 function ddr.show_config(board_entry, optional_filename)
     assert(board_entry, "board_entry is nil")
@@ -70,11 +71,11 @@ function ddr.show_config(board_entry, optional_filename)
     end
 end
 
---
+---
 -- Get the DRAM configuration for a given board name. If the
 -- board name is nil, and empty swig object is returned
--- board_name = Strign board name or nil
--- Returns DRAM configuration or raises an error
+-- @param board_name String board name or nil
+-- @return Returns DRAM configuration or raises an error
 --
 function ddr.get_config(board_name)
     if board_name then
@@ -90,10 +91,11 @@ function ddr.get_config(board_name)
     end
 end
 
---
+---
 -- Given a board name or DRAM config structure, configure DRAM.
--- board_entry = DRMA configuration of a string board name
--- Returns the amount of memory in megabytes or raises an error
+-- @param board_entry DRAM configuration of a string board name.
+-- @param ddr_clock_hertz DRAM clock in Hertz.
+-- @return Returns the amount of memory in megabytes or raises an error.
 --
 function ddr.set_config(board_entry, ddr_clock_hertz)
     -- A board name or structure is required
@@ -114,11 +116,11 @@ function ddr.set_config(board_entry, ddr_clock_hertz)
     return mbytes
 end
 
---
+---
 -- Test a region of memory for errors
--- start_address = Physical address in memroy to start at
--- length = Length of region to test
--- Returns nothing but raises an error on failure.
+-- @param start_address Physical address in memroy to start at
+-- @param length Length of region to test
+-- @return Returns nothing but raises an error on failure.
 --
 function ddr.test(start_address, length)
     printf("Testing DDR from 0x%x to 0x%x with sequential write+read\n",

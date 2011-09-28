@@ -1,3 +1,4 @@
+--- Module for creating menus and other user interface elements.
 require("strict")
 require("utils")
 local readline = require("readline")
@@ -11,11 +12,12 @@ local BANNER = "================================="
 --
 -- Called when the user calls m:item()
 -- Adds or updates a menu item.
--- key = object returned when the menu item is chosen
--- description = Text shown to the user
--- func = Optional function to call when the item is chosen
--- ... = Optional arguments for the function
--- No return from this function
+-- @function menu:item
+-- @param key object returned when the menu item is chosen
+-- @param description Text shown to the user
+-- @param func Optional function to call when the item is chosen
+-- @param ... Optional arguments for the function
+-- @return No return from this function
 --
 local function set_item(m, key, description, func, ...)
     local item =  {key=key, description=description, func=func, args=table.pack(...)}
@@ -28,11 +30,12 @@ local function set_item(m, key, description, func, ...)
     table.insert(m.items, item)
 end
 
---
--- Called when the user calls m:show()
+----
+-- Called when the user calls m:show().
 -- Shows a menu on the console. Returns the item key that is selected.
 -- If an item has a function attached, then that function is executed
 -- before the key is returned.
+-- @function menu:show
 --
 local function show(m)
     while (true) do
@@ -89,7 +92,7 @@ local function show(m)
     end
 end
 
---
+---
 -- Create a fancier menu with an optional title. Returns a new menu.
 -- Call m:item(m, key, description, func, ...) for each menu item.
 -- Call m:show() to display the menu
@@ -136,7 +139,7 @@ local function read_input(prompt)
     return word
 end
 
---
+---
 -- Prompt the user for a string. Throw an error if the user aborts input.
 --
 function menu.prompt_string(prompt, optional_default)
@@ -156,7 +159,7 @@ function menu.prompt_string(prompt, optional_default)
     return result
 end
 
---
+---
 -- Prompt the user for a filename. Throw an error if the user aborts input.
 --
 function menu.prompt_filename(prompt, optional_default)
@@ -164,7 +167,7 @@ function menu.prompt_filename(prompt, optional_default)
     return menu.prompt_string(prompt, optional_default)
 end
 
---
+---
 -- Prompt the user for a number. Throw an error if the user aborts input.
 --
 function menu.prompt_number(prompt, optional_default, optional_min, optional_max)
@@ -191,7 +194,7 @@ function menu.prompt_number(prompt, optional_default, optional_min, optional_max
     return result
 end
 
---
+---
 -- Prompt the user for a yes or no question(y/n). Throw an error if the
 -- user aborts input. Output is true or false
 --
@@ -206,7 +209,7 @@ function menu.prompt_yes_no(prompt, optional_default)
     end
 end
 
---
+---
 -- Execute a Lua file, searching the Lua path as needed to find it
 --
 function menu.dofile(filename)

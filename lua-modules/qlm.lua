@@ -1,3 +1,4 @@
+--- Access to OCTEON QLM information.
 require("strict")
 require("utils")
 
@@ -10,6 +11,9 @@ local function sleep(sec)
     end
 end
 
+--- Get the configuration of a QLM
+-- @param qlm_num QLM number to get configuration for
+-- @return Table containing the QLM mode and speed
 function qlm.get_config(qlm_num)
     local result = {}
     result.mode = octeon.c.bdk_qlm_get_mode(qlm_num)
@@ -17,6 +21,9 @@ function qlm.get_config(qlm_num)
     return result
 end
 
+--- Measure the reference clock of a QLM
+-- @param qlm_num QLM number to measure
+-- @return Clock frequency in hertz
 function qlm.measure_clock(qlm_num)
     return octeon.c.bdk_qlm_measure_clock(qlm_num)
 end
@@ -29,6 +36,8 @@ local function display_jtag_field(qlm_num, field)
         octeon.c.bdk_qlm_jtag_get(qlm_num, 3, field))
 end
 
+--- Reset a QLM
+-- @param qlm_num QLM number to reset
 function qlm.do_reset(qlm_num)
     -- Place QLM in power down
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_clr", 0)
@@ -53,9 +62,11 @@ function qlm.do_reset(qlm_num)
     end
 end
 
--- Turn on the QLM Shallow Loopback. Some chips can't loopback all lanes
+--- Turn on the QLM Shallow Loopback. Some chips can't loopback all lanes
 -- at once. Which lanes are controlled by the mode parameter, which is a
 -- raw JTAG value.
+-- @param qlm_num QLM number to loop
+-- @param mode raw JTAG value
 function qlm.do_loop(qlm_num, mode)
     qlm.do_reset(qlm_num)
 
@@ -71,10 +82,12 @@ function qlm.do_loop(qlm_num, mode)
     display_jtag_field(qlm_num, "sl_enable")
 end
 
--- Turn on the QLM PRBS generator. If operating in a loopback configuration
+--- Turn on the QLM PRBS generator. If operating in a loopback configuration
 -- this also turns on the PRBS Error Counter and PRBS Lock status bit. The
 -- types of PRBS generators vary by OCTEON. The scan chain bits controlling
 -- the generators also vary by OCTEON.
+-- @param qlm_num QLM number to run PRBS on
+-- @param mode PRBS mode to run
 function qlm.do_prbs(qlm_num, mode)
     qlm.do_reset(qlm_num)
 

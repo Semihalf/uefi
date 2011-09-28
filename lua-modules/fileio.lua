@@ -1,16 +1,22 @@
---
+---
 -- Lua module supporting higher level file operations
--- that are common using the BDK's virtual filesystem
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
+-- that are common using the BDK's virtual filesystem.
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
 --
 
 require("strict")
 require("utils")
 
 fileio = {}
+--- Maximum size of block to transfer in one read/write
 fileio.block_size = 128
 
+--- Open a file, throwing an exception on failure
+-- @param filename File to open.
+-- @param mode File open mode to pass into io.open().
+-- @param seek_to Location to seek to in the file, or nil
+-- @return File handle
 function fileio.open(filename, mode, seek_to)
     assert(type(filename) == "string")
     assert(type(mode) == "string")
@@ -30,6 +36,7 @@ function fileio.open(filename, mode, seek_to)
     return handle
 end
 
+--- Transfer data from one file handle to another.
 function fileio.transfer(source_handle, dest_handle, length)
     if length == nil then
         -- Assume no file is larger than 64GB
@@ -51,6 +58,7 @@ function fileio.transfer(source_handle, dest_handle, length)
     return transfer_count
 end
 
+--- Copy data from one file to another.
 function fileio.copy(source, source_seek, dest, dest_seek, length)
     local close_source = false
     local close_dest = false
@@ -73,9 +81,7 @@ function fileio.copy(source, source_seek, dest, dest_seek, length)
 end
 
 
---
--- Hex dump a file.
---
+--- Hex dump a file.
 function fileio.hexdump(source, seek_to, length)
     local close_source = false
     if type(source) == "string" then

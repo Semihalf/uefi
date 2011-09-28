@@ -1,6 +1,5 @@
-
--- BDK File menu
-
+-- BDK File menu.
+-- Displays the GUI interface for accessing the filesystem.
 require("strict")
 require("utils")
 require("fileio")

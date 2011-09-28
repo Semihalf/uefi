@@ -1,4 +1,4 @@
-
+-- Configure the BDK for a ebb6800 board.
 print("Configuring for the EBB6800")
 
 -- Configure MDIO mux to connect MGMT port _and_ QLM4 to MDIO 0.

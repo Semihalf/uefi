@@ -1,6 +1,5 @@
-
--- BDK PCIe menu
-
+-- BDK PCIe menu.
+-- Displays the GUI interface for accessing PCIe.
 require("strict")
 require("utils")
 require("menu")

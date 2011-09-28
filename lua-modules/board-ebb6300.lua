@@ -1,4 +1,4 @@
-
+-- Configure the BDK for a ebb6300 board.
 print("Configuring for the EBB6300")
 
 local set_config = octeon.c.bdk_config_set

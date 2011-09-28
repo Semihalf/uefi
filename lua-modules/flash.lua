@@ -1,6 +1,5 @@
-
--- BDK File menu
-
+-- BDK Flash menu.
+-- Displays the GUI interface for accessing NOR flash.
 require("strict")
 require("utils")
 require("fileio")

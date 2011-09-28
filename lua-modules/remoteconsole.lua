@@ -1,3 +1,4 @@
+--- Module to support accessing the console over OCTEON_REMOTE_PROTOCOL.
 require("strict")
 require("utils")
 local oremote = require("oremote")
@@ -68,6 +69,8 @@ local function rem_write(handle, data)
     end
 end
 
+--- Open a remote console
+-- @return Object similar to a file handle
 function remoteconsole.open()
     local magic = oremote.read_mem(REMOTE_ADDRESS, 4)
     log:info("Magic = %s\n", magic)
@@ -82,6 +85,7 @@ function remoteconsole.open()
     return handle
 end
 
+--- Create an interactive terminal for accessing the remote console
 function remoteconsole.run()
     printf("Hit Control-A to exit console\n")
     local handle = remoteconsole.open()

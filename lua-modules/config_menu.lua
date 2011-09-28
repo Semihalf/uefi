@@ -1,6 +1,5 @@
-
--- BDK Configuration menu
-
+-- BDK Configuration menu.
+-- Displays the GUI interface for configuring the BDK.
 require("strict")
 require("utils")
 require("menu")

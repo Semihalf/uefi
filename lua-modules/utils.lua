@@ -1,21 +1,21 @@
---
--- Simple utilities for Lua to do common operations
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
--- This module is released under the standard Lua MIT license
+---
+-- Simple utilities for Lua to do common operations.
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+-- * This module is released under the standard Lua MIT license
 --
 
---
--- C Stype printf function. printf("format", ...).
+---
+-- C style printf function. printf("format", ...).
 --
 function printf(...)
     io.write(string.format(...))
 end
 
---
+---
 -- Python style string formatting
--- str = "format" % value
--- str = "format" % {...}
+-- * str = "format" % value
+-- * str = "format" % {...}
 --
 getmetatable("").__mod = function(format, param)
     if not param then
@@ -72,8 +72,9 @@ local function pprint_str(param, indent, visited)
     end
 end
 
---
--- Pretty print
+---
+-- Pretty print any Lua object
+-- @param ... One or more Lua objects to display
 --
 function pprint(...)
     local p
@@ -104,8 +105,10 @@ local function compare(a,b)
     end
 end
 
---
+---
 -- Return a table's keys in sorted order
+-- @param tbl Table to sort keys of
+-- @return Table of sorted keys
 --
 function table.sorted_keys(tbl)
     local result = {}
@@ -116,8 +119,10 @@ function table.sorted_keys(tbl)
     return result
 end
 
---
+---
 -- Return a table's values in sorted order
+-- @param tbl Table to sort values of
+-- @return Table of sorted values
 --
 function table.sorted_values(tbl)
     local result = {}
@@ -128,13 +133,18 @@ function table.sorted_values(tbl)
     return result
 end
 
---
+---
 -- Return if the string name is defiend as a global variable
+-- @param name Name of a variable to check
 --
 function isglobal(name)
     return rawget(_G, name) ~= nil
 end
 
+---
+-- Convert a string to hex
+-- @function string:hex()
+--
 function string.hex(str)
     local hex = ""
     for i = 1,#str do

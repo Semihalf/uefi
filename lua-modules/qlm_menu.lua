@@ -1,6 +1,5 @@
-
--- BDK QLM menu
-
+-- BDK QLM menu.
+-- Displays the GUI interface for accessing QLM settings.
 require("strict")
 require("utils")
 require("menu")

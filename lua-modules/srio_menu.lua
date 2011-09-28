@@ -1,6 +1,5 @@
-
--- BDK SRIO menu
-
+-- BDK SRIO menu.
+-- Displays the GUI interface for accessing SRIO.
 require("strict")
 require("utils")
 require("menu")

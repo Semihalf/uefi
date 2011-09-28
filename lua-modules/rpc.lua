@@ -1,8 +1,8 @@
---
--- Lua RPC implementation
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
--- This module is released under the standard Lua MIT license
+---
+-- Lua RPC implementation.
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+-- * This module is released under the standard Lua MIT license
 --
 
 require("utils")
@@ -385,8 +385,11 @@ local function rpc_object_ipairs(self)
     return rpc_object_remote(p, "c", self)
 end
 
---
+---
 -- Create a new RPC connection to a remote rpc.serve
+-- @param instream Input stream to use for RPC. Can be a filename, TCP host, nil (stdin).
+-- @param outstream Input stream to use for RPC. Can be a filename, TCP host, nil (smae as instream).
+-- @return Returns a RPC object that represents the top level global environment of the remote system.
 --
 function rpc.connect(instream, outstream)
     local object = newproxy(true)
@@ -480,8 +483,9 @@ local function rpc_serve(inf, outf, only_one)
     until only_one
 end
 
---
+---
 -- Create a RPC server
+-- @param only_one If true, then accept a single RPC command and return. Otherwise loop forever servicing RPC.
 --
 function rpc.serve(only_one)
     is_server = true
