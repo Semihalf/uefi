@@ -40,6 +40,8 @@ function TrafficGen.new()
     local use_readline = true
     local input_file = nil
     local last_display = 0
+    local transmit_start = 0
+    local transmit_time = 0
     local l2_stats_table = {}
     local show_l2_stats = false
 
@@ -572,7 +574,16 @@ function TrafficGen.new()
         local num_rows = 0
         printf(CURSOR_OFF .. GOTO_TOP)
 
-        printf(ZEROHI .. "%20s", "Port")
+        if octeon.trafficgen.is_transmitting(known_ports) then
+            transmit_time = display_cycle - transmit_start
+            printf(NONZEROHI)
+        else
+            transmit_start = display_cycle
+            printf(ZEROHI)
+        end
+        printf("%4d:%02d:%02d", transmit_time/3600, transmit_time/60%60, transmit_time%60)
+
+        printf(ZEROHI .. "%10s", "Port")
         for _,port in ipairs(visible_ports) do
             printf("|%10s", port)
         end
