@@ -312,6 +312,13 @@ static int if_init(bdk_if_handle_t handle)
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(gmx_index, gmx_block), 65535);
 
+    /* Disable frame alignment if using preamble. This allows the link to
+        reach full rate for odd length packets. For example, without this
+        SGMII is slower than RGMII for 65 byte packets */
+    BDK_CSR_INIT(gmxx_txx_append, BDK_GMXX_TXX_APPEND(gmx_index, gmx_block));
+    BDK_CSR_MODIFY(c, BDK_GMXX_TXX_SGMII_CTL(gmx_index, gmx_block),
+        c.s.align = !gmxx_txx_append.s.preamble);
+
     /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
         value. 1000BASE-X specifies a 10ms interval. SGMII specifies a 1.6ms
         interval. */
