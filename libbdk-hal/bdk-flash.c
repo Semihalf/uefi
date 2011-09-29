@@ -133,7 +133,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
         (__bdk_flash_read_cmd(chip_id, 0x11) != 'R') ||
         (__bdk_flash_read_cmd(chip_id, 0x12) != 'Y'))
     {
-        flash->base_addr = NULL;
+        flash->base_addr = 0;
         bdk_dprintf("NOR Flash %d:CFI Query failed\n", chip_id);
         return -1;
     }
