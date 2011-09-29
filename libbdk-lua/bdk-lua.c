@@ -2,14 +2,23 @@
 #include <bdk.h>
 #include <unistd.h>
 #else
+#include <libbdk-lua/bdk-lua.h>
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
 #endif
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+/**
+ * This is the main enotry point for Lua, defined in liblua. It
+ * should not be used directly.
+ *
+ * @param argc
+ * @param argv
+ *
+ * @return
+ */
+extern int __bdk_lua_main(int argc, const char **argv);
+
 
 #ifndef BDK_BUILD_HOST
 static void control_c_check(lua_State *L, lua_Debug *ar)
@@ -58,9 +67,77 @@ void bdk_lua_init(void *lua_state)
 #ifdef BDK_BUILD_HOST
 int main(int argc, const char **argv)
 {
-    extern int bdk_lua_main(int argc, const char **argv);
-    return bdk_lua_main(argc, argv);
+    return __bdk_lua_main(argc, argv);
 }
+
+#else
+
+/**
+ * Create a new Lua interpreter and execute it in another thread.
+ * The Lua instance starts in a new thread so the stack size can
+ * be adjusted. Lua requires more stacj space than most BDK
+ * threads. This means this routine returns immediately and the
+ * Lua instance continues. It is expected that this function
+ * will be called as the last line of main().
+ *
+ *     int main(void)
+ *     {
+ *         return bdk_lua_start();
+ *     }
+ *
+ * @return Zero for use as return value for main()
+ */
+int bdk_lua_start(void)
+{
+    static const char *argv[] = {
+        "lua",
+        "-i",
+        "/rom/init.lua",
+        NULL,
+    };
+
+    if (BDK_IS_REQUIRED(LWIP) && bdk_netstack_initialize(0))
+        bdk_error("bdk_netstack_if_initialize() failed\n");
+
+    extern int bdk_fs_remote_init(void);
+    bdk_fs_remote_init();
+    extern int bdk_fs_rom_init(void);
+    bdk_fs_rom_init();
+    extern int bdk_fs_mem_init(void);
+    bdk_fs_mem_init();
+    extern int bdk_fs_nor_init(void);
+    bdk_fs_nor_init();
+    if (BDK_IS_REQUIRED(FS_PCIE))
+    {
+        extern int bdk_fs_pcie_init(void) BDK_WEAK;
+        bdk_fs_pcie_init();
+    }
+    if (BDK_IS_REQUIRED(FS_RAM))
+    {
+        extern int bdk_fs_ram_init(void) BDK_WEAK;
+        bdk_fs_ram_init();
+    }
+    if (BDK_IS_REQUIRED(FS_TCP))
+    {
+        extern int bdk_fs_tcp_init(void) BDK_WEAK;
+        bdk_fs_tcp_init();
+    }
+    if (BDK_IS_REQUIRED(FS_XMODEM))
+    {
+        extern int bdk_fs_xmodem_init(void) BDK_WEAK;
+        bdk_fs_xmodem_init();
+    }
+    if (BDK_IS_REQUIRED(FS_SRIO))
+    {
+        extern int bdk_fs_srio_init(void) BDK_WEAK;
+        bdk_fs_srio_init();
+    }
+
+    if (bdk_thread_create(0, (bdk_thread_func_t)__bdk_lua_main, 3, argv, 16384))
+        bdk_fatal("Create of Lua thread failed\n");
+    return 0;
+}
+
 #endif
 
 

@@ -19,6 +19,7 @@
  *
  * $Id: octeon-remote-macraigor.c 55004 2010-11-24 01:18:24Z kreese $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <errno.h>
@@ -33,7 +34,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netinet/tcp.h>
-#include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 
 #define ULL unsigned long long

@@ -1,18 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <memory.h>
-#include "octeon-remote-bdk.h"
+#include <bdk.h>
 #include "octeon-remote.h"
 
 // Module for interfacing with a remote Octeon
-
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
 
 /**
  * oremote.open(protocol, debug)

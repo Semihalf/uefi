@@ -36,6 +36,8 @@ access the remote console.
     -- Add a global member that has access to the global context on the remote
     -- system
     base.global = remote
+else
+    base.global = false
 end
 
 -- Create the CSR table

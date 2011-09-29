@@ -2,10 +2,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int CYCLE_SHIFT = 12;

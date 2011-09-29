@@ -1,21 +1,6 @@
-#ifndef BDK_BUILD_HOST
 #include <bdk.h>
-#else
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <memory.h>
-#endif
-#include "../libbdk-os/bdk-readline.h"
 
 // Module for interfacing with readline
-
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
 
 /**
  * getkey()

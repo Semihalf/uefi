@@ -28,3 +28,13 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(CSR_DB);
 }
 
+/**
+ * Main entry point
+ *
+ * @return exit code
+ */
+int main(void)
+{
+    /* Start Lua. It will execute /rom/init.lua */
+    return bdk_lua_start();
+}

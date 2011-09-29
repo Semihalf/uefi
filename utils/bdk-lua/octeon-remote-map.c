@@ -44,6 +44,7 @@
  *
  * $Id: octeon-remote-map.c 47776 2010-03-10 00:36:43Z kreese $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

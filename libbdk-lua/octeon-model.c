@@ -1,17 +1,5 @@
-#ifndef BDK_BUILD_HOST
 #include <bdk.h>
-#include <unistd.h>
-#else
-#include <stdint.h>
-#include <unistd.h>
-#include <string.h>
-#include <libbdk-arch/bdk-model.h>
-#endif
 // Module for interfacing with Octeon
-
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
 
 /**
  * Lua wrapper for OCTEON_IS_MODEL

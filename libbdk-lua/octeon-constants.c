@@ -1,10 +1,6 @@
 #include <bdk.h>
 #include <unistd.h>
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
 /**
  * Called to register the octeon module
  *

@@ -2,10 +2,6 @@
 #include <unistd.h>
 // Module for interfacing with Octeon
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
 /**
  * Called to register the octeon module
  *

@@ -18,8 +18,8 @@ $(BDK_ROOT)/target-bin/bdk-full-no-romfs.bin: bdk-full.bin
 	cp $(^:%.bin=%.map) $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.map
 	cp $^ $(BDK_ROOT)/target-bin/$(^:%.bin=%)-no-romfs.bin
 
-bdk-full: bdk-full.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
-bdk-minimal: bdk-minimal.o bdk-common.o $(BDK_ROOT)/libbdk/libbdk.a
+bdk-full: bdk-full.o $(BDK_ROOT)/libbdk/libbdk.a
+bdk-minimal: bdk-minimal.o $(BDK_ROOT)/libbdk/libbdk.a
 
 bdk-reset-rtl: bdk-reset-rtl.S
 	$(CC) -nostdlib -nostartfiles -Ttext=0xBFC00000 -o $@ $^

@@ -2,10 +2,6 @@
 #include <unistd.h>
 // Module for interfacing with Octeon
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
 /**
  * Wrapper to call a generic C function from Lua. A maximum
  * of 8 arguments are supported. Each argument can either be a
@@ -105,5 +101,31 @@ void register_octeon_c(lua_State* L)
     lua_setfield(L, -2, "get_sbrk");
 
     lua_setfield(L, -2, "c");
+}
+
+/**
+ * This function should be called inside bdk_lua_callback() to add
+ * custom functions to the octeon.c table. This allows applications
+ * to add functions without modifying bdk-function.
+ *
+ * @param L      Lua state
+ * @param name   Name of the function to use in octeon.c.NAME
+ * @param func   Function to register. The function can take a maximum of eight
+ *               arguments where each argument must be a type compatable with a
+ *               int64_t or a constant string pointer. The return value of the
+ *               function can be void or a type compatable with a int64_t.
+ */
+void bdk_lua_register_cfunc(lua_State* L, const char *name, void *func)
+{
+    lua_getglobal(L, "require");
+    lua_pushstring(L, "octeon-internal");
+    lua_call(L, 1, 1);
+    /* Only "octeon-internal" on stack */
+    lua_getfield(L, -1, "c");
+    lua_pushlightuserdata(L, func);
+    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_setfield(L, -2, name);
+    lua_pop(L, 1); /* Pop the "c" table */
+    lua_pop(L, 1); /* Pop the "octeon-internal" table */
 }
 

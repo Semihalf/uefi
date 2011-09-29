@@ -43,6 +43,7 @@
  *
  * $Id: octeon-remote.c 49444 2010-05-20 19:26:12Z kreese $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -54,7 +55,6 @@
 #include <errno.h>
 #include <sys/file.h>
 #include <sys/time.h>
-#include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 
 #define ULL unsigned long long

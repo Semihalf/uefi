@@ -54,8 +54,6 @@ extern "C" {
 #define OCTEON_REMOTE_DEFAULT NULL
 #endif
 
-#include "octeon-remote-bdk.h"
-
 /**
  * - regs[0][0-31] = General purpose registers
  * - regs[0][32] = Lo

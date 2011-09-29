@@ -44,10 +44,9 @@
  *
  * $Id: octeon-remote-map.h 41588 2009-03-19 19:41:00Z vmalov $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 #include "octeon-remote-debug-handler.h"
 

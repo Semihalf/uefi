@@ -43,6 +43,7 @@
  *
  * $Id: octeon-remote-gdbremote.c 41605 2009-03-20 01:13:49Z kreese $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <errno.h>
@@ -57,7 +58,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netinet/tcp.h>
-#include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 
 #define ULL unsigned long long

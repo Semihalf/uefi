@@ -1,10 +1,6 @@
 #include <bdk.h>
 // Module for interfacing with performance counters
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
 #define MAX_TADS 4
 #define NUM_COUNTERS 4
 

@@ -453,6 +453,10 @@ static int pmain (lua_State *L) {
   lua_gc(L, LUA_GCRESTART, 0);
   /* run LUA_INIT */
   if (handle_luainit(L) != LUA_OK) return 0;
+  /* Allow applications a chance to modify the Lua state */
+  extern void bdk_lua_callback(lua_State* L) __attribute__((weak));
+  if (bdk_lua_callback)
+      bdk_lua_callback(L);
   /* execute arguments -e and -l */
   if (!runargs(L, argv, (script > 0) ? script : argc)) return 0;
   /* execute main script (if there is one) */
@@ -471,7 +475,7 @@ static int pmain (lua_State *L) {
 }
 
 
-int bdk_lua_main (int argc, char **argv) {
+int __bdk_lua_main (int argc, char **argv) {
   int status, result;
   lua_State *L = luaL_newstate();  /* create state */
   if (L == NULL) {

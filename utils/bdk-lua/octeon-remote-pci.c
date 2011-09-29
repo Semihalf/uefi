@@ -43,6 +43,7 @@
  *
  * $Id: octeon-remote-pci.c 56824 2011-02-01 18:01:19Z cchavva $
  */
+#include <bdk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -52,7 +53,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
-#include "octeon-remote-bdk.h"
 #include "octeon-remote.h"
 #include "octeon-remote-map.h"
 #include "octeon-remote-debug-handler.h"

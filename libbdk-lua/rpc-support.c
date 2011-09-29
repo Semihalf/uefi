@@ -1,21 +1,7 @@
-#ifndef BDK_BUILD_HOST
 #include <bdk.h>
-#else
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <memory.h>
-#endif
 
 // Module for supporting RPC by supplying common used building
 // blocks that are slow in pure Lua.
-
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
 
 static int string_pack(lua_State* L)
 {
