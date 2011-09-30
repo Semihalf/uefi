@@ -39,8 +39,9 @@ BDK Features
 .Supported chips
 
 * CN63XX
+* CN66XX
 * CN68XX
-* CN66XX (when released)
+* CN61XX (when released)
 
 .Unsupported chips
 
@@ -55,18 +56,23 @@ Host Installation
 * Host = x86 running Linux
 
 ----
-# This example used BDK version 2011.05, build r59937
-host$ tar -zxf octeon-bdk-2011.05-r59937.tgz
-host$ ls octeon-bdk-2011.05
-bin  docs  examples  readme.txt  rom  target-bin  version.txt
+# This example used BDK version 2011.09, build r64643
+host$ tar -zxf octeon-bdk-2011.09-r64643.tgz
+host$ ls octeon-bdk-2011.09
+bin  docs  examples  lua-modules  readme.txt  rom  target-bin  version.txt
 ----
 
 .The Directory Structure of the BDK
 
 bin:: All host binaries and scripts
 docs:: All documentation for the BDK
-rom:: All files in here are included into BDK applications for access using standard filesystem calls
-target-bin:: All target binaries, ELF files, and memory maps for use on OCTEON targets
+examples:: Example host Lua scripts
+lua-modules:: Lua source files and support modules
+rom:: All files in here are included into BDK applications for access
+	using standard filesystem calls. These are mostly symbol links
+	to 'lua-modules'.
+target-bin:: All target binaries, ELF files, and memory maps for use
+	on OCTEON targets
 
 
 Target Installation
@@ -74,46 +80,33 @@ Target Installation
 
 .Booting from NOR flash
 
-Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash (address 0).
+Burn *target-bin/bdk-full.bin* to the beginning of the NOR flash (address 0).
 
 .Booting using the *bdk-remote* utility over PCIe from the host
 [source, sh]
 ----
 host$ export OCTEON_REMOTE_PROTOCOL=pci
-host$ bdk-remote boot target-bin/bdk-boot.bin
+host$ bdk-remote boot target-bin/bdk-full.bin
 ----
 
 .Booting using a pre-existing U-Boot, from the U-Boot prompt on the target
 ----
 Octeon ebb6300# dhcp
 Octeon ebb6300# setenv serverip 192.168.162.148
-Octeon ebb6300# tftpboot 0x400000 bdk-boot.bin
+Octeon ebb6300# tftpboot 0x400000 bdk-full.bin
 Octeon ebb6300# go 0x400000
 ----
 
-TIP: U-Boot interprets bdk-boot.bin as a bootloader image file, so it can
-be burned into NOR flash as if it was a normal bootloader image file using "bootloaderupdate" from the U-Boot command prompt.
+TIP: U-Boot interprets bdk-full.bin as a bootloader image file, so it can
+be burned into NOR flash as if it was a normal bootloader image file using
+"bootloaderupdate" from the U-Boot command prompt.
 
 
 Interactive Demo - Main Menu
 ----------------------------
 
 ----
-=================================
-Main Menu
-=================================
- 1) Configuration options
- 2) File options
- 3) Flash options
- 4) DDR options
- 5) PCIe options
- 6) SRIO options
- 7) TWSI options
- 8) SMI/MDIO options
- 9) Interactive Lua prompt
-10) TCP/IP networking
-11) Traffic Generator
-12) Reboot
+include::captures/main_menu.capture[]
 ----
 
 
@@ -124,20 +117,7 @@ Interactive Demo - Configuration
 * Menu items change based on the detected configuration
 
 ----
-=================================
-Configuration Menu
-=================================
- 1) MAC address (0xdeadbeef00)
- 2) RGMII/MII port 0 PHY address (0x6)
- 3) SGMII interface 4, port 0 PHY address (0x1)
- 4) SGMII interface 4, port 1 PHY address (0x2)
- 5) SGMII interface 4, port 2 PHY address (0x3)
- 6) SGMII interface 4, port 3 PHY address (0x4)
- 7) Interlaken port 0 lanes (0x4)
- 8) Interlaken port 0 channels (0x8)
- 9) Interlaken port 1 lanes (0x4)
-10) Interlaken port 1 channels (0x8)
-11) Main menu
+include::captures/configure_menu.capture[]
 ----
 
 
@@ -147,24 +127,7 @@ Interactive Demo - PCIe
 * Enumeration and basic device probing
 
 ----
-=================================
-PCIe Menu
-=================================
- 1) PCIe0: Initialize
- 2) PCIe0: Scan for devices
- 3) PCIe0: Enumerate devices
- 4) PCIe0: Display devices
- 5) PCIe0: Perform a memory read
- 6) PCIe0: Perform a memory write
- 7) PCIe0: Shutdown
- 8) PCIe1: Initialize
- 9) PCIe1: Scan for devices
-10) PCIe1: Enumerate devices
-11) PCIe1: Display devices
-12) PCIe1: Perform a memory read
-13) PCIe1: Perform a memory write
-14) PCIe1: Shutdown
-15) Main menu
+include::captures/pcie_menu.capture[]
 ----
 
 
@@ -177,8 +140,8 @@ Interactive Demo - Traffic Gen
 * Key commands:
 ** csr <name> [value]
 ** default <port range>
-** output_count [port range] <count>
-** output_packet_size [port range] <size>
+** count [port range] <count>
+** size [port range] <size>
 ** scan_sizes
 ** show [port range]
 ** start [port range]
@@ -227,22 +190,7 @@ Interactive Demo - DRAM
 -----------------------
 
 ----
-=================================
-DDR Menu
-=================================
- 1) Load current DDR config using "ebb6300" board settings
- 2) Load current DDR config using "ebb6800" board settings
- 3) Load current DDR config from a file
- 4) Save current DDR config to a file
- 5) Display current DDR config
- 6) Change DDR clock frequency
- 7) Set SPD TWSI addresses
- 8) Enable verbose output
- 9) Disable verbose output
-10) Initialize DDR controller using current config
-11) Test DDR from 64MB to 128MB
-12) Test DDR over a specified range
-13) Main menu
+include::captures/ddr_menu.capture[]
 ----
 
 
@@ -305,8 +253,9 @@ BDK Release Rollout
 
 * Download now from support site
 ** Products -> Processors -> CN63XX -> BDK
+** Products -> Processors -> CN66XX -> BDK
 ** Products -> Processors -> CN68XX -> BDK
-* Engage with all CN68XX pre-alpha customers (even those with the SDK already)
+* Engage with all CN6XXX pre-alpha customers (even those with the SDK already)
 ** Not to be just thrown over the wall
 ** FAE needs to become familiar with the BDK on an CN6XXX EVB first
 ** Once the customer's board is back from fab, either load the binary for them or give step-by-step instruction for their situation
