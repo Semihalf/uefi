@@ -13456,12 +13456,30 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1>  NS       RAZ      NS          NS        Reserved				            |
- <0>	 ALIGN	  R/W	   0x1	       0x1	 Align the transmission to even cycles              |
+ <0>	 ALIGN	  R/W	   0x1	       0x0	 Align the transmission to even cycles              |
+												    |
+						  Recommended value is:				    |
+						     ALIGN = !GMX_TX_APPEND[PREAMBLE]		    |
+												    |
+						  (See the Transmit Conversion to Code groups	    |
+						   section in the SGMII Interface chapter of the    |
+						   HRM for a complete discussion)		    |
+												    |
 						  0 = Data can be sent on any cycle		    |
-						      Possible to for the TX PCS machine to drop    |
-						      first byte of preamble			    |
-						  1 = Data will only be sent on even cycles	    |
-						      There will be no loss of data		    |
+						      In this mode, the interface will function at  |
+						      maximum bandwidth. It is possible to for the  |
+						      TX PCS machine to drop first byte of the TX   |
+						      frame.  When GMX_TX_APPEND[PREAMBLE] is set,  |
+						      the first byte will be a preamble byte which  |
+						      can be dropped to compensate for an extended  |
+						      IPG.					    |
+												    |
+						  1 = Data will only be sent on even cycles.	    |
+						      In this mode, there can be bandwidth	    |
+						      implications when sending odd-byte packets as |
+						      the IPG can extend an extra cycle.	    |
+						      There will be no loss of data.		    |
+												    |
 						  (SGMII/1000Base-X only)			    |
 ----------------------------------------------------------------------------------------------------
 ===
