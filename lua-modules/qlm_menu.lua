@@ -13,6 +13,40 @@ local function show_config(qlm_num)
         config.speed % 1000);
 end
 
+local function set_config(qlm_num)
+    assert(octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD == 15, "QLM is already configured")
+    local function sgmii_config(qlm_num)
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 2
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 3
+    end
+
+    local function xaui_config(qlm_num)
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 3
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 8
+    end
+
+    local function dxaui_config(qlm_num)
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 3
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 5
+    end
+
+    local function custom_config(qlm_num)
+        local mode = menu.prompt_number("QLM%d Mode" % qlm_num, nil, 0, 3)
+        local speed = menu.prompt_number("QLM%d Speed" % qlm_num, nil, 0, 15)
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = mode
+        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = speed
+    end
+
+    local prefix = "QLM" .. qlm_num
+    local m = menu.new(prefix .. "Configuration")
+    m:item("sgmii",  prefix .. ": SGMII 1.25Ghz", sgmii_config, qlm_num)
+    m:item("xaui",   prefix .. ": XAUI  3.125Ghz", xaui_config, qlm_num)
+    m:item("dxaui",  prefix .. ": DXAUI 6.25Ghz", dxaui_config, qlm_num)
+    m:item("custom", prefix .. ": Custom", custom_config, qlm_num)
+    m:item("quit", "Main menu")
+    m:show()
+end
+
 local function measure_clock(qlm_num)
     local clock = qlm.measure_clock(qlm_num)
     printf("QLM%d Clock: %d.%03d Mhz\n", qlm_num,
@@ -51,6 +85,9 @@ end
 local function qlm_submenu(qlm_num)
     local prefix = "QLM" .. qlm_num
     local m = menu.new(prefix .. " Menu")
+    if octeon.is_model(octeon.CN61XX) then
+        m:item("set", prefix .. ": Set configuration", set_config, qlm_num)
+    end
     m:item("show", prefix .. ": Show configuration", show_config, qlm_num)
     m:item("clock", prefix .. ": Measure clock", measure_clock, qlm_num)
     m:item("deemph", prefix .. ": Change de-emphasis and margin", change_deemphasis_margin, qlm_num)
