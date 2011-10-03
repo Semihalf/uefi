@@ -10,6 +10,23 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2011.10-r65630
+-------------------------
+
+* Improve DXAUI and XAUI link negotiation reliability.
+* Trafficgen: Fix creation of IPv4 header checksum.
+* Trafficgen GUI improvements:
+** Compress buffer counts and memory usage onto a single row to save space.
+** Use more accurate values when getting totals for stats in Mbps.
+** Hide error rows when they are all zero.
+** Add transit time counter similar to the SDK traffic-gen.
+* On CN68XX, enable using the PKO internal storage for all active engines.
+* Improve setting of PIP_IP_OFFSET, allows improved small packet performance.
+* SGMII: Disable frame alignment if using preamble. This allows the link to
+	reach full rate for odd length packets. For example, without this
+	SGMII is slower than RGMII for 65 byte packets.
+
+
 octeon-bdk-2011.09-r64642
 -------------------------
 
