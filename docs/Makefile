@@ -2,7 +2,7 @@
 
 default: bdk.html bdk-internals.html bdk-interactive.html bdk-bringup-guide.html bdk-faqs.html bdk-release-notes.html api-docs
 
-slides: bdk-intro-slides.html
+slides: bdk-intro-slides.html bdk-slides-advanced1.html
 
 clean:
 	rm -rf *.html api-docs
@@ -22,4 +22,4 @@ lua-modules: ${BDK_ROOT}/lua-modules/*
 .PHONY: copy
 copy:
 	rm -rf /var/www/bdk/*
-	cp -r *.html *slides.txt images api-docs lua* /var/www/bdk/
+	cp -r *.html *slides*.txt images api-docs lua* /var/www/bdk/

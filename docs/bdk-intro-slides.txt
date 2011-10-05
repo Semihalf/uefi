@@ -268,8 +268,8 @@ Questions
 
 Latest docs::
 
-* link:http://chad-i7/bdk/bdk.html[]
-* link:http://chad-i7/bdk/bdk-bringup-guide.html[]
+* link:http://chad-cube/bdk/bdk.html[]
+* link:http://chad-cube/bdk/bdk-bringup-guide.html[]
 
 OCTEON Bugzilla::
 
