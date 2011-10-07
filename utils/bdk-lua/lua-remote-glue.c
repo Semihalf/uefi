@@ -100,11 +100,12 @@ static int oremote_read_mem(lua_State* L)
 {
     uint64_t address = luaL_checknumber(L, 1);
     int length = luaL_checkinteger(L, 2);
-    char buffer[length];
+    luaL_Buffer output;
+    char *buffer = luaL_buffinitsize(L, &output, length);
 
     octeon_remote_read_mem(buffer, address, length);
 
-    lua_pushlstring(L, buffer, length);
+    luaL_pushresultsize(&output, length);
     return 1;
 }
 
