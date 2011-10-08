@@ -396,35 +396,25 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
 
 
 /**
- * CN68XX pass 1.x QLM tweak. This function tweaks the JTAG setting for a QLMs
- * to run better at 5 and 6.25Ghz. It will make no changes to QLMs running at
- * other speeds.
+ * Errata G-16094: QLM Gen2 Equalizer Default Setting Change.
+ * CN68XX pass 1.x and CN66XX pass 1.x QLM tweak. This function tweaks the JTAG
+ * setting for a QLMs to run better at 5 and 6.25Ghz.
  */
-static void __bdk_qlm_cn68xx_speed_tweak(void)
+static void __bdk_qlm_cn6xxx_equalizer_tweak(void)
 {
-    /* Loop through the 5 QLMs on CN68XX */
-    for (int qlm=0; qlm<5; qlm++)
+    int num_qlms = 0;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        num_qlms = 5;
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+        num_qlms = 3;
+
+    /* Loop through the QLMs */
+    for (int qlm=0; qlm<num_qlms; qlm++)
     {
-        /* Read the QLM speed */
-        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
-        /* If the QLM is at 6.25Ghz or 5Ghz then program JTAG */
-        if ((qlm_cfg.s.qlm_spd == 5) || (qlm_cfg.s.qlm_spd == 12) ||
-            (qlm_cfg.s.qlm_spd == 0) || (qlm_cfg.s.qlm_spd == 6) ||
-            (qlm_cfg.s.qlm_spd == 11))
-        {
-            /* Update all four lanes */
-            for (int lane=0; lane<4; lane++)
-            {
-                /* We're changing bits 15:8, so skip 8 */
-                __bdk_qlm_jtag_shift_zeros(qlm, 8);
-                /* We want 0x18, so default 0x3c xor 0x24 */
-                __bdk_qlm_jtag_shift(qlm, 8, 0x24);
-                /* Skip the rest of the chain */
-                __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length - 16);
-            }
-            /* Write our JTAG updates */
-            __bdk_qlm_jtag_update(qlm);
-        }
+        /* Errata G-16094: QLM Gen2 Equalizer Default Setting Change */
+        bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0x1);
+        bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
     }
 }
 
@@ -499,10 +489,9 @@ void bdk_qlm_init(void)
             __bdk_qlm_jtag_xor_ref[qlm][i] = __bdk_qlm_jtag_shift(qlm, 32, 0);
     }
 
-    /* CN68XX pass 1.x needs some tweaks for QLM speeds. This
-        will apply them if necessary */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
-        __bdk_qlm_cn68xx_speed_tweak();
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X) ||
+        OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
+        __bdk_qlm_cn6xxx_equalizer_tweak();
 }
 
 #if 1 // Not to be enabled for customer builds
