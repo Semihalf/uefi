@@ -427,13 +427,7 @@ static void __bdk_qlm_cn6xxx_equalizer_tweak(void)
  */
 void bdk_qlm_cn6xxx_force_link(int qlm)
 {
-    for (int lane=0; lane<4; lane++)
-    {
-        __bdk_qlm_jtag_shift_zeros(qlm, 85);
-        __bdk_qlm_jtag_shift(qlm, 1, 1);
-        __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length-86);
-    }
-    __bdk_qlm_jtag_update(qlm);
+    bdk_qlm_jtag_set(qlm, -1, "cfg_rxd_set", 1);
 }
 
 
