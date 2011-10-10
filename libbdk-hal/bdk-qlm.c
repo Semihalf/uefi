@@ -19,7 +19,7 @@ extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn68xx[];
 
 static const __bdk_qlm_jtag_field_t *__bdk_qlm_jtag_field_current;
 static int __bdk_qlm_jtag_length;
-#define MAX_JTAG_UINT32 40
+#define MAX_JTAG_UINT32 40 /* This gives space for 1280(40*32) bits */
 static uint32_t __bdk_qlm_jtag_xor_ref[5][MAX_JTAG_UINT32];
 
 /**
@@ -40,6 +40,23 @@ int bdk_qlm_get_num(void)
 
     bdk_error("bdk_qlm_get_num: Needs update for this chip\n");
     return 0;
+}
+
+
+/**
+ * Return the number of lanes in a QLM. QLMs normally contain
+ * 4 lanes, except for chips which only have half of a QLM.
+ *
+ * @param qlm    QLM to get lanes number for
+ *
+ * @return Number of lanes on the QLM
+ */
+int bdk_qlm_get_lanes(int qlm)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) && (qlm == 1))
+        return 2;
+    else
+        return 4;
 }
 
 
@@ -322,11 +339,12 @@ uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name)
     const __bdk_qlm_jtag_field_t *field = __bdk_qlm_lookup_field(name);
     if (!field)
         return 0;
+    int num_lanes = bdk_qlm_get_lanes(qlm);
 
     /* Capture the current settings */
     __bdk_qlm_jtag_capture(qlm);
     /* Shift past lanes we don't care about. CN6XXX shifts lane 3 first */
-    __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * (3-lane));
+    __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * (num_lanes-1-lane));
     /* Shift to the start of the field */
     __bdk_qlm_jtag_shift_zeros(qlm, field->start_bit);
     /* Shift out the value and return it */
@@ -347,6 +365,7 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
     const __bdk_qlm_jtag_field_t *field = __bdk_qlm_lookup_field(name);
     if (!field)
         return;
+    int num_lanes = bdk_qlm_get_lanes(qlm);
 
     uint32_t shift_values[MAX_JTAG_UINT32];
 
@@ -356,13 +375,13 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
         shift_values[i] = __bdk_qlm_jtag_shift(qlm, 32, 0);
 
     /* Put new data in our local array */
-    for (int l=0; l<4; l++)
+    for (int l=0; l<num_lanes; l++)
     {
         if ((l != lane) && (lane != -1))
             continue;
         uint64_t new_value = value;
-        for (int bits = field->start_bit + (3-l)*__bdk_qlm_jtag_length;
-              bits <= field->stop_bit + (3-l)*__bdk_qlm_jtag_length;
+        for (int bits = field->start_bit + (num_lanes-1-l)*__bdk_qlm_jtag_length;
+              bits <= field->stop_bit + (num_lanes-1-l)*__bdk_qlm_jtag_length;
               bits++)
         {
             if (new_value & 1)
@@ -374,7 +393,7 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
     }
 
     /* Shift out data and xor with reference */
-    int total_length = __bdk_qlm_jtag_length * 4;
+    int total_length = __bdk_qlm_jtag_length * num_lanes;
     int bits = 0;
     while (bits < total_length)
     {
@@ -471,9 +490,10 @@ void bdk_qlm_init(void)
     /* Read the XOR defaults for the JTAG chain */
     for (int qlm=0; qlm<bdk_qlm_get_num(); qlm++)
     {
+        int num_lanes = bdk_qlm_get_lanes(qlm);
         /* Shift all zeros in the chain to make sure all fields are at
             reset defaults */
-        __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * 4);
+        __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * num_lanes);
         __bdk_qlm_jtag_update(qlm);
         /* Capture the reset defaults */
         __bdk_qlm_jtag_capture(qlm);
@@ -495,8 +515,9 @@ void bdk_qlm_init(void)
  */
 void bdk_qlm_dump_jtag(int qlm)
 {
+    int num_lanes = bdk_qlm_get_lanes(qlm);
     printf("%29s", "Field[<stop bit>:<start bit>]");
-    for (int lane=0; lane<4; lane++)
+    for (int lane=0; lane<num_lanes; lane++)
         printf("\t      Lane %d", lane);
     printf("\n");
 
@@ -504,7 +525,7 @@ void bdk_qlm_dump_jtag(int qlm)
     while (ptr->name)
     {
         printf("%20s[%3d:%3d]", ptr->name, ptr->stop_bit, ptr->start_bit);
-        for (int lane=0; lane<4; lane++)
+        for (int lane=0; lane<num_lanes; lane++)
         {
             uint64_t val = bdk_qlm_jtag_get(qlm, lane, ptr->name);
             printf("\t%4lu (0x%04lx)", val, val);

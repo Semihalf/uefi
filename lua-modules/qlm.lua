@@ -29,11 +29,12 @@ function qlm.measure_clock(qlm_num)
 end
 
 local function display_jtag_field(qlm_num, field)
-    printf("%20s: %5d %5d %5d %5d\n", field,
-        octeon.c.bdk_qlm_jtag_get(qlm_num, 0, field),
-        octeon.c.bdk_qlm_jtag_get(qlm_num, 1, field),
-        octeon.c.bdk_qlm_jtag_get(qlm_num, 2, field),
-        octeon.c.bdk_qlm_jtag_get(qlm_num, 3, field))
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+    printf("%20s:", field)
+    for lane=0,num_lanes-1 do
+        printf(" %5d", octeon.c.bdk_qlm_jtag_get(qlm_num, lane, field))
+    end
+    printf("\n")
 end
 
 --- Reset a QLM

@@ -55,15 +55,17 @@ local function measure_clock(qlm_num)
 end
 
 local function read_jtag(qlm_num)
-    local lane = menu.prompt_number("Lane", nil, 0, 3)
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+    local lane = menu.prompt_number("Lane", nil, 0, num_lanes-1)
     local field = menu.prompt_string("Field")
     local value = octeon.c.bdk_qlm_jtag_get(qlm_num, lane, field)
     printf("QLM%d %s[%d]: %d (0x%04x)\n", qlm_num, field, lane, value, value)
 end
 
 local function write_jtag(qlm_num)
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
     local lane = menu.prompt_number("Lane (0-3, -1 for all)")
-    assert((lane>=-1) and (lane<4), "Illegal lane")
+    assert((lane>=-1) and (lane<num_lanes), "Illegal lane")
     local field = menu.prompt_string("Field")
     local value = menu.prompt_number("Value")
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane, field, value)
