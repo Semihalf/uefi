@@ -30701,6 +30701,8 @@ Pos      Name    Type     Value     Value       Description
  <55:40> UPPER_TAG R/W     0x0         NS        Extra Tag bits to be added to tag field from table |
 						  Only included when PIP_PRT_TAG[INC_PRT]=0	    |
 						  WORD2[TAG<31:16>]				    |
+                                                  This field is not present and is reserved prior   |
+                                                  to pass 1.2                                       |
  <39:32> TAG      R/W      0x0         NS        Extra Tag bits to be added to tag field from table |
 						  WORD2[TAG<15:8>]				    |
  <31:25> NS       RAZ      NS          NS        Reserved				            |
@@ -39296,8 +39298,9 @@ Pos      Name    Type     Value     Value       Description
                                                  101 = Enable Two-lane, Disable Four-Lane           |
                                                  110 = Enable Four-lane, Disable Two-Lane           |
                                                  111 = All lanes sizes enabled                      |
- <23>    DISABLE  R/W      0x0         0         Port Disable.  Setting this bit disables both      |
-                                                 drivers and receivers.                             |
+ <23>    DISABLE  R/W      0x0         0         Port Disable.  Setting this bit should disable     |
+                                                 SERDES drivers and receivers.  On this chip it     |
+                                                 disables SERDES receivers only.                    |
  <22>    O_ENABLE R/W      0x0         1         Port Output Enable.  When cleared, port will       |
                                                  generate control symbols and respond to            |
                                                  maintenance transactions only.  When set, all      |
@@ -39327,12 +39330,13 @@ Pos      Name    Type     Value     Value       Description
                                                  received and issued are controlled by the state of |
                                                  the O_ENABLE and I_ENABLE bits.  When this bit is  |
                                                  set, this port is stopped and is not enabled to    |
-                                                 issue or receive any packets; the input port can   |
-                                                 still follow the training procedure and can still  |
-                                                 send and respond to link-requests; all received    |
-                                                 packets return packet-not-accepted control symbols |
-                                                 to force an error condition to be signaled by the  |
-                                                 sending device.                                    |
+                                                 receive any packets; the input port can still      |
+                                                 follow the training procedure and can still send   |
+                                                 respond to link-requests; all received packets     |
+                                                 return packet-not-accepted control symbols to      |
+                                                 force an error condition to be signaled by the     |
+                                                 sending device.  The O_ENABLE bit should also be   |
+                                                 cleared to disable packet output.                  |
  <0>     PT_TYPE  RO       0x1         1         Port Type.  1 = Serial port.                       |
                                                                                                     |
 Notes:                                                                                              |

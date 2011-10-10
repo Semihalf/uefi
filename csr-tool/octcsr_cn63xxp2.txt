@@ -36932,8 +36932,11 @@ Pos      Name    Type     Value     Value       Description
                                                  101 = Force Two-lane, Disable Four-Lane            |
                                                  110 = Force Four-lane, Disable Two-Lane            |
                                                  111 = All lanes sizes enabled                      |
- <23>    DISABLE  R/W      0x0         0         Port Disable.  Setting this bit disables both      |
-                                                 drivers and receivers.                             |
+ <23>    DISABLE  R/W      0x0         0         Port Disable.  Setting this bit should disable     |
+                                                 both SERDES drivers and receivers.                 |
+                                                 On Passes 1.x, 2.0 and 2.1 this bit disables only  |
+                                                 the receiver side.  On Pass 2.2, this bit is       |
+                                                 ignored by the hardware.                           |
  <22>    O_ENABLE R/W      0x0         1         Port Output Enable.  When cleared, port will       |
                                                  generate control symbols and respond to            |
                                                  maintenance transactions only.  When set, all      |
@@ -36963,12 +36966,13 @@ Pos      Name    Type     Value     Value       Description
                                                  received and issued are controlled by the state of |
                                                  the O_ENABLE and I_ENABLE bits.  When this bit is  |
                                                  set, this port is stopped and is not enabled to    |
-                                                 issue or receive any packets; the input port can   |
-                                                 still follow the training procedure and can still  |
-                                                 send and respond to link-requests; all received    |
-                                                 packets return packet-not-accepted control symbols |
-                                                 to force an error condition to be signaled by the  |
-                                                 sending device.                                    |
+                                                 receive any packets; the input port can still      |
+                                                 follow the training procedure and can still send   |
+                                                 respond to link-requests; all received packets     |
+                                                 return packet-not-accepted control symbols to      |
+                                                 force an error condition to be signaled by the     |
+                                                 sending device.  The O_ENABLE bit should also be   |
+                                                 cleared to disable packet output.                  |
  <0>     PT_TYPE  RO       0x1         1         Port Type.  1 = Serial port.                       |
                                                                                                     |
 Notes:                                                                                              |

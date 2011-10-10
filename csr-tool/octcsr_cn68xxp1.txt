@@ -25721,10 +25721,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:1>  NS        RAZ      NS          NS       Reserved				            |
- <0:0>   ACK       RO	    0	        0	 Read to clear the corresponding interrupt to       |
-						 PP/IO.  Without this read the interrupt will not   |
-						 deassert until the next CIU interrupt scan, up to  |
-						 200 cycles away.                                   |
+ <0:0>   ACK       RO	    0	        0	 Read to clear the corresponding interrupt for      |
+                                                 certain PP/IRQ. Without this read the interrupt    |
+						 will not deassert until the next CIU interrupt scan|
+						 up to 200 cycles away.                             |
 ----------------------------------------------------------------------------------------------------
 ===
 
