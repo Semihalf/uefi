@@ -77,7 +77,7 @@ void __bdk_init(long base_address)
     cvmctl |= 1<<14;    /* Fix unaligned accesses */
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
-    static const char BANNER_1[] = "Bring and Diagnostic Kit (BDK)\n";
+    static const char BANNER_1[] = "Bringup and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
 
