@@ -60,6 +60,19 @@ extern int bdk_qlm_get_gbaud_mhz(int qlm);
 extern int bdk_qlm_measure_clock(int qlm);
 
 /**
+ * Lookup the hardware QLM number for a given interface type and index. This
+ * function will fail with a fatal error if called on invalid interfaces for
+ * a chip. It returns the QLM number for an interface without checking to
+ * see if the QLM is in hte correct mode.
+ *
+ * @param iftype    Interface type
+ * @param interface Interface index number
+ *
+ * @return QLM number. Dies on a fatal error on failure.
+ */
+extern int bdk_qlm_get(bdk_if_t iftype, int interface);
+
+/**
  * Get a field in a QLM JTAG chain
  *
  * @param qlm    QLM to get

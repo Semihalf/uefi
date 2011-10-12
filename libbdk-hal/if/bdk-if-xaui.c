@@ -50,7 +50,7 @@ static int if_num_ports(int interface)
         else
         {
             /* No ports if QLM speed says disabled */
-            if (bdk_qlm_get_gbaud_mhz(interface) == 0)
+            if (bdk_qlm_get_gbaud_mhz(bdk_qlm_get(BDK_IF_XAUI, interface)) == 0)
                 return 0;
             /* All other GMXs are the same mode as the QLM with same number */
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
@@ -297,31 +297,20 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     if ((gmxx_tx_xaui_ctl.s.ls == 0) && (gmxx_rx_xaui_ctl.s.status == 0) &&
         (pcsxx_status1_reg.s.rcv_lnk == 1))
     {
-        result.s.up = 1;
-        result.s.full_duplex = 1;
+        int qlm = bdk_qlm_get(BDK_IF_XAUI, handle->interface);
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
-            int qlm = (gmx_block == 1) ? 0 : gmx_block;
             BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
-            int speed = bdk_qlm_get_gbaud_mhz(qlm);
-            result.s.speed = speed * 8 / 10;
             result.s.lanes = (qlm_cfg.s.qlm_cfg == 7) ? 2 : 4;
-            result.s.speed *= result.s.lanes;
-        }
-        else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        {
-            int qlm = (gmx_block == 1) ? 0 : 2;
-            result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
-            result.s.lanes = 4;
-            result.s.speed *= result.s.lanes;
         }
         else
-        {
-            int qlm = (gmx_block == 1) ? 1 : 2;
-            result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
             result.s.lanes = 4;
-            result.s.speed *= result.s.lanes;
-        }
+        result.s.up = 1;
+        result.s.full_duplex = 1;
+        result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
+        result.s.lanes = 4;
+        result.s.speed *= result.s.lanes;
+
         BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
         if (misc_ctl.s.gmxeno)
             xaui_link_init(handle);

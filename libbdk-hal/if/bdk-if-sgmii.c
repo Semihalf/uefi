@@ -24,7 +24,7 @@ static int if_num_ports(int interface)
         else
         {
             /* No ports if QLM speed says disabled */
-            if (bdk_qlm_get_gbaud_mhz(interface) == 0)
+            if (bdk_qlm_get_gbaud_mhz(bdk_qlm_get(BDK_IF_SGMII, interface)) == 0)
                 return 0;
             BDK_CSR_INIT(inf_mode, BDK_GMXX_INF_MODE(interface));
             if (inf_mode.s.mode == 2)
@@ -35,7 +35,7 @@ static int if_num_ports(int interface)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
     {
-        if (strstr(bdk_qlm_get_mode(2 - interface), "SGMII"))
+        if (strstr(bdk_qlm_get_mode(bdk_qlm_get(BDK_IF_SGMII, interface)), "SGMII"))
             return 4;
         else
             return 0;
@@ -403,14 +403,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
     result.u64 = 0;
 
-    int qlm;
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        qlm = gmx_block;
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        qlm = 2 - gmx_block * 2;
-    else
-        qlm = 2 - gmx_block;
+    int qlm = bdk_qlm_get(BDK_IF_SGMII, handle->interface);
     int speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
 
     if (OCTEON_IS_MODEL(OCTEON_CN66XX))

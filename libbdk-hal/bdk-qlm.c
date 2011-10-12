@@ -42,6 +42,130 @@ int bdk_qlm_get_num(void)
     return 0;
 }
 
+/**
+ * Lookup the hardware QLM number for a given interface type and index. This
+ * function will fail with a fatal error if called on invalid interfaces for
+ * a chip. It returns the QLM number for an interface without checking to
+ * see if the QLM is in hte correct mode.
+ *
+ * @param iftype    Interface type
+ * @param interface Interface index number
+ *
+ * @return QLM number. Dies on a fatal error on failure.
+ */
+int bdk_qlm_get(bdk_if_t iftype, int interface)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+                /* SGMII 0, 2, 3, and 4 are on QLMs 0, 2, 3, 4 */
+                /* SGMII 1 is illegal */
+                switch (interface)
+                {
+                    case 0: return 0;
+                    case 2: return 2;
+                    case 3: return 3;
+                    case 4: return 4;
+                }
+                break;
+            case BDK_IF_XAUI:
+            case BDK_IF_HIGIG:
+                /* XAUI 0, 1, 2, 3, and 4 are on QLMs 0, 0, 2, 3, 4 */
+                /* XAUI 1 only exists in RXAUI mode */
+                switch (interface)
+                {
+                    case 0: return 0;
+                    case 1: return 0;
+                    case 2: return 2;
+                    case 3: return 3;
+                    case 4: return 4;
+                }
+                break;
+            case BDK_IF_ILK:
+                /* ILK 0 and 1 span QLMs 1, 2 depending on lanes */
+                switch (interface)
+                {
+                    case 0: return 1;
+                    case 1: return 1;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+            case BDK_IF_XAUI:
+            case BDK_IF_HIGIG:
+                /* SGMII/XAUI 0, 1 are on QLMs 2, 1 */
+                switch (interface)
+                {
+                    case 0: return 2;
+                    case 1: return 1;
+                }
+                break;
+            case BDK_IF_SRIO:
+                /* SRIO 0, 1 are on QLM 0 */
+                switch (interface)
+                {
+                    case 0: return 0;
+                    case 1: return 0;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+            case BDK_IF_XAUI:
+            case BDK_IF_HIGIG:
+                /* SGMII/XAUI 0 are on QLM 2 */
+                switch (interface)
+                {
+                    case 0: return 2;
+                }
+                break;
+            case BDK_IF_SRIO:
+                /* SRIO 0, 1 are on QLMs 0, 1 */
+                switch (interface)
+                {
+                    case 0: return 0;
+                    case 1: return 1;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+            case BDK_IF_XAUI:
+            case BDK_IF_HIGIG:
+                /* SGMII/XAUI 0, 1 are on QLMs 2, 0 */
+                switch (interface)
+                {
+                    case 0: return 2;
+                    case 1: return 0;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    bdk_fatal("bdk_qlm_get called incorrectly for type=%d, interface=%d\n", iftype, interface);
+}
 
 /**
  * Return the number of lanes in a QLM. QLMs normally contain
