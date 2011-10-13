@@ -1,4 +1,9 @@
---- Module to support accessing the console over OCTEON_REMOTE_PROTOCOL.
+---
+-- Module to support accessing the console over OCTEON_REMOTE_PROTOCOL.
+--
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+--
 require("strict")
 require("utils")
 local oremote = require("oremote")

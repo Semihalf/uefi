@@ -10,6 +10,14 @@
 -- * X.csr.NAME.FIELD = value
 -- * tbl = X.csr.NAME.decode()
 -- * X.csr.NAME.encode(tbl)
+--
+-- Note: This module should not be used directly. It is used by the modules
+-- "octeon" and "oremote" to generate the CSR access "octeon.csr.*" and
+-- "oremote.csr.*".
+--
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+--
 
 require("strict")
 require("utils")

@@ -1,10 +1,10 @@
 ---
 -- Lua module supporting higher level file operations
 -- that are common using the BDK's virtual filesystem.
+--
 -- * Written by Chad Reese
 -- * Copyright (C) 2010-2011 Cavium Networks
 --
-
 require("strict")
 require("utils")
 

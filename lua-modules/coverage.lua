@@ -1,4 +1,14 @@
 --- Lua coverage implementation.
+--
+-- Monitor which Lua script lines are executed. As each Lua script is
+-- run, the file and line executed is stored. Once the script completes,
+-- the coverage information for each Lua file is written to a new file
+-- with ".coverage" appended to the name.
+--
+-- The simplest way to use this modules is to add it to the Lua command line.
+--
+-- bdk-lua -l coverage script.lua
+--
 -- * Written by Chad Reese
 -- * Copyright (C) 2010-2011 Cavium Networks
 -- * This module is released under the standard Lua MIT license

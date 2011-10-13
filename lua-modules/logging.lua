@@ -2,6 +2,10 @@
 -- 1. Create a new logger object by calling logging.new().
 -- 2. Then use logger methods to send output.
 -- 3. Only messages below the log level are displayed.
+--
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+--
 -- @alias logging
 require("utils")
 

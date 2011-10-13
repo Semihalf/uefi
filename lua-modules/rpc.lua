@@ -1,10 +1,9 @@
 ---
 -- Lua RPC implementation.
+--
 -- * Written by Chad Reese
 -- * Copyright (C) 2010-2011 Cavium Networks
--- * This module is released under the standard Lua MIT license
 --
-
 require("utils")
 local bit64 = require("bit64")
 local debug = require("debug")

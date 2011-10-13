@@ -1,5 +1,6 @@
 ---
 -- Simple utilities for Lua to do common operations.
+--
 -- * Written by Chad Reese
 -- * Copyright (C) 2010-2011 Cavium Networks
 -- * This module is released under the standard Lua MIT license

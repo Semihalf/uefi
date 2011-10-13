@@ -1,4 +1,13 @@
---- Module for creating menus and other user interface elements.
+---
+-- Module for creating menus and other user interface elements.
+-- BDK applications generally use a console interface where interaction
+-- with the user is performed. This module supplies building blocks for
+-- a user interface based on text menus, data prompts, and interactive
+-- command line editing.
+--
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+--
 require("strict")
 require("utils")
 local readline = require("readline")

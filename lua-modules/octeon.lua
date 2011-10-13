@@ -6,10 +6,10 @@
 -- called when a script does a "require(octeon)". We then
 -- use RPC to connect this host "octeon" module with the
 -- one on the target.
--- Written by Chad Reese
--- Copyright (C) 2010-2011 Cavium Networks
 --
-
+-- * Written by Chad Reese
+-- * Copyright (C) 2010-2011 Cavium Networks
+--
 require("utils")
 
 local status, base = pcall(require, "octeon-internal")
