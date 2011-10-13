@@ -59,6 +59,7 @@ Other Documents
 
 * link:bdk-interactive.html[Interacting with the Bringup and Diagnostic Kit]
 * link:bdk-bringup-guide.html[Board Validation with the Bringup and Diagnostic Kit]
+* link:lua-modules/index.html[BDK Lua Module Reference]
 * link:lua/readme.html[Documentation for Lua]
 * link:lua/contents.html[Lua Reference]
 * link:bdk-internals.html[Bringup and Diagnostic Kit (BDK) Internals]
