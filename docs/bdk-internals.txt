@@ -89,6 +89,16 @@ build the BDK.
 * asciidoc 8.6.5
 * doxygen 1.7.1
 * graphviz
+* luarocks
+
+Install these luarocks.
+
+[source, sh]
+----
+sudo luarocks install lua-discount
+sudo luarocks install penlight
+sudo luarocks install markdown
+----
 
 
 Memory Management
