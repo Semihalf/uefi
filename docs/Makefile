@@ -17,7 +17,7 @@ api-docs: Doxyfile
 	doxygen
 
 lua-modules: ${BDK_ROOT}/lua-modules/*
-	ldoc -p "BDK Lua Modules" -t "BDK Lua Module Reference" -f markdown -d $@ ${BDK_ROOT}/lua-modules
+	ldoc -p "BDK Lua Modules" -t "BDK Lua Module Reference" -f discount -d $@ ${BDK_ROOT}/lua-modules
 
 .PHONY: copy
 copy:
