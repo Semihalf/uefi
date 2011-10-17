@@ -19218,13 +19218,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <5:0>    R2R_INIT    R/W   0x1     NS        Read-to-read spacing control
-                                             for back to back accesses to the same rank and DIMM
+                                             for back to back read followed by read cache block
+                                             accesses to the same rank and DIMM
 <11:6>   R2W_INIT    R/W   0x6     NS        Read-to-write spacing control
-                                             for back to back accesses to the same rank and DIMM
+                                             for back to back read followed by write cache block
+                                             accesses to the same rank and DIMM
 <17:12>  W2R_INIT    R/W   0x9     NS        Write-to-read spacing control
-                                             for back to back accesses to the same rank and DIMM
+                                             for back to back write followed by read cache block
+                                             accesses to the same rank and DIMM
 <23:18>  W2W_INIT    R/W   0x1     NS        Write-to-write spacing control
-                                             for back to back accesses to the same rank and DIMM
+                                             for back to back write followed by write cache block
+                                             accesses to the same rank and DIMM
 <63:24>  NS          RAZ   NS      NS        RESERVED
 
 Notes:
@@ -19277,13 +19281,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <5:0>    R2R_XRANK_INIT R/W 0x3    NS        Read-to-read spacing control
-                                             for back to back accesses across ranks of the same DIMM
+                                             for back to back read followed by read cache block
+                                             accesses across ranks of the same DIMM
 <11:6>   R2W_XRANK_INIT R/W 0x6    NS        Read-to-write spacing control
-                                             for back to back accesses across ranks of the same DIMM
+                                             for back to back read followed by write cache block
+                                             accesses across ranks of the same DIMM
 <17:12>  W2R_XRANK_INIT R/W 0x4    NS        Write-to-read spacing control
-                                             for back to back accesses across ranks of the same DIMM
+                                             for back to back write followed by read cache block
+                                             accesses across ranks of the same DIMM
 <23:18>  W2W_XRANK_INIT R/W 0x5    NS        Write-to-write spacing control
-                                             for back to back accesses across ranks of the same DIMM
+                                             for back to back write followed by write cache block
+                                             accesses across ranks of the same DIMM
 <63:24>  NS          RAZ   NS      NS        RESERVED
 
 Notes:
@@ -19340,13 +19348,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <5:0>    R2R_XDIMM_INIT R/W 0x4    NS        Read-to-read spacing control
-                                             for back to back accesses across DIMMs
+                                             for back to back read followed by read cache block
+                                             accesses across DIMMs
 <11:6>   R2W_XDIMM_INIT R/W 0x7    NS        Read-to-write spacing control
-                                             for back to back accesses across DIMMs
+                                             for back to back read followed by write cache block
+                                             accesses across DIMMs
 <17:12>  W2R_XDIMM_INIT R/W 0x4    NS        Write-to-read spacing control
-                                             for back to back accesses across DIMMs
+                                             for back to back write followed by read cache block
+                                             accesses across DIMMs
 <23:18>  W2W_XDIMM_INIT R/W 0x6    NS        Write-to-write spacing control
-                                             for back to back accesses across DIMMs
+                                             for back to back write followed by write cache block
+                                             accesses across DIMMs
 <63:24>  NS          RAZ   NS      NS        RESERVED
 
 Notes:
