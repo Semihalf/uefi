@@ -37,14 +37,16 @@ local function dump_swig_object(object, prefix, file_handle)
         type = octeon.global.type
         tostring = octeon.global.tostring
     end
-    local mt = getmetatable(object)
+    local mt = object and getmetatable(object)
     if mt and mt[".get"] then
         prefix = prefix .. "."
         for _,k in ipairs(table.sorted_keys(mt[".get"])) do
             dump_swig_object(object[k], prefix .. k, file_handle)
         end
     else
-        if type(object) == "table" then
+        if object == nil then
+            return file_handle:write("%s = nil\n" % prefix)
+        elseif type(object) == "table" then
             for i=1,#object do
                 local p = "%s[%d]" % {prefix, i}
                 dump_swig_object(object[i], p, file_handle)
@@ -52,7 +54,12 @@ local function dump_swig_object(object, prefix, file_handle)
         elseif type(object) == "number" then
             return file_handle:write("%s = 0x%x\n" % {prefix, object})
         elseif type(object) == "string" then
-            return file_handle:write("%s = \"%s\"\n" % {prefix, object})
+            file_handle:write("%s = \"" % prefix)
+            for i=1,#object do
+                file_handle:write("\\x%02x" % object:sub(i,i):byte())
+            end
+            file_handle:write("\"\n")
+            return
         else
             return file_handle:write("%s = %s\n" % {prefix, tostring(object)})
         end
@@ -155,6 +162,35 @@ function ddr.test(start_address, length)
     end
 end
 
+---
+-- Read a SPD from a DIMM
+-- @param spd_addr TWSI address encoded as 256*bus+address
+-- @return SPD string or throws an error
+--
+function ddr.read_spd(spd_addr)
+    local twsi_bus = spd_addr / 256
+    local twsi_addr = spd_addr % 256
+    local spd_len = octeon.c.bdk_twsix_read_ia(twsi_bus, twsi_addr, 0, 1, 1)
+    assert(spd_len ~= -1, "TWSI read failed for SPD")
+    spd_len = spd_len % 16
+    local length
+    if spd_len == 1 then
+        length = 128
+    elseif spd_len == 2 then
+        length = 176
+    elseif spd_len == 3 then
+        length = 256
+    else
+        error("Invalid SPD length encoding")
+    end
+    local spd = {}
+    for i=1,length do
+        local v = octeon.c.bdk_twsix_read_ia(twsi_bus, twsi_addr, i-1, 1, 1)
+        assert(v ~= -1, "TWSI read failed for SPD")
+        spd[i] = string.char(v)
+    end
+    return table.concat(spd)
+end
 
 return ddr
 

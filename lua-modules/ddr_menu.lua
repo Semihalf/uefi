@@ -97,8 +97,8 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
     for index = 1,max_dimms do
          ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = 0
          ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[2] = 0
-         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[1] = 0
-         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[2] = 0
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[1] = nil
+         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_ptrs[2] = nil
     end
 
     print "Enter SPD address of 0 to end input.\n"

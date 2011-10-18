@@ -19,6 +19,7 @@ extern int global_ddr_clock_initialized;
  */
 ddr_config_table_t *bdk_dram_lookup_board(const char *board_name)
 {
+    static const ddr_config_table_t empty_ddr;
     const board_table_entry_t *board = NULL;
     const ddr_config_table_t *ddr = NULL;
     if (board_name && board_name[0])
@@ -31,16 +32,10 @@ ddr_config_table_t *bdk_dram_lookup_board(const char *board_name)
         ddr = board->chip_ddr_config;
     }
 
-
-    ddr_config_table_t *copy = malloc(sizeof(ddr_config_table_t));
-    if (!copy)
-        return NULL;
-
-    if (!ddr)
-        memset(copy, 0x0, sizeof(ddr_config_table_t));
+    if (ddr)
+        return (ddr_config_table_t *)ddr;
     else
-        *copy = *ddr;
-    return copy;
+        return (ddr_config_table_t *)&empty_ddr;
 }
 
 

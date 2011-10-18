@@ -1557,6 +1557,133 @@ static int spd_addrs_len(lua_State* L)
     return 1;
 }
 
+/* This is defined in lib_octeon_shared.h as a enum, but we can't use that
+    file directly. This defines the location of the SPD size */
+#define DDR3_SPD_BYTES_PROGRAMMED 0
+
+/**
+ * This function returns a SPD as a Lua string when someone
+ * indexes the spd_ptrs field of the DDR config. If no SPD
+ * is assigned to the field, nil is returned. This function
+ * is called when spd_ptrs as accessed through a metatable
+ * hook assigned in typemap spd_ptrs.
+ *
+ * @param L      Lua state
+ *
+ * @return One Lua value, either nil or a binary string.
+ */
+static int spd_ptrs_index(lua_State* L)
+{
+    int index = luaL_checkint(L, 2);
+    luaL_getmetafield(L, 1, "base");
+    luaL_getmetafield(L, 1, "size");
+    uint8_t **base = lua_touserdata(L, -2);
+    int size = luaL_checkint(L, -1);
+    lua_pop(L, 2);
+    if ((index < 1) || (index > size))
+        return luaL_error(L, "Invalid index to spd_ptrs");
+    if (base[index-1])
+    {
+        uint8_t *spd = base[index-1];
+        uint8_t size_enc = spd[DDR3_SPD_BYTES_PROGRAMMED];
+        size_t spd_length;
+        switch (size_enc & 0xf)
+        {
+            case 1:
+                spd_length = 128;
+                break;
+            case 2:
+                spd_length = 176;
+                break;
+            case 3:
+                spd_length = 256;
+                break;
+            default:
+                return luaL_error(L, "Invalid SPD size encoding");
+        }
+        lua_pushlstring(L, (const char *)spd, spd_length);
+    }
+    else
+        lua_pushnil(L);
+    return 1;
+}
+
+/**
+ * This function assigns a SPD as a Lua string when someone
+ * indexes the spd_ptrs field of the DDR config. The string
+ * length must match the length encoded in byte
+ * DDR3_SPD_BYTES_PROGRAMMED of the SPD. This function
+ * is called when spd_ptrs as accessed through a metatable
+ * hook assigned in typemap spd_ptrs.
+ *
+ * @param L      Lua state
+ *
+ * @return Nothing
+ */
+static int spd_ptrs_newindex(lua_State* L)
+{
+    int index = luaL_checkint(L, 2);
+    size_t value_len = 0;
+    const char *value = NULL;
+    if (!lua_isnil(L, 3))
+        value = luaL_tolstring(L, 3, &value_len);
+    luaL_getmetafield(L, 1, "base");
+    luaL_getmetafield(L, 1, "size");
+    uint8_t **base = lua_touserdata(L, -2);
+    int size = luaL_checkint(L, -1);
+    lua_pop(L, 2);
+    if ((index < 1) || (index > size))
+        return luaL_error(L, "Invalid index to spd_ptrs");
+    if (value)
+    {
+        uint8_t size_enc = value[DDR3_SPD_BYTES_PROGRAMMED];
+        size_t spd_length;
+        switch (size_enc & 0xf)
+        {
+            case 1:
+                spd_length = 128;
+                break;
+            case 2:
+                spd_length = 176;
+                break;
+            case 3:
+                spd_length = 256;
+                break;
+            default:
+                return luaL_error(L, "Invalid SPD size encoding");
+        }
+        if (value_len != spd_length)
+            return luaL_error(L, "Length of string doesn't match SPD length");
+        void *spd = malloc(value_len);
+        if (!spd)
+            return luaL_error(L, "Out of memory allocating SPD");
+        memcpy(spd, value, value_len);
+        if (base[index-1])
+            free(base[index-1]);
+        base[index-1] = spd;
+    }
+    else
+    {
+        if (base[index-1])
+            free(base[index-1]);
+        base[index-1] = NULL;
+    }
+    return 0;
+}
+
+/**
+ * This function returns the length of the spd_ptrs array.
+ *
+ * @param L      Lua state
+ *
+ * @return Number representing the array length
+ */
+static int spd_ptrs_len(lua_State* L)
+{
+    luaL_getmetafield(L, 1, "size");
+    return 1;
+}
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -1609,19 +1736,26 @@ static int _wrap_dimm_config_t_spd_addrs_get(lua_State* L) {
   
   result = (uint16_t *)(uint16_t *) ((arg1)->spd_addrs);
   {
-    lua_newtable(L);
-    lua_newtable(L);
+    lua_newtable(L);    /* Our return value, a table with meta methods */
+    lua_newtable(L);    /* This will be the meta table for the above table */
+    /* Store the base address of the array in the meta table */
     lua_pushlightuserdata(L, result);
     lua_setfield(L, -2, "base");
+    /* Store the length of the array in the meta table */
     lua_pushnumber(L, 2);
     lua_setfield(L, -2, "size");
+    /* Add function hook when getting stuff */
     lua_pushcfunction(L, spd_addrs_index);
     lua_setfield(L, -2, "__index");
+    /* Add function hook when setting stuff */
     lua_pushcfunction(L, spd_addrs_newindex);
     lua_setfield(L, -2, "__newindex");
+    /* Add function hook for length */
     lua_pushcfunction(L, spd_addrs_len);
     lua_setfield(L, -2, "__len");
+    /* Assign the meta table */
     lua_setmetatable(L, -2);
+    /* Return a single element */
     SWIG_arg++;
   }
   return SWIG_arg;
@@ -1682,13 +1816,26 @@ static int _wrap_dimm_config_t_spd_ptrs_get(lua_State* L) {
   
   result = (uint8_t **)(uint8_t **) ((arg1)->spd_ptrs);
   {
-    int i;
-    lua_createtable(L, 2, 0);
-    for (i = 0; i < 2; i++) {
-      lua_pushnumber(L, i+1);
-      lua_pushnumber(L, (long)result[i]);
-      lua_settable(L, -3);
-    }
+    lua_newtable(L);    /* Our return value, a table with meta methods */
+    lua_newtable(L);    /* This will be the meta table for the above table */
+    /* Store the base address of the array in the meta table */
+    lua_pushlightuserdata(L, result);
+    lua_setfield(L, -2, "base");
+    /* Store the length of the array in the meta table */
+    lua_pushnumber(L, 2);
+    lua_setfield(L, -2, "size");
+    /* Add function hook when getting stuff */
+    lua_pushcfunction(L, spd_ptrs_index);
+    lua_setfield(L, -2, "__index");
+    /* Add function hook when setting stuff */
+    lua_pushcfunction(L, spd_ptrs_newindex);
+    lua_setfield(L, -2, "__newindex");
+    /* Add function hook for length */
+    lua_pushcfunction(L, spd_ptrs_len);
+    lua_setfield(L, -2, "__len");
+    /* Assign the meta table */
+    lua_setmetatable(L, -2);
+    /* Return a single element */
     SWIG_arg++;
   }
   return SWIG_arg;

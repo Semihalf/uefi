@@ -102,6 +102,42 @@ CAUTION: The DDR configuration file format may change in future BDKs.
 Be sure to track your specific changes such that they can be applied
 to a new configuration exported from a future BDK.
 
+DDR Customization with Fixed SPDs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DDR Configurations requiring fixed SPD data not read from a DDR DIMM
+requires the use of the save/modify/load update procedure.
+
+. Use "Load current DDR config using XXX" to load a sample DDR configuration.
+. Save the sample configuration using "Save current DDR config to a file".
+. Open the DDR config in a text editor.
+. Change the SPD addresses to zero for configurations that need it.
++
+----
+    config.ddr_config[1].dimm_config_table[1].spd_addrs[1] = 0
+    config.ddr_config[1].dimm_config_table[1].spd_addrs[2] = 0
+----
+. Set the SPD data as a Lua string.
++
+----
+    config.ddr_config[1].dimm_config_table[1].spd_ptrs[1] =
+        "\x92\x10\x0b\x02\x02\x11\x00\x09\x0b\x52\x01\x08\x0c\x00\x3c\x00" ..
+        "\x69\x78\x69\x30\x69\x11\x20\x89\x70\x03\x3c\x3c\x00\xf0\x83\x05" ..
+        "\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x11\x04\x01" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x01\x61\x00\x09\x00\x00\x00\x00\x00\x99\xc0" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+    config.ddr_config[1].dimm_config_table[1].spd_ptrs[2] = nil
+----
+. Load the configuration using "Load current DDR config from a file".
+. Initialize DRAM with "Initialize DDR controller using current config".
+
+
 Asking for Help
 ~~~~~~~~~~~~~~~
 
