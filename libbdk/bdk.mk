@@ -61,7 +61,7 @@ IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9
 	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
 	cat $@-init.tmp $@-text-data.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm $@-init.tmp $@-text-data.tmp
-	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
+	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@ $(LUA_FILES)
 
 
 
