@@ -126,6 +126,6 @@ do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
 do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-minimal.bin", [])
 time.sleep(1);
 # Hack needed for some unknown reason
-os.system("echo > /dev/ttyS4")
+os.system("echo > /dev/ttyS0")
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
