@@ -15,7 +15,7 @@ def do_command(command, expected, timeout=-1):
 # Make sure the environment is setup correctly
 assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "pci"
-os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS4"
+os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS0"
 
 BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-boot.bin"
 BDK_BOOT_IMAGE_SIZE = os.stat(BDK_BOOT_IMAGE).st_size
