@@ -77,10 +77,10 @@ if True:
         ])
     do_command("bdk-remote flash write %s 0x200000" % BDK_BOOT_IMAGE, [
         "100%"
-        ], timeout = 120)
+        ], timeout = 300)
     do_command("bdk-remote flash read tmp 0x200000 %d" % BDK_BOOT_IMAGE_SIZE, [
         "100%"
-        ], timeout = 120)
+        ], timeout = 300)
     do_command("diff -s tmp %s" % BDK_BOOT_IMAGE, [
         "are identical"
         ])
