@@ -19,23 +19,37 @@ extern int global_ddr_clock_initialized;
  */
 ddr_config_table_t *bdk_dram_lookup_board(const char *board_name)
 {
-    static const ddr_config_table_t empty_ddr;
-    const board_table_entry_t *board = NULL;
-    const ddr_config_table_t *ddr = NULL;
+    static ddr_config_table_t current_ddr;
+
     if (board_name && board_name[0])
     {
-        board = lookup_board_table_entry(0, (char*)board_name);
+        const board_table_entry_t *board = lookup_board_table_entry(0, (char*)board_name);
         if (!board)
             return NULL;
-
-        /*get pointer to first config */
-        ddr = board->chip_ddr_config;
+        /* Only use the first config */
+        memcpy(&current_ddr, board->chip_ddr_config, sizeof(current_ddr));
+    }
+    else
+    {
+        int num_cfg = sizeof(current_ddr.ddr_config) / sizeof(current_ddr.ddr_config[0]);
+        int num_ddr = sizeof(current_ddr.ddr_config[0].dimm_config_table) / sizeof(current_ddr.ddr_config[0].dimm_config_table[0]);
+        int num_dimm = sizeof(current_ddr.ddr_config[0].dimm_config_table[0].spd_ptrs) / sizeof(current_ddr.ddr_config[0].dimm_config_table[0].spd_ptrs[0]);
+        for (int cfg=0; cfg<num_cfg; cfg++)
+        {
+            for (int ddr=0; ddr<num_ddr; ddr++)
+            {
+                for (int dimm=0; dimm<num_dimm; dimm++)
+                {
+                    void *p = current_ddr.ddr_config[cfg].dimm_config_table[ddr].spd_ptrs[dimm];
+                    if (p)
+                        free(p);
+                }
+            }
+        }
+        memset(&current_ddr, 0, sizeof(current_ddr));
     }
 
-    if (ddr)
-        return (ddr_config_table_t *)ddr;
-    else
-        return (ddr_config_table_t *)&empty_ddr;
+    return &current_ddr;
 }
 
 
