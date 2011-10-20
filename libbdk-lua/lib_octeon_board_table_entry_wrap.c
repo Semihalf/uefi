@@ -1848,27 +1848,6 @@ fail:
 }
 
 
-static int _wrap_new_dimm_config_t(lua_State* L) {
-  int SWIG_arg = 0;
-  dimm_config_t *result = 0 ;
-  
-  SWIG_check_num_args("dimm_config_t::dimm_config_t",0,0)
-  result = (dimm_config_t *)calloc(1, sizeof(dimm_config_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_dimm_config_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_dimm_config_t(void *obj) {
-dimm_config_t *arg1 = (dimm_config_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_dimm_config_t_methods[] = {
     {0,0}
 };
@@ -1879,7 +1858,7 @@ static swig_lua_attribute swig_dimm_config_t_attributes[] = {
 };
 static swig_lua_class *swig_dimm_config_t_bases[] = {0};
 static const char *swig_dimm_config_t_base_names[] = {0};
-static swig_lua_class _wrap_class_dimm_config_t = { "dimm_config_t", &SWIGTYPE_p_dimm_config_t,_wrap_new_dimm_config_t, swig_delete_dimm_config_t, swig_dimm_config_t_methods, swig_dimm_config_t_attributes, swig_dimm_config_t_bases, swig_dimm_config_t_base_names };
+static swig_lua_class _wrap_class_dimm_config_t = { "dimm_config_t", &SWIGTYPE_p_dimm_config_t,0,0, swig_dimm_config_t_methods, swig_dimm_config_t_attributes, swig_dimm_config_t_bases, swig_dimm_config_t_base_names };
 
 static int _wrap_dimm_odt_config_t_odt_ena_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -2187,27 +2166,6 @@ fail:
 }
 
 
-static int _wrap_new_dimm_odt_config_t(lua_State* L) {
-  int SWIG_arg = 0;
-  dimm_odt_config_t *result = 0 ;
-  
-  SWIG_check_num_args("dimm_odt_config_t::dimm_odt_config_t",0,0)
-  result = (dimm_odt_config_t *)calloc(1, sizeof(dimm_odt_config_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_dimm_odt_config_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_dimm_odt_config_t(void *obj) {
-dimm_odt_config_t *arg1 = (dimm_odt_config_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_dimm_odt_config_t_methods[] = {
     {0,0}
 };
@@ -2222,7 +2180,7 @@ static swig_lua_attribute swig_dimm_odt_config_t_attributes[] = {
 };
 static swig_lua_class *swig_dimm_odt_config_t_bases[] = {0};
 static const char *swig_dimm_odt_config_t_base_names[] = {0};
-static swig_lua_class _wrap_class_dimm_odt_config_t = { "dimm_odt_config_t", &SWIGTYPE_p_dimm_odt_config_t,_wrap_new_dimm_odt_config_t, swig_delete_dimm_odt_config_t, swig_dimm_odt_config_t_methods, swig_dimm_odt_config_t_attributes, swig_dimm_odt_config_t_bases, swig_dimm_odt_config_t_base_names };
+static swig_lua_class _wrap_class_dimm_odt_config_t = { "dimm_odt_config_t", &SWIGTYPE_p_dimm_odt_config_t,0,0, swig_dimm_odt_config_t_methods, swig_dimm_odt_config_t_attributes, swig_dimm_odt_config_t_bases, swig_dimm_odt_config_t_base_names };
 
 static int _wrap_ddr_delay_config_t_ddr_board_delay_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -2428,27 +2386,6 @@ fail:
 }
 
 
-static int _wrap_new_ddr_delay_config_t(lua_State* L) {
-  int SWIG_arg = 0;
-  ddr_delay_config_t *result = 0 ;
-  
-  SWIG_check_num_args("ddr_delay_config_t::ddr_delay_config_t",0,0)
-  result = (ddr_delay_config_t *)calloc(1, sizeof(ddr_delay_config_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_delay_config_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_ddr_delay_config_t(void *obj) {
-ddr_delay_config_t *arg1 = (ddr_delay_config_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_ddr_delay_config_t_methods[] = {
     {0,0}
 };
@@ -2461,7 +2398,7 @@ static swig_lua_attribute swig_ddr_delay_config_t_attributes[] = {
 };
 static swig_lua_class *swig_ddr_delay_config_t_bases[] = {0};
 static const char *swig_ddr_delay_config_t_base_names[] = {0};
-static swig_lua_class _wrap_class_ddr_delay_config_t = { "ddr_delay_config_t", &SWIGTYPE_p_ddr_delay_config_t,_wrap_new_ddr_delay_config_t, swig_delete_ddr_delay_config_t, swig_ddr_delay_config_t_methods, swig_ddr_delay_config_t_attributes, swig_ddr_delay_config_t_bases, swig_ddr_delay_config_t_base_names };
+static swig_lua_class _wrap_class_ddr_delay_config_t = { "ddr_delay_config_t", &SWIGTYPE_p_ddr_delay_config_t,0,0, swig_ddr_delay_config_t_methods, swig_ddr_delay_config_t_attributes, swig_ddr_delay_config_t_bases, swig_ddr_delay_config_t_base_names };
 
 static int _wrap_ddr3_custom_config_t_min_rtt_nom_idx_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -3432,27 +3369,6 @@ fail:
 }
 
 
-static int _wrap_new_ddr3_custom_config_t(lua_State* L) {
-  int SWIG_arg = 0;
-  ddr3_custom_config_t *result = 0 ;
-  
-  SWIG_check_num_args("ddr3_custom_config_t::ddr3_custom_config_t",0,0)
-  result = (ddr3_custom_config_t *)calloc(1, sizeof(ddr3_custom_config_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr3_custom_config_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_ddr3_custom_config_t(void *obj) {
-ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_ddr3_custom_config_t_methods[] = {
     {0,0}
 };
@@ -3480,7 +3396,7 @@ static swig_lua_attribute swig_ddr3_custom_config_t_attributes[] = {
 };
 static swig_lua_class *swig_ddr3_custom_config_t_bases[] = {0};
 static const char *swig_ddr3_custom_config_t_base_names[] = {0};
-static swig_lua_class _wrap_class_ddr3_custom_config_t = { "ddr3_custom_config_t", &SWIGTYPE_p_ddr3_custom_config_t,_wrap_new_ddr3_custom_config_t, swig_delete_ddr3_custom_config_t, swig_ddr3_custom_config_t_methods, swig_ddr3_custom_config_t_attributes, swig_ddr3_custom_config_t_bases, swig_ddr3_custom_config_t_base_names };
+static swig_lua_class _wrap_class_ddr3_custom_config_t = { "ddr3_custom_config_t", &SWIGTYPE_p_ddr3_custom_config_t,0,0, swig_ddr3_custom_config_t_methods, swig_ddr3_custom_config_t_attributes, swig_ddr3_custom_config_t_bases, swig_ddr3_custom_config_t_base_names };
 
 static int _wrap_ddr_configuration_t_dimm_config_table_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -3845,27 +3761,6 @@ fail:
 }
 
 
-static int _wrap_new_ddr_configuration_t(lua_State* L) {
-  int SWIG_arg = 0;
-  ddr_configuration_t *result = 0 ;
-  
-  SWIG_check_num_args("ddr_configuration_t::ddr_configuration_t",0,0)
-  result = (ddr_configuration_t *)calloc(1, sizeof(ddr_configuration_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_configuration_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_ddr_configuration_t(void *obj) {
-ddr_configuration_t *arg1 = (ddr_configuration_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_ddr_configuration_t_methods[] = {
     {0,0}
 };
@@ -3880,7 +3775,7 @@ static swig_lua_attribute swig_ddr_configuration_t_attributes[] = {
 };
 static swig_lua_class *swig_ddr_configuration_t_bases[] = {0};
 static const char *swig_ddr_configuration_t_base_names[] = {0};
-static swig_lua_class _wrap_class_ddr_configuration_t = { "ddr_configuration_t", &SWIGTYPE_p_ddr_configuration_t,_wrap_new_ddr_configuration_t, swig_delete_ddr_configuration_t, swig_ddr_configuration_t_methods, swig_ddr_configuration_t_attributes, swig_ddr_configuration_t_bases, swig_ddr_configuration_t_base_names };
+static swig_lua_class _wrap_class_ddr_configuration_t = { "ddr_configuration_t", &SWIGTYPE_p_ddr_configuration_t,0,0, swig_ddr_configuration_t_methods, swig_ddr_configuration_t_attributes, swig_ddr_configuration_t_bases, swig_ddr_configuration_t_base_names };
 
 static int _wrap_ddr_config_table_t_chip_model_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -4102,27 +3997,6 @@ fail:
 }
 
 
-static int _wrap_new_ddr_config_table_t(lua_State* L) {
-  int SWIG_arg = 0;
-  ddr_config_table_t *result = 0 ;
-  
-  SWIG_check_num_args("ddr_config_table_t::ddr_config_table_t",0,0)
-  result = (ddr_config_table_t *)calloc(1, sizeof(ddr_config_table_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ddr_config_table_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_ddr_config_table_t(void *obj) {
-ddr_config_table_t *arg1 = (ddr_config_table_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_ddr_config_table_t_methods[] = {
     {0,0}
 };
@@ -4135,7 +4009,7 @@ static swig_lua_attribute swig_ddr_config_table_t_attributes[] = {
 };
 static swig_lua_class *swig_ddr_config_table_t_bases[] = {0};
 static const char *swig_ddr_config_table_t_base_names[] = {0};
-static swig_lua_class _wrap_class_ddr_config_table_t = { "ddr_config_table_t", &SWIGTYPE_p_ddr_config_table_t,_wrap_new_ddr_config_table_t, swig_delete_ddr_config_table_t, swig_ddr_config_table_t_methods, swig_ddr_config_table_t_attributes, swig_ddr_config_table_t_bases, swig_ddr_config_table_t_base_names };
+static swig_lua_class _wrap_class_ddr_config_table_t = { "ddr_config_table_t", &SWIGTYPE_p_ddr_config_table_t,0,0, swig_ddr_config_table_t_methods, swig_ddr_config_table_t_attributes, swig_ddr_config_table_t_bases, swig_ddr_config_table_t_base_names };
 
 static int _wrap_board_table_entry_t_board_type_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -4511,27 +4385,6 @@ fail:
 }
 
 
-static int _wrap_new_board_table_entry_t(lua_State* L) {
-  int SWIG_arg = 0;
-  board_table_entry_t *result = 0 ;
-  
-  SWIG_check_num_args("board_table_entry_t::board_table_entry_t",0,0)
-  result = (board_table_entry_t *)calloc(1, sizeof(board_table_entry_t));
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_board_table_entry_t,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_board_table_entry_t(void *obj) {
-board_table_entry_t *arg1 = (board_table_entry_t *) obj;
-free((char *) arg1);
-}
 static swig_lua_method swig_board_table_entry_t_methods[] = {
     {0,0}
 };
@@ -4547,7 +4400,7 @@ static swig_lua_attribute swig_board_table_entry_t_attributes[] = {
 };
 static swig_lua_class *swig_board_table_entry_t_bases[] = {0};
 static const char *swig_board_table_entry_t_base_names[] = {0};
-static swig_lua_class _wrap_class_board_table_entry_t = { "board_table_entry_t", &SWIGTYPE_p_board_table_entry_t,_wrap_new_board_table_entry_t, swig_delete_board_table_entry_t, swig_board_table_entry_t_methods, swig_board_table_entry_t_attributes, swig_board_table_entry_t_bases, swig_board_table_entry_t_base_names };
+static swig_lua_class _wrap_class_board_table_entry_t = { "board_table_entry_t", &SWIGTYPE_p_board_table_entry_t,0,0, swig_board_table_entry_t_methods, swig_board_table_entry_t_attributes, swig_board_table_entry_t_bases, swig_board_table_entry_t_base_names };
 
 static int _wrap_bdk_dram_lookup_board(lua_State* L) {
   int SWIG_arg = 0;
