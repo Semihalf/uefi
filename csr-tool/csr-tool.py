@@ -120,6 +120,7 @@ if generate_html:
                                                   ("cn63xx", "cn68xxp1"),
                                                   ("cn68xxp1", "cn68xx"),
                                                   ("cn63xx", "cn66xx"),
+                                                  ("cn63xx", "cn61xx"),
                                                   ("cn66xx", "cn61xx")))
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
