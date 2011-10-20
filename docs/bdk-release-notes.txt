@@ -10,6 +10,45 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2011.10-r66302
+-------------------------
+
+* Lua remote read, oremote.read_mem(), can now handle very large reads.
+* G-16094: QLM Gen2 Equalizer Default Setting Change.
++
+CN68XX pass 1.x and CN66XX pass 1.x: Tweak the JTAG
+setting for a QLMs to run better at 5 and 6.25Ghz. Previously
+these setting were only applied to CN68XX, which was incorrect.
+
+* Add support for CN61XX QLM1, which only has two lanes.
+* Add creation of Ldoc documentation to the release.
++
+These are located in *docs/lua-modules/index.html*.
+
+* Bug #3826: Add support for manual SPDs to the BDK. SPDs are expected to be Lua strings:
++
+Here is a sample SPD formatted for Lua from a CN63XX with a 2GB module:
++
+[source, lua]
+----
+config.ddr_config[1].dimm_config_table[1].spd_ptrs[1] =
+	"\x92\x10\x0b\x02\x02\x11\x00\x09\x0b\x52\x01\x08\x0c\x00\x3c\x00" ..
+	"\x69\x78\x69\x30\x69\x11\x20\x89\x70\x03\x3c\x3c\x00\xf0\x83\x05" ..
+	"\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0f\x11\x04\x01" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x01\x61\x00\x09\x00\x00\x00\x00\x00\x99\xc0" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
+	"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+----
+** The length is 128, 176, or 256 bytes.
+** The first byte encoding matches the length of the string.
+** The string is a binary SPD exactly as would be read from a DIMM.
+
+
 octeon-bdk-2011.10-r65630
 -------------------------
 
