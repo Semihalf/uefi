@@ -55,13 +55,15 @@ bdk-functions.c: ./create_function_table.py $(objs)
 
 #
 # These are needed to make bdk.pch
+# The -M creates the dependencies to stdout
+# The -MP creates fake target for .h files so make won't complain on include changes
+# The -MT changes the target to match our object file name
 #
 deps += $(BDK_ROOT)/libbdk/bdk.d
 $(BDK_ROOT)/libbdk/bdk.pch: $(BDK_ROOT)/libbdk/bdk.h
 	$(CC) -o $@ $(BDK_ROOT)/libbdk/bdk.h
 $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
-	$(CC) -M $(CPPFLAGS) $< > $@
-	sed -i "s,^bdk.o,$(basename $@).pch,g" $@
+	$(CC) -M -MP -MT $(basename $@).pch $(CPPFLAGS) $< > $@
 
 #
 # Lua to C wrapper functions created by SWIG

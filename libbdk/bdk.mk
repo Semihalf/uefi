@@ -48,10 +48,12 @@ TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/print 0x\1/g" | python`
 #
 # This is needed to generate the depends files
+# The -M creates the dependencies to stdout
+# The -MP creates fake target for .h files so make won't complain on include changes
+# The -MT changes the target to match our object file name
 #
 %.d: %.c
-	$(CC) -M $(CPPFLAGS) $< > $@
-	sed -i "s,^\(.*[.]o\),$(basename $@).o,g" $@
+	$(CC) -M -MP -MT $(basename $@).o $(CPPFLAGS) $< > $@
 
 #
 # Convert an ELF file into a binary
