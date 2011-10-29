@@ -109,7 +109,7 @@ __start:
     MTP1 $0
     MTP0 $0
 
-    li      t0, 0x80000000
+    li      t0, 0x80100000
     j       t0
     .end __start
 
