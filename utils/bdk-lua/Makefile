@@ -23,7 +23,6 @@ CC_x86 = gcc
 
 # Building for PPC
 #    1) Link static
-PPC_ROOT=/home/creese/work/debian_ppc_lenny
 CPPFLAGS_ppc =
 CFLAGS_ppc =
 ASFLAGS_ppc =
@@ -36,7 +35,6 @@ CFLAGS_octeon = -march=octeon2
 ASFLAGS_octeon = -march=octeon2
 LDFLAGS_octeon =
 CC_octeon = mips64-octeon-linux-gnu-gcc
-arch=$(patsubst %.o,%,$(lastword $(subst -, ,$@)))
 
 #
 # These are the directories where source files are found
@@ -60,26 +58,44 @@ src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
 src += $(BDK_ROOT)/libbdk-lua/readline.c
 src += $(BDK_ROOT)/libbdk-lua/rpc-support.c
 
-bdk-lua-%: $(src) octeon-remote-mips-asm-%.o
-	$(CC_$(arch)) $(CPPFLAGS) $(CPPFLAGS_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -o $@ $^ $(LDFLAGS) $(LDFLAGS_$(arch))
-
-octeon-remote-mips-asm-%.o: mips-octeon2_debug_handler.bin
-	$(CC_$(arch)) $(CFLAGS) $(CFLAGS_$(arch)) -c -o $@ octeon-remote-mips-asm.S
-
-mips-%.o: mips-%.S
-	mips64-octeon-linux-gnu-gcc -W -Wall -o $@ -c $<
-mips-%.bin: mips-%.o
-	mips64-octeon-linux-gnu-objcopy -j .text -O binary $< $@
-
 .DEFAULT: all
 all: bdk-lua-x86 bdk-lua-octeon
 
 .PHONY: ppc
 ppc: bdk-lua-ppc
 
+
+define build_rule
+obj-$(2)/$$(notdir $(1:%.c=%.o)): $(1) | obj-$(2)
+	$$(CC_$(2)) $(CPPFLAGS) $$(CPPFLAGS_$(2)) $$(CFLAGS) $$(CFLAGS_$(2)) -o $$@ -c $$^
+endef
+
+define build_arch
+obj_$(1) := $$(foreach s,$$(src),obj-$(1)/$$(notdir $$(s:%.c=%.o)))
+obj_$(1) += obj-$(1)/octeon-remote-mips-asm.o
+obj-$(1):
+	mkdir obj-$(1)
+obj-$(1)/octeon-remote-mips-asm.o: mips-octeon2_debug_handler.bin | obj-$(1)
+	$$(CC_$(1)) $$(CFLAGS) $$(CFLAGS_$(1)) -c -o $$@ octeon-remote-mips-asm.S
+bdk-lua-$(1): $$(obj_$(1))
+	$$(CC_$(arch)) $$(CFLAGS_$(1)) -o $$@ $$^ $$(LDFLAGS) $$(LDFLAGS_$(1))
+endef
+
+$(foreach arch,x86 ppc octeon,\
+	$(eval $(call build_arch,$(arch))) \
+	$(foreach s,$(src), \
+		$(eval $(call build_rule,$(s),$(arch))) \
+	) \
+)
+
+mips-%.o: mips-%.S
+	mips64-octeon-linux-gnu-gcc -W -Wall -o $@ -c $<
+mips-%.bin: mips-%.o
+	mips64-octeon-linux-gnu-objcopy -j .text -O binary $< $@
+
 .PHONY: clean
 clean:
-	rm -f bdk-lua-* *.o *.bin
+	rm -rf bdk-lua-* *.o *.bin obj-*
 
 .PHONY: suid
 suid:
