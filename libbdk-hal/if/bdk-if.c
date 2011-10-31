@@ -883,6 +883,20 @@ int bdk_if_dispatch(void)
                     count++;
                     dispatch(&packet);
                 }
+            /* Poll the link state */
+            if (bdk_get_core_num() == 0)
+            {
+                static bdk_if_handle_t link_handle = NULL;
+                static uint64_t last_poll = 0;
+                uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
+                if (current_time > last_poll + bdk_clock_get_rate(BDK_CLOCK_CORE) / 16)
+                {
+                    last_poll = current_time;
+                    link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
+                    if (link_handle)
+                        bdk_if_link_autoconf(link_handle);
+                }
+            }
             return count;
         }
 

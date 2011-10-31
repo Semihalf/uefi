@@ -29,7 +29,7 @@ static void netstack_netif_poll_link(void *unused)
         return;
 
     /* Get the link state */
-    bdk_if_link_t link = bdk_if_link_autoconf(handle);
+    bdk_if_link_t link = bdk_if_link_get(handle);
 
     /* Find the netif device for this handle */
     struct netif *netif = netif_list;
