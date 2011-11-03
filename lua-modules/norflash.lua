@@ -67,9 +67,22 @@ local function nor_read(bootbus_info, offset, length)
     local data
     if use_oremote then
         data = {}
-        for i=1,length do
-            local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 1, address+i-1)
-            data[i] = string.char(v)
+        local i = 0
+        local a = address
+        while i<length do
+            if (length - i >= 8) and (bit64.band(a, 7) == 0) then
+                local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 8, a)
+                for j=1,8 do
+                    data[i+j] = string.char(bit64.band(bit64.rshift(v, 8*(8-j)), 0xff))
+                end
+                i = i + 8
+                a = a + 8
+            else
+                local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 1, a)
+                data[i+1] = string.char(v)
+                i = i + 1
+                a = a + 1
+            end
         end
         data = table.concat(data)
     else
