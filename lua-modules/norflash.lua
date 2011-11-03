@@ -78,7 +78,9 @@ local function nor_read(bootbus_info, offset, length)
         data = f:read(length)
         f:close()
     end
-    log:debug("Read 0x%x len=%d: %s\n", address, length, data:hex())
+    if log.level == logging.DEBUG then
+        log:debug("Read 0x%x len=%d: %s\n", address, length, data:hex())
+    end
     return data
 end
 
@@ -89,7 +91,9 @@ local function nor_write(bootbus_info, offset, data)
     local address = bootbus_info.base
     address = address + offset
     address = address + bit64.lshift(1, 48)
-    log:debug("Write 0x%x len=%d: %s\n", address, #data, data:hex())
+    if log.level == logging.DEBUG then
+        log:debug("Write 0x%x len=%d: %s\n", address, #data, data:hex())
+    end
 
     if use_oremote then
         for i=1,#data do
