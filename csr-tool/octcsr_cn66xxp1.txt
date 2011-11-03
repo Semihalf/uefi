@@ -12344,6 +12344,7 @@ Pos      Name    Type     Value     Value       Description
 						   PIP_FRM_CHKx[MAXLEN] should be increased by 8.   |
 						   PIP_FRM_CHKx[MINLEN] should be increased by 8.   |
 						   PIP_TAG_INCx[EN] should be adjusted.		    |
+						   PIP_PRT_CFGBx[ALT_SKP_EN] should be 0.	    |
  <11>    NS       RAZ      NS          NS        Reserved				            |
  <10>    NULL_DIS R/W      0x0         0         When set, do not modify the MOD bits on NULL ticks |
 						  due to PARITAL packets			    |
@@ -29995,6 +29996,10 @@ Pos      Name    Type     Value     Value       Description
                                                   when ALT_SKP_EN is set.                           |
                                                   ALT_SKP_EN must not be set for DPI ports (32-35)  |
                                                   when a PKT_INST_HDR is present.                   |
+						  ALT_SKP_EN should not be enabled for ports which  |
+						  have GMX_RX_FRM_CTL[PTP_MODE] set as the timestamp|
+						  will be prepended onto the initial 64 bits of the |
+						  packet.					    |
  <35>    NS       RAZ      NS          NS        Reserved				            |
  <34:33> BSEL_NUM R/W      0x0         0x0       Which of the 4 bit select extractors to use        |
 						  (Alias to PIP_PRT_CFG)			    |
@@ -41854,7 +41859,7 @@ Pos      Name    Type     Value     Value       Description
 <16>     PKI      R/W      0           0         Enable tracing of write requests from PIP/IPD
 <15:10>  NS       R/W      0           0         Must be written to zero
 <9:0>    PP       R/W      0           0         Enable tracing from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+                                                   0=disable, 1=enable per bit N where 0<=N<=9
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -42111,7 +42116,7 @@ Pos      Name    Type     Value     Value       Description
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:10>  NS       R/W      0           0         Must be written to zero
 <9:0>    PP       R/W      0           0         Enable triggering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+                                                   0=disable, 1=enable per bit N where 0<=N<=9
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -42368,7 +42373,7 @@ Pos      Name    Type     Value     Value       Description
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
 <15:10>  NS       R/W      0           0         Must be written to zero
 <9:0>    PP       R/W      0           0         Enable trigering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+                                                   0=disable, 1=enable per bit N where 0<=N<=9
 ----------------------------------------------------------------------------------------------------
 ===
  *

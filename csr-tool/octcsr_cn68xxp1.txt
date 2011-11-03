@@ -14702,7 +14702,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <5:0>    PORT_KIND            R/W      0x0      NS       Specify the port-kind for the link/channel selected by         |
-                                                         ILK_IDX_PMAP[IDX]                                              |
+                                                         ILK_RXF_IDX_PMAP[IDX]                                          |
 <63:6>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -30113,7 +30113,7 @@ Pos      Name    Type     Value     Value       Description
 						  group when GRPTAG is set.			    |
  <31>    GRPTAG   R/W      0x0         0x0       When set, use the lower bit of the tag to compute  |
 						  the group in the work queue entry		    |
-						  GRP = WQE[TAG[3:0]] & ~GRPTAGMASK + GRPTAGBASE    |
+						  GRP = WQE[TAG[5:0]] & ~GRPTAGMASK + GRPTAGBASE    |
  <30>    GRPTAG_MSKIP R/W  0x0         0x0       When set, GRPTAG will be used regardless if the    |
 						  packet IS_IP.					    |
  <29:28> TAG_MODE R/W	   0x0	       0x0	 Which tag algorithm to use			    |
@@ -35668,8 +35668,26 @@ Pos      Name    Type     Value     Value       Description
  * corresponding to a PP is set, that PP will not take work off the input
  * queues until it is known that there is no higher-priority work available.
  *
- * Strict mode may incur a performance penalty if highest-priority work
- * is not found early.
+ * Setting SSO_PP_STRICT may incur a performance penalty if highest-priority
+ * work is not found early.
+ *
+ * It is possible to starve a PP of work with SSO_PP_STRICT.  If the
+ * SSO_PP@_GRP_MSK for a PP masks-out much of the work added to the input
+ * queues that are higher-priority for that PP, and if there is a constant
+ * stream of work through one or more of those higher-priority input queues,
+ * then that PP may not accept work from lower-priority input queues.  This can
+ * be alleviated by ensuring that most or all the work added to the
+ * higher-priority input queues for a PP with SSO_PP_STRICT set are in a group
+ * acceptable to that PP.
+ *
+ * It is also possible to neglect work in an input queue if SSO_PP_STRICT is
+ * used.  If an input queue is a lower-priority queue for all PPs, and if all
+ * the PPs have their corresponding bit in SSO_PP_STRICT set, then work may
+ * never be taken (or be seldom taken) from that queue.  This can be alleviated
+ * by ensuring that work in all input queues can be serviced by one or more PPs
+ * that do not have SSO_PP_STRICT set, or that the input queue is the
+ * highest-priority input queue for one or more PPs that do have SSO_PP_STRICT
+ * set.
  *
 
      ==============================================================

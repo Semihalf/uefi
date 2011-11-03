@@ -39490,9 +39490,9 @@ Pos      Name    Type     Value     Value       Description
                                                  PCI,ZIP,POW, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable tracing of read requests from PKO
 <16>     PKI      R/W      0           0         Enable tracing of write requests from PIP/IPD
-<15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable tracing from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<15:6>   NS       R/W      0           0         Must be written to zero
+<5:0>    PP       R/W      0           0         Enable tracing from PP[N] with matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=5
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -39747,9 +39747,9 @@ Pos      Name    Type     Value     Value       Description
                                                  PCI,ZIP,POW, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
-<15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable triggering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<15:6>   NS       R/W      0           0         Must be written to zero
+<5:0>    PP       R/W      0           0         Enable triggering from PP[N] with matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=5
 ----------------------------------------------------------------------------------------------------
 ===
  *
@@ -40004,9 +40004,9 @@ Pos      Name    Type     Value     Value       Description
                                                  PCI,ZIP,POW, and PKO (writes)
 <17>     PKO      R/W      0           0         Enable triggering on read requests from PKO
 <16>     PKI      R/W      0           0         Enable triggering on write requests from PIP/IPD
-<15:8>   NS       R/W      0           0         Must be written to zero
-<7:0>    PP       R/W      0           0         Enable trigering from PP[N] with matching SourceID
-                                                   0=disable, 1=enableper bit N where  0<=N<=15
+<15:6>   NS       R/W      0           0         Must be written to zero
+<5:0>    PP       R/W      0           0         Enable trigering from PP[N] with matching SourceID
+                                                   0=disable, 1=enable per bit N where 0<=N<=5
 ----------------------------------------------------------------------------------------------------
 ===
  *
