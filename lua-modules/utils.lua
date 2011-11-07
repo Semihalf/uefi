@@ -147,9 +147,9 @@ end
 -- @function string:hex()
 --
 function string.hex(str)
-    local hex = ""
+    local hex = {}
     for i = 1,#str do
-        hex = "%s%02x" % {hex, str:byte(i,i)}
+        hex[i] = "%02x" % str:byte(i,i)
     end
-    return hex
+    return table.concat(hex)
 end
