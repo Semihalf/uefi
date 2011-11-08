@@ -24,7 +24,7 @@ def start_connection():
     global _child_cnx
     assert os.getenv("BDK_ROOT"), "BDK_ROOT not defined"
     assert os.getenv("OCTEON_REMOTE_CONSOLE"), "OCTEON_REMOTE_CONSOLE not defined"
-    _child_cnx = pexpect.spawn("bdk-lua -l coverage " + os.getenv("BDK_ROOT") + "/rom/main.lua")
+    _child_cnx = pexpect.spawn("bdk-lua -l coverage " + os.getenv("BDK_ROOT") + "/lua-modules/main.lua")
     _child_cnx.logfile = sys.stdout
     #_child_cnx.logfile = file("menu_automate.log", "w")
     _child_cnx.setecho(False)

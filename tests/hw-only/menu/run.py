@@ -7,7 +7,7 @@ import test_flash
 import test_ddr
 import test_qlm
 import test_pcie
-import test_srio
+#import test_srio
 import test_twsi
 import test_smi
 import test_gpio
