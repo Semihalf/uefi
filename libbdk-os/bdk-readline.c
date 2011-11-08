@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <unistd.h>
 #ifdef BDK_BUILD_HOST
+#include <stdlib.h>
 #include <termios.h>
 #include <sys/time.h>
 #include "bdk-readline.h"
@@ -844,9 +845,11 @@ int bdk_readline_getkey(int timeout_us)
     if (select(fileno(stdin) + 1, &rset, NULL, NULL, &tv) > 0)
     {
         char c;
-        read(fileno(stdin), &c, 1);
+        int count = read(fileno(stdin), &c, 1);
         /* Restore normal RAW terminal IO */
         tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
+        if (count != 1)
+            abort();
         return 0xff & c;
     }
     /* Restore normal RAW terminal IO */
