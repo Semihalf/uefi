@@ -409,7 +409,7 @@ static int pci_open(const char *remote_spec)
 
     /* Determine the port number */
     if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-        octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER);
+        octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER) & 0xff;
     return 0;
 }
 
