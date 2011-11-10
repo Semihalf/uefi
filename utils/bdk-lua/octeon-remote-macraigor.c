@@ -55,6 +55,7 @@ extern int __octeon_remote_num_cores;
 static int sock_fd = -1;
 static uint64_t available_core_mask = 0;
 static int memory_access_core = 0;
+static core_state_t current_core_state[64];
 static void enable_64bit_addressing(int core);
 
 static void log_hex(int level, const char *name, void *buffer, int buffer_length)
@@ -289,25 +290,32 @@ static core_state_t get_core_state(int core)
         if (response[1] & 1)
         {
             octeon_remote_debug(2, "Core %d in reset\n", core);
-            return CORE_STATE_RESET;
+            current_core_state[core] = CORE_STATE_RESET;
+            return current_core_state[core];
         }
         else if (response[1] & 4)
         {
             octeon_remote_debug(2, "Core %d is stopped\n", core);
-            return CORE_STATE_STOPPED;
+            current_core_state[core] = CORE_STATE_STOPPED;
+            return current_core_state[core];
         }
         else
         {
             octeon_remote_debug(2, "Core %d is running\n", core);
-            return CORE_STATE_RUNNING;
+            current_core_state[core] = CORE_STATE_RUNNING;
+            return current_core_state[core];
         }
     }
     octeon_remote_debug(2, "Core %d in bad state\n", core);
-    return CORE_STATE_BAD;
+    current_core_state[core] = CORE_STATE_BAD;
+    return current_core_state[core];
 }
 
 static core_state_t conditional_stop_core(int core)
 {
+    if (current_core_state[core] == CORE_STATE_STOPPED)
+        return current_core_state[core];
+
     core_state_t old_state = get_core_state(core);
 
     if (old_state == CORE_STATE_RUNNING)
@@ -332,6 +340,7 @@ static void conditional_start_core(int core, core_state_t state)
     octeon_remote_debug(2, "Starting core %d\n", core);
     command[0] = 0x20; /* Run */
     do_command(core, command, 1, response, sizeof(response));
+    current_core_state[core] = CORE_STATE_RUNNING;
 }
 
 
@@ -662,7 +671,10 @@ static void macraigor_start_cores(uint64_t start_mask)
     for (core=0;core<64; core++)
         if (start_mask & (1ull<<core))
             if (get_core_state(core) == CORE_STATE_STOPPED)
+            {
                 do_command(core, command, 1, response, sizeof(response));
+                current_core_state[core] = CORE_STATE_RUNNING;
+            }
 }
 
 
