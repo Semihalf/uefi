@@ -154,7 +154,9 @@ static void timing_update(time_index_t index, uint64_t start_time)
 static void default_lock(void)
 {
     OCTEON_REMOTE_DEBUG_CALLED();
+    mode_t old_umask = umask(0);
     lock_fd = open(lock_file_name, O_CREAT|O_WRONLY, 0666);
+    umask(old_umask);
     if (lock_fd == -1)
     {
         octeon_remote_perror(-1, lock_file_name);
