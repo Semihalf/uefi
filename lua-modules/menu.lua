@@ -58,9 +58,10 @@ local function show(m)
         -- print the menu, one item per line
         for i=1,#m.items do
             if menu.show_keys then
-                printf("%-8s ", m.items[i].key)
+                printf("%8s) %s\n", m.items[i].key, m.items[i].description)
+            else
+                printf("%2d) %s\n", i, m.items[i].description)
             end
-            printf("%2d) %s\n", i, m.items[i].description)
         end
 
         -- Read a number from the user
