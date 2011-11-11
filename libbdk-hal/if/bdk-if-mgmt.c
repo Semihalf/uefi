@@ -104,7 +104,15 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Read PHY status register to find the mode of the interface. */
     int phy_id = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + handle->index);
-    if (phy_id != -1)
+    if (phy_id >= 0x1000)
+    {
+        /* A PHY address with the special value 0x1000 represents a PHY we can't
+            connect to through MDIO which is assumed to be at 1Gbps */
+        /* A PHY address with the special value 0x1001 represents a PHY we can't
+            connect to through MDIO which is assumed to be at 100Mbps */
+        state->is_rgmii = (phy_id == 0x1000);
+    }
+    else if (phy_id != -1)
     {
         bdk_mdio_phy_reg_status_t phy_status;
         phy_status.u16 = bdk_mdio_read(phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
