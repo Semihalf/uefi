@@ -19,6 +19,20 @@ local debug = require("debug")
 coverage = {}
 coverage.data = {}
 
+local function update_count(filename, lineno, count)
+    local file_data = coverage.data[filename]
+    if not file_data then
+        file_data = {}
+        coverage.data[filename] = file_data
+    end
+    local old = file_data[lineno]
+    if old then
+        file_data[lineno] = old + count
+    else
+        file_data[lineno] = count
+    end
+end
+
 --
 -- Called every time Lua executes a line
 --
@@ -26,13 +40,31 @@ local function coverage_hook(reason, lineno)
     local info = debug.getinfo(2, "Sl")
     local filename = tostring(info.short_src)
     local lineno = info.currentline
-    if not coverage.data[filename] then
-        coverage.data[filename] = {}
+    update_count(filename, lineno, 1)
+end
+
+--
+-- Read previous coverage results from old coverage files so we can give
+-- cumulative results.
+--
+local function read_old_results(filename, coverage_filename)
+    local infile = io.open(coverage_filename, "r")
+    if not infile then
+        return
     end
-    if not coverage.data[filename][lineno] then
-        coverage.data[filename][lineno] = 0
+    local lineno = 0
+    local line = infile:read("*L")
+    while line do
+        lineno = lineno + 1
+        local prefix = line:match("(%d+):")
+        if prefix then
+            local count = tonumber(prefix)
+            assert(count > 0, "Illegal value when reading previous coverage run")
+            update_count(filename, lineno, count)
+        end
+        line = infile:read("*L")
     end
-    coverage.data[filename][lineno] = coverage.data[filename][lineno] + 1
+    infile:close()
 end
 
 ---
@@ -53,6 +85,7 @@ end
 -- Report coverage analysis
 --
 function coverage.report()
+    coverage.stop()
     local skip_expressions = {
         "^ *[-][-]", -- Comment lines
         "^ *\n$", -- Empty lines
@@ -63,11 +96,12 @@ function coverage.report()
         "^ *repeat\n$", -- repeat by itself
     }
     print("Coverage Report")
-    coverage.stop()
     for filename, filedata in pairs(coverage.data) do
         local infile = io.open(filename, "r")
         if infile then
-            local outfile = assert(io.open(filename .. ".coverage", "w"))
+            local coverage_filename = filename .. ".coverage"
+            read_old_results(filename, coverage_filename)
+            local outfile = assert(io.open(coverage_filename, "w"))
             local count = 0
             local hit = 0
             local miss = 0
