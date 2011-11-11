@@ -235,6 +235,7 @@ function TrafficGen.new()
         -- Add in sorted order
         for _,field_name in ipairs(table.sorted_keys(stat_names)) do
             self["cmdp_" .. field_name] = function (self, port_range, args)
+                local stats = do_update(false)
                 for _, port in pairs(port_range) do
                     printf("Port %s: %s = %s\n", port, field_name, tostring(stats[port][field_name]))
                 end
