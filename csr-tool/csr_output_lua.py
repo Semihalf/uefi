@@ -55,7 +55,10 @@ def write(file, separate_chip_lists, include_cisco_only):
                 out.write("            range2 = %s,\n" % range_string(range2))
                 out.write("            range2_inc = 0x%x,\n" % block_inc)
             out.write("            fields = {\n")
-            for bit in csr.fields:
+            bits = csr.fields.keys()
+            bits.sort()
+            bits.reverse()
+            for bit in bits:
                 f = csr.fields[bit]
                 out.write("                {name = \"%s\", start = %d, stop = %d},\n" % (f.name.upper(), f.start_bit, f.stop_bit))
             out.write("            }\n")
