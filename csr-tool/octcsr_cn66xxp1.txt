@@ -22917,22 +22917,23 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
  <11:8>  QLM_SPD      RO       NS        NS        QLM speed                                        |
-                                                      0   = 5     Gbaud	                            |
-                                                      1   = 2.5   Gbaud	                            |
-                                                      2   = 2.5   Gbaud                             |
-                                                      3   = 1.25  Gbaud                             |
-                                                      4   = 1.25  Gbaud                             |
-                                                      5   = 6.25  Gbaud                             |
-                                                      6   = 5     Gbaud                             |
-                                                      7   = 2.5   Gbaud                             |
-                                                      8   = 3.125 Gbaud                             |
-                                                      9   = 2.5   Gbaud                             |
-                                                      10  = 1.25  Gbaud                             |
-                                                      11  = 5     Gbaud                             |
-                                                      12  = 6.25  Gbaud                             |
-                                                      13  = 3.75  Gbaud                             |
-                                                      14  = 3.125 Gbaud                             |
+                                                      0   = 5     Gbaud	  100.00 MHz Ref            |
+                                                      1   = 2.5   Gbaud	  100.00 MHz Ref            |
+                                                      2   = 2.5   Gbaud   100.00 MHz Ref            |
+                                                      3   = 1.25  Gbaud   100.00 MHz Ref            |
+                                                      4   = 1.25  Gbaud   156.25 MHz Ref            |
+                                                      5   = 6.25  Gbaud   125.00 MHz Ref            |
+                                                      6   = 5     Gbaud   125.00 MHz Ref            |
+                                                      7   = 2.5   Gbaud   156.25 MHz Ref            |
+                                                      8   = 3.125 Gbaud   125.00 MHz Ref            |
+                                                      9   = 2.5   Gbaud   125.00 MHz Ref            |
+                                                      10  = 1.25  Gbaud   125.00 MHz Ref            |
+                                                      11  = 5     Gbaud   156.25 MHz Ref            |
+                                                      12  = 6.25  Gbaud   156.25 MHz Ref            |
+                                                      13  = 3.75  Gbaud   156.25 MHz Ref            |
+                                                      14  = 3.125 Gbaud   156.25 MHz Ref            |
                                                       15  = QLM Disabled                            |
+                                                                                                    |
  <7:4>   NS           RAZ      NS        NS        Reserved                                         |
  <3:0>   QLM_CFG      RO       NS        NS        QLM configuration mode                           |
                                                       0000 PCIE gen2                                |

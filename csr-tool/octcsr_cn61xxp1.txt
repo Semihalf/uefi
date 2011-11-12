@@ -21109,34 +21109,35 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
  <11:8>  QLM_SPD      R/W      0         NS        QLM speed for SGMii/XAUI                         |
-                                                      0   = 5     Gbaud	                            |
-                                                      1   = 2.5   Gbaud	                            |
-                                                      2   = 2.5   Gbaud                             |
-                                                      3   = 1.25  Gbaud                             |
-                                                      4   = 1.25  Gbaud                             |
-                                                      5   = 6.25  Gbaud                             |
-                                                      6   = 5     Gbaud                             |
-                                                      7   = 2.5   Gbaud                             |
-                                                      8   = 3.125 Gbaud                             |
-                                                      9   = 2.5   Gbaud                             |
-                                                      10  = 1.25  Gbaud                             |
-                                                      11  = 5     Gbaud                             |
-                                                      12  = 6.25  Gbaud                             |
-                                                      13  = 3.75  Gbaud                             |
-                                                      14  = 3.125 Gbaud                             |
+                                                      0   = 5     Gbaud	  100.00 MHz Ref            |
+                                                      1   = 2.5   Gbaud	  100.00 MHz Ref            |
+                                                      2   = 2.5   Gbaud   100.00 MHz Ref            |
+                                                      3   = 1.25  Gbaud   100.00 MHz Ref            |
+                                                      4   = 1.25  Gbaud   156.25 MHz Ref            |
+                                                      5   = 6.25  Gbaud   125.00 MHz Ref            |
+                                                      6   = 5     Gbaud   125.00 MHz Ref            |
+                                                      7   = 2.5   Gbaud   156.25 MHz Ref            |
+                                                      8   = 3.125 Gbaud   125.00 MHz Ref            |
+                                                      9   = 2.5   Gbaud   125.00 MHz Ref            |
+                                                      10  = 1.25  Gbaud   125.00 MHz Ref            |
+                                                      11  = 5     Gbaud   156.25 MHz Ref            |
+                                                      12  = 6.25  Gbaud   156.25 MHz Ref            |
+                                                      13  = 3.75  Gbaud   156.25 MHz Ref            |
+                                                      14  = 3.125 Gbaud   156.25 MHz Ref            |
                                                       15  = QLM Disabled                            |
                                                                                                     |
                                                    QLM speed PEM0   PEM1                            |
-                                                      0   =  2.5/5  2.5/5 Gbaud	                    |
-                                                      1   =  2.5    2.5/5 Gbaud	                    |
-                                                      2   =  2.5/5  2.5   Gbaud                     |
-                                                      3   =  2.5    2.5   Gbaud                     |
-                                                      4   =  2.5/5  2.5/5 Gbaud	                    |
-                                                      6   =  2.5/5  2.5   Gbaud                     |
-                                                      7   =  2.5    2.5   Gbaud                     |
-                                                      9   =  2.5    2.5/5 Gbaud	                    |
+                                                      0   =  2.5/5  2.5/5 Gbaud	 100.00 MHz Ref     |
+                                                      1   =  2.5    2.5/5 Gbaud	 100.00 MHz Ref     |
+                                                      2   =  2.5/5  2.5   Gbaud  100.00 MHz Ref     |
+                                                      3   =  2.5    2.5   Gbaud  100.00 MHz Ref     |
+                                                      4   =  2.5/5  2.5/5 Gbaud	 125.00 MHz Ref     |
+                                                      6   =  2.5/5  2.5   Gbaud  125.00 MHz Ref     |
+                                                      7   =  2.5    2.5   Gbaud  125.00 MHz Ref     |
+                                                      9   =  2.5    2.5/5 Gbaud	 125.00 MHz Ref     |
                                                       15  =  QLM Disabled                           |
                                                       5,8,10-14 are reserved                        |
+                                                                                                    |
  <7:2>   NS           RAZ      NS        NS        Reserved                                         |
  <1:0>   QLM_CFG      R/W      0         NS        QLM configuration mode                           |
 					           For Interface 0:                                 |

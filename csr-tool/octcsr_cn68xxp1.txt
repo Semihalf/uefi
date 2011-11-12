@@ -22974,22 +22974,23 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
  <11:8>  QLM_SPD      RO       NS        NS        QLM speed                                        |
-                                                      0   = 5     Gbaud	                            |
-                                                      1   = 2.5   Gbaud	                            |
-                                                      2   = 2.5   Gbaud                             |
-                                                      3   = 1.25  Gbaud                             |
-                                                      4   = 1.25  Gbaud                             |
-                                                      5   = 6.25  Gbaud                             |
-                                                      6   = 5     Gbaud                             |
-                                                      7   = 2.5   Gbaud                             |
-                                                      8   = 3.125 Gbaud                             |
-                                                      9   = 2.5   Gbaud                             |
-                                                      10  = 1.25  Gbaud                             |
-                                                      11  = 5     Gbaud                             |
-                                                      12  = 6.25  Gbaud                             |
-                                                      13  = 3.75  Gbaud                             |
-                                                      14  = 3.125 Gbaud                             |
+                                                      0   = 5     Gbaud	  100.00 MHz Ref            |
+                                                      1   = 2.5   Gbaud	  100.00 MHz Ref            |
+                                                      2   = 2.5   Gbaud   100.00 MHz Ref            |
+                                                      3   = 1.25  Gbaud   100.00 MHz Ref            |
+                                                      4   = 1.25  Gbaud   156.25 MHz Ref            |
+                                                      5   = 6.25  Gbaud   125.00 MHz Ref            |
+                                                      6   = 5     Gbaud   125.00 MHz Ref            |
+                                                      7   = 2.5   Gbaud   156.25 MHz Ref            |
+                                                      8   = 3.125 Gbaud   125.00 MHz Ref            |
+                                                      9   = 2.5   Gbaud   125.00 MHz Ref            |
+                                                      10  = 1.25  Gbaud   125.00 MHz Ref            |
+                                                      11  = 5     Gbaud   156.25 MHz Ref            |
+                                                      12  = 6.25  Gbaud   156.25 MHz Ref            |
+                                                      13  = 3.75  Gbaud   156.25 MHz Ref            |
+                                                      14  = 3.125 Gbaud   156.25 MHz Ref            |
                                                       15  = QLM Disabled                            |
+                                                                                                    |
  <7:3>   NS           RAZ      NS        NS        Reserved                                         |
  <2:0>   QLM_CFG      RO       NS        NS        QLM configuration mode                           |
                                                       000 = PCIE	                            |
@@ -31191,8 +31192,8 @@ Notes:
  The "8 byte" quantity to which RATE_WORD refers includes the sum of all packet, padding, and CRC
  bytes, rounded up tp the next 8 bytes.
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31215,8 +31216,8 @@ Notes:
  Writing PKO_MEM_PORT_RATE1[PID,RATE_LIM] has the side effect of setting the corresponding
  accumulator to zero.
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31285,6 +31286,9 @@ Pos      Name    Type     Value     Value       Description
  <6:0>   IPID      R/W      X           NS       PKO-internal Port ID to be accessed
 
 Notes:
+ This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31312,8 +31316,8 @@ Notes:
  EID.  Note that the port to engine mapping must be the same as was previously programmed via the
  PKO_MEM_IPORT_PTRS CSR.
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of
+ any entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31350,8 +31354,8 @@ Notes:
  must be contiguous and begin at IDX 0.  The last queue that is marked as having static priority
  must have its S_TAIL bit set.
  This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IQUEUE.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31379,8 +31383,8 @@ Notes:
  IPID.  Note that the queue to port mapping must be the same as was previously programmed via the
  PKO_MEM_IQUEUE_PTRS CSR.
  This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IQUEUE.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31423,8 +31427,8 @@ Notes:
  the pipe to the value 0x20-N (0x20 is the smallest PACKET value with the most-significant bit set).
 
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is a PIPE.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31468,8 +31472,8 @@ Notes:
  the pipe to the value 0x20-N (0x20 is the smallest PACKET value with the most-significant bit set).
 
  This CSR is a memory of 32 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an INTERFACE.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31490,8 +31494,8 @@ Notes:
  Total number of packets seen by PKO, per port
  A write to this address will clear the entry whose index is specified as COUNT[6:0].
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31512,8 +31516,8 @@ Notes:
  Total number of bytes seen by PKO, per port
  A write to this address will clear the entry whose index is specified as COUNT[6:0].
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.  A read of any entry that has not been
- previously written is illegal and will result in unpredictable CSR read data.
+ CSR read operations to this address can be performed.  The index to this CSR is an IPORT.  A read of any
+ entry that has not been previously written is illegal and will result in unpredictable CSR read data.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31535,7 +31539,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.cmnd[63:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31557,7 +31561,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.curr[63:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31580,7 +31584,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.head[63:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31599,7 +31603,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.resp[63:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31630,7 +31634,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.state[63:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31655,7 +31659,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.state[127:64]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31686,7 +31690,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko_prt_psb.port[63:0]
  This CSR is a memory of 128 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.   The index to this CSR is an IPORT.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31710,7 +31714,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-queue state intended for debug use only - pko_prt_qsb.state[63:0]
  This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.   The index to this CSR is an IQUEUE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31737,7 +31741,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-queue state intended for debug use only - pko_prt_qsb.state[91:64]
  This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an IQUEUE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31759,7 +31763,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko.dat.ptr.ptrs0, pko.dat.ptr.ptrs3
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31781,7 +31785,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko.dat.ptr.ptrs1, pko.dat.ptr.ptrs2
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31807,7 +31811,7 @@ Pos      Name    Type     Value     Value       Description
 Notes:
  Internal per-port state intended for debug use only - pko.out.sta.state[22:0]
  This CSR is a memory of 20 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ CSR read operations to this address can be performed.  The index to this CSR is an ENGINE.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31824,8 +31828,8 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko.out.ctl.out_rdat_5a[63:0]
- This CSR is a memory of 160 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ This CSR is a memory of 160 (20*8) entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ CSR read operations to this address can be performed.  The index to this CSR is (ENGINE * 8, + i), where 0 <= i < 8.
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31842,8 +31846,8 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
  Internal per-port state intended for debug use only - pko.out.ctl.out_rdat_5a[127:64]
- This CSR is a memory of 160 entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
- CSR read operations to this address can be performed.
+ This CSR is a memory of 160 (20*8) entries, and thus, the PKO_REG_READ_IDX CSR must be written before any
+ CSR read operations to this address can be performed.  The index to this CSR is (ENGINE * 8, + i), where 0 <= i < 8.
 ----------------------------------------------------------------------------------------------------
 ===
 
