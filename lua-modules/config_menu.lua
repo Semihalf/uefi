@@ -10,17 +10,18 @@ local configPrompt -- This is needed so variable is defined in addMenu
 
 -- Add/update an option in the menu. The current value is attached to the
 -- menu text
-local function addMenu(description, config_item)
+local function addMenu(description, config_item, min_value, max_value)
     local v = octeon.c.bdk_config_get(config_item)
     local menu_text = "%s (0x%x)" % {description, v}
-    m:item("item" .. config_item, menu_text, configPrompt, description, config_item)
+    m:item("item" .. config_item, menu_text, configPrompt, description, config_item, min_value, max_value)
 end
 
 -- Function that is run when a menu item is selected
-configPrompt = function(description, config_item)
-    local v = menu.prompt_number(description)
+configPrompt = function(description, config_item, min_value, max_value)
+    local oldv = octeon.c.bdk_config_get(config_item)
+    local v = menu.prompt_number(description, oldv, min_value, max_value)
     octeon.c.bdk_config_set(config_item, v)
-    addMenu(description, config_item)
+    addMenu(description, config_item, min_value, max_value)
 end
 
 
@@ -88,15 +89,15 @@ end
 local if_xaui = 1
 for interface = 0,octeon.c.bdk_if_num_interfaces(if_xaui)-1 do
     if octeon.c.bdk_if_num_ports(if_xaui, interface) > 0 then
-        addMenu("XAUI interface " .. interface .. " Higig mode", octeon.CONFIG_HIGIG_MODE_IF0 + interface)
+        addMenu("XAUI interface " .. interface .. " Higig mode", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
     end
 end
 
 -- Add an item for each ILK port
 local if_ilk = 7
 for interface = 0,octeon.c.bdk_if_num_interfaces(if_ilk)-1 do
-    addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface)
-    addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface)
+    addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface, 0, 8)
+    addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface, 1, 64)
 end
 
 m:item("quit", "Main menu")
