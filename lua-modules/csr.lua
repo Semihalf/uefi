@@ -53,7 +53,7 @@ local function csr_instance(csr_name, csr_type, busnum, csr_size, address, field
         local value = optional_value or csr.read()
         printf("%s[0x%016x] = 0x%016x\n", csr_name, address, value)
         -- Iterate fields starting at the high bit and working down
-        for i = #fields,1,-1 do
+        for i = 1,#fields do
             local f = fields[i]
             local v = bit64.bextract(value, f.start, f.stop)
             if f.start == f.stop then
