@@ -31,8 +31,8 @@ CC_ppc = ssh bdk-build-ppc "cd `pwd` && gcc"
 
 # Building for Octeon
 CPPFLAGS_octeon =
-CFLAGS_octeon = -march=octeon2
-ASFLAGS_octeon = -march=octeon2
+CFLAGS_octeon = -march=octeon
+ASFLAGS_octeon = -march=octeon
 LDFLAGS_octeon =
 CC_octeon = mips64-octeon-linux-gnu-gcc
 
