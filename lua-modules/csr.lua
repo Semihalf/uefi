@@ -253,7 +253,8 @@ local function lookup_chip(container, read_func, write_func)
             return build_table(v, container, read_func, write_func)
         end
     end
-    error("Chip not found on CSR database")
+    print("WARNING: Chip not found on CSR database, defaulting to CN63XX")
+    return build_table(csr_db["CN63XX"], container, read_func, write_func)
 end
 
 return lookup_chip
