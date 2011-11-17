@@ -224,17 +224,6 @@ static void __bdk_pcie_rc_initialize_config_space(int pcie_port)
         pciercx_cfg075.s.fere = 1; /* Fatal error reporting enable. */
         BDK_CSR_WRITE(BDK_PCIERCX_CFG075(pcie_port), pciercx_cfg075.u32);
     }
-
-    /* HP Interrupt Enables (PCIERCn_CFG034[HPINT_EN], */
-    /* PCIERCn_CFG034[DLLS_EN,CCINT_EN]) */
-    {
-        bdk_pciercx_cfg034_t pciercx_cfg034;
-        pciercx_cfg034.u32 = BDK_CSR_READ(BDK_PCIERCX_CFG034(pcie_port));
-        pciercx_cfg034.s.hpint_en = 1; /* Hot-plug interrupt enable. */
-        pciercx_cfg034.s.dlls_en = 1; /* Data Link Layer state changed enable */
-        pciercx_cfg034.s.ccint_en = 1; /* Command completed interrupt enable. */
-        BDK_CSR_WRITE(BDK_PCIERCX_CFG034(pcie_port), pciercx_cfg034.u32);
-    }
 }
 
 
@@ -480,13 +469,16 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         mem_access_subid.cn63xx.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    /* Disable the peer to peer forwarding register. This must be setup
-        by the OS after it enumerates the bus and assigns addresses to the
-        PCIe busses */
-    for (i=0; i<4; i++)
+    if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
     {
-        BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_START(i, pcie_port), -1);
-        BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_END(i, pcie_port), -1);
+        /* Disable the peer to peer forwarding register. This must be setup
+            by the OS after it enumerates the bus and assigns addresses to the
+            PCIe busses */
+        for (i=0; i<4; i++)
+        {
+            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_START(i, pcie_port), -1);
+            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_END(i, pcie_port), -1);
+        }
     }
 
     /* Set Octeon's BAR0 to decode 0-16KB. It overlaps with Bar2 */
