@@ -2,6 +2,7 @@ import os
 import sys
 import pexpect
 import time
+import socket
 
 def do_command(command, expected, timeout=-1):
     print("**** Command: \"%s\"" % command)
