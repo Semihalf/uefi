@@ -13,6 +13,9 @@ then
 elif [ "${ARCH}" = "octeon2" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
+elif [ "${ARCH}" = "mips64" ]
+then
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
 elif [ "${ARCH}" = "ppc" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-ppc
