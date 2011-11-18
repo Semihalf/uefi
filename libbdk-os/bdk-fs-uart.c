@@ -17,8 +17,12 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     BDK_CSR_INIT(lsr, BDK_MIO_UARTX_LSR(id));
     while (lsr.s.dr && length)
     {
+        int has_error = lsr.s.ferr;
         *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        /* Character has an error, so skip it */
+        if (has_error)
+            continue;
         buffer++;
         count++;
         length--;
