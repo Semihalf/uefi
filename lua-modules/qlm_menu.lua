@@ -71,17 +71,50 @@ local function write_jtag(qlm_num)
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane, field, value)
 end
 
-local function change_deemphasis_margin(qlm_num)
-    local c = octeon.csr["CIU_QLM" .. tostring(qlm_num)].decode()
-    c.TXDEEMPH = menu.prompt_number("Transmitter bypass de-emphasis value")
-    c.TXMARGIN = menu.prompt_number("Transmitter bypass margin (amplitude) value")
-    c.TXBYPASS = 1
-    if c.G2BYPASS then
-        c.G2DEEMPH = menu.prompt_number("PCIE Gen2 tx bypass de-emphasis value")
-        c.G2MARGIN = menu.prompt_number("PCIE Gen2 tx bypass margin (amplitude) value")
-        c.G2BYPASS = 1
+local function change_tx_amplitude(qlm_num)
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+    local lane_num = menu.prompt_number("Lane (0-3, -1 for all)", nil, -1, num_lanes-1)
+
+    local default
+    if lane_num == -1 then
+        default = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "biasdrv_hs_ls_byp")
+    else
+        default = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "biasdrv_hs_ls_byp")
     end
-    octeon.csr["CIU_QLM" .. tostring(qlm_num)].encode(c)
+
+    local biasdrv = menu.prompt_number("TX amplitude", default, 0, 31)
+
+    -- Write ALL the biasdrvsel fields:
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hs_ls_byp", biasdrv)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hf_byp", biasdrv)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_lf_ls_byp", biasdrv)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_lf_byp", biasdrv)
+
+    -- Assert serdes_tx_byp to force the new settings to override the QLM default.
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "serdes_tx_byp", 1)
+end
+
+local function change_tx_demphasis(qlm_num)
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+    local lane_num = menu.prompt_number("Lane (0-3, -1 for all)", nil, -1, num_lanes-1)
+
+    local default
+    if lane_num == -1 then
+        default = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "tcoeff_hf_ls_byp")
+    else
+        default = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
+    end
+
+    local tcoeff = menu.prompt_number("TX demphasis", default, 0, 15)
+
+    -- Write ALL the tcoeff fields:
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_hf_ls_byp", tcoeff)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_hf_byp", tcoeff)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_lf_ls_byp", tcoeff)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_lf_byp", tcoeff)
+
+    -- Assert serdes_tx_byp to force the new settings to override the QLM default.
+    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "serdes_tx_byp", 1)
 end
 
 local function qlm_submenu(qlm_num)
@@ -92,7 +125,8 @@ local function qlm_submenu(qlm_num)
     end
     m:item("show", prefix .. ": Show configuration", show_config, qlm_num)
     m:item("clock", prefix .. ": Measure clock", measure_clock, qlm_num)
-    m:item("deemph", prefix .. ": Change de-emphasis and margin", change_deemphasis_margin, qlm_num)
+    m:item("amp", prefix .. ": Change TX amplitude", change_tx_amplitude, qlm_num)
+    m:item("deemph", prefix .. ": Change TX de-emphasis", change_tx_demphasis, qlm_num)
     m:item("down", prefix .. ": Reset and power down", qlm.do_reset, qlm_num)
     if not octeon.is_model(octeon.CN63XX) then
         m:item("loop1", prefix .. ": Shallow loopback lane 0 and 3", qlm.do_loop, qlm_num, 1)
