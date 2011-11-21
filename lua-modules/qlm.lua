@@ -6,15 +6,9 @@
 --
 require("strict")
 require("utils")
+local readline = require("readline")
 
 qlm = {}
-
-local function sleep(sec)
-    local t = os.time() + sec
-    while os.time() < t do
-        -- Spin
-    end
-end
 
 --- Get the configuration of a QLM
 -- @param qlm_num QLM number to get configuration for
@@ -161,12 +155,16 @@ function qlm.do_prbs(qlm_num, mode)
 
     -- Periodically show the PRBS error counter and other status fields.
     local start_time = os.time()
-    while true do
-        sleep(5)
-        printf("PRBS%d time: %d seconds\n", mode, os.time() - start_time)
-        display_jtag_field(qlm_num, "prbs_lock")
-        display_jtag_field(qlm_num, "prbs_err_cnt")
-        print()
+    local next_print = start_time
+    while readline.getkey() ~= '\r' do
+        local t = os.time()
+        if t >= next_print then
+            next_print = next_print + 5
+            printf("PRBS%d time: %d seconds (Press return to exit)\n", mode, t - start_time)
+            display_jtag_field(qlm_num, "prbs_lock")
+            display_jtag_field(qlm_num, "prbs_err_cnt")
+            print()
+        end
     end
 end
 
