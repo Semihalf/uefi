@@ -462,7 +462,7 @@ uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name)
 {
     const __bdk_qlm_jtag_field_t *field = __bdk_qlm_lookup_field(name);
     if (!field)
-        return 0;
+        return -1; /* This is obviously invalid for any field as it is wider than the field */
     int num_lanes = bdk_qlm_get_lanes(qlm);
 
     /* Capture the current settings */

@@ -59,7 +59,9 @@ local function read_jtag(qlm_num)
     local lane = menu.prompt_number("Lane", nil, 0, num_lanes-1)
     local field = menu.prompt_string("Field")
     local value = octeon.c.bdk_qlm_jtag_get(qlm_num, lane, field)
-    printf("QLM%d %s[%d]: %d (0x%04x)\n", qlm_num, field, lane, value, value)
+    if value ~= -1 then
+        printf("QLM%d %s[%d]: %d (0x%04x)\n", qlm_num, field, lane, value, value)
+    end
 end
 
 local function write_jtag(qlm_num)
