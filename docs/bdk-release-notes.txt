@@ -10,6 +10,29 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2011.11-r67263 (Not released yet)
+--------------------------------------------
+
+* Speed up NOR flash reads by reading 8 bytes at a time when possible.
+* Improve serial port setup when using OCTEON_REMOTE_CONSOLE.
+* Speed up NOR flash programming using the mpDemon. Still very slow.
+* Fix permissions on the remote protocol lock file.
+* Update MGMT port to work with the 1Gbps and 100Mbps hard coded PHY speeds.
+* Fix bug in command line trafficgen stats where the numbers don't update.
+* Add range checking to some of the config options. Also have current value
+	as the default.
+* Build bdk-lua for octeon, not octeon2. This allows older chips can work as
+	a host.
+* Skip error characters in the uart fifo. Boards not using a uart, like the
+	nic10e's uart1, get an error character in the uart after initial
+	boot. This was causing strange input problems as console output
+	would pick up an extra zero character.
+* Label the QLM menu with the current QLM config. Most people only need this
+	information and can stop here.
+* Change QLM code to set TX amplitude and demphasis.
+* Update PRBS to exit when a user presses "return".
+
+
 octeon-bdk-2011.10-r66302
 -------------------------
 
