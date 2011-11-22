@@ -395,6 +395,11 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
  */
 int bdk_qlm_measure_clock(int qlm)
 {
+    /* Force the reference to 156.25Mhz when running in simulation.
+        This supports the most speeds */
+    if (bdk_is_simulation())
+        return 156250000;
+
     /* Disable the PTP event counter while we configure it */
     BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
