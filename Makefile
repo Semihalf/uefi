@@ -36,6 +36,10 @@ suid: all
 run:
 	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x200000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
 
+.PHONY: run-min
+run-min:
+	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-minimal-no-romfs -ld0x1fc00000:target-bin/bdk-minimal.bin -ld0:0x100000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
+
 .PHONY: run-rtl
 run-rtl:
 	$(SIMULATOR) bdk-boot/bdk-reset-rtl -ld0:0x200000 -ld0:target-bin/bdk-full.bin -modes=pass2 -uart0=2020 -quiet -serve=2000
