@@ -3599,6 +3599,73 @@ fail:
 }
 
 
+static int _wrap_ddr_configuration_t_odt_4rank_config_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr_configuration_t *arg1 = (ddr_configuration_t *) 0 ;
+  dimm_odt_config_t *arg2 ;
+  
+  SWIG_check_num_args("odt_4rank_config",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("odt_4rank_config",1,"ddr_configuration_t *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("odt_4rank_config",2,"dimm_odt_config_t [4]");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr_configuration_t,0))){
+    SWIG_fail_ptr("ddr_configuration_t_odt_4rank_config_set",1,SWIGTYPE_p_ddr_configuration_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_dimm_odt_config_t,0))){
+    SWIG_fail_ptr("ddr_configuration_t_odt_4rank_config_set",2,SWIGTYPE_p_dimm_odt_config_t);
+  }
+  
+  {
+    size_t ii;
+    dimm_odt_config_t *b = (dimm_odt_config_t *) arg1->odt_4rank_config;
+    for (ii = 0; ii < (size_t)4; ii++) b[ii] = *((dimm_odt_config_t *) arg2 + ii);
+  }
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr_configuration_t_odt_4rank_config_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr_configuration_t *arg1 = (ddr_configuration_t *) 0 ;
+  dimm_odt_config_t *result = 0 ;
+  
+  SWIG_check_num_args("odt_4rank_config",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("odt_4rank_config",1,"ddr_configuration_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr_configuration_t,0))){
+    SWIG_fail_ptr("ddr_configuration_t_odt_4rank_config_get",1,SWIGTYPE_p_ddr_configuration_t);
+  }
+  
+  result = (dimm_odt_config_t *)(dimm_odt_config_t *) ((arg1)->odt_4rank_config);
+  {
+    int i;
+    lua_createtable(L, 4, 0);
+    for (i = 0; i < 4; i++) {
+      lua_pushnumber(L, i+1);
+      SWIG_NewPointerObj(L, &result[i], SWIGTYPE_p_dimm_odt_config_t, 0);
+      lua_settable(L, -3);
+    }
+    SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_ddr_configuration_t_unbuffered_set(lua_State* L) {
   int SWIG_arg = 0;
   ddr_configuration_t *arg1 = (ddr_configuration_t *) 0 ;
@@ -3768,6 +3835,7 @@ static swig_lua_attribute swig_ddr_configuration_t_attributes[] = {
     { "dimm_config_table", _wrap_ddr_configuration_t_dimm_config_table_get, _wrap_ddr_configuration_t_dimm_config_table_set},
     { "odt_1rank_config", _wrap_ddr_configuration_t_odt_1rank_config_get, _wrap_ddr_configuration_t_odt_1rank_config_set},
     { "odt_2rank_config", _wrap_ddr_configuration_t_odt_2rank_config_get, _wrap_ddr_configuration_t_odt_2rank_config_set},
+    { "odt_4rank_config", _wrap_ddr_configuration_t_odt_4rank_config_get, _wrap_ddr_configuration_t_odt_4rank_config_set},
     { "unbuffered", _wrap_ddr_configuration_t_unbuffered_get, _wrap_ddr_configuration_t_unbuffered_set},
     { "registered", _wrap_ddr_configuration_t_registered_get, _wrap_ddr_configuration_t_registered_set},
     { "custom_lmc_config", _wrap_ddr_configuration_t_custom_lmc_config_get, _wrap_ddr_configuration_t_custom_lmc_config_set},
