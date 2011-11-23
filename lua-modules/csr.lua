@@ -216,9 +216,38 @@ local function build_table(chip_csr, container, read_func, write_func)
                 return csr(tonumber(arg))
             end
         else
-            local csr = assert(csr_table[csr_str], "CSR not found")
-            assert(type(csr) ~= "function", "CSR requires arguments")
-            return csr
+            local csr = csr_table[csr_str]
+            if csr then
+                assert(type(csr) ~= "function", "CSR requires arguments")
+                return csr
+            end
+            -- If we can't find a CSR, try looking for the version where
+            -- the parameters are encoded into the name
+            -- We search the chip_csr data so we get the names with "#"
+            -- in the location a parameter should be
+            for name,csr_data in pairs(chip_csr) do
+                -- Check that the CSR needs arguments so we can avoid
+                -- slow pattern matches on stuff that won't match
+                csr = csr_table[name]
+                if type(csr) == "function" then
+                    -- Change the "#" into "([0-9]+)" so we get the numeric
+                    -- parameters as the match. Add "^" and "$" to force a
+                    -- full match
+                    local pattern = "^" .. chip_csr[name].name:gsub("#", "([0-9]+)") .. "$"
+                    local arg1, arg2 = csr_str:match(pattern)
+                    if arg2 then
+                        -- The arguments are swapped here as the functions
+                        -- expect (offset, block), but the number
+                        -- substitution gets (block, offset)
+                        return csr(tonumber(arg2), tonumber(arg1))
+                    elseif arg1 then
+                        -- One argument match
+                        return csr(tonumber(arg1))
+                    end
+                end
+            end
+            -- Loop found no matches, so fail
+            error("CSR not found")
         end
     end
 
