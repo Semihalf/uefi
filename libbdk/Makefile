@@ -92,7 +92,7 @@ distclean: clean
 
 UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot
 UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon
-$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE) -DBDK
+$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE) -DBDK -DOCTEON_SDK_VERSION_STRING="\"BDK Build\""
 $(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE)
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
 	ln -fs $(UBOOT_PATH)/arch/mips/cpu/octeon/lib_octeon_shared.c $@
