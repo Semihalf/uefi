@@ -4,7 +4,7 @@ endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 .PHONY: all
-all:
+all: version
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C bdk-boot
@@ -61,6 +61,10 @@ endif
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
 FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
 RELEASE_DIR = "octeon-bdk-$(VERSION)"
+
+.PHONY: version
+version:
+	echo "return \"$(FULL_VERSION)\"" > lua-modules/bdk-version.lua
 
 .PHONY: release
 release: all

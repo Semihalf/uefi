@@ -29,3 +29,4 @@
 /utils/bdk-scite/gscite/.SciTE.session
 /octeon-bdk-*.tgz
 /target-bin/bdk-*-no-romfs*
+/lua-modules/bdk-version.lua
