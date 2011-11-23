@@ -9,7 +9,7 @@ local bit64 = require("bit64")
 local debug = require("debug")
 local rpc_support = require("rpc-support")
 
-local RPC_BEGIN = "$"
+local RPC_BEGIN = "\xA3"
 local RPC_END = "\n"
 local is_server = false
 
