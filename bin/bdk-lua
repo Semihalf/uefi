@@ -6,17 +6,23 @@ then
     exit 1
 fi
 
-ARCH=`uname -m`
-if [ "${ARCH}" = "octeon" ]
+# Only set BDK_ARCH if it isn't already defined. This allows
+# users to override it in case the detection doesn't work
+if [ "${BDK_ARCH}" = "" ]
+then
+    BDK_ARCH=`uname -m`
+fi
+
+if [ "${BDK_ARCH}" = "octeon" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
-elif [ "${ARCH}" = "octeon2" ]
+elif [ "${BDK_ARCH}" = "octeon2" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
-elif [ "${ARCH}" = "mips64" ]
+elif [ "${BDK_ARCH}" = "mips64" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
-elif [ "${ARCH}" = "ppc" ]
+elif [ "${BDK_ARCH}" = "ppc" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-ppc
 else
