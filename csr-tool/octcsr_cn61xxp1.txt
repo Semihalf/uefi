@@ -21108,7 +21108,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:12> NS           RAZ      NS        NS        Reserved                                         |
- <11:8>  QLM_SPD      R/W      0         NS        QLM speed for SGMii/XAUI                         |
+ <11:8>  QLM_SPD      R/W      NS        NS        QLM speed for SGMii/XAUI                         |
                                                       0   = 5     Gbaud	  100.00 MHz Ref            |
                                                       1   = 2.5   Gbaud	  100.00 MHz Ref            |
                                                       2   = 2.5   Gbaud   100.00 MHz Ref            |
@@ -21139,7 +21139,7 @@ Pos      Name    Type     Value     Value       Description
                                                       5,8,10-14 are reserved                        |
                                                                                                     |
  <7:2>   NS           RAZ      NS        NS        Reserved                                         |
- <1:0>   QLM_CFG      R/W      0         NS        QLM configuration mode                           |
+ <1:0>   QLM_CFG      R/W      NS        NS        QLM configuration mode                           |
 					           For Interface 0:                                 |
                                                       00 PCIE 1x4 (PEM0)                            |
                                                       01 Reserved                      	            |
@@ -21157,10 +21157,14 @@ Pos      Name    Type     Value     Value       Description
                                                       11 XAUI (AGX0)                                |
                                                                                                     |
 Note:                                                                                               |
-When QLM0 is configured as PCIE(QLM_CFG=0x0) and enabled (QLM_SPD!=0xf),                            |
-QLM1 cannot be configured as PCIE 2x1 mode (QLM_CFG=0x1) and enabled (QLM_SPD!=0xf).                |
-Certain QLM_SPD is valid only for certain QLM_CFG configuration, refer to HRM for valid combinations|
-PEM0 uses QLM0_SPD bits to determine Gbaud rate unless operating in PCIE 2x1 mode                   |
+ When QLM0 is configured as PCIE(QLM_CFG=0x0) and enabled (QLM_SPD!=0xf),                           |
+ QLM1 cannot be configured as PCIE 2x1 mode (QLM_CFG=0x1) and enabled (QLM_SPD!=0xf).               |
+ PEM0 uses QLM0_SPD bits to determine Gbaud rate unless operating in PCIE 2x1 mode.                 |
+ Certain QLM_SPD is valid only for certain QLM_CFG configuration, refer to HRM for valid            |
+ combinations.  These csrs are reset only on COLD_RESET.  The Reset values for QLM_SPD and QLM_CFG  |
+ are as follows:               MIO_QLM0_CFG  SPD=0, CFG=0 PCIE 1x4 (PEM0)                           |
+                               MIO_QLM1_CFG  SPD=0, CFG=0 PCIE 1x2 (PEM1)                           |
+                               MIO_QLM2_CFG  SPD=F, CFG=2 SGMII (AGX0)                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21310,10 +21314,18 @@ Pos      Name    Type     Value     Value       Description
                                                    setting will be always forced to '0', INT1(PEM1) |
                                                    will be forced to '1' regardless CSR value.      |
 												    |
- <10>    GEN1_ONLY  RO       0           NS        Advertise PCIE GEN2 Capability, defined by       |
-                                                   QLM@_SPD[0] for CNTL0 or QLM1_SPD[1] for CNTL1.  |
-                                                   When sclk is slower than 550MHz, GEN2 is         |
-                                                   disabled regardless of QLM@_SPD value.           |
+ <10>    GEN1_ONLY  RO       0           NS        Disable PCIE GEN2 Capability.  This bit is       |
+                                                   always unpredictable whenever the controller     |
+                                                   is not attached to any SerDes lanes, and is      |
+                                                   otherwise always set when SCLK is slower than    |
+                                                   550Mhz.                                          |
+                                                   The MIO_RST_CNTL0[GEN1_ONLY] value is based on   |
+                                                   either the MIO_QLM0_CFG[QLM_SPD] or              |
+                                                   MIO_QLM1_CFG[QLM_SPD] value, depending on        |
+                                                   whether PEM0 attaches to QLM0 or QLM1,           |
+                                                   respectively.                                    |
+                                                   The MIO_RST_CNTL1[GEN1_ONLY] value is based on   |
+                                                   the MIO_QLM1_CFG[QLM_SPD] value.                 |
 												    |
  <9>     PRST_LINK  R/W      0           NS        Controls whether corresponding controller        |
                                                    link-down or hot-reset causes the assertion of   |
@@ -24848,8 +24860,13 @@ Pos      Name    Type     Value     Value       Description
                                                          clock for both bus0 and bus1.                                  |
 <15:4>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <16>     BOOT_FAIL            R/W      0x0      NS       SW should set BOOT_FAIL when an unrecoverable error occurs     |
-                                                         while attempt to boot from eMMC.   This will cause a TBD       |
-                                                         pattern to be driving onto the BOOT_AD pins.                   |
+                                                         while attempt to boot from eMMC or NOR Flash.   When set, the  |
+                                                         following pattern will be output:                              |
+                                                           BOOT_AD[7:0] pulled up to 1                                  |
+                                                           BOOT_CE_N[7:0] driven to 1                                   |
+                                                           BOOT_ALE driven to 0                                         |
+                                                           BOOT_OE_L driven to 1                                        |
+                                                           BOOT_WE_L driven to 1                                        |
 <63:17>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
