@@ -62,7 +62,7 @@ do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [])
 do_command("bdk-remote core 0", [
     "zero           = 0x0000000000000000",
     "Ebase          = 0x0000000080000000",
-    "128: Virtual=", "Page0=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 ASID=  0 Size=4KB"])
+    "128: Virtual=", "Page0=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 Page1=0x000000000,C=0,D=0,V=0,G=0,RI=0,XI=0 ASID=  0 Size=4KB"], timeout=60)
 do_command("bdk-remote reg 0 zero", [
     "Core 0, register zero: hex 0x0000000000000000 decimal 0"])
 do_command("bdk-remote reg 0 ebase", [
@@ -79,7 +79,7 @@ if True:
         "num_blocks = 32 \(0x20\)",
         "regions = 1 \(0x1\)",
         "size = 4194304 \(0x400000\)"
-        ])
+        ], timeout=60)
     do_command("bdk-remote flash write %s 0x200000" % BDK_BOOT_IMAGE, [
         "100%"
         ], timeout = 300)
