@@ -6,6 +6,7 @@ def do_command(command, expected, timeout=-1):
     print("**** Command: \"%s\"" % command)
     c = pexpect.spawn(command)
     c.logfile = sys.stdout
+    c.timeout = 30
     for e in expected:
         c.expect(e, timeout=timeout)
     c.expect(pexpect.EOF, timeout=timeout)
