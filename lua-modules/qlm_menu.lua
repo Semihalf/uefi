@@ -334,9 +334,9 @@ local m = menu.new("QLM Menu")
 
 -- Build a list of QLMs
 local num_qlms = octeon.c.bdk_qlm_get_num()
-    if octeon.is_model(octeon.CN61XX) then
-        m:item("set", "Change QLM configuration", set_config_cn61xx)
-    end
+if octeon.is_model(octeon.CN61XX) then
+    m:item("set", "Change QLM configuration", set_config_cn61xx)
+end
 for qlm_num = 0, num_qlms-1 do
     local config = qlm.get_config(qlm_num)
     local option = "QLM %d - %s @%2d.%03d GBaud" % {qlm_num, config.mode, config.speed / 1000, config.speed % 1000}
