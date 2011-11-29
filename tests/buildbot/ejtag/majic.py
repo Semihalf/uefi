@@ -1,6 +1,7 @@
 import os
 import sys
 import pexpect
+import socket
 
 def do_command(command, expected, timeout=-1):
     print("**** Command: \"%s\"" % command)
@@ -15,7 +16,11 @@ def do_command(command, expected, timeout=-1):
 # Make sure the environment is setup correctly
 assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "gdb:192.168.111.5,8888"
-os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS11"
+HOST_NAME = socket.gethostname()
+if HOST_NAME == "bdk-build-ppc":
+    os.environ["OCTEON_REMOTE_CONSOLE"] = "remote"
+else:
+    os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS11"
 
 BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-boot.bin"
 
