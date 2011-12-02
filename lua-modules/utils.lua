@@ -50,24 +50,33 @@ local function pprint_str(param, indent, visited)
     elseif type(param) == "table" then
         local keys = table.sorted_keys(param)
         visited[param] = 1
-        local result = "{\n"
+        local table_indent = indent .. "    "
+        local result = {"{\n"}
         for k=1, #keys do
-            local table_indent = indent .. "    "
             local key = keys[k]
             local value = param[key]
+            table.insert(result, table_indent)
             if (type(value) == "table") and visited[value] then
                 if type(key) == "number" then
-                    result = "%s%s[%d] = {...}\n" % {result, table_indent, key}
+                    table.insert(result, "[%d] = {...}\n" % key)
                 else
-                    result = "%s%s%s = {...}\n" % {result, table_indent, tostring(key)}
+                    table.insert(result, tostring(key))
+                    table.insert(result, " = {...}\n")
                 end
             elseif type(key) == "number" then
-                result = "%s%s[%d] = %s\n" % {result, table_indent, key, pprint_str(value, table_indent, visited)}
+                table.insert(result, "[%d] = " % key)
+                table.insert(result, pprint_str(value, table_indent, visited))
+                table.insert(result, "\n")
             else
-                result = "%s%s%s = %s\n" % {result, table_indent, tostring(key), pprint_str(value, table_indent, visited)}
+                table.insert(result, tostring(key))
+                table.insert(result, " = ")
+                table.insert(result, pprint_str(value, table_indent, visited))
+                table.insert(result, "\n")
             end
         end
-        return result .. indent .. "}"
+        table.insert(result, indent)
+        table.insert(result, "}")
+        return table.concat(result)
     else
         error("Unsupported type %s" % type(param))
     end
@@ -86,14 +95,11 @@ function pprint(...)
         p = table.pack(...)
     end
     local visited = {}
-    local r = ""
-    if p.n > 0 then
-        r = pprint_str(p[1], "", visited)
-        for i=2, p.n do
-            r = "%s %s" % {r, pprint_str(p[i], "", visited)}
-        end
+    local r = {}
+    for i=1,p.n do
+        r[i] = pprint_str(p[i], "", visited)
     end
-    print(r)
+    print(table.concat(r, " "))
 end
 
 local function compare(a,b)
