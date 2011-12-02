@@ -55,7 +55,7 @@ do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [], timeout = 120)
 # Test the core command
 do_command("bdk-remote core 0", [
     "zero           = 0x0000000000000000",
-    "Ebase          = 0x0000000080000000"])
+    "Ebase          = 0x0000000080000000"], timeout=60)
 do_command("bdk-remote reg 0 zero", [
     "Core 0, register zero: hex 0x0000000000000000 decimal 0"])
 do_command("bdk-remote reg 0 ebase", [
@@ -77,7 +77,7 @@ if True:
         ])
     do_command("bdk-remote flash write majic.py 0x400000", [
         "100%"
-        ], timeout = 120)
+        ], timeout = 240)
     do_command("bdk-remote flash read tmp 0x400000 %d" % os.stat("majic.py").st_size, [
         "100%"
         ], timeout = 120)
@@ -115,6 +115,9 @@ do_command("rm -f tmp", [])
 do_command("bdk-remote help", [
     "Parameter descriptions:",
     "zero"])
+
+if HOST_NAME == "bdk-build-ppc":
+    sys.exit(0)
 
 # Test RPC over serial
 do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [], timeout=120)
