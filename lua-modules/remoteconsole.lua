@@ -18,15 +18,21 @@ local REMOTE_VERSION = "\x01"
 local pending_data = ""
 
 local function poll_read()
+    local pending_write
     repeat
-        local l = oremote.read_mem(REMOTE_ADDRESS+7, 1):byte()
+        local l = oremote.read_mem(REMOTE_ADDRESS+6, 2)
+        pending_write = l:sub(1,1):byte()
+        l = l:sub(2,2):byte()
         if l > 0 then
             local data = oremote.read_mem(REMOTE_ADDRESS+260, l)
-            log:debug("Read %s\n", data:hex())
+            if log.level == logging.DEBUG then
+                log:debug("Read %s\n", data:hex())
+            end
             pending_data = pending_data .. data
             oremote.write_mem(REMOTE_ADDRESS+7, "\x00")
         end
     until l == 0
+    return pending_write
 end
 
 local function rem_read(handle, format)
@@ -59,15 +65,16 @@ end
 local function rem_write(handle, data)
     while #data > 0 do
         repeat
-            poll_read()
-            local l = oremote.read_mem(REMOTE_ADDRESS+6, 1):byte()
+            local l = poll_read()
         until l == 0
         local l = #data
         if l > 252 then
             l = 252
         end
         local d = data:sub(1,l)
-        log:debug("Write %s\n", d:hex())
+        if log.level == logging.DEBUG then
+            log:debug("Write %s\n", d:hex())
+        end
         oremote.write_mem(REMOTE_ADDRESS+8, d)
         oremote.write_mem(REMOTE_ADDRESS+6, string.char(l))
         data = data:sub(l + 1)
