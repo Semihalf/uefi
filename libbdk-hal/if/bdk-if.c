@@ -411,7 +411,7 @@ static int __bdk_if_init(void)
     int num_packet_buffers;
 
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        num_packet_buffers = 196;
+        num_packet_buffers = 128;
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         num_packet_buffers = 768;
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
