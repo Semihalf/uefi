@@ -397,6 +397,13 @@ fail:
     return NULL;
 }
 
+static inline int __bdk_is_dram_enabled(void)
+{
+    // FIXME __bdk_is_dram_enabled
+    BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
+    return (lmcx_dclk_cnt.u64 != -1ull);
+}
+
 
 /**
  * Initialize all packet interfaces of all types for use. This
@@ -411,7 +418,7 @@ static int __bdk_if_init(void)
     int num_packet_buffers;
 
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        num_packet_buffers = 128;
+        num_packet_buffers = (__bdk_is_dram_enabled()) ? 768 : 128; // FIXME
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         num_packet_buffers = 768;
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
