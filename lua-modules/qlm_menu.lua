@@ -95,7 +95,9 @@ local function set_config_cn61xx()
     if qlm0_mode == "pcie" then
         -- Ask the user if they want gen1 or gen2 so we can figure out
         -- the clock speed
-        local gen2 = menu.prompt_yes_no("Configure PCIe for gen2")
+        local gen2 = menu.prompt_yes_no("Configure PCIe port 0 for gen2")
+        local root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
+        octeon.csr.MIO_RST_CTLX(0).PRTMODE = root_complex and 1 or 0
         set_qlm02_speed(qlm_num, gen2 and "5000" or "2500")
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
 
@@ -142,7 +144,9 @@ local function set_config_cn61xx()
     if qlm1_mode == "1x2" then
         -- Ask the user if they want gen1 or gen2 so we can figure out
         -- the clock speed
-        local gen2 = menu.prompt_yes_no("Configure PCIe for gen2")
+        local gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
+        local root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
+        octeon.csr.MIO_RST_CTLX(1).PRTMODE = root_complex and 1 or 0
         local ref_clock = qlm.measure_clock(qlm_num)
         if is_ref_clock(ref_clock, 100) then
             octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = gen2 and 1 or 2
@@ -156,7 +160,11 @@ local function set_config_cn61xx()
         -- Ask the user if they want gen1 or gen2 so we can figure out
         -- the clock speed
         local pem0_gen2 = menu.prompt_yes_no("Configure PCIe port 0 for gen2")
+        local pem0_root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
         local pem1_gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
+        local pem1_root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
+        octeon.csr.MIO_RST_CTLX(0).PRTMODE = pem0_root_complex and 1 or 0
+        octeon.csr.MIO_RST_CTLX(1).PRTMODE = pem1_root_complex and 1 or 0
         local ref_clock = qlm.measure_clock(qlm_num)
         if is_ref_clock(ref_clock, 100) then
             if pem0_gen2 and pem1_gen2 then
