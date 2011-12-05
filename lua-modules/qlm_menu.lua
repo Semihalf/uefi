@@ -209,9 +209,9 @@ local function set_config_cn61xx()
     m:item("disabled",  "Disable QLM")
     local qlm2_mode = m:show()
     local qlm_num = 2
-    if qlm0_mode == "sgmii" then
+    if qlm2_mode == "sgmii" then
         -- Only support the three common speeds for running SGMII
-        local m = menu.new("QLM0 Speed")
+        local m = menu.new("QLM2 Speed")
         m:item("1250",  "1.250 GBaud")
         m:item("2500",  "2.500 GBaud")
         m:item("3125",  "3.125 GBaud")
@@ -219,9 +219,9 @@ local function set_config_cn61xx()
         set_qlm02_speed(qlm_num, speed)
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 2
 
-    elseif qlm0_mode == "xaui" then
+    elseif qlm2_mode == "xaui" then
         -- Support all speeds for XAUI
-        local m = menu.new("QLM0 Speed")
+        local m = menu.new("QLM2 Speed")
         m:item("1250",  "1.250 GBaud")
         m:item("2500",  "2.500 GBaud")
         m:item("3125",  "3.125 GBaud")
