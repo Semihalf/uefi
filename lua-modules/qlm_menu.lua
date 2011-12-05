@@ -7,10 +7,14 @@ require("qlm")
 
 local function show_config(qlm_num)
     local config = qlm.get_config(qlm_num)
-    printf("QLM%d Mode: %s\n", qlm_num, config.mode);
-    printf("QLM%d Gbaud: %d.%03d\n", qlm_num,
-        config.speed / 1000,
-        config.speed % 1000);
+    if config.speed == 0 then
+        printf("QLM%d Mode: Disabled\n", qlm_num);
+    else
+        printf("QLM%d Mode: %s\n", qlm_num, config.mode);
+        printf("QLM%d Gbaud: %d.%03d\n", qlm_num,
+            config.speed / 1000,
+            config.speed % 1000);
+    end
 end
 
 local function set_config_cn61xx()
@@ -348,7 +352,12 @@ repeat
     end
     for qlm_num = 0, num_qlms-1 do
         local config = qlm.get_config(qlm_num)
-        local option = "QLM %d - %s @%2d.%03d GBaud" % {qlm_num, config.mode, config.speed / 1000, config.speed % 1000}
+        local option
+        if config.speed == 0 then
+            option = "QLM %d - Disabled" % qlm_num
+        else
+            option = "QLM %d - %s @%2d.%03d GBaud" % {qlm_num, config.mode, config.speed / 1000, config.speed % 1000}
+        end
         m:item("qlm" .. qlm_num, option, qlm_submenu, qlm_num)
     end
     m:item("quit", "Main menu")
