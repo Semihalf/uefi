@@ -22,7 +22,7 @@ local function set_config_cn61xx()
     local function is_ref_clock(measured, reference_mhz)
         local mhz = measured / 1000000
         local range = reference_mhz / 10
-        return (mhz >= reference_mhz - mhz) and (mhz <= reference_mhz + mhz)
+        return (mhz >= reference_mhz - range) and (mhz <= reference_mhz + range)
     end
 
     -- Set the speed of either QLM0 or QLM2. Doesn't support QLM1
