@@ -575,9 +575,15 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
         /* Update this buffer for reuse in future receives. This size is
             -8 as we need space for buffer chains */
+        void *newbuf = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
+        if (newbuf == NULL)
+        {
+            bdk_error("Failed to allocate buffer for management port\n");
+            break;
+        }
         state->rx_ring[rxi].s.code = 0;
         state->rx_ring[rxi].s.len = FPA_SIZE - 8;
-        state->rx_ring[rxi].s.addr = bdk_ptr_to_phys(bdk_fpa_alloc(BDK_FPA_PACKET_POOL)) + 8;
+        state->rx_ring[rxi].s.addr = bdk_ptr_to_phys(newbuf) + 8;
 
         state->rx_read_index = (rxi + 1) % MGMT_PORT_NUM_RX_BUFFERS;
         buffers_freed++;
