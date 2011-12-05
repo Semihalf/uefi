@@ -332,7 +332,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
     mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
-    if (!mio_rst_ctl.s.host_mode)
+    if (mio_rst_ctl.s.prtmode != 1)
     {
         bdk_dprintf("PCIe: Port %d in endpoint mode.\n", pcie_port);
         return -1;
@@ -745,7 +745,7 @@ int bdk_pcie_ep_initialize(int pcie_port)
 {
     bdk_mio_rst_ctlx_t mio_rst_ctl;
     mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
-    if (mio_rst_ctl.s.host_mode)
+    if (mio_rst_ctl.s.prtmode != 0)
         return -1;
 
     /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
