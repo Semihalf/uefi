@@ -41,7 +41,6 @@ function TrafficGen.new()
     local default_ports = {}
     local is_running = true
     local use_readline = true
-    local input_file = nil
     local last_display = 0
     local transmit_start = 0
     local transmit_time = 0
@@ -310,10 +309,6 @@ function TrafficGen.new()
     function self:cmd_readline(port_range, args)
         assert (#args == 1, "One argument expected (on/off)")
         use_readline = args[1]
-        if (not use_readline) and (not input_file) then
-            input_file = io.open("/dev/uart/0", "r")
-            assert(input_file, "Failed to open UART for access without readline")
-        end
     end
 
     function self:cmdp_start(port_range, args)
@@ -653,7 +648,7 @@ function TrafficGen.new()
             else
                 printf("Command> ")
                 io.flush()
-                cmd = input_file:read("*l")
+                cmd = io.read("*l")
                 print(cmd)
             end
             if ALIASES[cmd] then
