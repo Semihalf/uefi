@@ -115,7 +115,7 @@ local function set_config_cn61xx()
     local m = menu.new("QLM0 Mode")
     m:item("pcie",  "PCIe")
     m:item("sgmii",  "SGMII")
-    m:item("xaui",  "XAUI or DXAUI")
+    m:item("xaui",  "XAUI")
     m:item("disabled",  "Disable QLM")
     local qlm0_mode = m:show()
     local qlm_num = 0
@@ -229,7 +229,7 @@ local function set_config_cn61xx()
     --
     local m = menu.new("QLM2 Mode")
     m:item("sgmii",  "SGMII")
-    m:item("xaui",  "XAUI or DXAUI")
+    m:item("xaui",  "XAUI")
     m:item("disabled",  "Disable QLM")
     local qlm2_mode = m:show()
     local qlm_num = 2
