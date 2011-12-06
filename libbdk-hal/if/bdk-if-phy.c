@@ -114,7 +114,10 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
         if ((phy_status & (1<<11)) == 0)
         {
             bdk_mdio_phy_reg_control_t control;
-            control.u16 = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_CONTROL);
+            int phy_c = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_CONTROL);
+            if (phy_c < 0)
+                return result;
+            control.u16 = phy_c;
             if (control.s.autoneg_enable == 0)
                 phy_status |= 1<<11;
         }
