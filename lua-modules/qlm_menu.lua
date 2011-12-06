@@ -33,7 +33,7 @@ local function set_config_cn61xx()
             if speed == "1250" then
                 octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 3
             elseif speed == "2500" then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 1
+                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 2
             elseif speed == "3125" then
                 error("3.125 GBaud not supported with a 100Mhz reference clock")
             elseif speed == "3750" then

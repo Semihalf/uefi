@@ -299,7 +299,7 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
         switch (qlm_cfg.s.qlm_spd)
         {
             case 0: return 5000;    /* 5     Gbaud */
-            case 1: return 2500;    /* 2.5   Gbaud */
+            case 1: return OCTEON_IS_MODEL(OCTEON_CN61XX) ? 5000 : 2500; /* 2.5/5 Gbaud */
             case 2: return 2500;    /* 2.5   Gbaud */
             case 3: return 1250;    /* 1.25  Gbaud */
             case 4: return 1250;    /* 1.25  Gbaud */
