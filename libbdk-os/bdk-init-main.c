@@ -29,7 +29,10 @@ static void __bdk_init_cop0(void)
     BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
 
     /* Sync cycle counter */
-    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * bdk_clock_get_rate(BDK_CLOCK_CORE) / bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    BDK_SYNC;
+    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 }
 
