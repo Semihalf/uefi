@@ -35,7 +35,8 @@ static int if_num_ports(int interface)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
     {
-        if (strstr(bdk_qlm_get_mode(bdk_qlm_get(BDK_IF_SGMII, interface)), "SGMII"))
+        int qlm = bdk_qlm_get(BDK_IF_SGMII, interface);
+        if (strstr(bdk_qlm_get_mode(qlm), "SGMII") && bdk_qlm_get_gbaud_mhz(qlm))
             return 4;
         else
             return 0;
