@@ -233,8 +233,6 @@ static int trafficgen_do_update(bool do_clear)
         tg_port->pinfo.stats.tx_octets = stats->tx.octets - tg_port->delta_stats.tx.octets;
 
         /* RX stats */
-        tg_port->pinfo.stats.rx_dropped_octets = stats->rx.dropped_octets - tg_port->delta_stats.rx.dropped_octets;
-        tg_port->pinfo.stats.rx_dropped_packets = stats->rx.dropped_packets - tg_port->delta_stats.rx.dropped_packets;
         tg_port->pinfo.stats.rx_octets = stats->rx.octets - tg_port->delta_stats.rx.octets;
         tg_port->pinfo.stats.rx_packets = stats->rx.packets - tg_port->delta_stats.rx.packets;
 
@@ -244,6 +242,8 @@ static int trafficgen_do_update(bool do_clear)
         tg_port->pinfo.stats.rx_packets_total = stats->rx.packets - tg_port->clear_stats.rx.packets;
         tg_port->pinfo.stats.rx_octets_total = stats->rx.octets - tg_port->clear_stats.rx.octets;
         tg_port->pinfo.stats.rx_errors = stats->rx.errors - tg_port->clear_stats.rx.errors;
+        tg_port->pinfo.stats.rx_dropped_octets = stats->rx.dropped_octets - tg_port->clear_stats.rx.dropped_octets;
+        tg_port->pinfo.stats.rx_dropped_packets = stats->rx.dropped_packets - tg_port->clear_stats.rx.dropped_packets;
 
         /* Scale to account for update interval */
         if (update_cycle > tg_port->last_update)
@@ -253,8 +253,6 @@ static int trafficgen_do_update(bool do_clear)
             tg_port->pinfo.stats.tx_packets = tg_port->pinfo.stats.tx_packets * scale >> scale_shift;
             tg_port->pinfo.stats.tx_octets = tg_port->pinfo.stats.tx_octets * scale >> scale_shift;
 
-            tg_port->pinfo.stats.rx_dropped_octets = tg_port->pinfo.stats.rx_dropped_octets * scale >> scale_shift;
-            tg_port->pinfo.stats.rx_dropped_packets = tg_port->pinfo.stats.rx_dropped_packets * scale >> scale_shift;
             tg_port->pinfo.stats.rx_octets = tg_port->pinfo.stats.rx_octets * scale >> scale_shift;
             tg_port->pinfo.stats.rx_packets = tg_port->pinfo.stats.rx_packets * scale >> scale_shift;
         }
