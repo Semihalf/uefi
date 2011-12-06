@@ -33,7 +33,7 @@ local function set_config_cn61xx()
             if speed == "1250" then
                 octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 3
             elseif speed == "2500" then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 2
+                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 1
             elseif speed == "3125" then
                 error("3.125 GBaud not supported with a 100Mhz reference clock")
             elseif speed == "3750" then
@@ -85,6 +85,30 @@ local function set_config_cn61xx()
         end
     end
 
+    local function set_qlm_pcie(pcie_port, root_complex)
+        local rc = root_complex and 1 or 0
+        local ep = root_complex and 0 or 1
+        if pcie_port == 1 then
+            octeon.csr.CIU_SOFT_PRST1.SOFT_PRST = 1
+        else
+            octeon.csr.CIU_SOFT_PRST.SOFT_PRST = 1
+        end
+        octeon.csr.MIO_RST_CTLX(pcie_port).encode({
+            PRST_LINK = rc,
+            RST_LINK = ep,
+            PRTMODE = rc,
+            RST_DRV = rc,
+            RST_RCV = 0, -- ep
+            RST_CHIP = ep})
+        if not root_complex then
+            if pcie_port == 1 then
+                octeon.csr.CIU_SOFT_PRST1.SOFT_PRST = 0
+            else
+                octeon.csr.CIU_SOFT_PRST.SOFT_PRST = 0
+            end
+        end
+    end
+
     --
     -- Configure QLM0
     --
@@ -101,9 +125,9 @@ local function set_config_cn61xx()
         -- the clock speed
         local gen2 = menu.prompt_yes_no("Configure PCIe port 0 for gen2")
         local root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
-        octeon.csr.MIO_RST_CTLX(0).PRTMODE = root_complex and 1 or 0
         set_qlm02_speed(qlm_num, gen2 and "5000" or "2500")
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
+        set_qlm_pcie(0, root_complex)
 
     elseif qlm0_mode == "sgmii" then
         -- Only support the three common speeds for running SGMII
@@ -150,7 +174,6 @@ local function set_config_cn61xx()
         -- the clock speed
         local gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
         local root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        octeon.csr.MIO_RST_CTLX(1).PRTMODE = root_complex and 1 or 0
         local ref_clock = qlm.measure_clock(qlm_num)
         if is_ref_clock(ref_clock, 100) then
             octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = gen2 and 1 or 2
@@ -160,6 +183,7 @@ local function set_config_cn61xx()
             error("QLM0 reference clock is not one of the expected values. Measured: " .. tostring(ref_clock) .. " Hz")
         end
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
+        set_qlm_pcie(1, root_complex)
     elseif qlm1_mode == "2x1" then
         -- Ask the user if they want gen1 or gen2 so we can figure out
         -- the clock speed
@@ -167,8 +191,6 @@ local function set_config_cn61xx()
         local pem0_root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
         local pem1_gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
         local pem1_root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        octeon.csr.MIO_RST_CTLX(0).PRTMODE = pem0_root_complex and 1 or 0
-        octeon.csr.MIO_RST_CTLX(1).PRTMODE = pem1_root_complex and 1 or 0
         local ref_clock = qlm.measure_clock(qlm_num)
         if is_ref_clock(ref_clock, 100) then
             if pem0_gen2 and pem1_gen2 then
@@ -194,6 +216,8 @@ local function set_config_cn61xx()
             error("QLM0 reference clock is not one of the expected values. Measured: " .. tostring(ref_clock) .. " Hz")
         end
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 1
+        set_qlm_pcie(0, pem0_root_complex)
+        set_qlm_pcie(1, pem1_root_complex)
     else
         -- Force mode of 1x2 when disabling just to have a default
         octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
