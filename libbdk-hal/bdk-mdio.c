@@ -21,9 +21,12 @@ static void __bdk_mdio_set_clause45_mode(int bus_id)
     bdk_smix_clk_t smi_clk;
     /* Put bus into clause 45 mode */
     smi_clk.u64 = BDK_CSR_READ(BDK_SMIX_CLK(bus_id));
-    smi_clk.s.mode = 1;
-    smi_clk.s.preamble = 1;
-    BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
+    if (smi_clk.s.mode != 1)
+    {
+        smi_clk.s.mode = 1;
+        smi_clk.s.preamble = 1;
+        BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
+    }
 }
 
 /**
@@ -36,8 +39,11 @@ static void __bdk_mdio_set_clause22_mode(int bus_id)
     bdk_smix_clk_t smi_clk;
     /* Put bus into clause 22 mode */
     smi_clk.u64 = BDK_CSR_READ(BDK_SMIX_CLK(bus_id));
-    smi_clk.s.mode = 0;
-    BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
+    if (smi_clk.s.mode != 0)
+    {
+        smi_clk.s.mode = 0;
+        BDK_CSR_WRITE(BDK_SMIX_CLK(bus_id), smi_clk.u64);
+    }
 }
 
 /**
