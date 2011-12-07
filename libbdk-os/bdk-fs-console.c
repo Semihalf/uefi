@@ -42,7 +42,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
 {
     static uint64_t last_tx_cycle;
     static void *last_tx_thread = NULL;
-    const uint64_t timeout = (bdk_is_simulation()) ? 100 : bdk_clock_get_rate(BDK_CLOCK_SCLK) / 20;
+    const uint64_t timeout = (bdk_is_simulation()) ? 100 : bdk_clock_get_rate(BDK_CLOCK_CORE) / 20;
     int fd = open_files[last_input];
     const char *ptr = buffer;
     int len = length;
@@ -53,11 +53,11 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
     void *me = bdk_thread_get_id();
     while (last_tx_thread != me)
     {
-        uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_SCLK);
+        uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
         while (cycle < (last_tx_cycle + timeout))
         {
             bdk_thread_yield();
-            cycle = bdk_clock_get_count(BDK_CLOCK_SCLK);
+            cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
         }
         if (bdk_atomic_compare_and_store64_nosync(&last_tx_cycle, last_tx_cycle, cycle))
             last_tx_thread = me;
@@ -82,7 +82,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
         len -= count;
     }
     /* Update the last ouptut time in case output took a long time */
-    last_tx_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK);
+    last_tx_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     return length;
 error:
     close(fd);
