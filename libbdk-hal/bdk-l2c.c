@@ -36,6 +36,21 @@ int bdk_l2c_initialize(void)
         else
             bdk_error("Disabling L2 to LMC early fill due to range violation (ef_cnt=%lld)\n", ef_cnt);
     }
+
+    /* Clear the IOB0 FIFO delay if the RCLK/SCLK ratio is less than 3 */
+    uint64_t sclk = bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    uint64_t rclk = bdk_clock_get_rate(BDK_CLOCK_RCLK);
+    if (rclk < sclk * 3)
+    {
+        BDK_CSR_MODIFY(c, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
+        BDK_CSR_READ(BDK_IOB0_CTL_STATUS);
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        {
+            BDK_CSR_MODIFY(c, BDK_IOB1_CTL_STATUS, c.s.fif_dly = 0);
+            BDK_CSR_READ(BDK_IOB1_CTL_STATUS);
+        }
+    }
+
     return 0;
 }
 
