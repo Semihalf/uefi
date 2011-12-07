@@ -639,7 +639,7 @@ const char *bdk_if_name(bdk_if_handle_t handle)
  */
 bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle)
 {
-    return __bdk_if_ops[handle->iftype]->if_link_get(handle);
+    return handle->link_info;
 }
 
 
@@ -652,7 +652,10 @@ bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle)
  */
 bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
 {
-    bdk_if_link_t link_info = bdk_if_link_get(handle);
+    static BDK_RLOCK_DEFINE(link_lock);
+
+    bdk_rlock_lock(&link_lock);
+    bdk_if_link_t link_info = __bdk_if_ops[handle->iftype]->if_link_get(handle);
 
     if (link_info.u64 != handle->link_info.u64)
     {
@@ -671,6 +674,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
             printf("\n");
         }
     }
+    bdk_rlock_unlock(&link_lock);
     return handle->link_info;
 }
 
