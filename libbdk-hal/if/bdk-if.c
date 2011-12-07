@@ -418,7 +418,8 @@ static int __bdk_if_init(void)
     int num_packet_buffers;
 
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        num_packet_buffers = (__bdk_is_dram_enabled()) ? 768 : 128; // FIXME
+        // FIXME: Using more buffers on CN61XX as low core count has poor performance
+        num_packet_buffers = (__bdk_is_dram_enabled()) ? 2048 : 128;
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         num_packet_buffers = 768;
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
