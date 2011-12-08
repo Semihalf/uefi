@@ -451,10 +451,15 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             /* PHY Mode */
             /* Don't bother continuing if the SERTES low level link is down */
             BDK_CSR_INIT(pcsx_mrx_status_reg, BDK_PCSX_MRX_STATUS_REG(gmx_index, gmx_block));
-            if (pcsx_mrx_status_reg.s.lnk_st == 0)
+            if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
             {
-                if (init_link(handle) != 0)
-                    return result;
+                /* Read a second time as the lnk_st bit is sticky */
+                pcsx_mrx_status_reg.u64 = BDK_CSR_READ(BDK_PCSX_MRX_STATUS_REG(gmx_index, gmx_block));
+                if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
+                {
+                    if (init_link(handle) != 0)
+                        return result;
+                }
             }
 
             /* Read the autoneg results */
