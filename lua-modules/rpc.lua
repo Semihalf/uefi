@@ -105,8 +105,8 @@ end
 --
 local function do_pack(...)
     local result = {}
-    local args = {...}
-    for i=1, #args do
+    local args = table.pack(...)
+    for i=1, args.n do
         local arg = args[i]
         local argtype = type(arg)
         if arg == nil then
