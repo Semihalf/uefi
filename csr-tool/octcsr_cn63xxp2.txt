@@ -30227,7 +30227,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved                                           |
- <9:0>   NW_TIM   R/W      0x0         0x3ff     New work timer period                              |
+ <9:0>   NW_TIM   R/W      0x0         0x4       New work timer period                              |
 ----------------------------------------------------------------------------------------------------
 ===
 

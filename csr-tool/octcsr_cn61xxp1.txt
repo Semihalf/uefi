@@ -8943,11 +8943,10 @@ Pos      Name    Type     Value     Value       Description
                                                   reference the MAC from any instruction Q will be  |
                                                   issued until the MAC comes out of reset and HALT  |
                                                   is cleared in SLI_CTL_PORTx[DIS_PORT].            |
- <23:20> QLM_CFG  RO       NS          NS        Read only copy of the QLM CFG pins		    |
-						  Since QLM_CFG is simply a copy of the QLM CFG	    |
-						  pins, it may reflect values that are not normal   |
-						  for DMA or packet operations. QLM_CFG does not    |
-						  indicate if a port is disabled.		    |
+ <23:20> QLM_CFG  RO       NS          NS        QLM_CFG is a function of MIO_QLMx_CFG[QLM_CFG]	    |
+						  QLM_CFG may contain values that are not normally  |
+						  used for DMA and/or packet operations.	    |
+						  QLM_CFG does not indicate if a port is disabled.  |
 						  MIO_QLMx_CFG can be used for more complete QLM    |
 						  configuration	information.			    |
 						  0000 = MAC is PCIe 1x4 (QLM) or 1x2 (DLM)	    |
@@ -21107,7 +21106,13 @@ ref clocks after the pnr clkout select changes.
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:12> NS           RAZ      NS        NS        Reserved                                         |
+ <63:15> NS           RAZ      NS        NS        Reserved                                         |
+ <14>    PRTMODE      RO       NS        NS        Port Mode, value of MIO_RST_CNTL@.PRTMODE[0]     |
+ 	 	    	     		   	      0 = port is EP mode		            |
+						      1 = port is RC mode		            |
+                                                   For QLM2, HOST_MODE is always '0' because PCIe   |
+	                                           is not supported.                                |
+ <13:12> NS           RAZ      NS        NS        Reserved                                         |
  <11:8>  QLM_SPD      R/W      NS        NS        QLM speed for SGMii/XAUI                         |
                                                       0   = 5     Gbaud	  100.00 MHz Ref            |
                                                       1   = 2.5   Gbaud	  100.00 MHz Ref            |
@@ -21354,8 +21359,8 @@ Pos      Name    Type     Value     Value       Description
                                                    warm reset when RST_DONE==0).                    |
 												    |
  <6>     HOST_MODE  RO       NS          NS        RO access to corresponding strap PCIE*_HOST_MODE |
-                                                   For CNTL1/INT1, HOST_MODE is always '1' for o61  |
-	                                           and no pin PCIE1_HOST_MODE input.                |
+                                                   For CNTL1/INT1, HOST_MODE is always '1' because  |
+	                                           there is no PCIE1_HOST_MODE pin.                 |
                                                                                                     |
  <5:4>   PRTMODE    R/W      NS          NS        Port mode                                        |
  	 	    	     		   	      0 = port is EP mode		            |
@@ -21420,6 +21425,11 @@ Pos      Name    Type     Value     Value       Description
                                                      RST_RCV==1 and the PERST*_L pin is asserted.   |
                                                      Reads as 0 when RST_RCV==1 and the PERST*_L    |
                                                      pin is not asserted.                           |
+                                                                                                    |
+Note:                                                                                               |
+GEN1_Only mode is enabled for PEM0 when QLM0_CFG is PCI and QLM0_SPD[0] is set or when QLM0_CFG is  |
+  not PCI and QLM1_CFG is 2x1 and QLM1_SPD[0] is set or when sclk < 550Mhz.                         |
+GEN1_Only mode is enabled for PEM1 when QLM1_SPD[1] is set or sclk < 550Mhz.                        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21448,11 +21458,6 @@ Pos      Name    Type     Value     Value       Description
  <0>     RST_LINK0  R/W1C    0x0         NS        A controller0 link-down/hot-reset occurred while |
                                                    MIO_RST_CTL0[RST_LINK]=0.  Software must assert  |
                                                    then de-assert CIU_SOFT_PRST[SOFT_PRST]          |
-                                                                                                    |
-Note:                                                                                               |
-GEN1_Only mode is enabled for PEM0 when QLM0_CFG is PCI and QLM0_SPD[0] is set or when QLM0_CFG is  |
-  not PCI and QLM1_CFG is 2x1 and QLM1_SPD[0] is set or when sclk < 550Mhz.                         |
-GEN1_Only mode is enabled for PEM1 when QLM1_SPD[1] is set or sclk < 550Mhz.                        |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -30678,7 +30683,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved                                           |
- <9:0>   NW_TIM   R/W      0x0         0x3ff     New work timer period                              |
+ <9:0>   NW_TIM   R/W      0x0         0x4       New work timer period                              |
 ----------------------------------------------------------------------------------------------------
 ===
 

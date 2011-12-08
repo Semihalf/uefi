@@ -88,7 +88,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <7:0>   RID             RO/WRSL  0x08        0x08      Revision ID, writable through PEM(0..1)_CFG_WR
+ <7:0>   RID             RO/WRSL  0x02        0x02      Revision ID, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
  <15:8>  PI              RO/WRSL  0x00        0x0       Programming Interface, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
@@ -2419,7 +2419,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <7:0>   RID             R/W      0x08        0x08      Revision ID, writable through PEM(0..1)_CFG_WR
+ <7:0>   RID             R/W      0x02        0x02      Revision ID, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
  <15:8>  PI              R/W      0x00        0x0       Programming Interface, writable through PEM(0..1)_CFG_WR
                                                          However, the application must not change this field.
@@ -10681,11 +10681,10 @@ Pos      Name    Type     Value     Value       Description
                                                   reference the MAC from any instruction Q will be  |
                                                   issued until the MAC comes out of reset and HALT  |
                                                   is cleared in SLI_CTL_PORTx[DIS_PORT].            |
- <23:20> QLM_CFG  RO       NS          NS        Read only copy of the QLM CFG pins		    |
-						  Since QLM_CFG is simply a copy of the QLM CFG	    |
-						  pins, it may reflect values that are not normal   |
-						  for DMA or packet operations. QLM_CFG does not    |
-						  indicate if a port is disabled.		    |
+ <23:20> QLM_CFG  RO       NS          NS        QLM_CFG is a function of MIO_QLMx_CFG[QLM_CFG]	    |
+						  QLM_CFG may contain values that are not normally  |
+						  used for DMA and/or packet operations.	    |
+						  QLM_CFG does not indicate if a port is disabled.  |
 						  MIO_QLMx_CFG can be used for more complete QLM    |
 						  configuration	information.			    |
 						  0000 = MAC is PCIE gen2			    |
@@ -32218,7 +32217,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS       RAZ      NS          NS        Reserved                                           |
- <9:0>   NW_TIM   R/W      0x0         0x3ff     New work timer period                              |
+ <9:0>   NW_TIM   R/W      0x0         0x4       New work timer period                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
