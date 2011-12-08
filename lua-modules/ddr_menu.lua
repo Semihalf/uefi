@@ -6,6 +6,11 @@ require("menu")
 require("ddr")
 require("fileio")
 
+local getenv = os.getenv
+if octeon.global then
+    getenv = octeon.global.os.getenv
+end
+
 -- List of board strings that can be passed to ddr.set_config()
 local BOARD_CHOICES = {
     "ebb6300",
@@ -119,11 +124,11 @@ end)
 
 local function update_verbose_label()
     local label = "Toggle verbose output (Currently OFF)"
-    if os.getenv("ddr_verbose") then
+    if getenv("ddr_verbose") then
         label = "Toggle verbose output (Currently ON)"
     end
     m:item("verbose", label, function()
-        local value = os.getenv("ddr_verbose")
+        local value = getenv("ddr_verbose")
         if value then
             octeon.c.bdk_setenv("ddr_verbose", nil)
         else
@@ -145,7 +150,7 @@ end)
 
 m:item("getenv", "Get environment variable", function()
     local name = menu.prompt_string("Name")
-    local value = os.getenv(name)
+    local value = getenv(name)
     if value then
         printf("%s = %s\n", name, value)
     else
