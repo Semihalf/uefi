@@ -872,12 +872,17 @@ int bdk_if_dispatch(void)
 
     while (count < 100)
     {
+        bdk_wqe_t *wqe;
         /* Get the current status of the async get work */
         uint64_t raw_work = bdk_scratch_read64(BDK_IF_SCR_WORK);
 
         /* Issue an async get work if the previous one completed */
         if (raw_work)
         {
+            /* Get a pointer to the work */
+            wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
+            BDK_PREFETCH(wqe, 0);
+
             /* The get work should already be done, but this insures that it is */
             BDK_SYNCIOBDMA;
             /* Store zero before doing async get work so we can tell when
@@ -913,9 +918,6 @@ int bdk_if_dispatch(void)
         }
 
         count++;
-
-        /* Get a pointer to the work */
-        bdk_wqe_t *wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
 
         /* Get the IPD port number */
         int ipd_port = wqe->word2.s.port;
