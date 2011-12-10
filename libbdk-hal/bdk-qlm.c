@@ -418,8 +418,8 @@ int bdk_qlm_measure_clock(int qlm)
     BDK_CSR_READ(BDK_MIO_PTP_CLOCK_CFG); /* For CN63XXp1 errata */
     BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
     uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-    /* Wait for 1 second */
-    bdk_wait_usec(1000000);
+    /* Wait for 50ms */
+    bdk_wait_usec(50000);
     /* Read the counter */
     BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT); /* For CN63XXp1 errata */
     count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
