@@ -11,6 +11,7 @@
  */
 uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
 {
+    BDK_PREFETCH(ptr, 0);
     uint32_t crc32;
     BDK_MT_CRC_POLYNOMIAL(0x04c11db7); /* Bit reversed standard CRC32 polynomial - 0xedb88320 */
     crc32 = ~iv;
@@ -19,8 +20,9 @@ uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
     ** in a bit-reversed IV. */
     BDK_ES32(crc32, crc32);
     BDK_MT_CRC_IV_REFLECT(crc32);
-    while (len>=64)
+    while (len>=128)
     {
+        BDK_PREFETCH(ptr, 128);
         uint64_t *p = ptr;
         BDK_MT_CRC_DWORD_REFLECT(p[0]);
         BDK_MT_CRC_DWORD_REFLECT(p[1]);
@@ -30,8 +32,16 @@ uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
         BDK_MT_CRC_DWORD_REFLECT(p[5]);
         BDK_MT_CRC_DWORD_REFLECT(p[6]);
         BDK_MT_CRC_DWORD_REFLECT(p[7]);
-        ptr += 64;
-        len -= 64;
+        BDK_MT_CRC_DWORD_REFLECT(p[8]);
+        BDK_MT_CRC_DWORD_REFLECT(p[9]);
+        BDK_MT_CRC_DWORD_REFLECT(p[10]);
+        BDK_MT_CRC_DWORD_REFLECT(p[11]);
+        BDK_MT_CRC_DWORD_REFLECT(p[12]);
+        BDK_MT_CRC_DWORD_REFLECT(p[13]);
+        BDK_MT_CRC_DWORD_REFLECT(p[14]);
+        BDK_MT_CRC_DWORD_REFLECT(p[15]);
+        ptr += 128;
+        len -= 128;
     }
     while (len>=8)
     {
