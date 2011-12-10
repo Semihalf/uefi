@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 static int64_t __bdk_alive_coremask;
+int __bdk_is_simulation;
 
 static void __bdk_init_uart(int uart)
 {
@@ -88,6 +89,18 @@ void __bdk_init(long base_address)
 
     if (bdk_get_core_num() == 0)
     {
+        /* Initialize the is_simulation flag */
+        {
+            BDK_CSR_INIT(dbg, BDK_SLI_DBG_SELECT);
+            BDK_CSR_DEFINE(tmp, BDK_SLI_DBG_SELECT);
+            tmp = dbg;
+            tmp.s.dbg_sel = 1;
+            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, tmp.u64);
+            tmp.u64 = BDK_CSR_READ(BDK_SLI_DBG_SELECT);
+            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, dbg.u64);
+            __bdk_is_simulation = (tmp.s.dbg_sel == 0);
+        }
+
         __bdk_init_uart(0);
         __bdk_init_uart(1);
 
