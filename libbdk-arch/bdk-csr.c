@@ -43,7 +43,14 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
         case BDK_CSR_TYPE_SRIOMAINT:
         {
             if (BDK_IS_REQUIRED(SRIO))
-                return bdk_srio_config_read32(busnum, 0, -1, 0, 0, address);
+            {
+                extern int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *result) BDK_WEAK;
+                uint32_t value;
+                if (__bdk_srio_local_read32(busnum, address, &value))
+                    return -1;
+                else
+                    return value;
+            }
             else
                 return -1;
         }
@@ -90,7 +97,10 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 
         case BDK_CSR_TYPE_SRIOMAINT:
             if (BDK_IS_REQUIRED(SRIO))
-                bdk_srio_config_write32(busnum, 0, -1, 0, 0, address, value);
+            {
+                extern int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t data) BDK_WEAK;
+                __bdk_srio_local_write32(busnum, address, value);
+            }
             break;
     }
 }

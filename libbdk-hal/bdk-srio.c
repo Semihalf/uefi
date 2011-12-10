@@ -208,7 +208,7 @@ static void __bdk_srio_free_subid(int index)
  *
  * @return Zero on success, negative on failure.
  */
-static int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *result)
+int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *result)
 {
     bdk_sriox_maint_op_t maint_op;
     bdk_sriox_maint_rd_data_t maint_rd_data;
@@ -264,7 +264,7 @@ static int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *res
  *
  * @return Zero on success, negative on failure.
  */
-static int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t data)
+int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t data)
 {
     bdk_sriox_maint_op_t maint_op;
     maint_op.u64 = 0;
