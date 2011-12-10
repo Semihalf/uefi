@@ -79,17 +79,5 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
 
 int bdk_fpa_get_block_size(bdk_fpa_pool_t pool)
 {
-    switch (pool)
-    {
-        case 0: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0);
-        case 1: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE1);
-        case 2: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE2);
-        case 3: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE3);
-        case 4: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE4);
-        case 5: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE5);
-        case 6: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE6);
-        case 7: return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE7);
-        default:
-	    return 0;
-    }
+    return bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0 + pool);
 }
