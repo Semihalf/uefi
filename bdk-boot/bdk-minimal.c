@@ -17,6 +17,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(RNG);
     BDK_REQUIRE(TRA);
     BDK_REQUIRE(KEY_MEMORY);
+    BDK_REQUIRE(DRAM_CONFIG);
     BDK_REQUIRE(DRAM_TEST);
     BDK_REQUIRE(ENVIRONMENT);
 }

@@ -38,8 +38,11 @@ LUALIB_API int luaopen_octeon(lua_State* L)
         register_octeon_csr(L);
     }
 
-    extern int luaopen_bdk_board_table_entry(lua_State *L);
-    luaopen_bdk_board_table_entry(L);
+    if (BDK_IS_REQUIRED(DRAM_CONFIG))
+    {
+        extern void register_octeon_dram(lua_State* L) BDK_WEAK;
+        register_octeon_dram(L);
+    }
 
     return 1;
 }
