@@ -19,8 +19,6 @@ require("fileio")
 ddr = {}
 
 -- local references to functions we need
-local bdk_dram_config = octeon.c.bdk_dram_config
-local bdk_dram_test = octeon.c.bdk_dram_test
 local bdk_dram_config_raw = octeon.bdk_board_table_entry.bdk_dram_config_raw
 local bdk_dram_lookup_board = octeon.bdk_board_table_entry.bdk_dram_lookup_board
 
