@@ -381,13 +381,16 @@ function TrafficGen.new()
         end
     end
 
-    function self:cmd_csr(port_range, args)
-        local name = args[1]
-        local value = args[2]
-        if value then
-            octeon.csr.lookup(name).write(value)
-        else
-            octeon.csr.lookup(name).display()
+    -- CSR access command only needed if we have a CSR database
+    if octeon.csr then
+        function self:cmd_csr(port_range, args)
+            local name = args[1]
+            local value = args[2]
+            if value then
+                octeon.csr.lookup(name).write(value)
+            else
+                octeon.csr.lookup(name).display()
+            end
         end
     end
 
@@ -410,7 +413,7 @@ function TrafficGen.new()
 
     function self:cmdp_scan_sizes(port_range, args)
         -- Get the size of one FPA buffer
-        local fpa_size = 8 * octeon.csr.IPD_PACKET_MBUFF_SIZE.MB_SIZE
+        local fpa_size = octeon.c.bdk_config_get(octeon.BDK_CONFIG_FPA_POOL_SIZE0)
         -- PKO can only handle a maximum of 63 segments. Each segment has
         -- 8 bytes to link to the next one
         local max_packet = 63 * (fpa_size - 8)
@@ -592,13 +595,21 @@ function TrafficGen.new()
             num_rows = num_rows + display_stat(stat_name, all_stats)
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
-        -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
-        printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-            octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(),
-            octeon.csr.FPA_QUEX_AVAILABLE(1).read(),
-            collectgarbage("count"),
-            octeon.c.get_sbrk() / 1024,
-            ERASE_EOL);
+        if octeon.csr then
+            -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
+            printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
+                octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(),
+                octeon.csr.FPA_QUEX_AVAILABLE(1).read(),
+                collectgarbage("count"),
+                octeon.c.get_sbrk() / 1024,
+                ERASE_EOL);
+        else
+            -- Create a row reporting Lua mem, and C mem
+            printf("Lua mem%5dKB, C mem%5dKB%s\n",
+                collectgarbage("count"),
+                octeon.c.get_sbrk() / 1024,
+                ERASE_EOL);
+        end
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = octeon.perf.get_l2(l2_stats_table)
