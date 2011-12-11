@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rm -rdf html
+rm -rf html
 mkdir -p html
-rm -rdf cisco
+rm -rf cisco
 mkdir -p cisco
 
 #
