@@ -80,6 +80,7 @@ static int if_probe(bdk_if_handle_t handle)
 {
     handle->ipd_port = -1;
     handle->pko_port = -1;
+    handle->has_fcs = 1;
     return 0;
 }
 
