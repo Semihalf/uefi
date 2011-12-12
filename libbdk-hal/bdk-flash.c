@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-#define MAX_NUM_FLASH_CHIPS 8   /* Maximum number of flash chips */
+#define MAX_NUM_FLASH_CHIPS 2   /* Maximum number of flash chips, nobody ever used more than two */
 #define MAX_NUM_REGIONS     8   /* Maximum number of block regions per chip */
 #define DEBUG 0
 

@@ -12,7 +12,9 @@ while (option ~= "quit") do
     m:item("init", "Query for NOR flash", function()
         octeon.c.bdk_flash_initialize()
     end)
-    for chip=0,7 do
+    -- Only check the first two chip selects as nobody has ever put a flash
+    -- on any of the others
+    for chip=0,1 do
         if octeon.c.bdk_flash_get_base(chip) ~= 0 then
             local filename = "/dev/nor/" .. tostring(chip)
             local cs = "(CS" .. tostring(chip) .. ")"
