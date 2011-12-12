@@ -55,6 +55,7 @@
 #include <errno.h>
 #include <sys/file.h>
 #include <sys/time.h>
+#include <sys/stat.h>
 #include "octeon-remote.h"
 
 #define ULL unsigned long long
