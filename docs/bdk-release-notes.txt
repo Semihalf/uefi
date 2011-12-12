@@ -10,9 +10,12 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2011.11-r67263 (Not released yet)
+octeon-bdk-2011.11-r68033 (Not released yet)
 --------------------------------------------
 
+* CN61XX Support. There is a new configuration menu under the QLM menu.
+** Currently you must use Uboot to load bdk-full.bin to run trafficgen.
+** bdk-minimal.bin along with bdk-menu should be used before Uboot is working.
 * Speed up NOR flash reads by reading 8 bytes at a time when possible.
 * Improve serial port setup when using OCTEON_REMOTE_CONSOLE.
 * Speed up NOR flash programming using the mpDemon. Still very slow.
@@ -31,6 +34,14 @@ octeon-bdk-2011.11-r67263 (Not released yet)
 	information and can stop here.
 * Change QLM code to set TX amplitude and demphasis.
 * Update PRBS to exit when a user presses "return".
+* Change the RPC protocol to use the character 0xa3 instead of '$' to
+	begin commands. The '$' is too common in normal output.
+* Change trafficgen drop stats to be totals instead of rates.
+* Fix bug packing RPC arguments containing nil values.
+* Fix reading environment variables from the remote target.
+* Fixed incorrect FCS check which caused packet validation to fail on
+	management ports.
+* Only probe for a max of two flash chips.
 
 
 octeon-bdk-2011.10-r66302
