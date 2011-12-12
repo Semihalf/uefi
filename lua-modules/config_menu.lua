@@ -89,7 +89,7 @@ end
 local if_xaui = 1
 for interface = 0,octeon.c.bdk_if_num_interfaces(if_xaui)-1 do
     if octeon.c.bdk_if_num_ports(if_xaui, interface) > 0 then
-        addMenu("XAUI interface " .. interface .. " Higig mode", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
+        addMenu("XAUI interface " .. interface .. " Higig mode, 0=XAUI,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
     end
 end
 
