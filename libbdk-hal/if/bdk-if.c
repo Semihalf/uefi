@@ -30,6 +30,13 @@ static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
 
+static inline int __bdk_is_dram_enabled(void)
+{
+    // FIXME __bdk_is_dram_enabled
+    BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
+    return (lmcx_dclk_cnt.u64 != -1ull);
+}
+
 static inline void sso_get_work_async(int scr_addr, int wait)
 {
     union
@@ -163,7 +170,7 @@ static int __bdk_if_setup_ipd_global(void)
     int thresh_pass = 64;
     int thresh_drop = 32;
     /* Skip RED on CN61XX as we have too few buffers for it to work */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) && !__bdk_is_dram_enabled())
     {
         thresh_pass = 1;
         thresh_drop = 0;
@@ -395,13 +402,6 @@ fail:
     if (handle)
         free(handle);
     return NULL;
-}
-
-static inline int __bdk_is_dram_enabled(void)
-{
-    // FIXME __bdk_is_dram_enabled
-    BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
-    return (lmcx_dclk_cnt.u64 != -1ull);
 }
 
 
