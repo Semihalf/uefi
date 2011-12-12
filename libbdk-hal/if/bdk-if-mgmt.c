@@ -235,6 +235,11 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(agl_prtx_ctl, BDK_AGL_PRTX_CTL(handle->index),
         agl_prtx_ctl.s.comp = 1;
         agl_prtx_ctl.s.drv_byp = 0);
+
+    /* Clear stats on read */
+    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_STATS_CTL(handle->index), 1);
+    BDK_CSR_WRITE(BDK_AGL_GMX_TXX_STATS_CTL(handle->index), 1);
+
     return 0;
 }
 
@@ -412,7 +417,6 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
-    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_STATS_CTL(handle->index), 1);
     BDK_CSR_INIT(pkts_drp, BDK_AGL_GMX_RXX_STATS_PKTS_DRP(handle->index));
     BDK_CSR_INIT(octs_drp, BDK_AGL_GMX_RXX_STATS_OCTS_DRP(handle->index));
     BDK_CSR_INIT(pkts, BDK_AGL_GMX_RXX_STATS_PKTS(handle->index));
@@ -425,7 +429,6 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.packets += pkts.s.cnt;
     handle->stats.rx.errors += pkts_bad.s.cnt;
 
-    BDK_CSR_WRITE(BDK_AGL_GMX_TXX_STATS_CTL(handle->index), 1);
     BDK_CSR_INIT(stat2, BDK_AGL_GMX_TXX_STAT2(handle->index));
     BDK_CSR_INIT(stat3, BDK_AGL_GMX_TXX_STAT3(handle->index));
 
