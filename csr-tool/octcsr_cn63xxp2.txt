@@ -20523,9 +20523,9 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- * MIO_BOOT_LOC_CFG = MIO Boot Local Region Config Register (1 per region * 2 regions)
+ * MIO_BOOT_LOC_CFG = MIO Boot Local Memory Region Config Register (1 per region * 2 regions)
  *
- * Contains local region enable and local region base address parameters.  Each local region is 128
+ * Contains local memory region enable and local memory region base address parameters.  Each local memory region is 128
  * bytes organized as 16 entries x 8 bytes.
  *
  * Base address specifies address bits [31:7] of the region.
@@ -20540,18 +20540,18 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:32> NS       RAZ      NS          NS        Reserved                                           |
- <31>    EN       R/W      0x0         NS        Local region @ enable                              |
+ <31>    EN       R/W      0x0         NS        Local memory region @ enable                       |
  <30:28> NS       RAZ      NS          NS        Reserved                                           |
- <27:3>  BASE     R/W      0x0         NS        Local region @ base address                        |
+ <27:3>  BASE     R/W      0x0         NS        Local memory region @ base address                 |
  <2:0>   NS       RAZ      NS          NS        Reserved                                           |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- * MIO_BOOT_LOC_ADR = MIO Boot Local Memory Address Register
+ * MIO_BOOT_LOC_ADR = MIO Boot Local Memory Region Address Register
  *
- * Specifies the address for reading or writing the local memory.  This address will post-increment
- * following an access to the MIO Boot Local Memory Data Register (MIO_BOOT_LOC_DAT).
+ * Specifies the address for reading or writing the local memory region.  This address will post-increment
+ * following an access to the MIO Boot Local Memory Region Data Register (MIO_BOOT_LOC_DAT).
  *
  * Local memory region 0 exists from addresses 0x00 - 0x78.
  * Local memory region 1 exists from addresses 0x80 - 0xf8.
@@ -20566,16 +20566,16 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:8>  NS       RAZ      NS          NS        Reserved                                           |
- <7:3>   ADR      R/W      0x0         NS        Local memory address                               |
+ <7:3>   ADR      R/W      0x0         NS        Local memory region address                        |
  <2:0>   NS       RAZ      NS          NS        Reserved                                           |
 ----------------------------------------------------------------------------------------------------
 ===
 
  *
- * MIO_BOOT_LOC_DAT = MIO Boot Local Memory Data Register
+ * MIO_BOOT_LOC_DAT = MIO Boot Local Memory Region Data Register
  *
- * This is a pseudo-register that will read/write the local memory at the address specified by the MIO
- * Boot Local Address Register (MIO_BOOT_LOC_ADR) when accessed.
+ * This is a pseudo-register that will read/write the local memory region at the address specified by the MIO
+ * Boot Local Memory Region Address Register (MIO_BOOT_LOC_ADR) when accessed.
  *
 
      ==============================================================
@@ -20586,7 +20586,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <63:0>  DATA     R/W      NS          NS        Local memory data                                  |
+ <63:0>  DATA     R/W      NS          NS        Local memory region data                           |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -20594,7 +20594,7 @@ Pos      Name    Type     Value     Value       Description
  * MIO_BOOT_ERR = MIO Boot Error Register
  *
  * Contains the address decode error and wait mode error bits.  Address decode error is set when a
- * boot bus access does not hit in any of the 8 remote regions or 2 local regions.  Wait mode error is
+ * boot bus access does not hit in any of the 8 remote regions or 2 local memory regions.  Wait mode error is
  * set when wait mode is enabled and the external wait signal is not de-asserted after 32k eclk cycles.
  *
 
