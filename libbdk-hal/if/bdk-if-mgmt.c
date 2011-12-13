@@ -431,9 +431,10 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 
     BDK_CSR_INIT(stat2, BDK_AGL_GMX_TXX_STAT2(handle->index));
     BDK_CSR_INIT(stat3, BDK_AGL_GMX_TXX_STAT3(handle->index));
+    BDK_CSR_INIT(stat9, BDK_AGL_GMX_TXX_STAT9(handle->index));
 
-    handle->stats.tx.octets += stat2.s.octs;
-    handle->stats.tx.packets += stat3.s.pkts;
+    handle->stats.tx.octets += stat2.s.octs - stat9.s.ctl*64;
+    handle->stats.tx.packets += stat3.s.pkts - stat9.s.ctl;
 
     return &handle->stats;
 }
