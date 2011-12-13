@@ -27,6 +27,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(FS_XMODEM);
     BDK_REQUIRE(FS_RAM);
     BDK_REQUIRE(CSR_DB);
+    BDK_REQUIRE(TRAFFIC_GEN);
 }
 
 /**

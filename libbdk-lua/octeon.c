@@ -29,8 +29,13 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     REGISTER(L, octeon_c);
     REGISTER(L, octeon_config);
     REGISTER(L, octeon_constants);
-    REGISTER(L, trafficgen);
     REGISTER(L, octeon_perf);
+
+    if (BDK_IS_REQUIRED(TRAFFIC_GEN))
+    {
+        extern void register_trafficgen(lua_State* L) BDK_WEAK;
+        register_trafficgen(L);
+    }
 
     if (BDK_IS_REQUIRED(CSR_DB))
     {

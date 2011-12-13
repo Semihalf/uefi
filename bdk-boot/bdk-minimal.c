@@ -20,6 +20,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(DRAM_CONFIG);
     BDK_REQUIRE(DRAM_TEST);
     BDK_REQUIRE(ENVIRONMENT);
+    BDK_REQUIRE(TRAFFIC_GEN);
 }
 
 /**

@@ -82,7 +82,8 @@ void bdk_thread_yield(void)
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
-    bdk_if_dispatch();
+    if (bdk_if_dispatch)
+        bdk_if_dispatch();
 
     if (bdk_unlikely(!current))
         return;
@@ -200,7 +201,7 @@ void bdk_thread_destroy(void)
     bdk_atomic_add32(&dead_cores, 1);
     while (1)
     {
-        int have_packets = bdk_if_dispatch();
+        int have_packets = (bdk_if_dispatch) ? bdk_if_dispatch() : 0;
         if (bdk_thread_head)
         {
             bdk_spinlock_lock(&bdk_thread_lock);
