@@ -301,7 +301,11 @@ static int trafficgen_do_update(bool do_clear)
                 break;
             }
             case BDK_IF_MGMT:
+            {
+                BDK_CSR_INIT(txx_pause_togo, BDK_AGL_GMX_TXX_PAUSE_TOGO(tg_port->handle->index));
+                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
+            }
             case BDK_IF_ILK:
             {
                 int interface = tg_port->handle->interface;
