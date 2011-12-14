@@ -78,6 +78,13 @@ void __bdk_init(long base_address)
     cvmctl |= 1<<14;    /* Fix unaligned accesses */
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
+    /* Sync cycle counter */
+    uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    BDK_SYNC;
+    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
+    BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
+
     static const char BANNER_1[] = "Bringup and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
