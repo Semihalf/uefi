@@ -655,7 +655,9 @@ function TrafficGen.new()
             self:display(false)
             local cmd
             if use_readline then
-                cmd = readline.readline("Command> ", tab, 1000000)
+                -- We only need second updates if stats are shown
+                local timeout = (#visible_ports == 0) and 0 or 1000000
+                cmd = readline.readline("Command> ", tab, timeout)
             else
                 printf("Command> ")
                 io.flush()
