@@ -2,7 +2,7 @@
 -- Access to OCTEON QLM information.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2011 Cavium Networks
+-- * Copyright (C) 2010-2012 Cavium Networks
 --
 require("strict")
 require("utils")
