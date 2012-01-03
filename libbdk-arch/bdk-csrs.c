@@ -7566,6 +7566,1336 @@ static const int16_t __bdk_csr_db_cn61xx[] = {
     0
 };
 
+static const int16_t __bdk_csr_db_cnf71xx[] = {
+    1, /* agl_gmx_bad_reg */
+    2, /* agl_gmx_bist */
+    3, /* agl_gmx_prtX_cfg */
+    4, /* agl_gmx_rxX_adr_cam0 */
+    5, /* agl_gmx_rxX_adr_cam1 */
+    6, /* agl_gmx_rxX_adr_cam2 */
+    7, /* agl_gmx_rxX_adr_cam3 */
+    8, /* agl_gmx_rxX_adr_cam4 */
+    9, /* agl_gmx_rxX_adr_cam5 */
+    10, /* agl_gmx_rxX_adr_cam_en */
+    11, /* agl_gmx_rxX_adr_ctl */
+    12, /* agl_gmx_rxX_decision */
+    13, /* agl_gmx_rxX_frm_chk */
+    14, /* agl_gmx_rxX_frm_ctl */
+    15, /* agl_gmx_rxX_frm_max */
+    16, /* agl_gmx_rxX_frm_min */
+    17, /* agl_gmx_rxX_ifg */
+    18, /* agl_gmx_rxX_int_en */
+    19, /* agl_gmx_rxX_int_reg */
+    20, /* agl_gmx_rxX_jabber */
+    21, /* agl_gmx_rxX_pause_drop_time */
+    22, /* agl_gmx_rxX_rx_inbnd */
+    23, /* agl_gmx_rxX_stats_ctl */
+    24, /* agl_gmx_rxX_stats_octs */
+    25, /* agl_gmx_rxX_stats_octs_ctl */
+    26, /* agl_gmx_rxX_stats_octs_dmac */
+    27, /* agl_gmx_rxX_stats_octs_drp */
+    28, /* agl_gmx_rxX_stats_pkts */
+    29, /* agl_gmx_rxX_stats_pkts_bad */
+    30, /* agl_gmx_rxX_stats_pkts_ctl */
+    31, /* agl_gmx_rxX_stats_pkts_dmac */
+    32, /* agl_gmx_rxX_stats_pkts_drp */
+    33, /* agl_gmx_rxX_udd_skp */
+    34, /* agl_gmx_rx_bp_dropX */
+    35, /* agl_gmx_rx_bp_offX */
+    36, /* agl_gmx_rx_bp_onX */
+    37, /* agl_gmx_rx_prt_info */
+    38, /* agl_gmx_rx_tx_status */
+    39, /* agl_gmx_smacX */
+    40, /* agl_gmx_stat_bp */
+    41, /* agl_gmx_txX_append */
+    42, /* agl_gmx_txX_clk */
+    43, /* agl_gmx_txX_ctl */
+    44, /* agl_gmx_txX_min_pkt */
+    45, /* agl_gmx_txX_pause_pkt_interval */
+    46, /* agl_gmx_txX_pause_pkt_time */
+    47, /* agl_gmx_txX_pause_togo */
+    48, /* agl_gmx_txX_pause_zero */
+    49, /* agl_gmx_txX_soft_pause */
+    50, /* agl_gmx_txX_stat0 */
+    51, /* agl_gmx_txX_stat1 */
+    52, /* agl_gmx_txX_stat2 */
+    53, /* agl_gmx_txX_stat3 */
+    54, /* agl_gmx_txX_stat4 */
+    55, /* agl_gmx_txX_stat5 */
+    56, /* agl_gmx_txX_stat6 */
+    57, /* agl_gmx_txX_stat7 */
+    58, /* agl_gmx_txX_stat8 */
+    59, /* agl_gmx_txX_stat9 */
+    60, /* agl_gmx_txX_stats_ctl */
+    61, /* agl_gmx_txX_thresh */
+    62, /* agl_gmx_tx_bp */
+    63, /* agl_gmx_tx_col_attempt */
+    64, /* agl_gmx_tx_ifg */
+    65, /* agl_gmx_tx_int_en */
+    66, /* agl_gmx_tx_int_reg */
+    67, /* agl_gmx_tx_jam */
+    68, /* agl_gmx_tx_lfsr */
+    69, /* agl_gmx_tx_ovr_bp */
+    70, /* agl_gmx_tx_pause_pkt_dmac */
+    71, /* agl_gmx_tx_pause_pkt_type */
+    72, /* agl_prtX_ctl */
+    2158, /* ciu_bist */
+    2779, /* ciu_block_int */
+    2565, /* ciu_dint */
+    2780, /* ciu_en2_ioX_int */
+    2781, /* ciu_en2_ioX_int_w1c */
+    2782, /* ciu_en2_ioX_int_w1s */
+    2783, /* ciu_en2_ppX_ip2 */
+    2784, /* ciu_en2_ppX_ip2_w1c */
+    2785, /* ciu_en2_ppX_ip2_w1s */
+    2786, /* ciu_en2_ppX_ip3 */
+    2787, /* ciu_en2_ppX_ip3_w1c */
+    2788, /* ciu_en2_ppX_ip3_w1s */
+    2789, /* ciu_en2_ppX_ip4 */
+    2790, /* ciu_en2_ppX_ip4_w1c */
+    2791, /* ciu_en2_ppX_ip4_w1s */
+    2575, /* ciu_fuse */
+    77, /* ciu_gstop */
+    2792, /* ciu_intX_en0 */
+    2793, /* ciu_intX_en0_w1c */
+    2794, /* ciu_intX_en0_w1s */
+    2795, /* ciu_intX_en1 */
+    2796, /* ciu_intX_en1_w1c */
+    2797, /* ciu_intX_en1_w1s */
+    2798, /* ciu_intX_en4_0 */
+    2799, /* ciu_intX_en4_0_w1c */
+    2800, /* ciu_intX_en4_0_w1s */
+    2801, /* ciu_intX_en4_1 */
+    2802, /* ciu_intX_en4_1_w1c */
+    2803, /* ciu_intX_en4_1_w1s */
+    2804, /* ciu_intX_sum0 */
+    2805, /* ciu_intX_sum4 */
+    2806, /* ciu_int33_sum0 */
+    2189, /* ciu_int_dbg_sel */
+    2807, /* ciu_int_sum1 */
+    2592, /* ciu_mbox_clrX */
+    2593, /* ciu_mbox_setX */
+    2594, /* ciu_nmi */
+    97, /* ciu_pci_inta */
+    2595, /* ciu_pp_dbg */
+    2596, /* ciu_pp_pokeX */
+    2597, /* ciu_pp_rst */
+    1180, /* ciu_qlm0 */
+    1181, /* ciu_qlm1 */
+    1182, /* ciu_qlm2 */
+    104, /* ciu_qlm_jtgc */
+    105, /* ciu_qlm_jtgd */
+    106, /* ciu_soft_bist */
+    107, /* ciu_soft_prst */
+    108, /* ciu_soft_prst1 */
+    109, /* ciu_soft_rst */
+    2808, /* ciu_sum1_ioX_int */
+    2809, /* ciu_sum1_ppX_ip2 */
+    2810, /* ciu_sum1_ppX_ip3 */
+    2811, /* ciu_sum1_ppX_ip4 */
+    2812, /* ciu_sum2_ioX_int */
+    2813, /* ciu_sum2_ppX_ip2 */
+    2814, /* ciu_sum2_ppX_ip3 */
+    2815, /* ciu_sum2_ppX_ip4 */
+    2209, /* ciu_timX */
+    2210, /* ciu_tim_multi_cast */
+    2605, /* ciu_wdogX */
+    2606, /* dfa_bist0 */
+    2607, /* dfa_bist1 */
+    1523, /* dfa_config */
+    115, /* dfa_control */
+    116, /* dfa_dbell */
+    117, /* dfa_debug0 */
+    118, /* dfa_debug1 */
+    119, /* dfa_debug2 */
+    120, /* dfa_debug3 */
+    1525, /* dfa_difctl */
+    122, /* dfa_difrdptr */
+    123, /* dfa_dtcfadr */
+    2608, /* dfa_error */
+    2609, /* dfa_intmsk */
+    126, /* dfa_memhidat */
+    127, /* dfa_pfc0_cnt */
+    128, /* dfa_pfc0_ctl */
+    129, /* dfa_pfc1_cnt */
+    130, /* dfa_pfc1_ctl */
+    131, /* dfa_pfc2_cnt */
+    132, /* dfa_pfc2_ctl */
+    133, /* dfa_pfc3_cnt */
+    134, /* dfa_pfc3_ctl */
+    135, /* dfa_pfc_gctl */
+    2213, /* dpi_bist_status */
+    2610, /* dpi_ctl */
+    170, /* dpi_dmaX_counts */
+    171, /* dpi_dmaX_dbell */
+    1528, /* dpi_dmaX_err_rsp_status */
+    172, /* dpi_dmaX_ibuff_saddr */
+    1530, /* dpi_dmaX_iflight */
+    173, /* dpi_dmaX_naddr */
+    174, /* dpi_dmaX_reqbnk0 */
+    175, /* dpi_dmaX_reqbnk1 */
+    2089, /* dpi_dma_control */
+    177, /* dpi_dma_engX_en */
+    2611, /* dpi_dma_ppX_cnt */
+    1532, /* dpi_engX_buf */
+    1195, /* dpi_info_reg */
+    2215, /* dpi_int_en */
+    2216, /* dpi_int_reg */
+    2091, /* dpi_ncbX_cfg */
+    182, /* dpi_pint_info */
+    183, /* dpi_pkt_err_rsp */
+    184, /* dpi_req_err_rsp */
+    185, /* dpi_req_err_rsp_en */
+    186, /* dpi_req_err_rst */
+    187, /* dpi_req_err_rst_en */
+    1533, /* dpi_req_err_skip_comp */
+    188, /* dpi_req_gbl_en */
+    2612, /* dpi_sli_prtX_cfg */
+    2092, /* dpi_sli_prtX_err */
+    191, /* dpi_sli_prtX_err_info */
+    2816, /* endor_adma_auto_clk_gate */
+    2817, /* endor_adma_axi_rspcode */
+    2818, /* endor_adma_axi_signal */
+    2819, /* endor_adma_axierr_intr */
+    2820, /* endor_adma_dmaX_addr_hi */
+    2821, /* endor_adma_dmaX_addr_lo */
+    2822, /* endor_adma_dmaX_cfg */
+    2823, /* endor_adma_dmaX_size */
+    2824, /* endor_adma_dma_priority */
+    2825, /* endor_adma_dma_reset */
+    2826, /* endor_adma_dmadone_intr */
+    2827, /* endor_adma_intr_dis */
+    2828, /* endor_adma_intr_enb */
+    2829, /* endor_adma_module_status */
+    2830, /* endor_intc_cntl_hiX */
+    2831, /* endor_intc_cntl_loX */
+    2832, /* endor_intc_index_hiX */
+    2833, /* endor_intc_index_loX */
+    2834, /* endor_intc_misc_idx_hiX */
+    2835, /* endor_intc_misc_idx_loX */
+    2836, /* endor_intc_misc_mask_hiX */
+    2837, /* endor_intc_misc_mask_loX */
+    2838, /* endor_intc_misc_rint */
+    2839, /* endor_intc_misc_status_hiX */
+    2840, /* endor_intc_misc_status_loX */
+    2841, /* endor_intc_rd_idx_hiX */
+    2842, /* endor_intc_rd_idx_loX */
+    2843, /* endor_intc_rd_mask_hiX */
+    2844, /* endor_intc_rd_mask_loX */
+    2845, /* endor_intc_rd_rint */
+    2846, /* endor_intc_rd_status_hiX */
+    2847, /* endor_intc_rd_status_loX */
+    2848, /* endor_intc_rdq_idx_hiX */
+    2849, /* endor_intc_rdq_idx_loX */
+    2850, /* endor_intc_rdq_mask_hiX */
+    2851, /* endor_intc_rdq_mask_loX */
+    2852, /* endor_intc_rdq_rint */
+    2853, /* endor_intc_rdq_status_hiX */
+    2854, /* endor_intc_rdq_status_loX */
+    2855, /* endor_intc_stat_hiX */
+    2856, /* endor_intc_stat_loX */
+    2857, /* endor_intc_sw_idx_hiX */
+    2858, /* endor_intc_sw_idx_loX */
+    2859, /* endor_intc_sw_mask_hiX */
+    2860, /* endor_intc_sw_mask_loX */
+    2861, /* endor_intc_sw_rint */
+    2862, /* endor_intc_sw_status_hiX */
+    2863, /* endor_intc_sw_status_loX */
+    2864, /* endor_intc_swclr */
+    2865, /* endor_intc_swset */
+    2866, /* endor_intc_wr_idx_hiX */
+    2867, /* endor_intc_wr_idx_loX */
+    2868, /* endor_intc_wr_mask_hiX */
+    2869, /* endor_intc_wr_mask_loX */
+    2870, /* endor_intc_wr_rint */
+    2871, /* endor_intc_wr_status_hiX */
+    2872, /* endor_intc_wr_status_loX */
+    2873, /* endor_intc_wrq_idx_hiX */
+    2874, /* endor_intc_wrq_idx_loX */
+    2875, /* endor_intc_wrq_mask_hiX */
+    2876, /* endor_intc_wrq_mask_loX */
+    2877, /* endor_intc_wrq_rint */
+    2878, /* endor_intc_wrq_status_hiX */
+    2879, /* endor_intc_wrq_status_loX */
+    2880, /* endor_ofs_hmm_cbuf_end_addr0 */
+    2881, /* endor_ofs_hmm_cbuf_end_addr1 */
+    2882, /* endor_ofs_hmm_cbuf_end_addr2 */
+    2883, /* endor_ofs_hmm_cbuf_end_addr3 */
+    2884, /* endor_ofs_hmm_cbuf_start_addr0 */
+    2885, /* endor_ofs_hmm_cbuf_start_addr1 */
+    2886, /* endor_ofs_hmm_cbuf_start_addr2 */
+    2887, /* endor_ofs_hmm_cbuf_start_addr3 */
+    2888, /* endor_ofs_hmm_intr_clear */
+    2889, /* endor_ofs_hmm_intr_enb */
+    2890, /* endor_ofs_hmm_intr_rstatus */
+    2891, /* endor_ofs_hmm_intr_status */
+    2892, /* endor_ofs_hmm_intr_test */
+    2893, /* endor_ofs_hmm_mode */
+    2894, /* endor_ofs_hmm_start_addr0 */
+    2895, /* endor_ofs_hmm_start_addr1 */
+    2896, /* endor_ofs_hmm_start_addr2 */
+    2897, /* endor_ofs_hmm_start_addr3 */
+    2898, /* endor_ofs_hmm_status */
+    2899, /* endor_ofs_hmm_xfer_cnt */
+    2900, /* endor_ofs_hmm_xfer_q_status */
+    2901, /* endor_ofs_hmm_xfer_start */
+    2902, /* endor_rfif_1pps_gen_cfg */
+    2903, /* endor_rfif_1pps_sample_cnt_offset */
+    2904, /* endor_rfif_1pps_verif_gen_en */
+    2905, /* endor_rfif_1pps_verif_scnt */
+    2906, /* endor_rfif_conf */
+    2907, /* endor_rfif_conf2 */
+    2908, /* endor_rfif_dsp1_gpio */
+    2909, /* endor_rfif_dsp_rx_his */
+    2910, /* endor_rfif_dsp_rx_ism */
+    2911, /* endor_rfif_firs_enable */
+    2912, /* endor_rfif_frame_cnt */
+    2913, /* endor_rfif_frame_l */
+    2914, /* endor_rfif_gpio_X */
+    2915, /* endor_rfif_max_sample_adj */
+    2916, /* endor_rfif_min_sample_adj */
+    2917, /* endor_rfif_num_rx_win */
+    2918, /* endor_rfif_pwm_enable */
+    2919, /* endor_rfif_pwm_high_time */
+    2920, /* endor_rfif_pwm_low_time */
+    2921, /* endor_rfif_rd_timer64_lsb */
+    2922, /* endor_rfif_rd_timer64_msb */
+    2923, /* endor_rfif_real_time_timer */
+    2924, /* endor_rfif_rf_clk_timer */
+    2925, /* endor_rfif_rf_clk_timer_en */
+    2926, /* endor_rfif_rx_correct_adj */
+    2927, /* endor_rfif_rx_div_status */
+    2928, /* endor_rfif_rx_fifo_cnt */
+    2929, /* endor_rfif_rx_if_cfg */
+    2930, /* endor_rfif_rx_lead_lag */
+    2931, /* endor_rfif_rx_load_cfg */
+    2932, /* endor_rfif_rx_offset */
+    2933, /* endor_rfif_rx_offset_adj_scnt */
+    2934, /* endor_rfif_rx_status */
+    2935, /* endor_rfif_rx_sync_scnt */
+    2936, /* endor_rfif_rx_sync_value */
+    2937, /* endor_rfif_rx_th */
+    2938, /* endor_rfif_rx_transfer_size */
+    2939, /* endor_rfif_rx_w_eX */
+    2940, /* endor_rfif_rx_w_sX */
+    2941, /* endor_rfif_sample_adj_cfg */
+    2942, /* endor_rfif_sample_adj_error */
+    2943, /* endor_rfif_sample_cnt */
+    2944, /* endor_rfif_skip_frm_cnt_bits */
+    2945, /* endor_rfif_spi_X_ll */
+    2946, /* endor_rfif_spi_cmd_attrX */
+    2947, /* endor_rfif_spi_cmdsX */
+    2948, /* endor_rfif_spi_conf0 */
+    2949, /* endor_rfif_spi_conf1 */
+    2950, /* endor_rfif_spi_ctrl */
+    2951, /* endor_rfif_spi_dinX */
+    2952, /* endor_rfif_spi_rx_data */
+    2953, /* endor_rfif_spi_status */
+    2954, /* endor_rfif_spi_tx_data */
+    2955, /* endor_rfif_timer64_cfg */
+    2956, /* endor_rfif_timer64_en */
+    2957, /* endor_rfif_tti_scnt_intX */
+    2958, /* endor_rfif_tti_scnt_int_clr */
+    2959, /* endor_rfif_tti_scnt_int_en */
+    2960, /* endor_rfif_tti_scnt_int_map */
+    2961, /* endor_rfif_tti_scnt_int_stat */
+    2962, /* endor_rfif_tx_div_status */
+    2963, /* endor_rfif_tx_if_cfg */
+    2964, /* endor_rfif_tx_lead_lag */
+    2965, /* endor_rfif_tx_offset */
+    2966, /* endor_rfif_tx_offset_adj_scnt */
+    2967, /* endor_rfif_tx_status */
+    2968, /* endor_rfif_tx_th */
+    2969, /* endor_rfif_win_en */
+    2970, /* endor_rfif_win_upd_scnt */
+    2971, /* endor_rfif_wr_timer64_lsb */
+    2972, /* endor_rfif_wr_timer64_msb */
+    2973, /* endor_rstclk_clkenb0_clr */
+    2974, /* endor_rstclk_clkenb0_set */
+    2975, /* endor_rstclk_clkenb0_state */
+    2976, /* endor_rstclk_clkenb1_clr */
+    2977, /* endor_rstclk_clkenb1_set */
+    2978, /* endor_rstclk_clkenb1_state */
+    2979, /* endor_rstclk_dspstall_clr */
+    2980, /* endor_rstclk_dspstall_set */
+    2981, /* endor_rstclk_dspstall_state */
+    2982, /* endor_rstclk_intr0_clrmask */
+    2983, /* endor_rstclk_intr0_mask */
+    2984, /* endor_rstclk_intr0_setmask */
+    2985, /* endor_rstclk_intr0_status */
+    2986, /* endor_rstclk_intr1_clrmask */
+    2987, /* endor_rstclk_intr1_mask */
+    2988, /* endor_rstclk_intr1_setmask */
+    2989, /* endor_rstclk_intr1_status */
+    2990, /* endor_rstclk_phy_config */
+    2991, /* endor_rstclk_proc_mon */
+    2992, /* endor_rstclk_proc_mon_count */
+    2993, /* endor_rstclk_reset0_clr */
+    2994, /* endor_rstclk_reset0_set */
+    2995, /* endor_rstclk_reset0_state */
+    2996, /* endor_rstclk_reset1_clr */
+    2997, /* endor_rstclk_reset1_set */
+    2998, /* endor_rstclk_reset1_state */
+    2999, /* endor_rstclk_sw_intr_clr */
+    3000, /* endor_rstclk_sw_intr_set */
+    3001, /* endor_rstclk_sw_intr_status */
+    3002, /* endor_rstclk_timeX_thrd */
+    3003, /* endor_rstclk_timer_ctl */
+    3004, /* endor_rstclk_timer_intr_clr */
+    3005, /* endor_rstclk_timer_intr_status */
+    3006, /* endor_rstclk_timer_max */
+    3007, /* endor_rstclk_timer_value */
+    3008, /* endor_rstclk_version */
+    3009, /* eoi_bist_ctl_sta */
+    3010, /* eoi_ctl_sta */
+    3011, /* eoi_def_sta0 */
+    3012, /* eoi_def_sta1 */
+    3013, /* eoi_def_sta2 */
+    3014, /* eoi_ecc_ctl */
+    3015, /* eoi_endor_bistr_ctl_sta */
+    3016, /* eoi_endor_clk_ctl */
+    3017, /* eoi_endor_ctl */
+    3018, /* eoi_int_ena */
+    3019, /* eoi_int_sta */
+    3020, /* eoi_io_drv */
+    3021, /* eoi_throttle_ctl */
+    1534, /* fpa_addr_range_error */
+    192, /* fpa_bist_status */
+    1196, /* fpa_ctl_status */
+    194, /* fpa_fpfX_marks */
+    195, /* fpa_fpfX_size */
+    196, /* fpa_fpf0_marks */
+    197, /* fpa_fpf0_size */
+    2223, /* fpa_int_enb */
+    2224, /* fpa_int_sum */
+    1199, /* fpa_packet_threshold */
+    2225, /* fpa_poolX_end_addr */
+    2226, /* fpa_poolX_start_addr */
+    1200, /* fpa_poolX_threshold */
+    200, /* fpa_queX_available */
+    201, /* fpa_queX_page_index */
+    202, /* fpa_que_act */
+    203, /* fpa_que_exp */
+    1201, /* fpa_wqe_threshold */
+    2227, /* gmxX_bad_reg */
+    2228, /* gmxX_bist */
+    2229, /* gmxX_clk_en */
+    2230, /* gmxX_hg2_control */
+    2613, /* gmxX_inf_mode */
+    2232, /* gmxX_nxa_adr */
+    2233, /* gmxX_prtX_cbfc_ctl */
+    3022, /* gmxX_prtX_cfg */
+    2235, /* gmxX_rxX_adr_cam0 */
+    2236, /* gmxX_rxX_adr_cam1 */
+    2237, /* gmxX_rxX_adr_cam2 */
+    2238, /* gmxX_rxX_adr_cam3 */
+    2239, /* gmxX_rxX_adr_cam4 */
+    2240, /* gmxX_rxX_adr_cam5 */
+    3023, /* gmxX_rxX_adr_cam_all_en */
+    3024, /* gmxX_rxX_adr_cam_en */
+    3025, /* gmxX_rxX_adr_ctl */
+    3026, /* gmxX_rxX_decision */
+    3027, /* gmxX_rxX_frm_chk */
+    3028, /* gmxX_rxX_frm_ctl */
+    3029, /* gmxX_rxX_ifg */
+    3030, /* gmxX_rxX_int_en */
+    3031, /* gmxX_rxX_int_reg */
+    3032, /* gmxX_rxX_jabber */
+    3033, /* gmxX_rxX_pause_drop_time */
+    3034, /* gmxX_rxX_stats_ctl */
+    3035, /* gmxX_rxX_stats_octs */
+    3036, /* gmxX_rxX_stats_octs_ctl */
+    3037, /* gmxX_rxX_stats_octs_dmac */
+    3038, /* gmxX_rxX_stats_octs_drp */
+    3039, /* gmxX_rxX_stats_pkts */
+    3040, /* gmxX_rxX_stats_pkts_bad */
+    3041, /* gmxX_rxX_stats_pkts_ctl */
+    3042, /* gmxX_rxX_stats_pkts_dmac */
+    3043, /* gmxX_rxX_stats_pkts_drp */
+    3044, /* gmxX_rxX_udd_skp */
+    3045, /* gmxX_rx_bp_dropX */
+    3046, /* gmxX_rx_bp_offX */
+    3047, /* gmxX_rx_bp_onX */
+    2266, /* gmxX_rx_hg2_status */
+    3048, /* gmxX_rx_prt_info */
+    2268, /* gmxX_rx_prts */
+    2269, /* gmxX_rx_xaui_bad_col */
+    2270, /* gmxX_rx_xaui_ctl */
+    3049, /* gmxX_smacX */
+    2273, /* gmxX_stat_bp */
+    2274, /* gmxX_tb_reg */
+    3050, /* gmxX_txX_append */
+    3051, /* gmxX_txX_burst */
+    2277, /* gmxX_txX_cbfc_xoff */
+    2278, /* gmxX_txX_cbfc_xon */
+    3052, /* gmxX_txX_ctl */
+    3053, /* gmxX_txX_min_pkt */
+    3054, /* gmxX_txX_pause_pkt_interval */
+    3055, /* gmxX_txX_pause_pkt_time */
+    3056, /* gmxX_txX_pause_togo */
+    3057, /* gmxX_txX_pause_zero */
+    3058, /* gmxX_txX_sgmii_ctl */
+    3059, /* gmxX_txX_slot */
+    3060, /* gmxX_txX_soft_pause */
+    3061, /* gmxX_txX_stat0 */
+    3062, /* gmxX_txX_stat1 */
+    3063, /* gmxX_txX_stat2 */
+    3064, /* gmxX_txX_stat3 */
+    3065, /* gmxX_txX_stat4 */
+    3066, /* gmxX_txX_stat5 */
+    3067, /* gmxX_txX_stat6 */
+    3068, /* gmxX_txX_stat7 */
+    3069, /* gmxX_txX_stat8 */
+    3070, /* gmxX_txX_stat9 */
+    3071, /* gmxX_txX_stats_ctl */
+    3072, /* gmxX_txX_thresh */
+    3073, /* gmxX_tx_bp */
+    2301, /* gmxX_tx_col_attempt */
+    3074, /* gmxX_tx_corrupt */
+    2303, /* gmxX_tx_hg2_reg1 */
+    2304, /* gmxX_tx_hg2_reg2 */
+    2305, /* gmxX_tx_ifg */
+    3075, /* gmxX_tx_int_en */
+    3076, /* gmxX_tx_int_reg */
+    2308, /* gmxX_tx_jam */
+    2309, /* gmxX_tx_lfsr */
+    3077, /* gmxX_tx_ovr_bp */
+    2311, /* gmxX_tx_pause_pkt_dmac */
+    2312, /* gmxX_tx_pause_pkt_type */
+    2313, /* gmxX_tx_prts */
+    2314, /* gmxX_tx_xaui_ctl */
+    2315, /* gmxX_xaui_ext_loopback */
+    291, /* gpio_bit_cfgX */
+    292, /* gpio_clk_genX */
+    2316, /* gpio_clk_qlmX */
+    294, /* gpio_int_clr */
+    2317, /* gpio_multi_cast */
+    2319, /* gpio_rx_dat */
+    2320, /* gpio_tx_clr */
+    2321, /* gpio_tx_set */
+    2322, /* gpio_xbit_cfgX */
+    298, /* iob0_bist_status */
+    2323, /* iob0_ctl_status */
+    300, /* iob0_dwb_pri_cnt */
+    301, /* iob0_fau_timeout */
+    302, /* iob0_i2c_pri_cnt */
+    303, /* iob0_inb_control_match */
+    304, /* iob0_inb_control_match_enb */
+    305, /* iob0_inb_data_match */
+    306, /* iob0_inb_data_match_enb */
+    307, /* iob0_int_enb */
+    308, /* iob0_int_sum */
+    309, /* iob0_n2c_l2c_pri_cnt */
+    310, /* iob0_n2c_rsp_pri_cnt */
+    311, /* iob0_outb_com_pri_cnt */
+    312, /* iob0_outb_control_match */
+    313, /* iob0_outb_control_match_enb */
+    314, /* iob0_outb_data_match */
+    315, /* iob0_outb_data_match_enb */
+    316, /* iob0_outb_fpa_pri_cnt */
+    317, /* iob0_outb_req_pri_cnt */
+    318, /* iob0_p2c_req_pri_cnt */
+    319, /* iob0_pkt_err */
+    320, /* iob0_to_cmb_credits */
+    321, /* ipd_1st_mbuff_skip */
+    322, /* ipd_1st_next_ptr_back */
+    323, /* ipd_2nd_next_ptr_back */
+    324, /* ipd_bist_status */
+    2324, /* ipd_bp_prt_red_end */
+    326, /* ipd_clk_count */
+    1203, /* ipd_ctl_status */
+    328, /* ipd_int_enb */
+    329, /* ipd_int_sum */
+    330, /* ipd_not_1st_mbuff_skip */
+    331, /* ipd_packet_mbuff_size */
+    332, /* ipd_pkt_ptr_valid */
+    2325, /* ipd_portX_bp_page_cnt */
+    334, /* ipd_portX_bp_page_cnt2 */
+    2326, /* ipd_portX_bp_page_cnt3 */
+    336, /* ipd_port_bp_counters2_pairX */
+    337, /* ipd_port_bp_counters3_pairX */
+    2327, /* ipd_port_bp_counters4_pairX */
+    2328, /* ipd_port_bp_counters_pairX */
+    2329, /* ipd_port_qos_X_cnt */
+    2330, /* ipd_port_qos_intX */
+    2331, /* ipd_port_qos_int_enbX */
+    342, /* ipd_prc_hold_ptr_fifo_ctl */
+    343, /* ipd_prc_port_ptr_fifo_ctl */
+    344, /* ipd_ptr_count */
+    345, /* ipd_pwp_ptr_fifo_ctl */
+    346, /* ipd_qosX_red_marks */
+    347, /* ipd_que0_free_page_cnt */
+    348, /* ipd_red_port_enable */
+    2332, /* ipd_red_port_enable2 */
+    350, /* ipd_red_queX_param */
+    351, /* ipd_sub_port_bp_page_cnt */
+    352, /* ipd_sub_port_fcs */
+    353, /* ipd_sub_port_qos_cnt */
+    354, /* ipd_wqe_fpa_queue */
+    355, /* ipd_wqe_ptr_valid */
+    356, /* key_bist_reg */
+    357, /* key_ctl_status */
+    358, /* key_int_enb */
+    359, /* key_int_sum */
+    1204, /* l2c_big_ctl */
+    2614, /* l2c_bst */
+    2615, /* l2c_bst_memX */
+    2616, /* l2c_bst_tdtX */
+    2617, /* l2c_bst_ttgX */
+    2618, /* l2c_cop0_mapX */
+    2335, /* l2c_ctl */
+    2619, /* l2c_dut_mapX */
+    2620, /* l2c_err_tdtX */
+    2621, /* l2c_err_ttgX */
+    2622, /* l2c_err_vbfX */
+    370, /* l2c_err_xmc */
+    1207, /* l2c_int_ena */
+    1208, /* l2c_int_reg */
+    373, /* l2c_iocX_pfc */
+    374, /* l2c_iorX_pfc */
+    2623, /* l2c_qos_iobX */
+    2624, /* l2c_qos_ppX */
+    377, /* l2c_qos_wgt */
+    2625, /* l2c_rscX_pfc */
+    2626, /* l2c_rsdX_pfc */
+    2627, /* l2c_tadX_ecc0 */
+    2628, /* l2c_tadX_ecc1 */
+    2629, /* l2c_tadX_ien */
+    2630, /* l2c_tadX_int */
+    2631, /* l2c_tadX_pfc0 */
+    2632, /* l2c_tadX_pfc1 */
+    2633, /* l2c_tadX_pfc2 */
+    2634, /* l2c_tadX_pfc3 */
+    2635, /* l2c_tadX_prf */
+    2636, /* l2c_tadX_tag */
+    389, /* l2c_ver_id */
+    390, /* l2c_ver_iob */
+    1211, /* l2c_ver_msc */
+    2637, /* l2c_ver_pp */
+    2638, /* l2c_virtid_iobX */
+    2639, /* l2c_virtid_ppX */
+    394, /* l2c_vrt_ctl */
+    395, /* l2c_vrt_memX */
+    2640, /* l2c_wpar_iobX */
+    2641, /* l2c_wpar_ppX */
+    2642, /* l2c_xmcX_pfc */
+    399, /* l2c_xmc_cmd */
+    2643, /* l2c_xmdX_pfc */
+    2644, /* lmcX_char_ctl */
+    2645, /* lmcX_char_mask0 */
+    2646, /* lmcX_char_mask1 */
+    2647, /* lmcX_char_mask2 */
+    2648, /* lmcX_char_mask3 */
+    2649, /* lmcX_char_mask4 */
+    2650, /* lmcX_comp_ctl2 */
+    2651, /* lmcX_config */
+    3078, /* lmcX_control */
+    2653, /* lmcX_dclk_cnt */
+    2654, /* lmcX_ddr_pll_ctl */
+    2655, /* lmcX_dimmX_params */
+    2656, /* lmcX_dimm_ctl */
+    2657, /* lmcX_dll_ctl2 */
+    2658, /* lmcX_dll_ctl3 */
+    2659, /* lmcX_dual_memcfg */
+    2660, /* lmcX_ecc_synd */
+    2661, /* lmcX_fadr */
+    2662, /* lmcX_ifb_cnt */
+    2663, /* lmcX_int */
+    2664, /* lmcX_int_en */
+    2665, /* lmcX_modereg_params0 */
+    2666, /* lmcX_modereg_params1 */
+    2667, /* lmcX_nxm */
+    2668, /* lmcX_ops_cnt */
+    2669, /* lmcX_phy_ctl */
+    2670, /* lmcX_reset_ctl */
+    2671, /* lmcX_rlevel_ctl */
+    2672, /* lmcX_rlevel_dbg */
+    2673, /* lmcX_rlevel_rankX */
+    2674, /* lmcX_rodt_mask */
+    2345, /* lmcX_scramble_cfg0 */
+    2346, /* lmcX_scramble_cfg1 */
+    2347, /* lmcX_scrambled_fadr */
+    2675, /* lmcX_slot_ctl0 */
+    2676, /* lmcX_slot_ctl1 */
+    2677, /* lmcX_slot_ctl2 */
+    2678, /* lmcX_timing_params0 */
+    2679, /* lmcX_timing_params1 */
+    2680, /* lmcX_tro_ctl */
+    2681, /* lmcX_tro_stat */
+    2682, /* lmcX_wlevel_ctl */
+    2683, /* lmcX_wlevel_dbg */
+    2684, /* lmcX_wlevel_rankX */
+    2685, /* lmcX_wodt_mask */
+    2686, /* mio_boot_bist_stat */
+    444, /* mio_boot_comp */
+    445, /* mio_boot_dma_cfgX */
+    446, /* mio_boot_dma_intX */
+    447, /* mio_boot_dma_int_enX */
+    448, /* mio_boot_dma_timX */
+    449, /* mio_boot_err */
+    450, /* mio_boot_int */
+    451, /* mio_boot_loc_adr */
+    452, /* mio_boot_loc_cfgX */
+    453, /* mio_boot_loc_dat */
+    2348, /* mio_boot_pin_defs */
+    455, /* mio_boot_reg_cfgX */
+    456, /* mio_boot_reg_timX */
+    457, /* mio_boot_thr */
+    2687, /* mio_emm_buf_dat */
+    2688, /* mio_emm_buf_idx */
+    2689, /* mio_emm_cfg */
+    2690, /* mio_emm_cmd */
+    2691, /* mio_emm_dma */
+    2692, /* mio_emm_int */
+    2693, /* mio_emm_int_en */
+    2694, /* mio_emm_modeX */
+    2695, /* mio_emm_rca */
+    2696, /* mio_emm_rsp_hi */
+    2697, /* mio_emm_rsp_lo */
+    2698, /* mio_emm_rsp_sts */
+    2699, /* mio_emm_sample */
+    2700, /* mio_emm_sts_mask */
+    2701, /* mio_emm_switch */
+    2702, /* mio_emm_wdog */
+    458, /* mio_fus_bnk_datX */
+    459, /* mio_fus_dat0 */
+    460, /* mio_fus_dat1 */
+    2703, /* mio_fus_dat2 */
+    462, /* mio_fus_dat3 */
+    463, /* mio_fus_ema */
+    464, /* mio_fus_pdf */
+    465, /* mio_fus_pll */
+    466, /* mio_fus_prog */
+    467, /* mio_fus_prog_times */
+    468, /* mio_fus_rcmd */
+    469, /* mio_fus_read_times */
+    470, /* mio_fus_repair_res0 */
+    471, /* mio_fus_repair_res1 */
+    472, /* mio_fus_repair_res2 */
+    473, /* mio_fus_spr_repair_res */
+    474, /* mio_fus_spr_repair_sum */
+    2350, /* mio_fus_tgg */
+    475, /* mio_fus_wadr */
+    476, /* mio_gpio_comp */
+    477, /* mio_ndf_dma_cfg */
+    478, /* mio_ndf_dma_int */
+    479, /* mio_ndf_dma_int_en */
+    2110, /* mio_ptp_ckout_hi_incr */
+    2111, /* mio_ptp_ckout_lo_incr */
+    2112, /* mio_ptp_ckout_thresh_hi */
+    2113, /* mio_ptp_ckout_thresh_lo */
+    2114, /* mio_ptp_clock_cfg */
+    481, /* mio_ptp_clock_comp */
+    482, /* mio_ptp_clock_hi */
+    483, /* mio_ptp_clock_lo */
+    484, /* mio_ptp_evt_cnt */
+    3079, /* mio_ptp_phy_1pps_in */
+    2115, /* mio_ptp_pps_hi_incr */
+    2116, /* mio_ptp_pps_lo_incr */
+    2117, /* mio_ptp_pps_thresh_hi */
+    2118, /* mio_ptp_pps_thresh_lo */
+    485, /* mio_ptp_timestamp */
+    3080, /* mio_qlmX_cfg */
+    2705, /* mio_rst_boot */
+    1218, /* mio_rst_cfg */
+    2354, /* mio_rst_ckill */
+    2706, /* mio_rst_cntlX */
+    2707, /* mio_rst_ctlX */
+    489, /* mio_rst_delay */
+    490, /* mio_rst_int */
+    491, /* mio_rst_int_en */
+    492, /* mio_twsX_int */
+    493, /* mio_twsX_sw_twsi */
+    494, /* mio_twsX_sw_twsi_ext */
+    495, /* mio_twsX_twsi_sw */
+    496, /* mio_uartX_dlh */
+    497, /* mio_uartX_dll */
+    498, /* mio_uartX_far */
+    499, /* mio_uartX_fcr */
+    500, /* mio_uartX_htx */
+    501, /* mio_uartX_ier */
+    502, /* mio_uartX_iir */
+    503, /* mio_uartX_lcr */
+    504, /* mio_uartX_lsr */
+    505, /* mio_uartX_mcr */
+    506, /* mio_uartX_msr */
+    507, /* mio_uartX_rbr */
+    508, /* mio_uartX_rfl */
+    509, /* mio_uartX_rfw */
+    510, /* mio_uartX_sbcr */
+    511, /* mio_uartX_scr */
+    512, /* mio_uartX_sfe */
+    513, /* mio_uartX_srr */
+    514, /* mio_uartX_srt */
+    515, /* mio_uartX_srts */
+    516, /* mio_uartX_stt */
+    517, /* mio_uartX_tfl */
+    518, /* mio_uartX_tfr */
+    519, /* mio_uartX_thr */
+    520, /* mio_uartX_usr */
+    2708, /* mpi_cfg */
+    2359, /* mpi_datX */
+    2360, /* mpi_sts */
+    2709, /* mpi_tx */
+    536, /* ndf_bt_pg_info */
+    537, /* ndf_cmd */
+    538, /* ndf_drbell */
+    539, /* ndf_ecc_cnt */
+    540, /* ndf_int */
+    541, /* ndf_int_en */
+    542, /* ndf_misc */
+    543, /* ndf_st_reg */
+    544, /* pcieepX_cfg000 */
+    545, /* pcieepX_cfg001 */
+    546, /* pcieepX_cfg002 */
+    547, /* pcieepX_cfg003 */
+    548, /* pcieepX_cfg004 */
+    549, /* pcieepX_cfg004_mask */
+    550, /* pcieepX_cfg005 */
+    551, /* pcieepX_cfg005_mask */
+    552, /* pcieepX_cfg006 */
+    553, /* pcieepX_cfg006_mask */
+    554, /* pcieepX_cfg007 */
+    555, /* pcieepX_cfg007_mask */
+    556, /* pcieepX_cfg008 */
+    557, /* pcieepX_cfg008_mask */
+    558, /* pcieepX_cfg009 */
+    559, /* pcieepX_cfg009_mask */
+    560, /* pcieepX_cfg010 */
+    561, /* pcieepX_cfg011 */
+    562, /* pcieepX_cfg012 */
+    563, /* pcieepX_cfg012_mask */
+    564, /* pcieepX_cfg013 */
+    565, /* pcieepX_cfg015 */
+    566, /* pcieepX_cfg016 */
+    567, /* pcieepX_cfg017 */
+    1842, /* pcieepX_cfg020 */
+    569, /* pcieepX_cfg021 */
+    570, /* pcieepX_cfg022 */
+    571, /* pcieepX_cfg023 */
+    572, /* pcieepX_cfg028 */
+    2710, /* pcieepX_cfg029 */
+    1844, /* pcieepX_cfg030 */
+    2121, /* pcieepX_cfg031 */
+    2122, /* pcieepX_cfg032 */
+    3081, /* pcieepX_cfg037 */
+    3082, /* pcieepX_cfg038 */
+    1220, /* pcieepX_cfg039 */
+    582, /* pcieepX_cfg040 */
+    585, /* pcieepX_cfg064 */
+    3083, /* pcieepX_cfg065 */
+    3084, /* pcieepX_cfg066 */
+    3085, /* pcieepX_cfg067 */
+    3086, /* pcieepX_cfg068 */
+    3087, /* pcieepX_cfg069 */
+    591, /* pcieepX_cfg070 */
+    592, /* pcieepX_cfg071 */
+    593, /* pcieepX_cfg072 */
+    594, /* pcieepX_cfg073 */
+    595, /* pcieepX_cfg074 */
+    596, /* pcieepX_cfg448 */
+    597, /* pcieepX_cfg449 */
+    598, /* pcieepX_cfg450 */
+    1848, /* pcieepX_cfg451 */
+    1849, /* pcieepX_cfg452 */
+    601, /* pcieepX_cfg453 */
+    2126, /* pcieepX_cfg454 */
+    603, /* pcieepX_cfg455 */
+    2127, /* pcieepX_cfg456 */
+    605, /* pcieepX_cfg458 */
+    606, /* pcieepX_cfg459 */
+    607, /* pcieepX_cfg460 */
+    608, /* pcieepX_cfg461 */
+    609, /* pcieepX_cfg462 */
+    610, /* pcieepX_cfg463 */
+    611, /* pcieepX_cfg464 */
+    612, /* pcieepX_cfg465 */
+    613, /* pcieepX_cfg466 */
+    614, /* pcieepX_cfg467 */
+    615, /* pcieepX_cfg468 */
+    616, /* pcieepX_cfg490 */
+    617, /* pcieepX_cfg491 */
+    618, /* pcieepX_cfg492 */
+    619, /* pcieepX_cfg515 */
+    620, /* pcieepX_cfg516 */
+    621, /* pcieepX_cfg517 */
+    622, /* pciercX_cfg000 */
+    623, /* pciercX_cfg001 */
+    624, /* pciercX_cfg002 */
+    625, /* pciercX_cfg003 */
+    626, /* pciercX_cfg004 */
+    627, /* pciercX_cfg005 */
+    628, /* pciercX_cfg006 */
+    629, /* pciercX_cfg007 */
+    630, /* pciercX_cfg008 */
+    631, /* pciercX_cfg009 */
+    632, /* pciercX_cfg010 */
+    633, /* pciercX_cfg011 */
+    634, /* pciercX_cfg012 */
+    635, /* pciercX_cfg013 */
+    636, /* pciercX_cfg014 */
+    637, /* pciercX_cfg015 */
+    638, /* pciercX_cfg016 */
+    639, /* pciercX_cfg017 */
+    2711, /* pciercX_cfg020 */
+    641, /* pciercX_cfg021 */
+    642, /* pciercX_cfg022 */
+    643, /* pciercX_cfg023 */
+    644, /* pciercX_cfg028 */
+    645, /* pciercX_cfg029 */
+    646, /* pciercX_cfg030 */
+    2128, /* pciercX_cfg031 */
+    648, /* pciercX_cfg032 */
+    649, /* pciercX_cfg033 */
+    650, /* pciercX_cfg034 */
+    651, /* pciercX_cfg035 */
+    652, /* pciercX_cfg036 */
+    3088, /* pciercX_cfg037 */
+    3089, /* pciercX_cfg038 */
+    1221, /* pciercX_cfg039 */
+    656, /* pciercX_cfg040 */
+    657, /* pciercX_cfg041 */
+    658, /* pciercX_cfg042 */
+    659, /* pciercX_cfg064 */
+    3090, /* pciercX_cfg065 */
+    3091, /* pciercX_cfg066 */
+    3092, /* pciercX_cfg067 */
+    3093, /* pciercX_cfg068 */
+    3094, /* pciercX_cfg069 */
+    665, /* pciercX_cfg070 */
+    666, /* pciercX_cfg071 */
+    667, /* pciercX_cfg072 */
+    668, /* pciercX_cfg073 */
+    669, /* pciercX_cfg074 */
+    670, /* pciercX_cfg075 */
+    671, /* pciercX_cfg076 */
+    672, /* pciercX_cfg077 */
+    673, /* pciercX_cfg448 */
+    674, /* pciercX_cfg449 */
+    675, /* pciercX_cfg450 */
+    1852, /* pciercX_cfg451 */
+    1853, /* pciercX_cfg452 */
+    678, /* pciercX_cfg453 */
+    2132, /* pciercX_cfg454 */
+    680, /* pciercX_cfg455 */
+    2133, /* pciercX_cfg456 */
+    682, /* pciercX_cfg458 */
+    683, /* pciercX_cfg459 */
+    684, /* pciercX_cfg460 */
+    685, /* pciercX_cfg461 */
+    686, /* pciercX_cfg462 */
+    687, /* pciercX_cfg463 */
+    688, /* pciercX_cfg464 */
+    689, /* pciercX_cfg465 */
+    690, /* pciercX_cfg466 */
+    691, /* pciercX_cfg467 */
+    692, /* pciercX_cfg468 */
+    693, /* pciercX_cfg490 */
+    694, /* pciercX_cfg491 */
+    695, /* pciercX_cfg492 */
+    696, /* pciercX_cfg515 */
+    697, /* pciercX_cfg516 */
+    698, /* pciercX_cfg517 */
+    2713, /* pcmX_dma_cfg */
+    2714, /* pcmX_int_ena */
+    2715, /* pcmX_int_sum */
+    2716, /* pcmX_rxaddr */
+    2717, /* pcmX_rxcnt */
+    2718, /* pcmX_rxmsk0 */
+    2719, /* pcmX_rxmsk1 */
+    2720, /* pcmX_rxmsk2 */
+    2721, /* pcmX_rxmsk3 */
+    2722, /* pcmX_rxmsk4 */
+    2723, /* pcmX_rxmsk5 */
+    2724, /* pcmX_rxmsk6 */
+    2725, /* pcmX_rxmsk7 */
+    2726, /* pcmX_rxstart */
+    2727, /* pcmX_tdm_cfg */
+    2728, /* pcmX_tdm_dbg */
+    2729, /* pcmX_txaddr */
+    2730, /* pcmX_txcnt */
+    2731, /* pcmX_txmsk0 */
+    2732, /* pcmX_txmsk1 */
+    2733, /* pcmX_txmsk2 */
+    2734, /* pcmX_txmsk3 */
+    2735, /* pcmX_txmsk4 */
+    2736, /* pcmX_txmsk5 */
+    2737, /* pcmX_txmsk6 */
+    2738, /* pcmX_txmsk7 */
+    2739, /* pcmX_txstart */
+    2740, /* pcm_clkX_cfg */
+    2741, /* pcm_clkX_dbg */
+    2742, /* pcm_clkX_gen */
+    3095, /* pcsX_anX_adv_reg */
+    3096, /* pcsX_anX_ext_st_reg */
+    3097, /* pcsX_anX_lp_abil_reg */
+    3098, /* pcsX_anX_results_reg */
+    3099, /* pcsX_intX_en_reg */
+    3100, /* pcsX_intX_reg */
+    3101, /* pcsX_linkX_timer_count_reg */
+    3102, /* pcsX_log_anlX_reg */
+    3103, /* pcsX_miscX_ctl_reg */
+    3104, /* pcsX_mrX_control_reg */
+    3105, /* pcsX_mrX_status_reg */
+    3106, /* pcsX_rxX_states_reg */
+    3107, /* pcsX_rxX_sync_reg */
+    3108, /* pcsX_sgmX_an_adv_reg */
+    3109, /* pcsX_sgmX_lp_adv_reg */
+    3110, /* pcsX_txX_states_reg */
+    3111, /* pcsX_tx_rxX_polarity_reg */
+    731, /* pemX_bar1_indexX */
+    1886, /* pemX_bar2_mask */
+    732, /* pemX_bar_ctl */
+    733, /* pemX_bist_status */
+    734, /* pemX_bist_status2 */
+    735, /* pemX_cfg_rd */
+    736, /* pemX_cfg_wr */
+    737, /* pemX_cpl_lut_valid */
+    738, /* pemX_ctl_status */
+    739, /* pemX_dbg_info */
+    740, /* pemX_dbg_info_en */
+    741, /* pemX_diag_status */
+    2134, /* pemX_inb_read_credits */
+    742, /* pemX_int_enb */
+    743, /* pemX_int_enb_int */
+    744, /* pemX_int_sum */
+    745, /* pemX_p2n_bar0_start */
+    746, /* pemX_p2n_bar1_start */
+    747, /* pemX_p2n_bar2_start */
+    2743, /* pemX_tlp_credits */
+    2135, /* pip_alt_skip_cfgX */
+    751, /* pip_bck_prs */
+    1887, /* pip_bist_status */
+    2137, /* pip_bsel_ext_cfgX */
+    2138, /* pip_bsel_ext_posX */
+    2394, /* pip_bsel_tbl_entX */
+    753, /* pip_clken */
+    754, /* pip_dec_ipsecX */
+    755, /* pip_dsa_src_grp */
+    756, /* pip_dsa_vid_grp */
+    2744, /* pip_frm_len_chkX */
+    758, /* pip_gbl_cfg */
+    759, /* pip_gbl_ctl */
+    760, /* pip_hg_pri_qos */
+    761, /* pip_int_en */
+    762, /* pip_int_reg */
+    763, /* pip_ip_offset */
+    3112, /* pip_prt_cfgX */
+    2746, /* pip_prt_cfgbX */
+    3113, /* pip_prt_tagX */
+    766, /* pip_qos_diffX */
+    767, /* pip_qos_vlanX */
+    768, /* pip_qos_watchX */
+    769, /* pip_raw_word */
+    770, /* pip_sft_rst */
+    3114, /* pip_stat0_X */
+    3115, /* pip_stat10_X */
+    3116, /* pip_stat11_X */
+    3117, /* pip_stat1_X */
+    3118, /* pip_stat2_X */
+    3119, /* pip_stat3_X */
+    3120, /* pip_stat4_X */
+    3121, /* pip_stat5_X */
+    3122, /* pip_stat6_X */
+    3123, /* pip_stat7_X */
+    3124, /* pip_stat8_X */
+    3125, /* pip_stat9_X */
+    783, /* pip_stat_ctl */
+    3126, /* pip_stat_inb_errs_pkndX */
+    3127, /* pip_stat_inb_octs_pkndX */
+    3128, /* pip_stat_inb_pkts_pkndX */
+    787, /* pip_tag_incX */
+    788, /* pip_tag_mask */
+    789, /* pip_tag_secret */
+    790, /* pip_todo_entry */
+    2142, /* pip_vlan_etypesX */
+    803, /* pko_mem_count0 */
+    804, /* pko_mem_count1 */
+    805, /* pko_mem_debug0 */
+    806, /* pko_mem_debug1 */
+    807, /* pko_mem_debug10 */
+    808, /* pko_mem_debug11 */
+    809, /* pko_mem_debug12 */
+    810, /* pko_mem_debug13 */
+    811, /* pko_mem_debug14 */
+    812, /* pko_mem_debug2 */
+    813, /* pko_mem_debug3 */
+    814, /* pko_mem_debug4 */
+    815, /* pko_mem_debug5 */
+    816, /* pko_mem_debug6 */
+    817, /* pko_mem_debug7 */
+    2425, /* pko_mem_debug8 */
+    819, /* pko_mem_debug9 */
+    820, /* pko_mem_port_ptrs */
+    821, /* pko_mem_port_qos */
+    822, /* pko_mem_port_rate0 */
+    823, /* pko_mem_port_rate1 */
+    824, /* pko_mem_queue_ptrs */
+    825, /* pko_mem_queue_qos */
+    826, /* pko_reg_bist_result */
+    827, /* pko_reg_cmd_buf */
+    828, /* pko_reg_debug0 */
+    829, /* pko_reg_debug1 */
+    830, /* pko_reg_debug2 */
+    831, /* pko_reg_debug3 */
+    2426, /* pko_reg_engine_inflight */
+    2427, /* pko_reg_engine_thresh */
+    834, /* pko_reg_error */
+    2428, /* pko_reg_flags */
+    836, /* pko_reg_gmx_port_mode */
+    837, /* pko_reg_int_mask */
+    838, /* pko_reg_preempt */
+    839, /* pko_reg_queue_mode */
+    840, /* pko_reg_queue_preempt */
+    841, /* pko_reg_queue_ptrs1 */
+    842, /* pko_reg_read_idx */
+    843, /* pko_reg_timestamp */
+    844, /* rad_mem_debug0 */
+    845, /* rad_mem_debug1 */
+    846, /* rad_mem_debug2 */
+    847, /* rad_reg_bist_result */
+    848, /* rad_reg_cmd_buf */
+    849, /* rad_reg_ctl */
+    850, /* rad_reg_debug0 */
+    851, /* rad_reg_debug1 */
+    852, /* rad_reg_debug10 */
+    853, /* rad_reg_debug11 */
+    854, /* rad_reg_debug12 */
+    855, /* rad_reg_debug2 */
+    856, /* rad_reg_debug3 */
+    857, /* rad_reg_debug4 */
+    858, /* rad_reg_debug5 */
+    859, /* rad_reg_debug6 */
+    860, /* rad_reg_debug7 */
+    861, /* rad_reg_debug8 */
+    862, /* rad_reg_debug9 */
+    863, /* rad_reg_error */
+    864, /* rad_reg_int_mask */
+    865, /* rad_reg_polynomial */
+    866, /* rad_reg_read_idx */
+    867, /* rnm_bist_status */
+    2429, /* rnm_ctl_status */
+    869, /* rnm_eer_dbg */
+    870, /* rnm_eer_key */
+    1222, /* rnm_serial_num */
+    2430, /* sli_bist_status */
+    872, /* sli_ctl_portX */
+    2432, /* sli_ctl_status */
+    874, /* sli_data_out_cnt */
+    875, /* sli_dbg_data */
+    876, /* sli_dbg_select */
+    877, /* sli_dmaX_cnt */
+    878, /* sli_dmaX_int_level */
+    879, /* sli_dmaX_tim */
+    2433, /* sli_int_enb_ciu */
+    2434, /* sli_int_enb_portX */
+    2435, /* sli_int_sum */
+    883, /* sli_last_win_rdata0 */
+    884, /* sli_last_win_rdata1 */
+    2436, /* sli_last_win_rdata2 */
+    2437, /* sli_last_win_rdata3 */
+    1223, /* sli_mac_credit_cnt */
+    2438, /* sli_mac_credit_cnt2 */
+    2439, /* sli_mac_number */
+    886, /* sli_mem_access_ctl */
+    887, /* sli_mem_access_subidX */
+    888, /* sli_msi_enb0 */
+    889, /* sli_msi_enb1 */
+    890, /* sli_msi_enb2 */
+    891, /* sli_msi_enb3 */
+    892, /* sli_msi_rcv0 */
+    893, /* sli_msi_rcv1 */
+    894, /* sli_msi_rcv2 */
+    895, /* sli_msi_rcv3 */
+    896, /* sli_msi_rd_map */
+    897, /* sli_msi_w1c_enb0 */
+    898, /* sli_msi_w1c_enb1 */
+    899, /* sli_msi_w1c_enb2 */
+    900, /* sli_msi_w1c_enb3 */
+    901, /* sli_msi_w1s_enb0 */
+    902, /* sli_msi_w1s_enb1 */
+    903, /* sli_msi_w1s_enb2 */
+    904, /* sli_msi_w1s_enb3 */
+    905, /* sli_msi_wr_map */
+    906, /* sli_pcie_msi_rcv */
+    907, /* sli_pcie_msi_rcv_b1 */
+    908, /* sli_pcie_msi_rcv_b2 */
+    909, /* sli_pcie_msi_rcv_b3 */
+    910, /* sli_pktX_cnts */
+    911, /* sli_pktX_in_bp */
+    912, /* sli_pktX_instr_baddr */
+    913, /* sli_pktX_instr_baoff_dbell */
+    914, /* sli_pktX_instr_fifo_rsize */
+    915, /* sli_pktX_instr_header */
+    916, /* sli_pktX_out_size */
+    917, /* sli_pktX_slist_baddr */
+    918, /* sli_pktX_slist_baoff_dbell */
+    919, /* sli_pktX_slist_fifo_rsize */
+    920, /* sli_pkt_cnt_int */
+    921, /* sli_pkt_cnt_int_enb */
+    922, /* sli_pkt_ctl */
+    923, /* sli_pkt_data_out_es */
+    924, /* sli_pkt_data_out_ns */
+    925, /* sli_pkt_data_out_ror */
+    926, /* sli_pkt_dpaddr */
+    927, /* sli_pkt_in_bp */
+    928, /* sli_pkt_in_doneX_cnts */
+    929, /* sli_pkt_in_instr_counts */
+    930, /* sli_pkt_in_pcie_port */
+    1943, /* sli_pkt_input_control */
+    932, /* sli_pkt_instr_enb */
+    933, /* sli_pkt_instr_rd_size */
+    934, /* sli_pkt_instr_size */
+    935, /* sli_pkt_int_levels */
+    936, /* sli_pkt_iptr */
+    937, /* sli_pkt_out_bmode */
+    938, /* sli_pkt_out_enb */
+    939, /* sli_pkt_output_wmark */
+    940, /* sli_pkt_pcie_port */
+    941, /* sli_pkt_port_in_rst */
+    942, /* sli_pkt_slist_es */
+    943, /* sli_pkt_slist_ns */
+    944, /* sli_pkt_slist_ror */
+    945, /* sli_pkt_time_int */
+    946, /* sli_pkt_time_int_enb */
+    947, /* sli_s2m_portX_ctl */
+    948, /* sli_scratch_1 */
+    949, /* sli_scratch_2 */
+    950, /* sli_state1 */
+    951, /* sli_state2 */
+    952, /* sli_state3 */
+    953, /* sli_win_rd_addr */
+    954, /* sli_win_rd_data */
+    955, /* sli_win_wr_addr */
+    956, /* sli_win_wr_data */
+    957, /* sli_win_wr_mask */
+    958, /* sli_window_ctl */
+    959, /* smiX_clk */
+    960, /* smiX_cmd */
+    961, /* smiX_en */
+    962, /* smiX_rd_dat */
+    963, /* smiX_wr_dat */
+    964, /* smi_drv_ctl */
+    2751, /* sso_bist_stat */
+    1064, /* sso_ds_pc */
+    1065, /* sso_ecc_err */
+    1066, /* sso_int_ctl */
+    1067, /* sso_iq_cntX */
+    1068, /* sso_iq_com_cnt */
+    1069, /* sso_iq_int */
+    1070, /* sso_iq_int_en */
+    1071, /* sso_iq_thrX */
+    2752, /* sso_nos_cnt */
+    1073, /* sso_nw_tim */
+    1074, /* sso_pf_rst_msk */
+    2753, /* sso_pp_grp_mskX */
+    1076, /* sso_qos_rndX */
+    2754, /* sso_qos_thrX */
+    1078, /* sso_ts_pc */
+    1079, /* sso_wa_com_pc */
+    1080, /* sso_wa_pcX */
+    1081, /* sso_wq_int */
+    2755, /* sso_wq_int_cntX */
+    1083, /* sso_wq_int_pc */
+    2756, /* sso_wq_int_thrX */
+    1085, /* sso_ws_pcX */
+    1086, /* tim_mem_debug0 */
+    1087, /* tim_mem_debug1 */
+    1088, /* tim_mem_debug2 */
+    1089, /* tim_mem_ring0 */
+    1090, /* tim_mem_ring1 */
+    1091, /* tim_reg_bist_result */
+    1092, /* tim_reg_error */
+    1093, /* tim_reg_flags */
+    1094, /* tim_reg_int_mask */
+    1095, /* tim_reg_read_idx */
+    2757, /* traX_bist_status */
+    2758, /* traX_ctl */
+    2759, /* traX_cycles_since */
+    2760, /* traX_cycles_since1 */
+    2761, /* traX_filt_adr_adr */
+    2762, /* traX_filt_adr_msk */
+    2763, /* traX_filt_cmd */
+    2764, /* traX_filt_did */
+    2765, /* traX_filt_sid */
+    2766, /* traX_int_status */
+    2767, /* traX_read_dat */
+    2768, /* traX_read_dat_hi */
+    2769, /* traX_trig0_adr_adr */
+    2770, /* traX_trig0_adr_msk */
+    2771, /* traX_trig0_cmd */
+    2772, /* traX_trig0_did */
+    2773, /* traX_trig0_sid */
+    2774, /* traX_trig1_adr_adr */
+    2775, /* traX_trig1_adr_msk */
+    2776, /* traX_trig1_cmd */
+    2777, /* traX_trig1_did */
+    2778, /* traX_trig1_sid */
+    1117, /* uahcX_ehci_asynclistaddr */
+    1118, /* uahcX_ehci_configflag */
+    1119, /* uahcX_ehci_ctrldssegment */
+    1120, /* uahcX_ehci_frindex */
+    1121, /* uahcX_ehci_hccapbase */
+    1122, /* uahcX_ehci_hccparams */
+    1123, /* uahcX_ehci_hcsparams */
+    1124, /* uahcX_ehci_insnreg00 */
+    1125, /* uahcX_ehci_insnreg03 */
+    1126, /* uahcX_ehci_insnreg04 */
+    1127, /* uahcX_ehci_insnreg06 */
+    1128, /* uahcX_ehci_insnreg07 */
+    1129, /* uahcX_ehci_periodiclistbase */
+    1130, /* uahcX_ehci_portscX */
+    1131, /* uahcX_ehci_usbcmd */
+    1132, /* uahcX_ehci_usbintr */
+    1133, /* uahcX_ehci_usbsts */
+    1134, /* uahcX_ohci0_hcbulkcurrented */
+    1135, /* uahcX_ohci0_hcbulkheaded */
+    1136, /* uahcX_ohci0_hccommandstatus */
+    1137, /* uahcX_ohci0_hccontrol */
+    1138, /* uahcX_ohci0_hccontrolcurrented */
+    1139, /* uahcX_ohci0_hccontrolheaded */
+    1140, /* uahcX_ohci0_hcdonehead */
+    1141, /* uahcX_ohci0_hcfminterval */
+    1142, /* uahcX_ohci0_hcfmnumber */
+    1143, /* uahcX_ohci0_hcfmremaining */
+    1144, /* uahcX_ohci0_hchcca */
+    1145, /* uahcX_ohci0_hcinterruptdisable */
+    1146, /* uahcX_ohci0_hcinterruptenable */
+    1147, /* uahcX_ohci0_hcinterruptstatus */
+    1148, /* uahcX_ohci0_hclsthreshold */
+    1149, /* uahcX_ohci0_hcperiodcurrented */
+    1150, /* uahcX_ohci0_hcperiodicstart */
+    1151, /* uahcX_ohci0_hcrevision */
+    1152, /* uahcX_ohci0_hcrhdescriptora */
+    1153, /* uahcX_ohci0_hcrhdescriptorb */
+    1154, /* uahcX_ohci0_hcrhportstatusX */
+    1155, /* uahcX_ohci0_hcrhstatus */
+    1156, /* uahcX_ohci0_insnreg06 */
+    1157, /* uahcX_ohci0_insnreg07 */
+    1158, /* uctlX_bist_status */
+    1159, /* uctlX_clk_rst_ctl */
+    1160, /* uctlX_ehci_ctl */
+    1161, /* uctlX_ehci_fla */
+    1162, /* uctlX_erto_ctl */
+    1163, /* uctlX_if_ena */
+    1164, /* uctlX_int_ena */
+    1165, /* uctlX_int_reg */
+    1166, /* uctlX_ohci_ctl */
+    1167, /* uctlX_orto_ctl */
+    1168, /* uctlX_ppaf_wm */
+    1169, /* uctlX_uphy_ctl_status */
+    1170, /* uctlX_uphy_portX_ctl_status */
+    1252, /* zip_cmd_bist_result */
+    1172, /* zip_cmd_buf */
+    1173, /* zip_cmd_ctl */
+    2157, /* zip_constants */
+    1175, /* zip_debug0 */
+    1176, /* zip_error */
+    1177, /* zip_int_mask */
+    1178, /* zip_throttle */
+    0
+};
+
 const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}, /* 0 */
     {    0, BDK_CSR_TYPE_RSL,8,  0, 0, 0,0,1,1}, /* 1 */
@@ -10346,6 +11676,356 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {21322, BDK_CSR_TYPE_RSL,8,5107,28, 0,1026,1526,1}, /* 2776 */
     {21330, BDK_CSR_TYPE_RSL,8,5165,28, 0,1027,1526,1}, /* 2777 */
     {21338, BDK_CSR_TYPE_RSL,8,10363,28, 0,1028,1526,1}, /* 2778 */
+    { 1506, BDK_CSR_TYPE_NCB,8,10371, 0, 0,76,1,1}, /* 2779 */
+    {31031, BDK_CSR_TYPE_NCB,8,10401, 3, 0,1565,36,1}, /* 2780 */
+    {31039, BDK_CSR_TYPE_NCB,8,10401, 3, 0,1566,36,1}, /* 2781 */
+    {31049, BDK_CSR_TYPE_NCB,8,10401, 3, 0,1567,36,1}, /* 2782 */
+    {31059, BDK_CSR_TYPE_NCB,8,10401,19, 0,1568,36,1}, /* 2783 */
+    {31067, BDK_CSR_TYPE_NCB,8,10401,19, 0,1569,36,1}, /* 2784 */
+    {31077, BDK_CSR_TYPE_NCB,8,10401,19, 0,1570,36,1}, /* 2785 */
+    {31087, BDK_CSR_TYPE_NCB,8,10401,19, 0,1571,36,1}, /* 2786 */
+    {31095, BDK_CSR_TYPE_NCB,8,10401,19, 0,1572,36,1}, /* 2787 */
+    {31105, BDK_CSR_TYPE_NCB,8,10401,19, 0,1573,36,1}, /* 2788 */
+    {31115, BDK_CSR_TYPE_NCB,8,10401,19, 0,1574,36,1}, /* 2789 */
+    {31123, BDK_CSR_TYPE_NCB,8,10401,19, 0,1575,36,1}, /* 2790 */
+    {31133, BDK_CSR_TYPE_NCB,8,10401,19, 0,1576,36,1}, /* 2791 */
+    { 1666, BDK_CSR_TYPE_NCB,8,10408,202, 0,80,81,1}, /* 2792 */
+    { 1761, BDK_CSR_TYPE_NCB,8,10408,202, 0,82,81,1}, /* 2793 */
+    { 1770, BDK_CSR_TYPE_NCB,8,10408,202, 0,83,81,1}, /* 2794 */
+    { 1779, BDK_CSR_TYPE_NCB,8,10432,202, 0,84,81,1}, /* 2795 */
+    { 1829, BDK_CSR_TYPE_NCB,8,10432,202, 0,85,81,1}, /* 2796 */
+    { 1838, BDK_CSR_TYPE_NCB,8,10432,202, 0,86,81,1}, /* 2797 */
+    { 1847, BDK_CSR_TYPE_NCB,8,10408,19, 0,87,81,1}, /* 2798 */
+    { 1855, BDK_CSR_TYPE_NCB,8,10408,19, 0,88,81,1}, /* 2799 */
+    { 1865, BDK_CSR_TYPE_NCB,8,10408,19, 0,89,81,1}, /* 2800 */
+    { 1875, BDK_CSR_TYPE_NCB,8,10432,19, 0,90,81,1}, /* 2801 */
+    { 1883, BDK_CSR_TYPE_NCB,8,10432,19, 0,91,81,1}, /* 2802 */
+    { 1893, BDK_CSR_TYPE_NCB,8,10432,19, 0,92,81,1}, /* 2803 */
+    { 1903, BDK_CSR_TYPE_NCB,8,10463,207, 0,93,36,1}, /* 2804 */
+    { 1915, BDK_CSR_TYPE_NCB,8,10463,19, 0,94,36,1}, /* 2805 */
+    { 1922, BDK_CSR_TYPE_NCB,8,10463, 0, 0,95,1,1}, /* 2806 */
+    { 1930, BDK_CSR_TYPE_NCB,8,10487, 0, 0,96,1,1}, /* 2807 */
+    {31245, BDK_CSR_TYPE_NCB,8,10432, 3, 0,1580,36,1}, /* 2808 */
+    {31254, BDK_CSR_TYPE_NCB,8,10432,19, 0,1581,36,1}, /* 2809 */
+    {31263, BDK_CSR_TYPE_NCB,8,10432,19, 0,1582,36,1}, /* 2810 */
+    {31272, BDK_CSR_TYPE_NCB,8,10432,19, 0,1583,36,1}, /* 2811 */
+    {31281, BDK_CSR_TYPE_NCB,8,10401, 3, 0,1584,36,1}, /* 2812 */
+    {31290, BDK_CSR_TYPE_NCB,8,10401,19, 0,1585,36,1}, /* 2813 */
+    {31299, BDK_CSR_TYPE_NCB,8,10401,19, 0,1586,36,1}, /* 2814 */
+    {31308, BDK_CSR_TYPE_NCB,8,10401,19, 0,1587,36,1}, /* 2815 */
+    {32896, BDK_CSR_TYPE_NCB,4,10516, 0, 0,1658,1,1}, /* 2816 */
+    {32914, BDK_CSR_TYPE_NCB,4,10519, 0, 0,1659,1,1}, /* 2817 */
+    {32990, BDK_CSR_TYPE_NCB,4,10529, 0, 0,1660,1,1}, /* 2818 */
+    {33021, BDK_CSR_TYPE_NCB,4,10536, 0, 0,1661,1,1}, /* 2819 */
+    {33039, BDK_CSR_TYPE_NCB,4,10539,22, 0,1662,81,1}, /* 2820 */
+    {33055, BDK_CSR_TYPE_NCB,4,10542,22, 0,1663,81,1}, /* 2821 */
+    {33071, BDK_CSR_TYPE_NCB,4,10544,22, 0,1664,81,1}, /* 2822 */
+    {33106, BDK_CSR_TYPE_NCB,4,10557,22, 0,1665,81,1}, /* 2823 */
+    {33122, BDK_CSR_TYPE_NCB,4,10560, 0, 0,1666,1,1}, /* 2824 */
+    {33155, BDK_CSR_TYPE_NCB,4,10565, 0, 0,1667,1,1}, /* 2825 */
+    {33173, BDK_CSR_TYPE_NCB,4,10568, 0, 0,1668,1,1}, /* 2826 */
+    {33191, BDK_CSR_TYPE_NCB,4,10571, 0, 0,1669,1,1}, /* 2827 */
+    {33218, BDK_CSR_TYPE_NCB,4,10575, 0, 0,1670,1,1}, /* 2828 */
+    {33245, BDK_CSR_TYPE_NCB,4,10579, 0, 0,1671,1,1}, /* 2829 */
+    {33280, BDK_CSR_TYPE_NCB,4,10584, 3, 0,1672,36,1}, /* 2830 */
+    {33293, BDK_CSR_TYPE_NCB,4,10584, 3, 0,1673,36,1}, /* 2831 */
+    {33303, BDK_CSR_TYPE_NCB,4,10587, 3, 0,1674,36,1}, /* 2832 */
+    {33314, BDK_CSR_TYPE_NCB,4,10587, 3, 0,1675,36,1}, /* 2833 */
+    {33325, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1676,567,1}, /* 2834 */
+    {33341, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1677,567,1}, /* 2835 */
+    {33353, BDK_CSR_TYPE_NCB,4,10593, 3, 0,1678,567,1}, /* 2836 */
+    {33494, BDK_CSR_TYPE_NCB,4,10593, 3, 0,1679,567,1}, /* 2837 */
+    {33507, BDK_CSR_TYPE_NCB,4,10593, 0, 0,1680,1,1}, /* 2838 */
+    {33518, BDK_CSR_TYPE_NCB,4,10593, 3, 0,1681,567,1}, /* 2839 */
+    {33532, BDK_CSR_TYPE_NCB,4,10593, 3, 0,1682,567,1}, /* 2840 */
+    {33546, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1683,567,1}, /* 2841 */
+    {33557, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1684,567,1}, /* 2842 */
+    {33568, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1685,567,1}, /* 2843 */
+    {33684, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1686,567,1}, /* 2844 */
+    {33696, BDK_CSR_TYPE_NCB,4,10619, 0, 0,1687,1,1}, /* 2845 */
+    {33706, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1688,567,1}, /* 2846 */
+    {33719, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1689,567,1}, /* 2847 */
+    {33732, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1690,567,1}, /* 2848 */
+    {33744, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1691,567,1}, /* 2849 */
+    {33756, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1692,567,1}, /* 2850 */
+    {33768, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1693,567,1}, /* 2851 */
+    {33780, BDK_CSR_TYPE_NCB,4,10619, 0, 0,1694,1,1}, /* 2852 */
+    {33790, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1695,567,1}, /* 2853 */
+    {33803, BDK_CSR_TYPE_NCB,4,10619, 3, 0,1696,567,1}, /* 2854 */
+    {33816, BDK_CSR_TYPE_NCB,4,10645, 3, 0,1697,36,1}, /* 2855 */
+    {33838, BDK_CSR_TYPE_NCB,4,10645, 3, 0,1698,36,1}, /* 2856 */
+    {33848, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1699,567,1}, /* 2857 */
+    {33859, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1700,567,1}, /* 2858 */
+    {33870, BDK_CSR_TYPE_NCB,4,10653, 3, 0,1701,567,1}, /* 2859 */
+    {33885, BDK_CSR_TYPE_NCB,4,10653, 3, 0,1702,567,1}, /* 2860 */
+    {33897, BDK_CSR_TYPE_NCB,4,10653, 0, 0,1703,1,1}, /* 2861 */
+    {33907, BDK_CSR_TYPE_NCB,4,10653, 3, 0,1704,567,1}, /* 2862 */
+    {33920, BDK_CSR_TYPE_NCB,4,10653, 3, 0,1705,567,1}, /* 2863 */
+    {33933, BDK_CSR_TYPE_NCB,4,10655, 0, 0,1706,1,1}, /* 2864 */
+    {33942, BDK_CSR_TYPE_NCB,4,10657, 0, 0,1707,1,1}, /* 2865 */
+    {33951, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1708,567,1}, /* 2866 */
+    {33962, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1709,567,1}, /* 2867 */
+    {33973, BDK_CSR_TYPE_NCB,4,10659, 3, 0,1710,567,1}, /* 2868 */
+    {34033, BDK_CSR_TYPE_NCB,4,10659, 3, 0,1711,567,1}, /* 2869 */
+    {34045, BDK_CSR_TYPE_NCB,4,10659, 0, 0,1712,1,1}, /* 2870 */
+    {34055, BDK_CSR_TYPE_NCB,4,10659, 3, 0,1713,567,1}, /* 2871 */
+    {34068, BDK_CSR_TYPE_NCB,4,10659, 3, 0,1714,567,1}, /* 2872 */
+    {34081, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1715,567,1}, /* 2873 */
+    {34093, BDK_CSR_TYPE_NCB,4,10590, 3, 0,1716,567,1}, /* 2874 */
+    {34105, BDK_CSR_TYPE_NCB,4,10690, 3, 0,1717,567,1}, /* 2875 */
+    {34117, BDK_CSR_TYPE_NCB,4,10690, 3, 0,1718,567,1}, /* 2876 */
+    {34129, BDK_CSR_TYPE_NCB,4,10690, 0, 0,1719,1,1}, /* 2877 */
+    {34139, BDK_CSR_TYPE_NCB,4,10690, 3, 0,1720,567,1}, /* 2878 */
+    {34152, BDK_CSR_TYPE_NCB,4,10690, 3, 0,1721,567,1}, /* 2879 */
+    {34165, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1722,1,1}, /* 2880 */
+    {34180, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1723,1,1}, /* 2881 */
+    {34195, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1724,1,1}, /* 2882 */
+    {34210, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1725,1,1}, /* 2883 */
+    {34225, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1726,1,1}, /* 2884 */
+    {34241, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1727,1,1}, /* 2885 */
+    {34257, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1728,1,1}, /* 2886 */
+    {34273, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1729,1,1}, /* 2887 */
+    {34289, BDK_CSR_TYPE_NCB,4,10718, 0, 0,1730,1,1}, /* 2888 */
+    {34316, BDK_CSR_TYPE_NCB,4,10718, 0, 0,1731,1,1}, /* 2889 */
+    {34328, BDK_CSR_TYPE_NCB,4,10718, 0, 0,1732,1,1}, /* 2890 */
+    {34342, BDK_CSR_TYPE_NCB,4,10718, 0, 0,1733,1,1}, /* 2891 */
+    {34355, BDK_CSR_TYPE_NCB,4,10718, 0, 0,1734,1,1}, /* 2892 */
+    {34367, BDK_CSR_TYPE_NCB,4,10722, 0, 0,1735,1,1}, /* 2893 */
+    {34397, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1736,1,1}, /* 2894 */
+    {34410, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1737,1,1}, /* 2895 */
+    {34423, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1738,1,1}, /* 2896 */
+    {34436, BDK_CSR_TYPE_NCB,4,10715, 0, 0,1739,1,1}, /* 2897 */
+    {34449, BDK_CSR_TYPE_NCB,4,2592, 0, 0,1740,1,1}, /* 2898 */
+    {34460, BDK_CSR_TYPE_NCB,4,10728, 0, 0,1741,1,1}, /* 2899 */
+    {34495, BDK_CSR_TYPE_NCB,4,10734, 0, 0,1742,1,1}, /* 2900 */
+    {34509, BDK_CSR_TYPE_NCB,4,10736, 0, 0,1743,1,1}, /* 2901 */
+    {34522, BDK_CSR_TYPE_NCB,4,10739, 0, 0,1744,1,1}, /* 2902 */
+    {34534, BDK_CSR_TYPE_NCB,4,10742, 0, 0,1745,1,1}, /* 2903 */
+    {34551, BDK_CSR_TYPE_NCB,4,10739, 0, 0,1746,1,1}, /* 2904 */
+    {34566, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1747,1,1}, /* 2905 */
+    {34580, BDK_CSR_TYPE_NCB,4,10748, 0, 0,1748,1,1}, /* 2906 */
+    {34651, BDK_CSR_TYPE_NCB,4,10768, 0, 0,1749,1,1}, /* 2907 */
+    {34673, BDK_CSR_TYPE_NCB,4,10773, 0, 0,1750,1,1}, /* 2908 */
+    {34684, BDK_CSR_TYPE_NCB,4,2592, 0, 0,1751,1,1}, /* 2909 */
+    {34695, BDK_CSR_TYPE_NCB,4,10776, 0, 0,1752,1,1}, /* 2910 */
+    {34706, BDK_CSR_TYPE_NCB,4,10780, 0, 0,1753,1,1}, /* 2911 */
+    {34738, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1754,1,1}, /* 2912 */
+    {34749, BDK_CSR_TYPE_NCB,4,10786, 0, 0,1755,1,1}, /* 2913 */
+    {34759, BDK_CSR_TYPE_NCB,4,10789,19, 0,1756,548,1}, /* 2914 */
+    {34778, BDK_CSR_TYPE_NCB,4,10794, 0, 0,1757,1,1}, /* 2915 */
+    {34791, BDK_CSR_TYPE_NCB,4,10794, 0, 0,1758,1,1}, /* 2916 */
+    {34804, BDK_CSR_TYPE_NCB,4,10797, 0, 0,1759,1,1}, /* 2917 */
+    {34815, BDK_CSR_TYPE_NCB,4,10739, 0, 0,1760,1,1}, /* 2918 */
+    {34826, BDK_CSR_TYPE_NCB,4,10800, 0, 0,1761,1,1}, /* 2919 */
+    {34843, BDK_CSR_TYPE_NCB,4,10803, 0, 0,1762,1,1}, /* 2920 */
+    {34859, BDK_CSR_TYPE_NCB,4,10806, 0, 0,1763,1,1}, /* 2921 */
+    {34872, BDK_CSR_TYPE_NCB,4,10806, 0, 0,1764,1,1}, /* 2922 */
+    {34885, BDK_CSR_TYPE_NCB,4,10808, 0, 0,1765,1,1}, /* 2923 */
+    {34899, BDK_CSR_TYPE_NCB,4,10808, 0, 0,1766,1,1}, /* 2924 */
+    {34911, BDK_CSR_TYPE_NCB,4,10739, 0, 0,1767,1,1}, /* 2925 */
+    {34925, BDK_CSR_TYPE_NCB,4,10810, 0, 0,1768,1,1}, /* 2926 */
+    {34938, BDK_CSR_TYPE_NCB,4,10813, 0, 0,1769,1,1}, /* 2927 */
+    {34987, BDK_CSR_TYPE_NCB,4,10825, 0, 0,1770,1,1}, /* 2928 */
+    {34999, BDK_CSR_TYPE_NCB,4,10828, 0, 0,1771,1,1}, /* 2929 */
+    {35022, BDK_CSR_TYPE_NCB,4,10833, 0, 0,1772,1,1}, /* 2930 */
+    {35037, BDK_CSR_TYPE_NCB,4,10837, 0, 0,1773,1,1}, /* 2931 */
+    {35066, BDK_CSR_TYPE_NCB,4,10742, 0, 0,1774,1,1}, /* 2932 */
+    {35077, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1775,1,1}, /* 2933 */
+    {35092, BDK_CSR_TYPE_NCB,4,10813, 0, 0,1776,1,1}, /* 2934 */
+    {35103, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1777,1,1}, /* 2935 */
+    {35115, BDK_CSR_TYPE_NCB,4,10846, 0, 0,1778,1,1}, /* 2936 */
+    {35128, BDK_CSR_TYPE_NCB,4,10849, 0, 0,1779,1,1}, /* 2937 */
+    {35137, BDK_CSR_TYPE_NCB,4,10852, 0, 0,1780,1,1}, /* 2938 */
+    {35151, BDK_CSR_TYPE_NCB,4,10855,19, 0,1781,548,1}, /* 2939 */
+    {35161, BDK_CSR_TYPE_NCB,4,10858,19, 0,1782,548,1}, /* 2940 */
+    {35176, BDK_CSR_TYPE_NCB,4,10861, 0, 0,1783,1,1}, /* 2941 */
+    {35189, BDK_CSR_TYPE_NCB,4,10864, 0, 0,1784,1,1}, /* 2942 */
+    {35203, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1785,1,1}, /* 2943 */
+    {35214, BDK_CSR_TYPE_NCB,4,10866, 0, 0,1786,1,1}, /* 2944 */
+    {35229, BDK_CSR_TYPE_NCB,4,10869,19, 0,1787,548,1}, /* 2945 */
+    {35239, BDK_CSR_TYPE_NCB,4,10872,77, 0,1788,548,1}, /* 2946 */
+    {35262, BDK_CSR_TYPE_NCB,4,10878,77, 0,1789,548,1}, /* 2947 */
+    {35273, BDK_CSR_TYPE_NCB,4,10881, 0, 0,1790,1,1}, /* 2948 */
+    {35304, BDK_CSR_TYPE_NCB,4,10887, 0, 0,1791,1,1}, /* 2949 */
+    {35323, BDK_CSR_TYPE_NCB,4,10893, 0, 0,1792,1,1}, /* 2950 */
+    {35333, BDK_CSR_TYPE_NCB,4,10895,77, 0,1793,548,1}, /* 2951 */
+    {35343, BDK_CSR_TYPE_NCB,4,10898, 0, 0,1794,1,1}, /* 2952 */
+    {35355, BDK_CSR_TYPE_NCB,4,10900, 0, 0,1795,1,1}, /* 2953 */
+    {35383, BDK_CSR_TYPE_NCB,4,10905, 0, 0,1796,1,1}, /* 2954 */
+    {35403, BDK_CSR_TYPE_NCB,4,10911, 0, 0,1797,1,1}, /* 2955 */
+    {35415, BDK_CSR_TYPE_NCB,4,10739, 0, 0,1798,1,1}, /* 2956 */
+    {35426, BDK_CSR_TYPE_NCB,4,10914,22, 0,1799,548,1}, /* 2957 */
+    {35439, BDK_CSR_TYPE_NCB,4,10917, 0, 0,1800,1,1}, /* 2958 */
+    {35453, BDK_CSR_TYPE_NCB,4,10920, 0, 0,1801,1,1}, /* 2959 */
+    {35467, BDK_CSR_TYPE_NCB,4,10923, 0, 0,1802,1,1}, /* 2960 */
+    {35481, BDK_CSR_TYPE_NCB,4,10917, 0, 0,1803,1,1}, /* 2961 */
+    {35496, BDK_CSR_TYPE_NCB,4,10813, 0, 0,1804,1,1}, /* 2962 */
+    {35509, BDK_CSR_TYPE_NCB,4,10926, 0, 0,1805,1,1}, /* 2963 */
+    {35528, BDK_CSR_TYPE_NCB,4,10833, 0, 0,1806,1,1}, /* 2964 */
+    {35540, BDK_CSR_TYPE_NCB,4,10742, 0, 0,1807,1,1}, /* 2965 */
+    {35551, BDK_CSR_TYPE_NCB,4,10745, 0, 0,1808,1,1}, /* 2966 */
+    {35566, BDK_CSR_TYPE_NCB,4,10813, 0, 0,1809,1,1}, /* 2967 */
+    {35577, BDK_CSR_TYPE_NCB,4,10849, 0, 0,1810,1,1}, /* 2968 */
+    {35586, BDK_CSR_TYPE_NCB,4,10931, 0, 0,1811,1,1}, /* 2969 */
+    {35595, BDK_CSR_TYPE_NCB,4,10934, 0, 0,1812,1,1}, /* 2970 */
+    {35607, BDK_CSR_TYPE_NCB,4,10806, 0, 0,1813,1,1}, /* 2971 */
+    {35620, BDK_CSR_TYPE_NCB,4,10806, 0, 0,1814,1,1}, /* 2972 */
+    {35633, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1815,1,1}, /* 2973 */
+    {35683, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1816,1,1}, /* 2974 */
+    {35696, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1817,1,1}, /* 2975 */
+    {35710, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1818,1,1}, /* 2976 */
+    {35757, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1819,1,1}, /* 2977 */
+    {35770, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1820,1,1}, /* 2978 */
+    {35784, BDK_CSR_TYPE_NCB,4,10961, 0, 0,1821,1,1}, /* 2979 */
+    {35821, BDK_CSR_TYPE_NCB,4,10961, 0, 0,1822,1,1}, /* 2980 */
+    {35834, BDK_CSR_TYPE_NCB,4,10961, 0, 0,1823,1,1}, /* 2981 */
+    {35848, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1824,1,1}, /* 2982 */
+    {35872, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1825,1,1}, /* 2983 */
+    {35884, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1826,1,1}, /* 2984 */
+    {35898, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1827,1,1}, /* 2985 */
+    {35911, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1828,1,1}, /* 2986 */
+    {35925, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1829,1,1}, /* 2987 */
+    {35937, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1830,1,1}, /* 2988 */
+    {35951, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1831,1,1}, /* 2989 */
+    {35964, BDK_CSR_TYPE_NCB,4,10974, 0, 0,1832,1,1}, /* 2990 */
+    {36024, BDK_CSR_TYPE_NCB,4,10982, 0, 0,1833,1,1}, /* 2991 */
+    {36050, BDK_CSR_TYPE_NCB,4,10986, 0, 0,1834,1,1}, /* 2992 */
+    {36064, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1835,1,1}, /* 2993 */
+    {36076, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1836,1,1}, /* 2994 */
+    {36088, BDK_CSR_TYPE_NCB,4,10937, 0, 0,1837,1,1}, /* 2995 */
+    {36101, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1838,1,1}, /* 2996 */
+    {36113, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1839,1,1}, /* 2997 */
+    {36125, BDK_CSR_TYPE_NCB,4,10952, 0, 0,1840,1,1}, /* 2998 */
+    {36138, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1841,1,1}, /* 2999 */
+    {36151, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1842,1,1}, /* 3000 */
+    {36164, BDK_CSR_TYPE_NCB,4,10969, 0, 0,1843,1,1}, /* 3001 */
+    {36178, BDK_CSR_TYPE_NCB,4,10989,22, 0,1844,548,1}, /* 3002 */
+    {36190, BDK_CSR_TYPE_NCB,4,10992, 0, 0,1845,1,1}, /* 3003 */
+    {36202, BDK_CSR_TYPE_NCB,4,10999, 0, 0,1846,1,1}, /* 3004 */
+    {36216, BDK_CSR_TYPE_NCB,4,11002, 0, 0,1847,1,1}, /* 3005 */
+    {36232, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1848,1,1}, /* 3006 */
+    {36244, BDK_CSR_TYPE_NCB,4,10972, 0, 0,1849,1,1}, /* 3007 */
+    {36257, BDK_CSR_TYPE_NCB,4,11005, 0, 0,1850,1,1}, /* 3008 */
+    {36268, BDK_CSR_TYPE_RSL,8,11009, 0, 0,1851,1,1}, /* 3009 */
+    {36293, BDK_CSR_TYPE_RSL,8,11017, 0, 0,1852,1,1}, /* 3010 */
+    {36302, BDK_CSR_TYPE_RSL,8,11025, 0, 0,1853,1,1}, /* 3011 */
+    {36318, BDK_CSR_TYPE_RSL,8,11030, 0, 0,1854,1,1}, /* 3012 */
+    {36334, BDK_CSR_TYPE_RSL,8,11035, 0, 0,1855,1,1}, /* 3013 */
+    {36348, BDK_CSR_TYPE_RSL,8,11040, 0, 0,1856,1,1}, /* 3014 */
+    {36360, BDK_CSR_TYPE_RSL,8,11044, 0, 0,1857,1,1}, /* 3015 */
+    {36390, BDK_CSR_TYPE_RSL,8,11052, 0, 0,1858,1,1}, /* 3016 */
+    {36429, BDK_CSR_TYPE_RSL,8,11065, 0, 0,1859,1,1}, /* 3017 */
+    {36468, BDK_CSR_TYPE_RSL,8,11075, 0, 0,1860,1,1}, /* 3018 */
+    {36482, BDK_CSR_TYPE_RSL,8,11075, 0, 0,1861,1,1}, /* 3019 */
+    {36488, BDK_CSR_TYPE_RSL,8,11079, 0, 0,1862,1,1}, /* 3020 */
+    {36508, BDK_CSR_TYPE_RSL,8,11085, 0, 0,1863,1,1}, /* 3021 */
+    { 4703, BDK_CSR_TYPE_RSL,8,1047, 3, 3,213,4,206}, /* 3022 */
+    {30288, BDK_CSR_TYPE_RSL,8,8271, 3, 3,1544,4,206}, /* 3023 */
+    { 4764, BDK_CSR_TYPE_RSL,8, 34, 3, 3,220,4,206}, /* 3024 */
+    { 4774, BDK_CSR_TYPE_RSL,8, 37, 3, 3,221,4,206}, /* 3025 */
+    { 4783, BDK_CSR_TYPE_RSL,8, 42, 3, 3,222,4,206}, /* 3026 */
+    { 4792, BDK_CSR_TYPE_RSL,8,1058, 3, 3,223,4,206}, /* 3027 */
+    { 4801, BDK_CSR_TYPE_RSL,8,1068, 3, 3,224,4,206}, /* 3028 */
+    { 4817, BDK_CSR_TYPE_RSL,8, 75, 3, 3,225,4,206}, /* 3029 */
+    { 4824, BDK_CSR_TYPE_RSL,8,1082, 3, 3,226,4,206}, /* 3030 */
+    { 4882, BDK_CSR_TYPE_RSL,8,1082, 3, 3,227,4,206}, /* 3031 */
+    { 4891, BDK_CSR_TYPE_RSL,8,100, 3, 3,228,4,206}, /* 3032 */
+    { 4899, BDK_CSR_TYPE_RSL,8,103, 3, 3,229,4,206}, /* 3033 */
+    { 4912, BDK_CSR_TYPE_RSL,8,111, 3, 3,230,4,206}, /* 3034 */
+    { 4922, BDK_CSR_TYPE_RSL,8,114, 3, 3,231,4,206}, /* 3035 */
+    { 4932, BDK_CSR_TYPE_RSL,8,114, 3, 3,232,4,206}, /* 3036 */
+    { 4944, BDK_CSR_TYPE_RSL,8,114, 3, 3,233,4,206}, /* 3037 */
+    { 4957, BDK_CSR_TYPE_RSL,8,114, 3, 3,234,4,206}, /* 3038 */
+    { 4969, BDK_CSR_TYPE_RSL,8,117, 3, 3,235,4,206}, /* 3039 */
+    { 4979, BDK_CSR_TYPE_RSL,8,117, 3, 3,236,4,206}, /* 3040 */
+    { 4991, BDK_CSR_TYPE_RSL,8,117, 3, 3,237,4,206}, /* 3041 */
+    { 5003, BDK_CSR_TYPE_RSL,8,117, 3, 3,238,4,206}, /* 3042 */
+    { 5016, BDK_CSR_TYPE_RSL,8,117, 3, 3,239,4,206}, /* 3043 */
+    { 5028, BDK_CSR_TYPE_RSL,8,120, 3, 3,240,4,206}, /* 3044 */
+    { 5037, BDK_CSR_TYPE_RSL,8,125, 3, 3,241,36,206}, /* 3045 */
+    { 5046, BDK_CSR_TYPE_RSL,8,125, 3, 3,242,36,206}, /* 3046 */
+    { 5054, BDK_CSR_TYPE_RSL,8,128, 3, 3,243,36,206}, /* 3047 */
+    { 5084, BDK_CSR_TYPE_RSL,8,131, 3, 0,245,206,1}, /* 3048 */
+    { 5132, BDK_CSR_TYPE_RSL,8,141, 3, 3,249,4,206}, /* 3049 */
+    { 5159, BDK_CSR_TYPE_RSL,8,148, 3, 3,252,4,206}, /* 3050 */
+    { 5167, BDK_CSR_TYPE_RSL,8,1136, 3, 3,253,4,206}, /* 3051 */
+    { 5194, BDK_CSR_TYPE_RSL,8,157, 3, 3,256,4,206}, /* 3052 */
+    { 5201, BDK_CSR_TYPE_RSL,8,161, 3, 3,257,4,206}, /* 3053 */
+    { 5210, BDK_CSR_TYPE_RSL,8,164, 3, 3,258,4,206}, /* 3054 */
+    { 5224, BDK_CSR_TYPE_RSL,8,167, 3, 3,259,4,206}, /* 3055 */
+    { 5236, BDK_CSR_TYPE_RSL,8,1145, 3, 3,260,4,206}, /* 3056 */
+    { 5251, BDK_CSR_TYPE_RSL,8,170, 3, 3,261,4,206}, /* 3057 */
+    { 5261, BDK_CSR_TYPE_RSL,8,1149, 3, 3,262,4,206}, /* 3058 */
+    { 5271, BDK_CSR_TYPE_RSL,8,1152, 3, 3,263,4,206}, /* 3059 */
+    { 5281, BDK_CSR_TYPE_RSL,8,167, 3, 3,264,4,206}, /* 3060 */
+    { 5291, BDK_CSR_TYPE_RSL,8,173, 3, 3,265,4,206}, /* 3061 */
+    { 5299, BDK_CSR_TYPE_RSL,8,176, 3, 3,266,4,206}, /* 3062 */
+    { 5307, BDK_CSR_TYPE_RSL,8,179, 3, 3,267,4,206}, /* 3063 */
+    { 5315, BDK_CSR_TYPE_RSL,8,182, 3, 3,268,4,206}, /* 3064 */
+    { 5323, BDK_CSR_TYPE_RSL,8,185, 3, 3,269,4,206}, /* 3065 */
+    { 5331, BDK_CSR_TYPE_RSL,8,188, 3, 3,270,4,206}, /* 3066 */
+    { 5339, BDK_CSR_TYPE_RSL,8,191, 3, 3,271,4,206}, /* 3067 */
+    { 5347, BDK_CSR_TYPE_RSL,8,194, 3, 3,272,4,206}, /* 3068 */
+    { 5355, BDK_CSR_TYPE_RSL,8,197, 3, 3,273,4,206}, /* 3069 */
+    { 5363, BDK_CSR_TYPE_RSL,8,200, 3, 3,274,4,206}, /* 3070 */
+    { 5371, BDK_CSR_TYPE_RSL,8,111, 3, 3,275,4,206}, /* 3071 */
+    { 5381, BDK_CSR_TYPE_RSL,8,1155, 3, 3,276,4,206}, /* 3072 */
+    { 5389, BDK_CSR_TYPE_RSL,8,206, 3, 0,277,206,1}, /* 3073 */
+    { 5405, BDK_CSR_TYPE_RSL,8,11092, 3, 0,279,206,1}, /* 3074 */
+    { 5445, BDK_CSR_TYPE_RSL,8,11095, 3, 0,283,206,1}, /* 3075 */
+    { 5453, BDK_CSR_TYPE_RSL,8,11095, 3, 0,284,206,1}, /* 3076 */
+    { 5474, BDK_CSR_TYPE_RSL,8,11110, 3, 0,287,206,1}, /* 3077 */
+    { 7612, BDK_CSR_TYPE_RSL,8,9243,28, 0,411,662,1}, /* 3078 */
+    {36521, BDK_CSR_TYPE_NCB,8,11119, 0, 0,1864,1,1}, /* 3079 */
+    {28704, BDK_CSR_TYPE_RSL,8,10169, 3, 0,1427,36,1}, /* 3080 */
+    {10951, BDK_CSR_TYPE_PCICONFIGEP,4,11122, 3, 0,580,1,1}, /* 3081 */
+    {10972, BDK_CSR_TYPE_PCICONFIGEP,4,11136, 3, 0,581,1,1}, /* 3082 */
+    {11055, BDK_CSR_TYPE_PCICONFIGEP,4,11148, 3, 0,587,1,1}, /* 3083 */
+    {11111, BDK_CSR_TYPE_PCICONFIGEP,4,11166, 3, 0,588,1,1}, /* 3084 */
+    {11149, BDK_CSR_TYPE_PCICONFIGEP,4,11148, 3, 0,589,1,1}, /* 3085 */
+    {11157, BDK_CSR_TYPE_PCICONFIGEP,4,11184, 3, 0,590,1,1}, /* 3086 */
+    {11198, BDK_CSR_TYPE_PCICONFIGEP,4,11195, 3, 0,591,1,1}, /* 3087 */
+    {12351, BDK_CSR_TYPE_PCICONFIGRC,4,11206, 3, 0,580,1,1}, /* 3088 */
+    {12359, BDK_CSR_TYPE_PCICONFIGRC,4,11136, 3, 0,581,1,1}, /* 3089 */
+    {12407, BDK_CSR_TYPE_PCICONFIGRC,4,11220, 3, 0,587,1,1}, /* 3090 */
+    {12415, BDK_CSR_TYPE_PCICONFIGRC,4,11239, 3, 0,588,1,1}, /* 3091 */
+    {12423, BDK_CSR_TYPE_PCICONFIGRC,4,11220, 3, 0,589,1,1}, /* 3092 */
+    {12431, BDK_CSR_TYPE_PCICONFIGRC,4,11184, 3, 0,590,1,1}, /* 3093 */
+    {12439, BDK_CSR_TYPE_PCICONFIGRC,4,11195, 3, 0,591,1,1}, /* 3094 */
+    {12769, BDK_CSR_TYPE_RSL,8,2916, 3, 3,629,500,206}, /* 3095 */
+    {12796, BDK_CSR_TYPE_RSL,8,2926, 3, 3,630,500,206}, /* 3096 */
+    {12833, BDK_CSR_TYPE_RSL,8,2933, 3, 3,631,500,206}, /* 3097 */
+    {12844, BDK_CSR_TYPE_RSL,8,2943, 3, 3,632,500,206}, /* 3098 */
+    {12865, BDK_CSR_TYPE_RSL,8,2950, 3, 3,633,500,206}, /* 3099 */
+    {12935, BDK_CSR_TYPE_RSL,8,2965, 3, 3,634,500,206}, /* 3100 */
+    {12988, BDK_CSR_TYPE_RSL,8,2980, 3, 3,635,500,206}, /* 3101 */
+    {13002, BDK_CSR_TYPE_RSL,8,2983, 3, 3,636,500,206}, /* 3102 */
+    {13023, BDK_CSR_TYPE_RSL,8,2988, 3, 3,637,500,206}, /* 3103 */
+    {13057, BDK_CSR_TYPE_RSL,8,2997, 3, 3,638,500,206}, /* 3104 */
+    {13106, BDK_CSR_TYPE_RSL,8,3011, 3, 3,639,500,206}, /* 3105 */
+    {13169, BDK_CSR_TYPE_RSL,8,3029, 3, 3,640,500,206}, /* 3106 */
+    {13189, BDK_CSR_TYPE_RSL,8,3037, 3, 3,641,500,206}, /* 3107 */
+    {13203, BDK_CSR_TYPE_RSL,8,3041, 3, 3,642,500,206}, /* 3108 */
+    {13214, BDK_CSR_TYPE_RSL,8,3050, 3, 3,643,500,206}, /* 3109 */
+    {13225, BDK_CSR_TYPE_RSL,8,3058, 3, 3,644,500,206}, /* 3110 */
+    {13243, BDK_CSR_TYPE_RSL,8,3063, 3, 3,645,500,206}, /* 3111 */
+    {14577, BDK_CSR_TYPE_RSL,8,3407,217, 0,695,36,1}, /* 3112 */
+    {14680, BDK_CSR_TYPE_RSL,8,3436,217, 0,696,36,1}, /* 3113 */
+    {14894, BDK_CSR_TYPE_RSL,8,3486,217, 0,702,569,1}, /* 3114 */
+    {14910, BDK_CSR_TYPE_RSL,8,3489,217, 0,703,81,1}, /* 3115 */
+    {14923, BDK_CSR_TYPE_RSL,8,3489,217, 0,704,81,1}, /* 3116 */
+    {14930, BDK_CSR_TYPE_RSL,8,179,217, 0,705,569,1}, /* 3117 */
+    {14936, BDK_CSR_TYPE_RSL,8,3492,217, 0,706,569,1}, /* 3118 */
+    {14944, BDK_CSR_TYPE_RSL,8,3495,217, 0,707,569,1}, /* 3119 */
+    {14950, BDK_CSR_TYPE_RSL,8,3498,217, 0,708,569,1}, /* 3120 */
+    {14963, BDK_CSR_TYPE_RSL,8,3501,217, 0,709,569,1}, /* 3121 */
+    {14979, BDK_CSR_TYPE_RSL,8,3504,217, 0,710,569,1}, /* 3122 */
+    {14997, BDK_CSR_TYPE_RSL,8,3507,217, 0,711,569,1}, /* 3123 */
+    {15006, BDK_CSR_TYPE_RSL,8,3510,217, 0,712,569,1}, /* 3124 */
+    {15019, BDK_CSR_TYPE_RSL,8,3513,217, 0,713,569,1}, /* 3125 */
+    {15039, BDK_CSR_TYPE_RSL,8,3519,217, 0,715,557,1}, /* 3126 */
+    {15054, BDK_CSR_TYPE_RSL,8,179,217, 0,716,557,1}, /* 3127 */
+    {15066, BDK_CSR_TYPE_RSL,8,182,217, 0,717,557,1}, /* 3128 */
 };
 
 const uint16_t __bdk_csr_db_fieldList[] = {
@@ -11671,6 +13351,129 @@ const uint16_t __bdk_csr_db_fieldList[] = {
     6,15009,432,15012,5013,9831,2139, /* 10348 */
     7,15015,75,15018,1986,9846,9849,981, /* 10355 */
     7,14157,1095,10176,10179,10182,10185,228, /* 10363 */
+    29,549,552,555,558,561,564,7728,576,579,582,585,588,591,594,597,600,444,603,606,609,612,615,618,15021,630,14589,648,651,654, /* 10371 */
+    6,5211,14118,432,15024,15027,1350, /* 10401 */
+    23,666,669,672,675,678,681,684,687,690,693,696,699,702,705,708,711,14598,14130,717,720,723,540,729, /* 10408 */
+    30,14601,15030,741,744,747,750,753,756,759,762,765,15033,771,774,777,15036,783,786,789,792,894,14142,15039,801,804,807,12900,816,10920,828, /* 10432 */
+    23,666,669,672,675,678,681,831,687,690,693,696,699,702,14154,708,711,14598,14130,717,720,723,540,729, /* 10463 */
+    28,14601,15030,741,744,747,750,753,756,759,762,765,15033,771,774,777,15036,783,786,789,792,15042,801,804,807,12900,816,10920,828, /* 10487 */
+    2,15045,9036, /* 10516 */
+    9,15048,15051,15054,15057,15060,15063,15066,15069,4878, /* 10519 */
+    6,15072,1908,15075,15078,15081,1080, /* 10529 */
+    2,15084,9036, /* 10536 */
+    2,15087,4776, /* 10539 */
+    1,15090, /* 10542 */
+    12,3219,954,15093,15096,465,15099,15102,861,15105,969,15108,1080, /* 10544 */
+    2,15111,5772, /* 10557 */
+    4,15114,15117,15120,10281, /* 10560 */
+    2,15123,4776, /* 10565 */
+    2,15126,4776, /* 10568 */
+    3,15129,15132,2934, /* 10571 */
+    3,15135,15138,2934, /* 10575 */
+    4,15141,15144,15147,4878, /* 10579 */
+    2,15150,9036, /* 10584 */
+    2,12324,5343, /* 10587 */
+    2,15153,10281, /* 10590 */
+    25,15156,15159,15162,15165,15168,15171,15174,15177,15180,15183,15186,15189,15192,15195,15198,15201,15204,15207,15210,15213,15216,15219,15222,15225,15228, /* 10593 */
+    25,15156,15231,15234,15165,15237,15240,15243,15246,15249,15252,15255,15258,15261,15264,15267,15270,15273,15276,15279,15282,15285,15288,15291,15294,4866, /* 10619 */
+    7,15297,15300,15303,15306,15309,15312,10281, /* 10645 */
+    1,15315, /* 10653 */
+    1,11499, /* 10655 */
+    1,11502, /* 10657 */
+    30,15156,15318,15321,15324,15327,15330,15333,15336,15339,15342,15345,15348,15351,15354,15357,15360,15363,15366,15369,15372,15375,15378,15381,15384,15387,15390,15393,15396,15399,516, /* 10659 */
+    24,15156,15318,15321,15324,15327,15330,15333,15336,15339,15342,15345,15348,15351,15354,15357,15360,15363,15366,15369,15372,15375,15378,15381,9183, /* 10690 */
+    2,8766,4866, /* 10715 */
+    3,15402,15405,5526, /* 10718 */
+    5,15408,15411,297,15414,10281, /* 10722 */
+    5,15417,8685,15420,15423,15426, /* 10728 */
+    1,15429, /* 10734 */
+    2,15432,9036, /* 10736 */
+    2,9924,9036, /* 10739 */
+    2,15435,4437, /* 10742 */
+    2,15438,4437, /* 10745 */
+    19,3219,15441,15444,15447,15450,15453,15456,15459,15462,15465,15468,15471,15474,15477,15480,15483,15486,15489,5772, /* 10748 */
+    4,15492,15495,15498,5556, /* 10768 */
+    2,15501,4743, /* 10773 */
+    3,8028,15504,4866, /* 10776 */
+    5,15507,15510,15513,15516,4743, /* 10780 */
+    2,15519,4437, /* 10786 */
+    4,15522,15525,15528,4866, /* 10789 */
+    2,15531,9369, /* 10794 */
+    2,15534,5556, /* 10797 */
+    2,15537,4866, /* 10800 */
+    2,15540,4866, /* 10803 */
+    1,15543, /* 10806 */
+    1,15546, /* 10808 */
+    2,15549,4743, /* 10810 */
+    11,3645,15552,15555,15558,15561,15564,15567,15570,15573,15576,9183, /* 10813 */
+    2,15579,10263, /* 10825 */
+    4,15582,15585,15588,10281, /* 10828 */
+    3,15591,15594,4866, /* 10833 */
+    8,15597,15600,15603,6714,15606,75,15609,10263, /* 10837 */
+    2,15612,4437, /* 10846 */
+    2,15615,2361, /* 10849 */
+    2,7395,10263, /* 10852 */
+    2,15618,4437, /* 10855 */
+    2,15621,4437, /* 10858 */
+    2,15624,9036, /* 10861 */
+    1,15627, /* 10864 */
+    2,15630,5526, /* 10866 */
+    2,15633,4437, /* 10869 */
+    5,15636,15639,15642,15645,4743, /* 10872 */
+    2,15648,4866, /* 10878 */
+    5,15651,15654,15657,15660,4866, /* 10881 */
+    5,15663,15666,15669,15672,4866, /* 10887 */
+    1,15675, /* 10893 */
+    2,15678,4878, /* 10895 */
+    1,8781, /* 10898 */
+    4,15681,15684,15687,2361, /* 10900 */
+    5,3645,15690,15693,15696,15699, /* 10905 */
+    2,15702,4776, /* 10911 */
+    2,15705,4437, /* 10914 */
+    2,4521,4776, /* 10917 */
+    2,15708,4776, /* 10920 */
+    2,15711,4776, /* 10923 */
+    4,15714,15717,15720,4743, /* 10926 */
+    2,15723,4743, /* 10931 */
+    2,15726,4437, /* 10934 */
+    14,15156,15729,15732,15735,15738,15741,15744,15747,15750,15183,15753,15756,15759,10263, /* 10937 */
+    8,15762,15765,15768,15771,15774,15777,15780,15783, /* 10952 */
+    7,15786,15789,15792,15795,15798,15801,10281, /* 10961 */
+    2,15804,15807, /* 10969 */
+    1,15810, /* 10972 */
+    7,15813,15816,15819,15822,15825,15828,10281, /* 10974 */
+    3,15831,15834,5772, /* 10982 */
+    2,15837,4866, /* 10986 */
+    2,15840,4866, /* 10989 */
+    6,15843,15846,15849,6714,15852,4878, /* 10992 */
+    2,15855,4776, /* 10999 */
+    2,15858,4776, /* 11002 */
+    3,15861,15864,4878, /* 11005 */
+    7,15867,15870,15873,15876,15879,15882,291, /* 11009 */
+    7,7530,15885,15888,15891,492,15894,186, /* 11017 */
+    4,15897,15900,15903,3933, /* 11025 */
+    4,15906,15909,15912,3933, /* 11030 */
+    4,15915,969,15918,45, /* 11035 */
+    3,15921,15924,1425, /* 11040 */
+    7,15927,15930,15933,6714,15936,15939,144, /* 11044 */
+    12,3297,3300,3303,3306,3309,15942,15945,15948,15951,5049,15954,2139, /* 11052 */
+    9,7530,954,15957,15960,15963,15966,15969,15972,1749, /* 11065 */
+    3,15975,15978,333, /* 11075 */
+    5,15981,15984,15987,15990,1662, /* 11079 */
+    6,15993,426,15996,963,15999,4503, /* 11085 */
+    2,16002,333, /* 11092 */
+    14,417,420,423,426,429,432,435,438,441,444,447,5013,11817,45, /* 11095 */
+    8,459,297,462,465,468,9369,2364,255, /* 11110 */
+    2,16005,111, /* 11119 */
+    13,5157,5160,12810,12813,12816,12819,12822,12825,16008,16011,16014,16017,4437, /* 11122 */
+    11,5166,5169,12810,12831,12834,12837,12840,16020,16023,16026,14568, /* 11136 */
+    17,5211,5214,9384,5223,5226,5229,5232,5235,5238,5241,5244,5247,606,16029,1935,13845,1080, /* 11148 */
+    17,5211,5253,9384,5259,5262,5265,5268,5271,5274,5277,5280,5283,606,16032,1935,13848,1080, /* 11166 */
+    10,5286,5289,5292,5295,5298,75,5301,5304,16035,14568, /* 11184 */
+    10,5310,5289,5313,5316,5319,75,5322,5325,16038,14568, /* 11195 */
+    13,5157,5160,14877,12813,12816,12819,12822,12825,16008,16011,16014,16017,4437, /* 11206 */
+    18,5211,5214,5217,5220,5223,5226,5229,5232,5235,5238,5241,5244,5247,606,16029,1935,13845,1080, /* 11220 */
+    18,5211,5253,5256,5220,5259,5262,5265,5268,5271,5274,5277,5280,5283,606,16032,1935,13848,1080, /* 11239 */
 };
 
 const uint16_t __bdk_csr_db_field[] = {
@@ -16681,6 +18484,346 @@ const uint16_t __bdk_csr_db_field[] = {
     20710,12,21, /* 15012 */
     20542,0,8, /* 15015 */
     20737,12,20, /* 15018 */
+    32844,27,29, /* 15021 */
+    32852,12,12, /* 15024 */
+    32854,13,14, /* 15027 */
+    32857,4,18, /* 15030 */
+    32864,28,28, /* 15033 */
+    32872,32,32, /* 15036 */
+    32880,41,46, /* 15039 */
+    32888,37,46, /* 15042 */
+    32909,0,0, /* 15045 */
+    32926,0,1, /* 15048 */
+    32934,2,3, /* 15051 */
+    32942,4,5, /* 15054 */
+    32950,6,7, /* 15057 */
+    32958,8,9, /* 15060 */
+    32966,10,11, /* 15063 */
+    32974,12,13, /* 15066 */
+    32982,14,15, /* 15069 */
+    33001,0,1, /* 15072 */
+    33005,8,9, /* 15075 */
+    33009,10,23, /* 15078 */
+    33017,24,24, /* 15081 */
+    33033,0,0, /* 15084 */
+    33051,0,7, /* 15087 */
+    33067,0,31, /* 15090 */
+    33081,4,4, /* 15093 */
+    33087,5,5, /* 15096 */
+    33092,8,11, /* 15099 */
+    33096,12,12, /* 15102 */
+    33102,16,17, /* 15105 */
+    8234,24,24, /* 15108 */
+    33117,0,17, /* 15111 */
+    33134,0,3, /* 15114 */
+    33141,4,4, /* 15117 */
+    33148,5,5, /* 15120 */
+    33166,0,7, /* 15123 */
+    33185,0,7, /* 15126 */
+    33201,0,15, /* 15129 */
+    33210,16,16, /* 15132 */
+    33228,0,15, /* 15135 */
+    33237,16,16, /* 15138 */
+    33258,0,13, /* 15141 */
+    33264,14,14, /* 15144 */
+    33272,15,15, /* 15147 */
+    33290,0,0, /* 15150 */
+    33337,0,5, /* 15153 */
+    33366,0,0, /* 15156 */
+    33369,1,1, /* 15159 */
+    33372,2,2, /* 15162 */
+    33376,3,3, /* 15165 */
+    33379,4,4, /* 15168 */
+    33385,5,5, /* 15171 */
+    33392,6,6, /* 15174 */
+    33395,7,7, /* 15177 */
+    33399,8,8, /* 15180 */
+    33403,9,9, /* 15183 */
+    33408,10,10, /* 15186 */
+    33411,11,11, /* 15189 */
+    33416,12,19, /* 15192 */
+    33421,20,20, /* 15195 */
+    33429,21,21, /* 15198 */
+    33436,22,22, /* 15201 */
+    33444,23,23, /* 15204 */
+    33451,24,24, /* 15207 */
+    33458,25,25, /* 15210 */
+    33464,26,26, /* 15213 */
+    33468,27,27, /* 15216 */
+    33472,28,28, /* 15219 */
+    33476,29,29, /* 15222 */
+    33480,30,30, /* 15225 */
+    33487,31,31, /* 15228 */
+    33580,1,1, /* 15231 */
+    33585,2,2, /* 15234 */
+    33588,4,4, /* 15237 */
+    33593,5,5, /* 15240 */
+    33597,6,6, /* 15243 */
+    33603,7,7, /* 15246 */
+    33609,8,8, /* 15249 */
+    33615,9,9, /* 15252 */
+    33621,10,10, /* 15255 */
+    33627,11,11, /* 15258 */
+    33631,12,12, /* 15261 */
+    33635,13,13, /* 15264 */
+    33639,14,14, /* 15267 */
+    33643,15,15, /* 15270 */
+    33647,16,16, /* 15273 */
+    33651,17,17, /* 15276 */
+    33655,18,18, /* 15279 */
+    33659,19,19, /* 15282 */
+    33663,20,20, /* 15285 */
+    33667,21,21, /* 15288 */
+    33674,22,22, /* 15291 */
+    33679,23,23, /* 15294 */
+    33826,0,0, /* 15297 */
+    33388,1,1, /* 15300 */
+    33830,2,2, /* 15303 */
+    33834,3,3, /* 15306 */
+    9330,4,4, /* 15309 */
+    10023,5,5, /* 15312 */
+    33882,0,31, /* 15315 */
+    33985,1,1, /* 15318 */
+    33991,2,2, /* 15321 */
+    33585,3,3, /* 15324 */
+    33376,4,4, /* 15327 */
+    33997,5,5, /* 15330 */
+    33588,6,6, /* 15333 */
+    33593,7,7, /* 15336 */
+    33597,8,8, /* 15339 */
+    33603,9,9, /* 15342 */
+    34002,10,10, /* 15345 */
+    33609,11,11, /* 15348 */
+    33615,12,12, /* 15351 */
+    33627,13,13, /* 15354 */
+    33631,14,14, /* 15357 */
+    34008,15,15, /* 15360 */
+    33635,16,16, /* 15363 */
+    33643,17,17, /* 15366 */
+    33639,18,18, /* 15369 */
+    34013,19,19, /* 15372 */
+    33647,20,20, /* 15375 */
+    33651,21,21, /* 15378 */
+    34018,22,22, /* 15381 */
+    33655,23,23, /* 15384 */
+    33659,24,24, /* 15387 */
+    33663,25,25, /* 15390 */
+    33667,26,26, /* 15393 */
+    34023,27,27, /* 15396 */
+    34028,28,28, /* 15399 */
+    34302,0,0, /* 15402 */
+    34309,1,1, /* 15405 */
+    34377,0,0, /* 15408 */
+    34384,1,1, /* 15411 */
+    34390,4,5, /* 15414 */
+    34472,0,15, /* 15417 */
+    34476,29,29, /* 15420 */
+    34481,30,30, /* 15423 */
+    34487,31,31, /* 15426 */
+    88,0,31, /* 15429 */
+    14198,0,0, /* 15432 */
+    2988,0,19, /* 15435 */
+    293,0,19, /* 15438 */
+    431,1,1, /* 15441 */
+    19043,2,2, /* 15444 */
+    19055,3,3, /* 15447 */
+    34588,4,4, /* 15450 */
+    34595,5,5, /* 15453 */
+    34601,6,6, /* 15456 */
+    34607,7,7, /* 15459 */
+    34611,8,8, /* 15462 */
+    34618,9,9, /* 15465 */
+    34623,10,10, /* 15468 */
+    34628,11,11, /* 15471 */
+    34634,12,12, /* 15474 */
+    114,13,13, /* 15477 */
+    34639,14,14, /* 15480 */
+    34644,15,15, /* 15483 */
+    34649,16,16, /* 15486 */
+    3361,17,17, /* 15489 */
+    34660,0,0, /* 15492 */
+    34665,1,1, /* 15495 */
+    34669,2,2, /* 15498 */
+    5121,0,3, /* 15501 */
+    2588,16,23, /* 15504 */
+    34718,0,0, /* 15507 */
+    34722,1,1, /* 15510 */
+    34728,2,2, /* 15513 */
+    34732,3,3, /* 15516 */
+    18312,0,19, /* 15519 */
+    5839,0,1, /* 15522 */
+    34768,2,12, /* 15525 */
+    34773,13,23, /* 15528 */
+    11970,0,9, /* 15531 */
+    11970,0,2, /* 15534 */
+    34839,0,23, /* 15537 */
+    34855,0,23, /* 15540 */
+    5121,0,31, /* 15543 */
+    1733,0,31, /* 15546 */
+    2988,0,3, /* 15549 */
+    34951,8,11, /* 15552 */
+    34957,12,13, /* 15555 */
+    34960,14,15, /* 15558 */
+    34597,16,16, /* 15561 */
+    34603,17,17, /* 15564 */
+    34963,18,18, /* 15567 */
+    34969,19,20, /* 15570 */
+    34977,21,21, /* 15573 */
+    34982,22,22, /* 15576 */
+    293,0,12, /* 15579 */
+    35010,0,3, /* 15582 */
+    35014,4,4, /* 15585 */
+    35019,5,5, /* 15588 */
+    35034,0,11, /* 15591 */
+    14769,12,23, /* 15594 */
+    35049,0,0, /* 15597 */
+    35052,1,1, /* 15600 */
+    35055,2,2, /* 15603 */
+    35058,8,8, /* 15606 */
+    35062,12,12, /* 15609 */
+    5121,0,19, /* 15612 */
+    8517,0,11, /* 15615 */
+    23431,0,19, /* 15618 */
+    35171,0,19, /* 15621 */
+    34789,0,0, /* 15624 */
+    2988,0,31, /* 15627 */
+    1944,0,1, /* 15630 */
+    11970,0,19, /* 15633 */
+    8257,0,0, /* 15636 */
+    35252,1,1, /* 15639 */
+    35256,2,2, /* 15642 */
+    35259,3,3, /* 15645 */
+    6138,0,23, /* 15648 */
+    35284,0,5, /* 15651 */
+    35289,6,11, /* 15654 */
+    35294,12,17, /* 15657 */
+    35299,18,23, /* 15660 */
+    19903,0,5, /* 15663 */
+    19925,6,11, /* 15666 */
+    35315,12,17, /* 15669 */
+    35319,18,23, /* 15672 */
+    11910,0,31, /* 15675 */
+    5869,0,15, /* 15678 */
+    35366,0,3, /* 15681 */
+    35372,4,7, /* 15684 */
+    35378,8,11, /* 15687 */
+    5869,8,15, /* 15690 */
+    3852,16,24, /* 15693 */
+    35395,25,30, /* 15696 */
+    15341,31,31, /* 15699 */
+    31605,0,7, /* 15702 */
+    1965,0,19, /* 15705 */
+    2588,0,7, /* 15708 */
+    35479,0,7, /* 15711 */
+    35520,0,1, /* 15714 */
+    35524,2,2, /* 15717 */
+    431,3,3, /* 15720 */
+    1379,0,3, /* 15723 */
+    34577,0,19, /* 15726 */
+    35646,1,1, /* 15729 */
+    35650,2,2, /* 15732 */
+    35654,3,3, /* 15735 */
+    35658,4,4, /* 15738 */
+    35662,5,5, /* 15741 */
+    35667,6,6, /* 15744 */
+    33392,7,7, /* 15747 */
+    33395,8,8, /* 15750 */
+    35672,10,10, /* 15753 */
+    35676,11,11, /* 15756 */
+    35679,12,12, /* 15759 */
+    35723,0,0, /* 15762 */
+    35727,1,1, /* 15765 */
+    33408,2,2, /* 15768 */
+    35732,3,3, /* 15771 */
+    35737,4,4, /* 15774 */
+    35742,5,5, /* 15777 */
+    35747,6,6, /* 15780 */
+    35750,7,31, /* 15783 */
+    35797,0,0, /* 15786 */
+    35801,1,1, /* 15789 */
+    35805,2,2, /* 15792 */
+    35809,3,3, /* 15795 */
+    35813,4,4, /* 15798 */
+    35817,5,5, /* 15801 */
+    35862,0,23, /* 15804 */
+    35866,24,31, /* 15807 */
+    14864,0,31, /* 15810 */
+    35976,0,0, /* 15813 */
+    35984,1,1, /* 15816 */
+    35992,2,2, /* 15819 */
+    36000,3,3, /* 15822 */
+    36008,4,4, /* 15825 */
+    36016,5,5, /* 15828 */
+    36035,0,15, /* 15831 */
+    36042,16,17, /* 15834 */
+    6537,0,23, /* 15837 */
+    14864,0,23, /* 15840 */
+    5647,0,0, /* 15843 */
+    31588,1,1, /* 15846 */
+    3989,2,2, /* 15849 */
+    34323,8,15, /* 15852 */
+    5647,0,7, /* 15855 */
+    88,0,7, /* 15858 */
+    15325,0,7, /* 15861 */
+    15322,8,15, /* 15864 */
+    36277,0,0, /* 15867 */
+    36280,1,1, /* 15870 */
+    36283,2,2, /* 15873 */
+    36286,3,15, /* 15876 */
+    5146,16,16, /* 15879 */
+    3131,17,17, /* 15882 */
+    2588,1,1, /* 15885 */
+    36299,2,3, /* 15888 */
+    9642,4,4, /* 15891 */
+    22584,8,12, /* 15894 */
+    36309,0,17, /* 15897 */
+    36312,18,35, /* 15900 */
+    36315,36,53, /* 15903 */
+    36325,0,17, /* 15906 */
+    36328,18,35, /* 15909 */
+    36331,36,53, /* 15912 */
+    36341,0,17, /* 15915 */
+    36344,24,24, /* 15918 */
+    36354,0,1, /* 15921 */
+    36357,2,2, /* 15924 */
+    5146,0,0, /* 15927 */
+    36372,1,1, /* 15930 */
+    36377,2,2, /* 15933 */
+    36381,8,8, /* 15936 */
+    36385,9,9, /* 15939 */
+    36399,18,20, /* 15942 */
+    36404,21,21, /* 15945 */
+    36411,22,24, /* 15948 */
+    36416,25,25, /* 15951 */
+    36423,27,27, /* 15954 */
+    36436,4,4, /* 15957 */
+    36442,5,5, /* 15960 */
+    36448,6,6, /* 15963 */
+    36454,7,7, /* 15966 */
+    36460,8,9, /* 15969 */
+    36464,10,11, /* 15972 */
+    36474,0,0, /* 15975 */
+    36478,1,1, /* 15978 */
+    36494,0,5, /* 15981 */
+    36497,6,11, /* 15984 */
+    36500,12,17, /* 15987 */
+    36504,18,23, /* 15990 */
+    36517,0,3, /* 15993 */
+    21040,8,9, /* 15996 */
+    36519,16,20, /* 15999 */
+    5409,0,1, /* 16002 */
+    2519,0,4, /* 16005 */
+    36531,11,11, /* 16008 */
+    36534,12,13, /* 16011 */
+    36537,14,17, /* 16014 */
+    36545,18,19, /* 16017 */
+    36548,10,10, /* 16020 */
+    36551,11,12, /* 16023 */
+    36559,13,14, /* 16026 */
+    36562,22,22, /* 16029 */
+    36565,22,22, /* 16032 */
+    36568,14,14, /* 16035 */
+    36571,14,14, /* 16038 */
 };
 
 const int __bdk_csr_db_range[] = {
@@ -16733,6 +18876,7 @@ const int __bdk_csr_db_range[] = {
     4,0,7,32,33, /* 202 */
     4,0,7,32,32, /* 207 */
     4,0,1023,16128,16383, /* 212 */
+    6,0,1,32,35,36,39, /* 217 */
 };
 
 const char __bdk_csr_db_string[] = 
@@ -22404,6 +24548,462 @@ const char __bdk_csr_db_string[] =
     "NUMSAMP\0" /* 65654/2 */
     "DELTASAMP\0" /* 65662/2 */
     "RESERVED_24_47\0\0" /* 65672/2 */
+    "RESERVED_27_29\0\0" /* 65688/2 */
+    "EOI\0" /* 65704/2 */
+    "ENDOR\0" /* 65708/2 */
+    "RESERVED_4_18\0" /* 65714/2 */
+    "RESERVED_28_28\0\0" /* 65728/2 */
+    "RESERVED_32_32\0\0" /* 65744/2 */
+    "RESERVED_41_46\0\0" /* 65760/2 */
+    "RESERVED_37_46\0\0" /* 65776/2 */
+    "ENDOR_ADMA_AUTO_CLK_GATE\0\0" /* 65792/2 */
+    "AUTO_GATE\0" /* 65818/2 */
+    "ENDOR_ADMA_AXI_RSPCODE\0\0" /* 65828/2 */
+    "CH0_AXI_RSPCODE\0" /* 65852/2 */
+    "CH1_AXI_RSPCODE\0" /* 65868/2 */
+    "CH2_AXI_RSPCODE\0" /* 65884/2 */
+    "CH3_AXI_RSPCODE\0" /* 65900/2 */
+    "CH4_AXI_RSPCODE\0" /* 65916/2 */
+    "CH5_AXI_RSPCODE\0" /* 65932/2 */
+    "CH6_AXI_RSPCODE\0" /* 65948/2 */
+    "CH7_AXI_RSPCODE\0" /* 65964/2 */
+    "ENDOR_ADMA_AXI_SIGNAL\0" /* 65980/2 */
+    "ARLOCK\0\0" /* 66002/2 */
+    "AWLOCK\0\0" /* 66010/2 */
+    "RESERVED_10_23\0\0" /* 66018/2 */
+    "AWCOBUF\0" /* 66034/2 */
+    "ENDOR_ADMA_AXIERR_INTR\0\0" /* 66042/2 */
+    "AXI_ERR_INT\0" /* 66066/2 */
+    "ENDOR_ADMA_DMAX_ADDR_HI\0" /* 66078/2 */
+    "HI_ADDR\0" /* 66102/2 */
+    "ENDOR_ADMA_DMAX_ADDR_LO\0" /* 66110/2 */
+    "LO_ADDR\0" /* 66134/2 */
+    "ENDOR_ADMA_DMAX_CFG\0" /* 66142/2 */
+    "MAX_BSTLEN\0\0" /* 66162/2 */
+    "BST_BOUND\0" /* 66174/2 */
+    "AWCACHE\0" /* 66184/2 */
+    "AWCACHE_LBM\0" /* 66192/2 */
+    "HMM_OFS\0" /* 66204/2 */
+    "ENDOR_ADMA_DMAX_SIZE\0\0" /* 66212/2 */
+    "DMA_SIZE\0\0" /* 66234/2 */
+    "ENDOR_ADMA_DMA_PRIORITY\0" /* 66244/2 */
+    "WDMA_FIX_PRTY\0" /* 66268/2 */
+    "WDMA_RR_PRTY\0\0" /* 66282/2 */
+    "RDMA_RR_PRTY\0\0" /* 66296/2 */
+    "ENDOR_ADMA_DMA_RESET\0\0" /* 66310/2 */
+    "DMA_CH_RESET\0\0" /* 66332/2 */
+    "ENDOR_ADMA_DMADONE_INTR\0" /* 66346/2 */
+    "DMA_CH_DONE\0" /* 66370/2 */
+    "ENDOR_ADMA_INTR_DIS\0" /* 66382/2 */
+    "DMADONE_INTR_DIS\0\0" /* 66402/2 */
+    "AXIERR_INTR_DIS\0" /* 66420/2 */
+    "ENDOR_ADMA_INTR_ENB\0" /* 66436/2 */
+    "DMADONE_INTR_ENB\0\0" /* 66456/2 */
+    "AXIERR_INTR_ENB\0" /* 66474/2 */
+    "ENDOR_ADMA_MODULE_STATUS\0\0" /* 66490/2 */
+    "DMA_CH_STT\0\0" /* 66516/2 */
+    "NON_DMAWRCH_STT\0" /* 66528/2 */
+    "NON_DMARDCH_STT\0" /* 66544/2 */
+    "ENDOR_INTC_CNTL_HIX\0" /* 66560/2 */
+    "ENAB\0\0" /* 66580/2 */
+    "ENDOR_INTC_CNTL_LOX\0" /* 66586/2 */
+    "ENDOR_INTC_INDEX_HIX\0\0" /* 66606/2 */
+    "ENDOR_INTC_INDEX_LOX\0\0" /* 66628/2 */
+    "ENDOR_INTC_MISC_IDX_HIX\0" /* 66650/2 */
+    "GRPIDX\0\0" /* 66674/2 */
+    "ENDOR_INTC_MISC_IDX_LOX\0" /* 66682/2 */
+    "ENDOR_INTC_MISC_MASK_HIX\0\0" /* 66706/2 */
+    "ULFE\0\0" /* 66732/2 */
+    "RACH\0\0" /* 66738/2 */
+    "DFTDMP\0\0" /* 66744/2 */
+    "TURBO\0" /* 66752/2 */
+    "TURBO_DONE\0\0" /* 66758/2 */
+    "TURBO_RDDONE\0\0" /* 66770/2 */
+    "VDEC\0\0" /* 66784/2 */
+    "LTEENC\0\0" /* 66790/2 */
+    "H3GENC\0\0" /* 66798/2 */
+    "IFFTPAPR\0\0" /* 66806/2 */
+    "RFSPI\0" /* 66816/2 */
+    "AXI_BERR\0\0" /* 66822/2 */
+    "TTI_TIMER\0" /* 66832/2 */
+    "RF_RX_FFTHRESH\0\0" /* 66842/2 */
+    "RF_RX_FFFLAG\0\0" /* 66858/2 */
+    "RF_RXD_FFTHRESH\0" /* 66872/2 */
+    "RF_RXD_FFFLAG\0" /* 66888/2 */
+    "RF_RX_STFRAME\0" /* 66902/2 */
+    "RF_RX_STRX\0\0" /* 66916/2 */
+    "RF_SPI0\0" /* 66928/2 */
+    "RF_SPI1\0" /* 66936/2 */
+    "RF_SPI2\0" /* 66944/2 */
+    "RF_SPI3\0" /* 66952/2 */
+    "RF_RX_SPISKIP\0" /* 66960/2 */
+    "RF_RX_PPSSYNC\0" /* 66974/2 */
+    "ENDOR_INTC_MISC_MASK_LOX\0\0" /* 66988/2 */
+    "ENDOR_INTC_MISC_RINT\0\0" /* 67014/2 */
+    "ENDOR_INTC_MISC_STATUS_HIX\0\0" /* 67036/2 */
+    "ENDOR_INTC_MISC_STATUS_LOX\0\0" /* 67064/2 */
+    "ENDOR_INTC_RD_IDX_HIX\0" /* 67092/2 */
+    "ENDOR_INTC_RD_IDX_LOX\0" /* 67114/2 */
+    "ENDOR_INTC_RD_MASK_HIX\0\0" /* 67136/2 */
+    "RACHSNIF\0\0" /* 67160/2 */
+    "DFTDM\0" /* 67170/2 */
+    "TURBO_HQ\0\0" /* 67176/2 */
+    "VITBDEC\0" /* 67186/2 */
+    "LTEENC_TB0\0\0" /* 67194/2 */
+    "LTEENC_TB1\0\0" /* 67206/2 */
+    "IFFTPAPR_0\0\0" /* 67218/2 */
+    "IFFTPAPR_1\0\0" /* 67230/2 */
+    "IFFTPAPR_RM\0" /* 67242/2 */
+    "T1_EXT\0\0" /* 67254/2 */
+    "T1_INT\0\0" /* 67262/2 */
+    "T2_EXT\0\0" /* 67270/2 */
+    "T2_HARQ\0" /* 67278/2 */
+    "T2_INT\0\0" /* 67286/2 */
+    "T3_EXT\0\0" /* 67294/2 */
+    "T3_INT\0\0" /* 67302/2 */
+    "AXI_TX\0\0" /* 67310/2 */
+    "AXI_RX0\0" /* 67318/2 */
+    "AXI_RX1\0" /* 67326/2 */
+    "AXI_RX1_HARQ\0\0" /* 67334/2 */
+    "T3_RFIF_0\0" /* 67348/2 */
+    "T3_RFIF_1\0" /* 67358/2 */
+    "ENDOR_INTC_RD_MASK_LOX\0\0" /* 67368/2 */
+    "ENDOR_INTC_RD_RINT\0\0" /* 67392/2 */
+    "ENDOR_INTC_RD_STATUS_HIX\0\0" /* 67412/2 */
+    "ENDOR_INTC_RD_STATUS_LOX\0\0" /* 67438/2 */
+    "ENDOR_INTC_RDQ_IDX_HIX\0\0" /* 67464/2 */
+    "ENDOR_INTC_RDQ_IDX_LOX\0\0" /* 67488/2 */
+    "ENDOR_INTC_RDQ_MASK_HIX\0" /* 67512/2 */
+    "ENDOR_INTC_RDQ_MASK_LOX\0" /* 67536/2 */
+    "ENDOR_INTC_RDQ_RINT\0" /* 67560/2 */
+    "ENDOR_INTC_RDQ_STATUS_HIX\0" /* 67580/2 */
+    "ENDOR_INTC_RDQ_STATUS_LOX\0" /* 67606/2 */
+    "ENDOR_INTC_STAT_HIX\0" /* 67632/2 */
+    "WRDONE\0\0" /* 67652/2 */
+    "RDQDONE\0" /* 67660/2 */
+    "WRQDONE\0" /* 67668/2 */
+    "ENDOR_INTC_STAT_LOX\0" /* 67676/2 */
+    "ENDOR_INTC_SW_IDX_HIX\0" /* 67696/2 */
+    "ENDOR_INTC_SW_IDX_LOX\0" /* 67718/2 */
+    "ENDOR_INTC_SW_MASK_HIX\0\0" /* 67740/2 */
+    "SWINT\0" /* 67764/2 */
+    "ENDOR_INTC_SW_MASK_LOX\0\0" /* 67770/2 */
+    "ENDOR_INTC_SW_RINT\0\0" /* 67794/2 */
+    "ENDOR_INTC_SW_STATUS_HIX\0\0" /* 67814/2 */
+    "ENDOR_INTC_SW_STATUS_LOX\0\0" /* 67840/2 */
+    "ENDOR_INTC_SWCLR\0\0" /* 67866/2 */
+    "ENDOR_INTC_SWSET\0\0" /* 67884/2 */
+    "ENDOR_INTC_WR_IDX_HIX\0" /* 67902/2 */
+    "ENDOR_INTC_WR_IDX_LOX\0" /* 67924/2 */
+    "ENDOR_INTC_WR_MASK_HIX\0\0" /* 67946/2 */
+    "RACHSNIF_0\0\0" /* 67970/2 */
+    "RACHSNIF_1\0\0" /* 67982/2 */
+    "TURBO_SB\0\0" /* 67994/2 */
+    "LTEENC_CCH\0\0" /* 68004/2 */
+    "T1_INSTR\0\0" /* 68016/2 */
+    "T2_INSTR\0\0" /* 68026/2 */
+    "T3_INSTR\0\0" /* 68036/2 */
+    "T1_RFIF_0\0" /* 68046/2 */
+    "T1_RFIF_1\0" /* 68056/2 */
+    "ENDOR_INTC_WR_MASK_LOX\0\0" /* 68066/2 */
+    "ENDOR_INTC_WR_RINT\0\0" /* 68090/2 */
+    "ENDOR_INTC_WR_STATUS_HIX\0\0" /* 68110/2 */
+    "ENDOR_INTC_WR_STATUS_LOX\0\0" /* 68136/2 */
+    "ENDOR_INTC_WRQ_IDX_HIX\0\0" /* 68162/2 */
+    "ENDOR_INTC_WRQ_IDX_LOX\0\0" /* 68186/2 */
+    "ENDOR_INTC_WRQ_MASK_HIX\0" /* 68210/2 */
+    "ENDOR_INTC_WRQ_MASK_LOX\0" /* 68234/2 */
+    "ENDOR_INTC_WRQ_RINT\0" /* 68258/2 */
+    "ENDOR_INTC_WRQ_STATUS_HIX\0" /* 68278/2 */
+    "ENDOR_INTC_WRQ_STATUS_LOX\0" /* 68304/2 */
+    "ENDOR_OFS_HMM_CBUF_END_ADDR0\0\0" /* 68330/2 */
+    "ENDOR_OFS_HMM_CBUF_END_ADDR1\0\0" /* 68360/2 */
+    "ENDOR_OFS_HMM_CBUF_END_ADDR2\0\0" /* 68390/2 */
+    "ENDOR_OFS_HMM_CBUF_END_ADDR3\0\0" /* 68420/2 */
+    "ENDOR_OFS_HMM_CBUF_START_ADDR0\0\0" /* 68450/2 */
+    "ENDOR_OFS_HMM_CBUF_START_ADDR1\0\0" /* 68482/2 */
+    "ENDOR_OFS_HMM_CBUF_START_ADDR2\0\0" /* 68514/2 */
+    "ENDOR_OFS_HMM_CBUF_START_ADDR3\0\0" /* 68546/2 */
+    "ENDOR_OFS_HMM_INTR_CLEAR\0\0" /* 68578/2 */
+    "XFER_COMPLETE\0" /* 68604/2 */
+    "XFER_Q_EMPTY\0\0" /* 68618/2 */
+    "ENDOR_OFS_HMM_INTR_ENB\0\0" /* 68632/2 */
+    "ENDOR_OFS_HMM_INTR_RSTATUS\0\0" /* 68656/2 */
+    "ENDOR_OFS_HMM_INTR_STATUS\0" /* 68684/2 */
+    "ENDOR_OFS_HMM_INTR_TEST\0" /* 68710/2 */
+    "ENDOR_OFS_HMM_MODE\0\0" /* 68734/2 */
+    "AUTO_CLK_ENB\0\0" /* 68754/2 */
+    "MEM_CLR_ENB\0" /* 68768/2 */
+    "ITLV_BUFMODE\0\0" /* 68780/2 */
+    "ENDOR_OFS_HMM_START_ADDR0\0" /* 68794/2 */
+    "ENDOR_OFS_HMM_START_ADDR1\0" /* 68820/2 */
+    "ENDOR_OFS_HMM_START_ADDR2\0" /* 68846/2 */
+    "ENDOR_OFS_HMM_START_ADDR3\0" /* 68872/2 */
+    "ENDOR_OFS_HMM_STATUS\0\0" /* 68898/2 */
+    "ENDOR_OFS_HMM_XFER_CNT\0\0" /* 68920/2 */
+    "WORDCNT\0" /* 68944/2 */
+    "CBUF_MODE\0" /* 68952/2 */
+    "SLICE_MODE\0\0" /* 68962/2 */
+    "XFER_COMP_INTR\0\0" /* 68974/2 */
+    "ENDOR_OFS_HMM_XFER_Q_STATUS\0" /* 68990/2 */
+    "ENDOR_OFS_HMM_XFER_START\0\0" /* 69018/2 */
+    "ENDOR_RFIF_1PPS_GEN_CFG\0" /* 69044/2 */
+    "ENDOR_RFIF_1PPS_SAMPLE_CNT_OFFSET\0" /* 69068/2 */
+    "ENDOR_RFIF_1PPS_VERIF_GEN_EN\0\0" /* 69102/2 */
+    "ENDOR_RFIF_1PPS_VERIF_SCNT\0\0" /* 69132/2 */
+    "ENDOR_RFIF_CONF\0" /* 69160/2 */
+    "WAVESAT_MODE\0\0" /* 69176/2 */
+    "CLR_FIFO_UR\0" /* 69190/2 */
+    "CLR_FIFO_OF\0" /* 69202/2 */
+    "ADI_EN\0\0" /* 69214/2 */
+    "DSP_RX_INT_EN\0" /* 69222/2 */
+    "MAN_CTRL\0\0" /* 69236/2 */
+    "ENA_CTRL\0\0" /* 69246/2 */
+    "TXNRX_CTRL\0\0" /* 69256/2 */
+    "PROD_TYPE\0" /* 69268/2 */
+    "DIVERSITY\0" /* 69278/2 */
+    "UPD_STYLE\0" /* 69288/2 */
+    "MOL\0" /* 69298/2 */
+    "ENDOR_RFIF_CONF2\0\0" /* 69302/2 */
+    "BEHAVIOR\0\0" /* 69320/2 */
+    "IQ_CFG\0\0" /* 69330/2 */
+    "LATENCY\0" /* 69338/2 */
+    "ENDOR_RFIF_DSP1_GPIO\0\0" /* 69346/2 */
+    "ENDOR_RFIF_DSP_RX_HIS\0" /* 69368/2 */
+    "ENDOR_RFIF_DSP_RX_ISM\0" /* 69390/2 */
+    "ENDOR_RFIF_FIRS_ENABLE\0\0" /* 69412/2 */
+    "RX_FIL\0\0" /* 69436/2 */
+    "RX_DIF_FIL\0\0" /* 69444/2 */
+    "TX_FIL\0\0" /* 69456/2 */
+    "TX_DIV_FIL\0\0" /* 69464/2 */
+    "ENDOR_RFIF_FRAME_CNT\0\0" /* 69476/2 */
+    "ENDOR_RFIF_FRAME_L\0\0" /* 69498/2 */
+    "ENDOR_RFIF_GPIO_X\0" /* 69518/2 */
+    "RISE_VAL\0\0" /* 69536/2 */
+    "FALL_VAL\0\0" /* 69546/2 */
+    "ENDOR_RFIF_MAX_SAMPLE_ADJ\0" /* 69556/2 */
+    "ENDOR_RFIF_MIN_SAMPLE_ADJ\0" /* 69582/2 */
+    "ENDOR_RFIF_NUM_RX_WIN\0" /* 69608/2 */
+    "ENDOR_RFIF_PWM_ENABLE\0" /* 69630/2 */
+    "ENDOR_RFIF_PWM_HIGH_TIME\0\0" /* 69652/2 */
+    "HI_TIME\0" /* 69678/2 */
+    "ENDOR_RFIF_PWM_LOW_TIME\0" /* 69686/2 */
+    "LO_TIME\0" /* 69710/2 */
+    "ENDOR_RFIF_RD_TIMER64_LSB\0" /* 69718/2 */
+    "ENDOR_RFIF_RD_TIMER64_MSB\0" /* 69744/2 */
+    "ENDOR_RFIF_REAL_TIME_TIMER\0\0" /* 69770/2 */
+    "ENDOR_RFIF_RF_CLK_TIMER\0" /* 69798/2 */
+    "ENDOR_RFIF_RF_CLK_TIMER_EN\0\0" /* 69822/2 */
+    "ENDOR_RFIF_RX_CORRECT_ADJ\0" /* 69850/2 */
+    "ENDOR_RFIF_RX_DIV_STATUS\0\0" /* 69876/2 */
+    "HAB_REQ_SM\0\0" /* 69902/2 */
+    "RX_SM\0" /* 69914/2 */
+    "TX_SM\0" /* 69920/2 */
+    "THRESH_RCH\0\0" /* 69926/2 */
+    "RESERVED_19_20\0\0" /* 69938/2 */
+    "SYNC_LATE\0" /* 69954/2 */
+    "RFIC_ENA\0\0" /* 69964/2 */
+    "ENDOR_RFIF_RX_FIFO_CNT\0\0" /* 69974/2 */
+    "ENDOR_RFIF_RX_IF_CFG\0\0" /* 69998/2 */
+    "CAP_LAT\0" /* 70020/2 */
+    "HALF_LAT\0\0" /* 70028/2 */
+    "EORL\0\0" /* 70038/2 */
+    "ENDOR_RFIF_RX_LEAD_LAG\0\0" /* 70044/2 */
+    "LEAD\0\0" /* 70068/2 */
+    "ENDOR_RFIF_RX_LOAD_CFG\0\0" /* 70074/2 */
+    "EXE1\0\0" /* 70098/2 */
+    "EXE2\0\0" /* 70104/2 */
+    "EXE3\0\0" /* 70110/2 */
+    "ALT_ANT\0" /* 70116/2 */
+    "HIDDEN\0\0" /* 70124/2 */
+    "ENDOR_RFIF_RX_OFFSET\0\0" /* 70132/2 */
+    "ENDOR_RFIF_RX_OFFSET_ADJ_SCNT\0" /* 70154/2 */
+    "ENDOR_RFIF_RX_STATUS\0\0" /* 70184/2 */
+    "ENDOR_RFIF_RX_SYNC_SCNT\0" /* 70206/2 */
+    "ENDOR_RFIF_RX_SYNC_VALUE\0\0" /* 70230/2 */
+    "ENDOR_RFIF_RX_TH\0\0" /* 70256/2 */
+    "ENDOR_RFIF_RX_TRANSFER_SIZE\0" /* 70274/2 */
+    "ENDOR_RFIF_RX_W_EX\0\0" /* 70302/2 */
+    "ENDOR_RFIF_RX_W_SX\0\0" /* 70322/2 */
+    "START_PNT\0" /* 70342/2 */
+    "ENDOR_RFIF_SAMPLE_ADJ_CFG\0" /* 70352/2 */
+    "ENDOR_RFIF_SAMPLE_ADJ_ERROR\0" /* 70378/2 */
+    "ENDOR_RFIF_SAMPLE_CNT\0" /* 70406/2 */
+    "ENDOR_RFIF_SKIP_FRM_CNT_BITS\0\0" /* 70428/2 */
+    "ENDOR_RFIF_SPI_X_LL\0" /* 70458/2 */
+    "ENDOR_RFIF_SPI_CMD_ATTRX\0\0" /* 70478/2 */
+    "GEN_INT\0" /* 70504/2 */
+    "BYTES\0" /* 70512/2 */
+    "SLAVE\0" /* 70518/2 */
+    "ENDOR_RFIF_SPI_CMDSX\0\0" /* 70524/2 */
+    "ENDOR_RFIF_SPI_CONF0\0\0" /* 70546/2 */
+    "NUM_CMDS0\0" /* 70568/2 */
+    "NUM_CMDS1\0" /* 70578/2 */
+    "NUM_CMDS2\0" /* 70588/2 */
+    "NUM_CMDS3\0" /* 70598/2 */
+    "ENDOR_RFIF_SPI_CONF1\0\0" /* 70608/2 */
+    "START2\0\0" /* 70630/2 */
+    "START3\0\0" /* 70638/2 */
+    "ENDOR_RFIF_SPI_CTRL\0" /* 70646/2 */
+    "ENDOR_RFIF_SPI_DINX\0" /* 70666/2 */
+    "ENDOR_RFIF_SPI_RX_DATA\0\0" /* 70686/2 */
+    "ENDOR_RFIF_SPI_STATUS\0" /* 70710/2 */
+    "TX_FIFO_LVL\0" /* 70732/2 */
+    "RX_FIFO_LVL\0" /* 70744/2 */
+    "SR_STATE\0\0" /* 70756/2 */
+    "ENDOR_RFIF_SPI_TX_DATA\0\0" /* 70766/2 */
+    "RESERVED_25_30\0\0" /* 70790/2 */
+    "ENDOR_RFIF_TIMER64_CFG\0\0" /* 70806/2 */
+    "ENDOR_RFIF_TIMER64_EN\0" /* 70830/2 */
+    "ENDOR_RFIF_TTI_SCNT_INTX\0\0" /* 70852/2 */
+    "ENDOR_RFIF_TTI_SCNT_INT_CLR\0" /* 70878/2 */
+    "ENDOR_RFIF_TTI_SCNT_INT_EN\0\0" /* 70906/2 */
+    "ENDOR_RFIF_TTI_SCNT_INT_MAP\0" /* 70934/2 */
+    "ENDOR_RFIF_TTI_SCNT_INT_STAT\0\0" /* 70962/2 */
+    "ENDOR_RFIF_TX_DIV_STATUS\0\0" /* 70992/2 */
+    "ENDOR_RFIF_TX_IF_CFG\0\0" /* 71018/2 */
+    "ANTENNA\0" /* 71040/2 */
+    "DIS_SCH\0" /* 71048/2 */
+    "ENDOR_RFIF_TX_LEAD_LAG\0\0" /* 71056/2 */
+    "ENDOR_RFIF_TX_OFFSET\0\0" /* 71080/2 */
+    "ENDOR_RFIF_TX_OFFSET_ADJ_SCNT\0" /* 71102/2 */
+    "ENDOR_RFIF_TX_STATUS\0\0" /* 71132/2 */
+    "ENDOR_RFIF_TX_TH\0\0" /* 71154/2 */
+    "ENDOR_RFIF_WIN_EN\0" /* 71172/2 */
+    "ENDOR_RFIF_WIN_UPD_SCNT\0" /* 71190/2 */
+    "ENDOR_RFIF_WR_TIMER64_LSB\0" /* 71214/2 */
+    "ENDOR_RFIF_WR_TIMER64_MSB\0" /* 71240/2 */
+    "ENDOR_RSTCLK_CLKENB0_CLR\0\0" /* 71266/2 */
+    "RACHFE\0\0" /* 71292/2 */
+    "RX0SEQ\0\0" /* 71300/2 */
+    "DFTDMAP\0" /* 71308/2 */
+    "RX1SEQ\0\0" /* 71316/2 */
+    "TURBOPHY\0\0" /* 71324/2 */
+    "TURBODSP\0\0" /* 71334/2 */
+    "V3GENC\0\0" /* 71344/2 */
+    "TXSEQ\0" /* 71352/2 */
+    "AXIDMA\0\0" /* 71358/2 */
+    "ENDOR_RSTCLK_CLKENB0_SET\0\0" /* 71366/2 */
+    "ENDOR_RSTCLK_CLKENB0_STATE\0\0" /* 71392/2 */
+    "ENDOR_RSTCLK_CLKENB1_CLR\0\0" /* 71420/2 */
+    "RFIF_RF\0" /* 71446/2 */
+    "RFIF_HAB\0\0" /* 71454/2 */
+    "TILE1DSP\0\0" /* 71464/2 */
+    "TILE2DSP\0\0" /* 71474/2 */
+    "TILE3DSP\0\0" /* 71484/2 */
+    "TOKEN\0" /* 71494/2 */
+    "RESERVED_7_31\0" /* 71500/2 */
+    "ENDOR_RSTCLK_CLKENB1_SET\0\0" /* 71514/2 */
+    "ENDOR_RSTCLK_CLKENB1_STATE\0\0" /* 71540/2 */
+    "ENDOR_RSTCLK_DSPSTALL_CLR\0" /* 71568/2 */
+    "RX0DSP0\0" /* 71594/2 */
+    "RX0DSP1\0" /* 71602/2 */
+    "RX1DSP0\0" /* 71610/2 */
+    "RX1DSP1\0" /* 71618/2 */
+    "TXDSP0\0\0" /* 71626/2 */
+    "TXDSP1\0\0" /* 71634/2 */
+    "ENDOR_RSTCLK_DSPSTALL_SET\0" /* 71642/2 */
+    "ENDOR_RSTCLK_DSPSTALL_STATE\0" /* 71668/2 */
+    "ENDOR_RSTCLK_INTR0_CLRMASK\0\0" /* 71696/2 */
+    "SW_INTR\0" /* 71724/2 */
+    "TIMER_INTR\0\0" /* 71732/2 */
+    "ENDOR_RSTCLK_INTR0_MASK\0" /* 71744/2 */
+    "ENDOR_RSTCLK_INTR0_SETMASK\0\0" /* 71768/2 */
+    "ENDOR_RSTCLK_INTR0_STATUS\0" /* 71796/2 */
+    "ENDOR_RSTCLK_INTR1_CLRMASK\0\0" /* 71822/2 */
+    "ENDOR_RSTCLK_INTR1_MASK\0" /* 71850/2 */
+    "ENDOR_RSTCLK_INTR1_SETMASK\0\0" /* 71874/2 */
+    "ENDOR_RSTCLK_INTR1_STATUS\0" /* 71902/2 */
+    "ENDOR_RSTCLK_PHY_CONFIG\0" /* 71928/2 */
+    "T1IMEM_INITENB\0\0" /* 71952/2 */
+    "T1SMEM_INITENB\0\0" /* 71968/2 */
+    "T2IMEM_INITENB\0\0" /* 71984/2 */
+    "T2SMEM_INITENB\0\0" /* 72000/2 */
+    "T3IMEM_INITENB\0\0" /* 72016/2 */
+    "T3SMEM_INITENB\0\0" /* 72032/2 */
+    "ENDOR_RSTCLK_PROC_MON\0" /* 72048/2 */
+    "RINGOSC_COUNT\0" /* 72070/2 */
+    "TRANSISTOR_SEL\0\0" /* 72084/2 */
+    "ENDOR_RSTCLK_PROC_MON_COUNT\0" /* 72100/2 */
+    "ENDOR_RSTCLK_RESET0_CLR\0" /* 72128/2 */
+    "ENDOR_RSTCLK_RESET0_SET\0" /* 72152/2 */
+    "ENDOR_RSTCLK_RESET0_STATE\0" /* 72176/2 */
+    "ENDOR_RSTCLK_RESET1_CLR\0" /* 72202/2 */
+    "ENDOR_RSTCLK_RESET1_SET\0" /* 72226/2 */
+    "ENDOR_RSTCLK_RESET1_STATE\0" /* 72250/2 */
+    "ENDOR_RSTCLK_SW_INTR_CLR\0\0" /* 72276/2 */
+    "ENDOR_RSTCLK_SW_INTR_SET\0\0" /* 72302/2 */
+    "ENDOR_RSTCLK_SW_INTR_STATUS\0" /* 72328/2 */
+    "ENDOR_RSTCLK_TIMEX_THRD\0" /* 72356/2 */
+    "ENDOR_RSTCLK_TIMER_CTL\0\0" /* 72380/2 */
+    "ENDOR_RSTCLK_TIMER_INTR_CLR\0" /* 72404/2 */
+    "ENDOR_RSTCLK_TIMER_INTR_STATUS\0\0" /* 72432/2 */
+    "ENDOR_RSTCLK_TIMER_MAX\0\0" /* 72464/2 */
+    "ENDOR_RSTCLK_TIMER_VALUE\0\0" /* 72488/2 */
+    "ENDOR_RSTCLK_VERSION\0\0" /* 72514/2 */
+    "EOI_BIST_CTL_STA\0\0" /* 72536/2 */
+    "LDDF\0\0" /* 72554/2 */
+    "PPAF\0\0" /* 72560/2 */
+    "STDF\0\0" /* 72566/2 */
+    "RESERVED_3_15\0" /* 72572/2 */
+    "EOI_CTL_STA\0" /* 72586/2 */
+    "RWAM\0\0" /* 72598/2 */
+    "EOI_DEF_STA0\0\0" /* 72604/2 */
+    "ROUT0\0" /* 72618/2 */
+    "ROUT1\0" /* 72624/2 */
+    "ROUT2\0" /* 72630/2 */
+    "EOI_DEF_STA1\0\0" /* 72636/2 */
+    "ROUT3\0" /* 72650/2 */
+    "ROUT4\0" /* 72656/2 */
+    "ROUT5\0" /* 72662/2 */
+    "EOI_DEF_STA2\0\0" /* 72668/2 */
+    "ROUT6\0" /* 72682/2 */
+    "TOOMANY\0" /* 72688/2 */
+    "EOI_ECC_CTL\0" /* 72696/2 */
+    "RBSF\0\0" /* 72708/2 */
+    "RBEN\0\0" /* 72714/2 */
+    "EOI_ENDOR_BISTR_CTL_STA\0" /* 72720/2 */
+    "BISR_DIR\0\0" /* 72744/2 */
+    "BISR_HR\0" /* 72754/2 */
+    "FAILED\0\0" /* 72762/2 */
+    "BISR_DONE\0" /* 72770/2 */
+    "EOI_ENDOR_CLK_CTL\0" /* 72780/2 */
+    "HAB_PS_EN\0" /* 72798/2 */
+    "HAB_DIV_RESET\0" /* 72808/2 */
+    "DSP_PS_EN\0" /* 72822/2 */
+    "DSP_DIV_RESET\0" /* 72832/2 */
+    "HABCLK_SEL\0\0" /* 72846/2 */
+    "EOI_ENDOR_CTL\0" /* 72858/2 */
+    "INV_PP_WA2\0\0" /* 72872/2 */
+    "INV_PP_RA2\0\0" /* 72884/2 */
+    "INV_RSL_WA2\0" /* 72896/2 */
+    "INV_RSL_RA2\0" /* 72908/2 */
+    "W_EMOD\0\0" /* 72920/2 */
+    "R_EMOD\0\0" /* 72928/2 */
+    "EOI_INT_ENA\0" /* 72936/2 */
+    "RB_SBE\0\0" /* 72948/2 */
+    "RB_DBE\0\0" /* 72956/2 */
+    "EOI_INT_STA\0" /* 72964/2 */
+    "EOI_IO_DRV\0\0" /* 72976/2 */
+    "GPO_N\0" /* 72988/2 */
+    "GPO_P\0" /* 72994/2 */
+    "RFIF_N\0\0" /* 73000/2 */
+    "RFIF_P\0\0" /* 73008/2 */
+    "EOI_THROTTLE_CTL\0\0" /* 73016/2 */
+    "LDC\0" /* 73034/2 */
+    "STD\0" /* 73038/2 */
+    "MIO_PTP_PHY_1PPS_IN\0" /* 73042/2 */
+    "LTRS\0\0" /* 73062/2 */
+    "TPHS\0\0" /* 73068/2 */
+    "RESERVED_14_17\0\0" /* 73074/2 */
+    "OBFFS\0" /* 73090/2 */
+    "LTRE\0\0" /* 73096/2 */
+    "RESERVED_11_12\0\0" /* 73102/2 */
+    "OBFFE\0" /* 73118/2 */
+    "UCIES\0" /* 73124/2 */
+    "UCIEM\0" /* 73130/2 */
+    "CIES\0\0" /* 73136/2 */
+    "CIEM\0\0" /* 73142/2 */
     "";
 
 const uint64_t __bdk_csr_db_number[] = {
@@ -24065,6 +26665,213 @@ const uint64_t __bdk_csr_db_number[] = {
        0x1070000010000ull, /* 1655 */
        0x1070000010038ull, /* 1656 */
        0x1070000010008ull, /* 1657 */
+       0x10f0000844004ull, /* 1658 */
+       0x10f0000844050ull, /* 1659 */
+       0x10f0000844084ull, /* 1660 */
+       0x10f0000844044ull, /* 1661 */
+       0x10f000084410cull, /* 1662 */
+       0x10f0000844108ull, /* 1663 */
+       0x10f0000844100ull, /* 1664 */
+       0x10f0000844104ull, /* 1665 */
+       0x10f0000844080ull, /* 1666 */
+       0x10f0000844008ull, /* 1667 */
+       0x10f0000844040ull, /* 1668 */
+       0x10f000084404cull, /* 1669 */
+       0x10f0000844048ull, /* 1670 */
+       0x10f0000844000ull, /* 1671 */
+       0x10f00008201e4ull, /* 1672 */
+       0x10f00008201e0ull, /* 1673 */
+       0x10f00008201a4ull, /* 1674 */
+       0x10f00008201a0ull, /* 1675 */
+       0x10f0000820134ull, /* 1676 */
+       0x10f0000820114ull, /* 1677 */
+       0x10f0000820034ull, /* 1678 */
+       0x10f0000820014ull, /* 1679 */
+       0x10f0000820194ull, /* 1680 */
+       0x10f00008200b4ull, /* 1681 */
+       0x10f0000820094ull, /* 1682 */
+       0x10f0000820124ull, /* 1683 */
+       0x10f0000820104ull, /* 1684 */
+       0x10f0000820024ull, /* 1685 */
+       0x10f0000820004ull, /* 1686 */
+       0x10f0000820184ull, /* 1687 */
+       0x10f00008200a4ull, /* 1688 */
+       0x10f0000820084ull, /* 1689 */
+       0x10f000082012cull, /* 1690 */
+       0x10f000082010cull, /* 1691 */
+       0x10f000082002cull, /* 1692 */
+       0x10f000082000cull, /* 1693 */
+       0x10f000082018cull, /* 1694 */
+       0x10f00008200acull, /* 1695 */
+       0x10f000082008cull, /* 1696 */
+       0x10f00008201c4ull, /* 1697 */
+       0x10f00008201c0ull, /* 1698 */
+       0x10f0000820130ull, /* 1699 */
+       0x10f0000820110ull, /* 1700 */
+       0x10f0000820030ull, /* 1701 */
+       0x10f0000820010ull, /* 1702 */
+       0x10f0000820190ull, /* 1703 */
+       0x10f00008200b0ull, /* 1704 */
+       0x10f0000820090ull, /* 1705 */
+       0x10f0000820204ull, /* 1706 */
+       0x10f0000820200ull, /* 1707 */
+       0x10f0000820120ull, /* 1708 */
+       0x10f0000820100ull, /* 1709 */
+       0x10f0000820020ull, /* 1710 */
+       0x10f0000820000ull, /* 1711 */
+       0x10f0000820180ull, /* 1712 */
+       0x10f00008200a0ull, /* 1713 */
+       0x10f0000820080ull, /* 1714 */
+       0x10f0000820128ull, /* 1715 */
+       0x10f0000820108ull, /* 1716 */
+       0x10f0000820028ull, /* 1717 */
+       0x10f0000820008ull, /* 1718 */
+       0x10f0000820188ull, /* 1719 */
+       0x10f00008200a8ull, /* 1720 */
+       0x10f0000820088ull, /* 1721 */
+       0x10f0000832054ull, /* 1722 */
+       0x10f000083205cull, /* 1723 */
+       0x10f0000832064ull, /* 1724 */
+       0x10f000083206cull, /* 1725 */
+       0x10f0000832050ull, /* 1726 */
+       0x10f0000832058ull, /* 1727 */
+       0x10f0000832060ull, /* 1728 */
+       0x10f0000832068ull, /* 1729 */
+       0x10f0000832018ull, /* 1730 */
+       0x10f000083201cull, /* 1731 */
+       0x10f0000832014ull, /* 1732 */
+       0x10f0000832010ull, /* 1733 */
+       0x10f0000832020ull, /* 1734 */
+       0x10f0000832004ull, /* 1735 */
+       0x10f0000832030ull, /* 1736 */
+       0x10f0000832034ull, /* 1737 */
+       0x10f0000832038ull, /* 1738 */
+       0x10f000083203cull, /* 1739 */
+       0x10f0000832000ull, /* 1740 */
+       0x10f000083202cull, /* 1741 */
+       0x10f000083200cull, /* 1742 */
+       0x10f0000832028ull, /* 1743 */
+       0x10f00008680ccull, /* 1744 */
+       0x10f0000868104ull, /* 1745 */
+       0x10f0000868110ull, /* 1746 */
+       0x10f0000868114ull, /* 1747 */
+       0x10f0000868010ull, /* 1748 */
+       0x10f000086801cull, /* 1749 */
+       0x10f00008684c0ull, /* 1750 */
+       0x10f000086840cull, /* 1751 */
+       0x10f0000868400ull, /* 1752 */
+       0x10f00008684c4ull, /* 1753 */
+       0x10f0000868030ull, /* 1754 */
+       0x10f0000868014ull, /* 1755 */
+       0x10f0000868418ull, /* 1756 */
+       0x10f00008680dcull, /* 1757 */
+       0x10f00008680e0ull, /* 1758 */
+       0x10f0000868018ull, /* 1759 */
+       0x10f0000868180ull, /* 1760 */
+       0x10f0000868184ull, /* 1761 */
+       0x10f0000868188ull, /* 1762 */
+       0x10f00008681acull, /* 1763 */
+       0x10f00008681b0ull, /* 1764 */
+       0x10f00008680c8ull, /* 1765 */
+       0x10f0000868194ull, /* 1766 */
+       0x10f0000868198ull, /* 1767 */
+       0x10f00008680e8ull, /* 1768 */
+       0x10f0000868004ull, /* 1769 */
+       0x10f0000868500ull, /* 1770 */
+       0x10f0000868038ull, /* 1771 */
+       0x10f0000868020ull, /* 1772 */
+       0x10f0000868508ull, /* 1773 */
+       0x10f00008680d4ull, /* 1774 */
+       0x10f0000868108ull, /* 1775 */
+       0x10f0000868000ull, /* 1776 */
+       0x10f00008680c4ull, /* 1777 */
+       0x10f00008680c0ull, /* 1778 */
+       0x10f0000868410ull, /* 1779 */
+       0x10f000086850cull, /* 1780 */
+       0x10f0000868084ull, /* 1781 */
+       0x10f0000868044ull, /* 1782 */
+       0x10f00008680e4ull, /* 1783 */
+       0x10f0000868100ull, /* 1784 */
+       0x10f0000868028ull, /* 1785 */
+       0x10f0000868444ull, /* 1786 */
+       0x10f0000868430ull, /* 1787 */
+       0x10f0000868a00ull, /* 1788 */
+       0x10f0000868800ull, /* 1789 */
+       0x10f0000868428ull, /* 1790 */
+       0x10f000086842cull, /* 1791 */
+       0x10f0000866008ull, /* 1792 */
+       0x10f0000868900ull, /* 1793 */
+       0x10f0000866000ull, /* 1794 */
+       0x10f0000866010ull, /* 1795 */
+       0x10f0000866004ull, /* 1796 */
+       0x10f00008681a0ull, /* 1797 */
+       0x10f000086819cull, /* 1798 */
+       0x10f0000868140ull, /* 1799 */
+       0x10f0000868118ull, /* 1800 */
+       0x10f0000868124ull, /* 1801 */
+       0x10f0000868120ull, /* 1802 */
+       0x10f000086811cull, /* 1803 */
+       0x10f000086800cull, /* 1804 */
+       0x10f0000868034ull, /* 1805 */
+       0x10f0000868024ull, /* 1806 */
+       0x10f00008680d8ull, /* 1807 */
+       0x10f000086810cull, /* 1808 */
+       0x10f0000868008ull, /* 1809 */
+       0x10f0000868414ull, /* 1810 */
+       0x10f0000868040ull, /* 1811 */
+       0x10f000086803cull, /* 1812 */
+       0x10f00008681a4ull, /* 1813 */
+       0x10f00008681a8ull, /* 1814 */
+       0x10f0000844428ull, /* 1815 */
+       0x10f0000844424ull, /* 1816 */
+       0x10f0000844420ull, /* 1817 */
+       0x10f0000844438ull, /* 1818 */
+       0x10f0000844434ull, /* 1819 */
+       0x10f0000844430ull, /* 1820 */
+       0x10f0000844448ull, /* 1821 */
+       0x10f0000844444ull, /* 1822 */
+       0x10f0000844440ull, /* 1823 */
+       0x10f0000844598ull, /* 1824 */
+       0x10f0000844590ull, /* 1825 */
+       0x10f0000844594ull, /* 1826 */
+       0x10f000084459cull, /* 1827 */
+       0x10f00008445a8ull, /* 1828 */
+       0x10f00008445a0ull, /* 1829 */
+       0x10f00008445a4ull, /* 1830 */
+       0x10f00008445acull, /* 1831 */
+       0x10f0000844450ull, /* 1832 */
+       0x10f00008445b0ull, /* 1833 */
+       0x10f00008445b4ull, /* 1834 */
+       0x10f0000844408ull, /* 1835 */
+       0x10f0000844404ull, /* 1836 */
+       0x10f0000844400ull, /* 1837 */
+       0x10f0000844418ull, /* 1838 */
+       0x10f0000844414ull, /* 1839 */
+       0x10f0000844410ull, /* 1840 */
+       0x10f0000844588ull, /* 1841 */
+       0x10f0000844584ull, /* 1842 */
+       0x10f0000844580ull, /* 1843 */
+       0x10f0000844510ull, /* 1844 */
+       0x10f0000844500ull, /* 1845 */
+       0x10f0000844534ull, /* 1846 */
+       0x10f0000844530ull, /* 1847 */
+       0x10f0000844508ull, /* 1848 */
+       0x10f0000844504ull, /* 1849 */
+       0x10f0000844570ull, /* 1850 */
+       0x1180013000118ull, /* 1851 */
+       0x1180013000000ull, /* 1852 */
+       0x1180013000020ull, /* 1853 */
+       0x1180013000028ull, /* 1854 */
+       0x1180013000030ull, /* 1855 */
+       0x1180013000110ull, /* 1856 */
+       0x1180013000120ull, /* 1857 */
+       0x1180013000038ull, /* 1858 */
+       0x1180013000100ull, /* 1859 */
+       0x1180013000010ull, /* 1860 */
+       0x1180013000008ull, /* 1861 */
+       0x1180013000018ull, /* 1862 */
+       0x1180013000108ull, /* 1863 */
+       0x1070000000f70ull, /* 1864 */
 };
 
 const __bdk_csr_db_map_t __bdk_csr_db[] = {
@@ -24074,6 +26881,7 @@ const __bdk_csr_db_map_t __bdk_csr_db[] = {
     {OCTEON_CN68XX_PASS2_X, __bdk_csr_db_cn68xx},
     {OCTEON_CN66XX_PASS1_X, __bdk_csr_db_cn66xx},
     {OCTEON_CN61XX_PASS1_X, __bdk_csr_db_cn61xx},
+    {OCTEON_CNF71XX_PASS1_X, __bdk_csr_db_cnf71xx},
     {0, NULL}
 };
 

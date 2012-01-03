@@ -121,7 +121,8 @@ if generate_html:
                                                   ("cn68xxp1", "cn68xx"),
                                                   ("cn63xx", "cn66xx"),
                                                   ("cn63xx", "cn61xx"),
-                                                  ("cn66xx", "cn61xx")))
+                                                  ("cn66xx", "cn61xx"),
+                                                  ("cn61xx", "cnf71xx")))
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
