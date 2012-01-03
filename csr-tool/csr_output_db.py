@@ -19,7 +19,9 @@ def getKeysSorted(dict):
     return result
 
 #
-# Store a string into a global table and return its index
+# Store a string into a global table and return its index. The index
+# is half the actual value, requiring string to be a even length. Odd
+# length strings will have an added zero when written.
 #
 globalStringTable = {}
 globalStringTableLookup = {}
@@ -32,11 +34,15 @@ def getStringTable(str):
     if not str in globalStringTableLookup:
         for k in globalStringTable:
             if k.endswith(str):
-                globalStringTableLookup[str] = globalStringTable[k] + len(k) - len(str)
-                return globalStringTableLookup[str]
+                position = globalStringTable[k] + len(k) - len(str)
+                if position & 1 == 0:
+                    globalStringTableLookup[str] = position/2
+                    return globalStringTableLookup[str]
         globalStringTable[str] = globalStringTableLen
-        globalStringTableLookup[str] = globalStringTableLen
+        globalStringTableLookup[str] = globalStringTableLen/2
         globalStringTableLen += len(str) + 1
+        if globalStringTableLen & 1 == 1:
+            globalStringTableLen += 1
     return globalStringTableLookup[str]
 
 #
@@ -198,7 +204,10 @@ def write(file, separate_chip_lists, include_cisco_only):
     out.write("const char __bdk_csr_db_string[] = ")
     keys = getKeysSorted(globalStringTable)
     for key in keys:
-        out.write("\n    \"%s\\0\" /* %s */" % (key, globalStringTable[key]))
+        if len(key) &1 == 0:
+            out.write("\n    \"%s\\0\\0\" /* %s/2 */" % (key, globalStringTable[key]))
+        else:
+            out.write("\n    \"%s\\0\" /* %s/2 */" % (key, globalStringTable[key]))
     out.write("\n    \"\";\n\n")
     #
     # Write the CSR number table

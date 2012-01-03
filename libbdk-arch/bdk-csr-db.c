@@ -112,7 +112,7 @@ static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
     const __bdk_csr_db_type_t *db = &__bdk_csr_db_csr[csr_list[index]];
     while (db->width)
     {
-        if (strcasecmp(compare, __bdk_csr_db_string + db->name_index) == 0)
+        if (strcasecmp(compare, __bdk_csr_db_string + db->name_index*2) == 0)
             break;
         index++;
         db = &__bdk_csr_db_csr[csr_list[index]];
@@ -204,11 +204,11 @@ int bdk_csr_decode(const char *name, uint64_t value)
 
     /* Print the official CSR name */
     if (block != -1)
-        printf("%s(%d,%d)", __bdk_csr_db_string + db->name_index, offset, block);
+        printf("%s(%d,%d)", __bdk_csr_db_string + db->name_index*2, offset, block);
     else if (offset != -1)
-        printf("%s(%d)", __bdk_csr_db_string + db->name_index, offset);
+        printf("%s(%d)", __bdk_csr_db_string + db->name_index*2, offset);
     else
-        printf("%s", __bdk_csr_db_string + db->name_index);
+        printf("%s", __bdk_csr_db_string + db->name_index*2);
 
     /* Print the address and value */
     printf("[0x%016llx] = 0x%016llx\n", (unsigned long long)__bdk_csr_lookup_address(db, offset, block), (unsigned long long)value);
@@ -217,7 +217,7 @@ int bdk_csr_decode(const char *name, uint64_t value)
     while (num_fields--)
     {
         int field = __bdk_csr_db_fieldList[db->field_index + 1 + num_fields];
-        const char *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field];
+        const char *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field]*2;
         int start_bit = __bdk_csr_db_field[field+1];
         int stop_bit = __bdk_csr_db_field[field+2];
         int size_bits = stop_bit - start_bit + 1;
@@ -267,7 +267,7 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
         if (start_bit == field_start_bit)
         {
             int stop_bit = __bdk_csr_db_field[field+2];
-            *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field];
+            *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field]*2;
             return stop_bit - start_bit + 1;
         }
     }
@@ -408,11 +408,11 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     if (buffer)
     {
         if (block != -1)
-            sprintf(buffer, "%s(%d,%d)", __bdk_csr_db_string + db->name_index, offset, block);
+            sprintf(buffer, "%s(%d,%d)", __bdk_csr_db_string + db->name_index*2, offset, block);
         else if (offset != -1)
-            sprintf(buffer, "%s(%d)", __bdk_csr_db_string + db->name_index, offset);
+            sprintf(buffer, "%s(%d)", __bdk_csr_db_string + db->name_index*2, offset);
         else
-            sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index);
+            sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index*2);
     }
 
     return 0;
