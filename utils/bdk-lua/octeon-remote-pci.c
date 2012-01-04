@@ -66,6 +66,7 @@ static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0090, /* CN63XX */
                                             0x177d0091, /* CN68XX */
                                             0x177d0092, /* CN66XX */
                                             0x177d0093, /* CN61XX */
+                                            0x177d0094, /* CNF71XX */
                                             0 };
 
 static uint32_t octeon_pci_bar0_size    = 0;    /* Size of the BAR0 memory mapped region */
@@ -236,6 +237,9 @@ static int pci_get_device(int device)
             break;
         case 0x93: /* CN61XX */
             octeon_pci_model = OCTEON_CN61XX_PASS1_0;
+            break;
+        case 0x94: /* CNF71XX */
+            octeon_pci_model = OCTEON_CNF71XX_PASS1_0;
             break;
         default:
             octeon_remote_debug(-1, "Octeon model not recognized\n");

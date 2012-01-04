@@ -169,8 +169,8 @@ static int __bdk_if_setup_ipd_global(void)
 
     int thresh_pass = 64;
     int thresh_drop = 32;
-    /* Skip RED on CN61XX as we have too few buffers for it to work */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) && !__bdk_is_dram_enabled())
+    /* Skip RED on CN61XX&CNF71XX as we have too few buffers for it to work */
+    if ((OCTEON_IS_MODEL(OCTEON_CN61XX)||OCTEON_IS_MODEL(OCTEON_CNF71XX)) && !__bdk_is_dram_enabled())
     {
         thresh_pass = 1;
         thresh_drop = 0;
@@ -417,8 +417,8 @@ static int __bdk_if_init(void)
     int result = 0;
     int num_packet_buffers;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        /* Using more buffers on CN61XX as low core count has poor
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
+        /* Using more buffers on CN61XX and CNF71XX as low core count has poor
             performance. 256 buffers without DRAM required that DRAM_CONFIG
             be left out of the minimal BDK */
         num_packet_buffers = (__bdk_is_dram_enabled()) ? 2048 : 256;

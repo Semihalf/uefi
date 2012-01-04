@@ -10,6 +10,8 @@ static int if_num_interfaces(void)
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+        return 1;
     else
         return 0;
 }
@@ -33,7 +35,7 @@ static int if_num_ports(int interface)
                 return 0;
         }
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
     {
         int qlm = bdk_qlm_get(BDK_IF_SGMII, interface);
         if (strstr(bdk_qlm_get_mode(qlm), "SGMII") && bdk_qlm_get_gbaud_mhz(qlm))

@@ -37,6 +37,8 @@ int bdk_qlm_get_num(void)
         return 3;
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 3;
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+        return 2;
 
     bdk_error("bdk_qlm_get_num: Needs update for this chip\n");
     return 0;
@@ -164,6 +166,18 @@ int bdk_qlm_get(bdk_if_t iftype, int interface)
                 break;
         }
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+                if (interface == 0)
+                    return 2;
+                break;
+            default:
+                break;
+        }
+    }
     bdk_fatal("bdk_qlm_get called incorrectly for type=%d, interface=%d\n", iftype, interface);
 }
 
@@ -178,6 +192,8 @@ int bdk_qlm_get(bdk_if_t iftype, int interface)
 int bdk_qlm_get_lanes(int qlm)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX) && (qlm == 1))
+        return 2;
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
         return 2;
     else
         return 4;
@@ -279,6 +295,28 @@ const char *bdk_qlm_get_mode(int qlm)
                 break;
         }
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    {
+        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+        switch (qlm)
+        {
+            case 0:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 2: return "SGMII";
+                    default: return "RESERVED";
+                }
+                break;
+            case 1:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 0: return "PCIE 1x2";
+                    case 1: return "PCIE 2x1";
+                    default: return "RESERVED";
+                }
+                break;
+        }
+    }
     bdk_error("bdk_qlm_get_mode: Needs update for this chip\n");
     return "UNKNOWN";
 }
@@ -293,13 +331,13 @@ const char *bdk_qlm_get_mode(int qlm)
  */
 int bdk_qlm_get_gbaud_mhz(int qlm)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
     {
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
         switch (qlm_cfg.s.qlm_spd)
         {
             case 0: return 5000;    /* 5     Gbaud */
-            case 1: return OCTEON_IS_MODEL(OCTEON_CN61XX) ? 5000 : 2500; /* 2.5/5 Gbaud */
+            case 1: return (OCTEON_IS_MODEL(OCTEON_CN61XX)||OCTEON_IS_MODEL(OCTEON_CNF71XX)) ? 5000 : 2500; /* 2.5/5 Gbaud */
             case 2: return 2500;    /* 2.5   Gbaud */
             case 3: return 1250;    /* 1.25  Gbaud */
             case 4: return 1250;    /* 1.25  Gbaud */
@@ -592,6 +630,8 @@ void bdk_qlm_init(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn63xx;
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn66xx; /* Same as 66 */
+    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
         __bdk_qlm_jtag_field_current = __bdk_qlm_jtag_field_cn66xx; /* Same as 66 */
     else
         bdk_error("bdk_qlm_init: Needs update for this chip\n");
