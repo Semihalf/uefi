@@ -78,15 +78,10 @@ for f in octcsr_cn61xxp1.txt
 do
     sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" $f
     sed -i "s/PCIERC#_/PCIERC(0..1)_/g" $f
-    sed -i "s/PCIEEPVF#_/PCIEEPVF(0)_/g" $f
-    sed -i "s/PCIEEPPF#_/PCIEEPPF(0)_/g" $f
-    sed -i "s/PCIERCPF#_/PCIERCPF(0)_/g" $f
     sed -i "s/GMX#_/GMX(0..1)_/g" $f
     sed -i "s/LMC#_/LMC(0)_/g" $f
     sed -i "s/PCSX#_/PCSX(0..1)_/g" $f
     sed -i "s/PEM#_/PEM(0..1)_/g" $f
-    sed -i "s/SRIO#_/SRIO(0..3)_/g" $f
-    sed -i "s/SRIOMAINT#_/SRIOMAINT(0..3)_/g" $f
     sed -i "s/UAHC#_/UAHC(0)_/g" $f
     sed -i "s/UCTL#_/UCTL(0)_/g" $f
     sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" $f
@@ -101,15 +96,9 @@ for f in octcsr_cnf71xxp1.txt
 do
     sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" $f
     sed -i "s/PCIERC#_/PCIERC(0..1)_/g" $f
-    sed -i "s/PCIEEPVF#_/PCIEEPVF(0)_/g" $f
-    sed -i "s/PCIEEPPF#_/PCIEEPPF(0)_/g" $f
-    sed -i "s/PCIERCPF#_/PCIERCPF(0)_/g" $f
     sed -i "s/GMX#_/GMX(0..1)_/g" $f
     sed -i "s/LMC#_/LMC(0)_/g" $f
-    sed -i "s/PCSX#_/PCSX(0..1)_/g" $f
     sed -i "s/PEM#_/PEM(0..1)_/g" $f
-    sed -i "s/SRIO#_/SRIO(0..3)_/g" $f
-    sed -i "s/SRIOMAINT#_/SRIOMAINT(0..3)_/g" $f
     sed -i "s/UAHC#_/UAHC(0)_/g" $f
     sed -i "s/UCTL#_/UCTL(0)_/g" $f
     sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" $f
