@@ -96,7 +96,7 @@ for f in octcsr_cnf71xxp1.txt
 do
     sed -i "s/PCIEEP#_/PCIEEP(0..1)_/g" $f
     sed -i "s/PCIERC#_/PCIERC(0..1)_/g" $f
-    sed -i "s/GMX#_/GMX(0..1)_/g" $f
+    sed -i "s/GMX#_/GMX(0)_/g" $f
     sed -i "s/LMC#_/LMC(0)_/g" $f
     sed -i "s/PEM#_/PEM(0..1)_/g" $f
     sed -i "s/UAHC#_/UAHC(0)_/g" $f
