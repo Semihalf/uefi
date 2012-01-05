@@ -102,9 +102,9 @@ static int math_fmod (lua_State *L) {
 }
 
 static int math_modf (lua_State *L) {
-  lua_Number ip;
+  double ip;
   lua_Number fp = l_tg(modf)(luaL_checknumber(L, 1), &ip);
-  lua_pushnumber(L, ip);
+  lua_pushnumber(L, (lua_Number)ip);
   lua_pushnumber(L, fp);
   return 2;
 }
@@ -276,7 +276,7 @@ LUAMOD_API int luaopen_math (lua_State *L) {
   luaL_newlib(L, mathlib);
   lua_pushnumber(L, PI);
   lua_setfield(L, -2, "pi");
-  lua_pushnumber(L, HUGE_VAL);
+  lua_pushnumber(L, (lua_Number)HUGE_VAL);
   lua_setfield(L, -2, "huge");
   return 1;
 }
