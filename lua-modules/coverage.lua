@@ -138,10 +138,9 @@ function coverage.report()
 end
 
 -- Create a report when Lua exits
-coverage.on_gc = {}
-setmetatable(coverage.on_gc, {})
-local meta = getmetatable(coverage.on_gc)
+local meta = {}
 meta.__gc = coverage.report
+coverage.on_gc = setmetatable({}, meta)
 
 -- Start coverage by default
 coverage.start()
