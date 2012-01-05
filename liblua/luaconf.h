@@ -58,6 +58,10 @@
 #define LUA_USE_LONGLONG	/* assume support for long long */
 #endif
 
+#define LUA_USE_STRTODHEX	/* assume 'strtod' handles hexa formats */
+#define LUA_USE_AFORMAT		/* assume 'printf' handles 'aA' specifiers */
+#define LUA_USE_LONGLONG	/* assume support for long long */
+
 
 
 /*
