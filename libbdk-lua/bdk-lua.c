@@ -36,7 +36,7 @@ void bdk_lua_init(void *lua_state)
 {
     lua_State *L = lua_state;
 
-    luaL_findtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
+    luaL_getsubtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
 
     #define PRELOAD(name, func)         \
         extern int func(lua_State *L);  \
