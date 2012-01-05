@@ -100,9 +100,15 @@
 #else			/* }{ */
 
 #define LUA_VDIR	LUA_VERSION_MAJOR "." LUA_VERSION_MINOR "/"
-#define LUA_ROOT	"/usr/local/"
-#define LUA_LDIR	LUA_ROOT "share/lua/" LUA_VDIR
-#define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR
+#ifndef LUA_ROOT
+    #ifdef BDK_BUILD_HOST
+        #define LUA_ROOT       "./"
+    #else
+        #define LUA_ROOT       "/"
+    #endif
+#endif
+#define LUA_LDIR       LUA_ROOT "rom/" //LUA_VDIR
+#define LUA_CDIR       LUA_ROOT "rom/" //LUA_VDIR
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" "./?.lua"
@@ -376,14 +382,14 @@
 ** ===================================================================
 */
 
-#define LUA_NUMBER_DOUBLE
-#define LUA_NUMBER	double
+//#define LUA_NUMBER_DOUBLE
+#define LUA_NUMBER	long long
 
 /*
 @@ LUAI_UACNUMBER is the result of an 'usual argument conversion'
 @* over a number.
 */
-#define LUAI_UACNUMBER	double
+#define LUAI_UACNUMBER	LUA_NUMBER
 
 
 /*
@@ -392,8 +398,8 @@
 @@ lua_number2str converts a number to a string.
 @@ LUAI_MAXNUMBER2STR is maximum size of previous conversion.
 */
-#define LUA_NUMBER_SCAN		"%lf"
-#define LUA_NUMBER_FMT		"%.14g"
+#define LUA_NUMBER_SCAN		"%lld"
+#define LUA_NUMBER_FMT		"%lld"
 #define lua_number2str(s,n)	sprintf((s), LUA_NUMBER_FMT, (n))
 #define LUAI_MAXNUMBER2STR	32 /* 16 digits, sign, point, and \0 */
 
@@ -406,10 +412,10 @@
 ** systems, you can leave 'lua_strx2number' undefined and Lua will
 ** provide its own implementation.
 */
-#define lua_str2number(s,p)	strtod((s), (p))
+#define lua_str2number(s,p)	strtoll((s), (p), 10)
 
 #if defined(LUA_USE_STRTODHEX)
-#define lua_strx2number(s,p)	strtod((s), (p))
+#define lua_strx2number(s,p)	strtoll((s), (p), 16)
 #endif
 
 
@@ -523,7 +529,21 @@
 ** without modifying the main part of the file.
 */
 
+extern void bdk_lua_init(void *lua_state);
+#define luai_userstateopen(L) bdk_lua_init(L)
 
+#ifdef BDK_BUILD_HOST
+#ifndef __READLINE_H__
+extern char *bdk_readline(const char *prompt, const void *tab, int timeout_us);
+#endif
+#define lua_readline(L,b,p)     ((((b)=bdk_readline(p, NULL, 0)) != NULL) && (b[0] != 3))
+#define lua_saveline(L,idx)     { (void)L; (void)idx; }
+#define lua_freeline(L,b)       { (void)L; (void)b; }
+#endif
+/* Needed to allow SWIG to work */
+#define luaL_reg luaL_Reg
+/* Needed for luasocket */
+extern int luaL_typerror(void *L, int narg, const char *tname);
 
 #endif
 
