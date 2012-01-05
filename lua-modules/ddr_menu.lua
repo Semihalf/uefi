@@ -58,9 +58,7 @@ m:item("load", "Load current DDR config from a file", function()
     -- used in the lua script file that represents the ddr configuration.
     declareGlobal("config", ddr.get_config())
     local f = assert(load(data))
-    collectgarbage()
     f()
-    collectgarbage()
     ddr_config = config
 end)
 
@@ -73,9 +71,7 @@ end)
 -- anonymous function to do this otherwise the ddr_config parameter is evaluated
 -- at menu creation time and is always nil
 m:item("show", "Display current DDR config", function()
-    collectgarbage()
     ddr.show_config(ddr_config)
-    collectgarbage()
 end)
 
 m:item("freq", "Change DDR clock frequency", function()
@@ -104,7 +100,6 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
     -- until all entered or 0 entered to end input.
     local index
 
-    collectgarbage()
     for index = 1,max_dimms do
          ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = 0
          ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[2] = 0
@@ -124,7 +119,6 @@ m:item("spd_addr", "Set SPD TWSI addresses", function()
         -- update the current ddr configuration
         ddr_config.ddr_config[ddr_int].dimm_config_table[index].spd_addrs[1] = twsi_addr
     end
-    collectgarbage()
 end)
 
 local function update_verbose_label()
