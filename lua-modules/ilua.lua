@@ -142,7 +142,7 @@ end
 
 function compile(line)
     if verbose then oprint(line) end
-    local f,err = loadstring(line,'local')
+    local f,err = load(line,'local')
     return err,f
 end
 
