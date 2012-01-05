@@ -20,6 +20,21 @@
 extern int __bdk_lua_main(int argc, const char **argv);
 
 
+/**
+ * This function is needed to support luasocket
+ *
+ * @param L
+ * @param narg
+ * @param tname
+ *
+ * @return
+ */
+int luaL_typerror(void *L, int narg, const char *tname)
+{
+    const char *msg = lua_pushfstring(L, "%s expected, got %s", tname, luaL_typename(L, narg));
+    return luaL_argerror(L, narg, msg);
+}
+
 #ifndef BDK_BUILD_HOST
 static void control_c_check(lua_State *L, lua_Debug *ar)
 {

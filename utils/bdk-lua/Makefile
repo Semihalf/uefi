@@ -10,7 +10,7 @@ LDFLAGS = -lm -ldl
 CPPFLAGS += -DLUA_USE_MKSTEMP
 
 # These are needed for luasocket to compile cleanly
-CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_typerror=luaL_typeerror -DluaL_putchar=luaL_addchar
+CPPFLAGS += -DLUA_COMPAT_MODULE -DluaL_putchar=luaL_addchar
 
 # Building for x86
 #    1) Build for 32bit
