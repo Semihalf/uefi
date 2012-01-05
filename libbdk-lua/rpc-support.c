@@ -192,6 +192,26 @@ static int server_do_pack(lua_State* L)
     return 1;
 }
 
+static int newproxy(lua_State* L)
+{
+    luaL_checkany(L, 1);
+    lua_newuserdata(L, 0);
+    if (lua_isboolean(L, 1))
+    {
+        if (lua_toboolean(L, 1))
+        {
+            lua_newtable(L);
+            lua_setmetatable(L, -2);
+        }
+    }
+    else
+    {
+        lua_getmetatable(L, 1);
+        lua_setmetatable(L, -2);
+    }
+    return 1;
+}
+
 LUALIB_API int luaopen_rpc_support(lua_State *L)
 {
     lua_newtable(L);
@@ -201,6 +221,8 @@ LUALIB_API int luaopen_rpc_support(lua_State *L)
     lua_setfield(L, -2, "string_unpack");
     lua_pushcfunction(L, server_do_pack);
     lua_setfield(L, -2, "server_do_pack");
+    lua_pushcfunction(L, newproxy);
+    lua_setfield(L, -2, "newproxy");
     return 1;
 }
 

@@ -138,7 +138,8 @@ function coverage.report()
 end
 
 -- Create a report when Lua exits
-coverage.on_gc = newproxy(true)
+coverage.on_gc = {}
+setmetatable(coverage.on_gc, {})
 local meta = getmetatable(coverage.on_gc)
 meta.__gc = coverage.report
 

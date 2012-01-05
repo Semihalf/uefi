@@ -367,7 +367,7 @@ end
 --
 local function rpc_object_new(self, remoteid)
     local mymeta = getmetatable(self)
-    local object = newproxy(self)
+    local object = rpc_support.newproxy(self)
     mymeta.remoteid[object] = tostring(remoteid)
     return object
 end
@@ -391,7 +391,7 @@ end
 -- @return Returns a RPC object that represents the top level global environment of the remote system.
 --
 function rpc.connect(instream, outstream)
-    local object = newproxy(true)
+    local object = rpc_support.newproxy(true)
     local meta = getmetatable(object)
     -- Table used to track remote numeric IDs
     local m = {}
