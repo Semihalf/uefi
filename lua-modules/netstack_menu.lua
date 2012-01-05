@@ -5,10 +5,10 @@ require("utils")
 require("menu")
 
 local function iptostr(ip)
-    local a = bit32.AND(bit32.SHR(ip, 24), 0xff)
-    local b = bit32.AND(bit32.SHR(ip, 16), 0xff)
-    local c = bit32.AND(bit32.SHR(ip, 8), 0xff)
-    local d = bit32.AND(bit32.SHR(ip, 0), 0xff)
+    local a = bit32.band(bit32.rshift(ip, 24), 0xff)
+    local b = bit32.band(bit32.rshift(ip, 16), 0xff)
+    local c = bit32.band(bit32.rshift(ip, 8), 0xff)
+    local d = bit32.band(bit32.rshift(ip, 0), 0xff)
     return "%d.%d.%d.%d" % {a, b, c, d}
 end
 
