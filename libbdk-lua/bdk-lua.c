@@ -43,7 +43,6 @@ static void control_c_check(lua_State *L, lua_Debug *ar)
         luaL_traceback(L,  L, "Interrupted!", 1);
         lua_error(L);
     }
-    lua_gc(L, LUA_GCCOLLECT, 0);
 }
 #endif
 

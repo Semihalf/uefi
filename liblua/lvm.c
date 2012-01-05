@@ -529,6 +529,20 @@ void luaV_execute (lua_State *L) {
   base = ci->u.l.base;
   /* main loop of interpreter */
   for (;;) {
+    {
+      /* Added for the BDK to force a GC every 10k Lua opcodes */
+      static int gc_loop_count = 0;
+      gc_loop_count++;
+      if (gc_loop_count >= 10000)
+      {
+        if (L->allowhook)
+        {
+          Protect(lua_gc(L, LUA_GCCOLLECT, 0));
+          //printf("Lua mem %dKB\n", lua_gc(L, LUA_GCCOUNT, 0));
+        }
+        gc_loop_count = 0;
+      }
+    }
     Instruction i = *(ci->u.l.savedpc++);
     StkId ra;
     if ((L->hookmask & (LUA_MASKLINE | LUA_MASKCOUNT)) &&
