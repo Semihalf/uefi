@@ -57,7 +57,7 @@ m:item("load", "Load current DDR config from a file", function()
     -- Note that 'config' name is important as it must match the name
     -- used in the lua script file that represents the ddr configuration.
     declareGlobal("config", ddr.get_config())
-    local f = assert(loadstring(data))
+    local f = assert(load(data))
     collectgarbage()
     f()
     collectgarbage()
