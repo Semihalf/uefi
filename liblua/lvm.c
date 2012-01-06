@@ -533,11 +533,11 @@ void luaV_execute (lua_State *L) {
       /* Added for the BDK to force a GC every 10k Lua opcodes */
       static int gc_loop_count = 0;
       gc_loop_count++;
-      if (gc_loop_count >= 200)
+      if (gc_loop_count >= 50000)
       {
         if (L->allowhook)
         {
-          luaC_step(L);
+          Protect(lua_gc(L, LUA_GCCOLLECT, 0));
           //printf("Lua mem %dKB\n", lua_gc(L, LUA_GCCOUNT, 0));
         }
         gc_loop_count = 0;
