@@ -529,18 +529,15 @@ void luaV_execute (lua_State *L) {
   base = ci->u.l.base;
   /* main loop of interpreter */
   for (;;) {
-    {
-      /* Added for the BDK to force a GC every 10k Lua opcodes */
-      static int gc_loop_count = 0;
-      gc_loop_count++;
-      if (gc_loop_count >= 50000)
-      {
-        if (L->allowhook)
-        {
-          Protect(lua_gc(L, LUA_GCCOLLECT, 0));
-          //printf("Lua mem %dKB\n", lua_gc(L, LUA_GCCOUNT, 0));
-        }
-        gc_loop_count = 0;
+    if (L->allowhook) {
+      /* Added for the BDK to force a GC when memory increases by 100KB */
+      static size_t force_gc_thresh = 0;
+      size_t allocated = lua_gc(L, LUA_GCCOUNT, 0);
+      if (allocated > force_gc_thresh) {
+        Protect(lua_gc(L, LUA_GCCOLLECT, 0));
+        allocated = lua_gc(L, LUA_GCCOUNT, 0);
+        force_gc_thresh = allocated + 100;
+        //printf("Lua mem %dKB\n", allocated);
       }
     }
     Instruction i = *(ci->u.l.savedpc++);
