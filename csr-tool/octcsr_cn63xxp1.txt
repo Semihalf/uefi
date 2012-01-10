@@ -19761,6 +19761,12 @@ Pos      Name    Type     Value     Value       Description
                                             TYP=0x8, otherwise
                                             0x0 = Reserved
 <45:45>  PARITY      R/W    0x00    0x00    Parity
+                                            The PAR_IN input of a registered DIMM should be
+                                            tied off. LMC adjusts the value of the DDR_WE_L (DWE#)
+                                            pin during DDR3 register part control word writes to
+                                            ensure the parity is observed correctly by the receiving
+                                            SSTE32882 register part.
+                                            When PAR_IN is grounded, PARITY should be cleared to 0.
 <63:46>  NS          RAZ     NS      NS     RESERVED
 
 Notes: This CSR is only used when LMC*_CONTROL[RDIMM_ENA]=1. During a power-up/init sequence, this CSR
