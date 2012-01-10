@@ -34,7 +34,7 @@ static inline int __bdk_is_dram_enabled(void)
 {
     // FIXME __bdk_is_dram_enabled
     BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
-    return (lmcx_dclk_cnt.u64 != -1ull);
+    return ((lmcx_dclk_cnt.u64 != -1ull) && (lmcx_dclk_cnt.u64 != 0));
 }
 
 static inline void sso_get_work_async(int scr_addr, int wait)

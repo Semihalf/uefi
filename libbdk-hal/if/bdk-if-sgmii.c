@@ -39,7 +39,7 @@ static int if_num_ports(int interface)
     {
         int qlm = bdk_qlm_get(BDK_IF_SGMII, interface);
         if (strstr(bdk_qlm_get_mode(qlm), "SGMII") && bdk_qlm_get_gbaud_mhz(qlm))
-            return 4;
+            return OCTEON_IS_MODEL(OCTEON_CNF71XX) ? 2 : 4;
         else
             return 0;
     }
@@ -279,12 +279,12 @@ static int if_init(bdk_if_handle_t handle)
 
         /* Tell GMX the number of TX ports on this interface */
         BDK_CSR_MODIFY(gmx_tx_prts, BDK_GMXX_TX_PRTS(gmx_block),
-            gmx_tx_prts.s.prts = 4);
+            gmx_tx_prts.s.prts = if_num_ports(gmx_block));
 
         /* Tell GMX the number of RX ports on this interface.  This only
         ** applies to *GMII and XAUI ports */
         BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(gmx_block),
-            gmx_rx_prts.s.prts = 4);
+            gmx_rx_prts.s.prts = if_num_ports(gmx_block));
 
         if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
         {

@@ -172,7 +172,7 @@ int bdk_qlm_get(bdk_if_t iftype, int interface)
         {
             case BDK_IF_SGMII:
                 if (interface == 0)
-                    return 2;
+                    return 0;
                 break;
             default:
                 break;
