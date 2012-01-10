@@ -2,13 +2,13 @@
 
 if [ "$1" != "skip" ]
 then
-wget -O octcsr_cn63xxp1.txt http://iceman/trac/browser/o63/trunk/packet/o63csr_pass1.txt?format=raw
-wget -O octcsr_cn63xxp2.txt http://iceman/trac/browser/o63/trunk/packet/o63csr.txt?format=raw
-wget -O octcsr_cn68xxp1.txt http://iceman/trac/browser/o68/trunk/packet/o68csr_pass1.txt?format=raw
-wget -O octcsr_cn68xxp2.txt http://iceman/trac/browser/o68/trunk/packet/o68csr.txt?format=raw
-wget -O octcsr_cn66xxp1.txt http://iceman/trac/browser/o65/trunk/packet/o65csr.txt?format=raw
-wget -O octcsr_cn61xxp1.txt http://iceman/trac/browser/o61/trunk/packet/o61csr.txt?format=raw
-wget -O octcsr_cnf71xxp1.txt http://iceman/trac/browser/o6f/trunk/packet/o6fcsr.txt?format=raw
+wget -O octcsr_cn63xxp1.txt http://iceman.caveonetworks.com/trac/browser/o63/trunk/packet/o63csr_pass1.txt?format=raw
+wget -O octcsr_cn63xxp2.txt http://iceman.caveonetworks.com/trac/browser/o63/trunk/packet/o63csr.txt?format=raw
+wget -O octcsr_cn68xxp1.txt http://iceman.caveonetworks.com/trac/browser/o68/trunk/packet/o68csr_pass1.txt?format=raw
+wget -O octcsr_cn68xxp2.txt http://iceman.caveonetworks.com/trac/browser/o68/trunk/packet/o68csr.txt?format=raw
+wget -O octcsr_cn66xxp1.txt http://iceman.caveonetworks.com/trac/browser/o65/trunk/packet/o65csr.txt?format=raw
+wget -O octcsr_cn61xxp1.txt http://iceman.caveonetworks.com/trac/browser/o61/trunk/packet/o61csr.txt?format=raw
+wget -O octcsr_cnf71xxp1.txt http://iceman.caveonetworks.com/trac/browser/o6f/trunk/packet/o6fcsr.txt?format=raw
 fi
 
 dos2unix -q octcsr_*.txt
