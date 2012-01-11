@@ -25,8 +25,7 @@
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-only/pcie-dma-test/pcie-dma-test
 /utils/bdk-lua/bdk-lua-*
-/utils/bdk-scite/scite.log
-/utils/bdk-scite/gscite/.SciTE.session
+/utils/bdk-luac/bdk-luac-*
 /octeon-bdk-*.tgz
 /target-bin/bdk-*-no-romfs*
 /lua-modules/bdk-version.lua
