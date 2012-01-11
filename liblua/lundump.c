@@ -5,6 +5,7 @@
 */
 
 #include <string.h>
+#include <endian.h>
 
 #define lundump_c
 #define LUA_CORE
@@ -33,7 +34,6 @@ static void error(LoadState* S, const char* why)
  luaD_throw(S->L,LUA_ERRSYNTAX);
 }
 
-#define LoadMem(S,b,n,size)	LoadBlock(S,b,(n)*(size))
 #define LoadByte(S)		(lu_byte)LoadChar(S)
 #define LoadVar(S,x)		LoadMem(S,&x,1,sizeof(x))
 #define LoadVector(S,b,n,size)	LoadMem(S,b,n,size)
@@ -45,6 +45,50 @@ static void error(LoadState* S, const char* why)
 static void LoadBlock(LoadState* S, void* b, size_t size)
 {
  if (luaZ_read(S->Z,b,size)!=0) error(S,"truncated");
+}
+
+static void LoadMem(LoadState* S, void* b, int n, size_t size)
+{
+#ifdef __BIG_ENDIAN
+    LoadBlock(S, b, n*size);
+#else
+    char t[8];
+    char *p = b;
+    while (n--)
+    {
+        LoadBlock(S, t, size);
+        switch (size)
+        {
+            case 1:
+                p[0] = t[0];
+                break;
+            case 2:
+                p[0] = t[1];
+                p[1] = t[0];
+                break;
+            case 4:
+                p[0] = t[3];
+                p[1] = t[2];
+                p[2] = t[1];
+                p[3] = t[0];
+                break;
+            case 8:
+                p[0] = t[7];
+                p[1] = t[6];
+                p[2] = t[5];
+                p[3] = t[4];
+                p[4] = t[3];
+                p[5] = t[2];
+                p[6] = t[1];
+                p[7] = t[0];
+                break;
+            default:
+                error(S, "Unexpected LoadMem size");
+                break;
+        }
+        p += size;
+    }
+#endif
 }
 
 static int LoadChar(LoadState* S)
@@ -71,7 +115,8 @@ static lua_Number LoadNumber(LoadState* S)
 
 static TString* LoadString(LoadState* S)
 {
- size_t size;
+ /* Changed from size_t to avoid 32/64 being different */
+ int size;
  LoadVar(S,size);
  if (size==0)
   return NULL;
@@ -229,14 +274,13 @@ Proto* luaU_undump (lua_State* L, ZIO* Z, Mbuffer* buff, const char* name)
 */
 void luaU_header (lu_byte* h)
 {
- int x=1;
  memcpy(h,LUA_SIGNATURE,sizeof(LUA_SIGNATURE)-sizeof(char));
  h+=sizeof(LUA_SIGNATURE)-sizeof(char);
  *h++=cast_byte(VERSION);
  *h++=cast_byte(FORMAT);
- *h++=cast_byte(*(char*)&x);			/* endianness */
+ *h++=cast_byte(0);			/* Force big endianness */
  *h++=cast_byte(sizeof(int));
- *h++=cast_byte(sizeof(size_t));
+ *h++=cast_byte(sizeof(int /*size_t*/));	/* Changed from size_t to avoid 32/64 being different */
  *h++=cast_byte(sizeof(Instruction));
  *h++=cast_byte(sizeof(lua_Number));
  *h++=cast_byte(((lua_Number)0.5)==0);		/* is lua_Number integral? */

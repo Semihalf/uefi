@@ -5,6 +5,7 @@
 */
 
 #include <stddef.h>
+#include <endian.h>
 
 #define ldump_c
 #define LUA_CORE
@@ -23,7 +24,6 @@ typedef struct {
  int status;
 } DumpState;
 
-#define DumpMem(b,n,size,D)	DumpBlock(b,(n)*(size),D)
 #define DumpVar(x,D)		DumpMem(&x,1,sizeof(x),D)
 
 static void DumpBlock(const void* b, size_t size, DumpState* D)
@@ -34,6 +34,52 @@ static void DumpBlock(const void* b, size_t size, DumpState* D)
   D->status=(*D->writer)(D->L,b,size,D->data);
   lua_lock(D->L);
  }
+}
+
+static void DumpMem(const void* b, int n, size_t size, DumpState* D)
+{
+#ifdef __BIG_ENDIAN
+    DumpBlock(b, n*size, D);
+#else
+    char temp[8];
+    const char *p = b;
+    while (n--)
+    {
+        switch (size)
+        {
+            case 1:
+                /* No swapping needed */
+                DumpBlock(p, size, D);
+                break;
+            case 2:
+                temp[0] = p[1];
+                temp[1] = p[0];
+                DumpBlock(temp, size, D);
+                break;
+            case 4:
+                temp[0] = p[3];
+                temp[1] = p[2];
+                temp[2] = p[1];
+                temp[3] = p[0];
+                DumpBlock(temp, size, D);
+                break;
+            case 8:
+                temp[0] = p[7];
+                temp[1] = p[6];
+                temp[2] = p[5];
+                temp[3] = p[4];
+                temp[4] = p[3];
+                temp[5] = p[2];
+                temp[6] = p[1];
+                temp[7] = p[0];
+                DumpBlock(temp, size, D);
+                break;
+            default:
+                break;
+        }
+        p += size;
+    }
+#endif
 }
 
 static void DumpChar(int y, DumpState* D)
@@ -62,12 +108,14 @@ static void DumpString(const TString* s, DumpState* D)
 {
  if (s==NULL)
  {
-  size_t size=0;
+  /* Changed from size_t to avoid 32/64 being different */
+  int size=0;
   DumpVar(size,D);
  }
  else
  {
-  size_t size=s->tsv.len+1;		/* include trailing '\0' */
+  /* Changed from size_t to avoid 32/64 being different */
+  int size=s->tsv.len+1;		/* include trailing '\0' */
   DumpVar(size,D);
   DumpBlock(getstr(s),size*sizeof(char),D);
  }
