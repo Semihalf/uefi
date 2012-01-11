@@ -119,7 +119,7 @@ image_file = load_file(in_filename)
 for rom in rom_filenames:
     if rom.endswith(".lua"):
         # Compile Lua files to save space
-        os.system("bdk-luac -s -o luac.out " + rom)
+        os.system(os.getenv("BDK_ROOT") + "/bin/bdk-luac -s -o luac.out " + rom)
         rom_file = load_file("luac.out")
         os.system("rm luac.out")
     else:
