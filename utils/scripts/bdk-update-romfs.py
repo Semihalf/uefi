@@ -117,7 +117,13 @@ image_file = load_file(in_filename)
 # a two byte filename length, a four byte file length, the bytes for
 # the filename, and the file's data. The filename is not \0 terminated.
 for rom in rom_filenames:
-    rom_file = load_file(rom)
+    if rom.endswith(".lua"):
+        # Compile Lua files to save space
+        os.system("bdk-luac -s -o luac.out " + rom)
+        rom_file = load_file("luac.out")
+        os.system("rm luac.out")
+    else:
+        rom_file = load_file(rom)
     name = rom.split("/")[-1]
     tmp = "ROM-FS"
     tmp += pack(2, len(name))
