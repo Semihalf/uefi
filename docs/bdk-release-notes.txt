@@ -10,6 +10,17 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.01-68835 (Not released)
+---------------------------------------
+
+* CNF71XX support.
+* Update Lua from 5.2-work5 to the final 5.2 release.
+** This change may break some Lua scripts as there were slight
+	changes to the Lua objects. Most notably, the bit32
+	module changed.
+* Improved Lua garbage collection management.
+
+
 octeon-bdk-2011.12-68142
 ------------------------
 
