@@ -92,9 +92,9 @@ release: all
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-luac-x86 $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-luac-octeon $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-luac-ppc $(RELEASE_DIR)/bin/
+	cp utils/bdk-luac/bdk-luac-x86 $(RELEASE_DIR)/bin/
+	cp utils/bdk-luac/bdk-luac-octeon $(RELEASE_DIR)/bin/
+	cp utils/bdk-luac/bdk-luac-ppc $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	cp bin/bdk-luac $(RELEASE_DIR)/bin/bdk-luac
 	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
