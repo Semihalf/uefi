@@ -7,16 +7,24 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 all: version
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
+	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
 	$(BDK_ROOT)/bin/bdk-update-all
-	$(MAKE) -C utils
 	$(MAKE) -C docs
+
+.PHONY: ppc
+ppc:
+	echo "Building bdk-lua-ppc (very slow)"
+	$(MAKE) -C utils/bdk-lua ppc
+	echo "Building bdk-luac-ppc (very slow)"
+	$(MAKE) -C utils/bdk-luac ppc
+	echo "Done with ppc"
 
 .PHONY: clean
 clean:
 	$(MAKE) -C libbdk clean
-	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C utils clean
+	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C docs clean
 
 .PHONY: distclean
@@ -67,10 +75,8 @@ version:
 	echo "return \"$(FULL_VERSION)\"" > lua-modules/bdk-version.lua
 
 .PHONY: release
-release: all
+release: all ppc
 	PATH=$(PATH):~creese/bin $(MAKE) -C docs lua-modules
-	$(MAKE) -C utils/bdk-lua ppc
-	$(MAKE) -C utils/bdk-luac ppc
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
 	# Copy Docs
