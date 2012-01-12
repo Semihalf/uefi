@@ -20,6 +20,7 @@ CFLAGS_x86 = -march=i686 -m32
 ASFLAGS_x86 = -march=i686 -m32
 LDFLAGS_x86 = -static
 CC_x86 = gcc
+STRIP_x86 = strip
 
 # Building for PPC
 #    1) Link static
@@ -28,6 +29,7 @@ CFLAGS_ppc =
 ASFLAGS_ppc =
 LDFLAGS_ppc = -static
 CC_ppc = ssh bdk-build-ppc "cd `pwd` && gcc"
+STRIP_ppc = ssh bdk-build-ppc "cd `pwd` && strip"
 
 # Building for Octeon
 CPPFLAGS_octeon =
@@ -35,6 +37,7 @@ CFLAGS_octeon = -march=octeon
 ASFLAGS_octeon = -march=octeon
 LDFLAGS_octeon =
 CC_octeon = mips64-octeon-linux-gnu-gcc
+STRIP_octeon = mips64-octeon-linux-gnu-strip
 
 #
 # These are the directories where source files are found
@@ -79,6 +82,7 @@ obj-$(1)/octeon-remote-mips-asm.o: mips-octeon2_debug_handler.bin | obj-$(1)
 	$$(CC_$(1)) $$(CFLAGS) $$(CFLAGS_$(1)) -c -o $$@ octeon-remote-mips-asm.S
 bdk-lua-$(1): $$(obj_$(1))
 	$$(CC_$(arch)) $$(CFLAGS_$(1)) -o $$@ $$^ $$(LDFLAGS) $$(LDFLAGS_$(1))
+	$$(STRIP_$(arch)) $$@
 endef
 
 $(foreach arch,x86 ppc octeon,\
