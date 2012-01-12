@@ -17,7 +17,7 @@ def do_command(command, expected, timeout=-1):
 assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "gdb:192.168.111.5,8888"
 HOST_NAME = socket.gethostname()
-if HOST_NAME == "bdk-build-ppc":
+if HOST_NAME.startswith("bdk-build-ppc"):
     os.environ["OCTEON_REMOTE_CONSOLE"] = "remote"
 else:
     os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS11"
@@ -116,7 +116,7 @@ do_command("bdk-remote help", [
     "Parameter descriptions:",
     "zero"])
 
-if HOST_NAME == "bdk-build-ppc":
+if HOST_NAME.startswith("bdk-build-ppc"):
     sys.exit(0)
 
 # Test RPC over serial
