@@ -8,6 +8,7 @@
 
 /* Use the BDKs warn function instead of cvmx_warn */
 #define cvmx_warn bdk_warn
+extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 
 /* Replace OCTEON_IS_MODEL with our version to avoid the feature nastiness */
 #define OCTEON_IS_MODEL bdk_is_model_wrapper
