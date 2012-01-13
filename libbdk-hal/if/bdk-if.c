@@ -30,13 +30,6 @@ static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
 
-static inline int __bdk_is_dram_enabled(void)
-{
-    // FIXME __bdk_is_dram_enabled
-    BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
-    return ((lmcx_dclk_cnt.u64 != -1ull) && (lmcx_dclk_cnt.u64 != 0));
-}
-
 static inline void sso_get_work_async(int scr_addr, int wait)
 {
     union
@@ -415,24 +408,10 @@ fail:
 static int __bdk_if_init(void)
 {
     int result = 0;
-    int num_packet_buffers;
-
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
-        /* Using more buffers on CN61XX and CNF71XX as low core count has poor
-            performance. 256 buffers without DRAM required that DRAM_CONFIG
-            be left out of the minimal BDK */
-        num_packet_buffers = (__bdk_is_dram_enabled()) ? 2048 : 256;
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        num_packet_buffers = 768;
-    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-        num_packet_buffers = 768;
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        num_packet_buffers = 1536;
-    else
-        bdk_fatal("__bdk_if_init needs update for this chip\n");
 
     /* Setup the FPA packet buffers */
-    bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL, num_packet_buffers);
+    bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL,
+        bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS));
 
     /* Setup the SSO */
     if (__bdk_if_setup_sso())

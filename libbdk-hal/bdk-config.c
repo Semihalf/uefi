@@ -67,6 +67,9 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF2, 0),
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF3, 0),
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF4, 0),
+
+    /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
+    AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
 };
 #undef AS_INIT
 
@@ -120,3 +123,33 @@ const char *bdk_config_get_name(bdk_config_t cfg)
     return entry->name + 4; /* Strip off "BDK_" */
 }
 
+/**
+ * Initialize config options that can't be statically setup at
+ * compile time.
+ */
+void __bdk_config_init(void)
+{
+    /* Set the lower MAC address bits based on the chip manufacturing
+        information. This should give reasonable MAC address defaults
+        for production parts */
+    BDK_CSR_INIT(fus_dat0, BDK_MIO_FUS_DAT0);
+    uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
+    mac_address |= fus_dat0.u64 & 0xffffff;
+    bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
+
+    /* Set the number of packet buffers in FPA pool 0 */
+    int num_packet_buffers = 768;
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    {
+        /* Using more buffers on CN61XX and CNF71XX as low core count has poor
+            performance. 256 buffers without DRAM required that DRAM_CONFIG
+            be left out of the minimal BDK */
+        num_packet_buffers = (__bdk_is_dram_enabled()) ? 2048 : 256;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        /* L2 is big, so use more buffers */
+        num_packet_buffers = 1536;
+    }
+    bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
+}

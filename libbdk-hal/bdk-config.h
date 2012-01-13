@@ -61,9 +61,12 @@ typedef enum
     BDK_CONFIG_HIGIG_MODE_IF3,
     BDK_CONFIG_HIGIG_MODE_IF4,
 
+    BDK_CONFIG_NUM_PACKET_BUFFERS,
+
     __BDK_CONFIG_END
 } bdk_config_t;
 
+extern void __bdk_config_init(void);
 extern uint64_t bdk_config_get(bdk_config_t cfg);
 extern void bdk_config_set(bdk_config_t cfg, uint64_t value);
 extern const char *bdk_config_get_name(bdk_config_t cfg);

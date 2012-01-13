@@ -84,4 +84,16 @@ static inline int bdk_octeon_num_cores(void)
     return bdk_dpop(ciu_fuse);
 }
 
+
+/**
+ * Return true if DRAM has been configured
+ *
+ * @return Boolean
+ */
+static inline int __bdk_is_dram_enabled(void)
+{
+    BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
+    return ((lmcx_dclk_cnt.u64 != -1ull) && (lmcx_dclk_cnt.u64 != 0));
+}
+
 /** @} */

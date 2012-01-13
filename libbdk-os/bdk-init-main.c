@@ -65,6 +65,7 @@ void __bdk_init_main(int arg, void *arg1)
         printf("Performing common initialization\n");
 
         bdk_l2c_initialize();
+        __bdk_config_init(); /* Some config setting are dynamically updated */
 
         if (!bdk_is_simulation())
             __bdk_setup_bootbus();
@@ -89,14 +90,6 @@ void __bdk_init_main(int arg, void *arg1)
                     mcr.s.rts = 1);
             }
         }
-
-        /* Set the lower MAC address bits based on the chip manufacturing
-            information. This should give reasonable MAC address defaults
-            for production parts */
-        BDK_CSR_INIT(fus_dat0, BDK_MIO_FUS_DAT0);
-        uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
-        mac_address |= fus_dat0.u64 & 0xffffff;
-        bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
     }
 
     /* Core 0 start main as another thread. We create a new thread so that
