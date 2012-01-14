@@ -127,14 +127,12 @@ static void process_input_commit_character(char ch) {
             }
             cmd[cmd_pos++] = ch;
             cmd_len++;
-            putchar(ch);
         }
     }
     else {      /* overwrite mode */
         if (cmd_pos < MAX_COMMAND-1) {
             cmd[cmd_pos++] = ch;
             if (cmd_pos > cmd_len) cmd_len = cmd_pos;
-            putchar(ch);
         }
     }
 }
