@@ -300,13 +300,6 @@ static inline void process_input_next_word(void)
     }
 }
 
-static inline void process_input_clear_line(void)
-{
-    printf(ERASE_EOL);
-    cmd_len=cmd_pos;
-    cmd[cmd_len] = 0;
-}
-
 static inline void process_input_delete(unsigned int orig_cmd_pos)
 {
     int delta = cmd_pos - orig_cmd_pos;
@@ -503,7 +496,8 @@ static const char *process_input(int c)
                     process_input_change_pos(+1);
                     break;
                 case 'D':
-                    process_input_clear_line();
+                    cmd_len=cmd_pos;
+                    cmd[cmd_len] = 0;
                     break;
                 case 'A':
                     cmd_pos=cmd_len;
