@@ -15,12 +15,8 @@
 
 #define MAX_INSERT 8
 
-#define ERASE_EOL "\033[0K"     /* Erase to end of line */
 #define CURSOR_ON  "\033[?25h"  /* Turn on cursor */
 #define CURSOR_OFF "\033[?25l"  /* Turn off cursor */
-#define CURSOR_LEFT "\033[%dD"  /* Move cursor left */
-#define CURSOR_SAVE "\0337"     /* Save cursor location */
-#define CURSOR_RESTORE "\0338"  /* Restore cursor location */
 
 #define MAX_COMMAND 128
 #define MAX_HISTORY_LOG2 (5)
@@ -97,16 +93,72 @@ static const char *process_function_key(int function)
     return function_key_commands[function-1];
 }
 
+static char on_screen[256];
+static int on_screen_len = 0;
+static int on_screen_cursor = 0;
+
+static void reset_screen_draw(int do_back)
+{
+    while (on_screen_cursor--)
+        putchar('\b');
+    on_screen_len = 0;
+    on_screen_cursor = 0;
+}
+
 static void process_input_draw_current()
 {
+    char update_screen[256];
+    int update_screen_len;
+    int update_screen_cursor = cmd_pos + 5 + strlen(cmd_prompt);
+    int cursor_is_off = 0;
+
     command_history[history_index][cmd_len] = 0;
-    /* Erase to end of line, put cursor at correct pos */
-    printf(CURSOR_OFF CURSOR_RESTORE "(%s)%s%s" ERASE_EOL,
+    update_screen_len = snprintf(update_screen, sizeof(update_screen)-1,
+        "(%s)%s%s",
         delete_mode ? "DEL" : find_mode ? "FND" : escape_mode ? "ESC" : insert_mode ? "INS" : "OVR",
         cmd_prompt, command_history[history_index]);
-    if (cmd_pos != cmd_len)
-        printf(CURSOR_LEFT, cmd_len - cmd_pos);
-    printf(CURSOR_ON);
+
+    /* If the on screen cursor is after the new location than back it up */
+    while (on_screen_cursor > update_screen_cursor)
+    {
+        putchar('\b');
+        on_screen_cursor--;
+    }
+
+    /* Check if any characters before the on screen cursor are different */
+    if (memcmp(on_screen, update_screen, on_screen_cursor))
+    {
+        cursor_is_off = 1;
+        fputs(CURSOR_OFF, stdout);
+        int pos = on_screen_cursor;
+        while (pos--)
+            putchar('\b');
+        fwrite(update_screen, 1, on_screen_cursor, stdout);
+    }
+    /* Write any characters between the old cursor and the new */
+    fwrite(update_screen+on_screen_cursor, 1, update_screen_cursor-on_screen_cursor, stdout);
+    on_screen_cursor = update_screen_cursor;
+
+    /* Check if any characters after the cursor are different */
+    if ((on_screen_len > update_screen_len) ||
+        memcmp(on_screen+update_screen_cursor, update_screen+update_screen_cursor, update_screen_len - update_screen_cursor))
+    {
+        int pos;
+        cursor_is_off = 1;
+        fputs(CURSOR_OFF, stdout);
+        fwrite(update_screen+update_screen_cursor, 1, update_screen_len - update_screen_cursor, stdout);
+        for (pos=update_screen_len; pos<on_screen_len; pos++)
+            putchar(' ');
+        while (pos > update_screen_cursor)
+        {
+            putchar('\b');
+            pos--;
+        }
+    }
+    if (cursor_is_off)
+        fputs(CURSOR_ON, stdout);
+    strcpy(on_screen, update_screen);
+    on_screen_len = update_screen_len;
 }
 
 static const char *find_token_end(const char *token)
@@ -187,7 +239,7 @@ static void tab_complete(char *token_start, const bdk_readline_tab_t *lut)
         }
     }
     else {
-        if (tab_mode==2) printf ("\n");
+        if (tab_mode==2) putchar('\n');
         for (avail_p = lut; avail_p->str && suffix_size; avail_p++) {
             if (strncasecmp(token_start, avail_p->str, offset)==0) {        /* prefix matches */
                 if (tab_mode==2) {      /* list all */
@@ -196,7 +248,7 @@ static void tab_complete(char *token_start, const bdk_readline_tab_t *lut)
                     putchar(' ');
                     printed += p - avail_p->str;
                     if (printed > 70) {
-                        printf("\n");
+                        putchar('\n');
                         printed = 0;
                     }
                 }
@@ -222,7 +274,7 @@ static void tab_complete(char *token_start, const bdk_readline_tab_t *lut)
     }
     cmd_pos -= delta_pos;
 
-    if ((tab_mode==2) && printed) printf ("\n");
+    if ((tab_mode==2) && printed) putchar('\n');
     process_input_draw_current();
 }
 
@@ -841,19 +893,18 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
     if (timeout_us < 1)
         stop_time = -1;
 
-    printf(CURSOR_SAVE);
     process_input_draw_current();
     const char *result = NULL;
     while (1)
     {
         int c;
+        fflush(stdout);
         do
         {
-            fflush(stdout);
             uint64_t cur_time = gettime();
             if (cur_time >= stop_time)
             {
-                printf(CURSOR_RESTORE);
+                reset_screen_draw(1);
                 goto done;
             }
             uint64_t to = stop_time - cur_time;
@@ -878,7 +929,8 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
         result = process_input(c);
         if (result)
         {
-            printf("\n");
+            putchar('\n');
+            reset_screen_draw(0);
             goto done;
         }
     }
