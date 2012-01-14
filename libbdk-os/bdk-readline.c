@@ -26,7 +26,6 @@
 #define MAX_HISTORY_LOG2 (5)
 #define MAX_HISTORY (1<<MAX_HISTORY_LOG2)
 #define MAX_HISTORY_MASK (MAX_HISTORY-1)
-#define DEBUG_ESCAPE 0
 
 static char command_history[MAX_HISTORY][MAX_COMMAND];
 static int history_index;
@@ -260,9 +259,6 @@ static inline void process_input_change_pos(int delta)
 
 static inline void process_input_save_undo(void)
 {
-#if DEBUG_ESCAPE
-    printf("\nsave_undo: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
-#endif
     undo.cmd_len = cmd_len;
     undo.cmd_pos = cmd_pos;
     strncpy(undo.cmd, cmd, MAX_COMMAND);
@@ -272,9 +268,6 @@ static inline void process_input_undo(void)
 {
     undo_t temp;
 
-#if DEBUG_ESCAPE
-    printf("\nundo before: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
-#endif
     temp.cmd_len = undo.cmd_len;
     temp.cmd_pos = undo.cmd_pos;
     strncpy(temp.cmd, undo.cmd, MAX_COMMAND);
@@ -284,10 +277,6 @@ static inline void process_input_undo(void)
     cmd_len = temp.cmd_len;
     cmd_pos = temp.cmd_pos;
     strncpy(cmd, temp.cmd, MAX_COMMAND);
-
-#if DEBUG_ESCAPE
-    printf("undo after: %d, %d, '%s'\n",cmd_len,cmd_pos,cmd);
-#endif
 }
 
 static inline void process_input_beginning_of_word(void)
@@ -324,9 +313,6 @@ static inline void process_input_delete(unsigned int orig_cmd_pos)
 {
     int delta = cmd_pos - orig_cmd_pos;
     int len = cmd_len - cmd_pos + 1;
-#if DEBUG_ESCAPE
-    printf("<delete: orig %d, new %d, delta %d, len %d>\n",orig_cmd_pos,cmd_pos,delta,len);
-#endif
     if (delta < 0) {
         memmove(&cmd[cmd_pos], &cmd[orig_cmd_pos], len);
         cmd_len += delta;
@@ -416,9 +402,6 @@ static const char *process_input(int c)
                     escape_saw_char=c;  /* really should handle more than one character here */
                     break;
                 default:
-#if DEBUG_ESCAPE
-                    printf("<1:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
-#endif
                     escape_mode=0;
                     escape_saw_char=0;
                     goto parse_input;   /* parse this as a normal character */
@@ -443,9 +426,6 @@ static const char *process_input(int c)
                     return process_function_key(c-'P'+1);
                     break;
                 default:
-#if DEBUG_ESCAPE
-                    printf("<2:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
-#endif
                     escape_mode=0;
                     escape_saw_char=0;
                     goto parse_input;   /* parse this as a normal character */
@@ -461,10 +441,6 @@ static const char *process_input(int c)
                     int func = escape_saw_char-0x200-16+5;
                     if ((func >= 5) && (func <= 22))    /* F5..F12 and shift-F1..shift-F8 are 5..22 (with some holes) */
                         return process_function_key(func);
-#if DEBUG_ESCAPE
-                    else
-                        printf("<4:%d,'%d'>\n",escape_mode,escape_saw_char-0x200);
-#endif
                     escape_mode=0;
                     escape_saw_char=0;
                 }
@@ -501,9 +477,6 @@ static const char *process_input(int c)
                         return "PageDown";
                         break;
                     default:
-#if DEBUG_ESCAPE
-                        printf("<3:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
-#endif
                         escape_mode=0;
                         escape_saw_char=0;
                         goto parse_input;       /* parse this as a normal character */
@@ -616,9 +589,6 @@ static const char *process_input(int c)
                     escape_mode=0;
                     goto parse_input;   /* parse this as a normal character */
                 default:
-#if DEBUG_ESCAPE
-                    printf("<0:%d,%d(%c)>\n",escape_mode,escape_saw_char,escape_saw_char);
-#endif
                     escape_mode=0;
                     escape_saw_char=0;
                     goto parse_input;   /* parse this as a normal character */
