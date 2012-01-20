@@ -10,7 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2012.01-68835 (Not released)
+octeon-bdk-2012.01-69037 (Not released)
 ---------------------------------------
 
 * CNF71XX support.
@@ -19,6 +19,15 @@ octeon-bdk-2012.01-68835 (Not released)
 	changes to the Lua objects. Most notably, the bit32
 	module changed.
 * Improved Lua garbage collection management.
+* Add bdk-luac command line Lua compiler.
+* Modify Lua's byte code to always be in big endian format. This
+	allows you to compile a Lua file on a 32bit x86 and run
+	it on 64bit Octeon.
+* Compile Lua files before stuffing them into the /rom file system.
+	This saves space in the download image.
+* Host binaries are stripped to reduce the size of the release.
+* Update readline to do use less special characters, making it
+	friendly for scripting.
 
 
 octeon-bdk-2011.12-68142
