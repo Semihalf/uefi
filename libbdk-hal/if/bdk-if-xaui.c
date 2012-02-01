@@ -61,6 +61,9 @@ static int if_num_ports(int interface)
         }
     }
 
+    /* No ports if QLM speed says disabled */
+    if (bdk_qlm_get_gbaud_mhz(bdk_qlm_get(BDK_IF_XAUI, interface)) == 0)
+        return 0;
     BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
     if (mode.s.type == 1)
         return 1;
