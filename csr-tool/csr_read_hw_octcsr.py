@@ -193,7 +193,7 @@ BIT_NUMS.setParseAction(actionBitNums)
 FIELD_NAME = Word(alphas+"_"+nums)
 FIELD_TYPE = buildKeywordMatcher(VALID_FIELD_TYPES)
 RESET_VALUE = Keyword("NS") ^ Keyword("X") ^ Keyword("{@}") ^ NUMBER
-TYPICAL_VALUE = Keyword("NS") ^ Keyword("NA") ^ Keyword("{@}") ^ (NUMBER + Optional(Literal("/") + NUMBER))
+TYPICAL_VALUE = Keyword("NS") ^ Keyword("X") ^ Keyword("NA") ^ Keyword("{@}") ^ (NUMBER + Optional(Literal("/") + NUMBER))
 COMMENT = LINE + ZeroOrMore((EMPTY_LINE ^ (FIELD_COMMENT_INDENT + LINE)))
 FIELD = Optional(WHITE) + BIT_NUMS + WHITE + FIELD_NAME + WHITE + FIELD_TYPE + WHITE + RESET_VALUE + WHITE + TYPICAL_VALUE + Group(EOL ^ (WHITE + COMMENT))
 FIELD.setParseAction(actionField)
