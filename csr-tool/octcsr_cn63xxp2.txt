@@ -209,8 +209,8 @@ Pos      Name    Type     Value     Value       Description
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <0>     MSPC            RO/WRSL  0x0         0x0       Memory Space Indicator
-                                                            o 0 = BAR 0 is a memory BAR
-                                                            o 1 = BAR 0 is an I/O BAR
+                                                            o 0 = BAR 1 is a memory BAR
+                                                            o 1 = BAR 1 is an I/O BAR
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -260,8 +260,8 @@ Pos      Name    Type     Value     Value       Description
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <0>     MSPC            RO/WRSL  0x0         0x0       Memory Space Indicator
-                                                            o 0 = BAR 0 is a memory BAR
-                                                            o 1 = BAR 0 is an I/O BAR
+                                                            o 0 = BAR 2 is a memory BAR
+                                                            o 1 = BAR 2 is an I/O BAR
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------

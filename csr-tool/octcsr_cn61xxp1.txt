@@ -209,8 +209,8 @@ Pos      Name    Type     Value     Value       Description
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <0>     MSPC            RO/WRSL  0x0         0x0       Memory Space Indicator
-                                                            o 0 = BAR 0 is a memory BAR
-                                                            o 1 = BAR 0 is an I/O BAR
+                                                            o 0 = BAR 1 is a memory BAR
+                                                            o 1 = BAR 1 is an I/O BAR
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -260,8 +260,8 @@ Pos      Name    Type     Value     Value       Description
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
  <0>     MSPC            RO/WRSL  0x0         0x0       Memory Space Indicator
-                                                            o 0 = BAR 0 is a memory BAR
-                                                            o 1 = BAR 0 is an I/O BAR
+                                                            o 0 = BAR 2 is a memory BAR
+                                                            o 1 = BAR 2 is an I/O BAR
                                                          This field is writable through PEM(0..1)_CFG_WR.
                                                          However, the application must not change this field.
 ----------------------------------------------------------------------------------------------------
@@ -25021,8 +25021,21 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <31:0>   ARG                  R/W      0x0      NS       eMMC command argument                                          |
 <37:32>  CMD_IDX              R/W      0x0      NS       eMMC command                                                   |
-<40:38>  RTYPE_XOR            R/W      0x0      NS       Reserved. Must be zero                                         |
-<42:41>  CTYPE_XOR            R/W      0x0      NS       Reserved. Must be zero                                         |
+<40:38>  RTYPE_XOR            R/W      0x0      NS       Response Type Override.  Typically Zero.  Value is XOR'd with  |
+                                                         default response type.  See table of Response Types per CMD#.  |
+                                                          Types are 000 = No Response                                   |
+                                                                    001 = R1, 48 bits,                                  |
+                                                                    010 = R2, 136 bits                                  |
+                                                                    011 = R3, 48 bits,                                  |
+                                                                    100 = R4, 48 bits,                                  |
+                                                                    101 = R5, 48 bits,                                  |
+                                                                    110, 111 = Reserved                                 |
+<42:41>  CTYPE_XOR            R/W      0x0      NS       Command Type Override.  Typically Zero.  Value is XOR'd with   |
+                                                         default command type.  See table of Command Types per CMD#.    |
+                                                          Types are:  00 = No Data                                      |
+                                                                      01 = Read data into Dbuf                          |
+                                                                      10 = Write data from Dbuf                         |
+                                                                      11 = Reserved                                     |
 <48:43>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <54:49>  OFFSET               R/W      0x0      NS       Debug only.  Specify the number of 8 byte transfers in the     |
                                                          used in the command.  Value is 64-OFFSET.  The block transfer  |
@@ -25084,8 +25097,8 @@ Pos      Name    Type     Value     Value       Description
 <56>     DMA_PEND             RO       0x0      NS       The DMA engine has a pending transfer resulting from an error. |
                                                          SW can resume the transfer by writing MIO_EMM_DMA[DMA_VAL]=1.  |
                                                          SW can terminate the transfer by writing MIO_EMM_DMA[DMA_VAL]=1|
-                                                         and MIO_EMM_DMA[NULL]=1.   HW will clear DMA_PEND and perform  |
-                                                         the DMA operation..                                            |
+                                                         and MIO_EMM_DMA[DAT_NULL]=1.   HW will clear DMA_PEND and      |
+                                                         perform the DMA operation.                                     |
 <57>     DMA_VAL              RO       0x0      NS       Read-only copy of MIO_EMM_DMA[DMA_VAL].   DMA_VAL=1 indicates a|
                                                          DMA operation is in progress.                                  |
 <58>     SWITCH_VAL           RO       0x0      NS       Read-only copy of MIO_EMM_SWITCH[SWITCH_EXE].   SWITCH_VAL=1   |
@@ -25190,8 +25203,8 @@ Pos      Name    Type     Value     Value       Description
 <1>      CMD_DONE             R/W1C    NS       NS       Operation specified by MIO_EMM_CMD completed successfully      |
 <2>      DMA_DONE             R/W1C    NS       NS       DMA transfer completed successfully                            |
 <3>      CMD_ERR              R/W1C    NS       NS       Operation specified by MIO_EMM_CMD encountered an error.  See  |
-                                                         MIO_EMM_RSP.                                                   |
-<4>      DMA_ERR              R/W1C    NS       NS       DMA transfer encountered an error.   See MIO_EMM_RSP.          |
+                                                         MIO_EMM_RSP_STS.                                               |
+<4>      DMA_ERR              R/W1C    NS       NS       DMA transfer encountered an error.   See MIO_EMM_RSP_STS.      |
 <5>      SWITCH_DONE          R/W1C    NS       NS       Switch operation completed successfully                        |
 <6>      SWITCH_ERR           R/W1C    NS       NS       Switch operation encountered an error.                         |
 <63:7>   NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -25215,8 +25228,8 @@ Pos      Name    Type     Value     Value       Description
 <1>      CMD_DONE             R/W      NS       NS       Operation specified by MIO_EMM_CMD completed                   |
 <2>      DMA_DONE             R/W      NS       NS       DMA transfer completed                                         |
 <3>      CMD_ERR              R/W      NS       NS       Operation specified by MIO_EMM_CMD encountered an error.  See  |
-                                                         MIO_EMM_RSP.                                                   |
-<4>      DMA_ERR              R/W      NS       NS       DMA transfer encountered an error.   See MIO_EMM_RSP.          |
+                                                         MIO_EMM_RSP_STS.                                               |
+<4>      DMA_ERR              R/W      NS       NS       DMA transfer encountered an error.   See MIO_EMM_RSP_STS.      |
 <5>      SWITCH_DONE          R/W      NS       NS       Switch operation completed.                                    |
 <6>      SWITCH_ERR           R/W      NS       NS       Switch operation encountered an error.                         |
 <63:7>   NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -25250,11 +25263,11 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<9:0>    DAT_CNT              R/W      0x0      0x0      Number of SCLK cycles before the eMMC clock rising edge to     |
-                                                         sample the data pin.                                           |
+<9:0>    DAT_CNT              R/W      0x0      0x0      Number of SCLK cycles before the eMMC clock edge to sample the |
+                                                         the data pin.                                                  |
 <15:10>  NS                   RAZ      0x0      NS       Reserved                                                       |
-<25:16>  CMD_CNT              R/W      0x0      0x0      Number of SCLK cycles before the eMMC clock edge to sample the |
-                                                         command pin.                                                   |
+<25:16>  CMD_CNT              R/W      0x0      0x0      Number of SCLK cycles before the eMMC clock rising edge to     |
+                                                         sample the command pin.                                        |
 <63:26>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -25306,7 +25319,7 @@ Pos      Name    Type     Value     Value       Description
                                                          MIO_EMM_BUF_DAT                                                |
 <6>      BUF_NUM              R/W      0x0      NS       Specify the data buffer for the next access to MIO_EMM_BUF_DAT |
 <15:7>   NS                   RAZ      0x0      NS       Reserved                                                       |
-<16>     INC                  R/W      0x0      NS       Automatically advance BUF_SEL/OFFSET after each access to      |
+<16>     INC                  R/W      0x0      NS       Automatically advance BUF_NUM/OFFSET after each access to      |
                                                          MIO_EMM_BUF_DAT.   Wraps after last offset of last data buffer.|
 <63:17>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
@@ -26549,9 +26562,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:13> NS       RAZ      NS          NS        Reserved                                           |
- <12>    SGMII    RO       NS          NS        1=SGMII or 1000Base-X mode selected,               |
+ <12>    SGMII    RO       NS          NS        1=SGMII or 1000Base-X mode selected                |
+						  MIO_QLMx_CFG[QLM_CFG] == 2'b01		    |
 						 0=XAUI or PCIE mode selected                       |
-						 This bit represents pi_qlm1/3_cfg[1:0] pin status  |
+						  MIO_QLMx_CFG[QLM_CFG] == 2'b11		    |
  <11>    GMXENO   R/W      0x0         0x0       GMX Enable override. When set to 1, forces GMX to  |
 						 appear disabled. The enable/disable status of GMX  |
 						 is checked only at SOP of every packet.            |
