@@ -8403,6 +8403,8 @@ Pos      Name    Type     Value     Value       Description
  * Acronym:      TX_INSTR_DMA_WR
  * HMM TYPE:     Write
  *
+
+
  *
  * HMM Status Register
  * The Status register is a read only register that returns status information about the particular HMM buffer.
@@ -14016,6 +14018,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
+*&BBP_RAFE_DID_ID = 0x6F007F844000
+
+* RAFE_CSR_VERSION = v1.0 // hab_source_version
+
  *
 
      ==============================================================
@@ -16993,6 +16999,7 @@ Pos      Name    Type     Value     Value       Description
  <27>    T1_RFIF_0    R/W     0x0         0         RFIF_0 Write Done                               |
  <28>    T1_RFIF_1    R/W     0x0         0         RFIF_1 Write Done                               |
  <31:29> NS	      RAZ     NS          NS        Reserved                                        |
+
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -17387,7 +17394,6 @@ Pos      Name    Type     Value     Value       Description
  <31>    RF_RX_PPSSYNC   R/W  0x0         0         RX PPS Sync Done                                |
 ----------------------------------------------------------------------------------------------------
 ===
-
 
  *
  * RX0INT_WR_IDX_LO - Write Done Group Index LO
@@ -19618,6 +19624,7 @@ Pos      Name    Type     Value     Value       Description
  <31>    RF_RX_PPSSYNC   R/W  0x0         0         RX PPS Sync Done                                |
 ----------------------------------------------------------------------------------------------------
 ===
+
 
  *
  * RX1INT_WR_IDX_LO - Write Done Group Index LO
@@ -22331,6 +22338,7 @@ Pos      Name    Type     Value     Value       Description
  <31>    RF_TX_PPSSYNC   R/W  0x0         0         TX PPS Sync Done                                |
 ----------------------------------------------------------------------------------------------------
 ===
+
 
  *
  * TXINT_WR_IDX_LO - Write Done Group Index LO
