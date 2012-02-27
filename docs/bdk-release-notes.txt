@@ -10,10 +10,10 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2012.01-69037 (Not released)
----------------------------------------
+octeon-bdk-2012.02-70412
+------------------------
 
-* CNF71XX support.
+* Preliminary CNF71XX support.
 * Update Lua from 5.2-work5 to the final 5.2 release.
 ** This change may break some Lua scripts as there were slight
 	changes to the Lua objects. Most notably, the bit32
@@ -28,6 +28,8 @@ octeon-bdk-2012.01-69037 (Not released)
 * Host binaries are stripped to reduce the size of the release.
 * Update readline to do use less special characters, making it
 	friendly for scripting.
+* Update XAUI QLM status check for CN63XX, CN66XX, and CN61XX.
+* Updated DRAM config useful for 32bit mode.
 
 
 octeon-bdk-2011.12-68142
