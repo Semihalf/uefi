@@ -25,8 +25,8 @@ CPPFLAGS_ppc =
 CFLAGS_ppc =
 ASFLAGS_ppc =
 LDFLAGS_ppc = -static
-CC_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -m bdk-build-ppc3 -m bdk-build-ppc4 -- "cd `pwd` && gcc"
-STRIP_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -m bdk-build-ppc3 -m bdk-build-ppc4 -- "cd `pwd` && strip"
+CC_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -- "cd `pwd` && gcc"
+STRIP_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -- "cd `pwd` && strip"
 
 # Building for Octeon
 CPPFLAGS_octeon =
