@@ -7276,7 +7276,11 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <12:0>   NFILLER          R/W     0      0         number of filler bits                                  |
-<15:13>  OUTPUT_MODE      R/W     0      0         see 3G Encoder MDD                                     |
+<15:13>  OUTPUT_MODE      R/W     0      0         0=reserved                                             |
+                                                   1=triplet interleaved                                  |
+                                                   2=doublet interleaved                                  |
+                                                   3=uninterleaved 3-bit                                  |
+                                                   4=uninterleaved 2-bit                                  |
 <16>     ENDIAN           R/W     0      0         0=big, 1=little                                        |
 <31:17>  NS               RO      0      0         reserved                                               |
 ----------------------------------------------------------------------------------------------------
@@ -18142,11 +18146,12 @@ Pos      Name    Type     Value     Value       Description
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD00_WAIT      RO      0      0         Thread 00 wait information.                            |
+<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
+<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
-                                                   3==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18178,8 +18183,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD01_WAIT      RO      0      0         Thread 01 wait information.                            |
+<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
+<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18211,8 +18225,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD02_WAIT      RO      0      0         Thread 02 wait information.                            |
+<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
+<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18244,8 +18267,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD03_WAIT      RO      0      0         Thread 03 wait information.                            |
+<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
+<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18277,8 +18309,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD04_WAIT      RO      0      0         Thread 04 wait information.                            |
+<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
+<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18310,8 +18351,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD05_WAIT      RO      0      0         Thread 05 wait information.                            |
+<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
+<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18343,8 +18393,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD06_WAIT      RO      0      0         Thread 06 wait information.                            |
+<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
+<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18376,8 +18435,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD07_WAIT      RO      0      0         Thread 07 wait information.                            |
+<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
+<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18409,8 +18477,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD08_WAIT      RO      0      0         Thread 08 wait information.                            |
+<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
+<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18442,8 +18519,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD09_WAIT      RO      0      0         Thread 09 wait information.                            |
+<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
+<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18475,8 +18561,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD10_WAIT      RO      0      0         Thread 10 wait information.                            |
+<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
+<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18508,8 +18603,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD11_WAIT      RO      0      0         Thread 11 wait information.                            |
+<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
+<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18541,8 +18645,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD12_WAIT      RO      0      0         Thread 12 wait information.                            |
+<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
+<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18574,8 +18687,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD13_WAIT      RO      0      0         Thread 13 wait information.                            |
+<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
+<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18607,8 +18729,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD14_WAIT      RO      0      0         Thread 14 wait information.                            |
+<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
+<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -18640,8 +18771,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD15_WAIT      RO      0      0         Thread 15 wait information.                            |
+<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
+<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20373,11 +20513,12 @@ Pos      Name    Type     Value     Value       Description
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD00_WAIT      RO      0      0         Thread 00 wait information.                            |
+<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
+<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
-                                                   3==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20409,8 +20550,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD01_WAIT      RO      0      0         Thread 01 wait information.                            |
+<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
+<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20442,8 +20592,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD02_WAIT      RO      0      0         Thread 02 wait information.                            |
+<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
+<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20475,8 +20634,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD03_WAIT      RO      0      0         Thread 03 wait information.                            |
+<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
+<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20508,8 +20676,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD04_WAIT      RO      0      0         Thread 04 wait information.                            |
+<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
+<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20541,8 +20718,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD05_WAIT      RO      0      0         Thread 05 wait information.                            |
+<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
+<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20574,8 +20760,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD06_WAIT      RO      0      0         Thread 06 wait information.                            |
+<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
+<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20607,8 +20802,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD07_WAIT      RO      0      0         Thread 07 wait information.                            |
+<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
+<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20640,8 +20844,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD08_WAIT      RO      0      0         Thread 08 wait information.                            |
+<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
+<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20673,8 +20886,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD09_WAIT      RO      0      0         Thread 09 wait information.                            |
+<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
+<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20706,8 +20928,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD10_WAIT      RO      0      0         Thread 10 wait information.                            |
+<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
+<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20739,8 +20970,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD11_WAIT      RO      0      0         Thread 11 wait information.                            |
+<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
+<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20772,8 +21012,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD12_WAIT      RO      0      0         Thread 12 wait information.                            |
+<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
+<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20805,8 +21054,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD13_WAIT      RO      0      0         Thread 13 wait information.                            |
+<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
+<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20838,8 +21096,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD14_WAIT      RO      0      0         Thread 14 wait information.                            |
+<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
+<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -20871,8 +21138,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD15_WAIT      RO      0      0         Thread 15 wait information.                            |
+<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
+<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23087,11 +23363,12 @@ Pos      Name    Type     Value     Value       Description
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD00_WAIT      RO      0      0         Thread 00 wait information.                            |
+<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
+<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
-                                                   3==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23123,8 +23400,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD01_WAIT      RO      0      0         Thread 01 wait information.                            |
+<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
+<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23156,8 +23442,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD02_WAIT      RO      0      0         Thread 02 wait information.                            |
+<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
+<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23189,8 +23484,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD03_WAIT      RO      0      0         Thread 03 wait information.                            |
+<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
+<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23222,8 +23526,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD04_WAIT      RO      0      0         Thread 04 wait information.                            |
+<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
+<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23255,8 +23568,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD05_WAIT      RO      0      0         Thread 05 wait information.                            |
+<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
+<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23288,8 +23610,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD06_WAIT      RO      0      0         Thread 06 wait information.                            |
+<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
+<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23321,8 +23652,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD07_WAIT      RO      0      0         Thread 07 wait information.                            |
+<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
+<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23354,8 +23694,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD08_WAIT      RO      0      0         Thread 08 wait information.                            |
+<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
+<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23387,8 +23736,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD09_WAIT      RO      0      0         Thread 09 wait information.                            |
+<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
+<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23420,8 +23778,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD10_WAIT      RO      0      0         Thread 10 wait information.                            |
+<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
+<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23453,8 +23820,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD11_WAIT      RO      0      0         Thread 11 wait information.                            |
+<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
+<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23486,8 +23862,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD12_WAIT      RO      0      0         Thread 12 wait information.                            |
+<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
+<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23519,8 +23904,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD13_WAIT      RO      0      0         Thread 13 wait information.                            |
+<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
+<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23552,8 +23946,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD14_WAIT      RO      0      0         Thread 14 wait information.                            |
+<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
+<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -23585,8 +23988,17 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
+                                                   0==done
+                                                   1==ready
+                                                   2==active
+                                                   3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<25:16>  THRD15_WAIT      RO      0      0         Thread 15 wait information.                            |
+<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
+<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
+                                                   0==not waiting
+                                                   1==waiting for timer
+                                                   2==waiting for GPIO low
+                                                   3==waiting for GPIO high
 <31:26>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
