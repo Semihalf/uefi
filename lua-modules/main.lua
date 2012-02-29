@@ -51,7 +51,7 @@ m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if octeon.c.bdk_netstack_initialize then
     m:item("net",   "TCP/IP networking",    menu.dofile, "netstack_menu")
 end
-if not (octeon.is_model(octeon.CN61XX) and octeon.global) then
+if octeon.trafficgen then
     m:item("tg",    "Traffic Generator",    menu.dofile, "trafficgen")
 end
 m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)
