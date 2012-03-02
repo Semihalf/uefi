@@ -582,25 +582,104 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
 
 
 /**
- * Errata G-16094: QLM Gen2 Equalizer Default Setting Change.
- * CN68XX pass 1.x and CN66XX pass 1.x QLM tweak. This function tweaks the JTAG
- * setting for a QLMs to run better at 5 and 6.25Ghz.
+ * Apply QLM tweaks based on the chip errata
  */
-static void __bdk_qlm_cn6xxx_equalizer_tweak(void)
+static void __bdk_qlm_chip_tweak(void)
 {
-    int num_qlms = 0;
+    int num_qlms = bdk_qlm_get_num();
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        num_qlms = 5;
-    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-        num_qlms = 3;
-
-    /* Loop through the QLMs */
-    for (int qlm=0; qlm<num_qlms; qlm++)
+    if (OCTEON_IS_MODEL(OCTEON_CNF71XX_PASS1_X))
     {
-        /* Errata G-16094: QLM Gen2 Equalizer Default Setting Change */
-        bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0x1);
-        bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
+        /* Nothing as of yet */
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
+    {
+        /* (G-16094) QLM Gen2 Equalizer Default Setting Change */
+        for (int qlm=0; qlm<num_qlms; qlm++)
+        {
+            bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0x1);
+            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+    {
+        /* Coming soon */
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
+    {
+        /* (G-16094) QLM Gen2 Equalizer Default Setting Change */
+        for (int qlm=0; qlm<num_qlms; qlm++)
+        {
+            bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0x1);
+            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
+    {
+        /* (G-14395) Bad Default SERDES De-emphasis */
+        /* Only applies to pass 1.0. */
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
+        {
+            /* QLM0: PCIe or SRIO */
+            BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM0,
+                ciu_qlm.s.txbypass = 1;
+                ciu_qlm.s.txdeemph = 5;
+                ciu_qlm.s.txmargin = 0x17);
+            /* QLM1: PCIe or SRIO */
+            BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM1,
+                ciu_qlm.s.txbypass = 1;
+                ciu_qlm.s.txdeemph = 5;
+                ciu_qlm.s.txmargin = 0x17);
+            BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(0));
+            if (mode.s.type == 1)
+            {
+                /* QLM2: XAUI */
+                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0x5;
+                    ciu_qlm.s.txmargin = 0x1a);
+            }
+            else
+            {
+                /* QLM2: SGMII */
+                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0xf;
+                    ciu_qlm.s.txmargin = 0xd);
+            }
+        }
+
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
+    {
+        /* (G-15273) New 156.25 MHz SERDES electricals not optimal */
+        if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_0) ||
+            OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_1))
+        {
+            /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM
+                De-emphasis be programmed when using a 156.25Mhz ref clock */
+            /* Read the QLM speed pins */
+            BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
+            if (mio_rst_boot.cn63xx.qlm2_spd == 4)
+            {
+                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0x0;
+                    ciu_qlm.s.txmargin = 0xf);
+            }
+            else if (mio_rst_boot.cn63xx.qlm2_spd == 0xb)
+            {
+                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                    ciu_qlm.s.txbypass = 1;
+                    ciu_qlm.s.txdeemph = 0xa;
+                    ciu_qlm.s.txmargin = 0x1f);
+            }
+            /* More tweaks are in bdk-srio.c */
+        }
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_X))
+    {
+        /* Nothing as of yet */
     }
 }
 
@@ -672,9 +751,7 @@ void bdk_qlm_init(void)
             __bdk_qlm_jtag_xor_ref[qlm][i] = __bdk_qlm_jtag_shift(qlm, 32, 0);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X) ||
-        OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
-        __bdk_qlm_cn6xxx_equalizer_tweak();
+    __bdk_qlm_chip_tweak();
 }
 
 #if 1 // Not to be enabled for customer builds

@@ -341,38 +341,6 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         return -1;
     }
 
-    /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
-    {
-        if (pcie_port)
-        {
-            bdk_ciu_qlm1_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM1);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM1, ciu_qlm.u64);
-        }
-        else
-        {
-            bdk_ciu_qlm0_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM0);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM0, ciu_qlm.u64);
-        }
-    }
-
-    /* CN66XX Pass 1.0 and 1.1 errata G-16094 requires the QLM De-emphasis be
-        programmed for Gen2 */
-    if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_0) || OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_1))
-    {
-        /* RxCap=0x1 RxEq=0x8 */
-        bdk_qlm_jtag_set(pcie_port, -1, "rx_cap_gen2", 0x1);
-        bdk_qlm_jtag_set(pcie_port, -1, "rx_eq_gen2", 0x8);
-    }
-
     /* Bring the PCIe out of reset */
     if (pcie_port)
         ciu_soft_prst.u64 = BDK_CSR_READ(BDK_CIU_SOFT_PRST1);
@@ -750,29 +718,6 @@ int bdk_pcie_ep_initialize(int pcie_port)
     mio_rst_ctl.u64 = BDK_CSR_READ(BDK_MIO_RST_CTLX(pcie_port));
     if (mio_rst_ctl.s.prtmode != 0)
         return -1;
-
-    /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be programmed */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
-    {
-        if (pcie_port)
-        {
-            bdk_ciu_qlm1_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM1);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM1, ciu_qlm.u64);
-        }
-        else
-        {
-            bdk_ciu_qlm0_t ciu_qlm;
-            ciu_qlm.u64 = BDK_CSR_READ(BDK_CIU_QLM0);
-            ciu_qlm.s.txbypass = 1;
-            ciu_qlm.s.txdeemph = 5;
-            ciu_qlm.s.txmargin = 0x17;
-            BDK_CSR_WRITE(BDK_CIU_QLM0, ciu_qlm.u64);
-        }
-    }
 
     /* Enable bus master and memory */
     BDK_CSR_WRITE(BDK_PCIEEPX_CFG001(pcie_port), 0x6);

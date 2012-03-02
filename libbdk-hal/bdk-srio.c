@@ -332,26 +332,6 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
 
     __bdk_srio_state[srio_port].flags = flags;
 
-    /* CN63XX Pass 1.0 errata G-14395 requires the QLM De-emphasis be
-        programmed */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_0))
-    {
-        if (srio_port)
-        {
-            BDK_CSR_MODIFY(c, BDK_CIU_QLM1,
-                c.s.txbypass = 1;
-                c.s.txdeemph = 5;
-                c.s.txmargin = 0x17);
-        }
-        else
-        {
-            BDK_CSR_MODIFY(c, BDK_CIU_QLM0,
-                c.s.txbypass = 1;
-                c.s.txdeemph = 5;
-                c.s.txmargin = 0x17);
-        }
-    }
-
     int is_host_mode;
     /* Don't receive or drive reset signals for the SRIO QLM */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
