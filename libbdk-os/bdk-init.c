@@ -79,8 +79,8 @@ void __bdk_init(long base_address)
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
     /* Sync cycle counter */
-    uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
-    uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
+    uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 1000000;
     BDK_SYNC;
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
