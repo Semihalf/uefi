@@ -754,7 +754,7 @@ void bdk_qlm_init(void)
     __bdk_qlm_chip_tweak();
 }
 
-#if 1 // Not to be enabled for customer builds
+
 /**
  * Display the state of all register for all lanes
  * on a QLM.
@@ -780,4 +780,3 @@ void bdk_qlm_dump_jtag(int qlm)
         ptr++;
     }
 }
-#endif
