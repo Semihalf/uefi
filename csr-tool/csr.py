@@ -332,7 +332,7 @@ class Csr:
             # XOR 32bit CSRs on the RSL and NCB busses with 4 to convert
             # the base address from little endian to big endian
             if self.type in ["RSL", "NCB", "PEXP_NCB"]:
-                base_address ^= 4
+                pass #base_address ^= 4
         if self.range:
             offset_max = max(self.range[0])
             if len(self.range) > 1:
