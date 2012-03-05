@@ -17,7 +17,7 @@ local BOARD_CHOICES = {
     "ebb6600",
     "ebb6800",
     "ebb6100",
-    "ebb7100",
+    "evb7100",
 }
 
 
