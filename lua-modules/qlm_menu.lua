@@ -273,8 +273,9 @@ local function set_config_cnf71xx()
     m:item("3125",  "3.125 GBaud")
     m:item("disabled",  "Disable DLM")
     local speed = m:show()
-    if speed == "disabled" then
+    if speed ~= "disabled" then
         octeon.csr.MIO_QLMX_CFG(0).QLM_CFG = 2
+        set_qlm02_speed(0, speed)
     else
         octeon.csr.MIO_QLMX_CFG(0).QLM_SPD = 15
         octeon.csr.MIO_QLMX_CFG(0).QLM_CFG = 2
