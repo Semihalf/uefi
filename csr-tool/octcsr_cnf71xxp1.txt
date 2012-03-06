@@ -24861,8 +24861,8 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:18> NS         RAZ      NS        NS      RESERVED                                            |
- <17>    CLEAR_BIST R/W      0         0       Clear BIST on the HCLK memories                     |
- <16>    START_BIST R/W      0         0       Starts BIST on the HCLK memories during 0-to-1      |
+ <17>    CLEAR_BIST R/W      0         0       Clear BIST on the EOI memories                      |
+ <16>    START_BIST R/W      0         0       Starts BIST on the EOI memories during 0-to-1       |
                                                transition.                                         |
  <15:3>  NS         RAZ      NS        NS      RESERVED                                            |
  <2>     STDF       RO       NS        0       STDF Bist Status.                                   |
@@ -24872,10 +24872,10 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                 EOI_ENDOR_BISTR_CTL_STA =  EOI BIST/BISR Control Status Register
+ *                 EOI_ENDOR_BISTR_CTL_STA =  EOI ENDOR BIST/BISR Control Status Register
  *
  * Description:
- *   This register the bist result of EOI memories.
+ *   This register controls the BIST/BISR and reflects the final BISR/BIST status of ENDOR (BBP) memories.
  *
 
      ==============================================================
@@ -24887,11 +24887,19 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:10> NS              RAZ      NS          NS      RESERVED                                            |
- <9>     BISR_DONE       RO       NS          0       Endor DSP Memroy Bisr Done Status: 1 - done;        |
-	                                                                                 0 - Not done.    |
- <8>     FAILED          RO       NS          0       Bist/Bisr Status: 1 - failed; 0 - Not failed.       |
+ <9>     BISR_DONE       RO       NS          0       Large Memroy Array Bisr Done Status: 1 - done;      |
+	                                                                                   0 - Not done.  |
+                                                      Note that Endor has 2 kinds of memories:            |
+                                                                 1) Large Memory Array;                   |
+                                                                 2) BBP Module Rams                       |
+ <8>     FAILED          RO       NS          0       Bist Status: 1 - failed; 0 - Not failed.            |
+                                                      This bit is the OR'ed BIST/BISR results of the Large|
+                                                      Memroy Array and the BBP Module Rams.If either      |
+                                                      system fails BIST/BISR, this bit will be set.       |
  <7:3>   NS              RAZ      NS          NS      RESERVED                                            |
  <2>     BISR_HR         R/W      0           0       BISR Hardrepair                                     |
+                                                      1: Hard Repair                                      |
+                                                      0: Firm Repair                                      |
  <1>     BISR_DIR        R/W      0           0       BISR Direction: 0 = input repair packets;           |
                                                                       1 = output defect packets.          |
  <0>     START_BIST      R/W      0           0       Start Bist                                          |

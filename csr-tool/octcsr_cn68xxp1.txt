@@ -13157,9 +13157,9 @@ Pos      Name    Type     Value     Value       Description
                                                                Entry 2  = backpressue id 1                              |
                                                                ...etc.                                                  |
                                                             Second control word:                                        |
-                                                               Entry 15 = link                                          |
-                                                               Entry 16 = backpressue id 15                             |
-                                                               Entry 17 = backpressue id 16                             |
+                                                               Entry 16 = link                                          |
+                                                               Entry 17 = backpressue id 15                             |
+                                                               Entry 18 = backpressue id 16                             |
                                                                ...etc.                                                  |
                                                          This continues until the status for all 64 backpressue ids gets|
                                                          transmitted (ie. 0-68 calendar table entries).  The remaining 3|
