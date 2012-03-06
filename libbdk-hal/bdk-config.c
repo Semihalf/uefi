@@ -141,10 +141,10 @@ void __bdk_config_init(void)
     int num_packet_buffers = 768;
     if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
     {
-        /* Using more buffers on CN61XX and CNF71XX as low core count has poor
-            performance. 256 buffers without DRAM required that DRAM_CONFIG
+        /* CN61XX and CNF71XX as low core count has poor performance.
+            256 buffers without DRAM required that DRAM_CONFIG
             be left out of the minimal BDK */
-        num_packet_buffers = (__bdk_is_dram_enabled()) ? 2048 : 256;
+        num_packet_buffers = 256;
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
@@ -152,4 +152,14 @@ void __bdk_config_init(void)
         num_packet_buffers = 1536;
     }
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
+
+    if (__bdk_is_dram_enabled())
+    {
+        /* Use more packet buffers if DRAM is enabled */
+        bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, 2048);
+        /* Use larger packet buffers if DRAM is enabled */
+        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE0, 2048+128);
+        /* Use larger command buffers if DRAM is enabled */
+        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE1, 2048);
+    }
 }
