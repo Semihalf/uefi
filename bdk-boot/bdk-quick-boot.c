@@ -1,0 +1,81 @@
+#include <bdk.h>
+
+/**
+ * This function is not defined by the BDK libraries. It must be
+ * defined by all BDK applications. It should be empty except for
+ * containing BDK_REQUIRE() lines. The bdk-init code has a strong
+ * reference to bdk_requires_depends() which then contains strong
+ * references to all needed components.
+ */
+void __bdk_require_depends(void)
+{
+}
+
+/**
+ * Main entry point
+ *
+ * @return exit code
+ */
+int main(void)
+{
+    const char *board_name;
+    int ddr_clock_hertz;
+
+    /* Figure out our DRAM parameters */
+    if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    {
+        board_name = "evb7100";
+        ddr_clock_hertz = 533000000;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        board_name = "ebb6800";
+        ddr_clock_hertz = 533000000;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
+    {
+        board_name = "ebb6600";
+        ddr_clock_hertz = 533000000;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
+    {
+        board_name = "ebb6300";
+        ddr_clock_hertz = 533000000;
+    }
+    else
+    {
+        board_name = "ebb6100";
+        ddr_clock_hertz = 533000000;
+    }
+
+    /* Initialize DRAM */
+    bdk_dram_config(board_name, ddr_clock_hertz);
+
+    /* Find Uboot */
+    void *image = bdk_phys_to_ptr((1ull<<48) | 0xfc00000);
+    int image_size = 0;
+    for (int i=0; i<31; i++)
+    {
+        image += 0x10000;
+        uint32_t magic = *(uint32_t*)(image + 8);
+        if (magic == 0x424f4f54) /* BOOT */
+        {
+            uint16_t header_len = *(uint16_t*)(image + 16);
+            uint32_t data_len = *(uint32_t*)(image + 24);
+            image_size = data_len + header_len;
+            break;
+        }
+    }
+
+    /* Start Uboot */
+    if (image_size)
+    {
+        extern void bdk_write_env(void);
+        /* Uboot needs to be 4MB aligned */
+        memcpy((void*)0xffffffff80400000, image, image_size);
+        bdk_write_env();
+        return bdk_jump_address(0xffffffff80400000);
+    }
+    else
+        printf("Unable to find bootloader\n");
+}
