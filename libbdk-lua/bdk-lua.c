@@ -147,9 +147,7 @@ int bdk_lua_start(void)
         bdk_fs_srio_init();
     }
 
-    if (bdk_thread_create(0, (bdk_thread_func_t)__bdk_lua_main, 3, argv, 16384))
-        bdk_fatal("Create of Lua thread failed\n");
-    return 0;
+    return __bdk_lua_main(3, argv);
 }
 
 #endif

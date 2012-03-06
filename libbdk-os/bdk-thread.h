@@ -9,6 +9,9 @@
  * @{
  */
 
+/* Use a larger stack size for main() as it tends to do lots of
+    extra stuff. For example, DDR init requires a bigger stack */
+#define BDK_THREAD_MAIN_STACK_SIZE 16384
 
 typedef void (*bdk_thread_func_t)(int arg, void *arg1);
 
