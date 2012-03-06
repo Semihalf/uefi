@@ -50,6 +50,8 @@ int main(void)
 
     /* Initialize DRAM */
     bdk_dram_config(board_name, ddr_clock_hertz);
+    /* Unlock L2 after DRAM is setup */
+    bdk_l2c_flush();
 
     /* Find Uboot */
     void *image = bdk_phys_to_ptr((1ull<<48) | 0xfc00000);
