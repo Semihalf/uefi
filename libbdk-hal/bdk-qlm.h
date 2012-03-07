@@ -33,6 +33,16 @@ extern void bdk_qlm_init(void);
 extern int bdk_qlm_get_num(void);
 
 /**
+ * Return the number of lanes in a QLM. QLMs normally contain
+ * 4 lanes, except for chips which only have half of a QLM.
+ *
+ * @param qlm    QLM to get lanes number for
+ *
+ * @return Number of lanes on the QLM
+ */
+extern int bdk_qlm_get_lanes(int qlm);
+
+/**
  * Get the mode of a QLM as a human readable string
  *
  * @param qlm    QLM to examine
