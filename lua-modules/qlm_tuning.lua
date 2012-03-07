@@ -9,10 +9,51 @@ local readline = require("readline")
 local qlm_tuning = {}
 qlm_tuning.qlm = 0
 
+-- Table of TX biasdrvsel to Amplitude in millivolts
+qlm_tuning.biasdrv = {
+    [4] = 150,
+    [6] = 250,
+    [7] = 300,
+    [8] = 350,
+    [12] = 500,
+    [15] = 600,
+    [17] = 700,
+    [18] = 750,
+    [26] = 1000,
+    [29] = 1100,
+    [31] = 1200,
+}
+
+-- Table of TX tcoeff to demphasis in DB*10
+qlm_tuning.tcoeff = {
+    [0] = 0,
+    [1] = -1,
+    [2] = -4,
+    [3] = -7,
+    [4] = -11,
+    [5] = -14,
+    [6] = -17,
+    [7] = -21,
+    [8] = -25,
+    [9] = -29,
+    [10] = -33,
+    [11] = -37,
+    [12] = -43,
+    [13] = -48,
+    [14] = -52,
+    [15] = -59,
+    [16] = -65,
+    [17] = -72,
+    [18] = -79,
+    [19] = -88,
+    [20] = -96,
+}
+
+
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
     local num_qlms = octeon.c.bdk_qlm_get_num()
-    qlm_tuning.qlm = menu.prompt_number("QLM/DLM (0-%d)" % (num_qlms-1), qlm_tuning.qlm, 0, num_qlms-1)
+    qlm_tuning.qlm = menu.prompt_number("QLM/DLM", qlm_tuning.qlm, 0, num_qlms-1)
     return qlm_tuning.qlm
 end
 
@@ -22,9 +63,9 @@ local function select_lane(qlm_num, allow_all)
     local default = allow_all and -1 or 0
     local lane
     if allow_all then
-        lane = menu.prompt_number("Lane (0-%d, -1 for all)" % (num_lanes-1), default, -1, num_lanes-1)
+        lane = menu.prompt_number("QLM/DLM Lane, or -1 for all", default, -1, num_lanes-1)
     else
-        lane = menu.prompt_number("Lane (0-%d)" % (num_lanes-1), default, 0, num_lanes-1)
+        lane = menu.prompt_number("QLM/DLM Lane", default, 0, num_lanes-1)
     end
     return lane
 end
@@ -61,8 +102,17 @@ local function change_tx(qlm_num)
         default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "biasdrv_hs_ls_byp")
         default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
     end
-    local biasdrv = menu.prompt_number("TX amplitude(biasdrv)", default_biasdrv, 0, 31)
-    local tcoeff = menu.prompt_number("TX demphasis(tcoeff)", default_tcoeff, 0, 15)
+    printf("   biasdrv\tTX Amplitude\n")
+    for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
+        printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
+    end
+    local biasdrv = menu.prompt_number("TX Amplitude(biasdrv)", default_biasdrv, 0, 31)
+    printf("    tcoeff\tTX Demphasis\n")
+    for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
+        local db = -qlm_tuning.tcoeff[t]
+        printf("\t%2d\t-%d.%d db\n", t, db/10, db%10)
+    end
+    local tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 15)
 
     -- Write ALL the biasdrvsel fields:
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hs_ls_byp", biasdrv)
@@ -216,12 +266,12 @@ function qlm_tuning.run()
         else
             m:item("loop", "Shallow loopback",  qlm.do_loop, qlm_tuning.qlm, 1)
         end
-        m:item("prbs7",  "PRBS7",               do_prbs, 7)
+        m:item("prbs7",  "PRBS-7",              do_prbs, 7)
         if not octeon.is_model(octeon.CN63XX) then
-            m:item("prbs15", "PRBS15",          do_prbs, 15)
-            m:item("prbs23", "PRBS23",          do_prbs, 23)
+            m:item("prbs15", "PRBS-15",         do_prbs, 15)
+            m:item("prbs23", "PRBS-23",         do_prbs, 23)
         end
-        m:item("prbs31", "PRBS31",              do_prbs, 31)
+        m:item("prbs31", "PRBS-31",             do_prbs, 31)
         m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
         m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
         m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
