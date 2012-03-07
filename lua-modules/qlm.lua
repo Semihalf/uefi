@@ -6,35 +6,8 @@
 --
 require("strict")
 require("utils")
-local readline = require("readline")
 
 qlm = {}
-
---- Get the configuration of a QLM
--- @param qlm_num QLM number to get configuration for
--- @return Table containing the QLM mode and speed
-function qlm.get_config(qlm_num)
-    local result = {}
-    result.mode = octeon.c.bdk_qlm_get_mode(qlm_num)
-    result.speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num)
-    return result
-end
-
---- Measure the reference clock of a QLM
--- @param qlm_num QLM number to measure
--- @return Clock frequency in hertz
-function qlm.measure_clock(qlm_num)
-    return octeon.c.bdk_qlm_measure_clock(qlm_num)
-end
-
-local function display_jtag_field(qlm_num, field)
-    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
-    printf("%20s:", field)
-    for lane=0,num_lanes-1 do
-        printf(" %5d", octeon.c.bdk_qlm_jtag_get(qlm_num, lane, field))
-    end
-    printf("\n")
-end
 
 --- Reset a QLM
 -- @param qlm_num QLM number to reset
@@ -77,9 +50,6 @@ function qlm.do_loop(qlm_num, mode)
 
     -- Power up the QLM
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
-
-    display_jtag_field(qlm_num, "shlpbck")
-    display_jtag_field(qlm_num, "sl_enable")
 end
 
 --- Turn on the QLM PRBS generator. If operating in a loopback configuration
@@ -149,22 +119,6 @@ function qlm.do_prbs(qlm_num, mode)
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 1)
     else
         error("Unsupported chip model")
-    end
-
-    printf("PRBS%d running. Statistics shown every 5 seconds\n", mode)
-
-    -- Periodically show the PRBS error counter and other status fields.
-    local start_time = os.time()
-    local next_print = start_time
-    while readline.getkey() ~= '\r' do
-        local t = os.time()
-        if t >= next_print then
-            next_print = next_print + 5
-            printf("PRBS%d time: %d seconds (Press return to exit)\n", mode, t - start_time)
-            display_jtag_field(qlm_num, "prbs_lock")
-            display_jtag_field(qlm_num, "prbs_err_cnt")
-            print()
-        end
     end
 end
 
