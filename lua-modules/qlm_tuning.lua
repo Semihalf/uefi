@@ -89,30 +89,42 @@ local function write_jtag(qlm_num)
 end
 
 -- Prompt for TX QLM parameters and change them
-local function change_tx(qlm_num)
-    local default_biasdrv
-    local default_tcoeff
-    local lane_num = select_lane(qlm_num, true)
+local function change_tx(qlm_num, settings, lane_num)
+    local biasdrv
+    local tcoeff
 
-    -- Get current values as the default
-    if lane_num == -1 then
-        default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "biasdrv_hs_ls_byp")
-        default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "tcoeff_hf_ls_byp")
+    if not lane_num then
+        lane_num = select_lane(qlm_num, true)
+    end
+
+    if settings then
+        biasdrv = settings["biasdrv"]
+        tcoeff = settings["tcoeff"]
     else
-        default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "biasdrv_hs_ls_byp")
-        default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
+        local default_biasdrv
+        local default_tcoeff
+        -- Get current values as the default
+        if lane_num == -1 then
+            default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "biasdrv_hs_ls_byp")
+            default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "tcoeff_hf_ls_byp")
+        else
+            default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "biasdrv_hs_ls_byp")
+            default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
+        end
+
+        printf("   biasdrv\tTX Amplitude\n")
+        for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
+            printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
+        end
+        biasdrv = menu.prompt_number("TX Amplitude(biasdrv)", default_biasdrv, 0, 31)
+
+        printf("    tcoeff\tTX Demphasis\n")
+        for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
+            local db = -qlm_tuning.tcoeff[t]
+            printf("\t%2d\t-%d.%d db\n", t, db/10, db%10)
+        end
+        tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 15)
     end
-    printf("   biasdrv\tTX Amplitude\n")
-    for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
-        printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
-    end
-    local biasdrv = menu.prompt_number("TX Amplitude(biasdrv)", default_biasdrv, 0, 31)
-    printf("    tcoeff\tTX Demphasis\n")
-    for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
-        local db = -qlm_tuning.tcoeff[t]
-        printf("\t%2d\t-%d.%d db\n", t, db/10, db%10)
-    end
-    local tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 15)
 
     -- Write ALL the biasdrvsel fields:
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hs_ls_byp", biasdrv)
@@ -129,21 +141,31 @@ local function change_tx(qlm_num)
 end
 
 -- Prompt for RX QLM parameters and change them
-local function change_rx(qlm_num)
-    local default_rx_cap
-    local default_rx_eq
-    local lane_num = select_lane(qlm_num, true)
+local function change_rx(qlm_num, settings, lane_num)
+    local rx_cap
+    local rx_eq
 
-    -- Get current values as the default
-    if lane_num == -1 then
-        default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_cap_gen2")
-        default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_eq_gen2")
-    else
-        default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_cap_gen2")
-        default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_eq_gen2")
+    if not lane_num then
+        lane_num = select_lane(qlm_num, true)
     end
-    local rx_cap = menu.prompt_number("RX cap(rx_cap)", default_rx_cap, 0, 15)
-    local rx_eq = menu.prompt_number("RX eq(rx_eq)", default_rx_eq, 0, 15)
+
+    if settings then
+        rx_cap = settings["rx_cap"]
+        rx_eq = settings["rx_eq"]
+    else
+        local default_rx_cap
+        local default_rx_eq
+        -- Get current values as the default
+        if lane_num == -1 then
+            default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_cap_gen2")
+            default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_eq_gen2")
+        else
+            default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_cap_gen2")
+            default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_eq_gen2")
+        end
+        local rx_cap = menu.prompt_number("RX cap(rx_cap)", default_rx_cap, 0, 15)
+        local rx_eq = menu.prompt_number("RX eq(rx_eq)", default_rx_eq, 0, 15)
+    end
 
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_cap_gen2", rx_cap)
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_cap_gen1", rx_cap)
@@ -152,7 +174,7 @@ local function change_rx(qlm_num)
 end
 
 -- Run PRBS on all QLMs
-local function do_prbs(mode)
+local function do_prbs(mode, done_check_func)
     local function output_line(qlm_base, label, get_value)
         printf("%21s", label)
         local qlm_max = qlm_base + 2
@@ -172,81 +194,216 @@ local function do_prbs(mode)
         end
         printf("|\n")
     end
+    -- Display PRBS status on the console
+    local function display_status(run_time)
+        printf("\n\n");
+        printf("PRBS-%d time: %d seconds (Press return to exit)\n", mode, run_time)
+        for qlm_base=0,octeon.c.bdk_qlm_get_num()-1,3 do
+            output_line(qlm_base, "", function(qlm, lane)
+                return (lane == 0) and ("--- QLM " .. qlm) or "----------"
+            end)
+            output_line(qlm_base, "", function(qlm, lane)
+                return "Lane " .. lane
+            end)
+            output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
+                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
+            end)
+            output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
+                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
+            end)
+            output_line(qlm_base, "RX cap", function(qlm, lane)
+                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
+            end)
+            output_line(qlm_base, "RX eq", function(qlm, lane)
+                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_eq_gen2")
+            end)
+            output_line(qlm_base, "PRBS Errors", function(qlm, lane)
+                local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
+                if v == 0 then
+                    return "No Lock"
+                else
+                    v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
+                    if v == 0 then
+                        return "-"
+                    elseif v < 1000000 then
+                        return v
+                    elseif v < 1000000000 then
+                        return tostring(v / 1000000) .. "M"
+                    else
+                        return tostring(v / 1000000000) .. "B"
+                    end
+                end
+            end)
+            output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
+                local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
+                if (v == 0) or (run_time == 0) then
+                    return "-"
+                else
+                    v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
+                    v = v / run_time
+                    if v == 0 then
+                        return "-"
+                    elseif v < 1000000 then
+                        return tostring(v) .. "/s"
+                    elseif v < 1000000000 then
+                        return tostring(v / 1000000) .. "M/s"
+                    else
+                        return tostring(v / 1000000000) .. "B/s"
+                    end
+                end
+            end)
+            output_line(qlm_base, "", function(qlm, lane)
+                return "----------"
+            end)
+            printf("\n")
+        end
+    end
+
+    printf("PRBS-%d running. Statistics shown every 5 seconds\n", mode)
+    -- Start PRBS
     for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
         qlm.do_prbs(qlm_num, mode)
     end
-    printf("PRBS-%d running. Statistics shown every 5 seconds\n", mode)
 
-    -- Periodically show the PRBS error counter and other status fields.
     local start_time = os.time()
-    local next_print = start_time
-    while readline.getkey() ~= '\r' do
+    local next_print = start_time + 5
+    while true do
         local t = os.time()
+        local run_time = t - start_time
+        local is_done = done_check_func(run_time)
+        if is_done then
+            display_status(run_time)
+            return is_done
+        end
+        -- Periodically show the PRBS error counter and other status fields.
         if t >= next_print then
+            display_status(run_time)
             next_print = next_print + 5
-            printf("\n\n");
-            printf("PRBS-%d time: %d seconds (Press return to exit)\n", mode, t - start_time)
-            for qlm_base=0,octeon.c.bdk_qlm_get_num()-1,3 do
-                output_line(qlm_base, "", function(qlm, lane)
-                    return (lane == 0) and ("--- QLM " .. qlm) or "----------"
-                end)
-                output_line(qlm_base, "", function(qlm, lane)
-                    return "Lane " .. lane
-                end)
-                output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
-                end)
-                output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
-                end)
-                output_line(qlm_base, "RX cap", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
-                end)
-                output_line(qlm_base, "RX eq", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_eq_gen2")
-                end)
-                output_line(qlm_base, "PRBS Errors", function(qlm, lane)
-                    local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
-                    if v == 0 then
-                        return "No Lock"
-                    else
-                        v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
-                        if v == 0 then
-                            return "-"
-                        elseif v < 1000000 then
-                            return v
-                        elseif v < 1000000000 then
-                            return tostring(v / 1000000) .. "M"
-                        else
-                            return tostring(v / 1000000000) .. "B"
+        end
+    end
+end
+
+-- Used as a done check for running PRBS interactively. Runs until return key
+-- is pressed
+local function check_for_return()
+    return readline.getkey() == '\r'
+end
+
+-- Automatically tune the QLMs
+local function auto_tune(prbs_mode)
+    local function auto_done_check(run_time)
+        -- Abort auto tune if the user presses return
+        if check_for_return() then
+            return "abort"
+        end
+        -- "results" will be a table with all the PRBS error counts
+        -- for each QLM and lane (results[qlm][lane] = errors)
+        local results = {}
+        -- We keep testing this setup as long as at least one QLM is
+        -- working. Working is defined as all lanes having an error
+        -- count below a threshold.
+        local qlm_good = false
+        for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+            local qlm_lanes_good = true
+            results[qlm] = {}
+            for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
+                if v == 1 then
+                    -- We have PRBS lock
+                    v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
+                    if v >= 10 then
+                        -- Too many errors on this lane
+                        qlm_lanes_good = false
+                    end
+                    results[qlm][lane] = v
+                else
+                    -- Lane never reach lock
+                    qlm_lanes_good = false
+                    results[qlm][lane] = "No lock"
+                end
+            end
+            qlm_good = qlm_good or qlm_lanes_good
+        end
+        -- Run until all QLMs are bad or a max time occurs
+        if qlm_good and (run_time < 10) then
+            return false -- Keep running
+        end
+        -- Done, so return the results
+        return results
+    end
+
+    printf("\n")
+    printf("Automatic tuning sweeps all QLMs through a number of TX\n")
+    printf("and RX parameters. For each setup, PRBS-%d tests for errors.\n", prbs_mode)
+    printf("All parameters that result in error free PRBS-%d are\n", prbs_mode)
+    printf("recorded and displayed in a final summary.\n")
+    printf("\n")
+
+    -- Prompt the user for the settings ranges we should try
+    local min_rx_eq = menu.prompt_number("Minimum RX eq(rx_eq)", 8, 0, 15)
+    local max_rx_eq = menu.prompt_number("Maximum RX eq(rx_eq)", 15, 0, 15)
+    local min_rx_cap = menu.prompt_number("Minimum RX cap(rx_cap)", 0, 0, 15)
+    local max_rx_cap = menu.prompt_number("Maximum RX cap(rx_cap)", 2, 0, 15)
+    local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 8, 0, 31)
+    local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 24, 0, 31)
+    local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
+    local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 15)
+
+    local settings = {} -- Stores the settings we are currently testing
+    local lane_num = -1 -- Test all lanes on each QLM
+    local summary = {} -- Good values will be stored here as they are found
+    for rx_eq = min_rx_eq, max_rx_eq do
+        for rx_cap = min_rx_cap, max_rx_cap do
+            for biasdrv = min_biasdrv, max_biasdrv do
+                for tcoeff = min_tcoeff, max_tcoeff do
+                    -- Change the settings of all QLMs
+                    settings["rx_eq"] = rx_eq
+                    settings["rx_cap"] = rx_cap
+                    settings["biasdrv"] = biasdrv
+                    settings["tcoeff"] = tcoeff
+                    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+                        change_tx(qlm, settings, lane_num)
+                        change_rx(qlm, settings, lane_num)
+                    end
+                    -- Run PRBS using the special auto tune done check
+                    local prbs_result = do_prbs(prbs_mode, auto_done_check)
+                    -- Check for a user abort
+                    if prbs_result == "abort" then
+                        return
+                    end
+                    -- Search to see if any QLM passed
+                    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+                        local all_good = true -- Are all lanes good?
+                        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                            all_good = all_good and (prbs_result[qlm][lane] == 0)
+                        end
+                        if all_good then
+                            -- Record this good result
+                            local good = {}
+                            good["qlm"] = qlm
+                            good["rx_eq"] = rx_eq
+                            good["rx_cap"] = rx_cap
+                            good["biasdrv"] = biasdrv
+                            good["tcoeff"] = tcoeff
+                            table.insert(summary, good)
                         end
                     end
-                end)
-                output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
-                    local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
-                    if (v == 0) or (t == start_time) then
-                        return "-"
-                    else
-                        v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
-                        v = v / (t - start_time)
-                        if v == 0 then
-                            return "-"
-                        elseif v < 1000000 then
-                            return tostring(v) .. "/s"
-                        elseif v < 1000000000 then
-                            return tostring(v / 1000000) .. "M/s"
-                        else
-                            return tostring(v / 1000000000) .. "B/s"
-                        end
-                    end
-                end)
-                output_line(qlm_base, "", function(qlm, lane)
-                    return "----------"
-                end)
-                printf("\n")
+                end
             end
         end
     end
+
+    -- Display summary
+    printf("Automatic Tuning Results\n")
+    printf("----------------------------------------------\n")
+    printf("The following settings gave error free results\n")
+    for _,results in ipairs(summary) do
+        for name, value in pairs(results) do
+            printf("\t%s=%d", name, value)
+        end
+        printf("\n")
+    end
+    printf("----------------------------------------------\n")
 end
 
 -- Main menu
@@ -266,12 +423,13 @@ function qlm_tuning.run()
         else
             m:item("loop", "Shallow loopback",  qlm.do_loop, qlm_tuning.qlm, 1)
         end
-        m:item("prbs7",  "PRBS-7",              do_prbs, 7)
+        m:item("prbs7",  "PRBS-7",              do_prbs, 7, check_for_return)
         if not octeon.is_model(octeon.CN63XX) then
-            m:item("prbs15", "PRBS-15",         do_prbs, 15)
-            m:item("prbs23", "PRBS-23",         do_prbs, 23)
+            m:item("prbs15", "PRBS-15",         do_prbs, 15, check_for_return)
+            m:item("prbs23", "PRBS-23",         do_prbs, 23, check_for_return)
         end
-        m:item("prbs31", "PRBS-31",             do_prbs, 31)
+        m:item("prbs31", "PRBS-31",             do_prbs, 31, check_for_return)
+        m:item("auto31", "Automatically Tune using PRBS-31", auto_tune, 31)
         m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
         m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
         m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
