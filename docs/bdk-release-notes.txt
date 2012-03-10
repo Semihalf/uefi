@@ -10,6 +10,36 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.03-70829
+------------------------
+
+* Official CNF71XX support:
+** CNF71XX, like CN61XX, requires the DLMs to be configured through
+	the interactive menu before use. Specifically, the SGMII
+	ports are disabled after power on.
+** The general process of bringing up CNF71XX is:
+*** Boot *bdk-minimal.bin* using NOR, EJTAG, or PCIe.
+*** Use *bdk-menu* on the host to create a working DRAM configuration.
+*** Port the DRAM configuration to Uboot and boot.
+*** Use Uboot to boot *bdk-full.bin* and test IO units.
+* Removed SRIO, and traffic-gen from *bdk-minimal.bin* image. This is
+	needed to save space on CN61XX and CNF71XX. The *bdk-full.bin*
+	is required to test traffic, so you must boot it from Uboot.
+* Fix long standing overflow bug which would cause core cycle
+	counters to be out of sync if core 0 had been booted
+	for a while. This caused long delays and lockups
+	in output for other cores.
+* Fixed a bug where CSR access to 32bit USB registers would
+	access the incorrect register.
+* If DRAM is already configured when we start networking, use more
+	and bigger buffers to improve performance.
+* New QLM/DLM tuning menu. Now all QLM/DLMs run PRBS at the same
+	time. This makes it easier to run loopback setups.
+* First pass at an automatic tune for QLMs. This is still very
+	experimental and is unlikely to work. Try it, but expect
+	to need manual tuning.
+
+
 octeon-bdk-2012.02-70412
 ------------------------
 
