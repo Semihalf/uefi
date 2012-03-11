@@ -386,7 +386,7 @@ class CsrField:
     RE_AZ09 = re.compile("^[a-z][a-z0-9_]*$")
     # Fields starting with these names followed by optional numbers will be
     # silently renamed to reserved.
-    begins = ["reserved", "reserved_", "rsvrd", "rsvd", "spare", "spares", "spr", "unused"]
+    begins = ["reserved", "reserved_", "rsvrd", "rsvd", "spare", "spares", "spr", "unused", "res_"]
     RE_RESERVED_NAMES = re.compile("^((%s))[0-9]*$" % ")|(".join(begins))
 
     def __init__(self, start_bit, stop_bit, name, field_type, reset_value, typical_value, description, c_type=None):
