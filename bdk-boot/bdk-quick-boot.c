@@ -48,6 +48,28 @@ int main(void)
         ddr_clock_hertz = 533000000;
     }
 
+    /* Prompt the user for a different DRAM frequency than our default. Wait
+        for up to 1 second for the response */
+    int timeout = 1000000; /* us */
+    do
+    {
+        /* Build the prompt */
+        char prompt[64];
+        sprintf(prompt, "DRAM frequency in Mhz [%d]: ", ddr_clock_hertz);
+        /* Prompt the user */
+        const char *response = bdk_readline(prompt, NULL, timeout);
+        /* Disable the timeout in case we got invalid input. If we got an
+            invalid input, require a good input. */
+        timeout = 0;
+        /* Convert the inout to a number */
+        if (response != NULL)
+            ddr_clock_hertz = atoi(response);
+        /* The range is arbitrary and simply meant to keep the number
+            somewhat sane. The range is very high in case people want to
+            try stuff that won't work */
+    } while ((ddr_clock_hertz < 100000000) || (ddr_clock_hertz > 1600000000));
+    printf("\n");
+
     /* Initialize DRAM */
     bdk_dram_config(board_name, ddr_clock_hertz);
     /* Unlock L2 after DRAM is setup */
