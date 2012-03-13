@@ -350,6 +350,43 @@ retry:
         //printf("ILK%d: Lane alignment complete\n", handle->interface);
     }
 
+    /* Enable error interrupts */
+    BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
+        c.s.rxf_ctl_perr = -1;
+        c.s.rxf_lnk0_perr = -1;
+        c.s.rxf_lnk1_perr = -1;
+        c.s.rxf_pop_empty = -1;
+        c.s.rxf_push_full = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
+        c.s.bad_pipe = -1;
+        c.s.bad_seq = -1;
+        c.s.txf_err = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
+        c.s.crc24_err = -1;
+        c.s.lane_bad_word = -1;
+        c.s.pkt_drop_rid = -1;
+        c.s.pkt_drop_rxf = -1;
+        c.s.pkt_drop_sop = -1;
+    );
+    int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
+    int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
+    for (int lane=start_lane; lane<stop_lane; lane++)
+    {
+        BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+            c.s.bad_64b67b = -1;
+            c.s.bdry_sync_loss = -1;
+            c.s.crc32_err = -1;
+            c.s.dskew_fifo_ovfl = -1;
+            c.s.scrm_sync_loss = -1;
+            c.s.serdes_lock_loss = -1;
+            c.s.stat_msg = -1;
+            c.s.ukwn_cntl_word = -1;
+        );
+    }
+
+    /* Report link speed */
     result.s.up = 1;
     result.s.lanes = bdk_pop(ilk_rxx_cfg1.s.rx_bdry_lock_ena);
     result.s.full_duplex = 1;

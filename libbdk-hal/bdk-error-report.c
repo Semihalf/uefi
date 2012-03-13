@@ -767,45 +767,6 @@ static void enable_fpa(void)
     );
 }
 
-static void enable_ilk(void)
-{
-    BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
-        c.s.rxf_ctl_perr = -1;
-        c.s.rxf_lnk0_perr = -1;
-        c.s.rxf_lnk1_perr = -1;
-        c.s.rxf_pop_empty = -1;
-        c.s.rxf_push_full = -1;
-    );
-    for (int ilk=0; ilk<2; ilk++)
-    {
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(ilk),
-            c.s.bad_pipe = -1;
-            c.s.bad_seq = -1;
-            c.s.txf_err = -1;
-        );
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(ilk),
-            c.s.crc24_err = -1;
-            c.s.lane_bad_word = -1;
-            c.s.pkt_drop_rid = -1;
-            c.s.pkt_drop_rxf = -1;
-            c.s.pkt_drop_sop = -1;
-        );
-    }
-    for (int lane=0; lane<8; lane++)
-    {
-        BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
-            c.s.bad_64b67b = -1;
-            c.s.bdry_sync_loss = -1;
-            c.s.crc32_err = -1;
-            c.s.dskew_fifo_ovfl = -1;
-            c.s.scrm_sync_loss = -1;
-            c.s.serdes_lock_loss = -1;
-            c.s.stat_msg = -1;
-            c.s.ukwn_cntl_word = -1;
-        );
-    }
-}
-
 static void enable_iob(void)
 {
     BDK_CSR_MODIFY(c, BDK_IOB0_INT_ENB,
@@ -1208,7 +1169,7 @@ static void enable_cn68xx(void)
     );
     enable_agl();
     /* GMX, PCS and PCSX are enabled in the bdk_if code */
-    enable_ilk();
+    /* ILK is enabled in the bdk_if code */
     enable_mix(0);
 
     /* Interrupts connected to RML */
