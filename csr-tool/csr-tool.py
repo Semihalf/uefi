@@ -126,19 +126,17 @@ if generate_html:
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
-print "Writing Cisco " + OUTPUT_FILENAME_TYPEDEFS
-csr_output_header.write("cisco/" + OUTPUT_FILENAME_TYPEDEFS, combined_list, 1)
-# Delete the combined list so that it can't be used by accident. It only
-# is useful for C code and documentation.
-combined_list = None
+print "Writing Error decodes"
+csr_output_error_decodes.write(combined_list)
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_lists, 0)
 print "Writing " + OUTPUT_FILENAME_LUA
 csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_lists, 0)
-#print "Writing Error decodes"
-#csr_output_error_decodes.write(separate_chip_lists)
 
-print "Writing Cisco " + OUTPUT_FILENAME_DB
-csr_output_db.write("cisco/" + OUTPUT_FILENAME_DB, separate_chip_lists, 1)
+if False:
+    print "Writing Cisco " + OUTPUT_FILENAME_TYPEDEFS
+    csr_output_header.write("cisco/" + OUTPUT_FILENAME_TYPEDEFS, combined_list, 1)
+    print "Writing Cisco " + OUTPUT_FILENAME_DB
+    csr_output_db.write("cisco/" + OUTPUT_FILENAME_DB, separate_chip_lists, 1)
 
