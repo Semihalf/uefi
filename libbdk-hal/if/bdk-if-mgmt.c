@@ -405,6 +405,23 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     /* Enable the link. */
     agl_gmx_prtx.s.en = 1;
     BDK_CSR_WRITE(BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
+
+    /* Enable error reporting */
+    BDK_CSR_MODIFY(c, BDK_AGL_GMX_RXX_INT_EN(handle->index),
+        c.s.ovrerr = -1;
+        c.s.skperr = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_INT_EN,
+        c.s.pko_nxa = -1;
+        c.s.undflw = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_MIXX_INTENA(handle->index),
+        c.s.data_drpena = -1;
+        c.s.ivfena = -1;
+        c.s.irunena = -1;
+        c.s.ovfena = -1;
+        c.s.orunena = -1;
+    );
 }
 
 

@@ -661,22 +661,6 @@ static void check_cn68xx(void)
     }
 }
 
-static void enable_agl(void)
-{
-    int max_agl = bdk_if_num_interfaces(BDK_IF_MGMT);
-    for (int agl=0; agl<max_agl; agl++)
-    {
-        BDK_CSR_MODIFY(c, BDK_AGL_GMX_RXX_INT_EN(agl),
-            c.s.ovrerr = -1;
-            c.s.skperr = -1;
-        );
-    }
-    BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_INT_EN,
-        c.s.pko_nxa = -1;
-        c.s.undflw = -1;
-    );
-}
-
 static void enable_dfa(void)
 {
     BDK_CSR_MODIFY(c, BDK_DFA_INTMSK,
@@ -870,17 +854,6 @@ static void enable_mio(void)
         c.s.rst_link1 = -1;
         c.s.rst_link2 = -1;
         c.s.rst_link3 = -1;
-    );
-}
-
-static void enable_mix(int mix)
-{
-    BDK_CSR_MODIFY(c, BDK_MIXX_INTENA(mix),
-        c.s.data_drpena = -1;
-        c.s.ivfena = -1;
-        c.s.irunena = -1;
-        c.s.ovfena = -1;
-        c.s.orunena = -1;
     );
 }
 
@@ -1085,18 +1058,12 @@ static void enable_cn6xxx(void)
         c.s.pcm = -1;
         c.s.rml = -1;
     );
-    if (!OCTEON_IS_MODEL(OCTEON_CNF71XX))
-    {
-        enable_mix(0);
-        enable_mix(1);
-    }
+    /* MIX is enabled in the bdk_if code */
     if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
         enable_pcm();
 
     /* Interrupts off of RML */
-    if (!OCTEON_IS_MODEL(OCTEON_CNF71XX))
-        enable_agl();
-    /* GMX, PCS and PCSX are enabled in the bdk_if code */
+    /* AGL, GMX, PCS and PCSX are enabled in the bdk_if code */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
         enable_dfa();
     enable_dpi();
@@ -1167,10 +1134,7 @@ static void enable_cn68xx(void)
         c.s.ilk = -1;
         c.s.mii = -1;
     );
-    enable_agl();
-    /* GMX, PCS and PCSX are enabled in the bdk_if code */
-    /* ILK is enabled in the bdk_if code */
-    enable_mix(0);
+    /* AGL, MIX, ILK, GMX, PCS and PCSX are enabled in the bdk_if code */
 
     /* Interrupts connected to RML */
     BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_RML(0),
