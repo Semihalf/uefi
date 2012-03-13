@@ -63,7 +63,11 @@ int main(void)
         timeout = 0;
         /* Convert the inout to a number */
         if (response != NULL)
+        {
             ddr_clock_hertz = atoi(response);
+            if (strstr(response, "verbose"))
+                setenv("ddr_verbose", "yes",  1);
+        }
         /* The range is arbitrary and simply meant to keep the number
             somewhat sane. The range is very high in case people want to
             try stuff that won't work */
