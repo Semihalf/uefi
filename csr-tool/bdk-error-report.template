@@ -1562,7 +1562,6 @@ ROOT/none [
                         ILK_TXX_INT(0)/ILK_TXX_INT_EN(0) [
                             bad_pipe/bad_pipe
                             bad_seq/bad_seq
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             txf_err/txf_err
                         ]
                         ILK_RXX_INT(0)/ILK_RXX_INT_EN(0) [
@@ -1571,12 +1570,10 @@ ROOT/none [
                             pkt_drop_rid/pkt_drop_rid
                             pkt_drop_rxf/pkt_drop_rxf
                             pkt_drop_sop/pkt_drop_sop
-                            stat_cnt_ovfl/stat_cnt_ovfl
                         ]
                         ILK_TXX_INT(1)/ILK_TXX_INT_EN(1) [
                             bad_pipe/bad_pipe
                             bad_seq/bad_seq
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             txf_err/txf_err
                         ]
                         ILK_RXX_INT(1)/ILK_RXX_INT_EN(1) [
@@ -1585,7 +1582,6 @@ ROOT/none [
                             pkt_drop_rid/pkt_drop_rid
                             pkt_drop_rxf/pkt_drop_rxf
                             pkt_drop_sop/pkt_drop_sop
-                            stat_cnt_ovfl/stat_cnt_ovfl
                         ]
                         ILK_RX_LNEX_INT(0)/ILK_RX_LNEX_INT_EN(0) [
                             bad_64b67b/bad_64b67b
@@ -1594,7 +1590,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1605,7 +1600,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1616,7 +1610,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1627,7 +1620,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1638,7 +1630,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1649,7 +1640,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1660,7 +1650,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -1671,7 +1660,6 @@ ROOT/none [
                             dskew_fifo_ovfl/dskew_fifo_ovfl
                             scrm_sync_loss/scrm_sync_loss
                             serdes_lock_loss/serdes_lock_loss
-                            stat_cnt_ovfl/stat_cnt_ovfl
                             stat_msg/stat_msg
                             ukwn_cntl_word/ukwn_cntl_word
                         ]
@@ -2466,7 +2454,6 @@ static void check_ilk(void)
         BDK_CSR_INIT(c, BDK_ILK_TXX_INT(0));
         CHECK_ERROR(BDK_ILK_TXX_INT(0), bad_pipe);
         CHECK_ERROR(BDK_ILK_TXX_INT(0), bad_seq);
-        CHECK_ERROR(BDK_ILK_TXX_INT(0), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_TXX_INT(0), txf_err);
     }
     {
@@ -2476,13 +2463,11 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RXX_INT(0), pkt_drop_rid);
         CHECK_ERROR(BDK_ILK_RXX_INT(0), pkt_drop_rxf);
         CHECK_ERROR(BDK_ILK_RXX_INT(0), pkt_drop_sop);
-        CHECK_ERROR(BDK_ILK_RXX_INT(0), stat_cnt_ovfl);
     }
     {
         BDK_CSR_INIT(c, BDK_ILK_TXX_INT(1));
         CHECK_ERROR(BDK_ILK_TXX_INT(1), bad_pipe);
         CHECK_ERROR(BDK_ILK_TXX_INT(1), bad_seq);
-        CHECK_ERROR(BDK_ILK_TXX_INT(1), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_TXX_INT(1), txf_err);
     }
     {
@@ -2492,7 +2477,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RXX_INT(1), pkt_drop_rid);
         CHECK_ERROR(BDK_ILK_RXX_INT(1), pkt_drop_rxf);
         CHECK_ERROR(BDK_ILK_RXX_INT(1), pkt_drop_sop);
-        CHECK_ERROR(BDK_ILK_RXX_INT(1), stat_cnt_ovfl);
     }
     {
         BDK_CSR_INIT(c, BDK_ILK_RX_LNEX_INT(0));
@@ -2502,7 +2486,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(0), ukwn_cntl_word);
     }
@@ -2514,7 +2497,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(1), ukwn_cntl_word);
     }
@@ -2526,7 +2508,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(2), ukwn_cntl_word);
     }
@@ -2538,7 +2519,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(3), ukwn_cntl_word);
     }
@@ -2550,7 +2530,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(4), ukwn_cntl_word);
     }
@@ -2562,7 +2541,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(5), ukwn_cntl_word);
     }
@@ -2574,7 +2552,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(6), ukwn_cntl_word);
     }
@@ -2586,7 +2563,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(7), ukwn_cntl_word);
     }
@@ -4311,7 +4287,6 @@ static void enable_ilk(void)
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(0),
             c.s.bad_pipe = -1;
             c.s.bad_seq = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.txf_err = -1;
         );
     }
@@ -4322,14 +4297,12 @@ static void enable_ilk(void)
             c.s.pkt_drop_rid = -1;
             c.s.pkt_drop_rxf = -1;
             c.s.pkt_drop_sop = -1;
-            c.s.stat_cnt_ovfl = -1;
         );
     }
     {
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(1),
             c.s.bad_pipe = -1;
             c.s.bad_seq = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.txf_err = -1;
         );
     }
@@ -4340,7 +4313,6 @@ static void enable_ilk(void)
             c.s.pkt_drop_rid = -1;
             c.s.pkt_drop_rxf = -1;
             c.s.pkt_drop_sop = -1;
-            c.s.stat_cnt_ovfl = -1;
         );
     }
     {
@@ -4351,7 +4323,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4364,7 +4335,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4377,7 +4347,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4390,7 +4359,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4403,7 +4371,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4416,7 +4383,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4429,7 +4395,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
@@ -4442,7 +4407,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );

@@ -150,16 +150,16 @@ add_reg(group = "ilk",
     parent = "ciu2_src_pp0_ip2_pkt:ilk")
 for interface in xrange(2): # Two interfaces on CN68XX
     add_reg(group = "ilk",
-        status = "ilk_tx%d_int" % interface,
+        status = "ilk_tx%d_int:!stat_cnt_ovfl" % interface,
         enable = "ilk_tx%d_int_en" % interface,
         parent = "ciu2_src_pp0_ip2_pkt:ilk")
     add_reg(group = "ilk",
-        status = "ilk_rx%d_int:!lane_align_done,lane_align_fail,word_sync_done" % interface,
+        status = "ilk_rx%d_int:!stat_cnt_ovfl,lane_align_done,word_sync_done,lane_align_fail" % interface,
         enable = "ilk_rx%d_int_en" % interface,
         parent = "ciu2_src_pp0_ip2_pkt:ilk")
 for lane in xrange(8): # CN68XX supports up to 8 lanes
     add_reg(group = "ilk",
-        status = "ilk_rx_lne%d_int" % lane,
+        status = "ilk_rx_lne%d_int:!stat_cnt_ovfl" % lane,
         enable = "ilk_rx_lne%d_int_en" % lane,
         parent = "ciu2_src_pp0_ip2_pkt:ilk")
 #

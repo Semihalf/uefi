@@ -193,7 +193,6 @@ static void check_ilk(void)
             BDK_CSR_INIT(c, BDK_ILK_TXX_INT(ilk));
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_pipe);
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_seq);
-            CHECK_ERROR(BDK_ILK_TXX_INT(ilk), stat_cnt_ovfl);
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), txf_err);
         }
         {
@@ -203,7 +202,6 @@ static void check_ilk(void)
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_rid);
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_rxf);
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_sop);
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), stat_cnt_ovfl);
         }
     }
     for (int lane=0; lane<8; lane++)
@@ -215,7 +213,6 @@ static void check_ilk(void)
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), dskew_fifo_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), scrm_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), stat_cnt_ovfl);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), stat_msg);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), ukwn_cntl_word);
     }
@@ -812,7 +809,6 @@ static void enable_ilk(void)
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(ilk),
             c.s.bad_pipe = -1;
             c.s.bad_seq = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.txf_err = -1;
         );
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(ilk),
@@ -821,7 +817,6 @@ static void enable_ilk(void)
             c.s.pkt_drop_rid = -1;
             c.s.pkt_drop_rxf = -1;
             c.s.pkt_drop_sop = -1;
-            c.s.stat_cnt_ovfl = -1;
         );
     }
     for (int lane=0; lane<8; lane++)
@@ -833,7 +828,6 @@ static void enable_ilk(void)
             c.s.dskew_fifo_ovfl = -1;
             c.s.scrm_sync_loss = -1;
             c.s.serdes_lock_loss = -1;
-            c.s.stat_cnt_ovfl = -1;
             c.s.stat_msg = -1;
             c.s.ukwn_cntl_word = -1;
         );
