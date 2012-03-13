@@ -114,7 +114,7 @@ void __bdk_init_main(int arg, void *arg1)
         printf("Switching to main\n");
         if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
-        if (bdk_error_check)
+        if (&bdk_error_check && bdk_error_check)
             if (bdk_thread_create(0, __bdk_error_poll, 0, NULL, 0))
                 bdk_fatal("Create of error poll thread failed\n");
 
