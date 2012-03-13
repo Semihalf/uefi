@@ -49,7 +49,7 @@ static void __bdk_error_poll(int arg, void *arg1)
     while (bdk_error_check)
     {
         bdk_error_check();
-        bdk_wait_usec(1000);
+        bdk_wait_usec(100000);
     }
 }
 
