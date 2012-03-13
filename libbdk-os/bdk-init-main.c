@@ -44,6 +44,14 @@ static void __bdk_setup_bootbus(void)
     }
 }
 
+static void __bdk_error_poll(int arg, void *arg1)
+{
+    while (bdk_error_check)
+    {
+        bdk_error_check();
+        bdk_wait_usec(1000);
+    }
+}
 
 /**
  * This function is the first function run on all cores once the
@@ -73,6 +81,11 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_qlm_init();
         bdk_fpa_enable();
         bdk_dma_engine_initialize();
+        if (bdk_error_enable)
+        {
+            printf("Enabling error reporting\n");
+            bdk_error_enable();
+        }
 
         for (int i=0; i<2; i++)
         {
@@ -101,6 +114,9 @@ void __bdk_init_main(int arg, void *arg1)
         printf("Switching to main\n");
         if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
+        if (bdk_error_check)
+            if (bdk_thread_create(0, __bdk_error_poll, 0, NULL, 0))
+                bdk_fatal("Create of error poll thread failed\n");
 
         /* The following code doesn't do anything useful. It forces a link
             dependency on bdk_require_depends(), which forces link dependency

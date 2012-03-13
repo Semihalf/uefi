@@ -31,6 +31,7 @@
 #include "bdk-core.h"
 #include "bdk-crc.h"
 #include "bdk-dma-engine.h"
+#include "bdk-error-report.h"
 #include "bdk-fau.h"
 #include "bdk-flash.h"
 #include "bdk-gpio.h"
