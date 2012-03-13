@@ -20,9 +20,16 @@ void bdk_write_env(void)
         return;
 
     /* Write the environment in Uboot's goofy format */
-    uint32_t* ptr = bdk_phys_to_ptr(0x1000);
-    int max_len = 0x1000 - 4;
-    memcpy(ptr+1, *environ, max_len);
-    *ptr = bdk_crc32(*environ, max_len, 0);
+    uint32_t* base_ptr = bdk_phys_to_ptr(0x1000);
+    memset(base_ptr, 0, 0x1000);
+    char **e = environ;
+    char *p = (char*)(base_ptr + 1);
+    while (*e)
+    {
+        strcpy(p, *e);
+        p += strlen(*e) + 1;
+        e++;
+    }
+    *base_ptr = bdk_crc32(base_ptr+1, 0x1000 - 4, 0);
 }
 
