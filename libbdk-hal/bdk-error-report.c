@@ -1004,6 +1004,11 @@ static void enable_sso_cn68xx(void)
     );
 }
 
+static void enable_sso_cn6xxx(void)
+{
+    // FIXME
+}
+
 static void enable_tim_cn68xx(void)
 {
     BDK_CSR_MODIFY(c, BDK_TIM_INT0_EN,
@@ -1084,6 +1089,7 @@ static void enable_cn6xxx(void)
         enable_srio(0);
         enable_srio(1);
     }
+    enable_sso_cn6xxx();
     enable_tim_cn6xxx();
     if (!OCTEON_IS_MODEL(OCTEON_CNF71XX))
         enable_zip();
