@@ -767,34 +767,6 @@ static void enable_fpa(void)
     );
 }
 
-static void enable_gmx(int gmx)
-{
-    int max_index = (OCTEON_IS_MODEL(OCTEON_CNF71XX)) ? 2 : 4;
-    for (int index=0; index<max_index; index++)
-    {
-        BDK_CSR_MODIFY(c, BDK_GMXX_RXX_INT_EN(index,gmx),
-            c.s.bad_seq = -1;
-            c.s.bad_term = -1;
-            c.s.carext = -1;
-            c.s.hg2cc = -1;
-            c.s.hg2fld = -1;
-            c.s.loc_fault = -1;
-            c.s.ovrerr = -1;
-            c.s.rem_fault = -1;
-            c.s.skperr = -1;
-            c.s.undat = -1;
-            c.s.uneop = -1;
-            c.s.unsop = -1;
-        );
-    }
-    BDK_CSR_MODIFY(c, BDK_GMXX_TX_INT_EN(gmx),
-        c.s.pko_nxa = -1;
-        c.s.pko_nxp = -1;
-        c.s.ptp_lost = -1;
-        c.s.undflw = -1;
-    );
-}
-
 static void enable_ilk(void)
 {
     BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
@@ -973,38 +945,6 @@ static void enable_pcm(void)
             c.s.txempty = -1;
         );
     }
-}
-
-static void enable_pcs(int pcs)
-{
-    int max_index = (OCTEON_IS_MODEL(OCTEON_CNF71XX)) ? 2 : 4;
-    for (int index=0; index<max_index; index++)
-    {
-        BDK_CSR_MODIFY(c, BDK_PCSX_INTX_EN_REG(index, pcs),
-            c.s.an_bad_en = -1;
-            c.s.an_err_en = -1;
-            c.s.dbg_sync_en = -1;
-            c.s.rxbad_en = -1;
-            c.s.rxlock_en = -1;
-            c.s.sync_bad_en = -1;
-            c.s.txbad_en = -1;
-            c.s.txfifo_en = -1;
-            c.s.txfifu_en = -1;
-        );
-    }
-}
-
-static void enable_pcsx(int pcsx)
-{
-    BDK_CSR_MODIFY(c, BDK_PCSXX_INT_EN_REG(pcsx),
-        c.s.algnlos_en = -1;
-        c.s.bitlckls_en = -1;
-        c.s.dbg_sync_en = -1;
-        c.s.rxbad_en = -1;
-        c.s.rxsynbad_en = -1;
-        c.s.synlos_en = -1;
-        c.s.txflt_en = -1;
-    );
 }
 
 static void enable_pem(int pem)
@@ -1195,15 +1135,7 @@ static void enable_cn6xxx(void)
     /* Interrupts off of RML */
     if (!OCTEON_IS_MODEL(OCTEON_CNF71XX))
         enable_agl();
-    int max_interfaces = bdk_if_num_interfaces(BDK_IF_SGMII);
-    for (int interface=0; interface<max_interfaces; interface++)
-    {
-        enable_pcs(interface);
-        enable_gmx(interface);
-    }
-    max_interfaces = bdk_if_num_interfaces(BDK_IF_XAUI);
-    for (int interface=0; interface<max_interfaces; interface++)
-        enable_pcsx(interface);
+    /* GMX, PCS and PCSX are enabled in the bdk_if code */
     if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
         enable_dfa();
     enable_dpi();
@@ -1275,13 +1207,7 @@ static void enable_cn68xx(void)
         c.s.mii = -1;
     );
     enable_agl();
-    int max_interfaces = bdk_if_num_interfaces(BDK_IF_XAUI);
-    for (int interface=0; interface<max_interfaces; interface++)
-    {
-        enable_gmx(interface);
-        enable_pcs(interface);
-        enable_pcsx(interface);
-    }
+    /* GMX, PCS and PCSX are enabled in the bdk_if code */
     enable_ilk();
     enable_mix(0);
 

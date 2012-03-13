@@ -156,6 +156,37 @@ static int xaui_link_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
         c.s.gmxeno = 0);
 
+    /* Enable error interrupts */
+    BDK_CSR_MODIFY(c, BDK_PCSXX_INT_EN_REG(gmx_block),
+        c.s.algnlos_en = -1;
+        c.s.bitlckls_en = -1;
+        c.s.dbg_sync_en = -1;
+        c.s.rxbad_en = -1;
+        c.s.rxsynbad_en = -1;
+        c.s.synlos_en = -1;
+        c.s.txflt_en = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block),
+        c.s.bad_seq = -1;
+        c.s.bad_term = -1;
+        c.s.carext = -1;
+        c.s.hg2cc = -1;
+        c.s.hg2fld = -1;
+        c.s.loc_fault = -1;
+        c.s.ovrerr = -1;
+        c.s.rem_fault = -1;
+        c.s.skperr = -1;
+        c.s.undat = -1;
+        c.s.uneop = -1;
+        c.s.unsop = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_GMXX_TX_INT_EN(gmx_block),
+        c.s.pko_nxa = -1;
+        c.s.pko_nxp = -1;
+        c.s.ptp_lost = -1;
+        c.s.undflw = -1;
+    );
+
     return 0;
 }
 

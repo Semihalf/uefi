@@ -80,6 +80,11 @@ static int init_link(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
+
+    /* Disable error reporting */
+    BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block), 0);
+    BDK_CSR_WRITE(BDK_PCSX_INTX_EN_REG(gmx_index, gmx_block), 0);
+
     /* Take PCS through a reset sequence.
         PCS*_MR*_CONTROL_REG[PWR_DN] should be cleared to zero.
         Write PCS*_MR*_CONTROL_REG[RESET]=1 (while not changing the value of
@@ -116,6 +121,39 @@ static int init_link(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(c, BDK_GMXX_TXX_APPEND(gmx_index, gmx_block),
             c.s.fcs = 0;
             c.s.pad = 0);
+
+    /* Enable error reporting */
+    BDK_CSR_MODIFY(c, BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block),
+        c.s.bad_seq = -1;
+        c.s.bad_term = -1;
+        c.s.carext = -1;
+        c.s.hg2cc = -1;
+        c.s.hg2fld = -1;
+        c.s.loc_fault = -1;
+        c.s.ovrerr = -1;
+        c.s.rem_fault = -1;
+        c.s.skperr = -1;
+        c.s.undat = -1;
+        c.s.uneop = -1;
+        c.s.unsop = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_GMXX_TX_INT_EN(gmx_block),
+        c.s.pko_nxa = -1;
+        c.s.pko_nxp = -1;
+        c.s.ptp_lost = -1;
+        c.s.undflw = -1;
+    );
+    BDK_CSR_MODIFY(c, BDK_PCSX_INTX_EN_REG(gmx_index, gmx_block),
+        c.s.an_bad_en = -1;
+        c.s.an_err_en = -1;
+        c.s.dbg_sync_en = -1;
+        c.s.rxbad_en = -1;
+        c.s.rxlock_en = -1;
+        c.s.sync_bad_en = -1;
+        c.s.txbad_en = -1;
+        c.s.txfifo_en = -1;
+        c.s.txfifu_en = -1;
+    );
 
     return 0;
 }
