@@ -163,8 +163,8 @@ local function change_rx(qlm_num, settings, lane_num)
             default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_cap_gen2")
             default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_eq_gen2")
         end
-        local rx_cap = menu.prompt_number("RX cap(rx_cap)", default_rx_cap, 0, 15)
-        local rx_eq = menu.prompt_number("RX eq(rx_eq)", default_rx_eq, 0, 15)
+        rx_cap = menu.prompt_number("RX cap(rx_cap)", default_rx_cap, 0, 15)
+        rx_eq = menu.prompt_number("RX eq(rx_eq)", default_rx_eq, 0, 15)
     end
 
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_cap_gen2", rx_cap)
@@ -340,10 +340,10 @@ local function auto_tune(prbs_mode)
     printf("\n")
 
     -- Prompt the user for the settings ranges we should try
-    local min_rx_eq = menu.prompt_number("Minimum RX eq(rx_eq)", 8, 0, 15)
-    local max_rx_eq = menu.prompt_number("Maximum RX eq(rx_eq)", 15, 0, 15)
     local min_rx_cap = menu.prompt_number("Minimum RX cap(rx_cap)", 0, 0, 15)
     local max_rx_cap = menu.prompt_number("Maximum RX cap(rx_cap)", 2, 0, 15)
+    local min_rx_eq = menu.prompt_number("Minimum RX eq(rx_eq)", 8, 0, 15)
+    local max_rx_eq = menu.prompt_number("Maximum RX eq(rx_eq)", 15, 0, 15)
     local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 8, 0, 31)
     local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 24, 0, 31)
     local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
@@ -352,8 +352,8 @@ local function auto_tune(prbs_mode)
     local settings = {} -- Stores the settings we are currently testing
     local lane_num = -1 -- Test all lanes on each QLM
     local summary = {} -- Good values will be stored here as they are found
-    for rx_eq = min_rx_eq, max_rx_eq do
-        for rx_cap = min_rx_cap, max_rx_cap do
+    for rx_cap = min_rx_cap, max_rx_cap do
+        for rx_eq = min_rx_eq, max_rx_eq do
             for biasdrv = min_biasdrv, max_biasdrv do
                 for tcoeff = min_tcoeff, max_tcoeff do
                     -- Change the settings of all QLMs
@@ -379,13 +379,8 @@ local function auto_tune(prbs_mode)
                         end
                         if all_good then
                             -- Record this good result
-                            local good = {}
-                            good["qlm"] = qlm
-                            good["rx_eq"] = rx_eq
-                            good["rx_cap"] = rx_cap
-                            good["biasdrv"] = biasdrv
-                            good["tcoeff"] = tcoeff
-                            table.insert(summary, good)
+                            local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
+                            summary[key] = true
                         end
                     end
                 end
@@ -397,13 +392,41 @@ local function auto_tune(prbs_mode)
     printf("Automatic Tuning Results\n")
     printf("----------------------------------------------\n")
     printf("The following settings gave error free results\n")
-    for _,results in ipairs(summary) do
-        for name, value in pairs(results) do
-            printf("\t%s=%d", name, value)
+    printf("\n")
+    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+        local title = {}
+
+        title[1] = "%-14s|" % ("QLM/DLM%d" % qlm)
+        title[2] = "%14s|" % "RX Cap"
+        title[3] = "%14s|" % ""
+        title[4] = "%14s|" % ""
+        title[5] = "%14s|" % "RX Eq"
+        title[6] = "%14s|" % "biasdrv|tcoeff"
+        for rx_cap = min_rx_cap, max_rx_cap do
+            for rx_eq = min_rx_eq, max_rx_eq do
+                local column = "%2d-%2d-" % {rx_cap, rx_eq}
+                for i=1, 6 do
+                    title[i] = title[i] .. column:sub(i,i)
+                end
+            end
         end
-        printf("\n")
+        for i=1,6 do
+            printf("%s|\n", title[i])
+        end
+        for biasdrv = min_biasdrv, max_biasdrv do
+            for tcoeff = min_tcoeff, max_tcoeff do
+                printf("%7d|%6d|", biasdrv, tcoeff)
+                for rx_cap = min_rx_cap, max_rx_cap do
+                    for rx_eq = min_rx_eq, max_rx_eq do
+                        local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
+                        printf(summary[key] and "#" or " ")
+                    end
+                end
+                printf("|\n")
+            end
+        end
+        printf("----------------------------------------------\n")
     end
-    printf("----------------------------------------------\n")
 end
 
 -- Main menu
@@ -423,12 +446,12 @@ function qlm_tuning.run()
         else
             m:item("loop", "Shallow loopback",  qlm.do_loop, qlm_tuning.qlm, 1)
         end
-        m:item("prbs7",  "PRBS-7",              do_prbs, 7, check_for_return)
+        m:item("prbs7",  "PRBS-7 on all QLM/DLM", do_prbs, 7, check_for_return)
         if not octeon.is_model(octeon.CN63XX) then
-            m:item("prbs15", "PRBS-15",         do_prbs, 15, check_for_return)
-            m:item("prbs23", "PRBS-23",         do_prbs, 23, check_for_return)
+            m:item("prbs15", "PRBS-15 on all QLM/DLM", do_prbs, 15, check_for_return)
+            m:item("prbs23", "PRBS-23 on all QLM/DLM", do_prbs, 23, check_for_return)
         end
-        m:item("prbs31", "PRBS-31",             do_prbs, 31, check_for_return)
+        m:item("prbs31", "PRBS-31 on all QLM/DLM", do_prbs, 31, check_for_return)
         m:item("auto31", "Automatically Tune using PRBS-31", auto_tune, 31)
         m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
         m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
