@@ -80,34 +80,6 @@ static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg);
 
 /**
  *
- * @param handle
- *
- * @return
- */
-static tg_port_t *tg_get_port(bdk_if_handle_t handle)
-{
-    static tg_port_t *tg_port[64];
-
-    for (int i=0; i<64; i++)
-    {
-        if (tg_port[i] == NULL)
-        {
-            tg_port[i] = calloc(1, sizeof(tg_port_t));
-            if (tg_port[i])
-            {
-                tg_port[i]->handle = handle;
-                tg_port[i]->pinfo.priv = tg_port[i];
-            }
-            return tg_port[i];
-        }
-        else if (tg_port[i]->handle == handle)
-            return tg_port[i];
-    }
-    return NULL;
-}
-
-/**
- *
  * @param tg_port
  */
 static void tg_init_port(tg_port_t *tg_port)
@@ -145,9 +117,11 @@ static void tg_init(void)
 {
     for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle!=NULL; handle = bdk_if_next_port(handle))
     {
-        tg_port_t *tg_port = tg_get_port(handle);
+        tg_port_t *tg_port = calloc(1, sizeof(tg_port_t));
         if (tg_port)
         {
+            tg_port->handle = handle;
+            tg_port->pinfo.priv = tg_port;
             strcpy(tg_port->pinfo.name, bdk_if_name(handle));
             tg_port->next = NULL;
             if (tg_port_tail)
