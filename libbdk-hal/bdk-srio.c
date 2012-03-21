@@ -650,17 +650,165 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
     }
 
     bdk_if_link_t link_info = bdk_srio_link_get(srio_port);
-
-    if (link_info.s.up)
-    {
-        bdk_dprintf("SRIO%d: %d Mhz, %d lanes\n", srio_port, link_info.s.speed, link_info.s.lanes);
-        return 0;
-    }
-    else
+    if (!link_info.s.up)
     {
         bdk_dprintf("SRIO%d: Link down\n", srio_port);
         return -1;
     }
+
+    /* (G-16592) Loss-of-signal can be erroneously detected for SRIO @ 5GBaud */
+    if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
+    {
+        BDK_CSR_INIT(phy_stat, BDK_SRIOMAINTX_IR_PI_PHY_STAT(srio_port));
+        switch (phy_stat.s.init_sm)
+        {
+            case 0x008: /* 1x_Mode_Lane0 */
+            case 0x040: /* 1x_Recovery */
+                if (strstr(bdk_qlm_get_mode(0), "SRIO 4x1"))
+                {
+                    /* Enable 0 */
+                    bdk_qlm_jtag_set(0, srio_port, "cfg_rx_idle_set", 0);
+                    bdk_qlm_jtag_set(0, srio_port, "cfg_rx_idle_clr", 1);
+                }
+                else if (strstr(bdk_qlm_get_mode(0), "SRIO 2x2"))
+                {
+                    /* Enable 0, disable 1 */
+                    bdk_qlm_jtag_set(0, srio_port*2, "cfg_rx_idle_set", 0);
+                    bdk_qlm_jtag_set(0, srio_port*2, "cfg_rx_idle_clr", 1);
+                    bdk_qlm_jtag_set(0, srio_port*2+1, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, srio_port*2+1, "cfg_rx_idle_clr", 0);
+                }
+                else /* 1x4 */
+                {
+                    /* Enable 0, disable 1 - 3 */
+                    bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_set", 0);
+                    bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_clr", 1);
+                    bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_clr", 0);
+                }
+                break;
+            case 0x010: /* 1x_Mode_Lane1 */
+                if (strstr(bdk_qlm_get_mode(0), "SRIO 2x2"))
+                {
+                    /* Enable 1, disable 0 */
+                    bdk_qlm_jtag_set(0, srio_port*2, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, srio_port*2, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, srio_port*2+1, "cfg_rx_idle_set", 0);
+                    bdk_qlm_jtag_set(0, srio_port*2+1, "cfg_rx_idle_clr", 1);
+                }
+                else /* 1x4 */
+                {
+                    /* Enable 1, disable 0, 2 - 3 */
+                    bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_set", 0);
+                    bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_clr", 1);
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_clr", 0);
+                }
+                break;
+            case 0x020: /* 1x_Mode_Lane2 */
+                /* Must be 1x4: Enable 2, disable 0, 1, 3 */
+                bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_clr", 0);
+                break;
+            case 0x080: /* 2x_Mode */
+            case 0x100: /* 2x_Recovery */
+                /* Must be 2x2 or 1x4: Enable 0, 1, disable 2, 3 */
+                bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(0, 0, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(0, 1, "cfg_rx_idle_clr", 1);
+                if (strstr(bdk_qlm_get_mode(0), "SRIO 1x4"))
+                {
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 2, "cfg_rx_idle_clr", 0);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_set", 1);
+                    bdk_qlm_jtag_set(0, 3, "cfg_rx_idle_clr", 0);
+                }
+                break;
+            case 0x200: /* 4x_Mode */
+                /* Must be 1x4: Enable 0-3 */
+                bdk_qlm_jtag_set(0, -1, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(0, -1, "cfg_rx_idle_clr", 1);
+                break;
+        }
+    }
+
+    /* (G-16592) Loss-of-signal can be erroneously detected for SRIO @ 5GBaud */
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
+    {
+        BDK_CSR_INIT(phy_stat, BDK_SRIOMAINTX_IR_PI_PHY_STAT(srio_port));
+        switch (phy_stat.s.init_sm)
+        {
+            case 0x008: /* 1x_Mode_Lane0 */
+            case 0x040: /* 1x_Recovery */
+                /* Enable 0, disable 1 - 3 */
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_clr", 0);
+                break;
+            case 0x010: /* 1x_Mode_Lane1 */
+                /* Enable 1, disable 0, 2, 3 */
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_clr", 0);
+                break;
+            case 0x020: /* 1x_Mode_Lane2 */
+                /* Enable 2, disable 0, 1, 3 */
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_clr", 0);
+                break;
+            case 0x080: /* 2x_Mode */
+            case 0x100: /* 2x_Recovery */
+                /* Enable 0, 1, disable 2, 3 */
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, 0, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, 1, "cfg_rx_idle_clr", 1);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 2, "cfg_rx_idle_clr", 0);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_set", 1);
+                bdk_qlm_jtag_set(srio_port, 3, "cfg_rx_idle_clr", 0);
+                break;
+            case 0x200: /* 4x_Mode */
+                /* Enable 0-3 */
+                bdk_qlm_jtag_set(srio_port, -1, "cfg_rx_idle_set", 0);
+                bdk_qlm_jtag_set(srio_port, -1, "cfg_rx_idle_clr", 1);
+                break;
+        }
+    }
+
+    bdk_dprintf("SRIO%d: %d Mhz, %d lanes\n", srio_port, link_info.s.speed, link_info.s.lanes);
+    return 0;
 }
 
 
