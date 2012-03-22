@@ -605,7 +605,7 @@ static void __bdk_qlm_chip_tweak(void)
     {
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
-            /* These values are from Ethan Craig on 3/22/2012 */
+            /* These values are from Ethan Crain on 3/22/2012 */
             /* I realized that the settings that I sent you were actual */
             /* decimal, not hex. Also, the default output swing is 1000mV */
             /* so the biasdrv should be 26, not 18. So, to be clear, the */
