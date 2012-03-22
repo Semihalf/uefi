@@ -12,6 +12,16 @@
  */
 
 /**
+ * Initialize the TWSI blocks. This just sets the clock rate.
+ * Many times stuff will work without calling this, but some
+ * TWSI devices will fail. This is normally called automatically
+ * in bdk-init-main.c.
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_twsix_initialize(void);
+
+/**
  * Do a twsi read from a 7 bit device address using an (optional)
  * internal address. Up to 4 bytes can be read at a time.
  *

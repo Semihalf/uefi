@@ -4,16 +4,6 @@ require("strict")
 require("utils")
 require("menu")
 
-local function twsi_init(twsi_bus)
-    -- Slow down the TWSI clock, as some boards (Thunder) seem to need
-    -- it slower than the default, especially when a spi4000 is
-    -- connected.
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).OP = 0x6
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).EOP_IA = 0x3
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).D = 0x78
-    octeon.csr.MIO_TWSX_SW_TWSI(twsi_bus).V = 1
-end
-
 local function twsi_scan(twsi_bus)
     printf("TWSI%d: Scanning bus...\n", twsi_bus)
     for dev_addr = 0, 127 do
@@ -52,7 +42,6 @@ end
 
 local function twsi_submenu(twsi_bus)
     local m = menu.new("TWSI Menu - Bus " .. twsi_bus)
-    m:item("init", "Initialize bus", twsi_init, twsi_bus)
     m:item("scan", "Scan bus", twsi_scan, twsi_bus)
     m:item("read", "Read", twsi_read, twsi_bus)
     m:item("write", "Write", twsi_write, twsi_bus)

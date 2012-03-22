@@ -1,4 +1,43 @@
 #include <bdk.h>
+/**
+ * Initialize the TWSI blocks. This just sets the clock rate.
+ * Many times stuff will work without calling this, but some
+ * TWSI devices will fail. This is normally called automatically
+ * in bdk-init-main.c.
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_twsix_initialize(void)
+{
+    const int TWSI_BUS_FREQ = 100000;   /* 100 KHz */
+    const int TWSI_THP = 24;            /* TCLK half period (default 24) */
+    const int io_clock_hz = bdk_clock_get_rate(BDK_CLOCK_SCLK);
+    int N_divider;
+    int M_divider;
+
+    /* Set the TWSI clock to a conservative TWSI_BUS_FREQ.  Compute the
+        clocks M divider based on the SCLK.
+        TWSI freq = (core freq) / (20 x (M+1) x (thp+1) x 2^N)
+        M = ((core freq) / (20 x (TWSI freq) x (thp+1) x 2^N)) - 1 */
+    for (N_divider = 0; N_divider < 8; N_divider++)
+    {
+        M_divider = (io_clock_hz / (20 * TWSI_BUS_FREQ * (TWSI_THP + 1) * (1 << N_divider))) - 1;
+        if (M_divider < 16)
+            break;
+    }
+
+    BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(bus));
+    sw_twsi.u64 = 0;
+    sw_twsi.s.v = 1;       /* Clear valid bit */
+    sw_twsi.s.op = 0x6;    /* See EOP field */
+    sw_twsi.s.r = 0;       /* Select CLKCTL when R = 0 */
+    sw_twsi.s.eop_ia = 3;  /* R=0 selects CLKCTL, R=1 selects STAT */
+    sw_twsi.s.d = ((M_divider & 0xf) << 3) | ((N_divider & 0x7) << 0);
+
+    for (int bus=0; bus<2; bus++)
+        BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(bus), sw_twsi.u64);
+    return 0;
+}
 
 /**
  * Do a twsi read from a 7 bit device address using an (optional)
