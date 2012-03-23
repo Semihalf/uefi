@@ -848,6 +848,8 @@ static inline void dispatch(bdk_if_packet_t *packet)
  */
 int bdk_if_dispatch(void)
 {
+    if (!bdk_if_is_configured())
+        return 0;
     int count = 0;
     bdk_if_packet_t packet;
 
