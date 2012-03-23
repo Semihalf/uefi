@@ -5,7 +5,7 @@
  * Enable the FPA for use. Must be performed after any CSR
  * configuration but before any other FPA functions.
  */
-void bdk_fpa_enable(void)
+static void __bdk_fpa_enable(void)
 {
     if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
@@ -32,6 +32,10 @@ void bdk_fpa_enable(void)
  */
 int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
 {
+    BDK_CSR_INIT(status, BDK_FPA_CTL_STATUS);
+    if (!status.s.enb)
+        __bdk_fpa_enable();
+
     int size = bdk_fpa_get_block_size(pool);
 
     if (!size)

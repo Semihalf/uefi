@@ -18,12 +18,6 @@ typedef enum
 #define BDK_FPA_ENABLE_ADDRESS_CHECKS 0
 
 /**
- * Enable the FPA for use. Must be performed after any CSR
- * configuration but before any other FPA functions.
- */
-extern void bdk_fpa_enable(void);
-
-/**
  * Verify that an address should be in a pool
  *
  * @param where   Message describing where the check is

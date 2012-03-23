@@ -80,8 +80,6 @@ void __bdk_init_main(int arg, void *arg1)
 
         bdk_twsix_initialize();
         bdk_qlm_init();
-        bdk_fpa_enable();
-        bdk_dma_engine_initialize();
         if (bdk_error_enable)
         {
             printf("Enabling error reporting\n");
