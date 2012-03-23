@@ -15,11 +15,22 @@ typedef enum
     BDK_FPA_OUTPUT_BUFFER_POOL,
 } bdk_fpa_pool_t;
 
+#define BDK_FPA_ENABLE_ADDRESS_CHECKS 0
+
 /**
  * Enable the FPA for use. Must be performed after any CSR
  * configuration but before any other FPA functions.
  */
 extern void bdk_fpa_enable(void);
+
+/**
+ * Verify that an address should be in a pool
+ *
+ * @param where   Message describing where the check is
+ * @param pool    Pool to check against
+ * @param address Address to check
+ */
+extern void bdk_fpa_check_address(const char *where, bdk_fpa_pool_t pool, uint64_t address);
 
 /**
  * Get a new block from the FPA
@@ -31,7 +42,11 @@ static inline void *bdk_fpa_alloc(bdk_fpa_pool_t pool)
 {
     uint64_t address = bdk_read64_uint64(BDK_ADDR_DID(BDK_FULL_DID(BDK_OCT_DID_FPA, pool)));
     if (bdk_likely(address))
+    {
+        if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
+            bdk_fpa_check_address(__FUNCTION__, pool, address);
         return bdk_phys_to_ptr(address);
+    }
     else
         return NULL;
 }
@@ -87,7 +102,11 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
 
     address = bdk_scratch_read64(scr_addr);
     if (bdk_likely(address))
+    {
+        if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
+            bdk_fpa_check_address(__FUNCTION__, pool, address);
         return bdk_phys_to_ptr(address);
+    }
     else
         return NULL;
 }
@@ -103,6 +122,8 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
  */
 static inline void __bdk_fpa_raw_free(uint64_t address, bdk_fpa_pool_t pool, int num_cache_lines)
 {
+    if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
+        bdk_fpa_check_address(__FUNCTION__, pool, address);
     bdk_addr_t newptr;
     newptr.u64 = address;
     newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));

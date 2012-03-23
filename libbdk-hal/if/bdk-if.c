@@ -900,6 +900,9 @@ int bdk_if_dispatch(void)
 
         count++;
 
+        if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
+            bdk_fpa_check_address(__FUNCTION__, BDK_FPA_PACKET_POOL, raw_work);
+
         /* Get the IPD port number */
         int ipd_port = wqe->word2.s.port;
         if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
