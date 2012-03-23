@@ -50,7 +50,7 @@ int main(void)
 
     /* Prompt the user for a different DRAM frequency than our default. Wait
         for up to 1 second for the response */
-    int timeout = 1000000; /* us */
+    int timeout = 3000000; /* us */
     do
     {
         /* Build the prompt */
