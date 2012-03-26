@@ -603,32 +603,12 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
     {
+        /* (G-16467) Tx Clock Mux Isolation */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
-            /* These values are from Ethan Crain on 3/22/2012 */
-            /* I realized that the settings that I sent you were actual */
-            /* decimal, not hex. Also, the default output swing is 1000mV */
-            /* so the biasdrv should be 26, not 18. So, to be clear, the */
-            /* settings I found to work are: */
-            /* biasdrv = 26 = 0x1A */
-            /* ir50dac = 31 = 0x1f */
-            /* tcoeff = 10 = 0xA */
-            /* rx_eq = 10 = 0xA */
-            /* rx_cap = 0 = 0x0 */
-            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 0x1f);
+            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
             bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0);
-            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0xa);
-            /* Write ALL the tcoeff fields */
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_ls_byp", 0xa);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_byp", 0xa);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_ls_byp", 0xa);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_byp", 0xa);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_hs_ls_byp", 0x1a);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_hf_byp", 0x1a);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_ls_byp", 0x1a);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_byp", 0x1a);
-            /*  Assert serdes_tx_byp to force the new settings to override the QLM default. */
-            bdk_qlm_jtag_set(qlm, -1, "serdes_tx_byp", 1);
+            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 10);
         }
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
