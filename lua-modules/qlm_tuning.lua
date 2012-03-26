@@ -240,15 +240,15 @@ local function do_prbs(mode, done_check_func)
                     return "-"
                 else
                     v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
-                    v = v / run_time
+                    local rate = v / run_time
                     if v == 0 then
                         return "-"
-                    elseif v < 1000000 then
-                        return tostring(v) .. "/s"
-                    elseif v < 1000000000 then
-                        return tostring(v / 1000000) .. "M/s"
+                    elseif rate < 1000000 then
+                        return tostring(rate) .. "/s"
+                    elseif rate < 1000000000 then
+                        return tostring(rate / 1000000) .. "M/s"
                     else
-                        return tostring(v / 1000000000) .. "B/s"
+                        return tostring(rate / 1000000000) .. "B/s"
                     end
                 end
             end)
