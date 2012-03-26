@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-#define MAX_FILE_HANDLES 8
+#define MAX_FILE_HANDLES 16
 #define MAX_MOUNT_POINTS 12
 
 /**
