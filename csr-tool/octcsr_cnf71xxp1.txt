@@ -40927,7 +40927,12 @@ Pos      Name    Type     Value     Value       Description
 <0>      BUF_DONE             R/W1C    NS       NS       The next 512B block transfer of a multi-block transfer has     |
                                                          completed.                                                     |
 <1>      CMD_DONE             R/W1C    NS       NS       Operation specified by MIO_EMM_CMD completed successfully      |
-<2>      DMA_DONE             R/W1C    NS       NS       DMA transfer completed successfully                            |
+
+<2>      DMA_DONE             R/W1C    NS       NS       All blocks have been successfully transferred between the card |
+                                                         and the boot bus DMA Engine.   For a DMA read, software must   |
+                                                         wait for MIO_NDF_DMA_INT to indicate the read data has been 	|
+                                                         written to L2/DRAM.                                            |
+
 <3>      CMD_ERR              R/W1C    NS       NS       Operation specified by MIO_EMM_CMD encountered an error.  See  |
                                                          MIO_EMM_RSP_STS.                                               |
 <4>      DMA_ERR              R/W1C    NS       NS       DMA transfer encountered an error.   See MIO_EMM_RSP_STS.      |

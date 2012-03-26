@@ -13211,10 +13211,11 @@ Pos      Name    Type     Value     Value       Description
                                                          link XOFF to automatically XOFF all channels.                  |
 <16:12>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <17>     RX_LINK_FC           RO       0x0      NS       Link flow control status received in burst/idle control words. |
-                                                         When RX_LINK_FC_IGN=0, XOFF will cause Tx-Link to stop         |
+                                                         When RX_LINK_FC_IGN=0, XOFF (=0) will cause Tx-Link to stop    |
                                                          transmitting on all channels.                                  |
 <18>     TX_LINK_FC           RO       0x0      NS       Link flow control status transmitted by the Tx-Link            |
-                                                         XON when RX_FIFO_CNT <= RX_FIFO_HWM and lane alignment is done |
+                                                         XON (=1) when RX_FIFO_CNT <= RX_FIFO_HWM and lane alignment is |
+                                                         done                                                           |
 <19>     LA_MODE              R/W      0x0      NS       0 = Interlaken                                                 |
                                                          1 = Interlaken Look-Aside                                      |
 <20>     PKT_ENA              R/W      0x1      NS       Packet transmit enable.  When PKT_ENA=0, the Tx-Link will stop |
@@ -13423,6 +13424,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <55>, <47>, or <31> in the   |
+                                                         Interlaken control word.                                       |
 <14:9>   BPID1                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+1   |
                                                          (unused if ENTRY_CTL1 != 0)                                    |
 <15>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13431,6 +13434,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <54>, <46>, or <30> in the   |
+                                                         Interlaken control word.                                       |
 <23:18>  BPID2                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+2   |
                                                          (unused if ENTRY_CTL2 != 0)                                    |
 <24>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13439,6 +13444,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <53>, <45>, or <29> in the   |
+                                                         Interlaken control word.                                       |
 <32:27>  BPID3                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+3   |
                                                          (unused if ENTRY_CTL3 != 0)                                    |
 <33>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13447,6 +13454,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <52>, <44>, or <28> in the   |
+                                                         Interlaken control word.                                       |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
 Notes:                                                                                                                  |
@@ -13477,6 +13486,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <51>, <43>, or <27> in the   |
+                                                         Interlaken control word.                                       |
 <14:9>   BPID5                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+5   |
                                                          (unused if ENTRY_CTL5 != 0)                                    |
 <15>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13485,6 +13496,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <50>, <42>, or <26> in the   |
+                                                         Interlaken control word.                                       |
 <23:18>  BPID6                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+6   |
                                                          (unused if ENTRY_CTL6 != 0)                                    |
 <24>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13493,6 +13506,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <49>, <41>, or <25> in the   |
+                                                         Interlaken control word.                                       |
 <32:27>  BPID7                R/W      0x0      NS       Select IPD backpressue id for calendar table entry (IDX*8)+7   |
                                                          (unused if ENTRY_CTL7 != 0)                                    |
 <33>     NS                   RAZ      0x0      NS       Reserved                                                       |
@@ -13501,6 +13516,8 @@ Pos      Name    Type     Value     Value       Description
                                                              1: Link                                                    |
                                                              2: XOFF                                                    |
                                                              3: XON                                                     |
+                                                         This field applies to one of bits <48>, <40>, or <24> in the   |
+                                                         Interlaken control word.                                       |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
 Notes:                                                                                                                  |
@@ -13676,9 +13693,11 @@ Pos      Name    Type     Value     Value       Description
                                                          participating lane loses either word boundary lock or scrambler|
                                                          synchronization                                                |
 <17>     RX_LINK_FC           RO       0x0      NS       Link flow control status received in burst/idle control words. |
-                                                         XOFF will cause Tx-Link to stop transmitting on all channels.  |
+                                                         XOFF (=0) will cause Tx-Link to stop transmitting on all       |
+                                                         channels.                                                      |
 <18>     TX_LINK_FC           RO       0x0      NS       Link flow control status transmitted by the Tx-Link            |
-                                                         XON when RX_FIFO_CNT <= RX_FIFO_HWM and lane alignment is done |
+                                                         XON (=1) when RX_FIFO_CNT <= RX_FIFO_HWM and lane alignment is |
+                                                         done                                                           |
 <19>     LA_MODE              R/W      0x0      NS       0 = Interlaken                                                 |
                                                          1 = Interlaken Look-Aside                                      |
 <20>     PKT_ENA              R/W      0x0      NS       Packet receive enable.  When PKT_ENA=0, any received SOP causes|
@@ -14061,6 +14080,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             effectively unused if PORT_PIPEx is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
                                                                                                                         |
+                                                         This field applies to one of bits <55>, <47>, or <31> in the   |
+                                                         Interlaken control word.                                       |
+                                                                                                                        |
 <15:9>   PORT_PIPE1           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+1        |
                                                                                                                         |
                                                          PORT_PIPE1 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
@@ -14083,6 +14105,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             PORT_PIPE1. The calendar table entry is     |
                                                                             effectively unused if PORT_PIPE1 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+                                                         This field applies to one of bits <54>, <46>, or <30> in the   |
+                                                         Interlaken control word.                                       |
                                                                                                                         |
 <24:18>  PORT_PIPE2           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+2        |
                                                                                                                         |
@@ -14107,6 +14132,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             effectively unused if PORT_PIPE2 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
                                                                                                                         |
+                                                         This field applies to one of bits <53>, <45>, or <29> in the   |
+                                                         Interlaken control word.                                       |
+                                                                                                                        |
 <33:27>  PORT_PIPE3           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+3        |
                                                                                                                         |
                                                          PORT_PIPE3 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
@@ -14129,6 +14157,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             PORT_PIPE3. The calendar table entry is     |
                                                                             effectively unused if PORT_PIPE3 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+                                                         This field applies to one of bits <52>, <44>, or <28> in the   |
+                                                         Interlaken control word.                                       |
                                                                                                                         |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
@@ -14187,6 +14218,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             effectively unused if PORT_PIPE4 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
                                                                                                                         |
+                                                         This field applies to one of bits <51>, <43>, or <27> in the   |
+                                                         Interlaken control word.                                       |
+                                                                                                                        |
 <15:9>   PORT_PIPE5           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+5        |
                                                                                                                         |
                                                          PORT_PIPE5 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
@@ -14209,6 +14243,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             PORT_PIPE5. The calendar table entry is     |
                                                                             effectively unused if PORT_PIPE5 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+                                                         This field applies to one of bits <50>, <42>, or <26> in the   |
+                                                         Interlaken control word.                                       |
                                                                                                                         |
 <24:18>  PORT_PIPE6           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+6        |
                                                                                                                         |
@@ -14233,6 +14270,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             effectively unused if PORT_PIPE6 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
                                                                                                                         |
+                                                         This field applies to one of bits <49>, <41>, or <25> in the   |
+                                                         Interlaken control word.                                       |
+                                                                                                                        |
 <33:27>  PORT_PIPE7           R/W      0x0      NS       Select PKO port-pipe for calendar table entry (IDX*8)+7        |
                                                                                                                         |
                                                          PORT_PIPE7 must reside in the range of ILK_TXx_PIPE[BASE/NUMP] |
@@ -14255,6 +14295,9 @@ Pos      Name    Type     Value     Value       Description
                                                                             PORT_PIPE7. The calendar table entry is     |
                                                                             effectively unused if PORT_PIPE3 is out of  |
                                                                             range of ILK_TXx_PIPE[BASE/NUMP].           |
+                                                                                                                        |
+                                                         This field applies to one of bits <48>, <40>, or <24> in the   |
+                                                         Interlaken control word.                                       |
                                                                                                                         |
 <63:36>  NS                   RAZ      0x0      NS       Reserved                                                       |
                                                                                                                         |
@@ -14312,12 +14355,16 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <7:0>    TX_LNE_STAT          R/W      0xff     NS       Lane status transmitted in the diagnostic word (per-lane)      |
+                                                         '1' means healthy (according to the Interlaken spec)           |
 <15:8>   NS                   RAZ      0x0      NS       Reserved                                                       |
 <23:16>  TX_LNK_STAT          R/W      0xff     NS       Link status transmitted in the diagnostic word (per-lane)      |
+                                                         '1' means healthy (according to the Interlaken spec)           |
 <31:24>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <39:32>  RX_LNE_STAT          RO       0x0      NS       Lane status received in the diagnostic word (per-lane)         |
+                                                         '1' means healthy (according to the Interlaken spec)           |
 <47:40>  NS                   RAZ      0x0      NS       Reserved                                                       |
 <55:48>  RX_LNK_STAT          RO       0x0      NS       Link status received in the diagnostic word (per-lane)         |
+                                                         '1' means healthy (according to the Interlaken spec)           |
 <63:56>  NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -14362,6 +14409,7 @@ Pos      Name    Type     Value     Value       Description
 <3>      RX_DIS_UKWN          R/W      0x0      0x0      Disable normal response to unknown words.  They are still      |
                                                          logged but do not cause an error to all open channels..        |
 <4>      RX_BDRY_SYNC         RO       0x0      NS       Rx word boundary sync status                                   |
+                                                         '1' means synchronization achieved                             |
 <63:5>   NS                   RAZ      0x0      NS       Reserved                                                       |
 ----------------------------------------------------------------------------------------------------
 ===
