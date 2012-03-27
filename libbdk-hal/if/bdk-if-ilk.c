@@ -71,6 +71,71 @@ static int if_probe(bdk_if_handle_t handle)
     return 0;
 }
 
+/**
+ * Clear all TX and RX calendar entries. Each channel will be
+ * enabled later on with calls to ilk_write_cal_entry().
+ *
+ * @param interface Interface to clear
+ */
+static void ilk_clear_cal(int interface)
+{
+    int i;
+
+    /* Setup TX write chunk */
+    BDK_CSR_DEFINE(ctidx, BDK_ILK_TXX_IDX_CAL(interface));
+    ctidx.u64 = 0;
+    ctidx.s.index = 0;
+    ctidx.s.inc = 1;
+    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
+
+    /* Each entry will be XOF to disable TX */
+    BDK_CSR_DEFINE(tcal0, BDK_ILK_TXX_MEM_CAL0(interface));
+    BDK_CSR_DEFINE(tcal1, BDK_ILK_TXX_MEM_CAL1(interface));
+    tcal0.u64 = 0;
+    tcal0.s.entry_ctl0 = 2; /* XOF */
+    tcal0.s.entry_ctl1 = 2;
+    tcal0.s.entry_ctl2 = 2;
+    tcal0.s.entry_ctl3 = 2;
+    tcal1.u64 = 0;
+    tcal1.s.entry_ctl4 = 2;
+    tcal1.s.entry_ctl5 = 2;
+    tcal1.s.entry_ctl6 = 2;
+    tcal1.s.entry_ctl7 = 2;
+    /* Write all 288 entries, 8 at a time */
+    for (i=0; i<36; i++)
+    {
+        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
+        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
+    }
+
+    /* Setup RX write chunk */
+    BDK_CSR_DEFINE(cridx, BDK_ILK_RXX_IDX_CAL(interface));
+    cridx.u64 = 0;
+    cridx.s.index = 0;
+    cridx.s.inc = 1;
+    BDK_CSR_WRITE(BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
+
+    /* Each entry will be Link to simplify RX */
+    BDK_CSR_DEFINE(rcal0, BDK_ILK_RXX_MEM_CAL0(interface));
+    BDK_CSR_DEFINE(rcal1, BDK_ILK_RXX_MEM_CAL1(interface));
+    rcal0.u64 = 0;
+    rcal0.s.entry_ctl0 = 1; /* Link */
+    rcal0.s.entry_ctl1 = 1;
+    rcal0.s.entry_ctl2 = 1;
+    rcal0.s.entry_ctl3 = 1;
+    rcal1.u64 = 0;
+    rcal1.s.entry_ctl4 = 1;
+    rcal1.s.entry_ctl5 = 1;
+    rcal1.s.entry_ctl6 = 1;
+    rcal1.s.entry_ctl7 = 1;
+    /* Write all 288 entries, 8 at a time */
+    for (i=0; i<36; i++)
+    {
+        BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
+        BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
+    }
+}
+
 static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pipe)
 {
     /* Calendar will be setup such that each 16 entries has the global
@@ -205,6 +270,7 @@ static int if_init(bdk_if_handle_t handle)
 
     if (handle->index == 0)
     {
+        ilk_clear_cal(handle->interface);
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
             c.s.nump = num_ilk;
             c.s.base = pipe[handle->interface]);
