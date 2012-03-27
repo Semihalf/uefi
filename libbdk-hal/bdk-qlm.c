@@ -601,7 +601,7 @@ static void __bdk_qlm_chip_tweak(void)
             bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
         }
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
     {
         /* (G-16467) Tx Clock Mux Isolation */
         for (int qlm=0; qlm<num_qlms; qlm++)
