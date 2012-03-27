@@ -260,6 +260,11 @@ local function do_prbs(mode, done_check_func)
     end
 
     printf("PRBS-%d running. Statistics shown every 5 seconds\n", mode)
+    -- Reset the QLMs. Do this independently from PRBS so that all
+    -- resets are complete before we start PRBS
+    for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
+        qlm.do_reset(qlm_num)
+    end
     -- Start PRBS
     for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
         qlm.do_prbs(qlm_num, mode)

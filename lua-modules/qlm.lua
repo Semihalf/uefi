@@ -59,8 +59,6 @@ end
 -- @param qlm_num QLM number to run PRBS on
 -- @param mode PRBS mode to run
 function qlm.do_prbs(qlm_num, mode)
-    qlm.do_reset(qlm_num)
-
     if octeon.is_model(octeon.CN63XX) then
         --[[
             63xx PRBS:
