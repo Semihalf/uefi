@@ -317,7 +317,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         result.s.up = 1;
         result.s.full_duplex = 1;
         result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
-        result.s.lanes = 4;
         result.s.speed *= result.s.lanes;
 
         BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
