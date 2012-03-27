@@ -265,8 +265,9 @@ local function do_prbs(mode, done_check_func)
     for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
         qlm.do_reset(qlm_num)
     end
-    -- Start PRBS
-    for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
+    -- Start PRBS on the QLMs in reverse order. For some reason
+    -- this help CN68XX pass 2.0 QLM1 start better.
+    for qlm_num=octeon.c.bdk_qlm_get_num()-1,0,-1 do
         qlm.do_prbs(qlm_num, mode)
     end
 
