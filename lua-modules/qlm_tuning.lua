@@ -206,10 +206,18 @@ local function do_prbs(mode, done_check_func)
                 return "Lane " .. lane
             end)
             output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
-                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
+                if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
+                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
+                else
+                    return ""
+                end
             end)
             output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
-                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
+                if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
+                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
+                else
+                    return ""
+                end
             end)
             output_line(qlm_base, "RX cap", function(qlm, lane)
                 return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
