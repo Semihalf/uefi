@@ -86,7 +86,7 @@ static int if_probe(bdk_if_handle_t handle)
         /* PKO ports are the same as IPD */
         handle->pko_port = handle->ipd_port;
     }
-    handle->has_fcs = 1;
+    handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
 

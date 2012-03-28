@@ -223,7 +223,7 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
         /* Don't strip off FCS. We might want to see it when debugging */
         BDK_CSR_MODIFY(c, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
         /* Enable checking of the FCS */
-        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = handle->has_fcs);
+        BDK_CSR_MODIFY(c, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = !!(handle->flags & BDK_IF_FLAGS_HAS_FCS));
         /* Backpressure when this port has 256 buffers in use */
         BDK_CSR_MODIFY(c, BDK_IPD_BPIDX_MBUF_TH(handle->pknd),
             c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
@@ -336,7 +336,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     handle->ipd_port = -1;
     handle->pko_port = -1;
     handle->pko_queue = -1;
-    handle->has_fcs = 0;
+    handle->flags = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))
     {
@@ -555,6 +555,9 @@ bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)
  */
 int bdk_if_enable(bdk_if_handle_t handle)
 {
+    if (handle->flags & BDK_IF_FLAGS_ENABLED)
+        return 0;
+    handle->flags |= BDK_IF_FLAGS_ENABLED;
     return __bdk_if_ops[handle->iftype]->if_enable(handle);
 }
 
@@ -568,7 +571,12 @@ int bdk_if_enable(bdk_if_handle_t handle)
  */
 int bdk_if_disable(bdk_if_handle_t handle)
 {
-    return __bdk_if_ops[handle->iftype]->if_disable(handle);
+    if (handle->flags & BDK_IF_FLAGS_ENABLED)
+    {
+        handle->flags &= ~BDK_IF_FLAGS_ENABLED;
+        return __bdk_if_ops[handle->iftype]->if_disable(handle);
+    }
+    return 0;
 }
 
 
@@ -713,14 +721,14 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
             break;
         case BDK_IF_HIGIG:
             /* Subtract Higig header */
-            bytes_off_tx = handle->has_fcs ? 4 : 0;
+            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
             int header_size = (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface) == 2) ? sizeof(bdk_higig2_header_t) : sizeof(bdk_higig_header_t);
             bytes_off_tx += -header_size;
             bytes_off_rx = -header_size;
             break;
         default:
             /* Account for TX lack of FCS for most ports */
-            bytes_off_tx = handle->has_fcs ? 4 : 0;
+            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
             bytes_off_rx = 0;
             break;
     }
@@ -807,7 +815,7 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         if (bdk_unlikely(bdk_is_simulation()))
         {
             int octets = pko_command.s.total_bytes;
-            if (handle->has_fcs)
+            if (handle->flags & BDK_IF_FLAGS_HAS_FCS)
                 octets += 4;
             bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, octets);
             bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);

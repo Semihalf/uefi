@@ -29,6 +29,12 @@ typedef enum
     __BDK_IF_LAST
 } bdk_if_t;
 
+typedef enum
+{
+    BDK_IF_FLAGS_HAS_FCS = 1,
+    BDK_IF_FLAGS_ENABLED = 2,
+} bdk_if_flags_t;
+
 typedef union
 {
     uint64_t u64;
@@ -67,7 +73,7 @@ typedef struct __bdk_if_port
     int         ipd_port    : 16;
     int         pko_port    : 8;
     int         pko_queue   : 8;
-    int         has_fcs     : 8;
+    bdk_if_flags_t flags    : 8;
     void *      receiver; /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     void *      priv;

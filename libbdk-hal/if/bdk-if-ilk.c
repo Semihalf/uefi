@@ -67,7 +67,7 @@ static int if_probe(bdk_if_handle_t handle)
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
     handle->pko_port = __bdk_pko_alloc_port();
-    handle->has_fcs = 1;
+    handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
 
