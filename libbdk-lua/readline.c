@@ -84,6 +84,28 @@ static int lreadline(lua_State* L)
     luaL_checkany(L, 2);
     uint32_t timeout_us = luaL_checkinteger(L, 3);
 
+    /* Get the table of pending input from the registry */
+    lua_pushlightuserdata(L, lreadline);
+    lua_gettable(L, LUA_REGISTRYINDEX);
+    if (!lua_isnil(L, -1))
+    {
+        if (luaL_len(L, -1) > 0)
+        {
+            /* Use table.remove to get the first item */
+            lua_getglobal(L, "table");
+            lua_getfield(L, -1, "remove");
+            lua_pushvalue(L, -3); /* Input table */
+            lua_pushinteger(L, 1); /* Index */
+            lua_call(L, 2, 1); /* Pops func and args */
+            lua_remove(L, -2); /* Pops the "table" global */
+            lua_remove(L, -2); /* Pops the input table */
+            /* Return first element from pending input */
+            return 1;
+        }
+        /* Pop the input table */
+        lua_pop(L, 1);
+    }
+
     if (lua_istable(L, 2))
         tab = table_to_tab(L, 2);
 
@@ -112,6 +134,32 @@ static int lreadline(lua_State* L)
     return 1;
 }
 
+static int lfakeinput(lua_State* L)
+{
+    /* Expect one argument, a string for readline input */
+    luaL_checkstring(L, 1);
+    /* Get the table of pending input from the registry */
+    lua_pushlightuserdata(L, lreadline);
+    lua_gettable(L, LUA_REGISTRYINDEX);
+    if (lua_isnil(L, -1))
+    {
+        /* Table doesn't exist, create it */
+        lua_pop(L, 1); /* Pop the nil */
+        lua_pushlightuserdata(L, lreadline);
+        lua_newtable(L);
+        lua_settable(L, LUA_REGISTRYINDEX);
+        /* Get the table back again after adding it to the registry */
+        lua_pushlightuserdata(L, lreadline);
+        lua_gettable(L, LUA_REGISTRYINDEX);
+    }
+    /* My input table is at the top of the stack */
+    lua_pushinteger(L, luaL_len(L, -1) + 1); /* Get the table length+1 */
+    lua_pushvalue(L, 1);    /* Get our argument */
+    lua_settable(L, -3);    /* Push the new value onto the end of the table */
+    lua_pop(L, 1);          /* Pop the input table */
+    return 0;
+}
+
 static lua_State *globalL;
 void __bdk_rpc_serve(void)
 {
@@ -133,6 +181,8 @@ LUALIB_API int luaopen_readline(lua_State *L)
     lua_setfield(L, -2, "getkey");
     lua_pushcfunction(L, lreadline);
     lua_setfield(L, -2, "readline");
+    lua_pushcfunction(L, lfakeinput);
+    lua_setfield(L, -2, "fakeinput");
     return 1;
 }
 
