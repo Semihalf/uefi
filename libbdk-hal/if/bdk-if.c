@@ -826,16 +826,25 @@ int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
  */
 void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg)
 {
-    handle->receiver = receiver;
+    /* Set the receiver to NULL before we update the argument */
+    handle->receiver = NULL;
+    BDK_SYNCW;
+    /* Update the argument now that we know it can't arrive at other
+        cores with an old receiver */
     handle->receiver_arg = arg;
+    BDK_SYNCW;
+    /* Finally update the receiver now that the argument must be set */
+    handle->receiver = receiver;
+    BDK_SYNCW;
 }
 
 
 static inline void dispatch(bdk_if_packet_t *packet)
 {
+    void *receiver_arg = packet->if_handle->receiver_arg;
     bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
     if (receiver)
-        receiver(packet, packet->if_handle->receiver_arg);
+        receiver(packet, receiver_arg);
     bdk_if_free(packet);
 }
 
