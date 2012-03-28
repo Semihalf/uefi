@@ -555,10 +555,7 @@ bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)
  */
 int bdk_if_enable(bdk_if_handle_t handle)
 {
-    int status = __bdk_if_ops[handle->iftype]->if_enable(handle);
-    if (status == 0)
-        bdk_if_link_autoconf(handle);
-    return status;
+    return __bdk_if_ops[handle->iftype]->if_enable(handle);
 }
 
 
