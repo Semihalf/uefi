@@ -19,37 +19,31 @@ static int init_done = 0;
  */
 static void netstack_netif_poll_link(void *unused)
 {
-    static bdk_if_handle_t handle = NULL;
-
-    sys_timeout(50, netstack_netif_poll_link, NULL);
-
-    if (bdk_if_is_configured())
-        handle = bdk_if_next_port(handle);
-    if (!handle)
-        return;
-
-    /* Get the link state */
-    bdk_if_link_t link = bdk_if_link_get(handle);
-
-    /* Find the netif device for this handle */
     struct netif *netif = netif_list;
-    while (netif && (netif->state != handle))
-        netif = netif->next;
-    if (netif)
+    while (netif)
     {
-        if (link.s.up)
+        if (netif->state)
         {
-            /* Bring the link up */
-            if (!netif_is_link_up(netif))
-                netif_set_link_up(netif);
+            bdk_if_handle_t handle = netif->state;
+            int stack_up = netif_is_link_up(netif);
+            if (handle->link_info.s.up)
+            {
+                /* Bring the link up */
+                if (!stack_up)
+                    netif_set_link_up(netif);
+            }
+            else
+            {
+                /* Bring the link up */
+                if (stack_up)
+                    netif_set_link_down(netif);
+            }
         }
-        else
-        {
-            /* Bring the link up */
-            if (netif_is_link_up(netif))
-                netif_set_link_down(netif);
-        }
+        netif = netif->next;
     }
+
+    /* Poll again in one second */
+    sys_timeout(1000, netstack_netif_poll_link, NULL);
 }
 
 
