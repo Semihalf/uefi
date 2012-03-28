@@ -162,11 +162,11 @@ function TrafficGen.new()
     end
 
     local zero_hide = {
-        rx_backpressure=0,
-        rx_dropped_octets=0,
-        rx_dropped_packets=0,
-        rx_errors=0,
-        rx_validation_errors=0,
+        rx_backpressure=-5,
+        rx_dropped_octets=-5,
+        rx_dropped_packets=-5,
+        rx_errors=-5,
+        rx_validation_errors=-5,
     }
     -- Display a single statistic line
     local function display_stat(stat_name, stats)
