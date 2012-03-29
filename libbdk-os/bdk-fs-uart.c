@@ -32,18 +32,28 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
 static void uart_write_byte(int id, uint8_t byte)
 {
+    static bdk_spinlock_t tx_lock;
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
 
     /* Spin until there is room */
     while (1)
     {
+        bdk_spinlock_lock(&tx_lock);
         lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
         if (lsr.s.thre)
+        {
+            /* Write the byte */
+            BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), 0xff & byte);
+            bdk_spinlock_unlock(&tx_lock);
             break;
-        bdk_thread_yield();
+        }
+        bdk_spinlock_unlock(&tx_lock);
+        do
+        {
+            bdk_thread_yield();
+            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        } while (!lsr.s.thre);
     }
-    /* Write the byte */
-    BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), 0xff & byte);
 }
 
 static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
