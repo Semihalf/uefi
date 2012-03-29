@@ -25,6 +25,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_ILK] = &__bdk_if_ops_ilk,
 };
 
+static void bdk_if_dispatch_thread(int unused, void *unused2);
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
@@ -475,6 +476,12 @@ static int __bdk_if_init(void)
     BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
         c.s.ipd_en = 1);
 
+    /* Create dispatch threads */
+    for (int core=0; core<bdk_octeon_num_cores(); core++)
+    {
+        if (bdk_thread_create(1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
+            bdk_error("Failed to create dispatch thread for core %d\n", core);
+    }
     return result;
 }
 
@@ -858,9 +865,9 @@ static inline void dispatch(bdk_if_packet_t *packet)
 
 
 /**
- * Called by the thread OS layer to dispatch pending packets
+ * Called by the dispatcher thread to dispatch pending packets
  */
-int bdk_if_dispatch(void)
+static int bdk_if_dispatch(void)
 {
     if (!bdk_if_is_configured())
         return 0;
@@ -897,20 +904,6 @@ int bdk_if_dispatch(void)
                     count++;
                     dispatch(&packet);
                 }
-            /* Poll the link state */
-            if (bdk_get_core_num() == 0)
-            {
-                static bdk_if_handle_t link_handle = NULL;
-                static uint64_t last_poll = 0;
-                uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
-                if (current_time > last_poll + bdk_clock_get_rate(BDK_CLOCK_CORE) / 16)
-                {
-                    last_poll = current_time;
-                    link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
-                    if (link_handle)
-                        bdk_if_link_autoconf(link_handle);
-                }
-            }
             return count;
         }
 
@@ -991,6 +984,36 @@ int bdk_if_dispatch(void)
     return count;
 }
 
+
+/**
+ * Thread that dispatches packets. One thread per core.
+ *
+ * @param unused
+ * @param unused2
+ */
+static void bdk_if_dispatch_thread(int unused, void *unused2)
+{
+    bdk_if_handle_t link_handle = NULL;
+    uint64_t last_poll = 0;
+    const uint64_t poll_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 16;
+
+    while (1)
+    {
+        if ((bdk_if_dispatch() == 0) && (bdk_get_core_num() == 0))
+        {
+            /* Poll the link state */
+            uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
+            if (current_time > last_poll + poll_rate)
+            {
+                last_poll = current_time;
+                link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
+                if (link_handle)
+                    bdk_if_link_autoconf(link_handle);
+            }
+        }
+        bdk_thread_yield();
+    }
+}
 
 /**
  * Allocate a packet with buffers for the supplied amount of data

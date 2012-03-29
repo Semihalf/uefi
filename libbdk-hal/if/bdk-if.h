@@ -139,7 +139,6 @@ extern bdk_if_link_t __bdk_if_phy_get(int phy_addr);
 
 extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 extern void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg);
-extern int bdk_if_dispatch(void) BDK_WEAK;
 extern int bdk_if_alloc(bdk_if_packet_t *packet, int length);
 extern void bdk_if_free(bdk_if_packet_t *packet);
 extern void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data);
