@@ -75,7 +75,7 @@ version:
 	echo "return \"$(FULL_VERSION)\"" > lua-modules/bdk-version.lua
 
 .PHONY: release
-release: all ppc
+release: all # ppc needed as well
 	PATH=$(PATH):~creese/bin $(MAKE) -C docs lua-modules
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
