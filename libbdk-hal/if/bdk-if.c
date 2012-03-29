@@ -655,7 +655,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
         handle->link_info = link_info;
         if (__bdk_if_ops[handle->iftype]->if_link_set)
             __bdk_if_ops[handle->iftype]->if_link_set(handle, handle->link_info);
-        if (handle->iftype != BDK_IF_LOOP)
+        if (bdk_config_get(BDK_CONFIG_SHOW_LINK_STATUS) && (handle->iftype != BDK_IF_LOOP))
         {
             printf("%s: Link %s", bdk_if_name(handle), (link_info.s.up) ? "up" : "down");
             if (link_info.s.up)

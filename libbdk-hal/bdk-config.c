@@ -70,6 +70,10 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
     AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
+
+    /* Controls if link status messages are displayed. Turning this off
+        can be useful to help scripting as the messages are aynchronous */
+    AS_INIT(BDK_CONFIG_SHOW_LINK_STATUS, 1),
 };
 #undef AS_INIT
 

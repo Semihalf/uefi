@@ -100,6 +100,9 @@ for interface = 0,octeon.c.bdk_if_num_interfaces(if_ilk)-1 do
     addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface, 1, 64)
 end
 
+-- Allow the user to enable/disable link status message
+addMenu("Show link status messages", octeon.CONFIG_SHOW_LINK_STATUS, 0, 1)
+
 m:item("quit", "Main menu")
 
 while (m:show() ~= "quit") do

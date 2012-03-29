@@ -62,6 +62,7 @@ typedef enum
     BDK_CONFIG_HIGIG_MODE_IF4,
 
     BDK_CONFIG_NUM_PACKET_BUFFERS,
+    BDK_CONFIG_SHOW_LINK_STATUS,
 
     __BDK_CONFIG_END
 } bdk_config_t;
