@@ -411,6 +411,15 @@ function TrafficGen.new()
         show_l2_stats = args[1]
     end
 
+    function self:cmd_sleep(port_range, args)
+        assert (#args == 1, "One argument expected, how long to sleep in seconds")
+        printf("Sleeping for %d seconds\n", args[1])
+        local timeout = os.time() + args[1]
+        while os.time() < timeout do
+            self:display(false)
+        end
+    end
+
     function self:cmdp_scan_sizes(port_range, args)
         -- Get the size of one FPA buffer
         local fpa_size = octeon.c.bdk_config_get(octeon.BDK_CONFIG_FPA_POOL_SIZE0)
