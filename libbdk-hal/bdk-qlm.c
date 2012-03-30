@@ -603,13 +603,7 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
     {
-        /* (G-16467) Tx Clock Mux Isolation */
-        for (int qlm=0; qlm<num_qlms; qlm++)
-        {
-            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
-            bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0);
-            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 10);
-        }
+        /* Nothing as of yet */
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
     {
