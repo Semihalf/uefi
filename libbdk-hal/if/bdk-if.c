@@ -482,6 +482,17 @@ static int __bdk_if_init(void)
         if (bdk_thread_create(1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
             bdk_error("Failed to create dispatch thread for core %d\n", core);
     }
+
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
+    {
+        /* Wait 100ms for links to stabalize */
+        bdk_wait_usec(100000);
+        int num_qlms = bdk_qlm_get_num();
+        /* Set ir50dac high to help jitter on QLMs */
+        for (int qlm=0; qlm<num_qlms; qlm++)
+            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
+    }
+
     return result;
 }
 
