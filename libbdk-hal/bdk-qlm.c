@@ -612,12 +612,12 @@ static void __bdk_qlm_chip_tweak(void)
             bdk_qlm_jtag_set(qlm, -1, "biasdrv_hf_byp", 12);
             bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_ls_byp", 12);
             bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_byp", 12);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_byp", 10);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_ls_byp", 10);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_ls_byp", 10);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_byp", 10);
+            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_byp", 15);
+            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_ls_byp", 15);
+            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_ls_byp", 15);
+            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_byp", 15);
             bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0);
-            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 10);
+            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 11);
         }
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
