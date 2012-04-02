@@ -485,12 +485,25 @@ static int __bdk_if_init(void)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
     {
+        /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
+            QLM jitter for 6.25 Gbaud */
         /* Wait 100ms for links to stabalize */
         bdk_wait_usec(100000);
         int num_qlms = bdk_qlm_get_num();
-        /* Set ir50dac high to help jitter on QLMs */
         for (int qlm=0; qlm<num_qlms; qlm++)
-            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
+        {
+            /* This workaround only applies to QLMs running at 6.25Ghz */
+            if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
+            {
+                /* Ramp ir50dac from the low value used before power
+                    up to 31. This helps jitter on the QLM without
+                    affecting the divider. If ir50dac is already 31
+                    then nothing is changed */
+                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
+                while (++ir50dac <= 31)
+                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
+            }
+        }
     }
 
     return result;

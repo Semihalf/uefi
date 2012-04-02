@@ -17,6 +17,15 @@ function qlm.do_reset(qlm_num)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 1)
 
+    -- Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
+    -- jitter for 6.25 Gbaud
+    if octeon.is_model(octeon.CN68XXP2_0) then
+        -- This workaround only applies to QLMs running at 6.25Ghz
+        if octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num) == 6250 then
+            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "ir50dac", 10)
+        end
+    end
+
     -- Take and hold QLM out of reset
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_rst_n_set", 1)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_clr", 0)
@@ -35,6 +44,25 @@ function qlm.do_reset(qlm_num)
     end
 end
 
+local function check_qlm_powerup_errata(qlm)
+    -- Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
+    -- jitter for 6.25 Gbaud
+    if octeon.is_model(octeon.CN68XXP2_0) then
+        -- This workaround only applies to QLMs running at 6.25Ghz
+        if octeon.c.bdk_qlm_get_gbaud_mhz(qlm) == 6250 then
+            -- Ramp ir50dac from the low value used before power up
+            -- to 31. This helps jitter on the QLM without affecting
+            -- the divider. If ir50dac is already 31 then nothing is
+            -- changed.
+            local ir50dac = octeon.c.bdk_qlm_jtag_get(qlm, 0, "ir50dac")
+            while ir50dac < 31 do
+                ir50dac = ir50dac + 1
+                octeon.c.bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac)
+            end
+        end
+    end
+end
+
 --- Turn on the QLM Shallow Loopback. Some chips can't loopback all lanes
 -- at once. Which lanes are controlled by the mode parameter, which is a
 -- raw JTAG value.
@@ -50,6 +78,8 @@ function qlm.do_loop(qlm_num, mode)
 
     -- Power up the QLM
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
+
+    check_qlm_powerup_errata(qlm_num)
 end
 
 --- Turn on the QLM PRBS generator. If operating in a loopback configuration
@@ -112,6 +142,9 @@ function qlm.do_prbs(qlm_num, mode)
 
         -- Power up the QLM
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
+
+        check_qlm_powerup_errata(qlm_num)
+
         -- Take PRBS out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 1)
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 1)

@@ -37,3 +37,20 @@ set_config(octeon.CONFIG_PHY_IF4_PORT1, 0x000 + 2)
 set_config(octeon.CONFIG_PHY_IF4_PORT2, 0x000 + 3)
 set_config(octeon.CONFIG_PHY_IF4_PORT3, 0x000 + 4)
 
+-- These QLM tuning parameters are specific to the ebb6800
+-- using Cavium QLM cables. They should be removed or modified
+-- for use on customer boards. This simply serves as a good example
+-- of where to put tuning parameters.
+for qlm=0,4 do
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "biasdrv_hs_ls_byp", 12);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "biasdrv_hf_byp", 12);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_ls_byp", 12);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_byp", 12);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_byp", 15);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_ls_byp", 15);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_ls_byp", 15);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_byp", 15);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 11);
+    octeon.c.bdk_qlm_jtag_set(qlm, -1, "serdes_tx_byp", 1);
+end

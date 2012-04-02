@@ -603,21 +603,13 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
     {
-        /* Set ir50dac low to help bringup QLMs at 6.25Ghz */
+        /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
+            QLM jitter for 6.25 Gbaud */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
-            bdk_qlm_jtag_set(qlm, -1, "ir50dac", 10);
-            bdk_qlm_jtag_set(qlm, -1, "serdes_tx_byp", 1);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_hs_ls_byp", 12);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_hf_byp", 12);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_ls_byp", 12);
-            bdk_qlm_jtag_set(qlm, -1, "biasdrv_lf_byp", 12);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_byp", 15);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_hf_ls_byp", 15);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_ls_byp", 15);
-            bdk_qlm_jtag_set(qlm, -1, "tcoeff_lf_byp", 15);
-            bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0);
-            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 11);
+            /* This workaround only applies to QLMs running at 6.25Ghz */
+            if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
+                bdk_qlm_jtag_set(qlm, -1, "ir50dac", 10);
         }
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))

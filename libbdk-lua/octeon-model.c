@@ -41,6 +41,8 @@ void register_octeon_model(lua_State* L)
     lua_setfield(L, -2, "CN68XXP1");
     lua_pushnumber(L, OCTEON_CN68XX_PASS2_X);
     lua_setfield(L, -2, "CN68XXP2");
+    lua_pushnumber(L, OCTEON_CN68XX_PASS2_0);
+    lua_setfield(L, -2, "CN68XXP2_0");
     lua_pushnumber(L, OCTEON_CN66XX);
     lua_setfield(L, -2, "CN66XX");
     lua_pushnumber(L, OCTEON_CN66XX_PASS1_X);
