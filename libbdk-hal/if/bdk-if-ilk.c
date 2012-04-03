@@ -21,6 +21,25 @@ static int if_num_interfaces(void)
             c.s.ser_reset_n = 0xff;
             c.s.ser_pwrup = 3;
             c.s.ser_haul = 0);
+
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
+        {
+            /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
+                QLM jitter for 6.25 Gbaud */
+            /* Only QLM 1 and 2 can potentially be ILK */
+            for (int qlm=1; qlm<=2; qlm++)
+            {
+                /* This workaround only applies to QLMs running ILK at 6.25Ghz */
+                if (strstr(bdk_qlm_get_mode(qlm), "ILK") && (bdk_qlm_get_gbaud_mhz(qlm) == 6250) &&
+                    (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
+                {
+                    bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+                    bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
+                    bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+                }
+            }
+        }
+
         return 2;
     }
     else

@@ -483,21 +483,6 @@ static int __bdk_if_init(void)
             bdk_error("Failed to create dispatch thread for core %d\n", core);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
-    {
-        /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
-            QLM jitter for 6.25 Gbaud */
-        /* Wait 100ms for links to stabalize */
-        bdk_wait_usec(100000);
-        int num_qlms = bdk_qlm_get_num();
-        for (int qlm=0; qlm<num_qlms; qlm++)
-        {
-            /* This workaround only applies to QLMs running at 6.25Ghz */
-            if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
-                bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
-        }
-    }
-
     return result;
 }
 
