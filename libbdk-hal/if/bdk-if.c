@@ -494,15 +494,7 @@ static int __bdk_if_init(void)
         {
             /* This workaround only applies to QLMs running at 6.25Ghz */
             if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
-            {
-                /* Ramp ir50dac from the low value used before power
-                    up to 31. This helps jitter on the QLM without
-                    affecting the divider. If ir50dac is already 31
-                    then nothing is changed */
-                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
-                while (++ir50dac <= 31)
-                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
-            }
+                bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
         }
     }
 

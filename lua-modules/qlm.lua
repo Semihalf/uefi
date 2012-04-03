@@ -22,7 +22,10 @@ function qlm.do_reset(qlm_num)
     if octeon.is_model(octeon.CN68XXP2_0) then
         -- This workaround only applies to QLMs running at 6.25Ghz
         if octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num) == 6250 then
-            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "ir50dac", 10)
+            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "div4_byp", 0);
+            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "clkf_byp", 16);
+            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "serdes_pll_byp", 1);
+            octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "spdsel_byp", 1);
         end
     end
 
@@ -50,15 +53,7 @@ local function check_qlm_powerup_errata(qlm)
     if octeon.is_model(octeon.CN68XXP2_0) then
         -- This workaround only applies to QLMs running at 6.25Ghz
         if octeon.c.bdk_qlm_get_gbaud_mhz(qlm) == 6250 then
-            -- Ramp ir50dac from the low value used before power up
-            -- to 31. This helps jitter on the QLM without affecting
-            -- the divider. If ir50dac is already 31 then nothing is
-            -- changed.
-            local ir50dac = octeon.c.bdk_qlm_jtag_get(qlm, 0, "ir50dac")
-            while ir50dac < 31 do
-                ir50dac = ir50dac + 1
-                octeon.c.bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac)
-            end
+            octeon.c.bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
         end
     end
 end

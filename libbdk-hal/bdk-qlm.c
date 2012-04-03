@@ -609,7 +609,13 @@ static void __bdk_qlm_chip_tweak(void)
         {
             /* This workaround only applies to QLMs running at 6.25Ghz */
             if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
-                bdk_qlm_jtag_set(qlm, -1, "ir50dac", 10);
+            {
+                bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
+                bdk_qlm_jtag_set(qlm, -1, "div4_byp", 0);
+                bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 16);
+                bdk_qlm_jtag_set(qlm, -1, "serdes_pll_byp", 1);
+                bdk_qlm_jtag_set(qlm, -1, "spdsel_byp", 1);
+            }
         }
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
