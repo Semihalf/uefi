@@ -484,6 +484,8 @@ local function auto_tune()
     local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
     local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 15)
 
+    printf("\nPRBS-%d Auto tune running, press return to exit\n", prbs_mode)
+
     local settings = {} -- Stores the settings we are currently testing
     local lane_num = -1 -- Test all lanes on each QLM
     local summary = {} -- Good values will be stored here as they are found
@@ -522,7 +524,8 @@ local function auto_tune()
                     prbs_result = auto_done_check(run_time)
                     -- Check for a user abort
                     if prbs_result == "abort" then
-                        return
+                        printf("\nAuto tune interrupted by user. Results will be incomplete.\n")
+                        goto show_results
                     end
                 until prbs_result
                 -- Search to see if any QLM passed
@@ -540,7 +543,7 @@ local function auto_tune()
             end
         end
     end
-
+::show_results::
     -- Display summary
     printf("\n")
     printf("Automatic Tuning Results\n")
