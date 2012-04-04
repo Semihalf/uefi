@@ -604,17 +604,35 @@ static void __bdk_qlm_chip_tweak(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
     {
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
-            QLM jitter for 6.25 Gbaud */
+            QLM jitter for 5 and 6.25 Gbaud */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
             /* This workaround only applies to QLMs running at 6.25Ghz */
             if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
             {
-                bdk_qlm_jtag_set(qlm, -1, "ir50dac", 31);
+                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
+                while (++ir50dac <= 31)
+                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
                 bdk_qlm_jtag_set(qlm, -1, "div4_byp", 0);
                 bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 16);
                 bdk_qlm_jtag_set(qlm, -1, "serdes_pll_byp", 1);
                 bdk_qlm_jtag_set(qlm, -1, "spdsel_byp", 1);
+            }
+            else if (bdk_qlm_get_gbaud_mhz(qlm) == 5000)
+            {
+                /* Skip PCIe ports in endpoint mode */
+                if (strstr(bdk_qlm_get_mode(qlm), "PCIE"))
+                {
+                    /* QLMs 3&4 can be PCIe0, 1&2 are PCIe1 */
+                    int pcie_port = (qlm > 2) ? 0 : 1;
+                    BDK_CSR_INIT(mio_rst_ctl, BDK_MIO_RST_CTLX(pcie_port));
+                    if (mio_rst_ctl.s.prtmode == 0)
+                        continue;
+                }
+                /* Only ir50dac is needed at 5Ghz. PLL bypass isn't needed */
+                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
+                while (++ir50dac <= 31)
+                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
             }
         }
     }
