@@ -30,17 +30,17 @@ int main(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         board_name = "ebb6800";
-        ddr_clock_hertz = 533000000;
+        ddr_clock_hertz = 667000000;
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
     {
         board_name = "ebb6600";
-        ddr_clock_hertz = 533000000;
+        ddr_clock_hertz = 667000000;
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
         board_name = "ebb6300";
-        ddr_clock_hertz = 533000000;
+        ddr_clock_hertz = 667000000;
     }
     else
     {
