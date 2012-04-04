@@ -75,6 +75,31 @@ __init:
     bnez    t0, after_relocate
      nop
 
+    /* Speed up flash.  Here we use a hardcoded value that will
+        work up to 1 GHz.  The speed will be adjusted again once
+        the actual speed of the CPU is determined, but this setting here
+        makes things much faster, as the hardware default at boot is
+        very slow.
+        PAGEM[63]     = Old value
+        WAITM[62]     = Old value
+        PAGES[61:60]  = Old value
+        ALE[59:54]    = 0x04
+        PAGE[53:48]   = 0x07
+        WAIT[47:42]   = 0x3F
+        PAUSE[41:36]  = 0x00
+        WR_HLD[35:30] = 0x09
+        RD_HLD[29:24] = 0x07
+        OE[17:12]     = 0x0D
+        CE[11:6]      = 0x0D
+        ADR[5:0]      = 0x03 */
+    dli     t1, 0x8001180000000040  /* MIO_BOOT_REG_TIM0 */
+    ld      t0, (t1)
+    dli     t2, 0xf<<60
+    and     t0, t2
+    dli     t2, 0x0107fc024724d343
+    or      t0, t2
+    sd      t0, (t1)
+
     /* Figure out the location of code as an offset from our link address */
     dla     t1, 1f          /* VA of label 1 */
     bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
