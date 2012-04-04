@@ -1270,7 +1270,7 @@ static int update(lua_State* L)
     /* This is the table that contains the entire response */
     lua_newtable(L);
 
-    /* This table will contains the labels for the stats. It is names "labels" */
+    /* This table will contains the labels for the stats. It is named "labels" */
     lua_newtable(L);
     pushlabel(1, tx_packets);
     pushlabel(2, tx_octets);
@@ -1287,6 +1287,7 @@ static int update(lua_State* L)
     pushlabel(13, rx_bits);
     pushlabel(14, rx_backpressure);
     pushlabel(15, rx_validation_errors);
+    pushlabel(16, link_speed);
     lua_setfield(L, -2, "labels");
 
     /* Add stats for each interface */
@@ -1308,6 +1309,10 @@ static int update(lua_State* L)
         pushstat(13, rx_bits);
         pushstat(14, rx_backpressure);
         pushstat(15, rx_validation_errors);
+        /* Add link speed */
+        lua_pushnumber(L, 16);
+        lua_pushnumber(L, tg_port->handle->link_info.s.speed);
+        lua_settable(L, -3);
         lua_setfield(L, -2, tg_port->pinfo.name);
     }
     return 1;
