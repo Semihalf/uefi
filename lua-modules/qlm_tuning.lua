@@ -243,21 +243,40 @@ local function do_prbs(mode, done_check_func)
                 end
             end)
             output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
+                local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm)
                 local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
                 if (v == 0) or (run_time == 0) then
                     return "-"
                 else
+                    -- Calculate the error rate as a fraction of the bits
+                    -- transmitted
                     v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
-                    local rate = v / run_time
+                    local total_bits = qlm_speed * run_time
+                    local rate_exponent = -6 -- Since qlm_speed is in Mbps
+                    local rate
+                    -- If no errors then act like the next bit is an error
+                    -- This way we always can calulate an error rate
                     if v == 0 then
-                        return "-"
-                    elseif rate < 1000000 then
-                        return tostring(rate) .. "/s"
-                    elseif rate < 1000000000 then
-                        return tostring(rate / 1000000) .. "M/s"
-                    else
-                        return tostring(rate / 1000000000) .. "B/s"
+                        v = 1
                     end
+                    -- Scale v such that integer division will give decent results
+                    while v < total_bits * 100 do
+                        rate_exponent = rate_exponent - 1
+                        v = v * 10
+                    end
+                    -- Calculate the error rate
+                    rate = v / total_bits
+                    -- Scale the error rate to be three digits
+                    while rate >= 1000 do
+                        rate_exponent = rate_exponent + 1
+                        rate = rate / 10
+                    end
+                    while rate < 100 do
+                        rate_exponent = rate_exponent - 1
+                        rate = rate * 10
+                    end
+                    -- Convert the three digit error rate into scientific notation
+                    return "%d.%02dE%d" % {rate/100, rate%100, rate_exponent + 2}
                 end
             end)
             output_line(qlm_base, "", function(qlm, lane)
