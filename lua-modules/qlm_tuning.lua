@@ -49,6 +49,75 @@ qlm_tuning.tcoeff = {
     [20] = -96,
 }
 
+-- Table of RX eqalization values (db*100)
+qlm_tuning.rx_equal = {
+    [3125] = {
+        [ 149] = {rx_eq =  7, rx_cap = 0},
+        [ 259] = {rx_eq =  8, rx_cap = 1},
+        [ 376] = {rx_eq =  9, rx_cap = 2},
+        [ 504] = {rx_eq = 10, rx_cap = 3},
+        [ 649] = {rx_eq = 11, rx_cap = 4},
+        [ 777] = {rx_eq = 12, rx_cap = 4},
+        [ 819] = {rx_eq = 12, rx_cap = 5},
+        [ 853] = {rx_eq = 12, rx_cap = 6},
+        [ 992] = {rx_eq = 13, rx_cap = 5},
+        [1029] = {rx_eq = 13, rx_cap = 6},
+        [1061] = {rx_eq = 13, rx_cap = 7},
+        [1275] = {rx_eq = 14, rx_cap = 6},
+        [1308] = {rx_eq = 14, rx_cap = 7},
+        [1337] = {rx_eq = 14, rx_cap = 8},
+        [1692] = {rx_eq = 15, rx_cap = 7},
+        [1723] = {rx_eq = 15, rx_cap = 8},
+        [1750] = {rx_eq = 15, rx_cap = 9},
+    },
+    [5000] = {
+        [ 149] = {rx_eq =  7, rx_cap = 0},
+        [ 259] = {rx_eq =  8, rx_cap = 1},
+        [ 376] = {rx_eq =  9, rx_cap = 2},
+        [ 504] = {rx_eq = 10, rx_cap = 3},
+        [ 649] = {rx_eq = 11, rx_cap = 4},
+        [ 777] = {rx_eq = 12, rx_cap = 4},
+        [ 819] = {rx_eq = 12, rx_cap = 5},
+        [ 853] = {rx_eq = 12, rx_cap = 6},
+        [ 992] = {rx_eq = 13, rx_cap = 5},
+        [1029] = {rx_eq = 13, rx_cap = 6},
+        [1061] = {rx_eq = 13, rx_cap = 7},
+        [1275] = {rx_eq = 14, rx_cap = 6},
+        [1308] = {rx_eq = 14, rx_cap = 7},
+        [1337] = {rx_eq = 14, rx_cap = 8},
+        [1692] = {rx_eq = 15, rx_cap = 7},
+        [1723] = {rx_eq = 15, rx_cap = 8},
+        [1750] = {rx_eq = 15, rx_cap = 9},
+    },
+    [6250] = {
+        [ 297] = {rx_eq = 10, rx_cap = 0},
+        [ 377] = {rx_eq = 11, rx_cap = 0},
+        [ 473] = {rx_eq = 11, rx_cap = 1},
+        [ 587] = {rx_eq = 12, rx_cap = 1},
+        [ 666] = {rx_eq = 12, rx_cap = 2},
+        [ 828] = {rx_eq = 13, rx_cap = 2},
+        [ 894] = {rx_eq = 13, rx_cap = 3},
+        [1059] = {rx_eq = 14, rx_cap = 2},
+        [1130] = {rx_eq = 14, rx_cap = 3},
+        [1502] = {rx_eq = 15, rx_cap = 3},
+        [1564] = {rx_eq = 15, rx_cap = 4},
+    },
+}
+
+-- Lookup a Y value fron a table, doing linear interpolation if necessary
+local function interpolate(x, input_data)
+    if input_data[x] then
+        return input_data[x]
+    end
+    local x_values = table.sorted_keys(input_data)
+    local x1 = x_values[1]
+    local x2 = x_values[1]
+    for _,l in ipairs(x_values) do
+        x1 = (l <= x) and l or x1
+        x2 = ((l >= x) and (x2 < x)) and l or x2
+    end
+    return (input_data[x2] - input_data[x1]) * (x - x1) / (x2 - x1) + input_data[x1]
+end
 
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
@@ -346,8 +415,7 @@ end
 
 -- Automatically tune the QLMs
 local function auto_tune()
-    local prbs_mode = menu.prompt_number("PRBS mode", 31, 7, 31)
-    local qlm_list = select_qlm_list()
+    local qlm_list
     local function auto_done_check(run_time)
         -- Abort auto tune if the user presses return
         if readline.getkey() == '\r' then
@@ -391,16 +459,15 @@ local function auto_tune()
 
     printf("\n")
     printf("Automatic tuning sweeps the QLMs through a number of TX\n")
-    printf("and RX parameters. For each setup, PRBS-%d tests for errors.\n", prbs_mode)
-    printf("All parameters that result in error free PRBS-%d are\n", prbs_mode)
+    printf("and RX parameters. For each setup, PRBS tests for errors.\n")
+    printf("All parameters that result in error free PRBS are\n")
     printf("recorded and displayed in a final summary.\n")
     printf("\n")
 
+    local prbs_mode = menu.prompt_number("PRBS mode", 31, 7, 31)
+    qlm_list = select_qlm_list()
+
     -- Prompt the user for the settings ranges we should try
-    local min_rx_cap = menu.prompt_number("Minimum RX cap(rx_cap)", 0, 0, 15)
-    local max_rx_cap = menu.prompt_number("Maximum RX cap(rx_cap)", 2, 0, 15)
-    local min_rx_eq = menu.prompt_number("Minimum RX eq(rx_eq)", 8, 0, 15)
-    local max_rx_eq = menu.prompt_number("Maximum RX eq(rx_eq)", 15, 0, 15)
     local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 8, 0, 31)
     local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 24, 0, 31)
     local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
@@ -410,46 +477,53 @@ local function auto_tune()
     local lane_num = -1 -- Test all lanes on each QLM
     local summary = {} -- Good values will be stored here as they are found
     local iter_count = 0
-    local iter_max = (max_rx_cap - min_rx_cap + 1) * (max_rx_eq - min_rx_eq + 1) * (max_biasdrv - min_biasdrv + 1) * (max_tcoeff - min_tcoeff + 1)
-    for rx_cap = min_rx_cap, max_rx_cap do
-        for rx_eq = min_rx_eq, max_rx_eq do
-            for biasdrv = min_biasdrv, max_biasdrv do
-                for tcoeff = min_tcoeff, max_tcoeff do
-                    iter_count = iter_count + 1
-                    printf("%4d of %4d: rx_cap=%2d rx_eq=%2d biasdrv=%2d tcoeff=%2d\n", iter_count, iter_max, rx_cap, rx_eq, biasdrv, tcoeff)
-                    -- Change the settings of all QLMs
-                    settings["rx_eq"] = rx_eq
-                    settings["rx_cap"] = rx_cap
-                    settings["biasdrv"] = biasdrv
-                    settings["tcoeff"] = tcoeff
-                    for _,qlm in ipairs(qlm_list) do
-                        change_tx(qlm, settings, lane_num)
-                        change_rx(qlm, settings, lane_num)
+    local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm_list[1])
+    local rx_equal_values = table.sorted_keys(qlm_tuning.rx_equal[qlm_speed])
+    local iter_max = #rx_equal_values * (max_biasdrv - min_biasdrv + 1) * (max_tcoeff - min_tcoeff + 1)
+    for _,rx_equal in ipairs(rx_equal_values) do
+        local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
+        local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
+        for biasdrv = min_biasdrv, max_biasdrv do
+            for tcoeff = min_tcoeff, max_tcoeff do
+                iter_count = iter_count + 1
+
+                printf("%4d of %4d: %d.%03ddB(rx_cap %d, rx_eq %d) %dmV(biasdrv %d) %d.%ddB(tcoeff %d)\n",
+                    iter_count, iter_max,
+                    rx_equal / 100, rx_equal % 100, rx_cap, rx_eq,
+                    interpolate(biasdrv, qlm_tuning.biasdrv), biasdrv,
+                    qlm_tuning.tcoeff[tcoeff] / 10, -qlm_tuning.tcoeff[tcoeff] % 10, tcoeff)
+                -- Change the settings of all QLMs
+                settings["rx_eq"] = rx_eq
+                settings["rx_cap"] = rx_cap
+                settings["biasdrv"] = biasdrv
+                settings["tcoeff"] = tcoeff
+                for _,qlm in ipairs(qlm_list) do
+                    change_tx(qlm, settings, lane_num)
+                    change_rx(qlm, settings, lane_num)
+                end
+                -- Run PRBS
+                start_prbs(prbs_mode, qlm_list)
+                -- Check for complete
+                local prbs_result
+                local start_time = os.time()
+                repeat
+                    local run_time = os.time() - start_time
+                    prbs_result = auto_done_check(run_time)
+                    -- Check for a user abort
+                    if prbs_result == "abort" then
+                        return
                     end
-                    -- Run PRBS
-                    start_prbs(prbs_mode, qlm_list)
-                    -- Check for complete
-                    local prbs_result
-                    local start_time = os.time()
-                    repeat
-                        local run_time = os.time() - start_time
-                        prbs_result = auto_done_check(run_time)
-                        -- Check for a user abort
-                        if prbs_result == "abort" then
-                            return
-                        end
-                    until prbs_result
-                    -- Search to see if any QLM passed
-                    for _,qlm in ipairs(qlm_list) do
-                        local all_good = true -- Are all lanes good?
-                        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
-                            all_good = all_good and (prbs_result[qlm][lane] == 0)
-                        end
-                        if all_good then
-                            -- Record this good result
-                            local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
-                            summary[key] = true
-                        end
+                until prbs_result
+                -- Search to see if any QLM passed
+                for _,qlm in ipairs(qlm_list) do
+                    local all_good = true -- Are all lanes good?
+                    for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                        all_good = all_good and (prbs_result[qlm][lane] == 0)
+                    end
+                    if all_good then
+                        -- Record this good result
+                        local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
+                        summary[key] = true
                     end
                 end
             end
@@ -460,36 +534,43 @@ local function auto_tune()
     printf("\n")
     printf("Automatic Tuning Results\n")
     printf("----------------------------------------------\n")
-    printf("The following settings gave error free results\n")
-    printf("\n")
     for _,qlm in ipairs(qlm_list) do
         local title = {}
 
-        title[1] = "%-14s|" % ("QLM/DLM%d" % qlm)
-        title[2] = "%14s|" % "RX Cap"
-        title[3] = "%14s|" % ""
-        title[4] = "%14s|" % ""
-        title[5] = "%14s|" % "RX Eq"
-        title[6] = "%14s|" % "biasdrv|tcoeff"
-        for rx_cap = min_rx_cap, max_rx_cap do
-            for rx_eq = min_rx_eq, max_rx_eq do
-                local column = "%2d-%2d-" % {rx_cap, rx_eq}
-                for i=1, 6 do
-                    title[i] = title[i] .. column:sub(i,i)
-                end
+        title[1] = "%-21s|" % ("QLM/DLM%d" % qlm)
+        title[2] = "%21s|" % "RX EQ"
+        title[3] = "%21s|" % ""
+        title[4] = "%21s|" % ""
+        title[5] = "%21s|" % ""
+        title[6] = "%21s|" % ""
+        title[7] = "%21s|" % ""
+        title[8] = "%21s|" % "RX Cap"
+        title[9] = "%21s|" % ""
+        title[10] = "%21s|" % ""
+        title[11] = "%21s|" % "RX Eq"
+        title[12] = "%21s|" % ""
+        title[13] = "%21s|" % " biasdrv  | tcoeff   "
+        for _,rx_equal in ipairs(rx_equal_values) do
+            local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
+            local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
+            local column = " %2d.%02d-%2d-%2d-" % {rx_equal / 100, rx_equal % 100, rx_cap, rx_eq}
+            for i=1, 13 do
+                title[i] = title[i] .. column:sub(i,i)
             end
         end
-        for i=1,6 do
+        for i=1,13 do
             printf("%s|\n", title[i])
         end
         for biasdrv = min_biasdrv, max_biasdrv do
             for tcoeff = min_tcoeff, max_tcoeff do
-                printf("%7d|%6d|", biasdrv, tcoeff)
-                for rx_cap = min_rx_cap, max_rx_cap do
-                    for rx_eq = min_rx_eq, max_rx_eq do
-                        local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
-                        printf(summary[key] and "#" or " ")
-                    end
+                printf("%4dmv(%2d)|%-d.%ddB(%2d)|",
+                    interpolate(biasdrv, qlm_tuning.biasdrv), biasdrv,
+                    qlm_tuning.tcoeff[tcoeff] / 10, -qlm_tuning.tcoeff[tcoeff] % 10, tcoeff)
+                for _,rx_equal in ipairs(rx_equal_values) do
+                    local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
+                    local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
+                    local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
+                    printf(summary[key] and "#" or " ")
                 end
                 printf("|\n")
             end
