@@ -7579,9 +7579,9 @@ Pos      Name    Type     Value     Value       Description
 <4>      RX1SEQ           RO      0      0         RX1 Sequencer Reset status                             |
 <5>      TURBOPHY         RO      0      0         Turbo Reset status - PHY clock domain                  |
 <6>      TURBODSP         RO      0      0         Turbo Reset status - DSP clock domain                  |
-<7>      VDEC             RO      0      0         VDEC Reset status                                      |
-<8>      LTEENC           RO      0      0         LTEENC Reset status                                    |
-<9>      IFFTPAPR         RO      0      0         IFFTPAPR Reset status                                  |
+<7>      LTEENC           RO      0      0         LTEENC Reset status                                    |
+<8>      IFFTPAPR         RO      0      0         IFFTPAPR Reset status                                  |
+<9>      VDEC             RO      0      0         VDEC Reset status                                      |
 <10>     V3GENC           RO      0      0         V3GENC Reset status                                    |
 <11>     TXSEQ            RO      0      0         TX Sequencer Reset status                              |
 <12>     AXIDMA           RO      0      0         AXIDMA Reset status                                    |
@@ -7607,9 +7607,9 @@ Pos      Name    Type     Value     Value       Description
 <5>      TURBOPHY         R/W1      0      0         Assert reset to Turbo - PHY clock domain               |
 <6>      TURBODSP         R/W1      0      0         Assert reset to Turbo - DSP clock domain; should assert|
                                                      with TURBOPHY bit 5                                    |
-<7>      VDEC             R/W1      0      0         Assert reset to VDEC                                   |
-<8>      LTEENC           R/W1      0      0         Assert reset to LTEENC                                 |
-<9>      IFFTPAPR         R/W1      0      0         Assert reset to IFFTPAPR                               |
+<7>      LTEENC           R/W1      0      0         Assert reset to LTEENC                                 |
+<8>      IFFTPAPR         R/W1      0      0         Assert reset to IFFTPAPR                               |
+<9>      VDEC             R/W1      0      0         Assert reset to VDEC                                   |
 <10>     V3GENC           R/W1      0      0         Assert reset to V3GENC                                 |
 <11>     TXSEQ            R/W1      0      0         Assert reset to TX Sequencer                           |
 <12>     AXIDMA           R/W1      0      0         Assert reset to AXIDMA                                 |
@@ -7635,9 +7635,9 @@ Pos      Name    Type     Value     Value       Description
 <5>      TURBOPHY         R/W1C     0      0         Clear reset to Turbo - PHY clock domain                |
 <6>      TURBODSP         R/W1C     0      0         Clear reset to Turbo - DSP clock domain; should clear  |
                                                    with TURBOPHY bit 5                                    |
-<7>      VDEC             R/W1C     0      0         Clear reset to VDEC                                    |
-<8>      LTEENC           R/W1C     0      0         Clear reset to LTEENC                                  |
-<9>      IFFTPAPR         R/W1C     0      0         Clear reset to IFFTPAPR                                |
+<7>      LTEENC           R/W1C     0      0         Clear reset to LTEENC                                  |
+<8>      IFFTPAPR         R/W1C     0      0         Clear reset to IFFTPAPR                                |
+<9>      VDEC             R/W1C     0      0         Clear reset to VDEC                                    |
 <10>     V3GENC           R/W1C     0      0         Clear reset to V3GENC                                  |
 <11>     TXSEQ            R/W1C     0      0         Clear reset to TX Sequencer                            |
 <12>     AXIDMA           R/W1C     0      0         Clear reset to AXIDMA                                  |
@@ -7659,10 +7659,11 @@ Pos      Name    Type     Value     Value       Description
 <1>      RFIF_HAB         RO      0      0         RFIF Reset status - PHY clk domain                     |
 <2>      RFSPI            RO      0      0         RFSPI Reset status                                     |
 <3>      RX0_DSPS         RO      0      0         RX0 Cluster DSP Reset status (both DSPs)               |
-<4>      RX1_DSPS         RO      0      0         RX1 Cluster DSP Reset status (both DSPs)               |
+<4>      NS               RO      0      0         RX1 Cluster DSP Reset status (both DSPs)               |
 <5>      TX_DSPS          RO      0      0         TX Cluster DSP Reset status (both DSPs)                |
 <6>      TOKEN            RO      0      0         Token Reset status                                     |
-<31:7>   NS               RO      0      0         reserved.                                              |
+<7>      MEMORY           RO      0      0         Memory Reset status                                    |
+<31:8>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -7681,10 +7682,11 @@ Pos      Name    Type     Value     Value       Description
                                                    when RFIF_RF bit 0 is asserted                         |
 <2>      RFSPI            R/W1      0      0         Assert reset to RFSPI                                  |
 <3>      RX0_DSPS         R/W1      0      0         Assert reset to RX0 DSPs                               |
-<4>      RX1_DSPS         R/W1      0      0         Assert reset to RX1 DSPs                               |
+<4>      NS               RO        0      0         reserved.                                              |
 <5>      TX_DSPS          R/W1      0      0         Assert reset to TX DSPs                                |
 <6>      TOKEN            R/W1      0      0         Assert reset to TOKEN                                  |
-<31:7>   NS               RO      0      0         reserved.                                              |
+<7>      MEMORY           R/W1      0      0         Assert reset to MEMORY                                 |
+<31:8>   NS               RO        0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -7700,13 +7702,14 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <0>      RFIF_RF          R/W1C     0      0         Clear reset to RFIF - RF clock domain                  |
 <1>      RFIF_HAB         R/W1C     0      0         Clear reset to RFIF - PHY clock domain; should clear   |
-                                                   when RFIF_RF bit 0 is cleared
+                                                     when RFIF_RF bit 0 is cleared
 <2>      RFSPI            R/W1C     0      0         Clear reset to RFSPI                                   |
 <3>      RX0_DSPS         R/W1C     0      0         Clear reset to RX0 DSPs                                |
-<4>      RX1_DSPS         R/W1C     0      0         Clear reset to RX1 DSPs                                |
+<4>      NS               RO        0      0         reserved.                                              |
 <5>      TX_DSPS          R/W1C     0      0         Clear reset to TX DSPs                                 |
 <6>      TOKEN            R/W1C     0      0         Clear reset to TOKEN                                   |
-<31:7>   NS               RO      0      0         reserved.                                              |
+<7>      MEMORY           R/W1C     0      0         Clear reset to MEMORY                                  |
+<31:8>   NS               RO        0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -7806,9 +7809,7 @@ Pos      Name    Type     Value     Value       Description
 <0>      RFIF_RF          RO      0      0         RFIF Clock Enable status - RF clock domain             |
 <1>      RFIF_HAB         RO      0      0         RFIF Clock Enable status - PHY clock domain            |
 <2>      RFSPI            RO      0      0         RFSPI Clock Enable status                              |
-<3>      RX0_DSPS         RO      0      0         RX0 DSPs Clock Enable status                           |
-<4>      RX1_DSPS         RO      0      0         RX1 DSPs Clock Enable status                           |
-<5>      TX_DSPS          RO      0      0         TX DSPs Clock Enable status                            |
+<5:3>    NS               RO      0      0         reserved                                               |
 <6>      TOKEN            RO      0      0         TOKEN Clock Enable status                              |
 <31:7>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
@@ -7828,9 +7829,7 @@ Pos      Name    Type     Value     Value       Description
 <1>      RFIF_HAB         R/W1      0      0         Assert Clock Enable to RFIF - PHY clock domain; should |
                                                    assert when RFIF_RF bit 0 is asserted                  |
 <2>      RFSPI            R/W1      0      0         Assert Clock Enable to RFSPI                           |
-<3>      RX0_DSPS         R/W1      0      0         Assert Clock Enable to RX0 DSPs                        |
-<4>      RX1_DSPS         R/W1      0      0         Assert Clock Enable to RX1 DSPs                        |
-<5>      TX_DSPS          R/W1      0      0         Assert Clock Enable to TX DSPs                         |
+<5:3>    NS               RO        0      0         reserved                                               |
 <6>      TOKEN            R/W1      0      0         Assert Clock Enable to TOKEN                           |
 <31:7>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
@@ -7850,9 +7849,7 @@ Pos      Name    Type     Value     Value       Description
 <1>      RFIF_HAB         R/W1C     0      0         Clear Clock Enable to RFIF - PHY clock domain; should  |
                                                    clear when RFIF_RF bit 0 is cleared                    |
 <2>      RFSPI            R/W1C     0      0         Clear Clock Enable to RFSPI                            |
-<3>      RX0_DSPS         R/W1C     0      0         Clear Clock Enable to RX0 DSPs                         |
-<4>      RX1_DSPS         R/W1C     0      0         Clear Clock Enable to RX1 DSPs                         |
-<5>      TX_DSPS          R/W1C     0      0         Clear Clock Enable to TX DSPs                          |
+<5:3>    NS               RO        0      0         reserved                                               |
 <6>      TOKEN            R/W1C     0      0         Clear Clock Enable to TOKEN                            |
 <31:7>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
@@ -7875,15 +7872,14 @@ Pos      Name    Type     Value     Value       Description
 <4>      TXDSP0           RO      1      0         TX DSP0 Stall status                                   |
 <5>      TXDSP1           RO      1      0         TX DSP1 Stall status                                   |
 <7:6>    NS               RO      0      0         reserved.                                              |
-<13:8>   WAKE_ON_INT      R/W     0      0         Wake On Interrupt - when enabled, stall will be cleared|
-                                                   when corresponding DSP interrupt is asserted so that   |
-                                                   the DSP will wake from it's stall                      |
-                                                   8  - Wakeup RX0 DSP0                                   |
-                                                   9  - Wakeup RX0 DSP1                                   |
-                                                   10 - Wakeup RX1 DSP0                                   |
-                                                   11 - Wakeup RX1 DSP1                                   |
-                                                   12 - Wakeup TX  DSP0                                   |
-                                                   13 - Wakeup TX  DSP1                                   |
+<13:8>   WAKE_ON_INT_EN   RO      0      0         Wake On Interrupt Enable.  When 1, the DSP stall will  |
+                                                   be removed upon an interrupt to that DSP.              |
+                                                   8  - Enable Wake-on-Int for RX0 DSP0                   |
+                                                   9  - Enable Wake-on-Int for RX0 DSP1                   |
+                                                   10 - Enable Wake-on-Int for RX1 DSP0                   |
+                                                   11 - Enable Wake-on-Int for RX1 DSP1                   |
+                                                   12 - Enable Wake-on-Int for TX  DSP0                   |
+                                                   13 - Enable Wake-on-Int for TX  DSP1                   |
 <31:14>  NS               RO      1      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -7903,7 +7899,16 @@ Pos      Name    Type     Value     Value       Description
 <3>      RX1DSP1          R/W1      0      0         Assert RX1 DSP1 Stall                                  |
 <4>      TXDSP0           R/W1      0      0         Assert TX  DSP0 Stall                                  |
 <5>      TXDSP1           R/W1      0      0         Assert TX  DSP1 Stall                                  |
-<31:6>   NS               RO      0      0         reserved.                                              |
+<7:6>    NS               RO      0      0         reserved.                                              |
+<13:8>   WAKE_ON_INT_EN   RO      0      0         Wake On Interrupt Enable.  When 1, the selected DSP's  |
+                                                   wake-on-int feature will be enabled.                   |
+                                                   8  - Enable Wake-on-Int for RX0 DSP0                   |
+                                                   9  - Enable Wake-on-Int for RX0 DSP1                   |
+                                                   10 - Enable Wake-on-Int for RX1 DSP0                   |
+                                                   11 - Enable Wake-on-Int for RX1 DSP1                   |
+                                                   12 - Enable Wake-on-Int for TX  DSP0                   |
+                                                   13 - Enable Wake-on-Int for TX  DSP1                   |
+<31:14>  NS               RO      1      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -7922,7 +7927,17 @@ Pos      Name    Type     Value     Value       Description
 <3>      RX1DSP1          R/W1C     0      0         Clear RX1 DSP1 Stall                                   |
 <4>      TXDSP0           R/W1C     0      0         Clear TX  DSP0 Stall                                   |
 <5>      TXDSP1           R/W1C     0      0         Clear TX  DSP1 Stall                                   |
-<31:6>   NS               RO      0      0         reserved.                                              |
+<7:6>    NS               RO      0      0         reserved.                                              |
+<13:8>   WAKE_ON_INT_DIS  R/W1C     0      0       Wake On Interrupt Disable.  Upon a write of 1, the     |
+                                                   wake-on-int feature for the selected DSP will be       |
+                                                   disabled.                                              |
+                                                   8  - Disable Wake-on-Int for RX0 DSP0                  |
+                                                   9  - Disable Wake-on-Int for RX0 DSP1                  |
+                                                   10 - Disable Wake-on-Int for RX1 DSP0                  |
+                                                   11 - Disable Wake-on-Int for RX1 DSP1                  |
+                                                   12 - Disable Wake-on-Int for TX  DSP0                  |
+                                                   13 - Disable Wake-on-Int for TX  DSP1                  |
+<31:14>  NS               RO      1      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18133,21 +18148,21 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_RX0SEQ_THRD00_CFG Type=NCB
+     BBP_RX0SEQ_THRD(0..15)_CFG Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<1:0>    THRD00_STAT     R/W      0      0         Thread 00 status                                      |
+<1:0>    THRD_STAT        R/W      0      0        Thread @ status                                        |
                                                    0==done
                                                    1==ready
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
-<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
+<23:16>  THRD_GPIOWAIT    RO      0      0         Thread @ GPIO used as trigger                          |
+<25:24>  THRD_WAIT_STS    RO      0      0         Thread @ wait status                                   |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
@@ -18159,7 +18174,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_RX0SEQ_THRD00_PC Type=NCB
+     BBP_RX0SEQ_THRD(0..15)_PC Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -18167,640 +18182,11 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD00_PC       R/W      0      0         Thread 00 PC (Program Counter)                        |
+<15:3>   THRD_PC          R/W     0      0         Thread @ PC (Program Counter)                          |
 <31:16>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD01_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
-<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD01_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD01_PC       R/W      0      0         Thread 01 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD02_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
-<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD02_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD02_PC       R/W      0      0         Thread 02 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD03_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
-<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD03_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD03_PC       R/W      0      0         Thread 03 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD04_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
-<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD04_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD04_PC       R/W      0      0         Thread 04 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD05_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
-<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD05_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD05_PC       R/W      0      0         Thread 05 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD06_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
-<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD06_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD06_PC       R/W      0      0         Thread 06 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD07_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
-<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD07_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD07_PC       R/W      0      0         Thread 07 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD08_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
-<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD08_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD08_PC       R/W      0      0         Thread 08 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD09_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
-<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD09_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD09_PC       R/W      0      0         Thread 09 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD10_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
-<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD10_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD10_PC       R/W      0      0         Thread 10 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD11_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
-<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD11_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD11_PC       R/W      0      0         Thread 11 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD12_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
-<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD12_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD12_PC       R/W      0      0         Thread 12 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD13_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
-<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD13_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD13_PC       R/W      0      0         Thread 13 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD14_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
-<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD14_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD14_PC       R/W      0      0         Thread 14 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD15_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
-<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX0SEQ_THRD15_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD15_PC       R/W      0      0         Thread 15 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
 
  *
 
@@ -18812,7 +18198,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_31_0    R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<7:0>    T1SEQ_INTR      R/W1     0      0         SEQ interrupt outputs.  Write 1 to set, 0 to leave alone                |
+<8>      ULFE_INPUTSEL   R/W1     0      0         ULFE input select.  0=RFIF, 1=HMM.  Write 1 to set, 0 to leave alone    |
+<9>      RAFE_INPUTSEL   R/W1     0      0         RAFE input select.  0=RFIF, 1=HMM.  Write 1 to set, 0 to leave alone    |
+<31:10>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18826,7 +18215,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_63_32   R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<8:0>    NS               RO      0      0         reserved.                                              |
+<31:9>   GPI_LOOPBACK    R/W1     0      0         SEQ loopbacks to GPI.   Write 1 to set, 0 to leave alone                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18840,7 +18230,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_31_0    R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<7:0>    T1SEQ_INTR      R/W1C    0      0         SEQ interrupt outputs.  Write 1 to clear, 0 to leave alone                |
+<8>      ULFE_INPUTSEL   R/W1C    0      0         ULFE input select.  0=RFIF, 1=HMM.  Write 1 to clear, 0 to leave alone    |
+<9>      RAFE_INPUTSEL   R/W1C    0      0         RAFE input select.  0=RFIF, 1=HMM.  Write 1 to clear, 0 to leave alone    |
+<31:10>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18854,7 +18247,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_63_32   R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<8:0>    NS               RO      0      0         reserved.                                              |
+<31:9>   GPI_LOOPBACK    R/W1C    0      0         SEQ loopbacks to GPI.   Write 1 to clear, 0 to leave alone                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18868,7 +18262,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_31_0    RO       0      0         SEQ GPI values.                                        |
+<7:0>    TTI_TIMER       RO       0      0         TTI Timer ints from RFIF                               |
+<19:8>   RFIF_RX_INTS    RO       0      0         RFIF RX ints                                           |
+<20>     RFIF_SPI_INT    RO       0      0         RFIF SPI int                                           |
+<21>     ULFE_RD_DONE    RO       0      0         ULFE RD done int                                       |
+<22>     RAFE_RD_DONE    RO       0      0         RAFE RD done int                                       |
+<23>     DFTDM_RD_DONE   RO       0      0         DFTDM RD done int                                      |
+<24>     EXTDMA_RD_DONE  RO       0      0         EXTDMA RD done int                                     |
+<25>     INTDMA_RD_DONE  RO       0      0         INTDMA RD done int                                     |
+<26>     EDMA_WR0_DONE   RO       0      0         EDMA WR0 done int                                      |
+<27>     NS              RO       0      0         reserved.                                              |
+<28>     ULFE_WR_DONE    RO       0      0         ULFE WR done int                                       |
+<29>     RAFE_WR0_DONE   RO       0      0         RAFE WR0 done int                                      |
+<30>     RAFE_WR1_DONE   RO       0      0         RAFE WR1 done int                                      |
+<31>     DFTDM_WR_DONE   RO       0      0         DFTDM WR done int                                      |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -18881,7 +18288,16 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_63_32   RO       0      0         SEQ GPI values.                                        |
+<0>      EXTDMA_WR_DONE  RO       0      0         EXTDMA WR done int                                     |
+<1>      INTDMA_WR_DONE  RO       0      0         EXTDMA WR done int                                     |
+<2>      NS              RO       0      0         reserved.                                              |
+<3>      RAFE_WR0_EMPTY  RO       0      0         RAFE WR0 queue empty int                               |
+<4>      RAFE_WR1_EMPTY  RO       0      0         RAFE WR1 queue empty int                               |
+<5>      ULFE_WR_EMPTY   RO       0      0         ULFE WR queue empty int                                |
+<6>      ULFE_DONE       RO       0      0         ULFE DONE int from HAB                                 |
+<7>      DFTDM_DONE      RO       0      0         DFTDM DONE int from HAB                                |
+<8>      RAFE_DONE       RO       0      0         RAFE DONE int from HAB                                 |
+<31:9>   GPI_LOOPBACK    RO       0      0         SEQ loopbacks from GPO.                                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -20500,21 +19916,21 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_RX1SEQ_THRD00_CFG Type=NCB
+     BBP_RX1SEQ_THRD(0..15)_CFG Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<1:0>    THRD00_STAT     R/W      0      0         Thread 00 status                                      |
+<1:0>    THRD_STAT        R/W      0      0        Thread @ status                                        |
                                                    0==done
                                                    1==ready
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
-<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
+<23:16>  THRD_GPIOWAIT    RO      0      0         Thread @ GPIO used as trigger                          |
+<25:24>  THRD_WAIT_STS    RO      0      0         Thread @ wait status                                   |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
@@ -20526,7 +19942,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_RX1SEQ_THRD00_PC Type=NCB
+     BBP_RX1SEQ_THRD(0..15)_PC Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -20534,637 +19950,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD00_PC       R/W      0      0         Thread 00 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD01_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
-<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD01_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD01_PC       R/W      0      0         Thread 01 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD02_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
-<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD02_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD02_PC       R/W      0      0         Thread 02 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD03_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
-<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD03_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD03_PC       R/W      0      0         Thread 03 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD04_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
-<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD04_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD04_PC       R/W      0      0         Thread 04 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD05_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
-<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD05_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD05_PC       R/W      0      0         Thread 05 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD06_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
-<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD06_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD06_PC       R/W      0      0         Thread 06 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD07_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
-<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD07_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD07_PC       R/W      0      0         Thread 07 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD08_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
-<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD08_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD08_PC       R/W      0      0         Thread 08 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD09_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
-<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD09_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD09_PC       R/W      0      0         Thread 09 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD10_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
-<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD10_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD10_PC       R/W      0      0         Thread 10 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD11_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
-<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD11_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD11_PC       R/W      0      0         Thread 11 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD12_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
-<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD12_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD12_PC       R/W      0      0         Thread 12 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD13_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
-<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD13_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD13_PC       R/W      0      0         Thread 13 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD14_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
-<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD14_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD14_PC       R/W      0      0         Thread 14 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD15_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
-<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_RX1SEQ_THRD15_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD15_PC       R/W      0      0         Thread 15 PC (Program Counter)                        |
+<15:3>   THRD_PC         R/W      0      0         Thread @ PC (Program Counter)                        |
 <31:16>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -21179,7 +19965,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_31_0    R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<7:0>    T2SEQ_INTR      R/W1     0      0         SEQ interrupt outputs.  Write 1 to set, 0 to leave alone                |
+<31:8>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21193,7 +19980,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_63_32   R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<6:0>    NS               RO      0      0         reserved.                                              |
+<31:7>   GPI_LOOPBACK    R/W1     0      0         SEQ loopbacks to GPI.   Write 1 to set, 0 to leave alone                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21207,7 +19995,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_31_0    R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<7:0>    T2SEQ_INTR      R/W1C    0      0         SEQ interrupt outputs.  Write 1 to clear, 0 to leave alone              |
+<31:8>   NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21221,7 +20010,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_63_32   R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<6:0>    NS               RO      0      0         reserved.                                              |
+<31:7>   GPI_LOOPBACK    R/W1C    0      0         SEQ loopbacks to GPI.   Write 1 to clear, 0 to leave alone              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21235,7 +20025,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_31_0    RO       0      0         SEQ GPI values.                                        |
+<7:0>    TTI_TIMER       RO       0      0         TTI Timer ints from RFIF                               |
+<19:8>   RFIF_RX_INTS    RO       0      0         RFIF RX ints                                           |
+<20>     RFIF_SPI_INT    RO       0      0         RFIF SPI int                                           |
+<21>     TURBO_RD_DONE     RO       0      0       Turbo RD done int                                        |
+<22>     TURBO_HQ_RD_DONE  RO       0      0       Turbo HARQ RD done int                                   |
+<23>     EXTDMA_RD_DONE    RO       0      0       EXTDMA RD done int                                       |
+<24>     HARQDMA_RD_DONE   RO       0      0       HARQDMA RD done int                                      |
+<25>     INTDMA_RD_DONE    RO       0      0       INTDMA RD done int                                       |
+<26>     EDMA_WR2_DONE     RO       0      0       EDMA WR2 done int                                        |
+<27>     TURBO_WR_DONE     RO       0      0       Turbo WR done int                                        |
+<28>     TURBO_SB_WR_DONE  RO       0      0       Turbo Soft Bits WR done int                              |
+<29>     TURBO_HQ_WR_DONE  RO       0      0       Turbo HARQ WR done int                                   |
+<30>     EXTDMA_WR_DONE    RO       0      0       EXTDMA WR done int                                       |
+<31>     HARQDMA_WR_DONE   RO       0      0       HARQDMA WR done int                                      |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -21248,7 +20051,14 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_63_32   RO       0      0         SEQ GPI values.                                        |
+<0>      INTDMA_WR_DONE    RO       0      0       INTDMA WR done int                                       |
+<1>      NS                RO       0      0       reserved.                                                |
+<2>      EDMA_WR6_DONE     RO       0      0       EDMA WR6 done int                                        |
+<3>      TURBO_WR_EMPTY    RO       0      0       Turbo WR done int                                        |
+<4>      TURBO_DONE_INT    RO       0      0       Turbo DONE int, from HAB                                 |
+<5>      TURBO_RDY_NEW_BLK RO       0      0       Turbo ready for next block int, from HAB                 |
+<6>      VDEC_DONE         RO       0      0       Viterbi DONE int, from HAB                               |
+<31:7>   GPI_LOOPBACK      RO       0      0       SEQ loopbacks from GPO.                                  |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -23350,21 +22160,21 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_TXSEQ_THRD00_CFG Type=NCB
+     BBP_TXSEQ_THRD(0..15)_CFG Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<1:0>    THRD00_STAT     R/W      0      0         Thread 00 status                                      |
+<1:0>    THRD_STAT        R/W      0      0        Thread @ status                                        |
                                                    0==done
                                                    1==ready
                                                    2==active
                                                    3==wait
 <15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD00_GPIOWAIT  RO      0      0         Thread 00 GPIO used as trigger                         |
-<25:24>  THRD00_WAIT_STS  RO      0      0         Thread 00 wait status                                  |
+<23:16>  THRD_GPIOWAIT    RO      0      0         Thread @ GPIO used as trigger                          |
+<25:24>  THRD_WAIT_STS    RO      0      0         Thread @ wait status                                   |
                                                    0==not waiting
                                                    1==waiting for timer
                                                    2==waiting for GPIO low
@@ -23376,7 +22186,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     BBP_TXSEQ_THRD00_PC Type=NCB
+     BBP_TXSEQ_THRD(0..15)_PC Type=NCB
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -23384,637 +22194,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 <2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD00_PC       R/W      0      0         Thread 00 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD01_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD01_STAT     R/W      0      0         Thread 01 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD01_GPIOWAIT  RO      0      0         Thread 01 GPIO used as trigger                         |
-<25:24>  THRD01_WAIT_STS  RO      0      0         Thread 01 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD01_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD01_PC       R/W      0      0         Thread 01 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD02_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD02_STAT     R/W      0      0         Thread 02 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD02_GPIOWAIT  RO      0      0         Thread 02 GPIO used as trigger                         |
-<25:24>  THRD02_WAIT_STS  RO      0      0         Thread 02 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD02_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD02_PC       R/W      0      0         Thread 02 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD03_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD03_STAT     R/W      0      0         Thread 03 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD03_GPIOWAIT  RO      0      0         Thread 03 GPIO used as trigger                         |
-<25:24>  THRD03_WAIT_STS  RO      0      0         Thread 03 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD03_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD03_PC       R/W      0      0         Thread 03 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD04_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD04_STAT     R/W      0      0         Thread 04 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD04_GPIOWAIT  RO      0      0         Thread 04 GPIO used as trigger                         |
-<25:24>  THRD04_WAIT_STS  RO      0      0         Thread 04 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD04_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD04_PC       R/W      0      0         Thread 04 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD05_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD05_STAT     R/W      0      0         Thread 05 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD05_GPIOWAIT  RO      0      0         Thread 05 GPIO used as trigger                         |
-<25:24>  THRD05_WAIT_STS  RO      0      0         Thread 05 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD05_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD05_PC       R/W      0      0         Thread 05 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD06_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD06_STAT     R/W      0      0         Thread 06 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD06_GPIOWAIT  RO      0      0         Thread 06 GPIO used as trigger                         |
-<25:24>  THRD06_WAIT_STS  RO      0      0         Thread 06 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD06_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD06_PC       R/W      0      0         Thread 06 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD07_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD07_STAT     R/W      0      0         Thread 07 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD07_GPIOWAIT  RO      0      0         Thread 07 GPIO used as trigger                         |
-<25:24>  THRD07_WAIT_STS  RO      0      0         Thread 07 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD07_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD07_PC       R/W      0      0         Thread 07 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD08_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD08_STAT     R/W      0      0         Thread 08 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD08_GPIOWAIT  RO      0      0         Thread 08 GPIO used as trigger                         |
-<25:24>  THRD08_WAIT_STS  RO      0      0         Thread 08 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD08_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD08_PC       R/W      0      0         Thread 08 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD09_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD09_STAT     R/W      0      0         Thread 09 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD09_GPIOWAIT  RO      0      0         Thread 09 GPIO used as trigger                         |
-<25:24>  THRD09_WAIT_STS  RO      0      0         Thread 09 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD09_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD09_PC       R/W      0      0         Thread 09 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD10_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD10_STAT     R/W      0      0         Thread 10 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD10_GPIOWAIT  RO      0      0         Thread 10 GPIO used as trigger                         |
-<25:24>  THRD10_WAIT_STS  RO      0      0         Thread 10 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD10_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD10_PC       R/W      0      0         Thread 10 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD11_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD11_STAT     R/W      0      0         Thread 11 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD11_GPIOWAIT  RO      0      0         Thread 11 GPIO used as trigger                         |
-<25:24>  THRD11_WAIT_STS  RO      0      0         Thread 11 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD11_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD11_PC       R/W      0      0         Thread 11 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD12_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD12_STAT     R/W      0      0         Thread 12 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD12_GPIOWAIT  RO      0      0         Thread 12 GPIO used as trigger                         |
-<25:24>  THRD12_WAIT_STS  RO      0      0         Thread 12 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD12_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD12_PC       R/W      0      0         Thread 12 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD13_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD13_STAT     R/W      0      0         Thread 13 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD13_GPIOWAIT  RO      0      0         Thread 13 GPIO used as trigger                         |
-<25:24>  THRD13_WAIT_STS  RO      0      0         Thread 13 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD13_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD13_PC       R/W      0      0         Thread 13 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD14_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD14_STAT     R/W      0      0         Thread 14 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD14_GPIOWAIT  RO      0      0         Thread 14 GPIO used as trigger                         |
-<25:24>  THRD14_WAIT_STS  RO      0      0         Thread 14 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD14_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD14_PC       R/W      0      0         Thread 14 PC (Program Counter)                        |
-<31:16>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD15_CFG Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<1:0>    THRD15_STAT     R/W      0      0         Thread 15 status                                      |
-                                                   0==done
-                                                   1==ready
-                                                   2==active
-                                                   3==wait
-<15:2>   NS               RO      0      0         reserved.                                              |
-<23:16>  THRD15_GPIOWAIT  RO      0      0         Thread 15 GPIO used as trigger                         |
-<25:24>  THRD15_WAIT_STS  RO      0      0         Thread 15 wait status                                  |
-                                                   0==not waiting
-                                                   1==waiting for timer
-                                                   2==waiting for GPIO low
-                                                   3==waiting for GPIO high
-<31:26>  NS               RO      0      0         reserved.                                              |
-----------------------------------------------------------------------------------------------------
-===
-
- *
-
-     ==============================================================
-     BBP_TXSEQ_THRD15_PC Type=NCB
-     ==============================================================
-
-----------------------------------------------------------------------------------------------------
-Bit      Field   Field    Reset     Typical     Field
-Pos      Name    Type     Value     Value       Description
-----------------------------------------------------------------------------------------------------
-<2:0>    NS               RO      0      0         reserved.                                              |
-<15:3>   THRD15_PC       R/W      0      0         Thread 15 PC (Program Counter)                        |
+<15:3>   THRD_PC          R/W     0      0         Thread @ PC (Program Counter)                          |
 <31:16>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
@@ -24029,7 +22209,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_31_0    R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<7:0>    T3SEQ_INTR      R/W1     0      0         SEQ interrupt outputs.  Write 1 to set, 0 to leave alone                |
+<8>      RFIF_TX_INSEL   R/W1     0      0         RFIF input select.  0=IPM, 1=HMM.   Write 1 to set, 0 to leave alone    |
+<9>      ENC3G_SEL       R/W1     0      0         Selects encoder.  0=LTE ENC, 1=3G.  Write 1 to set, 0 to leave alone    |
+<31:10>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24043,7 +22226,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_SET_63_32   R/W1     0      0         Set SEQ GPOs to 1.  Write 1 to set, 0 to leave alone  |
+<11:0>   NS               RO      0      0         reserved.                                              |
+<31:12>  GPI_LOOPBACK    R/W1     0      0         SEQ loopbacks to GPI.   Write 1 to set, 0 to leave alone                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24057,7 +22241,10 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_31_0    R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<7:0>    T3SEQ_INTR      R/W1C    0      0         SEQ interrupt outputs.  Write 1 to clear, 0 to leave alone                |
+<8>      RFIF_TX_INSEL   R/W1C    0      0         RFIF input select.  0=IPM, 1=HMM.   Write 1 to clear, 0 to leave alone    |
+<9>      ENC3G_SEL       R/W1C    0      0         Selects encoder.  0=LTE ENC, 1=3G.  Write 1 to clear, 0 to leave alone    |
+<31:10>  NS               RO      0      0         reserved.                                              |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24071,7 +22258,8 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPO_CLR_63_32   R/W1C    0      0         Clear SEQ GPOs.  Write 1 to clear, 0 to leave alone    |
+<11:0>   NS               RO      0      0         reserved.                                              |
+<31:12>  GPI_LOOPBACK    R/W1C    0      0         SEQ loopbacks to GPI.   Write 1 to clear, 0 to leave alone                |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24085,7 +22273,20 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_31_0    RO       0      0         SEQ GPI values.                                        |
+<7:0>    TTI_TIMER       RO       0      0         TTI Timer ints from RFIF                               |
+<19:8>   RFIF_TX_INTS    RO       0      0         RFIF TX ints                                           |
+<20>     RFIF_SPI_INT    RO       0      0         RFIF SPI int                                           |
+<21>     VITB_RD_DONE    RO       0      0         Viterbi RD done int                                    |
+<22>     DLE0_RD_DONE    RO       0      0         DLE TB0 RD done int                                    |
+<23>     DLE1_RD_DONE    RO       0      0         DLE TB1 RD done int                                    |
+<24>     IPM0_RD_DONE    RO       0      0         IPM 0 RD done int                                      |
+<25>     IPM1_RD_DONE    RO       0      0         IPM 1 RD done int                                      |
+<26>     IPM_RM_RD_DONE  RO       0      0         IPM RM RD done int                                     |
+<27>     EXTDMA_RD_DONE    RO       0      0       EXTDMA RD done int                                       |
+<28>     INTDMA_RD_DONE    RO       0      0       INTDMA RD done int                                       |
+<29>     EDMA_WR4_DONE     RO       0      0       EDMA WR4 done int                                        |
+<30>     RFIF_0_RD_DONE    RO       0      0       RFIF_0 RD done int                                       |
+<31>     RFIF_1_RD_DONE    RO       0      0       RFIF_1 RD done int                                       |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -24098,7 +22299,19 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
-<31:0>   GPI_VAL_63_32   RO       0      0         SEQ GPI values.                                        |
+<0>      VITB_WR_DONE    RO       0      0         Viterbi WR done int                                    |
+<1>      DLE0_WR_DONE    RO       0      0         DLE TB0 WR done int                                    |
+<2>      DLE1_WR_DONE    RO       0      0         DLE TB1 WR done int                                    |
+<3>      DLE_CCH_WR_DONE RO       0      0         DLE CCH WR done int                                    |
+<4>      IPM0_WR_DONE    RO       0      0         IPM 0 RD done int                                      |
+<5>      IPM1_WR_DONE    RO       0      0         IPM 1 RD done int                                      |
+<6>      EXTDMA_WR_DONE    RO       0      0       EXTDMA WR done int                                       |
+<7>      INTDMA_WR_DONE    RO       0      0       INTDMA WR done int                                       |
+<8>      NS               RO      0      0         reserved.                                              |
+<9>      DLE_DONE        RO       0      0         DLE done int, from HAB                                 |
+<10>     IPM_DONE        RO       0      0         IPM done int, from HAB                                 |
+<11>     ENC3G_DONE      RO       0      0         ENC3G done int, from HAB                               |
+<31:12>  GPI_LOOPBACK      RO       0      0       SEQ loopbacks from GPO.                                  |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -52938,26 +51151,26 @@ BBP_RX0SEQ_RAMACC                           0x00010F0000828080  NCB
 BBP_RX0SEQ_RAMRD_LSW                        0x00010F0000828088  NCB
 BBP_RX0SEQ_RAMRD_MSW                        0x00010F000082808C  NCB
 BBP_RX0SEQ_STATUS                           0x00010F0000828000  NCB
-BBP_RX0SEQ_THRD00_CFG                       0x00010F0000828100  NCB
-BBP_RX0SEQ_THRD00_PC                        0x00010F0000828104  NCB
-BBP_RX0SEQ_THRD01_CFG                       0x00010F0000828108  NCB
-BBP_RX0SEQ_THRD01_PC                        0x00010F000082810C  NCB
-BBP_RX0SEQ_THRD02_CFG                       0x00010F0000828110  NCB
-BBP_RX0SEQ_THRD02_PC                        0x00010F0000828114  NCB
-BBP_RX0SEQ_THRD03_CFG                       0x00010F0000828118  NCB
-BBP_RX0SEQ_THRD03_PC                        0x00010F000082811C  NCB
-BBP_RX0SEQ_THRD04_CFG                       0x00010F0000828120  NCB
-BBP_RX0SEQ_THRD04_PC                        0x00010F0000828124  NCB
-BBP_RX0SEQ_THRD05_CFG                       0x00010F0000828128  NCB
-BBP_RX0SEQ_THRD05_PC                        0x00010F000082812C  NCB
-BBP_RX0SEQ_THRD06_CFG                       0x00010F0000828130  NCB
-BBP_RX0SEQ_THRD06_PC                        0x00010F0000828134  NCB
-BBP_RX0SEQ_THRD07_CFG                       0x00010F0000828138  NCB
-BBP_RX0SEQ_THRD07_PC                        0x00010F000082813C  NCB
-BBP_RX0SEQ_THRD08_CFG                       0x00010F0000828140  NCB
-BBP_RX0SEQ_THRD08_PC                        0x00010F0000828144  NCB
-BBP_RX0SEQ_THRD09_CFG                       0x00010F0000828148  NCB
-BBP_RX0SEQ_THRD09_PC                        0x00010F000082814C  NCB
+BBP_RX0SEQ_THRD0_CFG                        0x00010F0000828100  NCB
+BBP_RX0SEQ_THRD0_PC                         0x00010F0000828104  NCB
+BBP_RX0SEQ_THRD1_CFG                        0x00010F0000828108  NCB
+BBP_RX0SEQ_THRD1_PC                         0x00010F000082810C  NCB
+BBP_RX0SEQ_THRD2_CFG                        0x00010F0000828110  NCB
+BBP_RX0SEQ_THRD2_PC                         0x00010F0000828114  NCB
+BBP_RX0SEQ_THRD3_CFG                        0x00010F0000828118  NCB
+BBP_RX0SEQ_THRD3_PC                         0x00010F000082811C  NCB
+BBP_RX0SEQ_THRD4_CFG                        0x00010F0000828120  NCB
+BBP_RX0SEQ_THRD4_PC                         0x00010F0000828124  NCB
+BBP_RX0SEQ_THRD5_CFG                        0x00010F0000828128  NCB
+BBP_RX0SEQ_THRD5_PC                         0x00010F000082812C  NCB
+BBP_RX0SEQ_THRD6_CFG                        0x00010F0000828130  NCB
+BBP_RX0SEQ_THRD6_PC                         0x00010F0000828134  NCB
+BBP_RX0SEQ_THRD7_CFG                        0x00010F0000828138  NCB
+BBP_RX0SEQ_THRD7_PC                         0x00010F000082813C  NCB
+BBP_RX0SEQ_THRD8_CFG                        0x00010F0000828140  NCB
+BBP_RX0SEQ_THRD8_PC                         0x00010F0000828144  NCB
+BBP_RX0SEQ_THRD9_CFG                        0x00010F0000828148  NCB
+BBP_RX0SEQ_THRD9_PC                         0x00010F000082814C  NCB
 BBP_RX0SEQ_THRD10_CFG                       0x00010F0000828150  NCB
 BBP_RX0SEQ_THRD10_PC                        0x00010F0000828154  NCB
 BBP_RX0SEQ_THRD11_CFG                       0x00010F0000828158  NCB
@@ -53318,26 +51531,26 @@ BBP_RX1SEQ_RAMACC                           0x00010F0000848080  NCB
 BBP_RX1SEQ_RAMRD_LSW                        0x00010F0000848088  NCB
 BBP_RX1SEQ_RAMRD_MSW                        0x00010F000084808C  NCB
 BBP_RX1SEQ_STATUS                           0x00010F0000848000  NCB
-BBP_RX1SEQ_THRD00_CFG                       0x00010F0000848100  NCB
-BBP_RX1SEQ_THRD00_PC                        0x00010F0000848104  NCB
-BBP_RX1SEQ_THRD01_CFG                       0x00010F0000848108  NCB
-BBP_RX1SEQ_THRD01_PC                        0x00010F000084810C  NCB
-BBP_RX1SEQ_THRD02_CFG                       0x00010F0000848110  NCB
-BBP_RX1SEQ_THRD02_PC                        0x00010F0000848114  NCB
-BBP_RX1SEQ_THRD03_CFG                       0x00010F0000848118  NCB
-BBP_RX1SEQ_THRD03_PC                        0x00010F000084811C  NCB
-BBP_RX1SEQ_THRD04_CFG                       0x00010F0000848120  NCB
-BBP_RX1SEQ_THRD04_PC                        0x00010F0000848124  NCB
-BBP_RX1SEQ_THRD05_CFG                       0x00010F0000848128  NCB
-BBP_RX1SEQ_THRD05_PC                        0x00010F000084812C  NCB
-BBP_RX1SEQ_THRD06_CFG                       0x00010F0000848130  NCB
-BBP_RX1SEQ_THRD06_PC                        0x00010F0000848134  NCB
-BBP_RX1SEQ_THRD07_CFG                       0x00010F0000848138  NCB
-BBP_RX1SEQ_THRD07_PC                        0x00010F000084813C  NCB
-BBP_RX1SEQ_THRD08_CFG                       0x00010F0000848140  NCB
-BBP_RX1SEQ_THRD08_PC                        0x00010F0000848144  NCB
-BBP_RX1SEQ_THRD09_CFG                       0x00010F0000848148  NCB
-BBP_RX1SEQ_THRD09_PC                        0x00010F000084814C  NCB
+BBP_RX1SEQ_THRD0_CFG                        0x00010F0000848100  NCB
+BBP_RX1SEQ_THRD0_PC                         0x00010F0000848104  NCB
+BBP_RX1SEQ_THRD1_CFG                        0x00010F0000848108  NCB
+BBP_RX1SEQ_THRD1_PC                         0x00010F000084810C  NCB
+BBP_RX1SEQ_THRD2_CFG                        0x00010F0000848110  NCB
+BBP_RX1SEQ_THRD2_PC                         0x00010F0000848114  NCB
+BBP_RX1SEQ_THRD3_CFG                        0x00010F0000848118  NCB
+BBP_RX1SEQ_THRD3_PC                         0x00010F000084811C  NCB
+BBP_RX1SEQ_THRD4_CFG                        0x00010F0000848120  NCB
+BBP_RX1SEQ_THRD4_PC                         0x00010F0000848124  NCB
+BBP_RX1SEQ_THRD5_CFG                        0x00010F0000848128  NCB
+BBP_RX1SEQ_THRD5_PC                         0x00010F000084812C  NCB
+BBP_RX1SEQ_THRD6_CFG                        0x00010F0000848130  NCB
+BBP_RX1SEQ_THRD6_PC                         0x00010F0000848134  NCB
+BBP_RX1SEQ_THRD7_CFG                        0x00010F0000848138  NCB
+BBP_RX1SEQ_THRD7_PC                         0x00010F000084813C  NCB
+BBP_RX1SEQ_THRD8_CFG                        0x00010F0000848140  NCB
+BBP_RX1SEQ_THRD8_PC                         0x00010F0000848144  NCB
+BBP_RX1SEQ_THRD9_CFG                        0x00010F0000848148  NCB
+BBP_RX1SEQ_THRD9_PC                         0x00010F000084814C  NCB
 BBP_RX1SEQ_THRD10_CFG                       0x00010F0000848150  NCB
 BBP_RX1SEQ_THRD10_PC                        0x00010F0000848154  NCB
 BBP_RX1SEQ_THRD11_CFG                       0x00010F0000848158  NCB
@@ -53757,26 +51970,26 @@ BBP_TXSEQ_RAMACC                            0x00010F000086E080  NCB
 BBP_TXSEQ_RAMRD_LSW                         0x00010F000086E088  NCB
 BBP_TXSEQ_RAMRD_MSW                         0x00010F000086E08C  NCB
 BBP_TXSEQ_STATUS                            0x00010F000086E000  NCB
-BBP_TXSEQ_THRD00_CFG                        0x00010F000086E100  NCB
-BBP_TXSEQ_THRD00_PC                         0x00010F000086E104  NCB
-BBP_TXSEQ_THRD01_CFG                        0x00010F000086E108  NCB
-BBP_TXSEQ_THRD01_PC                         0x00010F000086E10C  NCB
-BBP_TXSEQ_THRD02_CFG                        0x00010F000086E110  NCB
-BBP_TXSEQ_THRD02_PC                         0x00010F000086E114  NCB
-BBP_TXSEQ_THRD03_CFG                        0x00010F000086E118  NCB
-BBP_TXSEQ_THRD03_PC                         0x00010F000086E11C  NCB
-BBP_TXSEQ_THRD04_CFG                        0x00010F000086E120  NCB
-BBP_TXSEQ_THRD04_PC                         0x00010F000086E124  NCB
-BBP_TXSEQ_THRD05_CFG                        0x00010F000086E128  NCB
-BBP_TXSEQ_THRD05_PC                         0x00010F000086E12C  NCB
-BBP_TXSEQ_THRD06_CFG                        0x00010F000086E130  NCB
-BBP_TXSEQ_THRD06_PC                         0x00010F000086E134  NCB
-BBP_TXSEQ_THRD07_CFG                        0x00010F000086E138  NCB
-BBP_TXSEQ_THRD07_PC                         0x00010F000086E13C  NCB
-BBP_TXSEQ_THRD08_CFG                        0x00010F000086E140  NCB
-BBP_TXSEQ_THRD08_PC                         0x00010F000086E144  NCB
-BBP_TXSEQ_THRD09_CFG                        0x00010F000086E148  NCB
-BBP_TXSEQ_THRD09_PC                         0x00010F000086E14C  NCB
+BBP_TXSEQ_THRD0_CFG                         0x00010F000086E100  NCB
+BBP_TXSEQ_THRD0_PC                          0x00010F000086E104  NCB
+BBP_TXSEQ_THRD1_CFG                         0x00010F000086E108  NCB
+BBP_TXSEQ_THRD1_PC                          0x00010F000086E10C  NCB
+BBP_TXSEQ_THRD2_CFG                         0x00010F000086E110  NCB
+BBP_TXSEQ_THRD2_PC                          0x00010F000086E114  NCB
+BBP_TXSEQ_THRD3_CFG                         0x00010F000086E118  NCB
+BBP_TXSEQ_THRD3_PC                          0x00010F000086E11C  NCB
+BBP_TXSEQ_THRD4_CFG                         0x00010F000086E120  NCB
+BBP_TXSEQ_THRD4_PC                          0x00010F000086E124  NCB
+BBP_TXSEQ_THRD5_CFG                         0x00010F000086E128  NCB
+BBP_TXSEQ_THRD5_PC                          0x00010F000086E12C  NCB
+BBP_TXSEQ_THRD6_CFG                         0x00010F000086E130  NCB
+BBP_TXSEQ_THRD6_PC                          0x00010F000086E134  NCB
+BBP_TXSEQ_THRD7_CFG                         0x00010F000086E138  NCB
+BBP_TXSEQ_THRD7_PC                          0x00010F000086E13C  NCB
+BBP_TXSEQ_THRD8_CFG                         0x00010F000086E140  NCB
+BBP_TXSEQ_THRD8_PC                          0x00010F000086E144  NCB
+BBP_TXSEQ_THRD9_CFG                         0x00010F000086E148  NCB
+BBP_TXSEQ_THRD9_PC                          0x00010F000086E14C  NCB
 BBP_TXSEQ_THRD10_CFG                        0x00010F000086E150  NCB
 BBP_TXSEQ_THRD10_PC                         0x00010F000086E154  NCB
 BBP_TXSEQ_THRD11_CFG                        0x00010F000086E158  NCB
