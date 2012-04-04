@@ -70,6 +70,33 @@ local function select_lane(qlm_num, allow_all)
     return lane
 end
 
+-- Select a list of QLMs to perform operations on
+local function select_qlm_list(qlm_list)
+    local num_qlms = octeon.c.bdk_qlm_get_num()
+    -- Default to all QLMs if the list wasn't supplied
+    if not qlm_list then
+        qlm_list = {}
+        for qlm_num=0,num_qlms-1 do
+            table.insert(qlm_list, qlm_num)
+        end
+    end
+    -- Convert the default list to a string
+    local s = ""
+    for _,qlm_num in ipairs(qlm_list) do
+        assert((qlm_num >= 0) and (qlm_num < num_qlms), "Invalid QLM/DLM number")
+        s = s .. tostring(qlm_num)
+    end
+    -- Ask the user
+    s = menu.prompt_string("List of QLM/DLM to use", s)
+    qlm_list = {}
+    for i=1,#s do
+        local qlm_num = tonumber(s:sub(i,i))
+        assert((qlm_num >= 0) and (qlm_num < num_qlms), "Invalid QLM/DLM number")
+        table.insert(qlm_list, qlm_num)
+    end
+    return qlm_list
+end
+
 -- Read a value from the JTAG chain
 local function read_jtag(qlm_num)
     local lane = select_lane(qlm_num, false)
@@ -173,15 +200,31 @@ local function change_rx(qlm_num, settings, lane_num)
     octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_eq_gen1", rx_eq)
 end
 
+-- Start PRBS on a list of QLMs
+local function start_prbs(mode, qlm_list)
+    -- Reset the QLMs. Do this independently from PRBS so that all
+    -- resets are complete before we start PRBS
+    for _,qlm_num in ipairs(qlm_list) do
+        qlm.do_reset(qlm_num)
+    end
+    -- Start PRBS on the QLMs in reverse order. For some reason
+    -- this help CN68XX pass 2.0 QLM1 start better.
+    for _,qlm_num in ipairs(qlm_list) do
+        qlm.do_prbs(qlm_num, mode)
+    end
+end
+
 -- Run PRBS on all QLMs
-local function do_prbs(mode, done_check_func)
+local function do_prbs(mode)
+    local qlm_list = select_qlm_list()
     local function output_line(qlm_base, label, get_value)
         printf("%21s", label)
         local qlm_max = qlm_base + 2
-        if qlm_max >= octeon.c.bdk_qlm_get_num() then
-            qlm_max = octeon.c.bdk_qlm_get_num()-1
+        if qlm_max >= #qlm_list then
+            qlm_max = #qlm_list
         end
-        for qlm_num=qlm_base,qlm_max do
+        for qlm_index = qlm_base,qlm_max do
+            local qlm_num = qlm_list[qlm_index]
             local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
             for lane=0, num_lanes-1 do
                 local v = get_value(qlm_num, lane)
@@ -198,7 +241,7 @@ local function do_prbs(mode, done_check_func)
     local function display_status(run_time)
         printf("\n\n");
         printf("PRBS-%d time: %d seconds (Press return to exit)\n", mode, run_time)
-        for qlm_base=0,octeon.c.bdk_qlm_get_num()-1,3 do
+        for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
             end)
@@ -287,46 +330,27 @@ local function do_prbs(mode, done_check_func)
     end
 
     printf("PRBS-%d running. Statistics shown every 5 seconds\n", mode)
-    -- Reset the QLMs. Do this independently from PRBS so that all
-    -- resets are complete before we start PRBS
-    for qlm_num=0,octeon.c.bdk_qlm_get_num()-1 do
-        qlm.do_reset(qlm_num)
-    end
-    -- Start PRBS on the QLMs in reverse order. For some reason
-    -- this help CN68XX pass 2.0 QLM1 start better.
-    for qlm_num=octeon.c.bdk_qlm_get_num()-1,0,-1 do
-        qlm.do_prbs(qlm_num, mode)
-    end
+    start_prbs(mode, qlm_list)
 
     local start_time = os.time()
     local next_print = start_time + 5
-    while true do
+    repeat
         local t = os.time()
-        local run_time = t - start_time
-        local is_done = done_check_func(run_time)
-        if is_done then
-            display_status(run_time)
-            return is_done
-        end
         -- Periodically show the PRBS error counter and other status fields.
         if t >= next_print then
-            display_status(run_time)
+            display_status(t - start_time)
             next_print = next_print + 5
         end
-    end
-end
-
--- Used as a done check for running PRBS interactively. Runs until return key
--- is pressed
-local function check_for_return()
-    return readline.getkey() == '\r'
+    until readline.getkey() == '\r'
 end
 
 -- Automatically tune the QLMs
-local function auto_tune(prbs_mode)
+local function auto_tune()
+    local prbs_mode = menu.prompt_number("PRBS mode", 31, 7, 31)
+    local qlm_list = select_qlm_list()
     local function auto_done_check(run_time)
         -- Abort auto tune if the user presses return
-        if check_for_return() then
+        if readline.getkey() == '\r' then
             return "abort"
         end
         -- "results" will be a table with all the PRBS error counts
@@ -336,7 +360,7 @@ local function auto_tune(prbs_mode)
         -- working. Working is defined as all lanes having an error
         -- count below a threshold.
         local qlm_good = false
-        for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+        for _,qlm in ipairs(qlm_list) do
             local qlm_lanes_good = true
             results[qlm] = {}
             for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
@@ -366,7 +390,7 @@ local function auto_tune(prbs_mode)
     end
 
     printf("\n")
-    printf("Automatic tuning sweeps all QLMs through a number of TX\n")
+    printf("Automatic tuning sweeps the QLMs through a number of TX\n")
     printf("and RX parameters. For each setup, PRBS-%d tests for errors.\n", prbs_mode)
     printf("All parameters that result in error free PRBS-%d are\n", prbs_mode)
     printf("recorded and displayed in a final summary.\n")
@@ -385,27 +409,38 @@ local function auto_tune(prbs_mode)
     local settings = {} -- Stores the settings we are currently testing
     local lane_num = -1 -- Test all lanes on each QLM
     local summary = {} -- Good values will be stored here as they are found
+    local iter_count = 0
+    local iter_max = (max_rx_cap - min_rx_cap + 1) * (max_rx_eq - min_rx_eq + 1) * (max_biasdrv - min_biasdrv + 1) * (max_tcoeff - min_tcoeff + 1)
     for rx_cap = min_rx_cap, max_rx_cap do
         for rx_eq = min_rx_eq, max_rx_eq do
             for biasdrv = min_biasdrv, max_biasdrv do
                 for tcoeff = min_tcoeff, max_tcoeff do
+                    iter_count = iter_count + 1
+                    printf("%4d of %4d: rx_cap=%2d rx_eq=%2d biasdrv=%2d tcoeff=%2d\n", iter_count, iter_max, rx_cap, rx_eq, biasdrv, tcoeff)
                     -- Change the settings of all QLMs
                     settings["rx_eq"] = rx_eq
                     settings["rx_cap"] = rx_cap
                     settings["biasdrv"] = biasdrv
                     settings["tcoeff"] = tcoeff
-                    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+                    for _,qlm in ipairs(qlm_list) do
                         change_tx(qlm, settings, lane_num)
                         change_rx(qlm, settings, lane_num)
                     end
-                    -- Run PRBS using the special auto tune done check
-                    local prbs_result = do_prbs(prbs_mode, auto_done_check)
-                    -- Check for a user abort
-                    if prbs_result == "abort" then
-                        return
-                    end
+                    -- Run PRBS
+                    start_prbs(prbs_mode, qlm_list)
+                    -- Check for complete
+                    local prbs_result
+                    local start_time = os.time()
+                    repeat
+                        local run_time = os.time() - start_time
+                        prbs_result = auto_done_check(run_time)
+                        -- Check for a user abort
+                        if prbs_result == "abort" then
+                            return
+                        end
+                    until prbs_result
                     -- Search to see if any QLM passed
-                    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+                    for _,qlm in ipairs(qlm_list) do
                         local all_good = true -- Are all lanes good?
                         for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
                             all_good = all_good and (prbs_result[qlm][lane] == 0)
@@ -422,11 +457,12 @@ local function auto_tune(prbs_mode)
     end
 
     -- Display summary
+    printf("\n")
     printf("Automatic Tuning Results\n")
     printf("----------------------------------------------\n")
     printf("The following settings gave error free results\n")
     printf("\n")
-    for qlm = 0, octeon.c.bdk_qlm_get_num()-1 do
+    for _,qlm in ipairs(qlm_list) do
         local title = {}
 
         title[1] = "%-14s|" % ("QLM/DLM%d" % qlm)
@@ -479,13 +515,13 @@ function qlm_tuning.run()
         else
             m:item("loop", "Shallow loopback",  qlm.do_loop, qlm_tuning.qlm, 1)
         end
-        m:item("prbs7",  "PRBS-7 on all QLM/DLM", do_prbs, 7, check_for_return)
+        m:item("prbs7",  "PRBS-7", do_prbs, 7)
         if not octeon.is_model(octeon.CN63XX) then
-            m:item("prbs15", "PRBS-15 on all QLM/DLM", do_prbs, 15, check_for_return)
-            m:item("prbs23", "PRBS-23 on all QLM/DLM", do_prbs, 23, check_for_return)
+            m:item("prbs15", "PRBS-15", do_prbs, 15)
+            m:item("prbs23", "PRBS-23", do_prbs, 23)
         end
-        m:item("prbs31", "PRBS-31 on all QLM/DLM", do_prbs, 31, check_for_return)
-        m:item("auto31", "Automatically Tune using PRBS-31", auto_tune, 31)
+        m:item("prbs31", "PRBS-31", do_prbs, 31)
+        m:item("auto",   "Automatically Tune using PRBS", auto_tune)
         m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
         m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
         m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
