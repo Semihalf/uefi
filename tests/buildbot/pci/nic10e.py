@@ -82,7 +82,7 @@ if True:
         ], timeout=60)
     do_command("bdk-remote flash write %s 0x200000" % BDK_BOOT_IMAGE, [
         "100%"
-        ], timeout = 300)
+        ], timeout = 360)
     do_command("bdk-remote flash read tmp 0x200000 %d" % BDK_BOOT_IMAGE_SIZE, [
         "100%"
         ], timeout = 300)
