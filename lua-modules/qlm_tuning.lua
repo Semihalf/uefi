@@ -532,12 +532,13 @@ local function auto_tune()
                 for _,qlm in ipairs(qlm_list) do
                     local all_good = true -- Are all lanes good?
                     for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
-                        all_good = all_good and (prbs_result[qlm][lane] == 0)
+                        if type(prbs_result[qlm][lane]) == "number" then
+                            local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
+                            summary[key] = prbs_result[qlm][lane]
+                        end
                     end
                     if all_good then
                         -- Record this good result
-                        local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
-                        summary[key] = true
                     end
                 end
             end
@@ -551,42 +552,54 @@ local function auto_tune()
     for _,qlm in ipairs(qlm_list) do
         local title = {}
 
-        title[1] = "%-21s|" % ("QLM/DLM%d" % qlm)
-        title[2] = "%21s|" % "RX EQ"
+        title[1] = "%21s|" % "RX EQ"
+        title[2] = "%21s|" % ""
         title[3] = "%21s|" % ""
         title[4] = "%21s|" % ""
         title[5] = "%21s|" % ""
         title[6] = "%21s|" % ""
-        title[7] = "%21s|" % ""
-        title[8] = "%21s|" % "RX Cap"
+        title[7] = "%21s|" % "RX Cap"
+        title[8] = "%21s|" % ""
         title[9] = "%21s|" % ""
-        title[10] = "%21s|" % ""
-        title[11] = "%21s|" % "RX Eq"
-        title[12] = "%21s|" % ""
-        title[13] = "%21s|" % " biasdrv  | tcoeff   "
-        for _,rx_equal in ipairs(rx_equal_values) do
-            local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
-            local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
-            local column = " %2d.%02d-%2d-%2d-" % {rx_equal / 100, rx_equal % 100, rx_cap, rx_eq}
-            for i=1, 13 do
-                title[i] = title[i] .. column:sub(i,i)
+        title[10] = "%21s|" % "RX Eq"
+        title[11] = "%21s|" % ""
+        title[12] = "%21s|" % " biasdrv  | tcoeff   "
+        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+            for _,rx_equal in ipairs(rx_equal_values) do
+                local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
+                local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
+                local column = "%2d.%02d-%2d-%2d-" % {rx_equal / 100, rx_equal % 100, rx_cap, rx_eq}
+                for i=1, 12 do
+                    title[i] = title[i] .. column:sub(i,i)
+                end
+            end
+            for i=1, 12 do
+                title[i] = title[i] .. "|"
             end
         end
-        for i=1,13 do
-            printf("%s|\n", title[i])
+        printf("%-21s|", "QLM/DLM%d" % qlm)
+        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+            printf("   Lane %d%s|", lane, string.rep(" ", #rx_equal_values - 9))
+        end
+        printf("\n")
+        for i=1,12 do
+            print(title[i])
         end
         for biasdrv = min_biasdrv, max_biasdrv do
             for tcoeff = min_tcoeff, max_tcoeff do
                 printf("%4dmv(%2d)|%-d.%ddB(%2d)|",
                     interpolate(biasdrv, qlm_tuning.biasdrv), biasdrv,
                     qlm_tuning.tcoeff[tcoeff] / 10, -qlm_tuning.tcoeff[tcoeff] % 10, tcoeff)
-                for _,rx_equal in ipairs(rx_equal_values) do
-                    local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
-                    local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
-                    local key = "%d,%d,%d,%d" % {qlm, biasdrv, tcoeff, rx_eq, rx_cap}
-                    printf(summary[key] and "#" or " ")
+                for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                    for _,rx_equal in ipairs(rx_equal_values) do
+                        local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
+                        local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
+                        local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
+                        printf((summary[key] == 0) and "#" or " ")
+                    end
+                    printf("|")
                 end
-                printf("|\n")
+                printf("\n")
             end
         end
         printf("----------------------------------------------\n")
