@@ -615,6 +615,7 @@ local function auto_tune()
         for i=1,12 do
             print(title[i])
         end
+        local best_settings = {}
         local bits_no_error = 10 ^ error_rate_exponent
         for biasdrv = min_biasdrv, max_biasdrv do
             for tcoeff = min_tcoeff, max_tcoeff do
@@ -642,11 +643,32 @@ local function auto_tune()
                                     printf("B")
                                 end
                             end
+                            -- No errors is a special case where bits without
+                            -- error is infinity, which is stored as v=0
+                            if v == 0 then
+                                v = 0x7fffffffffffffff
+                            end
+                            if (best_settings[lane] == nil) or (best_settings[lane].bits_no_error < v) then
+                                best_settings[lane] = {
+                                    bits_no_error = v,
+                                    biasdrv = biasdrv,
+                                    tcoeff = tcoeff,
+                                    rx_cap = rx_cap,
+                                    rx_eq = rx_eq}
+                            end
                         end
                     end
                     printf("|")
                 end
                 printf("\n")
+            end
+        end
+        printf("\n")
+        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+            if best_settings[lane] then
+                printf("Lane %d best results at rx_cap=%d, rx_eq=%d, biasdrv=%d, tcoeff=%d\n",
+                    lane, best_settings[lane].rx_cap, best_settings[lane].rx_eq,
+                    best_settings[lane].biasdrv, best_settings[lane].tcoeff);
             end
         end
     end
