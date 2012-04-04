@@ -208,16 +208,16 @@ local function change_tx(qlm_num, settings, lane_num)
             default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
         end
 
-        printf("   biasdrv\tTX Amplitude\n")
+        printf("\n   biasdrv\tTX Amplitude\n")
         for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
             printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
         end
         biasdrv = menu.prompt_number("TX Amplitude(biasdrv)", default_biasdrv, 0, 31)
 
-        printf("    tcoeff\tTX Demphasis\n")
+        printf("\n    tcoeff\tTX Demphasis\n")
         for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
-            local db = -qlm_tuning.tcoeff[t]
-            printf("\t%2d\t-%d.%d db\n", t, db/10, db%10)
+            local db = qlm_tuning.tcoeff[t]
+            printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
         end
         tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 15)
     end
@@ -468,8 +468,19 @@ local function auto_tune()
     qlm_list = select_qlm_list()
 
     -- Prompt the user for the settings ranges we should try
+
+    printf("\n   biasdrv\tTX Amplitude\n")
+    for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
+        printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
+    end
     local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 8, 0, 31)
     local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 24, 0, 31)
+
+    printf("\n    tcoeff\tTX Demphasis\n")
+    for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
+        local db = qlm_tuning.tcoeff[t]
+        printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
+    end
     local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
     local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 15)
 
