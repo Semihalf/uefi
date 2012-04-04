@@ -473,16 +473,16 @@ local function auto_tune()
     for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
         printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
     end
-    local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 8, 0, 31)
-    local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 24, 0, 31)
+    local min_biasdrv = menu.prompt_number("Minimum TX Amplitude(biasdrv)", 6, 0, 31)
+    local max_biasdrv = menu.prompt_number("Maximum TX Amplitude(biasdrv)", 18, 0, 31)
 
     printf("\n    tcoeff\tTX Demphasis\n")
     for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
         local db = qlm_tuning.tcoeff[t]
         printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
     end
-    local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 31)
-    local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 31)
+    local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 10, 0, 31)
+    local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 20, 0, 31)
 
     printf("\nPRBS-%d Auto tune running, press return to exit\n", prbs_mode)
 
