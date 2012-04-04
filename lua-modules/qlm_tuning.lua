@@ -219,7 +219,7 @@ local function change_tx(qlm_num, settings, lane_num)
             local db = qlm_tuning.tcoeff[t]
             printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
         end
-        tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 15)
+        tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 31)
     end
 
     -- Write ALL the biasdrvsel fields:
@@ -481,8 +481,8 @@ local function auto_tune()
         local db = qlm_tuning.tcoeff[t]
         printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
     end
-    local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 15)
-    local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 15)
+    local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 6, 0, 31)
+    local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 15, 0, 31)
 
     printf("\nPRBS-%d Auto tune running, press return to exit\n", prbs_mode)
 
