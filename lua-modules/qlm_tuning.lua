@@ -577,7 +577,7 @@ local function auto_tune()
                 title[i] = title[i] .. "|"
             end
         end
-        printf("%-21s|", "QLM/DLM%d" % qlm)
+        printf("\n\n%-21s|", "QLM/DLM%d" % qlm)
         for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
             printf("   Lane %d%s|", lane, string.rep(" ", #rx_equal_values - 9))
         end
@@ -602,7 +602,6 @@ local function auto_tune()
                 printf("\n")
             end
         end
-        printf("----------------------------------------------\n")
     end
 end
 
