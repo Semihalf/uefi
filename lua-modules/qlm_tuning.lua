@@ -416,10 +416,21 @@ end
 -- Automatically tune the QLMs
 local function auto_tune()
     local qlm_list
-    local function auto_done_check(run_time)
+    -- Calculate the time we need to run before DESIRED_MAX_ERROR bit errors
+    -- represent the desired error rate
+    local function get_max_run_time(qlm, error_rate_exponent)
+        local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm)
+        return 10^(error_rate_exponent-6) / qlm_speed
+    end
+    -- Check if the current settings are done
+    local function auto_done_check(run_time, error_rate_exponent)
         -- Abort auto tune if the user presses return
         if readline.getkey() == '\r' then
             return "abort"
+        end
+        -- Keep running if we just started
+        if run_time == 0 then
+            return false
         end
         -- "results" will be a table with all the PRBS error counts
         -- for each QLM and lane (results[qlm][lane] = errors)
@@ -428,7 +439,11 @@ local function auto_tune()
         -- working. Working is defined as all lanes having an error
         -- count below a threshold.
         local qlm_good = false
+        local need_more_time = false
         for _,qlm in ipairs(qlm_list) do
+            local bits_transferred = run_time * octeon.c.bdk_qlm_get_gbaud_mhz(qlm) * 1000000
+            local max_run_time = get_max_run_time(qlm, error_rate_exponent)
+            need_more_time = need_more_time or (run_time < max_run_time)
             local qlm_lanes_good = true
             results[qlm] = {}
             for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
@@ -436,21 +451,25 @@ local function auto_tune()
                 if v == 1 then
                     -- We have PRBS lock
                     v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
-                    if v >= 10 then
-                        -- Too many errors on this lane
-                        qlm_lanes_good = false
+                    if v ~= 0 then
+                        local bits_per_error = bits_transferred / v
+                        if bits_per_error < 10 ^ error_rate_exponent then
+                            -- Too many errors on this lane
+                            qlm_lanes_good = false
+                        end
+                        v = bits_per_error
                     end
                     results[qlm][lane] = v
                 else
                     -- Lane never reach lock
                     qlm_lanes_good = false
-                    results[qlm][lane] = "No lock"
+                    results[qlm][lane] = "No Lock"
                 end
             end
             qlm_good = qlm_good or qlm_lanes_good
         end
         -- Run until all QLMs are bad or a max time occurs
-        if qlm_good and (run_time < 10) then
+        if qlm_good and need_more_time then
             return false -- Keep running
         end
         -- Done, so return the results
@@ -465,6 +484,10 @@ local function auto_tune()
     printf("\n")
 
     local prbs_mode = menu.prompt_number("PRBS mode", 31, 7, 31)
+    printf("\n")
+    printf("Specify a maximum error rate as a power of 10 bits expected\n")
+    printf("between errors. A BER of 10E-12 corresponds to an input value of 12.\n")
+    local error_rate_exponent = menu.prompt_number("Maximum bit error rate exponent", 12, 10, 15)
     qlm_list = select_qlm_list()
 
     -- Prompt the user for the settings ranges we should try
@@ -483,6 +506,15 @@ local function auto_tune()
     end
     local min_tcoeff = menu.prompt_number("Minimum TX Demphasis(tcoeff)", 10, 0, 31)
     local max_tcoeff = menu.prompt_number("Maximum TX Demphasis(tcoeff)", 20, 0, 31)
+
+    local max_time = 0
+    for _,qlm in ipairs(qlm_list) do
+        local t = get_max_run_time(qlm, error_rate_exponent)
+        if t > max_time then
+            max_time = t
+        end
+    end
+    printf("\nEach test will be a maximum of %d seconds\n", max_time)
 
     printf("\nPRBS-%d Auto tune running, press return to exit\n", prbs_mode)
 
@@ -521,7 +553,7 @@ local function auto_tune()
                 local start_time = os.time()
                 repeat
                     local run_time = os.time() - start_time
-                    prbs_result = auto_done_check(run_time)
+                    prbs_result = auto_done_check(run_time, error_rate_exponent)
                     -- Check for a user abort
                     if prbs_result == "abort" then
                         printf("\nAuto tune interrupted by user. Results will be incomplete.\n")
@@ -532,10 +564,8 @@ local function auto_tune()
                 for _,qlm in ipairs(qlm_list) do
                     local all_good = true -- Are all lanes good?
                     for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
-                        if type(prbs_result[qlm][lane]) == "number" then
-                            local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
-                            summary[key] = prbs_result[qlm][lane]
-                        end
+                        local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
+                        summary[key] = prbs_result[qlm][lane]
                     end
                     if all_good then
                         -- Record this good result
@@ -585,6 +615,7 @@ local function auto_tune()
         for i=1,12 do
             print(title[i])
         end
+        local bits_no_error = 10 ^ error_rate_exponent
         for biasdrv = min_biasdrv, max_biasdrv do
             for tcoeff = min_tcoeff, max_tcoeff do
                 printf("%4dmv(%2d)|%-d.%ddB(%2d)|",
@@ -595,7 +626,23 @@ local function auto_tune()
                         local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
                         local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
                         local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
-                        printf((summary[key] == 0) and "#" or " ")
+                        local v = summary[key]
+                        if v == nil then
+                            printf(" ")
+                        elseif v == "No Lock" then
+                            printf("F")
+                        else
+                            assert(type(v) == "number")
+                            if v == 0 then
+                                printf("G")
+                            else
+                                if v <= bits_no_error then
+                                    printf(".")
+                                else
+                                    printf("B")
+                                end
+                            end
+                        end
                     end
                     printf("|")
                 end
