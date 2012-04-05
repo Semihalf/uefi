@@ -132,6 +132,8 @@ static int xaui_link_init(bdk_if_handle_t handle)
             /* Allow the QLM to exit reset */
             bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
             bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+            /* Allow TX on QLM */
+            bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
         }
     }
 
