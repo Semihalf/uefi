@@ -610,9 +610,6 @@ static void __bdk_qlm_chip_tweak(void)
             /* This workaround only applies to QLMs running at 6.25Ghz */
             if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
             {
-                /* Force the QLM to be idle */
-                bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_clr", 0);
-                bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 1);
                 /* Hold the QLM in reset */
                 bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_set", 0);
                 bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 1);

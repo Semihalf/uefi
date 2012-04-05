@@ -37,8 +37,6 @@ static int if_num_interfaces(void)
                     bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
                     /* Allow the QLM to exit reset */
                     bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
-                    /* Allow QLM transmit */
-                    bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
                     bdk_wait_usec(100); /* Wait 100us for links to stabalize */
                 }
             }
