@@ -626,27 +626,6 @@ static void __bdk_qlm_chip_tweak(void)
                 bdk_qlm_jtag_set(qlm, -1, "spdsel_byp", 1);
                 /* The QLM wil lbe taken out of reset later when the PLL is changed */
             }
-            else if (bdk_qlm_get_gbaud_mhz(qlm) == 5000)
-            {
-                /* Skip PCIe ports in endpoint mode */
-                if (strstr(bdk_qlm_get_mode(qlm), "PCIE"))
-                {
-                    /* QLMs 3&4 can be PCIe0, 1&2 are PCIe1 */
-                    int pcie_port = (qlm > 2) ? 0 : 1;
-                    BDK_CSR_INIT(mio_rst_ctl, BDK_MIO_RST_CTLX(pcie_port));
-                    if (mio_rst_ctl.s.prtmode == 0)
-                        continue;
-                }
-                /* Hold the QLM in reset */
-                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_set", 0);
-                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 1);
-                /* Only ir50dac is needed at 5Ghz. PLL bypass isn't needed */
-                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
-                while (++ir50dac <= 31)
-                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
-                /* Allow the QLM to exit reset */
-                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
-            }
         }
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
