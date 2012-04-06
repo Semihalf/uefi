@@ -384,12 +384,25 @@ function TrafficGen.new()
     -- CSR access command only needed if we have a CSR database
     if octeon.csr then
         function self:cmd_csr(port_range, args)
-            local name = args[1]
+            assert(args[1], "CSR name[.field] expected with optional value for write")
             local value = args[2]
-            if value then
-                octeon.csr.lookup(name).write(value)
+            local dot = args[1]:find(".", 2, true)
+            if dot then
+                local name = args[1]:sub(1,dot-1):upper()
+                local field = args[1]:sub(dot+1):upper()
+                if value then
+                    octeon.csr[name][field] = value
+                else
+                    local v = octeon.csr[name][field]
+                    printf("%s.%s = %d (0x%x)\n", name, field, v, v)
+                end
             else
-                octeon.csr.lookup(name).display()
+                local name = args[1]:upper()
+                if value then
+                    octeon.csr.lookup(name).write(value)
+                else
+                    octeon.csr.lookup(name).display()
+                end
             end
         end
     end
