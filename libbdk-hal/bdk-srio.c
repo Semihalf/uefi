@@ -426,10 +426,9 @@ int bdk_srio_initialize(int srio_port, bdk_srio_initialize_flags_t flags)
         c.s.prt_lock = 1;
         c.s.disable = 0);
 
-    /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM De-emphasis be
+    /* CN63XX Pass 2.x errata G-15273 requires the QLM De-emphasis be
         programmed when using a 156.25Mhz ref clock */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_0) ||
-        OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_1))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
     {
         bdk_mio_rst_boot_t mio_rst_boot;
         bdk_sriomaintx_lane_x_status_0_t lane_x_status;

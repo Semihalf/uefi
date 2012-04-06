@@ -676,29 +676,25 @@ static void __bdk_qlm_chip_tweak(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_X))
     {
         /* (G-15273) New 156.25 MHz SERDES electricals not optimal */
-        if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_0) ||
-            OCTEON_IS_MODEL(OCTEON_CN63XX_PASS2_1))
+        /* CN63XX Pass 2.x errata G-15273 requires the QLM
+            De-emphasis be programmed when using a 156.25Mhz ref clock */
+        /* Read the QLM speed pins */
+        BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
+        if (mio_rst_boot.cn63xx.qlm2_spd == 4)
         {
-            /* CN63XX Pass 2.0 and 2.1 errata G-15273 requires the QLM
-                De-emphasis be programmed when using a 156.25Mhz ref clock */
-            /* Read the QLM speed pins */
-            BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
-            if (mio_rst_boot.cn63xx.qlm2_spd == 4)
-            {
-                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
-                    ciu_qlm.s.txbypass = 1;
-                    ciu_qlm.s.txdeemph = 0x0;
-                    ciu_qlm.s.txmargin = 0xf);
-            }
-            else if (mio_rst_boot.cn63xx.qlm2_spd == 0xb)
-            {
-                BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
-                    ciu_qlm.s.txbypass = 1;
-                    ciu_qlm.s.txdeemph = 0xa;
-                    ciu_qlm.s.txmargin = 0x1f);
-            }
-            /* More tweaks are in bdk-srio.c */
+            BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                ciu_qlm.s.txbypass = 1;
+                ciu_qlm.s.txdeemph = 0x0;
+                ciu_qlm.s.txmargin = 0xf);
         }
+        else if (mio_rst_boot.cn63xx.qlm2_spd == 0xb)
+        {
+            BDK_CSR_MODIFY(ciu_qlm, BDK_CIU_QLM2,
+                ciu_qlm.s.txbypass = 1;
+                ciu_qlm.s.txdeemph = 0xa;
+                ciu_qlm.s.txmargin = 0x1f);
+        }
+        /* More tweaks are in bdk-srio.c */
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_X))
     {
