@@ -23,6 +23,8 @@ elseif octeon.is_model(octeon.CN61XX) then
 elseif octeon.is_model(octeon.CNF71XX) then
     menu.dofile("board-evb7100")
 end
+-- Allow the user to do some board specific customization
+utils.run("autorun-board")
 
 -- Start a TFTP server
 if octeon.c.bdk_tftp_server_initialize and (octeon.c.bdk_tftp_server_initialize() ~= 0) then

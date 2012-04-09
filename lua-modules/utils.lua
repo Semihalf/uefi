@@ -6,6 +6,8 @@
 -- * This module is released under the standard Lua MIT license
 --
 
+utils = {}
+
 ---
 -- C style printf function. printf("format", ...).
 --
@@ -159,3 +161,23 @@ function string.hex(str)
     end
     return table.concat(hex)
 end
+
+--
+-- Used by the BDK to automatically run files as key parts of the Lua code.
+-- This allows the BDK to be modified or extended without changing the
+-- original Lua code.
+-- @param filename Filename to run, if it exists
+-- @return Nothing
+--
+function utils.run(filename, ...)
+    local fullname = package.searchpath(filename, package.path)
+    if fullname then
+        local tmp = arg
+        arg = table.pack(...)
+        arg[0] = fullname
+        dofile(fullname)
+        arg = tmp
+    end
+end
+
+return utils

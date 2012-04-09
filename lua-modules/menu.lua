@@ -47,6 +47,9 @@ end
 -- @function menu:show
 --
 local function show(m)
+    -- Allow the user to do some menu specific customization. First argument
+    -- is the menu, so the script can determine which menu it is called for.
+    utils.run("autorun-menu", m)
     while (true) do
         if m.title then
             print()
