@@ -115,8 +115,8 @@ void __bdk_init(long base_address)
         __bdk_init_exception();
 
         /* Only lock L2 if DDR3 isn't initialized */
-        BDK_CSR_INIT(lmcx_dclk_cnt, BDK_LMCX_DCLK_CNT(0));
-        if (lmcx_dclk_cnt.u64 == -1ull)
+        BDK_CSR_INIT(lmcx_ddr_pll_ctl, BDK_LMCX_DDR_PLL_CTL(0));
+        if (lmcx_ddr_pll_ctl.s.reset_n == 0)
         {
             write(1, BANNER_2, sizeof(BANNER_2)-1);
             bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * (bdk_l2c_get_num_assoc()-1) * BDK_CACHE_LINE_SIZE);
