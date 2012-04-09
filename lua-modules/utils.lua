@@ -11,9 +11,10 @@ utils = {}
 ---
 -- C style printf function. printf("format", ...).
 --
-function printf(...)
+function utils.printf(...)
     io.write(string.format(...))
 end
+printf = utils.printf
 
 ---
 -- Python style string formatting
@@ -88,7 +89,7 @@ end
 -- Pretty print any Lua object
 -- @param ... One or more Lua objects to display
 --
-function pprint(...)
+function utils.pprint(...)
     local p
     if rawget(table, "pack") == nil then
         p = {...}
@@ -103,6 +104,7 @@ function pprint(...)
     end
     print(table.concat(r, " "))
 end
+pprint = utils.pprint
 
 local function compare(a,b)
     local na = tonumber(a)
@@ -146,9 +148,10 @@ end
 -- Return if the string name is defiend as a global variable
 -- @param name Name of a variable to check
 --
-function isglobal(name)
+function utils.isglobal(name)
     return rawget(_G, name) ~= nil
 end
+isglobal = utils.isglobal
 
 ---
 -- Convert a string to hex
@@ -162,7 +165,7 @@ function string.hex(str)
     return table.concat(hex)
 end
 
---
+---
 -- Used by the BDK to automatically run files as key parts of the Lua code.
 -- This allows the BDK to be modified or extended without changing the
 -- original Lua code.
