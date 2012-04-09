@@ -55,7 +55,6 @@ typedef struct
 
 typedef struct
 {
-    char name[8];
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
     void *priv;
@@ -122,7 +121,6 @@ static void tg_init(void)
         {
             tg_port->handle = handle;
             tg_port->pinfo.priv = tg_port;
-            strcpy(tg_port->pinfo.name, bdk_if_name(handle));
             tg_port->next = NULL;
             if (tg_port_tail)
                 tg_port_tail->next = tg_port;
@@ -392,7 +390,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 {
     if (tg_port->pinfo.setup.size < 1)
     {
-        bdk_error("%s: Packet must be at least 1 byte\n", tg_port->pinfo.name);
+        bdk_error("%s: Packet must be at least 1 byte\n", bdk_if_name(tg_port->handle));
         return -1;
     }
 
@@ -401,7 +399,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         /* Packets smaller than 19 bytes will skip validation. 14 bytes
             skipped for L2, 1 byte of data, and 4 bytes of CRC is the
             minimum for validation */
-        bdk_warn("%s: Packets smaller than 19 bytes will not be validated\n", tg_port->pinfo.name);
+        bdk_warn("%s: Packets smaller than 19 bytes will not be validated\n", bdk_if_name(tg_port->handle));
     }
 
     int total_length = tg_port->pinfo.setup.size;
@@ -413,7 +411,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         total_length += sizeof(tg_port->pinfo.setup.higig2);
     if (bdk_if_alloc(packet, total_length))
     {
-        bdk_error("Failed to allocate TX packet for port %s\n", tg_port->pinfo.name);
+        bdk_error("Failed to allocate TX packet for port %s\n", bdk_if_name(tg_port->handle));
         return -1;
     }
     int loc = 0;
@@ -532,7 +530,7 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
     uint8_t *       end_of_data;
 
     printf("\nPacket Length:   %u\n", packet->length);
-    printf("    Port:        %s\n", tg_port->pinfo.name);
+    printf("    Port:        %s\n", bdk_if_name(tg_port->handle));
     printf("    Buffers:     %u\n", packet->segments);
     if (packet->rx_error)
         printf("    Error code:  %u\n", packet->rx_error);
@@ -933,7 +931,7 @@ static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg)
 static tg_port_t *lookup_name(lua_State* L, const char *name)
 {
     for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
-        if (strcasecmp(name, tg_port->pinfo.name) == 0)
+        if (strcasecmp(name, bdk_if_name(tg_port->handle)) == 0)
             return tg_port;
     luaL_error(L, "Invalid port name %s", name);
     return NULL;
@@ -1066,7 +1064,7 @@ static int get_port_names(lua_State* L)
     for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
     {
         lua_pushinteger(L, ++count);
-        lua_pushstring(L, tg_port->pinfo.name);
+        lua_pushstring(L, bdk_if_name(tg_port->handle));
         lua_settable(L, -3);
     }
     return 1;
@@ -1313,7 +1311,7 @@ static int update(lua_State* L)
         lua_pushnumber(L, 16);
         lua_pushnumber(L, tg_port->handle->link_info.s.speed);
         lua_settable(L, -3);
-        lua_setfield(L, -2, tg_port->pinfo.name);
+        lua_setfield(L, -2, bdk_if_name(tg_port->handle));
     }
     return 1;
 }

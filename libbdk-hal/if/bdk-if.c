@@ -338,6 +338,8 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     handle->pko_port = -1;
     handle->pko_queue = -1;
     handle->flags = 0;
+    snprintf(handle->name, sizeof(handle->name), "%s%d%d", __bdk_if_ops[iftype]->name, interface, index);
+    handle->name[sizeof(handle->name)-1] = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))
     {
@@ -617,10 +619,7 @@ int bdk_if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 const char *bdk_if_name(bdk_if_handle_t handle)
 {
-    static char buffer[16];
-    snprintf(buffer, sizeof(buffer), "%s%d%d", __bdk_if_ops[handle->iftype]->name, handle->interface, handle->index);
-    buffer[sizeof(buffer)-1] = 0;
-    return buffer;
+    return handle->name;
 }
 
 

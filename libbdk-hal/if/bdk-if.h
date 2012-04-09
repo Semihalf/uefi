@@ -80,6 +80,7 @@ typedef struct __bdk_if_port
     bdk_cmd_queue_state_t cmd_queue[2];
     bdk_if_stats_t stats;
     bdk_if_link_t link_info;
+    char        name[8];
     struct __bdk_if_port *next;
     struct __bdk_if_port *poll_next;
 } __bdk_if_port_t;
