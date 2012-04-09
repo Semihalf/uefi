@@ -21195,11 +21195,15 @@ Pos      Name    Type     Value     Value       Description
                                                    stopped only by a chip (cold, warm, soft) reset. |
 	                                           The length of the CHIPKILL timer is specified by |
                                                    MIO_RST_CKILL[TIMER].                            |
- <62>    JTCSRDIS   R/W      NS          NS        If JTCSRDIS=1, internal CSR access via JTAG TAP  |
+ <62>    JTCSRDIS   R/W      NS          0         If JTCSRDIS=1, internal CSR access via JTAG TAP  |
                                                    controller is disabled                           |
- <61>    EJTAGDIS   R/W      NS          NS        If EJTAGDIS=1, external EJTAG access is disabled |
- <60>    ROMEN      R/W      NS          NS        If ROMEN=1, Authentik/eMMC boot ROM is visible   |
+                                                   This field resets to 1 in Authentik mode, else 0.|
+ <61>    EJTAGDIS   R/W      NS          0         If EJTAGDIS=1, external EJTAG access is disabled |
+                                                   This field resets to 1 in Authentik mode, else 0.|
+ <60>    ROMEN      R/W      NS          0         If ROMEN=1, Authentik/eMMC boot ROM is visible   |
                                                    in the boot bus address space.                   |
+                                                   This field resets to 1 in an Authentik part or   |
+                                                   when booting from eMMC. Else, resets to 0.       |
  <59>    CKILL_PPDIS R/W     1           NS        If CK_PPDIS=1, PPs other than 0 are disabled     |
                                                    during a CHIPKILL.  Writes have no effect when   |
                                                    MIO_RST_BOOT[CHIPKILL]=1.	                    |
