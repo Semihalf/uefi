@@ -115,7 +115,9 @@ class Connection:
             c = self._read(timeout)
             if c != "\b":
                 input += c
-            assert correct.startswith(input), "\"%s\" != \"%s\"" % (escapeString(input), escapeString(correct))
+            if not correct.startswith(input):
+                input += self.readline(1)
+                assert correct.startswith(input), "\"%s\" != \"%s\"" % (escapeString(input), escapeString(correct))
         print "<<< \"%s\"" % escapeString(input)
         return input
 
