@@ -175,7 +175,9 @@ static void check_gmx(int gmx)
     {
         BDK_CSR_INIT(c, BDK_GMXX_TX_INT_REG(gmx));
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxa);
-        CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxp);
+        /* (GMX-15395) GMX*_TX_INT_REG[PKO_NXP] may incorrectly assert */
+        if (!OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
+            CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxp);
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), ptp_lost);
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), undflw);
     }
