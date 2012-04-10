@@ -152,10 +152,14 @@ def write(file, csr_list, include_cisco_only):
         out.write("#define bustype_%s BDK_CSR_TYPE_%s\n" % (macro_name, csr["s"].type))
         if len(csr["s"].range) == 0:
             out.write("#define busnum_%s 0\n" % cname.upper())
+            out.write("#define arguments_%s -1, -1\n" % cname.upper())
         elif len(csr["s"].range) == 1:
             out.write("#define busnum_%s(p) (p)\n" % cname.upper())
+            out.write("#define arguments_%s(a) (a), -1\n" % cname.upper())
         else:
             out.write("#define busnum_%s(unused, p) (p)\n" % cname.upper())
+            out.write("#define arguments_%s(a, b) (a), (b)\n" % cname.upper())
+        out.write("#define basename_%s \"%s\"\n" % (macro_name, cname.upper()[4:]))
         out.write("\n")
     out.write("#endif /* " + define_name + " */\n")
     out.close()
