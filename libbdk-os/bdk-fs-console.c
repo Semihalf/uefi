@@ -40,28 +40,10 @@ static void *console_open(const char *name, int flags)
 
 static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
-    static uint64_t last_tx_cycle;
-    static void *last_tx_thread = NULL;
-    const uint64_t timeout = (bdk_is_simulation()) ? 100 : bdk_clock_get_rate(BDK_CLOCK_CORE) / 20;
+    static bdk_rlock_t console_lock;
     int fd = open_files[last_input];
     const char *ptr = buffer;
     int len = length;
-
-    /* Spin giving another thread time to finish its output. We mandate an idle
-        time of 50ms between two different threads doing output to try and stop
-        interleaving of output */
-    void *me = bdk_thread_get_id();
-    while (last_tx_thread != me)
-    {
-        uint64_t cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-        while (cycle < (last_tx_cycle + timeout))
-        {
-            bdk_thread_yield();
-            cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-        }
-        if (bdk_atomic_compare_and_store64_nosync(&last_tx_cycle, last_tx_cycle, cycle))
-            last_tx_thread = me;
-    }
 
     while (len)
     {
@@ -69,6 +51,7 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
         int count = 0;
         while ((count < len) && (ptr[count] != '\n'))
             count++;
+        bdk_rlock_lock(&console_lock);
         if (count && (write(fd, ptr, count) < 0))
             goto error;
         /* Send a \r\n if we found a \n */
@@ -78,16 +61,16 @@ static int console_write(__bdk_fs_file_t *handle, const void *buffer, int length
                 goto error;
             count++;
         }
+        bdk_rlock_unlock(&console_lock);
         ptr += count;
         len -= count;
     }
-    /* Update the last ouptut time in case output took a long time */
-    last_tx_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     return length;
 error:
     close(fd);
     open_files[last_input] = 0;
     last_input = 0;
+    bdk_rlock_unlock(&console_lock);
     return length;
 }
 
