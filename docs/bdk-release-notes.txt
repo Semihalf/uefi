@@ -10,6 +10,73 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.04-72137
+------------------------
+* Errata updates
+** Add workaround for (G-16592) Loss-of-signal can be erroneously
+	detected for SRIO @ 5GBaud.
+** Add workaround for (G-16467) Tx Clock Mux Isolation
+** CN68XX pass 2.0: Implement workaround for errata (G-16467) QLM 1/2 speed
+	at 6.25 Gbaud, excessive QLM jitter for 6.25 Gbaud
+** Apply G-15273 to all CN63XX pass 2.x parts, not just 2.0 and 2.1
+* QLM Tuning
+** Fixed issue with QLM tuning menu where RX parameters were always
+	set to zero regardless of user input.
+** Reformat the output of auto tune.
+** PRBS: Don't show biasdrv and tcoeff when we haven't programmed them and are
+	using the defaults.
+** Show PRBS error rate in scientific notation as BER
+** Update PRBS to allow you to select which QLMs to run on.
+** Update auto status to only show the current settings and not
+	full QLM status.
+** Run auto tune over known RX EQ settings instead of asking the user
+** Show a table of amplitude and TX demphasis for the auto tune prompt.
+** Show auto tune results when the user interrupts the run by hitting return.
+** Show auto tune results per lane
+** Allow the user to specify a max error rate in auto tune.
+** Show the settings for lowest error counts in the summary for auto tune
+* Traffic-gen updates
+** Add ability of traffic-gen "csr" command to read and write individual
+	fields in a CSR. Use a "." to specify a field. For example:
++
+[source, sh]
+----
+(INS)Command> csr ciu_fuse
+CIU_FUSE[0x0001070000000728] = 0x00000000ffffffff
+  [63:32] RESERVED_32_63       =          0 (0x0)
+  [31: 0] FUSE                 = 4294967295 (0xffffffff)
+(INS)Command> csr ciu_fuse.fuse
+CIU_FUSE.FUSE = 4294967295 (0xffffffff)
+(INS)Command> csr ciu_fuse.fuse 5
+(INS)Command>
+* Note: Fuse is RO, so the last example does nothing, but it shows the syntax.
+----
+** Fix rare issue where sometimes trafficgen get the wrong name for XAUI10 on
+	CN68XX pass 2.0.
+** Add sleep command to traffic-gen
+** Show the link speed in the traffic-gen statistics. This also adds the command "link_speed" to get it as a command.
+** Fixed bug which caused SRIO networking to be missing from traffic-gen.
+* Lua Scripting
+** Add callbacks in the Lua code to automatically run user supplied scripts
+	to extend the BDK's functionality. Each script starts with "autorun",
+	so search the Lua code to find them.
+** Make the functions supplied by the utils module be part of the utils
+	namespace. Someday we might want to cleanup the global variables
+	and have everything in utils.*.
+* Fixed passing environment variables to Uboot.
+* Set the TWSI clock speed to 100 KHz for more reliable TWSI operation.
+* Increase the number of file handles. This fixes issues with writing
+	to NOR flash from the menu.
+* Clear all ILK calendar data at startup. This makes sure that unused TX
+	channels are set to XOF.
+* Fix reporting RXAUI speed.
+* Speed up flash timings very early in boot. This speeds up BDK booting
+	from NOR.
+* Add new config option to enable or disable the display of link status.
+	The asynchronous link status tends to break scripts, so it can be
+	useful to disable it when a user isn't interactive.
+
+
 octeon-bdk-2012.03-70829
 ------------------------
 
