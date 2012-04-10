@@ -419,16 +419,11 @@ static void check_pem(int pem)
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rfemrc);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rnfemrc);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpe);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpmerc);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpoison);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rptamrc);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rqo);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rte);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtlplle);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtlpmal);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtwdle);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rumep);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rvdm);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), spoison);
     }
     CHECK_ERROR(BDK_PEMX_INT_SUM(pem), rdlk);
