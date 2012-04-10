@@ -82,6 +82,9 @@ void __bdk_init(long base_address)
     uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
     uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 1000000;
     BDK_SYNC;
+    /* Stagger the reads of SCK as we seem to get bad results on CN68XX
+        pass 1.x if all cores do this at the same time */
+    bdk_wait(bdk_get_core_num() << 8);
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 
