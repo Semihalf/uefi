@@ -12,7 +12,17 @@ if (c.s.field) {                            \
     bdk_csr_write(bustype_##csr,            \
         busnum_##csr, sizeof(typedef_##csr),\
         csr, w1c.u);                        \
-    bdk_error("%s[%s]\n", #csr, #field);    \
+    display_error(basename_##csr, arguments_##csr, #field); \
+}
+
+static void display_error(const char *csr_name, int arg1, int arg2, const char *field_name)
+{
+    if (arg2 != -1)
+        bdk_error("%s(%d,%d)[%s]\n", csr_name, arg1, arg2, field_name);
+    else if (arg1 != -1)
+        bdk_error("%s(%d)[%s]\n", csr_name, arg1, field_name);
+    else
+        bdk_error("%s[%s]\n", csr_name, field_name);
 }
 
 static void check_agl(void)
