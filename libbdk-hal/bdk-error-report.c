@@ -374,7 +374,6 @@ static void check_pcs(int pcs)
 static void check_pcsx(int pcsx)
 {
     BDK_CSR_INIT(c, BDK_PCSXX_INT_REG(pcsx));
-    CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), algnlos);
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxbad);
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxsynbad);
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), txflt);
