@@ -601,7 +601,7 @@ static void __bdk_qlm_chip_tweak(void)
             bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
         }
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
+    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
     {
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
             QLM jitter for 5 and 6.25 Gbaud */
@@ -617,9 +617,12 @@ static void __bdk_qlm_chip_tweak(void)
                 /* Force TX to be idle */
                 bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_clr", 0);
                 bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 1);
-                int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
-                while (++ir50dac <= 31)
-                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
+                if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
+                {
+                    int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
+                    while (++ir50dac <= 31)
+                        bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
+                }
                 bdk_qlm_jtag_set(qlm, -1, "div4_byp", 0);
                 bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 16);
                 bdk_qlm_jtag_set(qlm, -1, "serdes_pll_byp", 1);

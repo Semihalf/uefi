@@ -117,7 +117,7 @@ static int xaui_link_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(xauiCtl, BDK_PCSXX_CONTROL1_REG(gmx_block),
         xauiCtl.s.lo_pwr = 0);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0) && (gmx_block != 1))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X) && (gmx_block != 1))
     {
         /* Note that GMX 1 was skipped as GMX0 is on the same QLM and
             will always be done first */

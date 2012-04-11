@@ -22,7 +22,7 @@ static int if_num_interfaces(void)
             c.s.ser_pwrup = 3;
             c.s.ser_haul = 0);
 
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_0))
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
         {
             /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
                 QLM jitter for 6.25 Gbaud */
