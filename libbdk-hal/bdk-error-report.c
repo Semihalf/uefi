@@ -423,7 +423,6 @@ static void check_pem(int pem)
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpoison);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rqo);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtlplle);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtlpmal);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtwdle);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), spoison);
     }
@@ -927,7 +926,6 @@ static void enable_pem(int pem)
         c.s.rqo = -1;
         c.s.rte = -1;
         c.s.rtlplle = -1;
-        c.s.rtlpmal = -1;
         c.s.rtwdle = -1;
         c.s.rumep = -1;
         c.s.rvdm = -1;
