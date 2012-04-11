@@ -293,6 +293,10 @@ local function receive_command(inf, outf)
     local checksum = get_checksum(result)
     if checksum ~= got_checksum then
         io.write("[RPC ERROR]Incorrect checksum\n")
+        if is_server then
+            -- Send garbage back to force the client to resend
+            io.write(RPC_BEGIN .. RPC_END)
+        end
         return nil
     end
 
