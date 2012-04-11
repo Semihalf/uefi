@@ -51,7 +51,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     AS_INIT(BDK_CONFIG_THREAD_STACK_SIZE, 4096),
     /* This is Cavium's OUI with the local admin bit. We will use this as a
-        default as it won't collide with offical addresses, but is sort of
+        default as it won't collide with official addresses, but is sort of
         part of the Cavium range. The lower three bytes will be updated with
         the wafer info later */
     AS_INIT(BDK_CONFIG_MAC_ADDRESS, 0x020fb7000000ull),

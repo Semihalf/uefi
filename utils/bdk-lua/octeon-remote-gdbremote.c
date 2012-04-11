@@ -238,7 +238,7 @@ static int process_response_packet(const int core, char *response, const int res
                  * resends the 'T' signal combined with the response to the
                  * subsequent command.  We work around this by recognizing the
                  * $T05 response and handling any subsequent data as a
-                 * separate reponse. */
+                 * separate response. */
 
                 int i;
 
@@ -1347,7 +1347,7 @@ int octeon_remote_gdbremote(octeon_remote_funcs_t *remote_funcs)
     remote_funcs->get_sample = gdbremote_get_sample;
 
     /* The Macraigor probes must use names instead of program friendly
-        numbers. These names corespond to teh COP0 registers for CN3XXX and
+        numbers. These names corespond to the COP0 registers for CN3XXX and
         CN5XXX chips. FIXME: This table will need updates for other chips */
     MACRAIGOR_COP0_NAMES[ 0*8 + 0] = "inx";
     MACRAIGOR_COP0_NAMES[ 1*8 + 0] = "rand";

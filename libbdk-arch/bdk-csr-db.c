@@ -332,7 +332,7 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
  * Get a CSR name. This is menat to be used to iterate through all
  * possible CSR names.
  *
- * @param last_name Get the CSR follwoing this name. Supply NULL for the first CSR
+ * @param last_name Get the CSR following this name. Supply NULL for the first CSR
  * @param buffer    Buffer to fill with the CSR name
  *
  * @return Zero on success, negative on list end or failure

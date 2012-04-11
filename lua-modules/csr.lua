@@ -146,7 +146,7 @@ end
 
 --
 -- This function either creates a instance of a CSR object or creates a
--- function that returns teh CSR object once the proper parameters are
+-- function that returns the CSR object once the proper parameters are
 -- present.
 --
 local function create_csr(csr_name, csr_type, csr_size, num_params, base_address,

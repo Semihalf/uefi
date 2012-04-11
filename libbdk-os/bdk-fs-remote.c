@@ -24,7 +24,7 @@ typedef struct
  * Open the remote console by setting up the shared data
  * structure. This can only be called once.
  *
- * @param name   Nmae of the remote console
+ * @param name   Name of the remote console
  * @param flags  Unused flags
  *
  * @return NULL on failure

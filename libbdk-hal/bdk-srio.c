@@ -99,7 +99,7 @@ static __bdk_srio_state_t __bdk_srio_state[4];
 static int __bdk_srio_alloc_s2m(int srio_port, bdk_sriox_s2m_typex_t s2m)
 {
     int s2m_index;
-    /* Search through the S2M_TYPE registers looking for an unsed one or one
+    /* Search through the S2M_TYPE registers looking for an unused one or one
         setup the way we need it */
     for (s2m_index=0; s2m_index<16; s2m_index++)
     {
@@ -156,7 +156,7 @@ static void __bdk_srio_free_s2m(int srio_port, int index)
 static int __bdk_srio_alloc_subid(bdk_sli_mem_access_subidx_t subid)
 {
     int mem_index;
-    /* Search through the mem access subid registers looking for an unsed one
+    /* Search through the mem access subid registers looking for an unused one
         or one setup the way we need it. PCIe uses the low indexes, so search
         backwards */
     for (mem_index=27; mem_index>=12; mem_index--)

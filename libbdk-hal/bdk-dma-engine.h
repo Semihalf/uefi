@@ -231,7 +231,7 @@ extern int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int
  * Build the first and last pointers based on a DMA engine header
  * and submit them to the engine. The purpose of this function is
  * to simplify the building of DMA engine commands by automatically
- * converting a simple address and size into the apropriate internal
+ * converting a simple address and size into the appropriate internal
  * or PCI / PCIe address list. This function does not support gather lists,
  * so you will need to build your own lists in that case.
  *

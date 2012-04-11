@@ -282,7 +282,7 @@ static inline bdk_fau_tagwait8_t bdk_fau_tagwait_fetch_and_add8(bdk_fau_reg_8_t 
  * @INTERNAL
  * Builds I/O data for async operations
  *
- * @param scraddr Scratch pad byte addres to write to.  Must be 8 byte aligned
+ * @param scraddr Scratch pad byte address to write to.  Must be 8 byte aligned
  * @param value   Signed value to add.
  *                Note: When performing 32 and 64 bit access, only the low
  *                22 bits are available.

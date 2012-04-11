@@ -561,7 +561,7 @@ bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle)
  *
  * @param handle Handle to enable
  *
- * @return Zero on sucess, negative on failure
+ * @return Zero on success, negative on failure
  */
 int bdk_if_enable(bdk_if_handle_t handle)
 {
@@ -577,7 +577,7 @@ int bdk_if_enable(bdk_if_handle_t handle)
  *
  * @param handle Handle to disable
  *
- * @return Zero on sucess, negative on failure
+ * @return Zero on success, negative on failure
  */
 int bdk_if_disable(bdk_if_handle_t handle)
 {

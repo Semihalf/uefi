@@ -56,7 +56,7 @@ local function join(tbl,delim,limit,depth)
     local n = #tbl
     local res = ''
     local k = 0
-    -- very important to avoid disgracing ourselves with circular referencs...
+    -- very important to avoid disgracing ourselves with circular references...
     if #jstack > depth then
         return "..."
     end

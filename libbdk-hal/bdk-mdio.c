@@ -145,7 +145,7 @@ int bdk_mdio_write(int bus_id, int phy_id, int location, int val)
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
- * @param device   MDIO Managable Device (MMD) id
+ * @param device   MDIO Manageable Device (MMD) id
  * @param location Register location to read
  *
  * @return Result from the read or -1 on failure
@@ -204,7 +204,7 @@ int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location)
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
- * @param device   MDIO Managable Device (MMD) id
+ * @param device   MDIO Manageable Device (MMD) id
  * @param location Register location to write
  * @param val      Value to write
  *

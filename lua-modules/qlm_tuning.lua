@@ -367,7 +367,7 @@ local function do_prbs(mode)
                     local rate_exponent = -6 -- Since qlm_speed is in Mbps
                     local rate
                     -- If no errors then act like the next bit is an error
-                    -- This way we always can calulate an error rate
+                    -- This way we always can calculate an error rate
                     if v == 0 then
                         v = 1
                     end

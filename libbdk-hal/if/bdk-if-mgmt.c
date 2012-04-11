@@ -143,11 +143,11 @@ static int if_init(bdk_if_handle_t handle)
     /* Make sure BIST passed */
     BDK_CSR_INIT(mix_bist, BDK_MIXX_BIST(handle->index));
     if (mix_bist.u64)
-        bdk_warn("Managment port MIX failed BIST (0x%016lx)\n", mix_bist.u64);
+        bdk_warn("Management port MIX failed BIST (0x%016lx)\n", mix_bist.u64);
 
     BDK_CSR_INIT(agl_gmx_bist, BDK_AGL_GMX_BIST);
     if (agl_gmx_bist.u64)
-        bdk_warn("Managment port AGL failed BIST (0x%016lx)\n", agl_gmx_bist.u64);
+        bdk_warn("Management port AGL failed BIST (0x%016lx)\n", agl_gmx_bist.u64);
 
     /* Take the control logic out of reset */
     BDK_CSR_MODIFY(mix_ctl, BDK_MIXX_CTL(handle->index),
@@ -249,7 +249,7 @@ static int if_init(bdk_if_handle_t handle)
  *
  * @param handle Handle for port
  *
- * @return Zero on sucess, negative on failure
+ * @return Zero on success, negative on failure
  */
 static int if_enable(bdk_if_handle_t handle)
 {

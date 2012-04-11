@@ -1118,7 +1118,7 @@ static int get_config(lua_State* L)
 
 /**
  * Lua interface function
- * Set the configuration od a port. Only named paramters are changed.
+ * Set the configuration od a port. Only named parameters are changed.
  * Input: A single port name string
  * Input: Table of setup data
  * Output: Nothing

@@ -103,7 +103,7 @@ static const char *bdk_nand_opcode_labels[] =
     "12 - Unknown",             /* 12 */
     "13 - Unknown",             /* 13 */
     "14 - Unknown",             /* 14 */
-    "Bus Aquire / Release"      /* 15 */
+    "Bus Acquire / Release"     /* 15 */
 };
 
 #define ULL unsigned long long
@@ -174,7 +174,7 @@ static uint16_t __onfi_parameter_crc_compute(uint8_t *data)
  * @param param_page Pointer to the raw NAND data returned after a parameter page read. It will
  *                   contain at least 4 copies of the parameter structure.
  *
- * @return Pointer to a validated paramter page, or NULL if one couldn't be found.
+ * @return Pointer to a validated parameter page, or NULL if one couldn't be found.
  */
 static bdk_nand_onfi_param_page_t *__bdk_nand_onfi_process(bdk_nand_onfi_param_page_t param_page[4])
 {
@@ -186,7 +186,7 @@ static bdk_nand_onfi_param_page_t *__bdk_nand_onfi_process(bdk_nand_onfi_param_p
         if (crc == bdk_le16_to_cpu(param_page[index].crc))
             break;
         if (bdk_unlikely(bdk_nand_flags & BDK_NAND_INITIALIZE_FLAGS_DEBUG))
-            bdk_dprintf("%s: Paramter page %d is corrupt. (Expected CRC: 0x%04x, computed: 0x%04x)\n",
+            bdk_dprintf("%s: Parameter page %d is corrupt. (Expected CRC: 0x%04x, computed: 0x%04x)\n",
                           __FUNCTION__, index, bdk_le16_to_cpu(param_page[index].crc), crc);
     }
 
@@ -418,7 +418,7 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
     BDK_CSR_WRITE(BDK_MIO_NDF_DMA_INT_EN, 0);
 
 
-    /* The simulator crashes if you access non existant devices. Assume
+    /* The simulator crashes if you access non existent devices. Assume
         only chip select 1 is connected to NAND */
     if (0)
     {
@@ -783,7 +783,7 @@ bdk_nand_status_t bdk_nand_submit(bdk_nand_cmd_t cmd)
         case 8: /* Write */
         case 9: /* Read */
         case 10: /* Read EDO */
-        case 15: /* Bus Aquire/Release */
+        case 15: /* Bus Acquire/Release */
             if (__bdk_nand_get_free_cmd_bytes() < 8)
                 BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
             BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[1]);
@@ -1103,7 +1103,7 @@ static void __bdk_nand_hex_dump(uint64_t buffer_address, int buffer_length)
  * @param buffer_length
  *               Length of the transfer in bytes
  *
- * @return Number of bytes transfered or a negative error code
+ * @return Number of bytes transferred or a negative error code
  */
 static inline int __bdk_nand_low_level_read(int chip, int nand_command1, int address_cycles, uint64_t nand_address, int nand_command2, uint64_t buffer_address, int buffer_length)
 {
@@ -1174,7 +1174,7 @@ static inline int __bdk_nand_low_level_read(int chip, int nand_command1, int add
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_NDF_DMA_CFG, en, ==, 0, NAND_TIMEOUT_USECS))
         BDK_NAND_RETURN(BDK_NAND_TIMEOUT);
 
-    /* Return the number of bytes transfered */
+    /* Return the number of bytes transferred */
     ndf_dma_cfg.u64 = BDK_CSR_READ(BDK_MIO_NDF_DMA_CFG);
     bytes = ndf_dma_cfg.s.adr - buffer_address;
 

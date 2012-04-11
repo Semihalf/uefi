@@ -86,7 +86,7 @@ int __bdk_pko_alloc_port(void)
 
 static int __bdk_pko_memory_per_engine(int engine)
 {
-    /* CN68XX has 40KB to devide between the engines in 2KB chunks */
+    /* CN68XX has 40KB to divide between the engines in 2KB chunks */
     int size_per_engine = 40 / 2 / bdk_pko_next_free_engine;
     int size;
 

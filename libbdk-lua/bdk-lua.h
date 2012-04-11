@@ -54,9 +54,9 @@ extern void bdk_lua_callback(lua_State* L) __attribute__((weak));
  * @param L      Lua state
  * @param name   Name of the function to use in octeon.c.NAME
  * @param func   Function to register. The function can take a maximum of eight
- *               arguments where each argument must be a type compatable with a
+ *               arguments where each argument must be a type compatible with a
  *               int64_t or a constant string pointer. The return value of the
- *               function can be void or a type compatable with a int64_t.
+ *               function can be void or a type compatible with a int64_t.
  */
 extern void bdk_lua_register_cfunc(lua_State* L, const char *name, void *func);
 

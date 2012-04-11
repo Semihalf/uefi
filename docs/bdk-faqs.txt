@@ -114,7 +114,7 @@ bootloader to the BDK application. There is no linkage editing as occurs with an
 ELF image.
 
 === How do you run a BDK Application from a TFTP server via the SDK Bootloader?
-* When the EBB has a network connection, say through a managment port, you can
+* When the EBB has a network connection, say through a management port, you can
 use the bootloader's +tftp+ command to load the BDK application. For this
 example, assume we want to download and run a binary BDK application,
 * Run +dhcp+ to establish your IP address. This only need be done once after

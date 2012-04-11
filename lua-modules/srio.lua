@@ -194,7 +194,7 @@ local function is_link_up(srio_root, devid, hopcount, link_port)
     elseif data == 3 then
         return 2    -- Two lanes
     else
-        return false    -- Unkown lane encoding, say link down
+        return false    -- Unknown lane encoding, say link down
     end
 end
 

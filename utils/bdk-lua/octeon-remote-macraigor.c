@@ -1057,7 +1057,7 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
         return -1;
     }
 
-    /* Tell every core to read teh JTAG data, which will contain a PC sample
+    /* Tell every core to read the JTAG data, which will contain a PC sample
         per core. Each sample has 8 bits of ASID, 64 bits of PC, and one valid
         bit */
     total_bits = (8 + 64 + 1) * __octeon_remote_num_cores;

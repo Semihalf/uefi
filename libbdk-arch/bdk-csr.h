@@ -165,7 +165,7 @@ static inline void bdk_send_single(uint64_t data)
 
 /**
  * Macro to make a read, modify, and write sequence easy. The "code_block"
- * should be replaced with a C code block or a comma seperated list of
+ * should be replaced with a C code block or a comma separated list of
  * "name.s.field = value", without the quotes.
  */
 #define BDK_CSR_MODIFY(name, csr, code_block) do { \

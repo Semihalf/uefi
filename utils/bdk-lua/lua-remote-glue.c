@@ -88,7 +88,7 @@ static int oremote_write_csr(lua_State* L)
 
 /**
  * oremote.read_mem(address, length)
- * address = Physical addres to read
+ * address = Physical address to read
  * length = Number of bytes to read
  * Returns string of length
  *

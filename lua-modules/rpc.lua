@@ -272,7 +272,7 @@ local function receive_command(inf, outf)
     -- Strip the RPC_BEGIN header
     result = result:sub(2)
 
-    -- Log debug output of what we recieved
+    -- Log debug output of what we received
     if rpc.debug then
         if is_server then
             io.write("[RPC Server Request]" .. result .. "\n")
@@ -391,7 +391,7 @@ end
 ---
 -- Create a new RPC connection to a remote rpc.serve
 -- @param instream Input stream to use for RPC. Can be a filename, TCP host, nil (stdin).
--- @param outstream Input stream to use for RPC. Can be a filename, TCP host, nil (smae as instream).
+-- @param outstream Input stream to use for RPC. Can be a filename, TCP host, nil (same as instream).
 -- @return Returns a RPC object that represents the top level global environment of the remote system.
 --
 function rpc.connect(instream, outstream)

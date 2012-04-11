@@ -67,7 +67,7 @@ static inline void bdk_fpa_async_alloc(int scr_addr, bdk_fpa_pool_t pool)
         } s;
     } data;
 
-   /* Hardware only uses 64 bit alligned locations, so convert from byte address
+   /* Hardware only uses 64 bit aligned locations, so convert from byte address
    ** to 64-bit index
    */
    data.s.scraddr = scr_addr >> 3;

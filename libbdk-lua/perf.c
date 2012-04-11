@@ -88,7 +88,7 @@ static int l2_perf(lua_State* L)
         /* Cycle through counters adding them to our TAD's table */
         for (int counter=0; counter<NUM_COUNTERS; counter++)
         {
-            /* Calculate tiem since last update */
+            /* Calculate time since last update */
             delta_cycle = current_cycle - last_update[count_set][tad][counter];
             if (delta_cycle == 0)
                 delta_cycle = 1;

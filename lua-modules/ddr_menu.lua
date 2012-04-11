@@ -80,7 +80,7 @@ end)
 
 m:item("spd_addr", "Set SPD TWSI addresses", function()
     if not ddr_config then
-        print "ERROR: unable to set SPD addressess with empty config.\n"
+        print "ERROR: unable to set SPD addresses with empty config.\n"
         return
     end
     -- some constants for accessing the ddr configuration structure.

@@ -18,7 +18,7 @@ typedef struct
         uint16_t    remote_port;        /* Remote port this conenction is for */
         int         handle;             /* File handle */
         int         block_size;         /* Transfer block size */
-        int         last_block_size;    /* Size of the last block transfered */
+        int         last_block_size;    /* Size of the last block transferred */
         int         is_write;           /* Is this file open for write? */
         uint32_t    sequence_id;        /* Current sequence ID */
     } open_files[MAX_TFTP];

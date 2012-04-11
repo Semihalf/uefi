@@ -42,7 +42,7 @@ void bdk_reset_octeon(void)
 
 
 /**
- * Convert a memory pointer (void*) into a hardware compatable
+ * Convert a memory pointer (void*) into a hardware compatible
  * memory address (uint64_t). Octeon hardware widgets don't
  * understand logical addresses.
  *

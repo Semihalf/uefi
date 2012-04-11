@@ -381,7 +381,7 @@ static int pci_open(const char *remote_spec)
 
     /* Check if the environment variable OCTEON_PCI_DEVICE is set. It is
         treated as an override for the passed device number. This is to
-        maintain backwards compatability with the old PCI utilites. The new
+        maintain backwards compatibility with the old PCI utilites. The new
         remote spec should be used instead */
     const char *pci_device_str = getenv("OCTEON_PCI_DEVICE");
     if (pci_device_str)

@@ -33,7 +33,7 @@ typedef struct bdk_readline_tab
  * @param timeout_us Return NULL if a line isn't entered in this amount of time. Next
  *                   call will continue the partial line.
  *
- * @return Line that was read. Return is a persistant pointer into the
+ * @return Line that was read. Return is a persistent pointer into the
  *         command history and should not be freed.
  */
 extern const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us);
