@@ -389,18 +389,19 @@ retry:
         alignment on a bad link */
     retry_count++;
     if (retry_count > 10)
-        goto out;
+        goto fail;
 
     /* Read RX config and status bits */
     BDK_CSR_INIT(ilk_rxx_cfg1, BDK_ILK_RXX_CFG1(handle->interface));
     BDK_CSR_INIT(ilk_rxx_int, BDK_ILK_RXX_INT(handle->interface));
 
-    /* Clear all RX status bits */
-    if (ilk_rxx_int.u64)
-        BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
-
     if (ilk_rxx_cfg1.s.rx_bdry_lock_ena == 0)
     {
+        /* Clear the boundary lock status bit */
+        ilk_rxx_int.u64 = 0;
+        ilk_rxx_int.s.word_sync_done = 1;
+        BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
+
         /* We need to start looking for word boundary lock */
         int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
         if (handle->interface)
@@ -417,12 +418,18 @@ retry:
     {
         if (ilk_rxx_int.s.word_sync_done)
         {
+            /* Clear the lane align status bits */
+            ilk_rxx_int.u64 = 0;
+            ilk_rxx_int.s.lane_align_fail = 1;
+            ilk_rxx_int.s.lane_align_done = 1;
+            BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
+
             ilk_rxx_cfg1.s.rx_align_ena = 1;
             BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
             //printf("ILK%d: Looking for lane alignment\n", handle->interface);
             goto retry;
         }
-        goto out;
+        goto fail;
     }
 
     if (ilk_rxx_int.s.lane_align_fail)
@@ -430,49 +437,64 @@ retry:
         ilk_rxx_cfg1.s.rx_bdry_lock_ena = 0;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-        printf("ILK%d: Lane alignment failed\n", handle->interface);
-        goto out;
+        //printf("ILK%d: Lane alignment failed\n", handle->interface);
+        goto fail;
     }
 
-    if (ilk_rxx_int.s.lane_align_done)
+    if ((ilk_rxx_cfg1.s.pkt_ena == 0) && ilk_rxx_int.s.lane_align_done)
     {
-        //printf("ILK%d: Lane alignment complete\n", handle->interface);
-    }
+        /* set the RX to match the TX state set by the if_enable call */
+        BDK_CSR_INIT(ilk_txx_cfg1, BDK_ILK_TXX_CFG1(handle->interface));
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
+            c.s.pkt_ena = ilk_txx_cfg1.s.pkt_ena);
 
-    /* Enable error interrupts */
-    BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
-        c.s.rxf_ctl_perr = -1;
-        c.s.rxf_lnk0_perr = -1;
-        c.s.rxf_lnk1_perr = -1;
-        c.s.rxf_pop_empty = -1;
-        c.s.rxf_push_full = -1;
-    );
-    BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
-        c.s.bad_pipe = -1;
-        c.s.bad_seq = -1;
-        c.s.txf_err = -1;
-    );
-    BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
-        c.s.crc24_err = -1;
-        c.s.lane_bad_word = -1;
-        c.s.pkt_drop_rid = -1;
-        c.s.pkt_drop_rxf = -1;
-        c.s.pkt_drop_sop = -1;
-    );
-    int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
-    int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
-    for (int lane=start_lane; lane<stop_lane; lane++)
-    {
-        BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
-            c.s.bad_64b67b = -1;
-            c.s.bdry_sync_loss = -1;
-            c.s.crc32_err = -1;
-            c.s.dskew_fifo_ovfl = -1;
-            c.s.scrm_sync_loss = -1;
-            c.s.serdes_lock_loss = -1;
-            c.s.stat_msg = -1;
-            c.s.ukwn_cntl_word = -1;
+        /* Enable error interrupts */
+        BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
+            c.s.rxf_ctl_perr = -1;
+            c.s.rxf_lnk0_perr = -1;
+            c.s.rxf_lnk1_perr = -1;
+            c.s.rxf_pop_empty = -1;
+            c.s.rxf_push_full = -1;
         );
+        BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
+            c.s.bad_pipe = -1;
+            c.s.bad_seq = -1;
+            c.s.txf_err = -1;
+        );
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
+            c.s.crc24_err = -1;
+            c.s.lane_bad_word = -1;
+            c.s.pkt_drop_rid = -1;
+            c.s.pkt_drop_rxf = -1;
+            c.s.pkt_drop_sop = -1;
+        );
+        int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
+        int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
+        for (int lane=start_lane; lane<stop_lane; lane++)
+        {
+            BDK_CSR_DEFINE(stat, BDK_ILK_RX_LNEX_INT(lane));
+            stat.u64 = 0;
+            stat.s.bad_64b67b = -1;
+            stat.s.bdry_sync_loss = -1;
+            stat.s.crc32_err = -1;
+            stat.s.dskew_fifo_ovfl = -1;
+            stat.s.scrm_sync_loss = -1;
+            stat.s.serdes_lock_loss = -1;
+            stat.s.stat_msg = -1;
+            stat.s.ukwn_cntl_word = -1;
+            BDK_CSR_WRITE(BDK_ILK_RX_LNEX_INT(lane), stat.u64);
+            BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+                c.s.bad_64b67b = -1;
+                c.s.bdry_sync_loss = -1;
+                c.s.crc32_err = -1;
+                c.s.dskew_fifo_ovfl = -1;
+                c.s.scrm_sync_loss = -1;
+                c.s.serdes_lock_loss = -1;
+                c.s.stat_msg = -1;
+                c.s.ukwn_cntl_word = -1;
+            );
+        }
+        //printf("ILK%d: Lane alignment complete\n", handle->interface);
     }
 
     /* Report link speed */
@@ -481,19 +503,30 @@ retry:
     result.s.full_duplex = 1;
     result.s.speed = bdk_qlm_get_gbaud_mhz(1 + handle->interface) * 64 / 67;
     result.s.speed *= result.s.lanes;
+    return result;
 
-out:
-    /* If the link is down we will force disable the RX path. If it up, we'll
-        set it to match the TX state set by the if_enable call */
-    if (result.s.up)
+fail:
+    if (ilk_rxx_cfg1.s.pkt_ena)
     {
-        BDK_CSR_INIT(ilk_txx_cfg1, BDK_ILK_TXX_CFG1(handle->interface));
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
-            c.s.pkt_ena = ilk_txx_cfg1.s.pkt_ena);
+        ilk_rxx_cfg1.s.pkt_ena = 0;
+        BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
+        /* Disable error interrupts */
+        int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
+        int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
+        for (int lane=start_lane; lane<stop_lane; lane++)
+        {
+            BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+                c.s.bad_64b67b = 0;
+                c.s.bdry_sync_loss = 0;
+                c.s.crc32_err = 0;
+                c.s.dskew_fifo_ovfl = 0;
+                c.s.scrm_sync_loss = 0;
+                c.s.serdes_lock_loss = 0;
+                c.s.stat_msg = 0;
+                c.s.ukwn_cntl_word = 0;
+            );
+        }
     }
-    else
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
-            c.s.pkt_ena = 0);
     return result;
 }
 
