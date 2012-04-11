@@ -205,7 +205,8 @@ static void check_ilk(void)
             BDK_CSR_INIT(c, BDK_ILK_TXX_INT(ilk));
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_pipe);
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_seq);
-            CHECK_ERROR(BDK_ILK_TXX_INT(ilk), txf_err);
+            /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
+            //CHECK_ERROR(BDK_ILK_TXX_INT(ilk), txf_err);
         }
         {
             BDK_CSR_INIT(c, BDK_ILK_RXX_INT(ilk));

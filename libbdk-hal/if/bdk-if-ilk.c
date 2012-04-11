@@ -459,7 +459,7 @@ retry:
         BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
             c.s.bad_pipe = -1;
             c.s.bad_seq = -1;
-            c.s.txf_err = -1;
+            c.s.txf_err = 0; /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
         );
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
             c.s.crc24_err = -1;
