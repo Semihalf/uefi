@@ -282,7 +282,6 @@ static void check_l2c_tad(int tad)
     BDK_CSR_INIT(c, BDK_L2C_TADX_INT(tad));
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2ddbe);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2dsbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), noway);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), rddislmc);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), tagdbe);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), tagsbe);
@@ -808,7 +807,6 @@ static void enable_l2c_tad(int tad)
     BDK_CSR_MODIFY(c, BDK_L2C_TADX_IEN(tad),
         c.s.l2ddbe = -1;
         c.s.l2dsbe = -1;
-        c.s.noway = -1;
         c.s.rddislmc = -1;
         c.s.tagdbe = -1;
         c.s.tagsbe = -1;
