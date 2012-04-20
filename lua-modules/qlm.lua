@@ -84,13 +84,10 @@ function qlm.do_loop(qlm_num, mode)
     check_qlm_powerup_errata(qlm_num)
 end
 
---- Turn on the QLM PRBS generator. If operating in a loopback configuration
--- this also turns on the PRBS Error Counter and PRBS Lock status bit. The
--- types of PRBS generators vary by OCTEON. The scan chain bits controlling
--- the generators also vary by OCTEON.
+--- Turn on the QLM PRBS generator.
 -- @param qlm_num QLM number to run PRBS on
 -- @param mode PRBS mode to run
-function qlm.do_prbs(qlm_num, mode)
+function qlm.do_prbs_tx(qlm_num, mode)
     if octeon.is_model(octeon.CN63XX) then
         --[[
             63xx PRBS:
@@ -147,8 +144,20 @@ function qlm.do_prbs(qlm_num, mode)
 
         check_qlm_powerup_errata(qlm_num)
 
-        -- Take PRBS out of reset
+        -- Take PRBS TX out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 1)
+    else
+        error("Unsupported chip model")
+    end
+end
+
+--- Turn on the QLM PRBS receiver.
+-- @param qlm_num QLM number to run PRBS on
+function qlm.do_prbs_rx(qlm_num)
+    if octeon.is_model(octeon.CN63XX) then
+        -- TX and RX are tied together
+    elseif octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN66XX) or octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CNF71XX) then
+        -- Take PRBS out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 1)
     else
         error("Unsupported chip model")

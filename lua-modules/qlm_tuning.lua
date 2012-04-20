@@ -276,10 +276,14 @@ local function start_prbs(mode, qlm_list)
     for _,qlm_num in ipairs(qlm_list) do
         qlm.do_reset(qlm_num)
     end
-    -- Start PRBS on the QLMs in reverse order. For some reason
-    -- this help CN68XX pass 2.0 QLM1 start better.
+    -- Start PRBS on the QLMs.
     for _,qlm_num in ipairs(qlm_list) do
-        qlm.do_prbs(qlm_num, mode)
+        qlm.do_prbs_tx(qlm_num, mode)
+    end
+    -- Let TX run for 1ms before starting RX
+    octeon.c.bdk_wait_usec(1000)
+    for _,qlm_num in ipairs(qlm_list) do
+        qlm.do_prbs_rx(qlm_num, mode)
     end
 end
 
