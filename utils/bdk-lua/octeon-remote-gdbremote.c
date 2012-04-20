@@ -566,8 +566,10 @@ static gdb_core_state_t do_core_stop(int core)
     }
 
     char response[64];
-    do_command(core, "\003", response, sizeof(response));
-    gdb_core[core].state = GDB_CORE_PAUSED;
+    if (do_command(core, "\003", response, sizeof(response)) < 0)
+        gdb_core[core].state = GDB_CORE_DEAD;
+    else
+        gdb_core[core].state = GDB_CORE_PAUSED;
     return gdb_core[core].state;
 }
 
@@ -745,12 +747,14 @@ static int gdbremote_open(const char *remote_spec)
     octeon_remote_debug(1, "IP address of GDB remote: %s\n", inet_ntoa(gdb_core[0].remote_addr.sin_addr));
 
     /* Core 0 is currently marked in reset. Change it to stopped */
-    do_command(0, "\003", NULL, 0);
+    if (do_command(0, "\003", NULL, 0) < 0)
+        return -1;
     gdb_core[0].state = GDB_CORE_STOPPED;
 
     /* Issue a monitor help and try to determine the gdb remote
         extensions available */
-    do_monitor_command(0, "help", response, sizeof(response));
+    if (do_monitor_command(0, "help", response, sizeof(response)) < 0)
+        return -1;
     if (strstr(response, "set memspace <virtual|physical|#>"))
     {
         gdb_protocol = GDB_PROTOCOL_MACRAIGOR;
@@ -1267,7 +1271,8 @@ static int gdbremote_reset(int stop_core)
     } while (i > 0);
 
     /* Issues a query command to make sure stub is working */
-    do_command(core, "?", response, sizeof(response));
+    if (do_command(core, "?", response, sizeof(response)) < 0)
+        return -1;
 
     enable_64bit_addressing(0);
 
