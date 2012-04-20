@@ -29,7 +29,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(CSR_DB);
     BDK_REQUIRE(TRAFFIC_GEN);
     BDK_REQUIRE(SRIO_NETWORKING);
-    #warning: BDK error decoding is enabled. Remove before making a release
     BDK_REQUIRE(ERROR_DECODE);
 }
 
