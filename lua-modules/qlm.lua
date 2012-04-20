@@ -19,7 +19,7 @@ function qlm.do_reset(qlm_num)
 
     -- Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
     -- jitter for 6.25 Gbaud
-    if octeon.is_model(octeon.CN68XXP2_0) then
+    if octeon.is_model(octeon.CN68XXP2) then
         -- This workaround only applies to QLMs running at 6.25Ghz
         -- Note that other pll settings were applied early in C code
         if octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num) == 6250 then
@@ -50,11 +50,16 @@ end
 local function check_qlm_powerup_errata(qlm)
     -- Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
     -- jitter for 6.25 Gbaud
-    if octeon.is_model(octeon.CN68XXP2_0) then
+    if octeon.is_model(octeon.CN68XXP2) then
         -- This workaround only applies to QLMs running at 6.25Ghz
         if octeon.c.bdk_qlm_get_gbaud_mhz(qlm) == 6250 then
             if octeon.c.bdk_qlm_jtag_get(qlm, 0, "clkf_byp") ~= 20 then
                 octeon.c.bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
+                octeon.c.bdk_wait_usec(100); -- Wait 100us for links to stabalize
+                -- Allow the QLM to exit reset
+                octeon.c.bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
+                -- Allow TX on QLM
+                octeon.c.bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
             end
         end
     end
