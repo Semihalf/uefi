@@ -55,7 +55,7 @@ int main(void)
     {
         /* Build the prompt */
         char prompt[64];
-        sprintf(prompt, "DRAM frequency in Mhz [%d]: ", ddr_clock_hertz);
+        sprintf(prompt, "DRAM frequency in Hz [%d]: ", ddr_clock_hertz);
         /* Prompt the user */
         const char *response = bdk_readline(prompt, NULL, timeout);
         /* Disable the timeout in case we got invalid input. If we got an
@@ -72,7 +72,7 @@ int main(void)
             somewhat sane. The range is very high in case people want to
             try stuff that won't work */
     } while ((ddr_clock_hertz < 100000000) || (ddr_clock_hertz > 1600000000));
-    printf("\n");
+    printf("\nUsing DRAM frequency of %d Hz\n", ddr_clock_hertz);
 
     /* Initialize DRAM */
     bdk_dram_config(board_name, ddr_clock_hertz);
