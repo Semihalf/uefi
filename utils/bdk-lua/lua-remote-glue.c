@@ -564,6 +564,7 @@ LUALIB_API int luaopen_oremote(lua_State* L)
 
     REGISTER(L, octeon_model);
     REGISTER(L, octeon_constants);
+    REGISTER(L, octeon_mmc);
 
     return 1;
 }
