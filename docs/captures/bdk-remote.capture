@@ -12,6 +12,8 @@ bdk-remote:
         Boot <filename> on Octeon.
     reset
         Reset Octeon.
+    console
+        Access the BDK console remotely.
 
     flash info
         Probe a NOR flash and display information about it.
@@ -20,6 +22,14 @@ bdk-remote:
         CS0 and save it to <filename>.
     flash write <filename> <address>
         Write <filename> to a NOR flash on CS0 starting at <address>.
+
+    mmc info
+        Probe a eMMC, MMC, or SD and display information about it.
+    mmc read <filename> <address> <length>
+        Read <length> bytes from <address> in a eMMC, MMC, or SD
+        and save it to <filename>.
+    mmc write <filename> <address>
+        Write <filename> to a eMMC, MMC, or SD starting at <address>.
 
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.

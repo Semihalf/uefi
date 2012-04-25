@@ -258,6 +258,78 @@ function remote.flash(args)
     end
 end
 
+function remote.mmc(args)
+    -- mmc info
+    -- mmc read <filename> <address> <length>
+    -- mmc write <filename> <address>
+    assert(args[1] == "mmc", "Expected keyword 'mmc'")
+    oremote.stop_cores(-1)
+    if args[2] == "info" then
+        assert(#args == 2, "Expected two arguments")
+        local size = oremote.mmc.init()
+        if size > bit64.lshift(1, 30) then
+            printf("Found device of size %d GB\n", bit64.rshift(size, 30))
+        elseif size > bit64.lshift(1, 20) then
+            printf("Found device of size %d MB\n", bit64.rshift(size, 20))
+        elseif size > bit64.lshift(1, 10) then
+            printf("Found device of size %d KB\n", bit64.rshift(size, 10))
+        else
+            printf("Found device of size %d bytes\n", size)
+        end
+    elseif args[2] == "read" then
+        assert(#args == 5, "Expected five arguments")
+        local size = oremote.mmc.init()
+        local f = assert(io.open(args[3], "w"))
+        local len = args[5]
+        local address = args[4]
+        printf("Reading %s: ", args[3])
+        printf("  0%%")
+        local loc = 0
+        while loc < len do
+            local percent = 100 * loc / len
+            printf("\b\b\b\b%3d%%", percent)
+            io.flush()
+            local data = oremote.mmc.read(address, 512)
+            local s = len - loc
+            if s < #data then
+                data = data:sub(1,s)
+            else
+                s = #data
+            end
+            f:write(data)
+            address = address + s
+            loc = loc + s
+        end
+        printf("\b\b\b\b100%%\n")
+        f:close()
+    elseif args[2] == "write" then
+        assert(#args == 4, "Expected four arguments")
+        local address = args[4]
+        local size = oremote.mmc.init()
+        local f = assert(io.open(args[3], "r"))
+        local data = f:read("*a")
+        f:close()
+        printf("Writing %s: ", args[3])
+        printf("  0%%")
+        local loc = 0
+        while loc < #data do
+            local percent = 100 * loc / #data
+            printf("\b\b\b\b%3d%%", percent)
+            io.flush()
+            local chunk = data:sub(loc+1, loc+512)
+            if #chunk < 512 then
+                chunk = chunk .. string.rep("\0", 512 - #chunk)
+            end
+            oremote.mmc.write(address, chunk)
+            address = address + #chunk
+            loc = loc + #chunk
+        end
+        printf("\b\b\b\b100%%\n")
+    else
+        error("Invalid number of args")
+    end
+end
+
 function remote.core(args)
     -- core <core>
     assert(args[1] == "core", "Expected keyword 'core'")
@@ -458,6 +530,14 @@ bdk-remote:
     flash write <filename> <address>
         Write <filename> to a NOR flash on CS0 starting at <address>.
 
+    mmc info
+        Probe a eMMC, MMC, or SD and display information about it.
+    mmc read <filename> <address> <length>
+        Read <length> bytes from <address> in a eMMC, MMC, or SD
+        and save it to <filename>.
+    mmc write <filename> <address>
+        Write <filename> to a eMMC, MMC, or SD starting at <address>.
+
     core <core>
         Dump all CPU registers, COP0, and TLB entries for <core>.
 
@@ -532,6 +612,9 @@ local function parse_args()
         "flash info",
         "flash read <filename> <address> <length>",
         "flash write <filename> <address>",
+        "mmc info",
+        "mmc read <filename> <address> <length>",
+        "mmc write <filename> <address>",
         "core <core>",
         "reg <core> <register>",
         "reg <core> <register> <value>",
