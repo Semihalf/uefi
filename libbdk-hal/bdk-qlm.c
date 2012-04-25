@@ -582,6 +582,38 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
 
 
 /**
+ * The workaround for G-16467 applies to a number of chips at
+ * 5Ghz. This function implements the workaround for all chips
+ * at 5Ghz, but doesn't do 6.25Ghz. The CN68XX pass 2.0
+ * workaround is different and done somewhere else.
+ */
+static void __bdk_qlm_chip_tweak_5Ghz_G16467(void)
+{
+    int num_qlms = bdk_qlm_get_num();
+    for (int qlm=0; qlm<num_qlms; qlm++)
+    {
+        /* This workaround only applies to QLMs running at 5Ghz, but not PCIe */
+        if ((bdk_qlm_get_gbaud_mhz(qlm) == 5000) &&
+            (strstr(bdk_qlm_get_mode(qlm), "PCIE") == NULL))
+        {
+            int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
+            if (ir50dac < 31)
+            {
+                bdk_qlm_jtag_set(qlm, -1, "cfg_cdr_trunc", 0);
+                /* Hold the QLM in reset while we ramp ir50dac */
+                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_set", 0);
+                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 1);
+                while (++ir50dac <= 31)
+                    bdk_qlm_jtag_set(qlm, -1, "ir50dac", ir50dac);
+                /* Don't force reset anymore */
+                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
+            }
+        }
+    }
+}
+
+
+/**
  * Apply QLM tweaks based on the chip errata
  */
 static void __bdk_qlm_chip_tweak(void)
@@ -603,8 +635,9 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
     {
+        __bdk_qlm_chip_tweak_5Ghz_G16467();
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
-            QLM jitter for 5 and 6.25 Gbaud */
+            QLM jitter for 6.25 Gbaud */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
             /* This workaround only applies to QLMs running at 6.25Ghz */
@@ -633,6 +666,7 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN66XX_PASS1_X))
     {
+        __bdk_qlm_chip_tweak_5Ghz_G16467();
         /* (G-16094) QLM Gen2 Equalizer Default Setting Change */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
@@ -701,7 +735,7 @@ static void __bdk_qlm_chip_tweak(void)
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_X))
     {
-        /* Nothing as of yet */
+        __bdk_qlm_chip_tweak_5Ghz_G16467();
     }
 }
 
