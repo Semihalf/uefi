@@ -141,6 +141,11 @@ static inline void bdk_send_single(uint64_t data)
     *(volatile uint64_t *)0xffffffffffffa200ull = data;
 }
 
+#else
+#define bdk_csr_read octeon_remote_read_csr
+#define bdk_csr_write octeon_remote_write_csr
+#endif
+
 /**
  * This macro makes it easy to define a variable of the correct
  * type for a CSR.
@@ -203,7 +208,5 @@ static inline void bdk_send_single(uint64_t data)
         }                                                               \
     } while (0);                                                        \
     result;})
-
-#endif
 
 /** @} */
