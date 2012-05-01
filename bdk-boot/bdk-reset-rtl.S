@@ -105,9 +105,9 @@ __start:
     MTM0 $0
     MTM1 $0
     MTM2 $0
-    MTP2 $0
-    MTP1 $0
     MTP0 $0
+    MTP1 $0
+    MTP2 $0
 
     li      t0, 0x80000000
     j       t0
