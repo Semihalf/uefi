@@ -53,3 +53,8 @@ int bdk_is_model_wrapper(unsigned int arg_model)
 {
     return OCTEON_IS_MODEL(arg_model);
 }
+
+void cvmx_wait_usec(uint64_t usec)
+{
+    bdk_wait_usec(usec);
+}
