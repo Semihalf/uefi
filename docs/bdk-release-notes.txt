@@ -10,6 +10,38 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.05-73224
+------------------------
+* Added reporting for ECC, parity, and other hardware detected
+	errors. This is likely to confuse people to begin with, but
+	greatly helps tracking down strange error conditions. Look
+	errors up in the HRM to determine their cause.
+* ILK link setup code was rewritten. It should be more reliable.
+* Make the following changes to errata (G-16467) QLM 1/2 speed at
+	6.25 Gbaud, excessive QLM jitter for 5 and 6.25 Gbaud:
+** Apply the speed workaround to all CN68XX pass 2.x parts.
+** Only apply the jitter workaround on CN68XX pass 2.0.
+** Apply workaround on CN61XX and CN66XX.
+* Fix L2 locking issue where not all of the cache was locked. This
+	causes strange failures when the BDK starts running out of
+	room.
+* Fix bug in GDB remote protocol where failing to create a connection
+	was ignored.
+* PRBS improvements:
+** Fix issue where PRBS doesn't work on CN68XX pass 2 unless traffic-gen
+	was started first.
+** Delay allowing receive of PRBS until transmit has been running for
+	1ms. This gives the transmitters a chance to stabilize before
+	the receivers lock. This fixes an issue where some lanes
+	wouldn't align correctly when doing loopback.
+* Add support for eMMC, MMC, and SD read/write to the BDK.
+** Read/write is available under the "flash" menu.
+** "bdk-remote" can read/write over PCIe and EJTAG.
+** WARNING: The code to report eMMC and SD sizes is incorrect for
+	devices larger than 2GB. If the size reported is incorrect,
+	you can safely ignore it as read/write support is unaffected.
+
+
 octeon-bdk-2012.04-72137
 ------------------------
 * Errata updates
