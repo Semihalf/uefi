@@ -74,9 +74,9 @@ static int __bdk_if_setup_sso(void)
     BDK_CSR_MODIFY(c, BDK_FPA_FPF8_MARKS,
         c.s.fpf_wr = 164);
 
-    /* Set work timeout to 1k cycles */
+    /* Set work timeout to 50k cycles */
     BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
-        c.s.nw_tim = 0);
+        c.s.nw_tim = 50);
 
     void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE*(16+SSO_RWQ_COUNT));
     if (!buffer)
