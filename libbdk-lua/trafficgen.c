@@ -674,8 +674,12 @@ loop_begin:
     count--;
 
 check_done:
-    if (bdk_likely(port_tx->output_enable && count))
+    if (bdk_likely(count))
+    {
+        if (bdk_unlikely(!port_tx->output_enable))
+            count = 1;
         goto loop_begin;
+    }
     packet->packet.s.i = pko_command.s.dontfree;
     return;
 
@@ -734,7 +738,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     if (packet.packet.s.i)
     {
         /* Packet has not been freed on TX, so free it now */
-        /* FIXME: What if the previous TX hasn't processed yet? */
+        /* This should only happen in the error case.  Normal
+        ** ending of transmission has the PKO free the packet buffer 
+        ** after sending the last one. */ 
         bdk_wait_usec(5000);
         bdk_if_free(&packet);
     }
