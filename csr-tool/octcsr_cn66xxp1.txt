@@ -35934,7 +35934,8 @@ Pos      Name    Type     Value     Value       Description
  <30:27> NS       RAZ      NS          NS        Reserved.                                          |
  <26>    ZERO_PKT R/W1C    0x0         0         Received Incoming SRIO Zero byte packet            |
  <25>    TTL_TOUT R/W1C    0x0         0         Outgoing Packet Time to Live Timeout               |
-                                                 See SRIOMAINT(0..3)_DROP_PACKET                         |
+                                                 See SRIOMAINT(0..3)_PORT_TTL_CTL                        |
+                                                 See SRIOMAINT(0..3)_TX_DROP                             |
  <24>    FAIL     R/W1C    0x0         0         ERB Error Rate reached Fail Count                  |
                                                  See SRIOMAINT(0..3)_ERB_ERR_RATE                        |
  <23>    DEGRAD   R/W1C    0x0         0         ERB Error Rate reached Degrade Count               |

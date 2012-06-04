@@ -42213,28 +42213,22 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:6>  NS       RAZ      NS          NS        RESERVED
- <5:3>   MODE1    R/W      0           0         # of GM1 ports = 16 >> MODE0, 0 <= MODE0 <= 4
- <2:0>   MODE0    R/W      0           0         # of GM0 ports = 16 >> MODE0, 0 <= MODE0 <= 4
+ <5:3>   MODE1    R/W      0           5         RESERVED, must be 5
+ <2:0>   MODE0    R/W      0           3         # of GM0 ports = 16 >> MODE0
 
 Notes:
- The system has a total of 4 + 4 + 4 + 4 + 4 ports and 4 + 4 + 1 + 1 + 1 + 1 engines (GM0 + GM1 + PCI + LOOP + SRIO0 + SRIO1 + SRIO2 + SRIO3).
- This CSR sets the number of GMX0/GMX1 ports and amount of local storage per engine.
- It has no effect on the number of ports or amount of local storage per engine for PCI, LOOP,
- SRIO0, SRIO1, SRIO2, or SRIO3.  When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local
- storage.  Increasing the value of MODEn by 1 decreases the number of GMX ports by a power of 2 and
- increases the local storage per PKO GMX engine by a power of 2.  If one of the modes is 5, then only
- one of interfaces GM0 or GM1 is present and the storage per engine of the existing interface is
- doubled.  Modes 0 and 1 are illegal and, if selected, are treated as mode 2.
+ The system has a total of 2 + 4 + 4 ports and 2 + 1 + 1 engines (GM0 + PCI + LOOP).
+ This CSR sets the number of GMX0 ports and amount of local storage per engine.
+ It has no effect on the number of ports or amount of local storage per engine for PCI and LOOP.
+ When both GMX ports are used (MODE0=3), each GMX engine has 10kB of local
+ storage.  Increasing MODE0 to 4 decreases the number of GMX ports to 1 and
+ increases the local storage for the one remaining PKO GMX engine to 20kB.
+ MODE0 value 0, 1, and 2, or greater than 4 are illegal.
 
- MODE[n] GM[n] PCI   LOOP  GM[n]                      PCI            LOOP           SRIO[n]
-         ports ports ports storage/engine             storage/engine storage/engine storage/engine
- 0       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 1       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 2       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 3       2     4     4     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 4       1     4     4     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 5       0     4     4     (   0kB                  ) 2.5kB          2.5kB          2.5kB
- where 0 <= n <= 1
+ MODE0   GMX0  PCI   LOOP  GMX0                       PCI            LOOP
+         ports ports ports storage/engine             storage/engine storage/engine
+ 3       2     4     4      10.0kB                    2.5kB          2.5kB
+ 4       1     4     4      20.0kB                    2.5kB          2.5kB
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -42273,18 +42267,18 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:56> NS       RAZ      NS          NS        RESERVED
- <55:52> ENGINE13 R/W      4           4         Maximum number of inflight packets for engine13
- <51:48> ENGINE12 R/W      4           4         Maximum number of inflight packets for engine12
- <47:44> ENGINE11 R/W      4           4         Maximum number of inflight packets for engine11
- <43:40> ENGINE10 R/W      4           4         Maximum number of inflight packets for engine10
+ <55:52> ENGINE13 R/W      4           4         Reserved
+ <51:48> ENGINE12 R/W      4           4         Reserved
+ <47:44> ENGINE11 R/W      4           4         Reserved
+ <43:40> ENGINE10 R/W      4           4         Reserved
  <39:36> ENGINE9  R/W      4           4         Maximum number of inflight packets for engine9
  <35:32> ENGINE8  R/W      4           4         Maximum number of inflight packets for engine8
- <31:28> ENGINE7  R/W      4           4         Maximum number of inflight packets for engine7
- <27:24> ENGINE6  R/W      4           4         Maximum number of inflight packets for engine6
- <23:20> ENGINE5  R/W      4           4         Maximum number of inflight packets for engine5
- <19:16> ENGINE4  R/W      4           4         Maximum number of inflight packets for engine4
- <15:12> ENGINE3  R/W      4           4         Maximum number of inflight packets for engine3
- <11:8>  ENGINE2  R/W      4           4         Maximum number of inflight packets for engine2
+ <31:28> ENGINE7  R/W      4           4         Reserved
+ <27:24> ENGINE6  R/W      4           4         Reserved
+ <23:20> ENGINE5  R/W      4           4         Reserved
+ <19:16> ENGINE4  R/W      4           4         Reserved
+ <15:12> ENGINE3  R/W      4           4         Reserved
+ <11:8>  ENGINE2  R/W      4           4         Reserved
  <7:4>   ENGINE1  R/W      4           4         Maximum number of inflight packets for engine1
  <3:0>   ENGINE0  R/W      4           4         Maximum number of inflight packets for engine0
 
@@ -42307,6 +42301,7 @@ Pos      Name    Type     Value     Value       Description
  <63:14> NS       RAZ      NS          NS        RESERVED
  <13:0>  MASK     R/W      0           0         Mask[n]=0 disables packet send threshold for engine n
                                                  Mask[n]=1 enables  packet send threshold for engine n  $PR       NS
+                                                 Bits <13:10,7:2> are unused
 
 Notes:
  When not enabled, packet data may be sent as soon as it is written into PKO's internal buffers.
@@ -42626,10 +42621,9 @@ Pos      Name    Type     Value     Value       Description
  <61>    STATIC_P  R/W      X           0        Set if this PID has static priority
  <60:53> QOS_MASK  R/W      X           0        Mask to control priority across 8 QOS rounds
  <52:16> NS        RAZ      NS          NS       RESERVED
- <15:10> BP_PORT   R/W      X           0        PID listens to BP_PORT for per-packet backpressure
-                                                 Legal BP_PORTs: 0-15, 32-47, 63 (63 means no BP)
+ <15:10> BP_PORT   R/W      X           63       RESERVED, must be 63
  <9:6>   EID       R/W      X           0        Engine ID to which this port is mapped
-                                                 Legal EIDs: 0-3, 8-13, 15 (15 only if port not used)
+                                                 Legal EIDs: 0-1, 8-9, 15 (15 only if port not used)
  <5:0>   PID       R/W      X           0        Port ID[5:0]
 
 Notes:
@@ -42637,19 +42631,6 @@ Notes:
  but they must be the lowest numbered PIDs mapped to this EID and must have QOS_MASK=0xff.  If EID==8
  or EID==9, then PID[1:0] is used to direct the packet to the correct port on that interface.
  EID==15 can be used for unused PKO-internal ports.
- BP_PORT==63 means that the PKO-internal port is not backpressured.
- BP_PORTs are assumed to belong to an interface as follows:
-   46 <= BP_PORT < 48 -> srio       interface 3
-   44 <= BP_PORT < 46 -> srio       interface 2
-   42 <= BP_PORT < 44 -> srio       interface 1
-   40 <= BP_PORT < 42 -> srio       interface 0
-   36 <= BP_PORT < 40 -> loopback   interface
-   32 <= BP_PORT < 36 -> PCIe       interface
-   0  <= BP_PORT < 16 -> SGMII/Xaui interface 0
-
- Note that the SRIO interfaces do not actually provide backpressure.  Thus, ports that use
- 40 <= BP_PORT < 48 for backpressure will never be backpressured.
-
  The reset configuration is the following:
    PID EID(ext port) BP_PORT QOS_MASK STATIC_P
    -------------------------------------------
@@ -42717,7 +42698,7 @@ Pos      Name    Type     Value     Value       Description
  <60:53> QOS_MASK  R/W      X           0        Mask to control priority across 8 QOS rounds
  <52:10> NS        RAZ      NS          NS       RESERVED
  <9:6>   EID       R/W      X           0        Engine ID to which this port is mapped
-                                                 Legal EIDs: 0-3, 8-11
+                                                 Legal EIDs: 0-1, 8-9
  <5:0>   PID       R/W      X           0        Port ID[5:0]
 
 Notes:
