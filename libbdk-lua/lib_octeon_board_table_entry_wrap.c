@@ -3471,6 +3471,57 @@ fail:
 }
 
 
+static int _wrap_ddr3_custom_config_t_fprch2_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t arg2 ;
+  
+  SWIG_check_num_args("fprch2",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("fprch2",1,"ddr3_custom_config_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("fprch2",2,"uint8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_fprch2_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint8_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->fprch2 = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_fprch2_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t result;
+  
+  SWIG_check_num_args("fprch2",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("fprch2",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_fprch2_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (uint8_t) ((arg1)->fprch2);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_ddr3_custom_config_t_mode32b_set(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
@@ -3522,6 +3573,106 @@ fail:
 }
 
 
+static int _wrap_ddr3_custom_config_t_dll_write_offset_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  int8_t arg2 ;
+  
+  SWIG_check_num_args("dll_write_offset",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_write_offset",1,"ddr3_custom_config_t *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_write_offset",2,"int8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_dll_write_offset_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  arg2 = (lua_tostring(L, 2))[0];
+  if (arg1) (arg1)->dll_write_offset = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_dll_write_offset_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  int8_t result;
+  
+  SWIG_check_num_args("dll_write_offset",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_write_offset",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_dll_write_offset_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (int8_t) ((arg1)->dll_write_offset);
+  lua_pushfstring(L,"%c",result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_dll_read_offset_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  int8_t arg2 ;
+  
+  SWIG_check_num_args("dll_read_offset",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_read_offset",1,"ddr3_custom_config_t *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_read_offset",2,"int8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_dll_read_offset_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  arg2 = (lua_tostring(L, 2))[0];
+  if (arg1) (arg1)->dll_read_offset = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_dll_read_offset_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  int8_t result;
+  
+  SWIG_check_num_args("dll_read_offset",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_read_offset",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_dll_read_offset_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (int8_t) ((arg1)->dll_read_offset);
+  lua_pushfstring(L,"%c",result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static swig_lua_method swig_ddr3_custom_config_t_methods[] = {
     {0,0}
 };
@@ -3547,7 +3698,10 @@ static swig_lua_attribute swig_ddr3_custom_config_t_attributes[] = {
     { "disable_sequential_delay_check", _wrap_ddr3_custom_config_t_disable_sequential_delay_check_get, _wrap_ddr3_custom_config_t_disable_sequential_delay_check_set},
     { "maximum_adjacent_rlevel_delay_increment", _wrap_ddr3_custom_config_t_maximum_adjacent_rlevel_delay_increment_get, _wrap_ddr3_custom_config_t_maximum_adjacent_rlevel_delay_increment_set},
     { "parity", _wrap_ddr3_custom_config_t_parity_get, _wrap_ddr3_custom_config_t_parity_set},
+    { "fprch2", _wrap_ddr3_custom_config_t_fprch2_get, _wrap_ddr3_custom_config_t_fprch2_set},
     { "mode32b", _wrap_ddr3_custom_config_t_mode32b_get, _wrap_ddr3_custom_config_t_mode32b_set},
+    { "dll_write_offset", _wrap_ddr3_custom_config_t_dll_write_offset_get, _wrap_ddr3_custom_config_t_dll_write_offset_set},
+    { "dll_read_offset", _wrap_ddr3_custom_config_t_dll_read_offset_get, _wrap_ddr3_custom_config_t_dll_read_offset_set},
     {0,0,0}
 };
 static swig_lua_class *swig_ddr3_custom_config_t_bases[] = {0};
