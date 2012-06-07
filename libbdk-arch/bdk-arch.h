@@ -32,6 +32,7 @@
 #include "bdk-csr.h"
 #include "bdk-warn.h"
 #include "bdk-csrs.h"
+#include "bdk-version.h"
 #ifndef BDK_BUILD_HOST
 #include "bdk-fuse.h"
 #include "bdk-feature.h"

@@ -21,6 +21,7 @@ int main(void)
     const char *board_name;
     int ddr_clock_hertz;
 
+    printf("BDK version: %s\n", bdk_version_string());
     /* Figure out our DRAM parameters */
     if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
     {

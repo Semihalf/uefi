@@ -60,6 +60,8 @@ ifeq ($(shell test -d .git;echo $$?),0)
 else ifeq ($(shell test -d .svn;echo $$?),0)
     BUILD_REV := $(shell svn info | grep "Last Changed Rev:")
     BUILD_REV := $(word 4, $(BUILD_REV))
+    MOD := $(shell svnversion | perl -e 'while (<>){s/[0-9]*//;print}')
+    BUILD_REV := $(BUILD_REV)$(MOD)
     BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
 else
@@ -73,6 +75,7 @@ RELEASE_DIR = "octeon-bdk-$(VERSION)"
 .PHONY: version
 version:
 	echo "return \"$(FULL_VERSION)\"" > lua-modules/bdk-version.lua
+	echo "const char bdk_version_str[] = \"$(FULL_VERSION)\";" > libbdk-arch/bdk-version.c
 
 .PHONY: release
 release: all # ppc needed as well
