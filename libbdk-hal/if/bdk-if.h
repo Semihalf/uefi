@@ -104,7 +104,7 @@ typedef enum
     BDK_IF_LOOPBACK_INTERNAL_EXTERNAL = 3,
 } bdk_if_loopback_t;
 
-typedef void (*bdk_if_packet_receiver_t)(const bdk_if_packet_t *packet, void *arg);
+typedef int (*bdk_if_packet_receiver_t)(bdk_if_packet_t *packet, void *arg);
 
 typedef struct
 {

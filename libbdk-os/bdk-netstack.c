@@ -52,7 +52,7 @@ static void netstack_netif_poll_link(void *unused)
  *
  * @param unused
  */
-static void netstack_netif_rx(const bdk_if_packet_t *packet, void *arg)
+static int netstack_netif_rx(bdk_if_packet_t *packet, void *arg)
 {
     struct netif *netif = arg;
     struct pbuf *p = pbuf_alloc(PBUF_RAW, ETH_PAD_SIZE + packet->length, PBUF_RAM);
@@ -78,6 +78,7 @@ static void netstack_netif_rx(const bdk_if_packet_t *packet, void *arg)
     }
     else
         bdk_error("pbuf_alloc() failed\n");
+    return 0;
 }
 
 

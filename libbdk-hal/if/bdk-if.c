@@ -858,9 +858,11 @@ static inline void dispatch(bdk_if_packet_t *packet)
 {
     void *receiver_arg = packet->if_handle->receiver_arg;
     bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
+    int skip_free = 0;
     if (receiver)
-        receiver(packet, receiver_arg);
-    bdk_if_free(packet);
+        skip_free = receiver(packet, receiver_arg);
+    if (!skip_free)
+        bdk_if_free(packet);
 }
 
 
