@@ -70,7 +70,8 @@ void __bdk_init_main(int arg, void *arg1)
 
     if (bdk_get_core_num() == 0)
     {
-        printf("Performing common initialization\n");
+        if (BDK_SHOW_BOOT_BANNERS)
+            printf("Performing common initialization\n");
 
         bdk_l2c_initialize();
         __bdk_config_init(); /* Some config setting are dynamically updated */
@@ -82,7 +83,8 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_qlm_init();
         if (bdk_error_enable)
         {
-            printf("Enabling error reporting\n");
+            if (BDK_SHOW_BOOT_BANNERS)
+                printf("Enabling error reporting\n");
             bdk_error_enable();
         }
 
@@ -92,11 +94,13 @@ void __bdk_init_main(int arg, void *arg1)
                 CTS=0, but it prevents the FIFO being overrun */
             if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
             {
-                bdk_warn("Not enabling hardware flow control on UART%d as CTS appears stuck\n", i);
+                if (BDK_SHOW_BOOT_BANNERS)
+                    bdk_warn("Not enabling hardware flow control on UART%d as CTS appears stuck\n", i);
             }
             else
             {
-                printf("Enabling hardware flow control on UART%d\n", i);
+                if (BDK_SHOW_BOOT_BANNERS)
+                    printf("Enabling hardware flow control on UART%d\n", i);
                 BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(i),
                     mcr.s.afce = 1;
                     mcr.s.rts = 1);
@@ -110,7 +114,8 @@ void __bdk_init_main(int arg, void *arg1)
     if (bdk_get_core_num() == 0)
     {
         extern int main(int argc, const char *argv);
-        printf("Switching to main\n");
+        if (BDK_SHOW_BOOT_BANNERS)
+            printf("Switching to main\n");
         if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
         if (&bdk_error_check && bdk_error_check)

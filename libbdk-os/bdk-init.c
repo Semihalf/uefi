@@ -114,14 +114,16 @@ void __bdk_init(long base_address)
         __bdk_init_uart(0);
         __bdk_init_uart(1);
 
-        write(1, BANNER_1, sizeof(BANNER_1)-1);
+        if (BDK_SHOW_BOOT_BANNERS)
+            write(1, BANNER_1, sizeof(BANNER_1)-1);
         __bdk_init_exception();
 
         /* Only lock L2 if DDR3 isn't initialized */
         BDK_CSR_INIT(lmcx_ddr_pll_ctl, BDK_LMCX_DDR_PLL_CTL(0));
         if ((lmcx_ddr_pll_ctl.s.reset_n == 0) && !bdk_is_simulation())
         {
-            write(1, BANNER_2, sizeof(BANNER_2)-1);
+            if (BDK_SHOW_BOOT_BANNERS)
+                write(1, BANNER_2, sizeof(BANNER_2)-1);
             bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * bdk_l2c_get_num_assoc() * BDK_CACHE_LINE_SIZE);
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
@@ -138,7 +140,8 @@ void __bdk_init(long base_address)
             }
         }
 
-        write(1, BANNER_3, sizeof(BANNER_3)-1);
+        if (BDK_SHOW_BOOT_BANNERS)
+            write(1, BANNER_3, sizeof(BANNER_3)-1);
         bdk_thread_initialize();
     }
 
