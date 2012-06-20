@@ -17694,8 +17694,19 @@ Pos      Name    Type     Value     Value       Description
  <37:0>   ADDR          RO     0      NS       XMC address causing the error (see Notes 2 and 3)    |
  <47:38>  NS        	RAZ    NS     NS       RESERVED					    	    |
  <51:48>  SID      	RO     0      NS       XMC sid of request causing error          	    |
+                                                0-5      => selects a cnMIPS core                   |
+                                                else if a STF/STT/STP:                              |
+                                                 8,9       => FPA, TIM, HFA, USB, PCIe, MIX, DPI,   |
+                                                              BOOTDMA, ZIP, RAD, or POW             |
+                                                 0xA       => IOB DWB engine                        |
+                                                 0xC,0xD   => PIP/IPD                               |
+                                                else (if a read/fill):                              |
+                                                 8         => FPA, TIM, HFA, USB, PCIe, MIX, DPI,   |
+                                                              BOOTDMA, ZIP, RAD, or POW             |
+                                                 9         => PKO                                   |
  <57:52>  NS        	RAZ    NS     NS       RESERVED					    	    |
  <63:58>  CMD       	RO     0      NS       XMC command or request causing error    	            |
+                                                TRA_FILT_CMD indicates encoding                     |
 
 Notes:
 

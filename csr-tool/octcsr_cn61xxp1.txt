@@ -16317,8 +16317,19 @@ Pos      Name    Type     Value     Value       Description
  <37:0>   ADDR          RO     0      NS       XMC address causing the error (see Notes 2 and 3)    |
  <47:38>  NS        	RAZ    NS     NS       RESERVED					    	    |
  <51:48>  SID      	RO     0      NS       XMC sid of request causing error          	    |
+                                                0-3      => selects a cnMIPS core                   |
+                                                else if a STF/STT/STP:                              |
+                                                 8,9     => FPA, TIM, HFA, USB, PCIe, MIX, DPI,     |
+                                                            BOOTDMA, ZIP, RAD, or POW               |
+                                                 0xA     => IOB DWB engine                          |
+                                                 0xC,0xD => PIP/IPD                                 |
+                                                else (if a read/fill):                              |
+                                                 8       => FPA, TIM, HFA, USB, PCIe, MIX, DPI,     |
+                                                            BOOTDMA, ZIP, RAD, or POW               |
+                                                 9       => PKO                                     |
  <57:52>  NS        	RAZ    NS     NS       RESERVED					    	    |
  <63:58>  CMD       	RO     0      NS       XMC command or request causing error    	            |
+                                                TRA_FILT_CMD indicates encoding                     |
 
 Notes:
 
@@ -29469,23 +29480,23 @@ Pos      Name    Type     Value     Value       Description
  <2:0>   MODE0    R/W      0           0         # of GM0 ports = 16 >> MODE0, 0 <= MODE0 <= 4
 
 Notes:
- The system has a total of 4 + 4 + 4 + 4 + 4 ports and 4 + 4 + 1 + 1 + 1 + 1 engines (GM0 + GM1 + PCI + LOOP + SRIO0 + SRIO1 + SRIO2 + SRIO3).
+ The system has a total of 4 + 4 + 4 + 4 ports and 4 + 4 + 1 + 1 engines (GMX0 + GMX1 + PCI + LOOP).
  This CSR sets the number of GMX0/GMX1 ports and amount of local storage per engine.
- It has no effect on the number of ports or amount of local storage per engine for PCI, LOOP,
- SRIO0, SRIO1, SRIO2, or SRIO3.  When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local
+ It has no effect on the number of ports or amount of local storage per engine for PCI and LOOP.
+ When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local
  storage.  Increasing the value of MODEn by 1 decreases the number of GMX ports by a power of 2 and
  increases the local storage per PKO GMX engine by a power of 2.  If one of the modes is 5, then only
  one of interfaces GM0 or GM1 is present and the storage per engine of the existing interface is
  doubled.  Modes 0 and 1 are illegal and, if selected, are treated as mode 2.
 
- MODE[n] GM[n] PCI   LOOP  GM[n]                      PCI            LOOP           SRIO[n]
-         ports ports ports storage/engine             storage/engine storage/engine storage/engine
- 0       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 1       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 2       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 3       2     4     4     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 4       1     4     4     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
- 5       0     4     4     (   0kB                  ) 2.5kB          2.5kB          2.5kB
+ MODE[n] GM[n] PCI   LOOP  GM[n]                      PCI            LOOP
+         ports ports ports storage/engine             storage/engine storage/engine
+ 0       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+ 1       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+ 2       4     4     4     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+ 3       2     4     4     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+ 4       1     4     4     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+ 5       0     4     4     (   0kB                  ) 2.5kB          2.5kB
  where 0 <= n <= 1
 ----------------------------------------------------------------------------------------------------
 ===
@@ -29525,10 +29536,10 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <63:56> NS       RAZ      NS          NS        RESERVED
- <55:52> ENGINE13 R/W      4           4         Maximum number of inflight packets for engine13
- <51:48> ENGINE12 R/W      4           4         Maximum number of inflight packets for engine12
- <47:44> ENGINE11 R/W      4           4         Maximum number of inflight packets for engine11
- <43:40> ENGINE10 R/W      4           4         Maximum number of inflight packets for engine10
+ <55:52> ENGINE13 R/W      4           4         Reserved
+ <51:48> ENGINE12 R/W      4           4         Reserved
+ <47:44> ENGINE11 R/W      4           4         Reserved
+ <43:40> ENGINE10 R/W      4           4         Reserved
  <39:36> ENGINE9  R/W      4           4         Maximum number of inflight packets for engine9
  <35:32> ENGINE8  R/W      4           4         Maximum number of inflight packets for engine8
  <31:28> ENGINE7  R/W      4           4         Maximum number of inflight packets for engine7
@@ -29559,6 +29570,7 @@ Pos      Name    Type     Value     Value       Description
  <63:14> NS       RAZ      NS          NS        RESERVED
  <13:0>  MASK     R/W      0           0         Mask[n]=0 disables packet send threshold for engine n
                                                  Mask[n]=1 enables  packet send threshold for engine n  $PR       NS
+                                                 Bits <13:10> are unused
 
 Notes:
  When not enabled, packet data may be sent as soon as it is written into PKO's internal buffers.
@@ -29879,9 +29891,9 @@ Pos      Name    Type     Value     Value       Description
  <60:53> QOS_MASK  R/W      X           0        Mask to control priority across 8 QOS rounds
  <52:16> NS        RAZ      NS          NS       RESERVED
  <15:10> BP_PORT   R/W      X           0        PID listens to BP_PORT for per-packet backpressure
-                                                 Legal BP_PORTs: 0-15, 32-47, 63 (63 means no BP)
+                                                 Legal BP_PORTs: 0-15, 32-39, 63 (63 means no BP)
  <9:6>   EID       R/W      X           0        Engine ID to which this port is mapped
-                                                 Legal EIDs: 0-3, 8-13, 15 (15 only if port not used)
+                                                 Legal EIDs: 0-9, 15 (15 only if port not used)
  <5:0>   PID       R/W      X           0        Port ID[5:0]
 
 Notes:
@@ -29891,16 +29903,9 @@ Notes:
  EID==15 can be used for unused PKO-internal ports.
  BP_PORT==63 means that the PKO-internal port is not backpressured.
  BP_PORTs are assumed to belong to an interface as follows:
-   46 <= BP_PORT < 48 -> srio       interface 3
-   44 <= BP_PORT < 46 -> srio       interface 2
-   42 <= BP_PORT < 44 -> srio       interface 1
-   40 <= BP_PORT < 42 -> srio       interface 0
    36 <= BP_PORT < 40 -> loopback   interface
    32 <= BP_PORT < 36 -> PCIe       interface
    0  <= BP_PORT < 16 -> SGMII/Xaui interface 0
-
- Note that the SRIO interfaces do not actually provide backpressure.  Thus, ports that use
- 40 <= BP_PORT < 48 for backpressure will never be backpressured.
 
  The reset configuration is the following:
    PID EID(ext port) BP_PORT QOS_MASK STATIC_P
