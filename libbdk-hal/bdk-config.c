@@ -73,7 +73,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     /* Controls if link status messages are displayed. Turning this off
         can be useful to help scripting as the messages are aynchronous */
-    AS_INIT(BDK_CONFIG_SHOW_LINK_STATUS, 1),
+    AS_INIT(BDK_CONFIG_SHOW_LINK_STATUS, BDK_SHOW_BOOT_BANNERS),
 };
 #undef AS_INIT
 
