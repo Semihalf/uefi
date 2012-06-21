@@ -123,7 +123,8 @@ __init:
     dmtc0 $0, COP0_COMPARE
     /* dmtc0 $0, COP0_POWTHROTTLE */
     /* dmtc0 $0, COP0_CVMMEMCTL */
-    /* dmtc0 $0, COP0_STATUS */
+    li k0, 0x400004
+    dmtc0 k0, COP0_STATUS
     dmtc0 $0, COP0_INTCTL
     dmtc0 $0, COP0_SRSCTL
     dmtc0 $0, COP0_CAUSE
