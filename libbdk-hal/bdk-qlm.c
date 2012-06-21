@@ -807,7 +807,8 @@ void bdk_qlm_init(void)
             __bdk_qlm_jtag_xor_ref[qlm][i] = __bdk_qlm_jtag_shift(qlm, 32, 0);
     }
 
-    __bdk_qlm_chip_tweak();
+    if (BDK_DISABLE_QLM_JTAG)
+        __bdk_qlm_chip_tweak();
 }
 
 

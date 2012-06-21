@@ -13,6 +13,8 @@
  */
 void __bdk_qlm_jtag_init(void)
 {
+    if (BDK_DISABLE_QLM_JTAG)
+        return;
     bdk_ciu_qlm_jtgc_t jtgc;
     int clock_div = 0;
     /* Clock the JTAG chain at 10 Mhz */
@@ -52,6 +54,8 @@ void __bdk_qlm_jtag_init(void)
  */
 uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
 {
+    if (BDK_DISABLE_QLM_JTAG)
+        return 0;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
@@ -102,6 +106,8 @@ uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
  */
 void __bdk_qlm_jtag_shift_zeros(int qlm, int bits)
 {
+    if (BDK_DISABLE_QLM_JTAG)
+        return;
     while (bits > 0)
     {
         int n = bits;
@@ -122,6 +128,8 @@ void __bdk_qlm_jtag_shift_zeros(int qlm, int bits)
  */
 void __bdk_qlm_jtag_update(int qlm)
 {
+    if (BDK_DISABLE_QLM_JTAG)
+        return;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
@@ -150,6 +158,8 @@ void __bdk_qlm_jtag_update(int qlm)
  */
 void __bdk_qlm_jtag_capture(int qlm)
 {
+    if (BDK_DISABLE_QLM_JTAG)
+        return;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
