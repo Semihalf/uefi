@@ -88,22 +88,23 @@ void __bdk_init_main(int arg, void *arg1)
             bdk_error_enable();
         }
 
-        for (int i=0; i<2; i++)
+        if (BDK_SHOW_BOOT_BANNERS)
         {
-            /* Always enable flow control in the simulator. The simulator reports
-                CTS=0, but it prevents the FIFO being overrun */
-            if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
+            for (int i=0; i<2; i++)
             {
-                if (BDK_SHOW_BOOT_BANNERS)
+                /* Always enable flow control in the simulator. The simulator reports
+                    CTS=0, but it prevents the FIFO being overrun */
+                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
+                {
                     bdk_warn("Not enabling hardware flow control on UART%d as CTS appears stuck\n", i);
-            }
-            else
-            {
-                if (BDK_SHOW_BOOT_BANNERS)
+                }
+                else
+                {
                     printf("Enabling hardware flow control on UART%d\n", i);
-                BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(i),
-                    mcr.s.afce = 1;
-                    mcr.s.rts = 1);
+                    BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(i),
+                        mcr.s.afce = 1;
+                        mcr.s.rts = 1);
+                }
             }
         }
     }
