@@ -5,6 +5,12 @@ endif
 SHELL=/bin/bash
 
 #
+# Optional compile time flags for the BDK
+#
+#BDK_EXTRA_CPPFLAGS += -DBDK_SHOW_BOOT_BANNERS=0
+#BDK_EXTRA_CPPFLAGS += -DBDK_DISABLE_QLM_JTAG=1
+
+#
 # Setup the compiler for the BDK libraries
 #
 CROSS=mipsisa64-octeon-elf-
@@ -24,7 +30,8 @@ endif
 #
 # Setup the compile flags
 #
-CPPFLAGS = -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
+CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
+CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -Os -g -march=octeon2 -std=gnu99 -fno-asynchronous-unwind-tables
 ASFLAGS = $(CFLAGS)
 
