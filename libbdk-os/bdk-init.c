@@ -82,9 +82,6 @@ void __bdk_init(long base_address)
     uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
     uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 1000000;
     BDK_SYNC;
-    /* Stagger the reads of SCK as we seem to get bad results on CN68XX
-        pass 1.x if all cores do this at the same time */
-    bdk_wait(bdk_get_core_num() << 8);
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 
@@ -188,8 +185,8 @@ int bdk_init_cores(uint64_t coremask)
         BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
     }
 
-    /* Wait up to 10ms for the cores to boot */
-    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE) / 100 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    /* Wait up to 100us for the cores to boot */
+    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask))
     {
         /* Tight spin */
