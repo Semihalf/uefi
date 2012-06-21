@@ -28,6 +28,8 @@ extern int bdk_init_cores(uint64_t coremask);
  */
 extern void __bdk_init_main(int arg, void *arg1);
 
+#ifndef BDK_SHOW_BOOT_BANNERS
 #define BDK_SHOW_BOOT_BANNERS 1
+#endif
 
 /** @}  */
