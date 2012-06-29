@@ -413,8 +413,9 @@ static int __bdk_if_init(void)
     int result = 0;
 
     /* Setup the FPA packet buffers */
-    bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL,
-        bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS));
+    if (bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL,
+        bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS)))
+        return -1;
 
     /* Setup the SSO */
     if (__bdk_if_setup_sso())
