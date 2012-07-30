@@ -74,9 +74,11 @@ static int __bdk_if_setup_sso(void)
     BDK_CSR_MODIFY(c, BDK_FPA_FPF8_MARKS,
         c.s.fpf_wr = 164);
 
-    /* Set work timeout to 50k cycles */
+    /* Set work timeout to 1k cycles. Due to a bug in Octeon 2, reads
+        from scratch will always wait for get_work to complete, so we
+        want this fast */
     BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
-        c.s.nw_tim = 50);
+        c.s.nw_tim = 0);
 
     void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE*(16+SSO_RWQ_COUNT));
     if (!buffer)
@@ -895,7 +897,7 @@ static int bdk_if_dispatch(void)
             /* Store zero before doing async get work so we can tell when
                 it is done */
             bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
-            sso_get_work_async(BDK_IF_SCR_WORK, 1);
+            sso_get_work_async(BDK_IF_SCR_WORK, 0);
         }
 
         /* Check devices that msut be polled if no work was available */
