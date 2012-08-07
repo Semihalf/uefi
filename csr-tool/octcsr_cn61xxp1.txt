@@ -27454,7 +27454,7 @@ Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
  <25:0>  NS       RAZ      NS          NS        Reserved		                            |
- <63:26> ADDR     R/W      0x0         0         The starting address of the 64KB address space     |
+ <63:26> ADDR     R/W      0x0         0         The starting address of the 64MB address space     |
                                                  that is the BAR1 address space.                    |
 ----------------------------------------------------------------------------------------------------
 ===
