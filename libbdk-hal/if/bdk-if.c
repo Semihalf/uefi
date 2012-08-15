@@ -112,6 +112,11 @@ static int __bdk_if_setup_sso(void)
     BDK_CSR_MODIFY(c, BDK_SSO_CFG,
         c.s.dwb = BDK_USE_DWB; /* Use 2 cache line DWB for RWQ */
         c.s.rwen = 1);
+
+    /* Workaround for errata (SSO-16306) Some customers report SSO can hang */
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X) || OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+        BDK_CSR_MODIFY(c, BDK_SSO_GWE_CFG, c.s.gwe_rah = 1);
+
     return 0;
 }
 
