@@ -342,6 +342,7 @@ static void pci_bar1_setup(uint64_t address)
  */
 static uint32_t bar0_read32(int offset)
 {
+    offset &= 0xffff;
     octeon_remote_debug(4, "BAR0[0x%04x] read  ", offset);
     uint32_t result = bdk_le32_to_cpu(*(volatile uint32_t*)(octeon_pci_bar0_ptr + offset));
     octeon_remote_output(4, "0x%08x\n", result);
@@ -357,6 +358,7 @@ static uint32_t bar0_read32(int offset)
  */
 static void bar0_write32(int offset, uint32_t value)
 {
+    offset &= 0xffff;
     octeon_remote_debug(4, "BAR0[0x%04x] write 0x%08x\n", offset, value);
     *(volatile uint32_t*)(octeon_pci_bar0_ptr + offset) = bdk_cpu_to_le32(value);
 }
