@@ -265,9 +265,7 @@ def read(name, file):
             # This CSR doesn't have a range. Get a single value
             assert "#" not in csr.name, "# found in csr %d without a range" % csr.name
             name = csr.name.upper()
-            csr.address_base = current_address_list[name][0]
-            csr.address_block_inc = 0xbadbadbadbad
-            csr.address_offset_inc = 0xbadbadbadbad
+            csr.address_info = [current_address_list[name][0]]
             del current_address_list[name]
         elif len(csr.range) == 1:
             # This CSR has a single index
@@ -290,14 +288,14 @@ def read(name, file):
             if not n2 in current_address_list:
                 n2 = NAME_TO_ADDRESS_NAME_MAPPING[n2]
             address2 = current_address_list[n2][0]
-            csr.address_block_inc = 0xbadbadbadbad
+            csr.address_info = [0,0]
             if offset_delta:
-                csr.address_offset_inc = (address2 - address1) / offset_delta
+                csr.address_info[1] = (address2 - address1) / offset_delta
             else:
-                csr.address_offset_inc = 0
+                csr.address_info[1] = 0
             # The base is the value if the index were zero. If it starts
             # higher than that we need to subtract stuff off
-            csr.address_base = address1 - csr.address_offset_inc*offset
+            csr.address_info[0] = address1 - csr.address_info[1]*offset
 
             for name,calc_address,unused1,unused2 in csr.iterateAddresses():
                 if not name in current_address_list:
@@ -313,29 +311,30 @@ def read(name, file):
             offset = csr.range[1][0]
             offset2 = csr.range[1][-1]
             n1 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset, parts[2])
+            csr.address_info = [0,0,0]
             if offset == offset2:
                 address1 = current_address_list[n1][0]
                 address2 = address1
-                csr.address_offset_inc = 0
+                csr.address_info[2] = 0
             else:
                 address1 = current_address_list[n1][0]
                 n2 = "%s%d%s%03d%s" % (parts[0], block, parts[1], offset2, parts[2])
                 address2 = current_address_list[n2][0]
-                csr.address_offset_inc = (address2 - address1) / (offset2 - offset)
+                csr.address_info[2] = (address2 - address1) / (offset2 - offset)
             if block == block2:
                 address1 = current_address_list[n1][0]
                 address2 = address1
-                csr.address_block_inc = 0
+                csr.address_info[1] = 0
             else:
                 address1 = current_address_list[n1][0]
                 n2 = "%s%d%s%03d%s" % (parts[0], block2, parts[1], offset, parts[2])
                 address2 = current_address_list[n2][0]
-                csr.address_block_inc = (address2 - address1) / (block2 - block)
+                csr.address_info[1] = (address2 - address1) / (block2 - block)
                 if csr.type == "SRIOMAINT":
-                    assert (csr.address_block_inc == 0)
+                    assert (csr.address_info[1] == 0)
                 else:
-                    assert (csr.address_block_inc == 0x8000000) or (csr.address_block_inc == 0x60000000) or (csr.address_block_inc == 0x100000000000) or (csr.address_block_inc == 0x1000000), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_offset_inc, csr.address_block_inc)
-            csr.address_base = address1 - csr.address_block_inc*csr.range[0][0] - csr.address_offset_inc*csr.range[1][0]
+                    assert (csr.address_info[1] in [0x1000000, 0x8000000, 0x60000000, 0x100000000000]), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_info[2], csr.address_info[1])
+            csr.address_info[0] = address1 - csr.address_info[1]*csr.range[0][0] - csr.address_info[2]*csr.range[1][0]
 
             for name,calc_address,unused1,unused2 in csr.iterateAddresses():
                 assert calc_address == current_address_list[name][0], "%x == %x[%s][0]" % (calc_address, current_address_list[name][0], name)

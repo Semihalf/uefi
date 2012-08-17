@@ -127,7 +127,7 @@ def fixCsrName(name):
     else:
         return name
 
-def fixDescription(descr, rng):
+def fixDescription(descr):
     if not descr:
         return []
     description = []
@@ -292,13 +292,13 @@ def fixFields(csr):
     for bit in csr.fields:
         f = csr.fields[bit]
         f.name =fixFieldName(csr, f)
-        f.description = fixDescription(f.description, [])
+        f.description = fixDescription(f.description)
         if f.name.startswith("reserved"):
             f.description = []
 
 
 def fixCsr(csr):
-    csr.description = fixDescription(csr.description, csr.range)
-    csr.notes = fixDescription(csr.notes, [])
+    csr.description = fixDescription(csr.description)
+    csr.notes = fixDescription(csr.notes)
     fixFields(csr)
 

@@ -35,19 +35,19 @@ def write(file, separate_chip_lists, include_cisco_only):
             elif range_len == 1:
                 range1 = csr.range[0]
                 range2 = None
-                offset_inc = csr.address_offset_inc
+                offset_inc = csr.address_info[1]
                 block_inc = 0
             else:
                 range1 = csr.range[1]
                 range2 = csr.range[0]
-                offset_inc = csr.address_offset_inc
-                block_inc = csr.address_block_inc
+                offset_inc = csr.address_info[2]
+                block_inc = csr.address_info[1]
             name = csr.name.replace("#", "X")
             out.write("        %s = {\n" % name.upper())
             out.write("            name = \"%s\",\n" % csr.name.upper())
             out.write("            type = \"%s\",\n" % csr.type.upper())
             out.write("            width = %d,\n" % (csr.getNumBits() / 8))
-            out.write("            address = 0x%x,\n" % csr.address_base)
+            out.write("            address = 0x%x,\n" % csr.address_info[0])
             if range1:
                 out.write("            range1 = %s,\n" % range_string(range1))
                 out.write("            range1_inc = 0x%x,\n" % offset_inc)

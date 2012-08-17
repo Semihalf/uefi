@@ -2,7 +2,7 @@ import re
 from csr_fixes import fixCsrName
 from csr_fixes import fixCsr
 from types import *
-from csr_output_addresses import toHex, getBitMask
+from csr_output_addresses import getBitMask
 
 VALID_FIELD_TYPES = ["RAZ",     # Read as zero
                      "R/W",     # Read / Write
@@ -96,9 +96,7 @@ class Csr:
         self.fields = {}
         self.cisco_only = 0
         self.setNotes(notes)
-        self.address_base = 0
-        self.address_block_inc = 0xbadbadbadbad
-        self.address_offset_inc = 0xbadbadbadbad
+        self.address_info = None
         for i in xrange(len(self.description)-1, -1, -1):
             if "CISCO-SPECIFIC" in self.description[i]:
                 self.cisco_only = 1
@@ -199,50 +197,9 @@ class Csr:
                 field.c_type = default_c_type
 
     def validateAddresses(self):
-        # Require everyone except PCI(e) and SRIOMAINT to start at non zero
-        assert (self.address_base != 0) or (self.type == "PCI") or (self.type == "PCICONFIGEP") or (self.type == "PCICONFIGRC") or (self.type == "PEXP") or (self.type == "SRIOMAINT")
-        if len(self.range) == 0:
-            # No range data, so both increments must be bad
-            assert self.address_offset_inc == 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_offset_inc)
-            assert self.address_block_inc == 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_block_inc)
-        elif len(self.range) == 1:
-            # Increment must not be bad
-            assert self.address_offset_inc != 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_offset_inc)
-            if self.range[0][0] == self.range[0][-1]:
-                # Force increment to be zero if range only covers one value
-                assert self.address_offset_inc == 0, "%s 0x%x" % (self.name, self.address_offset_inc)
-            else:
-                if self.type in ["PCICONFIGEP", "PCICONFIGRC", "SRIOMAINT"]:
-                    # PCI(e) and SRIO MAINT are special in that they have the same address on all ports
-                    assert self.address_offset_inc == 0, "%s 0x%x" % (self.name, self.address_offset_inc)
-                else:
-                    # Increment must not be zero if there is a useful range
-                    assert self.address_offset_inc != 0, "%s 0x%x" % (self.name, self.address_offset_inc)
-            # Unused block increment must be bad
-            assert self.address_block_inc == 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_block_inc)
-        elif len(self.range) == 2:
-            # Increment must not be bad
-            assert self.address_offset_inc != 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_offset_inc)
-            if self.range[1][0] == self.range[1][-1]:
-                # Force increment to be zero if range only covers one value
-                assert self.address_offset_inc == 0, "%s 0x%x" % (self.name, self.address_offset_inc)
-            else:
-                # Increment must not be zero if there is a useful range
-                assert self.address_offset_inc != 0, "%s 0x%x" % (self.name, self.address_offset_inc)
-            # Increment must not be bad
-            assert self.address_block_inc != 0xbadbadbadbad, "%s 0x%x" % (self.name, self.address_block_inc)
-            if self.range[0][0] == self.range[0][-1]:
-                # Force increment to be zero if range only covers one value
-                assert self.address_block_inc == 0, "%s 0x%x" % (self.name, self.address_block_inc)
-            else:
-                if self.type in ["SRIOMAINT"]:
-                    # SRIO MAINT are special in that they have the same address on all ports
-                    assert self.address_block_inc == 0, "%s 0x%x" % (self.name, self.address_block_inc)
-                else:
-                    # Increment must not be zero if there is a useful range
-                    assert self.address_block_inc != 0, "%s 0x%x" % (self.name, self.address_block_inc)
-        else:
-            raise Exception("CSR %s, Illegal range length" % (self.name))
+        assert len(self.range) + 1 == len(self.address_info), "Range length doesn't match address_info_length"
+        for a in self.address_info:
+            assert a >= 0, "%s address is negative" % self.name
 
     def validate(self):
         fixCsr(self) # Do the ugly custom fix stuff
@@ -282,7 +239,7 @@ class Csr:
         name = self.name.upper()
         if len(self.range) == 0:
             assert "#" not in name
-            yield (name, self.address_base, -1, -1)
+            yield (name, self.address_info[0], -1, -1)
         elif len(self.range) == 1:
             name_parts = name.split("#")
             assert len(name_parts) == 2
@@ -293,7 +250,7 @@ class Csr:
                 range_num += 2
                 for i in range(index_low, index_high+1):
                     n = "%s%d%s" % (name_parts[0], i, name_parts[1])
-                    address = self.address_base + self.address_offset_inc*i
+                    address = self.address_info[0] + self.address_info[1]*i
                     yield (n, address, i, -1)
         elif len(self.range) == 2:
             name_parts = name.split("#")
@@ -311,7 +268,7 @@ class Csr:
                         offset_range_num += 2
                         for i in range(offset_index_low, offset_index_high+1):
                             n = "%s%d%s%03d%s" % (name_parts[0], block, name_parts[1],  i, name_parts[2])
-                            address = self.address_base + self.address_block_inc*block + self.address_offset_inc*i
+                            address = self.address_info[0] + self.address_info[1]*block + self.address_info[2]*i
                             yield (n, address, i,  block)
         else:
             raise Exception("Illegal range on csr " + self.name)
@@ -322,56 +279,22 @@ class Csr:
     # given the required block/index arguments.
     #
     def getAddressEquation(self, no_ull=0):
-        base_address = self.address_base
-        if self.range:
-            offset_max = max(self.range[0])
-            if len(self.range) > 1:
-                offset_max = max(self.range[1])
-                block_max = max(self.range[0])
-            else:
-                block_max = 0
-        else:
-            offset_max = 0
-            block_max = 0
-
-        if len(self.range) == 0:
-            address_part = toHex(base_address, 16) + "ull"
-        elif len(self.range) == 1:
-            address_part = "%sull" % toHex(base_address, 16)
+        address_part = "0x%016Xull" % self.address_info[0]
+        PARAMS = ["none", "block_id", "offset"]
+        for i in xrange(1, len(self.address_info)):
+            if self.address_info[i] == 0:
+                continue
+            offset_max = max(self.range[i-1])
+            if offset_max == 0:
+                continue
             bit_mask = getBitMask(offset_max)
-            if bit_mask and self.address_offset_inc:
-                if self.address_offset_inc >= 65536:
-                    address_part += " + (block_id & %d) * %sull" % (bit_mask, toHex(self.address_offset_inc))
-                elif self.address_offset_inc:
-                    address_part += " + (offset & %d) * %d" % (bit_mask, self.address_offset_inc)
-        elif len(self.range) == 2:
-            # The following is a workaround for a bug in the gcc expression
-            # optimizer. If you have an expression x*A+y*B, gcc will attempt
-            # to change it into (x+y*B/A)*A. The problem is that it truncates
-            # B/A into 32bits. Here we do the transform ourselves to avoid this
-            # behavior.
-            if self.address_offset_inc and (self.address_block_inc % self.address_offset_inc == 0):
-                offset_bit_mask = getBitMask(offset_max)
-                block_bit_mask = getBitMask(block_max)
-                if offset_bit_mask:
-                    if block_bit_mask and self.address_block_inc:
-                        address_part = "%sull + ((offset & %d) + (block_id & %d) * %sull) * %d" % (toHex(base_address, 16), offset_bit_mask, block_bit_mask, toHex(self.address_block_inc/self.address_offset_inc), self.address_offset_inc)
-                    else:
-                        address_part = "%sull + (offset & %d) * %d" % (toHex(base_address, 16), offset_bit_mask, self.address_offset_inc)
-                else:
-                    address_part = "%sull" % toHex(base_address, 16)
-                    if block_bit_mask and self.address_block_inc:
-                        address_part += " + (block_id & %d) * %sull" % (block_bit_mask, toHex(self.address_block_inc))
+            param = PARAMS[i]
+            if self.address_info[i] >= 65536:
+                address_part += " + (%s & %d) * 0x%Xull" % (param, bit_mask, self.address_info[i])
             else:
-                address_part = "%sull" % toHex(base_address, 16)
-                bit_mask = getBitMask(offset_max)
-                if bit_mask and self.address_offset_inc:
-                    address_part += " + (offset & %d) * %d" % (bit_mask, self.address_offset_inc)
-                bit_mask = getBitMask(block_max)
-                if bit_mask and self.address_block_inc:
-                    address_part += " + (block_id & %d) * %sull" % (bit_mask, toHex(self.address_block_inc))
-        else:
-            raise Exception("Unexpected number of parameters")
+                if (i == 1) and (len(self.address_info) == 2):
+                    param = PARAMS[2]
+                address_part += " + (%s & %d) * %d" % (param, bit_mask, self.address_info[i])
         if no_ull:
             address_part = address_part.replace("ull", "")
         return address_part

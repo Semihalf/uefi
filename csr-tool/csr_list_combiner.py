@@ -74,14 +74,11 @@ def combine(csr_lists):
             cisco_only |= csr.cisco_only
             assert csr.type == current.type, "%s %s:%s == %s:%s" % (name, chip, csr.type, chips[0], current.type)
             assert len(csr.range) == len(current.range), "%s %s:%d == %s:%d" % (name, chip, len(csr.range), chips[0], len(current.range))
-            if csr.address_offset_inc == 0:
-                csr.address_offset_inc = current.address_offset_inc
-            elif current.address_offset_inc == 0:
-                current.address_offset_inc = csr.address_offset_inc
-            if csr.address_block_inc == 0:
-                csr.address_block_inc = current.address_block_inc
-            elif current.address_block_inc == 0:
-                current.address_block_inc = csr.address_block_inc
+            for i in xrange(1, len(csr.address_info)):
+                if csr.address_info[i] == 0:
+                    csr.address_info[i] = current.address_info[i]
+                elif current.address_info[i] == 0:
+                    current.address_info[i] = csr.address_info[i]
 
         # Figure out the range data for the superset
         # FIXME: Make this create a nice range
@@ -118,9 +115,7 @@ def combine(csr_lists):
         combined_csr = Csr([name], current.type, description, notes)
         combined_csr.cisco_only = cisco_only
         combined_csr.range = csr_range
-        combined_csr.address_base = current.address_base
-        combined_csr.address_offset_inc = current.address_offset_inc
-        combined_csr.address_block_inc = current.address_block_inc
+        combined_csr.address_info = current.address_info
 
         bits_in_csr = current.getNumBits()
         used_bits = ["reserved" for b in range(bits_in_csr)]

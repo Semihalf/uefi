@@ -150,17 +150,17 @@ def write(file, separate_chip_lists, include_cisco_only):
             elif range_len == 1:
                 range1 = getRangeTable(csr.range[0])
                 range2 = empty_range
-                offset_inc = csr.address_offset_inc
+                offset_inc = csr.address_info[1]
                 block_inc = 0
             else:
                 range1 = getRangeTable(csr.range[1])
                 range2 = getRangeTable(csr.range[0])
-                offset_inc = csr.address_offset_inc
-                block_inc = csr.address_block_inc
+                offset_inc = csr.address_info[2]
+                block_inc = csr.address_info[1]
             name = csr.name.replace("#", "X")
             csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s}" % (
                         getStringTable(name), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
-                        range1, range2, getNumberTable(csr.address_base), getNumberTable(offset_inc), getNumberTable(block_inc))
+                        range1, range2, getNumberTable(csr.address_info[0]), getNumberTable(offset_inc), getNumberTable(block_inc))
             csr_index = getCsrTable(csr_str)
             out.write("    %d, /* %s */\n" % (csr_index, name))
 
