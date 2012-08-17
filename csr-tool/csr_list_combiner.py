@@ -82,8 +82,6 @@ def combine(csr_lists):
                 csr.address_block_inc = current.address_block_inc
             elif current.address_block_inc == 0:
                 current.address_block_inc = csr.address_block_inc
-            if csr.pci_alias != current.pci_alias:
-                print "ERROR pci_alias %s %s:0x%x == %s:0x%x" % (name, chip, csr.pci_alias, chips[0], current.pci_alias)
 
         # Figure out the range data for the superset
         # FIXME: Make this create a nice range
@@ -123,7 +121,6 @@ def combine(csr_lists):
         combined_csr.address_base = current.address_base
         combined_csr.address_offset_inc = current.address_offset_inc
         combined_csr.address_block_inc = current.address_block_inc
-        combined_csr.pci_alias = current.pci_alias
 
         bits_in_csr = current.getNumBits()
         used_bits = ["reserved" for b in range(bits_in_csr)]

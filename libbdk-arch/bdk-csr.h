@@ -68,8 +68,6 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x80011F0000010000ull;
-            /* Fall through */
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
@@ -108,8 +106,6 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
-            address |= 0x80011F0000010000ull;
-            /* Fall through */
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;

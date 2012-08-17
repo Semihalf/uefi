@@ -51,22 +51,9 @@ def createRangeCheck(arg, ranges):
     range_check = range_check[4:]
     return range_check
 
-def writeAddress(out, csr, pci_alias, chip_list):
+def writeAddress(out, csr, chip_list):
     num_params = len(csr["s"].range)
     name = getCname(csr["s"]).upper()
-    if csr["s"].pci_alias == -1:
-        if pci_alias:
-            return
-    else:
-        if not pci_alias:
-            return # Leave this code as we might need it someday
-            if csr["s"].type == "PEXP_NCB":
-                name = "PEXP_" + name
-            elif (csr["s"].type == "PCICONFIG") or (csr["s"].type == "PCI_NCB"):
-                name = "NPI_" + name
-            else:
-                raise Exception("Unexpected csr.type %s with pci alias" % csr["s"].type)
-
     if num_params == 0:
         out.write("#define %s %s_FUNC()\n" % (name, name))
         out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure, always_inline));\n" % name)
@@ -104,7 +91,7 @@ def writeAddress(out, csr, pci_alias, chip_list):
                 range_check = " && (%s)" % createRangeCheck("block_id", csr[chip].range[0])
         else:
             range_check = " && (%s) && (%s)" % (createRangeCheck("block_id", csr[chip].range[0]), createRangeCheck("offset", csr[chip].range[1]))
-        address_list.append((CHIP_TO_MODEL[chip], range_check, csr[chip].getAddressEquation(pci_alias=pci_alias)))
+        address_list.append((CHIP_TO_MODEL[chip], range_check, csr[chip].getAddressEquation()))
     all_same = (len(chip_list) == len(address_list))
     for line in address_list[1:]:
         if (line[1] != address_list[0][1]) or (line[2] != address_list[0][2]):
@@ -181,6 +168,5 @@ def write(out, csr, chip_list):
                 CHIP_PASS_LIST[chip_model] = []
             if not chip_pass in CHIP_PASS_LIST[chip_model]:
                 CHIP_PASS_LIST[chip_model].append(chip_pass)
-    writeAddress(out, csr, 0, chip_list)
-    writeAddress(out, csr, 1, chip_list)
+    writeAddress(out, csr, chip_list)
 

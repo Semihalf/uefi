@@ -94,13 +94,11 @@ class Csr:
         self.type = csr_type
         self.description = description
         self.fields = {}
-        self.addresses = {}
         self.cisco_only = 0
         self.setNotes(notes)
         self.address_base = 0
         self.address_block_inc = 0xbadbadbadbad
         self.address_offset_inc = 0xbadbadbadbad
-        self.pci_alias = -1
         for i in xrange(len(self.description)-1, -1, -1):
             if "CISCO-SPECIFIC" in self.description[i]:
                 self.cisco_only = 1
@@ -323,11 +321,8 @@ class Csr:
     # Return a string containing a C style equation for calculating the address
     # given the required block/index arguments.
     #
-    def getAddressEquation(self, pci_alias=0, no_ull=0):
-        if pci_alias:
-            base_address = self.pci_alias
-        else:
-            base_address = self.address_base
+    def getAddressEquation(self, no_ull=0):
+        base_address = self.address_base
         if self.range:
             offset_max = max(self.range[0])
             if len(self.range) > 1:
