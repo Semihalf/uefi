@@ -10,7 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2012.08-75880
+octeon-bdk-2012.08-75963
 ------------------------
 * Traffic-gen
 ** Fix bug where packet buffers could be freed while still in use
