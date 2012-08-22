@@ -10,6 +10,17 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.08-75880
+------------------------
+* Traffic-gen
+** Fix bug where packet buffers could be freed while still in use
+	when traffic stopped with 'stop' command.
+** Handling of SSO work changed internally to better work with
+	core stalls due to an automatic SYNCIOBDMA before scratch
+	reads.
+* Workaround for errata SSO-16306
+
+
 octeon-bdk-2012.05-73226
 ------------------------
 * Added reporting for ECC, parity, and other hardware detected
