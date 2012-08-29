@@ -10,6 +10,23 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+
+octeon-bdk-2012.08-76122
+------------------------
+
+* Fixed issue with setting environment variables that are numbers.
+** All previous BDK releases can crash in random ways whenever an
+	environment variable is set with either a name or value
+	that parses into a number. The bug was the Lua bridge
+	code would convert the string to a number and use the
+	resulting value as a pointer.
+* Updated DRAM init code:
+** Add 1ms delay after each power-up/init sequence to help make some
+	designs more robust.
+** At least a 500us delay is necessary after DDR_RESET_L is deasserted.
+	This was missing from the early HRMs.
+
+
 octeon-bdk-2012.08-75963
 ------------------------
 * Traffic-gen
