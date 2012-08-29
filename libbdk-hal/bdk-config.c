@@ -74,6 +74,11 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     /* Controls if link status messages are displayed. Turning this off
         can be useful to help scripting as the messages are aynchronous */
     AS_INIT(BDK_CONFIG_SHOW_LINK_STATUS, BDK_SHOW_BOOT_BANNERS),
+
+
+    /* Coremask (good cores) to run when 'all' cores are started.
+       0x0 is interpreted as all cores being good.*/
+    AS_INIT(BDK_CONFIG_COREMASK, 0x0ull),
 };
 #undef AS_INIT
 

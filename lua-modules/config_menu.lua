@@ -10,18 +10,23 @@ local configPrompt -- This is needed so variable is defined in addMenu
 
 -- Add/update an option in the menu. The current value is attached to the
 -- menu text
-local function addMenu(description, config_item, min_value, max_value)
+local function addMenuKey(key, description, config_item, min_value, max_value)
     local v = octeon.c.bdk_config_get(config_item)
     local menu_text = "%s (0x%x)" % {description, v}
-    m:item("item" .. config_item, menu_text, configPrompt, description, config_item, min_value, max_value)
+    m:item(key, menu_text, configPrompt, key, description, config_item, min_value, max_value)
+end
+
+local function addMenu(description, config_item, min_value, max_value)
+    local key = "item" .. config_item
+    addMenuKey(key, description, config_item, min_value, max_value)
 end
 
 -- Function that is run when a menu item is selected
-configPrompt = function(description, config_item, min_value, max_value)
+configPrompt = function(key, description, config_item, min_value, max_value)
     local oldv = octeon.c.bdk_config_get(config_item)
     local v = menu.prompt_number(description, oldv, min_value, max_value)
     octeon.c.bdk_config_set(config_item, v)
-    addMenu(description, config_item, min_value, max_value)
+    addMenuKey(key, description, config_item, min_value, max_value)
 end
 
 
@@ -70,6 +75,7 @@ promptPhy = function(port_name, config_item)
 end
 
 addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
+addMenuKey("coremask", "Good Coremask", octeon.CONFIG_COREMASK)
 
 -- Add an item for each MGMT port
 local if_mgmt = 6

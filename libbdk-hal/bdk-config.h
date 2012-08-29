@@ -64,6 +64,8 @@ typedef enum
     BDK_CONFIG_NUM_PACKET_BUFFERS,
     BDK_CONFIG_SHOW_LINK_STATUS,
 
+    BDK_CONFIG_COREMASK,
+
     __BDK_CONFIG_END
 } bdk_config_t;
 
