@@ -171,6 +171,11 @@ int bdk_init_cores(uint64_t coremask)
     /* Limit to the cores that aren't already running */
     coremask &= ~__bdk_alive_coremask;
 
+    /* Limit to the cores that are specified in configuration menu */
+    uint64_t config_coremask = bdk_config_get(BDK_CONFIG_COREMASK);
+    if (coremask)
+        coremask &= config_coremask;
+
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
 
