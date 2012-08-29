@@ -76,6 +76,11 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_l2c_initialize();
         __bdk_config_init(); /* Some config setting are dynamically updated */
 
+        extern char **environ;
+        environ = calloc(sizeof(*environ), 1);
+        if (!environ)
+            bdk_error("Failed to allocate environment, setenv will crash\n");
+
         if (!bdk_is_simulation())
             __bdk_setup_bootbus();
 
