@@ -21,20 +21,24 @@ static int octeon_c_call(lua_State* L)
     int i;
     for(i=0; i<num_args; i++)
     {
-        if(lua_isnumber(L, i+1))
+        /* Use lua_type() instead of lua_isX() so Lua doesn't do type
+            conversion. I'll never understand the fascination with weakly
+            typed languages */
+        int arg_type = lua_type(L, i+1);
+        if (arg_type == LUA_TNUMBER)
         {
             args[i] = lua_tonumber(L, i+1);
         }
-        else if(lua_isstring(L, i+1))
+        else if (arg_type == LUA_TSTRING)
         {
             const char *str = lua_tostring(L, i+1);
             args[i] = (long)str;
         }
-        else if(lua_isnil(L, i+1))
+        else if (arg_type == LUA_TNIL)
         {
             args[i] = 0;
         }
-        else if(lua_isboolean(L, i+1))
+        else if (arg_type == LUA_TBOOLEAN)
         {
             args[i] = lua_toboolean(L, i+1);
         }
