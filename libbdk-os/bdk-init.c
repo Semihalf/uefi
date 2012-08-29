@@ -173,7 +173,7 @@ int bdk_init_cores(uint64_t coremask)
 
     /* Limit to the cores that are specified in configuration menu */
     uint64_t config_coremask = bdk_config_get(BDK_CONFIG_COREMASK);
-    if (coremask)
+    if (config_coremask)
         coremask &= config_coremask;
 
     /* Limit to the cores that exist */
