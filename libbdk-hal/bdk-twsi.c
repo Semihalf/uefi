@@ -32,7 +32,7 @@ int bdk_twsix_initialize(void)
     sw_twsi.s.op = 0x6;    /* See EOP field */
     sw_twsi.s.r = 0;       /* Select CLKCTL when R = 0 */
     sw_twsi.s.eop_ia = 3;  /* R=0 selects CLKCTL, R=1 selects STAT */
-    sw_twsi.s.d = ((M_divider & 0xf) << 3) | ((N_divider & 0x7) << 0);
+    sw_twsi.s.data = ((M_divider & 0xf) << 3) | ((N_divider & 0x7) << 0);
 
     for (int bus=0; bus<2; bus++)
         BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(bus), sw_twsi.u64);
@@ -68,7 +68,7 @@ retry:
     sw_twsi_val.s.r = 1;
     sw_twsi_val.s.sovr = 1;
     sw_twsi_val.s.size = num_bytes - 1;
-    sw_twsi_val.s.a = dev_addr;
+    sw_twsi_val.s.addr = dev_addr;
 
     if (ia_width_bytes > 0)
     {
@@ -93,16 +93,16 @@ retry:
         ** Lost arbitration : 0x38, 0x68, 0xB0, 0x78
         ** Core busy as slave: 0x80, 0x88, 0xA0, 0xA8, 0xB8, 0xC0, 0xC8
         */
-        if (sw_twsi_val.s.d == 0x38
-            || sw_twsi_val.s.d == 0x68
-            || sw_twsi_val.s.d == 0xB0
-            || sw_twsi_val.s.d == 0x78
-            || sw_twsi_val.s.d == 0x80
-            || sw_twsi_val.s.d == 0x88
-            || sw_twsi_val.s.d == 0xA0
-            || sw_twsi_val.s.d == 0xA8
-            || sw_twsi_val.s.d == 0xB8
-            || sw_twsi_val.s.d == 0xC8)
+        if (sw_twsi_val.s.data == 0x38
+            || sw_twsi_val.s.data == 0x68
+            || sw_twsi_val.s.data == 0xB0
+            || sw_twsi_val.s.data == 0x78
+            || sw_twsi_val.s.data == 0x80
+            || sw_twsi_val.s.data == 0x88
+            || sw_twsi_val.s.data == 0xA0
+            || sw_twsi_val.s.data == 0xA8
+            || sw_twsi_val.s.data == 0xB8
+            || sw_twsi_val.s.data == 0xC8)
         {
             if (retry_limit-- > 0)
                 goto retry;
@@ -111,7 +111,7 @@ retry:
         return -1;
     }
 
-    return (sw_twsi_val.s.d & (0xFFFFFFFF >> (32 - num_bytes*8)));
+    return (sw_twsi_val.s.data & (0xFFFFFFFF >> (32 - num_bytes*8)));
 }
 
 
@@ -147,8 +147,8 @@ int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
     sw_twsi_val.s.v = 1;
     sw_twsi_val.s.sovr = 1;
     sw_twsi_val.s.size = num_bytes - 1;
-    sw_twsi_val.s.a = dev_addr;
-    sw_twsi_val.s.d = 0xFFFFFFFF & data;
+    sw_twsi_val.s.addr = dev_addr;
+    sw_twsi_val.s.data = 0xFFFFFFFF & data;
 
     if (ia_width_bytes > 0)
     {
@@ -162,7 +162,7 @@ int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, in
         twsi_ext.s.ia = internal_addr >> 8;
     }
     if (num_bytes > 4)
-        twsi_ext.s.d = data >> 32;
+        twsi_ext.s.data = data >> 32;
 
     BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
     BDK_CSR_WRITE(BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);

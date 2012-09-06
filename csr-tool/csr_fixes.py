@@ -280,6 +280,10 @@ def fixFieldName(csr, field):
         return "switchf"
     elif old_name == "enum":
         return "enumb"
+    elif old_name == "a":
+        return "addr"
+    elif old_name == "d":
+        return "data"
     elif (csr.name == "lmc#_ctl") and (old_name == "sparef"):
         return "reserved_" + str(field.start_bit) + "_" + str(field.stop_bit)
     elif (csr.name == "l2d_fus3") and (old_name == "fus_spare"):
