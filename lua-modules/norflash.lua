@@ -136,8 +136,11 @@ local function nor_cmd_read(nor, offset)
     end
     local result = nor_read(nor.bootbus, offset, length)
     if length == 2 then
-        assert(result:sub(1,1) == result:sub(2,2), "Duplicate command bytes don't match")
-        result = result:sub(1,1)
+        if nor.bus_16bit then
+            result = result:sub(2,2)
+        else
+            assert(result:sub(1,1) == result:sub(2,2), "Duplicate command bytes don't match")
+        end
     end
     -- Convert the byte to a number
     return result:byte(1)
@@ -150,8 +153,12 @@ end
 --
 local function nor_cmd_write(nor, offset, value)
     local data = string.char(value)
-    if nor.cmd_16bit then
+    if nor.bus_16bit then
         -- Flash uses 16 bit commands
+        data = data .. data
+        offset = offset * 2
+    elseif nor.cmd_16bit then
+        -- Flash uses 16 bit commands, spaced every 2
         offset = offset * 2
     end
     nor_write(nor.bootbus, offset, data)
@@ -250,6 +257,7 @@ end
 -- Note: The EBB6300 and EBB6800 have AMD based parts
 --
 local function amd_reset(nor)
+    log:debug("[AMD] Reset\n")
     nor_cmd_write(nor, 0, 0xf0)
 end
 
@@ -258,13 +266,18 @@ end
 --
 local function amd_erase(nor, offset)
     nor:reset(nor)
+    log:debug("[AMD] Erase\n")
     -- Send the erase sector command sequence
     nor_cmd_write(nor, 0x555, 0xaa)
     nor_cmd_write(nor, 0x2aa, 0x55)
     nor_cmd_write(nor, 0x555, 0x80)
     nor_cmd_write(nor, 0x555, 0xaa)
     nor_cmd_write(nor, 0x2aa, 0x55)
-    nor_write(nor.bootbus, offset, "\x30")
+    if nor.bus_16bit then
+        nor_write(nor.bootbus, offset, "\x30\x30")
+    else
+        nor_write(nor.bootbus, offset, "\x30")
+    end
 
     -- Loop checking status
     local status = nor:readb(offset)
@@ -303,10 +316,15 @@ end
 local function amd_write(nor, offset, data)
     -- Loop through one byte at a time
     while #data > 0 do
-        local to_write = data:sub(1,1)
-        data = data:sub(2)
+        local write_len = 1
+        if nor.bus_16bit then
+            write_len = 2
+        end
+        local to_write = data:sub(1,write_len)
+        data = data:sub(write_len+1)
         -- Send the program sequence
         nor:reset(nor)
+        log:debug("[AMD] Write\n")
         nor_cmd_write(nor, 0x555, 0xaa)
         nor_cmd_write(nor, 0x2aa, 0x55)
         nor_cmd_write(nor, 0x555, 0xa0)
@@ -327,7 +345,7 @@ local function amd_write(nor, offset, data)
             assert(os.time() <= timeout, "NOR: Timeout writing block")
         end
         -- Increment to the next byte
-        offset = offset + 1
+        offset = offset + write_len
     end
     nor:reset()
 end
@@ -337,6 +355,7 @@ end
 -- Note: The NIC10E has an Intel based part
 --
 local function intel_reset(nor)
+    log:debug("[Intel] Reset\n")
     nor_cmd_write(nor, 0, 0xff)
 end
 
@@ -359,6 +378,7 @@ end
 --
 local function intel_erase(nor, offset)
     nor:reset(nor)
+    log:debug("[Intel] Erase\n")
     -- Clear lock bits
     nor_write(nor.bootbus, offset, "\x60")
     nor_write(nor.bootbus, offset, "\xd0")
@@ -375,6 +395,7 @@ end
 --
 local function intel_write(nor, offset, data)
     nor:reset(nor)
+    log:debug("[Intel] Write\n")
     -- Loop through one byte at a time
     for i=1, #data do
         local to_write = data:sub(i,i)
@@ -397,11 +418,13 @@ local function cfi_query(chip_sel)
         return nil
     end
     nor.cmd_16bit = true
+    nor.bus_16bit = (nor.bootbus.width == 1)
     -- Dummy read to make sure flash is in the normal access mode
     nor_read(nor.bootbus, 0, 1)
     -- Send reset command for both AMD and Intel command sets
     amd_reset(nor)
     intel_reset(nor)
+    log:debug("CFI Query\n")
     -- Send the query command
     nor_cmd_write(nor, 0x55, 0x98)
     -- Read CFI query identification string
@@ -411,6 +434,7 @@ local function cfi_query(chip_sel)
     assert(result == 0x52, "Expected 'R' from CFI query")
     local result = nor_cmd_read(nor, 0x12)
     assert(result == 0x59, "Expected 'Y' from CFI query")
+    log:debug("Reading CFI parameters\n")
     nor.params = {}
     nor.params.primary_cmd_set = nor_cmd_read16(nor, 0x13)
     nor.params.primary_extend = nor_cmd_read16(nor, 0x15)
