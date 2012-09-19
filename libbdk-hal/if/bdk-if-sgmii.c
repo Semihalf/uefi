@@ -80,6 +80,21 @@ static int init_link(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
+    int forced_speed_mbps = 0;  /* Default to no forced speed, use autonegotiation */
+
+
+    /* Check for special PHY address values that indicate a forced speed, and no MDIO
+       connection to the PHY.  In these cases we will also force the SGMII speed, and not
+       do SGMII autonegotiation. Only 1000/100 Mbits/second are supported.*/
+    if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1000))
+        forced_speed_mbps = 1000;
+    else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1001))
+        forced_speed_mbps = 100;
+    else
+    {
+        bdk_dprintf("SGMII%d%d: Invalid speed configured\n", handle->interface, handle->index);
+        return(-1);
+    }
 
     /* Disable error reporting */
     BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block), 0);
@@ -101,19 +116,32 @@ static int init_link(bdk_if_handle_t handle)
         }
     }
 
-    /* Write PCS*_MR*_CONTROL_REG[RST_AN]=1 to ensure a fresh sgmii negotiation starts. */
-    BDK_CSR_MODIFY(control_reg, BDK_PCSX_MRX_CONTROL_REG(gmx_index, gmx_block),
-        control_reg.s.rst_an = 1;
-        control_reg.s.an_en = 1;
-        control_reg.s.pwr_dn = 0);
-
-    /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
-        sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
-        link, but a link between Octeon and the PHY */
-    if (!bdk_is_simulation() &&
-        BDK_CSR_WAIT_FOR_FIELD(BDK_PCSX_MRX_STATUS_REG(gmx_index, gmx_block), an_cpt, ==, 1, 10000))
+    if (!forced_speed_mbps)
     {
-        return -1;
+        /* Write PCS*_MR*_CONTROL_REG[RST_AN]=1 to ensure a fresh sgmii negotiation starts. */
+        BDK_CSR_MODIFY(control_reg, BDK_PCSX_MRX_CONTROL_REG(gmx_index, gmx_block),
+            control_reg.s.rst_an = 1;
+            control_reg.s.an_en = 1;
+            control_reg.s.pwr_dn = 0);
+
+        /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
+            sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
+            link, but a link between Octeon and the PHY */
+        if (!bdk_is_simulation() &&
+            BDK_CSR_WAIT_FOR_FIELD(BDK_PCSX_MRX_STATUS_REG(gmx_index, gmx_block), an_cpt, ==, 1, 10000))
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        /* A forced interface speed was selected, so configure this for the SGMII link as well,
+           and don't do autonegotiation. */
+        BDK_CSR_MODIFY(control_reg, BDK_PCSX_MRX_CONTROL_REG(gmx_index, gmx_block),
+                       control_reg.s.spdmsb = (forced_speed_mbps == 1000);
+                       control_reg.s.spdlsb = (forced_speed_mbps != 1000);
+                       control_reg.s.an_en = 0;
+                       control_reg.s.pwr_dn = 0);
     }
 
     /* CN68XX adds the padding and FCS in PKO, not GMX */
