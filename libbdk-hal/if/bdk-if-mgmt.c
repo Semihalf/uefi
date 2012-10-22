@@ -357,6 +357,13 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
             agl_gmx_prtx.s.slottime = 0;
             agl_gmx_prtx.s.speed_msb = 1;
             agl_gmx_prtx.s.burst = 1;
+            /* Due to errata (AGL-16930) 100/10 transmit IFGs are too small,
+                we must program the inter frame gap. Note this might cause
+                issues if there are two MGMT ports configured for different
+                speeds */
+            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+                c.s.ifg1 = 14;
+                c.s.ifg2 = 10);
          break;
 
         case 100:
@@ -364,6 +371,13 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
             agl_gmx_prtx.s.slottime = 0;
             agl_gmx_prtx.s.speed_msb = 0;
             agl_gmx_prtx.s.burst = 1;
+            /* Due to errata (AGL-16930) 100/10 transmit IFGs are too small,
+                we must program the inter frame gap. Note this might cause
+                issues if there are two MGMT ports configured for different
+                speeds */
+            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+                c.s.ifg1 = 14;
+                c.s.ifg2 = 10);
             break;
 
         case 1000:
@@ -372,6 +386,13 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
             agl_gmx_prtx.s.speed = 1;
             agl_gmx_prtx.s.slottime = 1;  /* Only matters for half-duplex */
             agl_gmx_prtx.s.burst = agl_gmx_prtx.s.duplex;
+            /* Due to errata (AGL-16930) 100/10 transmit IFGs are too small,
+                we must program the inter frame gap. Note this might cause
+                issues if there are two MGMT ports configured for different
+                speeds */
+            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+                c.s.ifg1 = 8;
+                c.s.ifg2 = 4);
             break;
 
         /* No link */
