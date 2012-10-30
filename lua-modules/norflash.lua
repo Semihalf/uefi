@@ -9,19 +9,30 @@ require("fileio")
 local bit64 = require("bit64")
 local logging = require("logging")
 local log = logging.new("NOR")
+--local log = logging.new("NOR", logging.DEBUG)
 
 local norflash = {}
-local use_oremote = true
 local init_complete = false
+local READ_CSR
+local WRITE_CSR
+local CSR_TYPE_NCB
+local MIO_BOOT_REG_CFGX
 
-local oremote
-local csr
-if use_oremote then
-    oremote = require("oremote")
-    csr = oremote.csr
+local oremote = require("oremote")
+if oremote then
+    -- Running remote, use oremote access functions
+    READ_CSR = oremote.read_csr
+    WRITE_CSR = oremote.write_csr
+    CSR_TYPE_NCB = oremote.CSR_TYPE_NCB
+    MIO_BOOT_REG_CFGX = oremote.csr.MIO_BOOT_REG_CFGX
 else
+    -- Running native, use C functions
     require("octeon")
     csr = octeon.csr
+    READ_CSR = octeon.c.bdk_csr_read
+    WRITE_CSR = octeon.c.bdk_csr_write
+    CSR_TYPE_NCB = octeon.CSR_TYPE_NCB
+    MIO_BOOT_REG_CFGX = octeon.csr.MIO_BOOT_REG_CFGX
 end
 
 --
@@ -32,10 +43,10 @@ local function init_bootbus()
     -- positioned such that it will alias the first 4MB to the normal MIPS
     -- boot address.
     for i=0,7 do
-        local address = 0x0fc00000 + i * 0x20000000
-        log:debug("Setting bootbus region %d to 0x%x size=256MB\n", i, address)
-        csr.MIO_BOOT_REG_CFGX(i).BASE = address / 65536
-        csr.MIO_BOOT_REG_CFGX(i).SIZE = 0xfff
+        local address = 0x1fc00000 + i * 0x10000000
+        log:debug("Setting bootbus region %d to 0x%x size=%dMB\n", i, address, ((0xfff+1) * 64) / 1024)
+        MIO_BOOT_REG_CFGX(i).BASE = address / 65536
+        MIO_BOOT_REG_CFGX(i).SIZE = 0xfff
     end
 end
 
@@ -43,7 +54,7 @@ end
 -- Query the bootbus and determine the setup for a chip select
 --
 local function get_bootbus(chip_sel)
-    local reg_cfg = csr.MIO_BOOT_REG_CFGX(chip_sel).decode()
+    local reg_cfg = MIO_BOOT_REG_CFGX(chip_sel).decode()
     if reg_cfg.EN == 0 then
         return nil
     end
@@ -58,74 +69,76 @@ local function get_bootbus(chip_sel)
 end
 
 --
--- Perform a low level read to a bootbus chip select
+-- Perform a low level read with the given length and return the result as
+-- an integer number. Length must be 1,2,4, or 8.
 --
-local function nor_read(bootbus_info, offset, length)
-    local address = bootbus_info.base
+local function nor_read_num(nor, offset, length)
+    local address = nor.bootbus.base + bit64.lshift(1, 48)
     address = address + offset
-    address = address + bit64.lshift(1, 48)
-    local data
-    if use_oremote then
-        data = {}
-        local i = 0
-        local a = address
-        while i<length do
-            if (length - i >= 8) and (bit64.band(a, 7) == 0) then
-                local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 8, a)
-                for j=1,8 do
-                    data[i+j] = string.char(bit64.band(bit64.rshift(v, 8*(8-j)), 0xff))
-                end
-                i = i + 8
-                a = a + 8
-            else
-                local v = oremote.read_csr(oremote.CSR_TYPE_NCB, 0, 1, a)
-                data[i+1] = string.char(v)
-                i = i + 1
-                a = a + 1
-            end
+    local v = READ_CSR(CSR_TYPE_NCB, 0, length, address)
+    log:debug("Read%d 0x%x: 0x%x\n", length*8, address, v)
+    return v
+end
+
+--
+-- Perform a low level write with the given length. Data is an integer
+-- number. Length must be 1,2,4, or 8.
+--
+local function nor_write_num(nor, offset, length, data)
+    local address = nor.bootbus.base + bit64.lshift(1, 48)
+    address = address + offset
+    log:debug("Write%d 0x%x: 0x%x\n", length*8, address, data)
+    WRITE_CSR(CSR_TYPE_NCB, 0, length, address, data)
+end
+
+--
+-- Read a series of bytes from NOR and return them as a string.
+--
+local function nor_read_str(nor, offset, length)
+    local data = {}
+    local i = 0
+    while i<length do
+        local size = 8
+        while (size > length-i+1) or (bit64.band(offset, size-1) ~= 0) do
+            size = bit64.rshift(size, 1)
         end
-        data = table.concat(data)
-    else
-        local f = fileio.open("/dev/mem", "r", address)
-        f:setvbuf("full", length)
-        data = f:read(length)
-        f:close()
+        local v = nor_read_num(nor, offset, size)
+        while (size > 0) do
+            i = i + 1
+            size = size - 1
+            data[i] = string.char(bit64.band(bit64.rshift(v, 8*size), 0xff))
+            offset = offset + 1
+        end
     end
-    if log.level == logging.DEBUG then
-        log:debug("Read 0x%x len=%d: %s\n", address, length, data:hex())
-    end
+    data = table.concat(data)
     return data
 end
 
 --
--- Perform a low level write to a bootbus chip select
+-- Write a series of bytes to NOR. This is does not program the bytes, it
+-- just does the bootbus writes.
 --
-local function nor_write(bootbus_info, offset, data)
-    local address = bootbus_info.base
-    address = address + offset
-    address = address + bit64.lshift(1, 48)
-    if log.level == logging.DEBUG then
-        log:debug("Write 0x%x len=%d: %s\n", address, #data, data:hex())
-    end
-
-    if use_oremote then
-        for i=1,#data do
-            local v = data:sub(i,i):byte()
-            oremote.write_csr(oremote.CSR_TYPE_NCB, 0, 1, address, v)
-            address = address + 1
+local function nor_write_str(nor, offset, data)
+    local length = #data
+    local i = 0
+    while i<length do
+        local size = 8
+        while (size > length-i+1) or (bit64.band(offset, size-1) ~= 0) do
+            size = bit64.rshift(size, 1)
         end
-    else
-        local f = fileio.open("/dev/mem", "w", address)
-        f:setvbuf("full", #data)
-        f:write(data)
-        f:close()
+        local v = 0
+        for j=1,size do
+            i = i + 1
+            v = v*256 + data:sub(i,i):byte()
+        end
+        nor_write_num(nor, offset, size, v)
+        offset = offset + size
     end
 end
 
 --
 -- Perform a CFI command read. CFI reads return a single byte
--- that will be repeated for wide reads. This function wraps nor_read()
--- and verifies that the duplicate bytes are correct.
+-- that will be repeated for wide reads.
 --
 local function nor_cmd_read(nor, offset)
     local length = 1
@@ -134,34 +147,39 @@ local function nor_cmd_read(nor, offset)
         length = 2
         offset = offset * 2
     end
-    local result = nor_read(nor.bootbus, offset, length)
+    local result = nor_read_num(nor, offset, length)
     if length == 2 then
+        local hi = bit64.rshift(result, 8)
+        local lo = bit64.band(result, 0xff)
         if nor.bus_16bit then
-            result = result:sub(2,2)
+            result = lo
         else
-            assert(result:sub(1,1) == result:sub(2,2), "Duplicate command bytes don't match")
+            assert(hi == lo, "Duplicate command bytes don't match")
+            result = lo
         end
     end
-    -- Convert the byte to a number
-    return result:byte(1)
+    return result
 end
 
 --
 -- Perform a CFI command write. CFI writes usa a single byte
--- that will be repeated for wide busses. This function wraps nor_write()
+-- that will be repeated for wide busses. This function wraps nor_write_num()
 -- to create the duplicate bytes.
 --
 local function nor_cmd_write(nor, offset, value)
-    local data = string.char(value)
     if nor.bus_16bit then
         -- Flash uses 16 bit commands
-        data = data .. data
+        value = bit64.lshift(value, 8) + value
         offset = offset * 2
+        nor_write_num(nor, offset, 2, value)
     elseif nor.cmd_16bit then
         -- Flash uses 16 bit commands, spaced every 2
         offset = offset * 2
+        nor_write_num(nor, offset, 1, value)
+    else
+        -- Flash uses 8 bit commands
+        nor_write_num(nor, offset, 1, value)
     end
-    nor_write(nor.bootbus, offset, data)
 end
 
 --
@@ -169,9 +187,17 @@ end
 -- wraps two calls nor_cmd_read() to get the full value.
 --
 local function nor_cmd_read16(nor, offset)
-    local low = nor_cmd_read(nor, offset)
-    local high = nor_cmd_read(nor, offset+1)
-    return low + bit64.lshift(high, 8)
+    if bit64.band(offset, 1) == 0 then
+        if nor.bus_16bit or nor.cmd_16bit then
+            offset = offset * 2
+        end
+        -- Read the value in one 16bit access
+        return nor_read_num(nor, offset, 2)
+    else
+        local lo = nor_cmd_read(nor, offset)
+        local hi = nor_cmd_read(nor, offset+1)
+        return bit64.lshift(hi, 8) + lo
+    end
 end
 
 --
@@ -221,11 +247,6 @@ end
 -- @param length Number of bytes to read
 -- @return Data bytes as a string
 
---- Read a single byte from flash
--- @function nor:readb(offset)
--- @param offset Location in flash to read
--- @return Data byte as a string
-
 --
 -- Erase and write to flash in a single step
 --
@@ -243,7 +264,7 @@ local function nor_burn(nor, offset, data, show_status)
         local block_begin, block_size = assert(nor_get_block(nor, offset))
         assert(block_begin == offset, "Burn must start on a block boundary")
         nor:erase(offset)
-        nor:write(offset, data:sub(loc, loc + block_size))
+        nor:write(offset, data:sub(loc, loc + block_size - 1))
         offset = offset + block_size
         loc = loc + block_size
     end
@@ -258,7 +279,9 @@ end
 --
 local function amd_reset(nor)
     log:debug("[AMD] Reset\n")
-    nor_cmd_write(nor, 0, 0xf0)
+    nor_cmd_write(nor, 0x555, 0xaa) -- Unlock start
+    nor_cmd_write(nor, 0x2aa, 0x55) -- Unlock ack
+    nor_cmd_write(nor, 0, 0xf0) -- Reset
 end
 
 --
@@ -268,43 +291,20 @@ local function amd_erase(nor, offset)
     nor:reset(nor)
     log:debug("[AMD] Erase\n")
     -- Send the erase sector command sequence
-    nor_cmd_write(nor, 0x555, 0xaa)
-    nor_cmd_write(nor, 0x2aa, 0x55)
-    nor_cmd_write(nor, 0x555, 0x80)
-    nor_cmd_write(nor, 0x555, 0xaa)
-    nor_cmd_write(nor, 0x2aa, 0x55)
+    nor_cmd_write(nor, 0x555, 0xaa) -- Unlock start
+    nor_cmd_write(nor, 0x2aa, 0x55) -- Unlock ack
+    nor_cmd_write(nor, 0x555, 0x80) -- Erase start
+    nor_cmd_write(nor, 0x555, 0xaa) -- Unlock start
+    nor_cmd_write(nor, 0x2aa, 0x55) -- Unlock ack
     if nor.bus_16bit then
-        nor_write(nor.bootbus, offset, "\x30\x30")
+        nor_write_num(nor, offset, 2, 0x3030) -- Erase sector
     else
-        nor_write(nor.bootbus, offset, "\x30")
+        nor_write_num(nor, offset, 1, 0x30) -- Erase sector
     end
 
     -- Loop checking status
-    local status = nor:readb(offset)
     local timeout = os.time() + 1
-    while true do
-        -- Read the status and xor it with the old status so we can
-        -- find toggling bits
-        local old_status = status
-        status = nor:readb(offset)
-        local toggle = bit64.bxor(status, old_status);
-        -- Check if the erase in progress bit is toggling
-        if bit64.btest(toggle, 0x40) then
-            -- Check hardware timeout
-            if bit64.btest(status, 0x20) then
-                -- Chip has signalled a timeout. Reread the status
-                old_status = nor:readb(offset)
-                status = nor:readb(offset)
-                toggle = bit64.bxor(status, old_status);
-                -- Check if the erase in progress bit is toggling
-                assert(not bit64.btest(toggle, 0x40), "NOR: Hardware timeout erasing block")
-                -- Not toggling, erase complete
-                break
-            end
-        else
-            -- Not toggling, erase complete
-            break
-        end
+    while nor_read_num(nor, offset, 1) ~= 0xff do
         assert(os.time() <= timeout, "NOR: Timeout erasing block")
     end
     nor:reset(nor)
@@ -314,6 +314,7 @@ end
 -- AMD based command set - Write block
 --
 local function amd_write(nor, offset, data)
+    nor:reset(nor)
     -- Loop through one byte at a time
     while #data > 0 do
         local write_len = 1
@@ -323,25 +324,62 @@ local function amd_write(nor, offset, data)
         local to_write = data:sub(1,write_len)
         data = data:sub(write_len+1)
         -- Send the program sequence
-        nor:reset(nor)
         log:debug("[AMD] Write\n")
-        nor_cmd_write(nor, 0x555, 0xaa)
-        nor_cmd_write(nor, 0x2aa, 0x55)
-        nor_cmd_write(nor, 0x555, 0xa0)
-        nor_write(nor.bootbus, offset, to_write)
+        nor_cmd_write(nor, 0x555, 0xaa) -- Unlock start
+        nor_cmd_write(nor, 0x2aa, 0x55) -- Unlock ack
+        nor_cmd_write(nor, 0x555, 0xa0) -- Write
+        nor_write_str(nor, offset, to_write)
 
         -- Loop polling for status
         local timeout = os.time() + 1
-        while true do
-            local status = nor:readb(offset)
-            if string.char(status) == to_write then
-                -- Data matches, this byte is done
-                break
-            elseif bit64.btest(status, 0x20) then
-                -- Hardware timeout, recheck status
-                status = nor:readb(offset)
-                assert(status == to_write, "NOR: Hardware write timeout")
-            end
+        while nor_read_str(nor, offset, write_len) ~= to_write do
+            assert(os.time() <= timeout, "NOR: Timeout writing block")
+        end
+        -- Increment to the next byte
+        offset = offset + write_len
+    end
+    nor:reset()
+end
+
+--
+-- AMD based command set - Write block buffered
+--
+local function amd_write_buffered(nor, offset, data)
+    -- Make sure the write data has an even length. This is
+    -- needed for 16bit accesses to flash
+    if bit64.band(#data, 1) == 1 then
+        data = data .. "\xff"
+    end
+    nor:reset(nor)
+    -- Loop until no more data
+    while #data > 0 do
+        local write_len = nor.params.max_write
+        if write_len > #data then
+            write_len = #data
+        end
+        local to_write = data:sub(1,write_len)
+        data = data:sub(write_len+1)
+        -- Send the program sequence
+        log:debug("[AMD] Write Buffered\n")
+        nor_cmd_write(nor, 0x555, 0xaa) -- Unlock start
+        nor_cmd_write(nor, 0x2aa, 0x55) -- Unlock ack
+        nor_write_num(nor, offset, 2, 0x2525) -- Write buffered
+        if nor.bus_16bit then
+            nor_write_num(nor, offset, 2, write_len/2-1) -- Write length
+        else
+            nor_write_num(nor, offset, 2, write_len-1) -- Write length
+        end
+        -- Write the data to the buffer
+        nor_write_str(nor, offset, to_write)
+        -- Check that the buffer received the data
+        assert(nor_read_num(nor, offset, 1) == 0, "NOR: Write to buffer failed")
+        -- Confirm the write
+        nor_write_num(nor, offset, 2, 0x2929) -- Write confirm
+
+        -- Loop polling for status
+        local correct = to_write:sub(1,8)
+        local timeout = os.time() + 1
+        while nor_read_str(nor, offset, 8) ~= correct do
             assert(os.time() <= timeout, "NOR: Timeout writing block")
         end
         -- Increment to the next byte
@@ -368,7 +406,7 @@ local function intel_poll_status(nor, offset, message)
     local timeout = os.time() + 1
     repeat
         assert(os.time() <= timeout, message)
-        status = nor:readb(offset)
+        status = nor_read_num(nor, offset, 1)
     until bit64.btest(status, 0x80)
     return status
 end
@@ -380,12 +418,12 @@ local function intel_erase(nor, offset)
     nor:reset(nor)
     log:debug("[Intel] Erase\n")
     -- Clear lock bits
-    nor_write(nor.bootbus, offset, "\x60")
-    nor_write(nor.bootbus, offset, "\xd0")
+    nor_write_num(nor, offset, 1, 0x60)
+    nor_write_num(nor, offset, 1, 0xd0)
     intel_poll_status(nor, offset, "clear locks")
     -- Send the erase sector command sequence
-    nor_write(nor.bootbus, offset, "\x20")
-    nor_write(nor.bootbus, offset, "\xd0")
+    nor_write_num(nor, offset, 1, 0x20)
+    nor_write_num(nor, offset, 1, 0xd0)
     intel_poll_status(nor, offset, "erase block")
     nor:reset(nor)
 end
@@ -398,11 +436,11 @@ local function intel_write(nor, offset, data)
     log:debug("[Intel] Write\n")
     -- Loop through one byte at a time
     for i=1, #data do
-        local to_write = data:sub(i,i)
+        local to_write = data:sub(i,i):byte()
         local off = offset + i - 1
         -- Send the program sequence
-        nor_write(nor.bootbus, off, "\x40")
-        nor_write(nor.bootbus, off, to_write);
+        nor_write_num(nor, off, 1, 0x40)
+        nor_write_num(nor, off, 1, to_write);
         intel_poll_status(nor, off, "write")
     end
     nor:reset(nor)
@@ -420,7 +458,7 @@ local function cfi_query(chip_sel)
     nor.cmd_16bit = true
     nor.bus_16bit = (nor.bootbus.width == 1)
     -- Dummy read to make sure flash is in the normal access mode
-    nor_read(nor.bootbus, 0, 1)
+    nor_read_num(nor, 0, 1)
     -- Send reset command for both AMD and Intel command sets
     amd_reset(nor)
     intel_reset(nor)
@@ -480,28 +518,29 @@ local function cfi_query(chip_sel)
     end
     if (nor.params.primary_cmd_set == 0x0001) or
        (nor.params.primary_cmd_set == 0x0003) then
-       -- intel based command set
+        -- intel based command set
         log:info("Using Intel command set\n")
-       nor.reset = intel_reset
-       nor.erase = intel_erase
-       nor.write = intel_write
+        nor.reset = intel_reset
+        nor.erase = intel_erase
+        nor.write = intel_write
     elseif (nor.params.primary_cmd_set == 0x0002) or
            (nor.params.primary_cmd_set == 0x0004) then
-       -- amd based command set
+        -- amd based command set
         log:info("Using AMD command set\n")
-       nor.reset = amd_reset
-       nor.erase = amd_erase
-       nor.write = amd_write
+        nor.reset = amd_reset
+        nor.erase = amd_erase
+        if nor.params.max_write > 2 then
+            nor.write = amd_write_buffered
+        else
+            nor.write = amd_write
+        end
     else
         error("NOR: Unknown command set")
     end
 
     nor.burn = nor_burn
     function nor:read(offset, length)
-        return nor_read(nor.bootbus, offset, length)
-    end
-    function nor:readb(offset)
-        return nor_read(nor.bootbus, offset, 1):byte()
+        return nor_read_str(nor, offset, length)
     end
     nor:reset()
     log:info("Flash info for chip select %d = \n", chip_sel)
