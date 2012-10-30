@@ -99,7 +99,7 @@ local function nor_read_str(nor, offset, length)
     local i = 0
     while i<length do
         local size = 8
-        while (size > length-i+1) or (bit64.band(offset, size-1) ~= 0) do
+        while (size > length-i) or (bit64.band(offset, size-1) ~= 0) do
             size = bit64.rshift(size, 1)
         end
         local v = nor_read_num(nor, offset, size)
@@ -123,7 +123,7 @@ local function nor_write_str(nor, offset, data)
     local i = 0
     while i<length do
         local size = 8
-        while (size > length-i+1) or (bit64.band(offset, size-1) ~= 0) do
+        while (size > length-i) or (bit64.band(offset, size-1) ~= 0) do
             size = bit64.rshift(size, 1)
         end
         local v = 0
