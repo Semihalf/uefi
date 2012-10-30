@@ -43,7 +43,7 @@ local function init_bootbus()
     -- positioned such that it will alias the first 4MB to the normal MIPS
     -- boot address.
     for i=0,7 do
-        local address = 0x1fc00000 + i * 0x10000000
+        local address = 0x0fc00000 + i * 0x20000000
         log:debug("Setting bootbus region %d to 0x%x size=%dMB\n", i, address, ((0xfff+1) * 64) / 1024)
         MIO_BOOT_REG_CFGX(i).BASE = address / 65536
         MIO_BOOT_REG_CFGX(i).SIZE = 0xfff
