@@ -15,8 +15,9 @@
 
 typedef struct
 {
-    uint64_t            base_addr;       /**< Physical address to start of flash */
-    int                 is_16bit;       /**< Chip is 16bits wide in 8bit mode */
+    uint64_t            base_addr;      /**< Physical address to start of flash */
+    int                 bus_16bit;      /**< Bootbus is 16bits wide */
+    int                 chip_16bit;     /**< Chip supports 16 bit operation */
     uint16_t            vendor;         /**< Vendor ID of Chip */
     int                 size;           /**< Size of the chip in bytes */
     uint64_t            erase_timeout;  /**< Erase timeout in cycles */
@@ -33,13 +34,73 @@ static bdk_spinlock_t flash_lock;
  * @INTERNAL
  * Read a byte from flash
  *
- * @param chip_id Chip to read from
- * @param offset  Offset into the chip
+ * @param flash  Flash to access
+ * @param offset Offset into the chip
+ *
  * @return Value read
  */
-static uint8_t __bdk_flash_read8(int chip_id, int offset)
+static uint8_t __bdk_flash_read8(const bdk_flash_t *flash, int offset)
 {
-    return bdk_read64_uint8(flash_info[chip_id].base_addr + offset);
+    uint64_t address = flash->base_addr + offset;
+    uint8_t data = bdk_read64_uint8(address);
+#if DEBUG
+    bdk_dprintf("bdk-flash: read8[0x%08lx] 0x%02x\n", address, data);
+#endif
+    return data;
+}
+
+/**
+ * @INTERNAL
+ * Read 16 bits from flash
+ *
+ * @param flash  Flash to access
+ * @param offset Offset into the chip
+ * @return Value read
+ */
+static uint16_t __bdk_flash_read16(const bdk_flash_t *flash, int offset)
+{
+    uint64_t address = flash->base_addr + offset;
+    uint16_t data = bdk_read64_uint16(address);
+#if DEBUG
+    bdk_dprintf("bdk-flash: read16[0x%08lx] 0x%04x\n", address, data);
+#endif
+    return data;
+}
+
+
+/**
+ * @INTERNAL
+ * Write a byte to flash
+ *
+ * @param flash  Flash to access
+ * @param offset Offset into the chip
+ * @param data   Value to write
+ */
+static void __bdk_flash_write8(const bdk_flash_t *flash, int offset, uint8_t data)
+{
+    uint64_t address = flash->base_addr + offset;
+#if DEBUG
+    bdk_dprintf("bdk-flash: write8[0x%08lx] 0x%02x\n", address, data);
+#endif
+    bdk_write64_uint8(address, data);
+}
+
+
+/**
+ * @INTERNAL
+ * Write 16 bits to flash
+ *
+ * @param flash  Flash to access
+ * @param offset Offset into the chip
+ * @param data   Value to write
+ */
+static void __bdk_flash_write16(const bdk_flash_t *flash, int offset, uint16_t data)
+{
+    uint64_t address = flash->base_addr + offset;
+#if DEBUG
+    bdk_dprintf("bdk-flash: write16[0x%08lx] 0x%04x\n", address, data);
+#endif
+    bdk_write64_uint16(address, data);
 }
 
 
@@ -51,11 +112,14 @@ static uint8_t __bdk_flash_read8(int chip_id, int offset)
  * @param offset  Offset into the chip
  * @return Value read
  */
-static uint8_t __bdk_flash_read_cmd(int chip_id, int offset)
+static uint8_t __bdk_flash_read_cmd(const bdk_flash_t *flash, int offset)
 {
-    if (flash_info[chip_id].is_16bit)
+    if (flash->chip_16bit)
         offset<<=1;
-    return __bdk_flash_read8(chip_id, offset);
+    if (flash->bus_16bit)
+        return __bdk_flash_read16(flash, offset) & 0xff;
+    else
+        return __bdk_flash_read8(flash, offset);
 }
 
 
@@ -67,25 +131,21 @@ static uint8_t __bdk_flash_read_cmd(int chip_id, int offset)
  * @param offset  Offset into the chip
  * @return Value read
  */
-static uint16_t __bdk_flash_read_cmd16(int chip_id, int offset)
+static uint16_t __bdk_flash_read_cmd16(const bdk_flash_t *flash, int offset)
 {
-    uint16_t v = __bdk_flash_read_cmd(chip_id, offset);
-    v |= __bdk_flash_read_cmd(chip_id, offset + 1)<<8;
+    uint16_t v;
+    if ((offset&1) == 0)
+    {
+        if (flash->chip_16bit)
+            offset<<=1;
+        v = __bdk_flash_read16(flash, offset);
+    }
+    else
+    {
+        v = __bdk_flash_read_cmd(flash, offset);
+        v |= __bdk_flash_read_cmd(flash, offset + 1)<<8;
+    }
     return v;
-}
-
-
-/**
- * @INTERNAL
- * Write a byte to flash
- *
- * @param chip_id Chip to write to
- * @param offset  Offset into the chip
- * @param data    Value to write
- */
-static void __bdk_flash_write8(int chip_id, int offset, uint8_t data)
-{
-    bdk_write64_uint8(flash_info[chip_id].base_addr + offset, data);
 }
 
 
@@ -97,9 +157,18 @@ static void __bdk_flash_write8(int chip_id, int offset, uint8_t data)
  * @param offset  Offset into the chip
  * @param data    Value to write
  */
-static void __bdk_flash_write_cmd(int chip_id, int offset, uint8_t data)
+static void __bdk_flash_write_cmd(const bdk_flash_t *flash, int offset, uint8_t data)
 {
-    bdk_write64_uint8(flash_info[chip_id].base_addr + (offset<<flash_info[chip_id].is_16bit), data);
+    if (flash->chip_16bit)
+        offset<<=1;
+    if (flash->bus_16bit)
+    {
+        uint16_t d = data;
+        d |= (uint16_t)data<<8;
+        __bdk_flash_write16(flash, offset, d);
+    }
+    else
+        __bdk_flash_write8(flash, offset, data);
 }
 
 
@@ -115,23 +184,25 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
 {
     int region;
     bdk_flash_t *flash = flash_info + chip_id;
+    BDK_CSR_INIT(mio_boot_reg_cfg, BDK_MIO_BOOT_REG_CFGX(chip_id));
 
     /* Set the minimum needed for the read and write primitives to work */
     flash->base_addr = base_addr;
-    flash->is_16bit = 1;   /* FIXME: Currently assumes the chip is 16bits */
+    flash->bus_16bit = mio_boot_reg_cfg.s.width;
+    flash->chip_16bit = 1;   /* FIXME: Currently assumes the chip is 16bits */
 
     /* Read a single byte from flash to put the flash in normal mode */
-    __bdk_flash_read8(chip_id, 0);
+    __bdk_flash_read8(flash, 0);
 
     /* Put flash in CFI query mode */
-    __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip - AMD */
-    __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip - Intel */
-    __bdk_flash_write_cmd(chip_id, 0x55, 0x98);
+    __bdk_flash_write_cmd(flash, 0x00, 0xf0); /* Reset the flash chip - AMD */
+    __bdk_flash_write_cmd(flash, 0x00, 0xff); /* Reset the flash chip - Intel */
+    __bdk_flash_write_cmd(flash, 0x55, 0x98);
 
     /* Make sure we get the QRY response we should */
-    if ((__bdk_flash_read_cmd(chip_id, 0x10) != 'Q') ||
-        (__bdk_flash_read_cmd(chip_id, 0x11) != 'R') ||
-        (__bdk_flash_read_cmd(chip_id, 0x12) != 'Y'))
+    if ((__bdk_flash_read_cmd(flash, 0x10) != 'Q') ||
+        (__bdk_flash_read_cmd(flash, 0x11) != 'R') ||
+        (__bdk_flash_read_cmd(flash, 0x12) != 'Y'))
     {
         flash->base_addr = 0;
         bdk_dprintf("NOR Flash %d:CFI Query failed\n", chip_id);
@@ -139,29 +210,29 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     }
 
     /* Read the 16bit vendor ID */
-    flash->vendor = __bdk_flash_read_cmd16(chip_id, 0x13);
+    flash->vendor = __bdk_flash_read_cmd16(flash, 0x13);
 
     /* Read the location of the Primary Algorithm extended Query table */
-    int p = __bdk_flash_read_cmd16(chip_id, 0x15);
+    int p = __bdk_flash_read_cmd16(flash, 0x15);
 
     /* Read the write timeout. The timeout is microseconds(us) is 2^0x1f
         typically. The worst case is this value time 2^0x23 */
-    flash->write_timeout = 1ull << (__bdk_flash_read_cmd(chip_id, 0x1f) +
-                                    __bdk_flash_read_cmd(chip_id, 0x23));
+    flash->write_timeout = 1ull << (__bdk_flash_read_cmd(flash, 0x1f) +
+                                    __bdk_flash_read_cmd(flash, 0x23));
 
     /* Read the erase timeout. The timeout is milliseconds(ms) is 2^0x21
         typically. The worst case is this value time 2^0x25 */
-    flash->erase_timeout = 1ull << (__bdk_flash_read_cmd(chip_id, 0x21) +
-                                    __bdk_flash_read_cmd(chip_id, 0x25));
+    flash->erase_timeout = 1ull << (__bdk_flash_read_cmd(flash, 0x21) +
+                                    __bdk_flash_read_cmd(flash, 0x25));
 
     /* Get the flash size. This is 2^0x27 */
-    flash->size = 1<<__bdk_flash_read_cmd(chip_id, 0x27);
+    flash->size = 1<<__bdk_flash_read_cmd(flash, 0x27);
 
     /* Get the number of different sized block regions from 0x2c */
-    flash->num_regions = __bdk_flash_read_cmd(chip_id, 0x2c);
+    flash->num_regions = __bdk_flash_read_cmd(flash, 0x2c);
 
     /* Read the top/bottom flag to determine if the regions are reversed */
-    int order_reversed = __bdk_flash_read_cmd(chip_id, p + 0xf);
+    int order_reversed = __bdk_flash_read_cmd(flash, p + 0xf);
     order_reversed &= 1;
 
     int start_offset = (order_reversed) ? flash->size : 0;
@@ -174,13 +245,13 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
 
         /* The number of blocks in each region is a 16 bit little endian
             endian field. It is encoded at 0x2d + region*4 as (blocks-1) */
-        uint16_t blocks = __bdk_flash_read_cmd16(chip_id, 0x2d + region*4);
+        uint16_t blocks = __bdk_flash_read_cmd16(flash, 0x2d + region*4);
         rgn_ptr->num_blocks =  1u + blocks;
 
         /* The size of each block is a 16 bit little endian endian field. It
             is encoded at 0x2d + region*4 + 2 as (size/256). Zero is a special
             case representing 128 */
-        uint16_t size = __bdk_flash_read_cmd16(chip_id, 0x2d + region*4 + 2);
+        uint16_t size = __bdk_flash_read_cmd16(flash, 0x2f + region*4);
         if (size == 0)
             rgn_ptr->block_size = 128;
         else
@@ -199,13 +270,13 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     }
 
     /* Take the chip out of CFI query mode */
-    switch (flash_info[chip_id].vendor)
+    switch (flash->vendor)
     {
         case CFI_CMDSET_AMD_STANDARD:
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xf0);
+            __bdk_flash_write_cmd(flash, 0x00, 0xf0);
         case CFI_CMDSET_INTEL_STANDARD:
         case CFI_CMDSET_INTEL_EXTENDED:
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xff);
+            __bdk_flash_write_cmd(flash, 0x00, 0xff);
             break;
     }
 
@@ -225,7 +296,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
            chip_id,
            flash->base_addr,
            (unsigned int)flash->vendor,
-           (flash->is_16bit) ? "yes" : "no",
+           (flash->chip_16bit) ? "yes" : "no",
            flash->size,
            flash->num_regions,
            (unsigned long long)flash->erase_timeout,
@@ -323,73 +394,47 @@ const bdk_flash_region_t *bdk_flash_get_region_info(int chip_id, int region)
  */
 int bdk_flash_erase_block(int chip_id, int region, int block)
 {
+    const bdk_flash_t *flash = flash_info + chip_id;
     bdk_spinlock_lock(&flash_lock);
 #if DEBUG
     bdk_dprintf("bdk-flash: Erasing chip %d, region %d, block %d\n",
            chip_id, region, block);
 #endif
 
-    int offset = flash_info[chip_id].region[region].start_offset +
-                block * flash_info[chip_id].region[region].block_size;
+    int offset = flash->region[region].start_offset +
+                block * flash->region[region].block_size;
 
-    switch (flash_info[chip_id].vendor)
+    switch (flash->vendor)
     {
         case CFI_CMDSET_AMD_STANDARD:
         {
             /* Send the erase sector command sequence */
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip */
-            __bdk_flash_write_cmd(chip_id, 0x555, 0xaa);
-            __bdk_flash_write_cmd(chip_id, 0x2aa, 0x55);
-            __bdk_flash_write_cmd(chip_id, 0x555, 0x80);
-            __bdk_flash_write_cmd(chip_id, 0x555, 0xaa);
-            __bdk_flash_write_cmd(chip_id, 0x2aa, 0x55);
-            __bdk_flash_write8(chip_id, offset, 0x30);
+            __bdk_flash_write_cmd(flash, 0x00, 0xf0); /* Reset the flash chip */
+            __bdk_flash_write_cmd(flash, 0x555, 0xaa); /* Unlock start */
+            __bdk_flash_write_cmd(flash, 0x2aa, 0x55); /* Unlock ack */
+            __bdk_flash_write_cmd(flash, 0x555, 0x80); /* Erase start */
+            __bdk_flash_write_cmd(flash, 0x555, 0xaa); /* Unlock start */
+            __bdk_flash_write_cmd(flash, 0x2aa, 0x55); /* Unlock ack */
+            if (flash->bus_16bit)
+                __bdk_flash_write16(flash, offset, 0x3030); /* Erase sector */
+            else
+                __bdk_flash_write8(flash, offset, 0x30); /* Erase sector */
 
             /* Loop checking status */
-            uint8_t status = __bdk_flash_read8(chip_id, offset);
-            uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-            while (1)
+            uint8_t status = __bdk_flash_read8(flash, offset);
+            uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+            while (status != 0xff)
             {
-                /* Read the status and xor it with the old status so we can
-                    find toggling bits */
-                uint8_t old_status = status;
-                status = __bdk_flash_read8(chip_id, offset);
-                uint8_t toggle = status ^ old_status;
-
-                /* Check if the erase in progress bit is toggling */
-                if (toggle & (1<<6))
-                {
-                    /* Check hardware timeout */
-                    if (status & (1<<5))
-                    {
-                        /* Chip has signalled a timeout. Reread the status */
-                        old_status = __bdk_flash_read8(chip_id, offset);
-                        status = __bdk_flash_read8(chip_id, offset);
-                        toggle = status ^ old_status;
-
-                        /* Check if the erase in progress bit is toggling */
-                        if (toggle & (1<<6))
-                        {
-                            bdk_error("bdk-flash: Hardware timeout erasing block\n");
-                            bdk_spinlock_unlock(&flash_lock);
-                            return -1;
-                        }
-                        else
-                            break;  /* Not toggling, erase complete */
-                    }
-                }
-                else
-                    break;  /* Not toggling, erase complete */
-
-                if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].erase_timeout)
+                if (bdk_clock_get_count(BDK_CLOCK_CORE) > end_cycle)
                 {
                     bdk_error("bdk-flash: Timeout erasing block\n");
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
+                status = __bdk_flash_read8(flash, offset);
             }
 
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip */
+            __bdk_flash_write_cmd(flash, 0x00, 0xf0); /* Reset the flash chip */
             bdk_spinlock_unlock(&flash_lock);
             return 0;
         }
@@ -397,22 +442,22 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
         case CFI_CMDSET_INTEL_EXTENDED:
         {
             /* Send the erase sector command sequence */
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip */
-            __bdk_flash_write8(chip_id, offset, 0x20);
-            __bdk_flash_write8(chip_id, offset, 0xd0);
+            __bdk_flash_write_cmd(flash, 0x00, 0xff); /* Reset the flash chip */
+            __bdk_flash_write8(flash, offset, 0x20);
+            __bdk_flash_write8(flash, offset, 0xd0);
 
             /* Loop checking status */
-            uint8_t status = __bdk_flash_read8(chip_id, offset);
+            uint8_t status = __bdk_flash_read8(flash, offset);
             uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
             while ((status & 0x80) == 0)
             {
-                if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].erase_timeout)
+                if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash->erase_timeout)
                 {
                     bdk_error("bdk-flash: Timeout erasing block\n");
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
-                status = __bdk_flash_read8(chip_id, offset);
+                status = __bdk_flash_read8(flash, offset);
             }
 
             /* Check the final status */
@@ -423,7 +468,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
                 return -1;
             }
 
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip */
+            __bdk_flash_write_cmd(flash, 0x00, 0xff); /* Reset the flash chip */
             bdk_spinlock_unlock(&flash_lock);
             return 0;
         }
@@ -447,6 +492,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
  */
 int bdk_flash_write(int chip_id, int offset, const void *data, int len)
 {
+    const bdk_flash_t *flash = flash_info + chip_id;
     bdk_spinlock_lock(&flash_lock);
 #if DEBUG
     bdk_dprintf("bdk-flash: Writing chip %d, offset %d, len %d\n",
@@ -454,55 +500,62 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
 #endif
     const uint8_t *ptr = (const uint8_t *)data;
 
-    switch (flash_info[chip_id].vendor)
+    switch (flash->vendor)
     {
         case CFI_CMDSET_AMD_STANDARD:
         {
             /* Loop through one byte at a time */
-            while (len--)
+            while (len>0)
             {
+                uint16_t data;
                 /* Send the program sequence */
-                __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip */
-                __bdk_flash_write_cmd(chip_id, 0x555, 0xaa);
-                __bdk_flash_write_cmd(chip_id, 0x2aa, 0x55);
-                __bdk_flash_write_cmd(chip_id, 0x555, 0xa0);
-                __bdk_flash_write8(chip_id, offset, *ptr);
-
-                /* Loop polling for status */
-                uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-                while (1)
+                __bdk_flash_write_cmd(flash, 0x00, 0xf0); /* Reset the flash chip */
+                __bdk_flash_write_cmd(flash, 0x555, 0xaa); /* Unlock start */
+                __bdk_flash_write_cmd(flash, 0x2aa, 0x55); /* Unlock ack */
+                __bdk_flash_write_cmd(flash, 0x555, 0xa0); /* Write */
+                if (flash->bus_16bit)
                 {
-                    uint8_t status = __bdk_flash_read8(chip_id, offset);
-                    if (((status ^ *ptr) & (1<<7)) == 0)
-                        break;  /* Data matches, this byte is done */
-                    else if (status & (1<<5))
-                    {
-                        /* Hardware timeout, recheck status */
-                        status = __bdk_flash_read8(chip_id, offset);
-                        if (((status ^ *ptr) & (1<<7)) == 0)
-                            break;  /* Data matches, this byte is done */
-                        else
-                        {
-                            bdk_error("bdk-flash: Hardware write timeout\n");
-                            bdk_spinlock_unlock(&flash_lock);
-                            return -1;
-                        }
-                    }
-
-                    if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].write_timeout)
+                    data = *(uint16_t*)ptr;
+                    __bdk_flash_write16(flash, offset, *(uint16_t*)ptr);
+                }
+                else
+                {
+                    data = *ptr;
+                    __bdk_flash_write8(flash, offset, *ptr);
+                }
+                /* Loop polling for status */
+                uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+                uint16_t status = ~data;
+                while (status != data)
+                {
+                    if (bdk_clock_get_count(BDK_CLOCK_CORE) > end_cycle)
                     {
                         bdk_error("bdk-flash: Timeout writing block\n");
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
+                    if (flash->bus_16bit)
+                        status = __bdk_flash_read16(flash, offset);
+                    else
+                        status = __bdk_flash_read8(flash, offset);
                 }
 
                 /* Increment to the next byte */
-                ptr++;
-                offset++;
+                if (flash->bus_16bit)
+                {
+                    ptr+=2;
+                    offset+=2;
+                    len-=2;
+                }
+                else
+                {
+                    ptr++;
+                    offset++;
+                    len--;
+                }
             }
 
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xf0); /* Reset the flash chip */
+            __bdk_flash_write_cmd(flash, 0x00, 0xf0); /* Reset the flash chip */
             bdk_spinlock_unlock(&flash_lock);
             return 0;
         }
@@ -513,22 +566,22 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
             while (len--)
             {
                 /* Send the program sequence */
-                __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip */
-                __bdk_flash_write8(chip_id, offset, 0x40);
-                __bdk_flash_write8(chip_id, offset, *ptr);
+                __bdk_flash_write_cmd(flash, 0x00, 0xff); /* Reset the flash chip */
+                __bdk_flash_write8(flash, offset, 0x40);
+                __bdk_flash_write8(flash, offset, *ptr);
 
                 /* Loop polling for status */
-                uint8_t status = __bdk_flash_read8(chip_id, offset);
+                uint8_t status = __bdk_flash_read8(flash, offset);
                 uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
                 while ((status & 0x80) == 0)
                 {
-                    if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash_info[chip_id].write_timeout)
+                    if (bdk_clock_get_count(BDK_CLOCK_CORE) > start_cycle + flash->write_timeout)
                     {
                         bdk_error("bdk-flash: Timeout writing block\n");
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
-                    status = __bdk_flash_read8(chip_id, offset);
+                    status = __bdk_flash_read8(flash, offset);
                 }
 
                 /* Check the final status */
@@ -544,7 +597,7 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
                 offset++;
             }
 
-            __bdk_flash_write_cmd(chip_id, 0x00, 0xff); /* Reset the flash chip */
+            __bdk_flash_write_cmd(flash, 0x00, 0xff); /* Reset the flash chip */
             bdk_spinlock_unlock(&flash_lock);
             return 0;
         }
