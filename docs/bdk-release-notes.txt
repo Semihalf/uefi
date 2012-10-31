@@ -10,6 +10,21 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon-bdk-2012.10-77908
+------------------------
+
+* Update NOR flash programming to support 16bit wired devices.
+** "bdk-remote flash" can burn images over ejtag or PCIe. Programming
+	748KB using Macraigor EJTAG took 13min on a CNF71XX board with
+	a 16bit NOR flash.
+** The bdk-full.bin menu can burn images natively.
+* When a SGMII speed is manually configured in the configuration
+	menu, this speed is now used to force the SGMII speed.
+	SGMII autonegotiation is not used.
+* Workaround for Due errata AGL-16930, 100/10 transmit IFGs are too small.
+* Add support for a user configurable baud rate. The user must change
+<b>rom/minimal/init.lua</b> or <b>rom/full/menu.lua</b>.
+
 
 octeon-bdk-2012.08-76122
 ------------------------
