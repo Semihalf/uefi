@@ -11,6 +11,14 @@ require("menu")
 require("rpc")
 require("octeon")
 
+-- Set the baudrate. Many messages have already been printed, but we needed
+-- to wait for the octeon module.
+-- The first argument is the uart number (0-1)
+-- The second argument is the baud rate (9600, 19200, 115200, etc).
+-- The third argument is whether flow control is enabled.
+-- octeon.c.bdk_set_baudrate(0, 115200, true)
+-- octeon.c.bdk_set_baudrate(1, 115200, true)
+
 -- Do board specific setup
 if octeon.is_model(octeon.CN63XX) then
     menu.dofile("board-ebb6300")

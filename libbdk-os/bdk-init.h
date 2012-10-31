@@ -28,6 +28,16 @@ extern int bdk_init_cores(uint64_t coremask);
  */
 extern void __bdk_init_main(int arg, void *arg1);
 
+/**
+ * Set the baud rate on a UART
+ *
+ * @param uart     uart to set
+ * @param baudrate Baud rate (9600, 19200, 115200, etc)
+ * @param use_flow_control
+ *                 Non zero if hardware flow control should be enabled
+ */
+extern void bdk_set_baudrate(int uart, int baudrate, int use_flow_control);
+
 #ifndef BDK_SHOW_BOOT_BANNERS
 #define BDK_SHOW_BOOT_BANNERS 1
 #endif

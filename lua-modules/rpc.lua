@@ -24,7 +24,11 @@ local function getconnection(stream, is_input)
         -- Set the baud rate for filenames that start with "/". This
         -- is a best guess of what should work for people
         if stream:sub(1,1) == "/" then
-            os.execute("stty -F " .. stream .. " 115200 -crtscts pass8 raw -onlcr -echo")
+            local baud = os.getenv("OCTEON_REMOTE_BAUDRATE")
+            if not baud then
+                baud = "115200"
+            end
+            os.execute("stty -F " .. stream .. " " .. baud .. " -crtscts pass8 raw -onlcr -echo")
         end
         -- Open for RW in case we are running over Pipes. Linux pipes
         -- block until someone connects to the other side unless the

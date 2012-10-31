@@ -5,7 +5,15 @@
 static int64_t __bdk_alive_coremask;
 int __bdk_is_simulation;
 
-static void __bdk_init_uart(int uart)
+/**
+ * Set the baud rate on a UART
+ *
+ * @param uart     uart to set
+ * @param baudrate Baud rate (9600, 19200, 115200, etc)
+ * @param use_flow_control
+ *                 Non zero if hardware flow control should be enabled
+ */
+void bdk_set_baudrate(int uart, int baudrate, int use_flow_control)
 {
     /* Setup the UART */
     BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(uart),
@@ -18,7 +26,7 @@ static void __bdk_init_uart(int uart)
     /* FCR is a write only register */
     BDK_CSR_WRITE(BDK_MIO_UARTX_FCR(uart), 7);
 
-    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 115200 / 16;
+    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / baudrate / 16;
     if (bdk_is_simulation())
         divisor = 1;
 
@@ -29,6 +37,11 @@ static void __bdk_init_uart(int uart)
         u.s.dlab = 0); /* Divisor Latch Address bit */
     BDK_CSR_READ(BDK_MIO_UARTX_LCR(uart));
     bdk_wait(1000);
+
+    use_flow_control = !!use_flow_control;
+    BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(uart),
+        mcr.s.afce = use_flow_control;
+        mcr.s.rts = use_flow_control);
 }
 
 static void __bdk_init_exception(void)
@@ -108,8 +121,8 @@ void __bdk_init(long base_address)
             __bdk_is_simulation = (tmp.s.dbg_sel == 0);
         }
 
-        __bdk_init_uart(0);
-        __bdk_init_uart(1);
+        bdk_set_baudrate(0, 115200, 0);
+        bdk_set_baudrate(1, 115200, 0);
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);

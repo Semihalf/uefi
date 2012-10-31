@@ -106,9 +106,7 @@ void __bdk_init_main(int arg, void *arg1)
                 else
                 {
                     printf("Enabling hardware flow control on UART%d\n", i);
-                    BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(i),
-                        mcr.s.afce = 1;
-                        mcr.s.rts = 1);
+                    bdk_set_baudrate(i, 115200, 1);
                 }
             }
         }
