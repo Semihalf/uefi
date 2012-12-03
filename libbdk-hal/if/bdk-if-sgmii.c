@@ -90,11 +90,6 @@ static int init_link(bdk_if_handle_t handle)
         forced_speed_mbps = 1000;
     else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1001))
         forced_speed_mbps = 100;
-    else
-    {
-        bdk_dprintf("SGMII%d%d: Invalid speed configured\n", handle->interface, handle->index);
-        return(-1);
-    }
 
     /* Disable error reporting */
     BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block), 0);
@@ -136,7 +131,7 @@ static int init_link(bdk_if_handle_t handle)
     else
     {
         /* A forced interface speed was selected, so configure this for the SGMII link as well,
-           and don't do autonegotiation. */
+           and don't do SGMII autonegotiation. */
         BDK_CSR_MODIFY(control_reg, BDK_PCSX_MRX_CONTROL_REG(gmx_index, gmx_block),
                        control_reg.s.spdmsb = (forced_speed_mbps == 1000);
                        control_reg.s.spdlsb = (forced_speed_mbps != 1000);
