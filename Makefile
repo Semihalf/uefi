@@ -65,8 +65,8 @@ else ifeq ($(shell test -d .svn;echo $$?),0)
     BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
 else
-    BUILD_REV = "unknown"
-    BUILD_DATE = "0000 00 00"
+    BUILD_REV=unknown
+    BUILD_DATE=0000 00 00
 endif
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
 FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
