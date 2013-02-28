@@ -9,8 +9,9 @@ static int l2_perf(lua_State* L)
     /* We cycle through 6 counter sets. 0-3 are each quad, and 4,5 are
         handpicked values */
     static int count_set = 0;
+    /* This is the start time of the PFC setup for current count_set */
+    static uint64_t last_start_pfc[MAX_TADS][NUM_COUNTERS];
     /* This is the time of the last update for each counter */
-    static uint64_t last_update[6][MAX_TADS][NUM_COUNTERS];
     static uint64_t last_update_bus[4];
 
     uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
@@ -89,13 +90,13 @@ static int l2_perf(lua_State* L)
         for (int counter=0; counter<NUM_COUNTERS; counter++)
         {
             /* Calculate time since last update */
-            delta_cycle = current_cycle - last_update[count_set][tad][counter];
+            delta_cycle = current_cycle - last_start_pfc[tad][counter];
             if (delta_cycle == 0)
                 delta_cycle = 1;
             delta_cycle_percent = delta_cycle / 100;
             if (delta_cycle_percent == 0)
                 delta_cycle_percent = 1;
-            last_update[count_set][tad][counter] = current_cycle;
+            last_start_pfc[tad][counter] = current_cycle;
 
             /* Read the appropriate counter */
             uint64_t value = 0;
