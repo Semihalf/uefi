@@ -30744,7 +30744,7 @@ Pos      Name    Type     Value     Value       Description
                                             when [36:18] are equal to 0.
 
                                             Program [24:18] to RND-DN(tREFI/clkPeriod/512)
-                                            Program [36:25] to RND-DN(ZQCS_Interval/clkPeriod/(512*64)). Note
+                                            Program [36:25] to RND-DN(ZQCS_Interval/clkPeriod/(512*128)). Note
                                             that this value should always be greater than 32, to account for
                                             resistor calibration delays.
 
@@ -32351,7 +32351,7 @@ Pos      Name    Type     Value     Value       Description
 <15:12>  MEM_MSB_D0_R1 R/W    0x0     NS     Max Row MSB for DIMM0, RANK1/DIMM0 in Single Ranked
 <11:8>   MEM_MSB_D0_R0 R/W    0x0     NS     Max Row MSB for DIMM0, RANK0
 <7:0>    CS_MASK       R/W    0x0     NS     Chip select mask.
-                                             This mask corresponds to the 8 chip selects for a memory
+                                             This mask corresponds to the chip selects for a memory
                                              configuration.  If LMC*_CONFIG[RANK_ENA]==0 then this
                                              mask must be set in pairs because each reference address
                                              will assert a pair of chip selects.  If the chip
@@ -32360,7 +32360,7 @@ Pos      Name    Type     Value     Value       Description
                                              NXM read reference to use the lowest, legal chip select(s)
                                              and return 0's. LMC normally discards NXM writes, but will
                                              also alias them when LMC*_CONTROL[NXM_WRITE_EN]=1.
-                                             CS_MASK<7:4> MBZ in 6xxx
+                                             CS_MASK<7:4> must all be set in 6xxx
 Notes:
 				            Decoding for mem_msb/rank
                                                  0000: mem_msb = mem_adr[25]
