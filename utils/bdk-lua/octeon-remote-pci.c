@@ -192,7 +192,7 @@ static int pci_get_device(int device)
 
     /* Read BDK_PCI_CFG01 and make sure bus master and memory space are enabled */
     uint32_t octeon_cfg1;
-    if (fseek(in, BDK_PCIERCX_CFG001(0), SEEK_SET))
+    if (fseek(in, 4 /* BDK_PCIERCX_CFG001 */, SEEK_SET))
     {
         octeon_remote_perror(-1, "fseek BDK_PCI_CFG01");
         fclose(in);
@@ -209,7 +209,7 @@ static int pci_get_device(int device)
         octeon_remote_debug(1, "Device is not enabled. Enabling it (0x%08x)\n", bdk_le32_to_cpu(octeon_cfg1));
         /* Bus master and memory space are not enabled. Force them */
         octeon_cfg1 = bdk_cpu_to_le32(bdk_le32_to_cpu(octeon_cfg1) | 0x6);
-        if (fseek(in, BDK_PCIERCX_CFG001(0), SEEK_SET))
+        if (fseek(in, 4 /* BDK_PCIERCX_CFG001 */, SEEK_SET))
         {
             octeon_remote_perror(-1, "fread BDK_PCI_CFG01");
             fclose(in);
