@@ -110,6 +110,11 @@ void __bdk_init(long base_address)
     if (bdk_get_core_num() == 0)
     {
         /* Initialize the is_simulation flag */
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            __bdk_is_simulation = 1; // FIXME: For 78xx
+        }
+        else
         {
             BDK_CSR_INIT(dbg, BDK_SLI_DBG_SELECT);
             BDK_CSR_DEFINE(tmp, BDK_SLI_DBG_SELECT);
