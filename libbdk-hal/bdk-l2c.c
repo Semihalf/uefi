@@ -181,7 +181,7 @@ int bdk_l2c_get_set_bits(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         l2_set_bits =  13; /* 8192 sets */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        l2_set_bits =  8; /* 256 sets */
+        l2_set_bits =  10; /* 1024 sets */
     else
     {
         bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
@@ -225,6 +225,10 @@ int bdk_l2c_get_num_assoc(void)
         l2_assoc = 12;
     else
         l2_assoc = 16;
+
+    /* CN70XX always is 4 way */
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        l2_assoc = 4;
 
     return(l2_assoc);
 }
