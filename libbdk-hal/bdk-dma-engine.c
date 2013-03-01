@@ -39,7 +39,9 @@ int bdk_dma_engine_initialize(void)
         bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
         dpi_dmax_ibuff_saddr.u64 = 0;
         dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
-        dpi_dmax_ibuff_saddr.s.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue + engine)) >> 7;
+        /* Due to a conflict with the "idle" field on cn78xx, the saddr below
+            uses the cn78xx specific field, but this works on all chips */
+        dpi_dmax_ibuff_saddr.cn78xx.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue + engine)) >> 7;
         BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
     }
 
