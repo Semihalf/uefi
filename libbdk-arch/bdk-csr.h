@@ -27,8 +27,8 @@ typedef struct __attribute__ ((packed)) {
     bdk_csr_type_t  type : 4;       /**< Enum type from above */
     uint8_t         width : 4;      /**< CSR width in bytes */
     uint16_t        field_index;    /**< Index into __bdk_csr_db_fieldList where the fields start */
-    uint8_t         offset_range;   /**< Index into __bdk_csr_db_range where the offset range is */
-    uint8_t         block_range;    /**< Index into __bdk_csr_db_range where the block range is */
+    uint16_t        offset_range;   /**< Index into __bdk_csr_db_range where the offset range is */
+    uint16_t        block_range;    /**< Index into __bdk_csr_db_range where the block range is */
     uint16_t        base_index;     /**< Index into __bdk_csr_db_number where the base address is */
     uint16_t        offset_index;   /**< Index into __bdk_csr_db_number where the offset multiplier is */
     uint16_t        block_index;    /**< Index into __bdk_csr_db_number where the block multiplier is */
