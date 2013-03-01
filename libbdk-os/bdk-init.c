@@ -139,14 +139,24 @@ void __bdk_init(long base_address)
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
             l2c_tadx_int.u64 = 0;
-            l2c_tadx_int.s.rddislmc = 1;
+            if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+                l2c_tadx_int.cn78xx.rddislmc = 1;
+            else
+                l2c_tadx_int.cn68xx.rddislmc = 1;
             if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
                 BDK_CSR_WRITE(BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
-            if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+            if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
             {
                 BDK_CSR_WRITE(BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(BDK_L2C_TADX_INT(3), l2c_tadx_int.u64);
+            }
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            {
+                BDK_CSR_WRITE(BDK_L2C_TADX_INT(4), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(BDK_L2C_TADX_INT(5), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(BDK_L2C_TADX_INT(7), l2c_tadx_int.u64);
             }
         }
 
