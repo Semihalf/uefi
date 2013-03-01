@@ -83,6 +83,7 @@ static const __bdk_fs_ops_t bdk_fs_pcie_ops =
 
 int bdk_fs_pcie_init(void)
 {
-    bdk_dma_engine_initialize();
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX)) // FIXME: DMA engine init on o78
+        bdk_dma_engine_initialize();
     return bdk_fs_register("/dev/pcie/", &bdk_fs_pcie_ops);
 }
