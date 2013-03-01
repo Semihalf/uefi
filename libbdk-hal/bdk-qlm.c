@@ -40,7 +40,7 @@ int bdk_qlm_get_num(void)
     else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        return 8;
+        return 14;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 3;
 
