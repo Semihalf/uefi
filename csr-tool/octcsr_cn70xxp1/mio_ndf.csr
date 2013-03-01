@@ -1,0 +1,395 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: MIO_NDF
+registers:
+  - name: NDF_CMD
+    address: 0x1070001000000
+    bus: NCB
+    fields:
+      - name: NF_CMD
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: 8 Command Bytes
+
+
+  - name: NDF_MISC
+    address: 0x1070001000008
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..28
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MB_DIS
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Disable multibit error hangs and allow boot loads
+          or boot dma's proceed as if no multi bit errors
+          occured. HW will fix single bit errors as usual
+
+      - name: NBR_HWM
+        bits: 26..24
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: Hi Water mark for NBR fifo or load/stores
+
+      - name: WAIT_CNT
+        bits: 23..18
+        access: R/W
+        reset: 0x14
+        typical: --
+        description: WAIT input filter count
+
+      - name: FR_BYT
+        bits: 17..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Number of unfilled Command fifo bytes
+
+      - name: RD_DONE
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          This W1C bit is set to 1 by HW when it completes
+          command fifo read out, in response to RD_CMD
+
+      - name: RD_VAL
+        bits: 5
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          This RO bit is set to 1 by HW when it reads next 8
+          bytes from Command fifo into the NDF_CMD csr
+          SW reads NDF_CMD csr, HW clears this bit to 0
+
+      - name: RD_CMD
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When 1, HW reads out contents of the Command fifo 8
+          bytes at a time into the NDF_CMD csr
+
+      - name: BT_DMA
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: When set to 1, boot time dma is enabled
+
+      - name: BT_DIS
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          When boot operation is over SW must set to 1
+          causes boot state mchines to sleep
+
+      - name: EX_DIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set to 1, suspends execution of commands at
+          next command in the fifo.
+
+      - name: RST_FF
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          1=reset command fifo to make it empty,
+          0=normal operation
+
+
+  - name: NDF_ECC_CNT
+    address: 0x1070001000010
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: XOR_ECC
+        bits: 31..8
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          result of XOR of ecc read bytes and ecc genarated
+          bytes. The value pertains to the last 1 bit ecc err
+
+      - name: ECC_ERR
+        bits: 7..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Count = # of 1 bit errors fixed during boot
+          This count saturates instead of wrapping around."
+
+
+  - name: NDF_BT_PG_INFO
+    address: 0x1070001000018
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: T_MULT
+        bits: 10..7
+        access: R/W
+        reset: 0x9
+        typical: --
+        description: |
+          Boot time TIM_MULT[3:0] field of SET__TM_PAR[63:0]
+          command
+
+      - name: ADR_CYC
+        bits: 6..3
+        access: R/W
+        reset: 0x8
+        typical: --
+        description: "# of column address cycles"
+
+      - name: SIZE
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: bytes per page in the nand device
+
+
+  - name: NDF_INT
+    address: 0x1070001000020
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OVRF
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          NDF_CMD write when fifo is full. Generally a
+          fatal error.
+
+      - name: ECC_MULT
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Multi bit ECC error detected during boot
+
+      - name: ECC_1BIT
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single bit ECC error detected and fixed during boot
+
+      - name: SM_BAD
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: One of the state machines in a bad state
+
+      - name: WDOG
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Watch Dog timer expired during command execution
+
+      - name: FULL
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Command fifo is full
+
+      - name: EMPTY
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Command fifo is empty
+
+
+  - name: NDF_INT_EN
+    address: 0x1070001000028
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OVRF
+        bits: 6
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Wrote to a full command fifo
+
+      - name: ECC_MULT
+        bits: 5
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Multi bit ECC error detected during boot
+
+      - name: ECC_1BIT
+        bits: 4
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Single bit ECC error detected and fixed during boot
+
+      - name: SM_BAD
+        bits: 3
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: One of the state machines in a bad state
+
+      - name: WDOG
+        bits: 2
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Watch Dog timer expired during command execution
+
+      - name: FULL
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Command fifo is full
+
+      - name: EMPTY
+        bits: 0
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Command fifo is empty
+
+
+  - name: NDF_DRBELL
+    address: 0x1070001000030
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 7..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Doorbell count register, 2's complement 8 bit value
+
+
+  - name: NDF_ST_REG
+    address: 0x1070001000038
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EXE_IDLE
+        bits: 15
+        access: RO/H
+        reset: 1
+        typical: --
+        description: |
+          Command Execution status 1=IDLE, 0=Busy
+          1 means execution of command sequence is complete
+          and command fifo is empty
+
+      - name: EXE_SM
+        bits: 14..11
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Command Execution State machine states
+
+      - name: BT_SM
+        bits: 10..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Boot load and Boot dma State machine states
+
+      - name: RD_FF_BAD
+        bits: 6
+        access: RO/H
+        reset: 0
+        typical: --
+        description: CMD fifo read back State machine in bad state
+
+      - name: RD_FF
+        bits: 5..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CMD fifo read back State machine states
+
+      - name: MAIN_BAD
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Main State machine in bad state
+
+      - name: MAIN_SM
+        bits: 2..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Main State machine states
+
+
+

@@ -1,0 +1,1316 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: GSER
+registers:
+  - name: GSER(0..13)_PHY_CTL
+    title: GSER PHY Control
+    address: 0x1180090000000 + a*0x1000000
+    bus: RSL
+    description: General PHY/PLL control of the RAW PCS.
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PHY_PD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Tied to the mac_pcs_refclk_pd pin of the RAW PCS
+          When asserted, the PHY is powered down.
+
+      - name: PHY_RESET
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Tied to the phy_reset pin of the RAW PCS
+          When asserted, the PHY is held in reset.
+
+
+  - name: GSER(0..13)_REFCLK_SEL
+    title: GSER Reference Clock Select
+    address: 0x1180090000008 + a*0x1000000
+    bus: RSL
+    description: GSER Reference Clock Control.
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCIE_REFCLK125
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: For non-OCI links, indicates a 125Mhz Reference clock.
+
+      - name: QLM_REFCLK
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this allows the reference clock to
+          be sourced from the external clock mux (when set).  For
+          OCI links, this bit should never be set.
+
+      - name: USE_COM1
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this is the external mux select.
+          When set, qlmc_refclkn/p_1 are selected as the reference clock
+          When clear, qlmc_refclkn/p_0 are selected as the reference clock.
+
+
+  - name: GSER(0..13)_PLL_STAT
+    title: GSER Reference Clock Select
+    address: 0x1180090000010 + a*0x1000000
+    bus: RSL
+    description: GSER PLL Status
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PLL_LOCK
+        bits: 0
+        access: RO
+        reset: 1
+        typical: 1
+        description: This is the RAW PCS PLL Lock indication.
+
+
+  - name: GSER(0..13)_CFG
+    title: GSER Cavium Configuration
+    address: 0x1180090000080 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BGX_AGGR
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this indicates the BGX is
+          in aggregation mode when BGX is also set.
+          For OCI links this bit has no meaning.
+
+      - name: BGX
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this indicates the GSER is configured
+          for BGX mode.
+          For OCI links this bit has no meaning.
+
+      - name: ILA
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this indicates the GSER is configured
+          for ILK/ILA mode.
+          For OCI links, this indicates the GSER is configured
+          for OCI mode.
+
+      - name: PCIE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this indicates the GSER is configured
+          for PCIE mode.
+          For OCI links this bit has no meaning.
+
+
+  - name: GSER(0..13)_SPD
+    title: GSER Cavium Speed Bits
+    address: 0x1180090000088 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SPD
+        bits: 3..0
+        access: R/W
+        reset: 0xf
+        typical: 0xf
+        description: |
+          For OCI links,
+          spd[3]: When set, indicates 125Mhz reference clock,
+                  When clear, indicates 100Mhz reference clock.
+          spd[2:0]:
+          0x0: 1.25G
+          0x1: 2.5G
+          0x2: 3.125G
+          0x3: 5G
+          0x4: 6.25G
+          0x5: 8G
+          0x6: 10G
+          0x7: SW Mode (Phy comes up in powerdown state)
+          For non-OCI links these bits are not used.
+
+
+  - name: GSER(0..13)_SRST
+    title: GSER Cavium Soft Reset
+    address: 0x1180090000090 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SRST
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, resets all per lane state in the GSER
+          with the exception of the PHY.
+
+
+  - name: GSER(0..13)_DBG
+    title: GSER Cavium Debug Control
+    address: 0x1180090000098 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXQTM_ON
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When asserted, the RX FIFOs are turned on.
+
+
+  - name: GSER(0..13)_QLM_STAT
+    title: GSER Cavium QLM Status
+    address: 0x11800900000A0 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RST_RDY
+        bits: 1
+        access: RO
+        reset: 1
+        typical: 1
+        description: |
+          When asserted, the QLM is configured (CSR_GSER_CAV_CFG)
+          and the PLLs are stable. The GSER is ready to accept
+          traffic from the MAC.
+
+      - name: DCOK
+        bits: 0
+        access: RO
+        reset: 1
+        typical: 1
+        description: |
+          When asserted, there is a PLL reference clock indicating there
+          is power to the QLM.
+
+
+  - name: GSER(0..13)_LANE_SRST
+    title: GSER Cavium Lane Soft Reset
+    address: 0x1180090000100 + a*0x1000000
+    bus: RSL
+    description: GSER Lane Soft Reset
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LSRST
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_lane_soft_reset[3:0] pins of the RAW PCS.
+          Allows reset to Lane X.
+
+
+  - name: GSER(0..13)_LANE_POFF
+    title: GSER Cavium Lane Power Off
+    address: 0x1180090000108 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LPOFF
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_lane_pwr_off[3:0] pins of the RAW PCS.
+          Control signal to power down lane X.
+
+
+  - name: GSER(0..13)_LANE_LPBKEN
+    title: GSER Cavium Lane Loopback Enable
+    address: 0x1180090000110 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LPBKEN
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_lane_loopnk_en[3:0] pins of the RAW PCS.
+          When asserted in P0 state, Tx-to-Rx serial
+          loopback is activated on lane X.
+
+
+  - name: GSER(0..13)_LANE_MODE
+    title: GSER Cavium Lane Mode
+    address: 0x1180090000118 + a*0x1000000
+    bus: RSL
+    description: GSER Lane Mode
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LMODE
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_lane_mode[3:0] pins of the RAW PCS.
+           0x0: PCIE1
+           0x1: PCIE2
+           0x2: PCIE3
+           0x3: KX
+           0x4: KX4
+           0x5: KR
+           0x6: SGMII
+           0x7: QSGMII
+           0x8: CEI
+           0x9: PCIE1_125
+           0xa: PCIE2_125
+           0xb: PCIE3_125
+           0xc - 0xf: Reserved.
+
+
+  - name: GSER(0..13)_TX_PSTATE
+    title: GSER TX Power State
+    address: 0x1180090000120 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXPSTATE
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_tx_pstate[3:0] pins of the RAW PCS.
+           000:  P0
+           001:  P0s
+           010:  P1
+           011:  P2
+           1xx:  Reserved.
+
+
+  - name: GSER(0..13)_RX_PSTATE
+    title: GSER RX Power State
+    address: 0x1180090000128 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXPSTATE
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_rx_pstate[3:0] pins of the RAW PCS.
+           000:  P0
+           001:  P0s
+           010:  P1
+           011:  P2
+           1xx:  Reserved
+
+
+  - name: GSER(0..13)_TX_VBOOST
+    title: GSER TX VBOOST EN
+    address: 0x1180090000130 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VBOOST
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          ties to the mac_pcs_tx_vboost_en[3:0] pins of the RAW PCS.
+
+
+  - name: GSER(0..13)_RX_COAST
+    title: GSER RX COAST
+    address: 0x1180090000138 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: COAST
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE or BGX mode (including all OCI links),
+          ties to the mac_pcs_rx_cdr_coast[3:0] pins of the RAW PCS.  This
+          is a control signal to freeze the frequency of the CDR in the PHY.
+          This signal is only valid in P0 state.
+
+
+  - name: GSER(0..13)_RXTX_STAT
+    title: GSER RX TX Change Status
+    address: 0x1180090000140 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LMC
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          this bit is set for a lane mode change (a write
+          to GSER_LANE_MODE that changes the value of the Lane Mode.
+          This bit is clear when each lane acknowledges the change.
+
+      - name: TPSC
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          this bit is set for a TX Power state change (a write
+          to GSER_TX_PSTATE that changes the value of the Power State.
+          This bit is clear when each lane acknowledges the change.
+
+      - name: RPSC
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          this bit is set for a RX Power state change (a write
+          to GSER_RX_PSTATE that changes the value of the Power State.
+          This bit is clear when each lane acknowledges the change.
+
+
+  - name: GSER(0..13)_RX_EIE_DETEN
+    title: GSER RX Electrical Idle Detect Enable
+    address: 0x1180090000148 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EIEDE
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          For links that are not in PCIE mode (including all OCI links),
+          this bit ties to the mac_pcs_rx_eie_det_en[3:0] pins of the RAW PCS.
+          When set, the RAW PCS looks for an Electrical Idle
+          Exit Condition.
+
+
+  - name: GSER(0..13)_RX_EIE_DETSTS
+    title: GSER RX Electrical Idle Detect Status
+    address: 0x1180090000150 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EIESTS
+        bits: 3..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Status from lane X's RX indicating the detection of a electical IDLE exit
+          condition.  Note that this is a dynamic indication and valid when the
+          associated mac_pcs_rx_eie_det_en[3:0] bit is set.
+
+
+  - name: GSER(0..13)_PIPE_LPBK
+    title: GSER PCIE PCS PIPE Lookback Enable
+    address: 0x1180090000200 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCIE_LPBK
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, Ties to pipeX_tx2rx_loopbk, analag Serial Loop Back Control
+          input of the PCIE PCS.
+
+
+  - name: GSER(0..13)_BR_RX(0..3)_CTL
+    title: GSER Base-R RX Control
+    address: 0x1180090000400 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXT_PRESET
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When in SW Base-R Training Mode, this bit is used to determine how to
+          set the preset and initialize bits the the Coefficient Update Message.
+           0: initialize is set, preset is clear
+           1: initialize is clear, preset is set
+
+      - name: RXT_SWM
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Set when RX Base-R Link Training is to be performed under software control.
+
+
+  - name: GSER(0..13)_BR_RX(0..3)_CU
+    title: GSER Base-R RX Coefficient Update
+    address: 0x1180090000408 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXT_CU
+        bits: 8..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When RX Base-R Link Training is being performed under software control,
+          This is the Coefficient Update Message to send to the MAC (BGX/OCI).
+
+
+  - name: GSER(0..13)_BR_RX(0..3)_SR
+    title: GSER Base-R RX Status Respnse
+    address: 0x1180090000410 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXT_SR
+        bits: 5..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When RX Base-R Link Training is being performed under software control,
+          This is the Status Response Message from the Link Partner.
+
+
+  - name: GSER(0..13)_BR_RX(0..3)_EER
+    title: GSER Base-R RX Equalization Evaluation Request
+    address: 0x1180090000418 + a*0x1000000 + b*0x80
+    bus: RSL
+    description: |
+      GSER SW Base-R RX Link Training Equalization Evaluation Request (EER)
+      A write to this register will perform a Equalization Request to the RAW PCS.
+      A read of this register will return the Equalization Status Message and a valid
+      bit indicating it was updated.
+    fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXT_ESV
+        bits: 14
+        access: RC
+        reset: 0
+        typical: 0
+        description: |
+          When RX Base-R Link Training is being performed under software control,
+          This is the bit indicating that the Equalization Status is valid.  Reading
+          this register will clear this bit.
+
+      - name: RXT_ESM
+        bits: 13..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When RX Base-R Link Training is being performed under software control,
+          This is the Equalization Status Message from the RAW PCS.
+          bits[13:6]: figure of merit
+          bits[5:4]:  RX recommended TXPOST direction change
+          bits[3:2]:  RX recommended TXMAIN direction change
+          bits[5:4]:  RX recommended TXPRE direction change
+
+
+  - name: GSER(0..13)_BR_TX(0..3)_CTL
+    title: GSER Base-R TX Control
+    address: 0x1180090000420 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXT_SWM
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Set when TX Base-R Link Training is to be performed under software control.
+
+
+  - name: GSER(0..13)_BR_TX(0..3)_CU
+    title: GSER Base-R TX Coeffiencient Update
+    address: 0x1180090000428 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXT_CU
+        bits: 8..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When in SW TX Base-R Link Training, this is the Coefficient Update
+          message from the link partner.
+
+
+  - name: GSER(0..13)_BR_TX(0..3)_SR
+    title: GSER Base-R TX Status Response
+    address: 0x1180090000430 + a*0x1000000 + b*0x80
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXT_SR
+        bits: 5..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When in SW TX Base-R Link Training, this is the Status Response
+          to be sent to the link partner.  Writing this message will cause
+          a new SR message to be sent to the Mac (BGX/OCI) to be forwarded
+          to the link partner.
+
+
+  - name: GSER(0..13)_BR_TX(0..3)_CUR
+    title: GSER Base-R TX Status Response
+    address: 0x1180090000438 + a*0x1000000 + b*0x80
+    bus: RSL
+    description: GSER SW Base-R TX Coeffiecient Update Request
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXT_CUR
+        bits: 13..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          When in SW TX Base-R Link Training, this is the Coefficient Update
+          to be written to the RAW PCS.
+          bits 13:9: TX_POST[4:0]
+          bits 8:4:  TX_SWING[4:0]
+          bits 3:0:  TX_PRE[4:0]
+
+
+  - name: GSER(0..13)_ANA_ATEST
+    title: GSER Analog Test
+    address: 0x1180090000800 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ANA_TEST
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Used to control the analog test block.
+          Note that the QLM0 register is tied to the analog
+          test block, for non-OCI links.
+          Note that the OCI0 register is tied to the analog
+          test block, for OCI links.
+          The other QLM GSER_ANA_ATEST registers are unused.
+
+
+  - name: GSER(0..13)_ANA_SEL
+    title: GSER Analog Select
+    address: 0x1180090000808 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ANA_SEL
+        bits: 16..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Used to control the analog test block.
+          Note that the QLM0 register is tied to the analog
+          test block, for non-OCI links.
+          Note that the QLM8 register is tied to the analog
+          test block, for OCI links.
+          The other QLM GSER_ANA_SEL registers are unused.
+
+
+  - name: GSER(0..13)_PLL_P(0..8)_MODE_0_OFST
+    title: GSER PLL Protocol Mode 0
+    address: 0x11800904B0030 + a*0x1000000 + b*0x20
+    bus: RSL
+    description: |
+      RAW PCS PLL Global Settings Mode 0 Register
+      Global registers are shared across the entire PCS
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  PCIE2
+      P2:  PCIE3
+      P3:  KX
+      P4:  KX4
+      P5:  KR
+      P6:  SGMII
+      P7:  QSGMII
+      P8:  CEI
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PLL_ICP
+        bits: 15..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PLL Charge pump enable.
+
+      - name: PLL_RLOOP
+        bits: 11..9
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Loop resistor tuning.
+
+      - name: PLL_PCS_DIV
+        bits: 8..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The divider that generates pcs_mac_tx_clk.
+
+
+  - name: GSER(0..13)_PLL_P(0..8)_MODE_1_OFST
+    title: GSER PLL Protocol Mode 1
+    address: 0x11800904B0038 + a*0x1000000 + b*0x20
+    bus: RSL
+    description: |
+      RAW PCS PLL Global Settings Mode 0 Register
+      Global registers are shared across the entire PCS
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  PCIE2
+      P2:  PCIE3
+      P3:  KX
+      P4:  KX4
+      P5:  KR
+      P6:  SGMII
+      P7:  QSGMII
+      P8:  CEI
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PLL_16P5EN
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable for the div 16.5 clock.
+
+      - name: PLL_CPADJ
+        bits: 12..11
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PLL Charge adjust.
+
+      - name: PLL_PCIE3EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable PCIE3 Mode.
+
+      - name: PLL_OPR
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          0: Use Ring Oscillator VCO
+          1: Use LC-tank VCO
+
+      - name: PLL_DIV
+        bits: 8..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PLL divider in feedback path which sets the PLL frequency.
+
+
+  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_0_OFST
+    title: GSER LANE Protocol Mode 0
+    address: 0x11800904B0040 + a*0x1000000 + b*0x100000 + c*0x20
+    bus: RSL
+    description: |
+      RAW PCS Per Lane Global Settings Mode 0 Register
+      Per Lane registers are specific to a paticular lane.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  PCIE2
+      P2:  PCIE3
+      P3:  KX
+      P4:  KX4
+      P5:  KR
+      P6:  SGMII
+      P7:  QSGMII
+      P8:  CEI
+    fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTLE
+        bits: 14..13
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CTLE pole value.
+
+      - name: PCIE
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Selects between RX terminations.
+          0: pcs_sds_rx_terminate_to_vdda
+          1: VSS
+
+      - name: TX_LDIV
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Configues clock divider used to determine the transmit rate.
+
+      - name: RX_LDIV
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Configues clock divider used to determine the receive rate.
+
+      - name: SRATE
+        bits: 7..5
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Used to generate strobe to effectively divide the clock down
+          to a slower rate.
+
+      - name: OP_RANGE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set DFE is enabled.  Otherwise DFE is disabled.
+
+      - name: TX_MODE
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          TX Data Width.
+          00: 8-bit  raw data (not supported)
+          01: 10-bit raw data (not supported)
+          10: 16-bit raw data (not supported)
+          11: 10-bit raw data
+
+      - name: RX_MODE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          RX Data Width.
+          00: 8-bit  raw data (not supported)
+          01: 10-bit raw data (not supported)
+          10: 16-bit raw data (not supported)
+          11: 10-bit raw data
+
+
+  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_1_OFST
+    title: GSER LANE Protocol Mode 1
+    address: 0x11800904B0048 + a*0x1000000 + b*0x100000 + c*0x20
+    bus: RSL
+    description: |
+      RAW PCS Per Lane Global Settings Mode 1 Register
+      Per Lane registers are specific to a paticular lane.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  PCIE2
+      P2:  PCIE3
+      P3:  KX
+      P4:  KX4
+      P5:  KR
+      P6:  SGMII
+      P7:  QSGMII
+      P8:  CEI
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VMA_KR_SEL
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          0: Disabled.  Coarse step adaptation selected
+          1: Enabled.  Fine step adaptation selected
+
+      - name: VMA_MM
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          0: Adaptive DFE
+          1: Manual DFE
+
+      - name: CDR_FGAIN
+        bits: 13..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CDR Frequency Gain.
+
+      - name: PH_ACC_ADJ
+        bits: 9..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Phase accumulator adjust.
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_0_OFST
+    title: GSER LANE VMA Protocol Control 0 Register
+    address: 0x11800904B0150 + a*0x1000000 + b*0x100000 + c*0x18
+    bus: RSL
+    description: |
+      RAW PCS Per Lane VMA Control Configuration 0 Register
+      Per Lane registers are specific to a paticular lane.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  KR
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IQ_MAX
+        bits: 15..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Slice DLL IQ Maximum Value.
+
+      - name: IQ_MIN
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Slice DLL IQ Minimum Value.
+
+      - name: IQ_STEP
+        bits: 7..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Slice DLL IQ step size.
+
+      - name: WINDOW_WAIT
+        bits: 5..3
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Adaptation window wait setting.
+
+      - name: LMS_WAIT
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          LMS wait time setting used to control the number
+          of samples taken during the collection of
+          statistics.
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_1_OFST
+    title: GSER LANE VMA Protocol Control 1 Register
+    address: 0x11800904B0158 + a*0x1000000 + b*0x100000 + c*0x18
+    bus: RSL
+    description: |
+      RAW PCS Per Lane VMA Control Configuration 1 Register
+      Per Lane registers are specific to a paticular lane.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  KR
+    fields:
+      - name: --
+        bits: 63..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTLE_PMAX
+        bits: 9..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RX CTLE Peak maximum value.
+
+      - name: CTLE_PMIN
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RX CTLE Peak minimum value.
+
+      - name: CTLE_PSTEP
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CTLE Peak Peak step size.
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_2_OFST
+    title: GSER LANE VMA Protocol Control 2 Register
+    address: 0x11800904B0160 + a*0x1000000 + b*0x100000 + c*0x18
+    bus: RSL
+    description: |
+      RAW PCS Per Lane VMA Control Configuration 2 Register
+      Per Lane registers are specific to a paticular lane.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  KR
+    fields:
+      - name: --
+        bits: 63..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCTLE_GMAX
+        bits: 9..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RX PRE-CTLE Gain maximum value.
+
+      - name: PCTLE_GMIN
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RX PRE-CTLE Gain minimum value.
+
+      - name: PCTLE_GSTEP
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CTLE PRE-Peak Gain step size.
+
+
+  - name: GSER(0..13)_SLICE(0..1)_P(0..1)_MODE_OFST
+    title: GSER SLICE Protocol Mode
+    address: 0x11800905E0228 + a*0x1000000 + b*0x100000 + c*0x8
+    bus: RSL
+    description: |
+      RAW PCS Slice Mode Register
+      Slice Registers are shared across two adjacent lanes. SLICE0 access
+      lane pairs 0 & 1. SLICE1 acceses lane pairs 2 & 3.
+      The Protocol selects the specific protocol register as follows.
+      P0:  PCIE1
+      P1:  PCIE2
+      P2:  PCIE3
+      P3:  KX
+      P4:  KX4
+      P5:  KR
+      P6:  SGMII
+      P7:  QSGMII
+      P8:  CEI
+    fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: S_SPARE
+        bits: 14..13
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          bit 14: enable rx1_div33 clock in the SerDes
+          bit 13: enable rx0_div33 clock in the SerDes
+
+      - name: LDLL_ISEL
+        bits: 12..11
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Lane DLL current select.
+
+      - name: SDLL_ISEL
+        bits: 10..9
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Slice DLL current select.
+
+      - name: PI_BWSEL
+        bits: 8..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PI bandwidth select.
+
+      - name: LDLL_BWSEL
+        bits: 5..3
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Lane DLL bandwidth select.
+
+      - name: SDLL_BWSEL
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Slice DLL bandwidth select.
+
+
+

@@ -1,0 +1,357 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: TIM
+registers:
+  - name: TIM_REG_FLAGS
+    address: 0x1180058000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: RESET
+        bits: 2
+        access: ---
+        reset: 0
+        typical: 0
+        description: Reset oneshot pulse for free-running structures
+
+      - name: ENA_DWB
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enables non-zero DonwWriteBacks when set
+          When set, enables the use of
+          DontWriteBacks during the buffer freeing
+          operations.
+
+      - name: ENA_TIM
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enables the TIM section when set
+          When set, TIM is in normal operation.
+          When clear, time is effectively stopped for all
+          rings in TIM.
+
+
+  - name: TIM_REG_READ_IDX
+    address: 0x1180058000008
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: INC
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Increment to add to current index for next index
+
+      - name: INDEX
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Index to use for next memory CSR read
+
+
+  - name: TIM_REG_BIST_RESULT
+    address: 0x1180058000080
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: STA
+        bits: 3..2
+        access: RO
+        reset: X
+        typical: 0x0
+        description: BiST result of the STA   memories (0=pass, !0=fail)
+
+      - name: NCB
+        bits: 1
+        access: RO
+        reset: X
+        typical: 0
+        description: BiST result of the NCB   memories (0=pass, !0=fail)
+
+      - name: CTL
+        bits: 0
+        access: RO
+        reset: X
+        typical: 0
+        description: BiST result of the CTL   memories (0=pass, !0=fail)
+
+
+  - name: TIM_REG_ERROR
+    address: 0x1180058000088
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: MASK
+        bits: 15..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: Bit mask indicating the rings in error
+
+
+  - name: TIM_REG_INT_MASK
+    address: 0x1180058000090
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: MASK
+        bits: 15..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Bit mask corresponding to TIM_REG_ERROR.MASK above
+
+
+  - name: TIM_MEM_RING0
+    address: 0x1180058001000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..55
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: BASE
+        bits: 54..24
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Pointer[35:5] to bucket[0]
+
+      - name: BSIZE
+        bits: 23..4
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Number of buckets - 1
+
+      - name: RID
+        bits: 3..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Ring ID
+
+
+  - name: TIM_MEM_RING1
+    address: 0x1180058001008
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..43
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: ENA
+        bits: 42
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          Ring timer enable
+          When clear, the ring is disabled and TIM
+          will not traverse any new buckets for the ring.
+
+      - name: CPOOL
+        bits: 41..39
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Free list used to free chunks
+
+      - name: CSIZE
+        bits: 38..26
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Number of words per chunk
+
+      - name: INTERVAL
+        bits: 25..4
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Timer interval - 1, measured in 1024 cycle ticks
+
+      - name: RID
+        bits: 3..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Ring ID
+
+
+  - name: TIM_MEM_DEBUG0
+    address: 0x1180058001100
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: ENA
+        bits: 47
+        access: RO/H
+        reset: X
+        typical: 0
+        description: Ring timer enable
+
+      - name: --
+        bits: 46
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: COUNT
+        bits: 45..24
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: |
+          Time offset for the ring
+          Set to INTERVAL and counts down by 1 every 1024
+          cycles when ENA==1. The HW forces a bucket
+          traversal (and resets COUNT to INTERVAL) whenever
+          the decrement would cause COUNT to go negative.
+          COUNT is unpredictable whenever ENA==0.
+          COUNT is reset to INTERVAL whenever TIM_MEM_RING1
+          is written for the ring.
+
+      - name: --
+        bits: 23..22
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: INTERVAL
+        bits: 21..0
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: Timer interval - 1
+
+
+  - name: TIM_MEM_DEBUG1
+    address: 0x1180058001108
+    bus: RSL
+    fields:
+      - name: BUCKET
+        bits: 63..51
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: |
+          Current bucket[12:0]
+          Reset to 0 whenever TIM_MEM_RING0 is written for
+          the ring. Incremented (modulo BSIZE) once per
+          bucket traversal.
+          See TIM_MEM_DEBUG2[BUCKET].
+
+      - name: BASE
+        bits: 50..20
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: |
+          Pointer[35:5] to bucket[0]
+
+      - name: BSIZE
+        bits: 19..0
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: Number of buckets - 1
+
+
+  - name: TIM_MEM_DEBUG2
+    address: 0x1180058001110
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..24
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: CPOOL
+        bits: 23..21
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: Free list used to free chunks
+
+      - name: CSIZE
+        bits: 20..8
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: Number of words per chunk
+
+      - name: --
+        bits: 7
+        access: RO/H
+        reset: X
+        typical: 0
+        description: RESERVED
+
+      - name: BUCKET
+        bits: 6..0
+        access: RO/H
+        reset: X
+        typical: 0x0
+        description: |
+          Current bucket[19:13]
+          See TIM_MEM_DEBUG1[BUCKET].
+
+
+

@@ -1,0 +1,784 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: MIO_FUS
+registers:
+  - name: MIO_FUS_DAT0
+    title: MIO Fuse Data0 Register
+    address: 0x1180000001400
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAN_INFO
+        bits: 31..0
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          Fuse information - manufacturing info [31:0]
+
+
+  - name: MIO_FUS_DAT1
+    title: MIO Fuse Data1 Register
+    address: 0x1180000001408
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAN_INFO
+        bits: 31..0
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          Fuse information - manufacturing info [63:32]
+
+
+  - name: MIO_FUS_DAT2
+    title: MIO Fuse Data2 Register
+    address: 0x1180000001410
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FUS118
+        bits: 47
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - Ignore Authentik disable.
+
+      - name: ROM_INFO
+        bits: 46..37
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - ROM info.
+
+      - name: POWER_LIMIT
+        bits: 36..35
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - Power limit.
+
+      - name: DORM_CRYPTO
+        bits: 34
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - Dormant encryption enable.
+
+      - name: FUS318
+        bits: 33
+        access: RO
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RAID_EN
+        bits: 32
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - RAID enabled.
+
+      - name: --
+        bits: 31..29
+        access: RO
+        reset: --
+        typical: --
+        description: Spare fuses.
+
+      - name: NODFA_CP2
+        bits: 28
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HFA disable (CP2).
+
+      - name: NOMUL
+        bits: 27
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - VMUL disable.
+
+      - name: NOCRYPTO
+        bits: 26
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
+          modes:
+          DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
+          DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
+          DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
+          DORM_CRYPTO = 1, NOCRYPTO = 1 Authenik mode.
+
+      - name: --
+        bits: 25..24
+        access: RO
+        reset: --
+        typical: --
+        description: Spare fuses.
+
+      - name: CHIP_ID
+        bits: 23..16
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - chip ID.
+
+      - name: --
+        bits: 15..0
+        access: RO
+        reset: --
+        typical: --
+        description: Spare fuses.
+
+
+  - name: MIO_FUS_DAT3
+    title: MIO Fuse Data3 Register
+    address: 0x1180000001418
+    bus: RSL
+    fields:
+      - name: EMA
+        bits: 63..58
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - EMA.
+
+      - name: PLL_CTL
+        bits: 57..48
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - PLL control.
+
+      - name: DFA_INFO_DTE
+        bits: 47..45
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HFA information (HTE).
+
+      - name: DFA_INFO_CLM
+        bits: 44..41
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HFA information (cluster mask).
+
+      - name: --
+        bits: 40..38
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EFUS_LCK_RSV
+        bits: 37
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - efuse lockdown.
+
+      - name: EFUS_LCK_MAN
+        bits: 36
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - efuse lockdown.
+
+      - name: PLL_HALF_DIS
+        bits: 35
+        access: RO/H
+        reset: --
+        typical: --
+        description: Fuse information - Coprocessor-clock PLL control.
+
+      - name: L2C_CRIP
+        bits: 34..32
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          Fuse information - L2C cripple:
+          0x0 = 16-way, 2MB cache
+          0x1 = 12-way, 1.5MB cache
+          0x2 = 8-way, 1MB cache
+          0x3 = 4-way, 512KB cache
+          0x4-0x7 = reserved
+
+      - name: SPARE
+        bits: 31
+        access: RO
+        reset: --
+        typical: --
+        description: Spare fuse.
+
+      - name: ZIP_INFO
+        bits: 30..29
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - Zip information
+
+      - name: BAR2_EN
+        bits: 28
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - BAR2 present (when blown `1')
+
+      - name: EFUS_LCK
+        bits: 27
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - efuse lockdown
+
+      - name: EFUS_IGN
+        bits: 26
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - efuse ignore
+
+      - name: NOZIP
+        bits: 25
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - ZIP disable
+
+      - name: NODFA_DTE
+        bits: 24
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HFA disable (HTE)
+
+      - name: --
+        bits: 23..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: MIO_FUS_PDF
+    title: MIO Fuse Product Definition Field Register
+    address: 0x1180000001420
+    bus: RSL
+    fields:
+      - name: PDF
+        bits: 63..0
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information--product definition field.
+
+
+  - name: MIO_FUS_TGG
+    title: MIO Fuse TGG Register
+    address: 0x1180000001428
+    bus: RSL
+    fields:
+      - name: VAL
+        bits: 63
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          Out of reset, VAL will return the TGG<63> fuse. Software may write this CSR bit to zero
+          (to hide the value of the TGG fuses). Software cannot write the valid bit to a one, so it
+          is not possible to read the value of the TGG fuses after the valid bit is clear. It is
+          never possible to read the value of the TGG fuses directly (ie. the only way to read the
+          value of the TGG fuses is via the MIO_FUS_TGG CSR.) Whenever the fuse corresponding to the
+          valid bit (ie. TGG<63>) is blown, it is not possible to blow the other 63 TGG fuses. (ie.
+          only when the TGG<63> fuse is not blown, the other 63 TGG fuses can be blown. The TGG<63>
+          fuse is the one and only fuse lockdown bit for the other 63 fuses TGG fuses. No other fuse
+          lockdown bits can prevent blowing the 63 fuses.
+
+      - name: DAT
+        bits: 62..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          When VAL is clear, DAT will always read as zero, regardless of the value of the TGG<62:0>
+          fuses. When VAL is set, DAT will return the value of the other 63 TGG fuses.
+
+
+  - name: MIO_FUS_RCMD
+    title: MIO Fuse Read Command Register
+    address: 0x1180000001500
+    bus: RSL
+    description: |
+      To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
+      question, then software can poll MIO_FUS_RCMD[PEND]. When PEND is clear, then
+      MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
+      (ADDR/16) not {0,1,7}) || EFUSE), software can read MIO_FUS_BNK_DATx which contains all 128
+      fuses in the bank associated in ADDR.
+    fields:
+      - name: --
+        bits: 63..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DAT
+        bits: 23..16
+        access: RO/H
+        reset: --
+        typical: --
+        description: 8 bits of fuse data.
+
+      - name: --
+        bits: 15..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEND
+        bits: 12
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          Software sets this bit on a write to start FUSE read operation. Hardware clears when read
+          is complete and the DAT is valid.
+
+      - name: --
+        bits: 11
+        access: ---
+        reset: --
+        typical: --
+        description: |
+          Reserved. INTERNAL: Save for address expansion.
+
+      - name: ADDR_HI
+        bits: 10..9
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Upper fuse address bits to extend space beyond 2k fuses. Valid range is 0x0-0x2.
+
+      - name: EFUSE
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, return data from the efuse storage rather than the local storage.
+
+      - name: ADDR
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The byte address of the fuse to read.
+
+
+  - name: MIO_FUS_WADR
+    title: MIO Fuse Read Command Register
+    address: 0x1180000001508
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADDR
+        bits: 5..0
+        access: R/W
+        reset: --
+        typical: --
+        description: Indicates which of the banks of 128 fuses to blow.
+
+
+  - name: MIO_FUS_PROG
+    title: |
+      INTERNAL: MIO Fuse Programming Register
+    address: 0x1180000001510
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SOFT
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: When set with PROG, causes only the local storage to change and will not blow
+          any fuses. Hardware will clear when the program operation is complete.
+
+      - name: PROG
+        bits: 0
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
+          the program operation is complete.
+          To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
+          programmed and then set each bit within MIO_FUS_BNK_DATX to indicate which fuses to blow.
+          Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
+          and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
+          subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
+          fuses were actually blown. A cold reset restores the actual fuse values.
+
+
+  - name: MIO_FUS_PROG_TIMES
+    title: |
+      INTERNAL: MIO Fuse Program Times Register
+    address: 0x1180000001518
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..35
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VGATE_PIN
+        bits: 34
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: Efuse vgate pin (L6G).
+
+      - name: FSRC_PIN
+        bits: 33
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: Efuse fsource pin (L6G).
+
+      - name: PROG_PIN
+        bits: 32
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: Efuse program pin (IFB).
+
+      - name: --
+        bits: 31..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: MIO_FUS_BNK_DAT(0..1)
+    title: MIO Fuse Bank Store Register
+    address: 0x1180000001520 + a*0x8
+    bus: RSL
+    description: |
+      The initial state of MIO_FUS_BNK_DAT0/1 is as if bank6 were just read,
+      i.e. DAT* = fus[895:768].
+    fields:
+      - name: DAT
+        bits: 63..0
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          Efuse bank store. For read operations, the DAT gets the fus bank last read. For write
+          operations, the DAT determines which fuses to blow.
+
+
+  - name: MIO_FUS_RPR_DAT(0..1)
+    title: |
+      INTERNAL: MIO Fuse Repair Memory Register
+    address: 0x1180000001530 + a*0x8
+    bus: RSL
+    fields:
+      - name: DAT
+        bits: 63..0
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
+          MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM.
+
+
+  - name: MIO_FUS_SOFT_REPAIR
+    title: |
+      INTERNAL: MIO Fuse Soft Repair Register
+    address: 0x1180000001540
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TOO_MANY
+        bits: 16
+        access: RO/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195.
+
+      - name: NUMDEFECTS
+        bits: 15..8
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
+          stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+          1).
+
+      - name: NUMREPAIRS
+        bits: 7..0
+        access: R/W
+        reset: --
+        typical: 0x0
+        description: |
+          INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
+          a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+          cold reset.
+
+
+  - name: MIO_FUS_EMA
+    title: |
+      INTERNAL: MIO Fuse Repair EMA Register
+    address: 0x1180000001550
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 6..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EMA
+        bits: 2..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: MIO_FUS_READ_TIMES
+    title: MIO Fuse Read Times Register
+    address: 0x1180000001570
+    bus: RSL
+    description: |
+      IFB fuses are 0 to 1791. The reset values are for IFB fuses for PLL_REF_CLK up to 100MHz when
+      core PLL is engaged. If any of the formulas below result in a value less than zero, the
+      corresponding timing parameter should be set to zero.
+      Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
+      with the timing parameters that will be read.
+      This register should not be written while MIO_FUS_RCMD[PEND] = 1.
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DONE
+        bits: 31..28
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
+          write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
+          = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz.
+
+      - name: AHD
+        bits: 27..24
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Hold time of A with respect to falling edge of STROBE for read and write modes in
+          PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
+          yields 40ns for a PLL_REF_CLK of 50 MHz.
+
+      - name: WRSTB_WH
+        bits: 23..12
+        access: R/W
+        reset: 0x1f3
+        typical: --
+        description: |
+          Pulse width high of STROBE in write mode in PLL_REF_CLK + 1 cycles. Timing spec of
+          twh_SB_p is 9.8us max. Default of 0x1F3 yields 10 us at PLL_REF_CLK of 50 MHz.
+
+      - name: RDSTB_WH
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
+          is 20ns min. Default of 0x0 yields 20 ns at PLL_REF_CLK of 50 MHz.
+
+      - name: ASU
+        bits: 7..4
+        access: R/W
+        reset: 0x1
+        typical: --
+        description: |
+          Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
+          Timing spec of tsu_A_r and rsu_A-P is 12 ns min. Default of 0x1 yields 20 ns at
+          PLL_REF_CLK of 50 MHz.
+
+      - name: SETUP
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Setup of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in PLL_REF_CLK
+          + 1 cycles. TSUCS= 16ns, TSUPG= 14ns, TSULD_R= 10ns. Default of 0x0 yields 20 ns at
+          PLL_REF_CLK of 50 MHz.
+
+
+  - name: MIO_FUS_PLL
+    title: MIO Fuse PLL Register
+    address: 0x1180000001580
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RCLK_ALIGN_R
+        bits: 47..40
+        access: RO
+        reset: --
+        typical: --
+        description: RCLK (core clock) right alignment settings
+
+      - name: RCLK_ALIGN_L
+        bits: 39..32
+        access: RO
+        reset: --
+        typical: --
+        description: RCLK (core clock) left alignment settings
+
+      - name: --
+        bits: 31..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_COUT_RST
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
+          least 10 ref-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
+          should remain under reset for at least 10 ref-clock cycles after C_COUT_SEL changes.
+
+      - name: C_COUT_SEL
+        bits: 6..5
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Core clockout select:
+          0x0 = core clock 0x2 = PLL output
+          0x1 = PS output 0x3 = undivided core clock
+
+      - name: PNR_COUT_RST
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          PNR clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
+          least 10 ref-clock cycles prior to changing PNR_COUT_SEL. The PNR clockout postscaler
+          should remain under reset for at least 10 ref-clock cycles after PNR_COUT_SEL changes.
+
+      - name: PNR_COUT_SEL
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          PNR clockout select:
+          0x0 = coprocessor clock 0x2 = PLL output
+          0x1 = PS output 0x3 = undivided core clock
+
+      - name: RFSLIP
+        bits: 1
+        access: ---
+        reset: 0
+        typical: --
+        description: Reserved.
+
+      - name: FBSLIP
+        bits: 0
+        access: ---
+        reset: 0
+        typical: --
+        description: Reserved.
+
+
+

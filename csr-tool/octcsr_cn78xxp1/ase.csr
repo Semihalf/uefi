@@ -1,0 +1,5081 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: ASE
+description: |
+  Algorithmic Search Engine
+  http://mawiki.caveonetworks.com/wiki/index.php/78xx/ASE
+attributes:
+  rtlgen_clock: "sclk"
+  rtlgen_reset_n: "srst_n"
+enums:
+  - name: ASE_ENDIAN_E
+    attributes:
+      width: "2"
+    description: Endian mode selection. TODO reduce this down to 2 modes (big/little).
+    values:
+      - name: "NONE"
+        value: 2'h0
+        description: |
+          No Swap: ABCD_EFGH --> ABCD_EFGH
+
+      - name: M8_IN_64
+        value: 2'h1
+        description: |
+          64 swap: ABCD_EFGH --> HGFE_DCBA
+
+      - name: M32_IN_64
+        value: 2'h2
+        description: |
+          32 in 64: ABCD_EFGH --> EFGH_ABCD
+
+      - name: M8_IN_32
+        value: 2'h3
+        description: |
+          32 swap: ABCD_EFGH --> DCBA_HGFE
+
+
+  - name: ASE_INTSN_E
+    attributes:
+      meta_block: "True"
+      width: "20"
+    description: |
+      "ASE Interrupt Source Numbers for CIU. 20-bit INTSN consists of:
+        - INTSN<19:12> (major block ID) = DID of ASE
+        - INTSN<11:8>  (minor block ID) = Subblock ID = Always 0.
+        - INTSN<7:6>   (interrupt register index)
+        - INTSN<5:0>   (interrupt bit index)
+      "
+    values:
+      - name: ASE_LIP_ISF_DROP_FULL
+        value: 0xDD000
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_ISF_DROP_FULL].
+
+      - name: ASE_LIP_OBF_DROP_CMD_DBE
+        value: 0xDD001
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_OBF_DROP_CMD_DBE].
+
+      - name: ASE_LIP_OBF_DROP_MALFORMED
+        value: 0xDD002
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_OBF_DROP_MALFORMED].
+
+      - name: ASE_LIP_OBF_DROP_UNKN_CMD
+        value: 0xDD003
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_OBF_DROP_UNKN_CMD].
+
+      - name: ASE_LIP_OBF_EARLY_EOP
+        value: 0xDD004
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_OBF_EARLY_EOP].
+
+      - name: ASE_LIP_OBF_MISSING_EOP
+        value: 0xDD005
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_OBF_MISSING_EOP].
+
+      - name: ASE_LIP_TBF_EARLY_EOP
+        value: 0xDD006
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_TBF_EARLY_EOP].
+
+      - name: ASE_LIP_TBF_MISSING_EOP
+        value: 0xDD007
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LIP_TBF_MISSING_EOP].
+
+      - name: ASE_LUE_TIC_MISS
+        value: 0xDD020
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_TIC_MISS].
+
+      - name: ASE_LUE_TIC_MULTI_HIT
+        value: 0xDD021
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_TIC_MULTI_HIT].
+
+      - name: ASE_LUE_TIC_BAD_WRITE
+        value: 0xDD022
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_TIC_BAD_WRITE].
+
+      - name: ASE_LUE_BIC_MISS
+        value: 0xDD023
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_BIC_MISS].
+
+      - name: ASE_LUE_BIC_MULTI_HIT
+        value: 0xDD024
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_BIC_MULTI_HIT].
+
+      - name: ASE_LUE_HR_ERR_LOG
+        value: 0xDD025
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_HR_ERR_LOG].
+
+      - name: ASE_LUE_INVALID_REQ
+        value: 0xDD026
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_INVALID_REQ].
+
+      - name: ASE_ECC_LIP_ISF_SBE
+        value: 0xDD040
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_ISF_SBE].
+
+      - name: ASE_ECC_LIP_ISF_DBE
+        value: 0xDD041
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_ISF_DBE].
+
+      - name: ASE_ECC_LIP_GDT_SBE
+        value: 0xDD042
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_GDT_SBE].
+
+      - name: ASE_ECC_LIP_GDT_DBE
+        value: 0xDD043
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_GDT_DBE].
+
+      - name: ASE_ECC_LIP_PHT_SBE
+        value: 0xDD044
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_PHT_SBE].
+
+      - name: ASE_ECC_LIP_PHT_DBE
+        value: 0xDD045
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_PHT_DBE].
+
+      - name: ASE_ECC_LIP_NEWQ_SBE
+        value: 0xDD046
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_NEWQ_SBE].
+
+      - name: ASE_ECC_LIP_NEWQ_DBE
+        value: 0xDD047
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LIP_NEWQ_DBE].
+
+      - name: ASE_ECC_LOP_TXB_SBE
+        value: 0xDD050
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LOP_TXB_SBE].
+
+      - name: ASE_ECC_LOP_TXB_DBE
+        value: 0xDD051
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LOP_TXB_DBE].
+
+      - name: ASE_ECC_LUE_KDB_SBE
+        value: 0xDD060
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_KDB_SBE].
+
+      - name: ASE_ECC_LUE_KDB_DBE
+        value: 0xDD061
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_KDB_DBE].
+
+      - name: ASE_ECC_LUE_TAT_SBE
+        value: 0xDD062
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_TAT_SBE].
+
+      - name: ASE_ECC_LUE_TAT_DBE
+        value: 0xDD063
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_TAT_DBE].
+
+      - name: ASE_ECC_LUE_RFT_SBE
+        value: 0xDD064
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_RFT_SBE].
+
+      - name: ASE_ECC_LUE_RFT_DBE
+        value: 0xDD065
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_RFT_DBE].
+
+      - name: ASE_ECC_LUE_BMT_SBE
+        value: 0xDD066
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_BMT_SBE].
+
+      - name: ASE_ECC_LUE_BMT_DBE
+        value: 0xDD067
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_BMT_DBE].
+
+      - name: ASE_ECC_LUE_RUL_SBE
+        value: 0xDD068
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_RUL_SBE].
+
+      - name: ASE_ECC_LUE_RUL_DBE
+        value: 0xDD069
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_RUL_DBE].
+
+      - name: ASE_ECC_LUE_KDT_SBE
+        value: 0xDD06A
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_KDT_SBE].
+
+      - name: ASE_ECC_LUE_KDT_DBE
+        value: 0xDD06B
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_ECC_INT[LUE_KDT_DBE].
+
+
+  - name: ASE_LUE_ERROR_ID_E
+    attributes:
+      width: "6"
+    description: |
+      Identifies the error logged in ASE_LUE_ERROR_LOG.
+      The values encoding this enumeration are used to quantify the priority of the error.
+      Higher priorities (with higher enumerated values) will overwrite lower priorities.
+    values:
+      - name: "NONE"
+        value: 0x00
+        description: No error has been detected since last reset.
+
+      - name: INVALID_TBL_ACC
+        value: 0x01
+        description: |
+          A host request tried to access an invalid table location.
+          The request was directed either to a Table ID that does not exist,
+          or to an invalid row/column combination of a Table.
+          INTERNAL: Note there is no corresponding interrupt for this case because it
+          can only be triggered by a host access and thus
+          is only used when ASE_LUE_ERROR_LOG[ERROR_ID] == HR_ERR_LOG.
+
+      - name: BMT_SBE
+        value: 0x02
+        description: A single-bit error occurred in HST Tree Access Table.
+
+      - name: RFT_SBE
+        value: 0x03
+        description: A single-bit error occurred in HST and RMC Rule Format Tables.
+
+      - name: TAT_SBE
+        value: 0x04
+        description: A single-bit error occurred in HST Tree Access Table.
+
+      - name: KDB_SBE
+        value: 0x05
+        description: A single-bit error occurred in KRQ Key Data Buffer.
+
+      - name: RUL_SBE
+        value: 0x06
+        description: A single-bit error occurred in RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: KDT_SBE
+        value: 0x07
+        description: A single-bit error occurred in RMC Key Data Transfer Buffer.
+
+      - name: HR_ERR_LOG
+        value: 0x08
+        description: |
+          An error occurred for a Host Request, this is the error indicated corresponding to the
+          errored Host Response. A host error will be one of: *_*BE or INVALID_TBL_ACC.
+
+      - name: INVALID_REQ
+        value: 0x09
+        description: An invalid lookup request was observed.
+
+      - name: BMT_DBE
+        value: 0x0A
+        description: A double-bit error occurred in HST Tree Access Table.
+
+      - name: RFT_DBE
+        value: 0x0B
+        description: A double-bit error occurred in HST and RMC Rule Format Tables.
+
+      - name: TAT_DBE
+        value: 0x0C
+        description: A double-bit error occurred in HST Tree Access Table.
+
+      - name: KDB_DBE
+        value: 0x0D
+        description: A double-bit error occurred in KRQ Key Data Buffer.
+
+      - name: RUL_DBE
+        value: 0x0E
+        description: A double-bit error occurred in RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: BIC_MULTI_HIT
+        value: 0x0F
+        description: A BIC lookup request resulted in multiple entries reporting a hit.
+
+      - name: BIC_MISS
+        value: 0x10
+        description: A BIC lookup request did not match a valid entry.
+
+      - name: TIC_BAD_WRITE
+        value: 0x11
+        description: Data was loaded in to the TIC that results in a wrap condition.
+
+      - name: TIC_MULTI_HIT
+        value: 0x12
+        description: A TIC lookup request resulted in multiple entries reporting a hit.
+
+      - name: TIC_MISS
+        value: 0x13
+        description: A TIC lookup request did not match a valid entry.
+
+      - name: KDT_DBE
+        value: 0x14
+        description: A double-bit error occurred in RMC Key Data Transfer Buffer.
+
+
+  - name: ASE_LUF_ERROR_ID_E
+    attributes:
+      width: "4"
+    description: |
+      Identifies the error logged in ASE_LUF_ERROR_LOG.
+      The values encoding this enumeration are used to quantify the priority of the error.
+      Higher priorities (with higher enumerated values) will overwrite lower priorities.
+    values:
+      - name: "NONE"
+        value: 0x0
+        description: No error has been detected since last reset.
+
+      - name: LIP_NEWQ_SBE
+        value: 0x1
+        description: A single-bit error occurred in LIP New Key Request Queue RAM.
+
+      - name: LIP_PHT_SBE
+        value: 0x2
+        description: A double-bit error occurred in LIP Packed Header Table.
+
+      - name: LIP_GDT_SBE
+        value: 0x3
+        description: A single-bit error occurred in LIP Global Definition Table.
+
+      - name: LIP_ISF_SBE
+        value: 0x4
+        description: A single-bit error occurred in LIP input-skid buffer RAM.
+
+      - name: LOP_TXB_SBE
+        value: 0x5
+        description: A single-bit error occurred in LOP TXBUFF RAMs.
+
+      - name: LIP_NEWQ_DBE
+        value: 0x8
+        description: A single-bit error occurred in LIP New Key Request Queue RAM.
+
+      - name: LIP_PHT_DBE
+        value: 0x9
+        description: A double-bit error occurred in LIP Packed Header Table.
+
+      - name: LIP_GDT_DBE
+        value: 0xA
+        description: A single-bit error occurred in LIP Global Definition Table.
+
+      - name: LIP_ISF_DBE
+        value: 0xB
+        description: A double-bit error occurred in LIP input-skid buffer RAM.
+
+      - name: LOP_TXB_DBE
+        value: 0xC
+        description: A double-bit error occurred in LOP TXBUFF RAMs.
+
+
+  - name: ASE_REQ_CMD_E
+    attributes:
+      width: "5"
+    description: ASE Request Type.
+    values:
+      - name: LU_REQ
+        value: 0x01
+        description: A lookup request with up to 640-bits of data to search.
+
+      - name: OSM_RD
+        value: 0x0D
+        description: Read a 256-bit OSM line.
+
+      - name: OSM_WR_128H
+        value: 0x0E
+        description: Write bits 127..0 of an OSM line.
+
+      - name: OSM_WR_128L
+        value: 0x0F
+        description: Write bits 255..128 of an OSM line.
+
+      - name: OSM_WR
+        value: 0x10
+        description: Write a 256-bit OSM line.
+
+      - name: OSM_WR_512
+        value: 0x11
+        description: Write two 256-bit OSM lines.
+
+      - name: TBL_RD
+        value: 0x16
+        description: Read 128-bits of an ASE table.
+
+      - name: TBL_WR
+        value: 0x17
+        description: Write 128-bits of an ASE table.
+
+
+  - name: ASE_REQ_TABID_E
+    attributes:
+      width: "4"
+    description: ASE Request Table ID.
+    values:
+      - name: GDT
+        value: 0x0
+        description: Global Definition Table.
+
+      - name: PHT
+        value: 0x1
+        description: Packet Header Table.
+
+      - name: TLT
+        value: 0x2
+        description: Tree Location Table.
+
+      - name: LRT
+        value: 0x3
+        description: |
+          Lookup Response Table. Note: Read-only.
+
+      - name: LRT_INFO
+        value: 0x4
+        description: |
+          Lookup Reponse Info Table. Note: Read-only.
+
+      - name: TXBUF
+        value: 0x5
+        description: |
+          Tx Buffer. Note: Read-only.
+
+      - name: TIC
+        value: 0x8
+        description: TAT Indirection CAM.
+
+      - name: TAT
+        value: 0x9
+        description: Tree Access Table.
+
+      - name: RFT
+        value: 0xA
+        description: Rule Format Table.
+
+      - name: BIC
+        value: 0xB
+        description: BMT Indirection CAM.
+
+      - name: BMT
+        value: 0xC
+        description: Block Mask Table.
+
+
+  - name: ASE_RSP_ERR_E
+    attributes:
+      width: "2"
+    description: ASE Reponse Error.
+    values:
+      - name: "NONE"
+        value: 0x0
+        description: No error.
+
+      - name: ERROR
+        value: 0x1
+        description: Error occurred, response data is not valid.
+
+
+  - name: ASE_RSP_RSP_E
+    attributes:
+      width: "5"
+    description: ASE Response Type.
+    values:
+      - name: KEY_RSP
+        value: 0x02
+        description: A lookup response with up to 4 match-results.
+
+      - name: OSM_RD
+        value: 0x0D
+        description: Read a 256-bit OSM line.
+
+      - name: OSM_WR_128H
+        value: 0x0E
+        description: Wrote bits 127..0 of an OSM line.
+
+      - name: OSM_WR_128L
+        value: 0x0F
+        description: Wrote bits 255..128 of an OSM line.
+
+      - name: OSM_WR
+        value: 0x10
+        description: Wrote a 256-bit OSM line.
+
+      - name: OSM_WR_512
+        value: 0x11
+        description: Wrote two 256-bit OSM lines.
+
+      - name: TBL_RD
+        value: 0x16
+        description: Read 128-bits out of an ASE table.
+
+      - name: TBL_WR
+        value: 0x17
+        description: Wrote 128-bits out of an ASE table.
+
+
+structs:
+  - name: ASE_LUE_ERROR_LOG_BIC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == BIC_MISS or BIC_MULTI_HIT.
+    fields:
+      - name: TID
+        bits: 5..0
+        attributes:
+          const: "--"
+        description: Tree ID for the error.
+
+      - name: --
+        bits: 47..6
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_BMT_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == BMT_DBE or BMT_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 7..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..8
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 20..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 23..21
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: MEMID
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 4 BMT copies had the failure:
+            0   = reserved
+            1   = RMC0
+            2   = RMC1
+            3   = RMC2
+            4   = RMC3
+            5-7 = Unused
+          Priority is RMC0 > RMC1 > RMC2 > RMC3.
+
+      - name: --
+        bits: 30..27
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: REQTYPE
+        bits: 31
+        attributes:
+          const: "--"
+        description: |
+          Request Type as follows: 0 = Host, 1 = Lookup.
+
+      - name: ID
+        bits: 40..32
+        attributes:
+          const: "--"
+        description: |
+          If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
+          If REQTYPE=Lookup, this will be 0x0.
+
+      - name: --
+        bits: 43..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: COL
+        bits: 46..44
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 8 columns within the BMT had the failure:
+          Priority is col0 > col1 > ... > col7.
+
+      - name: --
+        bits: 47
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_INVREQ_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == INVALID_REQ.
+    fields:
+      - name: KDTSIZM1
+        bits: 1..0
+        attributes:
+          const: "--"
+        description: Required Key Size
+
+      - name: KRQSIZM1
+        bits: 3..2
+        attributes:
+          const: "--"
+        description: Request Key Size
+
+      - name: SXID
+        bits: 6..4
+        attributes:
+          const: "--"
+        description: Sub-Tree ID
+
+      - name: TID
+        bits: 12..7
+        attributes:
+          const: "--"
+        description: Tree ID for the error.
+
+      - name: BMR_SEL
+        bits: 14..13
+        attributes:
+          const: "--"
+        description: BMR Select.
+
+      - name: BMR_EN
+        bits: 15
+        attributes:
+          const: "--"
+        description: BMR Enable.
+
+      - name: DESTCLSTR
+        bits: 18..16
+        attributes:
+          const: "--"
+        description: Destination Cluster
+
+      - name: ENG_ID
+        bits: 23..19
+        attributes:
+          const: "--"
+        description: Tree Walk Engine ID.
+
+      - name: --
+        bits: 47..24
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_INVTBLACC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == HR_ERR_LOG and
+      ASE_LUE_ERROR_LOG[HR_ERR_ID] == INVALID_TBL_ACC.
+    fields:
+      - name: TABROW
+        bits: 9..0
+        attributes:
+          const: "--"
+        description: Table Row.
+
+      - name: TABCOL
+        bits: 14..10
+        attributes:
+          const: "--"
+        description: Table Column (128-bit).
+
+      - name: WR
+        bits: 15
+        attributes:
+          const: "--"
+        description: Write request.
+
+      - name: TABID
+        bits: 18..16
+        attributes:
+          const: "--"
+        description: |
+          Table ID<3:0> as follows:
+            0x0 = TIC
+            0x1 = TAT
+            0x2 = RFT
+            0x4 = BIC
+            0x5 = BMT
+          Other values are reserved.
+          INTERNAL: Maps to lcc_tbl_id_t in luc_globals.svh.
+
+      - name: --
+        bits: 31..19
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: LID
+        bits: 39..32
+        attributes:
+          const: "--"
+        description: LAP transaction ID.
+
+      - name: BD
+        bits: 40
+        attributes:
+          const: "--"
+        description: Backdoor indicator.
+
+      - name: --
+        bits: 47..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_KDB_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == KDB_DBE or KDB_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 8..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 21..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 23..22
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: TID
+        bits: 29..24
+        attributes:
+          const: "--"
+        description: Tree ID of this error.
+
+      - name: BMR_SEL
+        bits: 31..30
+        attributes:
+          const: "--"
+        description: BMR Select for the error.
+
+      - name: BMR_EN
+        bits: 32
+        attributes:
+          const: "--"
+        description: BMR Enable for the error.
+
+      - name: --
+        bits: 38..33
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: BD
+        bits: 39
+        attributes:
+          const: "--"
+        description: Backdoor indicator.
+
+      - name: LID
+        bits: 47..40
+        attributes:
+          const: "0x0"
+        description: LAP transaction ID.
+
+
+  - name: ASE_LUE_ERROR_LOG_KDT_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == KDT_DBE or KDT_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 8..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 20..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 23..21
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: MEMID
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 4 KDTs had the failure:
+            0   = reserved
+            1   = RMC0
+            2   = RMC1
+            3   = RMC2
+            4   = RMC3
+            5-7 = Unused
+          Priority is RMC0 > RMC1 > RMC2 > RMC3.
+
+      - name: --
+        bits: 27
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: COL
+        bits: 29..28
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 4 columns within the KDT had the failure:
+          Priority is col0 > col1 > col2 > col3.
+
+      - name: --
+        bits: 47..30
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_RFT_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == RFT_DBE or RFT_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 8..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 21..16
+        attributes:
+          const: "--"
+        description: Memory request address (KFTIDX).
+
+      - name: --
+        bits: 23..22
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: MEMID
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 5 RFT copies had the failure:
+            0   = HST
+            1   = RMC0
+            2   = RMC1
+            3   = RMC2
+            4   = RMC3
+            5-7 = Unused
+          Priority is HST > RMC0 > RMC1 > RMC2 > RMC3.
+
+      - name: --
+        bits: 30..27
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: REQTYPE
+        bits: 31
+        attributes:
+          const: "--"
+        description: |
+          Request Type as follows: 0 = Host, 1 = Lookup.
+
+      - name: ID
+        bits: 40..32
+        attributes:
+          const: "--"
+        description: |
+          If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
+          If REQTYPE=Lookup, this will be 0x0.
+
+      - name: --
+        bits: 47..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_RUL_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == RUL_DBE or RUL_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 9..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..10
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 20..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 23..21
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: MEMID
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: |
+          Indicates which of the 4 RULs had the failure:
+            0   = reserved
+            1   = RMC0
+            2   = RMC1
+            3   = RMC2
+            4   = RMC3
+            5-7 = Unused
+          Priority is RMC0 > RMC1 > RMC2 > RMC3.
+
+      - name: --
+        bits: 47..27
+        attributes:
+          const: "--"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_TAT_ECC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == TAT_DBE or TAT_SBE.
+    fields:
+      - name: SYNDROME
+        bits: 8..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 23..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 30..24
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: REQTYPE
+        bits: 31
+        attributes:
+          const: "--"
+        description: |
+          Request Type as follows: 0 = Host, 1 = Lookup.
+
+      - name: ID
+        bits: 40..32
+        attributes:
+          const: "--"
+        description: |
+          If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
+          If REQTYPE=Lookup, this will be {BMR_En, BMR_Sel, Tree ID}.
+
+      - name: --
+        bits: 47..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == TIC_BAD_WRITE.
+    fields:
+      - name: TID
+        bits: 5..0
+        attributes:
+          const: "--"
+        description: Tree ID for the error.
+
+      - name: BMR_SEL
+        bits: 7..6
+        attributes:
+          const: "--"
+        description: BMR Select for the error.
+
+      - name: BMR_EN
+        bits: 8
+        attributes:
+          const: "--"
+        description: BMR Enable for the error.
+
+      - name: --
+        bits: 31..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: LID
+        bits: 39..32
+        attributes:
+          const: "--"
+        description: LAP transaction ID.
+
+      - name: BD
+        bits: 40
+        attributes:
+          const: "--"
+        description: Backdoor indicator.
+
+      - name: --
+        bits: 47..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_TIC_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == TIC_MISS or TIC_MULTI_HIT.
+    fields:
+      - name: TID
+        bits: 5..0
+        attributes:
+          const: "--"
+        description: Tree ID for the error.
+
+      - name: BMR_SEL
+        bits: 7..6
+        attributes:
+          const: "--"
+        description: BMR Select for the error.
+
+      - name: BMR_EN
+        bits: 8
+        attributes:
+          const: "--"
+        description: BMR Enable for the error.
+
+      - name: --
+        bits: 47..9
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUF_ERROR_LOG_LIP_ECC_S
+    description: |
+      Error log structure for ASE_LUF_ERROR_LOG[DATA] when
+      ASE_LUF_ERROR_LOG[ERROR_ID] == LIP_*_*BE.
+    fields:
+      - name: SYNDROME
+        bits: 11..0
+        attributes:
+          const: "--"
+        description: Syndrome of the ECC error.
+
+      - name: --
+        bits: 15..12
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 23..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 55..24
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUF_ERROR_LOG_LOP_ECC_S
+    description: |
+      Error log structure for ASE_LUF_ERROR_LOG[DATA] when
+      ASE_LUF_ERROR_LOG[ERROR_ID] == LOP_TXB_*BE.
+    fields:
+      - name: --
+        bits: 15..0
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: ADDR
+        bits: 22..16
+        attributes:
+          const: "--"
+        description: Memory request address.
+
+      - name: --
+        bits: 23
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: --
+        bits: 31..24
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+      - name: BANK
+        bits: 33..32
+        attributes:
+          const: "--"
+        description: |
+          2'b00: None; Reserved (should not happen when LOP TXBUFF has ECC error).
+          2'b01: Even bank(for SXID0/2);
+          2'b10: Odd Bank (for SXID1/3);
+          2'b11: Both bank
+
+      - name: --
+        bits: 55..34
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_OSMDAT_128H_S
+    description: ASE OSM write data beats for a OSM_WR_128H request.
+    fields:
+      - name: DATA0
+        bits: w0(63..0)
+        description: |
+          Data to be written to bits <186:123> of the OSM line at CLADR0.
+
+      - name: DATA1
+        bits: w1(58..0)
+        description: |
+          Data to be written to bits <245:187> of the OSM line at CLADR0.
+
+      - name: --
+        bits: w1(63..59)
+        description: Reserved.
+
+
+  - name: ASE_OSMDAT_128L_S
+    description: ASE OSM write data beats for a OSM_WR_128L request.
+    fields:
+      - name: DATA0
+        bits: w0(63..0)
+        description: |
+          Data to be written to bits <63:0> of the OSM line at CLADR0.
+
+      - name: DATA1
+        bits: w1(58..0)
+        description: |
+          Data to be written to bits <122:64> of the OSM line at CLADR0.
+
+      - name: --
+        bits: w1(63..59)
+        description: Reserved.
+
+
+  - name: ASE_OSMDAT_256_S
+    description: ASE OSM write data beats for a OSM_WR request or read data beats for a OSM_RD response.
+    fields:
+      - name: DATA0
+        bits: w0(63..0)
+        description: |
+          Data read from or written to bits <63:0> of the OSM line at CLADR0.
+
+      - name: DATA1
+        bits: w1(63..0)
+        description: |
+          Data read from or written to bits <127:64> of the OSM line at CLADR0.
+
+      - name: DATA2
+        bits: w2(63..0)
+        description: |
+          Data read from or written to bits <191:128> of the OSM line at CLADR0.
+
+      - name: DATA3
+        bits: w3(53..0)
+        description: |
+          Data read from or written to bits <245:192> of the OSM line at CLADR0.
+
+      - name: ECC
+        bits: w3(62..54)
+        description: |
+          If ASE_LIP_CONFIG[HST_OSM_HW_ECC_BYPASS] set, this is the ECC read from or written to the
+          OSM line at CLADR0.
+          If ASE_LIP_CONFIG[HST_OSM_HW_ECC_BYPASS] is clear, this field will be ignored on writes
+          and will read as 0x0.
+
+      - name: --
+        bits: w3(63)
+        description: Reserved.
+
+
+  - name: ASE_OSMDAT_512_S
+    description: ASE OSM write data beats for a OSM_WR_512 request.
+    fields:
+      - name: DATA0_0
+        bits: w0(63..0)
+        description: |
+          Data to be written to bits <63:0> of the OSM line at CLADR0.
+
+      - name: DATA0_1
+        bits: w1(63..0)
+        description: |
+          Data to be written to bits <127:64> of the OSM line at CLADR0.
+
+      - name: DATA0_2
+        bits: w2(63..0)
+        description: |
+          Data to be written to bits <191:128> of the OSM line at CLADR0.
+
+      - name: DATA0_3
+        bits: w3(53..0)
+        description: |
+          Data to be written to bits <245:192> of the OSM line at CLADR0.
+
+      - name: --
+        bits: w3(63..54)
+        description: Reserved.
+
+      - name: DATA1_0
+        bits: w4(63..0)
+        description: |
+          Data to be written to bits <63:0> of the OSM line at CLADR1.
+
+      - name: DATA1_1
+        bits: w5(63..0)
+        description: |
+          Data to be written to bits <127:64> of the OSM line at CLADR1.
+
+      - name: DATA1_2
+        bits: w6(63..0)
+        description: |
+          Data to be written to bits <191:128> of the OSM line at CLADR1.
+
+      - name: DATA1_3
+        bits: w7(53..0)
+        description: |
+          Data to be written to bits <245:192> of the OSM line at CLADR1.
+
+      - name: --
+        bits: w7(63..54)
+        description: Reserved.
+
+
+  - name: ASE_REQ_CW_S
+    description: ASE request control word. First beat of any ASE request packet.
+    fields:
+      - name: --
+        bits: 23..0
+        description: Ignored by ASE.
+
+      - name: LID
+        bits: 31..24
+        description: LAP-inserted transaction ID.
+
+      - name: CN
+        bits: 32
+        description: Channel Number. ASE will only work requests to Channel 0.
+
+      - name: --
+        bits: 36..33
+        description: Ignored by ASE.
+
+      - name: BMRSEL
+        bits: 38..37
+        description: Block Mask Register Select for LU_REQs.
+
+      - name: --
+        bits: 41..39
+        description: Ignored by ASE.
+
+      - name: BMREN
+        bits: 42
+        description: Block Mask Register Enable for LU_REQs.
+
+      - name: --
+        bits: 43
+        description: Ignored by ASE.
+
+      - name: GID
+        bits: 49..44
+        description: |
+          Group ID for LU_REQs.
+          Indexes into the GDT to determine how to parse the LU_REQ.
+
+      - name: --
+        bits: 51..50
+        description: Ignored by ASE.
+
+      - name: CMD
+        bits: 56..52
+        description: Type of request this packet contains. See ASE_REQ_CMD_E.
+
+      - name: --
+        bits: 63..57
+        description: Ignored by ASE.
+
+
+  - name: ASE_REQ_OSMADR_S
+    description: |
+      ASE OSM address beat. Second beat for OSM_* requests.
+      Note that CLADR1 is only used for OSM_WR_512 requests, all other requests it is ignored.
+      Note that CLADR0 should never equal CLADR1.
+      Note that CLADR0 and CLADR1 do not have to be contiguous.
+    fields:
+      - name: --
+        bits: 18..0
+        description: Ignored by ASE.
+
+      - name: CLADR0
+        bits: 34..19
+        description: Address of the first 256-bit OSM line to write.
+
+      - name: CLADR1
+        bits: 50..35
+        description: Address of the second 256-bit OSM line to write.
+
+      - name: --
+        bits: 63..51
+        description: Ignored by ASE.
+
+
+  - name: ASE_REQ_TBLADR_S
+    description: ASE TBL address beat. Second beat for TBL_* requests.
+    fields:
+      - name: --
+        bits: 15..0
+        description: Ignored by ASE.
+
+      - name: TABID
+        bits: 19..16
+        description: Table ID, chooses which table in ASE to acccess. See ASE_REQ_TABID_E.
+
+      - name: --
+        bits: 24..20
+        description: Ignored by ASE.
+
+      - name: TABROW
+        bits: 36..25
+        description: |
+          "
+          Table row address.
+          Usage:
+            GDT:      Use bits TABROW<30..25> for rows 0-63.
+            TLT:      Use bits TABROW<30..25> for rows 0-63.
+            PHT:      Use bits TABROW<30..25> for rows 0-63.
+            LRT:      Use bits TABROW<30..25> for rows 0-63.
+            LRT_INFO: Use bits TABROW<30..25> for rows 0-63.
+            TXBUF:    Use bits TABROW<31..25> for rows 0-128.
+            BIC:      Use bits TABROW<29..25> for rows 0-31.
+            BMT:      Use bits TABROW<29..25> for rows 0-31.
+                      Use bits TABROW<34..32> to indicate which BMT instance.
+            RFT:      Use bits TABROW<30..25> for rows 0-63.
+                      Use bits TABROW<34..32> to indicate which RFT instance.
+            TIC:      Use bits TABROW<31..25> for rows 0-95.
+            TAT:      Use bits TABROW<32..25> for rows 0-191.
+          For per-instance access:
+            A write to any valid row will be propagated to all RFT and BMT modules.
+            A read to any valid row will be directed to the specific RFT and BMT module.
+            Encoding: 0x0=HST (no BMT in HST block); 0x1=RMC0; 0x2=RMC1; 0x3=RMC2; 0x4=RMC3.
+          All other TABROW values are reserved and should be set to zero.
+          Unused TABROW bits must be set to zero.
+          "
+
+      - name: TABCOL
+        bits: 39..37
+        description: |
+          "
+          Table Column. Each column is 128-bits wide.
+          For PHT:
+            0x0: accesses dimensions 5 to 8 using ASE_TBLDAT_PHT_COL0_S.
+            0x1: accesses dimensions 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
+            0x2: accesses dimension 0, keymap, and valids using ASE_TBLDAT_PHT_COL2_S.
+            others: reserved.
+          For BMT: The 640-bit BMT is accessed as 80-bits in 8 columns using ASE_TBLDAT_BMT_COL_S.
+          For all other tables: set to zero.
+          "
+
+      - name: --
+        bits: 63..40
+        description: Ignored by ASE.
+
+
+  - name: ASE_RSP_CW_S
+    description: ASE response control word. First beat of any ASE response packet.
+    fields:
+      - name: --
+        bits: 23..0
+        attributes:
+          const: "0x0"
+        description: Unused by ASE.
+
+      - name: LID
+        bits: 31..24
+        description: LAP-inserted transaction ID.
+
+      - name: --
+        bits: 49..32
+        attributes:
+          const: "0x00080"
+        description: Unused by ASE.
+
+      - name: ERR
+        bits: 51..50
+        description: Error indication for this response. See ASE_RSP_ERR_E.
+
+      - name: RSP
+        bits: 56..52
+        description: Type of request this packet contains. See ASE_RSP_RSP_E.
+
+      - name: --
+        bits: 63..57
+        attributes:
+          const: "0x78"
+        description: Unused by ASE.
+
+
+  - name: ASE_RSP_KEY_S
+    description: ASE KEY response Match Result beats.
+    fields:
+      - name: MR1
+        bits: w0(31..0)
+        description: Match Result for SXID 1.
+
+      - name: MR0
+        bits: w0(63..32)
+        description: Match Result for SXID 0.
+
+      - name: MR3
+        bits: w1(31..0)
+        description: Match result for SXID 3.
+
+      - name: MR2
+        bits: w1(63..32)
+        description: Match result for SXID 2.
+
+
+  - name: ASE_TBLDAT_BIC_S
+    description: |
+      "
+      BMT Indirection CAM as seen by software during 128-bit table read/write accesses.
+      CAM-addressed by TID. Maps the TID to entires in the BMT. There are 32 entries in
+      the BIC.
+
+      The Key Request's TID is CAM'ed against all entries in the BIC, and if a match occurs,
+      the match's address is used to index into 1 (of 32) BMT entries. Software will write the
+      TID value at a given entry in the BIC which corresponds with the associated BMT entry.
+
+      NOTE: All TIDs marked with VLD=1 in the BIC must be unique.
+      INTERNAL: Copied from bic_entry_t in luc_cav_globals.svh
+      "
+    fields:
+      - name: TID
+        bits: w0(5..0)
+        description: Tree ID associated with the correspnding BMT entry.
+
+      - name: VLD
+        bits: w0(6)
+        description: Entry is valid.
+
+      - name: --
+        bits: w0(63..7)
+        description: Reserved.
+
+      - name: --
+        bits: w1(63..0)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_BMT_COL_S
+    description: |
+      "
+      Base Mask Register Table Entry as seen by software during 128-bit table read/write accesses.
+      Indexed by BIC's hit-address. Contains the Block Mask Register associated with a Tree ID.
+      Host access is to an 80-bit column; there are 8 columns to make a full 640-bit BMT entry.
+      There are 32 entires in the BMT.
+
+      INTERNAL: Refer to bmt_entry_t in luc_cav_globals.svh
+      "
+    fields:
+      - name: DATA0
+        bits: w0(63..0)
+        description: Block Mask Register Data for column n, bits <80*n+63..80*n>.
+
+      - name: DATA1
+        bits: w1(15..0)
+        description: Block Mask Register Data for column n, bits <80*n+79..80*n+64>.
+
+      - name: --
+        bits: w1(63..16)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_GDT_S
+    description: |
+      Global Definition Table Entry as seen by software during 128-bit table
+      read/write accesses. Indexed by GID. Outputs information about which trees
+      to search and how to interpret the header data into key data.
+    fields:
+      - name: HID
+        bits: w0(3..0)
+        description: Index into the PHT. Only valid if ONE2ONE is not set.
+
+      - name: --
+        bits: w0(7..4)
+        description: Reserved.
+
+      - name: NUM_SXIDS
+        bits: w0(9..8)
+        description: |
+          Number of keys/SXIDs that will be generated from this header. A value of 0x0 indicates 4
+          keys to be generated, 0x1 indicates 1 key, etc.
+
+      - name: --
+        bits: w0(15..10)
+        description: Reserved.
+
+      - name: TID3
+        bits: w0(21..16)
+        description: Select 1 of 64 trees to search for SXID 0x3. Only used if NUM_SXIDS > 0x3.
+
+      - name: --
+        bits: w0(23..22)
+        description: Reserved.
+
+      - name: TID2
+        bits: w0(29..24)
+        description: Select 1 of 64 trees to search for SXID 0x2. Only used if NUM_SXIDS > 0x2.
+
+      - name: --
+        bits: w0(31..30)
+        description: Reserved.
+
+      - name: TID1
+        bits: w0(37..32)
+        description: Select 1 of 64 trees to search for SXID 0x1. Only used if NUM_SXIDS > 0x1.
+
+      - name: --
+        bits: w0(39..38)
+        description: Reserved.
+
+      - name: TID0
+        bits: w0(45..40)
+        description: Select 1 of 64 trees to search for SXID 0x0. Always used.
+
+      - name: --
+        bits: w0(47..46)
+        description: Reserved.
+
+      - name: ONE2ONE
+        bits: w0(48)
+        description: |
+          If set, packet header is used as the key data directly. If cleared, key data is extracted
+          from packet header using the mapping described in PHT[{HID,SXID}].
+
+      - name: --
+        bits: w0(55..49)
+        description: Reserved.
+
+      - name: BMR_MODE
+        bits: w0(57..56)
+        description: Determines what the format of the BMR. 0x0=4x80b, 0x1=2x160b, 0x2=1x320b, 0x3=1x640b.
+
+      - name: --
+        bits: w0(63..58)
+        description: Reserved.
+
+      - name: --
+        bits: w1(47..0)
+        description: Reserved.
+
+      - name: ECC
+        bits: w1(54..48)
+        description: |
+          Ignored on writes. On reads, the value of the ECC bits stored in the GDT line is provided
+          for debug purposes.
+
+      - name: SYND
+        bits: w1(61..55)
+        description: |
+          Ignored on writes. On reads, the value of the ECC syndrome calculate from the GDT line is
+          provided for debug purposes.
+
+      - name: SBE
+        bits: w1(62)
+        description: |
+          Ignored on writes. On reads, the whether the line hit a single bit error is provided for
+          debug purposes.
+
+      - name: DBE
+        bits: w1(63)
+        description: |
+          Ignored on writes. On reads, the whether the line hit a double bit error is provided for
+          debug purposes.
+
+
+  - name: ASE_TBLDAT_LRT_INFO_S
+    description: |
+      LOP Lookup Response INFO Table Entry as seen by software during 128-bit table read accesses.
+      Indexed by LRTID.
+    fields:
+      - name: TXID_LAST
+        bits: w0(6..0)
+        description: TXBUFF ID for SXID[2,3].
+
+      - name: --
+        bits: w0(7)
+        description: Reserved.
+
+      - name: TXID_FIRST
+        bits: w0(14..8)
+        description: TXBUFF ID for SXID[0,1].
+
+      - name: --
+        bits: w0(15)
+        description: Reserved.
+
+      - name: NUM_OF_SXIDS
+        bits: w0(17..16)
+        description: |
+          Total SXIDs for this request.
+            2'b00 - 4 SXIDs
+            2'b11 - 3 SXIDs
+            2'b10 - 2 SXIDs
+            2'b01 - 1 SXID
+
+      - name: --
+        bits: w0(23..18)
+        description: Reserved.
+
+      - name: DONE_CNT
+        bits: w0(25..24)
+        description: Remaining number of Keys needed to be Coalesced. Initialized by LIP to number of SXIDs - 1.
+
+      - name: --
+        bits: w0(31..26)
+        description: Reserved.
+
+      - name: VALID
+        bits: w0(32)
+        description: When set, the entry is current valid.
+
+      - name: --
+        bits: w0(63..33)
+        description: Reserved.
+
+      - name: --
+        bits: w1(63..0)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_LRT_S
+    description: |
+      LOP Lookup Response Table Entry as seen by software during 128-bit table read accesses.
+      Indexed by KID.
+    fields:
+      - name: STMIN
+        bits: w0(31..0)
+        description: |
+          Mininum Rule. If valid = 1, LOP compares valeus returned from LUE to value read from LRT
+          and keeps the minimum of the two.
+
+      - name: SXID
+        bits: w0(33..32)
+        description: Sub Transfer ID. 2'b00 - SXID 0 2'b01 - SXID 1 2'b10 - SXID 2 2'b11 - STID 3.
+
+      - name: --
+        bits: w0(39..34)
+        description: Reserved.
+
+      - name: LRTID
+        bits: w0(45..40)
+        description: Index to LRT_INFO.
+
+      - name: --
+        bits: w0(47..46)
+        description: Reserved.
+
+      - name: TWRSPCNT
+        bits: w0(50..48)
+        description: Tree Walk Response Count. 3'b000 - 8 responses 3'b001 - 1 response --- 3'b111 - 7 respones.
+
+      - name: --
+        bits: w0(55..51)
+        description: Reserved.
+
+      - name: ERR
+        bits: w0(57..56)
+        description: Error.
+
+      - name: --
+        bits: w0(59..58)
+        description: Reserved.
+
+      - name: VALID
+        bits: w0(60)
+        description: When set, the entry is current valid.
+
+      - name: --
+        bits: w0(63..61)
+        description: Reserved.
+
+      - name: --
+        bits: w1(63..0)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_PHT_COL0_S
+    description: |
+      Packet Header Table Entry, Column 0 portion, as seen by software during 128-bit table
+      read/write accesses. Indexed by {HID,SXID}. The PHT outputs the mapping from packet
+      header data to key data.
+    fields:
+      - name: DIM8_SRC_ST
+        bits: w0(9..0)
+        description: 8th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM8_SRC_END
+        bits: w0(19..10)
+        description: 8th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM8_DST_ST
+        bits: w0(27..20)
+        description: 8th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w0(31..28)
+        description: Reserved.
+
+      - name: DIM7_SRC_ST
+        bits: w0(41..32)
+        description: 7th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM7_SRC_END
+        bits: w0(51..42)
+        description: 7th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM7_DST_ST
+        bits: w0(59..52)
+        description: 7th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w0(63..60)
+        description: Reserved.
+
+      - name: DIM6_SRC_ST
+        bits: w1(9..0)
+        description: 6th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM6_SRC_END
+        bits: w1(19..10)
+        description: 6th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM6_DST_ST
+        bits: w1(27..20)
+        description: 6th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w1(31..28)
+        description: Reserved.
+
+      - name: DIM5_SRC_ST
+        bits: w1(41..32)
+        description: 5th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM5_SRC_END
+        bits: w1(51..42)
+        description: 5th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM5_DST_ST
+        bits: w1(59..52)
+        description: 5th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w1(63..60)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_PHT_COL1_S
+    description: |
+      Packet Header Table Entry, Column 1 portion, as seen by software during 128-bit table
+      read/write accesses. Indexed by {HID,SXID}. The PHT outputs the mapping from packet
+      header data to key data.
+    fields:
+      - name: DIM4_SRC_ST
+        bits: w0(9..0)
+        description: 4th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM4_SRC_END
+        bits: w0(19..10)
+        description: 4th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM4_DST_ST
+        bits: w0(27..20)
+        description: 4th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w0(31..28)
+        description: Reserved.
+
+      - name: DIM3_SRC_ST
+        bits: w0(41..32)
+        description: 3rd dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM3_SRC_END
+        bits: w0(51..42)
+        description: 3rd dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM3_DST_ST
+        bits: w0(59..52)
+        description: 3rd dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w0(63..60)
+        description: Reserved.
+
+      - name: DIM2_SRC_ST
+        bits: w1(9..0)
+        description: 2nd dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM2_SRC_END
+        bits: w1(19..10)
+        description: 2nd dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM2_DST_ST
+        bits: w1(27..20)
+        description: 2nd dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w1(31..28)
+        description: Reserved.
+
+      - name: DIM1_SRC_ST
+        bits: w1(41..32)
+        description: 1st dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM1_SRC_END
+        bits: w1(51..42)
+        description: 1st dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM1_DST_ST
+        bits: w1(59..52)
+        description: 1st dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w1(63..60)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_PHT_COL2_S
+    description: |
+      Packet Header Table Entry, Column 2 portion, as seen by software during 128-bit table
+      read/write accesses. Indexed by {HID,SXID}. The PHT outputs the mapping from packet
+      header data to key data.
+    fields:
+      - name: DIM0_SRC_ST
+        bits: w0(9..0)
+        description: 0th dimension. Starting bit position of the field in the source data (packet header).
+
+      - name: DIM0_SRC_END
+        bits: w0(19..10)
+        description: 0th dimension. Ending bit position of the field in the source data (packet header).
+
+      - name: DIM0_DST_ST
+        bits: w0(27..20)
+        description: 0th dimension. Starting nibble position of the field in the destination data (key data).
+
+      - name: --
+        bits: w0(31..28)
+        description: Reserved.
+
+      - name: KEYMAP
+        bits: w0(47..32)
+        description: Key Mapping. A hint for maps 160 bit segments of header data to 160 bit segments of key data.
+
+      - name: VAL8
+        bits: w0(48)
+        description: 8th dimension is valid.
+
+      - name: VAL7
+        bits: w0(49)
+        description: 7th dimension is valid.
+
+      - name: VAL6
+        bits: w0(50)
+        description: 6th dimension is valid.
+
+      - name: VAL5
+        bits: w0(51)
+        description: 5th dimension is valid.
+
+      - name: VAL4
+        bits: w0(52)
+        description: 4th dimension is valid.
+
+      - name: VAL3
+        bits: w0(53)
+        description: 3rd dimension is valid.
+
+      - name: VAL2
+        bits: w0(54)
+        description: 2nd dimension is valid.
+
+      - name: VAL1
+        bits: w0(55)
+        description: 1st dimension is valid.
+
+      - name: VAL0
+        bits: w0(56)
+        description: 0th dimension is valid.
+
+      - name: --
+        bits: w0(63..57)
+        description: Reserved.
+
+      - name: --
+        bits: w1(41..0)
+        description: Reserved.
+
+      - name: ECC
+        bits: w1(51..42)
+        description: |
+          Ignored on writes. On reads, the value of the ECC bits stored in the PHT line is provided
+          for debug purposes.
+
+      - name: SYND
+        bits: w1(61..52)
+        description: |
+          Ignored on writes. On reads, the value of the ECC syndrome calculate from the PHT line is
+          provided for debug purposes.
+
+      - name: SBE
+        bits: w1(62)
+        description: |
+          Ignored on writes. On reads, the whether the line hit a single bit error is provided for
+          debug purposes.
+
+      - name: DBE
+        bits: w1(63)
+        description: |
+          Ignored on writes. On reads, the whether the line hit a double bit error is provided for
+          debug purposes.
+
+
+  - name: ASE_TBLDAT_RFT_S
+    description: |
+      "
+      Rule Format Table Entry as seen by software during 128-bit table read/write accesses.
+      Indexed by KFTIDX. Contains the Key/Rule formats associated with a Key Request.
+      There are 64 entries in the RFT.
+
+      Field definitions:
+        DIM_RULE_TYPE: Define the type of match for this dimension.
+                       Encoded as EXACT=0, PREFIX=1, RANGE=2, MASK=3.
+        DIM_FIELD1: Per-dimension Rule "Field1". Use varies depending on DIM_RULE_TYPE.
+                      EXACT  => FIELD1 encodes the width of the value.
+                      PREFIX => FIELD1 is unused.
+                      RANGE  => Width of the min/max.
+                      MASK   => Width of the rule/mask.
+                    Encoding is always 1-32 nibbles, with 0=32.
+
+      INTERNAL: Copied from rft_entry_t in luc_cav_globals.svh
+      "
+    fields:
+      - name: NUM_DIMS
+        bits: w0(4..0)
+        description: |
+          Number of dimensions. Valid values 1 to 28.
+          If greater than 16: first 16 dimensions are in RFT[INDEX], next set are defined in
+          RFT[INDEX+1].
+
+      - name: DIM_VLD_PRESENT
+        bits: w0(5)
+        description: Rule data contains a NUM_DIMS wide DIM_VLD field.
+
+      - name: PRIWIDTH
+        bits: w0(11..6)
+        description: Rule data PRIORITY field width. Valid values 0 to 48.
+
+      - name: PRIMODE
+        bits: w0(12)
+        description: |
+          "
+           Priority Mode (determines if Rule Priority is based on Rule address or on Priority
+                                  field extacted from Rule Data).
+           When primode==0, the LURSP will return the PRIORITY based on Rule Address.
+              If OCM: RULADR(33) = {8'b0,,SC(1),CLNUM(3),CLADR(16),RULOFF(4)}
+              If BPP: RULADR(33) =  RULADR(32) where: RULEADR=2B-aligned (ie: All Rules in MEM
+                                   must be 2B-aligned (see: MEM(max)=16GB/2B = RULADR(33).
+           The STRSP contains {STMIN(32)=RuleDat.PRIORITY,DATA(33)=RULADR} fields.
+           STMIN is used by LUF for MINIMUM RULE comparison for multiple subtree expansion.
+           DATA is returned as the RULE PRIORITY in the LURSP.
+           When primode==1, the LURSP will return the PRIORITY extracted from the Rule data
+           PRIORITY field(RuleDat.PRIORITY).
+           The STRSP contains {STMIN(32)=RuleDat.PRIORITY, DATA(33)={1'b0,RuleDat.PRIORITY}} fields.
+           STMIN is used by LUF for MINIMUM RULE comparison for multiple subtree expansion.
+           DATA is returned as RULE PRIORITY in LURSP packet.
+           NOTE: Based on priwidth, unused STMIN/DATA fields are zero filled.
+           (Example: if priwidth=10, then upper unused bits are zero-filled
+          STMIN<31:10>=0/DATA<32:10>=0)
+          "
+
+      - name: PRI48
+        bits: w0(13)
+        description: |
+          "
+            Enable up to 480bit priority handling for primode=1&&MATCH responses.
+            If PRI48==0x1 && PRIMODE==0x1, PRIWIDTH can be in 0..48. Otherwise PRIWIDTH must be in
+          0..32.
+                primode = 0, no change:
+                  * priwidth range is 0..32
+                  * rule_response.stmin(32) = {0,pri}, where pri is up to 32 bits from rule data
+                  * rule_response.data(33)={0,scl ,cl,addr }
+                primode=1 && MATCH
+                  * if (pri48 == 1)
+                     priwidth range is 0..48
+                     rule_response.stmin(32)= {0,pri_up}, where pri_up is the upper half priwidth
+                          bits from the rule data (rounded down for odd priwidth) (MSbs 0 filled)
+                     rule_response.data(33)={0,pri_lo}, where pri_lo is the lower half priwidth bits
+                          from the rule data (rounded up for odd priwidth) (MSbs 0 filled)
+                    else
+                     priwidth range is 0..32
+                     rule_response.stmin(32)= {0, pri}, where pri is up to 32 bits from rule data
+                      rule_response.data(33)={0, pri}, where pri is up to 32 bits from rule data
+                primode=1 && NO_MATCH
+                  no change
+          "
+
+      - name: DIM15_FIELD1
+        bits: w0(18..14)
+        description: Dimension 15's FIELD1.
+
+      - name: DIM15_RULE_TYPE
+        bits: w0(20..19)
+        description: Dimension 15's RULE_TYPE.
+
+      - name: DIM14_FIELD1
+        bits: w0(25..21)
+        description: Dimension 14's FIELD1.
+
+      - name: DIM14_RULE_TYPE
+        bits: w0(27..26)
+        description: Dimension 14's RULE_TYPE.
+
+      - name: DIM13_FIELD1
+        bits: w0(32..28)
+        description: Dimension 13's FIELD1.
+
+      - name: DIM13_RULE_TYPE
+        bits: w0(34..33)
+        description: Dimension 13's RULE_TYPE.
+
+      - name: DIM12_FIELD1
+        bits: w0(39..35)
+        description: Dimension 12's FIELD1.
+
+      - name: DIM12_RULE_TYPE
+        bits: w0(41..40)
+        description: Dimension 12's RULE_TYPE.
+
+      - name: DIM11_FIELD1
+        bits: w0(46..42)
+        description: Dimension 11's FIELD1.
+
+      - name: DIM11_RULE_TYPE
+        bits: w0(48..47)
+        description: Dimension 11's RULE_TYPE.
+
+      - name: DIM10_FIELD1
+        bits: w0(53..49)
+        description: Dimension 10's FIELD1.
+
+      - name: DIM10_RULE_TYPE
+        bits: w0(55..54)
+        description: Dimension 10's RULE_TYPE.
+
+      - name: DIM9_FIELD1
+        bits: w0(60..56)
+        description: Dimension 9's FIELD1.
+
+      - name: DIM9_RULE_TYPE
+        bits: w0(62..61)
+        description: Dimension 9's RULE_TYPE.
+
+      - name: DIM8_FIELD1_LSB
+        bits: w0(63)
+        description: Dimension 8's FIELD1 bit <0>.
+
+      - name: DIM8_FIELD1_MSBS
+        bits: w1(3..0)
+        description: Dimension 8's FIELD1 bits <4..1>.
+
+      - name: DIM8_RULE_TYPE
+        bits: w1(5..4)
+        description: Dimension 8's RULE_TYPE.
+
+      - name: DIM7_FIELD1
+        bits: w1(10..6)
+        description: Dimension 7's FIELD1.
+
+      - name: DIM7_RULE_TYPE
+        bits: w1(12..11)
+        description: Dimension 7's RULE_TYPE.
+
+      - name: DIM6_FIELD1
+        bits: w1(17..13)
+        description: Dimension 6's FIELD1.
+
+      - name: DIM6_RULE_TYPE
+        bits: w1(19..18)
+        description: Dimension 6's RULE_TYPE.
+
+      - name: DIM5_FIELD1
+        bits: w1(24..20)
+        description: Dimension 5's FIELD1.
+
+      - name: DIM5_RULE_TYPE
+        bits: w1(26..25)
+        description: Dimension 5's RULE_TYPE.
+
+      - name: DIM4_FIELD1
+        bits: w1(31..27)
+        description: Dimension 4's FIELD1.
+
+      - name: DIM4_RULE_TYPE
+        bits: w1(33..32)
+        description: Dimension 4's RULE_TYPE.
+
+      - name: DIM3_FIELD1
+        bits: w1(38..34)
+        description: Dimension 3's FIELD1.
+
+      - name: DIM3_RULE_TYPE
+        bits: w1(40..39)
+        description: Dimension 3's RULE_TYPE.
+
+      - name: DIM2_FIELD1
+        bits: w1(45..41)
+        description: Dimension 2's FIELD1.
+
+      - name: DIM2_RULE_TYPE
+        bits: w1(47..46)
+        description: Dimension 2's RULE_TYPE.
+
+      - name: DIM1_FIELD1
+        bits: w1(52..48)
+        description: Dimension 1's FIELD1.
+
+      - name: DIM1_RULE_TYPE
+        bits: w1(54..53)
+        description: Dimension 1's RULE_TYPE.
+
+      - name: DIM0_FIELD1
+        bits: w1(59..55)
+        description: Dimension 0's FIELD1.
+
+      - name: DIM0_RULE_TYPE
+        bits: w1(61..60)
+        description: Dimension 0's RULE_TYPE.
+
+
+  - name: ASE_TBLDAT_TAT_S
+    description: |
+      "
+      Tree Access Table Entry as seen by software during 128-bit table read/write accesses.
+      Indexed by TIC's hit-address. Contains the Tree Root Tnodes (1 big or 2 basic tnodes
+      per TAT entry) associated with the Key Request. Used by TWE engines to start sub-tree
+      walk(s). There are 192 entries in the TAT.
+
+      Field definitions:
+          Sub-Tree Super-Tuple Mode: Used to determine how to encode sub-tree node arc's dimmsk(9)
+      bit
+          encodings for 9x and 16x dimension support.
+             0: 1x super-tuple Mode: (MAX Dimensions=9) each bit of dimmsk<8:0> specifies 1(of
+      9(MAX) total
+                dimensions) in single-tuple.
+             1: 2x Super-tuple Mode: dimmsk<8> specifies which 1(of 2) super-tuples, where each
+      super-tuple
+                contains upto 8(max) dimensions for 16(MAX) total dimensions.
+                If STUP==1: Indicates this sub-tree supports upto 16 dimensions(max). At each
+                sub-tree node visit:
+                  if dimmsk<8>=0: dimmsk<7:0> specifies valid mask for Supertuple#0 == DIM<7:0>.
+                  if dimmsk<8>=1: dimmsk<7:0> specifies valid mask for Supertuple#1 == DIM<15:8>.
+
+      INTERNAL: Copied from tat_entry_t in luc_cav_globals.svh
+      "
+    fields:
+      - name: BIG_TNODE_LSB
+        bits: w0(0)
+        description: If this entry is a Big Tree Node, this is the LSB of the Big node.
+
+      - name: TNODE1
+        bits: w0(61..1)
+        description: Basic Tree Node 1, or if this entry is a Big Tree Node, bits <61..1> of the Big Node.
+
+      - name: TNODE0_LSBS
+        bits: w0(63..62)
+        description: Basic Tree Node 0 bits <1..0>, or if this entry is a Big Tree Node, bits <63..62> of the Big Node.
+
+      - name: TNODE0_MSBS
+        bits: w1(58..0)
+        description: |
+          Basic Tree Node 1 bits <60..2>, or if this entry is a Big Tree Node, bits <122..64> of the
+          Big Node.
+
+      - name: STUP1
+        bits: w1(59)
+        description: Super-Tuple Mode for Basic Tree Node 1.
+
+      - name: STUP0
+        bits: w1(60)
+        description: Super-Tuple Mode for Basic Tree Node 0. (And also for Big Node?).
+
+      - name: TNODE1_VLD
+        bits: w1(61)
+        description: Basic Tree Node 1 is valid.
+
+      - name: TNODE_TYPE
+        bits: w1(62)
+        description: Node Type. 1=big (123-bit), 0=basic (61-bit).
+
+      - name: --
+        bits: w1(63)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_TIC_S
+    description: |
+      "
+      TAT Indirection CAM Entry as seen by software during 128-bit table read/write accesses.
+      Content-addressed by TIC_ID = {BMR_EN, BMR_SEL, TID}. Maps the TIC_ID to the entries in
+      the TAT. There are 96 entries in the TIC.
+
+      The Key Request's 9-bit TIC_ID is CAM'ed against all entries in the TIC,
+      and if a match occurs, the match's address TAT_IDX is used to index into 1 (of 192)
+      TAT entries. Software will write the TIC_ID=>TAT_IDX,TAT_CNT mapping at any
+      entry in the TIC.
+
+      NOTE: All TIC_IDs marked with VLD=1 in the TIC must be unique.
+      NOTE: The TIC will not accept writes with TAT_IDX+TAT_CNT>=TAT_DEPTH. The TIC response
+            will flag an uncorrectable error if such a write is attempted.
+      INTERNAL: Copied from tic_entry_t in luc_cav_globals.svh
+      "
+    fields:
+      - name: TAT_IDX
+        bits: w0(7..0)
+        description: Index/row address of the first TAT line. Valid values are 0 to 191.
+
+      - name: TAT_CNT
+        bits: w0(10..8)
+        description: |
+          Number of TAT lines. A value of 0x0 indicates 8 lines, 0x1 indicates 1 line, etc.
+          If greater than 1 TAT line is associated with this TIC entry, subsequent lines are
+          addressed as TAT_IDX+1 up to TAT_IDX+8.
+
+      - name: --
+        bits: w0(15..11)
+        description: Reserved.
+
+      - name: TID
+        bits: w0(21..16)
+        description: TID for TIC entry (tic_id<5..0>).
+
+      - name: BMR_SEL
+        bits: w0(23..22)
+        description: BMR Sel for TIC entry (tic_id<7..6>).
+
+      - name: BMR_EN
+        bits: w0(24)
+        description: BMR En for TIC entry (tic_id<8>).
+
+      - name: --
+        bits: w0(31..25)
+        description: Reserved.
+
+      - name: VLD
+        bits: w0(32)
+        description: Valid bit for TIC entry.
+
+      - name: --
+        bits: w0(63..33)
+        description: Reserved.
+
+      - name: --
+        bits: w1(63..0)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_TLT_S
+    description: |
+      Tree Location Table Entry as seen by software during 128-bit table read/write accesses.
+      Indexed by TID.
+    fields:
+      - name: TWRSPCNT
+        bits: w0(2..0)
+        description: |
+          The number of responses expected per SXID. A value of 0x0 indicates 8 responses are
+          expected, 0x1 indicates 1 response, etc.
+
+      - name: --
+        bits: w0(7..3)
+        description: Reserved.
+
+      - name: KFTIDX
+        bits: w0(13..8)
+        description: |
+          Key format Index.
+          The clusters use this to reference 1 (of 64) Key Formats which define how the clusters
+          should extract up to 28(max) DIMENSIONs within the key data for each KEY. Also used to
+          index RFT (Rule Format Table).
+
+      - name: --
+        bits: w0(63..14)
+        description: Reserved.
+
+      - name: --
+        bits: w1(63..0)
+        description: Reserved.
+
+
+  - name: ASE_TBLDAT_TXBUF_S
+    description: LOP TXVUFF as seen by software during 128-bit table read accesses. Indexed by TXID.
+    fields:
+      - name: EVEN_DATA
+        bits: w0(31..0)
+        description: EVEN DATA  (for SXID0 or SXID2).
+
+      - name: EVEN_ERR
+        bits: w0(33..32)
+        description: EVEN ERROR (for SXID0 or SXID2).
+
+      - name: --
+        bits: w0(39..34)
+        description: Reserved.
+
+      - name: EVEN_ECC
+        bits: w0(46..40)
+        description: ECC for EVEN_ERR and EVEN_DATA.
+
+      - name: --
+        bits: w0(47)
+        description: Reserved.
+
+      - name: LID
+        bits: w0(55..48)
+        description: LAP1 XID of the response.
+
+      - name: --
+        bits: w0(58..56)
+        description: Reserved.
+
+      - name: BD
+        bits: w0(59)
+        description: |
+          Backdoor. BD=1 means the response will be sent to CSR instead of LAP1. BD=0, the response
+          is a LAP1 response.
+
+      - name: LAST
+        bits: w0(60)
+        description: |
+          When VALID=1, LAST=1 means "this is the last TXBUFF entry"; LAST=0 means "the first of 2
+          TXBUFF entries".
+
+      - name: V_ODD
+        bits: w0(61)
+        description: |
+          ODD data/err/ecc valid. Set by LOP after a response is received from LUE and cleaned by
+          LOP when TXID is returned to LIP.
+
+      - name: V_EVEN
+        bits: w0(62)
+        description: |
+          Even data/err/ecc valid. Set by LOP after a response is received from LUE and cleaned by
+          LOP when TXID is returned to LIP.
+
+      - name: VALID
+        bits: w0(63)
+        description: Valid Set by LIP and cleaned by LOP when TXID is returned to LIP.
+
+      - name: ODD_DATA
+        bits: w1(31..0)
+        description: ODD DATA  (for SXID1 or SXID3).
+
+      - name: ODD_ERR
+        bits: w1(33..32)
+        description: ODD ERROR (for SXID1 or SXID3).
+
+      - name: --
+        bits: w1(39..34)
+        description: Reserved.
+
+      - name: ODD_ECC
+        bits: w1(46..40)
+        description: ECC for ODD_ERR and ODD_DATA.
+
+      - name: --
+        bits: w1(63..47)
+        description: Reserved.
+
+
+registers:
+  - name: ASE_SFT_RST
+    title: ASE Soft Reset Register
+    address: 0x11800DD000000
+    bus: RSL
+    description: Allows soft reset.
+    fields:
+      - name: BUSY
+        bits: 63
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: |
+          When 1, ASE is busy completing reset. No access except the reading of this bit should
+          occur to the ASE until this is clear.
+
+      - name: --
+        bits: 62..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RST
+        bits: 0
+        access: R/W1/H
+        reset: 0
+        typical: 0
+        description: |
+          When set to 1 by software, ASE gets a short reset pulse (eight cycles in duration).
+          Everything but the RSL interface is reset (including CSRs).
+          Hardware will clear this bit when the reset is complete.
+
+
+  - name: ASE_BIST_STATUS0
+    title: ASE BIST Results Register
+    address: 0x11800DD000008
+    bus: RSL
+    description: BIST status register.
+    fields:
+      - name: --
+        bits: 63..60
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RMC_NDONE
+        bits: 59..56
+        access: ---
+        reset: 0xf
+        typical: 0x0
+        description: Combined 'BIST is not complete' for the LUE RMC[3..0] RAMs.
+
+      - name: --
+        bits: 55..51
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RFT_NDONE
+        bits: 50
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the LUE HST RFT RAM.
+
+      - name: LUE_TAT_NDONE
+        bits: 49
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the LUE HST TAT RAM.
+
+      - name: LUE_KDB_NDONE
+        bits: 48
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the LUE KRQ KDB RAM.
+
+      - name: --
+        bits: 47..42
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOP_TXB_NDONE
+        bits: 41..40
+        access: RO/H
+        reset: 0x3
+        typical: 0x0
+        description: BIST is not complete on the LOP TXBUFF RAM banks.
+
+      - name: --
+        bits: 39..36
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_NEWQ_NDONE
+        bits: 35
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete on the LIP NEWQ RAM.
+
+      - name: LIP_PHT_NDONE
+        bits: 34
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete on the LIP PHT RAM.
+
+      - name: LIP_GDT_NDONE
+        bits: 33
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete on the LIP GDT RAM.
+
+      - name: LIP_ISF_NDONE
+        bits: 32
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete on the LIP ISF RAM.
+
+      - name: --
+        bits: 31..19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RFT_STATUS
+        bits: 18
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE HST RFT RAM. Only valid if LUE_RFT_NDONE == 0.
+
+      - name: LUE_TAT_STATUS
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE HST TAT RAM. Only valid if LUE_TAT_NDONE == 0.
+
+      - name: LUE_KDB_STATUS
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE KRQ KDB RAM. Only valid if LUE_KDB_NDONE == 0.
+
+      - name: --
+        bits: 15..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOP_TXB_STATUS
+        bits: 9..8
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LOP TXBUFF RAM banks. Only valid if LOP_TXB_NDONE<> == 0.
+
+      - name: --
+        bits: 7..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_NEWQ_STATUS
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LIP NEWQ RAM. Only valid if LIP_NEWQ_NDONE == 0.
+
+      - name: LIP_PHT_STATUS
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LIP PHT RAM. Only valid if LIP_PHT_NDONE == 0.
+
+      - name: LIP_GDT_STATUS
+        bits: 1
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LIP GDT RAM. Only valid if LIP_GDT_NDONE == 0.
+
+      - name: LIP_ISF_STATUS
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LIP ISF RAM. Only valid if LIP_ISF_NDONE == 0.
+
+
+  - name: ASE_BIST_STATUS1
+    title: ASE BIST Results Register
+    address: 0x11800DD000010
+    bus: RSL
+    description: BIST status register. Per LUE RMC engine.
+    fields:
+      - name: LUE_RMC3_BMT_STATUS
+        bits: 63..56
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
+
+      - name: LUE_RMC3_KDT_STATUS
+        bits: 55..52
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC KDT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
+
+      - name: LUE_RMC3_RUL_STATUS
+        bits: 51
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RUL RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
+
+      - name: LUE_RMC3_RFT_STATUS
+        bits: 50
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
+
+      - name: --
+        bits: 49..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RMC2_BMT_STATUS
+        bits: 47..40
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
+
+      - name: LUE_RMC2_KDT_STATUS
+        bits: 39..36
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC KDT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
+
+      - name: LUE_RMC2_RUL_STATUS
+        bits: 35
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RUL RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
+
+      - name: LUE_RMC2_RFT_STATUS
+        bits: 34
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
+
+      - name: --
+        bits: 33..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RMC1_BMT_STATUS
+        bits: 31..24
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
+
+      - name: LUE_RMC1_KDT_STATUS
+        bits: 23..20
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC KDT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
+
+      - name: LUE_RMC1_RUL_STATUS
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RUL RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
+
+      - name: LUE_RMC1_RFT_STATUS
+        bits: 18
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
+
+      - name: --
+        bits: 17..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_RMC0_BMT_STATUS
+        bits: 15..8
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<0>] == 0.
+
+      - name: LUE_RMC0_KDT_STATUS
+        bits: 7..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: BIST status for the LUE per-RMC KDT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<0>] == 0.
+
+      - name: LUE_RMC0_RUL_STATUS
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RUL RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<0>] == 0.
+
+      - name: LUE_RMC0_RFT_STATUS
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<0>] == 0.
+
+      - name: --
+        bits: 1..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: ASE_ECC_CTL
+    title: ASE ECC Control Register
+    address: 0x11800DD000018
+    bus: RSL
+    description: |
+      This register can be used to disable ECC checks, insert ECC errors.
+
+      Fields *ECC_DIS: Disables SBE detection/correction and DBE detection.
+      If ECC_DIS is 0x1, then no errors are detected.
+
+      Fields *ECC_FLIP_SYND:  Flip the syndrom<1:0> bits to generate 1-bit/2-bits error for testing.
+        0x0: normal operation
+        0x1: SBE on bit<0>
+        0x2: SBE on bit<1>
+        0x3: DBE on bit<1:0>
+    fields:
+      - name: --
+        bits: 63..56
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_BMT_ECC_FLIP_SYND
+        bits: 55..54
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome in LUE RMC Block Mask Register Table.
+          INTERNAL: BMT replicated 4 times for timing purposes, controls all copies.
+
+      - name: LUE_KDT_ECC_FLIP_SYND
+        bits: 53..52
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LUE RMC Key Data Transfer Buffer.
+
+      - name: LUE_RUL_ECC_FLIP_SYND
+        bits: 51..50
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LUE RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: LUE_RFT_ECC_FLIP_SYND
+        bits: 49..48
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome in LUE HST and RMC Rule Format Tables.
+          INTERNAL: RFT replicated 5 times for timing purposes, controls all copies.
+
+      - name: LUE_TAT_ECC_FLIP_SYND
+        bits: 47..46
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LUE HST Tree Access Table.
+
+      - name: LUE_KDB_ECC_FLIP_SYND
+        bits: 45..44
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LUE KRQ Key Data Buffer.
+
+      - name: --
+        bits: 43..38
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_BMT_ECC_DIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LUE RMC Block Mask Register Table.
+
+      - name: LUE_KDT_ECC_DIS
+        bits: 36
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LUE RMC Key Data Transfer Buffer.
+
+      - name: LUE_RUL_ECC_DIS
+        bits: 35
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LUE RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: LUE_RFT_ECC_DIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Disable ECC for LUE HST and RMC Rule Format Tables.
+          INTERNAL: RFT replicated 5 times for timing purposes, controls all copies.
+
+      - name: LUE_TAT_ECC_DIS
+        bits: 33
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LUE HST Tree Access Table.
+
+      - name: LUE_KDB_ECC_DIS
+        bits: 32
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LUE KRQ Key Data Buffer.
+
+      - name: --
+        bits: 31..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOP_TXB_ECC_FLIP_SYND
+        bits: 25..24
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LOP TXBUFF Data Memory.
+
+      - name: --
+        bits: 23..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOP_TXB_ECC_DIS
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LOP TXBUFF Data Memory.
+
+      - name: --
+        bits: 15..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_NEWQ_ECC_FLIP_SYND
+        bits: 13..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LIP New Queue.
+
+      - name: LIP_PHT_ECC_FLIP_SYND
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LIP Packet Header Table.
+
+      - name: LIP_GDT_ECC_FLIP_SYND
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LIP Global Definition Table.
+
+      - name: LIP_ISF_ECC_FLIP_SYND
+        bits: 7..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Flip syndrome in LIP Input Skid FIFO.
+
+      - name: --
+        bits: 5..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_NEWQ_ECC_DIS
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LIP New Queue.
+
+      - name: LIP_PHT_ECC_DIS
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LIP Packet Header Table.
+
+      - name: LIP_GDT_ECC_DIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LIP Global Definition Table.
+
+      - name: LIP_ISF_ECC_DIS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable ECC for LIP Input Skid FIFO.
+
+
+  - name: ASE_GEN_INT
+    title: ASE General Interrupt Status
+    address: 0x11800DD000020
+    bus: RSL
+    description: |
+      Interrupt status for general ASE interrupts.
+
+      Errors reported in bit positions <38:32>, <7:2>, and <0> are most likely
+      due to software programming errors.
+
+      In all LUE* cases below, any request that generates an error will have its response marked as
+      errored. These LUE* interrupts are for diagnostic use, not for error handling. For all the
+      LUE* errors below, additional information can be obtained by reading the ASE_LUE_ERROR_LOG
+      CSR.
+    attributes:
+      rtlgen_cib: "True"
+    fields:
+      - name: --
+        bits: 63..39
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_INVALID_REQ
+        bits: 38
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          An invalid lookup request was observed.
+          Caused by either a request to an invalid cluster or
+          a new lookup request provided insufficient key data.
+
+      - name: LUE_HR_ERR_LOG
+        bits: 37
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: An error occurred for a Host request and generated a Host Response with error.
+
+      - name: LUE_BIC_MULTI_HIT
+        bits: 36
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: A BIC lookup request resulted in multiple entries reporting a hit.
+
+      - name: LUE_BIC_MISS
+        bits: 35
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: A BIC lookup request did not match a valid entry.
+
+      - name: LUE_TIC_BAD_WRITE
+        bits: 34
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          Data was loaded in to the TIC that results in a wrap condition.
+          Either the TAT row pointed to by the TIC entry is invalid, or
+          the starting TAT row and the increment value points beyond the
+          end of the TAT.
+
+      - name: LUE_TIC_MULTI_HIT
+        bits: 33
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: A TIC lookup request resulted in multiple entries reporting a hit.
+
+      - name: LUE_TIC_MISS
+        bits: 32
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: A TIC lookup request did not match a valid entry.
+
+      - name: --
+        bits: 31..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_TBF_MISSING_EOP
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          The incoming TBL command did not indicate EOP on the correct beat.
+          The request will be marked FATAL.
+
+      - name: LIP_TBF_EARLY_EOP
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          The incoming TBL write command did not have enough write data beats to match the command.
+          The write will be marked FATAL.
+
+      - name: LIP_OBF_MISSING_EOP
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          The incoming OSM command did not indicate EOP on the correct beat.
+          The request will be marked FATAL.
+
+      - name: LIP_OBF_EARLY_EOP
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          The incoming OSM Write command did not have enough write data beats to match the command.
+          The write will be marked FATAL.
+
+      - name: LIP_OBF_DROP_UNKN_CMD
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          The incoming Control Word at LIP OSM Bypass Splitter does not decode to a valid command.
+          The packet will be dropped since we can't trust the command to figure out what kind of
+          response to send to LAP. We depend on LAP timeouts to inform software.
+
+      - name: LIP_OBF_DROP_MALFORMED
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          LIP OSM Bypass Splitter dropped a beat because it was expecting a
+          start-of-packet beat and didn't see the SOP indication, or it saw both
+          SOP and EOP indication.
+
+      - name: LIP_OBF_DROP_CMD_DBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          LIP OSM Bypass Splitter sees the incoming Control Word is marked as having a
+          Double Bit Error. The packet will be dropped since we can't trust the LID to
+          send even an error response to LAP. We depend on LAP timeouts to inform software.
+
+      - name: LIP_ISF_DROP_FULL
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          LIP Input Skid FIFO dropped a beat because it was full. This only happens if
+          LAP issues request beats but has no ase__lap1_credit<0>'s to do so; this indicates LAP
+          credits are mis-programmed. If this interrupt fires, the software has to reset LAP1
+          and ASE to recover, as the credits are out of sync.
+
+
+  - name: ASE_ECC_INT
+    title: ASE ECC Interrupt Status.
+    address: 0x11800DD000028
+    bus: RSL
+    description: |
+      Interrupt status for ECC failures.
+
+      In all cases below EXCEPT LUE_KDT_*, any request that generates an
+      error will have its response marked as errored.
+      The LUE_KDT_DBE error will not be indicated in the response packet;
+      the only indication of this error is the interrupt mechanism.
+      INTERNAL: Therefore, most of these interrupts are for diagnostic use, not for error handling.
+
+      For all the LUE* errors below, additional information can be obtained
+      by reading the ASE_LUE_ERROR_LOG. For all the LIP*/LOP* errors below, additional
+      information can be obtained by reading the ASE_LUF_ERROR_LOG CSR.
+    attributes:
+      rtlgen_cib: "True"
+    fields:
+      - name: --
+        bits: 63..44
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LUE_KDT_DBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Double-Bit Error on LUE RMC Key Data Tranfer Buffer.
+
+      - name: LUE_KDT_SBE
+        bits: 42
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LUE RMC Key Data Transfer Buffer.
+
+      - name: LUE_RUL_DBE
+        bits: 41
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Double-Bit Error on LUE RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: LUE_RUL_SBE
+        bits: 40
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LUE RMC Buffer Aligner Wrapper Rule FIFO.
+
+      - name: LUE_BMT_DBE
+        bits: 39
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected Double-Bit Error on LUE RMC Block Mask Tables.
+          This bit will not be set for software accesses to the BMT, it will only get set for lookup
+          accesses.
+          INTERNAL: BMT replicated 4 times for timing purposes, this indicates error for any of the
+          BMT.
+
+      - name: LUE_BMT_SBE
+        bits: 38
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected and corrected Single-Bit Error on LUE RMC Block Mask Tables.
+          This bit will not be set for software accesses to the BMT, it will only get set for lookup
+          accesses.
+          INTERNAL: BMT replicated 4 times for timing purposes, this indicates error for any of the
+          BMT.
+
+      - name: LUE_RFT_DBE
+        bits: 37
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected Double-Bit Error on LUE HST and RMC Rule Format Tables.
+          This bit will not be set for software accesses to the RFT, it will only get set for lookup
+          accesses.
+          INTERNAL: RFT replicated 5 times for timing purposes, this indicates error for any of the
+          RFT.
+
+      - name: LUE_RFT_SBE
+        bits: 36
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected and corrected Single-Bit Error on LUE HST and RMC Rule Format Tables.
+          This bit will not be set for software accesses to the RFT, it will only get set for lookup
+          accesses.
+          INTERNAL: RFT replicated 5 times for timing purposes, this indicates error for any of the
+          RFT.
+
+      - name: LUE_TAT_DBE
+        bits: 35
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected Double-Bit Error on LUE HST Tree Access Table.
+          This bit will not be set for software accesses to the TAT, it will only get set for lookup
+          accesses.
+
+      - name: LUE_TAT_SBE
+        bits: 34
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected and corrected Single-Bit Error on LUE HST Tree Access Table.
+          This bit will not be set for software accesses to the TAT, it will only get set for lookup
+          accesses.
+
+      - name: LUE_KDB_DBE
+        bits: 33
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Double-Bit Error on LUE KRQ Key Data Buffer.
+
+      - name: LUE_KDB_SBE
+        bits: 32
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LUE KRQ Key Data Buffer.
+
+      - name: --
+        bits: 31..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOP_TXB_DBE
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Bouble-Bit Error on LOP's TXBUFF ram read.
+
+      - name: LOP_TXB_SBE
+        bits: 16
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LOP's TXBUFF ram read.
+
+      - name: --
+        bits: 15..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LIP_NEWQ_DBE
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Double-Bit Error on LIP's New Queue.
+
+      - name: LIP_NEWQ_SBE
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LIP's New Queue.
+
+      - name: LIP_PHT_DBE
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected Double-Bit Error on LIP's Packet Header Table.
+          This bit will not be set for software accesses to the GDT, it will only get set for lookup
+          accesses.
+
+      - name: LIP_PHT_SBE
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected and corrected Single-Bit Error on LIP's Packet Header Table.
+          This bit will not be set for software accesses to the GDT, it will only get set for lookup
+          accesses.
+
+      - name: LIP_GDT_DBE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected Double-Bit Error on LIP's Global Definition Table.
+          This bit will not be set for software accesses to the GDT, it will only get set for lookup
+          accesses.
+
+      - name: LIP_GDT_SBE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected and corrected Single-Bit Error on LIP's Global Definition Table.
+          This bit will not be set for software accesses to the GDT, it will only get set for lookup
+          accesses.
+
+      - name: LIP_ISF_DBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected Double-Bit Error on LIP's Input Skid FIFO.
+
+      - name: LIP_ISF_SBE
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected and corrected Single-Bit Error on LIP's Input Skid FIFO.
+
+
+  - name: ASE_CONFIG
+    title: ASE Configuration
+    address: 0x11800DD000100
+    bus: RSL
+    description: General configuration for the ASE block.
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENDIAN_MODE
+        bits: 6..5
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: See ASE_ENDIAN_E. Endian swapping only applies to LU_REQ header data and KEY_RSP match result.
+
+      - name: --
+        bits: 4..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DIV2_CLKEN
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enable conditional sclk/2 in ASE.
+          This only enables the sclk/2 domain, not the sclk.
+          Turn this on if you want to do lookup requests.
+
+      - name: DIV1_CLKEN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enable conditional sclk in ASE.
+          This only enables the sclk domain, not the sclk/2.
+          Turn this on if you want to do lookup requests OR if you want to access OSM.
+
+
+  - name: ASE_LUF_ERROR_LOG
+    title: ASE LUF Error Logging Information
+    address: 0x11800DD000110
+    bus: RSL
+    description: |
+      "
+      Logs information to help diagnose Look Up Frontend (LookUp Input/Output
+      Pre/Postprocessor) errors as indicated in ASE_*_INT[LIP*/LOP*].
+
+      The contents of this CSR are invalid if no fields are set in ASE_*_INT[LIP*/LOP*].
+
+      The contents of this CSR are retained until all the bits in the ASE_*_INT[LIP*/LOP*]
+      are cleared, or an error occurs that is of higher-priority than the error for
+      which information is currently logged by this CSR.
+
+      The priority of the error is encoded by the enumerated values in ASE_LUF_ERROR_ID_E.
+      Only interrupts listed in ASE_LUF_ERROR_ID_E log errors.
+      "
+    fields:
+      - name: --
+        bits: 63..60
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERROR_ID
+        bits: 59..56
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Type of error logged. See ASE_LUF_ERROR_ID_E.
+          Also indicates how to decode the DATA field.
+
+      - name: DATA
+        bits: 55..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "
+          Error Logging Information
+
+          The information in this field takes on different meanings
+          depending on the type of error that is latched in the
+          ASE_*_INT[LIP*/LOP*] fields.
+
+          Decode this field based on ERROR_ID.
+            LIP_*_*BE: see ASE_LUF_ERROR_LOG_LIP_ECC_S.
+            LOP_TXB_*BE: see ASE_LUF_ERROR_LOG_LOP_ECC_S.
+          "
+
+
+  - name: ASE_BACKDOOR_REQ_CTL
+    title: ASE Backdoor Request Control
+    address: 0x11800DD000800
+    bus: RSL
+    description: |
+      Used to configure and trigger backdoor requests.
+      Backdoor requests can be inserted at any time. They will be inserted into
+      the request stream from LAP.
+
+      The request packet needs to be written to ASE_BACKDOOR_REQ_DATA*
+      need to be written before VALID is triggerd.
+      Both CNT and VALID can be written same cycle.
+
+      The hardware will clear the VALID bit when the request is sent.
+      If another VALID=1 is written before the bit is cleared,
+      it will not trigger another SOP.
+
+      Software should take care to wait for the RSP before issuing another REQ.
+      Hardware will deassert ASE_BACKDOOR_RSP_CTL[VALID] when VALID is triggered.
+    fields:
+      - name: VALID
+        bits: 63
+        access: R/W1/H
+        reset: 0
+        typical: 0
+        description: Writing 1 triggers CNT beats to be sent as a packet into ASE.
+
+      - name: --
+        bits: 62..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Number of DATA beats to send. Valid values: 2 to 10.
+          INTERNAL: Value of 0x0 will send 16 beats.
+
+
+  - name: ASE_BACKDOOR_REQ_DATA(0..15)
+    title: ASE Backdoor Request Data
+    address: 0x11800DD000880 + a*0x8
+    bus: RSL
+    description: |
+      Lowest address is first beat (aka control word) and will have SOP.
+      Next address is next beat, etc. CNTth address will have EOP.
+      See further documentation in ASE_BACKDOOR_REQ_CTL.
+    fields:
+      - name: DATA
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Beat N of the backdoor request packet.
+
+
+  - name: ASE_BACKDOOR_RSP_CTL
+    title: ASE Backdoor Response Control
+    address: 0x11800DD000900
+    bus: RSL
+    description: |
+      Used to indicate backdoor response complete.
+      See description in ASE_BACKDOOR_REQ_CTL.
+
+      Hardware will assert VALID when the full response packet has been received
+      and has been posted to CNT and ASE_BACKDOOR_RSP_DATA*.
+      Hardware will not change CNT and ASE_BACKDOOR_RSP_DATA* while VALID is asserted.
+      Hardware will deassert VALID when ASE_BACKDOOR_REQ_CTL[VALID] is triggered.
+    fields:
+      - name: VALID
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted means there is valid response packet data.
+
+      - name: --
+        bits: 62..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 2..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Number of DATA beats received. Valid values: 2 to 5.
+
+
+  - name: ASE_BACKDOOR_RSP_DATA(0..7)
+    title: ASE Backdoor Response Data
+    address: 0x11800DD000980 + a*0x8
+    bus: RSL
+    description: |
+      Lowest address is first beat (aka control word) and will have SOP.
+      Next address is next beat, etc. CNTth address will have EOP.
+    fields:
+      - name: DATA
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Beat N of the backdoor response packet.
+
+
+  - name: ASE_SPARE
+    title: ASE Spare
+    address: 0x11800DD3FFFF8
+    bus: RSL
+    description: Spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare for ASE.
+
+
+  - name: ASE_LIP_CONFIG
+    title: ASE Look-up Input Processor Configuration
+    address: 0x11800DD400000
+    bus: RSL
+    description: Configuration for LIP.
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DROP_XOFF_EN
+        bits: 3
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          If enabled, LIP pays attention to the LAP's DROP_XOFF indication and may drop the
+          indicated LU_REQ packets.
+          If disabled, LIP ignores DROP_XOFF and will not drop packets.
+
+      - name: GEN_XON_EN
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          If enabled, LIP generates XON indication to LAP when LU_REQ's are backpressured.
+          If disabled, LIP does not assert XON.
+
+      - name: --
+        bits: 1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: HST_OSM_HW_ECC_BYPASS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If enabled, Host accesses to the OSM memory will bypass hardware ECC
+          generation and calculation/correction/detection.
+          If disabled, Host accesses will use hardware ECC
+          generation and calculation/correction/detection.
+
+
+  - name: ASE_LIP_SPARE
+    title: ASE LIP Spare
+    address: 0x11800DD7FFFF8
+    bus: RSL
+    description: Spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare for LIP.
+
+
+  - name: ASE_LOP_CONFIG
+    title: ASE Look-up Output Processor Configuration
+    address: 0x11800DD800000
+    bus: RSL
+    description: Configuration for LOP.
+    fields:
+      - name: --
+        bits: 63..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RSP_PRI
+        bits: 7..4
+        access: R/W
+        reset: 0xf
+        typical: 0xf
+        description: |
+          Response output priority.
+          <7>: LUE Key response
+          <6>: LUF table response
+          <5>: LUE table response
+          <4>: OSM write/read response
+          There are 2 priority levels per response type: 1 -  higher priority; 0 - lower priority.
+          RR is used among the responses with higher priority to send back to LAP or CSR. When there
+          is no response with higher priority left,
+          RR is used to choose a response with lower priority to send back to LAP or CSR.
+
+      - name: --
+        bits: 3..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RSP_DIS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If set, LOP will not send response(s) to LAP/CSR. It is only used for diagnosis purpose.
+          For example, it can be used to built up back-pressure to LUE/LIP/LAP/OSM.
+          In normal operation, it must not be set.
+
+
+  - name: ASE_LOP_SPARE
+    title: ASE LOP Spare
+    address: 0x11800DDBFFFF8
+    bus: RSL
+    description: Spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare for LOP.
+
+
+  - name: ASE_LUE_CONFIG
+    title: ASE Look-Up Engine Configuration
+    address: 0x11800DDC00000
+    bus: RSL
+    description: Configuration for LUE.
+    fields:
+      - name: --
+        bits: 63..34
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PFCACHE_EN
+        bits: 33
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Enable Bucket Entry PFLEN Caching
+
+          When clear, if PFLEN < OCM-Line, PFLEN BE caching is disabled,
+          and a BEREQ is made for each PFLEN group of BEs processed.
+
+          When set, if PFLEN < OCM-Line, only a single BEREQ is made
+          for the OCM-line which caches all of the BEs.
+
+      - name: PFAB_EN
+        bits: 32
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Enable Bucket Entry Pre-fetch Phase A/B Request Scheme
+          When clear, each Bucket Walk Engine is allowed to have a
+          maximum of 8 outstanding Rule read requests in progress
+          at a time.
+
+          When set, each Bucket Walk Engine is allowed to have a
+          maximum of 16 outstanding Rule read requests in progress at
+          a time, split in to two groups of 8 (Phases A and B).
+          After the initial 8 Bucket Entries, the next set of [up to]
+          8 Bucket Entries are speculatively read and submitted to the
+          Rule Walk Engine.
+
+          Subsequent speculative reads are performed once all
+          outstanding requests for a Phase have completed.
+
+      - name: --
+        bits: 31..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BMR160_SEL_MSK
+        bits: 23
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Enable masking of bmr_sel[0] when a Lookup request enables
+          BMR for a 160-bit mask (bmr_mode = 0x2).
+          If this bit is clear the bmr_sel field of the lookup will be
+          preserved for 160-bit mask lookups, allowing for 4 160-bit
+          BMR masks.
+          If this bit is set only 2 160-bit BMR masks (determined by
+          bmr_sel[1]) are supported.
+
+      - name: --
+        bits: 22..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TWC_STRSPSTA_RR
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Within the TWC block, configures the arbiter which selects
+          between Pending TWE or BWE STRSPs. When clear, fixed priority
+          arbitration is selected, which gives BWEs higher priority over TWEs.
+
+          When set, round robin arbitration is selected which ensures fairness
+          across the TWE and BWE STRSPs.
+
+          If enabled, use round-robin. If disabled, use fixed priority.
+
+      - name: TTA_REQ_RR
+        bits: 18
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Within the TTA blocks, configures the arbiter which selects
+          between Host access requests and Lookup requests. When configured
+          for fixed priority, Host accesses have higher priority.
+
+          If enabled, use round-robin. If disabled, use fixed priority.
+
+      - name: RFT_REQ_RR
+        bits: 17
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Within the RFT access logic, configures the arbiter which selects
+          between Host access requests and Lookup requests. When configured
+          for fixed priority, Host accesses have higher priority.
+
+          If enabled, use round-robin. If disabled, use fixed priority.
+
+      - name: --
+        bits: 16..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RME_ENABLE
+        bits: 3..0
+        access: R/W
+        reset: 0xf
+        typical: 0xf
+        description: Each bit, when set, enables Rule processing by a local Rule Match Engine.
+
+
+  - name: ASE_LUE_TWE_BWE_ENABLE
+    title: ASE LUE Tree/Bucket Walk Engine Enable
+    address: 0x11800DDC00008
+    bus: RSL
+    description: Enable tree/bucket walk engines.
+    fields:
+      - name: --
+        bits: 63..52
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BWE_EN
+        bits: 51..32
+        access: R/W
+        reset: 0xfffff
+        typical: 0xfffff
+        description: |
+          Each bit enables a Bucket Walk Engine to accept a thread
+          graduation from a TWE.
+
+          Meaning of enable bits: [BWE19 ... BWE0].
+
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TWE_EN
+        bits: 19..0
+        access: R/W
+        reset: 0xfffff
+        typical: 0xfffff
+        description: |
+          Each bit enables a Tree Walk Engine to accept new Lookup requests.
+
+          Meaning of enable bits: [TWE19 ... TWE0].
+
+
+  - name: ASE_LUE_ERROR_LOG_ENABLE
+    title: ASE LUE Error Log Enable
+    address: 0x11800DDC00010
+    bus: RSL
+    description: |
+      Each field in this CSR, when set, allows the corresponding field in the
+      ASE_*_INT[LUE*] to log information in the ASE_LUE_ERROR_LOG CSR upon assertion.
+    fields:
+      - name: --
+        bits: 63..54
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: KDT_DBE
+        bits: 53
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[KDT_DBE] errors.
+
+      - name: BMT_DBE
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[BMT_DBE] errors.
+
+      - name: RUL_DBE
+        bits: 51
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[RUL_DBE] errors.
+
+      - name: RFT_DBE
+        bits: 50
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[RFT_DBE] errors.
+
+      - name: TAT_DBE
+        bits: 49
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[TAT_DBE] errors.
+
+      - name: KDB_DBE
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[KDB_DBE] errors.
+
+      - name: --
+        bits: 47..38
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BMT_SBE
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[BMT_SBE] errors.
+
+      - name: KDT_SBE
+        bits: 36
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[KDT_SBE] errors.
+
+      - name: RUL_SBE
+        bits: 35
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[RUL_SBE] errors.
+
+      - name: RFT_SBE
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[RFT_SBE] errors.
+
+      - name: TAT_SBE
+        bits: 33
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[TAT_SBE] errors.
+
+      - name: KDB_SBE
+        bits: 32
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables logging for ASE_LUE_ERROR_ID_E[KDB_SBE] errors.
+
+      - name: --
+        bits: 31..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: INVALID_REQ
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[INVALID_REQ] errors.
+
+      - name: HR_ERR_LOG
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[HR_ERR_LOG] errors.
+
+      - name: BIC_MULTI_HIT
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[BIC_MULTI_HIT] errors.
+
+      - name: BIC_MISS
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[BIC_MISS] errors.
+
+      - name: TIC_BAD_WRITE
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[TIC_BAD_WRITE] errors.
+
+      - name: TIC_MULTI_HIT
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[TIC_MULTI_HIT] errors.
+
+      - name: TIC_MISS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[TIC_MISS] errors.
+
+
+  - name: ASE_LUE_ERROR_LOG
+    title: ASE LUE Error Logging Information
+    address: 0x11800DDC00018
+    bus: RSL
+    description: |
+      "
+      Logs information to help diagnose LUE errors indicated in ASE_*_INT[LUE*].
+
+      Information is only logged to this CSR if the bit corresponding to the ERROR_ID
+      is set in ASE_LUE_ERROR_LOG_ENABLE.
+
+      The contents of this CSR are invalid if no fields are set in ASE_*_INT[LUE*].
+
+      The contents of this CSR are retained until all the bits in the ASE_*_INT[LUE*]
+      are cleared, or an error occurs that is of higher-priority than the error for
+      which information is currently logged by this CSR.
+
+      The priority of the error is encoded by the enumerated values in ASE_LUE_ERROR_ID_E.
+      The highest priority error is KDT_DBE, the lowest is BMT_SBE.
+      For RFT and BMT errors, if multiple errors of equal weight are reported
+      during a clock cycle, the error on the local RFT is reported with highest
+      priority, followed by RMC0, RMC1, RMC2, RMC3.
+
+      Only interrupts listed in ASE_LUE_ERROR_ID_E log errors.
+      "
+    fields:
+      - name: --
+        bits: 63..62
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERROR_ID
+        bits: 61..56
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Type of error logged. See ASE_LUE_ERROR_ID_E.
+          If ERROR_ID == HR_ERR_LOG, see HR_ERR_ID for how to decode the DATA field.
+          Otherwise, ERROR_ID indicates how to decode the DATA field.
+
+      - name: --
+        bits: 55..54
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: HR_ERR_ID
+        bits: 53..48
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Type of Host error logged. See ASE_LUE_ERROR_ID_E.
+          Ignore HR_ERR_ID if ERROR_ID != HR_ERR_LOG.
+          Indicates how to decode the DATA field if ERROR_ID == HR_ERR_LOG.
+
+      - name: DATA
+        bits: 47..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "
+          Error Logging Information
+
+          The information in this field takes on different meanings
+          depending on the type of error that is latched in the
+          ASE_*_INT[LUE*] fields.
+
+          Decode this field based on ERROR_ID and HR_ERR_ID:
+            TIC_MISS or TIC_MULTI_HIT: see ASE_LUE_ERROR_LOG_TIC_S.
+            BIC_MISS or BIC_MULTI_HIT: see ASE_LUE_ERROR_LOG_BIC_S.
+            TIC_BAD_WRITE: see ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S.
+            INVALID_TBL_ACC: see ASE_LUE_ERROR_LOG_INVTBLACC_S.
+            INVALID_REQ: see ASE_LUE_ERROR_LOG_INVREQ_S.
+            KDB_*BE: see ASE_LUE_ERROR_LOG_KDB_ECC_S.
+            TAT_*BE: see ASE_LUE_ERROR_LOG_TAT_ECC_S.
+            RFT_*BE: see ASE_LUE_ERROR_LOG_RFT_ECC_S.
+            BMT_*BE: see ASE_LUE_ERROR_LOG_BMT_ECC_S.
+            RUL_*BE: see ASE_LUE_ERROR_LOG_RUL_ECC_S.
+            KDT_*BE: see ASE_LUE_ERROR_LOG_KDT_ECC_S.
+          "
+
+
+  - name: ASE_LUE_DBG_CTL0
+    title: ASE LUE Debug Control 0
+    address: 0x11800DDC00030
+    bus: RSL
+    description: |
+      Select engines for debug observations for the LUE's 4 16-bit debug muxes.
+
+      INTERNAL: We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
+      4 times to give Octeon better observability.
+
+      And select context for observation.
+
+      INTERNAL: LUE DBGCTX is a DOR daisy-chained through the TWE and BWE engines, it can't be moved
+      to a straight Octeon-style debug bus without rewriting the whole thing.
+    fields:
+      - name: --
+        bits: 63
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL3
+        bits: 62..56
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Debug select for LUE's mux 3.
+
+      - name: --
+        bits: 55
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL2
+        bits: 54..48
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Debug select for LUE's mux 2.
+
+      - name: --
+        bits: 47
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL1
+        bits: 46..40
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Debug select for LUE's mux 1.
+
+      - name: --
+        bits: 39
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL0
+        bits: 38..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Debug select for LUE's mux 0.
+
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTX_COL_DBG
+        bits: 19..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: 32-bit column of context information to display in the DEBUG_CTX field.
+
+      - name: --
+        bits: 15..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTX_ENG_DBG
+        bits: 12..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Engine ID from which context information will be made
+          available in the DEBUG_CTX field.
+
+          Valid values are 0-19.
+
+      - name: --
+        bits: 7..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTX_SRC_DBG
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Engine type from which context information will be made
+          available in the DEBUG_CTX field.
+          0 = Tree Walk Engine
+          1 = Bucket Walk Engine
+          2 = Rule Walk Engine
+          3 = Reserved
+
+
+  - name: ASE_LUE_DBG_CTL1
+    title: ASE LUE Debug Control 1
+    address: 0x11800DDC00038
+    bus: RSL
+    description: |
+      Select engines for debug observations for the LUE's 4 16-bit debug muxes.
+      INTERNAL: The per-engine filtering from NSP is not really worth moving to DTX-style
+      addressing.
+      INTERNAL: We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
+      4 times to give Octeon better observability.
+    fields:
+      - name: --
+        bits: 63..62
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RMC_DBG3
+        bits: 61..60
+        access: R/W
+        reset: 0x3
+        typical: --
+        description: |
+          Mux 3.
+
+          Selects which of the 4 RMC modules will present signals
+          on the debug bus when a RMC signal group is selected for
+          observation.
+
+      - name: --
+        bits: 59..58
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RMC_DBG2
+        bits: 57..56
+        access: R/W
+        reset: 0x2
+        typical: --
+        description: |
+          Mux 2.
+
+          Selects which of the 4 RMC modules will present signals
+          on the debug bus when a RMC signal group is selected for
+          observation.
+
+      - name: --
+        bits: 55..54
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RMC_DBG1
+        bits: 53..52
+        access: R/W
+        reset: 0x1
+        typical: --
+        description: |
+          Mux 1.
+
+          Selects which of the 4 RMC modules will present signals
+          on the debug bus when a RMC signal group is selected for
+          observation.
+
+      - name: --
+        bits: 51..50
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RMC_DBG0
+        bits: 49..48
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Mux 0.
+
+          Selects which of the 4 RMC modules will present signals
+          on the debug bus when a RMC signal group is selected for
+          observation.
+
+      - name: --
+        bits: 47..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 31..29
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENG_ID_DBG3
+        bits: 28..24
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Mux 3.
+
+          Selects which Tree Walk Engine or Bucket Walk Engine will
+          present signals on the debug bus when a TWC or BWC signal
+          group is selected for observation.
+
+          Valid values are 0-19.
+
+      - name: --
+        bits: 23..21
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENG_ID_DBG2
+        bits: 20..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Mux 2.
+
+          Selects which Tree Walk Engine or Bucket Walk Engine will
+          present signals on the debug bus when a TWC or BWC signal
+          group is selected for observation.
+
+          Valid values are 0-19.
+
+      - name: --
+        bits: 15..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENG_ID_DBG1
+        bits: 12..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Mux 1.
+
+          Selects which Tree Walk Engine or Bucket Walk Engine will
+          present signals on the debug bus when a TWC or BWC signal
+          group is selected for observation.
+
+          Valid values are 0-19.
+
+      - name: --
+        bits: 7..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENG_ID_DBG0
+        bits: 4..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Mux 0.
+
+          Selects which Tree Walk Engine or Bucket Walk Engine will
+          present signals on the debug bus when a TWC or BWC signal
+          group is selected for observation.
+
+          Valid values are 0-19.
+
+
+  - name: ASE_LUE_PERF_FILT
+    title: ASE LUE Performance Event Filters
+    address: 0x11800DDC00040
+    bus: RSL
+    description: Filters for performance counter events.
+    fields:
+      - name: --
+        bits: 63..49
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: HST_TTA_TIC_ID
+        bits: 48..40
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Lookups to the TTA in the HST module will trigger a
+          performance event if the lookup is for the TIC ID value
+          indicated in this field. See ASE_TBLDAT_TIC_S for
+          description of TIC_ID.
+
+      - name: --
+        bits: 39..38
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: HST_RFT_KFTIDX
+        bits: 37..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Lookups to the RFT in the HST module will trigger a
+          performance event if the lookup is for the KFTIDX value
+          indicated in this field.
+
+      - name: --
+        bits: 31..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL_ALL_PERF
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Disable Filtering.
+
+          When set, overrides the setting of SEL_ID_PERF for some
+          performance counter events.
+
+          This field is used by the TWC, BWC, and STR modules.
+
+      - name: SEL_ID_PERF
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Selects how the value in the ENG_KID_ID_PERF field is interpreted.
+
+          This field is used by the TWC, BWC, and STR modules.
+
+      - name: --
+        bits: 23..22
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENG_KID_ID_PERF
+        bits: 21..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          When SEL_ID_PERF is clear, this field is interpreted as an 8-bit KID.
+
+          When SEL_ID_PERF is set, the lower five bits of this field are
+          interpreted as the Engine ID and the upper three bits are ignored,
+          and valid values are 0-19.
+
+          This field is used by the TWC, BWC, and STR modules.
+
+      - name: --
+        bits: 15..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RMC_PERF
+        bits: 13..12
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: RMC to monitor for performance events.
+
+      - name: --
+        bits: 11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PERF_BWC_ENG
+        bits: 10..6
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          BWE to monitor for performance events.
+
+          Valid values are 0-19.
+
+      - name: --
+        bits: 5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PERF_TWC_ENG
+        bits: 4..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          TWE to monitor for performance events.
+
+          Valid values are 0-19.
+
+
+  - name: ASE_LUE_PERFORMANCE_CONTROL0
+    title: ASE LUE Performance Counter Control
+    address: 0x11800DDC00060
+    bus: RSL
+    description: |
+      A write to a LUE_PERFORMANCE_CONTROL* CSR which sets the ENABLE
+      field to 0x1 must not change the values of any other fields in the CSR.
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FROZEN
+        bits: 31
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          Indicates that the counter is frozen (i.e one shot
+          event occurred) Remains frozen until the clear bit
+          written.
+
+      - name: CLEAR
+        bits: 30
+        access: WO/H
+        reset: 0
+        typical: --
+        description: |
+          Writing 1 to this bit will generate a hardware pulse
+          that will clear the LUE_PERFOMANCE_COUNTER and
+          field FROZEN of this register.
+
+      - name: ENABLE
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Enable the counter. This bit is set to 1 to use
+          the corresponding counter.
+
+      - name: GLOBAL_STOP
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Writing a 1 to this bit stops all the counters in
+          the group of eight counters. This bit is only
+          implemented in the first control register of a
+          counter group.
+
+      - name: --
+        bits: 27
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MODE
+        bits: 26..24
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Mode.
+          Bit[24] - '1' Event counted SEL0 | SEL1 | SEL2
+                    '0' Event counted SEL0 & SEL1 & SEL2
+          Bits[26:25] - 2'b00 - Pos Edge
+                        2'b01 - Neg Edge
+                        2'b10 - Level
+                        2'b11 - One shot
+
+      - name: SEL2
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, third mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL1
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, second mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL0
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, first mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+
+  - name: ASE_LUE_PERFORMANCE_CONTROL1
+    title: ASE LUE Performance Counter Control
+    address: 0x11800DDC00068
+    bus: RSL
+    description: |
+      A write to a LUE_PERFORMANCE_CONTROL* CSR which sets the ENABLE or
+      GLOBAL_ENABLE fields to 0x1 must not change the values of any other
+      fields in the CSR.
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FROZEN
+        bits: 31
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          Indicates that the counter is frozen (i.e one shot
+          event occurred) Remains frozen until the clear bit
+          written.
+
+      - name: CLEAR
+        bits: 30
+        access: WO/H
+        reset: 0
+        typical: --
+        description: |
+          Writing 1 to this bit will generate a hardware pulse
+          that will clear the LUE_PERFOMANCE_COUNTER and
+          field FROZEN of this register.
+
+      - name: ENABLE
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Enable the counter. This bit is set to 1 to use
+          the corresponding counter.
+
+      - name: GLOBAL_ENABLE
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Writing a 1 to this bit starts all the counters in
+          the group of eight counters. This bit is only
+          implemented in the second control register of a
+          counter group.
+          Counters are enabled by the OR of the individual ENABLEs
+          and GLOBAL_ENABLE.
+
+      - name: --
+        bits: 27
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MODE
+        bits: 26..24
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Mode.
+          Bit[24] - '1' Event counted SEL0 | SEL1 | SEL2
+                    '0' Event counted SEL0 & SEL1 & SEL2
+          Bits[26:25] - 2'b00 - Pos Edge
+                        2'b01 - Neg Edge
+                        2'b10 - Level
+                        2'b11 - One shot
+
+      - name: SEL2
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, third mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL1
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, second mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL0
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, first mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+
+  - name: ASE_LUE_PERFORMANCE_CONTROL(2..3)
+    title: ASE LUE Performance Counter Control
+    address: 0x11800DDC00060 + a*0x8
+    bus: RSL
+    description: |
+      A write to a LUE_PERFORMANCE_CONTROL* CSR which sets the ENABLE or
+      field to 0x1 must not change the values of any other fields in the CSR.
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FROZEN
+        bits: 31
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          Indicates that the counter is frozen (i.e one shot
+          event occurred) Remains frozen until the clear bit
+          written.
+
+      - name: CLEAR
+        bits: 30
+        access: WO/H
+        reset: 0
+        typical: --
+        description: |
+          Writing 1 to this bit will generate a hardware pulse
+          that will clear the LUE_PERFOMANCE_COUNTER and
+          field FROZEN of this register.
+
+      - name: ENABLE
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Enable the counter. This bit is set to 1 to use
+          the corresponding counter.
+
+      - name: --
+        bits: 28..27
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MODE
+        bits: 26..24
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Mode.
+          Bit[24] - '1' Event counted SEL0 | SEL1 | SEL2
+                    '0' Event counted SEL0 & SEL1 & SEL2
+          Bits[26:25] - 2'b00 - Pos Edge
+                        2'b01 - Neg Edge
+                        2'b10 - Level
+                        2'b11 - One shot
+
+      - name: SEL2
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, third mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL1
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, second mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+      - name: SEL0
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Performance Counter Event Select, first mux.
+
+          For details of mapping of events to selects, see lue.pfm
+
+
+  - name: ASE_LUE_PERFORMANCE_COUNTER(0..3)
+    title: ASE LUE Performance Counter Control
+    address: 0x11800DDC00080 + a*0x8
+    bus: RSL
+    description: |
+      A write to a LUE_PERFORMANCE_CONTROL* CSR which sets the ENABLE or
+      GLOBAL_ENABLE fields to 0x1 must not at the same time
+      change the values of any other fields in the CSR.
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PERF_CNT
+        bits: 47..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Reflect the value of the perfomance counter.
+          Please see LUE_PERFOMANCE_CONTROL register.
+
+
+  - name: ASE_LUE_SPARE
+    title: ASE LUE Spare
+    address: 0x11800DDFFFFF8
+    bus: RSL
+    description: Spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare for LUE.
+
+
+

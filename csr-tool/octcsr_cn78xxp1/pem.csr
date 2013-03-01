@@ -1,0 +1,2936 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: PEM
+enums:
+  - name: PEM_INTSN_E
+    attributes:
+      width: "20"
+    description: FIXME the interrupt list is not complete.
+    values:
+      - name: PEM(0..3)_ERROR_AERI
+        value: 0xC0000 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[AERI].
+
+      - name: PEM(0..3)_ERROR_SE
+        value: 0xC0001 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[SE].
+
+      - name: PEM(0..3)_ERROR_PMEI
+        value: 0xC0002 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[PMEI].
+
+      - name: PEM(0..3)_ERROR_PMEM
+        value: 0xC0003 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[PMEM].
+
+      - name: PEM(0..3)_ERROR_UP_B1
+        value: 0xC0004 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UP_B1].
+
+      - name: PEM(0..3)_ERROR_UP_B2
+        value: 0xC0005 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UP_B2].
+
+      - name: PEM(0..3)_ERROR_UP_BX
+        value: 0xC0006 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UP_BX].
+
+      - name: PEM(0..3)_ERROR_UN_B1
+        value: 0xC0007 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UN_B1].
+
+      - name: PEM(0..3)_ERROR_UN_B2
+        value: 0xC0008 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UN_B2].
+
+      - name: PEM(0..3)_ERROR_UN_BX
+        value: 0xC0009 + a*0x1000
+        description: See PEM(0..3)_INT_SUM[UN_BX].
+
+      - name: PEM(0..3)_ERROR_RDLK
+        value: 0xC000B + a*0x1000
+        description: See PEM(0..3)_INT_SUM[RDLK].
+
+      - name: PEM(0..3)_ERROR_CRS_ER
+        value: 0xC000C + a*0x1000
+        description: See PEM(0..3)_INT_SUM[CRS_ER].
+
+      - name: PEM(0..3)_ERROR_CRS_DR
+        value: 0xC000D + a*0x1000
+        description: See PEM(0..3)_INT_SUM[CRS_DR].
+
+      - name: PEM(0..3)_ERROR_SPOISON
+        value: 0xC0040 + a*0x1000
+        description: See PEM(0..3)_DBG_INFO[SPOISON].
+
+      - name: PEM(0..3)_ERROR_RTLPMAL
+        value: 0xC0041 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTLPMAL].
+
+      - name: PEM(0..3)_ERROR_RTLPLLE
+        value: 0xC0042 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTLPLLE].
+
+      - name: PEM(0..3)_ERROR_RECRCE
+        value: 0xC0043 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RECRCE].
+
+      - name: PEM(0..3)_ERROR_RPOISON
+        value: 0xC0044 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RPOISON].
+
+      - name: PEM(0..3)_ERROR_RCEMRC
+        value: 0xC0045 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RCEMRC].
+
+      - name: PEM(0..3)_ERROR_RNFEMRC
+        value: 0xC0046 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RNFEMRC].
+
+      - name: PEM(0..3)_ERROR_RFEMRC
+        value: 0xC0047 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RFEMRC].
+
+      - name: PEM(0..3)_ERROR_RPMERC
+        value: 0xC0048 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RPMERC].
+
+      - name: PEM(0..3)_ERROR_RPTAMRC
+        value: 0xC0049 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RPTAMRC].
+
+      - name: PEM(0..3)_ERROR_RUMEP
+        value: 0xC004A + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RUMEP].
+
+      - name: PEM(0..3)_ERROR_RVDM
+        value: 0xC004B + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RVDM].
+
+      - name: PEM(0..3)_ERROR_ACTO
+        value: 0xC004C + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[ACTO].
+
+      - name: PEM(0..3)_ERROR_RTE
+        value: 0xC004D + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTE].
+
+      - name: PEM(0..3)_ERROR_MRE
+        value: 0xC004E + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[MRE].
+
+      - name: PEM(0..3)_ERROR_RDWDLE
+        value: 0xC004F + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RDWDLE].
+
+      - name: PEM(0..3)_ERROR_RTWDLE
+        value: 0xC0050 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTWDLE].
+
+      - name: PEM(0..3)_ERROR_DPEOOSD
+        value: 0xC0051 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[DPEOOSD].
+
+      - name: PEM(0..3)_ERROR_FCPVWT
+        value: 0xC0052 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[FCPVWT].
+
+      - name: PEM(0..3)_ERROR_RPE
+        value: 0xC0053 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RPE].
+
+      - name: PEM(0..3)_ERROR_FCUV
+        value: 0xC0054 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[FCUV].
+
+      - name: PEM(0..3)_ERROR_RQO
+        value: 0xC0055 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RQO].
+
+      - name: PEM(0..3)_ERROR_RAUC
+        value: 0xC0056 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RAUC].
+
+      - name: PEM(0..3)_ERROR_RACUR
+        value: 0xC0057 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RACUR].
+
+      - name: PEM(0..3)_ERROR_RACCA
+        value: 0xC0058 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RACCA].
+
+      - name: PEM(0..3)_ERROR_CAAR
+        value: 0xC0059 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[CAAR].
+
+      - name: PEM(0..3)_ERROR_RARWDNS
+        value: 0xC005A + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RARWDNS].
+
+      - name: PEM(0..3)_ERROR_RAMTLP
+        value: 0xC005B + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RAMTLP].
+
+      - name: PEM(0..3)_ERROR_RACPP
+        value: 0xC005C + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RACPP].
+
+      - name: PEM(0..3)_ERROR_RAWWPP
+        value: 0xC005D + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RAWWPP].
+
+      - name: PEM(0..3)_ERROR_ECRC_E
+        value: 0xC005E + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[ECRC_E].
+
+      - name: PEM(0..3)_ERROR_RTRY_PE
+        value: 0xC005F + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTRY_PE].
+
+      - name: PEM(0..3)_ERROR_HDRQ_PE
+        value: 0xC0060 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[HDRQ_PE].
+
+      - name: PEM(0..3)_ERROR_DATQ_PE
+        value: 0xC0061 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[DATQ_PE].
+
+      - name: PEM(0..3)_ERROR_P_D0_SBE
+        value: 0xC0062 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_D0_SBE].
+
+      - name: PEM(0..3)_ERROR_P_D0_DBE
+        value: 0xC0063 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_D0_DBE].
+
+      - name: PEM(0..3)_ERROR_P_D1_SBE
+        value: 0xC0064 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_D1_SBE].
+
+      - name: PEM(0..3)_ERROR_P_D1_DBE
+        value: 0xC0065 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_D1_DBE].
+
+      - name: PEM(0..3)_ERROR_P_C_SBE
+        value: 0xC0066 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_C_SBE].
+
+      - name: PEM(0..3)_ERROR_P_C_DBE
+        value: 0xC0067 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[P_C_DBE].
+
+      - name: PEM(0..3)_ERROR_N_D0_SBE
+        value: 0xC0068 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_D0_SBE].
+
+      - name: PEM(0..3)_ERROR_N_D0_DBE
+        value: 0xC0069 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_D0_DBE].
+
+      - name: PEM(0..3)_ERROR_N_D1_SBE
+        value: 0xC006A + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_D1_SBE].
+
+      - name: PEM(0..3)_ERROR_N_D1_DBE
+        value: 0xC006B + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_D1_DBE].
+
+      - name: PEM(0..3)_ERROR_N_C_SBE
+        value: 0xC006C + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_C_SBE].
+
+      - name: PEM(0..3)_ERROR_N_C_DBE
+        value: 0xC006D + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[N_C_DBE].
+
+      - name: PEM(0..3)_ERROR_C_D0_SBE
+        value: 0xC006E + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_D0_SBE].
+
+      - name: PEM(0..3)_ERROR_C_D0_DBE
+        value: 0xC006F + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_D0_DBE].
+
+      - name: PEM(0..3)_ERROR_C_D1_SBE
+        value: 0xC0070 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_D1_SBE].
+
+      - name: PEM(0..3)_ERROR_C_D1_DBE
+        value: 0xC0071 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_D1_DBE].
+
+      - name: PEM(0..3)_ERROR_C_C_SBE
+        value: 0xC0072 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_C_SBE].
+
+      - name: PEM(0..3)_ERROR_C_C_DBE
+        value: 0xC0073 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[C_C_DBE].
+
+
+registers:
+  - name: PEM(0..3)_CTL_STATUS
+    title: PEM Control Status
+    address: 0x11800C0000000 + a*0x1000000
+    bus: RSL
+    description: General control and status of the PEM.
+    fields:
+      - name: --
+        bits: 63..51
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: INV_DPAR
+        bits: 50
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Invert the generated parity to be written into the
+          the most significant Data Queue Buffer ram block
+          to force a parity error when it is later read.
+
+      - name: INV_HPAR
+        bits: 49
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Invert the generated parity to be written into the
+          most significant Header Queue Buffer ram block
+          to force a parity error when it is later read.
+
+      - name: INV_RPAR
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Invert the generated parity to be written into the
+          tmost significant Retry Buffer ram block to force
+          a parity error when it is later read.
+
+      - name: AUTO_SD
+        bits: 47
+        access: RO
+        reset: --
+        typical: --
+        description: Link Hardware Autonomous Speed Disable.
+
+      - name: DNUM
+        bits: 46..42
+        access: RO
+        reset: --
+        typical: --
+        description: Primary bus device number.
+
+      - name: PBUS
+        bits: 41..34
+        access: RO
+        reset: --
+        typical: --
+        description: Primary bus number.
+
+      - name: --
+        bits: 33..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RTRY
+        bits: 31..16
+        access: R/W
+        reset: 0x0
+        typical: 0x20
+        description: |
+          The time x 0x10000 in core clocks to wait for a
+          CPL to a CFG RD that does not carry a Retry Status.
+          Until such time that the timeout occurs and Retry
+          Status is received for a CFG RD, the Read CFG Read
+          will be resent. A value of 0 disables retries and
+          treats a CPL Retry as a CPL UR.
+          When enabled only one CFG RD may be issued until
+          either successful completion or CPL UR.
+
+      - name: SPARES
+        bits: 15..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Spares flops.
+
+      - name: PM_XTOFF
+        bits: 11
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When WRITTEN with a '1' a single cycle pulse is
+          to the PCIe core pm_xmt_turnoff port. RC mode.
+
+      - name: PM_XPME
+        bits: 10
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When WRITTEN with a '1' a single cycle pulse is
+          to the PCIe core pm_xmt_pme port. EP mode.
+
+      - name: OB_P_CMD
+        bits: 9
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When WRITTEN with a '1' a single cycle pulse is
+          to the PCIe core outband_pwrup_cmd port. EP mode.
+
+      - name: --
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Reserved.
+
+      - name: --
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Reserved.
+
+      - name: NF_ECRC
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Do not forward peer-to-peer ECRC TLPs.
+
+      - name: DLY_ONE
+        bits: 5
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When set the output client state machines will
+          wait one cycle before starting a new TLP out.
+
+      - name: LNK_ENB
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set '1' the link is enabled when '0' the
+          link is disabled. This bit only is active when in
+          RC mode.
+
+      - name: RO_CTLP
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set '1' C-TLPs that have the RO bit set will
+          not wait for P-TLPs that normaly would be sent
+          first.
+
+      - name: FAST_LM
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When '1' forces fast link mode.
+
+      - name: INV_ECRC
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When '1' causes the LSB of the ECRC to be inverted.
+
+      - name: INV_LCRC
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When '1' causes the LSB of the LCRC to be inverted.
+
+
+  - name: PEM(0..3)_BIST_STATUS
+    title: PEM Bist Status
+    address: 0x11800C0000018 + a*0x1000000
+    bus: RSL
+    description: Contains the diffrent interrupt summary bits of the PEM.
+    fields:
+      - name: --
+        bits: 63..25
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RETRYA
+        bits: 24
+        access: RO
+        reset: 0
+        typical: 0
+        description: Retry Buffer Memory A
+
+      - name: RETRYB
+        bits: 23
+        access: RO
+        reset: 0
+        typical: 0
+        description: Retry Buffer Memory B
+
+      - name: RETRYC
+        bits: 22
+        access: RO
+        reset: 0
+        typical: 0
+        description: Retry Buffer Memory C
+
+      - name: SOT
+        bits: 21
+        access: RO
+        reset: 0
+        typical: 0
+        description: Start of Transfer Memory
+
+      - name: RQHDRA0
+        bits: 20
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory A0
+
+      - name: RQHDRA1
+        bits: 19
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory A1
+
+      - name: RQHDRA2
+        bits: 18
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory A2
+
+      - name: RQHDRB0
+        bits: 17
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory B0
+
+      - name: RQHDRB1
+        bits: 16
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory B1
+
+      - name: RQHDRB2
+        bits: 15
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Header Memory B2
+
+      - name: RQDATAA0
+        bits: 14
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory A0
+
+      - name: RQDATAA1
+        bits: 13
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory A1
+
+      - name: RQDATAA2
+        bits: 12
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory A2
+
+      - name: RQDATAA3
+        bits: 11
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory A3
+
+      - name: RQDATAA4
+        bits: 10
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory A4
+
+      - name: RQDATAB0
+        bits: 9
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory B0
+
+      - name: RQDATAB1
+        bits: 8
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory B1
+
+      - name: RQDATAB2
+        bits: 7
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory B2
+
+      - name: RQDATAB3
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory B3
+
+      - name: RQDATAB4
+        bits: 5
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory B4
+
+      - name: RQDATAC0
+        bits: 4
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory C0
+
+      - name: RQDATAC1
+        bits: 3
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory C1
+
+      - name: RQDATAC2
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory C2
+
+      - name: RQDATAC3
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory C3
+
+      - name: RQDATAC4
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: Rx Queue Data Memory C4
+
+
+  - name: PEM(0..3)_DIAG_STATUS
+    title: PEM Diagnostic Status
+    address: 0x11800C0000020 + a*0x1000000
+    bus: RSL
+    description: Selection control for the cores diagnostic bus.
+    fields:
+      - name: --
+        bits: 63..4
+        access: RO/H
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PM_DST
+        bits: 3
+        access: RO
+        reset: 0
+        typical: 0
+        description: Current power management DSTATE.
+
+      - name: PM_STAT
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: Power Management Status.
+
+      - name: PM_EN
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: Power Management Event Enable.
+
+      - name: AUX_EN
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: Auxilary Power Enable.
+
+
+  - name: PEM(0..3)_CFG_WR
+    title: PEM Configuration Write
+    address: 0x11800C0000028 + a*0x1000000
+    bus: RSL
+    description: Allows write access to the configuration in the PCIe Core.
+    fields:
+      - name: DATA
+        bits: 63..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Data to write. A write to this register starts a write operation.
+
+      - name: ADDR
+        bits: 31..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Address to write. A write to this register starts a write operation.
+          Following are the sub-fields of the ADDR field.
+
+          31    - When set, asserts dbi_cs2 at PCIe core.
+          18    - When set, indicates a virtual function is active (dbi_vfunc_active on core).
+          17:12 - The number of the virtual function, when bit 18 is asserted (dbi_vfunc_num on
+          core).
+          11:0  - The offset of the PCIe core cfg register being accessed.
+
+
+  - name: PEM(0..3)_CFG_RD
+    title: PEM Configuration Read
+    address: 0x11800C0000030 + a*0x1000000
+    bus: RSL
+    description: Allows read access to the configuration in the PCIe Core.
+    fields:
+      - name: DATA
+        bits: 63..32
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Data.
+
+      - name: ADDR
+        bits: 31..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Address to read. A write to this register starts a read operation.
+          Following are the sub-fields of the ADDR field.
+
+          18    - When set, indicates a virtual function is active (dbi_vfunc_active on PCIe core).
+          17:12 - The number of the virtual function, when bit 18 is asserted (dbi_vfunc_num on
+          core).
+          11:0  - The offset of the PCIe core cfg register being accessed.
+
+
+  - name: PEM(0..3)_TLP_CREDITS
+    title: PEM TLP Credits
+    address: 0x11800C0000038 + a*0x1000000
+    bus: RSL
+    description: |
+      Specifies the number of credits the PEM for use in moving TLPs. When this register is written
+      the credit values are
+      reset to the register value. A write to this register should take place BEFORE traffic flow
+      starts.
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEM_CPL
+        bits: 47..40
+        access: R/W
+        reset: 0x40
+        typical: 0x40
+        description: |
+          TLP 16B credits for Completion TLPs in the Peer.
+          Legal values are 0x12 to 0x40.
+
+      - name: PEM_NP
+        bits: 39..32
+        access: R/W
+        reset: 0x8
+        typical: 0x8
+        description: |
+          TLP 16B credits for Non-Posted TLPs in the Peer.
+          Legal values are 0x4 to 0x8.
+
+      - name: PEM_P
+        bits: 31..24
+        access: R/W
+        reset: 0x40
+        typical: 0x40
+        description: |
+          TLP 16B credits for Posted TLPs in the Peer.
+          Legal values are 0x12 to 0x40.
+
+      - name: SLI_CPL
+        bits: 23..16
+        access: R/W
+        reset: 0x80
+        typical: 0x80
+        description: |
+          TLP 8B credits for Completion TLPs in the SLI.
+          Legal values are 0x24 to 0x80.
+
+      - name: SLI_NP
+        bits: 15..8
+        access: R/W
+        reset: 0x10
+        typical: 0x10
+        description: |
+          TLP 8B credits for Non-Posted TLPs in the SLI.
+          Legal values are 0x8 to 0x10.
+
+      - name: SLI_P
+        bits: 7..0
+        access: R/W
+        reset: 0x80
+        typical: 0x80
+        description: |
+          TLP 8B credits for Posted TLPs in the SLI.
+          Legal values are 0x24 to 0x80.
+
+
+  - name: PEM(0..3)_P2P_BAR(0..3)_START
+    address: 0x11800C0000040 + a*0x1000000 + b*0x10
+    bus: RSL
+    description: |
+      "PEM_P2P_BAR#_START = PEM Peer-To-Peer BAR0 Start
+      The starting address and enable for addresses to forwarded to the PCIe peer port."
+    fields:
+      - name: ADDR
+        bits: 63..12
+        access: R/W
+        reset: 0xfffffffffffff
+        typical: --
+        description: |
+          The starting address of the address window created
+          by this field and the PEM_P2P_BAR0_END[63:12]
+          field. The full 64-bits of address are created by:
+          {ADDR[63:12], 12'b0}.
+
+      - name: --
+        bits: 11..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DST
+        bits: 1..0
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          The destination peer of the address window created
+          by this field and the PEM_P2P_BAR0_END[63:12]
+          field. It is illegal to configure the destination peer
+          to match the source.
+
+
+  - name: PEM(0..3)_P2P_BAR(0..3)_END
+    address: 0x11800C0000048 + a*0x1000000 + b*0x10
+    bus: RSL
+    description: |
+      "PEM_P2P_BAR#_END = PEM Peer-To-Peer BAR0 End
+      The ending address for addresses to forwarded to the PCIe peer port."
+    fields:
+      - name: ADDR
+        bits: 63..12
+        access: R/W
+        reset: 0xfffffffffffff
+        typical: --
+        description: |
+          The ending address of the address window created
+          this field and the PEM_P2P_BAR0_START[63:12]
+          field. The full 64-bits of address are created by:
+          {ADDR[63:12], 12'b0}.
+
+      - name: --
+        bits: 11..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PEM(0..3)_P2N_BAR0_START
+    title: PEM PCIe to Npei BAR0 Start
+    address: 0x11800C0000080 + a*0x1000000
+    bus: RSL
+    description: The starting address for addresses to forwarded to the SLI in RC Mode.
+    fields:
+      - name: ADDR
+        bits: 63..14
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The starting address of the 16KB address space that
+          is the BAR0 address space.
+
+      - name: --
+        bits: 13..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PEM(0..3)_P2N_BAR1_START
+    title: PEM PCIe to Npei BAR1 Start
+    address: 0x11800C0000088 + a*0x1000000
+    bus: RSL
+    description: The starting address for addresses to forwarded to the SLI in RC Mode.
+    fields:
+      - name: ADDR
+        bits: 63..26
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The starting address of the 64MB address space
+          that is the BAR1 address space.
+
+      - name: --
+        bits: 25..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PEM(0..3)_P2N_BAR2_START
+    title: PEM PCIe to Npei BAR2 Start
+    address: 0x11800C0000090 + a*0x1000000
+    bus: RSL
+    description: The starting address for addresses to forwarded to the SLI in RC Mode.
+    fields:
+      - name: ADDR
+        bits: 63..45
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The starting address of the 2^45 address space
+          that is the BAR2 address space.
+
+      - name: --
+        bits: 44..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PEM(0..3)_CPL_LUT_VALID
+    title: PEM Cmpletion Lookup Table Valid
+    address: 0x11800C0000098 + a*0x1000000
+    bus: RSL
+    description: Bit set for outstanding tag read.
+    fields:
+      - name: TAG
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Bit vector set cooresponds to an outstanding tag
+
+
+  - name: PEM(0..3)_DBG_INFO_EN
+    address: 0x11800C00000A0 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_DBG_INFO_EN = PEM Debug Information Enable
+      Allows PEM_DBG_INFO to generate interrupts when cooresponding enable bit is set."
+    fields:
+      - name: --
+        bits: 63..52
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TPCDBE2
+        bits: 51
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[51] to generate an interrupt.
+
+      - name: TPCDBE1
+        bits: 50
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[50] to generate an interrupt.
+
+      - name: TPCDBE0
+        bits: 49
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[49] to generate an interrupt.
+
+      - name: TPCSBE2
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[48] to generate an interrupt.
+
+      - name: TPCSBE1
+        bits: 47
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[47] to generate an interrupt.
+
+      - name: TPCSBE0
+        bits: 46
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[46] to generate an interrupt.
+
+      - name: TNFDBE2
+        bits: 45
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[45] to generate an interrupt.
+
+      - name: TNFDBE1
+        bits: 44
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[44] to generate an interrupt.
+
+      - name: TNFDBE0
+        bits: 43
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[43] to generate an interrupt.
+
+      - name: TNFSBE2
+        bits: 42
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[42] to generate an interrupt.
+
+      - name: TNFSBE1
+        bits: 41
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[41] to generate an interrupt.
+
+      - name: TNFSBE0
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[40] to generate an interrupt.
+
+      - name: TPFDBE2
+        bits: 39
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[39] to generate an interrupt.
+
+      - name: TPFDBE1
+        bits: 38
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[38] to generate an interrupt.
+
+      - name: TPFDBE0
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[37] to generate an interrupt.
+
+      - name: TPFSBE2
+        bits: 36
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[36] to generate an interrupt.
+
+      - name: TPFSBE1
+        bits: 35
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[35] to generate an interrupt.
+
+      - name: TPFSBE0
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[34] to generate an interrupt.
+
+      - name: DATQ_PE
+        bits: 33
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[33] to generate an interrupt.
+
+      - name: HDRQ_PE
+        bits: 32
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[32] to generate an interrupt.
+
+      - name: RTRY_PE
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[31] to generate an interrupt.
+
+      - name: ECRC_E
+        bits: 30
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[30] to generate an interrupt.
+
+      - name: RAWWPP
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[29] to generate an interrupt.
+
+      - name: RACPP
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[28] to generate an interrupt.
+
+      - name: RAMTLP
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[27] to generate an interrupt.
+
+      - name: RARWDNS
+        bits: 26
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[26] to generate an interrupt.
+
+      - name: CAAR
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[25] to generate an interrupt.
+
+      - name: RACCA
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[24] to generate an interrupt.
+
+      - name: RACUR
+        bits: 23
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[23] to generate an interrupt.
+
+      - name: RAUC
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[22] to generate an interrupt.
+
+      - name: RQO
+        bits: 21
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[21] to generate an interrupt.
+
+      - name: FCUV
+        bits: 20
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[20] to generate an interrupt.
+
+      - name: RPE
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[19] to generate an interrupt.
+
+      - name: FCPVWT
+        bits: 18
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[18] to generate an interrupt.
+
+      - name: DPEOOSD
+        bits: 17
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[17] to generate an interrupt.
+
+      - name: RTWDLE
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[16] to generate an interrupt.
+
+      - name: RDWDLE
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[15] to generate an interrupt.
+
+      - name: MRE
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[14] to generate an interrupt.
+
+      - name: RTE
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[13] to generate an interrupt.
+
+      - name: ACTO
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[12] to generate an interrupt.
+
+      - name: RVDM
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[11] to generate an interrupt.
+
+      - name: RUMEP
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[10] to generate an interrupt.
+
+      - name: RPTAMRC
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[9] to generate an interrupt.
+
+      - name: RPMERC
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[8] to generate an interrupt.
+
+      - name: RFEMRC
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[7] to generate an interrupt.
+
+      - name: RNFEMRC
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[6] to generate an interrupt.
+
+      - name: RCEMRC
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: RPOISON
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[4] to generate an interrupt.
+
+      - name: RECRCE
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[3] to generate an interrupt.
+
+      - name: RTLPLLE
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[2] to generate an interrupt.
+
+      - name: RTLPMAL
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[1] to generate an interrupt.
+
+      - name: SPOISON
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[0] to generate an interrupt.
+
+
+  - name: PEM(0..3)_BAR_CTL
+    title: PEM BAR Control
+    address: 0x11800C00000A8 + a*0x1000000
+    bus: RSL
+    description: Contains control for BAR accesses.
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BAR1_SIZ
+        bits: 6..4
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          Pcie-Port0, Bar1 Size. 1 == 64MB, 2 == 128MB,
+          3 == 256MB, 4 == 512MB, 5 == 1024MB, 6 == 2048MB,
+          0 and 7 are reserved.
+
+      - name: BAR2_ENB
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          When set '1' BAR2 is enable and will respond when
+          clear '0' BAR2 access will cause UR responses.
+
+      - name: BAR2_ESX
+        bits: 2..1
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Value will be XORed with pci-address[45:44] to
+          determine the endian swap mode.
+
+      - name: BAR2_CAX
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Value will be XORed with pcie-address[46] to
+          determine the L2 cache attribute.
+          Not cached in L2 if XOR result is 1
+
+
+  - name: PEM(0..3)_BAR2_MASK
+    title: PEM BAR2 MASK
+    address: 0x11800C00000B0 + a*0x1000000
+    bus: RSL
+    description: The mask pattern that is ANDED with the address from PCIe core for BAR2 hits.
+    fields:
+      - name: --
+        bits: 63..42
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MASK
+        bits: 41..3
+        access: R/W
+        reset: 0x7fffffffff
+        typical: 0x7fffffffff
+        description: |
+          The value to be ANDED with the address sent to
+          the Octeon memory.
+
+      - name: --
+        bits: 2..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PEM(0..3)_INB_READ_CREDITS
+    address: 0x11800C00000B8 + a*0x1000000
+    bus: RSL
+    description: The number of in flight reads from PCIe core to SLI
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NUM
+        bits: 6..0
+        access: R/W
+        reset: 0x40
+        typical: 0x40
+        description: |
+          The number of reads that may be in flight from
+          the PCIe core to the SLI. Min number is 2 max
+          number is 64.
+
+
+  - name: PEM(0..3)_ECC_ENA
+    address: 0x11800C00000C0 + a*0x1000000
+    bus: RSL
+    description: Contains enables for ECC RAMs
+    fields:
+      - name: --
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_C_ENA
+        bits: 8
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL ctl Fifo
+
+      - name: C_D1_ENA
+        bits: 7
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL data1 Fifo
+
+      - name: C_D0_ENA
+        bits: 6
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL data0 Fifo
+
+      - name: N_C_ENA
+        bits: 5
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP ctl Fifo
+
+      - name: N_D1_ENA
+        bits: 4
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP data1 Fifo
+
+      - name: N_D0_ENA
+        bits: 3
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP data0 Fifo
+
+      - name: P_C_ENA
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted ctl Fifo
+
+      - name: P_D1_ENA
+        bits: 1
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted data1 Fifo
+
+      - name: P_D0_ENA
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted data0 ifo
+
+
+  - name: PEM(0..3)_ECC_SYND_CTRL
+    address: 0x11800C00000C8 + a*0x1000000
+    bus: RSL
+    description: |
+      PEM_ECC_SYND_CTL
+      Contains Syndrome Control for ECC RAMs
+    fields:
+      - name: --
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_C_SYN
+        bits: 17..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL ctl Fifo
+
+      - name: C_D1_SYN
+        bits: 15..14
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL data1 Fifo
+
+      - name: C_D0_SYN
+        bits: 13..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL data0 Fifo
+
+      - name: N_C_SYN
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP ctl Fifo
+
+      - name: N_D1_SYN
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP data1 Fifo
+
+      - name: N_D0_SYN
+        bits: 7..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP data0 Fifo
+
+      - name: P_C_SYN
+        bits: 5..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted ctl Fifo
+
+      - name: P_D1_SYN
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted data1 Fifo
+
+      - name: P_D0_SYN
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted data0 Fifo
+
+
+  - name: PEM(0..3)_DBG_INFO
+    address: 0x11800C00000D0 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_DBG_INFO = PEM Debug Information
+      General debug info."
+    fields:
+      - name: --
+        bits: 63..52
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_C_DBE
+        bits: 51
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo ctrl double bit error
+
+      - name: C_C_SBE
+        bits: 50
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo ctrl single bit error
+
+      - name: C_D1_DBE
+        bits: 49
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo data1 double bit error
+
+      - name: C_D1_SBE
+        bits: 48
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo data1 single bit error
+
+      - name: C_D0_DBE
+        bits: 47
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo data0 double bit error
+
+      - name: C_D0_SBE
+        bits: 46
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP CPL Fifo data0 single bit error
+
+      - name: N_C_DBE
+        bits: 45
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP Fifo ctrl double bit error
+
+      - name: N_C_SBE
+        bits: 44
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP Fifo ctrl single bit error
+
+      - name: N_D1_DBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP Fifo data1 double bit error
+
+      - name: N_D1_SBE
+        bits: 42
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP Fifo data1 single bit error
+
+      - name: N_D0_DBE
+        bits: 41
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP Fifo data0 double bit error
+
+      - name: N_D0_SBE
+        bits: 40
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP NP fifo data0 single bit error
+
+      - name: P_C_DBE
+        bits: 39
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo ctrl double bit error
+
+      - name: P_C_SBE
+        bits: 38
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo ctrl single bit error
+
+      - name: P_D1_DBE
+        bits: 37
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo data1 double bit error
+
+      - name: P_D1_SBE
+        bits: 36
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo data1 single bit error
+
+      - name: P_D0_DBE
+        bits: 35
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo data0 double bit error
+
+      - name: P_D0_SBE
+        bits: 34
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a TLP Posted Fifo data0 single bit error
+
+      - name: DATQ_PE
+        bits: 33
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Data Queue RAM parity error
+
+      - name: HDRQ_PE
+        bits: 32
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Header Queue RAM parity error
+
+      - name: RTRY_PE
+        bits: 31
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Retry RAM parity error
+
+      - name: ECRC_E
+        bits: 30
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a ECRC error.
+          radm_ecrc_err
+
+      - name: RAWWPP
+        bits: 29
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a write with poisoned payload
+          radm_rcvd_wreq_poisoned
+
+      - name: RACPP
+        bits: 28
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a completion with poisoned payload
+          radm_rcvd_cpl_poisoned
+
+      - name: RAMTLP
+        bits: 27
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a malformed TLP
+          radm_mlf_tlp_err
+
+      - name: RARWDNS
+        bits: 26
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Recieved a request which device does not support
+          radm_rcvd_ur_req
+
+      - name: CAAR
+        bits: 25
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Completer aborted a request
+          radm_rcvd_ca_req
+          This bit will never be set because Octeon does
+          not generate Completer Aborts.
+
+      - name: RACCA
+        bits: 24
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a completion with CA status
+          radm_rcvd_cpl_ca
+
+      - name: RACUR
+        bits: 23
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received a completion with UR status
+          radm_rcvd_cpl_ur
+
+      - name: RAUC
+        bits: 22
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received an unexpected completion
+          radm_unexp_cpl_err
+
+      - name: RQO
+        bits: 21
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Receive queue overflow. Normally happens only when
+          flow control advertisements are ignored
+          radm_qoverflow
+
+      - name: FCUV
+        bits: 20
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Flow Control Update Violation (opt. checks)
+          int_xadm_fc_prot_err
+
+      - name: RPE
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          When the PHY reports 8B/10B decode error
+          (RxStatus = 3b100) or disparity error
+          (RxStatus = 3b111), the signal rmlh_rcvd_err will
+          be asserted.
+          rmlh_rcvd_err
+
+      - name: FCPVWT
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Flow Control Protocol Violation (Watchdog Timer)
+          rtlh_fc_prot_err
+
+      - name: DPEOOSD
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          DLLP protocol error (out of sequence DLLP)
+          rdlh_prot_err
+
+      - name: RTWDLE
+        bits: 16
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received TLP with DataLink Layer Error
+          rdlh_bad_tlp_err
+
+      - name: RDWDLE
+        bits: 15
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received DLLP with DataLink Layer Error
+          rdlh_bad_dllp_err
+
+      - name: MRE
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Max Retries Exceeded
+          xdlh_replay_num_rlover_err
+
+      - name: RTE
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Replay Timer Expired
+          xdlh_replay_timeout_err
+          This bit is set when the REPLAY_TIMER expires in
+          the PCIE core. The probability of this bit being
+          set will increase with the traffic load.
+
+      - name: ACTO
+        bits: 12
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          A Completion Timeout Occured
+          pedc_radm_cpl_timeout
+
+      - name: RVDM
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Vendor-Defined Message
+          pedc_radm_vendor_msg
+
+      - name: RUMEP
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Unlock Message (EP Mode Only)
+          pedc_radm_msg_unlock
+
+      - name: RPTAMRC
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received PME Turnoff Acknowledge Message
+          (RC Mode only)
+          pedc_radm_pm_to_ack
+
+      - name: RPMERC
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received PME Message (RC Mode only)
+          pedc_radm_pm_pme
+
+      - name: RFEMRC
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Fatal Error Message (RC Mode only)
+          pedc_radm_fatal_err
+          Bit set when a message with ERR_FATAL is set.
+
+      - name: RNFEMRC
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Non-Fatal Error Message (RC Mode only)
+          pedc_radm_nonfatal_err
+
+      - name: RCEMRC
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Correctable Error Message (RC Mode only)
+          pedc_radm_correctable_err
+
+      - name: RPOISON
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received Poisoned TLP
+          pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv
+
+      - name: RECRCE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received ECRC Error
+          pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot
+
+      - name: RTLPLLE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received TLP has link layer error
+          pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot
+
+      - name: RTLPMAL
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received TLP is malformed or a message.
+          pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot
+          If the core receives a MSG (or Vendor Message)
+          or if a received AtomicOp viloates address/length rules,
+          this bit is set as well.
+
+      - name: SPOISON
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Poisoned TLP sent
+          peai__client0_tlp_ep & peai__client0_tlp_hv
+          peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op).
+          Throws PEM_INTSN_E::PEM(0..3)_ERROR_SPOISON.
+
+
+  - name: PEM(0..3)_BAR1_INDEX(0..15)
+    address: 0x11800C0000100 + a*0x1000000 + b*0x8
+    bus: RSL
+    description: |
+      Contains address index and control bits for access to memory ranges of BAR-1. Index is build
+      from supplied address [25:22].
+    fields:
+      - name: --
+        bits: 63..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADDR_IDX
+        bits: 23..4
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Address bits [41:22] sent to L2C
+
+      - name: CA
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Set '1' when access is not to be cached in L2.
+
+      - name: END_SWP
+        bits: 2..1
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Endian Swap Mode
+
+      - name: ADDR_V
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Set '1' when the selected address range is valid.
+
+
+  - name: PEM(0..3)_SPI_CTL
+    address: 0x11800C0000180 + a*0x1000000
+    bus: RSL
+    description: "PEM#_SPI_CTL register."
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: START_BUSY
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Start/Busy status. Starts SPI xctn when written, reads 1 when EEPROM busy, 0 when complete.
+
+      - name: TVALID
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Reads 1 if at least one valid entry was read from EEPROM and written to a CSR. Write to
+          clear status.
+
+      - name: CMD
+        bits: 11..9
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SPI commands; WREN(110), WRDI(100), READ(011), WRITE(010), RDSR(101), WRSR(001)
+
+      - name: ADR
+        bits: 8..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: EEPROM read/write address.
+
+
+  - name: PEM(0..3)_SPI_DATA
+    address: 0x11800C0000188 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_SPI read/write data register. Contains most recently read or written data and is
+      unpredictable upon power-up"
+    fields:
+      - name: PREAMBLE
+        bits: 63..48
+        access: R/W/H
+        reset: X
+        typical: X
+        description: EEPROM PREAMBLE read or write data.
+
+      - name: --
+        bits: 47..45
+        access: ---
+        reset: --
+        typical: --
+        description: EEPROM unused data field.
+
+      - name: CS2
+        bits: 44
+        access: R/W/H
+        reset: X
+        typical: X
+        description: EEPROM CS2 read or write data bit.
+
+      - name: ADR
+        bits: 43..32
+        access: R/W/H
+        reset: X
+        typical: X
+        description: EEPROM CFG ADR read or write data.
+
+      - name: DATA
+        bits: 31..0
+        access: R/W/H
+        reset: X
+        typical: X
+        description: EEPROM DATA read or write data.
+
+
+  - name: PEM(0..3)_CLK_EN
+    title: PEM Clock Enable
+    address: 0x11800C0000400 + a*0x1000000
+    bus: RSL
+    description: Clock Enable for ECLK and PCE_CLK
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCECLK_GATE
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When set, pce_clk is gated off.
+          When clear, pce_clk is enabled.
+
+      - name: CSCLK_GATE
+        bits: 0
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When set, eclk is gated off.
+          When clear, eclk is enabled.
+
+
+  - name: PEM(0..3)_STRAP
+    title: PEM Pin Strapping
+    address: 0x11800C0000408 + a*0x1000000
+    bus: RSL
+    description: |
+      "Below are in pesc_csr
+       The input strapping pins"
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PILANESWAP
+        bits: 3
+        access: RO/H
+        reset: --
+        typical: --
+        description: The value of the pi_select_laneswap pin
+
+      - name: PILANES8
+        bits: 2
+        access: RO/H
+        reset: --
+        typical: --
+        description: The value of the pi_select_8lanes pin
+
+      - name: PIMODE
+        bits: 1..0
+        access: RO/H
+        reset: X
+        typical: --
+        description: |
+          The value of the pi_select_mode[1:0] pins
+
+
+  - name: PEM(0..3)_CFG
+    title: PEM Application CFG
+    address: 0x11800C0000410 + a*0x1000000
+    bus: RSL
+    description: Configuration of the PCIe Application
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LANESWAP
+        bits: 3
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          When set, lane swapping is performed to/from the SerDes.
+          When clear, no lane swapping is performed.
+
+      - name: LANES8
+        bits: 2
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          When set, the PEM is configured for 8-lanes,
+          When clear, the PEM is configured for 4-lanes
+
+      - name: MD
+        bits: 1..0
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          When both bits are set, the PEM is configured to be a Root Complex.
+          When both bits are not set, the PEM is configured to be a End Point:
+            00 - EP Mode, Gen1 Speed
+            01 - EP Mode, Gen2 Speed
+            10 - EP Mode, Gen3 Speed
+            11 - RC Mode
+
+
+  - name: PEM(0..3)_QLM
+    title: PEM3 QLM CFG
+    address: 0x11800C0000418 + a*0x1000000
+    bus: RSL
+    description: Configuration of the PEM3 QLM
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEM3QLM
+        bits: 0
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          " When set, PEM3 is configured to send/receive traffic to QLM4.
+           When clear, PEM3 is configured to send/receive traffic to QLM3.
+           Note that this bit can only be set for PEM3, for all other
+           PEMs it has no function.
+           Note that this bit must only be set when the associated PHYs
+           are in reset and PEM3 is receiving no clocks."
+
+
+  - name: PEM(0..3)_ON
+    title: PEM ON Status
+    address: 0x11800C0000420 + a*0x1000000
+    bus: RSL
+    description: PEM is configured and ready
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEMOOR
+        bits: 1
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          Indication to software that the PEM has been taken out of
+          reset (ie bist is done) and it is safe to configure core CSRs.
+
+      - name: PEMON
+        bits: 0
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          Indication to the QLM that the PEM is out of reset, configured
+          and ready to send/receive traffic.  Setting this bit will take
+          the configured PIPE out of reset.
+
+
+  - name: PEM(0..3)_INT_SUM
+    address: 0x11800C0000428 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_INT_SUM = PEM Interrupt Summary
+      Interrupt conditions for the PEM."
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CRS_DR
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Had a CRS Timeout when Retries were disabled.
+
+      - name: CRS_ER
+        bits: 12
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Had a CRS Timeout when Retries were enabled.
+
+      - name: RDLK
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Received Read Lock TLP.
+
+      - name: EXC
+        bits: 10
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Set when the PEM_DBG_INFO register has a bit
+          set and its cooresponding PEM_DBG_INFO_EN bit
+          is set.
+
+      - name: UN_BX
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Received N-TLP for an unknown Bar.
+
+      - name: UN_B2
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Received N-TLP for Bar2 when bar2 is disabled.
+
+      - name: UN_B1
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received N-TLP for Bar1 when bar1 index valid
+          is not set.
+
+      - name: UP_BX
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Received P-TLP for an unknown Bar.
+
+      - name: UP_B2
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Received P-TLP for Bar2 when bar2 is disabeld.
+
+      - name: UP_B1
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Received P-TLP for Bar1 when bar1 index valid
+          is not set.
+
+      - name: PMEM
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Recived PME MSG.
+          (radm_pm_pme)
+
+      - name: PMEI
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          PME Interrupt.
+          (cfg_pme_int)
+
+      - name: SE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          System Error, RC DEode Only.
+          (cfg_sys_err_rc)
+
+      - name: AERI
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Advanced Error Reporting Interrupt, RC Mode Only.
+          (cfg_aer_rc_err_int).
+
+
+  - name: PEM(0..3)_INT_ENB
+    address: 0x11800C0000430 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_INT_ENB = PEM Interrupt Enable
+      Enables interrupt conditions for the PEM to generate an RSL interrupt."
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CRS_DR
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[13] to generate an
+          interrupt to the MIO.
+
+      - name: CRS_ER
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[12] to generate an
+          interrupt to the MIO.
+
+      - name: RDLK
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[11] to generate an
+          interrupt to the MIO.
+
+      - name: EXC
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[10] to generate an
+          interrupt to the MIO.
+
+      - name: UN_BX
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[9] to generate an
+          interrupt to the MIO.
+
+      - name: UN_B2
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[8] to generate an
+          interrupt to the MIO.
+
+      - name: UN_B1
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[7] to generate an
+          interrupt to the MIO.
+
+      - name: UP_BX
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[6] to generate an
+          interrupt to the MIO.
+
+      - name: UP_B2
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[5] to generate an
+          interrupt to the MIO.
+
+      - name: UP_B1
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[4] to generate an
+          interrupt to the MIO.
+
+      - name: PMEM
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[3] to generate an
+          interrupt to the MIO.
+
+      - name: PMEI
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[2] to generate an
+          interrupt to the MIO.
+
+      - name: SE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[1] to generate an
+          interrupt to the MIO.
+
+      - name: AERI
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Enables PEM_INT_SUM[0] to generate an
+          interrupt to the MIO.
+
+
+  - name: PEM(0..3)_INT_ENB_INT
+    address: 0x11800C0000438 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_INT_ENB_INT = PEM Interrupt Enable
+      Enables interrupt conditions for the PEM to generate an RSL interrupt."
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CRS_DR
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[13] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: CRS_ER
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[12] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: RDLK
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[11] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: EXC
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[10] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UN_BX
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[9] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UN_B2
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[8] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UN_B1
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[7] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UP_BX
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[6] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UP_B2
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[5] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: UP_B1
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[4] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: PMEM
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[3] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: PMEI
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[2] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: SE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[1] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+      - name: AERI
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          "Enables PEM_INT_SUM[0] to generate an
+          interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
+
+
+  - name: PEM(0..3)_BIST_STATUS2
+    address: 0x11800C0000440 + a*0x1000000
+    bus: RSL
+    description: |
+      "PEM#_BIST_STATUS2 = PEM BIST Status Register
+      Results from BIST runs of PEM's memories."
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEAI_P2E
+        bits: 19
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the peai__pesc_fifo
+
+      - name: TLPN_D0
+        bits: 18
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_data0
+
+      - name: TLPN_D1
+        bits: 17
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_data1
+
+      - name: TLPN_CTL
+        bits: 16
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_ctl
+
+      - name: TLPP_D0
+        bits: 15
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_data0
+
+      - name: TLPP_D1
+        bits: 14
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_data1
+
+      - name: TLPP_CTL
+        bits: 13
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_ctl
+
+      - name: TLPC_D0
+        bits: 12
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_data0
+
+      - name: TLPC_D1
+        bits: 11
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_data1
+
+      - name: TLPC_CTL
+        bits: 10
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_ctl
+
+      - name: TLPAN_D0
+        bits: 9
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_afifo_data0
+
+      - name: TLPAN_D1
+        bits: 8
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_afifo_data1
+
+      - name: TLPAN_CTL
+        bits: 7
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_afifo_ctl
+
+      - name: TLPAP_D0
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_afifo_data0
+
+      - name: TLPAP_D1
+        bits: 5
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_afifo_data1
+
+      - name: TLPAP_CTL
+        bits: 4
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_afifo_ctl
+
+      - name: TLPAC_D0
+        bits: 3
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_afifo_data0
+
+      - name: TLPAC_D1
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_afifo_data1
+
+      - name: TLPAC_CTL
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_afifo_ctl
+
+      - name: M2S
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the m2s_fifo
+
+
+

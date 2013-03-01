@@ -1,0 +1,1188 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: INTSN
+enums:
+  - name: INTSN_ALL_E
+    attributes:
+      width: "20"
+    description: Master list of CIU interrupt sources
+    values:
+      - name: CIU_ECC_ISC_SBE
+        value: 0x01100
+        attributes:
+          bit_name: "ISC_SBE"
+          bit_num: "0"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[ISC_SBE].
+
+      - name: CIU_ECC_ISC_DBE
+        value: 0x01101
+        attributes:
+          bit_name: "ISC_DBE"
+          bit_num: "1"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[ISC_DBE].
+
+      - name: CIU_ECC_IDT_SBE
+        value: 0x01102
+        attributes:
+          bit_name: "IDT_SBE"
+          bit_num: "2"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[IDT_SBE].
+
+      - name: CIU_ECC_IDT_DBE
+        value: 0x01103
+        attributes:
+          bit_name: "IDT_DBE"
+          bit_num: "3"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[IDT_DBE].
+
+      - name: CIU_ECC_SISC_SBE
+        value: 0x01104
+        attributes:
+          bit_name: "SISC_SBE"
+          bit_num: "4"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[SISC_SBE].
+
+      - name: CIU_ECC_SISC_DBE
+        value: 0x01105
+        attributes:
+          bit_name: "SISC_DBE"
+          bit_num: "5"
+          blk_enum_name: "CIU_INTSN_E"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "(0x1010000000280)"
+          reg_name: "CIU3_INTR_RAM_ECC_ST"
+        description: See CIU3_INTR_RAM_ECC_ST[SISC_DBE].
+
+      - name: CIU_WDOG(0..47)
+        value: 0x01200 + a
+        attributes:
+          bit_name: ""
+          bit_num: "-1"
+          blk_enum_name: "CIU_INTSN_E"
+          cib_rtl_module: "none"
+          intsn_complex: "1"
+          major_name: "CIU"
+          major_val: "(0x1)"
+          reg_addr: "0"
+          reg_name: ""
+        description: |
+          Watchdog interrupts, see CIU3_WDOG(0..47) and Per-Core Watchdog Timers. INTERNAL:
+
+      - name: CIU_TIMER(0..9)_PP(0..47)
+        value: 0x02000 + a*0x80 + b
+        attributes:
+          bit_name: ""
+          bit_num: "-1"
+          blk_enum_name: "CIU_INTSN_E"
+          cib_rtl_module: "none"
+          intsn_complex: "1"
+          major_name: "CIU_TIMER"
+          major_val: "(0x2)"
+          reg_addr: "0"
+          reg_name: ""
+        description: |
+          General timer interrupts from the corresponding CIU timer expires, see CIU3_TIM(0..9) and
+          General Timers. INTERNAL:
+
+      - name: SW_MBOX(0..512)
+        value: 0x04000 + a
+        attributes:
+          bit_name: ""
+          bit_num: "-1"
+          blk_enum_name: "CIU_INTSN_E"
+          cib_rtl_module: "none"
+          intsn_complex: "1"
+          major_name: "SW"
+          major_val: "(0x4)"
+          reg_addr: "0"
+          reg_name: ""
+        description: |
+          Software mailbox interrupts. See Software Interrupts. INTERNAL:
+
+      - name: RST_INT_LINK(0..3)
+        value: 0x06000 + a
+        attributes:
+          bit_name: "RST_LINK<a>"
+          bit_num: "0+a"
+          blk_enum_name: "RST_INTSN_E"
+          major_name: "RST"
+          major_val: "(0x6)"
+          reg_addr: "(0x1180006001628)"
+          reg_name: "RST_INT"
+        description: See RST_INT[RST_LINK<a>].
+
+      - name: RST_INT_PERST(0..3)
+        value: 0x06008 + a
+        attributes:
+          bit_name: "PERST<a>"
+          bit_num: "8+a"
+          blk_enum_name: "RST_INTSN_E"
+          major_name: "RST"
+          major_val: "(0x6)"
+          reg_addr: "(0x1180006001628)"
+          reg_name: "RST_INT"
+        description: See RST_INT[PERST<a>].
+
+      - name: LBK_INT_DAT_SBE
+        value: 0x12000
+        attributes:
+          bit_name: "DAT_SBE"
+          bit_num: "0"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[DAT_SBE].
+
+      - name: LBK_INT_DAT_DBE
+        value: 0x12001
+        attributes:
+          bit_name: "DAT_DBE"
+          bit_num: "1"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[DAT_DBE].
+
+      - name: LBK_INT_DAT_UFLOW
+        value: 0x12002
+        attributes:
+          bit_name: "DAT_UFLOW"
+          bit_num: "2"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[DAT_UFLOW].
+
+      - name: LBK_INT_DAT_OFLOW
+        value: 0x12003
+        attributes:
+          bit_name: "DAT_OFLOW"
+          bit_num: "3"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[DAT_OFLOW].
+
+      - name: LBK_INT_CHAN_UFLOW
+        value: 0x12004
+        attributes:
+          bit_name: "CHAN_UFLOW"
+          bit_num: "4"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[CHAN_UFLOW].
+
+      - name: LBK_INT_CHAN_OFLOW
+        value: 0x12005
+        attributes:
+          bit_name: "CHAN_OFLOW"
+          bit_num: "5"
+          blk_enum_name: "LBK_INTSN_E"
+          major_name: "LBK"
+          major_val: "(0x12)"
+          reg_addr: "(0x1180012000040)"
+          reg_name: "LBK_INT"
+        description: See LBK_INT[CHAN_OFLOW].
+
+      - name: KEY_ECC_KEY_SBE
+        value: 20'h20000
+        attributes:
+          bit_name: "KEY_SBE"
+          bit_num: "0"
+          blk_enum_name: "KEY_INTSN_E"
+          major_name: "KEY"
+          major_val: "(0x20)"
+          reg_addr: "(0x1180020000000)"
+          reg_name: "KEY_INT_SUM"
+        description: See KEY_INT_SUM[KEY_SBE].
+
+      - name: KEY_ECC_KEY_DBE
+        value: 20'h20001
+        attributes:
+          bit_name: "KEY_DBE"
+          bit_num: "1"
+          blk_enum_name: "KEY_INTSN_E"
+          major_name: "KEY"
+          major_val: "(0x20)"
+          reg_addr: "(0x1180020000000)"
+          reg_name: "KEY_INT_SUM"
+        description: See KEY_INT_SUM[KEY_DBE].
+
+      - name: UCTL(0)_INTSTAT_XS_NCB_OOB
+        value: 0x68001 + a*0x1000
+        attributes:
+          bit_name: "XS_NCB_OOB"
+          bit_num: "1"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XS_NCB_OOB].
+
+      - name: UCTL(0)_INTSTAT_XM_BAD_DMA
+        value: 0x68002 + a*0x1000
+        attributes:
+          bit_name: "XM_BAD_DMA"
+          bit_num: "2"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XM_BAD_DMA].
+
+      - name: UCTL(0)_INTSTAT_RAM0_SBE
+        value: 0x68010 + a*0x1000
+        attributes:
+          bit_name: "RAM0_SBE"
+          bit_num: "16"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM0_SBE].
+
+      - name: UCTL(0)_INTSTAT_RAM0_DBE
+        value: 0x68011 + a*0x1000
+        attributes:
+          bit_name: "RAM0_DBE"
+          bit_num: "17"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM0_DBE].
+
+      - name: UCTL(0)_INTSTAT_RAM1_SBE
+        value: 0x68012 + a*0x1000
+        attributes:
+          bit_name: "RAM1_SBE"
+          bit_num: "18"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM1_SBE].
+
+      - name: UCTL(0)_INTSTAT_RAM1_DBE
+        value: 0x68013 + a*0x1000
+        attributes:
+          bit_name: "RAM1_DBE"
+          bit_num: "19"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM1_DBE].
+
+      - name: UCTL(0)_INTSTAT_RAM2_SBE
+        value: 0x68014 + a*0x1000
+        attributes:
+          bit_name: "RAM2_SBE"
+          bit_num: "20"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM2_SBE].
+
+      - name: UCTL(0)_INTSTAT_RAM2_DBE
+        value: 0x68015 + a*0x1000
+        attributes:
+          bit_name: "RAM2_DBE"
+          bit_num: "21"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[RAM2_DBE].
+
+      - name: UCTL(0)_INTSTAT_XM_W_SBE
+        value: 0x6801A + a*0x1000
+        attributes:
+          bit_name: "XM_W_SBE"
+          bit_num: "26"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XM_W_SBE].
+
+      - name: UCTL(0)_INTSTAT_XM_W_DBE
+        value: 0x6801B + a*0x1000
+        attributes:
+          bit_name: "XM_W_DBE"
+          bit_num: "27"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XM_W_DBE].
+
+      - name: UCTL(0)_INTSTAT_XM_R_SBE
+        value: 0x6801C + a*0x1000
+        attributes:
+          bit_name: "XM_R_SBE"
+          bit_num: "28"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XM_R_SBE].
+
+      - name: UCTL(0)_INTSTAT_XM_R_DBE
+        value: 0x6801D + a*0x1000
+        attributes:
+          bit_name: "XM_R_DBE"
+          bit_num: "29"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1180068000030+a*0x1000000)"
+          reg_name: "UCTL(0)_INTSTAT"
+        description: See UCTL(0)_INTSTAT[XM_R_DBE].
+
+      - name: UCTL(0)_UAHC_USBSTS_HSE
+        value: 0x68042 + a*0x1000
+        attributes:
+          bit_name: "HSE"
+          bit_num: "2"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          intsn_level_sensitive: "1"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1680000000024+a*0x10000000000)"
+          reg_name: "UAHC(0)_USBSTS"
+        description: See UAHC(0)_USBSTS[HSE].
+
+      - name: UCTL(0)_UAHC_IMAN(0..0)_IP
+        value: 0x68080 + a*0x1000 + b
+        attributes:
+          bit_name: "IP"
+          bit_num: "0"
+          blk_enum_name: "UCTL_INTSN_E"
+          cib_rtl_module: "usbh"
+          intsn_level_sensitive: "1"
+          major_name: "UCTL(0)"
+          major_val: "(0x68+a)"
+          reg_addr: "(0x1680000000460+a*0x10000000000+b*0x20)"
+          reg_name: "UAHC(0)_IMAN(0..0)"
+        description: See UAHC(0)_IMAN(0..0)[IP].
+
+      - name: L2C_TAD(0..7)_INT_L2DSBE
+        value: 0x80000 | (a << 8)
+        attributes:
+          bit_name: "L2DSBE"
+          bit_num: "0"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[L2DSBE].
+
+      - name: L2C_TAD(0..7)_INT_L2DDBE
+        value: 0x80001 | (a << 8)
+        attributes:
+          bit_name: "L2DDBE"
+          bit_num: "1"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[L2DDBE].
+
+      - name: L2C_TAD(0..7)_INT_SBFSBE
+        value: 0x80002 | (a << 8)
+        attributes:
+          bit_name: "SBFSBE"
+          bit_num: "2"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[SBFSBE].
+
+      - name: L2C_TAD(0..7)_INT_SBFDBE
+        value: 0x80003 | (a << 8)
+        attributes:
+          bit_name: "SBFDBE"
+          bit_num: "3"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[SBFDBE].
+
+      - name: L2C_TAD(0..7)_INT_FBFSBE
+        value: 0x80004 | (a << 8)
+        attributes:
+          bit_name: "FBFSBE"
+          bit_num: "4"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[FBFSBE].
+
+      - name: L2C_TAD(0..7)_INT_FBFDBE
+        value: 0x80005 | (a << 8)
+        attributes:
+          bit_name: "FBFDBE"
+          bit_num: "5"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[FBFDBE].
+
+      - name: L2C_TAD(0..7)_INT_TAGSBE
+        value: 0x80006 | (a << 8)
+        attributes:
+          bit_name: "TAGSBE"
+          bit_num: "8"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[TAGSBE].
+
+      - name: L2C_TAD(0..7)_INT_TAGDBE
+        value: 0x80007 | (a << 8)
+        attributes:
+          bit_name: "TAGDBE"
+          bit_num: "9"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[TAGDBE].
+
+      - name: L2C_TAD(0..7)_INT_NOWAY
+        value: 0x80008 | (a << 8)
+        attributes:
+          bit_name: "NOWAY"
+          bit_num: "10"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[NOWAY].
+
+      - name: L2C_TAD(0..7)_INT_HOLEWR
+        value: 0x80009 | (a << 8)
+        attributes:
+          bit_name: "HOLEWR"
+          bit_num: "11"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[HOLEWR].
+
+      - name: L2C_TAD(0..7)_INT_HOLERD
+        value: 0x8000A | (a << 8)
+        attributes:
+          bit_name: "HOLERD"
+          bit_num: "12"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[HOLERD].
+
+      - name: L2C_TAD(0..7)_INT_BIGWR
+        value: 0x8000B | (a << 8)
+        attributes:
+          bit_name: "BIGWR"
+          bit_num: "13"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[BIGWR].
+
+      - name: L2C_TAD(0..7)_INT_BIGRD
+        value: 0x8000C | (a << 8)
+        attributes:
+          bit_name: "BIGRD"
+          bit_num: "14"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[BIGRD].
+
+      - name: L2C_TAD(0..7)_INT_WRDISLMC
+        value: 0x8000D | (a << 8)
+        attributes:
+          bit_name: "WRDISLMC"
+          bit_num: "16"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[WRDISLMC].
+
+      - name: L2C_TAD(0..7)_INT_RDDISLMC
+        value: 0x8000E | (a << 8)
+        attributes:
+          bit_name: "RDDISLMC"
+          bit_num: "15"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[RDDISLMC].
+
+      - name: L2C_TAD(0..7)_INT_RTGSBE
+        value: 0x8000F | (a << 8)
+        attributes:
+          bit_name: "RTGSBE"
+          bit_num: "32"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[RTGSBE].
+
+      - name: L2C_TAD(0..7)_INT_RTGDBE
+        value: 0x80010 | (a << 8)
+        attributes:
+          bit_name: "RTGDBE"
+          bit_num: "33"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[RTGDBE].
+
+      - name: L2C_MCI(0..3)_INT_VBFSBE
+        value: 0x80800 | (a << 8)
+        attributes:
+          bit_name: "VBFSBE"
+          bit_num: "0"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080C00028+a*0x40000)"
+          reg_name: "L2C_MCI(0..3)_INT"
+        description: See L2C_MCI(0..3)_INT[VBFSBE].
+
+      - name: L2C_MCI(0..3)_INT_VBFDBE
+        value: 0x80801 | (a << 8)
+        attributes:
+          bit_name: "VBFDBE"
+          bit_num: "1"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080C00028+a*0x40000)"
+          reg_name: "L2C_MCI(0..3)_INT"
+        description: See L2C_MCI(0..3)_INT[VBFDBE].
+
+      - name: L2C_CBC(0..3)_INT_RSDSBE
+        value: 0x80C00 | (a << 8)
+        attributes:
+          bit_name: "RSDSBE"
+          bit_num: "0"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[RSDSBE].
+
+      - name: L2C_CBC(0..3)_INT_RSDDBE
+        value: 0x80C01 | (a << 8)
+        attributes:
+          bit_name: "RSDDBE"
+          bit_num: "1"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[RSDDBE].
+
+      - name: L2C_CBC(0..3)_INT_IOCCMDSBE
+        value: 0x80C02 | (a << 8)
+        attributes:
+          bit_name: "IOCCMDSBE"
+          bit_num: "2"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
+
+      - name: L2C_CBC(0..3)_INT_IOCCMDDBE
+        value: 0x80C03 | (a << 8)
+        attributes:
+          bit_name: "IOCCMDDBE"
+          bit_num: "3"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
+
+      - name: LMC(0..3)_INT_NXM_WR_ERR
+        value: 0x88000 + a*0x1000
+        attributes:
+          bit_name: "NXM_WR_ERR"
+          bit_num: "0"
+          blk_enum_name: "LMC_INTSN_E"
+          major_name: "LMC(0..3)"
+          major_val: "(0x88+a)"
+          reg_addr: "(0x11800880001F0|a<<24)"
+          reg_name: "LMC(0..3)_INT"
+        description: See LMC(0..3)_INT[NXM_WR_ERR].
+
+      - name: LMC(0..3)_INT_SEC_ERR(0..3)
+        value: 0x88001 + a*0x1000 + b
+        attributes:
+          bit_name: "SEC_ERR<b>"
+          bit_num: "1+b"
+          blk_enum_name: "LMC_INTSN_E"
+          major_name: "LMC(0..3)"
+          major_val: "(0x88+a)"
+          reg_addr: "(0x11800880001F0|a<<24)"
+          reg_name: "LMC(0..3)_INT"
+        description: See LMC(0..3)_INT[SEC_ERR<b>].
+
+      - name: LMC(0..3)_INT_DED_ERR(0..3)
+        value: 0x88005 + a*0x1000 + b
+        attributes:
+          bit_name: "DED_ERR<b>"
+          bit_num: "5+b"
+          blk_enum_name: "LMC_INTSN_E"
+          major_name: "LMC(0..3)"
+          major_val: "(0x88+a)"
+          reg_addr: "(0x11800880001F0|a<<24)"
+          reg_name: "LMC(0..3)_INT"
+        description: See LMC(0..3)_INT[DED_ERR<b>].
+
+      - name: OCLA(0..4)_STATE_OVFL(0..3)
+        value: 0xA8000 + a*0x1000 + b
+        attributes:
+          bit_name: "OVFL<b>"
+          bit_num: "0+b"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[OVFL<b>].
+
+      - name: OCLA(0..4)_STATE_TRIG
+        value: 0xA8008 + a*0x1000
+        attributes:
+          bit_name: "TRIG"
+          bit_num: "8"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[TRIG].
+
+      - name: OCLA(0..4)_STATE_MCD(0..2)
+        value: 0xA8009 + a*0x1000 + b
+        attributes:
+          bit_name: "MCD<b>"
+          bit_num: "9+b"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[MCD<b>].
+
+      - name: OCLA(0..4)_STATE_FSM0_INT
+        value: 0xA800C + a*0x1000
+        attributes:
+          bit_name: "FSM0_INT"
+          bit_num: "12"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[FSM0_INT].
+
+      - name: OCLA(0..4)_STATE_FSM1_INT
+        value: 0xA800D + a*0x1000
+        attributes:
+          bit_name: "FSM1_INT"
+          bit_num: "13"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[FSM1_INT].
+
+      - name: OCLA(0..4)_STATE_CAPTURED
+        value: 0xA800E + a*0x1000
+        attributes:
+          bit_name: "CAPTURED"
+          bit_num: "14"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[CAPTURED].
+
+      - name: OCLA(0..4)_STATE_TRIGFULL
+        value: 0xA800F + a*0x1000
+        attributes:
+          bit_name: "TRIGFULL"
+          bit_num: "15"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[TRIGFULL].
+
+      - name: OCLA(0..4)_STATE_OVERFULL
+        value: 0xA8010 + a*0x1000
+        attributes:
+          bit_name: "OVERFULL"
+          bit_num: "16"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[OVERFULL].
+
+      - name: OCLA(0..4)_STATE_WMARK
+        value: 0xA8011 + a*0x1000
+        attributes:
+          bit_name: "WMARK"
+          bit_num: "17"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[WMARK].
+
+      - name: OCLA(0..4)_STATE_DDRFULL
+        value: 0xA8012 + a*0x1000
+        attributes:
+          bit_name: "DDRFULL"
+          bit_num: "18"
+          blk_enum_name: "OCLA_INTSN_E"
+          major_name: "OCLA(0..5)"
+          major_val: "(0xA8+a)"
+          reg_addr: "(0x11800A8000080|a<<24)"
+          reg_name: "OCLA(0..4)_STATE_INT"
+        description: See OCLA(0..4)_STATE_INT[DDRFULL].
+
+      - name: OSM_INT_STAT_DFA_DBE
+        value: 0xDC000
+        attributes:
+          bit_name: "DFA_DBE"
+          bit_num: "0"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[DFA_DBE].
+
+      - name: OSM_INT_STAT_DFA_SBE
+        value: 0xDC001
+        attributes:
+          bit_name: "DFA_SBE"
+          bit_num: "1"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[DFA_SBE].
+
+      - name: OSM_INT_STAT_HNA_DBE
+        value: 0xDC002
+        attributes:
+          bit_name: "HNA_DBE"
+          bit_num: "2"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[HNA_DBE].
+
+      - name: OSM_INT_STAT_HNA_SBE
+        value: 0xDC003
+        attributes:
+          bit_name: "HNA_SBE"
+          bit_num: "3"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[HNA_SBE].
+
+      - name: OSM_INT_STAT_TWC_DBE
+        value: 0xDC004
+        attributes:
+          bit_name: "TWC_DBE"
+          bit_num: "4"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[TWC_DBE].
+
+      - name: OSM_INT_STAT_TWC_SBE
+        value: 0xDC005
+        attributes:
+          bit_name: "TWC_SBE"
+          bit_num: "5"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[TWC_SBE].
+
+      - name: OSM_INT_STAT_BWC_DBE
+        value: 0xDC006
+        attributes:
+          bit_name: "BWC_DBE"
+          bit_num: "6"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[BWC_DBE].
+
+      - name: OSM_INT_STAT_BWC_SBE
+        value: 0xDC007
+        attributes:
+          bit_name: "BWC_SBE"
+          bit_num: "7"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[BWC_SBE].
+
+      - name: OSM_INT_STAT_RWC1_DBE
+        value: 0xDC008
+        attributes:
+          bit_name: "RWC1_DBE"
+          bit_num: "8"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC1_DBE].
+
+      - name: OSM_INT_STAT_RWC1_SBE
+        value: 0xDC009
+        attributes:
+          bit_name: "RWC1_SBE"
+          bit_num: "9"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC1_SBE].
+
+      - name: OSM_INT_STAT_RWC2_DBE
+        value: 0xDC00A
+        attributes:
+          bit_name: "RWC2_DBE"
+          bit_num: "10"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC2_DBE].
+
+      - name: OSM_INT_STAT_RWC2_SBE
+        value: 0xDC00B
+        attributes:
+          bit_name: "RWC2_SBE"
+          bit_num: "11"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC2_SBE].
+
+      - name: OSM_INT_STAT_RWC3_DBE
+        value: 0xDC00C
+        attributes:
+          bit_name: "RWC3_DBE"
+          bit_num: "12"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC3_DBE].
+
+      - name: OSM_INT_STAT_RWC3_SBE
+        value: 0xDC00D
+        attributes:
+          bit_name: "RWC3_SBE"
+          bit_num: "13"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC3_SBE].
+
+      - name: OSM_INT_STAT_HOST_DBE
+        value: 0xDC00E
+        attributes:
+          bit_name: "HOST_DBE"
+          bit_num: "14"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[HOST_DBE].
+
+      - name: OSM_INT_STAT_HOST_SBE
+        value: 0xDC00F
+        attributes:
+          bit_name: "HOST_SBE"
+          bit_num: "15"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[HOST_SBE].
+
+      - name: OSM_INT_STAT_DFA_ADDR_ERR
+        value: 0xDC010
+        attributes:
+          bit_name: "DFA_ADDR_ERR"
+          bit_num: "16"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[DFA_ADDR_ERR].
+
+      - name: OSM_INT_STAT_HNA_ADDR_ERR
+        value: 0xDC011
+        attributes:
+          bit_name: "HNA_ADDR_ERR"
+          bit_num: "17"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[HNA_ADDR_ERR].
+
+      - name: OSM_INT_STAT_TWC_ADDR_ERR
+        value: 0xDC012
+        attributes:
+          bit_name: "TWC_ADDR_ERR"
+          bit_num: "18"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[TWC_ADDR_ERR].
+
+      - name: OSM_INT_STAT_BWC_ADDR_ERR
+        value: 0xDC013
+        attributes:
+          bit_name: "BWC_ADDR_ERR"
+          bit_num: "19"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[BWC_ADDR_ERR].
+
+      - name: OSM_INT_STAT_RWC1_ADDR_ERR
+        value: 0xDC014
+        attributes:
+          bit_name: "RWC1_ADDR_ERR"
+          bit_num: "20"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC1_ADDR_ERR].
+
+      - name: OSM_INT_STAT_RWC2_ADDR_ERR
+        value: 0xDC015
+        attributes:
+          bit_name: "RWC2_ADDR_ERR"
+          bit_num: "21"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC2_ADDR_ERR].
+
+      - name: OSM_INT_STAT_RWC3_ADDR_ERR
+        value: 0xDC016
+        attributes:
+          bit_name: "RWC3_ADDR_ERR"
+          bit_num: "22"
+          blk_enum_name: "OSM_INTSN_E"
+          cib_rtl_module: "osm"
+          major_name: "OSM"
+          major_val: "(0xDC)"
+          reg_addr: "(0x11800DC000008)"
+          reg_name: "OSM_INT_STAT"
+        description: See OSM_INT_STAT[RWC3_ADDR_ERR].
+
+
+

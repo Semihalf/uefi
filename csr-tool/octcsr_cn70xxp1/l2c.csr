@@ -1,0 +1,2604 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: L2C
+description: |
+  Octeon III L2C RSL2 address map
+
+    2 22 211 1111 111 1        |
+    3 21 098 7654 321 09876 543|210  byte address
+    -+--+---+----+---+-----+---+---
+    1 00 000        0          |     Octeon III common registers
+    1 00 000        1          |     Octeon III CMB PFC registers
+    1 00 001                   |     Octeon III way partitioning registers
+    1 00 010                   |     Octeon III QOS registers
+    1 00 011                   |
+    1 00 100                   |
+    1 00 101                   |
+    1 01 000 0                 |     Octeon III TAD0 registers
+    1 01 000 1                 |     Octeon III TAD0 debug registers
+    1 01 001                   |     Octeon III TAD1 registers
+    1 01 010                   |     Octeon III TAD2 registers
+    1 01 011                   |     Octeon III TAD3 registers
+    1 01 100                   |     Octeon III TAD4 registers
+    1 01 101                   |     Octeon III TAD5 registers
+    1 01 110                   |     Octeon III TAD6 registers
+    1 01 111                   |     Octeon III TAD7 registers
+    1 10 000                   |     Octeon III MCI0 registers
+    1 10 001                   |     Octeon III MCI1 registers
+    1 10 010                   |     Octeon III MCI2 registers
+    1 10 011                   |     Octeon III MCI3 registers
+    1 11 000                   |     Octeon III CBC0 registers
+    1 11 001                   |     Octeon III CBC1 registers
+    1 11 010                   |     Octeon III CBC2 registers
+    1 11 011                   |     Octeon III CBC3 registers
+    -+--+---+----+---+-----+---+---
+attributes:
+  dv_fc_regs_extends: |
+    "l2c_pkg::l2c_rsl_reg_block_c"
+enums:
+  - name: IOC_CMD_E
+    attributes:
+      width: "4"
+    description: Enumerates the different IOC command encodings.
+    values:
+      - name: IDLE
+        value: 4'b0000
+        description: Idle cyle.
+
+      - name: STORE
+        value: 4'b0001
+        description: Store of size 1-8 bytes.
+
+      - name: LOAD
+        value: 4'b0010
+        description: Load of size 1-8 bytes.
+
+      - name: LMTST
+        value: 4'b0011
+        description: Store of size 1-16 quadwords.
+
+      - name: IOBDMA
+        value: 4'b0100
+        description: Load of size 1-16 quadwords.
+
+      - name: LMTDMA
+        value: 4'b0101
+        description: Store of size 1-16 quadwords followed by Load of size 1-16 quadwords (atomic).
+
+      - name: ADDR
+        value: 4'b0110
+        description: Send address only (i.e. store of size 0 quadwords).
+
+      - name: SLIST
+        value: 4'b0111
+        description: Store of size 1-8 bytes, initiated by remote SLI.
+
+      - name: SLILD
+        value: 4'b1000
+        description: Load of size 1-8 bytes, initiated by remote SLI.
+
+
+  - name: IOR_CMD_E
+    attributes:
+      width: "2"
+    description: Enumerates the different IOR command encodings.
+    values:
+      - name: IDLE
+        value: 2'b00
+        description: Idle cyle.
+
+      - name: DATA
+        value: 2'b01
+        description: Response Data return for IOC_LOAD, IOC_IOBDMA, IOC_LMTDMA.
+
+      - name: PREF
+        value: 2'b10
+        description: L1D Prefetch request to PP from coprocessor.
+
+      - name: SLIRSP
+        value: 2'b11
+        description: Response Data return for IOC_SLILD.
+
+
+  - name: L2C_DAT_ERRPRIO_E
+    attributes:
+      width: "3"
+    description: Enumerates the different quad error priorities
+    values:
+      - name: NBE
+        value: 3'h0
+        description: No error.
+
+      - name: FBFSBE
+        value: 3'h1
+        description: FBF Single-Bit Error.
+
+      - name: SBFSBE
+        value: 3'h2
+        description: SBF Single-Bit Error.
+
+      - name: L2DSBE
+        value: 3'h3
+        description: L2D Single-Bit Error.
+
+      - name: FBFDBE
+        value: 3'h4
+        description: FBF Double-Bit Error.
+
+      - name: SBFDBE
+        value: 3'h5
+        description: SBF Double-Bit Error.
+
+      - name: L2DDBE
+        value: 3'h6
+        description: L2D Double-Bit Error.
+
+
+  - name: L2C_INTSN_E
+    attributes:
+      width: "20"
+    description: Enumerates the different interrupts from L2C.
+    values:
+      - name: L2C_TAD(0..7)_INT_L2DSBE
+        value: 0x80000 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[L2DSBE].
+
+      - name: L2C_TAD(0..7)_INT_L2DDBE
+        value: 0x80001 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[L2DDBE].
+
+      - name: L2C_TAD(0..7)_INT_SBFSBE
+        value: 0x80002 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[SBFSBE].
+
+      - name: L2C_TAD(0..7)_INT_SBFDBE
+        value: 0x80003 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[SBFDBE].
+
+      - name: L2C_TAD(0..7)_INT_FBFSBE
+        value: 0x80004 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[FBFSBE].
+
+      - name: L2C_TAD(0..7)_INT_FBFDBE
+        value: 0x80005 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[FBFDBE].
+
+      - name: L2C_TAD(0..7)_INT_TAGSBE
+        value: 0x80006 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[TAGSBE].
+
+      - name: L2C_TAD(0..7)_INT_TAGDBE
+        value: 0x80007 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[TAGDBE].
+
+      - name: L2C_TAD(0..7)_INT_NOWAY
+        value: 0x80008 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[NOWAY].
+
+      - name: L2C_TAD(0..7)_INT_HOLEWR
+        value: 0x80009 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[HOLEWR].
+
+      - name: L2C_TAD(0..7)_INT_HOLERD
+        value: 0x8000A | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[HOLERD].
+
+      - name: L2C_TAD(0..7)_INT_BIGWR
+        value: 0x8000B | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[BIGWR].
+
+      - name: L2C_TAD(0..7)_INT_BIGRD
+        value: 0x8000C | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[BIGRD].
+
+      - name: L2C_TAD(0..7)_INT_WRDISLMC
+        value: 0x8000D | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[WRDISLMC].
+
+      - name: L2C_TAD(0..7)_INT_RDDISLMC
+        value: 0x8000E | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[RDDISLMC].
+
+      - name: L2C_TAD(0..7)_INT_RTGSBE
+        value: 0x8000F | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[RTGSBE].
+
+      - name: L2C_TAD(0..7)_INT_RTGDBE
+        value: 0x80010 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[RTGDBE].
+
+      - name: L2C_MCI(0..3)_INT_VBFSBE
+        value: 0x80800 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_MCI(0..3)_INT[VBFSBE].
+
+      - name: L2C_MCI(0..3)_INT_VBFDBE
+        value: 0x80801 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_MCI(0..3)_INT[VBFDBE].
+
+      - name: L2C_CBC(0..3)_INT_RSDSBE
+        value: 0x80C00 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[RSDSBE].
+
+      - name: L2C_CBC(0..3)_INT_RSDDBE
+        value: 0x80C01 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[RSDDBE].
+
+      - name: L2C_CBC(0..3)_INT_IOCCMDSBE
+        value: 0x80C02 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
+
+      - name: L2C_CBC(0..3)_INT_IOCCMDDBE
+        value: 0x80C03 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
+
+
+  - name: L2C_TAG_ERRPRIO_E
+    attributes:
+      width: "2"
+    description: Enumerates the different TAG error priorities
+    values:
+      - name: NBE
+        value: 2'h0
+        description: No error.
+
+      - name: NOWAY
+        value: 2'h1
+        description: TAG NOWAY Error.
+
+      - name: SBE
+        value: 2'h2
+        description: TAG Single-Bit Error.
+
+      - name: DBE
+        value: 2'h3
+        description: TAG Double-Bit Error.
+
+
+  - name: RSC_CMD_E
+    attributes:
+      width: "3"
+    description: Enumerates the different RSC command encodings.
+    values:
+      - name: NOP
+        value: 3'b000
+        description: No operation.
+
+      - name: IFDN
+        value: 3'b001
+        description: Filling data, last fill, must write L1T invalid.
+
+      - name: FILL
+        value: 3'b010
+        description: Filling data, but not the last.
+
+      - name: FLDN
+        value: 3'b011
+        description: Filling data, last fill.
+
+      - name: STDN
+        value: 3'b100
+        description: Store commit.
+
+      - name: PREF
+        value: 3'b101
+        description: Prefetch from NCB/IOR.
+
+      - name: SCDN
+        value: 3'b110
+        description: Store Conditional pass/commit.
+
+      - name: SCFL
+        value: 3'b111
+        description: Store Conditional fail/commit.
+
+
+  - name: XMC_CMD_E
+    attributes:
+      width: "7"
+    description: Enumerates the different XMC command encodings.
+    values:
+      - name: NOP
+        value: 7'b0000000
+        description: No operation.
+
+      - name: LDT
+        value: 7'b0000001
+        description: don't allocate L2 or L1
+
+      - name: LDI
+        value: 7'b0000010
+        description: don't allocate L1
+
+      - name: PL2
+        value: 7'b0000011
+        description: pref L2
+
+      - name: RPL2
+        value: 7'b0000100
+        description: mark for replacement in L2
+
+      - name: DWB
+        value: 7'b0000101
+        description: clear L2 dirty bit (no writeback) + RPL2
+
+      - name: LDY
+        value: 7'b0000110
+        description: (FIXME NYI) placeholder
+
+      - name: LDD
+        value: 7'b0001000
+        description: normal load
+
+      - name: PSL1
+        value: 7'b0001001
+        description: pref L1, bypass L2
+
+      - name: LDC
+        value: 7'b0001010
+        description: (FIXME NYI) placeholder
+
+      - name: LDE
+        value: 7'b0001011
+        description: (FIXME NYI) placeholder
+
+      - name: LDWB
+        value: 7'b0001101
+        description: (FIXME NYI) placeholder
+
+      - name: STY
+        value: 7'b0001110
+        description: (FIXME NYI) placeholder
+
+      - name: RSTP
+        value: 7'b0001111
+        description: (FIXME NYI) placeholder
+
+      - name: STF
+        value: 7'b0010000
+        description: full block store to L2, fill 0's
+
+      - name: STT
+        value: 7'b0010001
+        description: full block store bypass-L2, fill 0's
+
+      - name: STP
+        value: 7'b0010010
+        description: partial store to L2
+
+      - name: STC
+        value: 7'b0010011
+        description: partial store to L2, if duptag valid
+
+      - name: STFIL1
+        value: 7'b0010100
+        description: full block store to L2, fill 0's, self-inval L1
+
+      - name: STTIL1
+        value: 7'b0010101
+        description: full block store bypass-L2, fill 0's, self-inval L1
+
+      - name: FAS32
+        value: 7'b0010110
+        description: (FIXME TBD)
+
+      - name: FAS64
+        value: 7'b0010111
+        description: (FIXME TBD)
+
+      - name: WBIL2I
+        value: 7'b0011000
+        description: writeback if dirty, invalidate, clear use bit, by index/way
+
+      - name: LTGL2I
+        value: 7'b0011001
+        description: read tag @ index/way into CSR
+
+      - name: STGL2I
+        value: 7'b0011010
+        description: write tag @ index/way from CSR
+
+      - name: WBL2I
+        value: 7'b0011011
+        description: writeback if dirty, make clean, clear use bit, by index/way
+
+      - name: INVL2
+        value: 7'b0011100
+        description: invalidate, clear use bit, by address (dirty data is LOST)
+
+      - name: WBIL2
+        value: 7'b0011101
+        description: writeback if dirty, invalidate, clear use bit, by address
+
+      - name: WBL2
+        value: 7'b0011110
+        description: writeback if dirty, make clean, clear use bit, by address
+
+      - name: LCKL2
+        value: 7'b0011111
+        description: set lock bit, set use bit, by address
+
+      - name: CAS32
+        value: 7'b0100010
+        description: (FIXME NYI) compare-and-swap 32b
+
+      - name: CAS64
+        value: 7'b0100011
+        description: (FIXME NYI) compare-and-swap 64b
+
+      - name: SAAM132
+        value: 7'b0100110
+        description: (FIXME NYI) same as SAA32 but data is implied all 1's
+
+      - name: SAAM164
+        value: 7'b0100111
+        description: (FIXME NYI) same as SAA64 but data is implied all 1's
+
+      - name: SET8
+        value: 7'b0101000
+        description: (FIXME TBD)
+
+      - name: SET16
+        value: 7'b0101001
+        description: (FIXME TBD)
+
+      - name: SET32
+        value: 7'b0101010
+        description: (FIXME TBD)
+
+      - name: SET64
+        value: 7'b0101011
+        description: (FIXME TBD)
+
+      - name: CLR8
+        value: 7'b0101100
+        description: (FIXME TBD)
+
+      - name: CLR16
+        value: 7'b0101101
+        description: (FIXME TBD)
+
+      - name: CLR32
+        value: 7'b0101110
+        description: (FIXME TBD)
+
+      - name: CLR64
+        value: 7'b0101111
+        description: (FIXME TBD)
+
+      - name: INCR8
+        value: 7'b0110000
+        description: (FIXME TBD)
+
+      - name: INCR16
+        value: 7'b0110001
+        description: (FIXME TBD)
+
+      - name: INCR32
+        value: 7'b0110010
+        description: (FIXME TBD)
+
+      - name: INCR64
+        value: 7'b0110011
+        description: (FIXME TBD)
+
+      - name: DECR8
+        value: 7'b0110100
+        description: (FIXME TBD)
+
+      - name: DECR16
+        value: 7'b0110101
+        description: (FIXME TBD)
+
+      - name: DECR32
+        value: 7'b0110110
+        description: (FIXME TBD)
+
+      - name: DECR64
+        value: 7'b0110111
+        description: (FIXME TBD)
+
+      - name: FAA32
+        value: 7'b0111010
+        description: (FIXME TBD)
+
+      - name: FAA64
+        value: 7'b0111011
+        description: (FIXME TBD)
+
+      - name: SAA32
+        value: 7'b0111110
+        description: (FIXME TBD)
+
+      - name: SAA64
+        value: 7'b0111111
+        description: (FIXME TBD)
+
+      - name: IOBLD8
+        value: 7'b1000000
+        description: I/O 1-Byte Load.
+
+      - name: IOBLD16
+        value: 7'b1000001
+        description: I/O 2-Byte Load.
+
+      - name: IOBLD32
+        value: 7'b1000010
+        description: I/O 4-Byte Load.
+
+      - name: IOBLD64
+        value: 7'b1000011
+        description: I/O 8-Byte Load.
+
+      - name: IOBST8
+        value: 7'b1000100
+        description: I/O 1-Byte Store.
+
+      - name: IOBST16
+        value: 7'b1000101
+        description: I/O 2-Byte Store.
+
+      - name: IOBST32
+        value: 7'b1000110
+        description: I/O 4-Byte Store.
+
+      - name: IOBST64
+        value: 7'b1000111
+        description: I/O 8-Byte Store.
+
+      - name: IOBADDR
+        value: 7'b1001000
+        description: I/O Send Address Only.
+
+      - name: IOBDMA
+        value: 7'b1001001
+        description: I/O Multi-Quadword Load.
+
+      - name: LMTST
+        value: 7'b1001010
+        description: I/O Multi-Quadword Store.
+
+      - name: LMTDMA
+        value: 7'b1001011
+        description: I/O Multi-Quadword Store with Multi-Quadword Load.
+
+      - name: IOBSTA8
+        value: 7'b1100100
+        description: I/O 1-Byte Store, with Commit.
+
+      - name: IOBSTA16
+        value: 7'b1100101
+        description: I/O 2-Byte Store, with Commit.
+
+      - name: IOBSTA32
+        value: 7'b1100110
+        description: I/O 4-Byte Store, with Commit.
+
+      - name: IOBSTA64
+        value: 7'b1100111
+        description: I/O 8-Byte Store, with Commit.
+
+      - name: IOBADDRA
+        value: 7'b1101000
+        description: I/O Send Address Only, with Commit.
+
+      - name: IOBDMAA
+        value: 7'b1101001
+        description: I/O Multi-Quadword Load, with Commit.
+
+      - name: LMTSTA
+        value: 7'b1101010
+        description: I/O Multi-Quadword Store, with Commit.
+
+      - name: LMTDMAA
+        value: 7'b1101011
+        description: I/O Multi-Quadword Store with Multi-Quadword Load, with Commit.
+
+
+registers:
+  - name: L2C_CTL
+    title: L2C Control
+    address: 0x1180080800000
+    bus: RSL
+    description: |
+      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB/2.
+
+      (1b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
+
+      (2) L2DFDBE and L2DFSBE allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors
+      for the purposes of testing error handling code.  When one (or both) of these bits are set a
+      PL2
+      which misses in the L2 will fill with the appropriate error in the first 2 OWs of the fill.
+      Software can determine which OW pair gets the error by choosing the desired fill order
+      (address<6:5>).  A PL2 which hits in the L2 will not inject any errors.  Therefore sending a
+      WBIL2 prior to the PL2 is recommended to make a miss likely (if multiple processors are
+      involved software must be careful to be sure no other processor or IO device can bring the
+      block
+      into the L2).
+
+      To generate a VBFSBE or VBFDBE, software must first get the cache block into the cache with an
+      error using a PL2 which misses the L2.  Then a store partial to a portion of the cache block
+      without the error must change the block to dirty.  Then, a subsequent WBL2/WBIL2/victim will
+      trigger the VBFSBE/VBFDBE error.
+    fields:
+      - name: --
+        bits: 63..33
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAXVBF
+        bits: 32..29
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Maximum VBFs in use at once (per-TAD)
+          (0 means 16, 1-15 as expected)
+
+      - name: RDF_FAST
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          DEPRECATED!!   WILL BE REMOVED
+          When 0, delay read data fifo from DCLK to RCLK by one
+          cycle.  Needed when DCLK:RCLK ratio > 3:1.  Should be
+          set before DDR traffic begins and only changed when
+          memory traffic is idle.
+
+      - name: DISSTGL2I
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable STGL2I's from changing the tags
+
+      - name: L2DFSBE
+        bits: 26
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Force single bit ECC error on PL2 allocates (2)
+
+      - name: L2DFDBE
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Force double bit ECC error on PL2 allocates (2)
+
+      - name: DISCCLK
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable conditional clocking in L2C PNR blocks
+
+      - name: --
+        bits: 23..21
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAXLFB
+        bits: 20..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Maximum VABs/LFBs in use at once (per-TAD)
+          (0 means 32, 1-3 are illegal, 4-31 as expected)
+          FIXME: 2,3 shouldn't be illegal and OCI will alter this
+
+      - name: RSP_ARB_MODE
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Arbitration mode for RSC/RSD bus
+          == 0, round-robin
+          == 1, static priority
+          1. IOR data
+          2. STIN/FILLs
+          3. STDN/SCDN/SCFL
+
+      - name: XMC_ARB_MODE
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Arbitration mode for XMC QOS queues
+          == 0, fully determined through QOS
+          == 1, QOS0 highest priority, QOS1-7 use normal mode
+
+      - name: EF_ENA
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 1
+        description: LMC early fill enable
+
+      - name: EF_CNT
+        bits: 12..6
+        access: R/W
+        reset: 0x0
+        typical: 0x4
+        description: |
+          LMC early fill count
+          Specifies the number of cycles after the first LMC
+          fill cycle to wait before requesting a fill on the
+          RSC/RSD bus.
+          // 7 dclks (we've received 1st out of 8
+          // by the time we start counting)
+          ef_cnt = (7 * dclk0_period) / rclk_period;
+          // + 1 rclk if the dclk and rclk edges don't
+          // stay in the same position
+          if ((dclk0_gen.period % rclk_gen.period) != 0)
+          ef_cnt = ef_cnt + 1;
+          // + 2 rclk synchronization uncertainty
+          ef_cnt = ef_cnt + 2;
+          // - 3 rclks to recognize first write
+          ef_cnt = ef_cnt - 3;
+          // + 3 rclks to perform first write
+          ef_cnt = ef_cnt + 3;
+          // - 9 rclks minimum latency from counter expire
+          // to final fbf read
+          ef_cnt = ef_cnt - 9;
+
+      - name: VBF_THRESH
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          VBF Threshold (per-TAD)
+          When the number of inuse VBFs exceeds this number the
+          L2C TAD increases the priority of all its writes in the LMC.
+
+      - name: DISECC
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Tag and Data ECC Disable
+
+      - name: DISIDXALIAS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Index Alias Disable
+
+
+  - name: L2C_QOS_WGT
+    title: L2C QOS weights
+    address: 0x1180080800008
+    bus: RSL
+    fields:
+      - name: WGT7
+        bits: 63..56
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 7
+
+      - name: WGT6
+        bits: 55..48
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 6
+
+      - name: WGT5
+        bits: 47..40
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 5
+
+      - name: WGT4
+        bits: 39..32
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 4
+
+      - name: WGT3
+        bits: 31..24
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 3
+
+      - name: WGT2
+        bits: 23..16
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 2
+
+      - name: WGT1
+        bits: 15..8
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 1
+
+      - name: WGT0
+        bits: 7..0
+        access: R/W
+        reset: 0xff
+        typical: 0xff
+        description: Weight for QOS level 0
+
+
+  - name: L2C_ECC_CTL
+    title: L2C Control
+    address: 0x1180080800010
+    bus: RSL
+    description: |
+      Flip ECC bits to generate single-bit or double-bit ECC errors in all instances of a given
+      memory type. Encodings are as follows.
+
+      0x0=No Error
+      0x1=Single-bit Error on ecc[0]
+      0x2=Single-bit Error on ecc[1]
+      0x3=Double-bit Error on ecc[1:0]
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IOCCMDFLIP
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Generate an ECC error in all corresponding IOCCMD memories.
+
+
+  - name: L2C_XMC_CMD
+    title: L2C XMC command register
+    address: 0x1180080800028
+    bus: RSL
+    description: |
+      (1) the XMC command chosen MUST NOT be a IOB destined command or operation is UNDEFINED.
+
+      (2) the XMC command will have sid forced to IOB, did forced to L2C, and xmdmsk forced to
+      0. Note that this implies that commands which REQUIRE an XMD cycle (STP,STC,SAA,FAA,FAS)
+      should not be used or the results are unpredictable. The sid=IOB means that the way
+      partitioning used for the command is L2C_WPAR_IOB. None of L2C_QOS_IOB, L2C_QOS_PP are used
+      for these commands.
+
+      (3) any FILL responses generated by the XMC command will be ignored.  Generated INVLs,
+      however, will correctly invalidate the required PPs.
+
+      (4) any L2D read generated by the XMC command will record the syndrome information in
+      L2C_TAD_ECC0/1.  If ECC is disabled prior to the CSR write this provides the ability to read
+      the ECC bits directly.  If ECC is not disabled this should log 0's (assuming no ECC errors
+      were found in the block).
+
+      (5) A write which arrives while the INUSE bit is set will block until the INUSE bit clears.
+      This gives software 2 options when needing to issue a stream of writes to L2C_XMC_CMD: polling
+      on the INUSE bit, or allowing HW to handle the interlock -at the expense of locking up the RSL
+      bus for potentially tens of cycles at a time while waiting for an available LFB/VAB entry.
+      Note that when the INUSE bit clears the only ordering it implies is that software can send
+      another XMC command.  Subsequent commands may complete out of order relative to earlier
+      commands.
+
+      (6) The address written to L2C_XMC_CMD is a 40-bit OCTEON physical address.  The L2C performs
+      hole removal and, if applicable to the command, index aliasing (if enabled) on the written
+      address and uses that for the command. This potentially hole removed/index aliased 40-bit
+      address is what is returned on a read of the L2C_XMC_CMD register.
+    fields:
+      - name: INUSE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Set to 1 by HW upon receiving a write, cleared when command has issued (not necessarily
+          completed, but ordered relative to other traffic) and HW can accept another command.
+
+      - name: CMD
+        bits: 62..56
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Command to use for simulated XMC request a new request can be accepted
+
+      - name: --
+        bits: 55..44
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NODE
+        bits: 43..40
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: OCI node to use for simulated XMC request
+
+      - name: ADDR
+        bits: 39..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Address to use for simulated XMC request (see Note 6)
+
+
+  - name: L2C_BIG_CTL
+    title: L2C Big memory control register
+    address: 0x1180080800030
+    bus: RSL
+    description: |
+      (1) BIGRD interrupts can occur during normal operation as the PP's are allowed to prefetch to
+      non-existent memory locations.  Therefore, BIGRD is for informational purposes only.
+
+      (2) When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store L2C_TAD(0..7)_ERR will be
+      loaded.  L2C_TAD(0..7)_ERR will be not be locked for a BIGRD, however.
+    fields:
+      - name: --
+        bits: 63..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAXDRAM
+        bits: 7..4
+        access: R/W
+        reset: 0x9
+        typical: 0x9
+        description: |
+          Amount of configured DRAM
+          0 = reserved
+          1 = 512MB
+          2 = 1GB
+          3 = 2GB
+          4 = 4GB
+          5 = 8GB
+          6 = 16GB
+          7 = 32GB
+          8 = 64GB
+          9 = 128GB
+          10 = 256GB
+          11 = 512GB
+          12-15 reserved
+          Violations of this limit causes L2C to set L2C_TAD(0..7)_INT[BIGRD/BIGWR].
+
+      - name: --
+        bits: 3..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DISBIG
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          When set, disables the BIG/HOLE logic completely. When clear, BIGWR and HOLEWR block
+          stores and BIGRD/HOLERD is reported.
+          FIXME: currently resets to disabled until verif is good with the behavior
+
+
+  - name: L2C_COP0_ADR
+    title: L2C COP0 Address register
+    address: 0x1180080800038
+    bus: RSL
+    description: |
+      Provides the address of the COP0 register to read/write when L2C_COP0_DAT is accessed.
+
+      NOTE: for 78xx, if the PPID is outside the range of 0-47,255 the write will be ignored and
+      reads will return 0x2bad2bad2bad2bad
+
+      (1) RD and SEL are as defined in the HRM description of Core Coprocessor 0 registers
+      and note 4 below.
+
+      (2) if a COP0 register cannot be accessed by this mechanism the write be silently ignored and
+      the read data will be 0x2bad2bad2bad2bad.
+
+      (3) for 78xx, if the PPID is outside the range of 0-47,255 or if the PP in question is in
+      reset
+      a write will be ignored and reads will timeout the RSL bus.
+
+      (4) Referring to note (1) above, the following rd/sel values are supported:
+      NOTE: Put only the "Customer type" in HRM. do not put the "Real type" in HRM.
+      Customer                                                    Real
+      rd     sel     type         Description                                 type
+      ======+=======+==========+==============================================+=========
+      4      2       RO          COP0 UserLocal                                RW
+      7      0       RO          COP0 HWREna                                   RW
+      9      0       RO          COP0 Count                                    RW
+      9      6       RO          COP0 CvmCount                                 RW
+      9      7       RO          COP0 CvmCtl                                   RW
+      11      0       RO          COP0 Compare                                  RW
+      11      6       RW          COP0 PowThrottle                              RW
+      12      0       RO          COP0 Status                                   RW
+      12      1       RO          COP0 IntCtl                                   RO
+      12      2       RO          COP0 SRSCtl                                   RO
+      13      0       RO          COP0 Cause                                    RW
+      14      0       RO          COP0 EPC                                      RW
+      15      0       RO          COP0 PrID                                     RO
+      15      1       RO          COP0 EBase                                    RW
+      16      0       RO          PC Issue Debug Info (see details below)       RO
+      16      1       RO          PC Fetch Debug Info (see details below)       RO
+      16      2       RO          PC Fill Debug Info (see details below)        RO
+      16      3       RO          PC Misc Debug Info (see details below)        RO
+      18      0       RO          COP0 WatchLo0                                 RW
+      19      0       RO          COP0 WatchHi0                                 RW
+      22      0       RO          COP0 MultiCoreDebug                           RW
+      22      1                   COP0 VoltageMonitor                           RW
+      23      0       RO          COP0 Debug                                    RW
+      23      6       RO          COP0 Debug2                                   RO
+      24      0       RO          COP0 DEPC                                     RW
+      25      0       RO          COP0 PerfCnt Control0                         RW
+      25      1       RO          COP0 PerfCnt Counter0                         RW
+      25      2       RO          COP0 PerfCnt Control1                         RW
+      25      3       RO          COP0 PerfCnt Counter1                         RW
+      25      4       RO          COP0 PerfCnt Control2                         RW
+      25      5       RO          COP0 PerfCnt Counter2                         RW
+      25      6       RO          COP0 PerfCnt Control3                         RW
+      25      7       RO          COP0 PerfCnt Counter3                         RW
+      27      0       RO          COP0 CacheErr (icache)                        RW
+      27      2              RO          COP0 IcacheDebug                                RW
+      28      0       RO          COP0 TagLo (icache)                           RW
+      28      1       RO          COP0 DataLo (icache)                          RW
+      29      1       RO          COP0 DataHi (icache)                          RW
+      30      0       RO          COP0 ErrorEPC                                 RW
+      31      0       RO          COP0 DESAVE                                   RW
+      31      2       RO          COP0 Scratch                                  RW
+      31      3       RO          COP0 Scratch1                                 RW
+      31      4       RO          COP0 Scratch2                                 RW
+      PC Issue Debug Info
+      63:2 pc0_5a<63:2> // often VA<63:2> of the next instruction to issue
+      //    but can also be the VA of an instruction executing/replaying on pipe 0
+      //    or can also be a VA being filled into the instruction cache
+      //    or can also be unpredictable
+      // <61:49> RAZ
+      1    illegal      // set when illegal VA
+      0    delayslot    // set when VA is delayslot (prior branch may be either taken or not taken)
+      PC Fetch Debug Info
+      63:0 fetch_address_3a // VA being fetched from the instruction cache
+      // <61:49>, <1:0> RAZ
+      PC Fill Debug Info
+      63:0 fill_address_4a<63:2> // VA<63:2> being filled into instruction cache
+      // valid when waiting_for_ifill_4a is set (see PC Misc Debug Info below)
+      // <61:49> RAZ
+      1 illegal               // set when illegal VA
+      0 RAZ
+      PC Misc Debug Info
+      63:3 RAZ
+      2 mem_stall_3a         // stall term from L1 memory system
+      1 waiting_for_pfill_4a // when waiting_for_ifill_4a is set, indicates whether instruction
+      cache fill is due to a prefetch
+      0 waiting_for_ifill_4a // set when there is an outstanding instruction cache fill
+    fields:
+      - name: --
+        bits: 63..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PPID
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PP to access, use 0xFF for broadcast write.  Broadcast reads are unpredictable.
+
+      - name: --
+        bits: 15..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ROOT
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: If 1, root register is accessed, if 0 guest register is accessed.
+
+      - name: RD
+        bits: 7..3
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: COP0 rd
+
+      - name: SEL
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: COP0 sel
+
+
+  - name: L2C_COP0_DAT
+    title: L2C COP0 data access register
+    address: 0x1180080800040
+    bus: RSL
+    description: Provides data access for the COP0 register specified by the L2C_COP_ADR register
+    fields:
+      - name: DATA
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Data to write to specified COP0 register or return data for a read.
+
+
+  - name: L2C_XMC(0..9)_PFC
+    title: L2C XMC Performance Counter(s)
+    address: 0x1180080800800 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_XMD(0..9)_PFC
+    title: L2C XMD Performance Counter(s)
+    address: 0x1180080800808 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_RSC(0..9)_PFC
+    title: L2C RSC Performance Counter(s)
+    address: 0x1180080800810 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_RSD(0..9)_PFC
+    title: L2C RSD Performance Counter(s)
+    address: 0x1180080800818 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_INV(0..7)_PFC
+    title: L2C RSC/INV Performance Counter(s)
+    address: 0x1180080800820 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_IOC(0..0)_PFC
+    title: L2C IOC Performance Counter(s)
+    address: 0x1180080800828 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_IOR(0..0)_PFC
+    title: L2C IOR Performance Counter(s)
+    address: 0x1180080800830 + a*0x40
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_WPAR_PP(0..47)
+    title: L2C PP way partitioning
+    address: 0x1180080840000 + a*0x8
+    bus: RSL
+    description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MASK
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Way partitioning mask. (1 means do not use)
+
+
+  - name: L2C_WPAR_IOB(0..1)
+    title: L2C IOB way partitioning
+    address: 0x1180080840200 + a*0x8
+    bus: RSL
+    description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MASK
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Way partitioning mask. (1 means do not use)
+
+
+  - name: L2C_QOS_PP(0..47)
+    title: L2C PP QOS level
+    address: 0x1180080880000 + a*0x8
+    bus: RSL
+    description: |
+      Description:
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LVL
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: QOS level to use for this PP.
+
+
+  - name: L2C_QOS_IOB(0..1)
+    title: L2C IOB QOS level
+    address: 0x1180080880200 + a*0x8
+    bus: RSL
+    description: |
+      Description:
+    fields:
+      - name: --
+        bits: 63..7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DWBLVL
+        bits: 6..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: QOS level for DWB commands.
+
+      - name: --
+        bits: 3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LVL
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: QOS level for non-DWB commands.
+
+
+  - name: L2C_TAD(0..7)_PRF
+    title: L2C TAD Performance Counter Control
+    address: 0x1180080A00008 + a*0x40000
+    bus: RSL
+    description: |
+      "(1) All four counters are equivalent and can use any of the defined selects.
+      (2) the CNTnSEL legal values are:
+      0x00 -Nothing (disabled)
+      0x01 -L2 Tag Hit
+      0x02 -L2 Tag Miss
+      0x03 -L2 Tag NoAlloc (forced no-allocate)
+      0x04 -L2 Victim
+      0x05 -SC Fail
+      0x06 -SC Pass
+      0x07 -LFB Occupancy (each cycle adds # of LFBs valid)
+      0x08 -LFB Wait LFB (each cycle adds # LFBs waiting for other LFBs)
+      0x09 -LFB Wait VAB (each cycle adds # LFBs waiting for VAB)
+      0x80 -Quad 0 index bus inuse
+      0x81 -Quad 0 read data bus inuse
+      0x82 -Quad 0 # banks inuse (0-4/cycle)
+      0x83 -Quad 0 wdat flops inuse (0-4/cycle)
+      0x90 -Quad 1 index bus inuse
+      0x91 -Quad 1 read data bus inuse
+      0x92 -Quad 1 # banks inuse (0-4/cycle)
+      0x93 -Quad 1 wdat flops inuse (0-4/cycle)
+      0xA0 -Quad 2 index bus inuse
+      0xA1 -Quad 2 read data bus inuse
+      0xA2 -Quad 2 # banks inuse (0-4/cycle)
+      0xA3 -Quad 2 wdat flops inuse (0-4/cycle)
+      0xB0 -Quad 3 index bus inuse
+      0xB1 -Quad 3 read data bus inuse
+      0xB2 -Quad 3 # banks inuse (0-4/cycle)
+      0xB3 -Quad 3 wdat flops inuse (0-4/cycle)
+      0xC0 -Quad 4 index bus inuse
+      0xC1 -Quad 4 read data bus inuse
+      0xC2 -Quad 4 # banks inuse (0-4/cycle)
+      0xC3 -Quad 4 wdat flops inuse (0-4/cycle)
+      0xD0 -Quad 5 index bus inuse
+      0xD1 -Quad 5 read data bus inuse
+      0xD2 -Quad 5 # banks inuse (0-4/cycle)
+      0xD3 -Quad 5 wdat flops inuse (0-4/cycle)
+      0xE0 -Quad 6 index bus inuse
+      0xE1 -Quad 6 read data bus inuse
+      0xE2 -Quad 6 # banks inuse (0-4/cycle)
+      0xE3 -Quad 6 wdat flops inuse (0-4/cycle)
+      0xF0 -Quad 7 index bus inuse
+      0xF1 -Quad 7 read data bus inuse
+      0xF2 -Quad 7 # banks inuse (0-4/cycle)
+      0xF3 -Quad 7 wdat flops inuse (0-4/cycle)"
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT3SEL
+        bits: 31..24
+        access: R/W
+        reset: 0x0
+        typical: 0x1
+        description: Selects event to count for L2C_TAD(0..7)_PFC3
+
+      - name: CNT2SEL
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: 0x1
+        description: Selects event to count for L2C_TAD(0..7)_PFC2
+
+      - name: CNT1SEL
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: 0x1
+        description: Selects event to count for L2C_TAD(0..7)_PFC1
+
+      - name: CNT0SEL
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: 0x1
+        description: Selects event to count for L2C_TAD(0..7)_PFC0
+
+
+  - name: L2C_TAD(0..7)_TAG
+    title: L2C tag data
+    address: 0x1180080A00010 + a*0x40000
+    bus: RSL
+    description: |
+      Holds the tag information for LTGL2I and STGL2I commands.
+
+      (1) For 63xx TAG[35] must be written zero for STGL2I's or operation is undefined.  During
+      normal
+      operation, TAG[35] will also read 0.
+      (2) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
+      (3) The tag is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
+      (4) The ECC field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
+    fields:
+      - name: --
+        bits: 63..60
+        access: ---
+        reset: --
+        typical: --
+        description: |
+          Reserved -- TEMP: will be SUBBLKDTY
+
+      - name: --
+        bits: 59..57
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BUSINFO
+        bits: 56..48
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: The businfo bits
+
+      - name: --
+        bits: 47
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ECC
+        bits: 46..40
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: The tag ECC (see note 4)
+
+      - name: TAG
+        bits: 39..20
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: The tag (see notes 1 and 3)
+
+      - name: --
+        bits: 19..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: USED
+        bits: 3
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: The LRU used bit
+
+      - name: VALID
+        bits: 2
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: The valid bit
+
+      - name: DIRTY
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: The dirty bit
+
+      - name: LOCK
+        bits: 0
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: The lock bit
+
+
+  - name: L2C_TAD(0..7)_ECC0
+    title: L2C ECC logging
+    address: 0x1180080A00018 + a*0x40000
+    bus: RSL
+    description: |
+      Description: holds the syndromes for a L2D read generated from L2C_XMC_CMD
+    fields:
+      - name: QW7ECC
+        bits: 63..56
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW7 of cache block
+
+      - name: QW6ECC
+        bits: 55..48
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW6 of cache block
+
+      - name: QW5ECC
+        bits: 47..40
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW5 of cache block
+
+      - name: QW4ECC
+        bits: 39..32
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW4 of cache block
+
+      - name: QW3ECC
+        bits: 31..24
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW3 of cache block
+
+      - name: QW2ECC
+        bits: 23..16
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW2 of cache block
+
+      - name: QW1ECC
+        bits: 15..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW1 of cache block
+
+      - name: QW0ECC
+        bits: 7..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW0 of cache block
+
+
+  - name: L2C_TAD(0..7)_ECC1
+    title: L2C ECC logging
+    address: 0x1180080A00020 + a*0x40000
+    bus: RSL
+    description: |
+      Description: holds the syndromes for a L2D read generated from L2C_XMC_CMD
+    fields:
+      - name: QW15ECC
+        bits: 63..56
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW15 of cache block
+
+      - name: QW14ECC
+        bits: 55..48
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW14 of cache block
+
+      - name: QW13ECC
+        bits: 47..40
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW13 of cache block
+
+      - name: QW12ECC
+        bits: 39..32
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW12 of cache block
+
+      - name: QW11ECC
+        bits: 31..24
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW11 of cache block
+
+      - name: QW10ECC
+        bits: 23..16
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW10 of cache block
+
+      - name: QW9ECC
+        bits: 15..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW9 of cache block
+
+      - name: QW8ECC
+        bits: 7..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: ECC for QW8 of cache block
+
+
+  - name: L2C_TAD(0..7)_INT
+    title: L2C TAD Interrupt Register
+    address: 0x1180080A00028 + a*0x40000
+    bus: RSL
+    description: Register for TAD-based interrupts
+    fields:
+      - name: --
+        bits: 63..34
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RTGDBE
+        bits: 33
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: RTG Double-Bit Error
+
+      - name: RTGSBE
+        bits: 32
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: RTG Single-Bit Error
+
+      - name: --
+        bits: 31..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: WRDISLMC
+        bits: 16
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Illegal Write to Disabled LMC Error
+          A DRAM write arrived before the LMC(s) were enabled
+
+      - name: RDDISLMC
+        bits: 15
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Illegal Read to Disabled LMC Error
+          A DRAM read arrived before the LMC(s) were enabled
+
+      - name: BIGRD
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Read reference past L2C_BIG_CTL[MAXDRAM] occurred
+
+      - name: BIGWR
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write reference past L2C_BIG_CTL[MAXDRAM] occurred
+
+      - name: HOLERD
+        bits: 12
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Read reference to 256MB hole occurred
+
+      - name: HOLEWR
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write reference to 256MB hole occurred
+
+      - name: NOWAY
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          No way was available for allocation. L2C sets NOWAY during its processing of a transaction
+          whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. NOWAY==1
+          is (generally) not an indication that L2C failed to complete transactions. Rather, it is a
+          hint of possible performance degradation. (For example, L2C must read-modify-write DRAM
+          for every transaction that updates some, but not all, of the bytes in a cache block,
+          misses in the L2 cache, and cannot allocate a WAY.) There is one "failure" case where L2C
+          will set NOWAY: when it cannot leave a block locked in the L2 cache as part of a LCKL2
+          transaction. See L2C_TTG_ERR for logged information.
+
+      - name: TAGDBE
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: TAG Double-Bit Error occurred.  See L2C_TTG_ERR for logged information.
+
+      - name: TAGSBE
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: TAG Single-Bit Error occurred.  See L2C_TTG_ERR for logged information.
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FBFDBE
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: FBF Double-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+      - name: FBFSBE
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: FBF Single-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+      - name: SBFDBE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: SBF Double-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+      - name: SBFSBE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: SBF Single-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+      - name: L2DDBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: L2D Double-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+      - name: L2DSBE
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: L2D Single-Bit Error occurred.  See L2C_TQD_ERR for logged information.
+
+
+  - name: L2C_TAD(0..7)_PFC(0..3)
+    title: L2C TAD Performance Counters (0..3)
+    address: 0x1180080A00400 + a*0x40000 + b*8
+    bus: RSL
+    fields:
+      - name: COUNT
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Current counter value
+
+
+  - name: L2C_TAD(0..7)_ERR
+    title: L2C TAD Request Error Info
+    address: 0x1180080A007D0 + a*0x40000
+    bus: RSL
+    description: |
+      Records error information for HOLE* and BIG* interrupts.
+
+      (1) The first non-BIGRD error will lock the register until the logged error type is cleared,
+      BIGRD never locks the register.
+
+      (2) ADDR is the 40-bit OCTEON physical address after hole removal and index aliasing (if
+      enabled). (The hole is between DR0 and DR1. Remove the hole by subtracting 256MB from all
+      40-bit OCTEON L2/DRAM physical addresses >= 512 MB.)
+    fields:
+      - name: BIGRD
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a BIGRD error.
+
+      - name: BIGWR
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a BIGWR error.
+
+      - name: HOLERD
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a HOLERD error.
+
+      - name: HOLEWR
+        bits: 60
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a HOLEWR error.
+
+      - name: --
+        bits: 59..58
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CMD
+        bits: 57..51
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: XMC command of request causing error.
+
+      - name: SOURCE
+        bits: 50..44
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          XMC "source" of request causing error. If SOURCE<6>==0, SOURCE<5:0>=PPID else SOURCE<3:0>
+          is BUSID of IOB which made the request.
+
+      - name: NODE
+        bits: 43..40
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          OCI Node of XMC request causing error. For BIG* errors NODE will always be the node
+          logging the error (BIG* errors are logged at the home node). For HOLE* errors, NODE could
+          be any OCI node in the system (HOLE* errors are logged at the requester node).
+
+      - name: ADDR
+        bits: 39..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: XMC address causing the error (see Note 2).
+
+
+  - name: L2C_TQD(0..7)_ERR
+    title: L2C TAD QUad Error Info
+    address: 0x1180080A007D8 + a*0x40000
+    bus: RSL
+    description: |
+      Error info for all L2D/SBF/FBF errors.
+
+      (1) A error will lock the L2DIDX, and SYN fields and set the bit corresponding to the error
+      received. DBE errors take priority and will overwrite an earlier logged SBE error. Only one of
+      SBE/DBE will be set at any given time and serves to document which error the L2DIDX/SYN is
+      associated with.
+
+      (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    fields:
+      - name: L2DDBE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a double-bit L2D ECC error
+
+      - name: SBFDBE
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a double-bit SBF ECC error
+
+      - name: FBFDBE
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a double-bit FBF ECC error
+
+      - name: L2DSBE
+        bits: 60
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a single-bit L2D ECC error
+
+      - name: SBFSBE
+        bits: 59
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a single-bit SBF ECC error
+
+      - name: FBFSBE
+        bits: 58
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: L2DIDX/SYN corresponds to a single-bit FBF ECC error
+
+      - name: --
+        bits: 57..40
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Error syndrome.
+
+      - name: --
+        bits: 31..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: QDNUM
+        bits: 17..15
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Quad containing the error
+
+      - name: QDHLF
+        bits: 14
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Quad half of the containing the error
+
+      - name: L2DIDX
+        bits: 13..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Index within the quad-half containing the error
+
+
+  - name: L2C_TTG(0..7)_ERR
+    title: L2C TAD TaG Error Info
+    address: 0x1180080A007E0 + a*0x40000
+    bus: RSL
+    description: |
+      Error info for all TAG SBE/DBE/NOWAY errors.
+
+      (1) The priority of errors (lowest to highest) is NOWAY, SBE, DBE. An error will lock the SYN,
+      WAY, and L2IDX fields for equal or lower priority errors until cleared by software.
+
+      (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+
+      (3) A NOWAY error does not change the value of the SYN field, and leaves WAY unpredictable.
+      L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
+    fields:
+      - name: TAGDBE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Information refers to a double-bit TAG ECC error
+
+      - name: TAGSBE
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Information refers to a single-bit TAG ECC error
+
+      - name: NOWAY
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Information refers to a NOWAY error
+
+      - name: --
+        bits: 60..39
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN
+        bits: 38..32
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome for the single-bit error
+
+      - name: --
+        bits: 31..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: WAY
+        bits: 23..20
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Way of the L2 block containing the error
+
+      - name: L2IDX
+        bits: 19..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Index of the L2 block containing the error
+
+      - name: --
+        bits: 6..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: L2C_TBF(0..7)_BIST_STATUS
+    title: L2C TAD quad BuFfer BIST Status
+    address: 0x1180080A007E8 + a*0x40000
+    bus: RSL
+    fields:
+      - name: VBFFL
+        bits: 63..48
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
+
+      - name: SBFFL
+        bits: 47..32
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
+
+      - name: FBFRSPFL
+        bits: 31..16
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
+
+      - name: FBFWRPFL
+        bits: 15..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
+
+
+  - name: L2C_TDT(0..7)_BIST_STATUS
+    title: L2C TAD DaTa BIST Status
+    address: 0x1180080A007F0 + a*0x40000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: L2DFL
+        bits: 15..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
+
+
+  - name: L2C_TTG(0..7)_BIST_STATUS
+    title: L2C TAD TaG BIST Status
+    address: 0x1180080A007F8 + a*0x40000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RTGFL
+        bits: 47..32
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for RTG ways 0-15
+
+      - name: --
+        bits: 31..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LRULFBFL
+        bits: 17
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST failure status for LRULFB memory
+
+      - name: LRUFL
+        bits: 16
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST failure status for tag LRU
+
+      - name: TAGFL
+        bits: 15..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for TAG ways 0-15
+
+
+  - name: L2C_MCI(0..3)_INT
+    title: L2C MCI Interrupt Register
+    address: 0x1180080C00028 + a*0x40000
+    bus: RSL
+    description: Register for MCI-based interrupts
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VBFDBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: VBF Double-Bit Error occurred.  See L2C_MCI_ERR for logged information.
+
+      - name: VBFSBE
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: VBF Single-Bit Error occurred.  See L2C_MCI_ERR for logged information.
+
+
+  - name: L2C_MCI(0..3)_ERR
+    title: L2C MCI Error Info
+    address: 0x1180080C007F0 + a*0x40000
+    bus: RSL
+    description: |
+      Error info for all MCI errors.
+
+      (1) A error will lock the VBF4, INDEX, and SYN0/1 fields and set the bit corresponding to the
+      error received. VBFDBE errors take priority and will overwrite an earlier logged VBFSBE
+      error. The information from exactly one VBF read will be present at any given time and serves
+      to document which error(s) were present in the read with the highest priority error.
+
+      (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    fields:
+      - name: VBFDBE1
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN1 corresponds to a double-bit VBF ECC error
+
+      - name: VBFDBE0
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN0 corresponds to a double-bit VBF ECC error
+
+      - name: VBFSBE1
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN1 corresponds to a single-bit VBF ECC error
+
+      - name: VBFSBE0
+        bits: 60
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN0 corresponds to a single-bit VBF ECC error
+
+      - name: --
+        bits: 59..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN1
+        bits: 47..40
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Error syndrome for QW1 ([127:64]).
+
+      - name: SYN0
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Error syndrome for QW0 ([63:0]).
+
+      - name: --
+        bits: 31..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VBF4
+        bits: 11
+        access: RO/H
+        reset: 0
+        typical: --
+        description: when 1, errors were from VBF(4+a), when 0, from VBF(0+a).
+
+      - name: INDEX
+        bits: 10..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: VBF index which was read and had the error(s).
+
+      - name: --
+        bits: 3..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: L2C_MCI(0..3)_BIST_STATUS
+    title: L2C MCI BIST Status (DCLK)
+    address: 0x1180080C007F8 + a*0x40000
+    bus: RSL
+    description: |
+      (1) If clear BIST is desired, CLEAR_BIST must be written to 1 before START_BIST is written to
+      1 using a separate CSR write.
+
+      (2) CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
+      completes (indicated by START_BIST returning to 0) or operation is undefined.
+    fields:
+      - name: START_BIST
+        bits: 63
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          When written to 1, starts BIST.  Will read 1 until
+          BIST is complete (see Note).
+
+      - name: CLEAR_BIST
+        bits: 62
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When BIST is triggered, run clear BIST (see Note)
+
+      - name: --
+        bits: 61..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VBFFL
+        bits: 1..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for VBF0-1
+
+
+  - name: L2C_CBC(0..3)_INT
+    title: L2C CBC Interrupt Register
+    address: 0x1180080E00028 + a*0x40000
+    bus: RSL
+    description: Register for CBC-based interrupts
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IOCCMDDBE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: IOCCMD Double-Bit Error occurred.  See L2C_CBC_IOCERR for logged information.
+
+      - name: IOCCMDSBE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: IOCCMD Single-Bit Error occurred.  See L2C_CBC_IOCERR for logged information.
+
+      - name: RSDDBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: RSD Double-Bit Error occurred.  See L2C_CBC_RSDERR for logged information.
+
+      - name: RSDSBE
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: RSD Single-Bit Error occurred.  See L2C_CBC_RSDERR for logged information.
+
+
+  - name: L2C_CBC(0..3)_IOCERR
+    title: L2C CBC Error Info
+    address: 0x1180080E007E8 + a*0x40000
+    bus: RSL
+    description: |
+      Error info for all CBC IOC errors.
+
+      (1) A error will lock the INDEX, and SYN fields and set the bit corresponding to the error
+      received. CMDDBE errors take priority and will overwrite an earlier logged CMDSBE error. Only
+      one of CMDSBE/CMDDBE will be set at any given time and serves to document which error the
+      INDEX/SYN is associated with.
+
+      (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    fields:
+      - name: CMDDBE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a double-bit IOCCMD ECC error
+
+      - name: CMDSBE
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a single-bit IOCCMD ECC error
+
+      - name: --
+        bits: 61..40
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Error syndrome.
+
+      - name: --
+        bits: 31..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: XMCNUM
+        bits: 2..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: XMC which had the error.
+
+
+  - name: L2C_CBC(0..3)_RSDERR
+    title: L2C CBC Error Info
+    address: 0x1180080E007F0 + a*0x40000
+    bus: RSL
+    description: |
+      Error info for all CBC RSD errors.
+
+      (1) A error will lock the INDEX, and SYN fields and set the bit corresponding to the error
+      received. RSDDBE errors take priority and will overwrite an earlier logged RSDSBE error. Only
+      one of RSDSBE/RSDDBE will be set at any given time and serves to document which error the
+      INDEX/SYN is associated with.
+
+      (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    fields:
+      - name: RSDDBE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a double-bit RSD ECC error
+
+      - name: RSDSBE
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a single-bit RSD ECC error
+
+      - name: --
+        bits: 61..40
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Error syndrome.
+
+      - name: --
+        bits: 31..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TADNUM
+        bits: 8..6
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: TAD fifo containing the error.
+
+      - name: QWNUM
+        bits: 5..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: QW containing the error.
+
+      - name: RSDNUM
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: RSD which had the error.
+
+
+  - name: L2C_CBC(0..3)_BIST_STATUS
+    title: L2C CBC BIST Status
+    address: 0x1180080E007F8 + a*0x40000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..34
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IOCCMDFL
+        bits: 33..32
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for IOCCMD0-1.
+
+      - name: RSDFL
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for RSDQW0-31.
+
+
+
