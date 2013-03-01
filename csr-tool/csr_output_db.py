@@ -140,6 +140,9 @@ def write(file, separate_chip_lists, include_cisco_only):
         for csr in separate_chip_lists[chip_index]:
             if csr.cisco_only and not include_cisco_only:
                 continue
+            # Leave out Fusion
+            if csr.name.startswith("bbp_"):
+                continue
             num_fields = len(csr.fields.keys())
             range_len = len(csr.range)
             if range_len == 0:
