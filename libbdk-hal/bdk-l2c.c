@@ -175,6 +175,10 @@ int bdk_l2c_get_set_bits(void)
         l2_set_bits =  9; /* 512 sets */
     else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
         l2_set_bits =  9; /* 512 sets */
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        l2_set_bits =  13; /* 8192 sets */
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        l2_set_bits =  8; /* 256 sets */
     else
     {
         bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
