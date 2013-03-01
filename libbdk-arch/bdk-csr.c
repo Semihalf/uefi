@@ -107,7 +107,7 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 
 #endif
 
-void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2)
+void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4)
 {
     switch (num_args)
     {
@@ -115,8 +115,12 @@ void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigne
             bdk_fatal("%s is invalid on this chip\n", name);
         case 1:
             bdk_fatal("%s(%lu) is invalid on this chip\n", name, arg1);
-        default:
+        case 2:
             bdk_fatal("%s(%lu,%lu) is invalid on this chip\n", name, arg1, arg2);
+        case 3:
+            bdk_fatal("%s(%lu,%lu,%lu) is invalid on this chip\n", name, arg1, arg2, arg3);
+        default:
+            bdk_fatal("%s(%lu,%lu,%lu,%lu) is invalid on this chip\n", name, arg1, arg2, arg3, arg4);
     }
 }
 

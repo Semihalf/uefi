@@ -9,6 +9,8 @@ CHIP_TO_MODEL = {
     "cn66xx":   "OCTEON_CN66XX_PASS1_X",
     "cn61xx":   "OCTEON_CN61XX_PASS1_X",
     "cnf71xx":  "OCTEON_CNF71XX_PASS1_X",
+    "cn78xx":   "OCTEON_CN78XX_PASS1_X",
+    "cn70xx":   "OCTEON_CN70XX_PASS1_X",
 }
 
 # This is filled in when write() is called. It is derived from the chip list
@@ -58,20 +60,28 @@ def writeAddress(out, csr, chip_list):
         out.write("#define %s %s_FUNC()\n" % (name, name))
         out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0", "0", "0")
     elif num_params == 1:
         if ("offset" in csr["s"].getAddressEquation()):
             out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure, always_inline));\n" % name)
             out.write("static inline uint64_t %s(unsigned long offset)\n" % name)
-            error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 1, "offset", "0")
+            error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "offset", "0", "0", "0")
         else:
             out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
             out.write("static inline uint64_t %s(unsigned long block_id)\n" % name)
-            error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 1, "block_id", "0")
+            error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "block_id", "0", "0", "0")
     elif num_params == 2:
         out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s);" % (FATAL_FUNCTION, name, 2, "offset", "block_id")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "offset", "block_id", "0", "0")
+    elif num_params == 3:
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 3, "offset", "block_id", "param3", "0")
+    elif num_params == 4:
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3, unsigned long param4) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3, unsigned long param4)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 4, "offset", "block_id", "param3", "param4")
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")

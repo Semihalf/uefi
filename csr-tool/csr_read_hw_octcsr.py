@@ -297,7 +297,9 @@ def read(name, file):
             # higher than that we need to subtract stuff off
             csr.address_info[0] = address1 - csr.address_info[1]*offset
 
-            for name,calc_address,unused1,unused2 in csr.iterateAddresses():
+            for address_instance in csr.iterateAddresses():
+                name = address_instance[0]
+                calc_address = address_instance[1]
                 if not name in current_address_list:
                     name = NAME_TO_ADDRESS_NAME_MAPPING[name]
                 assert calc_address == current_address_list[name][0], "%x == %x[%s][0]" % (calc_address, current_address_list[name][0], name)
@@ -336,7 +338,9 @@ def read(name, file):
                     assert (csr.address_info[1] in [0x1000000, 0x8000000, 0x60000000, 0x100000000000]), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_info[2], csr.address_info[1])
             csr.address_info[0] = address1 - csr.address_info[1]*csr.range[0][0] - csr.address_info[2]*csr.range[1][0]
 
-            for name,calc_address,unused1,unused2 in csr.iterateAddresses():
+            for address_instance in csr.iterateAddresses():
+                name = address_instance[0]
+                calc_address = address_instance[1]
                 assert calc_address == current_address_list[name][0], "%x == %x[%s][0]" % (calc_address, current_address_list[name][0], name)
                 del current_address_list[name]
         else:

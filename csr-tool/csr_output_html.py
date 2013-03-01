@@ -36,6 +36,8 @@ REPLACE_PREFIX_TABLE = [
     ("pip_stat_inb_errs_pknd#", "pip_stat_inb_errs#"),
     ("pip_stat_inb_octs_pknd#", "pip_stat_inb_octs#"),
     ("pip_stat_inb_pkts_pknd#", "pip_stat_inb_pkts#"),
+    ("ciu3_", "ciu2_"),
+    ("ciu3_", "ciu_"),
 ]
 
 def TD(s, width=None, rowspan=1, colspan=1, bgcolor=None):

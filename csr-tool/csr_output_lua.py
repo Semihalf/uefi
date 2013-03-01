@@ -26,34 +26,19 @@ def write(file, separate_chip_lists, include_cisco_only):
         for csr in separate_chip_lists[chip_index]:
             if csr.cisco_only and not include_cisco_only:
                 continue
-            range_len = len(csr.range)
-            if range_len == 0:
-                range1 = None
-                range2 = None
-                offset_inc = 0
-                block_inc = 0
-            elif range_len == 1:
-                range1 = csr.range[0]
-                range2 = None
-                offset_inc = csr.address_info[1]
-                block_inc = 0
-            else:
-                range1 = csr.range[1]
-                range2 = csr.range[0]
-                offset_inc = csr.address_info[2]
-                block_inc = csr.address_info[1]
             name = csr.name.replace("#", "X")
             out.write("        %s = {\n" % name.upper())
             out.write("            name = \"%s\",\n" % csr.name.upper())
             out.write("            type = \"%s\",\n" % csr.type.upper())
             out.write("            width = %d,\n" % (csr.getNumBits() / 8))
             out.write("            address = 0x%x,\n" % csr.address_info[0])
-            if range1:
-                out.write("            range1 = %s,\n" % range_string(range1))
-                out.write("            range1_inc = 0x%x,\n" % offset_inc)
-            if range2:
-                out.write("            range2 = %s,\n" % range_string(range2))
-                out.write("            range2_inc = 0x%x,\n" % block_inc)
+            for i in xrange(len(csr.range)):
+                # Reverse the order so offset is before block, which is what
+                # has historically been used with Octeon
+                r = csr.range[-i-1]
+                mult = csr.address_info[-i-1]
+                out.write("            range%d = %s,\n" % (i+1, range_string(r)))
+                out.write("            range%d_inc = 0x%x,\n" % (i+1, mult))
             out.write("            fields = {\n")
             bits = csr.fields.keys()
             bits.sort()

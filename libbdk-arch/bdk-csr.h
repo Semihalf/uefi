@@ -39,7 +39,7 @@ typedef struct {
     const int16_t *data;            /**< Array of integers indexing __bdk_csr_db_csr */
 } __bdk_csr_db_map_t;
 
-extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2) __attribute__ ((noreturn));
+extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 extern int bdk_csr_decode(const char *name, uint64_t value);
 extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);

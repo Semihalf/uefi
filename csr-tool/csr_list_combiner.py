@@ -72,6 +72,12 @@ def combine(csr_lists):
         for chip in chips[1:]:
             csr = csr_by_chip[chip]
             cisco_only |= csr.cisco_only
+            # Silently convert mismatches between NCB and RSL CSRs into NCB.
+            # They are both access in the same way, so nobody should care
+            if (csr.type == "NCB") and (current.type == "RSL"):
+                current.type = "NCB"
+            if (csr.type == "RSL") and (current.type == "NCB"):
+                csr.type = "NCB"
             assert csr.type == current.type, "%s %s:%s == %s:%s" % (name, chip, csr.type, chips[0], current.type)
             assert len(csr.range) == len(current.range), "%s %s:%d == %s:%d" % (name, chip, len(csr.range), chips[0], len(current.range))
             for i in xrange(1, len(csr.address_info)):

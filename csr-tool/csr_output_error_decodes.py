@@ -362,38 +362,30 @@ add_reg(group = "zip",
 
 #
 # CsrInstance represents a specific instance of a generic CSR. An instance
-# represents a CSR with a block and index number, ie fully specified for an
+# represents a CSR with a parameters, ie fully specified for an
 # exact chip register.
 #
 class CsrInstance:
-    def __init__(self, pcsr, index=-1, block=-1):
+    def __init__(self, pcsr, address_params):
         assert isinstance(pcsr, csr.Csr), type(csr)
         self.csr = pcsr
-        self.index = index
-        self.block = block
+        self.params = address_params
 
     def addressName(self):
         name = self.csr.name.replace("#", "X").upper()
-        if self.block != -1:
-            return "%s(%d,%d)" % (name, self.index, self.block)
-        elif self.index != -1:
-            return "%s(%d)" % (name, self.index)
-        else:
-            return name
+        if len(self.params) > 0:
+            params = [str(x) for x in self.params]
+            name = "%s(%s)" % (name, ",".join(params))
+        return name
 
     def instanceName(self):
-        if self.block != -1:
-            name = self.csr.name.split("#")
-            assert len(name) == 3, "CSR name must have two #s"
-            return "%s%d%s%d%s" % (name[0], self.block, name[1], self.index, name[2])
-        elif self.index != -1:
-            name = self.csr.name.split("#")
-            assert len(name) == 2, "CSR name must have one #"
-            return "%s%d%s" % (name[0], self.index, name[1])
-        else:
-            name = self.csr.name.split("#")
-            assert len(name) == 1, "CSR name must not have a #"
-            return name[0]
+        parts = self.csr.name.split("#")
+        full_name = []
+        for i,v in enumerate(self.params):
+            full_name.append(parts[i])
+            full_name.append(str(v))
+        full_name.append(parts[-1])
+        return "".join(full_name)
 
     def is_W1C_safe(self):
         for bit in self.csr.fields:
@@ -410,10 +402,12 @@ class CsrInstance:
 def buildCsrByName(list):
     dict = {}
     for csr in list:
-        for name, address, index, block in csr["s"].iterateAddresses():
+        for address_instance in csr["s"].iterateAddresses():
+            name = address_instance[0]
+            address = address_instance[1]
             name = name.lower()
             assert not name in dict, "Duplicate name in CSR list"
-            dict[name] = CsrInstance(csr["s"], index, block)
+            dict[name] = CsrInstance(csr["s"], address_instance[2:])
     return dict
 
 #

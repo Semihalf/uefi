@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
 import sys
+import os
 import getopt
 import cPickle
 import csr_read_hw_octcsr
+import csr_read_yaml
 import csr_output_html
 import csr_list_combiner
 import csr_output_header
@@ -67,7 +69,7 @@ if not csr_files:
 print "Reading CSRs:"
 separate_chip_lists = []
 for name,file in csr_files:
-    pickle_file = file .replace(".txt", ".pickle")
+    pickle_file = file + ".pickle"
     try:
         inf = open(pickle_file, "r")
         print "    %8s from %s" % (name, pickle_file)
@@ -75,7 +77,10 @@ for name,file in csr_files:
         inf.close()
     except:
         print "    %8s from %s" % (name, file)
-        csrs = csr_read_hw_octcsr.read(name, file)
+        if os.path.isdir(file):
+            csrs = csr_read_yaml.read(name, file)
+        else:
+            csrs = csr_read_hw_octcsr.read(name, file)
         # Should really be done in csr.validate() but address isn't known then
         for csr in csrs:
             csr.validateAddresses()
@@ -90,7 +95,9 @@ for csr_list in separate_chip_lists:
     per_type_used_addresses = {}
     chip = csr_list.name
     for csr in csr_list:
-        for name,address,unused1,unused2 in csr.iterateAddresses():
+        for address_instance in csr.iterateAddresses():
+            name = address_instance[0]
+            address = address_instance[1]
             conflict = None
             if address & (1<<48):
                 if address in io_space_used_addresses:
@@ -122,12 +129,14 @@ if generate_html:
                                                   ("cn63xx", "cn66xx"),
                                                   ("cn63xx", "cn61xx"),
                                                   ("cn66xx", "cn61xx"),
-                                                  ("cn61xx", "cnf71xx")))
+                                                  ("cn61xx", "cnf71xx"),
+                                                  ("cn68xx", "cn78xx"),
+                                                  ("cn61xx", "cn70xx")))
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
-print "Writing Error decodes"
-csr_output_error_decodes.write(combined_list)
+#print "Writing Error decodes"
+#csr_output_error_decodes.write(combined_list)
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_lists, 0)

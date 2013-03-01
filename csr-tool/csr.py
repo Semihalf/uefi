@@ -7,6 +7,7 @@ from csr_output_addresses import getBitMask
 VALID_FIELD_TYPES = ["RAZ",     # Read as zero
                      "R/W",     # Read / Write
                      "R/W1C",   # Read, write ones to clear
+                     "R/W1S",   # Read, write ones to set
                      "R/W0C",   # Read, write zeros to clear
                      "RO",      # Read only
                      "RC/W",    # Read to clear, write
@@ -89,8 +90,8 @@ class Csr:
             else:
                 name = []
         self.name = self.name.lower()
-        if len(self.range) > 2:
-            raise Exception("Having a CSR with more than two indexes isn't allowed: " + str(self.range))
+        if len(self.range) > 4:
+            raise Exception("Having a CSR with more than four indexes isn't allowed: " + str(self.range))
         self.type = csr_type
         self.description = description
         self.fields = {}
@@ -139,12 +140,13 @@ class Csr:
         return signature
 
     def validateRange(self):
-        assert len(self.range) < 3
+        # Allow a max of 4 arguments
+        assert len(self.range) < 5
         for range_list in self.range:
             last = 0
             for i in range_list:
                 assert i >= 0
-                assert i < 65536
+                assert i < (1<<20)
                 assert i >= last
                 last = i
 
@@ -197,7 +199,7 @@ class Csr:
                 field.c_type = default_c_type
 
     def validateAddresses(self):
-        assert len(self.range) + 1 == len(self.address_info), "Range length doesn't match address_info_length"
+        assert len(self.range) + 1 == len(self.address_info), "%s: Range length %d doesn't match address_info_length %d" % (self.name, len(self.range) + 1, len(self.address_info))
         for a in self.address_info:
             assert a >= 0, "%s address is negative" % self.name
 
@@ -235,43 +237,54 @@ class Csr:
     # CSR location as a long. arg1 and arg2 are optional and specifiy the
     # range arguments.
     #
-    def iterateAddresses(self):
-        name = self.name.upper()
-        if len(self.range) == 0:
-            assert "#" not in name
-            yield (name, self.address_info[0], -1, -1)
-        elif len(self.range) == 1:
-            name_parts = name.split("#")
-            assert len(name_parts) == 2
-            range_num = 0
-            while range_num < len(self.range[0]):
-                index_low = self.range[0][range_num]
-                index_high = self.range[0][range_num+1]
-                range_num += 2
-                for i in range(index_low, index_high+1):
-                    n = "%s%d%s" % (name_parts[0], i, name_parts[1])
-                    address = self.address_info[0] + self.address_info[1]*i
-                    yield (n, address, i, -1)
-        elif len(self.range) == 2:
-            name_parts = name.split("#")
-            assert len(name_parts) == 3
-            block_range_num = 0
-            while block_range_num < len(self.range[0]):
-                block_index_low = self.range[0][block_range_num]
-                block_index_high = self.range[0][block_range_num+1]
-                block_range_num += 2
-                for block in range(block_index_low, block_index_high+1):
-                    offset_range_num = 0
-                    while offset_range_num < len(self.range[1]):
-                        offset_index_low = self.range[1][offset_range_num]
-                        offset_index_high = self.range[1][offset_range_num+1]
-                        offset_range_num += 2
-                        for i in range(offset_index_low, offset_index_high+1):
-                            n = "%s%d%s%03d%s" % (name_parts[0], block, name_parts[1],  i, name_parts[2])
-                            address = self.address_info[0] + self.address_info[1]*block + self.address_info[2]*i
-                            yield (n, address, i,  block)
+    def iterateAddresses(self, recurse_args = None):
+        num_args = len(self.range)
+        if num_args == 0:
+            yield (self.name.upper(), self.address_info[0])
         else:
-            raise Exception("Illegal range on csr " + self.name)
+            name_parts = self.name.upper().split("#")
+            address = self.address_info[0]
+            if recurse_args:
+                arg_index = len(recurse_args) + 1
+                for i,v in enumerate(recurse_args):
+                    address = address + self.address_info[i+1] * v
+            else:
+                arg_index = 1
+            mult = self.address_info[arg_index]
+            work_range = self.range[arg_index-1]
+            range_num = 0
+            while range_num < len(work_range):
+                index_low = work_range[range_num]
+                index_high = work_range[range_num+1]
+                range_num += 2
+                if arg_index != num_args:
+                    if recurse_args:
+                        recurse_args.append(0)
+                    else:
+                        recurse_args = [0]
+                    for i in range(index_low, index_high+1):
+                        recurse_args[-1] = i
+                        for o in self.iterateAddresses(recurse_args):
+                            yield o
+                    del recurse_args[-1]
+                else:
+                    base_name = [name_parts[0]]
+                    if recurse_args:
+                        for i,v in enumerate(recurse_args):
+                            base_name.append(str(v))
+                            base_name.append(name_parts[i+1])
+                    base_name = "".join(base_name)
+                    for i in range(index_low, index_high+1):
+                        if arg_index > 1:
+                            n = "%s%03d%s" % (base_name, i, name_parts[arg_index])
+                        else:
+                            n = "%s%d%s" % (base_name, i, name_parts[arg_index])
+                        output = [n, address + mult*i]
+                        if recurse_args:
+                            for v in recurse_args:
+                                output.append(v)
+                        output.append(i)
+                        yield output
         return
 
     #
@@ -280,7 +293,7 @@ class Csr:
     #
     def getAddressEquation(self, no_ull=0):
         address_part = "0x%016Xull" % self.address_info[0]
-        PARAMS = ["none", "block_id", "offset"]
+        PARAMS = ["none", "block_id", "offset", "param3", "param4"]
         for i in xrange(1, len(self.address_info)):
             if self.address_info[i] == 0:
                 continue
