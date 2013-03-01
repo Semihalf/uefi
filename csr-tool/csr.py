@@ -337,6 +337,8 @@ class CsrField:
                 #print "    Warning: Reserved field %s wasn't RAZ" % name
                 field_type = "RAZ"
             name = "reserved_" + str(start_bit) + "_" + str(stop_bit)
+            reset_value = 0
+            typical_value = "NS"
         self.name = name
         self.description = description
         self.type = field_type
