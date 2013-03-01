@@ -15,6 +15,17 @@ if (c.s.field) {                            \
     display_error(basename_##csr, arguments_##csr, #field); \
 }
 
+#define CHECK_CHIP_ERROR(csr, chip, field)  \
+if (c.chip.field) {                         \
+    typedef_##csr w1c;                      \
+    w1c.u = 0;                              \
+    w1c.chip.field = c.chip.field;          \
+    bdk_csr_write(bustype_##csr,            \
+        busnum_##csr, sizeof(typedef_##csr),\
+        csr, w1c.u);                        \
+    display_error(basename_##csr, arguments_##csr, #field); \
+}
+
 static void display_error(const char *csr_name, int arg1, int arg2, const char *field_name)
 {
     if (arg2 != -1)
@@ -271,10 +282,23 @@ static void check_ipd(void)
 static void check_key(void)
 {
     BDK_CSR_INIT(c, BDK_KEY_INT_SUM);
-    CHECK_ERROR(BDK_KEY_INT_SUM, ked0_dbe);
-    CHECK_ERROR(BDK_KEY_INT_SUM, ked0_sbe);
-    CHECK_ERROR(BDK_KEY_INT_SUM, ked1_dbe);
-    CHECK_ERROR(BDK_KEY_INT_SUM, ked1_sbe);
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_dbe);
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_sbe);
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn78xx, ked0_dbe);
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn78xx, ked0_sbe);
+    }
+    else
+    {
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked0_dbe);
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked0_sbe);
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked1_dbe);
+        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked1_sbe);
+    }
 }
 
 static void check_l2c_tad(int tad)
@@ -282,12 +306,22 @@ static void check_l2c_tad(int tad)
     BDK_CSR_INIT(c, BDK_L2C_TADX_INT(tad));
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2ddbe);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2dsbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), rddislmc);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), tagdbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), tagsbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), vbfdbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), vbfsbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), wrdislmc);
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, rddislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, tagdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, tagsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, wrdislmc);
+    }
+    else
+    {
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, rddislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, tagdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, tagsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, vbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, vbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, wrdislmc);
+    }
 }
 
 static void check_l2c(void)
@@ -794,12 +828,22 @@ static void enable_ipd(void)
 
 static void enable_key(void)
 {
-    BDK_CSR_MODIFY(c, BDK_KEY_INT_ENB,
-        c.s.ked0_dbe = -1;
-        c.s.ked0_sbe = -1;
-        c.s.ked1_dbe = -1;
-        c.s.ked1_sbe = -1;
-    );
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        BDK_CSR_MODIFY(c, BDK_KEY_INT_ENB,
+            c.cn70xx.key_dbe = -1;
+            c.cn70xx.key_sbe = -1;
+        );
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        /* No interrupt enables? Very bad */
+    }
+    else
+        BDK_CSR_MODIFY(c, BDK_KEY_INT_ENB,
+            c.cn68xx.ked0_dbe = -1;
+            c.cn68xx.ked0_sbe = -1;
+            c.cn68xx.ked1_dbe = -1;
+            c.cn68xx.ked1_sbe = -1;
+        );
 }
 
 static void enable_l2c_tad(int tad)
