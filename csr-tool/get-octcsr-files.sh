@@ -10,8 +10,15 @@ wget -O octcsr_cn66xxp1.txt http://iceman.caveonetworks.com/trac/browser/o65/tru
 wget -O octcsr_cn61xxp1.txt http://iceman.caveonetworks.com/trac/browser/o61/trunk/packet/o61csr.txt?format=raw
 wget -O octcsr_cnf71xxp1.txt http://iceman.caveonetworks.com/trac/browser/o6f/trunk/packet/o6fcsr.txt?format=raw
 
+echo "Getting octcsr_cn78xxp1"
 rm -rf octcsr_cn78xxp1
 svn co -q svn+ssh://kreese@masvn/svn/o78/trunk/hwcode/regs/gen octcsr_cn78xxp1
+
+echo "Getting octcsr_cn70xxp1"
+rm -rf octcsr_cn70xxp1
+svn co -q svn+ssh://kreese@masvn/svn/o70/trunk/hwcode/regs/gen octcsr_cn70xxp1
+
+echo "All chips retrieved, doing fixups"
 fi
 
 dos2unix -q octcsr_*.txt
