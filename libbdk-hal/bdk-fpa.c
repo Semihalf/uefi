@@ -59,9 +59,14 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
         /* Update the start address to contain the new memory */
         uint64_t addr = bdk_ptr_to_phys(buf);
         BDK_CSR_INIT(start_addr, BDK_FPA_POOLX_START_ADDR(pool));
-        if (addr>>7 < start_addr.s.addr)
+        /* Being always helpful, the HW team decided to change the format of the start address on CN78XX */
+        uint64_t start = OCTEON_IS_MODEL(OCTEON_CN78XX) ? start_addr.cn78xx.addr : start_addr.cn68xx.addr;
+        if (addr>>7 < start)
         {
-            BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(pool), addr>>7);
+            start = addr>>7;
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                start <<= 7;
+            BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(pool), start);
             BDK_CSR_READ(BDK_FPA_POOLX_START_ADDR(pool));
         }
 
@@ -69,9 +74,14 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
             not the full buffer */
         addr += (num_blocks-1) * size;
         BDK_CSR_INIT(end_addr, BDK_FPA_POOLX_END_ADDR(pool));
-        if (addr>>7 > end_addr.s.addr)
+        /* Being always helpful, the HW team decided to change the format of the end address on CN78XX */
+        uint64_t end = OCTEON_IS_MODEL(OCTEON_CN78XX) ? end_addr.cn78xx.addr : end_addr.cn68xx.addr;
+        if (addr>>7 > end)
         {
-            BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(pool), addr>>7);
+            end = addr>>7;
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                end <<= 7;
+            BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(pool), end);
             BDK_CSR_READ(BDK_FPA_POOLX_END_ADDR(pool));
         }
     }
