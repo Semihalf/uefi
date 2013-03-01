@@ -39,6 +39,10 @@ int bdk_qlm_get_num(void)
         return 3;
     else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
         return 2;
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        return 8;
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        return 3;
 
     bdk_error("bdk_qlm_get_num: Needs update for this chip\n");
     return 0;
@@ -194,6 +198,8 @@ int bdk_qlm_get_lanes(int qlm)
     if (OCTEON_IS_MODEL(OCTEON_CN61XX) && (qlm == 1))
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
+        return 2;
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 2;
     else
         return 4;
@@ -773,7 +779,7 @@ void bdk_qlm_init(void)
 
     /* Figure out how many bits are in the JTAG chain */
     __bdk_qlm_jtag_length = 0;
-    if (BDK_DISABLE_QLM_JTAG)
+    if (BDK_DISABLE_QLM_JTAG || !__bdk_qlm_jtag_field_current)
         return;
 
     const __bdk_qlm_jtag_field_t *ptr = __bdk_qlm_jtag_field_current;
