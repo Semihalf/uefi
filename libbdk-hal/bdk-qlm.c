@@ -182,6 +182,19 @@ int bdk_qlm_get(bdk_if_t iftype, int interface)
                 break;
         }
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        switch (iftype)
+        {
+            case BDK_IF_SGMII:
+            case BDK_IF_XAUI:
+                if (interface < 2)
+                    return 0;
+                break;
+            default:
+                break;
+        }
+    }
     bdk_fatal("bdk_qlm_get called incorrectly for type=%d, interface=%d\n", iftype, interface);
 }
 
@@ -323,6 +336,41 @@ const char *bdk_qlm_get_mode(int qlm)
                 break;
         }
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+        switch (qlm)
+        {
+            case 0:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 2: return "SGMII";
+                    case 3: return "XAUI";
+                    default: return "RESERVED";
+                }
+                break;
+            case 1:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 0: return "PCIE 1x2";
+                    case 1: return "PCIE 2x1";
+                    case 2: return "PCIE 1x4"; /* FIXME o70 */
+                    default: return "RESERVED";
+                }
+                break;
+            case 2:
+                switch (qlm_cfg.s.qlm_cfg)
+                {
+                    case 0: return "PCIE 1x4"; /* FIXME o70 */
+                    case 1: return "PCIE 1x2"; /* FIXME o70 */
+                    case 2: return "SATA 2x1"; /* FIXME o70 */
+                    case 3: return "PCIE x1, SATA"; /* FIXME o70 */
+                    case 4: return "SATA, PCIE x1"; /* FIXME o70 */
+                    default: return "RESERVED";
+                }
+                break;
+        }
+    }
     bdk_error("bdk_qlm_get_mode: Needs update for this chip\n");
     return "UNKNOWN";
 }
@@ -337,7 +385,7 @@ const char *bdk_qlm_get_mode(int qlm)
  */
 int bdk_qlm_get_gbaud_mhz(int qlm)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN66XX) || OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
         switch (qlm_cfg.s.qlm_spd)
