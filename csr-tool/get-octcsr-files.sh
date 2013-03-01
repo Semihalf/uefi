@@ -9,6 +9,9 @@ wget -O octcsr_cn68xxp2.txt http://iceman.caveonetworks.com/trac/browser/o68/tru
 wget -O octcsr_cn66xxp1.txt http://iceman.caveonetworks.com/trac/browser/o65/trunk/packet/o65csr.txt?format=raw
 wget -O octcsr_cn61xxp1.txt http://iceman.caveonetworks.com/trac/browser/o61/trunk/packet/o61csr.txt?format=raw
 wget -O octcsr_cnf71xxp1.txt http://iceman.caveonetworks.com/trac/browser/o6f/trunk/packet/o6fcsr.txt?format=raw
+
+rm -rf octcsr_cn78xxp1
+svn co -q svn+ssh://kreese@masvn/svn/o78/trunk/hwcode/regs/gen octcsr_cn78xxp1
 fi
 
 dos2unix -q octcsr_*.txt
