@@ -80,7 +80,7 @@ static inline uint64_t bdk_build_bits(uint64_t high_bit, uint64_t low_bit, uint6
  */
 static inline int bdk_octeon_num_cores(void)
 {
-    uint64_t ciu_fuse = BDK_CSR_READ(BDK_CIU_FUSE);
+    uint64_t ciu_fuse = OCTEON_IS_MODEL(OCTEON_CN78XX) ? BDK_CSR_READ(BDK_CIU3_FUSE) : BDK_CSR_READ(BDK_CIU_FUSE);
     return bdk_dpop(ciu_fuse);
 }
 
