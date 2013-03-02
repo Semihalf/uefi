@@ -10,6 +10,10 @@ static int if_num_interfaces(void)
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        return 6;
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        return 1;
     else
         return 0;
 }
@@ -60,15 +64,29 @@ static int if_num_ports(int interface)
                 return 0;
         }
     }
-
-    /* No ports if QLM speed says disabled */
-    if (bdk_qlm_get_gbaud_mhz(bdk_qlm_get(BDK_IF_XAUI, interface)) == 0)
-        return 0;
-    BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
-    if (mode.s.type == 1)
-        return 1;
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        int qlm = bdk_qlm_get(BDK_IF_XAUI, interface);
+        /* No ports if QLM speed says disabled */
+        if (bdk_qlm_get_gbaud_mhz(qlm) == 0)
+            return 0;
+        BDK_CSR_INIT(gserx_lane_mode, BDK_GSERX_LANE_MODE(qlm));
+        if (gserx_lane_mode.s.lmode == 3)
+            return 1;
+        else
+            return 0;
+    }
     else
-        return 0;
+    {
+        /* No ports if QLM speed says disabled */
+        if (bdk_qlm_get_gbaud_mhz(bdk_qlm_get(BDK_IF_XAUI, interface)) == 0)
+            return 0;
+        BDK_CSR_INIT(mode, BDK_GMXX_INF_MODE(interface));
+        if (mode.s.type == 1)
+            return 1;
+        else
+            return 0;
+    }
 }
 
 static int if_probe(bdk_if_handle_t handle)
