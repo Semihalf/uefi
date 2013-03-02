@@ -21,6 +21,24 @@ typedef struct
 } __bdk_qlm_jtag_field_t;
 
 /**
+ * How to do the various QLM operations changes greatly
+ * between chips. Each chip has its specific operations
+ * stored in the structure below. The correct structure
+ * is choosen based on the chip we're running on.
+ */
+typedef struct
+{
+    uint32_t chip_model;
+    void (*init)(void);
+    int (*get_num)(void);
+    int (*get_lanes)(int qlm);
+    const char *(*get_mode)(int qlm);
+    int (*get_gbaud_mhz)(int qlm);
+    int (*measure_refclock)(int qlm);
+    int (*get_qlm_num)(bdk_if_t iftype, int interface);
+} bdk_qlm_ops_t;
+
+/**
  * Initialize the QLM layer
  */
 extern void bdk_qlm_init(void);
@@ -102,13 +120,5 @@ extern uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name);
  * @param value  Value of the field
  */
 extern void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value);
-
-/**
- * Force link detection on a QLM. Useful for getting PCIe
- * analyzers to work.
- *
- * @param qlm    QLM to configure
- */
-extern void bdk_qlm_cn6xxx_force_link(int qlm);
 
 /** @} */
