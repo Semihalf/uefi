@@ -1,14 +1,20 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
-ifeq ($(SIM),cn61xx)
-	NUMCORES=4
-else ifeq ($(SIM),cnf71xx)
-	NUMCORES=4
-else ifeq ($(SIM),cn70xx)
-	NUMCORES=4
-else
+ifeq ($(SIM),cn63xx)
 	NUMCORES=6
+else ifeq ($(SIM),cn66xx)
+	NUMCORES=10
+else ifeq ($(SIM),cn68xx)
+	NUMCORES=32
+else ifeq ($(SIM),cn78xx)
+	NUMCORES=48
+else
+	NUMCORES=4
 endif
+
+MAX_CYCLE = $(shell let i=1000000*$(NUMCORES) && echo $$i)
+GREP_BEGIN = $(shell for ((i=0; i<${NUMCORES}; i++)); do echo " && grep \"Core $$i beginning crypto\" test-crypto.log"; done)
+GREP_END = $(shell for ((i=0; i<${NUMCORES}; i++)); do echo " && grep \"PP$$i: stopping due to BREAK instruction\" test-crypto-sim.log"; done)
 
 crypto.bin: crypto
 crypto: crypto.o $(BDK_ROOT)/libbdk/libbdk.a
@@ -24,16 +30,8 @@ run: crypto.bin
 
 test: crypto.bin
 	$(OCTEON_ROOT)/host/bin/oct-uart-io -b test-crypto.log &
-	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES) -maxcycles=10000000 -uart0=2020 > test-crypto-sim.log
-	grep "Core 0 beginning crypto" test-crypto.log
-	grep "Core 1 beginning crypto" test-crypto.log
-	grep "Core 2 beginning crypto" test-crypto.log
-	grep "Core 3 beginning crypto" test-crypto.log
-ifeq ($(NUMCORES),6)
-	grep "Core 4 beginning crypto" test-crypto.log
-	grep "Core 5 beginning crypto" test-crypto.log
-endif
-
+	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES) -maxcycles=$(MAX_CYCLE) -uart0=2020 > test-crypto-sim.log
+	true $(GREP_BEGIN)
 	grep 'Plaintext: "Original plaintext message"' test-crypto.log
 	grep "MD5:      1517fa5c261777f967f2c7c034a13fd4" test-crypto.log
 	grep "SHA1:     4964868fb28c4fdb08afa18c462e4c2c53b9c0ca" test-crypto.log
@@ -47,13 +45,5 @@ endif
 	grep "sms4 cbc: 0b15a6c212d85b67e7cdef840362e352896227805c2a1fad643b88bf7b2ba4af" test-crypto.log
 	grep "snow3g:   5d5bfe75eb04f68ce0a12377ea00b37d47c6a0ba06309155086a859c4341b37c" test-crypto.log
 	if grep "FAIL" test-crypto.log; then false; else true; fi
-	grep "PP0: stopping due to BREAK instruction" test-crypto-sim.log
-	grep "PP1: stopping due to BREAK instruction" test-crypto-sim.log
-	grep "PP2: stopping due to BREAK instruction" test-crypto-sim.log
-	grep "PP3: stopping due to BREAK instruction" test-crypto-sim.log
-ifeq ($(NUMCORES),6)
-	grep "PP4: stopping due to BREAK instruction" test-crypto-sim.log
-	grep "PP5: stopping due to BREAK instruction" test-crypto-sim.log
-endif
-
+	true $(GREP_END)
 
