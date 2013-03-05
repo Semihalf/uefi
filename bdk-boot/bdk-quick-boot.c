@@ -28,6 +28,16 @@ int main(void)
         board_name = "evb7100";
         ddr_clock_hertz = 400000000;
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        board_name = "ebb7800";
+        ddr_clock_hertz = 667000000;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        board_name = "ebb7000";
+        ddr_clock_hertz = 533000000;
+    }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         board_name = "ebb6800";
