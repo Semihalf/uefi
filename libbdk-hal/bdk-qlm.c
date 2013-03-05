@@ -123,6 +123,8 @@ void bdk_qlm_init(void)
     if (!qlm_ops)
         bdk_fatal("bdk_qlm_init: OPs table not found for this chip\n");
 
-    qlm_ops->init();
+    /* Skip QLM setup in simulation */
+    if (!bdk_is_simulation())
+        qlm_ops->init();
 }
 
