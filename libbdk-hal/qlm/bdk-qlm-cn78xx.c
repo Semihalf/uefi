@@ -80,8 +80,35 @@ static int qlm_get_gbaud_mhz(int qlm)
  */
 static int qlm_measure_refclock(int qlm)
 {
-    bdk_error("qlm_measure_clock: Needs update for this chip\n");
-    return 0;
+    /* We can't measure the OCI QLMs */
+    if (qlm >= 8)
+        return 0;
+
+    /* Disable the PTP event counter while we configure it */
+    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    /* Count on rising edge, Choose which QLM to count */
+    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG,
+        c.s.evcnt_edge = 0;
+        c.s.evcnt_in = 0x20 + qlm);
+    /* Clear MIO_PTP_EVT_CNT */
+    int64_t count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
+    BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, -count);
+    /* Set MIO_PTP_EVT_CNT to 1 billion */
+    BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, 1000000000);
+    /* Enable the PTP event counter */
+    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
+    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    /* Wait for 50ms */
+    bdk_wait_usec(50000);
+    /* Read the counter */
+    count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
+    uint64_t stop_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    /* Disable the PTP event counter */
+    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    /* Clock counted down, so reverse it */
+    count = 1000000000 - count;
+    /* Return the rate */
+    return count * bdk_clock_get_rate(BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
 }
 
 
