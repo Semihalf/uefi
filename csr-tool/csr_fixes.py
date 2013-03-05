@@ -299,6 +299,9 @@ def fixFields(csr):
         f.description = fixDescription(f.description)
         if f.name.startswith("reserved"):
             f.description = []
+            f.field_type = "RAZ"
+            f.reset_value = 0L
+            f.typical_value = "NS"
 
 
 def fixCsr(csr):
