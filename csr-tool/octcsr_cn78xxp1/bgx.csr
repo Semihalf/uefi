@@ -501,6 +501,20 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See BGX(0..5)_SMU(0..3)_TX_INT[FAKE_COMMIT].
 
+      - name: BGX(0..5)_SMU(0..3)_INT_LB_UNDFLW
+        value: 0xE0223 + a*0x1000 + b*0x40
+        attributes:
+          cib_rtl_module: "bgx_smu"
+          intsn_lsb_mismatch: "True"
+        description: See BGX(0..5)_SMU(0..3)_TX_INT[LB_UNDFLW].
+
+      - name: BGX(0..5)_SMU(0..3)_INT_LB_OVRFLW
+        value: 0xE0224 + a*0x1000 + b*0x40
+        attributes:
+          cib_rtl_module: "bgx_smu"
+          intsn_lsb_mismatch: "True"
+        description: See BGX(0..5)_SMU(0..3)_TX_INT[LB_OVRFLW].
+
       - name: BGX(0..5)_GMP(0..3)_INT_LNKSPD
         value: 0xE0300 + a*0x1000 + b*0x40
         attributes:
@@ -2016,19 +2030,9 @@ registers:
         typical: 0x0
         description: |
           Together with BGX(0..5)_CMR(0..3)_RX_LOGL_XON defines type of channel backpressure to
-          apply to the SMU.
-          Do not write when HiGig2 is enabled.  The following table describes the backpressure
-          applied to the SMU.
-           XOFF:XON   |    BP to SMU                       Comment
-          ------------------------------------------------------------------------------------------
-          --------------
-              11      |     NA                             Setting both XOFF and XON is not
-          applicable.
-              10      |     1                              backpressure SMU(XOFF)
-              01      |     0                              no backpressure SMU(XON)
-              00      |     channel_bp from pki            provide PKI BP values to SMU
-
-          NOTE: while setting of 11 is not applicable, it will result in XON behavior to the SMU.
+          apply to the SMU.  Do not write when HiGig2 is enabled.
+          Writing 1 sets the same physical register as that which is cleared by XON.
+          An XOFF value of 1 will cause a backpressure on SMU.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_LOGL_XON
@@ -2049,19 +2053,9 @@ registers:
         typical: 0x0
         description: |
           Together with BGX(0..5)_CMR(0..3)_RX_LOGL_XOFF defines type of channel backpressure to
-          apply.
-          Do not write when HiGig2 is enabled. The following table describes the backpressure
-          applied to the SMU.
-           XOFF:XON   |    BP to SMU                       Comment
-          ------------------------------------------------------------------------------------------
-          --------------
-              11      |     NA                             Setting both XOFF and XON is not
-          applicable.
-              10      |     1                              backpressure SMU(XOFF)
-              01      |     0                              no backpressure SMU(XON)
-              00      |     channel_bp from pki            provide PKI BP values to SMU
-
-          NOTE: while setting of 11 is not applicable, it will result in XON behavior to the SMU.
+          apply.  Do not write when HiGig2 is enabled.
+          Writing 1 clears the same physical register as that which is set by XOFF.
+          An XON value of 1 means only PKI channel BP can cause a backpressure on SMU.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_FIFO_LEN
@@ -7046,11 +7040,25 @@ registers:
       rtlgen_cib: "True"
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LB_OVRFLW
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: TX Loopback Overflow
+
+      - name: LB_UNDFLW
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: TX Loopback Underflow
 
       - name: FAKE_COMMIT
         bits: 2
@@ -7083,9 +7091,12 @@ registers:
     address: 0x11800E0020148 + a*0x1000000 + b*0x100000
     bus: RSL
     internal: |
-      '"* Programming IFG1 and IFG2.
+      "'"* Programming IFG1 and IFG2.
       For XAUI/RXAUI/10Gbs/40Gbs systems that require IEEE 802.3 compatibility, the
       IFG1+IFG2 sum must be 12.'
+      In loop-back mode the IFG1+IFG2 of local and remote parties MUST MATCH EXACTLY
+      otherwise one of the two side's loop-back FIFO will overrun:
+      BGX(0..5)_SMU(0..3)_TX_INT.LB_OVRFLW"
     fields:
       - name: --
         bits: 63..8
@@ -7324,6 +7335,10 @@ registers:
   - name: BGX(0..5)_SMU(0..3)_EXT_LOOPBACK
     address: 0x11800E0020208 + a*0x1000000 + b*0x100000
     bus: RSL
+    internal: |
+      In loop-back mode the IFG1+IFG2 of local and remote parties MUST MATCH EXACTLY
+      otherwise one of the two side's loop-back FIFO will overrun:
+      BGX(0..5)_SMU(0..3)_TX_INT.LB_OVRFLW
     fields:
       - name: --
         bits: 63..5
@@ -7345,14 +7360,13 @@ registers:
       - name: THRESH
         bits: 3..0
         access: R/W
-        reset: 0x6
-        typical: 0x6
+        reset: 0x2
+        typical: 0x2
         description: |
           Threshhold on the TX FIFO
           SW must only write the typical value.  Any other
           value will cause loopback mode not to function
-          correctly. PGS_TODO: determine whether to keep,
-          if so hook up to bgx_smu_tx.elb_fifo
+          correctly.
 
 
   - name: BGX(0..5)_SMU(0..3)_HG2_CONTROL

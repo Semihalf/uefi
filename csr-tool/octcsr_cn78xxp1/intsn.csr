@@ -7447,6 +7447,34 @@ enums:
           reg_name: "BGX(0..5)_SMU(0..3)_TX_INT"
         description: See BGX(0..5)_SMU(0..3)_TX_INT[FAKE_COMMIT].
 
+      - name: BGX(0..5)_SMU(0..3)_INT_LB_UNDFLW
+        value: 0xE0223 + a*0x1000 + b*0x40
+        attributes:
+          bit_name: "LB_UNDFLW"
+          bit_num: "3"
+          blk_enum_name: "BGX_INTSN_E"
+          cib_rtl_module: "bgx_smu"
+          intsn_lsb_mismatch: "True"
+          major_name: "BGX(0..5)"
+          major_val: "(0xE0+a)"
+          reg_addr: "(0x11800E0020140+a*0x1000000+b*0x100000)"
+          reg_name: "BGX(0..5)_SMU(0..3)_TX_INT"
+        description: See BGX(0..5)_SMU(0..3)_TX_INT[LB_UNDFLW].
+
+      - name: BGX(0..5)_SMU(0..3)_INT_LB_OVRFLW
+        value: 0xE0224 + a*0x1000 + b*0x40
+        attributes:
+          bit_name: "LB_OVRFLW"
+          bit_num: "4"
+          blk_enum_name: "BGX_INTSN_E"
+          cib_rtl_module: "bgx_smu"
+          intsn_lsb_mismatch: "True"
+          major_name: "BGX(0..5)"
+          major_val: "(0xE0+a)"
+          reg_addr: "(0x11800E0020140+a*0x1000000+b*0x100000)"
+          reg_name: "BGX(0..5)_SMU(0..3)_TX_INT"
+        description: See BGX(0..5)_SMU(0..3)_TX_INT[LB_OVRFLW].
+
       - name: BGX(0..5)_GMP(0..3)_INT_LNKSPD
         value: 0xE0300 + a*0x1000 + b*0x40
         attributes:

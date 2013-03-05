@@ -554,13 +554,20 @@ registers:
         description: |
           BIST result of the EMSK memory. INTERNAL: rcv.lap_exp_msk_mem.
 
+      - name: --
+        bits: 5..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: LAB_DAT
-        bits: 5..2
+        bits: 3..2
         access: RO/H
         reset: X
         typical: 0x0
         description: |
-          BIST result of the LAB_DAT memory. INTERNAL: lab.lab_bnk{0,1}_{hi,lo}_mem.
+          BIST result of the LAB_DAT memory. INTERNAL: lab.lab_bnk{0,1}_mem.
 
       - name: CTL_NXT
         bits: 1

@@ -103,20 +103,33 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: BGX_AGGR
+      - name: BGX_QUAD
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          For non-OCI links, this indicates the BGX is
+          in quad aggregation mode when BGX is also set.
+          A single controller is used for all 4 lanes.
+          For OCI links this bit has no meaning.
+
+      - name: BGX_DUAL
         bits: 3
         access: R/W
         reset: 0
         typical: 0
         description: |
           For non-OCI links, this indicates the BGX is
-          in aggregation mode when BGX is also set.
+          in dual aggregation mode when BGX is also set.
+          A single controller is used for lanes 0 & 1 and
+          another controller is used for lanes 2 & 3.
           For OCI links this bit has no meaning.
 
       - name: BGX

@@ -194,6 +194,8 @@ registers:
         access: R/W
         reset: 0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: Reset ILK. For diagnostic use only.
 
       - name: CCLK_DIS
@@ -1083,6 +1085,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Lane enable mask. Link is enabled if any lane is enabled. The same lane should not be
           enabled in multiple
@@ -1163,6 +1167,8 @@ registers:
         access: R/W
         reset: 0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Packet transmit flush. When asserted, the TxFIFO continuously drains; all data is dropped.
           Software should first write PKT_ENA = 0 and wait for PKT_BUSY = 0.
@@ -1711,6 +1717,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Lane-enable mask. The link is enabled if any lane is enabled. The same lane should not be
           enabled in multiple ILK_RXn_CFG0. Each bit of LANE_ENA maps to an RX lane (RLE) and a QLM
@@ -1791,6 +1799,8 @@ registers:
         access: WO
         reset: 0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Packet receive flush. Setting this bit to1 causes all open packets to be error-out, just
           as though the link went down.
@@ -1833,6 +1843,8 @@ registers:
         access: R/W/H
         reset: 0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Enable the lane alignment. This should only be done after all enabled lanes have achieved
           word boundary lock and scrambler synchronization. Note that hardware clears this when any
@@ -1843,6 +1855,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          regtest_force: "0"
         description: |
           Enable word-boundary lock. While disabled, received data is tossed. Once enabled, received
           data is searched for legal two-bit patterns. Automatically cleared for disabled lanes.
@@ -2429,6 +2443,8 @@ registers:
     title: ILK Lane-Status Message Register
     address: 0x1180014030000
     bus: RSL
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: RX_LNK_STAT
         bits: 63..48

@@ -720,11 +720,32 @@ registers:
         description: RCLK (core clock) left alignment settings
 
       - name: --
-        bits: 31..8
+        bits: 31..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CORE_STATUS
+        bits: 14..12
+        access: RO
+        reset: --
+        typical: --
+        description: Core clock PLL status information.
+
+      - name: --
+        bits: 11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PNR_STATUS
+        bits: 10..8
+        access: RO
+        reset: --
+        typical: --
+        description: PNR clock PLL status information.
 
       - name: C_COUT_RST
         bits: 7
@@ -766,17 +787,10 @@ registers:
           0x0 = coprocessor clock 0x2 = PLL output
           0x1 = PS output 0x3 = undivided core clock
 
-      - name: RFSLIP
-        bits: 1
+      - name: --
+        bits: 1..0
         access: ---
-        reset: 0
-        typical: --
-        description: Reserved.
-
-      - name: FBSLIP
-        bits: 0
-        access: ---
-        reset: 0
+        reset: --
         typical: --
         description: Reserved.
 

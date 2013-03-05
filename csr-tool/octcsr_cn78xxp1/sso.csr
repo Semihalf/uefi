@@ -722,9 +722,9 @@ structs:
         description: |
           Index or group or masks.
           If [INDEXED] = 1, <15:4> provides the index to get work from.
-          If [GROUPED] = 1, <13:4> provides the group number; SSO ignores <15:14> (these bits
-          correspond to the OCI node number, and it does not forward the request to a remote OCI
-          node.)
+          If [GROUPED] = 1, <13:4> provides the group number; the group number's OCI node must
+          correspond to the local OCI node, as SSO does not forward the request to a remote OCI
+          node.
           Otherwise, <5:4> indicates how to use the mask sets in SSO_PP(0..47)_S(0..1)_GRPMSK(0..3)
           (<15:6> are ignored):
           00 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
@@ -949,7 +949,8 @@ structs:
         bits: 61..52
         description: |
           Group that the work-queue entry will be scheduled to. Grp is used for ADDWQ, SWTAG_FULL,
-          SWTAG_DESCH, UPD_WQP_GRP.
+          SWTAG_DESCH, UPD_WQP_GRP. For non-ADDWQ this must indicate the local node. ADDWQ can be
+          performed onto any node.
 
       - name: --
         bits: 63..62
@@ -1154,13 +1155,13 @@ registers:
         typical: 0x0
         description: |
           Enable OCLA backpressure stalls. For diagnostic use only. INTERNAL:
-          <54> Work-slot response.
-          <53> Work-slot switching of descheduled work entries.
-          <52> Work-slot SWTAG response.
-          <51> Work-slot access to get-work engine.
-          <50> Work-slot CAM access.
-          <49> Work-slot RAM access.
-          <48> Work-slot pushes to AQ, CQ, DQ.
+          <54> Work-slot response. (arbrsp.)
+          <53> Work-slot switching of descheduled work entries. (arbx.)
+          <52> Work-slot SWTAG response. (arbs.)
+          <51> Work-slot access to get-work engine. (arbgw.)
+          <50> Work-slot CAM access. (arbc.)
+          <49> Work-slot RAM access. (arbr.)
+          <48> Work-slot pushes to AQ, CQ, DQ. (arbq.)
 
       - name: --
         bits: 47..2
@@ -1201,6 +1202,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           In-use page count. Number of pages SSO has allocated and not yet returned. Excludes unused
           pointers cached in SSO. Hardware updates this register.
@@ -2396,6 +2399,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Current number of XAQ reads outstanding.
 
       - name: --
@@ -2424,6 +2429,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Current number of tag reads outstanding.
 
       - name: --
@@ -2451,6 +2458,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Number of tag read requests.
 
 
@@ -2479,6 +2488,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Number of XAQ read requests.
 
 
@@ -2924,6 +2935,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Group's entry count. Number of transitory admission buffers allocated to this group.
 
       - name: --
