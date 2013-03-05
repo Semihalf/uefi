@@ -4,6 +4,8 @@ ifeq ($(SIM),cn61xx)
 	NUMCORES=4
 else ifeq ($(SIM),cnf71xx)
 	NUMCORES=4
+else ifeq ($(SIM),cn70xx)
+	NUMCORES=4
 else
 	NUMCORES=6
 endif
