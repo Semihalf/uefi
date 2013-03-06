@@ -287,17 +287,10 @@ static int __bdk_if_setup_ipd(bdk_if_handle_t handle)
  */
 static int __bdk_if_setup_pko(bdk_if_handle_t handle)
 {
-    const int buffers_per_queue = 4;
     int num_queues = sizeof(handle->cmd_queue) / sizeof(handle->cmd_queue[0]);
-
-    /* Allocate command buffers per queue */
-    if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, num_queues*buffers_per_queue))
-        return -1;
-
     for (int queue=0; queue<num_queues; queue++)
     {
-        if (bdk_cmd_queue_initialize(&handle->cmd_queue[queue], BDK_FPA_OUTPUT_BUFFER_POOL,
-            bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)-8))
+        if (bdk_cmd_queue_initialize(&handle->cmd_queue[queue]))
             return -1;
     }
 
@@ -420,6 +413,10 @@ static int __bdk_if_init(void)
     /* Setup the FPA packet buffers */
     if (bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL,
         bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS)))
+        return -1;
+    /* Allocate command buffers */
+    if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL,
+        bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS)))
         return -1;
 
     /* Setup the SSO */

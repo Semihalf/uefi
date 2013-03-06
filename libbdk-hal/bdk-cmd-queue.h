@@ -53,13 +53,11 @@ typedef struct
  * allocated and the hardware unit is configured to point to the
  * new command queue.
  *
- * @param qstate    Command queue to initialize.
- * @param fpa_pool  FPA pool the command queues should come from.
- * @param pool_size Size of each buffer in the FPA pool (bytes)
+ * @param qstate Command queue to initialize.
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate, int fpa_pool, int pool_size);
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate);
 
 /**
  * Shutdown a queue a free it's command buffers to the FPA. The

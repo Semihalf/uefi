@@ -5,18 +5,14 @@
  * allocated and the hardware unit is configured to point to the
  * new command queue.
  *
- * @param qstate    Hardware command queue to initialize.
- * @param fpa_pool  FPA pool the command queues should come from.
- * @param pool_size Size of each buffer in the FPA pool (bytes)
+ * @param qstate Hardware command queue to initialize.
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate, int fpa_pool, int pool_size)
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate)
 {
-    if ((fpa_pool < 0) || (fpa_pool > 7))
-        return BDK_CMD_QUEUE_INVALID_PARAM;
-    if ((pool_size < 32) || (pool_size > 65536))
-        return BDK_CMD_QUEUE_INVALID_PARAM;
+    int fpa_pool = BDK_FPA_OUTPUT_BUFFER_POOL;
+    int pool_size = bdk_fpa_get_block_size(fpa_pool);
 
     void *buffer = bdk_fpa_alloc(fpa_pool);
     if (buffer == NULL)

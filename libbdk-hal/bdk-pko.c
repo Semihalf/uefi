@@ -15,13 +15,10 @@ static int bdk_pko_next_free_engine = 0;
  */
 void bdk_pko_initialize(void)
 {
-    /* Set the size of the PKO command buffers to an odd number of 64bit
-        words. This allows the normal two word send to stay aligned and never
-        span a comamnd word buffer. */
     BDK_CSR_DEFINE(config, BDK_PKO_REG_CMD_BUF);
     config.u64 = 0;
     config.s.pool = BDK_FPA_OUTPUT_BUFFER_POOL;
-    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8 - 1;
+    config.s.size = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL) / 8;
     BDK_CSR_WRITE(BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */

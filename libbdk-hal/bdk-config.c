@@ -70,6 +70,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
     AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
+    AS_INIT(BDK_CONFIG_NUM_OUTPUT_BUFFERS, 0),
 
     /* Controls if link status messages are displayed. Turning this off
         can be useful to help scripting as the messages are aynchronous */
@@ -148,6 +149,7 @@ void __bdk_config_init(void)
 
     /* Set the number of packet buffers in FPA pool 0 */
     int num_packet_buffers = 768;
+    int num_output_buffers = 256;
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
     {
         /* CN61XX as low core count has poor performance.
@@ -161,6 +163,7 @@ void __bdk_config_init(void)
         num_packet_buffers = 1536;
     }
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
+    bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
 
     if (__bdk_is_dram_enabled())
     {
