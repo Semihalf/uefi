@@ -11,7 +11,6 @@ extern const bdk_qlm_ops_t bdk_qlm_ops_cnf71xx;
 extern const bdk_qlm_ops_t bdk_qlm_ops_cn78xx;
 
 static const bdk_qlm_ops_t *qlm_ops_list[] = {
-    &bdk_qlm_ops_cn63xx,
     &bdk_qlm_ops_cn61xx,
     &bdk_qlm_ops_cn63xx,
     &bdk_qlm_ops_cn66xx,
