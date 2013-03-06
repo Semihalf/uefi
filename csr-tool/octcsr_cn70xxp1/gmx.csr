@@ -3660,6 +3660,36 @@ registers:
           GMX_RX_UDD_SKP[SKIP]=16.
 
 
+  - name: GMX(0..1)_RXAUI_CTL
+    address: 0x1180008000740 + a*0x8000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DISPARITY
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Selects which disparity calculation to use when
+          combining or splitting the RXAUI lanes.
+          0=Interleave lanes before PCS layer
+          As described in the Dune Networks/Broadcom
+          RXAUI v2.1 specification.
+          (obeys 6.25GHz SERDES disparity)
+          1=Interleave lanes after PCS layer
+          As described in the Marvell RXAUI Interface
+          specification.
+          (does not obey 6.25GHz SERDES disparity)
+          (RXAUI mode only)
+
+
   - name: GMX(0..1)_TB_REG
     address: 0x11800080007E0 + a*0x8000000
     bus: RSL
@@ -3755,21 +3785,23 @@ registers:
           15 = QLM disabled
 
       - name: --
-        bits: 7..5
+        bits: 7..6
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MODE
-        bits: 4
+        bits: 5..4
         access: RO
-        reset: 0
+        reset: 0x0
         typical: --
         description: |
           Interface Electrical Operating Mode
           0: SGMII (v1.8)
           1: XAUI (IEEE 802.3-2005)
+          2: QSGMII
+          3: Reserved
 
       - name: --
         bits: 3..2

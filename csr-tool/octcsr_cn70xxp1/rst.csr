@@ -6,13 +6,13 @@ enums:
   - name: RST_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from RST; see Interrupt Source Numbers.
+    description: Enumerates the different interrupts from RST.
     values:
-      - name: RST_INT_LINK(0..3)
+      - name: RST_INT_LINK(0..2)
         value: 0x06000 + a
         description: See RST_INT[RST_LINK<a>].
 
-      - name: RST_INT_PERST(0..3)
+      - name: RST_INT_PERST(0..2)
         value: 0x06008 + a
         description: See RST_INT[PERST<a>].
 
@@ -65,7 +65,7 @@ registers:
         reset: 1
         typical: --
         description: |
-          When set, PPs other than 0 are disabled during a CHIPKILL.  Writes have no effect when
+          When set, cores other than 0 are disabled during a CHIPKILL.  Writes have no effect when
           RST_BOOT[CHIPKILL]=1.
 
       - name: JT_TSTMODE
@@ -75,8 +75,17 @@ registers:
         typical: --
         description: JTAG test mode.
 
+      - name: VRM_ERR
+        bits: 57
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          VRM did not complete operations within 5.25mS of DCOK being asserted. PLLs were released
+          automatically.
+
       - name: --
-        bits: 57..37
+        bits: 56..37
         access: ---
         reset: --
         typical: --
@@ -129,9 +138,9 @@ registers:
           Last boot cause mask; resets only with DCOK.
           <17> Warm reset due to Cntl3 link-down or hot-reset.
           <16> Warm reset due to Cntl2 link-down or hot-reset.
-          <15> Cntl3 reset due to PERST3_L pin.
+          <15> Reserved.
           <14> Cntl2 reset due to PERST2_L pin.
-          <13> Warm reset due to PERST3_L pin.
+          <13> Reserved.
           <12> Warm reset due to PERST2_L pin.
 
       - name: LBOOT
@@ -249,13 +258,29 @@ registers:
           change this field. Note that a cold reset always performs a full BIST.
 
 
-  - name: RST_OCX
-    title: RST OCX Register
-    address: 0x1180006001618
+  - name: RST_INT
+    title: RST Interrupt Register
+    address: 0x1180006001628
     bus: RSL
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PERST
+        bits: 10..8
+        access: R/W1C/H
+        reset: 0x0
+        typical: --
+        description: |
+          PERST*_L asserted while RST_CTL*[RST_RCV] = 1 and RST_CTL*[RST_CHIP] = 0. One bit
+          corresponds to each controller. Throws RST_INTSN_E::RST_INT_PERST(0..2).
+
+      - name: --
+        bits: 7..3
         access: ---
         reset: --
         typical: --
@@ -263,51 +288,13 @@ registers:
 
       - name: RST_LINK
         bits: 2..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Controls whether corresponding OCX link going down causes a chip reset. A warm/soft reset
-          does not change this field. On cold reset, this field is initialized to 0.
-
-
-  - name: RST_INT
-    title: RST Interrupt Register
-    address: 0x1180006001628
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..12
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PERST
-        bits: 11..8
-        access: R/W1C/H
-        reset: 0x0
-        typical: --
-        description: |
-          PERST*_L asserted while RST_CTL*[RST_RCV] = 1 and RST_CTL*[RST_CHIP] = 0. One bit
-          corresponds to each controller. Throws RST_INTSN_E::RST_INT_PERST(0..3).
-
-      - name: --
-        bits: 7..4
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RST_LINK
-        bits: 3..0
         access: R/W1C/H
         reset: 0x0
         typical: --
         description: |
           A controller link-down/hot-reset occurred while RST_CTL*[RST_LINK] = 0. Software must
           assert then deassert RST_SOFT_PRST*[SOFT_PRST]. One bit corresponds to each controller.
-          Throws RST_INTSN_E::RST_INT_LINK(0..3).
+          Throws RST_INTSN_E::RST_INT_LINK(0..2).
 
 
   - name: RST_CKILL
@@ -332,7 +319,7 @@ registers:
           effect when RST_BOOT[CHIPKILL] = 1.
 
 
-  - name: RST_CTL(0..3)
+  - name: RST_CTL(0..2)
     title: RST Controllers Registers
     address: 0x1180006001640 + a*0x8
     bus: RSL
@@ -472,7 +459,7 @@ registers:
           always read this register and wait for the results before setting SOFT_RST to 1.
 
 
-  - name: RST_SOFT_PRST(0..3)
+  - name: RST_SOFT_PRST(0..2)
     title: RST PCIe Soft Reset Registers
     address: 0x11800060016C0 + a*0x8
     bus: RSL
@@ -495,7 +482,7 @@ registers:
           If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
           If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
           When CN78XX is configured to drive PERST*_L (i.e.
-          RST_CTL0/1[RST_DRV] = 1), this controls the output value on PERST*_L.
+          RST_CTLn[RST_DRV] = 1), this controls the output value on PERST*_L.
 
 
 

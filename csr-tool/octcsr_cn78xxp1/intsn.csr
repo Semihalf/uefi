@@ -3369,6 +3369,136 @@ enums:
           reg_name: "PKI_CL(0..3)_ECC_INT"
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_DBE].
 
+      - name: HNA_ERROR_DBLOVF
+        value: 0x47000
+        attributes:
+          bit_name: "DBLOVF"
+          bit_num: "0"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DBLOVF].
+
+      - name: HNA_ERROR_DC0PERR(0..2)
+        value: 0x47001 + a
+        attributes:
+          bit_name: "DC0PERR<a>"
+          bit_num: "1+a"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DC0PERR<a>].
+
+      - name: HNA_ERROR_DC1PERR(0..2)
+        value: 0x47004 + a
+        attributes:
+          bit_name: "DC1PERR<a>"
+          bit_num: "4+a"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DC1PERR<a>].
+
+      - name: HNA_ERROR_DC2PERR(0..2)
+        value: 0x47007 + a
+        attributes:
+          bit_name: "DC2PERR<a>"
+          bit_num: "7+a"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DC2PERR<a>].
+
+      - name: HNA_ERROR_DC3PERR(0..2)
+        value: 0x4700A + a
+        attributes:
+          bit_name: "DC3PERR<a>"
+          bit_num: "10+a"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DC3PERR<a>].
+
+      - name: HNA_ERROR_DLC0_OVFERR
+        value: 0x4700D
+        attributes:
+          bit_name: "DLC0_OVFERR"
+          bit_num: "13"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DLC0_OVFERR].
+
+      - name: HNA_ERROR_DLC1_OVFERR
+        value: 0x4700E
+        attributes:
+          bit_name: "DLC1_OVFERR"
+          bit_num: "14"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DLC1_OVFERR].
+
+      - name: HNA_ERROR_HNANXM
+        value: 0x47011
+        attributes:
+          bit_name: "HNANXM"
+          bit_num: "17"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HNANXM].
+
+      - name: HNA_ERROR_REPLERR
+        value: 0x47012
+        attributes:
+          bit_name: "REPLERR"
+          bit_num: "18"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[REPLERR].
+
+      - name: HNA_ERROR_OSMERR
+        value: 0x47013
+        attributes:
+          bit_name: "OSMERR"
+          bit_num: "19"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[OSMERR].
+
       - name: LUT_SBE_CMB0
         value: 0x50000
         attributes:
@@ -5042,6 +5172,18 @@ enums:
           reg_addr: "(0x11800880001F0|a<<24)"
           reg_name: "LMC(0..3)_INT"
         description: See LMC(0..3)_INT[DLCRAM_DED_ERR].
+
+      - name: LMC(0..3)_INT_DDR_ERR
+        value: 0x8800B + a*0x1000
+        attributes:
+          bit_name: "DDR_ERR"
+          bit_num: "11"
+          blk_enum_name: "LMC_INTSN_E"
+          major_name: "LMC(0..3)"
+          major_val: "(0x88+a)"
+          reg_addr: "(0x11800880001F0|a<<24)"
+          reg_name: "LMC(0..3)_INT"
+        description: See LMC(0..3)_INT[DDR_ERR].
 
       - name: OCLA(0..4)_STATE_OVFL(0..3)
         value: 0xA8000 + a*0x1000 + b

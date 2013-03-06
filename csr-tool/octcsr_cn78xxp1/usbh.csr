@@ -973,7 +973,7 @@ registers:
         description: Reserved.
 
 
-  - name: UCTL(0)_PORT(0..0)_CFG
+  - name: UCTL(0)_PORT(0..0)_CFG_HS
     title: UCTL Port Configuration Registers
     address: 0x1180068000040 + a*0x1000000 + b*0x20
     bus: RSL
@@ -981,43 +981,14 @@ registers:
       Accessible by: only when H_CLKDIV_EN
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
       This register controls configuration and test controls for the port@ PHY.
+      INTERNAL: All these settings are for HS functionality, connect on DVDD power domain.
     fields:
-      - name: TX_VBOOST_LVL
-        bits: 63..61
-        access: R/W
-        reset: 0x4
-        typical: 0x4
-        description: |
-          TX voltage-boost level. Sets the boosted transmit launch amplitude (mVppd). The default
-          bit setting is intended to set the launch amplitude to approximately 1,008 mVppd. A
-          single, positive binary bit setting change results in a +156 mVppd change in the Tx launch
-          amplitude.
-          A single, negative binary bit setting change results in a -156 mVppd change in the Tx
-          launch amplitude. All settings more than one binary bit change should not be used.
-          0x3 = 0.844 V launch amplitude
-          0x4 = 1.008 V launch amplitude
-          0x5 = 1.156 V launch amplitude
-          All others values are invalid.
-
-      - name: LOS_BIAS
-        bits: 60..58
-        access: R/W
-        reset: 0x5
-        typical: 0x5
-        description: |
-          Loss-of-signal detector threshold-level control. A positive, binary bit setting change
-          results in a +15 mVp incremental change in the LOS threshold.
-          A negative binary bit setting change results in a -15 mVp incremental change in the LOS
-          threshold. The 0x0 setting is reserved and must not be used. The default 0x5 setting
-          corresponds to approximately 105 mVp.
-              0x0: invalid
-              0x1:  45 mV
-              0x2:  60 mV
-              0x3:  75 mV
-              0x4:  90 mV
-              0x5: 105 mV
-              0x6: 120 mV
-              0x7: 135 mV
+      - name: --
+        bits: 63..58
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: COMP_DIS_TUNE
         bits: 57..55
@@ -1093,14 +1064,12 @@ registers:
           0x0 = HighSpeed TX pre-emphasis is disabled.
           If these signals are not used, set them to 0x0.
 
-      - name: LANE0_TX2RX_LOOPBK
+      - name: --
         bits: 41
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
-          based on the tx0_en input so that rx0_los = !tx_data_en.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: TX_PREEMP_PULSE_TUNE
         bits: 40
@@ -1158,11 +1127,150 @@ registers:
           The default bit setting is intended to create a HighSpeed transmit
           DC level of approximately 400mV.
 
+      - name: --
+        bits: 31..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VATEST_ENABLE
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Analog test-pin select. Enables analog test voltages to be placed on the ID0 pin.
+          0x0 = test functionality disabled
+          0x1 = test functionality enabled
+          0x2, 0x3 = reserved, invalid settings
+          See also the PHY databook for details on how to select which analog test voltage.
+
+      - name: LOOPBACK_ENABLE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Places the HighSpeed PHY in loopback mode, which concurrently enables HighSpeed receive
+          and transmit logic.
+
+      - name: ATERESET
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Per-PHY ATE reset. When the USB core is powered up (not in suspend mode), an automatic
+          tester can use this to disable PHYCLOCK and FREECLK, then re-enable them with an aligned
+          phase.
+          1 = PHYCLOCK and FREECLK outputs are disabled.
+          0 = PHYCLOCK and FREECLK are available within a specific period after ATERESET is
+          deasserted.
+
+
+  - name: UCTL(0)_PORT(0..0)_CFG_SS
+    title: UCTL Port Configuration Registers
+    address: 0x1180068000048 + a*0x1000000 + b*0x20
+    bus: RSL
+    description: |
+      Accessible by: only when H_CLKDIV_EN
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      This register controls configuration and test controls for the port@ PHY.
+      INTERNAL: All these settings are for SS or centralized functionality, connect on vp power
+      domain.
+    fields:
+      - name: TX_VBOOST_LVL
+        bits: 63..61
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          TX voltage-boost level. Sets the boosted transmit launch amplitude (mVppd). The default
+          bit setting is intended to set the launch amplitude to approximately 1,008 mVppd. A
+          single, positive binary bit setting change results in a +156 mVppd change in the Tx launch
+          amplitude.
+          A single, negative binary bit setting change results in a -156 mVppd change in the Tx
+          launch amplitude. All settings more than one binary bit change should not be used.
+          0x3 = 0.844 V launch amplitude
+          0x4 = 1.008 V launch amplitude
+          0x5 = 1.156 V launch amplitude
+          All others values are invalid.
+
+      - name: LOS_BIAS
+        bits: 60..58
+        access: R/W
+        reset: 0x5
+        typical: 0x5
+        description: |
+          Loss-of-signal detector threshold-level control. A positive, binary bit setting change
+          results in a +15 mVp incremental change in the LOS threshold.
+          A negative binary bit setting change results in a -15 mVp incremental change in the LOS
+          threshold. The 0x0 setting is reserved and must not be used. The default 0x5 setting
+          corresponds to approximately 105 mVp.
+              0x0: invalid
+              0x1:  45 mV
+              0x2:  60 mV
+              0x3:  75 mV
+              0x4:  90 mV
+              0x5: 105 mV
+              0x6: 120 mV
+              0x7: 135 mV
+
+      - name: --
+        bits: 57
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LANE0_TX2RX_LOOPBK
+        bits: 56
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
+          based on the tx0_en input so that rx0_los = !tx_data_en.
+
+      - name: --
+        bits: 55..42
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_RX_LOS_MASK_VAL
+        bits: 41..32
+        access: R/W
+        reset: 0xc0
+        typical: 0xc0
+        description: |
+          Configurable Loss-of-Signal Mask Width.
+          Sets the number of reference clock cycles to mask the incoming LFPS in U3 and U2 states.
+          Masks the incoming LFPS for the number of reference clock cycles equal to the value of
+          pcs_rx_los_mask_val[9:0]. This control filters out short, non-compliant LFPS glitches
+          sent by a non-compliant host.
+          For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
+          If the UCTL(0)_CTL[REF_CLK_DIV2] is used, the value = 10us / (2 * Tref_clk).
+            Based on UCTL(0)_CTL[REF_CLK_FSEL], and assuming UCTL(0)_CTL[REF_CLK_DIV2] is set to
+          zero,
+            the value of PCS_RX_LOS_MASK_VAL should be:
+              Enum   Tref_clk   LOS_MASK
+              0x27 = 100MHz   = 0x3E8
+              0x07 =  50MHz   = 0x1F4
+              0x2A =  24MHz   = 0x0F0
+              0x31 =  20MHz   = 0x0C8
+              0x38 =  19.2MHz = 0x0C0
+          Setting this bus to 0x0 disables masking.
+          The value should be defined when the PHY is in reset. Changing this value during operation
+          might disrupt normal operation of the link.
+
       - name: PCS_TX_DEEMPH_3P5DB
         bits: 31..26
         access: R/W
-        reset: 0x15
-        typical: 0x15
+        reset: 0x18
+        typical: 0x18
         description: |
           Fine-tune transmitter driver de-emphasis when set to 3.5db.
           This static value sets the Tx driver de-emphasis value when pipeP_tx_deemph[1:0] is set to
@@ -1179,8 +1287,8 @@ registers:
       - name: PCS_TX_DEEMPH_6DB
         bits: 25..20
         access: R/W
-        reset: 0x20
-        typical: 0x20
+        reset: 0x23
+        typical: 0x23
         description: |
           Fine-tune transmitter driver de-emphasis when set to 6db.
           This static value sets the Tx driver de-emphasis value when pipeP_tx_deemph[1:0] is set to
@@ -1198,8 +1306,8 @@ registers:
       - name: PCS_TX_SWING_FULL
         bits: 19..13
         access: R/W
-        reset: 0x78
-        typical: 0x78
+        reset: 0x7f
+        typical: 0x7f
         description: |
           Launch amplitude of the transmitter. Sets the launch amplitude of the transmitter. The
           values for transmit amplitude are derived from the following equation:
@@ -1243,44 +1351,17 @@ registers:
           Tuning disrupts the normal flow of data; therefore, assert RES_TUNE_REQ only when the PHY
           is inactive. The PHY automatically performs a tune when coming out of PRST.
 
-      - name: VATEST_ENABLE
-        bits: 3..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Analog test-pin select. Enables analog test voltages to be placed on the ID0 pin.
-          0x0 = test functionality disabled
-          0x1 = test functionality enabled
-          0x2, 0x3 = reserved, invalid settings
-          See also the PHY databook for details on how to select which analog test voltage.
-
-      - name: LOOPBACK_ENABLE
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Places the HighSpeed PHY in loopback mode, which concurrently enables HighSpeed receive
-          and transmit logic.
-
-      - name: ATERESET
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Per-PHY ATE reset. When the USB core is powered up (not in suspend mode), an automatic
-          tester can use this to disable PHYCLOCK and FREECLK, then re-enable them with an aligned
-          phase.
-          1 = PHYCLOCK and FREECLK outputs are disabled.
-          0 = PHYCLOCK and FREECLK are available within a specific period after ATERESET is
-          deasserted.
+      - name: --
+        bits: 3..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
 
   - name: UCTL(0)_PORT(0..0)_CR_DBG_CFG
     title: UCTL Port Debug Configuration Registers
-    address: 0x1180068000048 + a*0x1000000 + b*0x20
+    address: 0x1180068000050 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
@@ -1393,7 +1474,7 @@ registers:
 
   - name: UCTL(0)_PORT(0..0)_CR_DBG_STATUS
     title: UCTL Port Debug Status Registers
-    address: 0x1180068000050 + a*0x1000000 + b*0x20
+    address: 0x1180068000058 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
@@ -1688,12 +1769,13 @@ registers:
     description: |
       Accessible by: only when H_CLKDIV_EN
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
-      This register can be used to disable ECC checks, insert ECC errors, and debug ECC failures.
+      This register can be used to disable ECC correction, insert ECC errors, and debug ECC
+      failures.
       Fields ECC_ERR* are captured when there are no outstanding ECC errors indicated in INTSTAT
       and a new ECC error arrives. Prioritization for multiple events occurring on the same cycle is
       indicated by the ECC_ERR_SOURCE enumeration: highest encoded value has highest priority.
-      Fields *ECC_DIS: Disables SBE detection/correction and DBE detection.
-      If ECC_DIS is 0x1, then no errors are detected.
+      Fields *ECC_DIS: Disables ECC correction, SBE and DBE errors are still reported.
+      If ECC_DIS is 0x1, then no data-correction occurs.
       Fields *ECC_FLIP_SYND:  Flip the syndrom[1:0] bits to generate 1-bit/2-bits error for testing.
         0x0: normal operation
         0x1: SBE on bit[0]

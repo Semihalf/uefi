@@ -76,7 +76,6 @@ registers:
     description: |
       Specify the RSL base addresses for the block
       DFA_CONFIG = DFA Configuration Register
-      Description:
     fields:
       - name: --
         bits: 63..11
@@ -221,8 +220,6 @@ registers:
     title: DFA Control Register
     address: 0x1180037000020
     bus: RSL
-    description: |
-      Description:
     fields:
       - name: --
         bits: 63..12
@@ -238,7 +235,7 @@ registers:
         typical: 0x0
         description: |
           "SBD Debug Entry#
-          *FOR INTERNAL USE ONLY*
+          INTERNAL:
           DFA Scoreboard debug control
           Selects which one of 48 DFA Scoreboard entries is
           latched into the DFA_SBD_DBG[0-3] registers."
@@ -250,7 +247,7 @@ registers:
         typical: 0
         description: |
           DFA Scoreboard LOCK Strobe
-          *FOR INTERNAL USE ONLY*
+          INTERNAL:
           DFA Scoreboard debug control
           When written with a '1', the DFA Scoreboard Debug
           registers (DFA_SBD_DBG[0-3]) are all locked down.
@@ -304,8 +301,6 @@ registers:
     title: DFA ERROR Register
     address: 0x1180037000028
     bus: RSL
-    description: |
-      Description:
     fields:
       - name: --
         bits: 63..20
@@ -391,8 +386,7 @@ registers:
           this additional bit further specifies that the
           RAM1 parity error was detected during a CND-RD
           (Cache Node Metadata Read).
-          *DON'T PUT IN HRM*
-          For CNDRD Parity Error, the previous CNA arc fetch
+          INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch
           information is written to RWORD1+ as follows:
           RWORD1+[NTYPE]=MNODE
           RWORD1+[NDNID]=cna.ndnid
@@ -491,8 +485,7 @@ registers:
     address: 0x1180037000040
     bus: RSL
     description: |
-      "*FOR INTERNAL USE ONLY*
-      Description: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      "INTERNAL: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down.
       Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
       the time of the
@@ -540,8 +533,7 @@ registers:
     address: 0x1180037000048
     bus: RSL
     description: |
-      "*FOR INTERNAL USE ONLY*
-      Description: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      "INTERNAL: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down.
       Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
       the time of the
@@ -570,7 +562,7 @@ registers:
     address: 0x1180037000050
     bus: RSL
     description: |
-      Description: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down.
       Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
       the time of the
@@ -599,7 +591,7 @@ registers:
     address: 0x1180037000058
     bus: RSL
     description: |
-      Description: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down.
       Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
       the time of the
@@ -627,7 +619,7 @@ registers:
     address: 0x1180037000060
     bus: RSL
     description: |
-      "Description: DFA Node Cache Failing Address/Control Error Capture information
+      "DFA Node Cache Failing Address/Control Error Capture information.
       This register contains useful information to help in isolating a Node Cache RAM failure.
       NOTE: The first detected PERR failure is captured in DFA_DTCFADR (locked down), until the
       corresponding PERR Interrupt is cleared by writing one (W1C). (see: DFA_ERR[DC0PERR[2:0]]).
@@ -700,9 +692,7 @@ registers:
     title: DFA Performance Counter Global Control
     address: 0x1180037000080
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..31
@@ -934,9 +924,7 @@ registers:
     title: "DFA Performance Counter#0 Control"
     address: 0x1180037000088
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
@@ -1028,9 +1016,7 @@ registers:
     title: "DFA Performance Counter #0"
     address: 0x1180037000090
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT0
         bits: 63..0
@@ -1050,9 +1036,7 @@ registers:
     title: "DFA Performance Counter#1 Control"
     address: 0x1180037000098
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
@@ -1137,9 +1121,7 @@ registers:
     title: "DFA Performance Counter #1"
     address: 0x11800370000A0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT1
         bits: 63..0
@@ -1159,9 +1141,7 @@ registers:
     title: "DFA Performance Counter#2 Control"
     address: 0x11800370000A8
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
@@ -1246,9 +1226,7 @@ registers:
     title: "DFA Performance Counter #2"
     address: 0x11800370000B0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT2
         bits: 63..0
@@ -1268,9 +1246,7 @@ registers:
     title: "DFA Performance Counter#3 Control"
     address: 0x11800370000B8
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
@@ -1355,9 +1331,7 @@ registers:
     title: "DFA Performance Counter #3"
     address: 0x11800370000C0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
+    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT3
         bits: 63..0
@@ -1377,8 +1351,6 @@ registers:
     title: DFA Bist Status (per-DTC)
     address: 0x11800370007F0
     bus: RSL
-    description: |
-      Description:
     fields:
       - name: --
         bits: 63..32
@@ -1519,8 +1491,6 @@ registers:
     title: DFA Bist Status (Globals)
     address: 0x11800370007F8
     bus: RSL
-    description: |
-      Description:
     fields:
       - name: --
         bits: 63..24
@@ -1745,7 +1715,6 @@ registers:
     address: 0x1370000000000
     bus: NCB
     description: |
-      Description:
       NOTE: To write to the DFA_DBELL register, a device would issue an IOBST directed at the DFA
       with addr[34:33]=2'b00.
       To read the DFA_DBELL register, a device would issue an IOBLD64 directed at the DFA with
@@ -1787,7 +1756,6 @@ registers:
     address: 0x1370200000000
     bus: NCB
     description: |
-      Description:
       NOTE: To write to the DFA_DIFRDPTR register, a device would issue an IOBST directed at the DFA
       with addr[34:33]=2'b01.
       To read the DFA_DIFRDPTR register, a device would issue an IOBLD64 directed at the DFA with
@@ -1839,7 +1807,6 @@ registers:
     address: 0x1370600000000
     bus: NCB
     description: |
-      Description:
       NOTE: To write to the DFA_DIFCTL register, a device would issue an IOBST directed at the DFA
       with addr[34:32]=3'b110.
       To read the DFA_DIFCTL register, a device would issue an IOBLD64 directed at the DFA with
@@ -1954,7 +1921,6 @@ registers:
     address: 0x1370700000000
     bus: NCB
     description: |
-      Description:
       DFA supports NCB-Direct CSR acccesses to DFM Memory space for debug purposes. Unfortunately,
       NCB-Direct accesses
       are limited to QW-size(64bits), whereas the minimum access granularity for DFM Memory space is

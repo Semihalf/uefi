@@ -523,7 +523,8 @@ registers:
 
 
   - name: MIO_FUS_RPR_DAT(0..1)
-    title: MIO Fuse Repair Memory
+    title: |
+      INTERNAL: MIO Fuse Repair Memory Register
     address: 0x1180000001530 + a*0x8
     bus: RSL
     fields:
@@ -533,8 +534,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Repair memory store (RPR_MEM). Data for read & write. A write to FUS_RPR_DAT1 writes all
-          128b from both registers to RPR_MEM.
+          INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
+          MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM.
 
 
   - name: MIO_FUS_SOFT_REPAIR
@@ -564,9 +565,9 @@ registers:
         reset: --
         typical: --
         description: |
-          INTERNAL: After reset/BIST indicates the number of memory defects reported.
-          Defects are stored in REPAIR_MEM from bit address NUMREPAIRS*21 to
-          (NUMREPAIRS*21 + NUMDEFECTS*21 - 1).
+          INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
+          stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+          1).
 
       - name: NUMREPAIRS
         bits: 7..0
@@ -574,9 +575,9 @@ registers:
         reset: --
         typical: 0x0
         description: |
-          INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories
-          on a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem
-          on cold reset.
+          INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
+          a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+          cold reset.
 
 
   - name: MIO_FUS_EMA
@@ -719,11 +720,32 @@ registers:
         description: RCLK (core clock) left alignment settings
 
       - name: --
-        bits: 31..8
+        bits: 31..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CORE_STATUS
+        bits: 14..12
+        access: RO
+        reset: --
+        typical: --
+        description: RCLK (core clock) PLL status information
+
+      - name: --
+        bits: 11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PNR_STATUS
+        bits: 10..8
+        access: RO
+        reset: --
+        typical: --
+        description: SCLK (pnr clock) PLL status information
 
       - name: C_COUT_RST
         bits: 7
@@ -765,17 +787,10 @@ registers:
           0x0 = coprocessor clock 0x2 = PLL output
           0x1 = PS output 0x3 = undivided core clock
 
-      - name: RFSLIP
-        bits: 1
+      - name: --
+        bits: 1..0
         access: ---
-        reset: 0
-        typical: --
-        description: Reserved.
-
-      - name: FBSLIP
-        bits: 0
-        access: ---
-        reset: 0
+        reset: --
         typical: --
         description: Reserved.
 

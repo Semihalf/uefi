@@ -3,7 +3,7 @@
 ---
 name: AGL
 registers:
-  - name: AGL_GMX_RX(0..1)_INT_REG
+  - name: AGL_GMX_RX(0..0)_INT_REG
     title: Interrupt Register
     address: 0x11800E0000000 + a*0x800
     bus: RSL
@@ -202,7 +202,7 @@ registers:
         description: Frame was received with length < min_length
 
 
-  - name: AGL_GMX_RX(0..1)_INT_EN
+  - name: AGL_GMX_RX(0..0)_INT_EN
     title: Interrupt Enable
     address: 0x11800E0000008 + a*0x800
     bus: RSL
@@ -356,7 +356,7 @@ registers:
         description: Frame was received with length < min_length
 
 
-  - name: AGL_GMX_PRT(0..1)_CFG
+  - name: AGL_GMX_PRT(0..0)_CFG
     title: Port description
     address: 0x11800E0000010 + a*0x800
     bus: RSL
@@ -490,7 +490,7 @@ registers:
           will be ignored.
 
 
-  - name: AGL_GMX_RX(0..1)_FRM_CTL
+  - name: AGL_GMX_RX(0..0)_FRM_CTL
     title: Frame Control
     address: 0x11800E0000018 + a*0x800
     bus: RSL
@@ -655,7 +655,7 @@ registers:
           interrupt is also raised.
 
 
-  - name: AGL_GMX_RX(0..1)_FRM_CHK
+  - name: AGL_GMX_RX(0..0)_FRM_CHK
     title: Which frame errors will set the ERR bit of the frame
     address: 0x11800E0000020 + a*0x800
     bus: RSL
@@ -741,7 +741,7 @@ registers:
         description: Frame was received with length < min_length
 
 
-  - name: AGL_GMX_RX(0..1)_FRM_MIN
+  - name: AGL_GMX_RX(0..0)_FRM_MIN
     title: Frame Min length
     address: 0x11800E0000028 + a*0x800
     bus: RSL
@@ -769,7 +769,7 @@ registers:
           if packet has good FCS).
 
 
-  - name: AGL_GMX_RX(0..1)_FRM_MAX
+  - name: AGL_GMX_RX(0..0)_FRM_MAX
     title: Frame Max length
     address: 0x11800E0000030 + a*0x800
     bus: RSL
@@ -803,7 +803,7 @@ registers:
           LEN <= AGL_GMX_RX_JABBER[CNT]
 
 
-  - name: AGL_GMX_RX(0..1)_JABBER
+  - name: AGL_GMX_RX(0..0)_JABBER
     title: The max size packet after which GMX will truncate
     address: 0x11800E0000038 + a*0x800
     bus: RSL
@@ -841,7 +841,7 @@ registers:
           CNT >= AGL_GMX_RX_FRM_MAX[LEN]
 
 
-  - name: AGL_GMX_RX(0..1)_DECISION
+  - name: AGL_GMX_RX(0..0)_DECISION
     title: The byte count to decide when to accept or filter a packet
     address: 0x11800E0000040 + a*0x800
     bus: RSL
@@ -882,7 +882,7 @@ registers:
           a packet.
 
 
-  - name: AGL_GMX_RX(0..1)_UDD_SKP
+  - name: AGL_GMX_RX(0..0)_UDD_SKP
     title: Amount of User-defined data before the start of the L2 data
     address: 0x11800E0000048 + a*0x800
     bus: RSL
@@ -942,7 +942,7 @@ registers:
           Max value is 64.
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_CTL
+  - name: AGL_GMX_RX(0..0)_STATS_CTL
     title: RX Stats Control register
     address: 0x11800E0000050 + a*0x800
     bus: RSL
@@ -963,7 +963,7 @@ registers:
         description: RX Stats registers will clear on reads
 
 
-  - name: AGL_GMX_RX(0..1)_IFG
+  - name: AGL_GMX_RX(0..0)_IFG
     title: RX Min IFG
     address: 0x11800E0000058 + a*0x800
     bus: RSL
@@ -991,7 +991,7 @@ registers:
           the full 96 bits of IFG.
 
 
-  - name: AGL_GMX_RX(0..1)_RX_INBND
+  - name: AGL_GMX_RX(0..0)_RX_INBND
     address: 0x11800E0000060 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_INBND = RGMII InBand Link Status
@@ -1041,7 +1041,7 @@ registers:
           1=up
 
 
-  - name: AGL_GMX_RX(0..1)_PAUSE_DROP_TIME
+  - name: AGL_GMX_RX(0..0)_PAUSE_DROP_TIME
     title: The TIME field in a PAUSE Packet which was dropped due to GMX RX FIFO full condition
     address: 0x11800E0000068 + a*0x800
     bus: RSL
@@ -1062,7 +1062,7 @@ registers:
         description: Time extracted from the dropped PAUSE packet
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_PKTS
+  - name: AGL_GMX_RX(0..0)_STATS_PKTS
     address: 0x11800E0000080 + a*0x800
     bus: RSL
     description: |
@@ -1089,7 +1089,7 @@ registers:
         description: Count of received good packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_OCTS
+  - name: AGL_GMX_RX(0..0)_STATS_OCTS
     address: 0x11800E0000088 + a*0x800
     bus: RSL
     fields:
@@ -1108,7 +1108,7 @@ registers:
         description: Octet count of received good packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_PKTS_CTL
+  - name: AGL_GMX_RX(0..0)_STATS_PKTS_CTL
     address: 0x11800E0000090 + a*0x800
     bus: RSL
     description: |
@@ -1139,7 +1139,7 @@ registers:
         description: Count of received pause packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_OCTS_CTL
+  - name: AGL_GMX_RX(0..0)_STATS_OCTS_CTL
     address: 0x11800E0000098 + a*0x800
     bus: RSL
     fields:
@@ -1158,7 +1158,7 @@ registers:
         description: Octet count of received pause packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_PKTS_DMAC
+  - name: AGL_GMX_RX(0..0)_STATS_PKTS_DMAC
     address: 0x11800E00000A0 + a*0x800
     bus: RSL
     description: |
@@ -1189,7 +1189,7 @@ registers:
         description: Count of filtered dmac packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_OCTS_DMAC
+  - name: AGL_GMX_RX(0..0)_STATS_OCTS_DMAC
     address: 0x11800E00000A8 + a*0x800
     bus: RSL
     fields:
@@ -1208,7 +1208,7 @@ registers:
         description: Octet count of filtered dmac packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_PKTS_DRP
+  - name: AGL_GMX_RX(0..0)_STATS_PKTS_DRP
     address: 0x11800E00000B0 + a*0x800
     bus: RSL
     description: |
@@ -1236,7 +1236,7 @@ registers:
         description: Count of dropped packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_OCTS_DRP
+  - name: AGL_GMX_RX(0..0)_STATS_OCTS_DRP
     address: 0x11800E00000B8 + a*0x800
     bus: RSL
     fields:
@@ -1255,7 +1255,7 @@ registers:
         description: Octet count of dropped packets
 
 
-  - name: AGL_GMX_RX(0..1)_STATS_PKTS_BAD
+  - name: AGL_GMX_RX(0..0)_STATS_PKTS_BAD
     address: 0x11800E00000C0 + a*0x800
     bus: RSL
     description: |
@@ -1281,7 +1281,7 @@ registers:
         description: Count of bad packets
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CTL
+  - name: AGL_GMX_RX(0..0)_ADR_CTL
     title: Address Filtering Control
     address: 0x11800E0000100 + a*0x800
     bus: RSL
@@ -1355,7 +1355,7 @@ registers:
         description: Accept All Broadcast Packets
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM_EN
+  - name: AGL_GMX_RX(0..0)_ADR_CAM_EN
     title: Address Filtering Control Enable
     address: 0x11800E0000108 + a*0x800
     bus: RSL
@@ -1376,7 +1376,7 @@ registers:
         description: CAM Entry Enables
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM0
+  - name: AGL_GMX_RX(0..0)_ADR_CAM0
     address: 0x11800E0000180 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1394,7 +1394,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM1
+  - name: AGL_GMX_RX(0..0)_ADR_CAM1
     address: 0x11800E0000188 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1412,7 +1412,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM2
+  - name: AGL_GMX_RX(0..0)_ADR_CAM2
     address: 0x11800E0000190 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1430,7 +1430,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM3
+  - name: AGL_GMX_RX(0..0)_ADR_CAM3
     address: 0x11800E0000198 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1448,7 +1448,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM4
+  - name: AGL_GMX_RX(0..0)_ADR_CAM4
     address: 0x11800E00001A0 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1466,7 +1466,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_RX(0..1)_ADR_CAM5
+  - name: AGL_GMX_RX(0..0)_ADR_CAM5
     address: 0x11800E00001A8 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
@@ -1484,7 +1484,7 @@ registers:
           addresses.
 
 
-  - name: AGL_GMX_TX(0..1)_CLK
+  - name: AGL_GMX_TX(0..0)_CLK
     title: RGMII TX Clock Generation Register
     address: 0x11800E0000208 + a*0x800
     bus: RSL
@@ -1517,7 +1517,7 @@ registers:
           rgm_ref_clk(period)*CLK_CNT
 
 
-  - name: AGL_GMX_TX(0..1)_THRESH
+  - name: AGL_GMX_TX(0..0)_THRESH
     title: Packet TX Threshold
     address: 0x11800E0000210 + a*0x800
     bus: RSL
@@ -1544,7 +1544,7 @@ registers:
           the TX FIFO depth which is 128, 8B entries.
 
 
-  - name: AGL_GMX_TX(0..1)_APPEND
+  - name: AGL_GMX_TX(0..0)_APPEND
     title: Packet TX Append Control
     address: 0x11800E0000218 + a*0x800
     bus: RSL
@@ -1591,7 +1591,7 @@ registers:
         description: Prepend the Ethernet preamble on each transfer
 
 
-  - name: AGL_GMX_SMAC(0..1)
+  - name: AGL_GMX_SMAC(0..0)
     title: Packet SMAC
     address: 0x11800E0000230 + a*0x800
     bus: RSL
@@ -1614,7 +1614,7 @@ registers:
           accepting Control Pause packets
 
 
-  - name: AGL_GMX_TX(0..1)_PAUSE_PKT_TIME
+  - name: AGL_GMX_TX(0..0)_PAUSE_PKT_TIME
     title: Packet TX Pause Packet pause_time field
     address: 0x11800E0000238 + a*0x800
     bus: RSL
@@ -1653,7 +1653,7 @@ registers:
           Normally, TIME > AGL_GMX_TX_PAUSE_PKT_INTERVAL
 
 
-  - name: AGL_GMX_TX(0..1)_MIN_PKT
+  - name: AGL_GMX_TX(0..0)_MIN_PKT
     title: Packet TX Min Size Packet (PAD upto min size)
     address: 0x11800E0000240 + a*0x800
     bus: RSL
@@ -1679,7 +1679,7 @@ registers:
           MIN_SIZE+1 The reset value will pad to 60 bytes.
 
 
-  - name: AGL_GMX_TX(0..1)_PAUSE_PKT_INTERVAL
+  - name: AGL_GMX_TX(0..0)_PAUSE_PKT_INTERVAL
     title: Packet TX Pause Packet transmission interval - how often PAUSE packets will be sent
     address: 0x11800E0000248 + a*0x800
     bus: RSL
@@ -1720,7 +1720,7 @@ registers:
           for each backpressure event
 
 
-  - name: AGL_GMX_TX(0..1)_SOFT_PAUSE
+  - name: AGL_GMX_TX(0..0)_SOFT_PAUSE
     title: Packet TX Software Pause
     address: 0x11800E0000250 + a*0x800
     bus: RSL
@@ -1743,7 +1743,7 @@ registers:
           for full-duplex operation only
 
 
-  - name: AGL_GMX_TX(0..1)_PAUSE_TOGO
+  - name: AGL_GMX_TX(0..0)_PAUSE_TOGO
     title: Packet TX Amount of time remaining to backpressure
     address: 0x11800E0000258 + a*0x800
     bus: RSL
@@ -1764,7 +1764,7 @@ registers:
         description: Amount of time remaining to backpressure
 
 
-  - name: AGL_GMX_TX(0..1)_PAUSE_ZERO
+  - name: AGL_GMX_TX(0..0)_PAUSE_ZERO
     title: Packet TX Amount of time remaining to backpressure
     address: 0x11800E0000260 + a*0x800
     bus: RSL
@@ -1788,7 +1788,7 @@ registers:
           channel
 
 
-  - name: AGL_GMX_TX(0..1)_STATS_CTL
+  - name: AGL_GMX_TX(0..0)_STATS_CTL
     title: TX Stats Control register
     address: 0x11800E0000268 + a*0x800
     bus: RSL
@@ -1809,7 +1809,7 @@ registers:
         description: Stats registers will clear on reads
 
 
-  - name: AGL_GMX_TX(0..1)_CTL
+  - name: AGL_GMX_TX(0..0)_CTL
     title: TX Control register
     address: 0x11800E0000270 + a*0x800
     bus: RSL
@@ -1841,7 +1841,7 @@ registers:
           and interrupts
 
 
-  - name: AGL_GMX_TX(0..1)_STAT0
+  - name: AGL_GMX_TX(0..0)_STAT0
     title: AGL_GMX_TX_STATS_XSDEF / AGL_GMX_TX_STATS_XSCOL
     address: 0x11800E0000280 + a*0x800
     bus: RSL
@@ -1870,7 +1870,7 @@ registers:
           AGL_GMX_TX_COL_ATTEMPT[LIMIT].
 
 
-  - name: AGL_GMX_TX(0..1)_STAT1
+  - name: AGL_GMX_TX(0..0)_STAT1
     title: AGL_GMX_TX_STATS_SCOL  / AGL_GMX_TX_STATS_MCOL
     address: 0x11800E0000288 + a*0x800
     bus: RSL
@@ -1896,7 +1896,7 @@ registers:
           but < AGL_GMX_TX_COL_ATTEMPT[LIMIT].
 
 
-  - name: AGL_GMX_TX(0..1)_STAT2
+  - name: AGL_GMX_TX(0..0)_STAT2
     title: AGL_GMX_TX_STATS_OCTS
     address: 0x11800E0000290 + a*0x800
     bus: RSL
@@ -1926,7 +1926,7 @@ registers:
           truncated due to collisions in halfdup mode.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT3
+  - name: AGL_GMX_TX(0..0)_STAT3
     title: AGL_GMX_TX_STATS_PKTS
     address: 0x11800E0000298 + a*0x800
     bus: RSL
@@ -1953,7 +1953,7 @@ registers:
           collisions in halfdup mode.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT4
+  - name: AGL_GMX_TX(0..0)_STAT4
     title: AGL_GMX_TX_STATS_HIST1 (64) / AGL_GMX_TX_STATS_HIST0 (<64)
     address: 0x11800E00002A0 + a*0x800
     bus: RSL
@@ -1982,7 +1982,7 @@ registers:
           of < 64.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT5
+  - name: AGL_GMX_TX(0..0)_STAT5
     title: AGL_GMX_TX_STATS_HIST3 (128- 255) / AGL_GMX_TX_STATS_HIST2 (65- 127)
     address: 0x11800E00002A8 + a*0x800
     bus: RSL
@@ -2013,7 +2013,7 @@ registers:
           65 - 127.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT6
+  - name: AGL_GMX_TX(0..0)_STAT6
     title: AGL_GMX_TX_STATS_HIST5 (512-1023) / AGL_GMX_TX_STATS_HIST4 (256-511)
     address: 0x11800E00002B0 + a*0x800
     bus: RSL
@@ -2044,7 +2044,7 @@ registers:
           256 - 511.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT7
+  - name: AGL_GMX_TX(0..0)_STAT7
     title: AGL_GMX_TX_STATS_HIST7 (1024-1518) / AGL_GMX_TX_STATS_HIST6 (>1518)
     address: 0x11800E00002B8 + a*0x800
     bus: RSL
@@ -2075,7 +2075,7 @@ registers:
           1024 - 1518.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT8
+  - name: AGL_GMX_TX(0..0)_STAT8
     title: AGL_GMX_TX_STATS_MCST  / AGL_GMX_TX_STATS_BCST
     address: 0x11800E00002C0 + a*0x800
     bus: RSL
@@ -2108,7 +2108,7 @@ registers:
           Does not include MCST packets.
 
 
-  - name: AGL_GMX_TX(0..1)_STAT9
+  - name: AGL_GMX_TX(0..0)_STAT9
     title: AGL_GMX_TX_STATS_UNDFLW / AGL_GMX_TX_STATS_CTL
     address: 0x11800E00002C8 + a*0x800
     bus: RSL
@@ -2183,7 +2183,7 @@ registers:
           24: RAZ"
 
 
-  - name: AGL_GMX_RX_BP_DROP(0..1)
+  - name: AGL_GMX_RX_BP_DROP(0..0)
     title: FIFO mark for packet drop
     address: 0x11800E0000420 + a*0x8
     bus: RSL
@@ -2210,7 +2210,7 @@ registers:
           instability.
 
 
-  - name: AGL_GMX_RX_BP_ON(0..1)
+  - name: AGL_GMX_RX_BP_ON(0..0)
     title: Hiwater mark for port/interface backpressure
     address: 0x11800E0000440 + a*0x8
     bus: RSL
@@ -2231,7 +2231,7 @@ registers:
         description: Hiwater mark (8B ticks) for backpressure.
 
 
-  - name: AGL_GMX_RX_BP_OFF(0..1)
+  - name: AGL_GMX_RX_BP_OFF(0..0)
     title: Lowater mark for packet drop
     address: 0x11800E0000460 + a*0x8
     bus: RSL
@@ -2938,7 +2938,7 @@ registers:
         description: Receive data since last read
 
 
-  - name: AGL_PRT(0..1)_CTL
+  - name: AGL_PRT(0..0)_CTL
     title: AGL Port Control
     address: 0x11800E0002000 + a*0x8
     bus: RSL

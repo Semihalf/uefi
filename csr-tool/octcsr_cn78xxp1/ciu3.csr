@@ -263,6 +263,12 @@ enums:
           see enumeration: "PKI_INTSN_E on"
         description: Packet input interrupts; see .
 
+      - name: HNA
+        value: 0x47
+        attributes:
+          see enumeration: "HNA_INTSN_E on TBD"
+        description: HNA interrupts; see TBD.
+
       - name: PKO
         value: 0x50
         attributes:

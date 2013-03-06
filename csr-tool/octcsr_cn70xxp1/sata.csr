@@ -1,0 +1,2645 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: SATA
+description: |
+  The SATA controller implements three kinds of CSRs:
+    * UCTL RSL-type registers: 2KB starting at address    0x1_1800_6C00_0000
+    * UAHC NCB-type registers: 8KB starting at address    0x1_6C00_0000_0000
+
+  == UCTL ==================================================
+
+  UCTL registers are only accessible via RSL. They generally contain basic
+  clock controls, resets, and static configuration bits for the entire USB
+  subsystem.
+
+  Note that UCTL registers starting from 0x30 can be accessed only
+  after ACLK is enabled and UCTL_RST is deasserted.
+
+  Undefined offsets in the UCTL register region will return
+  64'hFFFFFFFF_FFFFFFFF on reads, writes will have no side-effects.
+  No addresses should alias.
+
+  The UCTL registers are big-endian.
+
+  == UAHC =================================================
+
+  UAHC registers are implemented by the Host Controller,
+  access is provided to these registers over RSL or NCB. The only registers
+  that may require the high-performance NCB path are the AHCI Runtime registers.
+
+  Access to the UAHC registers follows the same rules as registers 0x30 to 0xF8
+  of the UCTL. In other words, ACLK must be enabled, UCTL_RST must be deasserted.
+
+  The UAHC registers require 8KB of address space. The interior mapping is:
+    Offset            Register Type
+    0x000 - 0x0FF     Generic Host Registers
+    0x100 - 0x1FF     Port Registers
+      0x100 - 0x17F     Port 0 Registers
+      0x180 - 0x1FF     Port 1 Registers
+
+  For more information about the registers, see the AHCI v1.3 specification.
+  INTERNAL: For more on registers, see Synopsys DWC_ahsata SATA AHCI Databook v4.10a
+  sections 5.
+
+  UAHC registers may also be accessed by presenting an NCB-type address over
+  RSL. Registers accessed this way are statically mapped from UAHC's
+  little-endian mode to the RSL's big-endian.
+enums:
+  - name: SATA_UCTL_DMA_READ_CMD_E
+    attributes:
+      width: "1"
+    description: Enumerate IOI inbound command selections for DMA reads.
+    values:
+      - name: LDI
+        value: 0x0
+        description: Use LDT (allocate local).
+
+      - name: LDT
+        value: 0x1
+        description: Use LDT (no allocate). Default.
+
+
+  - name: SATA_UCTL_ENDIAN_MODE_E
+    attributes:
+      width: "2"
+    description: Enumerate endian mode selections.
+    values:
+      - name: LITTLE
+        value: 0x0
+        description: |
+          Core is in little-endian mode. A-B-C-D-E-F-G-H becomes
+          A-B-C-D-E-F-G-H. This is the mode to use with Open-Source AHCI drivers when the core is in
+          little-endian mode.
+
+      - name: BIG
+        value: 0x1
+        description: |
+          Core is in big-endian mode. A-B-C-D-E-F-G-H becomes
+          H-G-F-E-D-C-B-A (swap bytes within the 32-bit word, then swap 32-bit words within 64-bit
+          doubleword). This is the mode to use with Open-Source XHCI drivers when the core is in
+          big-endian mode.
+
+      - name: RSVD2
+        value: 0x2
+        description: Reserved. A-B-C-D-E-F-G-H becomes D-C-B-A-H-G-F-E.
+
+      - name: RSVD3
+        value: 0x3
+        description: Reserved. A-B-C-D-E-F-G-H becomes E-F-G-H-A-B-C-D.
+
+
+  - name: SATA_UCTL_INTSN_E
+    attributes:
+      width: "20"
+    description: Enumerates the different generated interrupts.
+    values:
+      - name: SATA_UCTL_INTSTAT_XS_NCB_OOB
+        value: 0x6C001
+        attributes:
+          cib_rtl_module: "sata"
+        description: See SATA_UCTL_INTSTAT[XS_NCB_OOB].
+
+      - name: SATA_UCTL_INTSTAT_XM_BAD_DMA
+        value: 0x6C002
+        attributes:
+          cib_rtl_module: "sata"
+        description: See SATA_UCTL_INTSTAT[XM_BAD_DMA].
+
+      - name: SATA_UCTL_UAHC_INTRQ_IP
+        value: 0x6C010
+        attributes:
+          cib_rtl_module: "sata"
+          intsn_complex: "1"
+          intsn_level_sensitive: "1"
+        description: See SATA_UAHC_GBL_IS[IPS] and SATA_UAHC_PX_IS.
+
+      - name: SATA_UCTL_UAHC_PME_REQ_IP
+        value: 0x6C020
+        attributes:
+          cib_rtl_module: "sata"
+          intsn_complex: "1"
+          intsn_level_sensitive: "1"
+        description: |
+          See SATA_UAHC_PX_IS[CPDS] and
+          SATA_UAHC_PX_IS[DMPS] and
+          SATA_UAHC_PX_IS[PCS] and
+          SATA_UAHC_PX_IS[SDBS] and
+          SATA_UAHC_PX_SNTF[PMN]
+
+
+  - name: SATA_UCTL_XM_BAD_DMA_TYPE_E
+    attributes:
+      width: "4"
+    description: Enumerate type of DMA error seen.
+    values:
+      - name: "NONE"
+        value: 0x0
+        description: No error logged.
+
+      - name: ADDR_OOB
+        value: 0x1
+        description: |
+          AxAddr<63:40> != 0x0.
+
+      - name: MULTIBEAT_BYTE
+        value: 0x2
+        description: AxSize = 0x0 and AxLen != 0x0.
+
+      - name: MULTIBEAT_HALFWORD
+        value: 0x3
+        description: AxSize = 0x1 and AxLen != 0x0.
+
+      - name: MULTIBEAT_WORD
+        value: 0x4
+        description: AxSize = 0x2 and AxLen != 0x0.
+
+
+registers:
+  - name: SATA_UCTL_CTL
+    title: UCTL Control Register
+    address: 0x118006C000000
+    bus: RSL
+    description: |
+      Accessible by: always
+      Reset by: IOI reset (srst_n)
+      This register controls clocks, resets, power, and BIST for the SATA.
+    fields:
+      - name: CLEAR_BIST
+        bits: 63
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          BIST fast-clear mode select.
+          There are 2 major modes of BIST: full and clear. Full BIST is run by the BIST state
+          machine when clear_bist is deasserted during BIST. Clear BIST is run if clear_bist is
+          asserted during BIST. A Clear BIST run will simply clear all entries in SATA RAMs to 0x0.
+          To avoid race conditions, software must first perform a CSR write operation that puts the
+          clear_bist setting into the correct state and then perform another CSR write operation to
+          set the BIST trigger (keeping the clear_bist state constant).
+          CLEAR BIST completion is indicated by SATA_UCTL_BIST_STATUS[NDONE]. A BIST clear operation
+          takes almost 2,000 host-controller-clock cycles for the largest RAM.
+
+      - name: START_BIST
+        bits: 62
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Rising edge starts BIST on the memories in SATA.
+          To run BIST, both the host-controller clock must be configured and enabled, and should be
+          configured to the maximum available frequency given the available coprocessor clock and
+          dividers.
+          Also, the UCTL, UAHC, and UPHY should be held in software- initiated reset until BIST is
+          complete.
+          BIST defect status can be checked after FULL BIST completion, both of which are indicated
+          in SATA_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 host-controller-clock
+          cycles
+          for the largest RAM.
+
+      - name: --
+        bits: 61..31
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: A_CLK_EN
+        bits: 30
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Host-controller-clock enable. When set to 1, the host-controller clock is generated. This
+          also enables access to UCTL registers 0x30-0xF8.
+
+      - name: A_CLK_BYP_SEL
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Select the bypass input to the host-controller-clock divider.
+          0 = use the divided coprocessor clock from the A_CLKDIV divider
+          1 = use the bypass clock from the GPIO pins
+          Generally bypass is only used for scan purposes.
+          This signal is just a multiplexer-select signal; it does not enable the host-controller
+          clock. You must still set A_CLKDIV_EN separately. A_CLK_BYP_SEL select should not be
+          changed unless A_CLKDIV_EN is disabled.
+          The bypass clock can be selected and running even if the host-controller-clock dividers
+          are not running.
+
+      - name: A_CLKDIV_RST
+        bits: 28
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          Host-controller-clock divider reset. Divided clocks are not generated while the divider is
+          being reset.
+          This also resets the suspend-clock divider.
+
+      - name: --
+        bits: 27
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: A_CLKDIV_SEL
+        bits: 26..24
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          The hclk frequency is sclk frequency divided by A_CLKDIV_SEL.
+          The host-controller-clock frequency must be at or below 333MHz.
+          This field can be changed only when A_CLKDIV_RST = 1.
+          The divider values are the following:
+          0x0 = divide by 1 0x5 = divide by 8
+          0x1 = divide by 2 0x6 = divide by 16
+          0x2 = divide by 3 0x7 = divide by 24
+          0x3 = divide by 4 0x8 = divide by 32
+          0x4 = divide by 6
+
+      - name: --
+        bits: 23..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CSCLK_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          Turns on the USB UCTL interface clock (coprocessor clock). This enables access to UAHC
+          registers via the IOI, as well as UCTL registers starting from 0x30 via the RSL bus.
+
+      - name: --
+        bits: 3..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA_UAHC_RST
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Software reset; resets UAHC; active-high.
+          INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+          or NCB protocols.
+
+      - name: SATA_UCTL_RST
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Software reset; resets UCTL; active-high.
+          Resets UAHC DMA and register shims. Resets UCTL RSL registers 0x30-0xF8.
+          Does not reset UCTL RSL registers 0x0-0x28.
+          UCTL RSL registers starting from 0x30 can be accessed only after the host-controller clock
+          is active and UCTL_RST is deasserted.
+          INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+          RSL, NCB, and CIB protocols.
+
+
+  - name: SATA_UCTL_BIST_STATUS
+    title: UCTL BIST Status Register
+    address: 0x118006C000008
+    bus: RSL
+    description: |
+      Accessible by: always
+      Reset by: IOI reset (srst_n)
+      Results from BIST runs of SATA's memories.
+      Wait for NDONE==0, then look at defect indication.
+    fields:
+      - name: --
+        bits: 63..42
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCTL_XM_R_BIST_NDONE
+        bits: 41
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UCTL AxiMaster read-data FIFO.
+
+      - name: UCTL_XM_W_BIST_NDONE
+        bits: 40
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UCTL AxiMaster write-data FIFO.
+
+      - name: --
+        bits: 39..36
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UAHC_P0_RXRAM_BIST_NDONE
+        bits: 35
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UAHC Port 0 RxFIFO RAM.
+
+      - name: UAHC_P1_RXRAM_BIST_NDONE
+        bits: 34
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UAHC Port 1 RxFIFO RAM.
+
+      - name: UAHC_P0_TXRAM_BIST_NDONE
+        bits: 33
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UAHC Port 0 TxFIFO RAM.
+
+      - name: UAHC_P1_TXRAM_BIST_NDONE
+        bits: 32
+        access: RO/H
+        reset: 1
+        typical: 0
+        description: BIST is not complete for the UAHC Port 1 TxFIFO RAM.
+
+      - name: --
+        bits: 31..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCTL_XM_R_BIST_STATUS
+        bits: 9
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UCTL AxiMaster read-data FIFO.
+
+      - name: UCTL_XM_W_BIST_STATUS
+        bits: 8
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UCTL AxiMaster write-data FIFO.
+
+      - name: --
+        bits: 7..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UAHC_P0_RXRAM_BIST_STATUS
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UAHC Port0 RxFIFO RAM.
+
+      - name: UAHC_P1_RXRAM_BIST_STATUS
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UAHC Port1 RxFIFO RAM.
+
+      - name: UAHC_P0_TXRAM_BIST_STATUS
+        bits: 1
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UAHC Port0 TxFIFO RAM.
+
+      - name: UAHC_P1_TXRAM_BIST_STATUS
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BIST status of the UAHC Port1 TxFIFO RAM.
+
+
+  - name: SATA_UCTL_SPARE0
+    title: UCTL Spare Register 0
+    address: 0x118006C000010
+    bus: RSL
+    description: |
+      Accessible by: always
+      Reset by: IOI reset (srst_n)
+      This register is spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare.
+
+
+  - name: SATA_UCTL_INTSTAT
+    title: UCTL Interrupt Status Register
+    address: 0x118006C000030
+    bus: RSL
+    description: |
+      Accessible by: always
+      Reset by: IOI reset (srst_n)
+      Summary of different bits of RSL interrupts.
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: XM_BAD_DMA
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected bad DMA access from UAHC to IOI. Error information is logged in
+          SATA_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
+          assumptions made by the AXI-to-IOI shim. Such scenarios include: illegal length/size
+          combinations and address out-of-bounds.
+          For more information on exact failures, see description in
+          SATA_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE].
+          The hardware does not translate the request correctly and results may violate IOI
+          protocols.
+          Throws SATA_UCTL_INTSN_E::SATA_UCTL_INTSTAT_XM_BAD_DMA.
+
+      - name: XS_NCB_OOB
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Detected out-of-bound register access to UAHC over IOI. The UAHC defines 1MB of register
+          space, starting at offset 0x0. Any accesses outside of this register space cause this bit
+          to be set to 1. Error information is logged in SATA_UCTL_SHIM_CFG[XS_NCB_OOB_*].
+          Throws SATA_UCTL_INTSN_E::SATA_UCTL_INTSTAT_XS_NCB_OOB.
+
+      - name: --
+        bits: 0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: SATA_UCTL_SHIM_CFG
+    title: UCTL Shim Configuration Register
+    address: 0x118006C0000E8
+    bus: RSL
+    description: |
+      Accessible by: only when A_CLKDIV_EN
+      Reset by: IOI reset (srst_n) or SATA_UCTL_CTL[SATA_UCTL_RST]
+      This register allows configuration of various shim (UCTL) features.
+      Fields XS_NCB_OOB_* are captured when there are no outstanding OOB errors indicated in INTSTAT
+      and a new OOB error arrives.
+      Fields XS_BAD_DMA_* are captured when there are no outstanding DMA errors indicated in INTSTAT
+      and a new DMA error arrives.
+    fields:
+      - name: XS_NCB_OOB_WRN
+        bits: 63
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          Read/write error log for out-of-bound UAHC register access.
+          0 = read, 1 = write
+
+      - name: --
+        bits: 62..57
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: XS_NCB_OOB_OSRC
+        bits: 56..48
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          SRCID error log for out-of-bound UAHC register access. The IOI outbound SRCID for the OOB
+          error.
+
+      - name: XM_BAD_DMA_WRN
+        bits: 47
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          Read/write error log for bad DMA access from UAHC.
+          0 = read error log, 1 = write error log
+
+      - name: --
+        bits: 46..44
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: XM_BAD_DMA_TYPE
+        bits: 43..40
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          ErrType error log for bad DMA access from UAHC. Encodes the type of error encountered
+          (error largest encoded value has priority). See SATA_UCTL_XM_BAD_DMA_TYPE_E.
+
+      - name: --
+        bits: 39..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DMA_READ_CMD
+        bits: 12
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Selects the IOI read command used by DMA accesses. See SATA_UCTL_DMA_READ_CMD_E.
+
+      - name: --
+        bits: 11..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DMA_ENDIAN_MODE
+        bits: 9..8
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: Selects the endian format for DMA accesses to the L2C. See SATA_UCTL_ENDIAN_MODE_E.
+
+      - name: --
+        bits: 7..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CSR_ENDIAN_MODE
+        bits: 1..0
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          Selects the endian format for IOI CSR accesses to the UAHC. Note that when UAHC CSRs are
+          accessed via RSL, they are returned as big-endian. See SATA_UCTL_ENDIAN_MODE_E.
+
+
+  - name: SATA_UCTL_SPARE1
+    title: UCTL Spare Register 1
+    address: 0x118006C0000F8
+    bus: RSL
+    description: |
+      Accessible by: only when A_CLKDIV_EN
+      Reset by: IOI reset (srst_n) or SATA_UCTL_CTL[SATA_UCTL_RST]
+      This register is spare.
+    fields:
+      - name: SPARE
+        bits: 63..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Spare.
+
+
+  - name: SATA_UAHC_GBL_CAP
+    title: AHCI HBA Capabilities Register
+    address: 0x16C0000000000
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: S64A
+        bits: 31
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports 64-bit addressing.
+
+      - name: SNCQ
+        bits: 30
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports native command queuing.
+
+      - name: SSNTF
+        bits: 29
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports SNotification register.
+
+      - name: SMPS
+        bits: 28
+        access: R/W
+        reset: --
+        typical: --
+        description: Supports mechanical presence switch.
+
+      - name: SSS
+        bits: 27
+        access: R/W
+        reset: --
+        typical: --
+        description: Supports staggered spin-up.
+
+      - name: SALP
+        bits: 26
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports agressive link power management.
+
+      - name: SAL
+        bits: 25
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports activity LED.
+
+      - name: SCLO
+        bits: 24
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports command list override.
+
+      - name: ISS
+        bits: 23..20
+        access: RO
+        reset: 0x3
+        typical: 0x3
+        description: Interface speed support.
+
+      - name: SNZO
+        bits: 19
+        access: RO
+        reset: 0
+        typical: 0
+        description: Supports non-zero DMA offsets.
+
+      - name: SAM
+        bits: 18
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports AHCI mode only.
+
+      - name: SPM
+        bits: 17
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports port multiplier.
+
+      - name: FBSS
+        bits: 16
+        access: RO
+        reset: 1
+        typical: 1
+        description: Supports FIS-based switching.
+
+      - name: PMD
+        bits: 15
+        access: RO
+        reset: 1
+        typical: 1
+        description: PIO multiple DRQ block.
+
+      - name: SSC
+        bits: 14
+        access: RO
+        reset: 1
+        typical: 1
+        description: Slumber state capable.
+
+      - name: PSC
+        bits: 13
+        access: RO
+        reset: 1
+        typical: 1
+        description: Partial state capable.
+
+      - name: NCS
+        bits: 12..8
+        access: RO
+        reset: 0x1f
+        typical: 0x1f
+        description: Number of command slots.
+
+      - name: CCCS
+        bits: 7
+        access: RO
+        reset: 1
+        typical: 1
+        description: Command completion coalescing support.
+
+      - name: EMS
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        description: Enclosure management support.
+
+      - name: SXS
+        bits: 5
+        access: RO
+        reset: --
+        typical: --
+        description: Supports external SATA.
+
+      - name: NP
+        bits: 4..0
+        access: RO
+        reset: 0x1
+        typical: 0x1
+        description: Number of ports. 0x1 = 2 ports.
+
+
+  - name: SATA_UAHC_GBL_GHC
+    title: AHCI Global HBA Control Register
+    address: 0x16C0000000004
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: AE
+        bits: 31
+        access: RO
+        reset: 1
+        typical: 1
+        description: AHCI enable.
+
+      - name: --
+        bits: 30..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: Interrupt enable.
+
+      - name: HR
+        bits: 0
+        access: R/W1/H
+        reset: 0
+        typical: --
+        description: |
+          HBA reset. Writing a '1' resets the UAHC. HW will clear this bit once
+          reset is complete.
+
+
+  - name: SATA_UAHC_GBL_IS
+    title: AHCI Interrupt Status Register
+    address: 0x16C0000000008
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: --
+        bits: 31..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IPS
+        bits: 2..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: --
+        description: Interrupt pending status.
+
+
+  - name: SATA_UAHC_GBL_PI
+    title: AHCI Ports Implemented Register
+    address: 0x16C000000000C
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: --
+        bits: 31..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PI
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Ports implemented. This field is one-time writable, then becomes
+          read-only.
+
+
+  - name: SATA_UAHC_GBL_VS
+    title: AHCI Version Register
+    address: 0x16C0000000010
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: MJR
+        bits: 31..16
+        access: RO
+        reset: 0x1
+        typical: 0x1
+        description: Major version number.
+
+      - name: MNR
+        bits: 15..0
+        access: RO
+        reset: 0x300
+        typical: 0x300
+        description: Minor version number. No DEVSLP support.
+
+
+  - name: SATA_UAHC_GBL_CCC_CTL
+    title: AHCI CCC Control Register
+    address: 0x16C0000000014
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: TV
+        bits: 31..16
+        access: R/W
+        reset: 0x1
+        typical: 0x0
+        description: Time-out value.  Writable only when SATA_UAHC_GBL_CCC_CTL[EN] = 0.
+
+      - name: CC
+        bits: 15..8
+        access: R/W
+        reset: 0x1
+        typical: --
+        description: Command completions.  Writable only when SATA_UAHC_GBL_CCC_CTL[EN] = 0.
+
+      - name: INTR
+        bits: 7..3
+        access: RO
+        reset: 0x2
+        typical: 0x2
+        description: Specifies the port interrupt used by the CCC feature.
+
+      - name: --
+        bits: 2..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: CCC enable.
+
+
+  - name: SATA_UAHC_GBL_CCC_PORTS
+    title: AHCI CCC Ports Register
+    address: 0x16C0000000018
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: --
+        bits: 31..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PRT
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x3
+        description: Per port CCC enable.
+
+
+  - name: SATA_UAHC_GBL_CAP2
+    title: AHCI HBA Capabilities Extended Register
+    address: 0x16C0000000024
+    bus: NCB
+    description: See AHCI specification v1.3 section 3.1
+    fields:
+      - name: --
+        bits: 31..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DESO
+        bits: 5
+        access: RO
+        reset: 0
+        typical: 0
+        description: Device sleep entrance from slumber only.
+
+      - name: SADM
+        bits: 4
+        access: RO
+        reset: 0
+        typical: 0
+        description: Supports aggressive device sleep management.
+
+      - name: SDS
+        bits: 3
+        access: RO
+        reset: 0
+        typical: 0
+        description: Supports device sleep.
+
+      - name: APST
+        bits: 2
+        access: RO
+        reset: 1
+        typical: 1
+        description: Automatic partial to slumber transitions.
+
+      - name: NVMP
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: NVMHCI present.
+
+      - name: BOH
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: Supports BIOS/OS handoff.
+
+
+  - name: SATA_UAHC_GBL_BISTAFR
+    title: UAHC BIST Activate FIS Register
+    address: 0x16C0000000090
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+      This register is shared between SATA ports.  Before accessing this
+      register, first select the required port by writing the port number
+      to the SATA_UAHC_GBL_TESTR[PSEL] field.
+      This register contains the pattern definition (bits 23:16 of the
+      first DWORD) and the data pattern (bits 7:0 of the second DWORD)
+      fields of the received BIST activate FIS.
+    fields:
+      - name: --
+        bits: 31..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NCP
+        bits: 15..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: |
+          Bits 7:0 of the 2nd DWORD of BIST activate FIS.
+          0xF1: low transition density pattern (LTDP)
+          0xB5: high transition density pattern (HTDP)
+          0xAB: low frequency spectral component pattern (LFSCP)
+          0x7F: simultaneous switching outputs pattern (SSOP)
+          0x78: mid frequency test pattern (MFTP)
+          0x4A: high frequency test pattern (HFTP)
+          0x7E: low frequency test pattern (LFTP)
+          Else: lone bit pattern (LBP)
+
+      - name: PD
+        bits: 7..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: |
+          Bits 23:16 of the 1st DWORD of the BIST activate FIS.
+          Only the following values are supported:
+          0x10: Far-end retimed
+          0xC0: Far-end transmit only
+          0xE0: Far-end transmit only with scrambler bypassed
+
+
+  - name: SATA_UAHC_GBL_BISTCR
+    title: UAHC BIST Control Register
+    address: 0x16C0000000094
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+      This register is shared between SATA ports.  Before accessing this
+      register, first select the required port by writing the port number
+      to the SATA_UAHC_GBL_TESTR[PSEL] field.
+    fields:
+      - name: --
+        bits: 31..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OLD_PHY_READY
+        bits: 25
+        access: RO
+        reset: 0
+        typical: 0
+        description: Old phy_ready.
+
+      - name: LATE_PHY_READY
+        bits: 24
+        access: RO
+        reset: 0
+        typical: 0
+        description: Late phy_ready.
+
+      - name: --
+        bits: 23..21
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FERLIB
+        bits: 20
+        access: WO
+        reset: 0
+        typical: --
+        description: Far-end retimed loopback.
+
+      - name: --
+        bits: 19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TXO
+        bits: 18
+        access: WO
+        reset: 0
+        typical: --
+        description: Transmit only.
+
+      - name: CNTCLR
+        bits: 17
+        access: WO
+        reset: 0
+        typical: --
+        description: Counter clear.
+
+      - name: NEALB
+        bits: 16
+        access: WO
+        reset: 0
+        typical: --
+        description: Near-end analog loopback.
+
+      - name: LLB
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Lab loopback mode.
+
+      - name: --
+        bits: 14
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERRLOSSEN
+        bits: 13
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Error loss detect enable.
+
+      - name: SDFE
+        bits: 12
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Signal detect feature enable.
+
+      - name: --
+        bits: 11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LLC
+        bits: 10..8
+        access: R/W
+        reset: 0x7
+        typical: 0x0
+        description: |
+          Link layer control.
+          Bit 10: RPD - repeat primitive drop enable
+          Bit  9: DESCRAM - descrambler enable
+          Bit  8: SCRAM - scrambler enable
+
+      - name: --
+        bits: 7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERREN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Error enable.
+
+      - name: FLIP
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Flip disparity.
+
+      - name: PV
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Pattern version.
+
+      - name: PATTERN
+        bits: 3..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: SATA compliant pattern selection.
+
+
+  - name: SATA_UAHC_GBL_BISTFCTR
+    title: UAHC BIST FIS Count Register
+    address: 0x16C0000000098
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+      This register is shared between SATA ports.  Before accessing this
+      register, first select the required port by writing the port number
+      to the SATA_UAHC_GBL_TESTR[PSEL] field.
+    fields:
+      - name: COUNT
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Received BIST FIS count.
+
+
+  - name: SATA_UAHC_GBL_BISTSR
+    title: UAHC BIST Status Register
+    address: 0x16C000000009C
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BRSTERR
+        bits: 23..16
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: Burst error.
+
+      - name: FRAMERR
+        bits: 15..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: Frame error.
+
+
+  - name: SATA_UAHC_GBL_BISTDECR
+    title: UAHC BIST DWORD Error Count Register
+    address: 0x16C00000000A0
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+      This register is shared between SATA ports.  Before accessing this
+      register, first select the required port by writing the port number
+      to the SATA_UAHC_GBL_TESTR[PSEL] field.
+    fields:
+      - name: DWERR
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: DWORD error count.
+
+
+  - name: SATA_UAHC_GBL_OOBR
+    title: UAHC OOB Register
+    address: 0x16C00000000AC
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: WE
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Write enable.
+
+      - name: CWMIN
+        bits: 30..24
+        access: R/W
+        reset: 0x7
+        typical: --
+        description: COMWAKE minimum value. Writable only if WE is set.
+
+      - name: CWMAX
+        bits: 23..16
+        access: R/W
+        reset: 0xe
+        typical: --
+        description: COMWAKE maximum value. Writable only if WE is set.
+
+      - name: CIMIN
+        bits: 15..8
+        access: R/W
+        reset: 0x2b
+        typical: --
+        description: COMINIT minimum value. Writable only if WE is set.
+
+      - name: CIMAX
+        bits: 7..0
+        access: R/W
+        reset: 0x18
+        typical: --
+        description: COMINIT maximum value. Writable only if WE is set.
+
+
+  - name: SATA_UAHC_GBL_TIMER1MS
+    title: UAHC Timer 1ms Register
+    address: 0x16C00000000E0
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TIMV
+        bits: 19..0
+        access: R/W
+        reset: --
+        typical: --
+        description: 1ms timer value.  Writable only when SATA_UAHC_GBL_CCC_CTL[EN] is NOT set.
+
+
+  - name: SATA_UAHC_GBL_GPARAM1R
+    title: UAHC Global Parameter1 Register
+    address: 0x16C00000000E8
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: ALIGN_M
+        bits: 31
+        access: RO
+        reset: 0
+        typical: 0
+        description: RX data alignment mode (ALIGN_MODE).
+
+      - name: RX_BUFFER
+        bits: 30
+        access: RO
+        reset: 1
+        typical: 1
+        description: RX data buffer mode (RX_BUFFER_MODE).
+
+      - name: PHY_DATA
+        bits: 29..28
+        access: RO
+        reset: 0x2
+        typical: 0x2
+        description: PHY data width (PHY_DATA_WIDTH).
+
+      - name: PHY_RST
+        bits: 27
+        access: RO
+        reset: 1
+        typical: 1
+        description: PHY reset mode (PHY_RST_MODE).
+
+      - name: PHY_CTRL
+        bits: 26..21
+        access: RO
+        reset: 0x20
+        typical: 0x20
+        description: PHY control width (PHY_CTRL_W).
+
+      - name: PHY_STAT
+        bits: 20..15
+        access: RO
+        reset: 0x20
+        typical: 0x20
+        description: PHY status width (PHY_STAT_W).
+
+      - name: LATCH_M
+        bits: 14
+        access: RO
+        reset: 0
+        typical: 0
+        description: Latch mode (LATCH_MODE).
+
+      - name: PHY_TYPE
+        bits: 13..11
+        access: RO
+        reset: 0x2
+        typical: 0x2
+        description: PHY interface type (PHY_INTERFACE_TYPE).
+
+      - name: RETURN_ERR
+        bits: 10
+        access: RO
+        reset: 1
+        typical: 1
+        description: AMBA error response (RETURN_ERR_RESP).
+
+      - name: AHB_ENDIAN
+        bits: 9..8
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: AHB bus endianness (AHB_ENDIANNESS).
+
+      - name: S_HADDR
+        bits: 7
+        access: RO
+        reset: 0
+        typical: 0
+        description: AMBA slave address bus width (S_HADDR_WIDTH).
+
+      - name: M_HADDR
+        bits: 6
+        access: RO
+        reset: 1
+        typical: 1
+        description: AMBA master address bus width (M_HADDR_WIDTH).
+
+      - name: S_HDATA
+        bits: 5..3
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: AMBA slave data width (S_HDATA_WIDTH).
+
+      - name: M_HDATA
+        bits: 2..0
+        access: RO
+        reset: 0x1
+        typical: 0x1
+        description: AMBA master data width (M_HDATA_WIDTH).
+
+
+  - name: SATA_UAHC_GBL_GPARAM2R
+    title: UAHC Global Parameter2 Register
+    address: 0x16C00000000EC
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BIST_M
+        bits: 19
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST loopback checking depth (BIST_MODE).
+
+      - name: FBS_MEM_S
+        bits: 18
+        access: RO
+        reset: 0
+        typical: 0
+        description: Context RAM memory location (FBS_MEM_S).
+
+      - name: FBS_PMPN
+        bits: 17..16
+        access: RO
+        reset: 0x3
+        typical: 0x3
+        description: Maximum number of port multiplier ports (FBS_PMPN_MAX).
+
+      - name: FBS_SUPPORT
+        bits: 15
+        access: RO
+        reset: 1
+        typical: 1
+        description: FIS-based switching support (FBS_SUPPORT).
+
+      - name: DEV_CP
+        bits: 14
+        access: RO
+        reset: 1
+        typical: 1
+        description: Cold presence detect (DEV_CP_DET).
+
+      - name: DEV_MP
+        bits: 13
+        access: RO
+        reset: 1
+        typical: 1
+        description: Mechanical presence switch (DEV_MP_SWITCH).
+
+      - name: ENCODE_M
+        bits: 12
+        access: RO
+        reset: 1
+        typical: 1
+        description: 8b/10b encoding/decoding (ENCODE_MODE).
+
+      - name: RXOOB_CLK_M
+        bits: 11
+        access: RO
+        reset: 1
+        typical: 1
+        description: RX OOB clock mode (RXOOB_CLK_MODE).
+
+      - name: RX_OOB_M
+        bits: 10
+        access: RO
+        reset: 1
+        typical: 1
+        description: RX OOB mode (RX_OOB_MODE).
+
+      - name: TX_OOB_M
+        bits: 9
+        access: RO
+        reset: 1
+        typical: 1
+        description: TX OOB mode (TX_OOB_MODE).
+
+      - name: RXOOB_CLK
+        bits: 8..0
+        access: RO
+        reset: 0x64
+        typical: 0x64
+        description: RX OOB clock frequency (RXOOB_CLK).
+
+
+  - name: SATA_UAHC_GBL_PPARAMR
+    title: UAHC Port Parameter Register
+    address: 0x16C00000000F0
+    bus: NCB
+    description: |
+      Port is selected by the SATA_UAHC_GBL_TESTR[PSEL] field.
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_MEM_M
+        bits: 11
+        access: RO
+        reset: 1
+        typical: 1
+        description: "TX FIFO memory read port type (P#_TX_MEM_MODE)."
+
+      - name: TX_MEM_S
+        bits: 10
+        access: RO
+        reset: 0
+        typical: 0
+        description: "TX FIFO memory type (P#_TX_MEM_SELECT)."
+
+      - name: RX_MEM_M
+        bits: 9
+        access: RO
+        reset: 1
+        typical: 1
+        description: "RX FIFO memory read port type (P#_RX_MEM_MODE)."
+
+      - name: RX_MEM_S
+        bits: 8
+        access: RO
+        reset: 0
+        typical: 0
+        description: "RX FIFO memory type (P#_RX_MEM_SELECT)."
+
+      - name: TXFIFO_DEPTH
+        bits: 7..4
+        access: RO
+        reset: 0x7
+        typical: 0x7
+        description: TX FIFO depth in FIFO words.
+
+      - name: RXFIFO_DEPTH
+        bits: 3..0
+        access: RO
+        reset: 0x7
+        typical: 0x7
+        description: RX FIFO depth in FIFO words.
+
+
+  - name: SATA_UAHC_GBL_TESTR
+    title: UAHC Test Register
+    address: 0x16C00000000F4
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PSEL
+        bits: 18..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Port select.
+
+      - name: --
+        bits: 15..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TEST_IF
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Test interface.
+
+
+  - name: SATA_UAHC_GBL_VERSIONR
+    title: UAHC Version Register
+    address: 0x16C00000000F8
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: VER
+        bits: 31..0
+        access: RO
+        reset: 0x3431302a
+        typical: 0x3431302a
+        description: SATA IP version number.
+
+
+  - name: SATA_UAHC_GBL_IDR
+    title: UAHC ID Register
+    address: 0x16C00000000FC
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: ID
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: Core ID.
+
+
+  - name: SATA_UAHC_P(0..1)_CLB
+    title: UAHC Command List Base Address Register
+    address: 0x16C0000000100 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CLB
+        bits: 31..10
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Command list base address.
+
+      - name: --
+        bits: 9..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: SATA_UAHC_P(0..1)_CLBU
+    title: UAHC Command List Base Upper Address Register
+    address: 0x16C0000000104 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CLBU
+        bits: 31..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Command list base upper address.
+
+
+  - name: SATA_UAHC_P(0..1)_FB
+    title: UAHC FIS Base Address Register
+    address: 0x16C0000000108 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: FB
+        bits: 31..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: FIS base address.
+
+      - name: --
+        bits: 7..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: SATA_UAHC_P(0..1)_FBU
+    title: UAHC FIS Base Upper Address Register
+    address: 0x16C000000010C + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: FBU
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: FIS base upper address.
+
+
+  - name: SATA_UAHC_P(0..1)_IS
+    title: UAHC Interrupt Status Register
+    address: 0x16C0000000110 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CPDS
+        bits: 31
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Cold port detect status.
+
+      - name: TFES
+        bits: 30
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Task file error status.
+
+      - name: HBFS
+        bits: 29
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Host bus fatal error status.
+
+      - name: HBDS
+        bits: 28
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Host bus data error status.
+
+      - name: IFS
+        bits: 27
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Interface fatal error status.
+
+      - name: INFS
+        bits: 26
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Interfave non-fatal error status.
+
+      - name: --
+        bits: 25
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OFS
+        bits: 24
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Overflow status.
+
+      - name: IMPS
+        bits: 23
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Incorrect port multiplier status.
+
+      - name: PRCS
+        bits: 22
+        access: RO
+        reset: 0
+        typical: --
+        description: PHY ready change status.
+
+      - name: --
+        bits: 21..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DMPS
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Device mechanical presence status.
+
+      - name: PCS
+        bits: 6
+        access: RO
+        reset: 0
+        typical: --
+        description: Port connect change status.
+
+      - name: DPS
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Descriptor processed.
+
+      - name: UFS
+        bits: 4
+        access: RO
+        reset: 0
+        typical: --
+        description: Unknown FIS interrupt.
+
+      - name: SDBS
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Set device bits interrupt.
+
+      - name: DSS
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: DMA setup FIS interrupt.
+
+      - name: PSS
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: PIO setup FIS interrupt.
+
+      - name: DHRS
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Device to host register FIS interrupt.
+
+
+  - name: SATA_UAHC_P(0..1)_IE
+    title: UAHC Interrupt Enable Register
+    address: 0x16C0000000114 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CPDE
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: --
+        description: Cold port detect enable.
+
+      - name: TFEE
+        bits: 30
+        access: R/W
+        reset: 0
+        typical: --
+        description: Task file error enable.
+
+      - name: HBFE
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: --
+        description: Host bus fatal error enable.
+
+      - name: HBDE
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: --
+        description: Host bus data error enable.
+
+      - name: IFE
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: --
+        description: Interface fatal error enable.
+
+      - name: INFE
+        bits: 26
+        access: R/W
+        reset: 0
+        typical: --
+        description: Interfave non-fatal error enable.
+
+      - name: --
+        bits: 25
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OFE
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: --
+        description: Overflow enable.
+
+      - name: IMPE
+        bits: 23
+        access: R/W
+        reset: 0
+        typical: --
+        description: Incorrect port multiplier enable.
+
+      - name: PRCE
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: --
+        description: PHY ready change enable.
+
+      - name: --
+        bits: 21..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DMPE
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Device mechanical presence enable.
+
+      - name: PCE
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Port connect change enable.
+
+      - name: DPE
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Descriptor processed enable.
+
+      - name: UFE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Unknown FIS interrupt enable.
+
+      - name: SDBE
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Set device bits interrupt enable.
+
+      - name: DSE
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: DMA setup FIS interrupt enable.
+
+      - name: PSE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: PIO setup FIS interrupt enable.
+
+      - name: DHRE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Device to host register FIS interrupt enable.
+
+
+  - name: SATA_UAHC_P(0..1)_CMD
+    title: UAHC Command Register
+    address: 0x16C0000000118 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: ICC
+        bits: 31..28
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Interface communication control.
+
+      - name: ASP
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: --
+        description: Aggressive slumber/partial.
+
+      - name: ALPE
+        bits: 26
+        access: R/W
+        reset: 0
+        typical: --
+        description: Aggressive link power management enable.
+
+      - name: DLAE
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: --
+        description: Drive LED on ATAPI enable.
+
+      - name: ATAPI
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: --
+        description: Device is ATAPI.
+
+      - name: APSTE
+        bits: 23
+        access: R/W
+        reset: 0
+        typical: --
+        description: Automatic partial to slumber transitions enable.
+
+      - name: FBSCP
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: --
+        description: FIS-based switching capable port. Write-once.
+
+      - name: ESP
+        bits: 21
+        access: R/W
+        reset: 0
+        typical: --
+        description: External SATA port. Write-once.
+
+      - name: CPD
+        bits: 20
+        access: R/W
+        reset: 0
+        typical: --
+        description: Cold presence detection. Write-once.
+
+      - name: MPSP
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mechanical presence switch attached to port. Write-once.
+
+      - name: HPCP
+        bits: 18
+        access: R/W
+        reset: --
+        typical: --
+        description: Hot plug capable support. Write-once.
+
+      - name: PMA
+        bits: 17
+        access: R/W
+        reset: 0
+        typical: --
+        description: Port multiplier attached.
+
+      - name: CPS
+        bits: 16
+        access: RO
+        reset: 0
+        typical: --
+        description: Cold presence state.
+
+      - name: CR
+        bits: 15
+        access: RO
+        reset: 0
+        typical: --
+        description: Command list running.
+
+      - name: FR
+        bits: 14
+        access: RO
+        reset: 0
+        typical: --
+        description: FIS receive running.
+
+      - name: MPSS
+        bits: 13
+        access: RO
+        reset: --
+        typical: --
+        description: Mechanical presence switch state.
+
+      - name: CCS
+        bits: 12..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Current command slot.
+
+      - name: --
+        bits: 7..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FRE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: FIS receive enable.
+
+      - name: CLO
+        bits: 3
+        access: WO
+        reset: 0
+        typical: --
+        description: Command list override.
+
+      - name: POD
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Power on device. R/W only if CPD=1, else read only.
+
+      - name: SUD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Spin-up device. R/W only if SATA_UAHC_GBL_CAP[SSS]=1, else read only.
+          Setting this bit triggers a COMRESET initialization sequence.
+
+      - name: ST
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Start.
+
+
+  - name: SATA_UAHC_P(0..1)_TFD
+    title: UAHC Task File Data Register
+    address: 0x16C0000000120 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TFERR
+        bits: 15..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Copy of task file error register.
+
+      - name: STS
+        bits: 7..0
+        access: RO
+        reset: 0x7f
+        typical: --
+        description: Copy of task file status register.
+
+
+  - name: SATA_UAHC_P(0..1)_SIG
+    title: UAHC Signature Register
+    address: 0x16C0000000124 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: SIG
+        bits: 31..0
+        access: RO
+        reset: 0xffffffff
+        typical: --
+        description: Signature.
+
+
+  - name: SATA_UAHC_P(0..1)_SSTS
+    title: UAHC SATA Status Register
+    address: 0x16C0000000128 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IPM
+        bits: 11..8
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Interface power management.
+
+      - name: SPD
+        bits: 7..4
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Current interface speed.
+
+      - name: DET
+        bits: 3..0
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Device detection.
+
+
+  - name: SATA_UAHC_P(0..1)_SCTL
+    title: UAHC SATA Control Register
+    address: 0x16C000000012C + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IPM
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Interface power management transitions allowed.
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SPD
+        bits: 5..4
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Speed allowed.
+
+      - name: --
+        bits: 3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DET
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Device detection initialization.
+
+
+  - name: SATA_UAHC_P(0..1)_SERR
+    title: UAHC SATA Error Register
+    address: 0x16C0000000130 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..27
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: DIAG_X
+        bits: 26
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Exchanged.
+
+      - name: DIAG_F
+        bits: 25
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Unknown FIS type.
+
+      - name: DIAG_T
+        bits: 24
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Transport state transition error.
+
+      - name: DIAG_S
+        bits: 23
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Link sequence error.
+
+      - name: DIAG_H
+        bits: 22
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Handshake error.
+
+      - name: DIAG_C
+        bits: 21
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: CRC error.
+
+      - name: DIAG_D
+        bits: 20
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Disparity error.
+
+      - name: DIAG_B
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: 10B to 8B decode error.
+
+      - name: DIAG_W
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: COMWAKE detected.
+
+      - name: DIAG_I
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: PHY internal error.
+
+      - name: DIAG_N
+        bits: 16
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: PHY ready change.
+
+      - name: --
+        bits: 15..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERR_E
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Internal error.
+
+      - name: ERR_P
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Protocol error.
+
+      - name: ERR_C
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Non-recovered persistent communication error.
+
+      - name: ERR_T
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Non-recovered transient data integrity error.
+
+      - name: --
+        bits: 7..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERR_M
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Recovered communication error.
+
+      - name: ERR_I
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Recovered data integrity.
+
+
+  - name: SATA_UAHC_P(0..1)_SACT
+    title: UAHC SATA Active Register
+    address: 0x16C0000000134 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: DS
+        bits: 31..0
+        access: R/W1S/H
+        reset: 0x0
+        typical: --
+        description: Device status.
+
+
+  - name: SATA_UAHC_P(0..1)_CI
+    title: UAHC Command Issue Register
+    address: 0x16C0000000138 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CI
+        bits: 31..0
+        access: R/W1S/H
+        reset: 0x0
+        typical: --
+        description: Command issued.
+
+
+  - name: SATA_UAHC_P(0..1)_SNTF
+    title: UAHC SATA Notification Register
+    address: 0x16C000000013C + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PMN
+        bits: 15..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: --
+        description: PM notify.
+
+
+  - name: SATA_UAHC_P(0..1)_FBS
+    title: UAHC FIS-Based Switching Control Register
+    address: 0x16C0000000140 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DWE
+        bits: 19..16
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: Device with error.
+
+      - name: ADO
+        bits: 15..12
+        access: RO
+        reset: 0xf
+        typical: 0xf
+        description: Active device optimization.
+
+      - name: DEV
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Device to issue.
+
+      - name: --
+        bits: 7..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDE
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: Single device error.
+
+      - name: DEC
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Device error clear.
+
+      - name: EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Enable.
+
+
+  - name: SATA_UAHC_P(0..1)_DMACR
+    title: UAHC DMA Control Register
+    address: 0x16C0000000170 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: --
+        bits: 31..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXTS
+        bits: 7..4
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          Receive transaction size. This field is R/W when SATA_UAHC_PX_CMD[ST]=0
+          and read only when SATA_UAHC_PX_CMD[ST]=1.
+
+      - name: TXTS
+        bits: 3..0
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          Transmit transaction size. This field is R/W when SATA_UAHC_PX_CMD[ST]=0
+          and read only when SATA_UAHC_PX_CMD[ST]=1.
+
+
+  - name: SATA_UAHC_P(0..1)_PHYCR
+    title: UAHC PHY Control Register
+    address: 0x16C0000000178 + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: CTRL
+        bits: 31..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Port PHY control.
+
+
+  - name: SATA_UAHC_P(0..1)_PHYSR
+    title: UAHC PHY Status Register
+    address: 0x16C000000017C + a*0x80
+    bus: NCB
+    description: |
+      INTERNAL: See DWC_ahsata databook v4.10a
+    fields:
+      - name: STAT
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: Port PHY status.
+
+
+

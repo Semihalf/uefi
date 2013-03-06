@@ -140,143 +140,146 @@ enums:
       width: "20"
     description: Enumerates the different interrupts from L2C.
     values:
-      - name: L2C_TAD(0..7)_INT_L2DSBE
+      - name: L2C_TAD(0..0)_INT_L2DSBE
         value: 0x80000 | (a << 8)
         attributes:
+          cib_rtl_minor_width: "3"
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[L2DSBE].
+        description: See L2C_TAD(0..0)_INT[L2DSBE].
 
-      - name: L2C_TAD(0..7)_INT_L2DDBE
+      - name: L2C_TAD(0..0)_INT_L2DDBE
         value: 0x80001 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[L2DDBE].
+        description: See L2C_TAD(0..0)_INT[L2DDBE].
 
-      - name: L2C_TAD(0..7)_INT_SBFSBE
+      - name: L2C_TAD(0..0)_INT_SBFSBE
         value: 0x80002 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[SBFSBE].
+        description: See L2C_TAD(0..0)_INT[SBFSBE].
 
-      - name: L2C_TAD(0..7)_INT_SBFDBE
+      - name: L2C_TAD(0..0)_INT_SBFDBE
         value: 0x80003 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[SBFDBE].
+        description: See L2C_TAD(0..0)_INT[SBFDBE].
 
-      - name: L2C_TAD(0..7)_INT_FBFSBE
+      - name: L2C_TAD(0..0)_INT_FBFSBE
         value: 0x80004 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[FBFSBE].
+        description: See L2C_TAD(0..0)_INT[FBFSBE].
 
-      - name: L2C_TAD(0..7)_INT_FBFDBE
+      - name: L2C_TAD(0..0)_INT_FBFDBE
         value: 0x80005 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[FBFDBE].
+        description: See L2C_TAD(0..0)_INT[FBFDBE].
 
-      - name: L2C_TAD(0..7)_INT_TAGSBE
+      - name: L2C_TAD(0..0)_INT_TAGSBE
         value: 0x80006 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[TAGSBE].
+        description: See L2C_TAD(0..0)_INT[TAGSBE].
 
-      - name: L2C_TAD(0..7)_INT_TAGDBE
+      - name: L2C_TAD(0..0)_INT_TAGDBE
         value: 0x80007 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[TAGDBE].
+        description: See L2C_TAD(0..0)_INT[TAGDBE].
 
-      - name: L2C_TAD(0..7)_INT_NOWAY
+      - name: L2C_TAD(0..0)_INT_NOWAY
         value: 0x80008 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[NOWAY].
+        description: See L2C_TAD(0..0)_INT[NOWAY].
 
-      - name: L2C_TAD(0..7)_INT_HOLEWR
+      - name: L2C_TAD(0..0)_INT_HOLEWR
         value: 0x80009 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[HOLEWR].
+        description: See L2C_TAD(0..0)_INT[HOLEWR].
 
-      - name: L2C_TAD(0..7)_INT_HOLERD
+      - name: L2C_TAD(0..0)_INT_HOLERD
         value: 0x8000A | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[HOLERD].
+        description: See L2C_TAD(0..0)_INT[HOLERD].
 
-      - name: L2C_TAD(0..7)_INT_BIGWR
+      - name: L2C_TAD(0..0)_INT_BIGWR
         value: 0x8000B | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[BIGWR].
+        description: See L2C_TAD(0..0)_INT[BIGWR].
 
-      - name: L2C_TAD(0..7)_INT_BIGRD
+      - name: L2C_TAD(0..0)_INT_BIGRD
         value: 0x8000C | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[BIGRD].
+        description: See L2C_TAD(0..0)_INT[BIGRD].
 
-      - name: L2C_TAD(0..7)_INT_WRDISLMC
+      - name: L2C_TAD(0..0)_INT_WRDISLMC
         value: 0x8000D | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[WRDISLMC].
+        description: See L2C_TAD(0..0)_INT[WRDISLMC].
 
-      - name: L2C_TAD(0..7)_INT_RDDISLMC
+      - name: L2C_TAD(0..0)_INT_RDDISLMC
         value: 0x8000E | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[RDDISLMC].
+        description: See L2C_TAD(0..0)_INT[RDDISLMC].
 
-      - name: L2C_TAD(0..7)_INT_RTGSBE
+      - name: L2C_TAD(0..0)_INT_RTGSBE
         value: 0x8000F | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[RTGSBE].
+        description: See L2C_TAD(0..0)_INT[RTGSBE].
 
-      - name: L2C_TAD(0..7)_INT_RTGDBE
+      - name: L2C_TAD(0..0)_INT_RTGDBE
         value: 0x80010 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[RTGDBE].
+        description: See L2C_TAD(0..0)_INT[RTGDBE].
 
-      - name: L2C_MCI(0..3)_INT_VBFSBE
+      - name: L2C_MCI(0..0)_INT_VBFSBE
         value: 0x80800 | (a << 8)
         attributes:
+          cib_rtl_minor_width: "4"
           intsn_lsb_mismatch: "True"
-        description: See L2C_MCI(0..3)_INT[VBFSBE].
+        description: See L2C_MCI(0..0)_INT[VBFSBE].
 
-      - name: L2C_MCI(0..3)_INT_VBFDBE
+      - name: L2C_MCI(0..0)_INT_VBFDBE
         value: 0x80801 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_MCI(0..3)_INT[VBFDBE].
+        description: See L2C_MCI(0..0)_INT[VBFDBE].
 
-      - name: L2C_CBC(0..3)_INT_RSDSBE
+      - name: L2C_CBC(0..0)_INT_RSDSBE
         value: 0x80C00 | (a << 8)
         attributes:
+          cib_rtl_minor_width: "4"
           intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[RSDSBE].
+        description: See L2C_CBC(0..0)_INT[RSDSBE].
 
-      - name: L2C_CBC(0..3)_INT_RSDDBE
+      - name: L2C_CBC(0..0)_INT_RSDDBE
         value: 0x80C01 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[RSDDBE].
+        description: See L2C_CBC(0..0)_INT[RSDDBE].
 
-      - name: L2C_CBC(0..3)_INT_IOCCMDSBE
+      - name: L2C_CBC(0..0)_INT_IOCCMDSBE
         value: 0x80C02 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
+        description: See L2C_CBC(0..0)_INT[IOCCMDSBE].
 
-      - name: L2C_CBC(0..3)_INT_IOCCMDDBE
+      - name: L2C_CBC(0..0)_INT_IOCCMDDBE
         value: 0x80C03 | (a << 8)
         attributes:
           intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
+        description: See L2C_CBC(0..0)_INT[IOCCMDDBE].
 
 
   - name: L2C_TAG_ERRPRIO_E
@@ -736,9 +739,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Maximum VABs/LFBs in use at once (per-TAD)
-          (0 means 32, 1-3 are illegal, 4-31 as expected)
-          FIXME: 2,3 shouldn't be illegal and OCI will alter this
+          Maximum VABs/LFBs in use at once.
+          (0 means 32, but only 16 exist in 70xx) FIXME soon to be only 8
 
       - name: RSP_ARB_MODE
         bits: 15
@@ -992,8 +994,8 @@ registers:
       (1) BIGRD interrupts can occur during normal operation as the PP's are allowed to prefetch to
       non-existent memory locations.  Therefore, BIGRD is for informational purposes only.
 
-      (2) When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store L2C_TAD(0..7)_ERR will be
-      loaded.  L2C_TAD(0..7)_ERR will be not be locked for a BIGRD, however.
+      (2) When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store L2C_TAD(0..0)_ERR will be
+      loaded.  L2C_TAD(0..0)_ERR will be not be locked for a BIGRD, however.
     fields:
       - name: --
         bits: 63..8
@@ -1022,7 +1024,7 @@ registers:
           10 = 256GB
           11 = 512GB
           12-15 reserved
-          Violations of this limit causes L2C to set L2C_TAD(0..7)_INT[BIGRD/BIGWR].
+          Violations of this limit causes L2C to set L2C_TAD(0..0)_INT[BIGRD/BIGWR].
 
       - name: --
         bits: 3..1
@@ -1149,11 +1151,18 @@ registers:
         description: PP to access, use 0xFF for broadcast write.  Broadcast reads are unpredictable.
 
       - name: --
-        bits: 15..9
+        bits: 15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MBZ
+        bits: 14..9
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Must be written to zero for 78xx.
 
       - name: ROOT
         bits: 8
@@ -1191,7 +1200,7 @@ registers:
         description: Data to write to specified COP0 register or return data for a read.
 
 
-  - name: L2C_XMC(0..9)_PFC
+  - name: L2C_XMC(0..0)_PFC
     title: L2C XMC Performance Counter(s)
     address: 0x1180080800800 + a*0x40
     bus: RSL
@@ -1206,7 +1215,7 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_XMD(0..9)_PFC
+  - name: L2C_XMD(0..0)_PFC
     title: L2C XMD Performance Counter(s)
     address: 0x1180080800808 + a*0x40
     bus: RSL
@@ -1221,7 +1230,7 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_RSC(0..9)_PFC
+  - name: L2C_RSC(0..0)_PFC
     title: L2C RSC Performance Counter(s)
     address: 0x1180080800810 + a*0x40
     bus: RSL
@@ -1236,7 +1245,7 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_RSD(0..9)_PFC
+  - name: L2C_RSD(0..0)_PFC
     title: L2C RSD Performance Counter(s)
     address: 0x1180080800818 + a*0x40
     bus: RSL
@@ -1251,7 +1260,7 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_INV(0..7)_PFC
+  - name: L2C_INV(0..0)_PFC
     title: L2C RSC/INV Performance Counter(s)
     address: 0x1180080800820 + a*0x40
     bus: RSL
@@ -1296,49 +1305,49 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_WPAR_PP(0..47)
+  - name: L2C_WPAR_PP(0..3)
     title: L2C PP way partitioning
     address: 0x1180080840000 + a*0x8
     bus: RSL
     description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MASK
-        bits: 15..0
+        bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Way partitioning mask. (1 means do not use)
 
 
-  - name: L2C_WPAR_IOB(0..1)
+  - name: L2C_WPAR_IOB(0..0)
     title: L2C IOB way partitioning
     address: 0x1180080840200 + a*0x8
     bus: RSL
     description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MASK
-        bits: 15..0
+        bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Way partitioning mask. (1 means do not use)
 
 
-  - name: L2C_QOS_PP(0..47)
+  - name: L2C_QOS_PP(0..3)
     title: L2C PP QOS level
     address: 0x1180080880000 + a*0x8
     bus: RSL
@@ -1360,7 +1369,7 @@ registers:
         description: QOS level to use for this PP.
 
 
-  - name: L2C_QOS_IOB(0..1)
+  - name: L2C_QOS_IOB(0..0)
     title: L2C IOB QOS level
     address: 0x1180080880200 + a*0x8
     bus: RSL
@@ -1396,7 +1405,7 @@ registers:
         description: QOS level for non-DWB commands.
 
 
-  - name: L2C_TAD(0..7)_PRF
+  - name: L2C_TAD(0..0)_PRF
     title: L2C TAD Performance Counter Control
     address: 0x1180080A00008 + a*0x40000
     bus: RSL
@@ -1458,31 +1467,31 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC3
+        description: Selects event to count for L2C_TAD(0..0)_PFC3
 
       - name: CNT2SEL
         bits: 23..16
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC2
+        description: Selects event to count for L2C_TAD(0..0)_PFC2
 
       - name: CNT1SEL
         bits: 15..8
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC1
+        description: Selects event to count for L2C_TAD(0..0)_PFC1
 
       - name: CNT0SEL
         bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC0
+        description: Selects event to count for L2C_TAD(0..0)_PFC0
 
 
-  - name: L2C_TAD(0..7)_TAG
+  - name: L2C_TAD(0..0)_TAG
     title: L2C tag data
     address: 0x1180080A00010 + a*0x40000
     bus: RSL
@@ -1505,14 +1514,14 @@ registers:
           Reserved -- TEMP: will be SUBBLKDTY
 
       - name: --
-        bits: 59..57
+        bits: 59..56
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: BUSINFO
-        bits: 56..48
+        bits: 55..48
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -1533,14 +1542,14 @@ registers:
         description: The tag ECC (see note 4)
 
       - name: TAG
-        bits: 39..20
+        bits: 39..17
         access: R/W/H
         reset: 0x0
         typical: 0x0
         description: The tag (see notes 1 and 3)
 
       - name: --
-        bits: 19..4
+        bits: 16..4
         access: ---
         reset: --
         typical: --
@@ -1575,7 +1584,7 @@ registers:
         description: The lock bit
 
 
-  - name: L2C_TAD(0..7)_ECC0
+  - name: L2C_TAD(0..0)_ECC0
     title: L2C ECC logging
     address: 0x1180080A00018 + a*0x40000
     bus: RSL
@@ -1639,7 +1648,7 @@ registers:
         description: ECC for QW0 of cache block
 
 
-  - name: L2C_TAD(0..7)_ECC1
+  - name: L2C_TAD(0..0)_ECC1
     title: L2C ECC logging
     address: 0x1180080A00020 + a*0x40000
     bus: RSL
@@ -1703,7 +1712,7 @@ registers:
         description: ECC for QW8 of cache block
 
 
-  - name: L2C_TAD(0..7)_INT
+  - name: L2C_TAD(0..0)_INT
     title: L2C TAD Interrupt Register
     address: 0x1180080A00028 + a*0x40000
     bus: RSL
@@ -1862,7 +1871,7 @@ registers:
         description: L2D Single-Bit Error occurred.  See L2C_TQD_ERR for logged information.
 
 
-  - name: L2C_TAD(0..7)_PFC(0..3)
+  - name: L2C_TAD(0..0)_PFC(0..3)
     title: L2C TAD Performance Counters (0..3)
     address: 0x1180080A00400 + a*0x40000 + b*8
     bus: RSL
@@ -1877,7 +1886,7 @@ registers:
         description: Current counter value
 
 
-  - name: L2C_TAD(0..7)_ERR
+  - name: L2C_TAD(0..0)_ERR
     title: L2C TAD Request Error Info
     address: 0x1180080A007D0 + a*0x40000
     bus: RSL
@@ -1960,7 +1969,7 @@ registers:
         description: XMC address causing the error (see Note 2).
 
 
-  - name: L2C_TQD(0..7)_ERR
+  - name: L2C_TQD(0..0)_ERR
     title: L2C TAD QUad Error Info
     address: 0x1180080A007D8 + a*0x40000
     bus: RSL
@@ -2059,7 +2068,7 @@ registers:
         description: Index within the quad-half containing the error
 
 
-  - name: L2C_TTG(0..7)_ERR
+  - name: L2C_TTG(0..0)_ERR
     title: L2C TAD TaG Error Info
     address: 0x1180080A007E0 + a*0x40000
     bus: RSL
@@ -2110,21 +2119,21 @@ registers:
         description: Syndrome for the single-bit error
 
       - name: --
-        bits: 31..24
+        bits: 31..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: WAY
-        bits: 23..20
+        bits: 20..17
         access: RO/H
         reset: 0x0
         typical: --
         description: Way of the L2 block containing the error
 
       - name: L2IDX
-        bits: 19..7
+        bits: 16..7
         access: RO/H
         reset: 0x0
         typical: --
@@ -2138,7 +2147,7 @@ registers:
         description: Reserved.
 
 
-  - name: L2C_TBF(0..7)_BIST_STATUS
+  - name: L2C_TBF(0..0)_BIST_STATUS
     title: L2C TAD quad BuFfer BIST Status
     address: 0x1180080A007E8 + a*0x40000
     bus: RSL
@@ -2172,7 +2181,7 @@ registers:
         description: BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
 
 
-  - name: L2C_TDT(0..7)_BIST_STATUS
+  - name: L2C_TDT(0..0)_BIST_STATUS
     title: L2C TAD DaTa BIST Status
     address: 0x1180080A007F0 + a*0x40000
     bus: RSL
@@ -2192,7 +2201,7 @@ registers:
         description: BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
 
 
-  - name: L2C_TTG(0..7)_BIST_STATUS
+  - name: L2C_TTG(0..0)_BIST_STATUS
     title: L2C TAD TaG BIST Status
     address: 0x1180080A007F8 + a*0x40000
     bus: RSL
@@ -2240,7 +2249,7 @@ registers:
         description: BIST failure status for TAG ways 0-15
 
 
-  - name: L2C_MCI(0..3)_INT
+  - name: L2C_MCI(0..0)_INT
     title: L2C MCI Interrupt Register
     address: 0x1180080C00028 + a*0x40000
     bus: RSL
@@ -2268,7 +2277,7 @@ registers:
         description: VBF Single-Bit Error occurred.  See L2C_MCI_ERR for logged information.
 
 
-  - name: L2C_MCI(0..3)_ERR
+  - name: L2C_MCI(0..0)_ERR
     title: L2C MCI Error Info
     address: 0x1180080C007F0 + a*0x40000
     bus: RSL
@@ -2362,7 +2371,7 @@ registers:
         description: Reserved.
 
 
-  - name: L2C_MCI(0..3)_BIST_STATUS
+  - name: L2C_MCI(0..0)_BIST_STATUS
     title: L2C MCI BIST Status (DCLK)
     address: 0x1180080C007F8 + a*0x40000
     bus: RSL
@@ -2404,7 +2413,7 @@ registers:
         description: BIST failure status for VBF0-1
 
 
-  - name: L2C_CBC(0..3)_INT
+  - name: L2C_CBC(0..0)_INT
     title: L2C CBC Interrupt Register
     address: 0x1180080E00028 + a*0x40000
     bus: RSL
@@ -2446,7 +2455,7 @@ registers:
         description: RSD Single-Bit Error occurred.  See L2C_CBC_RSDERR for logged information.
 
 
-  - name: L2C_CBC(0..3)_IOCERR
+  - name: L2C_CBC(0..0)_IOCERR
     title: L2C CBC Error Info
     address: 0x1180080E007E8 + a*0x40000
     bus: RSL
@@ -2503,7 +2512,7 @@ registers:
         description: XMC which had the error.
 
 
-  - name: L2C_CBC(0..3)_RSDERR
+  - name: L2C_CBC(0..0)_RSDERR
     title: L2C CBC Error Info
     address: 0x1180080E007F0 + a*0x40000
     bus: RSL
@@ -2574,7 +2583,7 @@ registers:
         description: RSD which had the error.
 
 
-  - name: L2C_CBC(0..3)_BIST_STATUS
+  - name: L2C_CBC(0..0)_BIST_STATUS
     title: L2C CBC BIST Status
     address: 0x1180080E007F8 + a*0x40000
     bus: RSL

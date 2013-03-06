@@ -1060,4 +1060,98 @@ registers:
         description: icd_ncb_fifo_bist_status (icd_ncb_fifo)
 
 
+  - name: IOB_CHIP_GLB_PWR_THROTTLE
+    address: 0x11800F0000808
+    bus: RSL
+    description: Controls the min/max power settings.
+    fields:
+      - name: --
+        bits: 63..34
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PWR_BW
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Power BW.
+
+      - name: PWR_MAX
+        bits: 31..24
+        access: R/W
+        reset: 0xff
+        typical: --
+        description: Max power setting in ma/Ghz.
+
+      - name: PWR_MIN
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Min power setting in ma/Ghz.
+
+      - name: PWR_SETTING
+        bits: 15..0
+        access: R/W
+        reset: 0xffff
+        typical: --
+        description: in ma/Ghz.
+
+
+  - name: IOB_CHIP_PWR_OUT
+    address: 0x11800F0000818
+    bus: RSL
+    description: Power numbers from the various partitions on the chip.
+    fields:
+      - name: CMB_PWR
+        bits: 63..48
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CMB Power number.
+
+      - name: CHIP_POWER
+        bits: 47..32
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Total Chip Power number.
+
+      - name: ROC_POWER
+        bits: 31..16
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Total ROC Power.
+
+      - name: AVG_CHIP_POWER
+        bits: 15..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Avg chip power.
+
+
+  - name: IOB_CHIP_CUR_PWR
+    address: 0x11800F0000828
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CURRENT_POWER_SETTING
+        bits: 7..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Current Power Setting.
+
+
 

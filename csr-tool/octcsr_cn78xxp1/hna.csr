@@ -1,0 +1,1937 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: HNA
+enums:
+  - name: HNA_INTSN_E
+    attributes:
+      width: "20"
+    description: Enumerates the different HNA generated interrupts.
+    values:
+      - name: HNA_ERROR_DBLOVF
+        value: 0x47000
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DBLOVF].
+
+      - name: HNA_ERROR_DC0PERR(0..2)
+        value: 0x47001 + a
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DC0PERR<a>].
+
+      - name: HNA_ERROR_DC1PERR(0..2)
+        value: 0x47004 + a
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DC1PERR<a>].
+
+      - name: HNA_ERROR_DC2PERR(0..2)
+        value: 0x47007 + a
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DC2PERR<a>].
+
+      - name: HNA_ERROR_DC3PERR(0..2)
+        value: 0x4700A + a
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DC3PERR<a>].
+
+      - name: HNA_ERROR_DLC0_OVFERR
+        value: 0x4700D
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DLC0_OVFERR].
+
+      - name: HNA_ERROR_DLC1_OVFERR
+        value: 0x4700E
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[DLC1_OVFERR].
+
+      - name: HNA_ERROR_HNANXM
+        value: 0x47011
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[HNANXM].
+
+      - name: HNA_ERROR_REPLERR
+        value: 0x47012
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[REPLERR].
+
+      - name: HNA_ERROR_OSMERR
+        value: 0x47013
+        attributes:
+          cib_rtl_module: "hna"
+        description: See HNA_ERROR[OSMERR].
+
+
+registers:
+  - name: HNA_CONFIG
+    address: 0x1180047000000
+    bus: RSL
+    description: |
+      Specify the RSL base addresses for the block
+      HNA_CONFIG = HNA Configuration Register
+    fields:
+      - name: --
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: REPL_ENA
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Replication Mode Enable
+          *** o63-P2 NEW ***
+          When set, enables replication mode performance enhancement
+          feature. This enables the HNA to communicate address
+          replication information during memory references to the
+          memory controller.
+          For o63-P2:        This is used by the memory controller
+          to support graph data in multiple banks (or bank sets), so that
+          the least full bank can be selected to minimize the effects of
+          DDR3 bank conflicts (ie: tRC=row cycle time).
+          For o68: This is used by the memory controller to support graph
+          data in multiple ports (or port sets), so that the least full
+          port can be selected to minimize latency effects.
+          SWNOTE: Using this mode requires the HNA SW compiler and HNA
+          driver to be aware of the address replication changes.
+          This involves changes to the MLOAD/GWALK HNA instruction format
+          (see: IWORD2.SREPL), as well as changes to node arc and metadata
+          definitions which now support an additional REPL field.
+          When clear, replication mode is disabled, and HNA will interpret
+          HNA instructions and node-arc formats which DO NOT have
+          address replication information.
+
+      - name: CLMSKCRIP
+        bits: 7..4
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Cluster Cripple Mask
+          A one in each bit of the mask represents which DTE cluster to
+          cripple.
+          NOTE: o63 has only a single Cluster (therefore CLMSKCRIP[0]
+          is the only bit used.
+          o2 has 4 clusters, where all CLMSKCRIP mask bits are used.
+          SWNOTE: The MIO_FUS___HNA_CLMASK_CRIPPLE[3:0] fuse bits will
+          be forced into this register at reset. Any fuse bits that
+          contain '1' will be disallowed during a write and will always
+          be read as '1'.
+
+      - name: CLDTECRIP
+        bits: 3..1
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Encoding which represents #of DTEs to cripple for each
+          cluster. Typically DTE_CLCRIP=0 which enables all DTEs
+          within each cluster. However, when the HNA performance
+          counters are used, SW may want to limit the #of DTEs
+          per cluster available, as there are only 4 parallel
+          performance counters.
+          DTE_CLCRIP | #DTEs crippled(per cluster)
+          ------------+-----------------------------
+          0    |  0      DTE[15:0]:ON
+          1    |  1/2    DTE[15:8]:OFF  /DTE[7:0]:ON
+          2    |  1/4    DTE[15:12]:OFF /DTE[11:0]:ON
+          3    |  3/4    DTE[15:4]:OFF  /DTE[3:0]:ON
+          4    |  1/8    DTE[15:14]:OFF /DTE[13:0]:ON
+          5    |  5/8    DTE[15:6]:OFF  /DTE[5:0]:ON
+          6    |  3/8    DTE[15:10]:OFF /DTE[9:0]:ON
+          7    |  7/8    DTE[15:2]:OFF  /DTE[1:0]:ON
+          NOTE: Higher numbered DTEs are crippled first. For instance,
+          on o63 (with 16 DTEs/cluster), if DTE_CLCRIP=1(1/2), then
+          DTE#s [15:8] within the cluster are crippled and only
+          DTE#s [7:0] are available.
+          IMPNOTE: The encodings are done in such a way as to later
+          be used with fuses (for future o2 revisions which will disable
+          some #of DTEs). Blowing a fuse has the effect that there will
+          always be fewer DTEs available. [ie: we never want a customer
+          to blow additional fuses to get more DTEs].
+          SWNOTE: The MIO_FUS___HNA_NUMDTE_CRIPPLE[2:0] fuse bits will
+          be forced into this register at reset. Any fuse bits that
+          contain '1' will be disallowed during a write and will always
+          be read as '1'."
+
+      - name: DTECLKDIS
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          HNA Clock Disable Source
+          When SET, the HNA clocks for DTE(thread engine)
+          operation are disabled (to conserve overall chip clocking
+          power when the HNA function is not used).
+          NOTE: When SET, SW MUST NEVER issue NCB-Direct CSR
+          operations to the HNA (will result in NCB Bus Timeout
+          errors).
+          NOTE: This should only be written to a different value
+          during power-on SW initialization.
+          SWNOTE: The MIO_FUS___HNA_DTE_DISABLE fuse bit will
+          be forced into this register at reset. If the fuse bit
+          contains '1', writes to DTECLKDIS are disallowed and
+          will always be read as '1'.
+
+
+  - name: HNA_CONTROL
+    title: HNA Control Register
+    address: 0x1180047000020
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..12
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: SBDNUM
+        bits: 11..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "SBD Debug Entry#
+          INTERNAL:
+          HNA Scoreboard debug control
+          Selects which one of 48 HNA Scoreboard entries is
+          latched into the HNA_SBD_DBG[0-3] registers."
+
+      - name: SBDLCK
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          HNA Scoreboard LOCK Strobe
+          INTERNAL:
+          HNA Scoreboard debug control
+          When written with a '1', the HNA Scoreboard Debug
+          registers (HNA_SBD_DBG[0-3]) are all locked down.
+          This allows SW to lock down the contents of the entire
+          SBD for a single instant in time. All subsequent reads
+          of the HNA scoreboard registers will return the data
+          from that instant in time.
+
+      - name: --
+        bits: 4..3
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: PMODE
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          NCB-NRP Arbiter Mode
+          (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR
+          NOTE: This should only be written to a different value
+          during power-on SW initialization.
+
+      - name: QMODE
+        bits: 1
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          NCB-NRQ Arbiter Mode
+          (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR
+          NOTE: This should only be written to a different value
+          during power-on SW initialization.
+
+      - name: IMODE
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          NCB-Inbound Arbiter
+          (0=FP {LP=NRQ,HP=NRP}, 1=RR)
+          NOTE: This should only be written to a different value
+          during power-on SW initialization.
+
+
+  - name: HNA_ERROR
+    title: HNA ERROR Register
+    address: 0x1180047000028
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: OSMERR
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: OSM reported an Error with the response data.
+
+      - name: REPLERR
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          HNA Illegal Replication Factor Error
+          For o68: HNA only supports 1x, 2x, and 4x port replication.
+          Legal configurations for memory are to support 2 port or
+          4 port configurations.
+          The REPLERR interrupt will be set in the following illegal
+          configuration cases:
+          1) An 8x replication factor is detected for any memory reference.
+          2) A 4x replication factor is detected for any memory reference
+          when only 2 memory ports are enabled.
+          NOTE: If REPLERR is set during a HNA Graph Walk operation,
+          then the walk will prematurely terminate with RWORD0[REA]=ERR.
+          If REPLERR is set during a NCB-Direct CSR read access to HNA
+          Memory REGION, then the CSR read response data is UNPREDICTABLE.
+
+      - name: HNANXM
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          HNA Non-existent Memory Access
+          For o68: DTEs (and backdoor CSR HNA Memory REGION reads)
+          have access to the following 38bit L2/DRAM address space
+          which maps to a 37bit physical DDR3 SDRAM address space.
+          see:
+          DR0: 0x0 0000 0000 0000 to 0x0 0000 0FFF FFFF
+          maps to lower 256MB of physical DDR3 SDRAM
+          DR1: 0x0 0000 2000 0000 to 0x0 0020 0FFF FFFF
+          maps to upper 127.75GB of DDR3 SDRAM
+          L2/DRAM address space                     Physical DDR3 SDRAM Address space
+          (38bit address)                           (37bit address)
+          +-----------+ 0x0020.0FFF.FFFF
+          ===   DR1   ===                          +-----------+ 0x001F.FFFF.FFFF
+          (128GB-256MB)
+          |           |                     =>    |           |  (128GB-256MB)
+          +-----------+ 0x0000.1FFF.FFFF          |   DR1
+          256MB   |   HOLE    |   (DO NOT USE)
+          +-----------+ 0x0000.0FFF.FFFF          +-----------+ 0x0000.0FFF.FFFF
+          256MB   |    DR0    |                           |   DR0     |   (256MB)
+          +-----------+ 0x0000.0000.0000          +-----------+ 0x0000.0000.0000
+          In the event the HNA generates a reference to the L2/DRAM
+          address hole (0x0000.0FFF.FFFF - 0x0000.1FFF.FFFF) or to
+          an address above 0x0020.0FFF.FFFF, the HNANXM programmable
+          interrupt bit will be set.
+          SWNOTE: Both the 1) SW HNA Graph compiler and the 2) SW NCB-Direct CSR
+          accesses to HNA Memory REGION MUST avoid making references
+          to these non-existent memory regions.
+          NOTE: If HNANXM is set during a HNA Graph Walk operation,
+          then the walk will prematurely terminate with RWORD0[REA]=ERR.
+          If HNANXM is set during a NCB-Direct CSR read access to HNA
+          Memory REGION, then the CSR read response data is forced to
+          128'hBADE_FEED_DEAD_BEEF_FACE_CAFE_BEAD_C0DE. (NOTE: the QW
+          being accessed, either the upper or lower QW will be returned).
+
+      - name: CNDRD
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          If Any of the cluster's detected a Parity error on RAM1
+          this additional bit further specifies that the
+          RAM1 parity error was detected during a CND-RD
+          (Cache Node Metadata Read).
+          INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch
+          information is written to RWORD1+ as follows:
+          RWORD1+[NTYPE]=MNODE
+          RWORD1+[NDNID]=cna.ndnid
+          RWORD1+[NHMSK]=cna.hmsk
+          RWORD1+[NNPTR]=cna.nnptr[13:0]
+          NOTE: This bit is set if ANY node cluster's RAM1 accesses
+          detect a CNDRD error.
+
+      - name: --
+        bits: 15
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: DLC1_OVFERR
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          DLC1 Fifo Overflow Error Detected
+          This condition should NEVER architecturally occur, and
+          is here in case HW credit/debit scheme is not working.
+
+      - name: DLC0_OVFERR
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          DLC0 Fifo Overflow Error Detected
+          This condition should NEVER architecturally occur, and
+          is here in case HW credit/debit scheme is not working.
+
+      - name: DC3PERR
+        bits: 12..10
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Cluster#3 RAM[3:1] Parity Error Detected
+          See also HNA_DTCFADR register which contains the
+          failing addresses for the internal node cache RAMs."
+
+      - name: DC2PERR
+        bits: 9..7
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Cluster#2 RAM[3:1] Parity Error Detected
+          See also HNA_DTCFADR register which contains the
+          failing addresses for the internal node cache RAMs."
+
+      - name: DC1PERR
+        bits: 6..4
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Cluster#1 RAM[3:1] Parity Error Detected
+          See also HNA_DTCFADR register which contains the
+          failing addresses for the internal node cache RAMs."
+
+      - name: DC0PERR
+        bits: 3..1
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Cluster#0 RAM[3:1] Parity Error Detected
+          See also HNA_DTCFADR register which contains the
+          failing addresses for the internal node cache RAMs."
+
+      - name: DBLOVF
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Doorbell Overflow detected - Status bit
+          When set, the 20b accumulated doorbell register
+          had overflowed (SW wrote too many doorbell requests).
+          If the DBLINA had previously been enabled(set),
+          an interrupt will be posted. Software can clear
+          the interrupt by writing a 1 to this register bit.
+          NOTE: Detection of a Doorbell Register overflow
+          is a catastrophic error which may leave the HNA
+          HW in an unrecoverable state.
+          Throws HNA_INTSN_E::HNA_ERROR_DBLOVF.
+
+
+  - name: HNA_DEBUG0
+    title: "HNA Scoreboard Debug #0 Register"
+    address: 0x1180047000040
+    bus: RSL
+    description: |
+      "INTERNAL: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      are locked down.
+      Otherwise, the contents of this register are the 'active' contents of the HNA Scoreboard at
+      the time of the
+      CSR read.
+      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      model)
+      on the reads unless the DTE Engine specified by HNA_CONTROL[SBDNUM] has previously been
+      assigned an
+      instruction."
+    fields:
+      - name: SBD0
+        bits: 63..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "HNA ScoreBoard #0 Data
+          (HNA Scoreboard Debug)
+          [63:38]   (26) rptr[28:3]: Result Base Pointer (QW-aligned)
+          [37:22]   (16) Cumulative Result Write Counter (for HDR write)
+          [21]       (1) Waiting for GRdRsp EOT
+          [20]       (1) Waiting for GRdReq Issue (to NRQ)
+          [19]       (1) GLPTR/GLCNT Valid
+          [18]       (1) Completion Mark Detected
+          [17:15]    (3) Completion Code [0=PDGONE/1=PERR/2=RFULL/3=TERM]
+          [14]       (1) Completion Detected
+          [13]       (1) Waiting for HDR RWrCmtRsp
+          [12]       (1) Waiting for LAST RESULT RWrCmtRsp
+          [11]       (1) Waiting for HDR RWrReq
+          [10]        (1) Waiting for RWrReq
+          [9]        (1) Waiting for WQWrReq issue
+          [8]        (1) Waiting for PRdRsp EOT
+          [7]        (1) Waiting for PRdReq Issue (to NRQ)
+          [6]        (1) Packet Data Valid
+          [5]        (1) WQVLD
+          [4]        (1) WQ Done Point (either WQWrReq issued (for WQPTR<>0) OR HDR RWrCmtRsp)
+          [3]        (1) Resultant write STF/P Mode
+          [2]        (1) Packet Data LDT mode
+          [1]        (1) Gather Mode
+          [0]        (1) Valid"
+
+
+  - name: HNA_DEBUG1
+    title: "HNA Scoreboard Debug #1 Register"
+    address: 0x1180047000048
+    bus: RSL
+    description: |
+      "INTERNAL: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      are locked down.
+      Otherwise, the contents of this register are the 'active' contents of the HNA Scoreboard at
+      the time of the
+      CSR read.
+      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      model)
+      on the reads unless the DTE Engine specified by HNA_CONTROL[SBDNUM] has previously been
+      assigned an
+      instruction."
+    fields:
+      - name: SBD1
+        bits: 63..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "HNA ScoreBoard #1 Data
+          HNA Scoreboard Debug Data
+          [63:56]   (8) UNUSED
+          [55:16]  (40) Packet Data Pointer
+          [15:0]   (16) Packet Data Counter"
+
+
+  - name: HNA_DEBUG2
+    title: "HNA Scoreboard Debug #2 Register"
+    address: 0x1180047000050
+    bus: RSL
+    description: |
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      are locked down.
+      Otherwise, the contents of this register are the 'active' contents of the HNA Scoreboard at
+      the time of the
+      CSR read.
+      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      model)
+      on the reads unless the DTE Engine specified by HNA_CONTROL[SBDNUM] has previously been
+      assigned an
+      instruction.
+    fields:
+      - name: SBD2
+        bits: 63..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "HNA ScoreBoard #2 Data
+          [63:45] (19) UNUSED
+          [44:42]  (3) Instruction Type
+          [41:5]  (37) rwptr[39:3]: Result Write Pointer
+          [4:0]    (5) prwcnt[4:0]: Pending Result Write Counter"
+
+
+  - name: HNA_DEBUG3
+    title: "HNA Scoreboard Debug #3 Register"
+    address: 0x1180047000058
+    bus: RSL
+    description: |
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      are locked down.
+      Otherwise, the contents of this register are the 'active' contents of the HNA Scoreboard at
+      the time of the
+      CSR read.
+      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      model)
+      on the reads unless the DTE Engine specified by HNA_CONTROL[SBDNUM] has previously been
+      assigned an
+      instruction.
+    fields:
+      - name: SBD3
+        bits: 63..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "HNA ScoreBoard #3 Data
+          [63:52] (11) rptr[39:29]: Result Base Pointer (QW-aligned)
+          [52:16] (37) glptr[39:3]: Gather List Pointer
+          [15:0]  (16) glcnt Gather List Counter"
+
+
+  - name: HNA_DTCFADR
+    title: HNA DTC Failing Address Register
+    address: 0x1180047000060
+    bus: RSL
+    description: |
+      "HNA Node Cache Failing Address/Control Error Capture information.
+      This register contains useful information to help in isolating a Node Cache RAM failure.
+      NOTE: The first detected PERR failure is captured in HNA_DTCFADR (locked down), until the
+      corresponding PERR Interrupt is cleared by writing one (W1C). (see: HNA_ERR[DC0PERR[2:0]]).
+      NOTE: In the rare event that multiple parity errors are detected in the same cycle from
+      multiple
+      clusters, the FADR register will be locked down for the least signicant cluster # (0->3)."
+    fields:
+      - name: --
+        bits: 63..44
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: RAM3FADR
+        bits: 43..32
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          HNA RAM3 Failing Address
+          If HNA_ERR[DC0PERR<2>]=1, this field indicates the
+          failing RAM3 Address. The failing address is locked
+          down until the DC0PERR<2> W1C occurs.
+          NOTE: If multiple DC0PERR<0>=1 errors are detected,
+          then the lsb cluster error information is captured.
+
+      - name: --
+        bits: 31..25
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: RAM2FADR
+        bits: 24..16
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          HNA RAM2 Failing Address
+          If HNA_ERR[DC0PERR<1>]=1, this field indicates the
+          failing RAM2 Address. The failing address is locked
+          down until the DC0PERR<1> W1C occurs.
+          NOTE: If multiple DC0PERR<0>=1 errors are detected,
+          then the lsb cluster error information is captured.
+
+      - name: --
+        bits: 15..14
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: RAM1FADR
+        bits: 13..0
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          HNA RAM1 Failing Address
+          If HNA_ERR[DC0PERR<0>]=1, this field indicates the
+          failing RAM1 Address. The failing address is locked
+          down until the DC0PERR<0> W1C occurs.
+          NOTE: If multiple DC0PERR<0>=1 errors are detected,
+          then the lsb cluster error information is captured.
+
+
+  - name: HNA_PFC_GCTL
+    title: HNA Performance Counter Global Control
+    address: 0x1180047000080
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: --
+        bits: 63..31
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: VGID
+        bits: 30..23
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Virtual Graph Id#
+          When PMODE=1(per-graph selector), this field is used
+          to select/monitor only those events which are
+          associated with this selected VGID(virtual graph ID).
+          This field is used globally across all four performance
+          counters.
+          IMPNOTE: I implemented a global VGID across all 4 performance
+          counters to save wires/area."
+
+      - name: PMODE
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Select Mode
+          0: Events are selected on a per-cluster DTE# (CLNUM/CLDTE)
+          HNA_PFCx_CTL[CLNUM,CLDTE] specifies the cluster-DTE for
+          each 1(of 4) performance counters.
+          1: Events are selected on a per-graph basis (VGID=virtual Graph ID).
+          NOTE: Only EVSEL=[0...31] can be used in conjunction with PMODE=1.
+          HNA_PFC_GCTL[VGID] specifies the Virtual graph ID used across
+          all four performance counters."
+
+      - name: EDNODE
+        bits: 21..20
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Ending DNODE Selector
+          When ENODE=0/1(*DNODE), this field is used to further
+          specify the Ending DNODE transition sub-type:
+          0: ALL DNODE sub-types
+          1: ->D2e (explicit DNODE transition node-arc alone transitions to DNODE)
+          2: ->D2i (implicit DNODE transition:arc-present triggers transition)
+          3: ->D1r (rescan DNODE transition)
+
+      - name: ENODE
+        bits: 19..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Ending Node Selector
+          When HNA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE
+          field is used to select Ending Node, and the SNODE
+          field is used to select the Starting Node.
+          0: LDNODE
+          1: SDNODE
+          2: LCNODE
+          3: SCNODE
+          4: LMNODE
+          5: SMNODE
+          6: MONODE
+          7: RESERVED
+          8: LONODE
+          9: SONODE
+
+      - name: SNODE
+        bits: 15..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Starting Node Selector
+          When HNA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE
+          field is used to select Starting Node, and the ENODE
+          field is used to select the Ending Node.
+          0: LDNODE
+          1: SDNODE
+          2: LCNODE
+          3: SCNODE
+          4: LMNODE
+          5: SMNODE
+          6: MONODE
+          7: RESERVED
+          8: LONODE
+          9: SONODE
+
+      - name: CNT3RCLR
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #3 Read Clear
+          If this bit is set, CSR reads to the HNA_PFC3_CNT
+          will clear the count value. This allows SW to maintain
+          'cumulative' counters to avoid HW wraparound."
+
+      - name: CNT2RCLR
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #2 Read Clear
+          If this bit is set, CSR reads to the HNA_PFC2_CNT
+          will clear the count value. This allows SW to maintain
+          'cumulative' counters to avoid HW wraparound."
+
+      - name: CNT1RCLR
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #1 Read Clear
+          If this bit is set, CSR reads to the HNA_PFC1_CNT
+          will clear the count value. This allows SW to maintain
+          'cumulative' counters to avoid HW wraparound."
+
+      - name: CNT0RCLR
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #0 Read Clear
+          If this bit is set, CSR reads to the HNA_PFC0_CNT
+          will clear the count value. This allows SW to maintain
+          'cumulative' counters to avoid HW wraparound."
+
+      - name: CNT3WCLR
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #3 Write Clear
+          If this bit is set, CSR writes to the HNA_PFC3_CNT
+          will clear the count value.
+          If this bit is clear, CSR writes to the HNA_PFC3_CNT
+          will continue the count from the written value."
+
+      - name: CNT2WCLR
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #2 Write Clear
+          If this bit is set, CSR writes to the HNA_PFC2_CNT
+          will clear the count value.
+          If this bit is clear, CSR writes to the HNA_PFC2_CNT
+          will continue the count from the written value."
+
+      - name: CNT1WCLR
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #1 Write Clear
+          If this bit is set, CSR writes to the HNA_PFC1_CNT
+          will clear the count value.
+          If this bit is clear, CSR writes to the HNA_PFC1_CNT
+          will continue the count from the written value."
+
+      - name: CNT0WCLR
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter #0 Write Clear
+          If this bit is set, CSR writes to the HNA_PFC0_CNT
+          will clear the count value.
+          If this bit is clear, CSR writes to the HNA_PFC0_CNT
+          will continue the count from the written value."
+
+      - name: CNT3ENA
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter 3 Enable
+          When this bit is set, the performance counter #3
+          is enabled."
+
+      - name: CNT2ENA
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter 2 Enable
+          When this bit is set, the performance counter #2
+          is enabled."
+
+      - name: CNT1ENA
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter 1 Enable
+          When this bit is set, the performance counter #1
+          is enabled."
+
+      - name: CNT0ENA
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          "Performance Counter 0 Enable
+          When this bit is set, the performance counter #0
+          is enabled."
+
+
+  - name: HNA_PFC0_CTL
+    title: "HNA Performance Counter#0 Control"
+    address: 0x1180047000088
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: EVSEL
+        bits: 13..8
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          "Performance Counter#0 Event Selector
+          // Events [0-31] are based on PMODE(0:per cluster-DTE 1:per graph)
+          0:  #Total Cycles
+          1:  #LDNODE visits
+          2:  #SDNODE visits
+          3:  #DNODE visits (LD/SD)
+          4:  #LCNODE visits
+          5:  #SCNODE visits
+          6:  #CNODE visits (LC/SC)
+          7:  #LMNODE visits
+          8:  #SMNODE visits
+          9:  #MNODE visits (LM/SM)
+          10: #MONODE visits
+          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
+          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
+          13: #MEMORY visits (MNODE+MONODE)
+          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
+          15: #MPHIDX detected (occur for ->LMNODE transitions)
+          16: #RESCANs detected (occur when HASH collision is detected)
+          17: #GWALK iterations STALLED - Packet data/Result Buffer
+          18: #GWALK iterations NON-STALLED
+          19: #CLOAD iterations
+          20: #MLOAD iterations
+          [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
+          21: #RWORD1+ writes
+          22: #cycles Cluster is busy
+          23: #GWALK Instructions
+          24: #CLOAD Instructions
+          25: #MLOAD Instructions
+          [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
+          26: #GFREE Instructions
+          27-30: RESERVED
+          31: # Node Transitions detected (see HNA_PFC_GCTL[SNODE,ENODE,EDNODE] registers
+          //=============================================================
+          // Events [32-63] are used ONLY FOR PMODE=0(per-cluster DTE mode):
+          32: #cycles a specific cluster-DTE remains active(valid state)
+          33: #cycles a specific cluster-DTE waits for Memory Response Data
+          34: #cycles a specific cluster-DTE waits in resource stall state
+          (waiting for packet data or result buffer space)
+          35: #cycles a specific cluster-DTE waits in resource pending state
+          36-63: RESERVED
+          //============================================================="
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: CLDTE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#0 Cluster DTE Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster's DTE# for all events
+          associated with Performance Counter#0."
+
+      - name: CLNUM
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#0 Cluster Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster# for all events
+          associated with Performance Counter#0."
+
+
+  - name: HNA_PFC0_CNT
+    title: "HNA Performance Counter #0"
+    address: 0x1180047000090
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: PFCNT0
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Performance Counter #0
+          When HNA_PFC_GCTL[CNT0ENA]=1, the event selected
+          by HNA_PFC0_CTL[EVSEL] is counted.
+          See also HNA_PFC_GCTL[CNT0WCLR] and HNA_PFC_GCTL
+          [CNT0RCLR] for special clear count cases available
+          for SW data collection."
+
+
+  - name: HNA_PFC1_CTL
+    title: "HNA Performance Counter#1 Control"
+    address: 0x1180047000098
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: EVSEL
+        bits: 13..8
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          "Performance Counter#1 Event Selector
+          0:  #Cycles
+          1:  #LDNODE visits
+          2:  #SDNODE visits
+          3:  #DNODE visits (LD/SD)
+          4:  #LCNODE visits
+          5:  #SCNODE visits
+          6:  #CNODE visits (LC/SC)
+          7:  #LMNODE visits
+          8:  #SMNODE visits
+          9:  #MNODE visits (LM/SM)
+          10: #MONODE visits
+          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
+          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
+          13: #MEMORY visits (MNODE+MONODE)
+          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
+          15: #MPHIDX detected (occur for ->LMNODE transitions)
+          16: #RESCANs detected (occur when HASH collision is detected)
+          17: #GWALK STALLs detected - Packet data/Result Buffer
+          18: #GWALK DTE cycles (all DTE-GNT[3a])
+          19: #CLOAD DTE cycles
+          20: #MLOAD DTE cycles
+          21: #cycles waiting for Memory Response Data
+          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
+          space)
+          23: #cycles waiting in resource pending state
+          24: #RWORD1+ writes
+          25: #DTE-VLD cycles
+          26: #DTE Transitions detected (see HNA_PFC_GCTL[SNODE,ENODE] registers
+          27: #GWALK Instructions
+          28: #CLOAD Instructions
+          29: #MLOAD Instructions
+          30: #GFREE Instructions (== #GFREE DTE cycles)
+          31: RESERVED
+          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: CLDTE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#1 Cluster DTE Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster's DTE# for all events
+          associated with Performance Counter#1."
+
+      - name: CLNUM
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#1 Cluster Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster# for all events
+          associated with Performance Counter#1."
+
+
+  - name: HNA_PFC1_CNT
+    title: "HNA Performance Counter #1"
+    address: 0x11800470000A0
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: PFCNT1
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Performance Counter #1
+          When HNA_PFC_GCTL[CNT1ENA]=1, the event selected
+          by HNA_PFC1_CTL[EVSEL] is counted.
+          See also HNA_PFC_GCTL[CNT1WCLR] and HNA_PFC_GCTL
+          [CNT1RCLR] for special clear count cases available
+          for SW data collection."
+
+
+  - name: HNA_PFC2_CTL
+    title: "HNA Performance Counter#2 Control"
+    address: 0x11800470000A8
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: EVSEL
+        bits: 13..8
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          "Performance Counter#2 Event Selector
+          0:  #Cycles
+          1:  #LDNODE visits
+          2:  #SDNODE visits
+          3:  #DNODE visits (LD/SD)
+          4:  #LCNODE visits
+          5:  #SCNODE visits
+          6:  #CNODE visits (LC/SC)
+          7:  #LMNODE visits
+          8:  #SMNODE visits
+          9:  #MNODE visits (LM/SM)
+          10: #MONODE visits
+          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
+          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
+          13: #MEMORY visits (MNODE+MONODE)
+          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
+          15: #MPHIDX detected (occur for ->LMNODE transitions)
+          16: #RESCANs detected (occur when HASH collision is detected)
+          17: #GWALK STALLs detected - Packet data/Result Buffer
+          18: #GWALK DTE cycles (all DTE-GNT[3a])
+          19: #CLOAD DTE cycles
+          20: #MLOAD DTE cycles
+          21: #cycles waiting for Memory Response Data
+          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
+          space)
+          23: #cycles waiting in resource pending state
+          24: #RWORD1+ writes
+          25: #DTE-VLD cycles
+          26: #DTE Transitions detected (see HNA_PFC_GCTL[SNODE,ENODE] registers
+          27: #GWALK Instructions
+          28: #CLOAD Instructions
+          29: #MLOAD Instructions
+          30: #GFREE Instructions (== #GFREE DTE cycles)
+          31: RESERVED
+          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: CLDTE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#2 Cluster DTE Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster's DTE# for all events
+          associated with Performance Counter#2."
+
+      - name: CLNUM
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#2 Cluster Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster# for all events
+          associated with Performance Counter#2."
+
+
+  - name: HNA_PFC2_CNT
+    title: "HNA Performance Counter #2"
+    address: 0x11800470000B0
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: PFCNT2
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Performance Counter #2
+          When HNA_PFC_GCTL[CNT2ENA]=1, the event selected
+          by HNA_PFC2_CTL[EVSEL] is counted.
+          See also HNA_PFC_GCTL[CNT2WCLR] and HNA_PFC_GCTL
+          [CNT2RCLR] for special clear count cases available
+          for SW data collection."
+
+
+  - name: HNA_PFC3_CTL
+    title: "HNA Performance Counter#3 Control"
+    address: 0x11800470000B8
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: --
+        bits: 63..14
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: EVSEL
+        bits: 13..8
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          "Performance Counter#3 Event Selector
+          0:  #Cycles
+          1:  #LDNODE visits
+          2:  #SDNODE visits
+          3:  #DNODE visits (LD/SD)
+          4:  #LCNODE visits
+          5:  #SCNODE visits
+          6:  #CNODE visits (LC/SC)
+          7:  #LMNODE visits
+          8:  #SMNODE visits
+          9:  #MNODE visits (LM/SM)
+          10: #MONODE visits
+          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
+          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
+          13: #MEMORY visits (MNODE+MONODE)
+          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
+          15: #MPHIDX detected (occur for ->LMNODE transitions)
+          16: #RESCANs detected (occur when HASH collision is detected)
+          17: #GWALK STALLs detected - Packet data/Result Buffer
+          18: #GWALK DTE cycles (all DTE-GNT[3a])
+          19: #CLOAD DTE cycles
+          20: #MLOAD DTE cycles
+          21: #cycles waiting for Memory Response Data
+          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
+          space)
+          23: #cycles waiting in resource pending state
+          24: #RWORD1+ writes
+          25: #DTE-VLD cycles
+          26: #DTE Transitions detected (see HNA_PFC_GCTL[SNODE,ENODE] registers
+          27: #GWALK Instructions
+          28: #CLOAD Instructions
+          29: #MLOAD Instructions
+          30: #GFREE Instructions (== #GFREE DTE cycles)
+          31: RESERVED
+          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: CLDTE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#3 Cluster DTE Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster's DTE# for all events
+          associated with Performance Counter#3."
+
+      - name: CLNUM
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          "Performance Counter#3 Cluster Selector
+          When HNA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
+          is used to select/monitor the cluster# for all events
+          associated with Performance Counter#3."
+
+
+  - name: HNA_PFC3_CNT
+    title: "HNA Performance Counter #3"
+    address: 0x11800470000C0
+    bus: RSL
+    description: "*FOR INTERNAL USE ONLY*"
+    fields:
+      - name: PFCNT3
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Performance Counter #3
+          When HNA_PFC_GCTL[CNT3ENA]=1, the event selected
+          by HNA_PFC3_CTL[EVSEL] is counted.
+          See also HNA_PFC_GCTL[CNT3WCLR] and HNA_PFC_GCTL
+          [CNT3RCLR] for special clear count cases available
+          for SW data collection."
+
+
+  - name: HNA_BIST0
+    title: HNA Bist Status (per-DTC)
+    address: 0x11800470007F0
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..32
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: RESERVED
+
+      - name: --
+        bits: 31..30
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: RESERVED
+
+      - name: MRP
+        bits: 29..28
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for MRP RAM(s) (per-DLC)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GFB
+        bits: 27..24
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for GFB RAM(s) (per-cluster)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: STX3
+        bits: 23..22
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for STX3 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: STX2
+        bits: 21..20
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for STX2 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: STX1
+        bits: 19..18
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for STX1 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: STX
+        bits: 17..16
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for STX0 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DTX3
+        bits: 15..14
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for DTX3 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DTX2
+        bits: 13..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for DTX2 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DTX1
+        bits: 11..10
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for DTX1 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DTX
+        bits: 9..8
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for DTX0 RAM(s)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: RDF
+        bits: 7..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for RWB RAM(s) (per-cluster)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: PDB
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for PDB RAM(s) (per-cluster)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+
+  - name: HNA_BIST1
+    title: HNA Bist Status (Globals)
+    address: 0x11800470007F8
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..24
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: RESERVED
+
+      - name: DC3RAM3
+        bits: 23
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#3 Bist Results for RAM3 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC3RAM2
+        bits: 22
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#3 Bist Results for RAM2 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC3RAM1
+        bits: 21
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#3 Bist Results for RAM1 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DLC1RAM
+        bits: 20
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          DLC1 Bist Results
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DLC0RAM
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          DLC0 Bist Results
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: DC2RAM3
+        bits: 18
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#2 Bist Results for RAM3 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC2RAM2
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#2 Bist Results for RAM2 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC2RAM1
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#2 Bist Results for RAM1 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC1RAM3
+        bits: 15
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#1 Bist Results for RAM3 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC1RAM2
+        bits: 14
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#1 Bist Results for RAM2 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: DC1RAM1
+        bits: 13
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#1 Bist Results for RAM1 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: RAM3
+        bits: 12
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#0 Bist Results for RAM3 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: RAM2
+        bits: 11
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#0 Bist Results for RAM2 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: RAM1
+        bits: 10
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          "Cluster#0 Bist Results for RAM1 RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD"
+
+      - name: CRQ
+        bits: 9
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for CRQ RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GUTV
+        bits: 8
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for GUTV RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GUTP
+        bits: 7..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Bist Results for GUTP RAMs (per-cluster)
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: NCD
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for NCD RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GIF
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for GIF RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GIB
+        bits: 1
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for GIB RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+      - name: GFU
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Bist Results for GFU RAM
+          0: GOOD (or bist in progress/never run)
+          1: BAD
+
+
+  - name: HNA_DBELL
+    title: HNA Doorbell Register
+    address: 0x1470000000000
+    bus: NCB
+    description: |
+      NOTE: To write to the HNA_DBELL register, a device would issue an IOBST directed at the HNA
+      with addr[34:33]=2'b00.
+      To read the HNA_DBELL register, a device would issue an IOBLD64 directed at the HNA with
+      addr[34:33]=2'b00.
+      NOTE: If HNA_CONFIG[DTECLKDIS]=1 (HNA-DTE clocks disabled), reads/writes to the HNA_DBELL
+      register do not take effect.
+      NOTE: If FUSE[TBD]="HNA DTE disable" is blown, reads/writes to the HNA_DBELL register do not
+      take effect.
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: DBELL
+        bits: 19..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          Represents the cumulative total of pending
+          HNA instructions which SW has previously written
+          into the HNA Instruction FIFO (DIF) in main memory.
+          Each HNA instruction contains a fixed size 64B
+          instruction word which is executed by the HNA HW.
+          The DBL register can hold up to 1M-1 (2^20-1)
+          pending HNA instruction requests.
+          During a read (by SW), the 'most recent' contents
+          of the HNA_DBELL register are returned at the time
+          the NCB-INB bus is driven.
+          NOTE: Since HNA HW updates this register, its
+          contents are unpredictable in SW.
+
+
+  - name: HNA_DIFRDPTR
+    title: HNA Instruction FIFO (DIF) RDPTR Register
+    address: 0x1470200000000
+    bus: NCB
+    description: |
+      NOTE: To write to the HNA_DIFRDPTR register, a device would issue an IOBST directed at the HNA
+      with addr[34:33]=2'b01.
+      To read the HNA_DIFRDPTR register, a device would issue an IOBLD64 directed at the HNA with
+      addr[34:33]=2'b01.
+      NOTE: If HNA_CONFIG[DTECLKDIS]=1 (HNA-DTE clocks disabled), reads/writes to the HNA_DIFRDPTR
+      register do not take effect.
+      NOTE: If FUSE[TBD]="HNA DTE disable" is blown, reads/writes to the HNA_DIFRDPTR register do
+      not take effect.
+    fields:
+      - name: --
+        bits: 63..40
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: RDPTR
+        bits: 39..5
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          Represents the 64B-aligned address of the current
+          instruction in the HNA Instruction FIFO in main
+          memory. The RDPTR must be seeded by software at
+          boot time, and is then maintained thereafter
+          by HNA HW.
+          During the seed write (by SW), RDPTR[6:5]=0,
+          since HNA instruction chunks must be 128B aligned.
+          During a read (by SW), the 'most recent' contents
+          of the RDPTR register are returned at the time
+          the NCB-INB bus is driven.
+          NOTE: Since HNA HW updates this register, its
+          contents are unpredictable in SW (unless
+          its guaranteed that no new DoorBell register
+          writes have occurred and the DoorBell register is
+          read as zero).
+
+      - name: --
+        bits: 4..0
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+
+  - name: HNA_DIFCTL
+    title: HNA Instruction FIFO (DIF) Control Register
+    address: 0x1470600000000
+    bus: NCB
+    description: |
+      NOTE: To write to the HNA_DIFCTL register, a device would issue an IOBST directed at the HNA
+      with addr[34:32]=3'b110.
+      To read the HNA_DIFCTL register, a device would issue an IOBLD64 directed at the HNA with
+      addr[34:32]=3'b110.
+      NOTE: This register is intended to ONLY be written once (at power-up). Any future writes could
+      cause the HNA and FPA HW to become unpredictable.
+      NOTE: If HNA_CONFIG[DTECLKDIS]=1 (HNA-DTE clocks disabled), reads/writes to the HNA_DIFCTL
+      register do not take effect.
+      NOTE: If FUSE[TBD]="HNA DTE disable" is blown, reads/writes to the HNA_DIFCTL register do not
+      take effect.
+    fields:
+      - name: --
+        bits: 63..42
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: AURA
+        bits: 41..26
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Represents the 16bit Aura-id  used by HNA HW
+          when the HNA instruction chunk is recycled back
+          to the Free Page List maintained by the FPA HW
+          (once the HNA instruction has been issued).
+
+      - name: MSEGBASE
+        bits: 25..20
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Memory Segmentation Base Address
+          For debug purposes, backdoor accesses to the HNA
+          memory are supported via NCB-Direct CSR accesses to
+          the HNA Memory REGION(if addr[34:32]=5. However due
+          to the existing NCB address decoding scheme, the
+          address only offers a 4GB extent into the HNA memory
+          REGION. Therefore, the MSEGBASE CSR field provides
+          the additional upper memory address bits to allow access
+          to the full extent of memory (128GB MAX).
+          For HNA Memory REGION read NCB-Direct CSR accesses, the
+          38bit L2/DRAM memory byte address is generated as follows:
+          memaddr[37:0] = {HNA_DIFCTL[MSEGBASE],ncb_addr[31:3],3'b0}
+          NOTE: See the upper 6bits of the memory address are sourced
+          from HNA_DIFCTL[MSEGBASE] CSR field. The lower 4GB address
+          offset is directly referenced using the NCB address bits during
+          the reference itself.
+          NOTE: The HNA_DIFCTL[MSEGBASE] is shared amongst all references.
+          As such, if multiple PPs are accessing different segments in memory,
+          their must be a SW mutual exclusive lock during each HNA Memory
+          REGION access to avoid collisions between PPs using the same MSEGBASE
+          CSR field.
+          NOTE: See also HNA_ERROR[HNANXM] programmable interrupt which is
+          flagged if SW tries to access non-existent memory space (address hole
+          or upper unused region of 38bit address space).
+
+      - name: --
+        bits: 19..13
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: LDWB
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Load Don't Write Back.
+          When set, the HW will issue LDWB command towards the cache when
+          fetching last word of instructions, as a result the line will not be written back when
+          replaced.
+          When clear, the HW will issue regular load towards cache which will cause
+          the line to be written back before being replaced.
+
+      - name: --
+        bits: 11..9
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
+
+      - name: SIZE
+        bits: 8..0
+        access: R/W
+        reset: 0x3
+        typical: --
+        description: |
+          "Represents the # of 64B instructions contained
+          within each HNA instruction chunk. At Power-on,
+          SW will seed the SIZE register with a fixed
+          chunk-size. (Must be at least 3)
+          HNA HW uses this field to determine the size
+          of each HNA instruction chunk, in order to:
+          a) determine when to read the next HNA
+          instruction chunk pointer which is
+          written by SW at the end of the current
+          HNA instruction chunk (see HNA description
+          of next chunk buffer Ptr for format).
+          b) determine when a HNA instruction chunk
+          can be returned to the Free Page List
+          maintained by the FPA HW."
+
+
+  - name: HNA_MEMHIDAT
+    title: HNA NCB-Direct CSR access to DFM Memory Space (High QW)
+    address: 0x1470700000000
+    bus: NCB
+    description: |
+      HNA supports NCB-Direct CSR acccesses to DFM Memory space for debug purposes. Unfortunately,
+      NCB-Direct accesses
+      are limited to QW-size(64bits), whereas the minimum access granularity for DFM Memory space is
+      OW(128bits). To
+      support writes to DFM Memory space, the Hi-QW of data is sourced from the HNA_MEMHIDAT
+      register. Recall, the
+      OW(128b) in DDR3 memory space is fixed format:
+      OWDATA[127:118]: OWECC[9:0] 10bits of in-band OWECC SEC/DED codeword
+      This can be precomputed/written by SW OR
+      if DFM_FNTCTL[ECC_WENA]=1, DFM hardware will auto-compute the 10b OWECC and place in the
+      OWDATA[127:118] before being written to memory.
+      OWDATA[117:0]:   Memory Data (contains fixed MNODE/MONODE arc formats for use by DTEs(thread
+      engines).
+      Or, a user may choose to treat DFM Memory Space as 'scratch pad' in which case the
+      OWDATA[117:0] may contain user-specified information accessible via NCB-Direct CSR mode
+      accesses to HNA Memory Space.
+      NOTE: To write to the HNA_MEMHIDAT register, a device would issue an IOBST directed at the HNA
+      with addr[34:32]=3'b111.
+      To read the HNA_MEMHIDAT register, a device would issue an IOBLD64 directed at the HNA with
+      addr[34:32]=3'b111.
+      NOTE: If HNA_CONFIG[DTECLKDIS]=1 (HNA-DTE clocks disabled), reads/writes to the HNA_MEMHIDAT
+      register do not take effect.
+      NOTE: If FUSE[TBD]="HNA DTE disable" is blown, reads/writes to the HNA_MEMHIDAT register do
+      not take effect.
+      NOTE: PLEASE REMOVE DEFINITION FROM o68 HRM
+    fields:
+      - name: HIDAT
+        bits: 63..0
+        access: R/W
+        reset: --
+        typical: --
+        description: |
+          HNA Hi-QW of Write data during NCB-Direct DFM DDR3
+          Memory accesses.
+          All DFM DDR3 memory accesses are OW(128b) references,
+          and since NCB-Direct Mode writes only support QW(64b),
+          the Hi QW of data must be sourced from a CSR register.
+          NOTE: This single register is 'shared' for ALL DFM
+          DDR3 Memory writes.
+          For o68: This register is UNUSED. Treat as spare bits.
+          NOTE: PLEASE REMOVE DEFINITION FROM o68 HRM
+
+
+

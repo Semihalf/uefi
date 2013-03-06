@@ -1537,9 +1537,9 @@ registers:
         typical: --
         description: |
           "Maximum Link Speed
-          The reset value of this field is controlled by a value sent from
-          the lsb of the MIO_QLM#_SPD register.
-          qlm#_spd[1]   RST_VALUE   NOTE
+          The reset value of this field is controlled by a value read from
+          the lsb of the pi_select_mode pins.
+          pi_sel_md[0]  RST_VALUE   NOTE
           1             0001b       2.5 GHz supported
           0             0010b       5.0 GHz and 2.5 GHz supported
           This field is writable through PEM#_CFG_WR.

@@ -2,19 +2,6 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: KEY
-enums:
-  - name: KEY_INTSN_E
-    description: Enumerates the different KEY generated interrupts.
-    values:
-      - name: KEY_ECC_KEY_SBE
-        value: 20'h20000
-        description: See KEY_INT_SUM[KEY_SBE].
-
-      - name: KEY_ECC_KEY_DBE
-        value: 20'h20001
-        description: See KEY_INT_SUM[KEY_DBE].
-
-
 registers:
   - name: KEY_INT_SUM
     title: KEY's Interrupt Summary Register

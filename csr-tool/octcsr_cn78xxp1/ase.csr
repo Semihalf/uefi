@@ -294,7 +294,7 @@ enums:
 
       - name: BMT_SBE
         value: 0x02
-        description: A single-bit error occurred in HST Tree Access Table.
+        description: A single-bit error occurred in RMC Block Mask Register Tables.
 
       - name: RFT_SBE
         value: 0x03
@@ -328,7 +328,7 @@ enums:
 
       - name: BMT_DBE
         value: 0x0A
-        description: A double-bit error occurred in HST Tree Access Table.
+        description: A double-bit error occurred in RMC Block Mask Register Tables.
 
       - name: RFT_DBE
         value: 0x0B
@@ -1602,7 +1602,7 @@ structs:
   - name: ASE_TBLDAT_BMT_COL_S
     description: |
       "
-      Base Mask Register Table Entry as seen by software during 128-bit table read/write accesses.
+      Block Mask Register Table Entry as seen by software during 128-bit table read/write accesses.
       Indexed by BIC's hit-address. Contains the Block Mask Register associated with a Tree ID.
       Host access is to an 80-bit column; there are 8 columns to make a full 640-bit BMT entry.
       There are 32 entires in the BMT.

@@ -14,16 +14,14 @@ registers:
         typical: 0
         description: |
           Boot bus DMA engines Interrupt
-          See MIO_BOOT_DMA_INT*, MIO_NDF_DMA_INT
+          See MIO_NDF_DMA_INT
 
-      - name: MII
+      - name: --
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          RGMII/MIX Interface 0 Interrupt
-          See MIX0_ISR
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -522,14 +520,12 @@ registers:
           EMMC Flash Controller interrupt
           See  EMMC interrupt
 
-      - name: MII1
+      - name: --
         bits: 18
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RGMII/MIX Interface 1 Interrupt
-          See MIX1_ISR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -571,16 +567,14 @@ registers:
         typical: 0
         description: |
           Boot bus DMA engines Interrupt
-          See MIO_BOOT_DMA_INT*, MIO_NDF_DMA_INT
+          See MIO_NDF_DMA_INT
 
-      - name: MII
+      - name: --
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          RGMII/MIX Interface 0 Interrupt
-          See MIX0_ISR
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -804,12 +798,12 @@ registers:
         typical: 0
         description: Boot bus DMA engines Interrupt enable
 
-      - name: MII
+      - name: --
         bits: 62
         access: R/W/H
         reset: 0
         typical: 0
-        description: RGMII/MIX Interface 0 Interrupt enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -1187,12 +1181,12 @@ registers:
         typical: 0
         description: EMMC Flash Controller interrupt enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W/H
         reset: 0
         typical: 0
-        description: RGMII/MIX Interface 1 Interrupt enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -2397,36 +2391,46 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: SYNCE_SEL
-        bits: 16..15
+      - name: OUTPUT_SEL
+        bits: 20..16
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          Selects the QLM clock output
-          x0=Normal GPIO output
-          01=GPIO QLM clock selected by CSR GPIO_CLK_QLM0
-          11=GPIO QLM clock selected by CSR GPIO_CLK_QLM1
+          Selects GPIO output. When [TX_OE] is set, selects
+          what output data is driven.
+          0x0 : TX Normal GPIO output, controlled by GPIO_TX.
+          0x1 : PTP_CKOU, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
+          0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
+          0x3+a  :  CLK_SYNCE(0..1) CLK_QLM(a);
+          see GPIO_CLK_QLM.
+          0x5-0x7: Reserved.
+          0x8    : LMC_ECC(0)  LMC ECC error detected;
+          0x9-0xb: Reserved.
+          0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
+          0x10+a : CLK(0..3), GPIO clock generator;
+          See GPIO_CLK_GEN.
+          0x14   : USBH_VBUS_CTRL  USBH Vbus control;
+          0x15   : SATA port0 cold presence power-on device.
+          (p0_cp_pod)
+          0x16   : SATA port1 cold presence power-on device.
+          (p1_cp_pod)
+          0x17   : SATA port0 LED  (p0_act_led)
+          0x18   : SATA port1 LED  (p1_act_led)
+          0x19-  : Reserved.
 
-      - name: CLK_GEN
-        bits: 14
-        access: R/W
-        reset: 0
-        typical: 0
-        description: When TX_OE is set, GPIO pin becomes a clock
-
-      - name: CLK_SEL
-        bits: 13..12
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Selects which of the 4 GPIO clock generators
+      - name: --
+        bits: 15..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: FIL_SEL
         bits: 11..8
@@ -2556,6 +2560,90 @@ registers:
         description: Clear the interrupt rising edge detector
 
 
+  - name: GPIO_USBH_CTL
+    address: 0x10700000008A0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL
+        bits: 4..0
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for USBH
+          over-current control. With SEL values 20-31,
+          signal is always zero.
+
+
+  - name: GPIO_SATA_CTL
+    address: 0x10700000008A8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..25
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL4
+        bits: 24..20
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for SATA
+          port1 cold presence detect(p1_cp_det).
+          With SEL values 20-31, signal is always zero.
+
+      - name: SEL3
+        bits: 19..15
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for SATA
+          port0 cold presence detect(p0_cp_det).
+          With SEL values 20-31, signal is always zero.
+
+      - name: SEL2
+        bits: 14..10
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for SATA
+          port1 mechanical presence detect(p1_mp_switch).
+          With SEL values 20-31, signal is always zero.
+
+      - name: SEL1
+        bits: 9..5
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for SATA
+          port0 mechanical presence detect(p0_mp_switch).
+          With SEL values 20-31, signal is always zero.
+
+      - name: SEL0
+        bits: 4..0
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) input pin for SATA
+          compliance lab loopback testing(lab_lb_pin).
+          With SEL values 20-31, signal is always zero.
+
+
   - name: GPIO_MULTI_CAST
     address: 0x10700000008B0
     bus: NCB
@@ -2664,36 +2752,46 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: SYNCE_SEL
-        bits: 16..15
+      - name: OUTPUT_SEL
+        bits: 20..16
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          Selects the QLM clock output
-          x0=Normal GPIO output
-          01=GPIO QLM clock selected by CSR GPIO_CLK_QLM0
-          11=GPIO QLM clock selected by CSR GPIO_CLK_QLM1
+          Selects GPIO output. When [TX_OE] is set, selects
+          what output data is driven.
+          0x0 : TX Normal GPIO output, controlled by GPIO_TX.
+          0x1 : PTP_CKOU, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
+          0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
+          0x3+a  :  CLK_SYNCE(0..1) CLK_QLM(a);
+          see GPIO_CLK_QLM.
+          0x5-0x7: Reserved.
+          0x8    : LMC_ECC(0)  LMC ECC error detected;
+          0x9-0xb: Reserved.
+          0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
+          0x10+a : CLK(0..3), GPIO clock generator;
+          See GPIO_CLK_GEN.
+          0x14   : USBH_VBUS_CTRL  USBH Vbus control;
+          0x15   : SATA port0 cold presence power-on device.
+          (p0_cp_pod)
+          0x16   : SATA port1 cold presence power-on device.
+          (p1_cp_pod)
+          0x17   : SATA port0 LED  (p0_act_led)
+          0x18   : SATA port1 LED  (p1_act_led)
+          0x19-  : Reserved.
 
-      - name: CLK_GEN
-        bits: 14
-        access: R/W
-        reset: 0
-        typical: 0
-        description: When TX_OE is set, GPIO pin becomes a clock
-
-      - name: CLK_SEL
-        bits: 13..12
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Selects which of the 4 GPIO clock generators
+      - name: --
+        bits: 15..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: FIL_SEL
         bits: 11..8
@@ -2752,16 +2850,14 @@ registers:
         typical: 0
         description: |
           Boot bus DMA engines Interrupt
-          See MIO_BOOT_DMA_INT*, MIO_NDF_DMA_INT
+          See MIO_NDF_DMA_INT
 
-      - name: MII
+      - name: --
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          RGMII/MIX Interface 0 Interrupt
-          See MIX0_ISR
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -2988,12 +3084,12 @@ registers:
         typical: 0
         description: Boot bus DMA engines Interrupt        enable
 
-      - name: MII
+      - name: --
         bits: 62
         access: R/W/H
         reset: 0
         typical: 0
-        description: RGMII/MIX Interface 0 Interrupt enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -3371,12 +3467,12 @@ registers:
         typical: 0
         description: EMMC Flash Controller interrupt enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W/H
         reset: 0
         typical: 0
-        description: RGMII/MIX Interface 1 Interrupt enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -3449,25 +3545,12 @@ registers:
           10 = both rising & falling edge
           11 = reserved
 
-      - name: CKOUT_OUT4
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Destination for PTP Clock Out output
-          0-19 : GPIO[{CKOUT_OUT4,CKOUT_OUT[3:0]}]
-          This should be different from PPS_OUT
-
-      - name: PPS_OUT
-        bits: 36..32
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Destination for PTP PPS output
-          0-19 : GPIO[PPS_OUT[4:0]]
-          This should be different from CKOUT_OUT
+      - name: --
+        bits: 37..32
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: PPS_INV
         bits: 31
@@ -3486,15 +3569,12 @@ registers:
         typical: 0
         description: Enable PTP PPS
 
-      - name: CKOUT_OUT
+      - name: --
         bits: 29..26
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Destination for PTP Clock Out output
-          0-19 : GPIO[{CKOUT_OUT4,CKOUT_OUT[3:0]}]
-          This should be different from PPS_OUT
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: CKOUT_INV
         bits: 25
@@ -4177,14 +4257,12 @@ registers:
           Write 1 to clear Boot bus DMA engines Interrupt
           enable
 
-      - name: MII
+      - name: --
         bits: 62
-        access: R/W1C/H
+        access: R/W1C
         reset: 0
         typical: 0
-        description: |
-          Write 1 to clr RGMII/MIX Interface 0 Interrupt
-          enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -4570,14 +4648,12 @@ registers:
           Write 1 to clear EMMC Flash Controller interrupt
           enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to clear RGMII/MIX Interface 1
-          Interrupt enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -4621,14 +4697,12 @@ registers:
           Write 1 to clear Boot bus DMA engines Interrupt
           enable
 
-      - name: MII
+      - name: --
         bits: 62
-        access: R/W1C/H
+        access: R/W1C
         reset: 0
         typical: 0
-        description: |
-          Write 1 to clr RGMII/MIX Interface 0 Interrupt
-          enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -5012,14 +5086,12 @@ registers:
           Write 1 to clear EMMC Flash Controller interrupt
           enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to clear RGMII/MIX Interface 1
-          Interrupt enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -5063,14 +5135,12 @@ registers:
           Write 1 to set Boot bus DMA engines Interrupt
           enable
 
-      - name: MII
+      - name: --
         bits: 62
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to set RGMII/MIX Interface 0 Interrupt
-          enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -5456,14 +5526,12 @@ registers:
           Write 1 to set EMMC Flash Controller interrupt
           enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to set RGMII/MIX Interface 1 Interrupt
-          enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -5507,14 +5575,12 @@ registers:
           Write 1 to set Boot bus DMA engines Interrupt
           enable
 
-      - name: MII
+      - name: --
         bits: 62
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to set RGMII/MIX Interface 0 Interrupt
-          enable
+        description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
@@ -5898,14 +5964,12 @@ registers:
           Write 1 to set EMMC Flash Controller interrupt
           enable
 
-      - name: MII1
+      - name: --
         bits: 18
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: |
-          Write 1 to set RGMII/MIX Interface 1 Interrupt
-          enable
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -6042,7 +6106,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DPI DMA instruction completion  interrupt
+          DPI DMA instruction completion interrupt
           TBD, See DPI DMA instruction completion
 
       - name: --
@@ -6225,14 +6289,12 @@ registers:
           EMMC Flash Controller interrupt
           See EMMC interrupt
 
-      - name: MII1
+      - name: --
         bits: 18
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RGMII/MIX Interface 1 Interrupt
-          See MIX1_ISR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -6369,7 +6431,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DPI DMA instruction completion  interrupt
+          DPI DMA instruction completion interrupt
           TBD, See DPI DMA instruction completion
 
       - name: --
@@ -6552,14 +6614,12 @@ registers:
           EMMC Flash Controller interrupt
           See EMMC interrupt
 
-      - name: MII1
+      - name: --
         bits: 18
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RGMII/MIX Interface 1 Interrupt
-          See MIX1_ISR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -6696,7 +6756,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DPI DMA instruction completion  interrupt
+          DPI DMA instruction completion interrupt
           TBD, See DPI DMA instruction completion
 
       - name: --
@@ -6879,14 +6939,12 @@ registers:
           EMMC Flash Controller interrupt
           See EMMC interrupt
 
-      - name: MII1
+      - name: --
         bits: 18
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RGMII/MIX Interface 1 Interrupt
-          See MIX1_ISR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -7023,7 +7081,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DPI DMA instruction completion  interrupt
+          DPI DMA instruction completion interrupt
           TBD, See DPI DMA instruction completion
 
       - name: --
@@ -7206,14 +7264,12 @@ registers:
           EMMC Flash Controller interrupt
           See EMMC interrupt
 
-      - name: MII1
+      - name: --
         bits: 18
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RGMII/MIX Interface 1 Interrupt
-          See MIX1_ISR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for additional Interrupts
 
       - name: --
         bits: 17
@@ -7249,7 +7305,21 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt summary
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7285,7 +7355,21 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt summary
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7321,7 +7405,21 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt summary
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7357,7 +7455,21 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt summary
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7393,7 +7505,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7419,7 +7552,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7445,7 +7599,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7471,7 +7646,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: SATA_UNTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7497,7 +7693,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7523,7 +7740,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7549,7 +7787,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7575,7 +7834,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7628,7 +7908,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7654,7 +7955,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7680,7 +8002,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7706,7 +8049,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..18
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SATA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear SATA_UCTL interrupt enable
+
+      - name: RST
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear RST interrupt enable
+
+      - name: --
+        bits: 15..10
         access: ---
         reset: --
         typical: --
@@ -7725,6 +8089,126 @@ registers:
         reset: --
         typical: --
         description: Reserved.
+
+
+  - name: CIU_CIB_L2C(0..2)_RAW
+    address: 0x107000000E000 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: L2C interrupt RAW bits
+
+
+  - name: CIU_CIB_L2C(0..2)_EN
+    address: 0x107000000E100 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: L2C interrupt Enable bits
+
+
+  - name: CIU_CIB_LMC(0)_RAW
+    address: 0x107000000E200 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: LMC interrupt RAW bits
+
+
+  - name: CIU_CIB_LMC(0)_EN
+    address: 0x107000000E300 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: LMC interrupt Enable bits
+
+
+  - name: CIU_CIB_RST(0)_RAW
+    address: 0x107000000E400 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: LMC interrupt RAW bits
+
+
+  - name: CIU_CIB_RST(0)_EN
+    address: 0x107000000E500 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: LMC interrupt Enable bits
+
+
+  - name: CIU_CIB_SATA_UCTL(0)_RAW
+    address: 0x107000000E600 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: SATA_UCTL interrupt RAW bits
+
+
+  - name: CIU_CIB_SATA_UCTL(0)_EN
+    address: 0x107000000E700 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: SATA_UCTL interrupt Enable bits
+
+
+  - name: CIU_CIB_UCTL(0)_RAW
+    address: 0x107000000E800 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: USBDRD UCTL interrupt RAW bits
+
+
+  - name: CIU_CIB_UCTL(0)_EN
+    address: 0x107000000E900 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: USBDRD UCTL interrupt Enable bits
 
 
   - name: PCM_CLK(0..1)_CFG
@@ -8648,23 +9132,16 @@ registers:
       cards
       because it allows the use of 2 separate timing configurations for common memory and attribute
       memory.
-      ALE (address latch enable) mode enables the multiplexed address/data bus mode.  The reset
-      value for
-      region 0 is the value of boot_ad[15] on the first de-assertion of reset.  This pin has an
-      internal
-      pulldown, so place a pullup on boot_ad[15] to enable this mode out of reset for region 0.
+      ALE (address latch enable) mode enables the multiplexed address/data bus mode.  This is the
+      only
+      mode supported for 70xx.
       SAM (strobe AND mode) internally combines the output enable and write enable strobes into a
       single
       strobe that is then driven onto both boot_oe_n and boot_we_n.  This is useful for parts that
       use a
       single strobe along with a read/write bit (the read/write bit can be driven from an address
       pin).
-      Bus width can be specified as either 8 bits (WIDTH low) or 16 bits (WIDTH high).  The reset
-      value for
-      region 0 is the value of boot_ad[14] on the first de-assertion of reset.  This pin has an
-      internal
-      pulldown, so place a pullup on boot_ad[14] if a 16 bit bus is desired out of reset for region
-      0.
+      Bus width is fixed at 8 bits.
       Region size is in 64k blocks and in -1 notation (i.e. 0 = 1 64k block, 1 = 2 64k blocks,
       etc.).
       Base address specifies address bits [31:16] of the first 64k block of the region.
@@ -8685,7 +9162,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Region 0 DMACK
+        description: Reserved.
 
       - name: TIM_MULT
         bits: 41..40
@@ -8738,17 +9215,17 @@ registers:
 
       - name: ALE
         bits: 29
-        access: R/W
-        reset: 0
-        typical: --
-        description: Region 0 ALE mode
+        access: RO
+        reset: 1
+        typical: 1
+        description: Fixed ALE mode
 
       - name: WIDTH
         bits: 28
-        access: R/W
+        access: RO
         reset: 0
         typical: --
-        description: Region 0 bus width
+        description: Fixed 8-bit width (forced to 0)
 
       - name: SIZE
         bits: 27..16
@@ -8781,7 +9258,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Region @ DMACK
+        description: Reserved.
 
       - name: TIM_MULT
         bits: 41..40
@@ -8834,17 +9311,17 @@ registers:
 
       - name: ALE
         bits: 29
-        access: R/W
-        reset: 0
-        typical: --
-        description: Region @ ALE mode
+        access: RO
+        reset: 1
+        typical: 1
+        description: Fixed ALE mode
 
       - name: WIDTH
         bits: 28
-        access: R/W
+        access: RO
         reset: 0
         typical: --
-        description: Region @ bus width
+        description: Fixed 8-bit width (forced to 0)
 
       - name: SIZE
         bits: 27..16
@@ -8867,7 +9344,6 @@ registers:
     description: |
       MIO_BOOT_REG_TIM = MIO Boot Region Timing Register (1 per region * 8 regions)
       Contains page mode, wait mode, page size, and region timing parameters.
-      Page size is encoded as follows: 0 = 8 bytes, 1 = 2 bytes, 2 = 4 bytes, 3 = 8 bytes.
       Note: OE, WE, PAGE, and ALE must be non-zero to ensure legal transitions on the corresponding
       boot bus outputs.
       Note: WAIT must be non-zero if WAITM is set.
@@ -8876,10 +9352,10 @@ registers:
     fields:
       - name: PAGEM
         bits: 63
-        access: R/W
+        access: RO
         reset: 0
         typical: --
-        description: Region 0 page mode
+        description: Reserved must be 0
 
       - name: WAITM
         bits: 62
@@ -8972,10 +9448,10 @@ registers:
     fields:
       - name: PAGEM
         bits: 63
-        access: R/W
+        access: RO
         reset: 0
         typical: --
-        description: Region @ page mode
+        description: Reserved must be 0
 
       - name: WAITM
         bits: 62
@@ -9333,49 +9809,43 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Region 0 default ALE mode
+        description: Set to 1 for backward compatability
 
       - name: WIDTH
         bits: 14
         access: RO
         reset: --
         typical: --
-        description: Region 0 default bus width
+        description: Set to 0 for backward compatability
 
-      - name: --
+      - name: VRM_DISABLE
         bits: 13
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DMACK_P1
-        bits: 12
         access: RO
         reset: --
         typical: --
-        description: boot_dmack[1] default polarity
+        description: VRM disabled
 
-      - name: DMACK_P0
-        bits: 11
+      - name: DEVICE
+        bits: 12..10
         access: RO
         reset: --
         typical: --
-        description: boot_dmack[0] default polarity
+        description: |
+          Boot Device
+          0   = Parallel NOR
+          1   = eMMC/SD
+          2,3 = Reserved
+          4   = SPI Boot 16bit Address
+          5   = SPI Boot 24bit Address
+          6   = SPI Boot 32bit Address
+          7   = SPI NAND Boot 32bit Address
 
       - name: TERM
-        bits: 10..9
+        bits: 9..8
         access: RO
         reset: --
         typical: --
         description: Selects default driver termination
-
-      - name: NAND
-        bits: 8
-        access: RO
-        reset: --
-        typical: --
-        description: Region 0 is NAND flash
 
       - name: USER0
         bits: 7..0
@@ -9420,297 +9890,18 @@ registers:
     description: Contains the BIST status for the MIO boot memories.  '0' = pass, '1' = fail.
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: STAT
-        bits: 11..0
+        bits: 10..0
         access: RO
         reset: 0x0
         typical: 0x0
         description: BIST status
-
-
-  - name: MIO_BOOT_DMA_CFG(0..1)
-    title: MIO Boot DMA Config Register (1 per engine * 2 engines)
-    address: 0x1180000000100 + a*0x8
-    bus: RSL
-    description: |
-      SIZE is specified in number of bus transfers, where one transfer is equal to the following
-      number
-      of bytes dependent on MIO_BOOT_DMA_TIMn[WIDTH] and MIO_BOOT_DMA_TIMn[DDR]:
-      WIDTH     DDR      Transfer Size (bytes)
-      ----------------------------------------
-      0        0               2
-      0        1               4
-      1        0               4
-      1        1               8
-      Note: ADR must be aligned to the bus width (i.e. 16 bit aligned if WIDTH=0, 32 bit aligned if
-      WIDTH=1).
-    fields:
-      - name: EN
-        bits: 63
-        access: R/W/H
-        reset: 0
-        typical: --
-        description: DMA Engine @ enable
-
-      - name: RW
-        bits: 62
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ R/W bit (0 = read, 1 = write)
-
-      - name: CLR
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ clear EN on device terminated burst
-
-      - name: --
-        bits: 60
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: SWAP32
-        bits: 59
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ 32 bit swap
-
-      - name: SWAP16
-        bits: 58
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ 16 bit swap
-
-      - name: SWAP8
-        bits: 57
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ 8 bit swap
-
-      - name: ENDIAN
-        bits: 56
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ NCB endian mode (0 = big, 1 = little)
-
-      - name: SIZE
-        bits: 55..36
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        description: DMA Engine @ size
-
-      - name: ADR
-        bits: 35..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        description: DMA Engine @ address
-
-
-  - name: MIO_BOOT_DMA_TIM(0..1)
-    title: MIO Boot DMA Timing Register (1 per engine * 2 engines)
-    address: 0x1180000000120 + a*0x8
-    bus: RSL
-    description: |
-      DMACK_PI inverts the assertion level of boot_dmack[n].  The default polarity of
-      boot_dmack[1:0] is
-      selected on the first de-assertion of reset by the values on boot_ad[12:11], where 0 is active
-      high
-      and 1 is active low (see MIO_BOOT_PIN_DEFS for a read-only copy of the default polarity).
-      boot_ad[12:11] have internal pulldowns, so place a pullup on boot_ad[n+11] for active low
-      default
-      polarity on engine n.  To interface with CF cards in True IDE Mode, either a pullup should be
-      placed
-      on boot_ad[n+11] OR the corresponding DMACK_PI[n] should be set.
-      DMARQ_PI inverts the assertion level of boot_dmarq[n].  The default polarity of
-      boot_dmarq[1:0] is
-      active high, thus setting the polarity inversion bits changes the polarity to active low.  To
-      interface with CF cards in True IDE Mode, the corresponding DMARQ_PI[n] should be clear.
-      TIM_MULT specifies the timing multiplier for an engine.  The timing multiplier applies to all
-      timing
-      parameters, except for DMARQ and RD_DLY, which simply count eclks.  TIM_MULT is encoded as
-      follows:
-      0 = 4x, 1 = 1x, 2 = 2x, 3 = 8x.
-      RD_DLY specifies the read sample delay in eclk cycles for an engine.  For reads, the data bus
-      is
-      normally sampled on the same eclk edge that drives boot_oe_n high (and also low in DDR mode).
-      This parameter can delay that sampling edge by up to 7 eclks.  Note: the number of eclk cycles
-      counted by the OE_A and DMACK_H + PAUSE timing parameters must be greater than RD_DLY.
-      If DDR is set, then WE_N must be less than WE_A.
-    fields:
-      - name: DMACK_PI
-        bits: 63
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ DMA ack polarity inversion
-
-      - name: DMARQ_PI
-        bits: 62
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ DMA request polarity inversion
-
-      - name: TIM_MULT
-        bits: 61..60
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: DMA Engine @ timing multiplier
-
-      - name: RD_DLY
-        bits: 59..57
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: DMA Engine @ read sample delay
-
-      - name: DDR
-        bits: 56
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ DDR mode
-
-      - name: WIDTH
-        bits: 55
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ bus width (0 = 16 bits, 1 = 32 bits)
-
-      - name: --
-        bits: 54..48
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PAUSE
-        bits: 47..42
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ pause count
-
-      - name: DMACK_H
-        bits: 41..36
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ DMA ack hold count
-
-      - name: WE_N
-        bits: 35..30
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ write enable negated count
-
-      - name: WE_A
-        bits: 29..24
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ write enable asserted count
-
-      - name: OE_N
-        bits: 23..18
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ output enable negated count
-
-      - name: OE_A
-        bits: 17..12
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ output enable asserted count
-
-      - name: DMACK_S
-        bits: 11..6
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ DMA ack setup count
-
-      - name: DMARQ
-        bits: 5..0
-        access: R/W
-        reset: 0x3f
-        typical: --
-        description: DMA Engine @ DMA request count (must be non-zero)
-
-
-  - name: MIO_BOOT_DMA_INT(0..1)
-    title: MIO Boot DMA Interrupt Register (1 per engine * 2 engines)
-    address: 0x1180000000138 + a*0x8
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DMARQ
-        bits: 1
-        access: RO/H
-        reset: --
-        typical: --
-        description: DMA Engine @ DMARQ asserted interrupt
-
-      - name: DONE
-        bits: 0
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: DMA Engine @ request completion interrupt
-
-
-  - name: MIO_BOOT_DMA_INT_EN(0..1)
-    title: MIO Boot DMA Interrupt Enable Register (1 per engine * 2 engines)
-    address: 0x1180000000150 + a*0x8
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DMARQ
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ DMARQ asserted interrupt enable
-
-      - name: DONE
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: DMA Engine @ request completion interrupt enable
 
 
   - name: MIO_NDF_DMA_CFG
@@ -11660,261 +11851,6 @@ registers:
           MIO_QLM2_CFG  SPD=F, CFG=2 SGMII (AGX0)
 
 
-  - name: MIO_RST_BOOT
-    address: 0x1180000001600
-    bus: RSL
-    fields:
-      - name: CHIPKILL
-        bits: 63
-        access: R/W1S
-        reset: 0
-        typical: 0
-        description: |
-          A 0->1 transition of CHIPKILL starts the CHIPKILL
-          timer.  When CHIPKILL=1 and the timer expires,
-          internal chip reset is asserted forever until the
-          next chip reset.  The CHIPKILL timer can be
-          stopped only by a chip (cold, warm, soft) reset.
-          The length of the CHIPKILL timer is specified by
-          MIO_RST_CKILL[TIMER].
-
-      - name: JTCSRDIS
-        bits: 62
-        access: R/W
-        reset: --
-        typical: 0
-        description: |
-          If JTCSRDIS=1, internal CSR access via JTAG TAP
-          controller is disabled
-          This field resets to 1 in Authentik mode, else 0.
-
-      - name: EJTAGDIS
-        bits: 61
-        access: R/W
-        reset: --
-        typical: 0
-        description: |
-          If EJTAGDIS=1, external EJTAG access is disabled
-          This field resets to 1 in Authentik mode, else 0.
-
-      - name: ROMEN
-        bits: 60
-        access: R/W
-        reset: --
-        typical: 0
-        description: |
-          If ROMEN=1, Authentik/eMMC boot ROM is visible
-          in the boot bus address space.
-          This field resets to 1 in an Authentik part or
-          when booting from eMMC. Else, resets to 0.
-
-      - name: CKILL_PPDIS
-        bits: 59
-        access: R/W
-        reset: 1
-        typical: --
-        description: |
-          If CK_PPDIS=1, PPs other than 0 are disabled
-          during a CHIPKILL.  Writes have no effect when
-          MIO_RST_BOOT[CHIPKILL]=1.
-
-      - name: JT_TSTMODE
-        bits: 58
-        access: RO
-        reset: --
-        typical: --
-        description: JTAG test mode
-
-      - name: --
-        bits: 57..50
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: LBOOT_EXT
-        bits: 49..48
-        access: R/W1C
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 47..36
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: C_MUL
-        bits: 35..30
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Core clock multiplier:
-          C_MUL = (core clk speed) / (ref clock speed)
-          "ref clock speed" should always be 50MHz.
-          If PLL_QLM_REF_CLK_EN=0, "ref clock" comes
-          from PLL_REF_CLK pin.
-          If PLL_QLM_REF_CLK_EN=1, "ref clock" is
-          1/2 speed of QLMC_REF_CLK_* pins.
-
-      - name: PNR_MUL
-        bits: 29..24
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Coprocessor clock multiplier:
-          PNR_MUL = (coprocessor clk speed) /
-          (ref clock speed)
-          See C_MUL comments about ref clock.
-
-      - name: QLM2_SPD
-        bits: 23..20
-        access: RO/H
-        reset: --
-        typical: --
-        description: QLM2_SPD, report MIO_QLM2_CFG[SPD]
-
-      - name: QLM1_SPD
-        bits: 19..16
-        access: RO/H
-        reset: --
-        typical: --
-        description: QLM1_SPD, report MIO_QLM1_CFG[SPD]
-
-      - name: QLM0_SPD
-        bits: 15..12
-        access: RO/H
-        reset: --
-        typical: --
-        description: QLM0_SPD, report MIO_QLM0_CFG[SPD]
-
-      - name: LBOOT
-        bits: 11..2
-        access: R/W1C/H
-        reset: --
-        typical: --
-        description: |
-          Last boot cause mask, resets only with dcok.
-
-          bit9 - Soft reset due to watchdog
-          bit8 - Soft reset due to CIU_SOFT_RST write
-          bit7 - Warm reset due to cntl0 link-down or
-          hot-reset
-          bit6 - Warm reset due to cntl1 link-down or
-          hot-reset
-          bit5 - Cntl1 reset due to PERST1_L pin
-          bit4 - Cntl0 reset due to PERST0_L pin
-          bit3 - Warm reset due to PERST1_L pin
-          bit2 - Warm reset due to PERST0_L pin
-          bit1 - Warm reset due to CHIP_RESET_L pin
-          bit0 - Cold reset due to DCOK pin
-
-      - name: RBOOT
-        bits: 1
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Determines whether core 0 remains in reset after
-          after chip cold/warm/soft reset.
-
-      - name: RBOOT_PIN
-        bits: 0
-        access: RO/H
-        reset: --
-        typical: --
-        description: Read-only access to REMOTE_BOOT pin
-
-
-  - name: MIO_RST_DELAY
-    address: 0x1180000001608
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..32
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: WARM_RST_DLY
-        bits: 31..16
-        access: R/W
-        reset: 0x7ff
-        typical: --
-        description: |
-          A warm reset immediately causes an early warm
-          reset notification.  However, the assertion of
-          warm reset will be delayed this many sclks.
-          A warm/soft reset will not change this field.
-          NOTE: This must be at least 500 dclks
-
-      - name: SOFT_RST_DLY
-        bits: 15..0
-        access: R/W
-        reset: 0x7ff
-        typical: --
-        description: |
-          A soft reset immediately causes an early soft
-          reset notification.  However, the assertion of
-          soft reset will be delayed this many sclks.
-          A warm/soft reset will not change this field.
-          NOTE: This must be at least 500 dclks
-
-
-  - name: MIO_RST_CFG
-    address: 0x1180000001610
-    bus: RSL
-    fields:
-      - name: BIST_DELAY
-        bits: 63..6
-        access: RO/H
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 5..3
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CNTL_CLR_BIST
-        bits: 2
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Peform clear bist during cntl only reset,
-          instead of a full bist. A warm/soft reset will
-          not change this field.
-
-      - name: WARM_CLR_BIST
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Peform clear bist during warm reset, instead
-          of a full bist. A warm/soft reset will not
-          change this field.
-
-      - name: SOFT_CLR_BIST
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Peform clear bist during soft reset, instead
-          of a full bist. A warm/soft reset will not
-          change this field.
-
-
   - name: MIO_RST_CTL(0..1)
     address: 0x1180000001618 + a*0x8
     bus: RSL
@@ -12114,135 +12050,6 @@ registers:
           RST_RCV==1 and the PERST*_L pin is asserted.
           Reads as 0 when RST_RCV==1 and the PERST*_L
           pin is not asserted.
-
-
-  - name: MIO_RST_INT
-    title: MIO Reset Interrupt Register
-    address: 0x1180000001628
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..10
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PERST1
-        bits: 9
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: |
-          PERST1_L asserted while MIO_RST_CTL1[RST_RCV]=1
-          and MIO_RST_CTL1[RST_CHIP]=0
-
-      - name: PERST0
-        bits: 8
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: |
-          PERST0_L asserted while MIO_RST_CTL0[RST_RCV]=1
-          and MIO_RST_CTL0[RST_CHIP]=0
-
-      - name: --
-        bits: 7..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RST_LINK1
-        bits: 1
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: |
-          A controller1 link-down/hot-reset occurred while
-          MIO_RST_CTL1[RST_LINK]=0.  Software must assert
-          then de-assert CIU_SOFT_PRST1[SOFT_PRST]
-
-      - name: RST_LINK0
-        bits: 0
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: |
-          A controller0 link-down/hot-reset occurred while
-          MIO_RST_CTL0[RST_LINK]=0.  Software must assert
-          then de-assert CIU_SOFT_PRST[SOFT_PRST]
-
-
-  - name: MIO_RST_INT_EN
-    title: MIO Reset Interrupt Enable Register
-    address: 0x1180000001630
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..10
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PERST1
-        bits: 9
-        access: R/W
-        reset: 0
-        typical: --
-        description: Controller1 PERST reset interrupt enable
-
-      - name: PERST0
-        bits: 8
-        access: R/W
-        reset: 0
-        typical: --
-        description: Controller0 PERST reset interrupt enable
-
-      - name: --
-        bits: 7..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RST_LINK1
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: --
-        description: Controller1 link-down/hot reset interrupt enable
-
-      - name: RST_LINK0
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: Controller0 link-down/hot reset interrupt enable
-
-
-  - name: MIO_RST_CKILL
-    title: MIO Chipkill Timer Register
-    address: 0x1180000001638
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..47
-        access: ---
-        reset: 0x0
-        typical: 0x0
-        description: Reserved.
-
-      - name: TIMER
-        bits: 46..0
-        access: R/W
-        reset: 0x3ffffffff
-        typical: --
-        description: |
-          CHIPKILL timer measured in SCLKs.  Reads return
-          the current CHIPKILL timer.   Writes have no
-          effect when MIO_RST_BOOT[CHIPKILL]=1.
 
 
   - name: MIO_RST_CNTL(0..1)
@@ -12775,7 +12582,7 @@ registers:
           following pattern will be output:
           BOOT_AD[7:0] pulled up to 1
           BOOT_CE_N[7:0] driven to 1
-          BOOT_ALE driven to 0
+          BOOT_ALE[0] driven to 0
           BOOT_OE_L driven to 1
           BOOT_WE_L driven to 1
 
