@@ -226,7 +226,7 @@ static int pci_get_device(int device)
     switch (pci_id & 0xff)
     {
         case 0x91: /* CN68XX */
-            octeon_pci_model = OCTEON_CN68XX_PASS2_0 & 0x3f;
+            octeon_pci_model = OCTEON_CN68XX_PASS2_0 & ~0x3f;
             break;
         case 0x93: /* CN61XX */
             octeon_pci_model = OCTEON_CN61XX_PASS1_0;
