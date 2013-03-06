@@ -148,8 +148,7 @@ void __bdk_init(long base_address)
                 l2c_tadx_int.cn78xx.rddislmc = 1;
             else
                 l2c_tadx_int.cn68xx.rddislmc = 1;
-            if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
+            BDK_CSR_WRITE(BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
             if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
             {
                 BDK_CSR_WRITE(BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);

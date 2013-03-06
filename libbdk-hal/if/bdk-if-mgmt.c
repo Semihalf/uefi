@@ -56,9 +56,7 @@ static int if_num_interfaces(void)
  */
 static int if_num_ports(int interface)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 1;

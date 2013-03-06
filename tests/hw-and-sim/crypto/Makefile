@@ -1,8 +1,6 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
-ifeq ($(SIM),cn63xx)
-	NUMCORES=6
-else ifeq ($(SIM),cn68xx)
+ifeq ($(SIM),cn68xx)
 	NUMCORES=32
 else ifeq ($(SIM),cn78xx)
 	NUMCORES=48

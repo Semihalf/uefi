@@ -20,9 +20,7 @@ require("octeon")
 -- octeon.c.bdk_set_baudrate(1, 115200, true)
 
 -- Do board specific setup
-if octeon.is_model(octeon.CN63XX) then
-    menu.dofile("board-ebb6300")
-elseif octeon.is_model(octeon.CN68XX) then
+if octeon.is_model(octeon.CN68XX) then
     menu.dofile("board-ebb6800")
 elseif octeon.is_model(octeon.CN61XX) then
     menu.dofile("board-ebb6100")
@@ -47,9 +45,6 @@ m:item("flash", "Flash options",            menu.dofile, "flash")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
 m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
-if octeon.c.bdk_srio_initialize and octeon.is_model(octeon.CN63XX) then
-    m:item("srio",  "SRIO options",         menu.dofile, "srio_menu")
-end
 m:item("twsi",  "TWSI options",             menu.dofile, "twsi_menu")
 m:item("smi",   "SMI/MDIO options",         menu.dofile, "smi_menu")
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")

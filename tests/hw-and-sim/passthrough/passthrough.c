@@ -12,7 +12,6 @@
  */
 void __bdk_require_depends(void)
 {
-    BDK_REQUIRE(SRIO_NETWORKING);
     BDK_REQUIRE(ERROR_DECODE);
 }
 

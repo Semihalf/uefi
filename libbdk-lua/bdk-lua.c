@@ -141,12 +141,6 @@ int bdk_lua_start(void)
         extern int bdk_fs_xmodem_init(void) BDK_WEAK;
         bdk_fs_xmodem_init();
     }
-    if (BDK_IS_REQUIRED(FS_SRIO))
-    {
-        extern int bdk_fs_srio_init(void) BDK_WEAK;
-        bdk_fs_srio_init();
-    }
-
     return __bdk_lua_main(3, argv);
 }
 

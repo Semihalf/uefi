@@ -22,7 +22,5 @@ void register_octeon_constants(lua_State* L)
     lua_setfield(L, -2, "CSR_TYPE_PCICONFIGEP");
     lua_pushnumber(L, BDK_CSR_TYPE_PCICONFIGRC);
     lua_setfield(L, -2, "CSR_TYPE_PCICONFIGRC");
-    lua_pushnumber(L, BDK_CSR_TYPE_SRIOMAINT);
-    lua_setfield(L, -2, "CSR_TYPE_SRIOMAINT");
 }
 

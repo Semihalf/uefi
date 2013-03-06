@@ -2,8 +2,6 @@ from csr_output_header import writeCopyrightBanner
 from csr_output_header import getCname
 
 CHIP_TO_MODEL = {
-    "cn63xxp1": "OCTEON_CN63XX_PASS1_X",
-    "cn63xx":   "OCTEON_CN63XX_PASS2_X",
     "cn68xxp1": "OCTEON_CN68XX_PASS1_X",
     "cn68xx":   "OCTEON_CN68XX_PASS2_X",
     "cn61xx":   "OCTEON_CN61XX_PASS1_X",
@@ -13,7 +11,7 @@ CHIP_TO_MODEL = {
 
 # This is filled in when write() is called. It is derived from the chip list
 # and CHIP_TO_MODEL. Format is:
-# CHIP_PASS_LIST["CN63XX"] = ["PASS1_X", "PASS2_X"]
+# CHIP_PASS_LIST["CN61XX"] = ["PASS1_X", "PASS2_X"]
 CHIP_PASS_LIST = {}
 
 FATAL_FUNCTION = "__bdk_csr_fatal"
@@ -117,7 +115,7 @@ def writeAddress(out, csr, chip_list):
     else:
         #
         # Convert the list into a table of the format:
-        # model_by_pass["CN63XX"]["PASS1_X"] = line
+        # model_by_pass["CN61XX"]["PASS1_X"] = line
         #
         model_by_pass = {}
         for line in address_list:

@@ -456,13 +456,6 @@ function TrafficGen.new()
         local expected_rx_errors = 0
         local expected_validation_errors = 0
         for _,port in ipairs(port_range) do
-            if port:sub(1,4) == "SRIO" then
-                -- SRIO rounds packets to multiples of 8 and can only handle
-                -- sizes up to 4096. It can handle packets down to 8 bytes.
-                size_start = 8
-                size_stop = 4096
-                size_incr = 8
-            end
             if port:sub(1,5) == "HIGIG" then
                 -- Higig has an extra 12 byte header, Higig2 has 16
                 -- Reduce max size to allow space for max size header

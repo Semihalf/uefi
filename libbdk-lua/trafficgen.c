@@ -47,7 +47,6 @@ typedef struct
     bool                    do_checksum;
     bool                    display_packet;
     bool                    validate;
-    bdk_srio_tx_message_header_t srio;
     int                     higig_mode;
     bdk_higig_header_t      higig;
     bdk_higig2_header_t     higig2;
@@ -85,18 +84,6 @@ static void tg_init_port(tg_port_t *tg_port)
 {
     switch (bdk_if_get_type(tg_port->handle))
     {
-        case BDK_IF_SRIO:
-            tg_port->pinfo.setup.srio.s.prio = 0;
-            tg_port->pinfo.setup.srio.s.tt = 1;
-            tg_port->pinfo.setup.srio.s.sis = 0;
-            tg_port->pinfo.setup.srio.s.ssize = 0xe;
-            tg_port->pinfo.setup.srio.s.did = 0xffff;
-            tg_port->pinfo.setup.srio.s.xmbox = 0;
-            tg_port->pinfo.setup.srio.s.mbox = tg_port->handle->index&3;
-            tg_port->pinfo.setup.srio.s.letter = 0;
-            tg_port->pinfo.setup.srio.s.lns = 1;
-            tg_port->pinfo.setup.srio.s.intr = 0;
-            break;
         case BDK_IF_HIGIG:
             tg_port->pinfo.setup.higig_mode = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + tg_port->handle->interface);
             /* HiGig headers always start with 0xfb */
@@ -142,9 +129,7 @@ static void tg_init(void)
  */
 static int get_size_wire_overhead(const tg_port_t *tg_port)
 {
-    if (tg_port->pinfo.setup.srio.u64)
-        return 0;
-    else if (tg_port->pinfo.setup.higig_mode == 1)
+    if (tg_port->pinfo.setup.higig_mode == 1)
         return 8 /*INTERFRAME_GAP*/ + 12 /*Higig header*/ + ETHERNET_CRC;
     else if (tg_port->pinfo.setup.higig_mode == 2)
         return 8 /*INTERFRAME_GAP*/ + 16 /*Higig2 header*/ + ETHERNET_CRC;
@@ -239,9 +224,6 @@ static int trafficgen_do_update(bool do_clear)
         uint64_t bytes_off_per_packet;
         switch (bdk_if_get_type(tg_port->handle))
         {
-            case BDK_IF_SRIO:
-                bytes_off_per_packet = 0;
-                break;
             default:
                 bytes_off_per_packet = get_size_wire_overhead(tg_port) - ETHERNET_CRC;
                 break;
@@ -256,7 +238,6 @@ static int trafficgen_do_update(bool do_clear)
         {
             case BDK_IF_DPI:
             case BDK_IF_LOOP:
-            case BDK_IF_SRIO:
                 break;
             case BDK_IF_XAUI:
             {
@@ -403,8 +384,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     }
 
     int total_length = tg_port->pinfo.setup.size;
-    if (tg_port->pinfo.setup.srio.u64)
-        total_length += sizeof(tg_port->pinfo.setup.srio);
     if (tg_port->pinfo.setup.higig_mode == 1)
         total_length += sizeof(tg_port->pinfo.setup.higig);
     if (tg_port->pinfo.setup.higig_mode == 2)
@@ -416,12 +395,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     }
     int loc = 0;
 
-    /* Add the SRIO header before L2 if needed */
-    if (tg_port->pinfo.setup.srio.u64)
-    {
-        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.srio), &tg_port->pinfo.setup.srio);
-        loc += sizeof(tg_port->pinfo.setup.srio);
-    }
     /* Add the Higig header before L2 if needed */
     if (tg_port->pinfo.setup.higig_mode == 1)
     {
@@ -481,8 +454,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
     /* Fix the IP checksum */
     int begin_ip = get_size_l2(tg_port);
-    if (tg_port->pinfo.setup.srio.u64)
-        begin_ip += sizeof(tg_port->pinfo.setup.srio);
     if (tg_port->pinfo.setup.higig_mode == 1)
         begin_ip += sizeof(tg_port->pinfo.setup.higig);
     if (tg_port->pinfo.setup.higig_mode == 2)
@@ -769,13 +740,6 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
 
     /* Skip the L2 header in the CRC calculation */
     int skip = get_size_l2(tg_port);
-    if (bdk_if_get_type(packet->if_handle) == BDK_IF_SRIO)
-    {
-        if (fix)
-            skip += 8;
-        else
-            skip += 16;
-    }
     if (bdk_if_get_type(packet->if_handle) == BDK_IF_HIGIG)
     {
         if (tg_port->pinfo.setup.higig_mode == 2)
@@ -1111,7 +1075,6 @@ static int get_config(lua_State* L)
     pushfield(do_checksum,          boolean);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
-    pushfield(srio.u64,             number);
     pushfield(higig.dw0.u32,        number);
     pushfield(higig.dw1.u32,        number);
     pushfield(higig.dw2.u32,        number);
@@ -1160,7 +1123,6 @@ static int set_config(lua_State* L)
     getfield(do_checksum,          boolean);
     getfield(display_packet,       boolean);
     getfield(validate,             boolean);
-    getfield(srio.u64,             number);
     getfield(higig.dw0.u32,        number);
     getfield(higig.dw1.u32,        number);
     getfield(higig.dw2.u32,        number);

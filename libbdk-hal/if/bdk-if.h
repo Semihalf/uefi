@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * Interface to external interfaces (SGMII, XAUI, SRIO, etc)
+ * Interface to external interfaces (SGMII, XAUI, etc)
  *
  * <hr>$Revision: 45089 $<hr>
  *
@@ -23,7 +23,6 @@ typedef enum
     BDK_IF_HIGIG,
     BDK_IF_DPI,
     BDK_IF_LOOP,
-    BDK_IF_SRIO,
     BDK_IF_MGMT,
     BDK_IF_ILK,
     __BDK_IF_LAST

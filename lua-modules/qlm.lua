@@ -41,10 +41,8 @@ function qlm.do_reset(qlm_num)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rst_n", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs7", 0)
     octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs31", 0)
-    if not octeon.is_model(octeon.CN63XX) then
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 0)
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 0)
-    end
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_tx_rst_n", 0)
+    octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 0)
 end
 
 local function check_qlm_powerup_errata(qlm)
@@ -88,26 +86,7 @@ end
 -- @param qlm_num QLM number to run PRBS on
 -- @param mode PRBS mode to run
 function qlm.do_prbs_tx(qlm_num, mode)
-    if octeon.is_model(octeon.CN63XX) then
-        --[[
-            63xx PRBS:
-            cfg_pwrup_set 0 (Covered in qlm.do_reset)
-            cfg_pwrup_clr 1 (Covered in qlm.do_reset)
-            cfg_rst_n_set 1 (Covered in qlm.do_reset)
-            cfg_pwrup_set 1
-            jtg_run_prbs7 1
-            jtg_prbs_rst_n 1
-        ]]--
-        -- Power up the QLM
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "cfg_pwrup_set", 1)
-        -- Enable PRBS7 if necessary
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs7", (mode == 7))
-        -- Enable PRBS31 if necessary
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_run_prbs31", (mode == 31))
-        -- Take PRBS out of reset
-        octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rst_n", 1)
-
-    elseif octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN61XX) then
+    if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN61XX) then
         --[[
             68xx PRBS:
             cfg_pwrup_set 0 (Covered in qlm.do_reset)
@@ -154,9 +133,7 @@ end
 --- Turn on the QLM PRBS receiver.
 -- @param qlm_num QLM number to run PRBS on
 function qlm.do_prbs_rx(qlm_num)
-    if octeon.is_model(octeon.CN63XX) then
-        -- TX and RX are tied together
-    elseif octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN61XX) then
+    if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN61XX) then
         -- Take PRBS out of reset
         octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "jtg_prbs_rx_rst_n", 1)
     else

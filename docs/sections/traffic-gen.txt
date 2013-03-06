@@ -24,7 +24,7 @@ TYPE INTERFACE INDEX
 TYPE::
 
 The port type is based on the underlying transport layer.  Some of the
-support types are SGMII, XAUI, ILK, SRIO, LOOP, and MGMT.
+support types are SGMII, XAUI, ILK, LOOP, and MGMT.
 
 INTERFACE::
 
@@ -115,14 +115,14 @@ scan_sizes [port range]::
 Scan through all possible packet sizes, making sure every packet sent
 is received back.  The sequence followed by the scan sizes is as follows.
 +
-. Set the output packet size to 60 bytes (68 for SRIO).
+. Set the output packet size to 60 bytes
 . Take a snapshot of the RX packets, octets, and errors.
 . Transmit 100 packets on each port in the port range simultaneously.
 . Take another snapshot of the RX packets, octets, and errors.
 . Make sure that the received packets incremented by 100 times the number of ports.
 . Make sure that the received octets incremented by the packet size times the number of packets sent.
 . Make sure the receive and validation error counts have not changed.
-. If the packet size is less than 65524 (4096 for SRIO), increment the size by one and start over at step 2.
+. If the packet size is less than 65524, increment the size by one and start over at step 2.
 
 show [port range]::
 

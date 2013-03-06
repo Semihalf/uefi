@@ -332,10 +332,7 @@ def read(name, file):
                 n2 = "%s%d%s%03d%s" % (parts[0], block2, parts[1], offset, parts[2])
                 address2 = current_address_list[n2][0]
                 csr.address_info[1] = (address2 - address1) / (block2 - block)
-                if csr.type == "SRIOMAINT":
-                    assert (csr.address_info[1] == 0)
-                else:
-                    assert (csr.address_info[1] in [0x1000000, 0x8000000, 0x60000000, 0x100000000000]), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_info[2], csr.address_info[1])
+                assert (csr.address_info[1] in [0x1000000, 0x8000000, 0x60000000, 0x100000000000]), "%s offset=%d offset_inc=%d block_inc=%x" % (csr.name, offset,  csr.address_info[2], csr.address_info[1])
             csr.address_info[0] = address1 - csr.address_info[1]*csr.range[0][0] - csr.address_info[2]*csr.range[1][0]
 
             for address_instance in csr.iterateAddresses():

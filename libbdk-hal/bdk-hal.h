@@ -53,7 +53,6 @@
 #include "bdk-pko.h"
 #include "bdk-qlm.h"
 #include "bdk-rng.h"
-#include "bdk-srio.h"
 #include "bdk-swap.h"
 #include "bdk-tra.h"
 #include "bdk-twsi.h"

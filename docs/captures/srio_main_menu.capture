@@ -1,9 +1,0 @@
-=================================
-SRIO Menu
-=================================
- 1) SRIO port 0
- 2) SRIO port 1
- 3) Toggle extra debug output. Currently OFF
- 4) Toggle logging of maintenance. Currently OFF
- 5) Main menu
-

@@ -4,8 +4,6 @@ static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        return 1;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
@@ -47,7 +45,7 @@ static int if_num_ports(int interface)
         else
             return 0;
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
+    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         int qlm = bdk_qlm_get(BDK_IF_SGMII, interface);
         if (strstr(bdk_qlm_get_mode(qlm), "SGMII") && bdk_qlm_get_gbaud_mhz(qlm))
@@ -334,7 +332,7 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(gmx_rx_prts, BDK_GMXX_RX_PRTS(gmx_block),
             gmx_rx_prts.s.prts = if_num_ports(gmx_block));
 
-        if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN63XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         {
             /* Tell PKO the number of ports on this interface */
             BDK_CSR_MODIFY(pko_mode, BDK_PKO_REG_GMX_PORT_MODE,

@@ -12,8 +12,6 @@ mkdir -p cisco
 #
 
 ./csr-tool.py --html \
-	--csr cn63xxp1,octcsr_cn63xxp1.txt \
-	--csr cn63xx,octcsr_cn63xxp2.txt \
 	--csr cn68xxp1,octcsr_cn68xxp1.txt \
 	--csr cn68xx,octcsr_cn68xxp2.txt \
 	--csr cn61xx,octcsr_cn61xxp1.txt \

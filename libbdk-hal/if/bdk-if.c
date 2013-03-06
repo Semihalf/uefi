@@ -10,7 +10,6 @@ extern const __bdk_if_ops_t __bdk_if_ops_xaui;
 extern const __bdk_if_ops_t __bdk_if_ops_higig;
 extern const __bdk_if_ops_t __bdk_if_ops_dpi;
 extern const __bdk_if_ops_t __bdk_if_ops_loop;
-extern const __bdk_if_ops_t __bdk_if_ops_srio BDK_WEAK;
 extern const __bdk_if_ops_t __bdk_if_ops_mgmt;
 extern const __bdk_if_ops_t __bdk_if_ops_ilk;
 
@@ -20,7 +19,6 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_HIGIG] = &__bdk_if_ops_higig,
     [BDK_IF_DPI] = &__bdk_if_ops_dpi,
     [BDK_IF_LOOP] = &__bdk_if_ops_loop,
-    [BDK_IF_SRIO] = &__bdk_if_ops_srio,
     [BDK_IF_MGMT] = &__bdk_if_ops_mgmt,
     [BDK_IF_ILK] = &__bdk_if_ops_ilk,
 };
@@ -66,7 +64,7 @@ static int __bdk_if_setup_sso(void)
     const int SSO_RWQ_SIZE = 256;
     const int SSO_RWQ_COUNT = 8 + 128;
 
-    /* SSO in CN63XX doesn't need any setup */
+    /* SSO in CN61XX doesn't need any setup */
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 0;
 
@@ -729,11 +727,6 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
 
     switch (handle->iftype)
     {
-        case BDK_IF_SRIO:
-            /* Subtract SRIO header */
-            bytes_off_tx = -(int)sizeof(bdk_srio_tx_message_header_t);
-            bytes_off_rx = -(int)sizeof(bdk_srio_rx_message_header_t);
-            break;
         case BDK_IF_HIGIG:
             /* Subtract Higig header */
             bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
@@ -752,18 +745,9 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_pip_stat1_x_t stat1;
     bdk_pip_stat2_x_t stat2;
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX) && (handle->pknd >= 40))
-    {
-        stat0.u64 = BDK_CSR_READ(BDK_PIP_XSTAT0_PRTX(handle->pknd));
-        stat1.u64 = BDK_CSR_READ(BDK_PIP_XSTAT1_PRTX(handle->pknd));
-        stat2.u64 = BDK_CSR_READ(BDK_PIP_XSTAT2_PRTX(handle->pknd));
-    }
-    else
-    {
-        stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_X(handle->pknd));
-        stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_X(handle->pknd));
-        stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_X(handle->pknd));
-    }
+    stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_X(handle->pknd));
+    stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_X(handle->pknd));
+    stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_X(handle->pknd));
     BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRS_PKNDX(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;

@@ -11,8 +11,6 @@ void __bdk_require_depends(void)
 {
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(FS_PCIE);
-    BDK_REQUIRE(SRIO);
-    BDK_REQUIRE(FS_SRIO);
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(RNG);
     BDK_REQUIRE(TRA);
@@ -28,7 +26,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(FS_RAM);
     BDK_REQUIRE(CSR_DB);
     BDK_REQUIRE(TRAFFIC_GEN);
-    BDK_REQUIRE(SRIO_NETWORKING);
     BDK_REQUIRE(ERROR_DECODE);
 }
 

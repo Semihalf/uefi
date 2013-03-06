@@ -68,7 +68,6 @@ typedef enum
     BDK_CORE_PERF_SYNC      = 56,   /**< Number of SYNC stall cycles (may need to set CvmCtl[DISCE] for accurate counts) */
     BDK_CORE_PERF_SYNCIOB   = 57,   /**< Number of SYNCIOBDMA stall cycles (may need to set CvmCtl[DISCE] for accurate counts) */
     BDK_CORE_PERF_SYNCW     = 58,   /**< Number of SYNCWs */
-    /* Added in CN63XX */
     BDK_CORE_PERF_ERETMIS   = 64,   /**< D/eret mispredicts */
     BDK_CORE_PERF_LIKMIS    = 65,   /**< Branch likely mispredicts */
     BDK_CORE_PERF_HAZTR     = 66,   /**< Hazard traps due to *MTC0 to CvmCtl, Perf counter control, EntryHi, or CvmMemCtl registers */

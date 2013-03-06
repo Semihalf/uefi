@@ -35,7 +35,7 @@ typedef union
         uint64_t    reserved_34_47 :14;
         bdk_wqe_tag_type_t tt   : 2;    /**< the type of the tag (ORDERED, ATOMIC, NULL) */
         uint64_t    tag         :32;    /**< the synchronization/ordering tag */
-    } s;                                /**< All chips up and including CN63XX */
+    } s;                                /**< All chips excluding CN68XX and CN78XX */
     struct
     {
         uint64_t    len         :16;    /**< HW sets to the total number of bytes in the packet */
@@ -45,7 +45,7 @@ typedef union
         uint64_t    reserved_34 : 1;
         bdk_wqe_tag_type_t tt   : 2;    /**< the type of the tag (ORDERED, ATOMIC, NULL) */
         uint64_t    tag         :32;    /**< the synchronization/ordering tag */
-    } v1;                               /**< All chips up and including CN63XX */
+    } v1;                               /**< All chips excluding CN68XX and CN78XX */
     struct
     {
         uint64_t    len         :16;    /**< HW sets to the total number of bytes in the packet */
@@ -56,7 +56,7 @@ typedef union
         uint64_t    reserved_34_36 : 2;
         bdk_wqe_tag_type_t tt   : 2;    /**< the type of the tag (ORDERED, ATOMIC, NULL) */
         uint64_t    tag         :32;    /**< the synchronization/ordering tag */
-    } v2;                               /**< CN68XX and higher */
+    } v2;                               /**< CN68XX */
 } __bdk_wqe_word1_t;
 
 typedef union

@@ -19,7 +19,6 @@ typedef enum {
    BDK_CSR_TYPE_PEXP_NCB,   /**< NCB-direct and PCIe BAR0 address */
    BDK_CSR_TYPE_PCICONFIGEP,/**< PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
    BDK_CSR_TYPE_PCICONFIGRC,/**< PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
-   BDK_CSR_TYPE_SRIOMAINT   /**< SRIOMAINT - SRIO maintenance registers */
 } bdk_csr_type_t;
 
 typedef struct __attribute__ ((packed)) {

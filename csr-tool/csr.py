@@ -22,7 +22,7 @@ VALID_CSR_TYPES = ["RSL", "NCB",
                    "PEXP_NCB",      # NCB-direct and PCIe BAR0 address
                    "PCICONFIGEP", "PCICONFIGEP0", "PCICONFIGEP1",   # PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
                    "PCICONFIGRC", "PCICONFIGRC0", "PCICONFIGRC1",   # PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
-                   "SRIOMAINT", "SRIOMAINT0", "SRIOMAINT1", "SRIOMAINT2", "SRIOMAINT3"]
+                   ]
 
 #
 # This class contains a list of CSRs for a specific chip. It is iterable, so

@@ -16,7 +16,6 @@ the following goals should be met.
 * All packet interfaces verified as operational.
 * Miscellaneous I/O busses verified as operational, such as TWSI and SMI/MDIO.
 * If applicable, PCIe as a root complex verified as operational.
-* If applicable, SRIO verified as operational.
 * DRAM configured and tested.
 * Board ready to be handed to software for further development.
 
@@ -146,31 +145,25 @@ Step 11 - Test Interlaken
 TBD
 
 
-Step 12 - Test SRIO
--------------------
-
-include::sections/srio.txt[]
-
-
-Step 13 - Configure and Test DDR
+Step 12 - Configure and Test DDR
 --------------------------------
 
 include::sections/ddr.txt[]
 
 
-Step 14 - Test NAND
+Step 13 - Test NAND
 -------------------
 
 TBD
 
 
-Step 15 - Test USB
+Step 14 - Test USB
 ------------------
 
 TBD
 
 
-Step 16 - Test GPIO
+Step 15 - Test GPIO
 -------------------
 
 Many boards use OCTEON GPIOs to control other parts of the board.  The

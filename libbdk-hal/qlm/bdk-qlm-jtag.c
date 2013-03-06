@@ -9,7 +9,6 @@
  * The JTAG chain for CN52XX and CN56XX is 4 * 268 bits long, or 1072.
  * CN5XXX full chain shift is:
  *     new data => lane 3 => lane 2 => lane 1 => lane 0 => data out
- * The JTAG chain for CN63XX is 4 * 300 bits long, or 1200.
  * The JTAG chain for CN68XX is 4 * 304 bits long, or 1216.
  * The JTAG chain for CN61XX is 4 * 304 bits long, or 1216.
  * CN6XXX full chain shift is:

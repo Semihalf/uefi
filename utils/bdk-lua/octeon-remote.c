@@ -241,46 +241,6 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
             pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(BDK_PEMX_CFG_RD(busnum));
             return pemx_cfg_rd.s.data;
         }
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-        {
-            bdk_sriox_maint_op_t maint_op = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum))};
-            /* Make sure SRIO isn't already busy */
-            if (maint_op.s.pending)
-            {
-                octeon_remote_debug(0, "SRIO%d: Pending bit stuck before config read\n", busnum);
-                return -1;
-            }
-
-            /* Issue the read to the hardware */
-            maint_op.u64 = 0;
-            maint_op.s.op = 0; /* Read */
-            maint_op.s.addr = address;
-            OCTEON_REMOTE_WRITE_CSR(BDK_SRIOX_MAINT_OP(busnum), maint_op.u64);
-
-            /* Wait for the hardware to complete the operation */
-            do
-            {
-                maint_op.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum));
-            } while (maint_op.s.pending);
-
-            /* Display and error and return if the operation failed to issue */
-            if (maint_op.s.fail)
-            {
-                octeon_remote_debug(0, "SRIO%d: Config read addressing error (offset=0x%x)\n", busnum, (unsigned int)address);
-                return -1;
-            }
-
-            /* Wait for the read data to become valid */
-            bdk_sriox_maint_rd_data_t maint_rd_data = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_RD_DATA(busnum))};
-            while (!maint_rd_data.s.valid)
-            {
-                maint_rd_data.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_RD_DATA(busnum));
-            }
-
-            /* Get the read data */
-            return maint_rd_data.s.rd_data;
-        }
     }
     return -1;
 }
@@ -325,35 +285,6 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
             pemx_cfg_wr.s.addr = address;
             pemx_cfg_wr.s.data = value;
             OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
-            break;
-        }
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-        {
-            bdk_sriox_maint_op_t maint_op = {.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum))};
-            /* Make sure SRIO isn't already busy */
-            if (maint_op.s.pending)
-            {
-                octeon_remote_debug(0, "SRIO%d: Pending bit stuck before config write\n", busnum);
-                return;
-            }
-
-            /* Issue the write to the hardware */
-            maint_op.u64 = 0;
-            maint_op.s.wr_data = value;
-            maint_op.s.op = 1; /* Write */
-            maint_op.s.addr = address;
-            OCTEON_REMOTE_WRITE_CSR(BDK_SRIOX_MAINT_OP(busnum), maint_op.u64);
-
-            /* Wait for the hardware to complete the operation */
-            do
-            {
-                maint_op.u64 = OCTEON_REMOTE_READ_CSR(BDK_SRIOX_MAINT_OP(busnum));
-            } while (maint_op.s.pending);
-
-            /* Display and error and return if the operation failed to issue */
-            if (maint_op.s.fail)
-                octeon_remote_debug(0, "SRIO%d: Config write addressing error (offset=0x%x)\n", busnum, (unsigned int)address);
             break;
         }
     }

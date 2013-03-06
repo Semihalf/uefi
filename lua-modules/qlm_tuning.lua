@@ -689,17 +689,11 @@ function qlm_tuning.run()
         m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
         m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
         m:item("down",   "Reset and power down", qlm.do_reset, qlm_tuning.qlm)
-        if not octeon.is_model(octeon.CN63XX) then
-            m:item("loop1", "Shallow loopback lane 0 and 3", qlm.do_loop, qlm_tuning.qlm, 1)
-            m:item("loop3", "Shallow loopback lane 1 and 2", qlm.do_loop, qlm_tuning.qlm, 3)
-        else
-            m:item("loop", "Shallow loopback",  qlm.do_loop, qlm_tuning.qlm, 1)
-        end
+        m:item("loop1", "Shallow loopback lane 0 and 3", qlm.do_loop, qlm_tuning.qlm, 1)
+        m:item("loop3", "Shallow loopback lane 1 and 2", qlm.do_loop, qlm_tuning.qlm, 3)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
-        if not octeon.is_model(octeon.CN63XX) then
-            m:item("prbs15", "PRBS-15", do_prbs, 15)
-            m:item("prbs23", "PRBS-23", do_prbs, 23)
-        end
+        m:item("prbs15", "PRBS-15", do_prbs, 15)
+        m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
         m:item("auto",   "Automatically Tune using PRBS", auto_tune)
         m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)

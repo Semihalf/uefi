@@ -23,7 +23,7 @@ def add_reg(group, status, enable, parent):
     ERROR_REGISTERS.append({"group": group, "status": status, "enable": enable, "parent": parent})
 
 #
-# Roots for CN61XX, CN63XX
+# Roots for CN61XX
 # There are two as some interrupts go to ciu_int0_sum0
 # and some go to ciu_int_sum1
 #
@@ -318,14 +318,6 @@ add_reg(group = "rad",
     status = "rad_reg_error",
     enable = "rad_reg_int_mask",
     parent = ["ciu2_src_pp0_ip2_rml:rad", "ciu_block_int:rad"])
-#
-# SRIO
-#
-for srio in xrange(2): # CN63XX has two SRIO controllers
-    add_reg(group = "srio",
-        status = "srio%d_int_reg:!omsg1,omsg0,link_up,link_dwn,soft_rx,soft_tx,mce_tx,wr_done,maint_op,rxbell,bell_err,txbell" % srio,
-        enable = "srio%d_int_enable" % srio,
-        parent = "ciu_block_int:srio%d" % srio)
 #
 # TIM
 #

@@ -39,21 +39,6 @@ uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t
             pemx_cfg_rd.u = BDK_CSR_READ(BDK_PEMX_CFG_RD(busnum));
             return pemx_cfg_rd.s.data;
         }
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-        {
-            if (BDK_IS_REQUIRED(SRIO))
-            {
-                extern int __bdk_srio_local_read32(int srio_port, uint32_t offset, uint32_t *result) BDK_WEAK;
-                uint32_t value;
-                if (__bdk_srio_local_read32(busnum, address, &value))
-                    return -1;
-                else
-                    return value;
-            }
-            else
-                return -1;
-        }
     }
     return -1; /* Return -1 as this looks invalid in register dumps. Zero is too common as a good value */
 }
@@ -94,14 +79,6 @@ void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t ad
             BDK_CSR_WRITE(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
             break;
         }
-
-        case BDK_CSR_TYPE_SRIOMAINT:
-            if (BDK_IS_REQUIRED(SRIO))
-            {
-                extern int __bdk_srio_local_write32(int srio_port, uint32_t offset, uint32_t data) BDK_WEAK;
-                __bdk_srio_local_write32(busnum, address, value);
-            }
-            break;
     }
 }
 

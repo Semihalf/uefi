@@ -87,11 +87,6 @@ PCIe options::
 PCIe discovery, enumeration, and probing can be accessed through this
 menu. See <<PCIE, Testing PCIe>>.
 
-SRIO options::
-
-SRIO discovery, enumeration, and probing can be accessed through this
-menu. See <<SRIO, Testing SRIO>>.
-
 TWSI options::
 
 Scan or probe TWSI bus devices.
@@ -137,12 +132,6 @@ Testing PCIe
 ------------
 
 include::sections/pcie.txt[]
-
-[[SRIO]]
-Testing SRIO
-------------
-
-include::sections/srio.txt[]
 
 
 Testing DDR

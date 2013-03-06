@@ -7,14 +7,11 @@
  */
 static void __bdk_fpa_enable(void)
 {
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
+    /* Initialize the range checking so that no memory is in range */
+    for (int i=0; i<8; i++)
     {
-        /* Initialize the range checking so that no memory is in range */
-        for (int i=0; i<8; i++)
-        {
-            BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(i), 0xffffffffull);
-            BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(i), 0);
-        }
+        BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(i), 0xffffffffull);
+        BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(i), 0);
     }
     BDK_CSR_MODIFY(status, BDK_FPA_CTL_STATUS,
         status.s.enb = 1);
@@ -54,7 +51,6 @@ int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks)
     /* Put a known pattern in the data in case someone forgets to init */
     memset(buf, 0xaa, num_blocks * size);
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
         /* Update the start address to contain the new memory */
         uint64_t addr = bdk_ptr_to_phys(buf);
@@ -111,12 +107,9 @@ void bdk_fpa_check_address(const char *where, bdk_fpa_pool_t pool, uint64_t addr
     if (address & 0x7f)
         bdk_fatal("%s: Non cache lined address for pool %d: 0x%lx\n", where, pool, address);
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        BDK_CSR_INIT(start_addr, BDK_FPA_POOLX_START_ADDR(pool));
-        BDK_CSR_INIT(end_addr, BDK_FPA_POOLX_END_ADDR(pool));
-        if ((address >> 7 < start_addr.u64) || (address >> 7 > end_addr.u64))
-            bdk_fatal("%s: Illegal address for pool %d: 0x%lx, must be 0x%lx-0x%lx\n", where, pool, address, start_addr.u64<<7, end_addr.u64<<7);
-    }
+    BDK_CSR_INIT(start_addr, BDK_FPA_POOLX_START_ADDR(pool));
+    BDK_CSR_INIT(end_addr, BDK_FPA_POOLX_END_ADDR(pool));
+    if ((address >> 7 < start_addr.u64) || (address >> 7 > end_addr.u64))
+        bdk_fatal("%s: Illegal address for pool %d: 0x%lx, must be 0x%lx-0x%lx\n", where, pool, address, start_addr.u64<<7, end_addr.u64<<7);
 }
 

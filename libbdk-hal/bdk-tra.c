@@ -549,16 +549,8 @@ int bdk_tra_capture(bdk_tra_capture_t *capture_ext)
         for (int count=0; count<__bdk_tra_size(); count++)
         {
             bdk_tra_data_t data;
-            if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-            {
-                data.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(tra));
-                data.u128.datahi = BDK_CSR_READ(BDK_TRAX_READ_DAT(tra));
-            }
-            else
-            {
-                data.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(tra));
-                data.u128.datahi = BDK_CSR_READ(BDK_TRAX_READ_DAT_HI(tra));
-            }
+            data.u128.data = BDK_CSR_READ(BDK_TRAX_READ_DAT(tra));
+            data.u128.datahi = BDK_CSR_READ(BDK_TRAX_READ_DAT_HI(tra));
 
             if (!data.cmn2.valid)
                 break;

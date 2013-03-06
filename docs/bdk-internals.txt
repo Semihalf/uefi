@@ -181,7 +181,7 @@ Abstract Network Packet API
 ---------------------------
 
 The BDK provides a high level interface to all packet based interfaces
-that are similar to ethernet.  OCTEON's SGMII, XAUI, RGMII, SRIO, ILK, Loop
+that are similar to ethernet.  OCTEON's SGMII, XAUI, RGMII, ILK, Loop
 devices, and PCIe engines are all available through this common
 interface.
 
@@ -249,9 +249,6 @@ for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle != NULL; handle = b
     {
 	case BDK_IF_SGMII:
 	case BDK_IF_XAUI:
-	    ...
-	    break;
-	case BDK_IF_SRIO:
 	    ...
 	    break;
 	default:

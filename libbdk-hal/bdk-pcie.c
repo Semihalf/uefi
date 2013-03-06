@@ -387,9 +387,6 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     if (pemx_bist_status.u64)
         bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u64);
     pemx_bist_status2.u64 = BDK_CSR_READ(BDK_PEMX_BIST_STATUS2(pcie_port));
-    /* Errata PCIE-14766 may cause the lower 6 bits to be randomly set on CN63XXp1 */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-        pemx_bist_status2.u64 &= ~0x3full;
     if (pemx_bist_status2.u64)
         bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status2.u64);
 
@@ -428,13 +425,13 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     mem_access_subid.s.esw = 1;     /* Endian-swap for Writes. */
     mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
     mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-    mem_access_subid.cn63xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
+    mem_access_subid.cn61xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
 
     /* Setup mem access 12-15 for port 0, 16-19 for port 1, supplying 36 bits of address space */
     for (i=12 + pcie_port*4; i<16 + pcie_port*4; i++)
     {
         BDK_CSR_WRITE(BDK_SLI_MEM_ACCESS_SUBIDX(i), mem_access_subid.u64);
-        mem_access_subid.cn63xx.ba += 1; /* Set each SUBID to extend the addressable range */
+        mem_access_subid.cn61xx.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
     if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
@@ -762,7 +759,7 @@ int bdk_pcie_ep_initialize(int pcie_port)
         mem_access_subid.s.esw = 0;     /* Endian-swap for Writes. */
         mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
         mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-        mem_access_subid.cn63xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
+        mem_access_subid.cn61xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
         BDK_CSR_WRITE(BDK_SLI_MEM_ACCESS_SUBIDX(12 + pcie_port*4), mem_access_subid.u64);
     }
     return 0;

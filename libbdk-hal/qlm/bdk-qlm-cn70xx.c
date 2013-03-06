@@ -138,8 +138,8 @@ static int qlm_get_gbaud_mhz(int qlm)
  */
 static int qlm_measure_refclock(int qlm)
 {
-    extern const bdk_qlm_ops_t bdk_qlm_ops_cn63xx;
-    return bdk_qlm_ops_cn63xx.measure_refclock(qlm);
+    extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
+    return bdk_qlm_ops_cn61xx.measure_refclock(qlm);
 }
 
 

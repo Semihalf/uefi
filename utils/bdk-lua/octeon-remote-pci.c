@@ -62,8 +62,7 @@
 #define OCTEON_SLI_ADDR 0x11f0000010000ull
 
 static const char *PCI_DEVICE_FILENAME = "/proc/bus/pci/devices";
-static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0090, /* CN63XX */
-                                            0x177d0091, /* CN68XX */
+static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0091, /* CN68XX */
                                             0x177d0093, /* CN61XX */
                                             0x177d0095, /* CN78XX */
                                             0x177d0096, /* CN70XX */
@@ -226,9 +225,6 @@ static int pci_get_device(int device)
         the actual pass number will be read later after the mmaps are setup */
     switch (pci_id & 0xff)
     {
-        case 0x90: /* CN63XX */
-            octeon_pci_model = OCTEON_CN63XX_PASS1_0;
-            break;
         case 0x91: /* CN68XX */
             octeon_pci_model = OCTEON_CN68XX_PASS1_0;
             break;
@@ -414,8 +410,7 @@ static int pci_open(const char *remote_spec)
     octeon_pci_model |= sli_ctl_status.s.chip_rev;
 
     /* Determine the port number */
-    if (!OCTEON_IS_MODEL(OCTEON_CN63XX_PASS1_X))
-        octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER) & 0xff;
+    octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER) & 0xff;
     return 0;
 }
 
@@ -491,7 +486,6 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
 
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
-        case BDK_CSR_TYPE_SRIOMAINT:
             /* The generic code can be used here */
             return __octeon_remote_default_read_csr(type, busnum, size, address);
     }
@@ -557,7 +551,6 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
 
         case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
-        case BDK_CSR_TYPE_SRIOMAINT:
             /* The generic code can be used here */
             __octeon_remote_default_write_csr(type, busnum, size, address, value);
             break;

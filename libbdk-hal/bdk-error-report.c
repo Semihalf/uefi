@@ -494,26 +494,6 @@ static void check_rad(void)
     CHECK_ERROR(BDK_RAD_REG_ERROR, doorbell);
 }
 
-static void check_srio(int srio)
-{
-    BDK_CSR_INIT(c, BDK_SRIOX_INT_REG(srio));
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), bar_err);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), degrad);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), deny_wr);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), f_error);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), fail);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), log_erb);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), mac_buf);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), mce_rx);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), omsg_err);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), phy_erb);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), pko_err);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), rtry_err);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), sli_err);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), ttl_tout);
-    CHECK_ERROR(BDK_SRIOX_INT_REG(srio), zero_pkt);
-}
-
 static void check_sso_cn68xx(void)
 {
     BDK_CSR_INIT(c, BDK_SSO_ERR);
@@ -623,8 +603,6 @@ static void check_cn6xxx(void)
         if (c.s.pko) check_pko();
         if (c.s.pow) check_sso_cn6xxx();
         if (c.s.rad) check_rad();
-        if (c.s.srio0) check_srio(0);
-        if (c.s.srio1) check_srio(1);
         if (c.s.tim) check_tim_cn6xxx();
         if (c.s.zip) check_zip();
     }
@@ -1001,27 +979,6 @@ static void enable_rad(void)
     );
 }
 
-static void enable_srio(int srio)
-{
-    BDK_CSR_MODIFY(c, BDK_SRIOX_INT_ENABLE(srio),
-        c.s.bar_err = -1;
-        c.s.degrade = -1;
-        c.s.deny_wr = -1;
-        c.s.f_error = -1;
-        c.s.fail = -1;
-        c.s.log_erb = -1;
-        c.s.mac_buf = -1;
-        c.s.mce_rx = -1;
-        c.s.omsg_err = -1;
-        c.s.phy_erb = -1;
-        c.s.pko_err = -1;
-        c.s.rtry_err = -1;
-        c.s.sli_err = -1;
-        c.s.ttl_tout = -1;
-        c.s.zero_pkt = -1;
-    );
-}
-
 static void enable_sso_cn68xx(void)
 {
     BDK_CSR_MODIFY(c, BDK_SSO_ERR_ENB,
@@ -1109,8 +1066,6 @@ static void enable_cn6xxx(void)
 
     /* Interrupts off of RML */
     /* AGL, GMX, PCS and PCSX are enabled in the bdk_if code */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-        enable_dfa();
     enable_dpi();
     enable_fpa();
     enable_iob();
@@ -1124,11 +1079,6 @@ static void enable_cn6xxx(void)
     enable_pip();
     enable_pko();
     enable_rad();
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
-    {
-        enable_srio(0);
-        enable_srio(1);
-    }
     enable_sso_cn6xxx();
     enable_tim_cn6xxx();
     enable_zip();
