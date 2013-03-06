@@ -116,6 +116,8 @@ def read_yaml(csr_list, filename):
             notes = notes.split("\n")
         else:
             notes = []
+        if name_list[0].startswith("POW_"):
+            name_list[0] = "SSO_" + name_list[0][4:]
         # We now have enough to start building the CSR
         csr = Csr(name_list, register["bus"], description)
         # Parse this address information

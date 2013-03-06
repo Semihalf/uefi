@@ -78823,306 +78823,6 @@ local csr_db = {
                 {name = "WQE_WORD", start = 0, stop = 3},
             }
         },
-        POW_BIST_STAT = {
-            name = "POW_BIST_STAT",
-            type = "NCB",
-            width = 8,
-            address = 0x16700000003f8,
-            fields = {
-                {name = "RESERVED_20_63", start = 20, stop = 63},
-                {name = "PP", start = 16, stop = 19},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CAM", start = 11, stop = 11},
-                {name = "NBR", start = 8, stop = 10},
-                {name = "NBT", start = 4, stop = 7},
-                {name = "INDEX", start = 3, stop = 3},
-                {name = "FIDX", start = 2, stop = 2},
-                {name = "PEND", start = 1, stop = 1},
-                {name = "ADR", start = 0, stop = 0},
-            }
-        },
-        POW_DS_PC = {
-            name = "POW_DS_PC",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000398,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "DS_PC", start = 0, stop = 31},
-            }
-        },
-        POW_ECC_ERR = {
-            name = "POW_ECC_ERR",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000218,
-            fields = {
-                {name = "RESERVED_45_63", start = 45, stop = 63},
-                {name = "IOP_IE", start = 32, stop = 44},
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "IOP", start = 16, stop = 28},
-                {name = "RESERVED_14_15", start = 14, stop = 15},
-                {name = "RPE_IE", start = 13, stop = 13},
-                {name = "RPE", start = 12, stop = 12},
-                {name = "RESERVED_9_11", start = 9, stop = 11},
-                {name = "SYN", start = 4, stop = 8},
-                {name = "DBE_IE", start = 3, stop = 3},
-                {name = "SBE_IE", start = 2, stop = 2},
-                {name = "DBE", start = 1, stop = 1},
-                {name = "SBE", start = 0, stop = 0},
-            }
-        },
-        POW_INT_CTL = {
-            name = "POW_INT_CTL",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000220,
-            fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
-                {name = "PFR_DIS", start = 5, stop = 5},
-                {name = "NBR_THR", start = 0, stop = 4},
-            }
-        },
-        POW_IQ_CNTX = {
-            name = "POW_IQ_CNT#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000340,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "IQ_CNT", start = 0, stop = 31},
-            }
-        },
-        POW_IQ_COM_CNT = {
-            name = "POW_IQ_COM_CNT",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000388,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "IQ_CNT", start = 0, stop = 31},
-            }
-        },
-        POW_IQ_INT = {
-            name = "POW_IQ_INT",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000238,
-            fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
-                {name = "IQ_INT", start = 0, stop = 7},
-            }
-        },
-        POW_IQ_INT_EN = {
-            name = "POW_IQ_INT_EN",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000240,
-            fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
-                {name = "INT_EN", start = 0, stop = 7},
-            }
-        },
-        POW_IQ_THRX = {
-            name = "POW_IQ_THR#",
-            type = "NCB",
-            width = 8,
-            address = 0x16700000003a0,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "IQ_THR", start = 0, stop = 31},
-            }
-        },
-        POW_NOS_CNT = {
-            name = "POW_NOS_CNT",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000228,
-            fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
-                {name = "NOS_CNT", start = 0, stop = 9},
-            }
-        },
-        POW_NW_TIM = {
-            name = "POW_NW_TIM",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000210,
-            fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
-                {name = "NW_TIM", start = 0, stop = 9},
-            }
-        },
-        POW_PF_RST_MSK = {
-            name = "POW_PF_RST_MSK",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000230,
-            fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
-                {name = "RST_MSK", start = 0, stop = 7},
-            }
-        },
-        POW_PP_GRP_MSKX = {
-            name = "POW_PP_GRP_MSK#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000000,
-            range1 = {0,3},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "QOS7_PRI", start = 44, stop = 47},
-                {name = "QOS6_PRI", start = 40, stop = 43},
-                {name = "QOS5_PRI", start = 36, stop = 39},
-                {name = "QOS4_PRI", start = 32, stop = 35},
-                {name = "QOS3_PRI", start = 28, stop = 31},
-                {name = "QOS2_PRI", start = 24, stop = 27},
-                {name = "QOS1_PRI", start = 20, stop = 23},
-                {name = "QOS0_PRI", start = 16, stop = 19},
-                {name = "GRP_MSK", start = 0, stop = 15},
-            }
-        },
-        POW_QOS_RNDX = {
-            name = "POW_QOS_RND#",
-            type = "NCB",
-            width = 8,
-            address = 0x16700000001c0,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "RND_P3", start = 24, stop = 31},
-                {name = "RND_P2", start = 16, stop = 23},
-                {name = "RND_P1", start = 8, stop = 15},
-                {name = "RND", start = 0, stop = 7},
-            }
-        },
-        POW_QOS_THRX = {
-            name = "POW_QOS_THR#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000180,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_58_63", start = 58, stop = 63},
-                {name = "DES_CNT", start = 48, stop = 57},
-                {name = "RESERVED_46_47", start = 46, stop = 47},
-                {name = "BUF_CNT", start = 36, stop = 45},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "FREE_CNT", start = 24, stop = 33},
-                {name = "RESERVED_21_23", start = 21, stop = 23},
-                {name = "MAX_THR", start = 12, stop = 20},
-                {name = "RESERVED_9_11", start = 9, stop = 11},
-                {name = "MIN_THR", start = 0, stop = 8},
-            }
-        },
-        POW_TS_PC = {
-            name = "POW_TS_PC",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000390,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "TS_PC", start = 0, stop = 31},
-            }
-        },
-        POW_WA_COM_PC = {
-            name = "POW_WA_COM_PC",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000380,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WA_PC", start = 0, stop = 31},
-            }
-        },
-        POW_WA_PCX = {
-            name = "POW_WA_PC#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000300,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WA_PC", start = 0, stop = 31},
-            }
-        },
-        POW_WQ_INT = {
-            name = "POW_WQ_INT",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000200,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "IQ_DIS", start = 16, stop = 31},
-                {name = "WQ_INT", start = 0, stop = 15},
-            }
-        },
-        POW_WQ_INT_CNTX = {
-            name = "POW_WQ_INT_CNT#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000100,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_28_63", start = 28, stop = 63},
-                {name = "TC_CNT", start = 24, stop = 27},
-                {name = "RESERVED_22_23", start = 22, stop = 23},
-                {name = "DS_CNT", start = 12, stop = 21},
-                {name = "RESERVED_10_11", start = 10, stop = 11},
-                {name = "IQ_CNT", start = 0, stop = 9},
-            }
-        },
-        POW_WQ_INT_PC = {
-            name = "POW_WQ_INT_PC",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000208,
-            fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "PC", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "PC_THR", start = 8, stop = 27},
-                {name = "RESERVED_0_7", start = 0, stop = 7},
-            }
-        },
-        POW_WQ_INT_THRX = {
-            name = "POW_WQ_INT_THR#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000080,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_63", start = 29, stop = 63},
-                {name = "TC_EN", start = 28, stop = 28},
-                {name = "TC_THR", start = 24, stop = 27},
-                {name = "RESERVED_21_23", start = 21, stop = 23},
-                {name = "DS_THR", start = 12, stop = 20},
-                {name = "RESERVED_9_11", start = 9, stop = 11},
-                {name = "IQ_THR", start = 0, stop = 8},
-            }
-        },
-        POW_WS_PCX = {
-            name = "POW_WS_PC#",
-            type = "NCB",
-            width = 8,
-            address = 0x1670000000280,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WS_PC", start = 0, stop = 31},
-            }
-        },
         RAD_MEM_DEBUG0 = {
             name = "RAD_MEM_DEBUG0",
             type = "RSL",
@@ -81535,6 +81235,306 @@ local csr_db = {
                 {name = "PCTL", start = 8, stop = 13},
                 {name = "RESERVED_6_7", start = 6, stop = 7},
                 {name = "NCTL", start = 0, stop = 5},
+            }
+        },
+        SSO_BIST_STAT = {
+            name = "SSO_BIST_STAT",
+            type = "NCB",
+            width = 8,
+            address = 0x16700000003f8,
+            fields = {
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "PP", start = 16, stop = 19},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "CAM", start = 11, stop = 11},
+                {name = "NBR", start = 8, stop = 10},
+                {name = "NBT", start = 4, stop = 7},
+                {name = "INDEX", start = 3, stop = 3},
+                {name = "FIDX", start = 2, stop = 2},
+                {name = "PEND", start = 1, stop = 1},
+                {name = "ADR", start = 0, stop = 0},
+            }
+        },
+        SSO_DS_PC = {
+            name = "SSO_DS_PC",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000398,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "DS_PC", start = 0, stop = 31},
+            }
+        },
+        SSO_ECC_ERR = {
+            name = "SSO_ECC_ERR",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000218,
+            fields = {
+                {name = "RESERVED_45_63", start = 45, stop = 63},
+                {name = "IOP_IE", start = 32, stop = 44},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IOP", start = 16, stop = 28},
+                {name = "RESERVED_14_15", start = 14, stop = 15},
+                {name = "RPE_IE", start = 13, stop = 13},
+                {name = "RPE", start = 12, stop = 12},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "SYN", start = 4, stop = 8},
+                {name = "DBE_IE", start = 3, stop = 3},
+                {name = "SBE_IE", start = 2, stop = 2},
+                {name = "DBE", start = 1, stop = 1},
+                {name = "SBE", start = 0, stop = 0},
+            }
+        },
+        SSO_INT_CTL = {
+            name = "SSO_INT_CTL",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000220,
+            fields = {
+                {name = "RESERVED_6_63", start = 6, stop = 63},
+                {name = "PFR_DIS", start = 5, stop = 5},
+                {name = "NBR_THR", start = 0, stop = 4},
+            }
+        },
+        SSO_IQ_CNTX = {
+            name = "SSO_IQ_CNT#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000340,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "IQ_CNT", start = 0, stop = 31},
+            }
+        },
+        SSO_IQ_COM_CNT = {
+            name = "SSO_IQ_COM_CNT",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000388,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "IQ_CNT", start = 0, stop = 31},
+            }
+        },
+        SSO_IQ_INT = {
+            name = "SSO_IQ_INT",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000238,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "IQ_INT", start = 0, stop = 7},
+            }
+        },
+        SSO_IQ_INT_EN = {
+            name = "SSO_IQ_INT_EN",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000240,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "INT_EN", start = 0, stop = 7},
+            }
+        },
+        SSO_IQ_THRX = {
+            name = "SSO_IQ_THR#",
+            type = "NCB",
+            width = 8,
+            address = 0x16700000003a0,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "IQ_THR", start = 0, stop = 31},
+            }
+        },
+        SSO_NOS_CNT = {
+            name = "SSO_NOS_CNT",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000228,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "NOS_CNT", start = 0, stop = 9},
+            }
+        },
+        SSO_NW_TIM = {
+            name = "SSO_NW_TIM",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000210,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "NW_TIM", start = 0, stop = 9},
+            }
+        },
+        SSO_PF_RST_MSK = {
+            name = "SSO_PF_RST_MSK",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000230,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RST_MSK", start = 0, stop = 7},
+            }
+        },
+        SSO_PP_GRP_MSKX = {
+            name = "SSO_PP_GRP_MSK#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000000,
+            range1 = {0,3},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "QOS7_PRI", start = 44, stop = 47},
+                {name = "QOS6_PRI", start = 40, stop = 43},
+                {name = "QOS5_PRI", start = 36, stop = 39},
+                {name = "QOS4_PRI", start = 32, stop = 35},
+                {name = "QOS3_PRI", start = 28, stop = 31},
+                {name = "QOS2_PRI", start = 24, stop = 27},
+                {name = "QOS1_PRI", start = 20, stop = 23},
+                {name = "QOS0_PRI", start = 16, stop = 19},
+                {name = "GRP_MSK", start = 0, stop = 15},
+            }
+        },
+        SSO_QOS_RNDX = {
+            name = "SSO_QOS_RND#",
+            type = "NCB",
+            width = 8,
+            address = 0x16700000001c0,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RND_P3", start = 24, stop = 31},
+                {name = "RND_P2", start = 16, stop = 23},
+                {name = "RND_P1", start = 8, stop = 15},
+                {name = "RND", start = 0, stop = 7},
+            }
+        },
+        SSO_QOS_THRX = {
+            name = "SSO_QOS_THR#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000180,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "DES_CNT", start = 48, stop = 57},
+                {name = "RESERVED_46_47", start = 46, stop = 47},
+                {name = "BUF_CNT", start = 36, stop = 45},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "FREE_CNT", start = 24, stop = 33},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "MAX_THR", start = 12, stop = 20},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "MIN_THR", start = 0, stop = 8},
+            }
+        },
+        SSO_TS_PC = {
+            name = "SSO_TS_PC",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000390,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "TS_PC", start = 0, stop = 31},
+            }
+        },
+        SSO_WA_COM_PC = {
+            name = "SSO_WA_COM_PC",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000380,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WA_PC", start = 0, stop = 31},
+            }
+        },
+        SSO_WA_PCX = {
+            name = "SSO_WA_PC#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000300,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WA_PC", start = 0, stop = 31},
+            }
+        },
+        SSO_WQ_INT = {
+            name = "SSO_WQ_INT",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000200,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "IQ_DIS", start = 16, stop = 31},
+                {name = "WQ_INT", start = 0, stop = 15},
+            }
+        },
+        SSO_WQ_INT_CNTX = {
+            name = "SSO_WQ_INT_CNT#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000100,
+            range1 = {0,15},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "TC_CNT", start = 24, stop = 27},
+                {name = "RESERVED_22_23", start = 22, stop = 23},
+                {name = "DS_CNT", start = 12, stop = 21},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
+                {name = "IQ_CNT", start = 0, stop = 9},
+            }
+        },
+        SSO_WQ_INT_PC = {
+            name = "SSO_WQ_INT_PC",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000208,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "PC", start = 32, stop = 59},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "PC_THR", start = 8, stop = 27},
+                {name = "RESERVED_0_7", start = 0, stop = 7},
+            }
+        },
+        SSO_WQ_INT_THRX = {
+            name = "SSO_WQ_INT_THR#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000080,
+            range1 = {0,15},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_29_63", start = 29, stop = 63},
+                {name = "TC_EN", start = 28, stop = 28},
+                {name = "TC_THR", start = 24, stop = 27},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "DS_THR", start = 12, stop = 20},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "IQ_THR", start = 0, stop = 8},
+            }
+        },
+        SSO_WS_PCX = {
+            name = "SSO_WS_PC#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000000280,
+            range1 = {0,15},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WS_PC", start = 0, stop = 31},
             }
         },
         TIM_MEM_DEBUG0 = {
