@@ -78,7 +78,7 @@ addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
 addMenuKey("coremask", "Good Coremask", octeon.CONFIG_COREMASK)
 
 -- Add an item for each MGMT port
-local if_mgmt = 6
+local if_mgmt = 5
 for port = 0,octeon.c.bdk_if_num_ports(if_mgmt, 0)-1 do
     addPhyMenu("RGMII/MII port " .. port, octeon.CONFIG_PHY_MGMT_PORT0 + port)
 end
@@ -100,7 +100,7 @@ for interface = 0,octeon.c.bdk_if_num_interfaces(if_xaui)-1 do
 end
 
 -- Add an item for each ILK port
-local if_ilk = 7
+local if_ilk = 6
 for interface = 0,octeon.c.bdk_if_num_interfaces(if_ilk)-1 do
     addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface, 0, 8)
     addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface, 1, 64)
