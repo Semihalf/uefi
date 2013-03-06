@@ -123,8 +123,7 @@ combined_list = csr_list_combiner.combine(separate_chip_lists)
 # Generate the html docs if needed
 if generate_html:
     print "Writing HTML"
-    csr_output_html.writeAll(combined_list, diff=(("cn68xxp1", "cn68xx"),
-                                                  ("cn68xx", "cn78xx"),
+    csr_output_html.writeAll(combined_list, diff=(("cn68xx", "cn78xx"),
                                                   ("cn61xx", "cn70xx")))
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS

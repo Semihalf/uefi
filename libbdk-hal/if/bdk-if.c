@@ -112,7 +112,7 @@ static int __bdk_if_setup_sso(void)
         c.s.rwen = 1);
 
     /* Workaround for errata (SSO-16306) Some customers report SSO can hang */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X) || OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
         BDK_CSR_MODIFY(c, BDK_SSO_GWE_CFG, c.cn68xx.gwe_rah = 1);
 
     return 0;

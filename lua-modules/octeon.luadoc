@@ -14,15 +14,7 @@
 
 ---
 -- OCTEON model constant
--- @field octeon.CN63XX
-
----
--- OCTEON model constant
--- @field octeon.CN63XXP1
-
----
--- OCTEON model constant
--- @field octeon.CN63XXP2
+-- @field octeon.CN61XX
 
 ---
 -- OCTEON model constant
@@ -30,7 +22,11 @@
 
 ---
 -- OCTEON model constant
--- @field octeon.CN68XXP1
+-- @field octeon.CN70XX
+
+---
+-- OCTEON model constant
+-- @field octeon.CN78XX
 
 ---
 -- BDK configuration constants

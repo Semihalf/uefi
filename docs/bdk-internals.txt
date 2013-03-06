@@ -404,11 +404,10 @@ octeon.is_model()::
 
 Check which OCTEON model you are using. Pass it one of the following:
 
-* octeon.CN63XX
-* octeon.CN63XXP1
-* octeon.CN63XXP2
+* octeon.CN61XX
 * octeon.CN68XX
-* octeon.CN68XXP1
+* octeon.CN70XX
+* octeon.CN78XX
 
 Calling BDK Functions
 ~~~~~~~~~~~~~~~~~~~~~

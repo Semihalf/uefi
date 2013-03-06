@@ -826,11 +826,10 @@ octeon.is_model(model)::
 
 Returns true if the current chip matches the supplied model.
 * model = One of the `octeon.CN*` constants.
-** octeon.CN63XX
-** octeon.CN63XXP1
-** octeon.CN63XXP2
+** octeon.CN61XX
 ** octeon.CN68XX
-** octeon.CN68XXP1
+** octeon.CN70XX
+** octeon.CN78XX
 
 octeon.BDK_CONFIG_*::
 

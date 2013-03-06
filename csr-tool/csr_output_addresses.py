@@ -2,7 +2,6 @@ from csr_output_header import writeCopyrightBanner
 from csr_output_header import getCname
 
 CHIP_TO_MODEL = {
-    "cn68xxp1": "OCTEON_CN68XX_PASS1_X",
     "cn68xx":   "OCTEON_CN68XX_PASS2_X",
     "cn61xx":   "OCTEON_CN61XX_PASS1_X",
     "cn78xx":   "OCTEON_CN78XX_PASS1_X",

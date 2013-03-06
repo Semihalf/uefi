@@ -185,16 +185,7 @@ static void qlm_chip_tweak(void)
 {
     int num_qlms = bdk_qlm_get_num();
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS1_X))
-    {
-        /* (G-16094) QLM Gen2 Equalizer Default Setting Change */
-        for (int qlm=0; qlm<num_qlms; qlm++)
-        {
-            bdk_qlm_jtag_set(qlm, -1, "rx_cap_gen2", 0x1);
-            bdk_qlm_jtag_set(qlm, -1, "rx_eq_gen2", 0x8);
-        }
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
     {
         __bdk_qlm_chip_tweak_5Ghz_G16467();
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive

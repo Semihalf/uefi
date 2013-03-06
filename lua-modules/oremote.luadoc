@@ -215,15 +215,7 @@
 
 ---
 -- OCTEON model constant
--- @field oremote.CN63XX
-
----
--- OCTEON model constant
--- @field oremote.CN63XXP1
-
----
--- OCTEON model constant
--- @field oremote.CN63XXP2
+-- @field oremote.CN61XX
 
 ---
 -- OCTEON model constant
@@ -231,8 +223,11 @@
 
 ---
 -- OCTEON model constant
--- @field oremote.CN68XXP1
+-- @field oremote.CN70XX
 
+---
+-- OCTEON model constant
+-- @field oremote.CN78XX
 
 ---
 -- Remote CSR Access
