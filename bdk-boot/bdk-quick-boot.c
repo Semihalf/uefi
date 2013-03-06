@@ -23,12 +23,7 @@ int main(void)
 
     printf("BDK version: %s\n", bdk_version_string());
     /* Figure out our DRAM parameters */
-    if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
-    {
-        board_name = "evb7100";
-        ddr_clock_hertz = 400000000;
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         board_name = "ebb7800";
         ddr_clock_hertz = 667000000;

@@ -148,9 +148,9 @@ void __bdk_config_init(void)
 
     /* Set the number of packet buffers in FPA pool 0 */
     int num_packet_buffers = 768;
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
     {
-        /* CN61XX and CNF71XX as low core count has poor performance.
+        /* CN61XX as low core count has poor performance.
             256 buffers without DRAM required that DRAM_CONFIG
             be left out of the minimal BDK */
         num_packet_buffers = 256;

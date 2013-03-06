@@ -14,7 +14,6 @@ local function is_ref_clock(measured, reference_mhz)
 end
 
 -- CN61XX: Set the speed of either QLM0 or QLM2. Doesn't support QLM1
--- CNF71XX: Set the speed of QLM0
 local function set_qlm_speed(qlm_num, speed)
     local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
     if is_ref_clock(ref_clock, 100) then
@@ -255,92 +254,6 @@ local function set_config_cn61xx()
     end
 end
 
--- Chip specific configuration prompting for CNF71XX
-local function set_config_cnf71xx()
-    --
-    -- Configure DLM0
-    --
-    -- Only support the three common speeds for running SGMII
-    local m = menu.new("DLM0 Speed")
-    m:item("1250",  "1.250 GBaud")
-    m:item("2500",  "2.500 GBaud")
-    m:item("3125",  "3.125 GBaud")
-    m:item("disabled",  "Disable DLM")
-    local speed = m:show()
-    if speed ~= "disabled" then
-        octeon.csr.MIO_QLMX_CFG(0).QLM_CFG = 2
-        set_qlm_speed(0, speed)
-    else
-        octeon.csr.MIO_QLMX_CFG(0).QLM_SPD = 15
-        octeon.csr.MIO_QLMX_CFG(0).QLM_CFG = 2
-    end
-
-    --
-    -- Configure DLM1
-    --
-    local m = menu.new("DLM1 Mode")
-    m:item("1x2",  "Single PCIe with two lanes")
-    m:item("2x1",  "Dual PCIe with one lane each")
-    m:item("disabled",  "Disable DLM")
-    local qlm1_mode = m:show()
-    local qlm_num = 1
-
-    if qlm1_mode == "1x2" then
-        -- Ask the user if they want gen1 or gen2 so we can figure out
-        -- the clock speed
-        local gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
-        local root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
-        if is_ref_clock(ref_clock, 100) then
-            octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = gen2 and 1 or 2
-        elseif is_ref_clock(ref_clock, 125) then
-            octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = gen2 and 4 or 6
-        else
-            error("QLM0 reference clock is not one of the expected values. Measured: " .. tostring(ref_clock) .. " Hz")
-        end
-        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
-        set_qlm_pcie(1, root_complex)
-    elseif qlm1_mode == "2x1" then
-        -- Ask the user if they want gen1 or gen2 so we can figure out
-        -- the clock speed
-        local pem0_gen2 = menu.prompt_yes_no("Configure PCIe port 0 for gen2")
-        local pem0_root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
-        local pem1_gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
-        local pem1_root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
-        if is_ref_clock(ref_clock, 100) then
-            if pem0_gen2 and pem1_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 0
-            elseif pem0_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 2
-            elseif pem1_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 1
-            else
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 3
-            end
-        elseif is_ref_clock(ref_clock, 125) then
-            if pem0_gen2 and pem1_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 4
-            elseif pem0_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 6
-            elseif pem1_gen2 then
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 9
-            else
-                octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 7
-            end
-        else
-            error("QLM0 reference clock is not one of the expected values. Measured: " .. tostring(ref_clock) .. " Hz")
-        end
-        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 1
-        set_qlm_pcie(0, pem0_root_complex)
-        set_qlm_pcie(1, pem1_root_complex)
-    else
-        -- Force mode of 1x2 when disabling just to have a default
-        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_CFG = 0
-        octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 15
-    end
-end
-
 --
 -- Build the main QLM/DLM menu
 --
@@ -349,9 +262,6 @@ repeat
     -- Add a configuration option for chips that support it
     if octeon.is_model(octeon.CN61XX) then
         m:item("set", "Change QLM/DLM configuration", set_config_cn61xx)
-    end
-    if octeon.is_model(octeon.CNF71XX) then
-        m:item("set", "Change DLM configuration", set_config_cnf71xx)
     end
     -- Build a list of QLMs showing the current config. Selecting them
     -- does nothing

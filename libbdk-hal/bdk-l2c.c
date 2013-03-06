@@ -176,8 +176,6 @@ int bdk_l2c_get_set_bits(void)
         l2_set_bits =  11; /* 2048 sets */
     else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         l2_set_bits =  9; /* 512 sets */
-    else if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
-        l2_set_bits =  9; /* 512 sets */
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         l2_set_bits =  13; /* 8192 sets */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))

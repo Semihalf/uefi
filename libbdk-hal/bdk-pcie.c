@@ -323,9 +323,6 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
             else
                 qlm = (pcie_port) ? 1 : 0;
         }
-        /* PCIe is on DLM 1 for CNF71XX */
-        if (OCTEON_IS_MODEL(OCTEON_CNF71XX))
-            qlm = 1;
         if (strstr(bdk_qlm_get_mode(qlm), "PCIE") == NULL)
         {
             bdk_dprintf("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
@@ -440,7 +437,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
         mem_access_subid.cn63xx.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN61XX) && !OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
     {
         /* Disable the peer to peer forwarding register. This must be setup
             by the OS after it enumerates the bus and assigns addresses to the

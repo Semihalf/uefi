@@ -170,8 +170,8 @@ static int __bdk_if_setup_ipd_global(void)
 
     int thresh_pass = 64;
     int thresh_drop = 32;
-    /* Skip RED on CN61XX&CNF71XX as we have too few buffers for it to work */
-    if ((OCTEON_IS_MODEL(OCTEON_CN61XX)||OCTEON_IS_MODEL(OCTEON_CNF71XX)) && !__bdk_is_dram_enabled())
+    /* Skip RED on CN61XX as we have too few buffers for it to work */
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) && !__bdk_is_dram_enabled())
     {
         thresh_pass = 1;
         thresh_drop = 0;

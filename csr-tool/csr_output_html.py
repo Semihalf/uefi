@@ -453,7 +453,6 @@ def writeAll(combined_list, diff=None):
     groups["Octeon Plus"] = []
     groups["Octeon II"] = []
     groups["Octeon III"] = []
-    groups["Octeon Fusion"] = []
     for chip in chip_link_list:
         if chip.startswith("cn3"):
             groups["Octeon"].append(chip)
@@ -463,11 +462,9 @@ def writeAll(combined_list, diff=None):
             groups["Octeon II"].append(chip)
         elif chip.startswith("cn7"):
             groups["Octeon III"].append(chip)
-        elif chip.startswith("cnf7"):
-            groups["Octeon Fusion"].append(chip)
         else:
             assert(0)
-    archs = ["Octeon", "Octeon Plus", "Octeon II", "Octeon III", "Octeon Fusion"]
+    archs = ["Octeon", "Octeon Plus", "Octeon II", "Octeon III"]
     out.write(BEGIN_TABLE)
     out.write("<tr>")
     for arch in archs:

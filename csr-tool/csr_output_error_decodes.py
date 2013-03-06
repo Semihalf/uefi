@@ -23,7 +23,7 @@ def add_reg(group, status, enable, parent):
     ERROR_REGISTERS.append({"group": group, "status": status, "enable": enable, "parent": parent})
 
 #
-# Roots for CN61XX, CN63XX, CN66XX, and CNF71XX
+# Roots for CN61XX, CN63XX, CN66XX
 # There are two as some interrupts go to ciu_int0_sum0
 # and some go to ciu_int_sum1
 #

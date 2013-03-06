@@ -166,7 +166,7 @@ static void check_fpa(void)
 
 static void check_gmx(int gmx)
 {
-    int max_index = (OCTEON_IS_MODEL(OCTEON_CNF71XX)) ? 2 : 4;
+    int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
         BDK_CSR_INIT(c, BDK_GMXX_RXX_INT_REG(index, gmx));
@@ -401,7 +401,7 @@ static void check_pcm(void)
 
 static void check_pcs(int pcs)
 {
-    int max_index = (OCTEON_IS_MODEL(OCTEON_CNF71XX)) ? 2 : 4;
+    int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
         BDK_CSR_INIT(c, BDK_PCSX_INTX_REG(index, pcs));
@@ -1108,7 +1108,7 @@ static void enable_cn6xxx(void)
         c.s.rml = -1;
     );
     /* MIX is enabled in the bdk_if code */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CNF71XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         enable_pcm();
 
     /* Interrupts off of RML */
@@ -1135,8 +1135,7 @@ static void enable_cn6xxx(void)
     }
     enable_sso_cn6xxx();
     enable_tim_cn6xxx();
-    if (!OCTEON_IS_MODEL(OCTEON_CNF71XX))
-        enable_zip();
+    enable_zip();
 
     /* Interrupts connected to CIU SUM1 */
     BDK_CSR_MODIFY(c, BDK_CIU_INTX_EN1(0),
@@ -1144,7 +1143,7 @@ static void enable_cn6xxx(void)
         c.s.nand = -1;
         c.s.usb = -1;
     );
-    if (!OCTEON_IS_MODEL(OCTEON_CNF71XX) && !OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
         enable_nand();
     enable_usb(0);
 }

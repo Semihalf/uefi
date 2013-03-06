@@ -129,7 +129,6 @@ if generate_html:
                                                   ("cn63xx", "cn66xx"),
                                                   ("cn63xx", "cn61xx"),
                                                   ("cn66xx", "cn61xx"),
-                                                  ("cn61xx", "cnf71xx"),
                                                   ("cn68xx", "cn78xx"),
                                                   ("cn61xx", "cn70xx")))
 
