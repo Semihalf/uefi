@@ -110,9 +110,6 @@ int bdk_lua_start(void)
         NULL,
     };
 
-    if (BDK_IS_REQUIRED(LWIP) && bdk_netstack_initialize(0))
-        bdk_error("bdk_netstack_if_initialize() failed\n");
-
     extern int bdk_fs_remote_init(void);
     bdk_fs_remote_init();
     extern int bdk_fs_rom_init(void);
@@ -130,11 +127,6 @@ int bdk_lua_start(void)
     {
         extern int bdk_fs_ram_init(void) BDK_WEAK;
         bdk_fs_ram_init();
-    }
-    if (BDK_IS_REQUIRED(FS_TCP))
-    {
-        extern int bdk_fs_tcp_init(void) BDK_WEAK;
-        bdk_fs_tcp_init();
     }
     if (BDK_IS_REQUIRED(FS_XMODEM))
     {

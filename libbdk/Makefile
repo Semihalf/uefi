@@ -11,12 +11,6 @@ dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua
 dirs += libbdk-lua
-dirs += liblwip/src/core
-dirs += liblwip/src/core/ipv4
-dirs += liblwip/src/core
-dirs += liblwip/src/netif
-dirs += liblwip/src/api
-dirs += liblwip/src/arch
 
 #
 # Create a list of all source files
