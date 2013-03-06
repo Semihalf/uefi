@@ -24,8 +24,6 @@ if octeon.is_model(octeon.CN63XX) then
     menu.dofile("board-ebb6300")
 elseif octeon.is_model(octeon.CN68XX) then
     menu.dofile("board-ebb6800")
-elseif octeon.is_model(octeon.CN66XX) then
-    menu.dofile("board-ebb6600")
 elseif octeon.is_model(octeon.CN61XX) then
     menu.dofile("board-ebb6100")
 end
@@ -49,7 +47,7 @@ m:item("flash", "Flash options",            menu.dofile, "flash")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
 m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
-if octeon.c.bdk_srio_initialize and (octeon.is_model(octeon.CN63XX) or octeon.is_model(octeon.CN66XX)) then
+if octeon.c.bdk_srio_initialize and octeon.is_model(octeon.CN63XX) then
     m:item("srio",  "SRIO options",         menu.dofile, "srio_menu")
 end
 m:item("twsi",  "TWSI options",             menu.dofile, "twsi_menu")

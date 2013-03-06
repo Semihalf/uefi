@@ -159,8 +159,6 @@ end
 local srio_ports = 0
 if octeon.is_model(octeon.CN63XX) then
     srio_ports = 2
-elseif octeon.is_model(octeon.CN66XX) then
-    srio_ports = 4
 end
 for port = 0, srio_ports-1 do
     m:item("port" .. port, "SRIO port " .. port, srio_submenu, port)

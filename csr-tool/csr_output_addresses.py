@@ -6,7 +6,6 @@ CHIP_TO_MODEL = {
     "cn63xx":   "OCTEON_CN63XX_PASS2_X",
     "cn68xxp1": "OCTEON_CN68XX_PASS1_X",
     "cn68xx":   "OCTEON_CN68XX_PASS2_X",
-    "cn66xx":   "OCTEON_CN66XX_PASS1_X",
     "cn61xx":   "OCTEON_CN61XX_PASS1_X",
     "cn78xx":   "OCTEON_CN78XX_PASS1_X",
     "cn70xx":   "OCTEON_CN70XX_PASS1_X",

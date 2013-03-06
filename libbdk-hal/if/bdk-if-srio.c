@@ -8,43 +8,12 @@ static int if_num_interfaces(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-        return 4;
     else
         return 0;
 }
 
 static int if_num_ports(int interface)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-    {
-        switch (interface)
-        {
-            case 0:
-                if (strstr(bdk_qlm_get_mode(0), "SRIO"))
-                    return 2;
-                break;
-            case 1:
-                /* Controller 1 is stolen by PCIe if QLM1
-                    is in PCIe mode with a valid clock rate */
-                if (strstr(bdk_qlm_get_mode(1), "PCIE") && bdk_qlm_get_gbaud_mhz(1))
-                    return 0;
-                if (strstr(bdk_qlm_get_mode(0), "SRIO 4x1"))
-                    return 2;
-                break;
-            case 2:
-                if (strstr(bdk_qlm_get_mode(0), "SRIO 2x2") ||
-                    strstr(bdk_qlm_get_mode(0), "SRIO 4x1"))
-                    return 2;
-                break;
-            case 3:
-                if (strstr(bdk_qlm_get_mode(0), "SRIO 4x1"))
-                    return 2;
-                break;
-        }
-        return 0;
-    }
-
     BDK_CSR_INIT(sriox_status_reg, BDK_SRIOX_STATUS_REG(interface));
     if (sriox_status_reg.s.srio)
         return 2;

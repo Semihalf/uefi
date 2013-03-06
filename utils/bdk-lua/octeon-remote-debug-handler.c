@@ -80,8 +80,6 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
             /* The debug stub requires 8192 + 8192*num_cores */
             if (OCTEON_IS_MODEL(OCTEON_CN63XX))
                 debug_handler_base = 0x200000 - 8192 * (6 + 1);
-            else if (OCTEON_IS_MODEL(OCTEON_CN66XX))
-                debug_handler_base = 0x200000 - 8192 * (10 + 1);
             else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
                 debug_handler_base = 0x400000 - 8192 * (32 + 1);
             else if (OCTEON_IS_MODEL(OCTEON_CN61XX))

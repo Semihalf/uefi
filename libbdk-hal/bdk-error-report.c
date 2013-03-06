@@ -362,8 +362,6 @@ static void check_mio(void)
         CHECK_ERROR(BDK_MIO_RST_INT, perst1);
         CHECK_ERROR(BDK_MIO_RST_INT, rst_link0);
         CHECK_ERROR(BDK_MIO_RST_INT, rst_link1);
-        CHECK_ERROR(BDK_MIO_RST_INT, rst_link2);
-        CHECK_ERROR(BDK_MIO_RST_INT, rst_link3);
     }
 }
 
@@ -897,8 +895,6 @@ static void enable_mio(void)
         c.s.perst1 = -1;
         c.s.rst_link0 = -1;
         c.s.rst_link1 = -1;
-        c.s.rst_link2 = -1;
-        c.s.rst_link3 = -1;
     );
 }
 
@@ -1113,7 +1109,7 @@ static void enable_cn6xxx(void)
 
     /* Interrupts off of RML */
     /* AGL, GMX, PCS and PCSX are enabled in the bdk_if code */
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
         enable_dfa();
     enable_dpi();
     enable_fpa();
@@ -1128,7 +1124,7 @@ static void enable_cn6xxx(void)
     enable_pip();
     enable_pko();
     enable_rad();
-    if (OCTEON_IS_MODEL(OCTEON_CN63XX) || OCTEON_IS_MODEL(OCTEON_CN66XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN63XX))
     {
         enable_srio(0);
         enable_srio(1);

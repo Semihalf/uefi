@@ -16,7 +16,6 @@ mkdir -p cisco
 	--csr cn63xx,octcsr_cn63xxp2.txt \
 	--csr cn68xxp1,octcsr_cn68xxp1.txt \
 	--csr cn68xx,octcsr_cn68xxp2.txt \
-	--csr cn66xx,octcsr_cn66xxp1.txt \
 	--csr cn61xx,octcsr_cn61xxp1.txt \
 	--csr cn78xx,octcsr_cn78xxp1 \
 	--csr cn70xx,octcsr_cn70xxp1

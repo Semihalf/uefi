@@ -92,7 +92,7 @@ const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn63xx[] =
     {NULL, -1, -1}
 };
 
-const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn66xx[] =
+const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[] =
 {
     {"prbs_err_cnt",        303, 256},  // prbs_err_cnt[47..0]
     {"prbs_lock",           255, 255},  // prbs_lock

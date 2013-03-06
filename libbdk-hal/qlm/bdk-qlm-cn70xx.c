@@ -148,9 +148,9 @@ static int qlm_measure_refclock(int qlm)
  */
 static void qlm_init(void)
 {
-    /* Same as CN66XX */
-    extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn66xx[];
-    __bdk_qlm_jtag_init(__bdk_qlm_jtag_field_cn66xx);
+    /* Same as CN61XX */
+    extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[];
+    __bdk_qlm_jtag_init(__bdk_qlm_jtag_field_cn61xx);
 }
 
 

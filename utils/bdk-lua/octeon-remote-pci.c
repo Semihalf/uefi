@@ -64,7 +64,6 @@
 static const char *PCI_DEVICE_FILENAME = "/proc/bus/pci/devices";
 static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0090, /* CN63XX */
                                             0x177d0091, /* CN68XX */
-                                            0x177d0092, /* CN66XX */
                                             0x177d0093, /* CN61XX */
                                             0x177d0095, /* CN78XX */
                                             0x177d0096, /* CN70XX */
@@ -232,9 +231,6 @@ static int pci_get_device(int device)
             break;
         case 0x91: /* CN68XX */
             octeon_pci_model = OCTEON_CN68XX_PASS1_0;
-            break;
-        case 0x92: /* CN66XX */
-            octeon_pci_model = OCTEON_CN66XX_PASS1_0;
             break;
         case 0x93: /* CN61XX */
             octeon_pci_model = OCTEON_CN61XX_PASS1_0;

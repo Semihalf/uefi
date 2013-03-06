@@ -39,7 +39,6 @@ BDK Features
 .Supported chips
 
 * CN63XX
-* CN66XX
 * CN68XX
 * CN61XX (when released)
 
@@ -253,7 +252,6 @@ BDK Release Rollout
 
 * Download now from support site
 ** Products -> Processors -> CN63XX -> BDK
-** Products -> Processors -> CN66XX -> BDK
 ** Products -> Processors -> CN68XX -> BDK
 * Engage with all CN6XXX pre-alpha customers (even those with the SDK already)
 ** Not to be just thrown over the wall
