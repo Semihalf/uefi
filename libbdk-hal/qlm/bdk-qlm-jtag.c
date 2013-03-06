@@ -102,6 +102,8 @@ uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
 {
     if (BDK_DISABLE_QLM_JTAG)
         return 0;
+    if (bdk_is_simulation())
+        return 0;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
@@ -154,6 +156,8 @@ void __bdk_qlm_jtag_shift_zeros(int qlm, int bits)
 {
     if (BDK_DISABLE_QLM_JTAG)
         return;
+    if (bdk_is_simulation())
+        return;
     while (bits > 0)
     {
         int n = bits;
@@ -175,6 +179,8 @@ void __bdk_qlm_jtag_shift_zeros(int qlm, int bits)
 void __bdk_qlm_jtag_update(int qlm)
 {
     if (BDK_DISABLE_QLM_JTAG)
+        return;
+    if (bdk_is_simulation())
         return;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
@@ -206,6 +212,8 @@ void __bdk_qlm_jtag_capture(int qlm)
 {
     if (BDK_DISABLE_QLM_JTAG)
         return;
+    if (bdk_is_simulation())
+        return;
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
@@ -236,6 +244,8 @@ void __bdk_qlm_jtag_capture(int qlm)
 static const __bdk_qlm_jtag_field_t *__bdk_qlm_lookup_field(const char *name)
 {
     const __bdk_qlm_jtag_field_t *ptr = __bdk_qlm_jtag_field_current;
+    if (!ptr)
+        return NULL;
     while (ptr->name)
     {
         if (strcmp(name, ptr->name) == 0)
@@ -261,6 +271,8 @@ uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name)
     const __bdk_qlm_jtag_field_t *field = __bdk_qlm_lookup_field(name);
     if (!field)
         return -1; /* This is obviously invalid for any field as it is wider than the field */
+    if (bdk_is_simulation())
+        return -1;
     int num_lanes = bdk_qlm_get_lanes(qlm);
 
     /* Capture the current settings */
@@ -286,6 +298,8 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
 {
     const __bdk_qlm_jtag_field_t *field = __bdk_qlm_lookup_field(name);
     if (!field)
+        return;
+    if (bdk_is_simulation())
         return;
     int num_lanes = bdk_qlm_get_lanes(qlm);
 
@@ -342,6 +356,8 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
  */
 void bdk_qlm_dump_jtag(int qlm)
 {
+    if (bdk_is_simulation())
+        return;
     int num_lanes = bdk_qlm_get_lanes(qlm);
     printf("%29s", "Field[<stop bit>:<start bit>]");
     for (int lane=0; lane<num_lanes; lane++)
