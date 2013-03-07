@@ -13,15 +13,8 @@ BDK_REQUIRE_DEFINE(KEY_MEMORY);
  */
 uint64_t bdk_key_read(uint64_t address)
 {
-    bdk_addr_t ptr;
-
-    ptr.u64 = 0;
-    ptr.sio.mem_region  = BDK_IO_SEG;
-    ptr.sio.is_io       = 1;
-    ptr.sio.did         = BDK_OCT_DID_KEY_RW;
-    ptr.sio.offset      = address;
-
-    return bdk_read64_uint64(ptr.u64);
+    address |= 0x800120ull << 40;
+    return bdk_read64_uint64(address);
 }
 
 
@@ -34,14 +27,7 @@ uint64_t bdk_key_read(uint64_t address)
  */
 void bdk_key_write(uint64_t address, uint64_t value)
 {
-    bdk_addr_t ptr;
-
-    ptr.u64 = 0;
-    ptr.sio.mem_region  = BDK_IO_SEG;
-    ptr.sio.is_io       = 1;
-    ptr.sio.did         = BDK_OCT_DID_KEY_RW;
-    ptr.sio.offset      = address;
-
-    bdk_write64_uint64(ptr.u64, value);
+    address |= 0x800120ull << 40;
+    bdk_write64_uint64(address, value);
 }
 

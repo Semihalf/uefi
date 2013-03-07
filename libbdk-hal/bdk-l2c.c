@@ -104,10 +104,11 @@ int bdk_l2c_lock_mem_region(uint64_t start, uint64_t len)
     len += start & BDK_CACHE_LINE_MASK;
     start &= ~BDK_CACHE_LINE_MASK;
     len = (len + BDK_CACHE_LINE_MASK) & ~BDK_CACHE_LINE_MASK;
+    start |= 1ull << 63; /* Convert to XKPHYS */
 
     while (len)
     {
-        BDK_CACHE_LCKL2(BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, start), 0);
+        BDK_CACHE_LCKL2(start, 0);
         start += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
@@ -126,7 +127,7 @@ void bdk_l2c_flush(void)
     {
         for(int assoc=0; assoc < n_assoc; assoc++)
         {
-            uint64_t address = BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, (assoc << assoc_shift) | (set << set_shift));
+            uint64_t address = (1ull<<63) | (assoc << assoc_shift) | (set << set_shift);
             BDK_CACHE_WBIL2I(address, 0);
         }
     }
@@ -139,10 +140,11 @@ int bdk_l2c_unlock_mem_region(uint64_t start, uint64_t len)
     len += start & BDK_CACHE_LINE_MASK;
     start &= ~BDK_CACHE_LINE_MASK;
     len = (len + BDK_CACHE_LINE_MASK) & ~BDK_CACHE_LINE_MASK;
+    start |= 1ull << 63; /* Convert to XKPHYS */
 
     while (len > 0)
     {
-        BDK_CACHE_WBIL2(BDK_ADD_SEG(BDK_MIPS_SPACE_XKPHYS, start), 0);
+        BDK_CACHE_WBIL2(start, 0);
         start += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }

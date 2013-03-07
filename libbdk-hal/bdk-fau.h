@@ -106,7 +106,7 @@ typedef union {
  */
 static inline uint64_t __bdk_fau_store_address(uint64_t noadd, uint64_t reg)
 {
-    return (BDK_ADD_IO_SEG(BDK_FAU_LOAD_IO_ADDRESS) |
+    return ((0x8001f0ull << 40) |
             bdk_build_bits(BDK_FAU_BITS_NOADD, noadd) |
             bdk_build_bits(BDK_FAU_BITS_REGISTER, reg));
 }
@@ -130,7 +130,7 @@ static inline uint64_t __bdk_fau_store_address(uint64_t noadd, uint64_t reg)
  */
 static inline uint64_t __bdk_fau_atomic_address(uint64_t tagwait, uint64_t reg, int64_t value)
 {
-    return (BDK_ADD_IO_SEG(BDK_FAU_LOAD_IO_ADDRESS) |
+    return ((0x8001f0ull << 40) |
             bdk_build_bits(BDK_FAU_BITS_INEVAL, value) |
             bdk_build_bits(BDK_FAU_BITS_TAGWAIT, tagwait) |
             bdk_build_bits(BDK_FAU_BITS_REGISTER, reg));
@@ -304,7 +304,7 @@ static inline bdk_fau_tagwait8_t bdk_fau_tagwait_fetch_and_add8(bdk_fau_reg_8_t 
 static inline uint64_t __bdk_fau_iobdma_data(uint64_t scraddr, int64_t value, uint64_t tagwait,
                                           bdk_fau_op_size_t size, uint64_t reg)
 {
-    return (BDK_FAU_LOAD_IO_ADDRESS |
+    return ((0x1f0ull << 40) |
                       bdk_build_bits(BDK_FAU_BITS_SCRADDR, scraddr>>3) |
                       bdk_build_bits(BDK_FAU_BITS_LEN, 1) |
                       bdk_build_bits(BDK_FAU_BITS_INEVAL, value) |

@@ -4,7 +4,7 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(RNG);
 
-#define BDK_RNG_LOAD_ADDRESS BDK_ADD_IO_SEG(bdk_build_io_address(BDK_OCT_DID_RNG, 0))
+#define BDK_RNG_LOAD_ADDRESS (0x800140ull << 40)
 
 /**
  * Structure describing the data format used for IOBDMA stores to the RNG.
@@ -15,8 +15,7 @@ typedef union
     struct {
         uint64_t    scraddr : 8;    /**< the (64-bit word) location in scratchpad to write to (if len != 0) */
         uint64_t    len     : 8;    /**< the number of words in the response (0 => no response) */
-        uint64_t    did     : 5;    /**< the ID of the device on the non-coherent bus */
-        uint64_t    subdid  : 3;    /**< the sub ID of the device on the non-coherent bus */
+        uint64_t    did     : 8;    /**< the ID of the device on the non-coherent bus */
         uint64_t    addr    :40;    /**< the address that will appear in the first tick on the NCB bus */
     } s;
 } bdk_rng_iobdma_data_t;
@@ -102,7 +101,7 @@ int bdk_rng_request_random_async(uint64_t scr_addr, uint64_t num_bytes)
     /* scr_addr must be 8 byte aligned */
     data.s.scraddr = scr_addr >> 3;
     data.s.len = num_bytes >> 3;
-    data.s.did = BDK_OCT_DID_RNG;
+    data.s.did = 0x40;
     bdk_send_single(data.u64);
     return(0);
 }

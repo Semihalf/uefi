@@ -96,7 +96,7 @@ static inline void bdk_pko_doorbell(int port, int queue, int len)
         uint64_t                u64;
         struct
         {
-            bdk_mips_space_t    mem_space       : 2;    /**< Must BDK_IO_SEG */
+            uint64_t            mem_space       : 2;    /**< Must BDK_IO_SEG */
             uint64_t            reserved_49_61  : 13;
             uint64_t            is_io           : 1;    /**< Must be one */
             uint64_t            did             : 8;    /**< The ID of the device on the non-coherent bus */
@@ -110,8 +110,8 @@ static inline void bdk_pko_doorbell(int port, int queue, int len)
     bdk_pko_doorbell_address_t ptr;
 
     ptr.u64          = 0;
-    ptr.s.mem_space  = BDK_IO_SEG;
-    ptr.s.did        = BDK_OCT_DID_PKT_SEND;
+    ptr.s.mem_space  = 2;
+    ptr.s.did        = 0x52;
     ptr.s.is_io      = 1;
     ptr.s.port       = port;
     ptr.s.queue      = queue;

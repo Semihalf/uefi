@@ -98,17 +98,16 @@ static int fpa_get_block_size(int aura)
 
 static uint64_t fpa_alloc(int aura)
 {
-    return bdk_read64_uint64(BDK_ADDR_DID(BDK_FULL_DID(BDK_OCT_DID_FPA, aura)));
+    uint64_t address = (0x800128ull + aura) << 40;
+    return bdk_read64_uint64(address);
 }
 
 static void fpa_free(uint64_t address, int aura, int num_cache_lines)
 {
-    bdk_addr_t newptr;
-    newptr.u64 = address;
-    newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,aura));
+    address |= (0x800128ull + aura) << 40;
     asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
     /* value written is number of cache lines not written back */
-    bdk_write64_uint64(newptr.u64, num_cache_lines);
+    bdk_write64_uint64(address, num_cache_lines);
 }
 
 bdk_fpa_ops_t __bdk_fpa_ops_cn6xxx = {
