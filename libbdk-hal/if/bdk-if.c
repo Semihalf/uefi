@@ -423,13 +423,16 @@ static int __bdk_if_init(void)
     if (__bdk_if_setup_sso())
         return -1;
 
-    /* Disable tagwait FAU timeout. This needs to be done before anyone might
-        start packet output using tags */
-    bdk_iob0_fau_timeout_t fau_to;
-    fau_to.u64 = 0;
-    fau_to.s.tout_val = 0xfff;
-    fau_to.s.tout_enb = 0;
-    BDK_CSR_WRITE(BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* Disable tagwait FAU timeout. This needs to be done before anyone might
+            start packet output using tags */
+        bdk_iob0_fau_timeout_t fau_to;
+        fau_to.u64 = 0;
+        fau_to.s.tout_val = 0xfff;
+        fau_to.s.tout_enb = 0;
+        BDK_CSR_WRITE(BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
+    }
 
     /* Tell L2 to give the IOB statically higher priority compared to the
         cores. This avoids conditions where IO blocks might be starved under
@@ -444,7 +447,7 @@ static int __bdk_if_init(void)
         return -1;
 
     /* Make sure SMI/MDIO is enabled so we can query PHYs */
-    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 2;
+    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
     for (int i=0; i<num_mdio; i++)
     {
         BDK_CSR_INIT(smix_en, BDK_SMIX_EN(i));
@@ -477,9 +480,12 @@ static int __bdk_if_init(void)
 
     bdk_pko_enable();
 
-    /* Enable IPD */
-    BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
-        c.s.ipd_en = 1);
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* Enable IPD */
+        BDK_CSR_MODIFY(c, BDK_IPD_CTL_STATUS,
+            c.s.ipd_en = 1);
+    }
 
     /* Create dispatch threads */
     for (int core=0; core<bdk_octeon_num_cores(); core++)
