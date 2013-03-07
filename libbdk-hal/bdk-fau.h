@@ -18,7 +18,6 @@ typedef int bdk_fau_reg_8_t;
  * Octeon Fetch and Add Unit (FAU)
  */
 
-#define BDK_FAU_LOAD_IO_ADDRESS    bdk_build_io_address(0x1e, 0)
 #define BDK_FAU_BITS_SCRADDR       63,56
 #define BDK_FAU_BITS_LEN           55,48
 #define BDK_FAU_BITS_INEVAL        35,14

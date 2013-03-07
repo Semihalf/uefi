@@ -38,19 +38,6 @@ static inline uint64_t bdk_build_mask(uint64_t bits)
 
 
 /**
- * Builds a memory address for I/O based on the Major and Sub DID.
- *
- * @param major_did 5 bit major did
- * @param sub_did   3 bit sub did
- * @return I/O base address
- */
-static inline uint64_t bdk_build_io_address(uint64_t major_did, uint64_t sub_did)
-{
-    return ((0x1ull << 48) | (major_did << 43) | (sub_did << 40));
-}
-
-
-/**
  * Perform mask and shift to place the supplied value into
  * the supplied bit rage.
  *
