@@ -106,16 +106,4 @@ typedef union
     } s;
 } bdk_core_perf_control_t;
 
-typedef enum {
-    BDK_TLB_PAGEMASK_4K   = 0x3     << 11,
-    BDK_TLB_PAGEMASK_16K  = 0xF     << 11,
-    BDK_TLB_PAGEMASK_64K  = 0x3F    << 11,
-    BDK_TLB_PAGEMASK_256K = 0xFF    << 11,
-    BDK_TLB_PAGEMASK_1M   = 0x3FF   << 11,
-    BDK_TLB_PAGEMASK_4M   = 0xFFF   << 11,
-    BDK_TLB_PAGEMASK_16M  = 0x3FFF  << 11,
-    BDK_TLB_PAGEMASK_64M  = 0xFFFF  << 11,
-    BDK_TLB_PAGEMASK_256M = 0x3FFFF << 11,
-} bdk_tlb_pagemask_t;
-
 /** @} */
