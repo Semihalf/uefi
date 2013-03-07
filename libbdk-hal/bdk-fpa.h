@@ -9,98 +9,35 @@
  * @{
  */
 
+typedef struct
+{
+    int (*init)(void);
+    int (*init_pool)(int pool, int num_blocks, int block_size);
+    int (*init_aura)(int aura, int pool, int num_blocks);
+    int (*get_block_size)(int aura);
+    uint64_t (*alloc)(int aura);
+    void (*free)(uint64_t address, int aura, int num_cache_lines);
+} bdk_fpa_ops_t;
+
 typedef enum
 {
     BDK_FPA_PACKET_POOL,
     BDK_FPA_OUTPUT_BUFFER_POOL,
 } bdk_fpa_pool_t;
 
-#define BDK_FPA_ENABLE_ADDRESS_CHECKS 0
-
-/**
- * Verify that an address should be in a pool
- *
- * @param where   Message describing where the check is
- * @param pool    Pool to check against
- * @param address Address to check
- */
-extern void bdk_fpa_check_address(const char *where, bdk_fpa_pool_t pool, uint64_t address);
-
 /**
  * Get a new block from the FPA
  *
- * @param pool   Pool to get the block from
- * @return Pointer to the block or NULL on failure
- */
-static inline void *bdk_fpa_alloc(bdk_fpa_pool_t pool)
-{
-    uint64_t address = bdk_read64_uint64(BDK_ADDR_DID(BDK_FULL_DID(BDK_OCT_DID_FPA, pool)));
-    if (bdk_likely(address))
-    {
-        if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
-            bdk_fpa_check_address(__FUNCTION__, pool, address);
-        return bdk_phys_to_ptr(address);
-    }
-    else
-        return NULL;
-}
-
-/**
- * Asynchronously get a new block from the FPA
- *
- * The result of bdk_fpa_async_alloc() may be retrieved using
- * bdk_fpa_async_alloc_finish().
- *
- * @param scr_addr Local scratch address to put response in.  This is a byte address,
- *                  but must be 8 byte aligned.
- * @param pool      Pool to get the block from
- */
-static inline void bdk_fpa_async_alloc(int scr_addr, bdk_fpa_pool_t pool)
-{
-    union {
-        uint64_t        u64;
-        struct {
-            uint64_t scraddr : 8;
-            uint64_t len     : 8;
-            uint64_t did     : 8;
-            uint64_t addr    :40;
-        } s;
-    } data;
-
-   /* Hardware only uses 64 bit aligned locations, so convert from byte address
-   ** to 64-bit index
-   */
-   data.s.scraddr = scr_addr >> 3;
-   data.s.len = 1;
-   data.s.did = BDK_FULL_DID(BDK_OCT_DID_FPA,pool);
-   data.s.addr = 0;
-   bdk_send_single(data.u64);
-}
-
-/**
- * Retrieve the result of bdk_fpa_async_alloc
- *
- * @param scr_addr The Local scratch address.  Must be the same value
- * passed to bdk_fpa_async_alloc().
- *
- * @param pool Pool the block came from.  Must be the same value
- * passed to bdk_fpa_async_alloc.
+ * @param aura   Aura to get the block from
  *
  * @return Pointer to the block or NULL on failure
  */
-static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool)
+static inline void *bdk_fpa_alloc(int aura)
 {
-    uint64_t address;
-
-    BDK_SYNCIOBDMA;
-
-    address = bdk_scratch_read64(scr_addr);
+    extern bdk_fpa_ops_t __bdk_fpa_ops;
+    uint64_t address = __bdk_fpa_ops.alloc(aura);
     if (bdk_likely(address))
-    {
-        if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
-            bdk_fpa_check_address(__FUNCTION__, pool, address);
         return bdk_phys_to_ptr(address);
-    }
     else
         return NULL;
 }
@@ -114,16 +51,10 @@ static inline void *bdk_fpa_async_alloc_finish(int scr_addr, bdk_fpa_pool_t pool
  * @param num_cache_lines
  *               Cache lines to invalidate
  */
-static inline void __bdk_fpa_raw_free(uint64_t address, bdk_fpa_pool_t pool, int num_cache_lines)
+static inline void __bdk_fpa_raw_free(uint64_t address, int aura, int num_cache_lines)
 {
-    if (BDK_FPA_ENABLE_ADDRESS_CHECKS)
-        bdk_fpa_check_address(__FUNCTION__, pool, address);
-    bdk_addr_t newptr;
-    newptr.u64 = address;
-    newptr.sfilldidspace.didspace = BDK_ADDR_DIDSPACE(BDK_FULL_DID(BDK_OCT_DID_FPA,pool));
-    asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
-    /* value written is number of cache lines not written back */
-    bdk_write64_uint64(newptr.u64, num_cache_lines);
+    extern bdk_fpa_ops_t __bdk_fpa_ops;
+    __bdk_fpa_ops.free(address, aura, num_cache_lines);
 }
 
 /**
@@ -142,6 +73,20 @@ static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_li
 }
 
 /**
+ * Get the size of blocks controlled by the pool
+ * This is resolved to a constant at compile time.
+ *
+ * @param aura   Aura to access
+ *
+ * @return Size of the block in bytes
+ */
+static inline int bdk_fpa_get_block_size(int aura)
+{
+    extern bdk_fpa_ops_t __bdk_fpa_ops;
+    return __bdk_fpa_ops.get_block_size(aura);
+}
+
+/**
  * Fill a pool with buffers
  *
  * @param pool       Pool to initialize
@@ -151,15 +96,6 @@ static inline void bdk_fpa_free(void *ptr, bdk_fpa_pool_t pool, int num_cache_li
  * @return 0 on Success,
  *         -1 on failure
  */
-extern int bdk_fpa_fill_pool(bdk_fpa_pool_t pool, int num_blocks);
-
-/**
- * Get the size of blocks controlled by the pool
- * This is resolved to a constant at compile time.
- *
- * @param pool   Pool to access
- * @return Size of the block in bytes
- */
-int bdk_fpa_get_block_size(bdk_fpa_pool_t pool) __attribute__ ((pure));
+extern int bdk_fpa_fill_pool(int pool, int num_blocks);
 
 /** @} */
