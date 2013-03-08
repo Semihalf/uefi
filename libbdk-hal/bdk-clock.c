@@ -19,7 +19,7 @@ uint64_t bdk_clock_get_rate(bdk_clock_t clock)
         are in flash */
     if (bdk_unlikely(!eclk || !sclk))
     {
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
         {
             BDK_CSR_INIT(mio_rst_boot, BDK_RST_BOOT);
             eclk =  REF_CLOCK * mio_rst_boot.s.c_mul;
