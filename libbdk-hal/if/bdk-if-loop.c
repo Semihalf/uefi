@@ -9,6 +9,8 @@ static int if_num_ports(int interface)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 8;
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        return 0;
     else
         return 4;
 }

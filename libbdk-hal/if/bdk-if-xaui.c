@@ -7,7 +7,7 @@ static int if_num_interfaces(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        return 6;
+        return 0;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 1;
     else
