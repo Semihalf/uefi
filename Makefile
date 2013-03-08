@@ -42,11 +42,11 @@ suid: all
 
 .PHONY: run
 run:
-	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x1000000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
+	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x1000000 -modes=fastboot,pass1 -uart0=2020 -noperf -quiet -serve=2000
 
 .PHONY: run-min
 run-min:
-	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-minimal-no-romfs -ld0x1fc00000:target-bin/bdk-minimal.bin -ld0:0x100000 -modes=fastboot,pass2 -uart0=2020 -noperf -quiet -serve=2000
+	$(SIMULATOR) -ld0x1fc00000:target-bin/bdk-minimal-no-romfs -ld0x1fc00000:target-bin/bdk-minimal.bin -ld0:0x100000 -modes=fastboot,pass1 -uart0=2020 -noperf -quiet -serve=2000
 
 .PHONY: run-rtl
 run-rtl:
