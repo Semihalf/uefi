@@ -364,7 +364,10 @@ static int sso_init(void)
     fau_to.u64 = 0;
     fau_to.s.tout_val = 0xfff;
     fau_to.s.tout_enb = 0;
-    BDK_CSR_WRITE(BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        BDK_CSR_WRITE(BDK_IOB_FAU_TIMEOUT, fau_to.u64);
+    else
+        BDK_CSR_WRITE(BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
 
     /* Only CN68XX needs setup */
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
