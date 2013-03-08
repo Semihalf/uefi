@@ -54,6 +54,13 @@ int bdk_l2c_initialize(void)
         }
     }
 
+    /* Tell L2 to give the IOB statically higher priority compared to the
+        cores. This avoids conditions where IO blocks might be starved under
+        very high L2 loads */
+    BDK_CSR_MODIFY(c, BDK_L2C_CTL,
+        c.s.rsp_arb_mode = 1;
+        c.s.xmc_arb_mode = 0);
+
     return 0;
 }
 

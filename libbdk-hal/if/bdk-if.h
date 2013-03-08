@@ -122,6 +122,18 @@ typedef struct
     int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
 } __bdk_if_ops_t;
 
+typedef struct
+{
+    int (*pki_global_init)(void);
+    int (*pki_port_init)(bdk_if_handle_t handle);
+    int (*pki_enable)(void);
+    int (*pko_global_init)(void);
+    int (*pko_port_init)(bdk_if_handle_t handle);
+    int (*pko_enable)(void);
+    int (*sso_init)(void);
+    int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
+} __bdk_if_global_ops_t;
+
 extern int bdk_if_is_configured(void);
 extern int bdk_if_num_interfaces(bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_if_t iftype, int interface);

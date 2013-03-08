@@ -38,28 +38,10 @@ typedef union
 } bdk_pko_command_word0_t;
 
 
-/**
- * Call before any other calls to initialize the packet
- * output system.
- */
-extern void bdk_pko_initialize(void);
-
 extern int __bdk_pko_alloc_pipe(int num_pipes);
 extern int __bdk_pko_alloc_engine(void);
 extern int __bdk_pko_alloc_port(void);
 
-
-/**
- * Enables the packet output hardware. It must already be
- * configured.
- */
-extern void bdk_pko_enable(void);
-
-
-/**
- * Disables the packet output. Does not affect any configuration.
- */
-extern void bdk_pko_disable(void);
 
 /**
  * Configure a output port and the associated queues for use.
