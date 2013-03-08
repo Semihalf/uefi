@@ -1,4 +1,9 @@
-from csr_output_addresses import CHIP_TO_MODEL
+CHIP_TO_MODEL = {
+    "cn68xx":   "OCTEON_CN68XX", # FIXME: Need pass also if we have CSRs for differnet passes
+    "cn61xx":   "OCTEON_CN61XX",
+    "cn78xx":   "OCTEON_CN78XX",
+    "cn70xx":   "OCTEON_CN70XX",
+}
 
 def toHex(v):
     return hex(v).replace("L","").rjust(18)

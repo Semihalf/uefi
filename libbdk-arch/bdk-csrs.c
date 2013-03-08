@@ -31722,10 +31722,10 @@ const uint64_t __bdk_csr_db_number[] = {
 };
 
 const __bdk_csr_db_map_t __bdk_csr_db[] = {
-    {OCTEON_CN68XX_PASS2_X, __bdk_csr_db_cn68xx},
-    {OCTEON_CN61XX_PASS1_X, __bdk_csr_db_cn61xx},
-    {OCTEON_CN78XX_PASS1_X, __bdk_csr_db_cn78xx},
-    {OCTEON_CN70XX_PASS1_X, __bdk_csr_db_cn70xx},
+    {OCTEON_CN68XX, __bdk_csr_db_cn68xx},
+    {OCTEON_CN61XX, __bdk_csr_db_cn61xx},
+    {OCTEON_CN78XX, __bdk_csr_db_cn78xx},
+    {OCTEON_CN70XX, __bdk_csr_db_cn70xx},
     {0, NULL}
 };
 
