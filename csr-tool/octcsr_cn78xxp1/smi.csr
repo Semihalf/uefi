@@ -44,7 +44,7 @@ registers:
           2.5v supply = 0x13
 
 
-  - name: SMI_(0..3)_CMD
+  - name: SMI(0..3)_CMD
     title: SMI Command Control Register
     address: 0x1180000003800 + a*0x80
     bus: RSL
@@ -66,11 +66,11 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          PHY opcode, depending on SMI_(0..3)_CLK[MODE] setting.
-          If SMI_(0..3)_CLK[MODE] = 0 (<=1Gbs / Clause 22),
+          PHY opcode, depending on SMI(0..3)_CLK[MODE] setting.
+          If SMI(0..3)_CLK[MODE] = 0 (<=1Gbs / Clause 22),
           0 = write operation, encoded in the frame as 01
           1 = read operation, encoded in the frame as 10.
-          If SMI_(0..3)_CLK[MODE] = 1 (>1Gbs / Clause 45),
+          If SMI(0..3)_CLK[MODE] = 1 (>1Gbs / Clause 45),
           00=address, 01=write, 11=read, 10=post-read-increment-address.
 
       - name: --
@@ -102,7 +102,7 @@ registers:
         description: PHY register offset
 
 
-  - name: SMI_(0..3)_WR_DAT
+  - name: SMI(0..3)_WR_DAT
     title: SMI Write Data Register
     address: 0x1180000003808 + a*0x80
     bus: RSL
@@ -137,7 +137,7 @@ registers:
         description: Write data
 
 
-  - name: SMI_(0..3)_RD_DAT
+  - name: SMI(0..3)_RD_DAT
     title: SMI Read Data Register
     address: 0x1180000003810 + a*0x80
     bus: RSL
@@ -172,7 +172,7 @@ registers:
         description: Read data
 
 
-  - name: SMI_(0..3)_CLK
+  - name: SMI(0..3)_CLK
     title: SMI Clock Control Register
     address: 0x1180000003818 + a*0x80
     bus: RSL
@@ -266,7 +266,7 @@ registers:
           PHASE > 2
 
 
-  - name: SMI_(0..3)_EN
+  - name: SMI(0..3)_EN
     title: SMI Enable Register
     address: 0x1180000003820 + a*0x80
     bus: RSL

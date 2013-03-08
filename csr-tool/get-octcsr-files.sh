@@ -56,3 +56,6 @@ do
     sed -i "s/PIP_STAT_INB_\\([A-Z]*\\)\\([*@0-9(]\\)/PIP_STAT_INB_\1_PKND\2/g" $f
 done
 
+# Fixups for CN78XX
+sed -i "s/SMI_\\([0-9(]\\)/SMI\\1/g" octcsr_cn78xxp1/smi.csr
+

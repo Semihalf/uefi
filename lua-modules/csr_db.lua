@@ -60154,8 +60154,8 @@ local csr_db = {
                 {name = "TIME", start = 0, stop = 31},
             }
         },
-        SMI_X_CLK = {
-            name = "SMI_#_CLK",
+        SMIX_CLK = {
+            name = "SMI#_CLK",
             type = "RSL",
             width = 8,
             address = 0x1180000003818,
@@ -60174,8 +60174,8 @@ local csr_db = {
                 {name = "PHASE", start = 0, stop = 7},
             }
         },
-        SMI_X_CMD = {
-            name = "SMI_#_CMD",
+        SMIX_CMD = {
+            name = "SMI#_CMD",
             type = "RSL",
             width = 8,
             address = 0x1180000003800,
@@ -60190,8 +60190,8 @@ local csr_db = {
                 {name = "REG_ADR", start = 0, stop = 4},
             }
         },
-        SMI_X_EN = {
-            name = "SMI_#_EN",
+        SMIX_EN = {
+            name = "SMI#_EN",
             type = "RSL",
             width = 8,
             address = 0x1180000003820,
@@ -60202,8 +60202,8 @@ local csr_db = {
                 {name = "EN", start = 0, stop = 0},
             }
         },
-        SMI_X_RD_DAT = {
-            name = "SMI_#_RD_DAT",
+        SMIX_RD_DAT = {
+            name = "SMI#_RD_DAT",
             type = "RSL",
             width = 8,
             address = 0x1180000003810,
@@ -60216,8 +60216,8 @@ local csr_db = {
                 {name = "DAT", start = 0, stop = 15},
             }
         },
-        SMI_X_WR_DAT = {
-            name = "SMI_#_WR_DAT",
+        SMIX_WR_DAT = {
+            name = "SMI#_WR_DAT",
             type = "RSL",
             width = 8,
             address = 0x1180000003808,
