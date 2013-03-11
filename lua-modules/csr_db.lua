@@ -41650,6 +41650,22 @@ local csr_db = {
                 {name = "CCLK_DIS", start = 0, stop = 0},
             }
         },
+        CIU3_DESTX_IO_INT = {
+            name = "CIU3_DEST#_IO_INT",
+            type = "NCB",
+            width = 8,
+            address = 0x1010000210000,
+            range1 = {0,4},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "INTSN", start = 32, stop = 51},
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "INTIDT", start = 2, stop = 9},
+                {name = "NEWINT", start = 1, stop = 1},
+                {name = "INTR", start = 0, stop = 0},
+            }
+        },
         CIU3_DESTX_PP_INT = {
             name = "CIU3_DEST#_PP_INT",
             type = "NCB",
@@ -50397,6 +50413,37 @@ local csr_db = {
                 {name = "RESERVED_0_7", start = 0, stop = 7},
             }
         },
+        OCX_PP_CMD = {
+            name = "OCX_PP_CMD",
+            type = "RSL",
+            width = 8,
+            address = 0x11800110000c8,
+            fields = {
+                {name = "WR_MASK", start = 56, stop = 63},
+                {name = "RESERVED_51_55", start = 51, stop = 55},
+                {name = "LD_CMD", start = 49, stop = 50},
+                {name = "LD_OP", start = 48, stop = 48},
+                {name = "ADDR", start = 0, stop = 47},
+            }
+        },
+        OCX_PP_RD_DATA = {
+            name = "OCX_PP_RD_DATA",
+            type = "RSL",
+            width = 8,
+            address = 0x11800110000d0,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        OCX_PP_WR_DATA = {
+            name = "OCX_PP_WR_DATA",
+            type = "RSL",
+            width = 8,
+            address = 0x11800110000c0,
+            fields = {
+                {name = "WR_DATA", start = 0, stop = 63},
+            }
+        },
         OCX_QLMX_CFG = {
             name = "OCX_QLM#_CFG",
             type = "RSL",
@@ -57048,6 +57095,194 @@ local csr_db = {
                 {name = "CACHE_FLUSHED", start = 0, stop = 0},
             }
         },
+        PKO_DQX_CIR = {
+            name = "PKO_DQ#_CIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280018,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_DQX_DROPPED_BYTES = {
+            name = "PKO_DQ#_DROPPED_BYTES",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000d8,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COUNT", start = 0, stop = 47},
+            }
+        },
+        PKO_DQX_DROPPED_PACKETS = {
+            name = "PKO_DQ#_DROPPED_PACKETS",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000d0,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "COUNT", start = 0, stop = 39},
+            }
+        },
+        PKO_DQX_PICK = {
+            name = "PKO_DQ#_PICK",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280070,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "UID", start = 54, stop = 63},
+                {name = "CHILD", start = 44, stop = 53},
+                {name = "DQ", start = 34, stop = 43},
+                {name = "LENGTH", start = 18, stop = 33},
+                {name = "ADJUST", start = 9, stop = 17},
+                {name = "RED_ALGO_OVERRIDE", start = 5, stop = 8},
+                {name = "COLOR", start = 3, stop = 4},
+                {name = "P_CON", start = 2, stop = 2},
+                {name = "C_CON", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        PKO_DQX_PIR = {
+            name = "PKO_DQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280020,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_DQX_POINTERS = {
+            name = "PKO_DQ#_POINTERS",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280078,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_26_63", start = 26, stop = 63},
+                {name = "PREV", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "NEXT", start = 0, stop = 9},
+            }
+        },
+        PKO_DQX_SCHED_STATE = {
+            name = "PKO_DQ#_SCHED_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280028,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "RR_COUNT", start = 0, stop = 24},
+            }
+        },
+        PKO_DQX_SCHEDULE = {
+            name = "PKO_DQ#_SCHEDULE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280008,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "PRIO", start = 24, stop = 27},
+                {name = "RR_QUANTUM", start = 0, stop = 23},
+            }
+        },
+        PKO_DQX_SENT_BYTES = {
+            name = "PKO_DQ#_SENT_BYTES",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000c8,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COUNT", start = 0, stop = 47},
+            }
+        },
+        PKO_DQX_SENT_PACKETS = {
+            name = "PKO_DQ#_SENT_PACKETS",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000c0,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "COUNT", start = 0, stop = 39},
+            }
+        },
+        PKO_DQX_SHAPE = {
+            name = "PKO_DQ#_SHAPE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280010,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "LENGTH_DISABLE", start = 24, stop = 24},
+                {name = "ALGORITHM", start = 23, stop = 23},
+                {name = "PARENT", start = 13, stop = 22},
+                {name = "YELLOW_DISABLE", start = 12, stop = 12},
+                {name = "RED_DISABLE", start = 11, stop = 11},
+                {name = "RED_ALGO", start = 9, stop = 10},
+                {name = "ADJUST", start = 0, stop = 8},
+            }
+        },
+        PKO_DQX_SHAPE_STATE = {
+            name = "PKO_DQ#_SHAPE_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280030,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "TW_TIMESTAMP", start = 54, stop = 59},
+                {name = "COLOR", start = 52, stop = 53},
+                {name = "PIR_ACCUM", start = 26, stop = 51},
+                {name = "CIR_ACCUM", start = 0, stop = 25},
+            }
+        },
+        PKO_DQX_SW_XOFF = {
+            name = "PKO_DQ#_SW_XOFF",
+            type = "NCB",
+            width = 8,
+            address = 0x15400002800e0,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "XOFF", start = 0, stop = 0},
+            }
+        },
         PKO_DQX_TOPOLOGY = {
             name = "PKO_DQ#_TOPOLOGY",
             type = "NCB",
@@ -57182,6 +57417,40 @@ local csr_db = {
                 {name = "VALID", start = 0, stop = 0},
             }
         },
+        PKO_L1_SQX_PIR = {
+            name = "PKO_L1_SQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000000020,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_L1_SQX_RED = {
+            name = "PKO_L1_SQ#_RED",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080068,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "HEAD", start = 32, stop = 40},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "TAIL", start = 16, stop = 24},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
         PKO_L1_SQX_SHAPE = {
             name = "PKO_L1_SQ#_SHAPE",
             type = "NCB",
@@ -57241,6 +57510,40 @@ local csr_db = {
                 {name = "RESERVED_0_0", start = 0, stop = 0},
             }
         },
+        PKO_L1_SQX_YELLOW = {
+            name = "PKO_L1_SQ#_YELLOW",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080060,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "HEAD", start = 32, stop = 40},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "TAIL", start = 16, stop = 24},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L2_SQX_CIR = {
+            name = "PKO_L2_SQ#_CIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080018,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
         PKO_L2_SQX_CREDIT = {
             name = "PKO_L2_SQ#_CREDIT",
             type = "NCB",
@@ -57260,6 +57563,60 @@ local csr_db = {
                 {name = "HW_XOFF", start = 0, stop = 0},
             }
         },
+        PKO_L2_SQX_GREEN = {
+            name = "PKO_L2_SQ#_GREEN",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100058,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "HEAD", start = 32, stop = 40},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "TAIL", start = 16, stop = 24},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L2_SQX_PICK = {
+            name = "PKO_L2_SQ#_PICK",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080070,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "UID", start = 54, stop = 63},
+                {name = "CHILD", start = 44, stop = 53},
+                {name = "DQ", start = 34, stop = 43},
+                {name = "LENGTH", start = 18, stop = 33},
+                {name = "ADJUST", start = 9, stop = 17},
+                {name = "RED_ALGO_OVERRIDE", start = 5, stop = 8},
+                {name = "COLOR", start = 3, stop = 4},
+                {name = "P_CON", start = 2, stop = 2},
+                {name = "C_CON", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        PKO_L2_SQX_PIR = {
+            name = "PKO_L2_SQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080020,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
         PKO_L2_SQX_POINTERS = {
             name = "PKO_L2_SQ#_POINTERS",
             type = "NCB",
@@ -57272,6 +57629,22 @@ local csr_db = {
                 {name = "PREV", start = 16, stop = 24},
                 {name = "RESERVED_9_15", start = 9, stop = 15},
                 {name = "NEXT", start = 0, stop = 8},
+            }
+        },
+        PKO_L2_SQX_RED = {
+            name = "PKO_L2_SQ#_RED",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100068,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "HEAD", start = 32, stop = 40},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "TAIL", start = 16, stop = 24},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
             }
         },
         PKO_L2_SQX_SCHED_STATE = {
@@ -57318,6 +57691,33 @@ local csr_db = {
                 {name = "ADJUST", start = 0, stop = 8},
             }
         },
+        PKO_L2_SQX_SHAPE_STATE = {
+            name = "PKO_L2_SQ#_SHAPE_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000080030,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "TW_TIMESTAMP", start = 54, stop = 59},
+                {name = "COLOR", start = 52, stop = 53},
+                {name = "PIR_ACCUM", start = 26, stop = 51},
+                {name = "CIR_ACCUM", start = 0, stop = 25},
+            }
+        },
+        PKO_L2_SQX_SW_XOFF = {
+            name = "PKO_L2_SQ#_SW_XOFF",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000800e0,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "XOFF", start = 0, stop = 0},
+            }
+        },
         PKO_L2_SQX_TOPOLOGY = {
             name = "PKO_L2_SQ#_TOPOLOGY",
             type = "NCB",
@@ -57333,6 +57733,40 @@ local csr_db = {
                 {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "RR_PRIO", start = 1, stop = 4},
                 {name = "RESERVED_0_0", start = 0, stop = 0},
+            }
+        },
+        PKO_L2_SQX_YELLOW = {
+            name = "PKO_L2_SQ#_YELLOW",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100060,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "HEAD", start = 32, stop = 40},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "TAIL", start = 16, stop = 24},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L3_SQX_CIR = {
+            name = "PKO_L3_SQ#_CIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100018,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
             }
         },
         PKO_L3_SQX_CREDIT = {
@@ -57368,6 +57802,99 @@ local csr_db = {
                 {name = "ACTIVE_VEC", start = 0, stop = 9},
             }
         },
+        PKO_L3_SQX_PICK = {
+            name = "PKO_L3_SQ#_PICK",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100070,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "UID", start = 54, stop = 63},
+                {name = "CHILD", start = 44, stop = 53},
+                {name = "DQ", start = 34, stop = 43},
+                {name = "LENGTH", start = 18, stop = 33},
+                {name = "ADJUST", start = 9, stop = 17},
+                {name = "RED_ALGO_OVERRIDE", start = 5, stop = 8},
+                {name = "COLOR", start = 3, stop = 4},
+                {name = "P_CON", start = 2, stop = 2},
+                {name = "C_CON", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        PKO_L3_SQX_PIR = {
+            name = "PKO_L3_SQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100020,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_L3_SQX_POINTERS = {
+            name = "PKO_L3_SQ#_POINTERS",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100078,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "PREV", start = 16, stop = 24},
+                {name = "RESERVED_9_15", start = 9, stop = 15},
+                {name = "NEXT", start = 0, stop = 8},
+            }
+        },
+        PKO_L3_SQX_RED = {
+            name = "PKO_L3_SQ#_RED",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180068,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L3_SQX_SCHED_STATE = {
+            name = "PKO_L3_SQ#_SCHED_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100028,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "RR_COUNT", start = 0, stop = 24},
+            }
+        },
+        PKO_L3_SQX_SCHEDULE = {
+            name = "PKO_L3_SQ#_SCHEDULE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100008,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "PRIO", start = 24, stop = 27},
+                {name = "RR_QUANTUM", start = 0, stop = 23},
+            }
+        },
         PKO_L3_SQX_SHAPE = {
             name = "PKO_L3_SQ#_SHAPE",
             type = "NCB",
@@ -57387,6 +57914,33 @@ local csr_db = {
                 {name = "ADJUST", start = 0, stop = 8},
             }
         },
+        PKO_L3_SQX_SHAPE_STATE = {
+            name = "PKO_L3_SQ#_SHAPE_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000100030,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "TW_TIMESTAMP", start = 54, stop = 59},
+                {name = "COLOR", start = 52, stop = 53},
+                {name = "PIR_ACCUM", start = 26, stop = 51},
+                {name = "CIR_ACCUM", start = 0, stop = 25},
+            }
+        },
+        PKO_L3_SQX_SW_XOFF = {
+            name = "PKO_L3_SQ#_SW_XOFF",
+            type = "NCB",
+            width = 8,
+            address = 0x15400001000e0,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "XOFF", start = 0, stop = 0},
+            }
+        },
         PKO_L3_SQX_TOPOLOGY = {
             name = "PKO_L3_SQ#_TOPOLOGY",
             type = "NCB",
@@ -57404,6 +57958,94 @@ local csr_db = {
                 {name = "RESERVED_0_0", start = 0, stop = 0},
             }
         },
+        PKO_L3_SQX_YELLOW = {
+            name = "PKO_L3_SQ#_YELLOW",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180060,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L4_SQX_CIR = {
+            name = "PKO_L4_SQ#_CIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180018,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_L4_SQX_GREEN = {
+            name = "PKO_L4_SQ#_GREEN",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200058,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L4_SQX_PICK = {
+            name = "PKO_L4_SQ#_PICK",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180070,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "UID", start = 54, stop = 63},
+                {name = "CHILD", start = 44, stop = 53},
+                {name = "DQ", start = 34, stop = 43},
+                {name = "LENGTH", start = 18, stop = 33},
+                {name = "ADJUST", start = 9, stop = 17},
+                {name = "RED_ALGO_OVERRIDE", start = 5, stop = 8},
+                {name = "COLOR", start = 3, stop = 4},
+                {name = "P_CON", start = 2, stop = 2},
+                {name = "C_CON", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        PKO_L4_SQX_PIR = {
+            name = "PKO_L4_SQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180020,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
         PKO_L4_SQX_POINTERS = {
             name = "PKO_L4_SQ#_POINTERS",
             type = "NCB",
@@ -57416,6 +58058,93 @@ local csr_db = {
                 {name = "PREV", start = 16, stop = 25},
                 {name = "RESERVED_10_15", start = 10, stop = 15},
                 {name = "NEXT", start = 0, stop = 9},
+            }
+        },
+        PKO_L4_SQX_RED = {
+            name = "PKO_L4_SQ#_RED",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200068,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L4_SQX_SCHED_STATE = {
+            name = "PKO_L4_SQ#_SCHED_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180028,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "RR_COUNT", start = 0, stop = 24},
+            }
+        },
+        PKO_L4_SQX_SCHEDULE = {
+            name = "PKO_L4_SQ#_SCHEDULE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180008,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "PRIO", start = 24, stop = 27},
+                {name = "RR_QUANTUM", start = 0, stop = 23},
+            }
+        },
+        PKO_L4_SQX_SHAPE = {
+            name = "PKO_L4_SQ#_SHAPE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180010,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "LENGTH_DISABLE", start = 24, stop = 24},
+                {name = "ALGORITHM", start = 23, stop = 23},
+                {name = "RESERVED_22_22", start = 22, stop = 22},
+                {name = "PARENT", start = 13, stop = 21},
+                {name = "YELLOW_DISABLE", start = 12, stop = 12},
+                {name = "RED_DISABLE", start = 11, stop = 11},
+                {name = "RED_ALGO", start = 9, stop = 10},
+                {name = "ADJUST", start = 0, stop = 8},
+            }
+        },
+        PKO_L4_SQX_SHAPE_STATE = {
+            name = "PKO_L4_SQ#_SHAPE_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000180030,
+            range1 = {0,511},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "TW_TIMESTAMP", start = 54, stop = 59},
+                {name = "COLOR", start = 52, stop = 53},
+                {name = "PIR_ACCUM", start = 26, stop = 51},
+                {name = "CIR_ACCUM", start = 0, stop = 25},
+            }
+        },
+        PKO_L4_SQX_SW_XOFF = {
+            name = "PKO_L4_SQ#_SW_XOFF",
+            type = "NCB",
+            width = 8,
+            address = 0x15400001800e0,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "XOFF", start = 0, stop = 0},
             }
         },
         PKO_L4_SQX_TOPOLOGY = {
@@ -57433,6 +58162,149 @@ local csr_db = {
                 {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "RR_PRIO", start = 1, stop = 4},
                 {name = "RESERVED_0_0", start = 0, stop = 0},
+            }
+        },
+        PKO_L4_SQX_YELLOW = {
+            name = "PKO_L4_SQ#_YELLOW",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200060,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L5_SQX_CIR = {
+            name = "PKO_L5_SQ#_CIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200018,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_L5_SQX_GREEN = {
+            name = "PKO_L5_SQ#_GREEN",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280058,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L5_SQX_PICK = {
+            name = "PKO_L5_SQ#_PICK",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200070,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "UID", start = 54, stop = 63},
+                {name = "CHILD", start = 44, stop = 53},
+                {name = "DQ", start = 34, stop = 43},
+                {name = "LENGTH", start = 18, stop = 33},
+                {name = "ADJUST", start = 9, stop = 17},
+                {name = "RED_ALGO_OVERRIDE", start = 5, stop = 8},
+                {name = "COLOR", start = 3, stop = 4},
+                {name = "P_CON", start = 2, stop = 2},
+                {name = "C_CON", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        PKO_L5_SQX_PIR = {
+            name = "PKO_L5_SQ#_PIR",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200020,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "BURST_EXPONENT", start = 37, stop = 40},
+                {name = "BURST_MANTISSA", start = 29, stop = 36},
+                {name = "RESERVED_17_28", start = 17, stop = 28},
+                {name = "RATE_DIVIDER_EXPONENT", start = 13, stop = 16},
+                {name = "RATE_EXPONENT", start = 9, stop = 12},
+                {name = "RATE_MANTISSA", start = 1, stop = 8},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        PKO_L5_SQX_POINTERS = {
+            name = "PKO_L5_SQ#_POINTERS",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200078,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_26_63", start = 26, stop = 63},
+                {name = "PREV", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "NEXT", start = 0, stop = 9},
+            }
+        },
+        PKO_L5_SQX_RED = {
+            name = "PKO_L5_SQ#_RED",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280068,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
+            }
+        },
+        PKO_L5_SQX_SCHED_STATE = {
+            name = "PKO_L5_SQ#_SCHED_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200028,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "RR_COUNT", start = 0, stop = 24},
+            }
+        },
+        PKO_L5_SQX_SCHEDULE = {
+            name = "PKO_L5_SQ#_SCHEDULE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200008,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "PRIO", start = 24, stop = 27},
+                {name = "RR_QUANTUM", start = 0, stop = 23},
             }
         },
         PKO_L5_SQX_SHAPE = {
@@ -57453,6 +58325,33 @@ local csr_db = {
                 {name = "ADJUST", start = 0, stop = 8},
             }
         },
+        PKO_L5_SQX_SHAPE_STATE = {
+            name = "PKO_L5_SQ#_SHAPE_STATE",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000200030,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "TW_TIMESTAMP", start = 54, stop = 59},
+                {name = "COLOR", start = 52, stop = 53},
+                {name = "PIR_ACCUM", start = 26, stop = 51},
+                {name = "CIR_ACCUM", start = 0, stop = 25},
+            }
+        },
+        PKO_L5_SQX_SW_XOFF = {
+            name = "PKO_L5_SQ#_SW_XOFF",
+            type = "NCB",
+            width = 8,
+            address = 0x15400002000e0,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "XOFF", start = 0, stop = 0},
+            }
+        },
         PKO_L5_SQX_TOPOLOGY = {
             name = "PKO_L5_SQ#_TOPOLOGY",
             type = "NCB",
@@ -57468,6 +58367,22 @@ local csr_db = {
                 {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "RR_PRIO", start = 1, stop = 4},
                 {name = "RESERVED_0_0", start = 0, stop = 0},
+            }
+        },
+        PKO_L5_SQX_YELLOW = {
+            name = "PKO_L5_SQ#_YELLOW",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000280060,
+            range1 = {0,1023},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "HEAD", start = 32, stop = 41},
+                {name = "RESERVED_26_31", start = 26, stop = 31},
+                {name = "TAIL", start = 16, stop = 25},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "ACTIVE_VEC", start = 0, stop = 9},
             }
         },
         PKO_LUTX = {
@@ -57674,6 +58589,30 @@ local csr_db = {
                 {name = "ADDR", start = 0, stop = 15},
             }
         },
+        PKO_PQX_DROPPED_BYTES = {
+            name = "PKO_PQ#_DROPPED_BYTES",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000b8,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COUNT", start = 0, stop = 47},
+            }
+        },
+        PKO_PQX_DROPPED_PACKETS = {
+            name = "PKO_PQ#_DROPPED_PACKETS",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000b0,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "COUNT", start = 0, stop = 39},
+            }
+        },
         PKO_PQX_GREEN_SENT_BYTES = {
             name = "PKO_PQ#_GREEN_SENT_BYTES",
             type = "NCB",
@@ -57698,6 +58637,30 @@ local csr_db = {
                 {name = "COUNT", start = 0, stop = 39},
             }
         },
+        PKO_PQX_RED_SENT_BYTES = {
+            name = "PKO_PQ#_RED_SENT_BYTES",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000a8,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COUNT", start = 0, stop = 47},
+            }
+        },
+        PKO_PQX_RED_SENT_PACKETS = {
+            name = "PKO_PQ#_RED_SENT_PACKETS",
+            type = "NCB",
+            width = 8,
+            address = 0x15400000000a0,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "COUNT", start = 0, stop = 39},
+            }
+        },
         PKO_PQX_TOPOLOGY = {
             name = "PKO_PQ#_TOPOLOGY",
             type = "NCB",
@@ -57711,6 +58674,30 @@ local csr_db = {
                 {name = "RESERVED_14_15", start = 14, stop = 15},
                 {name = "PEB_FIFO", start = 9, stop = 13},
                 {name = "RESERVED_0_8", start = 0, stop = 8},
+            }
+        },
+        PKO_PQX_YELLOW_SENT_BYTES = {
+            name = "PKO_PQ#_YELLOW_SENT_BYTES",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000000098,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COUNT", start = 0, stop = 47},
+            }
+        },
+        PKO_PQX_YELLOW_SENT_PACKETS = {
+            name = "PKO_PQ#_YELLOW_SENT_PACKETS",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000000090,
+            range1 = {0,31},
+            range1_inc = 0x200,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         PKO_PTFX_STATUS = {
@@ -60798,6 +61785,40 @@ local csr_db = {
                 {name = "WQP", start = 0, stop = 41},
             }
         },
+        SSO_IPL_CONFX = {
+            name = "SSO_IPL_CONF#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670080080000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "QUEUE_VAL", start = 27, stop = 27},
+                {name = "QUEUE_ONE", start = 26, stop = 26},
+                {name = "RESERVED_24_25", start = 24, stop = 25},
+                {name = "QUEUE_HEAD", start = 13, stop = 23},
+                {name = "RESERVED_11_12", start = 11, stop = 12},
+                {name = "QUEUE_TAIL", start = 0, stop = 10},
+            }
+        },
+        SSO_IPL_DESCHEDX = {
+            name = "SSO_IPL_DESCHED#",
+            type = "NCB",
+            width = 8,
+            address = 0x1670080060000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "QUEUE_VAL", start = 27, stop = 27},
+                {name = "QUEUE_ONE", start = 26, stop = 26},
+                {name = "RESERVED_24_25", start = 24, stop = 25},
+                {name = "QUEUE_HEAD", start = 13, stop = 23},
+                {name = "RESERVED_11_12", start = 11, stop = 12},
+                {name = "QUEUE_TAIL", start = 0, stop = 10},
+            }
+        },
         SSO_IPL_FREEX = {
             name = "SSO_IPL_FREE#",
             type = "NCB",
@@ -61145,6 +62166,33 @@ local csr_db = {
             type = "NCB",
             width = 8,
             address = 0x1670000080000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "PTR", start = 7, stop = 41},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "CL", start = 0, stop = 4},
+            }
+        },
+        SSO_XAQX_TAIL_NEXT = {
+            name = "SSO_XAQ#_TAIL_NEXT",
+            type = "NCB",
+            width = 8,
+            address = 0x16700000b0000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "PTR", start = 7, stop = 41},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
+            }
+        },
+        SSO_XAQX_TAIL_PTR = {
+            name = "SSO_XAQ#_TAIL_PTR",
+            type = "NCB",
+            width = 8,
+            address = 0x1670000090000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {

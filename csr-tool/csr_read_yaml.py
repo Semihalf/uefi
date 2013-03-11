@@ -104,9 +104,14 @@ def read_yaml(csr_list, filename):
         return
     # Iterate through the register list
     for register in raw["registers"]:
-        # FIXME
         if not "fields" in register:
-            continue
+            assert "inherits" in register, "No fields and no inherits %s" % register["name"]
+            for r in raw["registers"]:
+                if r["name"] == register["inherits"]:
+                    register["fields"] = r["fields"]
+            assert "fields" in register, "Inherits not found by name"
+        else:
+            assert not "inherits" in register, "Fields and inherits"
         #pp.pprint(register)
         # Parse the register name, description, and notes
         name_list = parseCsrName(register["name"])
