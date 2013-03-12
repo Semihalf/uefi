@@ -441,8 +441,8 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
             PCIe busses */
         for (i=0; i<4; i++)
         {
-            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_START(i, pcie_port), -1);
-            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_END(i, pcie_port), -1);
+            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_START_2(pcie_port,i), -1);
+            BDK_CSR_WRITE(BDK_PEMX_P2P_BARX_END_2(pcie_port,i), -1);
         }
     }
 
@@ -482,7 +482,7 @@ static int __bdk_pcie_rc_initialize_gen2(int pcie_port)
     bar1_index.s.addr_v = 1;   /* Valid entry */
 
     for (i = 0; i < 16; i++) {
-        BDK_CSR_WRITE(BDK_PEMX_BAR1_INDEXX(i, pcie_port), bar1_index.u64);
+        BDK_CSR_WRITE(BDK_PEMX_BAR1_INDEXX_2(pcie_port,i), bar1_index.u64);
         /* 256MB / 16 >> 22 == 4 */
         bar1_index.s.addr_idx += (((1ull << 28) / 16ull) >> 22);
     }

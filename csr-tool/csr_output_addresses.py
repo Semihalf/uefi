@@ -57,26 +57,21 @@ def writeAddress(out, csr, chip_list):
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
         error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0", "0", "0")
     elif num_params == 1:
-        if ("offset" in csr["s"].getAddressEquation()):
-            out.write("static inline uint64_t %s(unsigned long offset) __attribute__ ((pure, always_inline));\n" % name)
-            out.write("static inline uint64_t %s(unsigned long offset)\n" % name)
-            error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "offset", "0", "0", "0")
-        else:
-            out.write("static inline uint64_t %s(unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
-            out.write("static inline uint64_t %s(unsigned long block_id)\n" % name)
-            error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "block_id", "0", "0", "0")
+        out.write("static inline uint64_t %s(unsigned long param1) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long param1)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "param1", "0", "0", "0")
     elif num_params == 2:
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id) __attribute__ ((pure, always_inline));\n" % name)
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "offset", "block_id", "0", "0")
+        out.write("static inline uint64_t %s_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s_2(unsigned long param1, unsigned long param2)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "param1", "param2", "0", "0")
     elif num_params == 3:
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 3, "offset", "block_id", "param3", "0")
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 3, "param1", "param2", "param3", "0")
     elif num_params == 4:
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3, unsigned long param4) __attribute__ ((pure, always_inline));\n" % name)
-        out.write("static inline uint64_t %s(unsigned long offset, unsigned long block_id, unsigned long param3, unsigned long param4)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 4, "offset", "block_id", "param3", "param4")
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4)\n" % name)
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 4, "param1", "param2", "param3", "param4")
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")
@@ -87,15 +82,9 @@ def writeAddress(out, csr, chip_list):
     for chip in chips:
         if chip == "s":
             continue
-        if num_params == 0:
-            range_check = ""
-        elif num_params == 1:
-            if ("offset" in csr["s"].getAddressEquation()):
-                range_check = " && (%s)" % createRangeCheck("offset", csr[chip].range[0])
-            else:
-                range_check = " && (%s)" % createRangeCheck("block_id", csr[chip].range[0])
-        else:
-            range_check = " && (%s) && (%s)" % (createRangeCheck("block_id", csr[chip].range[0]), createRangeCheck("offset", csr[chip].range[1]))
+        range_check = ""
+        for p in xrange(len(csr[chip].range)):
+            range_check += " && (%s)" % createRangeCheck("param%d" % (p+1), csr[chip].range[p])
         address_list.append((CHIP_TO_MODEL[chip], range_check, csr[chip].getAddressEquation()))
     all_same = (len(chip_list) == len(address_list))
     for line in address_list[1:]:

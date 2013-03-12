@@ -4141,7 +4141,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: X
-        description: PKO Pointer AURA Number; Constant AURA number.
+        attributes:
+          regtest_force: "0"
+        description: FPA Aura number to use for PKO command buffering. Must be on local OCI node.
 
       - name: --
         bits: 31..17
@@ -4282,7 +4284,7 @@ registers:
 
 
   - name: PKO_ENABLE
-    title: PKO global Enable
+    title: PKO Global Enable Register
     address: 0x1540000D00008
     bus: NCB
     fields:
@@ -4298,7 +4300,9 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: sets the pko__enable signal
+        attributes:
+          regtest_force: "0"
+        description: Enables the PKO.
 
 
   - name: PKO_NCB_TX_ERR_WORD

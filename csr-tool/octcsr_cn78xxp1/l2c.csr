@@ -2063,7 +2063,9 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Index within the quad-half containing the error
+        description: |
+          For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
+          [13:5] is 0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]).
 
 
   - name: L2C_TTG(0..7)_ERR

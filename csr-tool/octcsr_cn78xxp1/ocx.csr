@@ -230,12 +230,14 @@ registers:
         typical: 0
         description: Enable Clock Gating on this link to save power.
 
-      - name: --
+      - name: AUTO_CLR
         bits: 5
-        access: ---
-        reset: --
+        access: R/W
+        reset: 1
         typical: --
-        description: Reserved.
+        description: |
+          Automatically clear Drop bit if link partner has cleared other side.  Typically disabled
+          if software wishes to manage deassertion of DROP.
 
       - name: DROP
         bits: 4

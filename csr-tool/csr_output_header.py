@@ -146,20 +146,28 @@ def write(file, csr_list, include_cisco_only):
         csr_output_addresses.write(out, csr, csr_list.getChipList())
         cname = getCname(csr["s"])
         macro_name = cname.upper()
-        if len(csr["s"].range):
-            macro_name += "(...)"
-        out.write("#define typedef_%s %s_t\n" % (macro_name, cname))
-        out.write("#define bustype_%s BDK_CSR_TYPE_%s\n" % (macro_name, csr["s"].type))
         if len(csr["s"].range) == 0:
-            out.write("#define busnum_%s 0\n" % cname.upper())
-            out.write("#define arguments_%s -1, -1\n" % cname.upper())
-        elif len(csr["s"].range) == 1:
-            out.write("#define busnum_%s(p) (p)\n" % cname.upper())
-            out.write("#define arguments_%s(a) (a), -1\n" % cname.upper())
+            out.write("#define typedef_%s %s_t\n" % (macro_name, cname))
+            out.write("#define bustype_%s BDK_CSR_TYPE_%s\n" % (macro_name, csr["s"].type))
+            out.write("#define busnum_%s 0\n" % macro_name)
+            out.write("#define arguments_%s -1,-1,-1,-1\n" % macro_name)
+            out.write("#define basename_%s \"%s\"\n" % (macro_name, cname.upper()[4:]))
         else:
-            out.write("#define busnum_%s(unused, p) (p)\n" % cname.upper())
-            out.write("#define arguments_%s(a, b) (a), (b)\n" % cname.upper())
-        out.write("#define basename_%s \"%s\"\n" % (macro_name, cname.upper()[4:]))
+            if len(csr["s"].range) == 2:
+                macro_name += "_2" # FIXME: Rename for finding order issues
+            out.write("#define typedef_%s(...) %s_t\n" % (macro_name, cname))
+            out.write("#define bustype_%s(...) BDK_CSR_TYPE_%s\n" % (macro_name, csr["s"].type))
+            params = "p1"
+            params_paren = "(p1)"
+            for p in range(1, len(csr["s"].range)):
+                params += ",p%d" % (p+1)
+                params_paren += ",(p%d)" % (p+1)
+            # params_paren must always have 4 arguments
+            for p in range(len(csr["s"].range), 4):
+                params_paren += ",-1"
+            out.write("#define busnum_%s(%s) (p1)\n" % (macro_name, params))
+            out.write("#define arguments_%s(%s) %s\n" % (macro_name, params, params_paren))
+            out.write("#define basename_%s(...) \"%s\"\n" % (macro_name, cname.upper()[4:]))
         out.write("\n")
     out.write("#endif /* " + define_name + " */\n")
     out.close()

@@ -50066,7 +50066,7 @@ local csr_db = {
                 {name = "RESERVED_8_63", start = 8, stop = 63},
                 {name = "REINIT", start = 7, stop = 7},
                 {name = "GATE", start = 6, stop = 6},
-                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "AUTO_CLR", start = 5, stop = 5},
                 {name = "DROP", start = 4, stop = 4},
                 {name = "UP", start = 3, stop = 3},
                 {name = "VALID", start = 2, stop = 2},

@@ -293,7 +293,7 @@ class Csr:
     #
     def getAddressEquation(self, no_ull=0):
         address_part = "0x%016Xull" % self.address_info[0]
-        PARAMS = ["none", "block_id", "offset", "param3", "param4"]
+        PARAMS = ["none", "param1", "param2", "param3", "param4"]
         for i in xrange(1, len(self.address_info)):
             if self.address_info[i] == 0:
                 continue
@@ -302,12 +302,7 @@ class Csr:
                 continue
             bit_mask = getBitMask(offset_max)
             param = PARAMS[i]
-            if self.address_info[i] >= 65536:
-                address_part += " + (%s & %d) * 0x%Xull" % (param, bit_mask, self.address_info[i])
-            else:
-                if (i == 1) and (len(self.address_info) == 2):
-                    param = PARAMS[2]
-                address_part += " + (%s & %d) * %d" % (param, bit_mask, self.address_info[i])
+            address_part += " + (%s & %d) * 0x%Xull" % (param, bit_mask, self.address_info[i])
         if no_ull:
             address_part = address_part.replace("ull", "")
         return address_part

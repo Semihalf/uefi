@@ -26,9 +26,13 @@ if (c.chip.field) {                         \
     display_error(basename_##csr, arguments_##csr, #field); \
 }
 
-static void display_error(const char *csr_name, int arg1, int arg2, const char *field_name)
+static void display_error(const char *csr_name, int arg1, int arg2, int arg3, int arg4, const char *field_name)
 {
-    if (arg2 != -1)
+    if (arg4 != -1)
+        bdk_error("%s(%d,%d,%d,%d)[%s]\n", csr_name, arg1, arg2, arg3, arg4, field_name);
+    else if (arg3 != -1)
+        bdk_error("%s(%d,%d,%d)[%s]\n", csr_name, arg1, arg2, arg3, field_name);
+    else if (arg2 != -1)
         bdk_error("%s(%d,%d)[%s]\n", csr_name, arg1, arg2, field_name);
     else if (arg1 != -1)
         bdk_error("%s(%d)[%s]\n", csr_name, arg1, field_name);
@@ -169,19 +173,19 @@ static void check_gmx(int gmx)
     int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
-        BDK_CSR_INIT(c, BDK_GMXX_RXX_INT_REG(index, gmx));
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), bad_seq);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), bad_term);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), carext);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), hg2cc);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), hg2fld);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), loc_fault);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), ovrerr);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), rem_fault);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), skperr);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), undat);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), uneop);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(index, gmx), unsop);
+        BDK_CSR_INIT(c, BDK_GMXX_RXX_INT_REG_2(gmx, index));
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), bad_seq);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), bad_term);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), carext);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), hg2cc);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), hg2fld);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), loc_fault);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), ovrerr);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), rem_fault);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), skperr);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), undat);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), uneop);
+        CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), unsop);
     }
     {
         BDK_CSR_INIT(c, BDK_GMXX_TX_INT_REG(gmx));
@@ -400,16 +404,16 @@ static void check_pcs(int pcs)
     int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
-        BDK_CSR_INIT(c, BDK_PCSX_INTX_REG(index, pcs));
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), an_bad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), an_err);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), dbg_sync);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), rxbad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), rxlock);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), sync_bad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), txbad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), txfifo);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(index, pcs), txfifu);
+        BDK_CSR_INIT(c, BDK_PCSX_INTX_REG_2(pcs, index));
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), an_bad);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), an_err);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), dbg_sync);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), rxbad);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), rxlock);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), sync_bad);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), txbad);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), txfifo);
+        CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), txfifu);
     }
 }
 

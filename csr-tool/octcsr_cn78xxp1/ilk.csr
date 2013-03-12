@@ -2256,7 +2256,7 @@ registers:
           Byte count for jabber check. Failing packets are truncated to CNT bytes.
           Hardware tracks the size of up to two concurrent packets per link. If using segment mode
           with more than two channels, some large packets might not be flagged or truncated.
-          CNT must be 16-byte aligned such that CNT[3:0] = 0x0.
+          CNT must be 8-byte aligned such that CNT[2:0] = 0x0.
 
 
   - name: ILK_RX(0..1)_RID

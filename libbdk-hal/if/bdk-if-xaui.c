@@ -112,11 +112,11 @@ static int xaui_link_init(bdk_if_handle_t handle)
     /* (1) Interface has already been enabled. */
 
     /* (2) Disable GMX. */
-    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG_2(gmx_block, gmx_index),
         c.s.gmxeno = 1);
 
     /* (3) Disable GMX and PCSX interrupts. */
-    BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN(gmx_index,gmx_block), 0x0);
+    BDK_CSR_WRITE(BDK_GMXX_RXX_INT_EN_2(gmx_block, gmx_index), 0x0);
     BDK_CSR_WRITE(BDK_GMXX_TX_INT_EN(gmx_block), 0x0);
     BDK_CSR_WRITE(BDK_PCSXX_INT_EN_REG(gmx_block), 0x0);
 
@@ -164,19 +164,19 @@ static int xaui_link_init(bdk_if_handle_t handle)
     /* (6) Configure GMX */
 
     /* Wait for GMX RX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), rx_idle, ==, 1, 10000))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG_2(gmx_block, gmx_index), rx_idle, ==, 1, 10000))
         return -1;
     /* Wait for GMX TX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG(gmx_index, gmx_block), tx_idle, ==, 1, 10000))
+    if (BDK_CSR_WAIT_FOR_FIELD(BDK_GMXX_PRTX_CFG_2(gmx_block, gmx_index), tx_idle, ==, 1, 10000))
         return -1;
 
     /* GMX configure */
-    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG_2(gmx_block, gmx_index),
         c.s.speed = 1;
         c.s.speed_msb = 0;
         c.s.slottime = 1);
-    BDK_CSR_WRITE(BDK_GMXX_TXX_SLOT(gmx_index, gmx_block), 512);
-    BDK_CSR_WRITE(BDK_GMXX_TXX_BURST(gmx_index, gmx_block), 8192);
+    BDK_CSR_WRITE(BDK_GMXX_TXX_SLOT_2(gmx_block, gmx_index), 512);
+    BDK_CSR_WRITE(BDK_GMXX_TXX_BURST_2(gmx_block, gmx_index), 8192);
 
     /* Wait for receive link */
     if (BDK_CSR_WAIT_FOR_FIELD(BDK_PCSXX_STATUS1_REG(gmx_block), rcv_lnk, ==, 1, 10000))
@@ -187,7 +187,7 @@ static int xaui_link_init(bdk_if_handle_t handle)
         return -1;
 
     /* (8) Enable packet reception */
-    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_PCSX_MISCX_CTL_REG_2(gmx_block, gmx_index),
         c.s.gmxeno = 0);
 
     /* Enable error interrupts */
@@ -200,7 +200,7 @@ static int xaui_link_init(bdk_if_handle_t handle)
         c.s.synlos_en = -1;
         c.s.txflt_en = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_GMXX_RXX_INT_EN(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_GMXX_RXX_INT_EN_2(gmx_block, gmx_index),
         c.s.bad_seq = -1;
         c.s.bad_term = -1;
         c.s.carext = -1;
@@ -232,7 +232,7 @@ static int if_init(bdk_if_handle_t handle)
     {
         /* Configure the PKO internal port mappings */
         int pipe = __bdk_pko_alloc_pipe(1);
-        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE(0, gmx_block),
+        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_PIPE_2(gmx_block, 0),
             c.s.nump = 1;
             c.s.base = pipe);
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
@@ -247,11 +247,11 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* Setup PKIND */
-        BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(0, gmx_block),
+        BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG_2(gmx_block, 0),
             c.s.pknd = handle->pknd);
 
         /* Setup BPID */
-        BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MAPX(0, gmx_block),
+        BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MAPX_2(gmx_block, 0),
             c.s.val = 1;
             c.s.bpid = handle->pknd);
         BDK_CSR_MODIFY(c, BDK_GMXX_BPID_MSK(gmx_block),
@@ -288,15 +288,15 @@ static int if_init(bdk_if_handle_t handle)
         This reduces the chances that we have a TX under run due to memory
         contention. Any packet that fits entirely in the GMX FIFO can never
         have an under run regardless of memory load */
-    BDK_CSR_MODIFY(gmx_tx_thresh, BDK_GMXX_TXX_THRESH(0, gmx_block),
+    BDK_CSR_MODIFY(gmx_tx_thresh, BDK_GMXX_TXX_THRESH_2(gmx_block, 0),
         gmx_tx_thresh.s.cnt = 0x100);
 
     /* Configure to allow max sized frames */
-    BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER(0, gmx_block), 65535);
+    BDK_CSR_WRITE(BDK_GMXX_RXX_JABBER_2(gmx_block, 0), 65535);
 
     /* CN68XX adds the padding and FCS in PKO, not GMX */
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_APPEND(0, gmx_block),
+        BDK_CSR_MODIFY(c, BDK_GMXX_TXX_APPEND_2(gmx_block, 0),
             c.s.fcs = 0;
             c.s.pad = 0);
 
@@ -308,7 +308,7 @@ static int if_enable(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG_2(gmx_block, gmx_index),
         c.s.en = 1);
     return 0;
 }
@@ -317,7 +317,7 @@ static int if_disable(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG(gmx_index, gmx_block),
+    BDK_CSR_MODIFY(c, BDK_GMXX_PRTX_CFG_2(gmx_block, gmx_index),
         c.s.en = 0);
     return 0;
 }
@@ -353,14 +353,14 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         result.s.speed = bdk_qlm_get_gbaud_mhz(qlm) * 8 / 10;
         result.s.speed *= result.s.lanes;
 
-        BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG(gmx_index, gmx_block));
+        BDK_CSR_INIT(misc_ctl, BDK_PCSX_MISCX_CTL_REG_2(gmx_block, gmx_index));
         if (misc_ctl.s.gmxeno)
             xaui_link_init(handle);
     }
     else
     {
         /* Disable GMX and PCSX interrupts. */
-        BDK_CSR_WRITE (BDK_GMXX_RXX_INT_EN(gmx_index,gmx_block), 0x0);
+        BDK_CSR_WRITE (BDK_GMXX_RXX_INT_EN_2(gmx_block, gmx_index), 0x0);
         BDK_CSR_WRITE (BDK_GMXX_TX_INT_EN(gmx_block), 0x0);
         BDK_CSR_WRITE (BDK_PCSXX_INT_EN_REG(gmx_block), 0x0);
         /* Reset PCS if some lanes are up but not others */
