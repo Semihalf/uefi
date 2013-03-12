@@ -48,6 +48,10 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     AS_INIT(BDK_CONFIG_PHY_IF4_PORT1, -1),
     AS_INIT(BDK_CONFIG_PHY_IF4_PORT2, -1),
     AS_INIT(BDK_CONFIG_PHY_IF4_PORT3, -1),
+    AS_INIT(BDK_CONFIG_PHY_IF5_PORT0, -1),
+    AS_INIT(BDK_CONFIG_PHY_IF5_PORT1, -1),
+    AS_INIT(BDK_CONFIG_PHY_IF5_PORT2, -1),
+    AS_INIT(BDK_CONFIG_PHY_IF5_PORT3, -1),
 
     AS_INIT(BDK_CONFIG_THREAD_STACK_SIZE, 4096),
     /* This is Cavium's OUI with the local admin bit. We will use this as a
@@ -67,6 +71,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF2, 0),
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF3, 0),
     AS_INIT(BDK_CONFIG_HIGIG_MODE_IF4, 0),
+    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF5, 0),
 
     /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
     AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
