@@ -132,6 +132,7 @@ typedef struct
     int (*pko_enable)(void);
     int (*sso_init)(void);
     int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
+    int (*pko_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);

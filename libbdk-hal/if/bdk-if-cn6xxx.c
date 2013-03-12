@@ -494,6 +494,42 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     return 0;
 }
 
+static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+{
+    if (bdk_unlikely(packet->segments >= 64))
+    {
+        bdk_error("PKO can't transmit packets with more than 63 segments\n");
+        return -1;
+    }
+
+    bdk_pko_command_word0_t pko_command;
+    pko_command.u64 = 0;
+    pko_command.s.dontfree = packet->packet.s.i;
+    pko_command.s.ignore_i = 1;
+    pko_command.s.segs = packet->segments;
+    pko_command.s.total_bytes = packet->length;
+    bdk_buf_ptr_t buf = packet->packet;
+    buf.s.i = 0;
+
+    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue[0], 1, pko_command.u64, buf.u64);
+
+    if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
+    {
+        bdk_pko_doorbell(handle->pko_port, handle->pko_queue, 2);
+        /* Updates the statistics in software if need to. The simulator
+            doesn't implement the hardware counters */
+        if (bdk_unlikely(bdk_is_simulation()))
+        {
+            int octets = pko_command.s.total_bytes;
+            if (handle->flags & BDK_IF_FLAGS_HAS_FCS)
+                octets += 4;
+            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, octets);
+            bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
+        }
+    }
+    return result;
+}
+
 __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx = {
     .pki_global_init = pki_global_init,
     .pki_port_init = pki_port_init,
@@ -503,5 +539,6 @@ __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx = {
     .pko_enable = pko_enable,
     .sso_init = sso_init,
     .sso_wqe_to_packet = sso_wqe_to_packet,
+    .pko_transmit = pko_transmit,
 };
 

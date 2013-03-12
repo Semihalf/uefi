@@ -185,6 +185,11 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     return 0;
 }
 
+static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+{
+    return -1;
+}
+
 __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx = {
     .pki_global_init = pki_global_init,
     .pki_port_init = pki_port_init,
@@ -194,5 +199,6 @@ __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx = {
     .pko_enable = pko_enable,
     .sso_init = sso_init,
     .sso_wqe_to_packet = sso_wqe_to_packet,
+    .pko_transmit = pko_transmit,
 };
 
