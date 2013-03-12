@@ -700,8 +700,8 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
 
     /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
-        as we need software stats that aren't updated in hte optimized PKO */
-    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation())
+        as we need software stats that aren't updated in the optimized PKO */
+    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation() && !OCTEON_IS_MODEL(OCTEON_CN78XX))
         packet_transmitter_pko(tg_port, &packet, output_cycle_gap);
     else
         packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
