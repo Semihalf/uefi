@@ -52,8 +52,20 @@ static int qlm_get_lanes(int qlm)
  */
 static const char *qlm_get_mode(int qlm)
 {
-    bdk_error("bdk_qlm_get_mode: Needs update for this chip\n");
-    return "UNKNOWN";
+    if (qlm < 8)
+    {
+        BDK_CSR_INIT(gserx_cfg, BDK_GSERX_CFG(qlm));
+        if (gserx_cfg.s.pcie)
+            return "PCIE";
+        else if (gserx_cfg.s.ila)
+            return "ILK";
+        else if (gserx_cfg.s.bgx)
+            return "BGX";
+        else
+            return "RESERVED";
+    }
+    else
+        return "OCI";
 }
 
 
@@ -66,8 +78,25 @@ static const char *qlm_get_mode(int qlm)
  */
 static int qlm_get_gbaud_mhz(int qlm)
 {
-    bdk_error("bdk_qlm_get_gbaud_mhz: Needs update for this chip\n");
-    return 0;
+    if (qlm < 8)
+    {
+        return 6250; /* FIXME */
+    }
+    else
+    {
+        BDK_CSR_INIT(gserx_spd, BDK_GSERX_SPD(qlm));
+        switch (gserx_spd.s.spd & 0x3)
+        {
+            case 0: return 1250;
+            case 1: return 2500;
+            case 2: return 3125;
+            case 3: return 5000;
+            case 4: return 6250;
+            case 5: return 8000;
+            case 6: return 10000;
+            default: return 0;
+        }
+    }
 }
 
 
