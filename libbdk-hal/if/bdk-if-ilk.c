@@ -17,7 +17,8 @@ static int if_num_interfaces(void)
         BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
             c.s.ser_rxpol_auto = 1;
             c.s.ser_rxpol = 0;
-            c.s.ser_txpol = 0;
+            c.s.ser_txpol = 0);
+        BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
             c.s.ser_reset_n = 0xff;
             c.s.ser_pwrup = 3;
             c.s.ser_haul = 0);
@@ -46,6 +47,15 @@ static int if_num_interfaces(void)
 
         return 2;
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* Configure the SERDES */
+        BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
+            c.s.ser_rxpol_auto = 1;
+            c.s.ser_rxpol = 0;
+            c.s.ser_txpol = 0);
+        return 2;
+    }
     else
         return 0;
 }
@@ -54,7 +64,11 @@ static int if_num_ports(int interface)
 {
     /* See how many lanes we can potentially have. We already checked QLM1
         when probing the inteface number, now we check QLM2 */
-    int max_lanes = (strstr(bdk_qlm_get_mode(2), "ILK")) ? 8 : 4;
+    int max_lanes;
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        max_lanes = (strstr(bdk_qlm_get_mode(2), "ILK")) ? 8 : 4;
+    else
+        max_lanes = 16; // FIXME: What about QLM modes
 
     /* In ILK interface only exists if there are lanes configured for it */
     int lanes_interface0 = bdk_config_get(BDK_CONFIG_ILK0_LANES);
@@ -100,7 +114,7 @@ static int if_probe(bdk_if_handle_t handle)
  *
  * @param interface Interface to clear
  */
-static void ilk_clear_cal(int interface)
+static void ilk_clear_cal_cn68xx(int interface)
 {
     int i;
 
@@ -159,7 +173,31 @@ static void ilk_clear_cal(int interface)
     }
 }
 
-static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pipe)
+static void ilk_clear_cal_cn78xx(int interface)
+{
+    for (int i=0; i<288; i++)
+    {
+        BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(interface, i));
+        tx_cal.u = 0;
+        tx_cal.s.ctl = 2;
+        BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, i), tx_cal.u);
+
+        BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(interface, i));
+        rx_cal.u = 0;
+        rx_cal.s.ctl = 2;
+        BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, i), rx_cal.u);
+    }
+}
+
+static void ilk_clear_cal(int interface)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        ilk_clear_cal_cn68xx(interface);
+    else
+        ilk_clear_cal_cn78xx(interface);
+}
+
+static void ilk_write_cal_entry_cn68xx(int interface, int channel, int bpid, int pko_pipe)
 {
     /* Calendar will be setup such that each 16 entries has the global
         link status in the first entry. This allows the received to
@@ -279,12 +317,56 @@ static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pi
     BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
 }
 
+static void ilk_write_cal_entry_cn78xx(int interface, int channel, int bpid, int pko_pipe)
+{
+    BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(0,0));
+    BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(0,0));
+
+    /* Calendar will be setup such that each 16 entries has the global
+        link status in the first entry. This allows the received to
+        send global backpressure in every contorl word. This means
+        we are putting 15 channel entries in every control word */
+    int calendar_16_block = channel / 15;
+    int calendar_16_index = channel % 15 + 1;
+    int index = calendar_16_block * 16 + calendar_16_index;
+
+    /* Program the link status on first channel */
+    if (calendar_16_index == 1)
+    {
+        tx_cal.u = 0;
+        tx_cal.s.ctl = 1;
+        BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, index-1), tx_cal.u);
+
+        rx_cal.u = 0;
+        rx_cal.s.ctl = 1;
+        BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, index-1), rx_cal.u);
+    }
+
+    tx_cal.u = 0;
+    tx_cal.s.ctl = 0;
+    tx_cal.s.channel = channel;
+    BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, index), tx_cal.u);
+
+    rx_cal.u = 0;
+    rx_cal.s.ctl = 0;
+    rx_cal.s.channel = channel;
+    BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, index), rx_cal.u);
+}
+
+static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pipe)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        ilk_write_cal_entry_cn68xx(interface, channel, bpid, pko_pipe);
+    else
+        ilk_write_cal_entry_cn78xx(interface, channel, bpid, pko_pipe);
+}
+
 static int if_init(bdk_if_handle_t handle)
 {
     int num_ilk = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
     static int pko_eid[2] = {-1, -1};
     static int pipe[2] = {-1, -1};
-    if (pko_eid[handle->interface] == -1)
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX) && (pko_eid[handle->interface] == -1))
     {
         /* All ports use same eid and intr */
         pko_eid[handle->interface] = __bdk_pko_alloc_engine();
@@ -294,41 +376,53 @@ static int if_init(bdk_if_handle_t handle)
     if (handle->index == 0)
     {
         ilk_clear_cal(handle->interface);
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
-            c.s.nump = num_ilk;
-            c.s.base = pipe[handle->interface]);
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
+                c.s.nump = num_ilk;
+                c.s.base = pipe[handle->interface]);
 
         /* Set jabber to allow max sized packets */
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_JABBER(handle->interface),
             c.s.cnt = 0xfff8);
     }
 
-    BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-    ptrs.u64 = 0;
-    ptrs.s.qos_mask = 0xff; /* QOS rounds */
-    ptrs.s.crc = 1;         /* Use CRC on packets */
-    ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-    ptrs.s.pipe = pipe[handle->interface]+handle->index;
-    ptrs.s.intr = 28+handle->interface; /* Which interface */
-    ptrs.s.eid = pko_eid[handle->interface];  /* Which engine */
-    ptrs.s.ipid = handle->pko_port;
-    BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
+        ptrs.u64 = 0;
+        ptrs.s.qos_mask = 0xff; /* QOS rounds */
+        ptrs.s.crc = 1;         /* Use CRC on packets */
+        ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
+        ptrs.s.pipe = pipe[handle->interface]+handle->index;
+        ptrs.s.intr = 28+handle->interface; /* Which interface */
+        ptrs.s.eid = pko_eid[handle->interface];  /* Which engine */
+        ptrs.s.ipid = handle->pko_port;
+        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
-    /* Map pipes to channels */
-    BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
-    idx.u64 = 0;
-    idx.s.index = pipe[handle->interface]+handle->index;
-    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
-    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
+        /* Map pipes to channels */
+        BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
+        idx.u64 = 0;
+        idx.s.index = pipe[handle->interface]+handle->index;
+        BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
+        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
+    }
     ilk_write_cal_entry(handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
 
     /* Setup PKIND */
-    BDK_CSR_DEFINE(pidx, BDK_ILK_RXF_IDX_PMAP);
-    pidx.u64 = 0;
-    pidx.s.index = handle->interface * 256 + handle->index;
-    BDK_CSR_WRITE(BDK_ILK_RXF_IDX_PMAP, pidx.u64);
-    BDK_CSR_MODIFY(c, BDK_ILK_RXF_MEM_PMAP,
-        c.s.port_kind = handle->pknd);
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        BDK_CSR_DEFINE(pidx, BDK_ILK_RXF_IDX_PMAP);
+        pidx.u64 = 0;
+        pidx.s.index = handle->interface * 256 + handle->index;
+        BDK_CSR_WRITE(BDK_ILK_RXF_IDX_PMAP, pidx.u64);
+        BDK_CSR_MODIFY(c, BDK_ILK_RXF_MEM_PMAP,
+            c.s.port_kind = handle->pknd);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CHAX_2(handle->interface, handle->index),
+            c.s.port_kind = handle->pknd);
+    }
 
     if (handle->index+1 == num_ilk)
     {
@@ -448,26 +542,26 @@ retry:
         BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
             c.s.pkt_ena = ilk_txx_cfg1.s.pkt_ena);
 
-        /* Enable error interrupts */
-        BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
-            c.s.rxf_ctl_perr = -1;
-            c.s.rxf_lnk0_perr = -1;
-            c.s.rxf_lnk1_perr = -1;
-            c.s.rxf_pop_empty = -1;
-            c.s.rxf_push_full = -1;
-        );
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
-            c.s.bad_pipe = -1;
-            c.s.bad_seq = -1;
-            c.s.txf_err = 0; /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
-        );
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
-            c.s.crc24_err = -1;
-            c.s.lane_bad_word = -1;
-            c.s.pkt_drop_rid = -1;
-            c.s.pkt_drop_rxf = -1;
-            c.s.pkt_drop_sop = -1;
-        );
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        {
+            /* Enable error interrupts */
+            BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
+                c.s.rxf_ctl_perr = -1;
+                c.s.rxf_lnk0_perr = -1;
+                c.s.rxf_lnk1_perr = -1;
+                c.s.rxf_pop_empty = -1;
+                c.s.rxf_push_full = -1);
+            BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
+                c.s.bad_pipe = -1;
+                c.s.bad_seq = -1;
+                c.s.txf_err = 0); /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
+            BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
+                c.s.crc24_err = -1;
+                c.s.lane_bad_word = -1;
+                c.s.pkt_drop_rid = -1;
+                c.s.pkt_drop_rxf = -1;
+                c.s.pkt_drop_sop = -1);
+        }
         int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
         int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
         for (int lane=start_lane; lane<stop_lane; lane++)
@@ -483,16 +577,16 @@ retry:
             stat.s.stat_msg = -1;
             stat.s.ukwn_cntl_word = -1;
             BDK_CSR_WRITE(BDK_ILK_RX_LNEX_INT(lane), stat.u64);
-            BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
-                c.s.bad_64b67b = -1;
-                c.s.bdry_sync_loss = -1;
-                c.s.crc32_err = -1;
-                c.s.dskew_fifo_ovfl = -1;
-                c.s.scrm_sync_loss = -1;
-                c.s.serdes_lock_loss = -1;
-                c.s.stat_msg = -1;
-                c.s.ukwn_cntl_word = -1;
-            );
+            if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+                BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+                    c.s.bad_64b67b = -1;
+                    c.s.bdry_sync_loss = -1;
+                    c.s.crc32_err = -1;
+                    c.s.dskew_fifo_ovfl = -1;
+                    c.s.scrm_sync_loss = -1;
+                    c.s.serdes_lock_loss = -1;
+                    c.s.stat_msg = -1;
+                    c.s.ukwn_cntl_word = -1);
         }
         //printf("ILK%d: Lane alignment complete\n", handle->interface);
     }
