@@ -15,6 +15,10 @@
         without warnings for both 32bit and 64bit. */
 #define BDK_SCRATCH_BASE       (-32768l) /* 0xffffffffffff8000 */
 
+/* Address for LMTDMAs on Octeon3. "dwords" must be 1-16 */
+#define BDK_LMTDMA_ADDR(dwords) (0xffffffffffffa400ull + ((dwords - 1)<<3))
+#define BDK_IF_SCR_LMTDMA 128
+
 /**
  * Resize the amount of scratch on the current core. Note that in
  * a multicore setup this function likely needs to be called on

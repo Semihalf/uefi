@@ -95,16 +95,31 @@ static int fpa_get_block_size(int aura)
     return fpa_buffer_size_pool[aura];
 }
 
+/**
+ * Get a new block from the FPA
+ *
+ * @param aura   Aura to get the block from
+ *
+ * @return Pointer to the block or NULL on failure
+ */
 static uint64_t fpa_alloc(int aura)
 {
     uint64_t address = (0x800128ull + aura) << 40;
     return bdk_read64_uint64(address);
 }
 
+/**
+ * Free a block allocated with a FPA aura.  Doesn't provided required memory
+ * ordering in cases where memory block was modified by core.
+ *
+ * @param address Block to free
+ * @param aura    Aura to put it in
+ * @param num_cache_lines
+ *                Cache lines to invalidate
+ */
 static void fpa_free(uint64_t address, int aura, int num_cache_lines)
 {
     address |= (0x800128ull + aura) << 40;
-    asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
     /* value written is number of cache lines not written back */
     bdk_write64_uint64(address, num_cache_lines);
 }

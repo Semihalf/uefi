@@ -14,6 +14,8 @@ static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
  */
 static int pki_global_init(void)
 {
+    bdk_zero_memory(__bdk_if_ipd_map, sizeof(__bdk_if_ipd_map));
+
     /* Skip one cache line so we have room to put the WQE at the
         beginning of the packet buffer */
     BDK_CSR_MODIFY(c, BDK_IPD_1ST_MBUFF_SKIP,
@@ -478,7 +480,6 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     if (bdk_unlikely(!packet->if_handle))
     {
         bdk_error("Unable to find IF for ipd_port %d\n", ipd_port);
-        bdk_if_free(packet);
         return -1;
     }
 

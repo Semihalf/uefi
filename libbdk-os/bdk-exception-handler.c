@@ -70,6 +70,8 @@ void __bdk_exception_handler(uint64_t saved_regs[34])
     printf("COP0_BADVADDR:  0x%016lx\n", r);
     BDK_MF_COP0(r, COP0_EPC);
     printf("COP0_EPC:       0x%016lx\n", r);
+    BDK_MF_COP0(r, COP0_CVMMEMCTL);
+    printf("COP0_CVMMEMCTL: 0x%016lx\n", r);
     printf("******************************************************************\n");
     for (int i=0; i<128; i+=8)
         printf("stack[0x%02x] = 0x%016lx\n", i, *(uint64_t*)(saved_regs[29] + i));

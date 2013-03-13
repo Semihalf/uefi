@@ -1,7 +1,7 @@
 #include <bdk.h>
 #include <malloc.h>
 
-#define NUM_POOLS 64
+#define NUM_POOLS 16 /* Can be 16, 32, or 64 */
 #define NUM_AURAS 1024
 #define PTRS_PER_LINE 29
 
@@ -21,9 +21,18 @@ static int fpa_init(void)
     if (bist)
         bdk_error("FPA reports BIST failures (0x%lx)\n", bist);
 
+    /* Limit to only NUM_POOLS pools */
+    int pool_divide;
+    if (NUM_POOLS <= 16)
+        pool_divide = 2;
+    else if (NUM_POOLS <= 32)
+        pool_divide = 1;
+    else
+        pool_divide = 0;
+
     BDK_CSR_MODIFY(c, BDK_FPA_GEN_CFG,
         c.s.lvl_dly = 3; /* Levelizer delay */
-        c.s.pools = 2); /* Limit to only 16 pools */
+        c.s.pools = pool_divide);
 
     /* Clear global errors */
     BDK_CSR_WRITE(BDK_FPA_ERR_INT, 0xf);
@@ -62,8 +71,8 @@ static int fpa_init_aura(int aura, int pool, int num_blocks)
     while ((num_blocks>>shift) >= 256)
         shift++;
 
-    /* Start count at num_blocks */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT(aura), num_blocks);
+    /* Start count at zero */
+    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT(aura), 0);
     /* Assign to a pool */
     BDK_CSR_WRITE(BDK_FPA_AURAX_POOL(aura), pool);
     /* Limit to not overflow */
@@ -112,6 +121,8 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
     uint64_t pool_start = bdk_ptr_to_phys(buf);
     uint64_t stack_start = pool_start + pool_size;
     uint64_t stack_end = stack_start + stack_size;
+    bdk_dprintf("FPA: pool %d uses 0x%lx - 0x%lx with links in 0x%lx - 0x%lx\n",
+        pool, pool_start, stack_start-1, stack_start, stack_end-1);
 
     /* Set the pool to be at the front */
     BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(pool), pool_start);
@@ -139,10 +150,16 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
         c.s.nat_align = 1;
         c.s.ena = 1);
 
+    fpa_buffer_size_pool[pool] = block_size;
+
     /* Create an aura that 1:1 maps the pool */
     int aura = fpa_init_aura(pool, pool, num_blocks);
     if (aura < 0)
         return -1;
+
+    /* Adding buffers decrement the aura count. Update the count
+        for the new buffers */
+    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT_ADD(aura), num_blocks);
 
     /* Free the buffers */
     while (num_blocks--)
@@ -150,8 +167,6 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
         bdk_fpa_free(buf, aura, 0);
         buf += block_size;
     }
-
-    fpa_buffer_size_pool[pool] = block_size;
     return 0;
 }
 
@@ -167,6 +182,13 @@ static int fpa_get_block_size(int aura)
     return fpa_buffer_size_aura[aura];
 }
 
+/**
+ * Get a new block from the FPA
+ *
+ * @param aura   Aura to get the block from
+ *
+ * @return Pointer to the block or NULL on failure
+ */
 static uint64_t fpa_alloc(int aura)
 {
     uint64_t node = 0;
@@ -174,9 +196,20 @@ static uint64_t fpa_alloc(int aura)
     address |= node << 36;
     /* address |= 0ull << 35; Don't use RED */
     address |= aura << 16;
-    return bdk_read64_uint64(address);
+    address = bdk_read64_uint64(address);
+    //bdk_dprintf("FPA alloc aura=%d addr=0x%lx\n", aura, address);
+    return address;
 }
 
+/**
+ * Free a block allocated with a FPA aura.  Doesn't provided required memory
+ * ordering in cases where memory block was modified by core.
+ *
+ * @param address Block to free
+ * @param aura    Aura to put it in
+ * @param num_cache_lines
+ *                Cache lines to invalidate
+ */
 static void fpa_free(uint64_t address, int aura, int num_cache_lines)
 {
     uint64_t node = 0;
@@ -185,6 +218,7 @@ static void fpa_free(uint64_t address, int aura, int num_cache_lines)
     store |= aura << 16;
     /* store |= 0 << 15; Not absolute */
     store |= num_cache_lines << 3;
+    //bdk_dprintf("FPA free aura=%d addr=0x%lx\n", aura, address);
     bdk_write64_uint64(store, address);
 }
 

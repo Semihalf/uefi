@@ -612,12 +612,21 @@ function TrafficGen.new()
         local COL_SEP = ZEROHI .. "|" .. NORMAL
         if octeon.csr then
             -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
-            printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                octeon.csr.IPD_QUE0_FREE_PAGE_CNT.read(),
-                octeon.csr.FPA_QUEX_AVAILABLE(1).read(),
-                collectgarbage("count"),
-                octeon.c.get_sbrk() / 1024,
-                ERASE_EOL);
+            if octeon.is_model(octeon.CN78XX) then
+                printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
+                    octeon.csr.FPA_POOLX_AVAILABLE(0).read(),
+                    octeon.csr.FPA_POOLX_AVAILABLE(1).read(),
+                    collectgarbage("count"),
+                    octeon.c.get_sbrk() / 1024,
+                    ERASE_EOL);
+            else
+                printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
+                    octeon.csr.FPA_QUEX_AVAILABLE(0).read(),
+                    octeon.csr.FPA_QUEX_AVAILABLE(1).read(),
+                    collectgarbage("count"),
+                    octeon.c.get_sbrk() / 1024,
+                    ERASE_EOL);
+            end
         else
             -- Create a row reporting Lua mem, and C mem
             printf("Lua mem%5dKB, C mem%5dKB%s\n",

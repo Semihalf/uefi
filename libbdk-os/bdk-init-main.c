@@ -24,6 +24,18 @@ static void __bdk_init_cop0(void)
     memctl &= -64;          // Setup two lines of scratch
     memctl |= 2;
     BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
+
+    /* Setup LMTDMA to cache line 1 */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
+        memctl |= 1ull<<51;     // Enable LMTDMA
+        memctl |= 1ull<<45;     // Use cache line 1
+        BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
+        /* Zero the LMT cache line */
+        for (int i=128; i<256; i+=8)
+            bdk_scratch_write64(i, 0);
+    }
 }
 
 

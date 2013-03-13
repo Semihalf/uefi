@@ -588,7 +588,7 @@ static int bdk_if_dispatch(void)
             /* Store zero before doing async get work so we can tell when
                 it is done */
             bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
-            sso_get_work_async(BDK_IF_SCR_WORK, 0);
+            sso_get_work_async(BDK_IF_SCR_WORK, 1);
         }
 
         /* Check devices that msut be polled if no work was available */
@@ -607,7 +607,6 @@ static int bdk_if_dispatch(void)
 
         if (__bdk_if_global_ops.sso_wqe_to_packet(wqe, &packet))
         {
-            bdk_error("sso_wqe_to_packet() failed\n");
             bdk_if_free(&packet);
             return count;
         }

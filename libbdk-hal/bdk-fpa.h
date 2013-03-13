@@ -56,6 +56,7 @@ static inline void *bdk_fpa_alloc(int aura)
 static inline void __bdk_fpa_raw_free(uint64_t address, int aura, int num_cache_lines)
 {
     extern bdk_fpa_ops_t __bdk_fpa_ops;
+    asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
     __bdk_fpa_ops.free(address, aura, num_cache_lines);
 }
 
@@ -99,5 +100,17 @@ static inline int bdk_fpa_get_block_size(int aura)
  *         -1 on failure
  */
 extern int bdk_fpa_fill_pool(int pool, int num_blocks);
+
+/**
+ * Initialize an Aura for a specific pool
+ *
+ * @param aura       Aura to initialize, or -1 to dynamically allocate one
+ * @param pool       Pool this aura is for
+ * @param num_blocks Number of buffers to allow this aura to contain. This may be
+ *                   different from the pool
+ *
+ * @return Aura number or negative on failure
+ */
+extern int bdk_fpa_init_aura(int aura, int pool, int num_blocks);
 
 /** @} */

@@ -23,6 +23,7 @@ static int __bdk_fpa_init(void)
             __bdk_fpa_ops = __bdk_fpa_ops_cn78xx;
         else
             __bdk_fpa_ops = __bdk_fpa_ops_cn6xxx;
+        //bdk_dprintf("FPA: Performing global init\n");
         result = __bdk_fpa_ops.init();
         __bdk_fpa_init_done = 1;
     }
@@ -50,6 +51,27 @@ int bdk_fpa_fill_pool(int pool, int num_blocks)
         if (result)
             return result;
     }
-    return __bdk_fpa_ops.init_pool(pool, num_blocks, bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0 + pool));
+    int block_size = bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0 + pool);
+    //bdk_dprintf("FPA: Fill pool %d with %d blocks of %d bytes\n", pool, num_blocks, block_size);
+    return __bdk_fpa_ops.init_pool(pool, num_blocks, block_size);
+}
+
+/**
+ * Initialize an Aura for a specific pool
+ *
+ * @param aura       Aura to initialize, or -1 to dynamically allocate one
+ * @param pool       Pool this aura is for
+ * @param num_blocks Number of buffers to allow this aura to contain. This may be
+ *                   different from the pool
+ *
+ * @return Aura number or negative on failure
+ */
+int bdk_fpa_init_aura(int aura, int pool, int num_blocks)
+{
+    int result = -1;
+    if (__bdk_fpa_ops.init_aura)
+        result = __bdk_fpa_ops.init_aura(aura, pool, num_blocks);
+    bdk_dprintf("FPA: Init aura %d for pool %d with %d blocks\n", result, pool, num_blocks);
+    return result;
 }
 

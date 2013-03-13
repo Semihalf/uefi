@@ -72,6 +72,7 @@ typedef struct __bdk_if_port
     int         ipd_port    : 16;
     int         pko_port    : 8;
     int         pko_queue   : 8;
+    int         aura        : 16;
     bdk_if_flags_t flags    : 8;
     void *      receiver; /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
