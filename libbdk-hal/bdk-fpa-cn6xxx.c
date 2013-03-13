@@ -9,7 +9,7 @@ static int fpa_buffer_size_pool[NUM_POOLS];
  */
 static int fpa_init(void)
 {
-    memset(fpa_buffer_size_pool, 0, sizeof(fpa_buffer_size_pool));
+    bdk_zero_memory(fpa_buffer_size_pool, sizeof(fpa_buffer_size_pool));
 
     /* Initialize the range checking so that no memory is in range */
     for (int i=0; i<NUM_POOLS; i++)
@@ -41,8 +41,7 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
         return -num_blocks;
     }
 
-    /* Put a known pattern in the data in case someone forgets to init */
-    memset(buf, 0xaa, num_blocks * block_size);
+    bdk_zero_memory(buf, num_blocks * block_size);
 
     {
         /* Update the start address to contain the new memory */

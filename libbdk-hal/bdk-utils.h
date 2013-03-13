@@ -83,4 +83,28 @@ static inline int __bdk_is_dram_enabled(void)
     return lmcx_ddr_pll_ctl.s.reset_n;
 }
 
+/**
+ * Zero a block of memory
+ *
+ * @param start
+ * @param length
+ */
+static inline void bdk_zero_memory(void *start, uint64_t length)
+{
+    if (((long)start & BDK_CACHE_LINE_MASK) || (length & BDK_CACHE_LINE_MASK))
+    {
+        /* Use slwo memset for unaligned memory */
+        memset(start, 0, length);
+    }
+    else
+    {
+        void *end = start + length;
+        while (start<end)
+        {
+            BDK_ZCB(start);
+            start += BDK_CACHE_LINE_SIZE;
+        }
+    }
+}
+
 /** @} */

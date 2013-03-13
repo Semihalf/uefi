@@ -14,8 +14,8 @@ static int next_free_aura = NUM_POOLS; /* Reserve the first auras for 1:1 mappin
  */
 static int fpa_init(void)
 {
-    memset(fpa_buffer_size_pool, 0, sizeof(fpa_buffer_size_pool));
-    memset(fpa_buffer_size_aura, 0, sizeof(fpa_buffer_size_aura));
+    bdk_zero_memory(fpa_buffer_size_pool, sizeof(fpa_buffer_size_pool));
+    bdk_zero_memory(fpa_buffer_size_aura, sizeof(fpa_buffer_size_aura));
 
     uint64_t bist = BDK_CSR_READ(BDK_FPA_BIST_STATUS);
     if (bist)
@@ -107,8 +107,7 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
     if (!buf)
         return -num_blocks;
 
-    /* Put a known pattern in the data in case someone forgets to init */
-    memset(buf, 0xaa, pool_size + stack_size);
+    bdk_zero_memory(buf, pool_size + stack_size);
 
     uint64_t pool_start = bdk_ptr_to_phys(buf);
     uint64_t stack_start = pool_start + pool_size;

@@ -21,7 +21,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate)
         return BDK_CMD_QUEUE_NO_MEMORY;
     }
 
-    memset(qstate, 0, sizeof(*qstate));
+    bdk_zero_memory(qstate, sizeof(*qstate));
     qstate->fpa_pool = fpa_pool;
     qstate->pool_size_m1 = (pool_size>>3)-1;
     qstate->base_ptr = buffer;
