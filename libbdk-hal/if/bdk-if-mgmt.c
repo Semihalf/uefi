@@ -499,10 +499,10 @@ static void poll_tx_complete(bdk_if_handle_t handle)
     while (to_free--)
     {
         int tfi = state->tx_free_index;
-        if (state->tx_buf[tfi].s.i == 0)
+        if (state->tx_buf[tfi].v1.i == 0)
         {
-            __bdk_fpa_raw_free(state->tx_buf[tfi].s.addr - state->tx_buf[tfi].s.back*128,
-                state->tx_buf[tfi].s.pool, 0);
+            __bdk_fpa_raw_free(state->tx_buf[tfi].v1.addr - state->tx_buf[tfi].v1.back*128,
+                state->tx_buf[tfi].v1.pool, 0);
         }
         state->tx_ring[tfi].u64 = 0;
         state->tx_buf[tfi].u64 = 0;
@@ -554,7 +554,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     int twi = state->tx_write_index;
     state->tx_ring[twi].u64 = 0;
     state->tx_ring[twi].s.len = packet->length;
-    state->tx_ring[twi].s.addr = packet->packet.s.addr;
+    state->tx_ring[twi].s.addr = packet->packet.v1.addr;
     state->tx_buf[twi] = packet->packet;
     /* Increment our TX index */
     state->tx_write_index = (twi + 1) % MGMT_PORT_NUM_TX_BUFFERS;
@@ -617,10 +617,10 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
             packet->rx_error = 0;
 
         buffer->u64 = 0;
-        buffer->s.pool = BDK_FPA_PACKET_POOL;
-        buffer->s.size = FPA_SIZE - 8;
-        buffer->s.addr = entry.s.addr;
-        buffer = bdk_phys_to_ptr(buffer->s.addr-8);
+        buffer->v1.pool = BDK_FPA_PACKET_POOL;
+        buffer->v1.size = FPA_SIZE - 8;
+        buffer->v1.addr = entry.s.addr;
+        buffer = bdk_phys_to_ptr(buffer->v1.addr-8);
 
         /* Update this buffer for reuse in future receives. This size is
             -8 as we need space for buffer chains */

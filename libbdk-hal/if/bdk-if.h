@@ -133,6 +133,10 @@ typedef struct
     int (*sso_init)(void);
     int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
     int (*pko_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
+    int (*packet_alloc)(bdk_if_packet_t *packet, int length);
+    void (*packet_free)(bdk_if_packet_t *packet);
+    void (*packet_read)(bdk_if_packet_t *packet, int location, int length, void *data);
+    void (*packet_write)(bdk_if_packet_t *packet, int location, int length, const void *data);
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);

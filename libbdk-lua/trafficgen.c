@@ -495,8 +495,7 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
 {
     uint64_t        count;
     uint64_t        remaining_bytes;
-    bdk_buf_ptr_t  buffer_ptr;
-    uint64_t        start_of_buffer;
+    bdk_buf_ptr_t   buffer_next;
     uint8_t *       data_address;
     uint8_t *       end_of_data;
 
@@ -506,17 +505,27 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
     if (packet->rx_error)
         printf("    Error code:  %u\n", packet->rx_error);
 
-    buffer_ptr = packet->packet;
+    buffer_next = packet->packet;
     remaining_bytes = packet->length;
 
     while (remaining_bytes)
     {
-        start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        printf("    Pool:        %u\n", buffer_ptr.s.pool);
-        printf("    Address:     0x%llx\n", (unsigned long long)buffer_ptr.s.addr);
-        printf("                 ");
-        data_address = (uint8_t *)bdk_phys_to_ptr(buffer_ptr.s.addr);
-        end_of_data = data_address + buffer_ptr.s.size;
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            printf("    Aura:        ?\n"); // FIXME
+            printf("    Address:     0x%llx\n", (unsigned long long)buffer_next.v3.addr);
+            printf("                 ");
+            data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next.v3.addr);
+            end_of_data = data_address + buffer_next.v3.size;
+        }
+        else
+        {
+            printf("    Pool:        %u\n", buffer_next.v1.pool);
+            printf("    Address:     0x%llx\n", (unsigned long long)buffer_next.v1.addr);
+            printf("                 ");
+            data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next.v1.addr);
+            end_of_data = data_address + buffer_next.v1.size;
+        }
         count = 0;
         while (data_address < end_of_data)
         {
@@ -542,7 +551,12 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
         printf("\n");
 
         if (remaining_bytes)
-            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+        {
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                buffer_next = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v3.addr - 8);
+            else
+                buffer_next = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v1.addr - 8);
+        }
     }
     fflush(stdout);
 }
@@ -572,7 +586,10 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
             output_cycle += output_cycle_gap;
             /* Only free the packet on TX if this is the last packet "i=1"
                 means the packet isn't freed */
-            packet->packet.s.i = (count != 1);
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                packet->packet.v3.i = (count != 1);
+            else
+                packet->packet.v1.i = (count != 1);
             if (bdk_likely(bdk_if_transmit(packet->if_handle, packet) == 0))
             {
                 if (bdk_unlikely(--count == 0))
@@ -581,7 +598,10 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
             else
             {
                 /* Transmit failed. Remember we need to free the packet */
-                packet->packet.s.i = 1;
+                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                    packet->packet.v3.i = 1;
+                else
+                    packet->packet.v1.i = 1;
                 do_tx = 0;
             }
         }
@@ -623,7 +643,7 @@ static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, 
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
     bdk_buf_ptr_t buf = packet->packet;
-    buf.s.i = 0;
+    buf.v1.i = 0;
 
     uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
     uint64_t cycle;
@@ -651,7 +671,7 @@ check_done:
             count = 1;
         goto loop_begin;
     }
-    packet->packet.s.i = pko_command.s.dontfree;
+    packet->packet.v1.i = pko_command.s.dontfree;
     return;
 
 tx_failed:
@@ -689,7 +709,10 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     }
 
     /* Signal that this packet should not be freed */
-    packet.packet.s.i = 1;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        packet.packet.v3.i = 1;
+    else
+        packet.packet.v1.i = 1;
 
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
@@ -706,7 +729,8 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     else
         packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
 
-    if (packet.packet.s.i)
+    if ((OCTEON_IS_MODEL(OCTEON_CN78XX) && packet.packet.v3.i) ||
+        (!OCTEON_IS_MODEL(OCTEON_CN78XX) && packet.packet.v1.i))
     {
         /* Packet has not been freed on TX, so free it now */
         /* This should only happen in the error case.  Normal
@@ -732,10 +756,11 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
 {
     const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
-    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    bdk_buf_ptr_t buffer_next = packet->packet;
+    void *buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);
 
     /* Get a pointer to the beginning of the packet */
-    void *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+    void *ptr = buffer_ptr;
     int remaining_bytes = packet->length;
 
     /* Skip the L2 header in the CRC calculation */
@@ -786,7 +811,11 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     while (remaining_bytes > 0)
     {
         /* Figure out the maximum bytes this buffer could hold for us */
-        void *start_of_buffer = bdk_phys_to_ptr(((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7);
+        void *start_of_buffer;
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            start_of_buffer = bdk_phys_to_ptr(buffer_next.v3.addr >> 7 << 7);
+        else
+            start_of_buffer = bdk_phys_to_ptr(((buffer_next.v1.addr >> 7) - buffer_next.v1.back) << 7);
         int buffer_bytes = FPA_SIZE - (ptr - start_of_buffer);
         if (bdk_likely(remaining_bytes <= buffer_bytes))
         {
@@ -820,8 +849,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         memcpy(ptr + remaining_bytes, &crc, buffer_bytes);
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
-                        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-                        memcpy(bdk_phys_to_ptr(buffer_ptr.s.addr), ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
+                        buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
+                        memcpy(buffer_ptr, ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
                         return 0;
                     }
                     else
@@ -832,9 +861,10 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         packet_crc1 &= ~bdk_build_mask(8*(4-buffer_bytes));
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
-                        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+                        buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
+                        buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);
                         /* Read the rest of the CRC */
-                        uint32_t packet_crc2 = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
+                        uint32_t packet_crc2 = *(uint32_t*)buffer_ptr;
                         /* Shift off extra bytes read since some bytes are stored in part 1*/
                         packet_crc2 >>= 32 - 8*(4-buffer_bytes);
                         /* Compare the final CRC with both parts put together */
@@ -846,18 +876,19 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                 else
                 {
                     /* Get a pointer to the next buffer. The CRC should be at the beginning */
-                    buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
+                    buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
+                    buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);
                     if (fix)
                     {
                         //printf("write crc 0x%08x\n", crc);
                         /* Write the CRC */
-                        *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr) = crc;
+                        *(uint32_t*)buffer_ptr = crc;
                         return 0;
                     }
                     else
                     {
                         /* Read the CRC */
-                        uint32_t from_packet = *(uint32_t*)bdk_phys_to_ptr(buffer_ptr.s.addr);
+                        uint32_t from_packet = *(uint32_t*)buffer_ptr;
                         //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
                         return (crc != from_packet);
                     }
@@ -870,8 +901,9 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
             crc = bdk_crc32(ptr, buffer_bytes,  crc);
             remaining_bytes -= buffer_bytes;
             /* Get a pointer to the next buffer */
-            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-            ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
+            buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
+            buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);
+            ptr = buffer_ptr;
         }
     }
     return 0;

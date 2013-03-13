@@ -667,37 +667,7 @@ static void bdk_if_dispatch_thread(int unused, void *unused2)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
-    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
-    bdk_buf_ptr_t *buffer_ptr = &packet->packet;
-
-    /* Start off with an empty packet */
-    packet->length = 0;
-    packet->segments = 0;
-
-    /* Add buffers while the packet is less that the needed length */
-    while (packet->length < length)
-    {
-        void *buffer = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
-        if (!buffer)
-        {
-            /* Free all buffers allocates so far */
-            bdk_if_free(packet);
-            return -1;
-        }
-        /* Fill in the packet link pointer */
-        buffer_ptr->u64 = 0;
-        buffer_ptr->s.pool = BDK_FPA_PACKET_POOL;
-        buffer_ptr->s.size = FPA_SIZE - 8;
-        buffer_ptr->s.addr = bdk_ptr_to_phys(buffer) + 8;
-        packet->length += buffer_ptr->s.size;
-        packet->segments++;
-        /* The next chain pointer is at the beginning of the buffer */
-        buffer_ptr = buffer;
-    }
-    /* Fix length as it will likely be too large since we increment in FPA
-        chunks */
-    packet->length = length;
-    return 0;
+    return __bdk_if_global_ops.packet_alloc(packet, length);
 }
 
 
@@ -712,32 +682,7 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
  */
 void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data)
 {
-    if (location + length > packet->length)
-        bdk_fatal("Attempt to read past the end of a packet\n");
-
-    /* Skip till we get the buffer containing the start location */
-    bdk_buf_ptr_t buffer_ptr = packet->packet;
-    while (location >= buffer_ptr.s.size)
-    {
-        location -= buffer_ptr.s.size;
-        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-    }
-
-    const uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
-    uint8_t *out_data = data;
-    while (length > 0)
-    {
-        *out_data = ptr[location];
-        out_data++;
-        location++;
-        length--;
-        if (length && (location >= buffer_ptr.s.size))
-        {
-            location -= buffer_ptr.s.size;
-            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-            ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
-        }
-    }
+    __bdk_if_global_ops.packet_read(packet, location, length, data);
 }
 
 
@@ -752,32 +697,7 @@ void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void 
  */
 void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data)
 {
-    if (location + length > packet->length)
-        bdk_fatal("Attempt to write past the end of a packet\n");
-
-    /* Skip till we get the buffer containing the start location */
-    bdk_buf_ptr_t buffer_ptr = packet->packet;
-    while (location >= buffer_ptr.s.size)
-    {
-        location -= buffer_ptr.s.size;
-        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-    }
-
-    uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
-    const uint8_t *in_data = data;
-    while (length > 0)
-    {
-        ptr[location] = *in_data;
-        in_data++;
-        location++;
-        length--;
-        if (length && (location >= buffer_ptr.s.size))
-        {
-            location -= buffer_ptr.s.size;
-            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-            ptr = bdk_phys_to_ptr(buffer_ptr.s.addr);
-        }
-    }
+    __bdk_if_global_ops.packet_write(packet, location, length, data);
 }
 
 
@@ -789,20 +709,7 @@ void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, cons
  */
 void bdk_if_free(bdk_if_packet_t *packet)
 {
-    int number_buffers = packet->segments;
-    bdk_buf_ptr_t buffer_ptr = packet->packet;
-    bdk_buf_ptr_t next_buffer_ptr;
-    BDK_SYNCW;
-    while (number_buffers--)
-    {
-        /* Remember the back pointer is in cache lines, not 64bit words */
-        uint64_t start_of_buffer = ((buffer_ptr.s.addr >> 7) - buffer_ptr.s.back) << 7;
-        /* Read pointer to next buffer before we free the current buffer. */
-        if (number_buffers)
-            next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.s.addr - 8);
-        __bdk_fpa_raw_free(start_of_buffer, buffer_ptr.s.pool, 0);
-        buffer_ptr = next_buffer_ptr;
-    }
+    __bdk_if_global_ops.packet_free(packet);
 }
 
 

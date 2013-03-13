@@ -436,29 +436,29 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     const bdk_wqe_t *wqe = work;
 
     /* Get the IPD port number */
-    int ipd_port = wqe->word2.s.port;
+    int ipd_port = wqe->word2.v1.port;
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         ipd_port = wqe->word1.v1.ipprt;
 
     packet->if_handle = __bdk_if_ipd_map[ipd_port];
-    packet->length = wqe->word1.s.len;
-    if (bdk_unlikely(wqe->word2.s.re))
-        packet->rx_error = wqe->word2.s.opcode;
+    packet->length = wqe->word1.v1.len;
+    if (bdk_unlikely(wqe->word2.v1.re))
+        packet->rx_error = wqe->word2.v1.opcode;
     else
         packet->rx_error = 0;
 
-    if (bdk_likely(wqe->word2.s.bufs == 0))
+    if (bdk_likely(wqe->word2.v1.bufs == 0))
     {
         packet->segments = 1;
         packet->packet.u64 = 0;
-        packet->packet.s.back = 0;
-        packet->packet.s.pool = BDK_FPA_PACKET_POOL;
-        packet->packet.s.size = 128; // FIXME packet size
-        packet->packet.s.addr = bdk_ptr_to_phys((void*)wqe->packet_data);
-        if (bdk_likely(!wqe->word2.s.ni))
+        packet->packet.v1.back = 0;
+        packet->packet.v1.pool = BDK_FPA_PACKET_POOL;
+        packet->packet.v1.size = 128; // FIXME packet size
+        packet->packet.v1.addr = bdk_ptr_to_phys((void*)wqe->packet_data);
+        if (bdk_likely(!wqe->word2.v1.ni))
         {
-            packet->packet.s.addr += (PIP_IP_OFFSET<<3) - wqe->word2.ip.ip_offset;
-            packet->packet.s.addr += (wqe->word2.ip.v6^1)<<2;
+            packet->packet.v1.addr += (PIP_IP_OFFSET<<3) - wqe->word2.v1.ip_offset;
+            packet->packet.v1.addr += (wqe->word2.v1.v6^1)<<2;
         }
         else
         {
@@ -466,12 +466,12 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
                 we would use PIP_GBL_CFG[RAW_SHF] instead of
                 PIP_GBL_CFG[NIP_SHF] */
             BDK_CSR_INIT(pip_gbl_cfg, BDK_PIP_GBL_CFG);
-            packet->packet.s.addr += pip_gbl_cfg.s.nip_shf;
+            packet->packet.v1.addr += pip_gbl_cfg.s.nip_shf;
         }
     }
     else
     {
-        packet->segments = wqe->word2.s.bufs;
+        packet->segments = wqe->word2.v1.bufs;
         packet->packet = wqe->packet_ptr;
     }
 
@@ -488,12 +488,20 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         BDK_CSR_DEFINE(page_cnt, BDK_IPD_SUB_PORT_BP_PAGE_CNT);
         page_cnt.u64 = 0;
         page_cnt.s.port = packet->if_handle->pknd;
-        page_cnt.s.page_cnt = (wqe->word2.s.bufs == 0) ? -1 : -packet->segments-1;
+        page_cnt.s.page_cnt = (wqe->word2.v1.bufs == 0) ? -1 : -packet->segments-1;
         BDK_CSR_WRITE(BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
     }
     return 0;
 }
 
+/**
+ * Send a packet
+ *
+ * @param handle Handle of port to send on
+ * @param packet Packet to send
+ *
+ * @return Zero on success, negative on failure
+ */
 static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
     if (bdk_unlikely(packet->segments >= 64))
@@ -504,12 +512,12 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     bdk_pko_command_word0_t pko_command;
     pko_command.u64 = 0;
-    pko_command.s.dontfree = packet->packet.s.i;
+    pko_command.s.dontfree = packet->packet.v1.i;
     pko_command.s.ignore_i = 1;
     pko_command.s.segs = packet->segments;
     pko_command.s.total_bytes = packet->length;
     bdk_buf_ptr_t buf = packet->packet;
-    buf.s.i = 0;
+    buf.v1.i = 0;
 
     bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(&handle->cmd_queue[0], 1, pko_command.u64, buf.u64);
 
@@ -530,6 +538,151 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     return result;
 }
 
+/**
+ * Allocate a packet with buffers for the supplied amount of data
+ *
+ * @param packet Packet to get buffers for
+ * @param length Length of the final packet in bytes
+ *
+ * @return Zero on success, negative on failure.
+ */
+static int packet_alloc(bdk_if_packet_t *packet, int length)
+{
+    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    bdk_buf_ptr_t *buffer_ptr = &packet->packet;
+
+    /* Start off with an empty packet */
+    packet->length = 0;
+    packet->segments = 0;
+
+    /* Add buffers while the packet is less that the needed length */
+    while (packet->length < length)
+    {
+        void *buffer = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
+        if (!buffer)
+        {
+            /* Free all buffers allocates so far */
+            bdk_if_free(packet);
+            return -1;
+        }
+        /* Fill in the packet link pointer */
+        buffer_ptr->u64 = 0;
+        buffer_ptr->v1.pool = BDK_FPA_PACKET_POOL;
+        buffer_ptr->v1.size = FPA_SIZE - 8;
+        buffer_ptr->v1.addr = bdk_ptr_to_phys(buffer) + 8;
+        packet->length += FPA_SIZE - 8;
+        packet->segments++;
+        /* The next chain pointer is at the beginning of the buffer */
+        buffer_ptr = buffer;
+    }
+    /* Fix length as it will likely be too large since we increment in FPA
+        chunks */
+    packet->length = length;
+    return 0;
+}
+
+/**
+ * Free a packet back to the FPA pools
+ *
+ * @param packet Packet to free. Only the data is freed. The bdk_if_packet_t structure
+ *               is not freed.
+ */
+static void packet_free(bdk_if_packet_t *packet)
+{
+    int number_buffers = packet->segments;
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    bdk_buf_ptr_t next_buffer_ptr;
+    BDK_SYNCW;
+    while (number_buffers--)
+    {
+        /* Remember the back pointer is in cache lines, not 64bit words */
+        uint64_t start_of_buffer = ((buffer_ptr.v1.addr >> 7) - buffer_ptr.v1.back) << 7;
+        /* Read pointer to next buffer before we free the current buffer. */
+        if (number_buffers)
+            next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v1.addr - 8);
+        __bdk_fpa_raw_free(start_of_buffer, buffer_ptr.v1.pool, 0);
+        buffer_ptr = next_buffer_ptr;
+    }
+}
+
+/**
+ * Read data from a packet starting at the given location. The packet
+ * must already be large enough to contain the data.
+ *
+ * @param packet   Packet to read from.
+ * @param location Location to read
+ * @param length   Length of data to read
+ * @param data     Buffer to receive the data
+ */
+static void packet_read(bdk_if_packet_t *packet, int location, int length, void *data)
+{
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to read past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    while (location >= buffer_ptr.v1.size)
+    {
+        location -= buffer_ptr.v1.size;
+        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v1.addr - 8);
+    }
+
+    const uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.v1.addr);
+    uint8_t *out_data = data;
+    while (length > 0)
+    {
+        *out_data = ptr[location];
+        out_data++;
+        location++;
+        length--;
+        if (length && (location >= buffer_ptr.v1.size))
+        {
+            location -= buffer_ptr.v1.size;
+            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v1.addr - 8);
+            ptr = bdk_phys_to_ptr(buffer_ptr.v1.addr);
+        }
+    }
+}
+
+/**
+ * Write data into a packet starting at the given location. The packet
+ * must already be large enough to contain the data.
+ *
+ * @param packet   Packet to write to.
+ * @param location Location to write
+ * @param length   Length of data to write
+ * @param data     Data to write
+ */
+static void packet_write(bdk_if_packet_t *packet, int location, int length, const void *data)
+{
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to write past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    bdk_buf_ptr_t buffer_ptr = packet->packet;
+    while (location >= buffer_ptr.v1.size)
+    {
+        location -= buffer_ptr.v1.size;
+        buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v1.addr - 8);
+    }
+
+    uint8_t *ptr = bdk_phys_to_ptr(buffer_ptr.v1.addr);
+    const uint8_t *in_data = data;
+    while (length > 0)
+    {
+        ptr[location] = *in_data;
+        in_data++;
+        location++;
+        length--;
+        if (length && (location >= buffer_ptr.v1.size))
+        {
+            location -= buffer_ptr.v1.size;
+            buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v1.addr - 8);
+            ptr = bdk_phys_to_ptr(buffer_ptr.v1.addr);
+        }
+    }
+}
+
 __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx = {
     .pki_global_init = pki_global_init,
     .pki_port_init = pki_port_init,
@@ -540,5 +693,9 @@ __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx = {
     .sso_init = sso_init,
     .sso_wqe_to_packet = sso_wqe_to_packet,
     .pko_transmit = pko_transmit,
+    .packet_alloc = packet_alloc,
+    .packet_free = packet_free,
+    .packet_read = packet_read,
+    .packet_write = packet_write,
 };
 
