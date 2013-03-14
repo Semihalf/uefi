@@ -140,12 +140,10 @@ static int pki_port_init(bdk_if_handle_t handle)
     /* Round robbin through groups */
     int wqe_grp = next_wqe_grp;
     next_wqe_grp = (next_wqe_grp+1) & 255;
-    const int AURA_NODE = 0;
     BDK_CSR_MODIFY(c, BDK_PKI_QPG_TBLX(qpg),
         c.s.padd = handle->ipd_port; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
         c.s.grp_bad = wqe_grp; /* Set WQE[GRP] */
-        c.s.aura_node = AURA_NODE;
         c.s.aura = handle->aura); /* Set WQE[AURA] */
 
     /* We lookup the handle using the PKI input channel */
