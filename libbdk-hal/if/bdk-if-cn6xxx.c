@@ -456,7 +456,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         packet->packet.v1.back = 0;
         packet->packet.v1.pool = BDK_FPA_PACKET_POOL;
         packet->packet.v1.size = 128; // FIXME packet size
-        packet->packet.v1.addr = bdk_ptr_to_phys((void*)wqe->packet_data);
+        packet->packet.v1.addr = bdk_ptr_to_phys((void*)&(wqe->word4));
         if (bdk_likely(!wqe->word2.v1.ni))
         {
             packet->packet.v1.addr += (PIP_IP_OFFSET<<3) - wqe->word2.v1.ip_offset;

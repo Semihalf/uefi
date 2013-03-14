@@ -352,30 +352,50 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const bdk_wqe_t *wqe = work;
 
-    bdk_dprintf("SSO work\n"
-        "\t0x%016lx [aura=%d, apad=%d, chan=%d, bufs=%d, style=%d, pknd=%d]\n"
-        "\t0x%016lx [len=%d, grp=%d, tt=%d, tag=%d]\n"
-        "\t0x%016lx\n"
-        "\t0x%016lx [size=%d, dwd=%d, addr=0x%lx]\n",
-        wqe->word0.u64,
+    bdk_dprintf("SSO work %p\n"
+        "  word0: 0x%016lx [aura=%d, apad=%d, chan=%d, bufs=%d, style=%d, pknd=%d]\n"
+        "  word1: 0x%016lx [len=%d, grp=%d, tt=%d, tag=%d]\n"
+        "  word2: 0x%016lx\n"
+        "  word3: 0x%016lx [size=%d, dwd=%d, addr=0x%lx]\n"
+        "  word4: 0x%016lx [vlptr=%d, lgptr=%d, lfptr=%d, leptr=%d, ldptr=%d, lcptr=%d, lbptr=%d, laptr=%d\n"
+        "  word5: 0x%016lx\n"
+        "  word6: 0x%016lx\n"
+        "  word7: 0x%016lx\n",
+        wqe,
+        wqe->word0.u64,         /* word0 */
         wqe->word0.v3.aura,
         wqe->word0.v3.apad,
         wqe->word0.v3.chan,
         wqe->word0.v3.bufs,
         wqe->word0.v3.style,
         wqe->word0.v3.pknd,
-        wqe->word1.u64,
+        wqe->word1.u64,         /* word1 */
         wqe->word1.v3.len,
         wqe->word1.v3.grp,
         wqe->word1.v3.tt,
         wqe->word1.v3.tag,
-        wqe->word2.u64,
-        wqe->packet_ptr.u64,
+        wqe->word2.u64,         /* word2 */
+        wqe->packet_ptr.u64,    /* word3 */
         wqe->packet_ptr.v3.size,
         wqe->packet_ptr.v3.dwd,
-        (uint64_t)wqe->packet_ptr.v3.addr);
+        (uint64_t)wqe->packet_ptr.v3.addr,
+        wqe->word4.u64,         /* word4 */
+        wqe->word4.v3.vlptr,
+        wqe->word4.v3.lgptr,
+        wqe->word4.v3.lfptr,
+        wqe->word4.v3.leptr,
+        wqe->word4.v3.ldptr,
+        wqe->word4.v3.lcptr,
+        wqe->word4.v3.lbptr,
+        wqe->word4.v3.laptr,
+        wqe->unused[0],         /* word5 */
+        wqe->unused[1],         /* word6 */
+        wqe->unused[2]);        /* word7 */
 
     packet->if_handle = __bdk_if_ipd_map[wqe->word0.v3.chan];
+    bdk_dprintf("  Maps to %s, port=%d, aura=%d, pknd=%d\n",
+        packet->if_handle->name, packet->if_handle->ipd_port,
+        packet->if_handle->aura, packet->if_handle->pknd);
     packet->length = wqe->word1.v3.len;
     packet->segments = wqe->word0.v3.bufs;
     packet->packet = wqe->packet_ptr;

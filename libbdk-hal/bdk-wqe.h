@@ -147,7 +147,23 @@ typedef union
         uint64_t    reserved_42_43  :  2;
         uint64_t    addr            : 42;   /**< Pointer to the first byte of the data, NOT buffer */
     } v3;
-} bdk_buf_ptr_t;
+} bdk_buf_ptr_t; /* __bdk_wqe_word3_t */
+
+typedef union
+{
+    uint64_t u64;
+    struct
+    {
+        uint64_t    vlptr           :  8;   /**< Pointer to VLAN */
+        uint64_t    lgptr           :  8;   /**< Pointer to Layer G starting byte */
+        uint64_t    lfptr           :  8;   /**< Pointer to Layer F starting byte */
+        uint64_t    leptr           :  8;   /**< Pointer to Layer E starting byte */
+        uint64_t    ldptr           :  8;   /**< Pointer to Layer D starting byte */
+        uint64_t    lcptr           :  8;   /**< Pointer to Layer C starting byte */
+        uint64_t    lbptr           :  8;   /**< Pointer to Layer B starting byte */
+        uint64_t    laptr           :  8;   /**< Pointer to Layer A starting byte */
+    } v3;
+} __bdk_wqe_word4_t;
 
 /**
  * Work queue entry format
@@ -158,7 +174,8 @@ typedef struct
     __bdk_wqe_word1_t   word1;
     __bdk_wqe_word2_t   word2;
     bdk_buf_ptr_t       packet_ptr;
-    uint8_t             packet_data[96];
+    __bdk_wqe_word4_t   word4;      /* This is packet_data on cn6xxx */
+    uint64_t            unused[11]; /* This doesn't exist in 78, is pakcet data on 68 */
 } bdk_wqe_t;
 
 /** @} */
