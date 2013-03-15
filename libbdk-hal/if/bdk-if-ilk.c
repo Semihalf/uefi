@@ -406,6 +406,21 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
         BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
     }
+    else
+    {
+        const int MAC_NUMBER = 0x2 + handle->interface; /* Constant from cn78xx */
+        if (handle->index == 0)
+        {
+            int fifo = __bdk_pko_allocate_fifo(MAC_NUMBER, 4);
+            if (fifo < 0)
+                return -1;
+            BDK_CSR_MODIFY(c, BDK_PKO_MACX_CFG(MAC_NUMBER),
+                c.s.fcs_ena = 1; /* FCS */
+                c.s.fcs_sop_off = 0; /* No FCS offset */
+                c.s.skid_max_cnt = 2; /* All credits to one MAC */
+                c.s.fifo_num = fifo); /* PKO FIFO number */
+        }
+    }
     ilk_write_cal_entry(handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
 
     /* Setup PKIND */
