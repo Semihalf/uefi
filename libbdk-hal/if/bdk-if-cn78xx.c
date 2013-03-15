@@ -481,9 +481,26 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const bdk_wqe_t *wqe = work;
 
+    const char *tag_type = "illegal";
+    switch (wqe->word1.v3.tt)
+    {
+        case BDK_WQE_TAG_TYPE_ORDERED:
+            tag_type = "ordered";
+            break;
+        case BDK_WQE_TAG_TYPE_ATOMIC:
+            tag_type = "atomic";
+            break;
+        case BDK_WQE_TAG_TYPE_NULL:
+            tag_type = "null";
+            break;
+        case BDK_WQE_TAG_TYPE_NULL_NULL:
+            tag_type = "null_null";
+            break;
+    }
+
     bdk_dprintf("SSO work %p\n"
-        "  word0: 0x%016lx [aura=%d, apad=%d, chan=%d, bufs=%d, style=%d, pknd=%d]\n"
-        "  word1: 0x%016lx [len=%d, grp=%d, tt=%d, tag=%d]\n"
+        "  word0: 0x%016lx [aura=%d, apad=%d, chan=0x%x, bufs=%d, style=%d, pknd=%d]\n"
+        "  word1: 0x%016lx [len=%d, grp=%d, tt=%s, tag=0x%08x]\n"
         "  word2: 0x%016lx\n"
         "  word3: 0x%016lx [size=%d, dwd=%d, addr=0x%lx]\n"
         "  word4: 0x%016lx [vlptr=%d, lgptr=%d, lfptr=%d, leptr=%d, ldptr=%d, lcptr=%d, lbptr=%d, laptr=%d\n"
@@ -501,7 +518,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         wqe->word1.u64,         /* word1 */
         wqe->word1.v3.len,
         wqe->word1.v3.grp,
-        wqe->word1.v3.tt,
+        tag_type,
         wqe->word1.v3.tag,
         wqe->word2.u64,         /* word2 */
         wqe->packet_ptr.u64,    /* word3 */
