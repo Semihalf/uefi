@@ -208,10 +208,10 @@ int __bdk_pko_allocate_fifo(int lmac, int size)
         /* Buid a mask representing what this fifo would use */
         uint64_t mask = bdk_build_mask(size) << fifo;
         /* Stop search if all bits are free */
-        if ((mask & pko_free_fifo_mask) == 0)
+        if ((mask & pko_free_fifo_mask) == mask)
         {
             /* Found a spot, mark it used and stop searching */
-            pko_free_fifo_mask |= mask;
+            pko_free_fifo_mask &= ~mask;
             break;
         }
         /* Increment by size to keep alignment */
