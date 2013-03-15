@@ -5,11 +5,17 @@
 /* PKO uses three scratch dwords, two for commands and one for return status */
 #define BDK_IF_SCR_PKO(dword) (BDK_IF_SCR_LMTDMA + (dword<<3))
 
+/* PKI global variables */
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000]; /* Channels is 12 bits in WQE */
 static int next_free_qpg_table = 0;
 static int next_free_pknd = 0;
 static int next_wqe_grp = 0;
-static uint64_t free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+
+/* PKO global variables */
+static uint64_t pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+static int pko_next_free_port_queue = 0; /* L1 = Port Queues are 0-31 */
+static int pko_next_free_sched_queue = 0; /* L2-L5 = Channel Queues 0-511 */
+static int pko_next_free_descr_queue = 0; /* L6 = Descriptor Queues 0-1023 */
 
 /**
  * One time init of global Packet Input
@@ -194,10 +200,10 @@ int __bdk_pko_allocate_fifo(int size)
         /* Buid a mask representing what this fifo would use */
         uint64_t mask = bdk_build_mask(size) << fifo;
         /* Stop search if all bits are free */
-        if ((mask & free_fifo_mask) == 0)
+        if ((mask & pko_free_fifo_mask) == 0)
         {
             /* Found a spot, mark it used and stop searching */
-            free_fifo_mask |= mask;
+            pko_free_fifo_mask |= mask;
             break;
         }
         /* Increment by size to keep alignment */
@@ -273,6 +279,129 @@ int __bdk_pko_allocate_fifo(int size)
  */
 static int pko_port_init(bdk_if_handle_t handle)
 {
+    int pq;     /* L1 = port queue */
+    int sq_l2;  /* L2 = schedule queue feeding PQ */
+    int sq_l3;  /* L3 = schedule queue feeding L2 */
+    int sq_l4;  /* L4 = schedule queue feeding L3 */
+    int sq_l5;  /* L5 = schedule queue feeding L4 */
+    int dq;     /* L6 = descriptor queue feeding L5 */
+
+    if (pko_next_free_sched_queue >= 512 - 4)
+    {
+        bdk_error("pko_port_init: Ran out of schedule queues\n");
+        return -1;
+    }
+    if (pko_next_free_descr_queue >= 1024)
+    {
+        bdk_error("pko_port_init: Ran out of schedule queues\n");
+        return -1;
+    }
+
+
+    if (handle->index == 0) /* FIXME: BGX needs 4 L1 queues */
+    {
+        if (pko_next_free_port_queue >= 32)
+        {
+            bdk_error("pko_port_init: Ran out of port queues\n");
+            return -1;
+        }
+        pq = pko_next_free_port_queue++;
+    }
+    else
+    {
+        /* This relies on channels being initialized in order */
+        pq = pko_next_free_port_queue - 1;
+    }
+
+    sq_l2 = pko_next_free_sched_queue++;
+    sq_l3 = pko_next_free_sched_queue++;
+    sq_l4 = pko_next_free_sched_queue++;
+    sq_l5 = pko_next_free_sched_queue++;
+    dq = pko_next_free_descr_queue++;
+
+    int lmac;
+    switch (handle->iftype)
+    {
+        case BDK_IF_SGMII: /* BGX */
+        case BDK_IF_XAUI:
+        case BDK_IF_HIGIG:
+            lmac = 4 + 4 * handle->interface + handle->index;
+            break;
+        case BDK_IF_DPI:
+            lmac = 1;
+            break;
+        case BDK_IF_LOOP:
+            lmac = 0;
+            break;
+        case BDK_IF_ILK:
+            lmac = 2 + handle->interface;
+            break;
+        default:
+            lmac = -1;
+            break;
+    }
+
+    /* Get the FIFO number for this lmac */
+    BDK_CSR_INIT(pko_macx_cfg, BDK_PKO_MACX_CFG(lmac));
+
+    /* Program L1 = port queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_PQX_TOPOLOGY(pq),
+        c.s.link = lmac;
+        c.s.peb_fifo = pko_macx_cfg.s.fifo_num);
+    BDK_CSR_MODIFY(c, BDK_PKO_L1_SQX_TOPOLOGY(pq),
+        c.s.prio_anchor = pq;
+        c.s.link = lmac;
+        c.s.rr_prio = 0);
+    /* Program L2 = schedule queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_SCHEDULE(sq_l2),
+        c.s.prio = 0;
+        c.s.rr_quantum = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_CREDIT(sq_l2),
+        c.s.cc_channel_select = 0;
+        c.s.parent = pq;
+        c.s.cc_channel = handle->ipd_port;
+        c.s.cc_enable = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_TOPOLOGY(sq_l2),
+        c.s.prio_anchor = sq_l2;
+        c.s.parent = pq;
+        c.s.rr_prio = 0);
+    /* Program L3 = schedule queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
+        c.s.prio = 0;
+        c.s.rr_quantum = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_CREDIT(sq_l3),
+        c.s.parent = sq_l2;
+        c.s.cc_channel = handle->ipd_port;
+        c.s.cc_enable = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_TOPOLOGY(sq_l2),
+        c.s.prio_anchor = sq_l3;
+        c.s.parent = sq_l2;
+        c.s.rr_prio = 0);
+    /* Program L4 = schedule queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SCHEDULE(sq_l4),
+        c.s.prio = 0;
+        c.s.rr_quantum = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_TOPOLOGY(sq_l4),
+        c.s.prio_anchor = sq_l4;
+        c.s.parent = sq_l3;
+        c.s.rr_prio = 0);
+    /* Program L5 = schedule queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SCHEDULE(sq_l5),
+        c.s.prio = 0;
+        c.s.rr_quantum = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_TOPOLOGY(sq_l5),
+        c.s.prio_anchor = sq_l5;
+        c.s.parent = sq_l4;
+        c.s.rr_prio = 0);
+    /* Program L6 = descriptor queue */
+    BDK_CSR_MODIFY(c, BDK_PKO_DQX_SCHEDULE(dq),
+        c.s.prio = 0;
+        c.s.rr_quantum = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_DQX_TOPOLOGY(dq),
+        c.s.parent = sq_l5);
+    handle->pko_port = pq;
+    handle->pko_queue = dq;
+
     return 0;
 }
 
