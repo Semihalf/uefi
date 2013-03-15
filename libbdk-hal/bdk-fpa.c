@@ -71,7 +71,7 @@ int bdk_fpa_init_aura(int aura, int pool, int num_blocks)
     int result = -1;
     if (__bdk_fpa_ops.init_aura)
         result = __bdk_fpa_ops.init_aura(aura, pool, num_blocks);
-    bdk_dprintf("FPA: Init aura %d for pool %d with %d blocks\n", result, pool, num_blocks);
+    //bdk_dprintf("FPA: Init aura %d for pool %d with %d blocks\n", result, pool, num_blocks);
     return result;
 }
 
