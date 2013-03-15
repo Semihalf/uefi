@@ -599,7 +599,9 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
             uint64_t    rtnlen          : 8;    /**< Length of return in 8 byte words */
             uint64_t    did             : 8;    /**< PKO DID of 0x51 */
             uint64_t    node            : 4;    /**< OCI Node number */
-            uint64_t    reserved_26_35  :10;
+            uint64_t    reserved_34_35  : 2;
+            uint64_t    dqop            : 2;    /**< Indicates the operation that PKO will perform. Enumerated with PKO_DQOP_E::QUERY, OPEN or CLOSE */
+            uint64_t    reserved_26_31  : 6;
             uint64_t    dq              :10;    /**< Descriptor queue to add to */
             uint64_t    reserved_0_15   :16;
         } s;
