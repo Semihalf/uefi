@@ -43,10 +43,9 @@ static int if_probe(bdk_if_handle_t handle)
 static int if_init_cn78xx(bdk_if_handle_t handle)
 {
     const int MAC_NUMBER = 0x0; /* Constant from cn78xx */
-    const int MAC_BUFFER_SIZE = 4096; /* Constant from cn78xx */
     if (handle->index == 0)
     {
-        int fifo = __bdk_pko_allocate_fifo(4);
+        int fifo = __bdk_pko_allocate_fifo(MAC_NUMBER, 4);
         if (fifo < 0)
             return -1;
         BDK_CSR_MODIFY(c, BDK_PKO_MACX_CFG(MAC_NUMBER),
@@ -54,9 +53,6 @@ static int if_init_cn78xx(bdk_if_handle_t handle)
             c.s.fcs_sop_off = 0; /* No FCS offset */
             c.s.skid_max_cnt = 2; /* All credits to one MAC */
             c.s.fifo_num = fifo); /* PKO FIFO number */
-        /* Confine the credits to not overflow the LBK FIFO */
-        BDK_CSR_MODIFY(c, BDK_PKO_MCI1_MAX_CREDX(MAC_NUMBER),
-            c.s.max_cred_lim = MAC_BUFFER_SIZE / 16);
     }
     /* Record the PKND for this port */
     BDK_CSR_MODIFY(c, BDK_LBK_CHX_PKIND(handle->index),

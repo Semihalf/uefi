@@ -14,7 +14,10 @@ static int next_wqe_grp = 0;
 /* PKO global variables */
 static uint64_t pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
 static int pko_next_free_port_queue = 0; /* L1 = Port Queues are 0-31 */
-static int pko_next_free_sched_queue = 0; /* L2-L5 = Channel Queues 0-511 */
+static int pko_next_free_l2_queue = 0; /* L2 = Channel Queues 0-511 */
+static int pko_next_free_l3_queue = 0; /* L3 = Channel Queues 0-511 */
+static int pko_next_free_l4_queue = 0; /* L4 = Channel Queues 0-511 */
+static int pko_next_free_l5_queue = 0; /* L5 = Channel Queues 0-511 */
 static int pko_next_free_descr_queue = 0; /* L6 = Descriptor Queues 0-1023 */
 
 /**
@@ -154,6 +157,8 @@ static int pki_port_init(bdk_if_handle_t handle)
 
     /* We lookup the handle using the PKI input channel */
     __bdk_if_ipd_map[handle->ipd_port] = handle;
+    bdk_dprintf("%s: pknd=%d, ipd_port=0x%x, aura=%d\n",
+        handle->name, handle->pknd, handle->ipd_port, handle->aura);
     return 0;
 }
 
@@ -180,17 +185,20 @@ static int pki_enable(void)
  */
 static int pko_global_init(void)
 {
+    BDK_CSR_MODIFY(c, BDK_PKO_PTF_IOBP_CFG,
+        c.s.max_read_size =72);
     return 0;
 }
 
 /**
  * Dynamically allocate a PKO fifo for a port
  *
+ * @param lmac   Logical mac to use (0-27)
  * @param size   The size needed in 2.5kb chunks (1,2,4).
  *
  * @return Fifo number of negative on failure
  */
-int __bdk_pko_allocate_fifo(int size)
+int __bdk_pko_allocate_fifo(int lmac, int size)
 {
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
@@ -266,6 +274,30 @@ int __bdk_pko_allocate_fifo(int size)
             break;
     }
     BDK_CSR_WRITE(BDK_PKO_PTGFX_CFG(index), cfg.u);
+
+    /* Setup PKO MCI0 credits */
+    int credit = size * 2500;
+    int mac_credit;
+    switch (lmac)
+    {
+        case 0: /* LBK */
+            mac_credit = 4096; /* From HRM */
+            break;
+        case 1: /* DPI */
+            mac_credit = 40<<10; /* FIXME: Guess at MAC size */
+            break;
+        case 2: /* ILK0 */
+        case 3: /* ILK1 */
+            mac_credit = 40<<10; /* FIXME: Guess at MAC size */
+            break;
+        default: /* BGX */
+            mac_credit = size * (10<<10); /* 10KB, 20KB, or 40KB */
+            break;
+    }
+    BDK_CSR_WRITE(BDK_PKO_MCI0_MAX_CREDX(lmac), (credit + mac_credit) / 16);
+    /* Confine the credits to not overflow the LBK FIFO */
+    BDK_CSR_MODIFY(c, BDK_PKO_MCI1_MAX_CREDX(lmac),
+        c.s.max_cred_lim = mac_credit / 16);
     return 0;
 }
 
@@ -286,14 +318,9 @@ static int pko_port_init(bdk_if_handle_t handle)
     int sq_l5;  /* L5 = schedule queue feeding L4 */
     int dq;     /* L6 = descriptor queue feeding L5 */
 
-    if (pko_next_free_sched_queue >= 512 - 4)
-    {
-        bdk_error("pko_port_init: Ran out of schedule queues\n");
-        return -1;
-    }
     if (pko_next_free_descr_queue >= 1024)
     {
-        bdk_error("pko_port_init: Ran out of schedule queues\n");
+        bdk_error("pko_port_init: Ran out of descriptor (L6) queues\n");
         return -1;
     }
 
@@ -302,21 +329,46 @@ static int pko_port_init(bdk_if_handle_t handle)
     {
         if (pko_next_free_port_queue >= 32)
         {
-            bdk_error("pko_port_init: Ran out of port queues\n");
+            bdk_error("pko_port_init: Ran out of port (L1) queues\n");
+            return -1;
+        }
+        if (pko_next_free_l2_queue >= 512)
+        {
+            bdk_error("pko_port_init: Ran out of L2 queues\n");
+            return -1;
+        }
+        if (pko_next_free_l3_queue >= 512)
+        {
+            bdk_error("pko_port_init: Ran out of L3 queues\n");
+            return -1;
+        }
+        if (pko_next_free_l4_queue >= 512)
+        {
+            bdk_error("pko_port_init: Ran out of L4 queues\n");
+            return -1;
+        }
+        if (pko_next_free_l5_queue >= 512)
+        {
+            bdk_error("pko_port_init: Ran out of L5 queues\n");
             return -1;
         }
         pq = pko_next_free_port_queue++;
+        sq_l2 = pko_next_free_l2_queue++;
+        sq_l3 = pko_next_free_l3_queue++;
+        sq_l4 = pko_next_free_l4_queue++;
+        sq_l5 = pko_next_free_l5_queue++;
     }
     else
     {
         /* This relies on channels being initialized in order */
         pq = pko_next_free_port_queue - 1;
+        sq_l2 = pko_next_free_l2_queue - 1;
+        sq_l3 = pko_next_free_l3_queue - 1;
+        sq_l4 = pko_next_free_l4_queue - 1;
+        sq_l5 = pko_next_free_l5_queue - 1;
     }
 
-    sq_l2 = pko_next_free_sched_queue++;
-    sq_l3 = pko_next_free_sched_queue++;
-    sq_l4 = pko_next_free_sched_queue++;
-    sq_l5 = pko_next_free_sched_queue++;
+    /* Every channel gets a new descriptor queue */
     dq = pko_next_free_descr_queue++;
 
     int lmac;
@@ -365,6 +417,8 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio_anchor = sq_l2;
         c.s.parent = pq;
         c.s.rr_prio = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_SHAPE(sq_l2),
+        c.s.parent = pq);
     /* Program L3 = schedule queue */
     BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
         c.s.prio = 0;
@@ -373,10 +427,12 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.parent = sq_l2;
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_TOPOLOGY(sq_l2),
+    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_TOPOLOGY(sq_l3),
         c.s.prio_anchor = sq_l3;
         c.s.parent = sq_l2;
         c.s.rr_prio = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SHAPE(sq_l3),
+        c.s.parent = sq_l2);
     /* Program L4 = schedule queue */
     BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SCHEDULE(sq_l4),
         c.s.prio = 0;
@@ -385,6 +441,8 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio_anchor = sq_l4;
         c.s.parent = sq_l3;
         c.s.rr_prio = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SHAPE(sq_l4),
+        c.s.parent = sq_l3);
     /* Program L5 = schedule queue */
     BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SCHEDULE(sq_l5),
         c.s.prio = 0;
@@ -393,14 +451,28 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio_anchor = sq_l5;
         c.s.parent = sq_l4;
         c.s.rr_prio = 0);
+    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SHAPE(sq_l5),
+        c.s.parent = sq_l4);
     /* Program L6 = descriptor queue */
     BDK_CSR_MODIFY(c, BDK_PKO_DQX_SCHEDULE(dq),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_DQX_TOPOLOGY(dq),
         c.s.parent = sq_l5);
+    BDK_CSR_MODIFY(c, BDK_PKO_DQX_SHAPE(dq),
+        c.s.parent = sq_l5);
+
+    /* Program the LUTx */
+    BDK_CSR_MODIFY(c, BDK_PKO_LUTX(handle->index),
+        c.s.valid = 1;
+        c.s.pq_idx = pq;
+        c.s.queue_number = dq);
+
     handle->pko_port = pq;
     handle->pko_queue = dq;
+
+    bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
+        handle->name, lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
     return 0;
 }
