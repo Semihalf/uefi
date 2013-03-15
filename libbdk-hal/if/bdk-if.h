@@ -67,17 +67,17 @@ typedef struct __bdk_if_port
 {
     bdk_if_t    iftype      : 8;
     int         interface   : 8;
-    int         index       : 8;
-    int         pknd        : 8;
-    int         ipd_port    : 16;
-    int         pko_port    : 8;
-    int         pko_queue   : 8;
-    int         aura        : 16;
+    int         index       : 8;    /* ILK can have 256 channels on CN78XX */
+    int         pknd        : 8;    /* 0-63 on both CN68XX and CN78XX, same as ipd_port on others */
+    int         ipd_port    : 16;   /* Sparse 0-4095 */
+    int         pko_port    : 8;    /* CN78XX uses this as PKO port queue (L1), CN68XX 0-127 */
+    int         pko_queue   : 16;   /* CN78XX has 1024, CN6XXX has 256 */
+    int         aura        : 16;   /* CN78XX has 1024, CN6XXX doesn't use */
     bdk_if_flags_t flags    : 8;
-    void *      receiver; /* This is a bdk_if_packet_receiver_t */
+    void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     void *      priv;
-    bdk_cmd_queue_state_t cmd_queue[2];
+    bdk_cmd_queue_state_t cmd_queue[2]; /* Not used on CN78XX */
     bdk_if_stats_t stats;
     bdk_if_link_t link_info;
     char        name[8];
