@@ -5,9 +5,11 @@
 /* PKO uses three scratch dwords, two for commands and one for return status */
 #define BDK_IF_SCR_PKO(dword) (BDK_IF_SCR_LMTDMA + (dword<<3))
 
+const int PKO_QUEUES_PER_CHANNEL = 1;
+
 /* PKI global variables */
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000]; /* Channels is 12 bits in WQE */
-static int next_free_qpg_table = 0;
+static int next_free_qpg_table = 1;
 static int next_free_pknd = 0;
 static int next_wqe_grp = 0;
 
@@ -318,12 +320,31 @@ static int pko_port_init(bdk_if_handle_t handle)
     int sq_l5;  /* L5 = schedule queue feeding L4 */
     int dq;     /* L6 = descriptor queue feeding L5 */
 
-    if (pko_next_free_descr_queue >= 1024)
+    if (pko_next_free_l2_queue >= 512)
+    {
+        bdk_error("pko_port_init: Ran out of L2 queues\n");
+        return -1;
+    }
+    if (pko_next_free_l3_queue >= 512)
+    {
+        bdk_error("pko_port_init: Ran out of L3 queues\n");
+        return -1;
+    }
+    if (pko_next_free_l4_queue >= 512)
+    {
+        bdk_error("pko_port_init: Ran out of L4 queues\n");
+        return -1;
+    }
+    if (pko_next_free_l5_queue >= 512)
+    {
+        bdk_error("pko_port_init: Ran out of L5 queues\n");
+        return -1;
+    }
+    if (pko_next_free_descr_queue > 1024 - PKO_QUEUES_PER_CHANNEL)
     {
         bdk_error("pko_port_init: Ran out of descriptor (L6) queues\n");
         return -1;
     }
-
 
     if (handle->index == 0) /* FIXME: BGX needs 4 L1 queues */
     {
@@ -332,44 +353,20 @@ static int pko_port_init(bdk_if_handle_t handle)
             bdk_error("pko_port_init: Ran out of port (L1) queues\n");
             return -1;
         }
-        if (pko_next_free_l2_queue >= 512)
-        {
-            bdk_error("pko_port_init: Ran out of L2 queues\n");
-            return -1;
-        }
-        if (pko_next_free_l3_queue >= 512)
-        {
-            bdk_error("pko_port_init: Ran out of L3 queues\n");
-            return -1;
-        }
-        if (pko_next_free_l4_queue >= 512)
-        {
-            bdk_error("pko_port_init: Ran out of L4 queues\n");
-            return -1;
-        }
-        if (pko_next_free_l5_queue >= 512)
-        {
-            bdk_error("pko_port_init: Ran out of L5 queues\n");
-            return -1;
-        }
         pq = pko_next_free_port_queue++;
-        sq_l2 = pko_next_free_l2_queue++;
-        sq_l3 = pko_next_free_l3_queue++;
-        sq_l4 = pko_next_free_l4_queue++;
-        sq_l5 = pko_next_free_l5_queue++;
     }
     else
     {
         /* This relies on channels being initialized in order */
         pq = pko_next_free_port_queue - 1;
-        sq_l2 = pko_next_free_l2_queue - 1;
-        sq_l3 = pko_next_free_l3_queue - 1;
-        sq_l4 = pko_next_free_l4_queue - 1;
-        sq_l5 = pko_next_free_l5_queue - 1;
     }
 
-    /* Every channel gets a new descriptor queue */
-    dq = pko_next_free_descr_queue++;
+    sq_l2 = pko_next_free_l2_queue++;
+    sq_l3 = pko_next_free_l3_queue++;
+    sq_l4 = pko_next_free_l4_queue++;
+    sq_l5 = pko_next_free_l5_queue++;
+    dq = pko_next_free_descr_queue;
+    pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
 
     int lmac;
     switch (handle->iftype)
@@ -454,20 +451,23 @@ static int pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SHAPE(sq_l5),
         c.s.parent = sq_l4);
     /* Program L6 = descriptor queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_DQX_SCHEDULE(dq),
-        c.s.prio = 0;
-        c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_DQX_TOPOLOGY(dq),
-        c.s.parent = sq_l5);
-    BDK_CSR_MODIFY(c, BDK_PKO_DQX_SHAPE(dq),
-        c.s.parent = sq_l5);
-
-    /* Program the LUTx */
+    for (int q=0; q<PKO_QUEUES_PER_CHANNEL; q++)
+    {
+        BDK_CSR_MODIFY(c, BDK_PKO_DQX_SCHEDULE(dq+q),
+            c.s.prio = 0;
+            c.s.rr_quantum = 0);
+        BDK_CSR_MODIFY(c, BDK_PKO_DQX_TOPOLOGY(dq+q),
+            c.s.parent = sq_l5);
+        BDK_CSR_MODIFY(c, BDK_PKO_DQX_SHAPE(dq+q),
+            c.s.parent = sq_l5);
+    }
+#if 0
+    /* FIXME: Program the LUTx */
     BDK_CSR_MODIFY(c, BDK_PKO_LUTX(handle->index),
         c.s.valid = 1;
         c.s.pq_idx = pq;
         c.s.queue_number = dq);
-
+#endif
     handle->pko_port = pq;
     handle->pko_queue = dq;
 
