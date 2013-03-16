@@ -137,7 +137,7 @@ static int pki_port_init(bdk_if_handle_t handle)
             c.s.lenerr_en = 0; /* Don't check L2 length */
             c.s.fcs_strip = 0; /* Don't strip FCS */
             c.s.fcs_chk = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;
-            c.s.qpg_dis_padd = 0; /* Use QPG for port */
+            c.s.qpg_dis_padd = 1; /* Don't use QPG for port */
             c.s.qpg_dis_grp = 0; /* Use QPG for group */
             c.s.qpg_dis_aura = 0; /* Use QPG for aura */
             c.s.qpg_base = qpg_base); /* Base for QPG */
@@ -152,7 +152,7 @@ static int pki_port_init(bdk_if_handle_t handle)
     int wqe_grp = next_wqe_grp;
     next_wqe_grp = (next_wqe_grp+1) & 255;
     BDK_CSR_MODIFY(c, BDK_PKI_QPG_TBLX(qpg),
-        c.s.padd = handle->ipd_port; /* Set WQE[CHAN] */
+        c.s.padd = 0; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
         c.s.grp_bad = wqe_grp; /* Set WQE[GRP] */
         c.s.aura = handle->aura); /* Set WQE[AURA] */
