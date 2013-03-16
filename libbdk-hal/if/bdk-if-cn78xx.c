@@ -188,7 +188,7 @@ static int pki_enable(void)
 static int pko_global_init(void)
 {
     BDK_CSR_MODIFY(c, BDK_PKO_PTF_IOBP_CFG,
-        c.s.max_read_size =72);
+        c.s.max_read_size = 72);
     return 0;
 }
 
@@ -398,7 +398,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.link = lmac;
         c.s.peb_fifo = pko_macx_cfg.s.fifo_num);
     BDK_CSR_MODIFY(c, BDK_PKO_L1_SQX_TOPOLOGY(pq),
-        c.s.prio_anchor = pq;
+        c.s.prio_anchor = sq_l2;
         c.s.link = lmac;
         c.s.rr_prio = 0);
     /* Program L2 = schedule queue */
@@ -411,7 +411,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_TOPOLOGY(sq_l2),
-        c.s.prio_anchor = sq_l2;
+        c.s.prio_anchor = sq_l3;
         c.s.parent = pq;
         c.s.rr_prio = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_SHAPE(sq_l2),
@@ -425,7 +425,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_TOPOLOGY(sq_l3),
-        c.s.prio_anchor = sq_l3;
+        c.s.prio_anchor = sq_l4;
         c.s.parent = sq_l2;
         c.s.rr_prio = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SHAPE(sq_l3),
@@ -435,7 +435,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio = 0;
         c.s.rr_quantum = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_TOPOLOGY(sq_l4),
-        c.s.prio_anchor = sq_l4;
+        c.s.prio_anchor = sq_l5;
         c.s.parent = sq_l3;
         c.s.rr_prio = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SHAPE(sq_l4),
@@ -445,7 +445,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio = 0;
         c.s.rr_quantum = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_TOPOLOGY(sq_l5),
-        c.s.prio_anchor = sq_l5;
+        c.s.prio_anchor = dq;
         c.s.parent = sq_l4;
         c.s.rr_prio = 0);
     BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SHAPE(sq_l5),
@@ -672,7 +672,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
             uint64_t    did             : 8;    /**< PKO DID of 0x51 */
             uint64_t    node            : 4;    /**< OCI Node number */
             uint64_t    reserved_34_35  : 2;
-            uint64_t    dqop            : 2;    /**< Indicates the operation that PKO will perform. Enumerated with PKO_DQOP_E::QUERY, OPEN or CLOSE */
+            uint64_t    dqop            : 2;    /**< Indicates the operation that PKO will perform. SEND=0,OPEN=1,CLOSE=2,QUERY=3 */
             uint64_t    reserved_26_31  : 6;
             uint64_t    dq              :10;    /**< Descriptor queue to add to */
             uint64_t    reserved_0_15   :16;
@@ -716,6 +716,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_dma_s.s.rtnlen = 1; /* One result work */
     pko_send_dma_s.s.did = 0x51;
     pko_send_dma_s.s.node = 0; // FIXME: Node number
+    pko_send_dma_s.s.dqop = 0; /* 0=Send */
     pko_send_dma_s.s.dq = handle->pko_queue;
 
     /* Issue LMTDMA with 2 dwords of data */
