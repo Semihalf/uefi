@@ -782,12 +782,22 @@ static int pci_set_core_state(int core, const octeon_remote_registers_t *registe
  */
 static int pci_reset(int stop_core __attribute__ ((unused)))
 {
-    bdk_mio_rst_boot_t mio_rst_boot;
-
-    mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
-    mio_rst_boot.s.rboot = stop_core;
-    OCTEON_REMOTE_WRITE_CSR(BDK_MIO_RST_BOOT, mio_rst_boot.u64);
-    OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        bdk_rst_boot_t rst_boot;
+        rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_RST_BOOT);
+        rst_boot.s.rboot = stop_core;
+        OCTEON_REMOTE_WRITE_CSR(BDK_RST_BOOT, rst_boot.u64);
+        OCTEON_REMOTE_READ_CSR(BDK_RST_BOOT);
+    }
+    else
+    {
+        bdk_mio_rst_boot_t mio_rst_boot;
+        mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
+        mio_rst_boot.s.rboot = stop_core;
+        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_RST_BOOT, mio_rst_boot.u64);
+        OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
+    }
 
     /* HRM specifies that CIU_SOFT_RST should be read before initiating
     ** a reset over PCI */
