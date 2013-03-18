@@ -975,8 +975,8 @@ local csr_db = {
                 {name = "MODE", start = 0, stop = 0},
             }
         },
-        CIU2_ACK_IOX_INT = {
-            name = "CIU2_ACK_IO#_INT",
+        CIU_ACK_IOX_INT = {
+            name = "CIU_ACK_IO#_INT",
             type = "NCB",
             width = 8,
             address = 0x10701080c0800,
@@ -987,8 +987,8 @@ local csr_db = {
                 {name = "ACK", start = 0, stop = 0},
             }
         },
-        CIU2_ACK_PPX_IP2 = {
-            name = "CIU2_ACK_PP#_IP2",
+        CIU_ACK_PPX_IP2 = {
+            name = "CIU_ACK_PP#_IP2",
             type = "NCB",
             width = 8,
             address = 0x10701000c0000,
@@ -999,8 +999,8 @@ local csr_db = {
                 {name = "ACK", start = 0, stop = 0},
             }
         },
-        CIU2_ACK_PPX_IP3 = {
-            name = "CIU2_ACK_PP#_IP3",
+        CIU_ACK_PPX_IP3 = {
+            name = "CIU_ACK_PP#_IP3",
             type = "NCB",
             width = 8,
             address = 0x10701000c0200,
@@ -1011,8 +1011,8 @@ local csr_db = {
                 {name = "ACK", start = 0, stop = 0},
             }
         },
-        CIU2_ACK_PPX_IP4 = {
-            name = "CIU2_ACK_PP#_IP4",
+        CIU_ACK_PPX_IP4 = {
+            name = "CIU_ACK_PP#_IP4",
             type = "NCB",
             width = 8,
             address = 0x10701000c0400,
@@ -1023,8 +1023,28 @@ local csr_db = {
                 {name = "ACK", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_GPIO = {
-            name = "CIU2_EN_IO#_INT_GPIO",
+        CIU_BIST = {
+            name = "CIU_BIST",
+            type = "NCB",
+            width = 8,
+            address = 0x1070000000730,
+            fields = {
+                {name = "RESERVED_7_63", start = 7, stop = 63},
+                {name = "BIST", start = 0, stop = 6},
+            }
+        },
+        CIU_DINT = {
+            name = "CIU_DINT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070000000720,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "DINT", start = 0, stop = 31},
+            }
+        },
+        CIU_EN_IOX_INT_GPIO = {
+            name = "CIU_EN_IO#_INT_GPIO",
             type = "NCB",
             width = 8,
             address = 0x1070108097800,
@@ -1035,8 +1055,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_IOX_INT_GPIO_W1C = {
-            name = "CIU2_EN_IO#_INT_GPIO_W1C",
+        CIU_EN_IOX_INT_GPIO_W1C = {
+            name = "CIU_EN_IO#_INT_GPIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b7800,
@@ -1047,8 +1067,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_IOX_INT_GPIO_W1S = {
-            name = "CIU2_EN_IO#_INT_GPIO_W1S",
+        CIU_EN_IOX_INT_GPIO_W1S = {
+            name = "CIU_EN_IO#_INT_GPIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a7800,
@@ -1059,8 +1079,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_IOX_INT_IO = {
-            name = "CIU2_EN_IO#_INT_IO",
+        CIU_EN_IOX_INT_IO = {
+            name = "CIU_EN_IO#_INT_IO",
             type = "NCB",
             width = 8,
             address = 0x1070108094800,
@@ -1078,8 +1098,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_IO_W1C = {
-            name = "CIU2_EN_IO#_INT_IO_W1C",
+        CIU_EN_IOX_INT_IO_W1C = {
+            name = "CIU_EN_IO#_INT_IO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b4800,
@@ -1097,8 +1117,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_IO_W1S = {
-            name = "CIU2_EN_IO#_INT_IO_W1S",
+        CIU_EN_IOX_INT_IO_W1S = {
+            name = "CIU_EN_IO#_INT_IO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a4800,
@@ -1116,8 +1136,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MBOX = {
-            name = "CIU2_EN_IO#_INT_MBOX",
+        CIU_EN_IOX_INT_MBOX = {
+            name = "CIU_EN_IO#_INT_MBOX",
             type = "NCB",
             width = 8,
             address = 0x1070108098800,
@@ -1128,8 +1148,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MBOX_W1C = {
-            name = "CIU2_EN_IO#_INT_MBOX_W1C",
+        CIU_EN_IOX_INT_MBOX_W1C = {
+            name = "CIU_EN_IO#_INT_MBOX_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b8800,
@@ -1140,8 +1160,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MBOX_W1S = {
-            name = "CIU2_EN_IO#_INT_MBOX_W1S",
+        CIU_EN_IOX_INT_MBOX_W1S = {
+            name = "CIU_EN_IO#_INT_MBOX_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a8800,
@@ -1152,8 +1172,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MEM = {
-            name = "CIU2_EN_IO#_INT_MEM",
+        CIU_EN_IOX_INT_MEM = {
+            name = "CIU_EN_IO#_INT_MEM",
             type = "NCB",
             width = 8,
             address = 0x1070108095800,
@@ -1164,8 +1184,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MEM_W1C = {
-            name = "CIU2_EN_IO#_INT_MEM_W1C",
+        CIU_EN_IOX_INT_MEM_W1C = {
+            name = "CIU_EN_IO#_INT_MEM_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b5800,
@@ -1176,8 +1196,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MEM_W1S = {
-            name = "CIU2_EN_IO#_INT_MEM_W1S",
+        CIU_EN_IOX_INT_MEM_W1S = {
+            name = "CIU_EN_IO#_INT_MEM_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a5800,
@@ -1188,8 +1208,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_IOX_INT_MIO = {
-            name = "CIU2_EN_IO#_INT_MIO",
+        CIU_EN_IOX_INT_MIO = {
+            name = "CIU_EN_IO#_INT_MIO",
             type = "NCB",
             width = 8,
             address = 0x1070108093800,
@@ -1219,8 +1239,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_MIO_W1C = {
-            name = "CIU2_EN_IO#_INT_MIO_W1C",
+        CIU_EN_IOX_INT_MIO_W1C = {
+            name = "CIU_EN_IO#_INT_MIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b3800,
@@ -1250,8 +1270,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_MIO_W1S = {
-            name = "CIU2_EN_IO#_INT_MIO_W1S",
+        CIU_EN_IOX_INT_MIO_W1S = {
+            name = "CIU_EN_IO#_INT_MIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a3800,
@@ -1281,8 +1301,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_PKT = {
-            name = "CIU2_EN_IO#_INT_PKT",
+        CIU_EN_IOX_INT_PKT = {
+            name = "CIU_EN_IO#_INT_PKT",
             type = "NCB",
             width = 8,
             address = 0x1070108096800,
@@ -1303,8 +1323,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_IOX_INT_PKT_W1C = {
-            name = "CIU2_EN_IO#_INT_PKT_W1C",
+        CIU_EN_IOX_INT_PKT_W1C = {
+            name = "CIU_EN_IO#_INT_PKT_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b6800,
@@ -1325,8 +1345,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_IOX_INT_PKT_W1S = {
-            name = "CIU2_EN_IO#_INT_PKT_W1S",
+        CIU_EN_IOX_INT_PKT_W1S = {
+            name = "CIU_EN_IO#_INT_PKT_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a6800,
@@ -1347,8 +1367,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_IOX_INT_RML = {
-            name = "CIU2_EN_IO#_INT_RML",
+        CIU_EN_IOX_INT_RML = {
+            name = "CIU_EN_IO#_INT_RML",
             type = "NCB",
             width = 8,
             address = 0x1070108092800,
@@ -1383,8 +1403,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_RML_W1C = {
-            name = "CIU2_EN_IO#_INT_RML_W1C",
+        CIU_EN_IOX_INT_RML_W1C = {
+            name = "CIU_EN_IO#_INT_RML_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b2800,
@@ -1419,8 +1439,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_RML_W1S = {
-            name = "CIU2_EN_IO#_INT_RML_W1S",
+        CIU_EN_IOX_INT_RML_W1S = {
+            name = "CIU_EN_IO#_INT_RML_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a2800,
@@ -1455,8 +1475,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_IOX_INT_WDOG = {
-            name = "CIU2_EN_IO#_INT_WDOG",
+        CIU_EN_IOX_INT_WDOG = {
+            name = "CIU_EN_IO#_INT_WDOG",
             type = "NCB",
             width = 8,
             address = 0x1070108091800,
@@ -1467,8 +1487,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_IOX_INT_WDOG_W1C = {
-            name = "CIU2_EN_IO#_INT_WDOG_W1C",
+        CIU_EN_IOX_INT_WDOG_W1C = {
+            name = "CIU_EN_IO#_INT_WDOG_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b1800,
@@ -1479,8 +1499,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_IOX_INT_WDOG_W1S = {
-            name = "CIU2_EN_IO#_INT_WDOG_W1S",
+        CIU_EN_IOX_INT_WDOG_W1S = {
+            name = "CIU_EN_IO#_INT_WDOG_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a1800,
@@ -1491,8 +1511,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_IOX_INT_WRKQ = {
-            name = "CIU2_EN_IO#_INT_WRKQ",
+        CIU_EN_IOX_INT_WRKQ = {
+            name = "CIU_EN_IO#_INT_WRKQ",
             type = "NCB",
             width = 8,
             address = 0x1070108090800,
@@ -1502,8 +1522,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_IOX_INT_WRKQ_W1C = {
-            name = "CIU2_EN_IO#_INT_WRKQ_W1C",
+        CIU_EN_IOX_INT_WRKQ_W1C = {
+            name = "CIU_EN_IO#_INT_WRKQ_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701080b0800,
@@ -1513,8 +1533,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_IOX_INT_WRKQ_W1S = {
-            name = "CIU2_EN_IO#_INT_WRKQ_W1S",
+        CIU_EN_IOX_INT_WRKQ_W1S = {
+            name = "CIU_EN_IO#_INT_WRKQ_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701080a0800,
@@ -1524,8 +1544,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP2_GPIO = {
-            name = "CIU2_EN_PP#_IP2_GPIO",
+        CIU_EN_PPX_IP2_GPIO = {
+            name = "CIU_EN_PP#_IP2_GPIO",
             type = "NCB",
             width = 8,
             address = 0x1070100097000,
@@ -1536,8 +1556,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP2_GPIO_W1C = {
-            name = "CIU2_EN_PP#_IP2_GPIO_W1C",
+        CIU_EN_PPX_IP2_GPIO_W1C = {
+            name = "CIU_EN_PP#_IP2_GPIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b7000,
@@ -1548,8 +1568,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP2_GPIO_W1S = {
-            name = "CIU2_EN_PP#_IP2_GPIO_W1S",
+        CIU_EN_PPX_IP2_GPIO_W1S = {
+            name = "CIU_EN_PP#_IP2_GPIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a7000,
@@ -1560,8 +1580,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP2_IO = {
-            name = "CIU2_EN_PP#_IP2_IO",
+        CIU_EN_PPX_IP2_IO = {
+            name = "CIU_EN_PP#_IP2_IO",
             type = "NCB",
             width = 8,
             address = 0x1070100094000,
@@ -1579,8 +1599,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_IO_W1C = {
-            name = "CIU2_EN_PP#_IP2_IO_W1C",
+        CIU_EN_PPX_IP2_IO_W1C = {
+            name = "CIU_EN_PP#_IP2_IO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b4000,
@@ -1598,8 +1618,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_IO_W1S = {
-            name = "CIU2_EN_PP#_IP2_IO_W1S",
+        CIU_EN_PPX_IP2_IO_W1S = {
+            name = "CIU_EN_PP#_IP2_IO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a4000,
@@ -1617,8 +1637,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MBOX = {
-            name = "CIU2_EN_PP#_IP2_MBOX",
+        CIU_EN_PPX_IP2_MBOX = {
+            name = "CIU_EN_PP#_IP2_MBOX",
             type = "NCB",
             width = 8,
             address = 0x1070100098000,
@@ -1629,8 +1649,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MBOX_W1C = {
-            name = "CIU2_EN_PP#_IP2_MBOX_W1C",
+        CIU_EN_PPX_IP2_MBOX_W1C = {
+            name = "CIU_EN_PP#_IP2_MBOX_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b8000,
@@ -1641,8 +1661,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MBOX_W1S = {
-            name = "CIU2_EN_PP#_IP2_MBOX_W1S",
+        CIU_EN_PPX_IP2_MBOX_W1S = {
+            name = "CIU_EN_PP#_IP2_MBOX_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a8000,
@@ -1653,8 +1673,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MEM = {
-            name = "CIU2_EN_PP#_IP2_MEM",
+        CIU_EN_PPX_IP2_MEM = {
+            name = "CIU_EN_PP#_IP2_MEM",
             type = "NCB",
             width = 8,
             address = 0x1070100095000,
@@ -1665,8 +1685,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MEM_W1C = {
-            name = "CIU2_EN_PP#_IP2_MEM_W1C",
+        CIU_EN_PPX_IP2_MEM_W1C = {
+            name = "CIU_EN_PP#_IP2_MEM_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b5000,
@@ -1677,8 +1697,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MEM_W1S = {
-            name = "CIU2_EN_PP#_IP2_MEM_W1S",
+        CIU_EN_PPX_IP2_MEM_W1S = {
+            name = "CIU_EN_PP#_IP2_MEM_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a5000,
@@ -1689,8 +1709,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP2_MIO = {
-            name = "CIU2_EN_PP#_IP2_MIO",
+        CIU_EN_PPX_IP2_MIO = {
+            name = "CIU_EN_PP#_IP2_MIO",
             type = "NCB",
             width = 8,
             address = 0x1070100093000,
@@ -1720,8 +1740,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_MIO_W1C = {
-            name = "CIU2_EN_PP#_IP2_MIO_W1C",
+        CIU_EN_PPX_IP2_MIO_W1C = {
+            name = "CIU_EN_PP#_IP2_MIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b3000,
@@ -1751,8 +1771,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_MIO_W1S = {
-            name = "CIU2_EN_PP#_IP2_MIO_W1S",
+        CIU_EN_PPX_IP2_MIO_W1S = {
+            name = "CIU_EN_PP#_IP2_MIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a3000,
@@ -1782,8 +1802,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_PKT = {
-            name = "CIU2_EN_PP#_IP2_PKT",
+        CIU_EN_PPX_IP2_PKT = {
+            name = "CIU_EN_PP#_IP2_PKT",
             type = "NCB",
             width = 8,
             address = 0x1070100096000,
@@ -1804,8 +1824,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP2_PKT_W1C = {
-            name = "CIU2_EN_PP#_IP2_PKT_W1C",
+        CIU_EN_PPX_IP2_PKT_W1C = {
+            name = "CIU_EN_PP#_IP2_PKT_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b6000,
@@ -1826,8 +1846,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP2_PKT_W1S = {
-            name = "CIU2_EN_PP#_IP2_PKT_W1S",
+        CIU_EN_PPX_IP2_PKT_W1S = {
+            name = "CIU_EN_PP#_IP2_PKT_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a6000,
@@ -1848,8 +1868,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP2_RML = {
-            name = "CIU2_EN_PP#_IP2_RML",
+        CIU_EN_PPX_IP2_RML = {
+            name = "CIU_EN_PP#_IP2_RML",
             type = "NCB",
             width = 8,
             address = 0x1070100092000,
@@ -1884,8 +1904,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_RML_W1C = {
-            name = "CIU2_EN_PP#_IP2_RML_W1C",
+        CIU_EN_PPX_IP2_RML_W1C = {
+            name = "CIU_EN_PP#_IP2_RML_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b2000,
@@ -1920,8 +1940,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_RML_W1S = {
-            name = "CIU2_EN_PP#_IP2_RML_W1S",
+        CIU_EN_PPX_IP2_RML_W1S = {
+            name = "CIU_EN_PP#_IP2_RML_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a2000,
@@ -1956,8 +1976,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP2_WDOG = {
-            name = "CIU2_EN_PP#_IP2_WDOG",
+        CIU_EN_PPX_IP2_WDOG = {
+            name = "CIU_EN_PP#_IP2_WDOG",
             type = "NCB",
             width = 8,
             address = 0x1070100091000,
@@ -1968,8 +1988,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP2_WDOG_W1C = {
-            name = "CIU2_EN_PP#_IP2_WDOG_W1C",
+        CIU_EN_PPX_IP2_WDOG_W1C = {
+            name = "CIU_EN_PP#_IP2_WDOG_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b1000,
@@ -1980,8 +2000,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP2_WDOG_W1S = {
-            name = "CIU2_EN_PP#_IP2_WDOG_W1S",
+        CIU_EN_PPX_IP2_WDOG_W1S = {
+            name = "CIU_EN_PP#_IP2_WDOG_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a1000,
@@ -1992,8 +2012,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP2_WRKQ = {
-            name = "CIU2_EN_PP#_IP2_WRKQ",
+        CIU_EN_PPX_IP2_WRKQ = {
+            name = "CIU_EN_PP#_IP2_WRKQ",
             type = "NCB",
             width = 8,
             address = 0x1070100090000,
@@ -2003,8 +2023,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP2_WRKQ_W1C = {
-            name = "CIU2_EN_PP#_IP2_WRKQ_W1C",
+        CIU_EN_PPX_IP2_WRKQ_W1C = {
+            name = "CIU_EN_PP#_IP2_WRKQ_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b0000,
@@ -2014,8 +2034,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP2_WRKQ_W1S = {
-            name = "CIU2_EN_PP#_IP2_WRKQ_W1S",
+        CIU_EN_PPX_IP2_WRKQ_W1S = {
+            name = "CIU_EN_PP#_IP2_WRKQ_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a0000,
@@ -2025,8 +2045,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP3_GPIO = {
-            name = "CIU2_EN_PP#_IP3_GPIO",
+        CIU_EN_PPX_IP3_GPIO = {
+            name = "CIU_EN_PP#_IP3_GPIO",
             type = "NCB",
             width = 8,
             address = 0x1070100097200,
@@ -2037,8 +2057,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP3_GPIO_W1C = {
-            name = "CIU2_EN_PP#_IP3_GPIO_W1C",
+        CIU_EN_PPX_IP3_GPIO_W1C = {
+            name = "CIU_EN_PP#_IP3_GPIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b7200,
@@ -2049,8 +2069,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP3_GPIO_W1S = {
-            name = "CIU2_EN_PP#_IP3_GPIO_W1S",
+        CIU_EN_PPX_IP3_GPIO_W1S = {
+            name = "CIU_EN_PP#_IP3_GPIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a7200,
@@ -2061,8 +2081,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP3_IO = {
-            name = "CIU2_EN_PP#_IP3_IO",
+        CIU_EN_PPX_IP3_IO = {
+            name = "CIU_EN_PP#_IP3_IO",
             type = "NCB",
             width = 8,
             address = 0x1070100094200,
@@ -2080,8 +2100,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_IO_W1C = {
-            name = "CIU2_EN_PP#_IP3_IO_W1C",
+        CIU_EN_PPX_IP3_IO_W1C = {
+            name = "CIU_EN_PP#_IP3_IO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b4200,
@@ -2099,8 +2119,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_IO_W1S = {
-            name = "CIU2_EN_PP#_IP3_IO_W1S",
+        CIU_EN_PPX_IP3_IO_W1S = {
+            name = "CIU_EN_PP#_IP3_IO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a4200,
@@ -2118,8 +2138,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MBOX = {
-            name = "CIU2_EN_PP#_IP3_MBOX",
+        CIU_EN_PPX_IP3_MBOX = {
+            name = "CIU_EN_PP#_IP3_MBOX",
             type = "NCB",
             width = 8,
             address = 0x1070100098200,
@@ -2130,8 +2150,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MBOX_W1C = {
-            name = "CIU2_EN_PP#_IP3_MBOX_W1C",
+        CIU_EN_PPX_IP3_MBOX_W1C = {
+            name = "CIU_EN_PP#_IP3_MBOX_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b8200,
@@ -2142,8 +2162,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MBOX_W1S = {
-            name = "CIU2_EN_PP#_IP3_MBOX_W1S",
+        CIU_EN_PPX_IP3_MBOX_W1S = {
+            name = "CIU_EN_PP#_IP3_MBOX_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a8200,
@@ -2154,8 +2174,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MEM = {
-            name = "CIU2_EN_PP#_IP3_MEM",
+        CIU_EN_PPX_IP3_MEM = {
+            name = "CIU_EN_PP#_IP3_MEM",
             type = "NCB",
             width = 8,
             address = 0x1070100095200,
@@ -2166,8 +2186,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MEM_W1C = {
-            name = "CIU2_EN_PP#_IP3_MEM_W1C",
+        CIU_EN_PPX_IP3_MEM_W1C = {
+            name = "CIU_EN_PP#_IP3_MEM_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b5200,
@@ -2178,8 +2198,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MEM_W1S = {
-            name = "CIU2_EN_PP#_IP3_MEM_W1S",
+        CIU_EN_PPX_IP3_MEM_W1S = {
+            name = "CIU_EN_PP#_IP3_MEM_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a5200,
@@ -2190,8 +2210,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP3_MIO = {
-            name = "CIU2_EN_PP#_IP3_MIO",
+        CIU_EN_PPX_IP3_MIO = {
+            name = "CIU_EN_PP#_IP3_MIO",
             type = "NCB",
             width = 8,
             address = 0x1070100093200,
@@ -2221,8 +2241,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_MIO_W1C = {
-            name = "CIU2_EN_PP#_IP3_MIO_W1C",
+        CIU_EN_PPX_IP3_MIO_W1C = {
+            name = "CIU_EN_PP#_IP3_MIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b3200,
@@ -2252,8 +2272,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_MIO_W1S = {
-            name = "CIU2_EN_PP#_IP3_MIO_W1S",
+        CIU_EN_PPX_IP3_MIO_W1S = {
+            name = "CIU_EN_PP#_IP3_MIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a3200,
@@ -2283,8 +2303,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_PKT = {
-            name = "CIU2_EN_PP#_IP3_PKT",
+        CIU_EN_PPX_IP3_PKT = {
+            name = "CIU_EN_PP#_IP3_PKT",
             type = "NCB",
             width = 8,
             address = 0x1070100096200,
@@ -2305,8 +2325,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP3_PKT_W1C = {
-            name = "CIU2_EN_PP#_IP3_PKT_W1C",
+        CIU_EN_PPX_IP3_PKT_W1C = {
+            name = "CIU_EN_PP#_IP3_PKT_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b6200,
@@ -2327,8 +2347,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP3_PKT_W1S = {
-            name = "CIU2_EN_PP#_IP3_PKT_W1S",
+        CIU_EN_PPX_IP3_PKT_W1S = {
+            name = "CIU_EN_PP#_IP3_PKT_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a6200,
@@ -2349,8 +2369,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP3_RML = {
-            name = "CIU2_EN_PP#_IP3_RML",
+        CIU_EN_PPX_IP3_RML = {
+            name = "CIU_EN_PP#_IP3_RML",
             type = "NCB",
             width = 8,
             address = 0x1070100092200,
@@ -2385,8 +2405,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_RML_W1C = {
-            name = "CIU2_EN_PP#_IP3_RML_W1C",
+        CIU_EN_PPX_IP3_RML_W1C = {
+            name = "CIU_EN_PP#_IP3_RML_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b2200,
@@ -2421,8 +2441,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_RML_W1S = {
-            name = "CIU2_EN_PP#_IP3_RML_W1S",
+        CIU_EN_PPX_IP3_RML_W1S = {
+            name = "CIU_EN_PP#_IP3_RML_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a2200,
@@ -2457,8 +2477,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP3_WDOG = {
-            name = "CIU2_EN_PP#_IP3_WDOG",
+        CIU_EN_PPX_IP3_WDOG = {
+            name = "CIU_EN_PP#_IP3_WDOG",
             type = "NCB",
             width = 8,
             address = 0x1070100091200,
@@ -2469,8 +2489,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP3_WDOG_W1C = {
-            name = "CIU2_EN_PP#_IP3_WDOG_W1C",
+        CIU_EN_PPX_IP3_WDOG_W1C = {
+            name = "CIU_EN_PP#_IP3_WDOG_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b1200,
@@ -2481,8 +2501,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP3_WDOG_W1S = {
-            name = "CIU2_EN_PP#_IP3_WDOG_W1S",
+        CIU_EN_PPX_IP3_WDOG_W1S = {
+            name = "CIU_EN_PP#_IP3_WDOG_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a1200,
@@ -2493,8 +2513,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP3_WRKQ = {
-            name = "CIU2_EN_PP#_IP3_WRKQ",
+        CIU_EN_PPX_IP3_WRKQ = {
+            name = "CIU_EN_PP#_IP3_WRKQ",
             type = "NCB",
             width = 8,
             address = 0x1070100090200,
@@ -2504,8 +2524,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP3_WRKQ_W1C = {
-            name = "CIU2_EN_PP#_IP3_WRKQ_W1C",
+        CIU_EN_PPX_IP3_WRKQ_W1C = {
+            name = "CIU_EN_PP#_IP3_WRKQ_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b0200,
@@ -2515,8 +2535,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP3_WRKQ_W1S = {
-            name = "CIU2_EN_PP#_IP3_WRKQ_W1S",
+        CIU_EN_PPX_IP3_WRKQ_W1S = {
+            name = "CIU_EN_PP#_IP3_WRKQ_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a0200,
@@ -2526,8 +2546,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP4_GPIO = {
-            name = "CIU2_EN_PP#_IP4_GPIO",
+        CIU_EN_PPX_IP4_GPIO = {
+            name = "CIU_EN_PP#_IP4_GPIO",
             type = "NCB",
             width = 8,
             address = 0x1070100097400,
@@ -2538,8 +2558,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP4_GPIO_W1C = {
-            name = "CIU2_EN_PP#_IP4_GPIO_W1C",
+        CIU_EN_PPX_IP4_GPIO_W1C = {
+            name = "CIU_EN_PP#_IP4_GPIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b7400,
@@ -2550,8 +2570,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP4_GPIO_W1S = {
-            name = "CIU2_EN_PP#_IP4_GPIO_W1S",
+        CIU_EN_PPX_IP4_GPIO_W1S = {
+            name = "CIU_EN_PP#_IP4_GPIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a7400,
@@ -2562,8 +2582,8 @@ local csr_db = {
                 {name = "GPIO", start = 0, stop = 15},
             }
         },
-        CIU2_EN_PPX_IP4_IO = {
-            name = "CIU2_EN_PP#_IP4_IO",
+        CIU_EN_PPX_IP4_IO = {
+            name = "CIU_EN_PP#_IP4_IO",
             type = "NCB",
             width = 8,
             address = 0x1070100094400,
@@ -2581,8 +2601,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_IO_W1C = {
-            name = "CIU2_EN_PP#_IP4_IO_W1C",
+        CIU_EN_PPX_IP4_IO_W1C = {
+            name = "CIU_EN_PP#_IP4_IO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b4400,
@@ -2600,8 +2620,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_IO_W1S = {
-            name = "CIU2_EN_PP#_IP4_IO_W1S",
+        CIU_EN_PPX_IP4_IO_W1S = {
+            name = "CIU_EN_PP#_IP4_IO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a4400,
@@ -2619,8 +2639,8 @@ local csr_db = {
                 {name = "PCI_INTR", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MBOX = {
-            name = "CIU2_EN_PP#_IP4_MBOX",
+        CIU_EN_PPX_IP4_MBOX = {
+            name = "CIU_EN_PP#_IP4_MBOX",
             type = "NCB",
             width = 8,
             address = 0x1070100098400,
@@ -2631,8 +2651,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MBOX_W1C = {
-            name = "CIU2_EN_PP#_IP4_MBOX_W1C",
+        CIU_EN_PPX_IP4_MBOX_W1C = {
+            name = "CIU_EN_PP#_IP4_MBOX_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b8400,
@@ -2643,8 +2663,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MBOX_W1S = {
-            name = "CIU2_EN_PP#_IP4_MBOX_W1S",
+        CIU_EN_PPX_IP4_MBOX_W1S = {
+            name = "CIU_EN_PP#_IP4_MBOX_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a8400,
@@ -2655,8 +2675,8 @@ local csr_db = {
                 {name = "MBOX", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MEM = {
-            name = "CIU2_EN_PP#_IP4_MEM",
+        CIU_EN_PPX_IP4_MEM = {
+            name = "CIU_EN_PP#_IP4_MEM",
             type = "NCB",
             width = 8,
             address = 0x1070100095400,
@@ -2667,8 +2687,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MEM_W1C = {
-            name = "CIU2_EN_PP#_IP4_MEM_W1C",
+        CIU_EN_PPX_IP4_MEM_W1C = {
+            name = "CIU_EN_PP#_IP4_MEM_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b5400,
@@ -2679,8 +2699,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MEM_W1S = {
-            name = "CIU2_EN_PP#_IP4_MEM_W1S",
+        CIU_EN_PPX_IP4_MEM_W1S = {
+            name = "CIU_EN_PP#_IP4_MEM_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a5400,
@@ -2691,8 +2711,8 @@ local csr_db = {
                 {name = "LMC", start = 0, stop = 3},
             }
         },
-        CIU2_EN_PPX_IP4_MIO = {
-            name = "CIU2_EN_PP#_IP4_MIO",
+        CIU_EN_PPX_IP4_MIO = {
+            name = "CIU_EN_PP#_IP4_MIO",
             type = "NCB",
             width = 8,
             address = 0x1070100093400,
@@ -2722,8 +2742,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_MIO_W1C = {
-            name = "CIU2_EN_PP#_IP4_MIO_W1C",
+        CIU_EN_PPX_IP4_MIO_W1C = {
+            name = "CIU_EN_PP#_IP4_MIO_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b3400,
@@ -2753,8 +2773,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_MIO_W1S = {
-            name = "CIU2_EN_PP#_IP4_MIO_W1S",
+        CIU_EN_PPX_IP4_MIO_W1S = {
+            name = "CIU_EN_PP#_IP4_MIO_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a3400,
@@ -2784,8 +2804,8 @@ local csr_db = {
                 {name = "IPDPPTHR", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_PKT = {
-            name = "CIU2_EN_PP#_IP4_PKT",
+        CIU_EN_PPX_IP4_PKT = {
+            name = "CIU_EN_PP#_IP4_PKT",
             type = "NCB",
             width = 8,
             address = 0x1070100096400,
@@ -2806,8 +2826,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP4_PKT_W1C = {
-            name = "CIU2_EN_PP#_IP4_PKT_W1C",
+        CIU_EN_PPX_IP4_PKT_W1C = {
+            name = "CIU_EN_PP#_IP4_PKT_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b6400,
@@ -2828,8 +2848,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP4_PKT_W1S = {
-            name = "CIU2_EN_PP#_IP4_PKT_W1S",
+        CIU_EN_PPX_IP4_PKT_W1S = {
+            name = "CIU_EN_PP#_IP4_PKT_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a6400,
@@ -2850,8 +2870,8 @@ local csr_db = {
                 {name = "AGX", start = 0, stop = 4},
             }
         },
-        CIU2_EN_PPX_IP4_RML = {
-            name = "CIU2_EN_PP#_IP4_RML",
+        CIU_EN_PPX_IP4_RML = {
+            name = "CIU_EN_PP#_IP4_RML",
             type = "NCB",
             width = 8,
             address = 0x1070100092400,
@@ -2886,8 +2906,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_RML_W1C = {
-            name = "CIU2_EN_PP#_IP4_RML_W1C",
+        CIU_EN_PPX_IP4_RML_W1C = {
+            name = "CIU_EN_PP#_IP4_RML_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b2400,
@@ -2922,8 +2942,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_RML_W1S = {
-            name = "CIU2_EN_PP#_IP4_RML_W1S",
+        CIU_EN_PPX_IP4_RML_W1S = {
+            name = "CIU_EN_PP#_IP4_RML_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a2400,
@@ -2958,8 +2978,8 @@ local csr_db = {
                 {name = "IOB", start = 0, stop = 0},
             }
         },
-        CIU2_EN_PPX_IP4_WDOG = {
-            name = "CIU2_EN_PP#_IP4_WDOG",
+        CIU_EN_PPX_IP4_WDOG = {
+            name = "CIU_EN_PP#_IP4_WDOG",
             type = "NCB",
             width = 8,
             address = 0x1070100091400,
@@ -2970,8 +2990,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP4_WDOG_W1C = {
-            name = "CIU2_EN_PP#_IP4_WDOG_W1C",
+        CIU_EN_PPX_IP4_WDOG_W1C = {
+            name = "CIU_EN_PP#_IP4_WDOG_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b1400,
@@ -2982,8 +3002,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP4_WDOG_W1S = {
-            name = "CIU2_EN_PP#_IP4_WDOG_W1S",
+        CIU_EN_PPX_IP4_WDOG_W1S = {
+            name = "CIU_EN_PP#_IP4_WDOG_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a1400,
@@ -2994,8 +3014,8 @@ local csr_db = {
                 {name = "WDOG", start = 0, stop = 31},
             }
         },
-        CIU2_EN_PPX_IP4_WRKQ = {
-            name = "CIU2_EN_PP#_IP4_WRKQ",
+        CIU_EN_PPX_IP4_WRKQ = {
+            name = "CIU_EN_PP#_IP4_WRKQ",
             type = "NCB",
             width = 8,
             address = 0x1070100090400,
@@ -3005,8 +3025,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP4_WRKQ_W1C = {
-            name = "CIU2_EN_PP#_IP4_WRKQ_W1C",
+        CIU_EN_PPX_IP4_WRKQ_W1C = {
+            name = "CIU_EN_PP#_IP4_WRKQ_W1C",
             type = "NCB",
             width = 8,
             address = 0x10701000b0400,
@@ -3016,8 +3036,8 @@ local csr_db = {
                 {name = "WORKQ", start = 0, stop = 63},
             }
         },
-        CIU2_EN_PPX_IP4_WRKQ_W1S = {
-            name = "CIU2_EN_PP#_IP4_WRKQ_W1S",
+        CIU_EN_PPX_IP4_WRKQ_W1S = {
+            name = "CIU_EN_PP#_IP4_WRKQ_W1S",
             type = "NCB",
             width = 8,
             address = 0x10701000a0400,
@@ -3025,1568 +3045,6 @@ local csr_db = {
             range1_inc = 0x200000,
             fields = {
                 {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_INTR_CIU_READY = {
-            name = "CIU2_INTR_CIU_READY",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100102008,
-            fields = {
-                {name = "RESERVED_1_63", start = 1, stop = 63},
-                {name = "READY", start = 0, stop = 0},
-            }
-        },
-        CIU2_INTR_RAM_ECC_CTL = {
-            name = "CIU2_INTR_RAM_ECC_CTL",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100102010,
-            fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
-                {name = "FLIP_SYND", start = 1, stop = 2},
-                {name = "ECC_ENA", start = 0, stop = 0},
-            }
-        },
-        CIU2_INTR_RAM_ECC_ST = {
-            name = "CIU2_INTR_RAM_ECC_ST",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100102018,
-            fields = {
-                {name = "RESERVED_23_63", start = 23, stop = 63},
-                {name = "ADDR", start = 16, stop = 22},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "SYNDROM", start = 4, stop = 12},
-                {name = "RESERVED_2_3", start = 2, stop = 3},
-                {name = "DBE", start = 1, stop = 1},
-                {name = "SBE", start = 0, stop = 0},
-            }
-        },
-        CIU2_INTR_SLOWDOWN = {
-            name = "CIU2_INTR_SLOWDOWN",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100102000,
-            fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
-                {name = "CTL", start = 0, stop = 2},
-            }
-        },
-        CIU2_MBOX_CLRX = {
-            name = "CIU2_MBOX_CLR#",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100100600,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "CLR", start = 0, stop = 31},
-            }
-        },
-        CIU2_MBOX_SETX = {
-            name = "CIU2_MBOX_SET#",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100100400,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "SET", start = 0, stop = 31},
-            }
-        },
-        CIU2_MSI_RCVX = {
-            name = "CIU2_MSI_RCV#",
-            type = "NCB",
-            width = 8,
-            address = 0x10701000c2000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_1_63", start = 1, stop = 63},
-                {name = "MSI_RCV", start = 0, stop = 0},
-            }
-        },
-        CIU2_MSI_SELX = {
-            name = "CIU2_MSI_SEL#",
-            type = "NCB",
-            width = 8,
-            address = 0x10701000c3000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_13_63", start = 13, stop = 63},
-                {name = "PP_NUM", start = 8, stop = 12},
-                {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "IP_NUM", start = 4, stop = 5},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "EN", start = 0, stop = 0},
-            }
-        },
-        CIU2_MSIRED_PPX_IP2 = {
-            name = "CIU2_MSIRED_PP#_IP2",
-            type = "NCB",
-            width = 8,
-            address = 0x10701000c1000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_21_63", start = 21, stop = 63},
-                {name = "INTR", start = 20, stop = 20},
-                {name = "RESERVED_17_19", start = 17, stop = 19},
-                {name = "NEWINT", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "MSI_NUM", start = 0, stop = 7},
-            }
-        },
-        CIU2_MSIRED_PPX_IP3 = {
-            name = "CIU2_MSIRED_PP#_IP3",
-            type = "NCB",
-            width = 8,
-            address = 0x10701000c1200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_21_63", start = 21, stop = 63},
-                {name = "INTR", start = 20, stop = 20},
-                {name = "RESERVED_17_19", start = 17, stop = 19},
-                {name = "NEWINT", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "MSI_NUM", start = 0, stop = 7},
-            }
-        },
-        CIU2_MSIRED_PPX_IP4 = {
-            name = "CIU2_MSIRED_PP#_IP4",
-            type = "NCB",
-            width = 8,
-            address = 0x10701000c1400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_21_63", start = 21, stop = 63},
-                {name = "INTR", start = 20, stop = 20},
-                {name = "RESERVED_17_19", start = 17, stop = 19},
-                {name = "NEWINT", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "MSI_NUM", start = 0, stop = 7},
-            }
-        },
-        CIU2_PP_POKEX = {
-            name = "CIU2_PP_POKE#",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100100200,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "POKE", start = 0, stop = 63},
-            }
-        },
-        CIU2_RAW_IOX_INT_GPIO = {
-            name = "CIU2_RAW_IO#_INT_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108047800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_RAW_IOX_INT_IO = {
-            name = "CIU2_RAW_IO#_INT_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108044800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_IOX_INT_MEM = {
-            name = "CIU2_RAW_IO#_INT_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108045800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_IOX_INT_MIO = {
-            name = "CIU2_RAW_IO#_INT_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108043800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_IOX_INT_PKT = {
-            name = "CIU2_RAW_IO#_INT_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108046800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_RAW_IOX_INT_RML = {
-            name = "CIU2_RAW_IO#_INT_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108042800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_IOX_INT_WDOG = {
-            name = "CIU2_RAW_IO#_INT_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108041800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_RAW_IOX_INT_WRKQ = {
-            name = "CIU2_RAW_IO#_INT_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108040800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_RAW_PPX_IP2_GPIO = {
-            name = "CIU2_RAW_PP#_IP2_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100047000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_RAW_PPX_IP2_IO = {
-            name = "CIU2_RAW_PP#_IP2_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100044000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP2_MEM = {
-            name = "CIU2_RAW_PP#_IP2_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100045000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP2_MIO = {
-            name = "CIU2_RAW_PP#_IP2_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100043000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP2_PKT = {
-            name = "CIU2_RAW_PP#_IP2_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100046000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_RAW_PPX_IP2_RML = {
-            name = "CIU2_RAW_PP#_IP2_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100042000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP2_WDOG = {
-            name = "CIU2_RAW_PP#_IP2_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100041000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_RAW_PPX_IP2_WRKQ = {
-            name = "CIU2_RAW_PP#_IP2_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100040000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_RAW_PPX_IP3_GPIO = {
-            name = "CIU2_RAW_PP#_IP3_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100047200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_RAW_PPX_IP3_IO = {
-            name = "CIU2_RAW_PP#_IP3_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100044200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP3_MEM = {
-            name = "CIU2_RAW_PP#_IP3_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100045200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP3_MIO = {
-            name = "CIU2_RAW_PP#_IP3_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100043200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP3_PKT = {
-            name = "CIU2_RAW_PP#_IP3_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100046200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_RAW_PPX_IP3_RML = {
-            name = "CIU2_RAW_PP#_IP3_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100042200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP3_WDOG = {
-            name = "CIU2_RAW_PP#_IP3_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100041200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_RAW_PPX_IP3_WRKQ = {
-            name = "CIU2_RAW_PP#_IP3_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100040200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_RAW_PPX_IP4_GPIO = {
-            name = "CIU2_RAW_PP#_IP4_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100047400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_RAW_PPX_IP4_IO = {
-            name = "CIU2_RAW_PP#_IP4_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100044400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP4_MEM = {
-            name = "CIU2_RAW_PP#_IP4_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100045400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_RAW_PPX_IP4_MIO = {
-            name = "CIU2_RAW_PP#_IP4_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100043400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP4_PKT = {
-            name = "CIU2_RAW_PP#_IP4_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100046400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_RAW_PPX_IP4_RML = {
-            name = "CIU2_RAW_PP#_IP4_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100042400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_RAW_PPX_IP4_WDOG = {
-            name = "CIU2_RAW_PP#_IP4_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100041400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_RAW_PPX_IP4_WRKQ = {
-            name = "CIU2_RAW_PP#_IP4_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100040400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_SRC_IOX_INT_GPIO = {
-            name = "CIU2_SRC_IO#_INT_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108087800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_SRC_IOX_INT_IO = {
-            name = "CIU2_SRC_IO#_INT_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108084800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_IOX_INT_MBOX = {
-            name = "CIU2_SRC_IO#_INT_MBOX",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108088800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "MBOX", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_IOX_INT_MEM = {
-            name = "CIU2_SRC_IO#_INT_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108085800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_IOX_INT_MIO = {
-            name = "CIU2_SRC_IO#_INT_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108083800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_IOX_INT_PKT = {
-            name = "CIU2_SRC_IO#_INT_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108086800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_SRC_IOX_INT_RML = {
-            name = "CIU2_SRC_IO#_INT_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108082800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_IOX_INT_WDOG = {
-            name = "CIU2_SRC_IO#_INT_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108081800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_SRC_IOX_INT_WRKQ = {
-            name = "CIU2_SRC_IO#_INT_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070108080800,
-            range1 = {0,1},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_SRC_PPX_IP2_GPIO = {
-            name = "CIU2_SRC_PP#_IP2_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100087000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_SRC_PPX_IP2_IO = {
-            name = "CIU2_SRC_PP#_IP2_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100084000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP2_MBOX = {
-            name = "CIU2_SRC_PP#_IP2_MBOX",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100088000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "MBOX", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP2_MEM = {
-            name = "CIU2_SRC_PP#_IP2_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100085000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP2_MIO = {
-            name = "CIU2_SRC_PP#_IP2_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100083000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP2_PKT = {
-            name = "CIU2_SRC_PP#_IP2_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100086000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_SRC_PPX_IP2_RML = {
-            name = "CIU2_SRC_PP#_IP2_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100082000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP2_WDOG = {
-            name = "CIU2_SRC_PP#_IP2_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100081000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_SRC_PPX_IP2_WRKQ = {
-            name = "CIU2_SRC_PP#_IP2_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100080000,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_SRC_PPX_IP3_GPIO = {
-            name = "CIU2_SRC_PP#_IP3_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100087200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_SRC_PPX_IP3_IO = {
-            name = "CIU2_SRC_PP#_IP3_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100084200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP3_MBOX = {
-            name = "CIU2_SRC_PP#_IP3_MBOX",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100088200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "MBOX", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP3_MEM = {
-            name = "CIU2_SRC_PP#_IP3_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100085200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP3_MIO = {
-            name = "CIU2_SRC_PP#_IP3_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100083200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP3_PKT = {
-            name = "CIU2_SRC_PP#_IP3_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100086200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_SRC_PPX_IP3_RML = {
-            name = "CIU2_SRC_PP#_IP3_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100082200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP3_WDOG = {
-            name = "CIU2_SRC_PP#_IP3_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100081200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_SRC_PPX_IP3_WRKQ = {
-            name = "CIU2_SRC_PP#_IP3_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100080200,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_SRC_PPX_IP4_GPIO = {
-            name = "CIU2_SRC_PP#_IP4_GPIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100087400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "GPIO", start = 0, stop = 15},
-            }
-        },
-        CIU2_SRC_PPX_IP4_IO = {
-            name = "CIU2_SRC_PP#_IP4_IO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100084400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_34_63", start = 34, stop = 63},
-                {name = "PEM", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "PCI_INTA", start = 16, stop = 17},
-                {name = "RESERVED_13_15", start = 13, stop = 15},
-                {name = "MSIRED", start = 12, stop = 12},
-                {name = "PCI_MSI", start = 8, stop = 11},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "PCI_INTR", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP4_MBOX = {
-            name = "CIU2_SRC_PP#_IP4_MBOX",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100088400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "MBOX", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP4_MEM = {
-            name = "CIU2_SRC_PP#_IP4_MEM",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100085400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "LMC", start = 0, stop = 3},
-            }
-        },
-        CIU2_SRC_PPX_IP4_MIO = {
-            name = "CIU2_SRC_PP#_IP4_MIO",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100083400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RST", start = 63, stop = 63},
-                {name = "RESERVED_49_62", start = 49, stop = 62},
-                {name = "PTP", start = 48, stop = 48},
-                {name = "RESERVED_45_47", start = 45, stop = 47},
-                {name = "USB_HCI", start = 44, stop = 44},
-                {name = "RESERVED_41_43", start = 41, stop = 43},
-                {name = "USB_UCTL", start = 40, stop = 40},
-                {name = "RESERVED_38_39", start = 38, stop = 39},
-                {name = "UART", start = 36, stop = 37},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "TWSI", start = 32, stop = 33},
-                {name = "RESERVED_19_31", start = 19, stop = 31},
-                {name = "BOOTDMA", start = 18, stop = 18},
-                {name = "MIO", start = 17, stop = 17},
-                {name = "NAND", start = 16, stop = 16},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "TIMER", start = 8, stop = 11},
-                {name = "RESERVED_3_7", start = 3, stop = 7},
-                {name = "IPD_DRP", start = 2, stop = 2},
-                {name = "SSOIQ", start = 1, stop = 1},
-                {name = "IPDPPTHR", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP4_PKT = {
-            name = "CIU2_SRC_PP#_IP4_PKT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100086400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "ILK_DRP", start = 52, stop = 53},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "ILK", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "MII", start = 40, stop = 40},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "AGL", start = 32, stop = 32},
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "GMX_DRP", start = 8, stop = 12},
-                {name = "RESERVED_5_7", start = 5, stop = 7},
-                {name = "AGX", start = 0, stop = 4},
-            }
-        },
-        CIU2_SRC_PPX_IP4_RML = {
-            name = "CIU2_SRC_PP#_IP4_RML",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100082400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "TRACE", start = 52, stop = 55},
-                {name = "RESERVED_49_51", start = 49, stop = 51},
-                {name = "L2C", start = 48, stop = 48},
-                {name = "RESERVED_41_47", start = 41, stop = 47},
-                {name = "DFA", start = 40, stop = 40},
-                {name = "RESERVED_37_39", start = 37, stop = 39},
-                {name = "DPI_DMA", start = 36, stop = 36},
-                {name = "RESERVED_34_35", start = 34, stop = 35},
-                {name = "DPI", start = 33, stop = 33},
-                {name = "SLI", start = 32, stop = 32},
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "KEY", start = 30, stop = 30},
-                {name = "RAD", start = 29, stop = 29},
-                {name = "TIM", start = 28, stop = 28},
-                {name = "RESERVED_25_27", start = 25, stop = 27},
-                {name = "ZIP", start = 24, stop = 24},
-                {name = "RESERVED_17_23", start = 17, stop = 23},
-                {name = "SSO", start = 16, stop = 16},
-                {name = "RESERVED_8_15", start = 8, stop = 15},
-                {name = "PKO", start = 7, stop = 7},
-                {name = "PIP", start = 6, stop = 6},
-                {name = "IPD", start = 5, stop = 5},
-                {name = "FPA", start = 4, stop = 4},
-                {name = "RESERVED_1_3", start = 1, stop = 3},
-                {name = "IOB", start = 0, stop = 0},
-            }
-        },
-        CIU2_SRC_PPX_IP4_WDOG = {
-            name = "CIU2_SRC_PP#_IP4_WDOG",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100081400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "WDOG", start = 0, stop = 31},
-            }
-        },
-        CIU2_SRC_PPX_IP4_WRKQ = {
-            name = "CIU2_SRC_PP#_IP4_WRKQ",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100080400,
-            range1 = {0,31},
-            range1_inc = 0x200000,
-            fields = {
-                {name = "WORKQ", start = 0, stop = 63},
-            }
-        },
-        CIU2_SUM_IOX_INT = {
-            name = "CIU2_SUM_IO#_INT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100000800,
-            range1 = {0,1},
-            range1_inc = 0x8,
-            fields = {
-                {name = "MBOX", start = 60, stop = 63},
-                {name = "RESERVED_8_59", start = 8, stop = 59},
-                {name = "GPIO", start = 7, stop = 7},
-                {name = "PKT", start = 6, stop = 6},
-                {name = "MEM", start = 5, stop = 5},
-                {name = "IO", start = 4, stop = 4},
-                {name = "MIO", start = 3, stop = 3},
-                {name = "RML", start = 2, stop = 2},
-                {name = "WDOG", start = 1, stop = 1},
-                {name = "WORKQ", start = 0, stop = 0},
-            }
-        },
-        CIU2_SUM_PPX_IP2 = {
-            name = "CIU2_SUM_PP#_IP2",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100000000,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "MBOX", start = 60, stop = 63},
-                {name = "RESERVED_8_59", start = 8, stop = 59},
-                {name = "GPIO", start = 7, stop = 7},
-                {name = "PKT", start = 6, stop = 6},
-                {name = "MEM", start = 5, stop = 5},
-                {name = "IO", start = 4, stop = 4},
-                {name = "MIO", start = 3, stop = 3},
-                {name = "RML", start = 2, stop = 2},
-                {name = "WDOG", start = 1, stop = 1},
-                {name = "WORKQ", start = 0, stop = 0},
-            }
-        },
-        CIU2_SUM_PPX_IP3 = {
-            name = "CIU2_SUM_PP#_IP3",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100000200,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "MBOX", start = 60, stop = 63},
-                {name = "RESERVED_8_59", start = 8, stop = 59},
-                {name = "GPIO", start = 7, stop = 7},
-                {name = "PKT", start = 6, stop = 6},
-                {name = "MEM", start = 5, stop = 5},
-                {name = "IO", start = 4, stop = 4},
-                {name = "MIO", start = 3, stop = 3},
-                {name = "RML", start = 2, stop = 2},
-                {name = "WDOG", start = 1, stop = 1},
-                {name = "WORKQ", start = 0, stop = 0},
-            }
-        },
-        CIU2_SUM_PPX_IP4 = {
-            name = "CIU2_SUM_PP#_IP4",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100000400,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "MBOX", start = 60, stop = 63},
-                {name = "RESERVED_8_59", start = 8, stop = 59},
-                {name = "GPIO", start = 7, stop = 7},
-                {name = "PKT", start = 6, stop = 6},
-                {name = "MEM", start = 5, stop = 5},
-                {name = "IO", start = 4, stop = 4},
-                {name = "MIO", start = 3, stop = 3},
-                {name = "RML", start = 2, stop = 2},
-                {name = "WDOG", start = 1, stop = 1},
-                {name = "WORKQ", start = 0, stop = 0},
-            }
-        },
-        CIU2_WDOGX = {
-            name = "CIU2_WDOG#",
-            type = "NCB",
-            width = 8,
-            address = 0x1070100100000,
-            range1 = {0,31},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_46_63", start = 46, stop = 63},
-                {name = "GSTOPEN", start = 45, stop = 45},
-                {name = "DSTOP", start = 44, stop = 44},
-                {name = "CNT", start = 20, stop = 43},
-                {name = "LEN", start = 4, stop = 19},
-                {name = "STATE", start = 2, stop = 3},
-                {name = "MODE", start = 0, stop = 1},
-            }
-        },
-        CIU_BIST = {
-            name = "CIU_BIST",
-            type = "NCB",
-            width = 8,
-            address = 0x1070000000730,
-            fields = {
-                {name = "RESERVED_7_63", start = 7, stop = 63},
-                {name = "BIST", start = 0, stop = 6},
-            }
-        },
-        CIU_DINT = {
-            name = "CIU_DINT",
-            type = "NCB",
-            width = 8,
-            address = 0x1070000000720,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "DINT", start = 0, stop = 31},
             }
         },
         CIU_FUSE = {
@@ -4621,6 +3079,152 @@ local csr_db = {
                 {name = "IRQ", start = 8, stop = 9},
                 {name = "RESERVED_5_7", start = 5, stop = 7},
                 {name = "PP", start = 0, stop = 4},
+            }
+        },
+        CIU_INTR_CIU_READY = {
+            name = "CIU_INTR_CIU_READY",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100102008,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "READY", start = 0, stop = 0},
+            }
+        },
+        CIU_INTR_RAM_ECC_CTL = {
+            name = "CIU_INTR_RAM_ECC_CTL",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100102010,
+            fields = {
+                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "FLIP_SYND", start = 1, stop = 2},
+                {name = "ECC_ENA", start = 0, stop = 0},
+            }
+        },
+        CIU_INTR_RAM_ECC_ST = {
+            name = "CIU_INTR_RAM_ECC_ST",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100102018,
+            fields = {
+                {name = "RESERVED_23_63", start = 23, stop = 63},
+                {name = "ADDR", start = 16, stop = 22},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "SYNDROM", start = 4, stop = 12},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "DBE", start = 1, stop = 1},
+                {name = "SBE", start = 0, stop = 0},
+            }
+        },
+        CIU_INTR_SLOWDOWN = {
+            name = "CIU_INTR_SLOWDOWN",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100102000,
+            fields = {
+                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "CTL", start = 0, stop = 2},
+            }
+        },
+        CIU_MBOX_CLRX = {
+            name = "CIU_MBOX_CLR#",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100100600,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BITS", start = 0, stop = 31},
+            }
+        },
+        CIU_MBOX_SETX = {
+            name = "CIU_MBOX_SET#",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100100400,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BITS", start = 0, stop = 31},
+            }
+        },
+        CIU_MSI_RCVX = {
+            name = "CIU_MSI_RCV#",
+            type = "NCB",
+            width = 8,
+            address = 0x10701000c2000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "MSI_RCV", start = 0, stop = 0},
+            }
+        },
+        CIU_MSI_SELX = {
+            name = "CIU_MSI_SEL#",
+            type = "NCB",
+            width = 8,
+            address = 0x10701000c3000,
+            range1 = {0,255},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_13_63", start = 13, stop = 63},
+                {name = "PP_NUM", start = 8, stop = 12},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "IP_NUM", start = 4, stop = 5},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        CIU_MSIRED_PPX_IP2 = {
+            name = "CIU_MSIRED_PP#_IP2",
+            type = "NCB",
+            width = 8,
+            address = 0x10701000c1000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "INTR", start = 20, stop = 20},
+                {name = "RESERVED_17_19", start = 17, stop = 19},
+                {name = "NEWINT", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "MSI_NUM", start = 0, stop = 7},
+            }
+        },
+        CIU_MSIRED_PPX_IP3 = {
+            name = "CIU_MSIRED_PP#_IP3",
+            type = "NCB",
+            width = 8,
+            address = 0x10701000c1200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "INTR", start = 20, stop = 20},
+                {name = "RESERVED_17_19", start = 17, stop = 19},
+                {name = "NEWINT", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "MSI_NUM", start = 0, stop = 7},
+            }
+        },
+        CIU_MSIRED_PPX_IP4 = {
+            name = "CIU_MSIRED_PP#_IP4",
+            type = "NCB",
+            width = 8,
+            address = 0x10701000c1400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "INTR", start = 20, stop = 20},
+                {name = "RESERVED_17_19", start = 17, stop = 19},
+                {name = "NEWINT", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "MSI_NUM", start = 0, stop = 7},
             }
         },
         CIU_NMI = {
@@ -4661,6 +3265,17 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "PPDBG", start = 0, stop = 31},
+            }
+        },
+        CIU_PP_POKEX = {
+            name = "CIU_PP_POKE#",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100100200,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "POKE", start = 0, stop = 63},
             }
         },
         CIU_PP_RST = {
@@ -4805,6 +3420,626 @@ local csr_db = {
                 {name = "SHFT_REG", start = 0, stop = 31},
             }
         },
+        CIU_RAW_IOX_INT_GPIO = {
+            name = "CIU_RAW_IO#_INT_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108047800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_RAW_IOX_INT_IO = {
+            name = "CIU_RAW_IO#_INT_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108044800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_IOX_INT_MEM = {
+            name = "CIU_RAW_IO#_INT_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108045800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_IOX_INT_MIO = {
+            name = "CIU_RAW_IO#_INT_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108043800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_IOX_INT_PKT = {
+            name = "CIU_RAW_IO#_INT_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108046800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_RAW_IOX_INT_RML = {
+            name = "CIU_RAW_IO#_INT_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108042800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_IOX_INT_WDOG = {
+            name = "CIU_RAW_IO#_INT_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108041800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_RAW_IOX_INT_WRKQ = {
+            name = "CIU_RAW_IO#_INT_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108040800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_RAW_PPX_IP2_GPIO = {
+            name = "CIU_RAW_PP#_IP2_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100047000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_RAW_PPX_IP2_IO = {
+            name = "CIU_RAW_PP#_IP2_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100044000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP2_MEM = {
+            name = "CIU_RAW_PP#_IP2_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100045000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP2_MIO = {
+            name = "CIU_RAW_PP#_IP2_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100043000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP2_PKT = {
+            name = "CIU_RAW_PP#_IP2_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100046000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_RAW_PPX_IP2_RML = {
+            name = "CIU_RAW_PP#_IP2_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100042000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP2_WDOG = {
+            name = "CIU_RAW_PP#_IP2_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100041000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_RAW_PPX_IP2_WRKQ = {
+            name = "CIU_RAW_PP#_IP2_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100040000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_RAW_PPX_IP3_GPIO = {
+            name = "CIU_RAW_PP#_IP3_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100047200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_RAW_PPX_IP3_IO = {
+            name = "CIU_RAW_PP#_IP3_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100044200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP3_MEM = {
+            name = "CIU_RAW_PP#_IP3_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100045200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP3_MIO = {
+            name = "CIU_RAW_PP#_IP3_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100043200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP3_PKT = {
+            name = "CIU_RAW_PP#_IP3_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100046200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_RAW_PPX_IP3_RML = {
+            name = "CIU_RAW_PP#_IP3_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100042200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP3_WDOG = {
+            name = "CIU_RAW_PP#_IP3_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100041200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_RAW_PPX_IP3_WRKQ = {
+            name = "CIU_RAW_PP#_IP3_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100040200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_RAW_PPX_IP4_GPIO = {
+            name = "CIU_RAW_PP#_IP4_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100047400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_RAW_PPX_IP4_IO = {
+            name = "CIU_RAW_PP#_IP4_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100044400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP4_MEM = {
+            name = "CIU_RAW_PP#_IP4_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100045400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_RAW_PPX_IP4_MIO = {
+            name = "CIU_RAW_PP#_IP4_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100043400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP4_PKT = {
+            name = "CIU_RAW_PP#_IP4_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100046400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_RAW_PPX_IP4_RML = {
+            name = "CIU_RAW_PP#_IP4_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100042400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_RAW_PPX_IP4_WDOG = {
+            name = "CIU_RAW_PP#_IP4_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100041400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_RAW_PPX_IP4_WRKQ = {
+            name = "CIU_RAW_PP#_IP4_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100040400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
         CIU_SOFT_BIST = {
             name = "CIU_SOFT_BIST",
             type = "NCB",
@@ -4845,6 +4080,754 @@ local csr_db = {
                 {name = "SOFT_RST", start = 0, stop = 0},
             }
         },
+        CIU_SRC_IOX_INT_GPIO = {
+            name = "CIU_SRC_IO#_INT_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108087800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_SRC_IOX_INT_IO = {
+            name = "CIU_SRC_IO#_INT_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108084800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_IOX_INT_MBOX = {
+            name = "CIU_SRC_IO#_INT_MBOX",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108088800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "MBOX", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_IOX_INT_MEM = {
+            name = "CIU_SRC_IO#_INT_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108085800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_IOX_INT_MIO = {
+            name = "CIU_SRC_IO#_INT_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108083800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_IOX_INT_PKT = {
+            name = "CIU_SRC_IO#_INT_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108086800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_SRC_IOX_INT_RML = {
+            name = "CIU_SRC_IO#_INT_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108082800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_IOX_INT_WDOG = {
+            name = "CIU_SRC_IO#_INT_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108081800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_SRC_IOX_INT_WRKQ = {
+            name = "CIU_SRC_IO#_INT_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070108080800,
+            range1 = {0,1},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_SRC_PPX_IP2_GPIO = {
+            name = "CIU_SRC_PP#_IP2_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100087000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_SRC_PPX_IP2_IO = {
+            name = "CIU_SRC_PP#_IP2_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100084000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP2_MBOX = {
+            name = "CIU_SRC_PP#_IP2_MBOX",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100088000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "MBOX", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP2_MEM = {
+            name = "CIU_SRC_PP#_IP2_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100085000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP2_MIO = {
+            name = "CIU_SRC_PP#_IP2_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100083000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP2_PKT = {
+            name = "CIU_SRC_PP#_IP2_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100086000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_SRC_PPX_IP2_RML = {
+            name = "CIU_SRC_PP#_IP2_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100082000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP2_WDOG = {
+            name = "CIU_SRC_PP#_IP2_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100081000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_SRC_PPX_IP2_WRKQ = {
+            name = "CIU_SRC_PP#_IP2_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100080000,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_SRC_PPX_IP3_GPIO = {
+            name = "CIU_SRC_PP#_IP3_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100087200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_SRC_PPX_IP3_IO = {
+            name = "CIU_SRC_PP#_IP3_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100084200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP3_MBOX = {
+            name = "CIU_SRC_PP#_IP3_MBOX",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100088200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "MBOX", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP3_MEM = {
+            name = "CIU_SRC_PP#_IP3_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100085200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP3_MIO = {
+            name = "CIU_SRC_PP#_IP3_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100083200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP3_PKT = {
+            name = "CIU_SRC_PP#_IP3_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100086200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_SRC_PPX_IP3_RML = {
+            name = "CIU_SRC_PP#_IP3_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100082200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP3_WDOG = {
+            name = "CIU_SRC_PP#_IP3_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100081200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_SRC_PPX_IP3_WRKQ = {
+            name = "CIU_SRC_PP#_IP3_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100080200,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_SRC_PPX_IP4_GPIO = {
+            name = "CIU_SRC_PP#_IP4_GPIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100087400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "GPIO", start = 0, stop = 15},
+            }
+        },
+        CIU_SRC_PPX_IP4_IO = {
+            name = "CIU_SRC_PP#_IP4_IO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100084400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "PEM", start = 32, stop = 33},
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "PCI_INTA", start = 16, stop = 17},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "MSIRED", start = 12, stop = 12},
+                {name = "PCI_MSI", start = 8, stop = 11},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "PCI_INTR", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP4_MBOX = {
+            name = "CIU_SRC_PP#_IP4_MBOX",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100088400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "MBOX", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP4_MEM = {
+            name = "CIU_SRC_PP#_IP4_MEM",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100085400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LMC", start = 0, stop = 3},
+            }
+        },
+        CIU_SRC_PPX_IP4_MIO = {
+            name = "CIU_SRC_PP#_IP4_MIO",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100083400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RST", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
+                {name = "PTP", start = 48, stop = 48},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "USB_HCI", start = 44, stop = 44},
+                {name = "RESERVED_41_43", start = 41, stop = 43},
+                {name = "USB_UCTL", start = 40, stop = 40},
+                {name = "RESERVED_38_39", start = 38, stop = 39},
+                {name = "UART", start = 36, stop = 37},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "TWSI", start = 32, stop = 33},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "BOOTDMA", start = 18, stop = 18},
+                {name = "MIO", start = 17, stop = 17},
+                {name = "NAND", start = 16, stop = 16},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "TIMER", start = 8, stop = 11},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "IPD_DRP", start = 2, stop = 2},
+                {name = "SSOIQ", start = 1, stop = 1},
+                {name = "IPDPPTHR", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP4_PKT = {
+            name = "CIU_SRC_PP#_IP4_PKT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100086400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "ILK_DRP", start = 52, stop = 53},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "ILK", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "MII", start = 40, stop = 40},
+                {name = "RESERVED_33_39", start = 33, stop = 39},
+                {name = "AGL", start = 32, stop = 32},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "GMX_DRP", start = 8, stop = 12},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "AGX", start = 0, stop = 4},
+            }
+        },
+        CIU_SRC_PPX_IP4_RML = {
+            name = "CIU_SRC_PP#_IP4_RML",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100082400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TRACE", start = 52, stop = 55},
+                {name = "RESERVED_49_51", start = 49, stop = 51},
+                {name = "L2C", start = 48, stop = 48},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "DFA", start = 40, stop = 40},
+                {name = "RESERVED_37_39", start = 37, stop = 39},
+                {name = "DPI_DMA", start = 36, stop = 36},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "DPI", start = 33, stop = 33},
+                {name = "SLI", start = 32, stop = 32},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "KEY", start = 30, stop = 30},
+                {name = "RAD", start = 29, stop = 29},
+                {name = "TIM", start = 28, stop = 28},
+                {name = "RESERVED_25_27", start = 25, stop = 27},
+                {name = "ZIP", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "SSO", start = 16, stop = 16},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "PKO", start = 7, stop = 7},
+                {name = "PIP", start = 6, stop = 6},
+                {name = "IPD", start = 5, stop = 5},
+                {name = "FPA", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IOB", start = 0, stop = 0},
+            }
+        },
+        CIU_SRC_PPX_IP4_WDOG = {
+            name = "CIU_SRC_PP#_IP4_WDOG",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100081400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "WDOG", start = 0, stop = 31},
+            }
+        },
+        CIU_SRC_PPX_IP4_WRKQ = {
+            name = "CIU_SRC_PP#_IP4_WRKQ",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100080400,
+            range1 = {0,31},
+            range1_inc = 0x200000,
+            fields = {
+                {name = "WORKQ", start = 0, stop = 63},
+            }
+        },
+        CIU_SUM_IOX_INT = {
+            name = "CIU_SUM_IO#_INT",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100000800,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "MBOX", start = 60, stop = 63},
+                {name = "RESERVED_8_59", start = 8, stop = 59},
+                {name = "GPIO", start = 7, stop = 7},
+                {name = "PKT", start = 6, stop = 6},
+                {name = "MEM", start = 5, stop = 5},
+                {name = "IO", start = 4, stop = 4},
+                {name = "MIO", start = 3, stop = 3},
+                {name = "RML", start = 2, stop = 2},
+                {name = "WDOG", start = 1, stop = 1},
+                {name = "WORKQ", start = 0, stop = 0},
+            }
+        },
+        CIU_SUM_PPX_IP2 = {
+            name = "CIU_SUM_PP#_IP2",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100000000,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "MBOX", start = 60, stop = 63},
+                {name = "RESERVED_8_59", start = 8, stop = 59},
+                {name = "GPIO", start = 7, stop = 7},
+                {name = "PKT", start = 6, stop = 6},
+                {name = "MEM", start = 5, stop = 5},
+                {name = "IO", start = 4, stop = 4},
+                {name = "MIO", start = 3, stop = 3},
+                {name = "RML", start = 2, stop = 2},
+                {name = "WDOG", start = 1, stop = 1},
+                {name = "WORKQ", start = 0, stop = 0},
+            }
+        },
+        CIU_SUM_PPX_IP3 = {
+            name = "CIU_SUM_PP#_IP3",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100000200,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "MBOX", start = 60, stop = 63},
+                {name = "RESERVED_8_59", start = 8, stop = 59},
+                {name = "GPIO", start = 7, stop = 7},
+                {name = "PKT", start = 6, stop = 6},
+                {name = "MEM", start = 5, stop = 5},
+                {name = "IO", start = 4, stop = 4},
+                {name = "MIO", start = 3, stop = 3},
+                {name = "RML", start = 2, stop = 2},
+                {name = "WDOG", start = 1, stop = 1},
+                {name = "WORKQ", start = 0, stop = 0},
+            }
+        },
+        CIU_SUM_PPX_IP4 = {
+            name = "CIU_SUM_PP#_IP4",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100000400,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "MBOX", start = 60, stop = 63},
+                {name = "RESERVED_8_59", start = 8, stop = 59},
+                {name = "GPIO", start = 7, stop = 7},
+                {name = "PKT", start = 6, stop = 6},
+                {name = "MEM", start = 5, stop = 5},
+                {name = "IO", start = 4, stop = 4},
+                {name = "MIO", start = 3, stop = 3},
+                {name = "RML", start = 2, stop = 2},
+                {name = "WDOG", start = 1, stop = 1},
+                {name = "WORKQ", start = 0, stop = 0},
+            }
+        },
         CIU_TIMX = {
             name = "CIU_TIM#",
             type = "NCB",
@@ -4856,6 +4839,23 @@ local csr_db = {
                 {name = "RESERVED_37_63", start = 37, stop = 63},
                 {name = "ONE_SHOT", start = 36, stop = 36},
                 {name = "LEN", start = 0, stop = 35},
+            }
+        },
+        CIU_WDOGX = {
+            name = "CIU_WDOG#",
+            type = "NCB",
+            width = 8,
+            address = 0x1070100100000,
+            range1 = {0,31},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_46_63", start = 46, stop = 63},
+                {name = "GSTOPEN", start = 45, stop = 45},
+                {name = "DSTOP", start = 44, stop = 44},
+                {name = "CNT", start = 20, stop = 43},
+                {name = "LEN", start = 4, stop = 19},
+                {name = "STATE", start = 2, stop = 3},
+                {name = "MODE", start = 0, stop = 1},
             }
         },
         DFA_BIST0 = {
@@ -41615,8 +41615,8 @@ local csr_db = {
                 {name = "BX_SYNC_SM", start = 0, stop = 3},
             }
         },
-        CIU3_BIST = {
-            name = "CIU3_BIST",
+        CIU_BIST = {
+            name = "CIU_BIST",
             type = "NCB",
             width = 8,
             address = 0x10100000001c0,
@@ -41625,8 +41625,8 @@ local csr_db = {
                 {name = "BIST", start = 0, stop = 6},
             }
         },
-        CIU3_CONST = {
-            name = "CIU3_CONST",
+        CIU_CONST = {
+            name = "CIU_CONST",
             type = "NCB",
             width = 8,
             address = 0x1010000000220,
@@ -41637,8 +41637,8 @@ local csr_db = {
                 {name = "IDT", start = 0, stop = 15},
             }
         },
-        CIU3_CTL = {
-            name = "CIU3_CTL",
+        CIU_CTL = {
+            name = "CIU_CTL",
             type = "NCB",
             width = 8,
             address = 0x10100000000e0,
@@ -41650,8 +41650,8 @@ local csr_db = {
                 {name = "CCLK_DIS", start = 0, stop = 0},
             }
         },
-        CIU3_DESTX_IO_INT = {
-            name = "CIU3_DEST#_IO_INT",
+        CIU_DESTX_IO_INT = {
+            name = "CIU_DEST#_IO_INT",
             type = "NCB",
             width = 8,
             address = 0x1010000210000,
@@ -41666,8 +41666,8 @@ local csr_db = {
                 {name = "INTR", start = 0, stop = 0},
             }
         },
-        CIU3_DESTX_PP_INT = {
-            name = "CIU3_DEST#_PP_INT",
+        CIU_DESTX_PP_INT = {
+            name = "CIU_DEST#_PP_INT",
             type = "NCB",
             width = 8,
             address = 0x1010000200000,
@@ -41682,8 +41682,8 @@ local csr_db = {
                 {name = "INTR", start = 0, stop = 0},
             }
         },
-        CIU3_DINT = {
-            name = "CIU3_DINT",
+        CIU_DINT = {
+            name = "CIU_DINT",
             type = "NCB",
             width = 8,
             address = 0x1010000000180,
@@ -41692,8 +41692,8 @@ local csr_db = {
                 {name = "DINT", start = 0, stop = 47},
             }
         },
-        CIU3_FUSE = {
-            name = "CIU3_FUSE",
+        CIU_FUSE = {
+            name = "CIU_FUSE",
             type = "NCB",
             width = 8,
             address = 0x10100000001a0,
@@ -41702,8 +41702,8 @@ local csr_db = {
                 {name = "FUSE", start = 0, stop = 47},
             }
         },
-        CIU3_GSTOP = {
-            name = "CIU3_GSTOP",
+        CIU_GSTOP = {
+            name = "CIU_GSTOP",
             type = "NCB",
             width = 8,
             address = 0x1010000000140,
@@ -41712,8 +41712,8 @@ local csr_db = {
                 {name = "GSTOP", start = 0, stop = 0},
             }
         },
-        CIU3_IDTX_CTL = {
-            name = "CIU3_IDT#_CTL",
+        CIU_IDTX_CTL = {
+            name = "CIU_IDT#_CTL",
             type = "NCB",
             width = 8,
             address = 0x1010000110000,
@@ -41728,8 +41728,8 @@ local csr_db = {
                 {name = "IP_NUM", start = 0, stop = 1},
             }
         },
-        CIU3_IDTX_IO = {
-            name = "CIU3_IDT#_IO",
+        CIU_IDTX_IO = {
+            name = "CIU_IDT#_IO",
             type = "NCB",
             width = 8,
             address = 0x1010000130000,
@@ -41740,8 +41740,8 @@ local csr_db = {
                 {name = "IO", start = 0, stop = 4},
             }
         },
-        CIU3_IDTX_PPX = {
-            name = "CIU3_IDT#_PP#",
+        CIU_IDTX_PPX = {
+            name = "CIU_IDT#_PP#",
             type = "NCB",
             width = 8,
             address = 0x1010000120000,
@@ -41754,8 +41754,8 @@ local csr_db = {
                 {name = "PP", start = 0, stop = 47},
             }
         },
-        CIU3_INT_DBG_SEL = {
-            name = "CIU3_INT_DBG_SEL",
+        CIU_INT_DBG_SEL = {
+            name = "CIU_INT_DBG_SEL",
             type = "NCB",
             width = 8,
             address = 0x1010000000200,
@@ -41768,8 +41768,8 @@ local csr_db = {
                 {name = "PP", start = 0, stop = 5},
             }
         },
-        CIU3_INTR_RAM_ECC_CTL = {
-            name = "CIU3_INTR_RAM_ECC_CTL",
+        CIU_INTR_RAM_ECC_CTL = {
+            name = "CIU_INTR_RAM_ECC_CTL",
             type = "NCB",
             width = 8,
             address = 0x1010000000260,
@@ -41779,8 +41779,8 @@ local csr_db = {
                 {name = "ECC_ENA", start = 0, stop = 0},
             }
         },
-        CIU3_INTR_RAM_ECC_ST = {
-            name = "CIU3_INTR_RAM_ECC_ST",
+        CIU_INTR_RAM_ECC_ST = {
+            name = "CIU_INTR_RAM_ECC_ST",
             type = "NCB",
             width = 8,
             address = 0x1010000000280,
@@ -41796,8 +41796,8 @@ local csr_db = {
                 {name = "ISC_SBE", start = 0, stop = 0},
             }
         },
-        CIU3_INTR_READY = {
-            name = "CIU3_INTR_READY",
+        CIU_INTR_READY = {
+            name = "CIU_INTR_READY",
             type = "NCB",
             width = 8,
             address = 0x10100000002a0,
@@ -41809,8 +41809,8 @@ local csr_db = {
                 {name = "READY", start = 0, stop = 0},
             }
         },
-        CIU3_INTR_SLOWDOWN = {
-            name = "CIU3_INTR_SLOWDOWN",
+        CIU_INTR_SLOWDOWN = {
+            name = "CIU_INTR_SLOWDOWN",
             type = "NCB",
             width = 8,
             address = 0x1010000000240,
@@ -41819,8 +41819,8 @@ local csr_db = {
                 {name = "CTL", start = 0, stop = 2},
             }
         },
-        CIU3_ISCX_CTL = {
-            name = "CIU3_ISC#_CTL",
+        CIU_ISCX_CTL = {
+            name = "CIU_ISC#_CTL",
             type = "NCB",
             width = 8,
             address = 0x1010080000000,
@@ -41837,8 +41837,8 @@ local csr_db = {
                 {name = "RAW", start = 0, stop = 0},
             }
         },
-        CIU3_ISCX_W1C = {
-            name = "CIU3_ISC#_W1C",
+        CIU_ISCX_W1C = {
+            name = "CIU_ISC#_W1C",
             type = "NCB",
             width = 8,
             address = 0x1010090000000,
@@ -41851,8 +41851,8 @@ local csr_db = {
                 {name = "RAW", start = 0, stop = 0},
             }
         },
-        CIU3_ISCX_W1S = {
-            name = "CIU3_ISC#_W1S",
+        CIU_ISCX_W1S = {
+            name = "CIU_ISC#_W1S",
             type = "NCB",
             width = 8,
             address = 0x10100a0000000,
@@ -41865,8 +41865,8 @@ local csr_db = {
                 {name = "RAW", start = 0, stop = 0},
             }
         },
-        CIU3_ISCMEM_BASE = {
-            name = "CIU3_ISCMEM_BASE",
+        CIU_ISCMEM_BASE = {
+            name = "CIU_ISCMEM_BASE",
             type = "NCB",
             width = 8,
             address = 0x10100000002c0,
@@ -41876,8 +41876,8 @@ local csr_db = {
                 {name = "ADDRL4", start = 0, stop = 3},
             }
         },
-        CIU3_NMI = {
-            name = "CIU3_NMI",
+        CIU_NMI = {
+            name = "CIU_NMI",
             type = "NCB",
             width = 8,
             address = 0x1010000000160,
@@ -41886,8 +41886,8 @@ local csr_db = {
                 {name = "NMI", start = 0, stop = 47},
             }
         },
-        CIU3_PP_DBG = {
-            name = "CIU3_PP_DBG",
+        CIU_PP_DBG = {
+            name = "CIU_PP_DBG",
             type = "NCB",
             width = 8,
             address = 0x1010000000120,
@@ -41896,8 +41896,8 @@ local csr_db = {
                 {name = "PPDBG", start = 0, stop = 47},
             }
         },
-        CIU3_PP_POKEX = {
-            name = "CIU3_PP_POKE#",
+        CIU_PP_POKEX = {
+            name = "CIU_PP_POKE#",
             type = "NCB",
             width = 8,
             address = 0x1010000030000,
@@ -41908,8 +41908,8 @@ local csr_db = {
                 {name = "POKE", start = 0, stop = 0},
             }
         },
-        CIU3_PP_RST = {
-            name = "CIU3_PP_RST",
+        CIU_PP_RST = {
+            name = "CIU_PP_RST",
             type = "NCB",
             width = 8,
             address = 0x1010000000100,
@@ -41919,8 +41919,8 @@ local csr_db = {
                 {name = "RST0", start = 0, stop = 0},
             }
         },
-        CIU3_SISCX = {
-            name = "CIU3_SISC#",
+        CIU_SISCX = {
+            name = "CIU_SISC#",
             type = "NCB",
             width = 8,
             address = 0x1010000220000,
@@ -41930,8 +41930,8 @@ local csr_db = {
                 {name = "EN", start = 0, stop = 63},
             }
         },
-        CIU3_TIMX = {
-            name = "CIU3_TIM#",
+        CIU_TIMX = {
+            name = "CIU_TIM#",
             type = "NCB",
             width = 8,
             address = 0x1010000010000,
@@ -41943,8 +41943,8 @@ local csr_db = {
                 {name = "LEN", start = 0, stop = 35},
             }
         },
-        CIU3_WDOGX = {
-            name = "CIU3_WDOG#",
+        CIU_WDOGX = {
+            name = "CIU_WDOG#",
             type = "NCB",
             width = 8,
             address = 0x1010000020000,

@@ -618,31 +618,31 @@ static void check_cn6xxx(void)
 
 static void check_cn68xx(void)
 {
-    BDK_CSR_INIT(c, BDK_CIU2_SUM_PPX_IP2(0));
+    BDK_CSR_INIT(c, BDK_CIU_SUM_PPX_IP2(0));
     if (c.s.io)
     {
-        BDK_CSR_INIT(c, BDK_CIU2_SRC_PPX_IP2_IO(0));
+        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_IO(0));
         for (int pem=0; pem<2; pem++)
             if (c.s.pem & (1<<pem))
                 check_pem(pem);
     }
     if (c.s.mem)
     {
-        BDK_CSR_INIT(c, BDK_CIU2_SRC_PPX_IP2_MEM(0));
+        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_MEM(0));
         for (int lmc=0; lmc<4; lmc++)
         if (c.s.lmc & (1<<lmc))
             check_lmc(lmc);
     }
     if (c.s.mio)
     {
-        BDK_CSR_INIT(c, BDK_CIU2_SRC_PPX_IP2_MIO(0));
+        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_MIO(0));
         if (c.s.mio) check_mio();
         if (c.s.nand) check_nand();
         if (c.s.usb_uctl) check_usb(0);
     }
     if (c.s.pkt)
     {
-        BDK_CSR_INIT(c, BDK_CIU2_SRC_PPX_IP2_PKT(0));
+        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_PKT(0));
         if (c.s.agl) check_agl();
         for (int gmx=0; gmx<5; gmx++)
         {
@@ -658,7 +658,7 @@ static void check_cn68xx(void)
     }
     if (c.s.rml)
     {
-        BDK_CSR_INIT(c, BDK_CIU2_SRC_PPX_IP2_RML(0));
+        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_RML(0));
         if (c.s.dfa) check_dfa();
         if (c.s.dpi) check_dpi();
         if (c.s.fpa) check_fpa();
@@ -1099,14 +1099,14 @@ static void enable_cn6xxx(void)
 static void enable_cn68xx(void)
 {
     /* Interrupts connected to IO */
-    BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_IO(0),
+    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_IO(0),
         c.s.pem = -1;
     );
     enable_pem(0);
     enable_pem(1);
 
     /* Interrupts connected to MEM */
-    BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_MEM(0),
+    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_MEM(0),
         c.s.lmc = -1;
     );
     enable_lmc(0);
@@ -1115,7 +1115,7 @@ static void enable_cn68xx(void)
     enable_lmc(3);
 
     /* Interrupts connected to MIO */
-    BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_MIO(0),
+    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_MIO(0),
         c.s.mio = -1;
         c.s.nand = -1;
         c.s.usb_uctl = -1;
@@ -1125,7 +1125,7 @@ static void enable_cn68xx(void)
     enable_usb(0);
 
     /* Interrupts connected to PKT */
-    BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_PKT(0),
+    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_PKT(0),
         c.s.agl = -1;
         c.s.agx = -1;
         c.s.ilk = -1;
@@ -1134,7 +1134,7 @@ static void enable_cn68xx(void)
     /* AGL, MIX, ILK, GMX, PCS and PCSX are enabled in the bdk_if code */
 
     /* Interrupts connected to RML */
-    BDK_CSR_MODIFY(c, BDK_CIU2_EN_PPX_IP2_RML(0),
+    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_RML(0),
         c.s.dfa = -1;
         c.s.dpi = -1;
         c.s.fpa = -1;

@@ -35,6 +35,7 @@ do
     sed -i "s/SMI_\\([0-9(]\\)/SMI\\1/g" $f
     sed -i "s/PIP_STAT_INB_\\([A-Z]*\\)_PKND\\([*@0-9(]\\)/PIP_STAT_INB_\1\2/g" $f
     sed -i "s/PIP_STAT\\([0-9][0-9]*\\)_/PIP_STAT\\1_PRT/g" $f
+    sed -i "s/CIU2_/CIU_/g" $f
 done
 
 # Fixups for CN61XX
@@ -55,4 +56,5 @@ done
 
 # Fixups for CN78XX
 sed -i "s/SMI_\\([0-9(]\\)/SMI\\1/g" octcsr_cn78xxp1/smi.csr
+sed -i "s/CIU3_/CIU_/g" octcsr_cn78xxp1/ciu3.csr
 

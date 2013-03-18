@@ -22,7 +22,7 @@ enums:
     values:
       - name: MCD
         value: 0x00
-        description: MCD, as selected by CIU3_CTL[MCD_SEL].
+        description: MCD, as selected by CIU_CTL[MCD_SEL].
 
       - name: PEM(0..3)
         value: 0x01 + a
@@ -52,27 +52,27 @@ enums:
 
       - name: CIU_ECC_ISC_SBE
         value: 0x01100
-        description: See CIU3_INTR_RAM_ECC_ST[ISC_SBE].
+        description: See CIU_INTR_RAM_ECC_ST[ISC_SBE].
 
       - name: CIU_ECC_ISC_DBE
         value: 0x01101
-        description: See CIU3_INTR_RAM_ECC_ST[ISC_DBE].
+        description: See CIU_INTR_RAM_ECC_ST[ISC_DBE].
 
       - name: CIU_ECC_IDT_SBE
         value: 0x01102
-        description: See CIU3_INTR_RAM_ECC_ST[IDT_SBE].
+        description: See CIU_INTR_RAM_ECC_ST[IDT_SBE].
 
       - name: CIU_ECC_IDT_DBE
         value: 0x01103
-        description: See CIU3_INTR_RAM_ECC_ST[IDT_DBE].
+        description: See CIU_INTR_RAM_ECC_ST[IDT_DBE].
 
       - name: CIU_ECC_SISC_SBE
         value: 0x01104
-        description: See CIU3_INTR_RAM_ECC_ST[SISC_SBE].
+        description: See CIU_INTR_RAM_ECC_ST[SISC_SBE].
 
       - name: CIU_ECC_SISC_DBE
         value: 0x01105
-        description: See CIU3_INTR_RAM_ECC_ST[SISC_DBE].
+        description: See CIU_INTR_RAM_ECC_ST[SISC_DBE].
 
       - name: CIU_WDOG(0..47)
         value: 0x01200 + a
@@ -80,7 +80,7 @@ enums:
           cib_rtl_module: "none"
           intsn_complex: "1"
         description: |
-          Watchdog interrupts, see CIU3_WDOG(0..47) and Per-Core Watchdog Timers. INTERNAL:
+          Watchdog interrupts, see CIU_WDOG(0..47) and Per-Core Watchdog Timers. INTERNAL:
 
       - name: CIU_TIMER(0..9)_PP(0..47)
         value: 0x02000 + a*0x80 + b
@@ -88,7 +88,7 @@ enums:
           cib_rtl_module: "none"
           intsn_complex: "1"
         description: |
-          General timer interrupts from the corresponding CIU timer expires, see CIU3_TIM(0..9) and
+          General timer interrupts from the corresponding CIU timer expires, see CIU_TIM(0..9) and
           General Timers. INTERNAL:
 
       - name: SW_MBOX(0..512)
@@ -384,7 +384,7 @@ structs:
     fields:
       - name: TAG
         bits: w0(31..0)
-        description: SSO Tag. When CIU3_ISC(0..1048575)_CTL[AW] is set, the SSO tag to add work with.
+        description: SSO Tag. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO tag to add work with.
 
       - name: --
         bits: w0(55..32)
@@ -399,7 +399,7 @@ structs:
         bits: w1(43..0)
         description: |
           Physical Address. ADDR is a pointer to a work queue entry. ADDR must be 8 byte aligned.
-          ADDR is a big-endian pointer unless CIU3_CTL[ISCMEM_LE] is set. ADDR<43:42> must be zero.
+          ADDR is a big-endian pointer unless CIU_CTL[ISCMEM_LE] is set. ADDR<43:42> must be zero.
 
       - name: --
         bits: w1(49..44)
@@ -407,12 +407,12 @@ structs:
 
       - name: TT
         bits: w1(51..50)
-        description: SSO Tag Type. When CIU3_ISC(0..1048575)_CTL[AW] is set, the SSO tag type to add work with.
+        description: SSO Tag Type. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO tag type to add work with.
 
       - name: GRP
         bits: w1(61..52)
         description: |
-          SSO Group. When CIU3_ISC(0..1048575)_CTL[AW] is set, the SSO group number to add work to.
+          SSO Group. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO group number to add work to.
           Note the upper two bits correspond to a node number, see *TECHPUBS SSO-Chapter-OCI-Sec*.
 
       - name: --
@@ -422,7 +422,7 @@ structs:
 
 
 registers:
-  - name: CIU3_CTL
+  - name: CIU_CTL
     title: CIU Control Register
     address: 0x10100000000E0
     bus: NCB
@@ -451,7 +451,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: CIU3_ISCMEM_BASE points to a little-endian table.
+        description: CIU_ISCMEM_BASE points to a little-endian table.
 
       - name: SEQ_DIS
         bits: 1
@@ -470,7 +470,7 @@ registers:
         description: Disable power saving conditional clocking.
 
 
-  - name: CIU3_PP_RST
+  - name: CIU_PP_RST
     title: CIU Cores Reset Register
     address: 0x1010000000100
     bus: NCB
@@ -509,7 +509,7 @@ registers:
         description: Core reset for core 0, depends on standalone mode.
 
 
-  - name: CIU3_PP_DBG
+  - name: CIU_PP_DBG
     title: CIU Cores Debug Register
     address: 0x1010000000120
     bus: NCB
@@ -529,7 +529,7 @@ registers:
         description: Debug[DM] value for each core, whether the cores are in debug mode or not.
 
 
-  - name: CIU3_GSTOP
+  - name: CIU_GSTOP
     title: CIU Global-Stop Register
     address: 0x1010000000140
     bus: NCB
@@ -551,7 +551,7 @@ registers:
         description: Set global-stop mode.
 
 
-  - name: CIU3_NMI
+  - name: CIU_NMI
     title: CIU NonMaskable Interrupt Register
     address: 0x1010000000160
     bus: NCB
@@ -573,7 +573,7 @@ registers:
         description: Writing a 1 to a bit sends an NMI pulse to the corresponding core vector.
 
 
-  - name: CIU3_DINT
+  - name: CIU_DINT
     title: CIU Debug Interrupt Register
     address: 0x1010000000180
     bus: NCB
@@ -595,7 +595,7 @@ registers:
         description: Writing a 1 to a bit sends a DINT pulse to corresponding core vector.
 
 
-  - name: CIU3_FUSE
+  - name: CIU_FUSE
     title: CIU Fuse Register
     address: 0x10100000001A0
     bus: NCB
@@ -615,7 +615,7 @@ registers:
         description: Each bit set indicates a physical core is present.
 
 
-  - name: CIU3_BIST
+  - name: CIU_BIST
     title: CIU BIST Register
     address: 0x10100000001C0
     bus: NCB
@@ -635,7 +635,7 @@ registers:
         description: BIST results. Hardware sets a bit for each memory that fails BIST.
 
 
-  - name: CIU3_INT_DBG_SEL
+  - name: CIU_INT_DBG_SEL
     title: CIU Interrupt Debug Select Register
     address: 0x1010000000200
     bus: NCB
@@ -690,7 +690,7 @@ registers:
         description: Which core to select.
 
 
-  - name: CIU3_CONST
+  - name: CIU_CONST
     title: CIU Constants Register
     address: 0x1010000000220
     bus: NCB
@@ -700,7 +700,7 @@ registers:
         access: RO
         reset: 0x5
         typical: 0x5
-        description: Number of entries in CIU3_DEST(0..4)_IO_INT.
+        description: Number of entries in CIU_DEST(0..4)_IO_INT.
 
       - name: PINTSN
         bits: 47..32
@@ -714,17 +714,17 @@ registers:
         access: RO
         reset: 0x90
         typical: 0x90
-        description: Number of entries in CIU3_DEST(0..143)_PP_INT.
+        description: Number of entries in CIU_DEST(0..143)_PP_INT.
 
       - name: IDT
         bits: 15..0
         access: RO
         reset: 0x100
         typical: 0x100
-        description: Number of entries in CIU3_IDT(0..255)_CTL.
+        description: Number of entries in CIU_IDT(0..255)_CTL.
 
 
-  - name: CIU3_INTR_SLOWDOWN
+  - name: CIU_INTR_SLOWDOWN
     title: CIU Interrupt Slow Down Register
     address: 0x1010000000240
     bus: NCB
@@ -753,7 +753,7 @@ registers:
           n 3*2n
 
 
-  - name: CIU3_INTR_RAM_ECC_CTL
+  - name: CIU_INTR_RAM_ECC_CTL
     title: CIU Interrupt RAM ECC Control Register
     address: 0x1010000000260
     bus: NCB
@@ -785,7 +785,7 @@ registers:
           reads, is used to check and correct single-bit errors and detect double-bit errors.
 
 
-  - name: CIU3_INTR_RAM_ECC_ST
+  - name: CIU_INTR_RAM_ECC_ST
     title: CIU Interrupt RAM ECC State Register
     address: 0x1010000000280
     bus: NCB
@@ -817,7 +817,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          SISC Double-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_SISC_DBE.
+          SISC Double-bit error observed. Throws CIU_INTSN_E::CIU_ECC_SISC_DBE.
 
       - name: SISC_SBE
         bits: 4
@@ -825,7 +825,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          SISC Single-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_SISC_SBE.
+          SISC Single-bit error observed. Throws CIU_INTSN_E::CIU_ECC_SISC_SBE.
 
       - name: IDT_DBE
         bits: 3
@@ -833,7 +833,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          IDT Double-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_IDT_DBE.
+          IDT Double-bit error observed. Throws CIU_INTSN_E::CIU_ECC_IDT_DBE.
 
       - name: IDT_SBE
         bits: 2
@@ -841,7 +841,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          IDT Single-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_IDT_SBE.
+          IDT Single-bit error observed. Throws CIU_INTSN_E::CIU_ECC_IDT_SBE.
 
       - name: ISC_DBE
         bits: 1
@@ -849,7 +849,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          ISC Double-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_ISC_DBE.
+          ISC Double-bit error observed. Throws CIU_INTSN_E::CIU_ECC_ISC_DBE.
 
       - name: ISC_SBE
         bits: 0
@@ -857,10 +857,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          ISC Single-bit error observed. Throws CIU_INTSN_E::CIU3_ECC_ISC_SBE.
+          ISC Single-bit error observed. Throws CIU_INTSN_E::CIU_ECC_ISC_SBE.
 
 
-  - name: CIU3_INTR_READY
+  - name: CIU_INTR_READY
     title: CIU Interrupt Scanner Ready Register
     address: 0x10100000002A0
     bus: NCB
@@ -905,7 +905,7 @@ registers:
           interrupts. Write one to force a new scan. For diagnostic use only.
 
 
-  - name: CIU3_ISCMEM_BASE
+  - name: CIU_ISCMEM_BASE
     title: CIU Source Memory Table Base Register
     address: 0x10100000002C0
     bus: NCB
@@ -924,7 +924,7 @@ registers:
         typical: 0x0
         description: |
           Base address of CIU_INTSN_E table. Note must be 16-byte aligned and is in root-physical
-          address space. Endinaness is selected with CIU3_CTL[ISCMEM_LE].
+          address space. Endinaness is selected with CIU_CTL[ISCMEM_LE].
 
       - name: ADDRL4
         bits: 3..0
@@ -936,7 +936,7 @@ registers:
           is 16-byte aligned.
 
 
-  - name: CIU3_TIM(0..9)
+  - name: CIU_TIM(0..9)
     title: CIU General Timer Registers
     address: 0x1010000010000 + a*0x8
     bus: NCB
@@ -967,7 +967,7 @@ registers:
           interrupts will occur every LEN+1 coprocessor clock cycles when ONE_SHOT = 0
 
 
-  - name: CIU3_WDOG(0..47)
+  - name: CIU_WDOG(0..47)
     title: CIU Watchdog Registers
     address: 0x1010000020000 + a*0x8
     bus: NCB
@@ -1000,7 +1000,7 @@ registers:
         typical: 0x0
         description: |
           Number of 512-cycle intervals until next watchdog expiration. Cleared on write to
-          associated CIU3_PP_POKE(0..47) register.
+          associated CIU_PP_POKE(0..47) register.
 
       - name: LEN
         bits: 19..4
@@ -1018,7 +1018,7 @@ registers:
         typical: 0x0
         description: |
           Watchdog state. The number of watchdog time expirations since last core poke. Cleared on
-          write to associated CIU3_PP_POKE(0..47) register.
+          write to associated CIU_PP_POKE(0..47) register.
 
       - name: MODE
         bits: 1..0
@@ -1031,7 +1031,7 @@ registers:
           0x1 = Interrupt only 0x3 = Interrupt + NMI + soft reset
 
 
-  - name: CIU3_PP_POKE(0..47)
+  - name: CIU_PP_POKE(0..47)
     title: CIU Cores Poke Registers
     address: 0x1010000030000 + a*0x8
     bus: NCB
@@ -1053,12 +1053,12 @@ registers:
         description: |
           Core poke. Writing any value to this register does the following:
           clears any pending interrupt generated by the associated watchdog
-          resets CIU3_WDOG(0..47)[STATE] to 0x0
-          sets CIU3_WDOG(0..47)[CNT] to ( CIU3_WDOG(0..47)[LEN] << 8).
-          Reading this register returns the associated CIU3_WDOG(0..47) register.
+          resets CIU_WDOG(0..47)[STATE] to 0x0
+          sets CIU_WDOG(0..47)[CNT] to ( CIU_WDOG(0..47)[LEN] << 8).
+          Reading this register returns the associated CIU_WDOG(0..47) register.
 
 
-  - name: CIU3_IDT(0..255)_CTL
+  - name: CIU_IDT(0..255)_CTL
     title: CIU IDT Control Registers
     address: 0x1010000110000 + a*0x8
     bus: NCB
@@ -1118,7 +1118,7 @@ registers:
           3 = reserved
 
 
-  - name: CIU3_IDT(0..255)_PP(0..0)
+  - name: CIU_IDT(0..255)_PP(0..0)
     title: CIU IDT Core Select Registers
     address: 0x1010000120000 + a*0x20 + b*8
     bus: NCB
@@ -1143,7 +1143,7 @@ registers:
         description: Cores to receive interrupts via this IDT.
 
 
-  - name: CIU3_IDT(0..255)_IO
+  - name: CIU_IDT(0..255)_IO
     title: CIU IDT I/O Select Registers
     address: 0x1010000130000 + a*0x8
     bus: NCB
@@ -1156,7 +1156,7 @@ registers:
         typical: --
         description: |
           Reserved
-          INTERNAL: If adding, be sure to update CIU_DEST_IO_E and CIU3_CONST[DESTS_IO].
+          INTERNAL: If adding, be sure to update CIU_DEST_IO_E and CIU_CONST[DESTS_IO].
 
       - name: IO
         bits: 4..0
@@ -1166,7 +1166,7 @@ registers:
         description: IO bridges to receive interrupts via this IDT. Enumerated with CIU_DEST_IO_E.
 
 
-  - name: CIU3_DEST(0..143)_PP_INT
+  - name: CIU_DEST(0..143)_PP_INT
     title: CIU PP Destination Registers
     address: 0x1010000200000 + a*0x8
     bus: NCB
@@ -1191,7 +1191,7 @@ registers:
         description: |
           Interrupt source number causing the current interrupt, or most recent interrupt if INTR is
           clear. Note this field is not stored in the DEST ram itself; it is instead read from
-          CIU3_IDT(0..255)_CTL[INTIDT][INTSN].
+          CIU_IDT(0..255)_CTL[INTIDT][INTSN].
 
       - name: --
         bits: 31..10
@@ -1220,22 +1220,22 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Interrupt pending. This bit is recalculated when CIU3_ISC(0..1048575)_CTL or interrupts
+          Interrupt pending. This bit is recalculated when CIU_ISC(0..1048575)_CTL or interrupts
           change, so does not need to be cleared by software.
 
 
-  - name: CIU3_DEST(0..4)_IO_INT
+  - name: CIU_DEST(0..4)_IO_INT
     title: CIU I/O Destination Registers
     address: 0x1010000210000 + a*0x8
     bus: NCB
     description: |
       This register contains reduced interrupt source numbers for delivery to software, indexed by
-      I/O bridge number. Fields are identical to CIU3_DEST(0..143)_PP_INT.
+      I/O bridge number. Fields are identical to CIU_DEST(0..143)_PP_INT.
     attributes:
       arch_max: "64"
-    inherits: CIU3_DEST(0..143)_PP_INT
+    inherits: CIU_DEST(0..143)_PP_INT
 
-  - name: CIU3_SISC(0..191)
+  - name: CIU_SISC(0..191)
     title: CIU Secondary-ISC State Registers
     address: 0x1010000220000 + a*0x8
     bus: NCB
@@ -1248,7 +1248,7 @@ registers:
         description: Indicates each corresponding ISC entry has enabled & interrupting entry. For diagnostic use only.
 
 
-  - name: CIU3_ISC(0..1048575)_CTL
+  - name: CIU_ISC(0..1048575)_CTL
     title: CIU Interrupt Source Control Registers
     address: 0x1010080000000 + a*0x8
     bus: NCB
@@ -1273,7 +1273,7 @@ registers:
           Interrupt Delivery Table entry number. Zero indicates IDT delivery is disabled. This field
           may only be changed when EN was previously clear, though it may be changed with the same
           write that sets EN. Thus if EN is set, to change IDT two register writes are required, the
-          first to clear EN (perhaps by a store to CIU3_ISC(0..1048575)_W1C), and the second to make
+          first to clear EN (perhaps by a store to CIU_ISC(0..1048575)_W1C), and the second to make
           the change to IDT.
 
       - name: IMP
@@ -1327,10 +1327,10 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: Interrupt pending before masking. Note read only, must use CIU3_ISC(0..1048575)_W1C/_W1S to toggle.
+        description: Interrupt pending before masking. Note read only, must use CIU_ISC(0..1048575)_W1C/_W1S to toggle.
 
 
-  - name: CIU3_ISC(0..1048575)_W1C
+  - name: CIU_ISC(0..1048575)_W1C
     title: CIU Interrupt Source Clear Registers
     address: 0x1010090000000 + a*0x8
     bus: NCB
@@ -1354,17 +1354,17 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: Clear enable interrupt delivery. See CIU3_ISC(0..1048575)_CTL[EN].
+        description: Clear enable interrupt delivery. See CIU_ISC(0..1048575)_CTL[EN].
 
       - name: RAW
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Clear interrupt pending. See CIU3_ISC(0..1048575)_CTL[RAW].
+        description: Clear interrupt pending. See CIU_ISC(0..1048575)_CTL[RAW].
 
 
-  - name: CIU3_ISC(0..1048575)_W1S
+  - name: CIU_ISC(0..1048575)_W1S
     title: CIU Interrupt Source Set Registers
     address: 0x10100A0000000 + a*0x8
     bus: NCB
@@ -1388,14 +1388,14 @@ registers:
         access: R/W1S
         reset: 0
         typical: 0
-        description: Set enable interrupt delivery. See CIU3_ISC(0..1048575)_CTL[EN].
+        description: Set enable interrupt delivery. See CIU_ISC(0..1048575)_CTL[EN].
 
       - name: RAW
         bits: 0
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Set interrupt pending. See CIU3_ISC(0..1048575)_CTL[RAW].
+        description: Set interrupt pending. See CIU_ISC(0..1048575)_CTL[RAW].
 
 
 

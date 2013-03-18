@@ -207,20 +207,14 @@ int bdk_init_cores(uint64_t coremask)
     coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
 
     /* First send a NMI */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_WRITE(BDK_CIU3_NMI, coremask);
-    else
-        BDK_CSR_WRITE(BDK_CIU_NMI, coremask);
+    BDK_CSR_WRITE(BDK_CIU_NMI, coremask);
 
     /* Then take cores out of reset */
-    uint64_t reset = (OCTEON_IS_MODEL(OCTEON_CN78XX)) ? BDK_CSR_READ(BDK_CIU3_PP_RST) : BDK_CSR_READ(BDK_CIU_PP_RST);
+    uint64_t reset = BDK_CSR_READ(BDK_CIU_PP_RST);
     if (reset & coremask)
     {
         reset &= ~coremask;
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-            BDK_CSR_WRITE(BDK_CIU3_PP_RST, reset);
-        else
-            BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+        BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
     }
 
     /* Wait up to 100us for the cores to boot */
