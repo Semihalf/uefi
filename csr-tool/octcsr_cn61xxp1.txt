@@ -12952,7 +12952,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_FAU_TIMEOUT Type=RSL
+     IOB_FAU_TIMEOUT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -12982,7 +12982,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_N2C_RSP_PRI_CNT Type=RSL
+     IOB_N2C_RSP_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13005,7 +13005,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_I2C_PRI_CNT Type=RSL
+     IOB_I2C_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13028,7 +13028,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_P2C_REQ_PRI_CNT Type=RSL
+     IOB_P2C_REQ_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13050,7 +13050,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_N2C_L2C_PRI_CNT Type=RSL
+     IOB_N2C_L2C_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13072,7 +13072,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_DWB_PRI_CNT Type=RSL
+     IOB_DWB_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13094,7 +13094,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_OUTB_REQ_PRI_CNT Type=RSL
+     IOB_OUTB_REQ_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13116,7 +13116,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_OUTB_COM_PRI_CNT Type=RSL
+     IOB_OUTB_COM_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13138,7 +13138,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_OUTB_FPA_PRI_CNT Type=RSL
+     IOB_OUTB_FPA_PRI_CNT Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13160,7 +13160,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     IOB0_CTL_STATUS Type=RSL
+     IOB_CTL_STATUS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13187,13 +13187,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_INT_SUM = IOB's Interrupt Summary Register
+ *                  IOB_INT_SUM = IOB's Interrupt Summary Register
  *
  * Contains the diffrent interrupt summary bits of the IOB. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB0_INT_SUM Type=RSL
+     IOB_INT_SUM Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13236,35 +13236,35 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_INT_ENB = IOB's Interrupt Enable
+ *                  IOB_INT_ENB = IOB's Interrupt Enable
  *
  * The IOB's interrupt enable register. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB0_INT_ENB Type=RSL
+     IOB_INT_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <0>     NP_SOP   R/W      0           0         When set (1) and bit 0 of the IOB0_INT_SUM
+ <0>     NP_SOP   R/W      0           0         When set (1) and bit 0 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <1>     NP_EOP   R/W      0           0         When set (1) and bit 1 of the IOB0_INT_SUM
+ <1>     NP_EOP   R/W      0           0         When set (1) and bit 1 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <2>     P_SOP    R/W      0           0         When set (1) and bit 2 of the IOB0_INT_SUM
+ <2>     P_SOP    R/W      0           0         When set (1) and bit 2 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <3>     P_EOP    R/W      0           0         When set (1) and bit 3 of the IOB0_INT_SUM
+ <3>     P_EOP    R/W      0           0         When set (1) and bit 3 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <4>     NP_DAT   R/W      0           0         When set (1) and bit 4 of the IOB0_INT_SUM
+ <4>     NP_DAT   R/W      0           0         When set (1) and bit 4 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
- <5>     P_DAT    R/W      0           0         When set (1) and bit 5 of the IOB0_INT_SUM
+ <5>     P_DAT    R/W      0           0         When set (1) and bit 5 of the IOB_INT_SUM
                                                  register is asserted the IOB will assert an
                                                  interrupt.
  <63:6>  NS       RAZ      NS          NS        Reserved
@@ -13272,25 +13272,25 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_PKT_ERR = IOB Packet Error Register
+ *                  IOB_PKT_ERR = IOB Packet Error Register
  *
  * Provides status about the failing packet recevie error. This is a PASS-2 register.
  *
 
      ==============================================================
-     IOB0_PKT_ERR Type=RSL
+     IOB_PKT_ERR Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <5:0>   PORT     RO       0x0         NS        When IOB0_INT_SUM[3:0] bit is set, this field
+ <5:0>   PORT     RO       0x0         NS        When IOB_INT_SUM[3:0] bit is set, this field
                                                  latches the failing port associate with the
-                                                 IOB0_INT_SUM[3:0] bit set.
- <11:6>  VPORT    RO       0x0         NS        When IOB0_INT_SUM[3:0] bit is set, this field
+                                                 IOB_INT_SUM[3:0] bit set.
+ <11:6>  VPORT    RO       0x0         NS        When IOB_INT_SUM[3:0] bit is set, this field
                                                  latches the failing vport associate with the
-                                                 IOB0_INT_SUM[3:0] bit set.
+                                                 IOB_INT_SUM[3:0] bit set.
  <63:12> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -13298,13 +13298,13 @@ Pos      Name    Type     Value     Value       Description
 
 
  *
- *                  IOB0_INB_DATA_MATCH = IOB Inbound Data Match
+ *                  IOB_INB_DATA_MATCH = IOB Inbound Data Match
  *
  * Match pattern for the inbound data to set the INB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_INB_DATA_MATCH Type=RSL
+     IOB_INB_DATA_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13316,13 +13316,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_INB_CONTROL_MATCH = IOB Inbound Control Match
+ *                  IOB_INB_CONTROL_MATCH = IOB Inbound Control Match
  *
  * Match pattern for the inbound control to set the INB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_INB_CONTROL_MATCH Type=RSL
+     IOB_INB_CONTROL_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13338,13 +13338,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_INB_DATA_MATCH_ENB = IOB Inbound Data Match Enable
+ *                  IOB_INB_DATA_MATCH_ENB = IOB Inbound Data Match Enable
  *
- * Enables the match of the corresponding bit in the IOB0_INB_DATA_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB_INB_DATA_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_INB_DATA_MATCH_ENB Type=RSL
+     IOB_INB_DATA_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13356,13 +13356,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_INB_CONTROL_MATCH_ENB = IOB Inbound Control Match Enable
+ *                  IOB_INB_CONTROL_MATCH_ENB = IOB Inbound Control Match Enable
  *
- * Enables the match of the corresponding bit in the IOB0_INB_CONTROL_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB_INB_CONTROL_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_INB_CONTROL_MATCH_ENB Type=RSL
+     IOB_INB_CONTROL_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13378,13 +13378,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_OUTB_DATA_MATCH = IOB Outbound Data Match
+ *                  IOB_OUTB_DATA_MATCH = IOB Outbound Data Match
  *
  * Match pattern for the outbound data to set the OUTB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_OUTB_DATA_MATCH Type=RSL
+     IOB_OUTB_DATA_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13396,13 +13396,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_OUTB_CONTROL_MATCH = IOB Outbound Control Match
+ *                  IOB_OUTB_CONTROL_MATCH = IOB Outbound Control Match
  *
  * Match pattern for the outbound control to set the OUTB_MATCH_BIT. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_OUTB_CONTROL_MATCH Type=RSL
+     IOB_OUTB_CONTROL_MATCH Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13418,13 +13418,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_OUTB_DATA_MATCH_ENB = IOB Outbound Data Match Enable
+ *                  IOB_OUTB_DATA_MATCH_ENB = IOB Outbound Data Match Enable
  *
- * Enables the match of the corresponding bit in the IOB0_OUTB_DATA_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB_OUTB_DATA_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_OUTB_DATA_MATCH_ENB Type=RSL
+     IOB_OUTB_DATA_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13436,13 +13436,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_OUTB_CONTROL_MATCH_ENB = IOB Outbound Control Match Enable
+ *                  IOB_OUTB_CONTROL_MATCH_ENB = IOB Outbound Control Match Enable
  *
- * Enables the match of the corresponding bit in the IOB0_OUTB_CONTROL_MATCH reister. PASS-2 Register
+ * Enables the match of the corresponding bit in the IOB_OUTB_CONTROL_MATCH reister. PASS-2 Register
  *
 
      ==============================================================
-     IOB0_OUTB_CONTROL_MATCH_ENB Type=RSL
+     IOB_OUTB_CONTROL_MATCH_ENB Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13458,13 +13458,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_TO_CMB_CREDITS = IOB To CMB Credits
+ *                  IOB_TO_CMB_CREDITS = IOB To CMB Credits
  *
  * Controls the number of reads and writes that may be outstanding to the L2C (via the CMB).
  *
 
      ==============================================================
-     IOB0_TO_CMB_CREDITS Type=RSL
+     IOB_TO_CMB_CREDITS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -13482,13 +13482,13 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- *                  IOB0_BIST_STATUS = BIST Status of IOB Memories
+ *                  IOB_BIST_STATUS = BIST Status of IOB Memories
  *
  * The result of the BIST run on the IOB memories.
  *
 
      ==============================================================
-     IOB0_BIST_STATUS Type=RSL
+     IOB_BIST_STATUS Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -21777,7 +21777,7 @@ Pos      Name    Type     Value     Value       Description
  <22>    FPA      RO       0x0         0         FPA interrupt                                      |
                                                  See FPA_INT_SUM                                    |
  <21>    IOB      RO       0x0         0         IOB interrupt                                      |
-                                                 See IOB0_INT_SUM                                    |
+                                                 See IOB_INT_SUM                                    |
  <20>    MIO      RO       0x0         0         MIO boot interrupt                                 |
                                                  See MIO_BOOT_ERR                                   |
  <19>	 NAND	  RO       0           0         EMMC Flash Controller interrupt		    |
@@ -21871,7 +21871,7 @@ Pos      Name    Type     Value     Value       Description
  <22>    FPA      RO       0x0         0         FPA interrupt                                      |
                                                  See FPA_INT_SUM                                    |
  <21>    IOB      RO       0x0         0         IOB interrupt                                      |
-                                                 See IOB0_INT_SUM                                    |
+                                                 See IOB_INT_SUM                                    |
  <20>    MIO      RO       0x0         0         MIO boot interrupt                                 |
                                                  See MIO_BOOT_ERR                                   |
  <19>	 NAND	  RO       0x0         0         EMMC Flash Controller interrupt		    |
@@ -23240,7 +23240,7 @@ Pos      Name    Type     Value     Value       Description
                                                  See AGL_GMX_RX*_INT_REG, AGL_GMX_TX_INT_REG        |
  <29>    NS       RAZ      NS          NS        Reserved for LMC1			            |
  <30>    IOB      RO       0x0         0         IOB interrupt                                      |
-                                                 See IOB0_INT_SUM                                    |
+                                                 See IOB_INT_SUM                                    |
  <33:31> NS       RAZ      NS          NS        Reserved				            |
  <39:34> NS       RAZ      NS          NS        Reserved				            |
  <40>    NS       RAZ      NS          NS        Reserved for DFM				    |
@@ -28168,16 +28168,16 @@ in duration).  Although this will reset much of PIP's internal state, some
 CSRs will not reset.
 
 . PIP_BIST_STATUS
-. PIP_STAT0_*
-. PIP_STAT1_*
-. PIP_STAT2_*
-. PIP_STAT3_*
-. PIP_STAT4_*
-. PIP_STAT5_*
-. PIP_STAT6_*
-. PIP_STAT7_*
-. PIP_STAT8_*
-. PIP_STAT9_*
+. PIP_STAT0_PRT*
+. PIP_STAT1_PRT*
+. PIP_STAT2_PRT*
+. PIP_STAT3_PRT*
+. PIP_STAT4_PRT*
+. PIP_STAT5_PRT*
+. PIP_STAT6_PRT*
+. PIP_STAT7_PRT*
+. PIP_STAT8_PRT*
+. PIP_STAT9_PRT*
 . PIP_XSTAT0_PRT*
 . PIP_XSTAT1_PRT*
 . PIP_XSTAT2_PRT*
@@ -28188,9 +28188,9 @@ CSRs will not reset.
 . PIP_XSTAT7_PRT*
 . PIP_XSTAT8_PRT*
 . PIP_XSTAT9_PRT*
-. PIP_STAT_INB_PKTS_PKND*
-. PIP_STAT_INB_OCTS_PKND*
-. PIP_STAT_INB_ERRS_PKND*
+. PIP_STAT_INB_PKTS*
+. PIP_STAT_INB_OCTS*
+. PIP_STAT_INB_ERRS*
 . PIP_TAG_INC*
 ----------------------------------------------------------------------------------------------------
 ===
@@ -28905,10 +28905,10 @@ Pos      Name    Type     Value     Value       Description
  *    additional 8B of data is captured in the octet counts.
 
 
- * PIP_STAT0_ = PIP_STAT_DRP_PKTS / PIP_STAT_DRP_OCTS
+ * PIP_STAT0_PRT = PIP_STAT_DRP_PKTS / PIP_STAT_DRP_OCTS
 
      ==============================================================
-     PIP_STAT0_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT0_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -28922,10 +28922,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT1_@ = PIP_STAT_OCTS
+ * PIP_STAT1_PRT@ = PIP_STAT_OCTS
 
      ==============================================================
-     PIP_STAT1_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT1_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -28937,10 +28937,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT2_@ = PIP_STAT_PKTS     / PIP_STAT_RAW
+ * PIP_STAT2_PRT@ = PIP_STAT_PKTS     / PIP_STAT_RAW
 
      ==============================================================
-     PIP_STAT2_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT2_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -28953,10 +28953,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT3_@ = PIP_STAT_BCST     / PIP_STAT_MCST
+ * PIP_STAT3_PRT@ = PIP_STAT_BCST     / PIP_STAT_MCST
 
      ==============================================================
-     PIP_STAT3_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT3_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -28974,10 +28974,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT4_@ = PIP_STAT_HIST1    / PIP_STAT_HIST0
+ * PIP_STAT4_PRT@ = PIP_STAT_HIST1    / PIP_STAT_HIST0
 
      ==============================================================
-     PIP_STAT4_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT4_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -28989,10 +28989,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT5_@ = PIP_STAT_HIST3    / PIP_STAT_HIST2
+ * PIP_STAT5_PRT@ = PIP_STAT_HIST3    / PIP_STAT_HIST2
 
      ==============================================================
-     PIP_STAT5_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT5_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29004,10 +29004,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT6_@ = PIP_STAT_HIST5    / PIP_STAT_HIST4
+ * PIP_STAT6_PRT@ = PIP_STAT_HIST5    / PIP_STAT_HIST4
 
      ==============================================================
-     PIP_STAT6_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT6_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29019,10 +29019,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT7_@ = PIP_STAT_FCS      / PIP_STAT_HIST6
+ * PIP_STAT7_PRT@ = PIP_STAT_FCS      / PIP_STAT_HIST6
 
      ==============================================================
-     PIP_STAT7_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT7_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29038,10 +29038,10 @@ sRIO does not check FCS, therefore FCS will never increment on sRIO ports 40-47
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT8_@ = PIP_STAT_FRAG     / PIP_STAT_UNDER
+ * PIP_STAT8_PRT@ = PIP_STAT_FRAG     / PIP_STAT_UNDER
 
      ==============================================================
-     PIP_STAT8_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT8_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29057,10 +29057,10 @@ sRIO does not check FCS, therefore FRAG will never increment on sRIO ports 40-47
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT9_@ = PIP_STAT_JABBER   / PIP_STAT_OVER
+ * PIP_STAT9_PRT@ = PIP_STAT_JABBER   / PIP_STAT_OVER
 
      ==============================================================
-     PIP_STAT9_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT9_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29077,10 +29077,10 @@ sRIO does use the JABBER opcode to communicate sRIO error, therefore JABBER can 
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT10_@ = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
+ * PIP_STAT10_PRT@ = PIP_STAT_L2_MCAST / PIP_STAT_L2_BCAST
 
      ==============================================================
-     PIP_STAT10_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT10_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29104,10 +29104,10 @@ Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
 ===
 
- * PIP_STAT11_@ = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
+ * PIP_STAT11_PRT@ = PIP_STAT_L3_MCAST / PIP_STAT_L3_BCAST
 
      ==============================================================
-     PIP_STAT11_(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT11_PRT(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29138,7 +29138,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- * PIP_STAT_INB_PKTS_PKND@ = Inbound packets received by PIP per port
+ * PIP_STAT_INB_PKTS@ = Inbound packets received by PIP per port
  *
  * Inbound stats collect all data sent to PIP from all packet interfaces.
  * Its the raw counts of everything that comes into the block.  The counts
@@ -29148,7 +29148,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     PIP_STAT_INB_PKTS_PKND(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT_INB_PKTS(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29162,7 +29162,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- * PIP_STAT_INB_OCTS_PKND@ = Inbound octets received by PIP per port
+ * PIP_STAT_INB_OCTS@ = Inbound octets received by PIP per port
  *
  * Inbound stats collect all data sent to PIP from all packet interfaces.
  * Its the raw counts of everything that comes into the block.  The counts
@@ -29173,7 +29173,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     PIP_STAT_INB_OCTS_PKND(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT_INB_OCTS(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -29187,7 +29187,7 @@ Pos      Name    Type     Value     Value       Description
 ===
 
  *
- * PIP_STAT_INB_ERRS_PKND@ = Inbound error packets received by PIP per port
+ * PIP_STAT_INB_ERRS@ = Inbound error packets received by PIP per port
  *
  * Inbound stats collect all data sent to PIP from all packet interfaces.
  * Its the raw counts of everything that comes into the block.  The counts
@@ -29197,7 +29197,7 @@ Pos      Name    Type     Value     Value       Description
  *
 
      ==============================================================
-     PIP_STAT_INB_ERRS_PKND(0..3,16..19,32..35,36..39) Type=RSL
+     PIP_STAT_INB_ERRS(0..3,16..19,32..35,36..39) Type=RSL
      ==============================================================
 
 ----------------------------------------------------------------------------------------------------
@@ -39049,29 +39049,29 @@ GPIO_XBIT_CFG16                0x0001070000000900  NCB
 GPIO_XBIT_CFG17                0x0001070000000908  NCB
 GPIO_XBIT_CFG18                0x0001070000000910  NCB
 GPIO_XBIT_CFG19                0x0001070000000918  NCB
-IOB0_BIST_STATUS                0x00011800F00007F8  RSL
-IOB0_CTL_STATUS                 0x00011800F0000050  RSL
-IOB0_DWB_PRI_CNT                0x00011800F0000028  RSL
-IOB0_FAU_TIMEOUT                0x00011800F0000000  RSL
-IOB0_I2C_PRI_CNT                0x00011800F0000010  RSL
-IOB0_INB_CONTROL_MATCH          0x00011800F0000078  RSL
-IOB0_INB_CONTROL_MATCH_ENB      0x00011800F0000088  RSL
-IOB0_INB_DATA_MATCH             0x00011800F0000070  RSL
-IOB0_INB_DATA_MATCH_ENB         0x00011800F0000080  RSL
-IOB0_INT_ENB                    0x00011800F0000060  RSL
-IOB0_INT_SUM                    0x00011800F0000058  RSL
-IOB0_N2C_L2C_PRI_CNT            0x00011800F0000020  RSL
-IOB0_N2C_RSP_PRI_CNT            0x00011800F0000008  RSL
-IOB0_OUTB_COM_PRI_CNT           0x00011800F0000040  RSL
-IOB0_OUTB_CONTROL_MATCH         0x00011800F0000098  RSL
-IOB0_OUTB_CONTROL_MATCH_ENB     0x00011800F00000A8  RSL
-IOB0_OUTB_DATA_MATCH            0x00011800F0000090  RSL
-IOB0_OUTB_DATA_MATCH_ENB        0x00011800F00000A0  RSL
-IOB0_OUTB_FPA_PRI_CNT           0x00011800F0000048  RSL
-IOB0_OUTB_REQ_PRI_CNT           0x00011800F0000038  RSL
-IOB0_P2C_REQ_PRI_CNT            0x00011800F0000018  RSL
-IOB0_PKT_ERR                    0x00011800F0000068  RSL
-IOB0_TO_CMB_CREDITS             0x00011800F00000B0  RSL
+IOB_BIST_STATUS                0x00011800F00007F8  RSL
+IOB_CTL_STATUS                 0x00011800F0000050  RSL
+IOB_DWB_PRI_CNT                0x00011800F0000028  RSL
+IOB_FAU_TIMEOUT                0x00011800F0000000  RSL
+IOB_I2C_PRI_CNT                0x00011800F0000010  RSL
+IOB_INB_CONTROL_MATCH          0x00011800F0000078  RSL
+IOB_INB_CONTROL_MATCH_ENB      0x00011800F0000088  RSL
+IOB_INB_DATA_MATCH             0x00011800F0000070  RSL
+IOB_INB_DATA_MATCH_ENB         0x00011800F0000080  RSL
+IOB_INT_ENB                    0x00011800F0000060  RSL
+IOB_INT_SUM                    0x00011800F0000058  RSL
+IOB_N2C_L2C_PRI_CNT            0x00011800F0000020  RSL
+IOB_N2C_RSP_PRI_CNT            0x00011800F0000008  RSL
+IOB_OUTB_COM_PRI_CNT           0x00011800F0000040  RSL
+IOB_OUTB_CONTROL_MATCH         0x00011800F0000098  RSL
+IOB_OUTB_CONTROL_MATCH_ENB     0x00011800F00000A8  RSL
+IOB_OUTB_DATA_MATCH            0x00011800F0000090  RSL
+IOB_OUTB_DATA_MATCH_ENB        0x00011800F00000A0  RSL
+IOB_OUTB_FPA_PRI_CNT           0x00011800F0000048  RSL
+IOB_OUTB_REQ_PRI_CNT           0x00011800F0000038  RSL
+IOB_P2C_REQ_PRI_CNT            0x00011800F0000018  RSL
+IOB_PKT_ERR                    0x00011800F0000068  RSL
+IOB_TO_CMB_CREDITS             0x00011800F00000B0  RSL
 IPD_1ST_MBUFF_SKIP             0x00014F0000000000  NCB
 IPD_1st_NEXT_PTR_BACK          0x00014F0000000150  NCB
 IPD_2nd_NEXT_PTR_BACK          0x00014F0000000158  NCB
@@ -44320,247 +44320,247 @@ PIP_QOS_WATCH6                 0x00011800A0000130  RSL
 PIP_QOS_WATCH7                 0x00011800A0000138  RSL
 PIP_RAW_WORD                   0x00011800A00000B0  RSL
 PIP_SFT_RST                    0x00011800A0000030  RSL
-PIP_STAT0_0                 0x00011800A0000800  RSL
-PIP_STAT0_1                 0x00011800A0000850  RSL
-PIP_STAT0_2                 0x00011800A00008A0  RSL
-PIP_STAT0_3                 0x00011800A00008F0  RSL
-PIP_STAT0_16                0x00011800A0000D00  RSL
-PIP_STAT0_17                0x00011800A0000D50  RSL
-PIP_STAT0_18                0x00011800A0000DA0  RSL
-PIP_STAT0_19                0x00011800A0000DF0  RSL
-PIP_STAT0_32                0x00011800A0001200  RSL
-PIP_STAT0_33                0x00011800A0001250  RSL
-PIP_STAT0_34                0x00011800A00012A0  RSL
-PIP_STAT0_35                0x00011800A00012F0  RSL
-PIP_STAT0_36                0x00011800A0001340  RSL
-PIP_STAT0_37                0x00011800A0001390  RSL
-PIP_STAT0_38                0x00011800A00013E0  RSL
-PIP_STAT0_39                0x00011800A0001430  RSL
-PIP_STAT1_0                 0x00011800A0000808  RSL
-PIP_STAT1_1                 0x00011800A0000858  RSL
-PIP_STAT1_2                 0x00011800A00008A8  RSL
-PIP_STAT1_3                 0x00011800A00008F8  RSL
-PIP_STAT1_16                0x00011800A0000D08  RSL
-PIP_STAT1_17                0x00011800A0000D58  RSL
-PIP_STAT1_18                0x00011800A0000DA8  RSL
-PIP_STAT1_19                0x00011800A0000DF8  RSL
-PIP_STAT1_32                0x00011800A0001208  RSL
-PIP_STAT1_33                0x00011800A0001258  RSL
-PIP_STAT1_34                0x00011800A00012A8  RSL
-PIP_STAT1_35                0x00011800A00012F8  RSL
-PIP_STAT1_36                0x00011800A0001348  RSL
-PIP_STAT1_37                0x00011800A0001398  RSL
-PIP_STAT1_38                0x00011800A00013E8  RSL
-PIP_STAT1_39                0x00011800A0001438  RSL
-PIP_STAT2_0                 0x00011800A0000810  RSL
-PIP_STAT2_1                 0x00011800A0000860  RSL
-PIP_STAT2_2                 0x00011800A00008B0  RSL
-PIP_STAT2_3                 0x00011800A0000900  RSL
-PIP_STAT2_16                0x00011800A0000D10  RSL
-PIP_STAT2_17                0x00011800A0000D60  RSL
-PIP_STAT2_18                0x00011800A0000DB0  RSL
-PIP_STAT2_19                0x00011800A0000E00  RSL
-PIP_STAT2_32                0x00011800A0001210  RSL
-PIP_STAT2_33                0x00011800A0001260  RSL
-PIP_STAT2_34                0x00011800A00012B0  RSL
-PIP_STAT2_35                0x00011800A0001300  RSL
-PIP_STAT2_36                0x00011800A0001350  RSL
-PIP_STAT2_37                0x00011800A00013A0  RSL
-PIP_STAT2_38                0x00011800A00013F0  RSL
-PIP_STAT2_39                0x00011800A0001440  RSL
-PIP_STAT3_0                 0x00011800A0000818  RSL
-PIP_STAT3_1                 0x00011800A0000868  RSL
-PIP_STAT3_2                 0x00011800A00008B8  RSL
-PIP_STAT3_3                 0x00011800A0000908  RSL
-PIP_STAT3_16                0x00011800A0000D18  RSL
-PIP_STAT3_17                0x00011800A0000D68  RSL
-PIP_STAT3_18                0x00011800A0000DB8  RSL
-PIP_STAT3_19                0x00011800A0000E08  RSL
-PIP_STAT3_32                0x00011800A0001218  RSL
-PIP_STAT3_33                0x00011800A0001268  RSL
-PIP_STAT3_34                0x00011800A00012B8  RSL
-PIP_STAT3_35                0x00011800A0001308  RSL
-PIP_STAT3_36                0x00011800A0001358  RSL
-PIP_STAT3_37                0x00011800A00013A8  RSL
-PIP_STAT3_38                0x00011800A00013F8  RSL
-PIP_STAT3_39                0x00011800A0001448  RSL
-PIP_STAT4_0                 0x00011800A0000820  RSL
-PIP_STAT4_1                 0x00011800A0000870  RSL
-PIP_STAT4_2                 0x00011800A00008C0  RSL
-PIP_STAT4_3                 0x00011800A0000910  RSL
-PIP_STAT4_16                0x00011800A0000D20  RSL
-PIP_STAT4_17                0x00011800A0000D70  RSL
-PIP_STAT4_18                0x00011800A0000DC0  RSL
-PIP_STAT4_19                0x00011800A0000E10  RSL
-PIP_STAT4_32                0x00011800A0001220  RSL
-PIP_STAT4_33                0x00011800A0001270  RSL
-PIP_STAT4_34                0x00011800A00012C0  RSL
-PIP_STAT4_35                0x00011800A0001310  RSL
-PIP_STAT4_36                0x00011800A0001360  RSL
-PIP_STAT4_37                0x00011800A00013B0  RSL
-PIP_STAT4_38                0x00011800A0001400  RSL
-PIP_STAT4_39                0x00011800A0001450  RSL
-PIP_STAT5_0                 0x00011800A0000828  RSL
-PIP_STAT5_1                 0x00011800A0000878  RSL
-PIP_STAT5_2                 0x00011800A00008C8  RSL
-PIP_STAT5_3                 0x00011800A0000918  RSL
-PIP_STAT5_16                0x00011800A0000D28  RSL
-PIP_STAT5_17                0x00011800A0000D78  RSL
-PIP_STAT5_18                0x00011800A0000DC8  RSL
-PIP_STAT5_19                0x00011800A0000E18  RSL
-PIP_STAT5_32                0x00011800A0001228  RSL
-PIP_STAT5_33                0x00011800A0001278  RSL
-PIP_STAT5_34                0x00011800A00012C8  RSL
-PIP_STAT5_35                0x00011800A0001318  RSL
-PIP_STAT5_36                0x00011800A0001368  RSL
-PIP_STAT5_37                0x00011800A00013B8  RSL
-PIP_STAT5_38                0x00011800A0001408  RSL
-PIP_STAT5_39                0x00011800A0001458  RSL
-PIP_STAT6_0                 0x00011800A0000830  RSL
-PIP_STAT6_1                 0x00011800A0000880  RSL
-PIP_STAT6_2                 0x00011800A00008D0  RSL
-PIP_STAT6_3                 0x00011800A0000920  RSL
-PIP_STAT6_16                0x00011800A0000D30  RSL
-PIP_STAT6_17                0x00011800A0000D80  RSL
-PIP_STAT6_18                0x00011800A0000DD0  RSL
-PIP_STAT6_19                0x00011800A0000E20  RSL
-PIP_STAT6_32                0x00011800A0001230  RSL
-PIP_STAT6_33                0x00011800A0001280  RSL
-PIP_STAT6_34                0x00011800A00012D0  RSL
-PIP_STAT6_35                0x00011800A0001320  RSL
-PIP_STAT6_36                0x00011800A0001370  RSL
-PIP_STAT6_37                0x00011800A00013C0  RSL
-PIP_STAT6_38                0x00011800A0001410  RSL
-PIP_STAT6_39                0x00011800A0001460  RSL
-PIP_STAT7_0                 0x00011800A0000838  RSL
-PIP_STAT7_1                 0x00011800A0000888  RSL
-PIP_STAT7_2                 0x00011800A00008D8  RSL
-PIP_STAT7_3                 0x00011800A0000928  RSL
-PIP_STAT7_16                0x00011800A0000D38  RSL
-PIP_STAT7_17                0x00011800A0000D88  RSL
-PIP_STAT7_18                0x00011800A0000DD8  RSL
-PIP_STAT7_19                0x00011800A0000E28  RSL
-PIP_STAT7_32                0x00011800A0001238  RSL
-PIP_STAT7_33                0x00011800A0001288  RSL
-PIP_STAT7_34                0x00011800A00012D8  RSL
-PIP_STAT7_35                0x00011800A0001328  RSL
-PIP_STAT7_36                0x00011800A0001378  RSL
-PIP_STAT7_37                0x00011800A00013C8  RSL
-PIP_STAT7_38                0x00011800A0001418  RSL
-PIP_STAT7_39                0x00011800A0001468  RSL
-PIP_STAT8_0                 0x00011800A0000840  RSL
-PIP_STAT8_1                 0x00011800A0000890  RSL
-PIP_STAT8_2                 0x00011800A00008E0  RSL
-PIP_STAT8_3                 0x00011800A0000930  RSL
-PIP_STAT8_16                0x00011800A0000D40  RSL
-PIP_STAT8_17                0x00011800A0000D90  RSL
-PIP_STAT8_18                0x00011800A0000DE0  RSL
-PIP_STAT8_19                0x00011800A0000E30  RSL
-PIP_STAT8_32                0x00011800A0001240  RSL
-PIP_STAT8_33                0x00011800A0001290  RSL
-PIP_STAT8_34                0x00011800A00012E0  RSL
-PIP_STAT8_35                0x00011800A0001330  RSL
-PIP_STAT8_36                0x00011800A0001380  RSL
-PIP_STAT8_37                0x00011800A00013D0  RSL
-PIP_STAT8_38                0x00011800A0001420  RSL
-PIP_STAT8_39                0x00011800A0001470  RSL
-PIP_STAT9_0                 0x00011800A0000848  RSL
-PIP_STAT9_1                 0x00011800A0000898  RSL
-PIP_STAT9_2                 0x00011800A00008E8  RSL
-PIP_STAT9_3                 0x00011800A0000938  RSL
-PIP_STAT9_16                0x00011800A0000D48  RSL
-PIP_STAT9_17                0x00011800A0000D98  RSL
-PIP_STAT9_18                0x00011800A0000DE8  RSL
-PIP_STAT9_19                0x00011800A0000E38  RSL
-PIP_STAT9_32                0x00011800A0001248  RSL
-PIP_STAT9_33                0x00011800A0001298  RSL
-PIP_STAT9_34                0x00011800A00012E8  RSL
-PIP_STAT9_35                0x00011800A0001338  RSL
-PIP_STAT9_36                0x00011800A0001388  RSL
-PIP_STAT9_37                0x00011800A00013D8  RSL
-PIP_STAT9_38                0x00011800A0001428  RSL
-PIP_STAT9_39                0x00011800A0001478  RSL
-PIP_STAT10_0                0x00011800A0001480  RSL
-PIP_STAT10_1                0x00011800A0001490  RSL
-PIP_STAT10_2                0x00011800A00014A0  RSL
-PIP_STAT10_3                0x00011800A00014B0  RSL
-PIP_STAT10_16               0x00011800A0001580  RSL
-PIP_STAT10_17               0x00011800A0001590  RSL
-PIP_STAT10_18               0x00011800A00015A0  RSL
-PIP_STAT10_19               0x00011800A00015B0  RSL
-PIP_STAT10_32               0x00011800A0001680  RSL
-PIP_STAT10_33               0x00011800A0001690  RSL
-PIP_STAT10_34               0x00011800A00016A0  RSL
-PIP_STAT10_35               0x00011800A00016B0  RSL
-PIP_STAT10_36               0x00011800A00016C0  RSL
-PIP_STAT10_37               0x00011800A00016D0  RSL
-PIP_STAT10_38               0x00011800A00016E0  RSL
-PIP_STAT10_39               0x00011800A00016F0  RSL
-PIP_STAT11_0                0x00011800A0001488  RSL
-PIP_STAT11_1                0x00011800A0001498  RSL
-PIP_STAT11_2                0x00011800A00014A8  RSL
-PIP_STAT11_3                0x00011800A00014B8  RSL
-PIP_STAT11_16               0x00011800A0001588  RSL
-PIP_STAT11_17               0x00011800A0001598  RSL
-PIP_STAT11_18               0x00011800A00015A8  RSL
-PIP_STAT11_19               0x00011800A00015B8  RSL
-PIP_STAT11_32               0x00011800A0001688  RSL
-PIP_STAT11_33               0x00011800A0001698  RSL
-PIP_STAT11_34               0x00011800A00016A8  RSL
-PIP_STAT11_35               0x00011800A00016B8  RSL
-PIP_STAT11_36               0x00011800A00016C8  RSL
-PIP_STAT11_37               0x00011800A00016D8  RSL
-PIP_STAT11_38               0x00011800A00016E8  RSL
-PIP_STAT11_39               0x00011800A00016F8  RSL
+PIP_STAT0_PRT0                 0x00011800A0000800  RSL
+PIP_STAT0_PRT1                 0x00011800A0000850  RSL
+PIP_STAT0_PRT2                 0x00011800A00008A0  RSL
+PIP_STAT0_PRT3                 0x00011800A00008F0  RSL
+PIP_STAT0_PRT16                0x00011800A0000D00  RSL
+PIP_STAT0_PRT17                0x00011800A0000D50  RSL
+PIP_STAT0_PRT18                0x00011800A0000DA0  RSL
+PIP_STAT0_PRT19                0x00011800A0000DF0  RSL
+PIP_STAT0_PRT32                0x00011800A0001200  RSL
+PIP_STAT0_PRT33                0x00011800A0001250  RSL
+PIP_STAT0_PRT34                0x00011800A00012A0  RSL
+PIP_STAT0_PRT35                0x00011800A00012F0  RSL
+PIP_STAT0_PRT36                0x00011800A0001340  RSL
+PIP_STAT0_PRT37                0x00011800A0001390  RSL
+PIP_STAT0_PRT38                0x00011800A00013E0  RSL
+PIP_STAT0_PRT39                0x00011800A0001430  RSL
+PIP_STAT1_PRT0                 0x00011800A0000808  RSL
+PIP_STAT1_PRT1                 0x00011800A0000858  RSL
+PIP_STAT1_PRT2                 0x00011800A00008A8  RSL
+PIP_STAT1_PRT3                 0x00011800A00008F8  RSL
+PIP_STAT1_PRT16                0x00011800A0000D08  RSL
+PIP_STAT1_PRT17                0x00011800A0000D58  RSL
+PIP_STAT1_PRT18                0x00011800A0000DA8  RSL
+PIP_STAT1_PRT19                0x00011800A0000DF8  RSL
+PIP_STAT1_PRT32                0x00011800A0001208  RSL
+PIP_STAT1_PRT33                0x00011800A0001258  RSL
+PIP_STAT1_PRT34                0x00011800A00012A8  RSL
+PIP_STAT1_PRT35                0x00011800A00012F8  RSL
+PIP_STAT1_PRT36                0x00011800A0001348  RSL
+PIP_STAT1_PRT37                0x00011800A0001398  RSL
+PIP_STAT1_PRT38                0x00011800A00013E8  RSL
+PIP_STAT1_PRT39                0x00011800A0001438  RSL
+PIP_STAT2_PRT0                 0x00011800A0000810  RSL
+PIP_STAT2_PRT1                 0x00011800A0000860  RSL
+PIP_STAT2_PRT2                 0x00011800A00008B0  RSL
+PIP_STAT2_PRT3                 0x00011800A0000900  RSL
+PIP_STAT2_PRT16                0x00011800A0000D10  RSL
+PIP_STAT2_PRT17                0x00011800A0000D60  RSL
+PIP_STAT2_PRT18                0x00011800A0000DB0  RSL
+PIP_STAT2_PRT19                0x00011800A0000E00  RSL
+PIP_STAT2_PRT32                0x00011800A0001210  RSL
+PIP_STAT2_PRT33                0x00011800A0001260  RSL
+PIP_STAT2_PRT34                0x00011800A00012B0  RSL
+PIP_STAT2_PRT35                0x00011800A0001300  RSL
+PIP_STAT2_PRT36                0x00011800A0001350  RSL
+PIP_STAT2_PRT37                0x00011800A00013A0  RSL
+PIP_STAT2_PRT38                0x00011800A00013F0  RSL
+PIP_STAT2_PRT39                0x00011800A0001440  RSL
+PIP_STAT3_PRT0                 0x00011800A0000818  RSL
+PIP_STAT3_PRT1                 0x00011800A0000868  RSL
+PIP_STAT3_PRT2                 0x00011800A00008B8  RSL
+PIP_STAT3_PRT3                 0x00011800A0000908  RSL
+PIP_STAT3_PRT16                0x00011800A0000D18  RSL
+PIP_STAT3_PRT17                0x00011800A0000D68  RSL
+PIP_STAT3_PRT18                0x00011800A0000DB8  RSL
+PIP_STAT3_PRT19                0x00011800A0000E08  RSL
+PIP_STAT3_PRT32                0x00011800A0001218  RSL
+PIP_STAT3_PRT33                0x00011800A0001268  RSL
+PIP_STAT3_PRT34                0x00011800A00012B8  RSL
+PIP_STAT3_PRT35                0x00011800A0001308  RSL
+PIP_STAT3_PRT36                0x00011800A0001358  RSL
+PIP_STAT3_PRT37                0x00011800A00013A8  RSL
+PIP_STAT3_PRT38                0x00011800A00013F8  RSL
+PIP_STAT3_PRT39                0x00011800A0001448  RSL
+PIP_STAT4_PRT0                 0x00011800A0000820  RSL
+PIP_STAT4_PRT1                 0x00011800A0000870  RSL
+PIP_STAT4_PRT2                 0x00011800A00008C0  RSL
+PIP_STAT4_PRT3                 0x00011800A0000910  RSL
+PIP_STAT4_PRT16                0x00011800A0000D20  RSL
+PIP_STAT4_PRT17                0x00011800A0000D70  RSL
+PIP_STAT4_PRT18                0x00011800A0000DC0  RSL
+PIP_STAT4_PRT19                0x00011800A0000E10  RSL
+PIP_STAT4_PRT32                0x00011800A0001220  RSL
+PIP_STAT4_PRT33                0x00011800A0001270  RSL
+PIP_STAT4_PRT34                0x00011800A00012C0  RSL
+PIP_STAT4_PRT35                0x00011800A0001310  RSL
+PIP_STAT4_PRT36                0x00011800A0001360  RSL
+PIP_STAT4_PRT37                0x00011800A00013B0  RSL
+PIP_STAT4_PRT38                0x00011800A0001400  RSL
+PIP_STAT4_PRT39                0x00011800A0001450  RSL
+PIP_STAT5_PRT0                 0x00011800A0000828  RSL
+PIP_STAT5_PRT1                 0x00011800A0000878  RSL
+PIP_STAT5_PRT2                 0x00011800A00008C8  RSL
+PIP_STAT5_PRT3                 0x00011800A0000918  RSL
+PIP_STAT5_PRT16                0x00011800A0000D28  RSL
+PIP_STAT5_PRT17                0x00011800A0000D78  RSL
+PIP_STAT5_PRT18                0x00011800A0000DC8  RSL
+PIP_STAT5_PRT19                0x00011800A0000E18  RSL
+PIP_STAT5_PRT32                0x00011800A0001228  RSL
+PIP_STAT5_PRT33                0x00011800A0001278  RSL
+PIP_STAT5_PRT34                0x00011800A00012C8  RSL
+PIP_STAT5_PRT35                0x00011800A0001318  RSL
+PIP_STAT5_PRT36                0x00011800A0001368  RSL
+PIP_STAT5_PRT37                0x00011800A00013B8  RSL
+PIP_STAT5_PRT38                0x00011800A0001408  RSL
+PIP_STAT5_PRT39                0x00011800A0001458  RSL
+PIP_STAT6_PRT0                 0x00011800A0000830  RSL
+PIP_STAT6_PRT1                 0x00011800A0000880  RSL
+PIP_STAT6_PRT2                 0x00011800A00008D0  RSL
+PIP_STAT6_PRT3                 0x00011800A0000920  RSL
+PIP_STAT6_PRT16                0x00011800A0000D30  RSL
+PIP_STAT6_PRT17                0x00011800A0000D80  RSL
+PIP_STAT6_PRT18                0x00011800A0000DD0  RSL
+PIP_STAT6_PRT19                0x00011800A0000E20  RSL
+PIP_STAT6_PRT32                0x00011800A0001230  RSL
+PIP_STAT6_PRT33                0x00011800A0001280  RSL
+PIP_STAT6_PRT34                0x00011800A00012D0  RSL
+PIP_STAT6_PRT35                0x00011800A0001320  RSL
+PIP_STAT6_PRT36                0x00011800A0001370  RSL
+PIP_STAT6_PRT37                0x00011800A00013C0  RSL
+PIP_STAT6_PRT38                0x00011800A0001410  RSL
+PIP_STAT6_PRT39                0x00011800A0001460  RSL
+PIP_STAT7_PRT0                 0x00011800A0000838  RSL
+PIP_STAT7_PRT1                 0x00011800A0000888  RSL
+PIP_STAT7_PRT2                 0x00011800A00008D8  RSL
+PIP_STAT7_PRT3                 0x00011800A0000928  RSL
+PIP_STAT7_PRT16                0x00011800A0000D38  RSL
+PIP_STAT7_PRT17                0x00011800A0000D88  RSL
+PIP_STAT7_PRT18                0x00011800A0000DD8  RSL
+PIP_STAT7_PRT19                0x00011800A0000E28  RSL
+PIP_STAT7_PRT32                0x00011800A0001238  RSL
+PIP_STAT7_PRT33                0x00011800A0001288  RSL
+PIP_STAT7_PRT34                0x00011800A00012D8  RSL
+PIP_STAT7_PRT35                0x00011800A0001328  RSL
+PIP_STAT7_PRT36                0x00011800A0001378  RSL
+PIP_STAT7_PRT37                0x00011800A00013C8  RSL
+PIP_STAT7_PRT38                0x00011800A0001418  RSL
+PIP_STAT7_PRT39                0x00011800A0001468  RSL
+PIP_STAT8_PRT0                 0x00011800A0000840  RSL
+PIP_STAT8_PRT1                 0x00011800A0000890  RSL
+PIP_STAT8_PRT2                 0x00011800A00008E0  RSL
+PIP_STAT8_PRT3                 0x00011800A0000930  RSL
+PIP_STAT8_PRT16                0x00011800A0000D40  RSL
+PIP_STAT8_PRT17                0x00011800A0000D90  RSL
+PIP_STAT8_PRT18                0x00011800A0000DE0  RSL
+PIP_STAT8_PRT19                0x00011800A0000E30  RSL
+PIP_STAT8_PRT32                0x00011800A0001240  RSL
+PIP_STAT8_PRT33                0x00011800A0001290  RSL
+PIP_STAT8_PRT34                0x00011800A00012E0  RSL
+PIP_STAT8_PRT35                0x00011800A0001330  RSL
+PIP_STAT8_PRT36                0x00011800A0001380  RSL
+PIP_STAT8_PRT37                0x00011800A00013D0  RSL
+PIP_STAT8_PRT38                0x00011800A0001420  RSL
+PIP_STAT8_PRT39                0x00011800A0001470  RSL
+PIP_STAT9_PRT0                 0x00011800A0000848  RSL
+PIP_STAT9_PRT1                 0x00011800A0000898  RSL
+PIP_STAT9_PRT2                 0x00011800A00008E8  RSL
+PIP_STAT9_PRT3                 0x00011800A0000938  RSL
+PIP_STAT9_PRT16                0x00011800A0000D48  RSL
+PIP_STAT9_PRT17                0x00011800A0000D98  RSL
+PIP_STAT9_PRT18                0x00011800A0000DE8  RSL
+PIP_STAT9_PRT19                0x00011800A0000E38  RSL
+PIP_STAT9_PRT32                0x00011800A0001248  RSL
+PIP_STAT9_PRT33                0x00011800A0001298  RSL
+PIP_STAT9_PRT34                0x00011800A00012E8  RSL
+PIP_STAT9_PRT35                0x00011800A0001338  RSL
+PIP_STAT9_PRT36                0x00011800A0001388  RSL
+PIP_STAT9_PRT37                0x00011800A00013D8  RSL
+PIP_STAT9_PRT38                0x00011800A0001428  RSL
+PIP_STAT9_PRT39                0x00011800A0001478  RSL
+PIP_STAT10_PRT0                0x00011800A0001480  RSL
+PIP_STAT10_PRT1                0x00011800A0001490  RSL
+PIP_STAT10_PRT2                0x00011800A00014A0  RSL
+PIP_STAT10_PRT3                0x00011800A00014B0  RSL
+PIP_STAT10_PRT16               0x00011800A0001580  RSL
+PIP_STAT10_PRT17               0x00011800A0001590  RSL
+PIP_STAT10_PRT18               0x00011800A00015A0  RSL
+PIP_STAT10_PRT19               0x00011800A00015B0  RSL
+PIP_STAT10_PRT32               0x00011800A0001680  RSL
+PIP_STAT10_PRT33               0x00011800A0001690  RSL
+PIP_STAT10_PRT34               0x00011800A00016A0  RSL
+PIP_STAT10_PRT35               0x00011800A00016B0  RSL
+PIP_STAT10_PRT36               0x00011800A00016C0  RSL
+PIP_STAT10_PRT37               0x00011800A00016D0  RSL
+PIP_STAT10_PRT38               0x00011800A00016E0  RSL
+PIP_STAT10_PRT39               0x00011800A00016F0  RSL
+PIP_STAT11_PRT0                0x00011800A0001488  RSL
+PIP_STAT11_PRT1                0x00011800A0001498  RSL
+PIP_STAT11_PRT2                0x00011800A00014A8  RSL
+PIP_STAT11_PRT3                0x00011800A00014B8  RSL
+PIP_STAT11_PRT16               0x00011800A0001588  RSL
+PIP_STAT11_PRT17               0x00011800A0001598  RSL
+PIP_STAT11_PRT18               0x00011800A00015A8  RSL
+PIP_STAT11_PRT19               0x00011800A00015B8  RSL
+PIP_STAT11_PRT32               0x00011800A0001688  RSL
+PIP_STAT11_PRT33               0x00011800A0001698  RSL
+PIP_STAT11_PRT34               0x00011800A00016A8  RSL
+PIP_STAT11_PRT35               0x00011800A00016B8  RSL
+PIP_STAT11_PRT36               0x00011800A00016C8  RSL
+PIP_STAT11_PRT37               0x00011800A00016D8  RSL
+PIP_STAT11_PRT38               0x00011800A00016E8  RSL
+PIP_STAT11_PRT39               0x00011800A00016F8  RSL
 PIP_STAT_CTL                   0x00011800A0000018  RSL
-PIP_STAT_INB_ERRS_PKND0             0x00011800A0001A10  RSL
-PIP_STAT_INB_ERRS_PKND1             0x00011800A0001A30  RSL
-PIP_STAT_INB_ERRS_PKND2             0x00011800A0001A50  RSL
-PIP_STAT_INB_ERRS_PKND3             0x00011800A0001A70  RSL
-PIP_STAT_INB_ERRS_PKND16            0x00011800A0001C10  RSL
-PIP_STAT_INB_ERRS_PKND17            0x00011800A0001C30  RSL
-PIP_STAT_INB_ERRS_PKND18            0x00011800A0001C50  RSL
-PIP_STAT_INB_ERRS_PKND19            0x00011800A0001C70  RSL
-PIP_STAT_INB_ERRS_PKND32            0x00011800A0001E10  RSL
-PIP_STAT_INB_ERRS_PKND33            0x00011800A0001E30  RSL
-PIP_STAT_INB_ERRS_PKND34            0x00011800A0001E50  RSL
-PIP_STAT_INB_ERRS_PKND35            0x00011800A0001E70  RSL
-PIP_STAT_INB_ERRS_PKND36            0x00011800A0001E90  RSL
-PIP_STAT_INB_ERRS_PKND37            0x00011800A0001EB0  RSL
-PIP_STAT_INB_ERRS_PKND38            0x00011800A0001ED0  RSL
-PIP_STAT_INB_ERRS_PKND39            0x00011800A0001EF0  RSL
-PIP_STAT_INB_OCTS_PKND0             0x00011800A0001A08  RSL
-PIP_STAT_INB_OCTS_PKND1             0x00011800A0001A28  RSL
-PIP_STAT_INB_OCTS_PKND2             0x00011800A0001A48  RSL
-PIP_STAT_INB_OCTS_PKND3             0x00011800A0001A68  RSL
-PIP_STAT_INB_OCTS_PKND16            0x00011800A0001C08  RSL
-PIP_STAT_INB_OCTS_PKND17            0x00011800A0001C28  RSL
-PIP_STAT_INB_OCTS_PKND18            0x00011800A0001C48  RSL
-PIP_STAT_INB_OCTS_PKND19            0x00011800A0001C68  RSL
-PIP_STAT_INB_OCTS_PKND32            0x00011800A0001E08  RSL
-PIP_STAT_INB_OCTS_PKND33            0x00011800A0001E28  RSL
-PIP_STAT_INB_OCTS_PKND34            0x00011800A0001E48  RSL
-PIP_STAT_INB_OCTS_PKND35            0x00011800A0001E68  RSL
-PIP_STAT_INB_OCTS_PKND36            0x00011800A0001E88  RSL
-PIP_STAT_INB_OCTS_PKND37            0x00011800A0001EA8  RSL
-PIP_STAT_INB_OCTS_PKND38            0x00011800A0001EC8  RSL
-PIP_STAT_INB_OCTS_PKND39            0x00011800A0001EE8  RSL
-PIP_STAT_INB_PKTS_PKND0             0x00011800A0001A00  RSL
-PIP_STAT_INB_PKTS_PKND1             0x00011800A0001A20  RSL
-PIP_STAT_INB_PKTS_PKND2             0x00011800A0001A40  RSL
-PIP_STAT_INB_PKTS_PKND3             0x00011800A0001A60  RSL
-PIP_STAT_INB_PKTS_PKND16            0x00011800A0001C00  RSL
-PIP_STAT_INB_PKTS_PKND17            0x00011800A0001C20  RSL
-PIP_STAT_INB_PKTS_PKND18            0x00011800A0001C40  RSL
-PIP_STAT_INB_PKTS_PKND19            0x00011800A0001C60  RSL
-PIP_STAT_INB_PKTS_PKND32            0x00011800A0001E00  RSL
-PIP_STAT_INB_PKTS_PKND33            0x00011800A0001E20  RSL
-PIP_STAT_INB_PKTS_PKND34            0x00011800A0001E40  RSL
-PIP_STAT_INB_PKTS_PKND35            0x00011800A0001E60  RSL
-PIP_STAT_INB_PKTS_PKND36            0x00011800A0001E80  RSL
-PIP_STAT_INB_PKTS_PKND37            0x00011800A0001EA0  RSL
-PIP_STAT_INB_PKTS_PKND38            0x00011800A0001EC0  RSL
-PIP_STAT_INB_PKTS_PKND39            0x00011800A0001EE0  RSL
+PIP_STAT_INB_ERRS0             0x00011800A0001A10  RSL
+PIP_STAT_INB_ERRS1             0x00011800A0001A30  RSL
+PIP_STAT_INB_ERRS2             0x00011800A0001A50  RSL
+PIP_STAT_INB_ERRS3             0x00011800A0001A70  RSL
+PIP_STAT_INB_ERRS16            0x00011800A0001C10  RSL
+PIP_STAT_INB_ERRS17            0x00011800A0001C30  RSL
+PIP_STAT_INB_ERRS18            0x00011800A0001C50  RSL
+PIP_STAT_INB_ERRS19            0x00011800A0001C70  RSL
+PIP_STAT_INB_ERRS32            0x00011800A0001E10  RSL
+PIP_STAT_INB_ERRS33            0x00011800A0001E30  RSL
+PIP_STAT_INB_ERRS34            0x00011800A0001E50  RSL
+PIP_STAT_INB_ERRS35            0x00011800A0001E70  RSL
+PIP_STAT_INB_ERRS36            0x00011800A0001E90  RSL
+PIP_STAT_INB_ERRS37            0x00011800A0001EB0  RSL
+PIP_STAT_INB_ERRS38            0x00011800A0001ED0  RSL
+PIP_STAT_INB_ERRS39            0x00011800A0001EF0  RSL
+PIP_STAT_INB_OCTS0             0x00011800A0001A08  RSL
+PIP_STAT_INB_OCTS1             0x00011800A0001A28  RSL
+PIP_STAT_INB_OCTS2             0x00011800A0001A48  RSL
+PIP_STAT_INB_OCTS3             0x00011800A0001A68  RSL
+PIP_STAT_INB_OCTS16            0x00011800A0001C08  RSL
+PIP_STAT_INB_OCTS17            0x00011800A0001C28  RSL
+PIP_STAT_INB_OCTS18            0x00011800A0001C48  RSL
+PIP_STAT_INB_OCTS19            0x00011800A0001C68  RSL
+PIP_STAT_INB_OCTS32            0x00011800A0001E08  RSL
+PIP_STAT_INB_OCTS33            0x00011800A0001E28  RSL
+PIP_STAT_INB_OCTS34            0x00011800A0001E48  RSL
+PIP_STAT_INB_OCTS35            0x00011800A0001E68  RSL
+PIP_STAT_INB_OCTS36            0x00011800A0001E88  RSL
+PIP_STAT_INB_OCTS37            0x00011800A0001EA8  RSL
+PIP_STAT_INB_OCTS38            0x00011800A0001EC8  RSL
+PIP_STAT_INB_OCTS39            0x00011800A0001EE8  RSL
+PIP_STAT_INB_PKTS0             0x00011800A0001A00  RSL
+PIP_STAT_INB_PKTS1             0x00011800A0001A20  RSL
+PIP_STAT_INB_PKTS2             0x00011800A0001A40  RSL
+PIP_STAT_INB_PKTS3             0x00011800A0001A60  RSL
+PIP_STAT_INB_PKTS16            0x00011800A0001C00  RSL
+PIP_STAT_INB_PKTS17            0x00011800A0001C20  RSL
+PIP_STAT_INB_PKTS18            0x00011800A0001C40  RSL
+PIP_STAT_INB_PKTS19            0x00011800A0001C60  RSL
+PIP_STAT_INB_PKTS32            0x00011800A0001E00  RSL
+PIP_STAT_INB_PKTS33            0x00011800A0001E20  RSL
+PIP_STAT_INB_PKTS34            0x00011800A0001E40  RSL
+PIP_STAT_INB_PKTS35            0x00011800A0001E60  RSL
+PIP_STAT_INB_PKTS36            0x00011800A0001E80  RSL
+PIP_STAT_INB_PKTS37            0x00011800A0001EA0  RSL
+PIP_STAT_INB_PKTS38            0x00011800A0001EC0  RSL
+PIP_STAT_INB_PKTS39            0x00011800A0001EE0  RSL
 PIP_TAG_INC0                   0x00011800A0001800  RSL
 PIP_TAG_INC1                   0x00011800A0001808  RSL
 PIP_TAG_INC2                   0x00011800A0001810  RSL

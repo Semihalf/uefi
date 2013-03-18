@@ -474,14 +474,14 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
             break;
     }
 
-    bdk_pip_stat0_x_t stat0;
-    bdk_pip_stat1_x_t stat1;
-    bdk_pip_stat2_x_t stat2;
+    bdk_pip_stat0_prtx_t stat0;
+    bdk_pip_stat1_prtx_t stat1;
+    bdk_pip_stat2_prtx_t stat2;
 
-    stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_X(handle->pknd));
-    stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_X(handle->pknd));
-    stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_X(handle->pknd));
-    BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRS_PKNDX(handle->pknd));
+    stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_PRTX(handle->pknd));
+    stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_PRTX(handle->pknd));
+    stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_PRTX(handle->pknd));
+    BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRSX(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_octets = update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);

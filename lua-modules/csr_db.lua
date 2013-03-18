@@ -16174,8 +16174,8 @@ local csr_db = {
                 {name = "RST", start = 0, stop = 0},
             }
         },
-        PIP_STAT0_X = {
-            name = "PIP_STAT0_#",
+        PIP_STAT0_PRTX = {
+            name = "PIP_STAT0_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040000,
@@ -16186,8 +16186,8 @@ local csr_db = {
                 {name = "DRP_OCTS", start = 0, stop = 31},
             }
         },
-        PIP_STAT10_X = {
-            name = "PIP_STAT10_#",
+        PIP_STAT10_PRTX = {
+            name = "PIP_STAT10_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040050,
@@ -16198,8 +16198,8 @@ local csr_db = {
                 {name = "MCAST", start = 0, stop = 31},
             }
         },
-        PIP_STAT11_X = {
-            name = "PIP_STAT11_#",
+        PIP_STAT11_PRTX = {
+            name = "PIP_STAT11_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040058,
@@ -16210,8 +16210,8 @@ local csr_db = {
                 {name = "MCAST", start = 0, stop = 31},
             }
         },
-        PIP_STAT1_X = {
-            name = "PIP_STAT1_#",
+        PIP_STAT1_PRTX = {
+            name = "PIP_STAT1_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040008,
@@ -16222,8 +16222,8 @@ local csr_db = {
                 {name = "OCTS", start = 0, stop = 47},
             }
         },
-        PIP_STAT2_X = {
-            name = "PIP_STAT2_#",
+        PIP_STAT2_PRTX = {
+            name = "PIP_STAT2_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040010,
@@ -16234,8 +16234,8 @@ local csr_db = {
                 {name = "RAW", start = 0, stop = 31},
             }
         },
-        PIP_STAT3_X = {
-            name = "PIP_STAT3_#",
+        PIP_STAT3_PRTX = {
+            name = "PIP_STAT3_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040018,
@@ -16246,8 +16246,8 @@ local csr_db = {
                 {name = "MCST", start = 0, stop = 31},
             }
         },
-        PIP_STAT4_X = {
-            name = "PIP_STAT4_#",
+        PIP_STAT4_PRTX = {
+            name = "PIP_STAT4_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040020,
@@ -16258,8 +16258,8 @@ local csr_db = {
                 {name = "H64", start = 0, stop = 31},
             }
         },
-        PIP_STAT5_X = {
-            name = "PIP_STAT5_#",
+        PIP_STAT5_PRTX = {
+            name = "PIP_STAT5_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040028,
@@ -16270,8 +16270,8 @@ local csr_db = {
                 {name = "H128TO255", start = 0, stop = 31},
             }
         },
-        PIP_STAT6_X = {
-            name = "PIP_STAT6_#",
+        PIP_STAT6_PRTX = {
+            name = "PIP_STAT6_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040030,
@@ -16282,8 +16282,8 @@ local csr_db = {
                 {name = "H512TO1023", start = 0, stop = 31},
             }
         },
-        PIP_STAT7_X = {
-            name = "PIP_STAT7_#",
+        PIP_STAT7_PRTX = {
+            name = "PIP_STAT7_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040038,
@@ -16294,8 +16294,8 @@ local csr_db = {
                 {name = "H1519", start = 0, stop = 31},
             }
         },
-        PIP_STAT8_X = {
-            name = "PIP_STAT8_#",
+        PIP_STAT8_PRTX = {
+            name = "PIP_STAT8_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040040,
@@ -16306,8 +16306,8 @@ local csr_db = {
                 {name = "UNDERSZ", start = 0, stop = 31},
             }
         },
-        PIP_STAT9_X = {
-            name = "PIP_STAT9_#",
+        PIP_STAT9_PRTX = {
+            name = "PIP_STAT9_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0040048,
@@ -16330,8 +16330,8 @@ local csr_db = {
                 {name = "RDCLR", start = 0, stop = 0},
             }
         },
-        PIP_STAT_INB_ERRS_PKNDX = {
-            name = "PIP_STAT_INB_ERRS_PKND#",
+        PIP_STAT_INB_ERRSX = {
+            name = "PIP_STAT_INB_ERRS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0020010,
@@ -16342,8 +16342,8 @@ local csr_db = {
                 {name = "ERRS", start = 0, stop = 15},
             }
         },
-        PIP_STAT_INB_OCTS_PKNDX = {
-            name = "PIP_STAT_INB_OCTS_PKND#",
+        PIP_STAT_INB_OCTSX = {
+            name = "PIP_STAT_INB_OCTS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0020008,
@@ -16354,8 +16354,8 @@ local csr_db = {
                 {name = "OCTS", start = 0, stop = 47},
             }
         },
-        PIP_STAT_INB_PKTS_PKNDX = {
-            name = "PIP_STAT_INB_PKTS_PKND#",
+        PIP_STAT_INB_PKTSX = {
+            name = "PIP_STAT_INB_PKTS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0020000,
@@ -25841,8 +25841,8 @@ local csr_db = {
                 {name = "TX_OE", start = 0, stop = 0},
             }
         },
-        IOB0_BIST_STATUS = {
-            name = "IOB0_BIST_STATUS",
+        IOB_BIST_STATUS = {
+            name = "IOB_BIST_STATUS",
             type = "RSL",
             width = 8,
             address = 0x11800f00007f8,
@@ -25873,8 +25873,8 @@ local csr_db = {
                 {name = "ICD", start = 0, stop = 0},
             }
         },
-        IOB0_CTL_STATUS = {
-            name = "IOB0_CTL_STATUS",
+        IOB_CTL_STATUS = {
+            name = "IOB_CTL_STATUS",
             type = "RSL",
             width = 8,
             address = 0x11800f0000050,
@@ -25890,8 +25890,8 @@ local csr_db = {
                 {name = "FAU_END", start = 0, stop = 0},
             }
         },
-        IOB0_DWB_PRI_CNT = {
-            name = "IOB0_DWB_PRI_CNT",
+        IOB_DWB_PRI_CNT = {
+            name = "IOB_DWB_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000028,
@@ -25901,8 +25901,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_FAU_TIMEOUT = {
-            name = "IOB0_FAU_TIMEOUT",
+        IOB_FAU_TIMEOUT = {
+            name = "IOB_FAU_TIMEOUT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000000,
@@ -25912,8 +25912,8 @@ local csr_db = {
                 {name = "TOUT_VAL", start = 0, stop = 11},
             }
         },
-        IOB0_I2C_PRI_CNT = {
-            name = "IOB0_I2C_PRI_CNT",
+        IOB_I2C_PRI_CNT = {
+            name = "IOB_I2C_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000010,
@@ -25923,8 +25923,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_INB_CONTROL_MATCH = {
-            name = "IOB0_INB_CONTROL_MATCH",
+        IOB_INB_CONTROL_MATCH = {
+            name = "IOB_INB_CONTROL_MATCH",
             type = "RSL",
             width = 8,
             address = 0x11800f0000078,
@@ -25936,8 +25936,8 @@ local csr_db = {
                 {name = "SRC", start = 0, stop = 7},
             }
         },
-        IOB0_INB_CONTROL_MATCH_ENB = {
-            name = "IOB0_INB_CONTROL_MATCH_ENB",
+        IOB_INB_CONTROL_MATCH_ENB = {
+            name = "IOB_INB_CONTROL_MATCH_ENB",
             type = "RSL",
             width = 8,
             address = 0x11800f0000088,
@@ -25949,8 +25949,8 @@ local csr_db = {
                 {name = "SRC", start = 0, stop = 7},
             }
         },
-        IOB0_INB_DATA_MATCH = {
-            name = "IOB0_INB_DATA_MATCH",
+        IOB_INB_DATA_MATCH = {
+            name = "IOB_INB_DATA_MATCH",
             type = "RSL",
             width = 8,
             address = 0x11800f0000070,
@@ -25958,8 +25958,8 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
-        IOB0_INB_DATA_MATCH_ENB = {
-            name = "IOB0_INB_DATA_MATCH_ENB",
+        IOB_INB_DATA_MATCH_ENB = {
+            name = "IOB_INB_DATA_MATCH_ENB",
             type = "RSL",
             width = 8,
             address = 0x11800f0000080,
@@ -25967,8 +25967,8 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
-        IOB0_INT_ENB = {
-            name = "IOB0_INT_ENB",
+        IOB_INT_ENB = {
+            name = "IOB_INT_ENB",
             type = "RSL",
             width = 8,
             address = 0x11800f0000060,
@@ -25982,8 +25982,8 @@ local csr_db = {
                 {name = "NP_SOP", start = 0, stop = 0},
             }
         },
-        IOB0_INT_SUM = {
-            name = "IOB0_INT_SUM",
+        IOB_INT_SUM = {
+            name = "IOB_INT_SUM",
             type = "RSL",
             width = 8,
             address = 0x11800f0000058,
@@ -25997,8 +25997,8 @@ local csr_db = {
                 {name = "NP_SOP", start = 0, stop = 0},
             }
         },
-        IOB0_N2C_L2C_PRI_CNT = {
-            name = "IOB0_N2C_L2C_PRI_CNT",
+        IOB_N2C_L2C_PRI_CNT = {
+            name = "IOB_N2C_L2C_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000020,
@@ -26008,8 +26008,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_N2C_RSP_PRI_CNT = {
-            name = "IOB0_N2C_RSP_PRI_CNT",
+        IOB_N2C_RSP_PRI_CNT = {
+            name = "IOB_N2C_RSP_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000008,
@@ -26019,8 +26019,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_OUTB_COM_PRI_CNT = {
-            name = "IOB0_OUTB_COM_PRI_CNT",
+        IOB_OUTB_COM_PRI_CNT = {
+            name = "IOB_OUTB_COM_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000040,
@@ -26030,8 +26030,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_OUTB_CONTROL_MATCH = {
-            name = "IOB0_OUTB_CONTROL_MATCH",
+        IOB_OUTB_CONTROL_MATCH = {
+            name = "IOB_OUTB_CONTROL_MATCH",
             type = "RSL",
             width = 8,
             address = 0x11800f0000098,
@@ -26043,8 +26043,8 @@ local csr_db = {
                 {name = "SRC", start = 0, stop = 8},
             }
         },
-        IOB0_OUTB_CONTROL_MATCH_ENB = {
-            name = "IOB0_OUTB_CONTROL_MATCH_ENB",
+        IOB_OUTB_CONTROL_MATCH_ENB = {
+            name = "IOB_OUTB_CONTROL_MATCH_ENB",
             type = "RSL",
             width = 8,
             address = 0x11800f00000a8,
@@ -26056,8 +26056,8 @@ local csr_db = {
                 {name = "SRC", start = 0, stop = 8},
             }
         },
-        IOB0_OUTB_DATA_MATCH = {
-            name = "IOB0_OUTB_DATA_MATCH",
+        IOB_OUTB_DATA_MATCH = {
+            name = "IOB_OUTB_DATA_MATCH",
             type = "RSL",
             width = 8,
             address = 0x11800f0000090,
@@ -26065,8 +26065,8 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
-        IOB0_OUTB_DATA_MATCH_ENB = {
-            name = "IOB0_OUTB_DATA_MATCH_ENB",
+        IOB_OUTB_DATA_MATCH_ENB = {
+            name = "IOB_OUTB_DATA_MATCH_ENB",
             type = "RSL",
             width = 8,
             address = 0x11800f00000a0,
@@ -26074,8 +26074,8 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
-        IOB0_OUTB_FPA_PRI_CNT = {
-            name = "IOB0_OUTB_FPA_PRI_CNT",
+        IOB_OUTB_FPA_PRI_CNT = {
+            name = "IOB_OUTB_FPA_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000048,
@@ -26085,8 +26085,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_OUTB_REQ_PRI_CNT = {
-            name = "IOB0_OUTB_REQ_PRI_CNT",
+        IOB_OUTB_REQ_PRI_CNT = {
+            name = "IOB_OUTB_REQ_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000038,
@@ -26096,8 +26096,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_P2C_REQ_PRI_CNT = {
-            name = "IOB0_P2C_REQ_PRI_CNT",
+        IOB_P2C_REQ_PRI_CNT = {
+            name = "IOB_P2C_REQ_PRI_CNT",
             type = "RSL",
             width = 8,
             address = 0x11800f0000018,
@@ -26107,8 +26107,8 @@ local csr_db = {
                 {name = "CNT_VAL", start = 0, stop = 14},
             }
         },
-        IOB0_PKT_ERR = {
-            name = "IOB0_PKT_ERR",
+        IOB_PKT_ERR = {
+            name = "IOB_PKT_ERR",
             type = "RSL",
             width = 8,
             address = 0x11800f0000068,
@@ -26118,8 +26118,8 @@ local csr_db = {
                 {name = "PORT", start = 0, stop = 5},
             }
         },
-        IOB0_TO_CMB_CREDITS = {
-            name = "IOB0_TO_CMB_CREDITS",
+        IOB_TO_CMB_CREDITS = {
+            name = "IOB_TO_CMB_CREDITS",
             type = "RSL",
             width = 8,
             address = 0x11800f00000b0,
@@ -34057,8 +34057,8 @@ local csr_db = {
                 {name = "RST", start = 0, stop = 0},
             }
         },
-        PIP_STAT0_X = {
-            name = "PIP_STAT0_#",
+        PIP_STAT0_PRTX = {
+            name = "PIP_STAT0_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000800,
@@ -34069,8 +34069,8 @@ local csr_db = {
                 {name = "DRP_OCTS", start = 0, stop = 31},
             }
         },
-        PIP_STAT10_X = {
-            name = "PIP_STAT10_#",
+        PIP_STAT10_PRTX = {
+            name = "PIP_STAT10_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0001480,
@@ -34081,8 +34081,8 @@ local csr_db = {
                 {name = "MCAST", start = 0, stop = 31},
             }
         },
-        PIP_STAT11_X = {
-            name = "PIP_STAT11_#",
+        PIP_STAT11_PRTX = {
+            name = "PIP_STAT11_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0001488,
@@ -34093,8 +34093,8 @@ local csr_db = {
                 {name = "MCAST", start = 0, stop = 31},
             }
         },
-        PIP_STAT1_X = {
-            name = "PIP_STAT1_#",
+        PIP_STAT1_PRTX = {
+            name = "PIP_STAT1_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000808,
@@ -34105,8 +34105,8 @@ local csr_db = {
                 {name = "OCTS", start = 0, stop = 47},
             }
         },
-        PIP_STAT2_X = {
-            name = "PIP_STAT2_#",
+        PIP_STAT2_PRTX = {
+            name = "PIP_STAT2_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000810,
@@ -34117,8 +34117,8 @@ local csr_db = {
                 {name = "RAW", start = 0, stop = 31},
             }
         },
-        PIP_STAT3_X = {
-            name = "PIP_STAT3_#",
+        PIP_STAT3_PRTX = {
+            name = "PIP_STAT3_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000818,
@@ -34129,8 +34129,8 @@ local csr_db = {
                 {name = "MCST", start = 0, stop = 31},
             }
         },
-        PIP_STAT4_X = {
-            name = "PIP_STAT4_#",
+        PIP_STAT4_PRTX = {
+            name = "PIP_STAT4_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000820,
@@ -34141,8 +34141,8 @@ local csr_db = {
                 {name = "H64", start = 0, stop = 31},
             }
         },
-        PIP_STAT5_X = {
-            name = "PIP_STAT5_#",
+        PIP_STAT5_PRTX = {
+            name = "PIP_STAT5_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000828,
@@ -34153,8 +34153,8 @@ local csr_db = {
                 {name = "H128TO255", start = 0, stop = 31},
             }
         },
-        PIP_STAT6_X = {
-            name = "PIP_STAT6_#",
+        PIP_STAT6_PRTX = {
+            name = "PIP_STAT6_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000830,
@@ -34165,8 +34165,8 @@ local csr_db = {
                 {name = "H512TO1023", start = 0, stop = 31},
             }
         },
-        PIP_STAT7_X = {
-            name = "PIP_STAT7_#",
+        PIP_STAT7_PRTX = {
+            name = "PIP_STAT7_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000838,
@@ -34177,8 +34177,8 @@ local csr_db = {
                 {name = "H1519", start = 0, stop = 31},
             }
         },
-        PIP_STAT8_X = {
-            name = "PIP_STAT8_#",
+        PIP_STAT8_PRTX = {
+            name = "PIP_STAT8_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000840,
@@ -34189,8 +34189,8 @@ local csr_db = {
                 {name = "UNDERSZ", start = 0, stop = 31},
             }
         },
-        PIP_STAT9_X = {
-            name = "PIP_STAT9_#",
+        PIP_STAT9_PRTX = {
+            name = "PIP_STAT9_PRT#",
             type = "RSL",
             width = 8,
             address = 0x11800a0000848,
@@ -34211,8 +34211,8 @@ local csr_db = {
                 {name = "RDCLR", start = 0, stop = 0},
             }
         },
-        PIP_STAT_INB_ERRS_PKNDX = {
-            name = "PIP_STAT_INB_ERRS_PKND#",
+        PIP_STAT_INB_ERRSX = {
+            name = "PIP_STAT_INB_ERRS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0001a10,
@@ -34223,8 +34223,8 @@ local csr_db = {
                 {name = "ERRS", start = 0, stop = 15},
             }
         },
-        PIP_STAT_INB_OCTS_PKNDX = {
-            name = "PIP_STAT_INB_OCTS_PKND#",
+        PIP_STAT_INB_OCTSX = {
+            name = "PIP_STAT_INB_OCTS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0001a08,
@@ -34235,8 +34235,8 @@ local csr_db = {
                 {name = "OCTS", start = 0, stop = 47},
             }
         },
-        PIP_STAT_INB_PKTS_PKNDX = {
-            name = "PIP_STAT_INB_PKTS_PKND#",
+        PIP_STAT_INB_PKTSX = {
+            name = "PIP_STAT_INB_PKTS#",
             type = "RSL",
             width = 8,
             address = 0x11800a0001a00,

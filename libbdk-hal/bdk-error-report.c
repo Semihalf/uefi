@@ -246,13 +246,13 @@ static void check_ilk(void)
 
 static void check_iob(void)
 {
-    BDK_CSR_INIT(c, BDK_IOB0_INT_SUM);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, np_dat);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, np_eop);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, np_sop);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, p_dat);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, p_eop);
-    CHECK_ERROR(BDK_IOB0_INT_SUM, p_sop);
+    BDK_CSR_INIT(c, BDK_IOB_INT_SUM);
+    CHECK_ERROR(BDK_IOB_INT_SUM, np_dat);
+    CHECK_ERROR(BDK_IOB_INT_SUM, np_eop);
+    CHECK_ERROR(BDK_IOB_INT_SUM, np_sop);
+    CHECK_ERROR(BDK_IOB_INT_SUM, p_dat);
+    CHECK_ERROR(BDK_IOB_INT_SUM, p_eop);
+    CHECK_ERROR(BDK_IOB_INT_SUM, p_sop);
 }
 
 static void check_ipd(void)
@@ -767,7 +767,7 @@ static void enable_fpa(void)
 
 static void enable_iob(void)
 {
-    BDK_CSR_MODIFY(c, BDK_IOB0_INT_ENB,
+    BDK_CSR_MODIFY(c, BDK_IOB_INT_ENB,
         c.s.np_dat = -1;
         c.s.np_eop = -1;
         c.s.np_sop = -1;
