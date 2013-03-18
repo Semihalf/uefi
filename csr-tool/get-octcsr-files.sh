@@ -51,9 +51,6 @@ do
     sed -i "s/UCTL#_/UCTL(0)_/g" $f
     sed -i "s/MIO_BOOT_REG_CFG(1..7)/MIO_BOOT_REG_CFG(0..7)/g" $f
     sed -i "s/MIO_BOOT_REG_TIM(1..7)/MIO_BOOT_REG_TIM(0..7)/g" $f
-    #sed -i "s/IOB_/IOB0_/g" $f
-    #sed -i "s/PIP_STAT\\([0-9]*\\)_PRT/PIP_STAT\\1_/g" $f
-    #sed -i "s/PIP_STAT_INB_\\([A-Z]*\\)\\([*@0-9(]\\)/PIP_STAT_INB_\1_PKND\2/g" $f
 done
 
 # Fixups for CN78XX
