@@ -44,12 +44,17 @@ int bdk_l2c_initialize(void)
         uint64_t rclk = bdk_clock_get_rate(BDK_CLOCK_RCLK);
         if (rclk < sclk * 3)
         {
-            BDK_CSR_MODIFY(c, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
-            BDK_CSR_READ(BDK_IOB0_CTL_STATUS);
             if (OCTEON_IS_MODEL(OCTEON_CN68XX))
             {
+                BDK_CSR_MODIFY(c, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
+                BDK_CSR_READ(BDK_IOB0_CTL_STATUS);
                 BDK_CSR_MODIFY(c, BDK_IOB1_CTL_STATUS, c.s.fif_dly = 0);
                 BDK_CSR_READ(BDK_IOB1_CTL_STATUS);
+            }
+            else
+            {
+                BDK_CSR_MODIFY(c, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
+                BDK_CSR_READ(BDK_IOB_CTL_STATUS);
             }
         }
     }
