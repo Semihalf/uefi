@@ -802,6 +802,25 @@ static int pci_reset(int stop_core __attribute__ ((unused)))
 }
 
 
+static uint64_t pci_read_cop0(int core, int reg, int select)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        bdk_l2c_cop0_adr_t adr;
+        adr.u = 0;
+        adr.s.ppid = core;
+        adr.s.root = 1;
+        adr.s.rd = reg;
+        adr.s.sel = select;
+        OCTEON_REMOTE_WRITE_CSR(BDK_L2C_COP0_ADR, adr.u);
+        return OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_DAT);
+    }
+    else
+    {
+        return OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(reg<<3)|select));
+    }
+}
+
 /**
  * Sample performance / profiling information for a set of cores
  * minimizing the performance impact of taking the sample. The
@@ -826,14 +845,14 @@ static int pci_get_sample(uint64_t coremask, octeon_remote_sample_t sample[])
     {
         if ((1ull<<core) & coremask)
         {
-            sample[core].pc = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(16<<3)|0));
+            sample[core].pc = pci_read_cop0(core, 16, 0);
             if (sample[core].pc & 2)
                 sample[core].pc = 0; /* The sample is invalid */
             else if (sample[core].pc >> 32 == 0xc001ffffull)
                 sample[core].pc |= 0x3ffe000000000000ull; /* The hardware doesn't store these bits */
             sample[core].pc &= -4; /* AND off the lower two bits where extra data is encoded */
-            sample[core].perf_count[0] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|1));
-            sample[core].perf_count[1] = OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(25<<3)|3));
+            sample[core].perf_count[0] = pci_read_cop0(core, 25, 1);
+            sample[core].perf_count[1] = pci_read_cop0(core, 25, 3);
         }
     }
     return 0;
