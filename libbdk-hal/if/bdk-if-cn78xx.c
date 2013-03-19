@@ -160,7 +160,7 @@ static int pki_port_init(bdk_if_handle_t handle)
     /* We lookup the handle using the PKI input channel */
     __bdk_if_ipd_map[handle->ipd_port] = handle;
     bdk_dprintf("%s: pknd=%d, ipd_port=0x%x, aura=%d\n",
-        handle->name, handle->pknd, handle->ipd_port, handle->aura);
+        bdk_if_name(handle), handle->pknd, handle->ipd_port, handle->aura);
     return 0;
 }
 
@@ -472,7 +472,7 @@ static int pko_port_init(bdk_if_handle_t handle)
     handle->pko_queue = dq;
 
     bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
-        handle->name, lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
+        bdk_if_name(handle), lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
     return 0;
 }
@@ -612,7 +612,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 
     packet->if_handle = __bdk_if_ipd_map[wqe->word0.v3.chan];
     bdk_dprintf("  Maps to %s, port=%d, aura=%d, pknd=%d\n",
-        packet->if_handle->name, packet->if_handle->ipd_port,
+        bdk_if_name(packet->if_handle), packet->if_handle->ipd_port,
         packet->if_handle->aura, packet->if_handle->pknd);
     packet->length = wqe->word1.v3.len;
     packet->segments = wqe->word0.v3.bufs;
@@ -730,7 +730,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     status.u = bdk_scratch_read64(BDK_IF_SCR_PKO(2));
     if (bdk_unlikely(status.s.dqstatus))
     {
-        bdk_error("PKO transmit failed with status 0x%x\n", status.s.dqstatus);
+        bdk_error("%s: PKO transmit failed with status 0x%x\n", bdk_if_name(handle), status.s.dqstatus);
         return -1;
     }
     return 0;

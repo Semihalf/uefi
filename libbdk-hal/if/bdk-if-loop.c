@@ -17,6 +17,10 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
+    /* Change name to be "LOOP" with a single number */
+    snprintf(handle->name, sizeof(handle->name), "LOOP%d", handle->index);
+    handle->name[sizeof(handle->name)-1] = 0;
+
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         /* Use PKI_CHAN_E channel numbers 0 - 63 */
@@ -185,7 +189,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_loop = {
-    .name = "LOOP",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

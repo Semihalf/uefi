@@ -108,7 +108,6 @@ typedef int (*bdk_if_packet_receiver_t)(bdk_if_packet_t *packet, void *arg);
 
 typedef struct
 {
-    const char *name;
     int (*if_num_interfaces)(void); /* Returns the number of interfaces possible on this chip */
     int (*if_num_ports)(int interface); /* For given interface, returns the number of ports on it */
     int (*if_probe)(bdk_if_handle_t handle); /* Called to assign IPD and PKO ports. Does nothing if they aren't needed */

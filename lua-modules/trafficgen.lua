@@ -62,7 +62,7 @@ function TrafficGen.new()
         local start_name = nil
         str = str:upper()
         while index <= #str do
-            local name, sep = str:match("^([A-Za-z0-9]+)([,-]?)", index)
+            local name, sep = str:match("^([A-Za-z0-9.]+)([,-]?)", index)
             if not name then
                 return nil
             end

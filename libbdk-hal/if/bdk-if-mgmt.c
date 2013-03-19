@@ -74,6 +74,10 @@ static int if_num_ports(int interface)
  */
 static int if_probe(bdk_if_handle_t handle)
 {
+    /* Change name to be "MGMT%d" */
+    snprintf(handle->name, sizeof(handle->name), "MGMT%d", handle->index);
+    handle->name[sizeof(handle->name)-1] = 0;
+
     handle->ipd_port = -1;
     handle->pko_port = -1;
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
@@ -652,7 +656,6 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
  * The OPs structure for bdk_if
  */
 const __bdk_if_ops_t __bdk_if_ops_mgmt = {
-    .name = "MGMT",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

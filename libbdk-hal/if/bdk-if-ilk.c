@@ -101,6 +101,10 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
+    /* Change name to be "ILK%d.%d" */
+    snprintf(handle->name, sizeof(handle->name), "ILK%d.%d", handle->interface, handle->index);
+    handle->name[sizeof(handle->name)-1] = 0;
+
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
     handle->pko_port = __bdk_pko_alloc_port();
@@ -655,7 +659,6 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_ilk = {
-    .name = "ILK",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

@@ -91,7 +91,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_dpi = {
-    .name = "DPI",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

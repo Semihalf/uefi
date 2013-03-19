@@ -81,7 +81,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int inde
     handle->pko_port = -1;
     handle->pko_queue = -1;
     handle->flags = 0;
-    snprintf(handle->name, sizeof(handle->name), "%s%d%d", __bdk_if_ops[iftype]->name, interface, index);
+    snprintf(handle->name, sizeof(handle->name), "P%d.%d", interface, index);
     handle->name[sizeof(handle->name)-1] = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))

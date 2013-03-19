@@ -87,6 +87,10 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
+    /* Change name to be "XAUI%d" */
+    snprintf(handle->name, sizeof(handle->name), "XAUI%d", handle->interface);
+    handle->name[sizeof(handle->name)-1] = 0;
+
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Use IPD ports 0x840, 0x940, ... */
@@ -405,7 +409,6 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_xaui = {
-    .name = "XAUI",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

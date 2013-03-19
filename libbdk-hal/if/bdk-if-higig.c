@@ -29,7 +29,12 @@ static int if_num_ports(int interface)
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    return __bdk_if_ops_xaui.if_probe(handle);
+    int result = __bdk_if_ops_xaui.if_probe(handle);
+
+    /* Change name to be "HIGIG%d.%d" */
+    snprintf(handle->name, sizeof(handle->name), "HIGIG%d.%d", handle->interface, handle->index);
+    handle->name[sizeof(handle->name)-1] = 0;
+    return result;
 }
 
 static int if_init(bdk_if_handle_t handle)
@@ -134,7 +139,6 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_higig = {
-    .name = "HIGIG",
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,
