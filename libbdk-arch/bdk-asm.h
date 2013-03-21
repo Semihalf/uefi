@@ -39,6 +39,7 @@
 #define COP0_CONFIG2	$16,2	/* Misc config options */
 #define COP0_CONFIG3	$16,3	/* Misc config options */
 #define COP0_CONFIG4    $16,4   /* Misc config options (Octeon 2) */
+#define COP0_CVMMEMCTL2 $16,6   /* Cavium memory control (Octeon 3) */
 #define COP0_WATCHLO0	$18,0	/* Address watch registers */
 #define COP0_WATCHLO1	$18,1	/* Address watch registers */
 #define COP0_WATCHHI0	$19,0	/* Address watch registers */

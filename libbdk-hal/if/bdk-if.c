@@ -221,7 +221,7 @@ static int __bdk_if_init(void)
     /* Create dispatch threads */
     for (int core=0; core<bdk_octeon_num_cores(node); core++)
     {
-        if (bdk_thread_create(1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
+        if (bdk_thread_create(node, 1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
             bdk_error("Failed to create dispatch thread for core %d\n", core);
     }
 
@@ -645,7 +645,7 @@ static void bdk_if_dispatch_thread(int unused, void *unused2)
 
     while (1)
     {
-        if ((bdk_if_dispatch() == 0) && (bdk_get_core_num() == 0))
+        if ((bdk_if_dispatch() == 0) && bdk_is_boot_core())
         {
             /* Poll the link state */
             uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);

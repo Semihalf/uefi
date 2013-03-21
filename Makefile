@@ -42,7 +42,7 @@ suid: all
 
 .PHONY: run
 run:
-	$(SIMULATOR) target-bin/ipemainc_new.elf -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x1000000 -modes=fastboot,pass1 -uart0=2020 -noperf -quiet -serve=2000 -qlm_is_sgmii_mask=0x1 -qlm_is_xaui_mask=0x8 -qlm_is_ilk_mask=0x6 -trace=all
+	$(SIMULATOR) target-bin/ipemainc_new.elf -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x1000000 -modes=fastboot,pass1 -uart0=2020 -noperf -quiet -serve=2000 -qlm_is_sgmii_mask=0x1 -qlm_is_xaui_mask=0x8 -qlm_is_ilk_mask=0x6 -trace=all -numnodes=4
 
 .PHONY: run-min
 run-min:

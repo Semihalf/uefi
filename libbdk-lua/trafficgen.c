@@ -1029,7 +1029,7 @@ static int do_start(tg_port_t *tg_port)
     {
         tg_port->pinfo.setup.output_enable = 1;
         BDK_SYNCW;
-        bdk_thread_create(0, (bdk_thread_func_t)packet_transmitter, 0, tg_port, 0);
+        bdk_thread_create(tg_port->handle->node, 0, (bdk_thread_func_t)packet_transmitter, 0, tg_port, 0);
     }
     return 0;
 }

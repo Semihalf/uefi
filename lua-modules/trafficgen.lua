@@ -708,7 +708,7 @@ end
 printf(SCROLL_FULL .. GOTO_BOTTOM)
 printf("\n\nBDK Traffic Generator\n\n")
 printf("Type \"help\" for a list of commands\n")
-octeon.c.bdk_init_cores(0);
+octeon.c.bdk_init_nodes();
 local tg = TrafficGen.new()
 -- Allow the user to do some trafficgen specific customization. First argument
 -- is trafficgen, so the script can add/remove comamnds or modify trafficgen.

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static int64_t __bdk_alive_coremask;
+static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
 int __bdk_is_simulation;
 
 /**
@@ -15,6 +15,8 @@ int __bdk_is_simulation;
  */
 void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control)
 {
+    /* Convert virtual node ID to physical one  */
+    node = bdk_numa_id(node);
     /* Setup the UART */
     BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
         u.s.dlab = 1; /* Divisor Latch Address bit */
@@ -109,7 +111,7 @@ void __bdk_init(long base_address)
     /* Initialize async WQE area with no work */
     bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
 
-    if (bdk_get_core_num() == 0)
+    if (bdk_is_boot_core())
     {
         /* Initialize the is_simulation flag */
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
@@ -175,7 +177,7 @@ void __bdk_init(long base_address)
     status &= ~(1<<22); // Clear BEV
     BDK_MT_COP0(status, COP0_STATUS);
 
-    bdk_atomic_add64(&__bdk_alive_coremask, 1ull<<bdk_get_core_num());
+    bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 
@@ -183,9 +185,18 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
     extern void __bdk_reset_vector(void);
 
+    /* Convert virtual node ID to physical one  */
+    node = bdk_numa_id(node);
+
     /* Install reset vector */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
     const uint64_t *src = (const uint64_t *)__bdk_reset_vector;
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
@@ -198,7 +209,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         coremask = -1;
 
     /* Limit to the cores that aren't already running */
-    coremask &= ~__bdk_alive_coremask;
+    coremask &= ~__bdk_alive_coremask[node];
 
     /* Limit to the cores that are specified in configuration menu */
     uint64_t config_coremask = bdk_config_get(BDK_CONFIG_COREMASK);
@@ -221,17 +232,35 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 
     /* Wait up to 100us for the cores to boot */
     uint64_t timeout = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
-    while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask))
+    while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
         /* Tight spin */
     }
 
-    if ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask)
+    if ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask)
     {
-        bdk_error("Some cores failed to start. Alive mask 0x%lx, requested 0x%lx\n",
-            __bdk_alive_coremask, coremask);
+        bdk_error("Node %d: Some cores failed to start. Alive mask 0x%lx, requested 0x%lx\n",
+            node, __bdk_alive_coremask[node], coremask);
         return -1;
     }
 
     return 0;
 }
+
+/**
+ * Call this function to take secondary nodes and cores out of
+ * reset and have them start running threads
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_init_nodes(void)
+{
+    int result = 0;
+    for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
+    {
+        if ((1<<node) & bdk_numa_get_exists_mask())
+            result |= bdk_init_cores(node, 0);
+    }
+    return result;
+}
+

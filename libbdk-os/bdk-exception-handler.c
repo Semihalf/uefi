@@ -51,7 +51,7 @@ void __bdk_exception_handler(uint64_t saved_regs[34])
     printf("******************************************************************\n");
     BDK_MF_COP0(r, COP0_CAUSE);
     const char *str = cause_names[(r >> 2) & 0x1f];
-    printf("Core %d: Unhandled Exception. Cause register decodes to:\n%s\n", bdk_get_core_num(), str);
+    printf("Node %d, Core %d: Unhandled Exception. Cause register decodes to:\n%s\n", bdk_get_core_num() >> 7, bdk_get_core_num() & 0x7f, str);
     printf("******************************************************************\n");
     for (reg=0; reg<16; reg++)
     {

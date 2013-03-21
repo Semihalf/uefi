@@ -7,6 +7,7 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
+#define BDK_NUMA_MAX_NODES 4
 typedef enum
 {
     BDK_NODE_MASTER = -2,
@@ -45,7 +46,10 @@ static inline uint64_t bdk_numa_get_running_mask(void)
 
 static inline uint64_t bdk_numa_get_exists_mask(void)
 {
-    return 0x1; /* FIXME: Detect numa nodes */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        return 0xf; /* FIXME: Detect numa nodes */
+    else
+        return 0x1;
 }
 
 

@@ -78,7 +78,7 @@ void __bdk_init_main(int arg, void *arg1)
 
     __bdk_init_cop0();
 
-    if (bdk_get_core_num() == 0)
+    if (bdk_is_boot_core())
     {
         if (BDK_SHOW_BOOT_BANNERS)
             printf("Performing common initialization\n");
@@ -125,15 +125,15 @@ void __bdk_init_main(int arg, void *arg1)
     /* Core 0 start main as another thread. We create a new thread so that
         the coremask will allow all cores in case the application
         goes multicore later */
-    if (bdk_get_core_num() == 0)
+    if (bdk_is_boot_core())
     {
         extern int main(int argc, const char *argv);
         if (BDK_SHOW_BOOT_BANNERS)
             printf("Switching to main\n");
-        if (bdk_thread_create(0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
+        if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
         if (&bdk_error_check && bdk_error_check)
-            if (bdk_thread_create(0, __bdk_error_poll, 0, NULL, 0))
+            if (bdk_thread_create(node, 0, __bdk_error_poll, 0, NULL, 0))
                 bdk_fatal("Create of error poll thread failed\n");
 
         /* The following code doesn't do anything useful. It forces a link

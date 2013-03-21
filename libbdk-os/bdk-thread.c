@@ -16,9 +16,15 @@ typedef struct bdk_thread
     uint64_t    stack[0];
 } bdk_thread_t;
 
-static bdk_thread_t*    bdk_thread_head;
-static bdk_thread_t*    bdk_thread_tail;
-static bdk_spinlock_t   bdk_thread_lock;
+typedef struct
+{
+    bdk_thread_t*    head;
+    bdk_thread_t*    tail;
+    bdk_spinlock_t   lock;
+    uint64_t         __padding[16-3];
+} bdk_thread_node_t;
+
+static bdk_thread_node_t bdk_thread_node[BDK_NUMA_MAX_NODES];
 
 extern void __bdk_thread_switch(void* next_context, int delete_old);
 
@@ -43,18 +49,17 @@ static void __bdk_thread_body(bdk_thread_func_t func, int arg0, void *arg1)
  */
 int bdk_thread_initialize(void)
 {
-    bdk_thread_head = NULL;
-    bdk_thread_tail = NULL;
-    bdk_spinlock_init(&bdk_thread_lock);
+    bdk_zero_memory(bdk_thread_node, sizeof(bdk_thread_node));
     return 0;
 }
 
 static bdk_thread_t *__bdk_thread_next(void)
 {
-    uint64_t coremask = 1ull << bdk_get_core_num();
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
+    uint64_t coremask = bdk_core_to_mask();
 
     bdk_thread_t *prev = NULL;
-    bdk_thread_t *next = bdk_thread_head;
+    bdk_thread_t *next = t_node->head;
     while (next && !(next->coremask & coremask))
     {
         prev = next;
@@ -63,12 +68,12 @@ static bdk_thread_t *__bdk_thread_next(void)
 
     if (next)
     {
-        if (bdk_thread_tail == next)
-            bdk_thread_tail = prev;
+        if (t_node->tail == next)
+            t_node->tail = prev;
         if (prev)
             prev->next = next->next;
         else
-            bdk_thread_head = next->next;
+            t_node->head = next->next;
         next->next = NULL;
     }
     return next;
@@ -79,6 +84,7 @@ static bdk_thread_t *__bdk_thread_next(void)
  */
 void bdk_thread_yield(void)
 {
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
@@ -88,10 +94,10 @@ void bdk_thread_yield(void)
     if (bdk_unlikely(current->stack_canary != STACK_CANARY))
         bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
-    if (bdk_thread_head == NULL)
+    if (t_node->head == NULL)
         return;
 
-    bdk_spinlock_lock(&bdk_thread_lock);
+    bdk_spinlock_lock(&t_node->lock);
 
     /* Find the first thread that can run on this core */
     bdk_thread_t *next = __bdk_thread_next();
@@ -104,7 +110,7 @@ void bdk_thread_yield(void)
         /* Unlock performed in __bdk_thread_switch_complete */
         return;
     }
-    bdk_spinlock_unlock(&bdk_thread_lock);
+    bdk_spinlock_unlock(&t_node->lock);
 }
 
 
@@ -157,6 +163,8 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
  * not start executing until the next yield call if all cores in
  * the coremask are currently busy.
  *
+ * @param node       Node to use in a Numa setup. Can be an exact ID or a
+ *                   special value.
  * @param coremask   Mask of cores the thread can run on. Each set bit is an allowed
  *                   core. Zero and -1 are both shortcuts for all cores.
  * @param func       Function to run as a thread
@@ -166,19 +174,20 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
  *
  * @return Zero on success, negative on failure
  */
-int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
+int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
     bdk_thread_t *thread = __bdk_thread_create(coremask, func, arg0, arg1, stack_size);
     if (thread == NULL)
         return -1;
 
-    bdk_spinlock_lock(&bdk_thread_lock);
-    if (bdk_thread_tail)
-        bdk_thread_tail->next = thread;
+    bdk_spinlock_lock(&t_node->lock);
+    if (t_node->tail)
+        t_node->tail->next = thread;
     else
-        bdk_thread_head = thread;
-    bdk_thread_tail = thread;
-    bdk_spinlock_unlock(&bdk_thread_lock);
+        t_node->head = thread;
+    t_node->tail = thread;
+    bdk_spinlock_unlock(&t_node->lock);
     return 0;
 }
 
@@ -188,6 +197,7 @@ int bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void 
  */
 void bdk_thread_destroy(void)
 {
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
     static int dead_cores = 0;
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
@@ -198,9 +208,9 @@ void bdk_thread_destroy(void)
     bdk_atomic_add32(&dead_cores, 1);
     while (1)
     {
-        if (bdk_thread_head)
+        if (t_node->head)
         {
-            bdk_spinlock_lock(&bdk_thread_lock);
+            bdk_spinlock_lock(&t_node->lock);
             /* Find the first thread that can run on this core */
             bdk_thread_t *next = __bdk_thread_next();
 
@@ -212,7 +222,7 @@ void bdk_thread_destroy(void)
                 __bdk_thread_switch(next, !!current);
                 bdk_fatal("bdk_thread_destroy() should never get here\n");
             }
-            bdk_spinlock_unlock(&bdk_thread_lock);
+            bdk_spinlock_unlock(&t_node->lock);
         }
         BDK_ASM_PAUSE;
         if (bdk_atomic_get32(&dead_cores) == bdk_octeon_num_cores(BDK_NODE_LOCAL))
@@ -232,22 +242,23 @@ struct _reent *__bdk_thread_getreent(void)
 
 void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
 {
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
     if (bdk_unlikely(delete_old))
     {
-        bdk_spinlock_unlock(&bdk_thread_lock);
+        bdk_spinlock_unlock(&t_node->lock);
         free(old_context);
     }
     else
     {
         if (bdk_likely(old_context))
         {
-            if (bdk_thread_tail)
-                bdk_thread_tail->next = old_context;
+            if (t_node->tail)
+                t_node->tail->next = old_context;
             else
-                bdk_thread_head = old_context;
-            bdk_thread_tail = old_context;
+                t_node->head = old_context;
+            t_node->tail = old_context;
         }
-        bdk_spinlock_unlock(&bdk_thread_lock);
+        bdk_spinlock_unlock(&t_node->lock);
     }
 }
 
@@ -264,10 +275,11 @@ void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
  */
 void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
-    void *thread = __bdk_thread_create(1ull<<bdk_get_core_num(), func, arg0, arg1, stack_size);
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
+    void *thread = __bdk_thread_create(bdk_core_to_mask(), func, arg0, arg1, stack_size);
     if (thread)
     {
-        bdk_spinlock_lock(&bdk_thread_lock);
+        bdk_spinlock_lock(&t_node->lock);
         __bdk_thread_switch(thread, 0);
     }
     bdk_fatal("Create of __bdk_init_main thread failed\n");

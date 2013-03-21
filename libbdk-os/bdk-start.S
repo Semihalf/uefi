@@ -324,9 +324,19 @@ after_relocate:
     .set noreorder
     .align 3
 __bdk_reset_vector:
-    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
+    dmfc0   k0, COP0_PRID   /* Read Processor ID and only clear KSEGNODE on chips that support it  */
+    li      k1, 0xffff00    /* AND off upper bits and revision bits */
+    and     k0, k1
+    li      k1, 0x0d9500    /* CN78XX CPU Processor ID */
+    bne     k0, k1, 1f      /* Branch if not CN78XX */
+     li     k1, 0xf<<12     /* Mask for clearing KSEGNODE */
+    dmfc0   k0, COP0_CVMMEMCTL2
+    not     k1
+    and     k0, k1          /* Clear KSEGNODE */
+    dmtc0   k0, COP0_CVMMEMCTL2
+1:  bgezal  $0, 2f          /* Jump to label, saving our PC in RA */
      nop
-1:  ld      k0, 16(ra)
+2:  ld      k0, 16(ra)
     nop
     j       k0
      nop
