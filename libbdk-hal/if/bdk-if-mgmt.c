@@ -41,7 +41,7 @@ typedef struct
  *
  * @return One for all current chips
  */
-static int if_num_interfaces(void)
+static int if_num_interfaces(bdk_node_t node)
 {
     return 1;
 }
@@ -54,7 +54,7 @@ static int if_num_interfaces(void)
  *
  * @return Number of ports
  */
-static int if_num_ports(int interface)
+static int if_num_ports(bdk_node_t node, int interface)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
@@ -116,19 +116,19 @@ static int if_init(bdk_if_handle_t handle)
     else if (phy_id != -1)
     {
         bdk_mdio_phy_reg_status_t phy_status;
-        phy_status.u16 = bdk_mdio_read(phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
+        phy_status.u16 = bdk_mdio_read(handle->node, phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
         state->is_rgmii = (phy_status.s.capable_extended_status == 1);
     }
     else
         state->is_rgmii = 1;
 
     /* Reset the MIX block if it is already running. */
-    BDK_CSR_INIT(mix_ctl, BDK_MIXX_CTL(handle->index));
+    BDK_CSR_INIT(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index));
     if (!mix_ctl.s.reset)
     {
         mix_ctl.s.en = 0;
-        BDK_CSR_WRITE(BDK_MIXX_CTL(handle->index), mix_ctl.u64);
-        if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIXX_CTL(handle->index), busy, ==, 0, 1000000))
+        BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), busy, ==, 0, 1000000))
         {
             bdk_error("Timeout waiting for MIX idle\n");
             free(handle->priv);
@@ -136,25 +136,25 @@ static int if_init(bdk_if_handle_t handle)
             return -1;
         }
         mix_ctl.s.reset = 1;
-        BDK_CSR_WRITE(BDK_MIXX_CTL(handle->index), mix_ctl.u64);
-        BDK_CSR_READ(BDK_MIXX_CTL(handle->index));
+        BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
+        BDK_CSR_READ(handle->node, BDK_MIXX_CTL(handle->index));
     }
 
     /* Make sure BIST passed */
-    BDK_CSR_INIT(mix_bist, BDK_MIXX_BIST(handle->index));
+    BDK_CSR_INIT(mix_bist, handle->node, BDK_MIXX_BIST(handle->index));
     if (mix_bist.u64)
         bdk_warn("Management port MIX failed BIST (0x%016lx)\n", mix_bist.u64);
 
-    BDK_CSR_INIT(agl_gmx_bist, BDK_AGL_GMX_BIST);
+    BDK_CSR_INIT(agl_gmx_bist, handle->node, BDK_AGL_GMX_BIST);
     if (agl_gmx_bist.u64)
         bdk_warn("Management port AGL failed BIST (0x%016lx)\n", agl_gmx_bist.u64);
 
     /* Take the control logic out of reset */
-    BDK_CSR_MODIFY(mix_ctl, BDK_MIXX_CTL(handle->index),
+    BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
         mix_ctl.s.reset = 0);
 
     /* Read until reset == 0.  Timeout should never happen... */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIXX_CTL(handle->index), reset, ==, 0, 1000000))
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), reset, ==, 0, 1000000))
     {
         bdk_error("Timeout waiting for MIX reset.\n");
         return -1;
@@ -162,74 +162,74 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Tell the HW where the TX ring is */
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_MODIFY(oring1, BDK_MIXX_ORING1(handle->index),
+        BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
             oring1.cn78xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
             oring1.cn78xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
     else
-        BDK_CSR_MODIFY(oring1, BDK_MIXX_ORING1(handle->index),
+        BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
             oring1.cn68xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
             oring1.cn68xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
 
     /* Setup the RX ring */
     for (int i=0; i<MGMT_PORT_NUM_RX_BUFFERS; i++)
     {
-        void *fpa = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
+        void *fpa = bdk_fpa_alloc(handle->node, BDK_FPA_PACKET_POOL);
         if (!fpa)
         {
             bdk_error("Failed to allocate buffer.\n");
             return -1;
         }
-        state->rx_ring[i].s.len = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+        state->rx_ring[i].s.len = bdk_fpa_get_block_size(handle->node, BDK_FPA_PACKET_POOL);
         state->rx_ring[i].s.addr = bdk_ptr_to_phys(fpa);
     }
     BDK_SYNCW;
 
     /* Tell the HW where the RX ring is */
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_MODIFY(iring1, BDK_MIXX_IRING1(handle->index),
+        BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
             iring1.cn78xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
             iring1.cn78xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
     else
-        BDK_CSR_MODIFY(iring1, BDK_MIXX_IRING1(handle->index),
+        BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
             iring1.cn68xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
             iring1.cn68xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
-    BDK_CSR_WRITE(BDK_MIXX_IRING2(handle->index), MGMT_PORT_NUM_RX_BUFFERS);
+    BDK_CSR_WRITE(handle->node, BDK_MIXX_IRING2(handle->index), MGMT_PORT_NUM_RX_BUFFERS);
 
     /* Disable the external input/output */
-    BDK_CSR_MODIFY(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index),
+    BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
         agl_gmx_prtx.s.en = 0);
 
     /* Set the max incomming packet size */
-    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_FRM_MAX(handle->index), 16384 + 4 - 1);
-    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_JABBER(handle->index), 16384 + 8);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_FRM_MAX(handle->index), 16384 + 4 - 1);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_JABBER(handle->index), 16384 + 8);
 
     /* Enable the port HW. Packets are not allowed until bdk_mgmt_port_enable() is called */
-    BDK_CSR_MODIFY(mix_ctl, BDK_MIXX_CTL(handle->index),
+    BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
         mix_ctl.s.crc_strip = 0;    /* Don't strip the ending CRC */
         mix_ctl.s.en = 1;           /* Enable the port */
         mix_ctl.s.nbtarb = 0;       /* Arbitration mode */
         mix_ctl.s.mrq_hwm = 1);     /* MII CB-request FIFO programmable high watermark */
 
     /* Select the mode of operation for the interface. */
-    BDK_CSR_MODIFY(agl_prtx_ctl, BDK_AGL_PRTX_CTL(handle->index),
+    BDK_CSR_MODIFY(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index),
         agl_prtx_ctl.s.mode = !state->is_rgmii);
 
     /* MII clocks counts are based on the 125Mhz reference, so our
         delays need to be scaled to match the core clock rate. The
         "+1" is to make sure rounding always waits a little too
         long. */
-    uint64_t clock_scale = bdk_clock_get_rate(BDK_CLOCK_CORE) / 125000000 + 1;
+    uint64_t clock_scale = bdk_clock_get_rate(handle->node, BDK_CLOCK_CORE) / 125000000 + 1;
 
     /* Take the DLL and clock tree out of reset */
-    BDK_CSR_INIT(agl_prtx_ctl, BDK_AGL_PRTX_CTL(handle->index));
+    BDK_CSR_INIT(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index));
     agl_prtx_ctl.s.clkrst = 0;
     if (state->is_rgmii) // RGMII Initialization
     {
         agl_prtx_ctl.s.dllrst = 0;
         agl_prtx_ctl.s.clktx_byp = 0;
     }
-    BDK_CSR_WRITE(BDK_AGL_PRTX_CTL(handle->index), agl_prtx_ctl.u64);
-    BDK_CSR_READ(BDK_AGL_PRTX_CTL(handle->index));  /* Force write out before wait */
+    BDK_CSR_WRITE(handle->node, BDK_AGL_PRTX_CTL(handle->index), agl_prtx_ctl.u64);
+    BDK_CSR_READ(handle->node, BDK_AGL_PRTX_CTL(handle->index));  /* Force write out before wait */
 
     /* Wait for the DLL to lock.  External 125 MHz reference clock must be stable at this point. */
     bdk_wait(256 * clock_scale);
@@ -237,18 +237,18 @@ static int if_init(bdk_if_handle_t handle)
     /* The rest of the config is common between RGMII/MII */
 
     /* Enable the interface */
-    BDK_CSR_MODIFY(agl_prtx_ctl, BDK_AGL_PRTX_CTL(handle->index),
+    BDK_CSR_MODIFY(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index),
         agl_prtx_ctl.s.enable = 1);
 
     /* Read the value back to force the previous write */
     /* Enable the componsation controller */
-    BDK_CSR_MODIFY(agl_prtx_ctl, BDK_AGL_PRTX_CTL(handle->index),
+    BDK_CSR_MODIFY(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index),
         agl_prtx_ctl.s.comp = 1;
         agl_prtx_ctl.s.drv_byp = 0);
 
     /* Clear stats on read */
-    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_STATS_CTL(handle->index), 1);
-    BDK_CSR_WRITE(BDK_AGL_GMX_TXX_STATS_CTL(handle->index), 1);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_STATS_CTL(handle->index), 1);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_TXX_STATS_CTL(handle->index), 1);
 
     return 0;
 }
@@ -264,7 +264,7 @@ static int if_init(bdk_if_handle_t handle)
 static int if_enable(bdk_if_handle_t handle)
 {
     /* Return immediately if the port is already enabled */
-    BDK_CSR_INIT(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index));
+    BDK_CSR_INIT(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index));
     if (agl_gmx_prtx.s.en)
         return 0;
 
@@ -280,8 +280,8 @@ static int if_enable(bdk_if_handle_t handle)
     rxx_frm_ctl.s.ctl_drp = 1;  /* Drop Control Pause Frames */
     rxx_frm_ctl.s.pre_strp = 1; /* Strip off the preamble */
     rxx_frm_ctl.s.pre_chk = 1;  /* This port is configured to send PREAMBLE+SFD to begin every frame.  GMX checks that the PREAMBLE is sent correctly */
-    BDK_CSR_WRITE(BDK_AGL_GMX_RXX_FRM_CTL(handle->index), rxx_frm_ctl.u64);
-    BDK_CSR_MODIFY(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index),
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_FRM_CTL(handle->index), rxx_frm_ctl.u64);
+    BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
         agl_gmx_prtx.s.en = 1);
 
     return 0;
@@ -297,7 +297,7 @@ static int if_enable(bdk_if_handle_t handle)
  */
 static int if_disable(bdk_if_handle_t handle)
 {
-    BDK_CSR_MODIFY(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index),
+    BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
         agl_gmx_prtx.s.en = 0);
     return 0;
 }
@@ -339,20 +339,20 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
     mgmt_port_state_t *state = handle->priv;
     /* Disable GMX before we make any changes. */
-    BDK_CSR_MODIFY(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index),
+    BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
         agl_gmx_prtx.s.en = 0;
         agl_gmx_prtx.s.tx_en = 0;
         agl_gmx_prtx.s.rx_en = 0);
 
     /* Wait for GMX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(handle->index), rx_idle, ==, 1, 10000)
-        || BDK_CSR_WAIT_FOR_FIELD(BDK_AGL_GMX_PRTX_CFG(handle->index), tx_idle, ==, 1, 10000))
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), rx_idle, ==, 1, 10000)
+        || BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), tx_idle, ==, 1, 10000))
     {
         bdk_dprintf("MIX%d: Timeout waiting for GMX to be idle\n", handle->index);
         return;
     }
 
-    BDK_CSR_INIT(agl_gmx_prtx, BDK_AGL_GMX_PRTX_CFG(handle->index));
+    BDK_CSR_INIT(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index));
 
     /* Set duplex mode */
     if (!link_info.s.up)
@@ -371,7 +371,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
                 we must program the inter frame gap. Note this might cause
                 issues if there are two MGMT ports configured for different
                 speeds */
-            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+            BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_TX_IFG,
                 c.s.ifg1 = 14;
                 c.s.ifg2 = 10);
          break;
@@ -385,7 +385,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
                 we must program the inter frame gap. Note this might cause
                 issues if there are two MGMT ports configured for different
                 speeds */
-            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+            BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_TX_IFG,
                 c.s.ifg1 = 14;
                 c.s.ifg2 = 10);
             break;
@@ -400,7 +400,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
                 we must program the inter frame gap. Note this might cause
                 issues if there are two MGMT ports configured for different
                 speeds */
-            BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_IFG,
+            BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_TX_IFG,
                 c.s.ifg1 = 8;
                 c.s.ifg2 = 4);
             break;
@@ -412,12 +412,12 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     }
 
     /* Write the new GMX setting with the port still disabled. */
-    BDK_CSR_WRITE(BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
 
     /* Read GMX CFG again to make sure the config is completed. */
-    agl_gmx_prtx.u64 = BDK_CSR_READ(BDK_AGL_GMX_PRTX_CFG(handle->index));
+    agl_gmx_prtx.u64 = BDK_CSR_READ(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index));
 
-    BDK_CSR_INIT(agl_clk, BDK_AGL_GMX_TXX_CLK(handle->index));
+    BDK_CSR_INIT(agl_clk, handle->node, BDK_AGL_GMX_TXX_CLK(handle->index));
     agl_clk.s.clk_cnt = 1;    /* MII (both speeds) and RGMII 1000 setting */
     if (state->is_rgmii)
     {
@@ -426,27 +426,27 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
         else if (link_info.s.speed == 100)
             agl_clk.s.clk_cnt = 5;
     }
-    BDK_CSR_WRITE(BDK_AGL_GMX_TXX_CLK(handle->index), agl_clk.u64);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_TXX_CLK(handle->index), agl_clk.u64);
 
     /* Enable transmit and receive ports */
     agl_gmx_prtx.s.tx_en = 1;
     agl_gmx_prtx.s.rx_en = 1;
-    BDK_CSR_WRITE(BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
 
     /* Enable the link. */
     agl_gmx_prtx.s.en = 1;
-    BDK_CSR_WRITE(BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
+    BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
 
     /* Enable error reporting */
-    BDK_CSR_MODIFY(c, BDK_AGL_GMX_RXX_INT_EN(handle->index),
+    BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_RXX_INT_EN(handle->index),
         c.s.ovrerr = -1;
         c.s.skperr = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_AGL_GMX_TX_INT_EN,
+    BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_TX_INT_EN,
         c.s.pko_nxa = -1;
         c.s.undflw = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_MIXX_INTENA(handle->index),
+    BDK_CSR_MODIFY(c, handle->node, BDK_MIXX_INTENA(handle->index),
         c.s.data_drpena = -1;
         c.s.ivfena = -1;
         c.s.irunena = -1;
@@ -465,11 +465,11 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
-    BDK_CSR_INIT(pkts_drp, BDK_AGL_GMX_RXX_STATS_PKTS_DRP(handle->index));
-    BDK_CSR_INIT(octs_drp, BDK_AGL_GMX_RXX_STATS_OCTS_DRP(handle->index));
-    BDK_CSR_INIT(pkts, BDK_AGL_GMX_RXX_STATS_PKTS(handle->index));
-    BDK_CSR_INIT(octs, BDK_AGL_GMX_RXX_STATS_OCTS(handle->index));
-    BDK_CSR_INIT(pkts_bad, BDK_AGL_GMX_RXX_STATS_PKTS_BAD(handle->index));
+    BDK_CSR_INIT(pkts_drp, handle->node, BDK_AGL_GMX_RXX_STATS_PKTS_DRP(handle->index));
+    BDK_CSR_INIT(octs_drp, handle->node, BDK_AGL_GMX_RXX_STATS_OCTS_DRP(handle->index));
+    BDK_CSR_INIT(pkts, handle->node, BDK_AGL_GMX_RXX_STATS_PKTS(handle->index));
+    BDK_CSR_INIT(octs, handle->node, BDK_AGL_GMX_RXX_STATS_OCTS(handle->index));
+    BDK_CSR_INIT(pkts_bad, handle->node, BDK_AGL_GMX_RXX_STATS_PKTS_BAD(handle->index));
 
     handle->stats.rx.dropped_octets += octs_drp.s.cnt;
     handle->stats.rx.dropped_packets += pkts_drp.s.cnt;
@@ -477,9 +477,9 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.packets += pkts.s.cnt;
     handle->stats.rx.errors += pkts_bad.s.cnt;
 
-    BDK_CSR_INIT(stat2, BDK_AGL_GMX_TXX_STAT2(handle->index));
-    BDK_CSR_INIT(stat3, BDK_AGL_GMX_TXX_STAT3(handle->index));
-    BDK_CSR_INIT(stat9, BDK_AGL_GMX_TXX_STAT9(handle->index));
+    BDK_CSR_INIT(stat2, handle->node, BDK_AGL_GMX_TXX_STAT2(handle->index));
+    BDK_CSR_INIT(stat3, handle->node, BDK_AGL_GMX_TXX_STAT3(handle->index));
+    BDK_CSR_INIT(stat9, handle->node, BDK_AGL_GMX_TXX_STAT9(handle->index));
 
     handle->stats.tx.octets += stat2.s.octs - stat9.s.ctl*64;
     handle->stats.tx.packets += stat3.s.pkts - stat9.s.ctl;
@@ -496,7 +496,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 static void poll_tx_complete(bdk_if_handle_t handle)
 {
     mgmt_port_state_t *state = handle->priv;
-    int orcnt = BDK_CSR_READ(BDK_MIXX_ORCNT(handle->index));
+    int orcnt = BDK_CSR_READ(handle->node, BDK_MIXX_ORCNT(handle->index));
     int to_free = orcnt;
 
     BDK_SYNCW;
@@ -505,7 +505,7 @@ static void poll_tx_complete(bdk_if_handle_t handle)
         int tfi = state->tx_free_index;
         if (state->tx_buf[tfi].v1.i == 0)
         {
-            __bdk_fpa_raw_free(state->tx_buf[tfi].v1.addr - state->tx_buf[tfi].v1.back*128,
+            __bdk_fpa_raw_free(handle->node, state->tx_buf[tfi].v1.addr - state->tx_buf[tfi].v1.back*128,
                 state->tx_buf[tfi].v1.pool, 0);
         }
         state->tx_ring[tfi].u64 = 0;
@@ -515,7 +515,7 @@ static void poll_tx_complete(bdk_if_handle_t handle)
     BDK_SYNCW;
 
     if (orcnt)
-        BDK_CSR_WRITE(BDK_MIXX_ORCNT(handle->index), orcnt);
+        BDK_CSR_WRITE(handle->node, BDK_MIXX_ORCNT(handle->index), orcnt);
 }
 
 
@@ -547,7 +547,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     poll_tx_complete(handle);
 
-    BDK_CSR_INIT(mix_oring2, BDK_MIXX_ORING2(handle->index));
+    BDK_CSR_INIT(mix_oring2, handle->node, BDK_MIXX_ORING2(handle->index));
     if (bdk_unlikely(mix_oring2.s.odbell >= MGMT_PORT_NUM_TX_BUFFERS - 1))
     {
         /* No room for another packet */
@@ -564,7 +564,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     state->tx_write_index = (twi + 1) % MGMT_PORT_NUM_TX_BUFFERS;
     /* Ring the doorbell, sending the packet */
     BDK_SYNCW;
-    BDK_CSR_WRITE(BDK_MIXX_ORING2(handle->index), 1);
+    BDK_CSR_WRITE(handle->node, BDK_MIXX_ORING2(handle->index), 1);
 
     bdk_spinlock_unlock(&state->tx_lock);
     return 0;
@@ -583,17 +583,17 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
     /* Find out how many RX packets are pending. As an optimization we
         check this before getting the lock */
-    BDK_CSR_INIT(mix_ircnt, BDK_MIXX_IRCNT(handle->index));
+    BDK_CSR_INIT(mix_ircnt, handle->node, BDK_MIXX_IRCNT(handle->index));
     if (mix_ircnt.s.ircnt == 0)
         return -1;
 
-    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    const int FPA_SIZE = bdk_fpa_get_block_size(handle->node, BDK_FPA_PACKET_POOL);
     mgmt_port_state_t *state = handle->priv;
 
     bdk_spinlock_lock(&state->rx_lock);
 
     /* Find out how many RX packets are pending now that we have the lock */
-    mix_ircnt.u64 = BDK_CSR_READ(BDK_MIXX_IRCNT(handle->index));
+    mix_ircnt.u64 = BDK_CSR_READ(handle->node, BDK_MIXX_IRCNT(handle->index));
     if (mix_ircnt.s.ircnt == 0)
     {
         bdk_spinlock_unlock(&state->rx_lock);
@@ -628,7 +628,7 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
         /* Update this buffer for reuse in future receives. This size is
             -8 as we need space for buffer chains */
-        void *newbuf = bdk_fpa_alloc(BDK_FPA_PACKET_POOL);
+        void *newbuf = bdk_fpa_alloc(handle->node, BDK_FPA_PACKET_POOL);
         if (newbuf == NULL)
         {
             bdk_error("Failed to allocate buffer for management port\n");
@@ -644,9 +644,9 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     BDK_SYNCW;
     /* Increment the number of RX buffers */
-    BDK_CSR_WRITE(BDK_MIXX_IRING2(handle->index), buffers_freed);
+    BDK_CSR_WRITE(handle->node, BDK_MIXX_IRING2(handle->index), buffers_freed);
     /* Decrement the pending RX count */
-    BDK_CSR_WRITE(BDK_MIXX_IRCNT(handle->index), 1);
+    BDK_CSR_WRITE(handle->node, BDK_MIXX_IRCNT(handle->index), 1);
     bdk_spinlock_unlock(&state->rx_lock);
     return 0;
 }

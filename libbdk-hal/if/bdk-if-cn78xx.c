@@ -27,14 +27,14 @@ static int pko_next_free_descr_queue = 0; /* L6 = Descriptor Queues 0-1023 */
  *
  * @return Zero on success, negative on failure
  */
-static int pki_global_init(void)
+static int pki_global_init(bdk_node_t node)
 {
     bdk_zero_memory(__bdk_if_ipd_map, sizeof(__bdk_if_ipd_map));
 
     /* Setup all Auras to support backpressure */
     for (int aura=0; aura<1024; aura++)
     {
-        BDK_CSR_MODIFY(c, BDK_PKI_AURAX_CFG(aura),
+        BDK_CSR_MODIFY(c, node, BDK_PKI_AURAX_CFG(aura),
             c.s.pkt_add = 2; /* Actual number of buffers allocated */
             c.s.ena_red = 1; /* Enable RED */
             c.s.ena_drop = 1; /* Enable drop */
@@ -47,25 +47,25 @@ static int pki_global_init(void)
         for (int pknd=0; pknd<64; pknd++)
         {
             /* Set all PKNDS to be the correct SSO tag type */
-            BDK_CSR_MODIFY(c, BDK_PKI_CLX_STYLEX_ALG_2(cluster, pknd),
+            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_STYLEX_ALG_2(cluster, pknd),
                 c.s.tt = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE));
             /* Set all PKNDS to use style of same number */
-            BDK_CSR_MODIFY(c, BDK_PKI_CLX_PKINDX_STYLE_2(cluster, pknd),
+            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_PKINDX_STYLE_2(cluster, pknd),
                 c.s.pm = 0;
                 c.s.style = pknd);
         }
     }
     /* Allow PKI to parse Higig headers. The BDK currently doesn't use
         any other parsing */
-    BDK_CSR_MODIFY(c, BDK_PKI_GBL_PEN,
+    BDK_CSR_MODIFY(c, node, BDK_PKI_GBL_PEN,
         c.s.hg_pen = 1);
     /* Put all clusters in same cluster group */
-    BDK_CSR_MODIFY(c, BDK_PKI_ICGX_CFG(0),
+    BDK_CSR_MODIFY(c, node, BDK_PKI_ICGX_CFG(0),
         c.s.clusters = 0xf);
     /* Set how the styles buffer to memory */
     for (int style=0; style<64; style++)
     {
-        BDK_CSR_MODIFY(c, BDK_PKI_STYLEX_BUF(style),
+        BDK_CSR_MODIFY(c, node, BDK_PKI_STYLEX_BUF(style),
             c.s.pkt_lend = 0; /* Use big endian */
             c.s.wqe_hsz = 0; /* WQE uses word 0..4 */
             c.s.wqe_skip = 0; /* WQE starts at beginning of buffer */
@@ -75,9 +75,9 @@ static int pki_global_init(void)
             c.s.dis_wq_dat = 0; /* Packet follows WQE */
             c.s.mb_size = bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0)/8);
         /* OR bits for WQE word 2 */
-        BDK_CSR_WRITE(BDK_PKI_STYLEX_WQ2(style), 0);
+        BDK_CSR_WRITE(node, BDK_PKI_STYLEX_WQ2(style), 0);
         /* OR bits for WQE word 4 */
-        BDK_CSR_WRITE(BDK_PKI_STYLEX_WQ4(style), 0);
+        BDK_CSR_WRITE(node, BDK_PKI_STYLEX_WQ4(style), 0);
     }
     return 0;
 }
@@ -106,7 +106,7 @@ static int pki_port_init(bdk_if_handle_t handle)
     }
 
     /* FIXME: How many buffers should be given to each aura? */
-    int aura = bdk_fpa_init_aura(-1, BDK_FPA_PACKET_POOL, 1024);
+    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, 1024);
     if (aura < 0)
         return -1;
     handle->aura = aura;
@@ -123,7 +123,7 @@ static int pki_port_init(bdk_if_handle_t handle)
 
     /* Set PKI to use the right backpressure id for this port. We use
         a 1:1 mapping between aura and bpid */
-    BDK_CSR_MODIFY(c, BDK_PKI_CHANX_CFG(handle->ipd_port),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CHANX_CFG(handle->ipd_port),
         c.s.bpid = handle->aura);
     /* Setup all PKI clusters */
     for (int cluster=0; cluster<4; cluster++)
@@ -133,7 +133,7 @@ static int pki_port_init(bdk_if_handle_t handle)
         int qpg_base = qpg - handle->index;
         int style = handle->pknd;
         /* Configure PKI style */
-        BDK_CSR_MODIFY(c, BDK_PKI_CLX_STYLEX_CFG_2(cluster, style),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG_2(cluster, style),
             c.s.lenerr_en = 0; /* Don't check L2 length */
             c.s.fcs_strip = 0; /* Don't strip FCS */
             c.s.fcs_chk = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;
@@ -142,16 +142,16 @@ static int pki_port_init(bdk_if_handle_t handle)
             c.s.qpg_dis_aura = 0; /* Use QPG for aura */
             c.s.qpg_base = qpg_base); /* Base for QPG */
         /* FIXME: Tell PKI to compute checksum */
-        BDK_CSR_MODIFY(c, BDK_PKI_CLX_STYLEX_CFG2_2(cluster, style),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG2_2(cluster, style),
             c.s.csum_lb = 0);
     }
     /* Tell PKI to use cluster group 0 for this PKND */
-    BDK_CSR_MODIFY(c, BDK_PKI_PKINDX_ICGSEL(handle->pknd),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKI_PKINDX_ICGSEL(handle->pknd),
         c.s.icg = 0);
     /* Round robbin through groups */
     int wqe_grp = next_wqe_grp;
     next_wqe_grp = (next_wqe_grp+1) & 255;
-    BDK_CSR_MODIFY(c, BDK_PKI_QPG_TBLX(qpg),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKI_QPG_TBLX(qpg),
         c.s.padd = 0; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
         c.s.grp_bad = wqe_grp; /* Set WQE[GRP] */
@@ -169,13 +169,13 @@ static int pki_port_init(bdk_if_handle_t handle)
  *
  * @return Zero on success, negative on failure
  */
-static int pki_enable(void)
+static int pki_enable(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_PKI_BUF_CTL,
+    BDK_CSR_MODIFY(c, node, BDK_PKI_BUF_CTL,
         c.s.pbp_en = 1; /* Enable backpressure */
         c.s.pki_en = 1); /* Enable PKI */
     /* Enable cluster group 0 */
-    BDK_CSR_MODIFY(c, BDK_PKI_ICGX_CFG(0),
+    BDK_CSR_MODIFY(c, node, BDK_PKI_ICGX_CFG(0),
         c.s.pena = 1);
     return 0;
 }
@@ -185,9 +185,9 @@ static int pki_enable(void)
  *
  * @return Zero on success, negative on failure
  */
-static int pko_global_init(void)
+static int pko_global_init(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_PKO_PTF_IOBP_CFG,
+    BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
         c.s.max_read_size = 72);
     return 0;
 }
@@ -200,7 +200,7 @@ static int pko_global_init(void)
  *
  * @return Fifo number of negative on failure
  */
-int __bdk_pko_allocate_fifo(int lmac, int size)
+int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
 {
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
@@ -227,7 +227,7 @@ int __bdk_pko_allocate_fifo(int lmac, int size)
     }
     /* Program the PKO fifo */
     int index = fifo >> 2;
-    BDK_CSR_INIT(cfg, BDK_PKO_PTGFX_CFG(index));
+    BDK_CSR_INIT(cfg, node, BDK_PKO_PTGFX_CFG(index));
     switch (cfg.s.size)
     {
         case 0: /* 2.5kb, 2.5kb, 2.5kb, 2.5kb */
@@ -275,7 +275,7 @@ int __bdk_pko_allocate_fifo(int lmac, int size)
             bdk_fatal("Illegal fifo size\n");
             break;
     }
-    BDK_CSR_WRITE(BDK_PKO_PTGFX_CFG(index), cfg.u);
+    BDK_CSR_WRITE(node, BDK_PKO_PTGFX_CFG(index), cfg.u);
 
     /* Setup PKO MCI0 credits */
     int credit = size * 2500;
@@ -296,9 +296,9 @@ int __bdk_pko_allocate_fifo(int lmac, int size)
             mac_credit = size * (10<<10); /* 10KB, 20KB, or 40KB */
             break;
     }
-    BDK_CSR_WRITE(BDK_PKO_MCI0_MAX_CREDX(lmac), (credit + mac_credit) / 16);
+    BDK_CSR_WRITE(node, BDK_PKO_MCI0_MAX_CREDX(lmac), (credit + mac_credit) / 16);
     /* Confine the credits to not overflow the LBK FIFO */
-    BDK_CSR_MODIFY(c, BDK_PKO_MCI1_MAX_CREDX(lmac),
+    BDK_CSR_MODIFY(c, node, BDK_PKO_MCI1_MAX_CREDX(lmac),
         c.s.max_cred_lim = mac_credit / 16);
     return 0;
 }
@@ -391,79 +391,79 @@ static int pko_port_init(bdk_if_handle_t handle)
     }
 
     /* Get the FIFO number for this lmac */
-    BDK_CSR_INIT(pko_macx_cfg, BDK_PKO_MACX_CFG(lmac));
+    BDK_CSR_INIT(pko_macx_cfg, handle->node, BDK_PKO_MACX_CFG(lmac));
 
     /* Program L1 = port queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_PQX_TOPOLOGY(pq),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_PQX_TOPOLOGY(pq),
         c.s.link = lmac;
         c.s.peb_fifo = pko_macx_cfg.s.fifo_num);
-    BDK_CSR_MODIFY(c, BDK_PKO_L1_SQX_TOPOLOGY(pq),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_TOPOLOGY(pq),
         c.s.prio_anchor = sq_l2;
         c.s.link = lmac;
         c.s.rr_prio = 0);
     /* Program L2 = schedule queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_SCHEDULE(sq_l2),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_SCHEDULE(sq_l2),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_CREDIT(sq_l2),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_CREDIT(sq_l2),
         c.s.cc_channel_select = 0;
         c.s.parent = pq;
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_TOPOLOGY(sq_l2),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_TOPOLOGY(sq_l2),
         c.s.prio_anchor = sq_l3;
         c.s.parent = pq;
         c.s.rr_prio = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L2_SQX_SHAPE(sq_l2),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_SHAPE(sq_l2),
         c.s.parent = pq);
     /* Program L3 = schedule queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_CREDIT(sq_l3),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_CREDIT(sq_l3),
         c.s.parent = sq_l2;
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_TOPOLOGY(sq_l3),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_TOPOLOGY(sq_l3),
         c.s.prio_anchor = sq_l4;
         c.s.parent = sq_l2;
         c.s.rr_prio = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L3_SQX_SHAPE(sq_l3),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_SHAPE(sq_l3),
         c.s.parent = sq_l2);
     /* Program L4 = schedule queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SCHEDULE(sq_l4),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L4_SQX_SCHEDULE(sq_l4),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_TOPOLOGY(sq_l4),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L4_SQX_TOPOLOGY(sq_l4),
         c.s.prio_anchor = sq_l5;
         c.s.parent = sq_l3;
         c.s.rr_prio = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L4_SQX_SHAPE(sq_l4),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L4_SQX_SHAPE(sq_l4),
         c.s.parent = sq_l3);
     /* Program L5 = schedule queue */
-    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SCHEDULE(sq_l5),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L5_SQX_SCHEDULE(sq_l5),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_TOPOLOGY(sq_l5),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L5_SQX_TOPOLOGY(sq_l5),
         c.s.prio_anchor = dq;
         c.s.parent = sq_l4;
         c.s.rr_prio = 0);
-    BDK_CSR_MODIFY(c, BDK_PKO_L5_SQX_SHAPE(sq_l5),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L5_SQX_SHAPE(sq_l5),
         c.s.parent = sq_l4);
     /* Program L6 = descriptor queue */
     for (int q=0; q<PKO_QUEUES_PER_CHANNEL; q++)
     {
-        BDK_CSR_MODIFY(c, BDK_PKO_DQX_SCHEDULE(dq+q),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_SCHEDULE(dq+q),
             c.s.prio = 0;
             c.s.rr_quantum = 0);
-        BDK_CSR_MODIFY(c, BDK_PKO_DQX_TOPOLOGY(dq+q),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_TOPOLOGY(dq+q),
             c.s.parent = sq_l5);
-        BDK_CSR_MODIFY(c, BDK_PKO_DQX_SHAPE(dq+q),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_SHAPE(dq+q),
             c.s.parent = sq_l5);
     }
 #if 0
     /* FIXME: Program the LUTx */
-    BDK_CSR_MODIFY(c, BDK_PKO_LUTX(handle->index),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(handle->index),
         c.s.valid = 1;
         c.s.pq_idx = pq;
         c.s.queue_number = dq);
@@ -482,9 +482,9 @@ static int pko_port_init(bdk_if_handle_t handle)
  *
  * @return Zero on success, negative on failure
  */
-static int pko_enable(void)
+static int pko_enable(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_PKO_ENABLE,
+    BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
         c.s.enable = 1);
     return 0;
 }
@@ -494,49 +494,49 @@ static int pko_enable(void)
  *
  * @return Zero on success, negative on failure
  */
-static int sso_init(void)
+static int sso_init(bdk_node_t node)
 {
     int grp;
 
     /* Setup an FPA pool to store the SSO queues */
     const int MAX_SSO_ENTRIES = 4096;
     int num_blocks = 256 + 48 + ((MAX_SSO_ENTRIES+25)/26);
-    if (bdk_fpa_fill_pool(BDK_FPA_SSO_POOL, num_blocks))
+    if (bdk_fpa_fill_pool(node, BDK_FPA_SSO_POOL, num_blocks))
         return -1;
     const int aura = BDK_FPA_SSO_POOL; /* Use 1:1 mapping aura */
 
     /* Initialize the 256 group/qos queues */
     for (grp=0; grp<256; grp++)
     {
-        void *buffer = bdk_fpa_alloc(aura);
+        void *buffer = bdk_fpa_alloc(node, aura);
         if (buffer == NULL)
         {
             bdk_error("sso_init: Failed to allocate buffer\n");
             return -1;
         }
         uint64_t addr = bdk_ptr_to_phys(buffer);
-        BDK_CSR_MODIFY(c, BDK_SSO_XAQX_HEAD_PTR(grp),
+        BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_HEAD_PTR(grp),
             c.s.ptr = addr;
             c.s.cl = 0);
-        BDK_CSR_MODIFY(c, BDK_SSO_XAQX_HEAD_NEXT(grp),
+        BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_HEAD_NEXT(grp),
             c.s.ptr = addr);
-        BDK_CSR_MODIFY(c, BDK_SSO_XAQX_TAIL_PTR(grp),
+        BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_TAIL_PTR(grp),
             c.s.ptr = addr;
             c.s.cl = 0);
-        BDK_CSR_MODIFY(c, BDK_SSO_XAQX_TAIL_NEXT(grp),
+        BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_TAIL_NEXT(grp),
             c.s.ptr = addr);
         /* Prefetch one cache line into L1 when a core gets work */
-        BDK_CSR_MODIFY(c, BDK_SSO_GRPX_PREF(grp),
+        BDK_CSR_MODIFY(c, node, BDK_SSO_GRPX_PREF(grp),
             c.s.clines = 1);
     }
     /* Set the aura number */
-    BDK_CSR_MODIFY(c, BDK_SSO_XAQ_AURA,
+    BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
         c.s.aura = aura);
     /* Set work timeout to 1023 * 1k cycles */
-    BDK_CSR_MODIFY(c, BDK_SSO_NW_TIM,
+    BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
         c.s.nw_tim = 1023);
     /* Setup how the SSO accesses memory */
-    BDK_CSR_MODIFY(c, BDK_SSO_AW_CFG,
+    BDK_CSR_MODIFY(c, node, BDK_SSO_AW_CFG,
         c.s.rwen = 1);
     return 0;
 }
@@ -747,7 +747,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 static int packet_alloc(bdk_if_packet_t *packet, int length)
 {
     const int aura = packet->if_handle->aura;
-    const int FPA_SIZE = bdk_fpa_get_block_size(aura);
+    const int FPA_SIZE = bdk_fpa_get_block_size(packet->if_handle->node, aura);
     bdk_buf_ptr_t *buffer_ptr = &packet->packet;
 
     /* Start off with an empty packet */
@@ -757,7 +757,7 @@ static int packet_alloc(bdk_if_packet_t *packet, int length)
     /* Add buffers while the packet is less that the needed length */
     while (packet->length < length)
     {
-        void *buffer = bdk_fpa_alloc(aura);
+        void *buffer = bdk_fpa_alloc(packet->if_handle->node, aura);
         if (!buffer)
         {
             /* Free all buffers allocates so far */
@@ -797,7 +797,7 @@ static void packet_free(bdk_if_packet_t *packet)
         /* Read pointer to next buffer before we free the current buffer. */
         if (number_buffers)
             next_buffer_ptr = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_ptr.v3.addr - 8);
-        __bdk_fpa_raw_free(buffer_ptr.v3.addr, aura, 0);
+        __bdk_fpa_raw_free(packet->if_handle->node, buffer_ptr.v3.addr, aura, 0);
         buffer_ptr = next_buffer_ptr;
     }
 }

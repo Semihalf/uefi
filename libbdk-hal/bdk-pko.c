@@ -3,7 +3,7 @@
 int bdk_pko_next_free_queue = 0;
 int bdk_pko_next_free_engine = 0;
 
-int __bdk_pko_alloc_pipe(int num_pipes)
+int __bdk_pko_alloc_pipe(bdk_node_t node, int num_pipes)
 {
     static int next_free_pipe = 0;
     int pipe = next_free_pipe;
@@ -13,7 +13,7 @@ int __bdk_pko_alloc_pipe(int num_pipes)
     return pipe;
 }
 
-int __bdk_pko_alloc_engine(void)
+int __bdk_pko_alloc_engine(bdk_node_t node)
 {
     int engine = bdk_pko_next_free_engine++;
     if (engine > 19)
@@ -21,7 +21,7 @@ int __bdk_pko_alloc_engine(void)
     return engine;
 }
 
-int __bdk_pko_alloc_port(void)
+int __bdk_pko_alloc_port(bdk_node_t node)
 {
     static int next_free_port = 0;
     int port = next_free_port++;
@@ -34,6 +34,8 @@ int __bdk_pko_alloc_port(void)
 /**
  * Configure a output port and the associated queues for use.
  *
+ * @param node       Node to use in a Numa setup. Can be an exact ID or a
+ *                   special value.
  * @param pko_port   PKO internal port to program
  * @param num_queues Number of queues to associate with this port
  * @param num_static_queues
@@ -42,7 +44,7 @@ int __bdk_pko_alloc_port(void)
  *
  * @return The base queue number, or negative on failure.
  */
-int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr)
+int bdk_pko_config_port(bdk_node_t node, int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr)
 {
     int base_queue = bdk_pko_next_free_queue;
     bdk_pko_next_free_queue += num_queues;
@@ -74,8 +76,8 @@ int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk
             ptrs.s.port     = pko_port;
             ptrs.s.queue    = base_queue + queue;
 
-            BDK_CSR_WRITE(BDK_PKO_REG_QUEUE_PTRS1, ptrs1.u64);
-            BDK_CSR_WRITE(BDK_PKO_MEM_QUEUE_PTRS, ptrs.u64);
+            BDK_CSR_WRITE(node, BDK_PKO_REG_QUEUE_PTRS1, ptrs1.u64);
+            BDK_CSR_WRITE(node, BDK_PKO_MEM_QUEUE_PTRS, ptrs.u64);
         }
         else
         {
@@ -90,7 +92,7 @@ int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk
             ptrs.s.index    = queue;
             ptrs.s.ipid     = pko_port;
             ptrs.s.qid      = base_queue + queue;
-            BDK_CSR_WRITE(BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
+            BDK_CSR_WRITE(node, BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
         }
     }
 

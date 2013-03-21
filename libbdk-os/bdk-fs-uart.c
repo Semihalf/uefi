@@ -6,20 +6,23 @@ static void *uart_open(const char *name, int flags)
     if ((id < 0) || (id >= 2))
         return NULL;
     /* Return the uart number plus one as our internal state */
-    return (void*)(id+1);
+    long state = id + 1;
+    state += bdk_numa_id(BDK_NODE_LOCAL) << 8;
+    return (void*)state;
 }
 
 static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int count = 0;
     int id = (long)handle->fs_state - 1;
+    bdk_node_t node = (long)handle->fs_state >> 8;
 
-    BDK_CSR_INIT(lsr, BDK_MIO_UARTX_LSR(id));
+    BDK_CSR_INIT(lsr, node, BDK_MIO_UARTX_LSR(id));
     while (lsr.s.dr && length)
     {
         int has_error = lsr.s.ferr;
-        *(uint8_t*)buffer = BDK_CSR_READ(BDK_MIO_UARTX_RBR(id));
-        lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        *(uint8_t*)buffer = BDK_CSR_READ(node, BDK_MIO_UARTX_RBR(id));
+        lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
         /* Character has an error, so skip it */
         if (has_error)
             continue;
@@ -30,7 +33,7 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
-static void uart_write_byte(int id, uint8_t byte)
+static void uart_write_byte(bdk_node_t node, int id, uint8_t byte)
 {
     static bdk_spinlock_t tx_lock;
     BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
@@ -39,11 +42,11 @@ static void uart_write_byte(int id, uint8_t byte)
     while (1)
     {
         bdk_spinlock_lock(&tx_lock);
-        lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+        lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
         if (lsr.s.thre)
         {
             /* Write the byte */
-            BDK_CSR_WRITE(BDK_MIO_UARTX_THR(id), 0xff & byte);
+            BDK_CSR_WRITE(node, BDK_MIO_UARTX_THR(id), 0xff & byte);
             bdk_spinlock_unlock(&tx_lock);
             break;
         }
@@ -51,7 +54,7 @@ static void uart_write_byte(int id, uint8_t byte)
         do
         {
             bdk_thread_yield();
-            lsr.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(id));
+            lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
         } while (!lsr.s.thre);
     }
 }
@@ -60,10 +63,11 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     int l = length;
     int id = (long)handle->fs_state - 1;
+    bdk_node_t node = (long)handle->fs_state >> 8;
     const char *p = buffer;
 
     while (l--)
-        uart_write_byte(id, *p++);
+        uart_write_byte(node, id, *p++);
     return length;
 }
 

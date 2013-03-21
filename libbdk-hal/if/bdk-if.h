@@ -66,6 +66,7 @@ typedef struct
 typedef struct __bdk_if_port
 {
     bdk_if_t    iftype      : 8;
+    bdk_node_t  node        : 8;
     int         interface   : 8;
     int         index       : 8;    /* ILK can have 256 channels on CN78XX */
     int         pknd        : 8;    /* 0-63 on both CN68XX and CN78XX, same as ipd_port on others */
@@ -108,8 +109,8 @@ typedef int (*bdk_if_packet_receiver_t)(bdk_if_packet_t *packet, void *arg);
 
 typedef struct
 {
-    int (*if_num_interfaces)(void); /* Returns the number of interfaces possible on this chip */
-    int (*if_num_ports)(int interface); /* For given interface, returns the number of ports on it */
+    int (*if_num_interfaces)(bdk_node_t node); /* Returns the number of interfaces possible on this chip */
+    int (*if_num_ports)(bdk_node_t node, int interface); /* For given interface, returns the number of ports on it */
     int (*if_probe)(bdk_if_handle_t handle); /* Called to assign IPD and PKO ports. Does nothing if they aren't needed */
     int (*if_init)(bdk_if_handle_t handle); /* One time hardware init */
     int (*if_enable)(bdk_if_handle_t handle); /* Enable packet IO. must be called after init */
@@ -124,13 +125,13 @@ typedef struct
 
 typedef struct
 {
-    int (*pki_global_init)(void);
+    int (*pki_global_init)(bdk_node_t node);
     int (*pki_port_init)(bdk_if_handle_t handle);
-    int (*pki_enable)(void);
-    int (*pko_global_init)(void);
+    int (*pki_enable)(bdk_node_t node);
+    int (*pko_global_init)(bdk_node_t node);
     int (*pko_port_init)(bdk_if_handle_t handle);
-    int (*pko_enable)(void);
-    int (*sso_init)(void);
+    int (*pko_enable)(bdk_node_t node);
+    int (*sso_init)(bdk_node_t node);
     int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
     int (*pko_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
     int (*packet_alloc)(bdk_if_packet_t *packet, int length);
@@ -140,8 +141,8 @@ typedef struct
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);
-extern int bdk_if_num_interfaces(bdk_if_t iftype);
-extern int bdk_if_num_ports(bdk_if_t iftype, int interface);
+extern int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype);
+extern int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
 
 extern int bdk_if_enable(bdk_if_handle_t handle);
@@ -199,6 +200,6 @@ static inline int bdk_if_get_pknd(bdk_if_handle_t handle)
  *
  * @return Fifo number of negative on failure
  */
-int __bdk_pko_allocate_fifo(int lmac, int size);
+int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size);
 
 /** @} */

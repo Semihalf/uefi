@@ -324,8 +324,8 @@ static void pci_bar1_setup(uint64_t address)
     bar1_entry.s.addr_idx   = address>>22;  /* Physical memory address in 4MB pages */
     bar1_entry.s.end_swp    = 1;            /* 1=little endian order */
     bar1_entry.s.addr_v     = 1;            /* Valid */
-    OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0), bar1_entry.u64);
-    OCTEON_REMOTE_READ_CSR(BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0));
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0), bar1_entry.u64);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0));
 }
 
 
@@ -410,7 +410,7 @@ static int pci_open(const char *remote_spec)
     octeon_pci_model |= sli_ctl_status.s.chip_rev;
 
     /* Determine the port number */
-    octeon_pci_port = OCTEON_REMOTE_READ_CSR(BDK_SLI_MAC_NUMBER) & 0xff;
+    octeon_pci_port = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_SLI_MAC_NUMBER) & 0xff;
     return 0;
 }
 
@@ -649,11 +649,11 @@ static void pci_start_cores(uint64_t start_mask)
 
     /* Handle Core 0 in reset as a special case. If core 0 is in reset, interpret
         this as a request to take it out of reset */
-    reset_status = OCTEON_REMOTE_READ_CSR(BDK_CIU_PP_RST);
+    reset_status = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST);
     if (reset_status & 1)
     {
         if (start_mask & 1)
-            OCTEON_REMOTE_WRITE_CSR(BDK_CIU_PP_RST, reset_status & -2);
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST, reset_status & -2);
     }
     else
     {
@@ -678,7 +678,7 @@ static void pci_stop_cores(uint64_t stop_mask)
     octeon_remote_debug(2, "Stopping coremask 0x%llx\n", (ULL)stop_mask);
     if (octeon_remote_debug_handler_install(OCTEON_REMOTE_DEBUG_HANDLER))
         return;
-    OCTEON_REMOTE_WRITE_CSR(BDK_CIU_DINT, stop_mask);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_DINT, stop_mask);
 }
 
 
@@ -690,7 +690,7 @@ static void pci_stop_cores(uint64_t stop_mask)
  */
 static uint64_t pci_get_running_cores(void)
 {
-    return ~OCTEON_REMOTE_READ_CSR(BDK_CIU_PP_DBG);
+    return ~OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_DBG);
 }
 
 
@@ -785,24 +785,24 @@ static int pci_reset(int stop_core __attribute__ ((unused)))
     if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         bdk_rst_boot_t rst_boot;
-        rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_RST_BOOT);
+        rst_boot.u64 = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
         rst_boot.s.rboot = stop_core;
-        OCTEON_REMOTE_WRITE_CSR(BDK_RST_BOOT, rst_boot.u64);
-        OCTEON_REMOTE_READ_CSR(BDK_RST_BOOT);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT, rst_boot.u64);
+        OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
     }
     else
     {
         bdk_mio_rst_boot_t mio_rst_boot;
-        mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
+        mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT);
         mio_rst_boot.s.rboot = stop_core;
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_RST_BOOT, mio_rst_boot.u64);
-        OCTEON_REMOTE_READ_CSR(BDK_MIO_RST_BOOT);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT, mio_rst_boot.u64);
+        OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT);
     }
 
     /* HRM specifies that CIU_SOFT_RST should be read before initiating
     ** a reset over PCI */
-    OCTEON_REMOTE_READ_CSR(BDK_CIU_SOFT_RST);
-    OCTEON_REMOTE_WRITE_CSR(BDK_CIU_SOFT_RST, 1);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST, 1);
 
     /* Delay here to ensure that no accesses to Octeon are made
     ** while it is in reset.  1 MS is what CN56XX HRM specifies,
@@ -822,12 +822,12 @@ static uint64_t pci_read_cop0(int core, int reg, int select)
         adr.s.root = 1;
         adr.s.rd = reg;
         adr.s.sel = select;
-        OCTEON_REMOTE_WRITE_CSR(BDK_L2C_COP0_ADR, adr.u);
-        return OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_DAT);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_ADR, adr.u);
+        return OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_DAT);
     }
     else
     {
-        return OCTEON_REMOTE_READ_CSR(BDK_L2C_COP0_MAPX((core<<8)|(reg<<3)|select));
+        return OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_MAPX((core<<8)|(reg<<3)|select));
     }
 }
 

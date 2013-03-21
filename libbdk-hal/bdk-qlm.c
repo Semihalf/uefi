@@ -21,9 +21,9 @@ static const bdk_qlm_ops_t *qlm_ops;
  *
  * @return Number of QLMs
  */
-int bdk_qlm_get_num(void)
+int bdk_qlm_get_num(bdk_node_t node)
 {
-    return qlm_ops->get_num();
+    return qlm_ops->get_num(node);
 }
 
 /**
@@ -37,9 +37,9 @@ int bdk_qlm_get_num(void)
  *
  * @return QLM number. Dies on a fatal error on failure.
  */
-int bdk_qlm_get(bdk_if_t iftype, int interface)
+int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface)
 {
-    return qlm_ops->get_qlm_num(iftype, interface);
+    return qlm_ops->get_qlm_num(node, iftype, interface);
 }
 
 /**
@@ -50,9 +50,9 @@ int bdk_qlm_get(bdk_if_t iftype, int interface)
  *
  * @return Number of lanes on the QLM
  */
-int bdk_qlm_get_lanes(int qlm)
+int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
 {
-    return qlm_ops->get_lanes(qlm);
+    return qlm_ops->get_lanes(node, qlm);
 }
 
 /**
@@ -62,9 +62,9 @@ int bdk_qlm_get_lanes(int qlm)
  *
  * @return String mode
  */
-const char *bdk_qlm_get_mode(int qlm)
+const char *bdk_qlm_get_mode(bdk_node_t node, int qlm)
 {
-    return qlm_ops->get_mode(qlm);
+    return qlm_ops->get_mode(node, qlm);
 }
 
 /**
@@ -74,9 +74,9 @@ const char *bdk_qlm_get_mode(int qlm)
  *
  * @return Speed in Mhz
  */
-int bdk_qlm_get_gbaud_mhz(int qlm)
+int bdk_qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    return qlm_ops->get_gbaud_mhz(qlm);
+    return qlm_ops->get_gbaud_mhz(node, qlm);
 }
 
 /**
@@ -86,19 +86,19 @@ int bdk_qlm_get_gbaud_mhz(int qlm)
  *
  * @return Clock rate in Hz
  */
-int bdk_qlm_measure_clock(int qlm)
+int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 {
     /* Force the reference to 156.25Mhz when running in simulation.
         This supports the most speeds */
     if (bdk_is_simulation())
         return 156250000;
-    return qlm_ops->measure_refclock(qlm);
+    return qlm_ops->measure_refclock(node, qlm);
 }
 
 /**
  * Initialize the QLM layer
  */
-void bdk_qlm_init(void)
+void bdk_qlm_init(bdk_node_t node)
 {
     /* Find the QLM operations for this chip */
     qlm_ops = NULL;
@@ -118,6 +118,6 @@ void bdk_qlm_init(void)
 
     /* Skip QLM setup in simulation */
     if (!bdk_is_simulation())
-        qlm_ops->init();
+        qlm_ops->init(node);
 }
 

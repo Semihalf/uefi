@@ -47,7 +47,7 @@ static void dbg_printf(const char *format, ...)
 
 static int _inbyte(xmodem_state_t *state, unsigned short timeout) // msec timeout
 {
-    uint64_t expires = bdk_clock_get_rate(BDK_CLOCK_CORE) * timeout / 1000 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t expires = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) * timeout / 1000 + bdk_clock_get_count(BDK_CLOCK_CORE);
     int len;
     char c;
 

@@ -63,7 +63,7 @@ static inline void sso_get_work_async(int scr_addr, int wait)
  *
  * @return New port handle, or NULL on failure.
  */
-static bdk_if_handle_t bdk_if_init_port(bdk_if_t iftype, int interface, int index)
+static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int interface, int index)
 {
     bdk_if_handle_t handle = calloc(1, sizeof(__bdk_if_port_t));
     if (!handle)
@@ -141,6 +141,7 @@ fail:
  */
 static int __bdk_if_init(void)
 {
+    const bdk_node_t node = BDK_NODE_LOCAL;
     extern __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx;
     extern __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx;
     int result = 0;
@@ -152,11 +153,11 @@ static int __bdk_if_init(void)
 
 
     /* Setup the FPA packet buffers */
-    if (bdk_fpa_fill_pool(BDK_FPA_PACKET_POOL,
+    if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL,
         bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS)))
         return -1;
     /* Allocate command buffers */
-    if (bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL,
+    if (bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL,
         bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS)))
         return -1;
 
@@ -164,28 +165,28 @@ static int __bdk_if_init(void)
     int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
     for (int i=0; i<num_mdio; i++)
     {
-        BDK_CSR_INIT(smix_en, BDK_SMIX_EN(i));
+        BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));
         if (!smix_en.s.en)
         {
             smix_en.s.en = 1;
-            BDK_CSR_WRITE(BDK_SMIX_EN(i), smix_en.u64);
+            BDK_CSR_WRITE(node, BDK_SMIX_EN(i), smix_en.u64);
         }
     }
 
     /* Setup the SSO */
-    result = __bdk_if_global_ops.sso_init();
+    result = __bdk_if_global_ops.sso_init(node);
     if (result)
         return result;
 
     /* Setup the common global packet input. Per port stuff will be
         done later */
-    result = __bdk_if_global_ops.pki_global_init();
+    result = __bdk_if_global_ops.pki_global_init(node);
     if (result)
         return result;
 
     /* Setup the common global packet output. Per port stuff will be
         done later */
-    result = __bdk_if_global_ops.pko_global_init();
+    result = __bdk_if_global_ops.pko_global_init(node);
     if (result)
         return result;
 
@@ -193,14 +194,14 @@ static int __bdk_if_init(void)
     for (bdk_if_t iftype=BDK_IF_SGMII; iftype<__BDK_IF_LAST; iftype++)
     {
         /* Loop through all interfaces for each type */
-        int num_interfaces = bdk_if_num_interfaces(iftype);
+        int num_interfaces = bdk_if_num_interfaces(node, iftype);
         for (int interface=0; interface<num_interfaces; interface++)
         {
             /* Loop through all indexes for each interface */
-            int num_index = bdk_if_num_ports(iftype, interface);
+            int num_index = bdk_if_num_ports(node, iftype, interface);
             for (int index=0; index<num_index; index++)
             {
-                bdk_if_handle_t handle = bdk_if_init_port(iftype, interface, index);
+                bdk_if_handle_t handle = bdk_if_init_port(node, iftype, interface, index);
                 if (!handle)
                     result--;
             }
@@ -208,17 +209,17 @@ static int __bdk_if_init(void)
     }
 
     /* Enable PKO now that all setup is complete */
-    result = __bdk_if_global_ops.pko_enable();
+    result = __bdk_if_global_ops.pko_enable(node);
     if (result)
         return result;
 
     /* Enable PKI now that all setup is complete */
-    result = __bdk_if_global_ops.pki_enable();
+    result = __bdk_if_global_ops.pki_enable(node);
     if (result)
         return result;
 
     /* Create dispatch threads */
-    for (int core=0; core<bdk_octeon_num_cores(); core++)
+    for (int core=0; core<bdk_octeon_num_cores(node); core++)
     {
         if (bdk_thread_create(1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
             bdk_error("Failed to create dispatch thread for core %d\n", core);
@@ -245,14 +246,16 @@ int bdk_if_is_configured(void)
 /**
  * Get the number of interfaces for the given type
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param iftype Interface type
  *
  * @return Number of interface. Zero if unsupported.
  */
-int bdk_if_num_interfaces(bdk_if_t iftype)
+int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype)
 {
     if (__bdk_if_ops[iftype])
-        return __bdk_if_ops[iftype]->if_num_interfaces();
+        return __bdk_if_ops[iftype]->if_num_interfaces(node);
     else
         return 0;
 }
@@ -262,14 +265,16 @@ int bdk_if_num_interfaces(bdk_if_t iftype)
  * For a given interface, return the number of ports supported
  * by that interface.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param iftype    Interface type
  * @param interface Interface number
  *
  * @return Number of ports. Zero if unsupported.
  */
-int bdk_if_num_ports(bdk_if_t iftype, int interface)
+int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface)
 {
-    return __bdk_if_ops[iftype]->if_num_ports(interface);
+    return __bdk_if_ops[iftype]->if_num_ports(node, interface);
 }
 
 
@@ -478,10 +483,10 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     bdk_pip_stat1_prtx_t stat1;
     bdk_pip_stat2_prtx_t stat2;
 
-    stat0.u64 = BDK_CSR_READ(BDK_PIP_STAT0_PRTX(handle->pknd));
-    stat1.u64 = BDK_CSR_READ(BDK_PIP_STAT1_PRTX(handle->pknd));
-    stat2.u64 = BDK_CSR_READ(BDK_PIP_STAT2_PRTX(handle->pknd));
-    BDK_CSR_INIT(pip_stat_inb_errsx, BDK_PIP_STAT_INB_ERRSX(handle->pknd));
+    stat0.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT0_PRTX(handle->pknd));
+    stat1.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT1_PRTX(handle->pknd));
+    stat2.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT2_PRTX(handle->pknd));
+    BDK_CSR_INIT(pip_stat_inb_errsx, handle->node, BDK_PIP_STAT_INB_ERRSX(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_octets = update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);
@@ -494,11 +499,11 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.errors = update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
-    BDK_CSR_INIT(pko_reg_read_idx, BDK_PKO_REG_READ_IDX);
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, handle->pko_port);
-    BDK_CSR_INIT(pko_mem_count0, BDK_PKO_MEM_COUNT0);
-    BDK_CSR_INIT(pko_mem_count1, BDK_PKO_MEM_COUNT1);
-    BDK_CSR_WRITE(BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    BDK_CSR_INIT(pko_reg_read_idx, handle->node, BDK_PKO_REG_READ_IDX);
+    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, handle->pko_port);
+    BDK_CSR_INIT(pko_mem_count0, handle->node, BDK_PKO_MEM_COUNT0);
+    BDK_CSR_INIT(pko_mem_count1, handle->node, BDK_PKO_MEM_COUNT1);
+    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
@@ -636,7 +641,7 @@ static void bdk_if_dispatch_thread(int unused, void *unused2)
 {
     bdk_if_handle_t link_handle = NULL;
     uint64_t last_poll = 0;
-    const uint64_t poll_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 16;
+    const uint64_t poll_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 16;
 
     while (1)
     {

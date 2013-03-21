@@ -46,6 +46,7 @@ typedef struct
     uint64_t index          : 16;   /**< Number of commands already used in buffer */
     uint64_t *base_ptr;             /**< Top of command buffer pointer */
     int fpa_pool;                   /**< FPA pool buffers come from */
+    bdk_node_t node;
 } bdk_cmd_queue_state_t;
 
 /**
@@ -57,7 +58,7 @@ typedef struct
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate);
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_state_t *qstate);
 
 /**
  * Shutdown a queue a free it's command buffers to the FPA. The
@@ -148,7 +149,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write(bdk_cmd_queue_state_t *
         uint64_t *ptr;
         int count;
         /* We need a new command buffer. Fail if there isn't one available */
-        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->fpa_pool);
+        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->node, qptr->fpa_pool);
         if (bdk_unlikely(new_buffer == NULL))
         {
             if (bdk_likely(use_locking))
@@ -216,7 +217,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write2(bdk_cmd_queue_state_t 
             location will be needed for the next buffer pointer */
         int count = qptr->pool_size_m1 - qptr->index;
         /* We need a new command buffer. Fail if there isn't one available */
-        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->fpa_pool);
+        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->node, qptr->fpa_pool);
         if (bdk_unlikely(new_buffer == NULL))
         {
             if (bdk_likely(use_locking))
@@ -286,7 +287,7 @@ static inline bdk_cmd_queue_result_t bdk_cmd_queue_write3(bdk_cmd_queue_state_t 
             location will be needed for the next buffer pointer */
         int count = qptr->pool_size_m1 - qptr->index;
         /* We need a new command buffer. Fail if there isn't one available */
-        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->fpa_pool);
+        uint64_t *new_buffer = (uint64_t *)bdk_fpa_alloc(qptr->node, qptr->fpa_pool);
         if (bdk_unlikely(new_buffer == NULL))
         {
             if (bdk_likely(use_locking))

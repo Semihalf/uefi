@@ -514,7 +514,7 @@ static void do_update_reset_state(void)
 
     /* Read which cores are in reset */
     int num_cores = octeon_remote_get_num_cores();
-    uint64_t pp_rst = OCTEON_REMOTE_READ_CSR(BDK_CIU_PP_RST);
+    uint64_t pp_rst = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST);
 
     for (core=0; core<64; core++)
     {

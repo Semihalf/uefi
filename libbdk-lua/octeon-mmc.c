@@ -23,9 +23,10 @@ static int show_debug = 0;
  */
 static void print_cmd_status(void)
 {
-    BDK_CSR_INIT(sts_reg, BDK_MIO_EMM_RSP_STS);
-    BDK_CSR_INIT(rsp_lo, BDK_MIO_EMM_RSP_LO);
-    BDK_CSR_INIT(rsp_hi, BDK_MIO_EMM_RSP_HI);
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
+    BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
+    BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
 
     printf("Command index = %d, command type = %d\n", sts_reg.s.cmd_idx, sts_reg.s.cmd_type);
     switch (sts_reg.s.rsp_type)
@@ -69,6 +70,7 @@ static void print_cmd_status(void)
  */
 static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid, uint64_t dbuf, uint64_t rtype_xor, uint64_t ctype_xor, uint64_t offset)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     BDK_CSR_DEFINE(cmd_reg, BDK_MIO_EMM_CMD);
     cmd_reg.u64 = 0;
     cmd_reg.s.bus_id = busid;
@@ -80,8 +82,8 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
     cmd_reg.s.offset = offset;
     cmd_reg.s.cmd_val = 1;
 
-    BDK_CSR_WRITE(BDK_MIO_EMM_CMD, cmd_reg.u64);
-    BDK_CSR_INIT(sts_reg, BDK_MIO_EMM_RSP_STS);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_CMD, cmd_reg.u64);
+    BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
 
     /* We use loops ever 1ms here instead of a wall time based timeout so
         code isn't needed to keep track of accurate time on both host and
@@ -90,7 +92,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
     do
     {
         bdk_wait_usec(1000);
-        sts_reg.u64 = BDK_CSR_READ(BDK_MIO_EMM_RSP_STS);
+        sts_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
         if (--wait_loops <= 0)
         {
             if (show_debug)
@@ -104,7 +106,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         int cmd_error = 0;
         if (sts_reg.s.rsp_bad_sts || sts_reg.s.stp_bad_sts)
         {
-            BDK_CSR_INIT(rsp_lo, BDK_MIO_EMM_RSP_LO);
+            BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
             if (show_debug)
                 printf("Response bad status, cmd response = 0x%08x\n", (uint32_t) ((rsp_lo.u64 >>8) & 0xFFFFFFFF));
             cmd_error++;
@@ -123,7 +125,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         }
         if (sts_reg.s.blk_crc_err)
         {
-            BDK_CSR_INIT(mode, BDK_MIO_EMM_MODEX(busid));
+            BDK_CSR_INIT(mode, node, BDK_MIO_EMM_MODEX(busid));
             if ((mode.s.bus_width != 2) && (mode.s.bus_width != 6) &&
                 OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_0))
             {
@@ -164,10 +166,10 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         {
             if (show_debug)
             {
-                cmd_reg.u64 = BDK_CSR_READ(BDK_MIO_EMM_CMD);
-                sts_reg.u64 = BDK_CSR_READ(BDK_MIO_EMM_RSP_STS);
-                BDK_CSR_INIT(rsp_lo, BDK_MIO_EMM_RSP_LO);
-                BDK_CSR_INIT(rsp_hi, BDK_MIO_EMM_RSP_HI);
+                cmd_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
+                sts_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
+                BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
+                BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
                 printf("No valid response\n");
                 printf("mio_emm_cmd     = 0x%016llx\n", (ULL)cmd_reg.u64);
                 printf("mio_emm_rsp_sts = 0x%016llx\n", (ULL)sts_reg.u64);
@@ -300,11 +302,12 @@ static void print_csd_reg(uint64_t reg_hi, uint64_t reg_lo)
  */
 static void wdog_default()
 {
-    BDK_CSR_INIT(mio_rst_boot, BDK_MIO_RST_BOOT);
-    BDK_CSR_INIT(mode_reg, BDK_MIO_EMM_MODEX(0));
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    BDK_CSR_INIT(mio_rst_boot, node, BDK_MIO_RST_BOOT);
+    BDK_CSR_INIT(mode_reg, node, BDK_MIO_EMM_MODEX(0));
     uint64_t sclk = 50000000ull * mio_rst_boot.s.pnr_mul;
     uint64_t wdog_value = sclk / 10 / (mode_reg.s.clk_hi + mode_reg.s.clk_lo);
-    BDK_CSR_WRITE(BDK_MIO_EMM_WDOG, wdog_value);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_WDOG, wdog_value);
 }
 
 
@@ -328,39 +331,40 @@ do {                                                                            
  */
 static int mmc_init(lua_State *L)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     show_debug = lua_toboolean(L, 1);
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
     // Disable bus 1, casues the clocking to reset to the default
-    BDK_CSR_WRITE(BDK_MIO_EMM_CFG, 0x0);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     bdk_wait_usec(200000);
 
     if (OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_X))
     {
         // Disable buses
-        BDK_CSR_WRITE(BDK_MIO_EMM_CFG, 0x0);
-        BDK_CSR_MODIFY(c, BDK_GPIO_BIT_CFGX(8),
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
+        BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(8),
                        c.s.tx_oe = 1);
         bdk_wait_usec(1000);
 
-        BDK_CSR_WRITE(BDK_GPIO_TX_CLR, (1<<8));
+        BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, (1<<8));
 
         bdk_wait_usec(200000);
 
-        BDK_CSR_WRITE(BDK_GPIO_TX_SET, (1<<8));
+        BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, (1<<8));
 
         bdk_wait_usec(2000);
     }
 
     // Enable bus 1
-    BDK_CSR_WRITE(BDK_MIO_EMM_CFG, 0x1);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x1);
 
     // Assume card is eMMC
     card_is_sd = 0;
 
     // Reset the status mask reg., boot will change it
-    BDK_CSR_WRITE(BDK_MIO_EMM_STS_MASK, 0xE4390080);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE4390080);
 
     bdk_wait_usec(2000);
 
@@ -375,7 +379,7 @@ static int mmc_init(lua_State *L)
     if (status.u64 == 0x0)
     {
         // We may have an SD card, as it should respond
-        BDK_CSR_INIT(rsp_lo, BDK_MIO_EMM_RSP_LO);
+        BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
         if (((rsp_lo.u64 >>8) & 0xFFFFFFFFFF) != 0x08000001AA)
             return luaL_error(L, "eMMC: Unexpected response from MMC_CMD_SEND_EXT_CSD");
         // Send a ACMD 41
@@ -395,7 +399,7 @@ static int mmc_init(lua_State *L)
                 return luaL_error(L, "eMMC: Failed to recognize card");
             }
 
-            ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
+            ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
         } while (ocr_reg.s.done_bit == 0x0);
         // Success, we have an SD card version 2.0 or above, fall thru
     }
@@ -422,7 +426,7 @@ static int mmc_init(lua_State *L)
                 // APP_CMD command failed
                 break;
             }
-            ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
+            ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
         } while (ocr_reg.s.done_bit == 0x0);
 
         if (status.u64 == 0x0)
@@ -437,7 +441,7 @@ static int mmc_init(lua_State *L)
             do
             {
                 MMC_CMD_OR_ERROR(L, MMC_CMD_SEND_OP_COND, 0x40ff8000, 0, 0, 0, 0, 0);
-                ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
+                ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
             } while (ocr_reg.s.done_bit == 0x0);
         }
     }
@@ -454,13 +458,13 @@ static int mmc_init(lua_State *L)
         // For SD, read the relative address from the card
         // CMD3 response for SD cards is R6 format, similar to R1, but different
         // Need to chane the mio_EMM_STS_MASK register so we don't get a response status error
-        BDK_CSR_INIT(sts_mask, BDK_MIO_EMM_STS_MASK);
-        BDK_CSR_WRITE(BDK_MIO_EMM_STS_MASK, 0xE000);
+        BDK_CSR_INIT(sts_mask, node, BDK_MIO_EMM_STS_MASK);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE000);
         status = mmc_cmd(MMC_CMD_SET_RELATIVE_ADDR, 0, 0, 0, 0, 0, 0);
-        BDK_CSR_WRITE(BDK_MIO_EMM_STS_MASK, sts_mask.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, sts_mask.u64);
         if (status.u64)
             return luaL_error(L, "eMMC: Command MMC_CMD_SET_RELATIVE_ADDR failed");
-        relative_address = ((BDK_CSR_READ(BDK_MIO_EMM_RSP_LO) >>24) &0xFFFF);
+        relative_address = ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>24) &0xFFFF);
     }
     else
     {
@@ -469,14 +473,14 @@ static int mmc_init(lua_State *L)
         MMC_CMD_OR_ERROR(L, MMC_CMD_SET_RELATIVE_ADDR, relative_address << 16, 0, 0, 0, 0, 0);
     }
 
-    BDK_CSR_WRITE(BDK_MIO_EMM_RCA, relative_address);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_RCA, relative_address);
 
     // Get CSD Register
     MMC_CMD_OR_ERROR(L, MMC_CMD_SEND_CSD, relative_address << 16, 0, 0, 0, 0, 0);
     mmc_csd_register_lo_t csd_reg_lo;
-    csd_reg_lo.u64 = (BDK_CSR_READ(BDK_MIO_EMM_RSP_LO));
+    csd_reg_lo.u64 = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO));
     mmc_csd_register_hi_t csd_reg_hi;
-    csd_reg_hi.u64 = (BDK_CSR_READ(BDK_MIO_EMM_RSP_HI));
+    csd_reg_hi.u64 = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_HI));
     uint64_t mmc_capacity;
     if (card_is_sd)
     {
@@ -522,6 +526,7 @@ static int mmc_init(lua_State *L)
  */
 static int mmc_read(lua_State *L)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     /* Check the first parameter, the address to read from */
     uint64_t address = luaL_checklong(L, 1);
     if (address > (1ull<<40))
@@ -555,12 +560,12 @@ static int mmc_read(lua_State *L)
         buf_idx.s.inc = 1;
         buf_idx.s.buf_num = 0;
         buf_idx.s.offset = 0;
-        BDK_CSR_WRITE(BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
 
         /* Read out the data block and add it to the output buffer */
         for (int i=0; i<512/8; i++)
         {
-            uint64_t data = bdk_be64_to_cpu(BDK_CSR_READ(BDK_MIO_EMM_BUF_DAT));
+            uint64_t data = bdk_be64_to_cpu(BDK_CSR_READ(node, BDK_MIO_EMM_BUF_DAT));
             luaL_addlstring(&output, (const char*)&data, 8);
         }
         /* Increment to the next position and adjust the size left */
@@ -582,6 +587,7 @@ static int mmc_read(lua_State *L)
  */
 static int mmc_write(lua_State *L)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     /* Check the first parameter, the address to write to */
     uint64_t address = luaL_checklong(L, 1);
     if (address > (1ull<<40))
@@ -606,12 +612,12 @@ static int mmc_write(lua_State *L)
         buf_idx.s.inc = 1;
         buf_idx.s.buf_num = 0;
         buf_idx.s.offset = 0;
-        BDK_CSR_WRITE(BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
 
         /* Fill the internal buffer */
         for (int i=0; i<512/8; i++)
         {
-            BDK_CSR_WRITE(BDK_MIO_EMM_BUF_DAT, bdk_cpu_to_be64(*(uint64_t*)data));
+            BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_DAT, bdk_cpu_to_be64(*(uint64_t*)data));
             data += 8;
         }
 

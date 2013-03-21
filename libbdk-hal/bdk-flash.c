@@ -15,6 +15,7 @@
 
 typedef struct
 {
+    bdk_node_t          node;
     uint64_t            base_addr;      /**< Physical address to start of flash */
     int                 bus_16bit;      /**< Bootbus is 16bits wide */
     int                 chip_16bit;     /**< Chip supports 16 bit operation */
@@ -180,13 +181,14 @@ static void __bdk_flash_write_cmd(const bdk_flash_t *flash, int offset, uint8_t 
  * @param base_addr Physical address to the start address to query
  * @return Zero on success, Negative on failure
  */
-static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
+static int __bdk_flash_queury_cfi(bdk_node_t node, int chip_id, uint64_t base_addr)
 {
     int region;
     bdk_flash_t *flash = flash_info + chip_id;
-    BDK_CSR_INIT(mio_boot_reg_cfg, BDK_MIO_BOOT_REG_CFGX(chip_id));
+    BDK_CSR_INIT(mio_boot_reg_cfg, node, BDK_MIO_BOOT_REG_CFGX(chip_id));
 
     /* Set the minimum needed for the read and write primitives to work */
+    flash->node = node;
     flash->base_addr = base_addr;
     flash->bus_16bit = mio_boot_reg_cfg.s.width;
     flash->chip_16bit = 1;   /* FIXME: Currently assumes the chip is 16bits */
@@ -281,8 +283,8 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
     }
 
     /* Convert the timeouts to cycles */
-    flash->write_timeout *= bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
-    flash->erase_timeout *= bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000;
+    flash->write_timeout *= bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;
+    flash->erase_timeout *= bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000;
 
     /* Print the information about the chip */
     bdk_dprintf(
@@ -318,7 +320,7 @@ static int __bdk_flash_queury_cfi(int chip_id, uint64_t base_addr)
 /**
  * Initialize the flash access library
  */
-void bdk_flash_initialize(void)
+void bdk_flash_initialize(bdk_node_t node)
 {
     int boot_region;
     int num_flash = 0;
@@ -329,12 +331,12 @@ void bdk_flash_initialize(void)
     for (boot_region=0; boot_region<MAX_NUM_FLASH_CHIPS; boot_region++)
     {
         bdk_mio_boot_reg_cfgx_t region_cfg;
-        region_cfg.u64 = BDK_CSR_READ(BDK_MIO_BOOT_REG_CFGX(boot_region));
+        region_cfg.u64 = BDK_CSR_READ(node, BDK_MIO_BOOT_REG_CFGX(boot_region));
         /* Only try chip select regions that are enabled */
         if (region_cfg.s.en)
         {
             uint64_t base_addr = (1ull<<63) + (1ull<<48) + (region_cfg.s.base<<16);
-            if (__bdk_flash_queury_cfi(boot_region, base_addr) == 0)
+            if (__bdk_flash_queury_cfi(node, boot_region, base_addr) == 0)
             {
                 /* Valid CFI flash chip found */
                 num_flash++;
@@ -422,7 +424,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
 
             /* Loop checking status */
             uint8_t status = __bdk_flash_read8(flash, offset);
-            uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+            uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
             while (status != 0xff)
             {
                 if (bdk_clock_get_count(BDK_CLOCK_CORE) > end_cycle)
@@ -524,7 +526,7 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
                     __bdk_flash_write8(flash, offset, *ptr);
                 }
                 /* Loop polling for status */
-                uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE);
+                uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
                 uint16_t status = ~data;
                 while (status != data)
                 {

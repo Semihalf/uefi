@@ -181,7 +181,7 @@ static int get_size_payload(const tg_port_t *tg_port)
  */
 static int trafficgen_do_update(bool do_clear)
 {
-    uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    uint64_t clock_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
 
     /* Get the statistics for displayed ports */
     for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
@@ -241,25 +241,25 @@ static int trafficgen_do_update(bool do_clear)
                 break;
             case BDK_IF_XAUI:
             {
-                BDK_CSR_INIT(txx_pause_togo, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), 0));
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), 0));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
             }
             case BDK_IF_HIGIG:
             {
-                BDK_CSR_INIT(gmxx_rx_hg2_status, BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
+                BDK_CSR_INIT(gmxx_rx_hg2_status, tg_port->handle->node, BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
                 tg_port->pinfo.stats.rx_backpressure += gmxx_rx_hg2_status.s.lgtim2go;
                 break;
             }
             case BDK_IF_SGMII:
             {
-                BDK_CSR_INIT(txx_pause_togo, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), __bdk_if_get_gmx_index(tg_port->handle)));
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), __bdk_if_get_gmx_index(tg_port->handle)));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
             }
             case BDK_IF_MGMT:
             {
-                BDK_CSR_INIT(txx_pause_togo, BDK_AGL_GMX_TXX_PAUSE_TOGO(tg_port->handle->index));
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_AGL_GMX_TXX_PAUSE_TOGO(tg_port->handle->index));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
             }
@@ -271,13 +271,13 @@ static int trafficgen_do_update(bool do_clear)
                     int pko_port = tg_port->handle->pko_port;
                     if (pko_port < 64)
                     {
-                        BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL0(interface));
+                        BDK_CSR_INIT(ilk_rxx_flow, tg_port->handle->node, BDK_ILK_RXX_FLOW_CTL0(interface));
                         if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
                             tg_port->pinfo.stats.rx_backpressure++;
                     }
                     else
                     {
-                        BDK_CSR_INIT(ilk_rxx_flow, BDK_ILK_RXX_FLOW_CTL1(interface));
+                        BDK_CSR_INIT(ilk_rxx_flow, tg_port->handle->node, BDK_ILK_RXX_FLOW_CTL1(interface));
                         if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
                             tg_port->pinfo.stats.rx_backpressure++;
                     }
@@ -286,7 +286,7 @@ static int trafficgen_do_update(bool do_clear)
                 {
                     int chunk = tg_port->handle->index >> 6;
                     int bit = tg_port->handle->index & 63;
-                    BDK_CSR_INIT(ilk_rxx_cha_xonx, BDK_ILK_RXX_CHA_XONX_2(tg_port->handle->interface, chunk));
+                    BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX_2(tg_port->handle->interface, chunk));
                     if (ilk_rxx_cha_xonx.u & (1ull << bit))
                         tg_port->pinfo.stats.rx_backpressure++;
                 }
@@ -672,7 +672,7 @@ loop_begin:
     if (bdk_unlikely(result != BDK_CMD_QUEUE_SUCCESS))
         goto tx_failed;
 
-    bdk_pko_doorbell(pko_port, pko_queue, 2);
+    bdk_pko_doorbell(tg_port->handle->node, pko_port, pko_queue, 2);
     count--;
 
 check_done:
@@ -731,7 +731,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         packet_rate = packet_rate * 125000ull / (tg_port->pinfo.setup.size + get_size_wire_overhead(tg_port));
     if (packet_rate == 0)
         packet_rate = 1;
-    uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
+    uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
 
     /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
         as we need software stats that aren't updated in the optimized PKO */
@@ -765,7 +765,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
  */
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix)
 {
-    const int FPA_SIZE = bdk_fpa_get_block_size(BDK_FPA_PACKET_POOL);
+    const int FPA_SIZE = bdk_fpa_get_block_size(packet->if_handle->node, BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
     bdk_buf_ptr_t buffer_next = packet->packet;
     void *buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);

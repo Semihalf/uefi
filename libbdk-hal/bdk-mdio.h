@@ -258,6 +258,8 @@ typedef union
  * Perform an MII read. This function is used to read PHY
  * registers controlling auto negotiation.
  *
+ * @param node     Node to use in a Numa setup. Can be an exact ID or a special
+ *                 value.
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
@@ -265,12 +267,14 @@ typedef union
  *
  * @return Result from the read or -1 on failure
  */
-extern int bdk_mdio_read(int bus_id, int phy_id, int location);
+extern int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location);
 
 /**
  * Perform an MII write. This function is used to write PHY
  * registers controlling auto negotiation.
  *
+ * @param node     Node to use in a Numa setup. Can be an exact ID or a special
+ *                 value.
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
@@ -280,12 +284,14 @@ extern int bdk_mdio_read(int bus_id, int phy_id, int location);
  * @return -1 on error
  *         0 on success
  */
-extern int bdk_mdio_write(int bus_id, int phy_id, int location, int val);
+extern int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int val);
 
 /**
  * Perform an IEEE 802.3 clause 45 MII read. This function is used to read PHY
  * registers controlling auto negotiation.
  *
+ * @param node     Node to use in a Numa setup. Can be an exact ID or a special
+ *                 value.
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
@@ -295,12 +301,14 @@ extern int bdk_mdio_write(int bus_id, int phy_id, int location, int val);
  * @return Result from the read or -1 on failure
  */
 
-extern int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location);
+extern int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int location);
 
 /**
  * Perform an IEEE 802.3 clause 45 MII write. This function is used to write PHY
  * registers controlling auto negotiation.
  *
+ * @param node     Node to use in a Numa setup. Can be an exact ID or a special
+ *                 value.
  * @param bus_id   MDIO bus number. Zero on most chips, but some chips (ex CN56XX)
  *                 support multiple busses.
  * @param phy_id   The MII phy id
@@ -311,7 +319,7 @@ extern int bdk_mdio_45_read(int bus_id, int phy_id, int device, int location);
  * @return -1 on error
  *         0 on success
  */
-extern int bdk_mdio_45_write(int bus_id, int phy_id, int device, int location,
+extern int bdk_mdio_45_write(bdk_node_t node, int bus_id, int phy_id, int device, int location,
                                      int val);
 
 /** @} */

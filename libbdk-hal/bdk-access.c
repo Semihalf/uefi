@@ -8,7 +8,7 @@
  */
 void bdk_wait_usec(uint64_t usec)
 {
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;
     do
     {
         bdk_thread_yield();
@@ -20,7 +20,7 @@ void bdk_wait_usec(uint64_t usec)
  *
  * @return
  */
-void bdk_reset_octeon(void)
+void bdk_reset_octeon(bdk_node_t node)
 {
     bdk_mio_uartx_lsr_t lsrval;
     bdk_ciu_soft_rst_t ciu_soft_rst;
@@ -29,7 +29,7 @@ void bdk_reset_octeon(void)
 
     while (1)
     {
-        lsrval.u64 = BDK_CSR_READ(BDK_MIO_UARTX_LSR(0));
+        lsrval.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(0));
         if (lsrval.s.temt)
             break;
         bdk_thread_yield();
@@ -37,7 +37,7 @@ void bdk_reset_octeon(void)
 
     ciu_soft_rst.u64 = 0;
     ciu_soft_rst.s.soft_rst = 1;
-    BDK_CSR_WRITE(BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
+    BDK_CSR_WRITE(node, BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
 }
 
 

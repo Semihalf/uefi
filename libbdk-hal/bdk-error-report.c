@@ -9,10 +9,10 @@ if (c.s.field) {                            \
     typedef_##csr w1c;                      \
     w1c.u = 0;                              \
     w1c.s.field = c.s.field;                \
-    bdk_csr_write(bustype_##csr,            \
+    bdk_csr_write(node, bustype_##csr,      \
         busnum_##csr, sizeof(typedef_##csr),\
         csr, w1c.u);                        \
-    display_error(basename_##csr, arguments_##csr, #field); \
+    display_error(node, basename_##csr, arguments_##csr, #field); \
 }
 
 #define CHECK_CHIP_ERROR(csr, chip, field)  \
@@ -20,30 +20,30 @@ if (c.chip.field) {                         \
     typedef_##csr w1c;                      \
     w1c.u = 0;                              \
     w1c.chip.field = c.chip.field;          \
-    bdk_csr_write(bustype_##csr,            \
+    bdk_csr_write(node, bustype_##csr,      \
         busnum_##csr, sizeof(typedef_##csr),\
         csr, w1c.u);                        \
-    display_error(basename_##csr, arguments_##csr, #field); \
+    display_error(node, basename_##csr, arguments_##csr, #field); \
 }
 
-static void display_error(const char *csr_name, int arg1, int arg2, int arg3, int arg4, const char *field_name)
+static void display_error(bdk_node_t node, const char *csr_name, int arg1, int arg2, int arg3, int arg4, const char *field_name)
 {
     if (arg4 != -1)
-        bdk_error("%s(%d,%d,%d,%d)[%s]\n", csr_name, arg1, arg2, arg3, arg4, field_name);
+        bdk_error("N%d %s(%d,%d,%d,%d)[%s]\n", node, csr_name, arg1, arg2, arg3, arg4, field_name);
     else if (arg3 != -1)
-        bdk_error("%s(%d,%d,%d)[%s]\n", csr_name, arg1, arg2, arg3, field_name);
+        bdk_error("N%d %s(%d,%d,%d)[%s]\n", node, csr_name, arg1, arg2, arg3, field_name);
     else if (arg2 != -1)
-        bdk_error("%s(%d,%d)[%s]\n", csr_name, arg1, arg2, field_name);
+        bdk_error("N%d %s(%d,%d)[%s]\n", node, csr_name, arg1, arg2, field_name);
     else if (arg1 != -1)
-        bdk_error("%s(%d)[%s]\n", csr_name, arg1, field_name);
+        bdk_error("N%d %s(%d)[%s]\n", node, csr_name, arg1, field_name);
     else
-        bdk_error("%s[%s]\n", csr_name, field_name);
+        bdk_error("N%d %s[%s]\n", node, csr_name, field_name);
 }
 
-static void check_agl(void)
+static void check_agl(bdk_node_t node)
 {
     {
-        BDK_CSR_INIT(c, BDK_AGL_GMX_BAD_REG);
+        BDK_CSR_INIT(c, node, BDK_AGL_GMX_BAD_REG);
         CHECK_ERROR(BDK_AGL_GMX_BAD_REG, loststat);
         CHECK_ERROR(BDK_AGL_GMX_BAD_REG, out_ovr);
         CHECK_ERROR(BDK_AGL_GMX_BAD_REG, ovrflw);
@@ -54,22 +54,22 @@ static void check_agl(void)
         CHECK_ERROR(BDK_AGL_GMX_BAD_REG, txpsh1);
     }
     {
-        BDK_CSR_INIT(c, BDK_AGL_GMX_TX_INT_REG);
+        BDK_CSR_INIT(c, node, BDK_AGL_GMX_TX_INT_REG);
         CHECK_ERROR(BDK_AGL_GMX_TX_INT_REG, pko_nxa);
         CHECK_ERROR(BDK_AGL_GMX_TX_INT_REG, undflw);
     }
-    int max_agl = bdk_if_num_interfaces(BDK_IF_MGMT);
+    int max_agl = bdk_if_num_interfaces(node, BDK_IF_MGMT);
     for (int agl=0; agl<max_agl; agl++)
     {
-        BDK_CSR_INIT(c, BDK_AGL_GMX_RXX_INT_REG(agl));
+        BDK_CSR_INIT(c, node, BDK_AGL_GMX_RXX_INT_REG(agl));
         CHECK_ERROR(BDK_AGL_GMX_RXX_INT_REG(agl), ovrerr);
         CHECK_ERROR(BDK_AGL_GMX_RXX_INT_REG(agl), skperr);
     }
 }
 
-static void check_dfa(void)
+static void check_dfa(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_DFA_ERROR);
+    BDK_CSR_INIT(c, node, BDK_DFA_ERROR);
     CHECK_ERROR(BDK_DFA_ERROR, dblovf);
     CHECK_ERROR(BDK_DFA_ERROR, dc0perr);
     CHECK_ERROR(BDK_DFA_ERROR, dc1perr);
@@ -80,10 +80,10 @@ static void check_dfa(void)
     CHECK_ERROR(BDK_DFA_ERROR, replerr);
 }
 
-static void check_dpi(void)
+static void check_dpi(bdk_node_t node)
 {
     {
-        BDK_CSR_INIT(c, BDK_DPI_INT_REG);
+        BDK_CSR_INIT(c, node, BDK_DPI_INT_REG);
         CHECK_ERROR(BDK_DPI_INT_REG, dmadbo);
         CHECK_ERROR(BDK_DPI_INT_REG, nderr);
         CHECK_ERROR(BDK_DPI_INT_REG, nfovr);
@@ -100,22 +100,22 @@ static void check_dpi(void)
         CHECK_ERROR(BDK_DPI_INT_REG, sprt3_rst);
     }
     {
-        BDK_CSR_INIT(c, BDK_DPI_PKT_ERR_RSP);
+        BDK_CSR_INIT(c, node, BDK_DPI_PKT_ERR_RSP);
         CHECK_ERROR(BDK_DPI_PKT_ERR_RSP, pkterr);
     }
     {
-        BDK_CSR_INIT(c, BDK_DPI_REQ_ERR_RSP);
+        BDK_CSR_INIT(c, node, BDK_DPI_REQ_ERR_RSP);
         CHECK_ERROR(BDK_DPI_REQ_ERR_RSP, qerr);
     }
     {
-        BDK_CSR_INIT(c, BDK_DPI_REQ_ERR_RST);
+        BDK_CSR_INIT(c, node, BDK_DPI_REQ_ERR_RST);
         CHECK_ERROR(BDK_DPI_REQ_ERR_RST, qerr);
     }
 }
 
-static void check_fpa(void)
+static void check_fpa(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_FPA_INT_SUM);
+    BDK_CSR_INIT(c, node, BDK_FPA_INT_SUM);
     CHECK_ERROR(BDK_FPA_INT_SUM, fed0_dbe);
     CHECK_ERROR(BDK_FPA_INT_SUM, fed0_sbe);
     CHECK_ERROR(BDK_FPA_INT_SUM, fed1_dbe);
@@ -168,12 +168,12 @@ static void check_fpa(void)
     CHECK_ERROR(BDK_FPA_INT_SUM, q8_und);
 }
 
-static void check_gmx(int gmx)
+static void check_gmx(bdk_node_t node, int gmx)
 {
     int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
-        BDK_CSR_INIT(c, BDK_GMXX_RXX_INT_REG_2(gmx, index));
+        BDK_CSR_INIT(c, node, BDK_GMXX_RXX_INT_REG_2(gmx, index));
         CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), bad_seq);
         CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), bad_term);
         CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), carext);
@@ -188,14 +188,14 @@ static void check_gmx(int gmx)
         CHECK_ERROR(BDK_GMXX_RXX_INT_REG_2(gmx, index), unsop);
     }
     {
-        BDK_CSR_INIT(c, BDK_GMXX_TX_INT_REG(gmx));
+        BDK_CSR_INIT(c, node, BDK_GMXX_TX_INT_REG(gmx));
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxa);
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxp);
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), ptp_lost);
         CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), undflw);
     }
     {
-        BDK_CSR_INIT(c, BDK_GMXX_BAD_REG(gmx));
+        BDK_CSR_INIT(c, node, BDK_GMXX_BAD_REG(gmx));
         CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), inb_nxa);
         CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), loststat);
         CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), out_ovr);
@@ -203,9 +203,9 @@ static void check_gmx(int gmx)
     }
 }
 
-static void check_ilk(void)
+static void check_ilk(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_ILK_GBL_INT);
+    BDK_CSR_INIT(c, node, BDK_ILK_GBL_INT);
     CHECK_ERROR(BDK_ILK_GBL_INT, rxf_ctl_perr);
     CHECK_ERROR(BDK_ILK_GBL_INT, rxf_lnk0_perr);
     CHECK_ERROR(BDK_ILK_GBL_INT, rxf_lnk1_perr);
@@ -215,14 +215,14 @@ static void check_ilk(void)
     for (int ilk=0; ilk<2; ilk++)
     {
         {
-            BDK_CSR_INIT(c, BDK_ILK_TXX_INT(ilk));
+            BDK_CSR_INIT(c, node, BDK_ILK_TXX_INT(ilk));
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_pipe);
             CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_seq);
             /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
             //CHECK_ERROR(BDK_ILK_TXX_INT(ilk), txf_err);
         }
         {
-            BDK_CSR_INIT(c, BDK_ILK_RXX_INT(ilk));
+            BDK_CSR_INIT(c, node, BDK_ILK_RXX_INT(ilk));
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), crc24_err);
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), lane_bad_word);
             CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_rid);
@@ -232,7 +232,7 @@ static void check_ilk(void)
     }
     for (int lane=0; lane<8; lane++)
     {
-        BDK_CSR_INIT(c, BDK_ILK_RX_LNEX_INT(lane));
+        BDK_CSR_INIT(c, node, BDK_ILK_RX_LNEX_INT(lane));
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), bad_64b67b);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), bdry_sync_loss);
         CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), crc32_err);
@@ -244,9 +244,9 @@ static void check_ilk(void)
     }
 }
 
-static void check_iob(void)
+static void check_iob(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_IOB_INT_SUM);
+    BDK_CSR_INIT(c, node, BDK_IOB_INT_SUM);
     CHECK_ERROR(BDK_IOB_INT_SUM, np_dat);
     CHECK_ERROR(BDK_IOB_INT_SUM, np_eop);
     CHECK_ERROR(BDK_IOB_INT_SUM, np_sop);
@@ -255,9 +255,9 @@ static void check_iob(void)
     CHECK_ERROR(BDK_IOB_INT_SUM, p_sop);
 }
 
-static void check_ipd(void)
+static void check_ipd(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_IPD_INT_SUM);
+    BDK_CSR_INIT(c, node, BDK_IPD_INT_SUM);
     CHECK_ERROR(BDK_IPD_INT_SUM, bc_ovr);
     CHECK_ERROR(BDK_IPD_INT_SUM, bp_sub);
     CHECK_ERROR(BDK_IPD_INT_SUM, c_coll);
@@ -281,9 +281,9 @@ static void check_ipd(void)
     CHECK_ERROR(BDK_IPD_INT_SUM, sop);
 }
 
-static void check_key(void)
+static void check_key(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_KEY_INT_SUM);
+    BDK_CSR_INIT(c, node, BDK_KEY_INT_SUM);
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_dbe);
@@ -303,9 +303,9 @@ static void check_key(void)
     }
 }
 
-static void check_l2c_tad(int tad)
+static void check_l2c_tad(bdk_node_t node, int tad)
 {
-    BDK_CSR_INIT(c, BDK_L2C_TADX_INT(tad));
+    BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT(tad));
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2ddbe);
     CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2dsbe);
     if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
@@ -326,40 +326,40 @@ static void check_l2c_tad(int tad)
     }
 }
 
-static void check_l2c(void)
+static void check_l2c(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_L2C_INT_REG);
+    BDK_CSR_INIT(c, node, BDK_L2C_INT_REG);
     CHECK_ERROR(BDK_L2C_INT_REG, bigrd);
     CHECK_ERROR(BDK_L2C_INT_REG, bigwr);
     CHECK_ERROR(BDK_L2C_INT_REG, holerd);
     CHECK_ERROR(BDK_L2C_INT_REG, holewr);
-    if (c.s.tad0) check_l2c_tad(0);
-    if (c.s.tad1) check_l2c_tad(1);
-    if (c.s.tad2) check_l2c_tad(2);
-    if (c.s.tad3) check_l2c_tad(3);
+    if (c.s.tad0) check_l2c_tad(node, 0);
+    if (c.s.tad1) check_l2c_tad(node, 1);
+    if (c.s.tad2) check_l2c_tad(node, 2);
+    if (c.s.tad3) check_l2c_tad(node, 3);
     CHECK_ERROR(BDK_L2C_INT_REG, vrtadrng);
     CHECK_ERROR(BDK_L2C_INT_REG, vrtidrng);
     CHECK_ERROR(BDK_L2C_INT_REG, vrtpe);
     CHECK_ERROR(BDK_L2C_INT_REG, vrtwr);
 }
 
-static void check_lmc(int lmc)
+static void check_lmc(bdk_node_t node, int lmc)
 {
-    BDK_CSR_INIT(c, BDK_LMCX_INT(lmc));
+    BDK_CSR_INIT(c, node, BDK_LMCX_INT(lmc));
     CHECK_ERROR(BDK_LMCX_INT(lmc), ded_err);
     CHECK_ERROR(BDK_LMCX_INT(lmc), nxm_wr_err);
     CHECK_ERROR(BDK_LMCX_INT(lmc), sec_err);
 }
 
-static void check_mio(void)
+static void check_mio(bdk_node_t node)
 {
     {
-        BDK_CSR_INIT(c, BDK_MIO_BOOT_ERR);
+        BDK_CSR_INIT(c, node, BDK_MIO_BOOT_ERR);
         CHECK_ERROR(BDK_MIO_BOOT_ERR, adr_err);
         CHECK_ERROR(BDK_MIO_BOOT_ERR, wait_err);
     }
     {
-        BDK_CSR_INIT(c, BDK_MIO_RST_INT);
+        BDK_CSR_INIT(c, node, BDK_MIO_RST_INT);
         CHECK_ERROR(BDK_MIO_RST_INT, perst0);
         CHECK_ERROR(BDK_MIO_RST_INT, perst1);
         CHECK_ERROR(BDK_MIO_RST_INT, rst_link0);
@@ -367,9 +367,9 @@ static void check_mio(void)
     }
 }
 
-static void check_mix(int mix)
+static void check_mix(bdk_node_t node, int mix)
 {
-    BDK_CSR_INIT(c, BDK_MIXX_ISR(mix));
+    BDK_CSR_INIT(c, node, BDK_MIXX_ISR(mix));
     CHECK_ERROR(BDK_MIXX_ISR(mix), data_drp);
     CHECK_ERROR(BDK_MIXX_ISR(mix), idblovf);
     CHECK_ERROR(BDK_MIXX_ISR(mix), irun);
@@ -377,9 +377,9 @@ static void check_mix(int mix)
     CHECK_ERROR(BDK_MIXX_ISR(mix), orun);
 }
 
-static void check_nand(void)
+static void check_nand(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_NDF_INT);
+    BDK_CSR_INIT(c, node, BDK_NDF_INT);
     CHECK_ERROR(BDK_NDF_INT, ecc_1bit);
     CHECK_ERROR(BDK_NDF_INT, ecc_mult);
     CHECK_ERROR(BDK_NDF_INT, ovrf);
@@ -387,11 +387,11 @@ static void check_nand(void)
     CHECK_ERROR(BDK_NDF_INT, wdog);
 }
 
-static void check_pcm(void)
+static void check_pcm(bdk_node_t node)
 {
     for (int pcm=0; pcm<4; pcm++)
     {
-        BDK_CSR_INIT(c, BDK_PCMX_INT_SUM(pcm));
+        BDK_CSR_INIT(c, node, BDK_PCMX_INT_SUM(pcm));
         CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), fsyncextra);
         CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), fsyncmissed);
         CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), rxovf);
@@ -399,12 +399,12 @@ static void check_pcm(void)
     }
 }
 
-static void check_pcs(int pcs)
+static void check_pcs(bdk_node_t node, int pcs)
 {
     int max_index = 4;
     for (int index=0; index<max_index; index++)
     {
-        BDK_CSR_INIT(c, BDK_PCSX_INTX_REG_2(pcs, index));
+        BDK_CSR_INIT(c, node, BDK_PCSX_INTX_REG_2(pcs, index));
         CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), an_bad);
         CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), an_err);
         CHECK_ERROR(BDK_PCSX_INTX_REG_2(pcs, index), dbg_sync);
@@ -417,22 +417,22 @@ static void check_pcs(int pcs)
     }
 }
 
-static void check_pcsx(int pcsx)
+static void check_pcsx(bdk_node_t node, int pcsx)
 {
-    BDK_CSR_INIT(c, BDK_PCSXX_INT_REG(pcsx));
+    BDK_CSR_INIT(c, node, BDK_PCSXX_INT_REG(pcsx));
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxbad);
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxsynbad);
     CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), txflt);
 }
 
-static void check_pem(int pem)
+static void check_pem(bdk_node_t node, int pem)
 {
-    BDK_CSR_INIT(c, BDK_PEMX_INT_SUM(pem));
+    BDK_CSR_INIT(c, node, BDK_PEMX_INT_SUM(pem));
     CHECK_ERROR(BDK_PEMX_INT_SUM(pem), crs_dr);
     CHECK_ERROR(BDK_PEMX_INT_SUM(pem), crs_er);
     if (c.s.exc)
     {
-        BDK_CSR_INIT(c, BDK_PEMX_DBG_INFO(pem));
+        BDK_CSR_INIT(c, node, BDK_PEMX_DBG_INFO(pem));
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), acto);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), caar);
         CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), dpeoosd);
@@ -469,9 +469,9 @@ static void check_pem(int pem)
     CHECK_ERROR(BDK_PEMX_INT_SUM(pem), up_bx);
 }
 
-static void check_pip(void)
+static void check_pip(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_PIP_INT_REG);
+    BDK_CSR_INIT(c, node, BDK_PIP_INT_REG);
     CHECK_ERROR(BDK_PIP_INT_REG, badtag);
     CHECK_ERROR(BDK_PIP_INT_REG, beperr);
     CHECK_ERROR(BDK_PIP_INT_REG, feperr);
@@ -481,24 +481,24 @@ static void check_pip(void)
     CHECK_ERROR(BDK_PIP_INT_REG, todoovr);
 }
 
-static void check_pko(void)
+static void check_pko(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_PKO_REG_ERROR);
+    BDK_CSR_INIT(c, node, BDK_PKO_REG_ERROR);
     CHECK_ERROR(BDK_PKO_REG_ERROR, currzero);
     CHECK_ERROR(BDK_PKO_REG_ERROR, doorbell);
     CHECK_ERROR(BDK_PKO_REG_ERROR, loopback);
     CHECK_ERROR(BDK_PKO_REG_ERROR, parity);
 }
 
-static void check_rad(void)
+static void check_rad(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_RAD_REG_ERROR);
+    BDK_CSR_INIT(c, node, BDK_RAD_REG_ERROR);
     CHECK_ERROR(BDK_RAD_REG_ERROR, doorbell);
 }
 
-static void check_sso_cn68xx(void)
+static void check_sso_cn68xx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_SSO_ERR);
+    BDK_CSR_INIT(c, node, BDK_SSO_ERR);
     CHECK_ERROR(BDK_SSO_ERR, awe);
     CHECK_ERROR(BDK_SSO_ERR, bfp);
     CHECK_ERROR(BDK_SSO_ERR, fidx_dbe);
@@ -517,33 +517,33 @@ static void check_sso_cn68xx(void)
     CHECK_ERROR(BDK_SSO_ERR, pnd_sbe1);
 }
 
-static void check_sso_cn6xxx(void)
+static void check_sso_cn6xxx(bdk_node_t node)
 {
     //FIXME
 }
 
-static void check_tim_cn68xx(void)
+static void check_tim_cn68xx(bdk_node_t node)
 {
     {
-        BDK_CSR_INIT(c, BDK_TIM_INT0);
+        BDK_CSR_INIT(c, node, BDK_TIM_INT0);
         CHECK_ERROR(BDK_TIM_INT0, int0);
     }
     {
-        BDK_CSR_INIT(c, BDK_TIM_INT_ECCERR);
+        BDK_CSR_INIT(c, node, BDK_TIM_INT_ECCERR);
         CHECK_ERROR(BDK_TIM_INT_ECCERR, dbe);
         CHECK_ERROR(BDK_TIM_INT_ECCERR, sbe);
     }
 }
 
-static void check_tim_cn6xxx(void)
+static void check_tim_cn6xxx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_TIM_REG_ERROR);
+    BDK_CSR_INIT(c, node, BDK_TIM_REG_ERROR);
     CHECK_ERROR(BDK_TIM_REG_ERROR, mask);
 }
 
-static void check_usb(int usb)
+static void check_usb(bdk_node_t node, int usb)
 {
-    BDK_CSR_INIT(c, BDK_UCTLX_INT_REG(usb));
+    BDK_CSR_INIT(c, node, BDK_UCTLX_INT_REG(usb));
     CHECK_ERROR(BDK_UCTLX_INT_REG(usb), cf_psh_f);
     CHECK_ERROR(BDK_UCTLX_INT_REG(usb), ec_ovf_e);
     CHECK_ERROR(BDK_UCTLX_INT_REG(usb), er_psh_f);
@@ -554,14 +554,14 @@ static void check_usb(int usb)
     CHECK_ERROR(BDK_UCTLX_INT_REG(usb), wb_psh_f);
 }
 
-static void check_zip(void)
+static void check_zip(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_ZIP_ERROR);
+    BDK_CSR_INIT(c, node, BDK_ZIP_ERROR);
     CHECK_ERROR(BDK_ZIP_ERROR, doorbell);
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
-        BDK_CSR_INIT(c, BDK_ZIP_INT_REG);
+        BDK_CSR_INIT(c, node, BDK_ZIP_INT_REG);
         CHECK_ERROR(BDK_ZIP_INT_REG, doorbell0);
         CHECK_ERROR(BDK_ZIP_INT_REG, doorbell1);
         CHECK_ERROR(BDK_ZIP_INT_REG, ibdbe);
@@ -569,115 +569,115 @@ static void check_zip(void)
     }
 }
 
-static void check_cn6xxx(void)
+static void check_cn6xxx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_CIU_INTX_SUM0(0));
-    if (c.s.mii) check_mix(0);
-    if (c.s.pcm) check_pcm();
+    BDK_CSR_INIT(c, node, BDK_CIU_INTX_SUM0(0));
+    if (c.s.mii) check_mix(node, 0);
+    if (c.s.pcm) check_pcm(node);
     if (c.s.rml)
     {
-        BDK_CSR_INIT(c, BDK_CIU_BLOCK_INT);
-        if (c.s.agl) check_agl();
+        BDK_CSR_INIT(c, node, BDK_CIU_BLOCK_INT);
+        if (c.s.agl) check_agl(node);
         if (c.s.asxpcs0)
         {
-            check_pcs(0);
-            check_pcsx(0);
+            check_pcs(node, 0);
+            check_pcsx(node, 0);
         }
         if (c.s.asxpcs1)
         {
-            check_pcs(1);
-            check_pcsx(1);
+            check_pcs(node, 1);
+            check_pcsx(node, 1);
         }
-        if (c.s.dfa) check_dfa();
-        if (c.s.dpi) check_dpi();
-        if (c.s.fpa) check_fpa();
-        if (c.s.gmx0) check_gmx(0);
-        if (c.s.gmx1) check_gmx(1);
-        if (c.s.iob) check_iob();
-        if (c.s.ipd) check_ipd();
-        if (c.s.key) check_key();
-        if (c.s.l2c) check_l2c();
-        if (c.s.lmc0) check_lmc(0);
-        if (c.s.mio) check_mio();
-        if (c.s.pem0) check_pem(0);
-        if (c.s.pem1) check_pem(1);
-        if (c.s.pip) check_pip();
-        if (c.s.pko) check_pko();
-        if (c.s.pow) check_sso_cn6xxx();
-        if (c.s.rad) check_rad();
-        if (c.s.tim) check_tim_cn6xxx();
-        if (c.s.zip) check_zip();
+        if (c.s.dfa) check_dfa(node);
+        if (c.s.dpi) check_dpi(node);
+        if (c.s.fpa) check_fpa(node);
+        if (c.s.gmx0) check_gmx(node, 0);
+        if (c.s.gmx1) check_gmx(node, 1);
+        if (c.s.iob) check_iob(node);
+        if (c.s.ipd) check_ipd(node);
+        if (c.s.key) check_key(node);
+        if (c.s.l2c) check_l2c(node);
+        if (c.s.lmc0) check_lmc(node, 0);
+        if (c.s.mio) check_mio(node);
+        if (c.s.pem0) check_pem(node, 0);
+        if (c.s.pem1) check_pem(node, 1);
+        if (c.s.pip) check_pip(node);
+        if (c.s.pko) check_pko(node);
+        if (c.s.pow) check_sso_cn6xxx(node);
+        if (c.s.rad) check_rad(node);
+        if (c.s.tim) check_tim_cn6xxx(node);
+        if (c.s.zip) check_zip(node);
     }
     {
-        BDK_CSR_INIT(c, BDK_CIU_INT_SUM1);
-        if (c.s.mii1) check_mix(1);
-        if (c.s.nand) check_nand();
-        if (c.s.usb) check_usb(0);
+        BDK_CSR_INIT(c, node, BDK_CIU_INT_SUM1);
+        if (c.s.mii1) check_mix(node, 1);
+        if (c.s.nand) check_nand(node);
+        if (c.s.usb) check_usb(node, 0);
     }
 }
 
-static void check_cn68xx(void)
+static void check_cn68xx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, BDK_CIU_SUM_PPX_IP2(0));
+    BDK_CSR_INIT(c, node, BDK_CIU_SUM_PPX_IP2(0));
     if (c.s.io)
     {
-        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_IO(0));
+        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_IO(0));
         for (int pem=0; pem<2; pem++)
             if (c.s.pem & (1<<pem))
-                check_pem(pem);
+                check_pem(node, pem);
     }
     if (c.s.mem)
     {
-        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_MEM(0));
+        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_MEM(0));
         for (int lmc=0; lmc<4; lmc++)
         if (c.s.lmc & (1<<lmc))
-            check_lmc(lmc);
+            check_lmc(node, lmc);
     }
     if (c.s.mio)
     {
-        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_MIO(0));
-        if (c.s.mio) check_mio();
-        if (c.s.nand) check_nand();
-        if (c.s.usb_uctl) check_usb(0);
+        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_MIO(0));
+        if (c.s.mio) check_mio(node);
+        if (c.s.nand) check_nand(node);
+        if (c.s.usb_uctl) check_usb(node, 0);
     }
     if (c.s.pkt)
     {
-        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_PKT(0));
-        if (c.s.agl) check_agl();
+        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_PKT(0));
+        if (c.s.agl) check_agl(node);
         for (int gmx=0; gmx<5; gmx++)
         {
             if (c.s.agx & (1<<gmx))
             {
-                check_gmx(gmx);
-                check_pcs(gmx);
-                check_pcsx(gmx);
+                check_gmx(node, gmx);
+                check_pcs(node, gmx);
+                check_pcsx(node, gmx);
             }
         }
-        if (c.s.ilk) check_ilk();
-        if (c.s.mii) check_mix(0);
+        if (c.s.ilk) check_ilk(node);
+        if (c.s.mii) check_mix(node, 0);
     }
     if (c.s.rml)
     {
-        BDK_CSR_INIT(c, BDK_CIU_SRC_PPX_IP2_RML(0));
-        if (c.s.dfa) check_dfa();
-        if (c.s.dpi) check_dpi();
-        if (c.s.fpa) check_fpa();
-        if (c.s.iob) check_iob();
-        if (c.s.ipd) check_ipd();
-        if (c.s.key) check_key();
-        if (c.s.l2c) check_l2c();
-        if (c.s.pip) check_pip();
-        if (c.s.pko) check_pko();
-        if (c.s.rad) check_rad();
-        if (c.s.sso) check_sso_cn68xx();
-        if (c.s.tim) check_tim_cn68xx();
-        if (c.s.zip) check_zip();
+        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_RML(0));
+        if (c.s.dfa) check_dfa(node);
+        if (c.s.dpi) check_dpi(node);
+        if (c.s.fpa) check_fpa(node);
+        if (c.s.iob) check_iob(node);
+        if (c.s.ipd) check_ipd(node);
+        if (c.s.key) check_key(node);
+        if (c.s.l2c) check_l2c(node);
+        if (c.s.pip) check_pip(node);
+        if (c.s.pko) check_pko(node);
+        if (c.s.rad) check_rad(node);
+        if (c.s.sso) check_sso_cn68xx(node);
+        if (c.s.tim) check_tim_cn68xx(node);
+        if (c.s.zip) check_zip(node);
     }
 }
 
-static void enable_dfa(void)
+static void enable_dfa(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_DFA_INTMSK,
+    BDK_CSR_MODIFY(c, node, BDK_DFA_INTMSK,
         c.s.dblina = -1;
         c.s.dc0pena = -1;
         c.s.dc1pena = -1;
@@ -689,9 +689,9 @@ static void enable_dfa(void)
     );
 }
 
-static void enable_dpi(void)
+static void enable_dpi(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_DPI_INT_EN,
+    BDK_CSR_MODIFY(c, node, BDK_DPI_INT_EN,
         c.s.dmadbo = -1;
         c.s.nderr = -1;
         c.s.nfovr = -1;
@@ -709,9 +709,9 @@ static void enable_dpi(void)
     );
 }
 
-static void enable_fpa(void)
+static void enable_fpa(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_FPA_INT_ENB,
+    BDK_CSR_MODIFY(c, node, BDK_FPA_INT_ENB,
         c.s.fed0_dbe = -1;
         c.s.fed0_sbe = -1;
         c.s.fed1_dbe = -1;
@@ -765,9 +765,9 @@ static void enable_fpa(void)
     );
 }
 
-static void enable_iob(void)
+static void enable_iob(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_IOB_INT_ENB,
+    BDK_CSR_MODIFY(c, node, BDK_IOB_INT_ENB,
         c.s.np_dat = -1;
         c.s.np_eop = -1;
         c.s.np_sop = -1;
@@ -777,9 +777,9 @@ static void enable_iob(void)
     );
 }
 
-static void enable_ipd(void)
+static void enable_ipd(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_IPD_INT_ENB,
+    BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
         c.s.bc_ovr = -1;
         c.s.bp_sub = -1;
         c.s.c_coll = -1;
@@ -804,10 +804,10 @@ static void enable_ipd(void)
     );
 }
 
-static void enable_key(void)
+static void enable_key(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        BDK_CSR_MODIFY(c, BDK_KEY_INT_ENB,
+        BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
             c.cn70xx.key_dbe = -1;
             c.cn70xx.key_sbe = -1;
         );
@@ -816,7 +816,7 @@ static void enable_key(void)
         /* No interrupt enables? Very bad */
     }
     else
-        BDK_CSR_MODIFY(c, BDK_KEY_INT_ENB,
+        BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
             c.cn68xx.ked0_dbe = -1;
             c.cn68xx.ked0_sbe = -1;
             c.cn68xx.ked1_dbe = -1;
@@ -824,9 +824,9 @@ static void enable_key(void)
         );
 }
 
-static void enable_l2c_tad(int tad)
+static void enable_l2c_tad(bdk_node_t node, int tad)
 {
-    BDK_CSR_MODIFY(c, BDK_L2C_TADX_IEN(tad),
+    BDK_CSR_MODIFY(c, node, BDK_L2C_TADX_IEN(tad),
         c.s.l2ddbe = -1;
         c.s.l2dsbe = -1;
         c.s.rddislmc = -1;
@@ -838,9 +838,9 @@ static void enable_l2c_tad(int tad)
     );
 }
 
-static void enable_l2c(void)
+static void enable_l2c(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_L2C_INT_ENA,
+    BDK_CSR_MODIFY(c, node, BDK_L2C_INT_ENA,
         c.s.bigrd = -1;
         c.s.bigwr = -1;
         c.s.holerd = -1;
@@ -852,25 +852,25 @@ static void enable_l2c(void)
     );
     int max_tads = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 1;
     for (int tad=0; tad<max_tads; tad++)
-        enable_l2c_tad(tad);
+        enable_l2c_tad(node, tad);
 }
 
-static void enable_lmc(int lmc)
+static void enable_lmc(bdk_node_t node, int lmc)
 {
-    BDK_CSR_MODIFY(c, BDK_LMCX_INT_EN(lmc),
+    BDK_CSR_MODIFY(c, node, BDK_LMCX_INT_EN(lmc),
         c.s.intr_ded_ena = -1;
         c.s.intr_nxm_wr_ena = -1;
         c.s.intr_sec_ena = -1;
     );
 }
 
-static void enable_mio(void)
+static void enable_mio(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_MIO_BOOT_INT,
+    BDK_CSR_MODIFY(c, node, BDK_MIO_BOOT_INT,
         c.s.adr_int = -1;
         c.s.wait_int = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_MIO_RST_INT_EN,
+    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_INT_EN,
         c.s.perst0 = -1;
         c.s.perst1 = -1;
         c.s.rst_link0 = -1;
@@ -878,9 +878,9 @@ static void enable_mio(void)
     );
 }
 
-static void enable_nand(void)
+static void enable_nand(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_NDF_INT_EN,
+    BDK_CSR_MODIFY(c, node, BDK_NDF_INT_EN,
         c.s.ecc_1bit = -1;
         c.s.ecc_mult = -1;
         c.s.ovrf = -1;
@@ -889,11 +889,11 @@ static void enable_nand(void)
     );
 }
 
-static void enable_pcm(void)
+static void enable_pcm(bdk_node_t node)
 {
     for (int pcm=0; pcm<4; pcm++)
     {
-        BDK_CSR_MODIFY(c, BDK_PCMX_INT_ENA(pcm),
+        BDK_CSR_MODIFY(c, node, BDK_PCMX_INT_ENA(pcm),
             c.s.fsyncextra = -1;
             c.s.fsyncmissed = -1;
             c.s.rxovf = -1;
@@ -902,9 +902,9 @@ static void enable_pcm(void)
     }
 }
 
-static void enable_pem(int pem)
+static void enable_pem(bdk_node_t node, int pem)
 {
-    BDK_CSR_MODIFY(c, BDK_PEMX_INT_ENB(pem),
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_INT_ENB(pem),
         c.s.crs_dr = -1;
         c.s.crs_er = -1;
         c.s.exc = -1;
@@ -917,7 +917,7 @@ static void enable_pem(int pem)
         c.s.up_b2 = -1;
         c.s.up_bx = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_PEMX_DBG_INFO_EN(pem),
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_DBG_INFO_EN(pem),
         c.s.acto = -1;
         c.s.caar = -1;
         c.s.dpeoosd = -1;
@@ -951,9 +951,9 @@ static void enable_pem(int pem)
     );
 }
 
-static void enable_pip(void)
+static void enable_pip(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_PIP_INT_EN,
+    BDK_CSR_MODIFY(c, node, BDK_PIP_INT_EN,
         c.s.badtag = -1;
         c.s.beperr = -1;
         c.s.feperr = -1;
@@ -964,9 +964,9 @@ static void enable_pip(void)
     );
 }
 
-static void enable_pko(void)
+static void enable_pko(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_PKO_REG_INT_MASK,
+    BDK_CSR_MODIFY(c, node, BDK_PKO_REG_INT_MASK,
         c.s.currzero = -1;
         c.s.doorbell = -1;
         c.s.loopback = -1;
@@ -974,16 +974,16 @@ static void enable_pko(void)
     );
 }
 
-static void enable_rad(void)
+static void enable_rad(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_RAD_REG_INT_MASK,
+    BDK_CSR_MODIFY(c, node, BDK_RAD_REG_INT_MASK,
         c.s.doorbell = -1;
     );
 }
 
-static void enable_sso_cn68xx(void)
+static void enable_sso_cn68xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_SSO_ERR_ENB,
+    BDK_CSR_MODIFY(c, node, BDK_SSO_ERR_ENB,
         c.s.awe_ie = -1;
         c.s.bfp_ie = -1;
         c.s.fidx_dbe_ie = -1;
@@ -1003,32 +1003,32 @@ static void enable_sso_cn68xx(void)
     );
 }
 
-static void enable_sso_cn6xxx(void)
+static void enable_sso_cn6xxx(bdk_node_t node)
 {
     // FIXME
 }
 
-static void enable_tim_cn68xx(void)
+static void enable_tim_cn68xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_TIM_INT0_EN,
+    BDK_CSR_MODIFY(c, node, BDK_TIM_INT0_EN,
         c.s.int0_en = -1;
     );
-    BDK_CSR_MODIFY(c, BDK_TIM_INT_ECCERR_EN,
+    BDK_CSR_MODIFY(c, node, BDK_TIM_INT_ECCERR_EN,
         c.s.dbe_en = -1;
         c.s.sbe_en = -1;
     );
 }
 
-static void enable_tim_cn6xxx(void)
+static void enable_tim_cn6xxx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_TIM_REG_INT_MASK,
+    BDK_CSR_MODIFY(c, node, BDK_TIM_REG_INT_MASK,
         c.s.mask = -1;
     );
 }
 
-static void enable_usb(int usb)
+static void enable_usb(bdk_node_t node, int usb)
 {
-    BDK_CSR_MODIFY(c, BDK_UCTLX_INT_ENA(usb),
+    BDK_CSR_MODIFY(c, node, BDK_UCTLX_INT_ENA(usb),
         c.s.cf_psh_f = -1;
         c.s.ec_ovf_e = -1;
         c.s.er_psh_f = -1;
@@ -1040,13 +1040,13 @@ static void enable_usb(int usb)
     );
 }
 
-static void enable_zip(void)
+static void enable_zip(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, BDK_ZIP_INT_MASK,
+    BDK_CSR_MODIFY(c, node, BDK_ZIP_INT_MASK,
         c.s.doorbell = -1;
     );
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, BDK_ZIP_INT_ENA,
+        BDK_CSR_MODIFY(c, node, BDK_ZIP_INT_ENA,
             c.s.doorbell0 = -1;
             c.s.doorbell1 = -1;
             c.s.ibdbe = -1;
@@ -1054,78 +1054,78 @@ static void enable_zip(void)
         );
 }
 
-static void enable_cn6xxx(void)
+static void enable_cn6xxx(bdk_node_t node)
 {
     /* Interrupts connected to CIU SUM0 */
-    BDK_CSR_MODIFY(c, BDK_CIU_INTX_EN0(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_INTX_EN0(0),
         c.s.mii = -1;
         c.s.pcm = -1;
         c.s.rml = -1;
     );
     /* MIX is enabled in the bdk_if code */
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        enable_pcm();
+        enable_pcm(node);
 
     /* Interrupts off of RML */
     /* AGL, GMX, PCS and PCSX are enabled in the bdk_if code */
-    enable_dpi();
-    enable_fpa();
-    enable_iob();
-    enable_ipd();
-    enable_key();
-    enable_l2c();
-    enable_lmc(0);
-    enable_mio();
-    enable_pem(0);
-    enable_pem(1);
-    enable_pip();
-    enable_pko();
-    enable_rad();
-    enable_sso_cn6xxx();
-    enable_tim_cn6xxx();
-    enable_zip();
+    enable_dpi(node);
+    enable_fpa(node);
+    enable_iob(node);
+    enable_ipd(node);
+    enable_key(node);
+    enable_l2c(node);
+    enable_lmc(node, 0);
+    enable_mio(node);
+    enable_pem(node, 0);
+    enable_pem(node, 1);
+    enable_pip(node);
+    enable_pko(node);
+    enable_rad(node);
+    enable_sso_cn6xxx(node);
+    enable_tim_cn6xxx(node);
+    enable_zip(node);
 
     /* Interrupts connected to CIU SUM1 */
-    BDK_CSR_MODIFY(c, BDK_CIU_INTX_EN1(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_INTX_EN1(0),
         c.s.mii1 = -1;
         c.s.nand = -1;
         c.s.usb = -1;
     );
     if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
-        enable_nand();
-    enable_usb(0);
+        enable_nand(node);
+    enable_usb(node, 0);
 }
 
-static void enable_cn68xx(void)
+static void enable_cn68xx(bdk_node_t node)
 {
     /* Interrupts connected to IO */
-    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_IO(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_IO(0),
         c.s.pem = -1;
     );
-    enable_pem(0);
-    enable_pem(1);
+    enable_pem(node, 0);
+    enable_pem(node, 1);
 
     /* Interrupts connected to MEM */
-    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_MEM(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_MEM(0),
         c.s.lmc = -1;
     );
-    enable_lmc(0);
-    enable_lmc(1);
-    enable_lmc(2);
-    enable_lmc(3);
+    enable_lmc(node, 0);
+    enable_lmc(node, 1);
+    enable_lmc(node, 2);
+    enable_lmc(node, 3);
 
     /* Interrupts connected to MIO */
-    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_MIO(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_MIO(0),
         c.s.mio = -1;
         c.s.nand = -1;
         c.s.usb_uctl = -1;
     );
-    enable_mio();
-    enable_nand();
-    enable_usb(0);
+    enable_mio(node);
+    enable_nand(node);
+    enable_usb(node, 0);
 
     /* Interrupts connected to PKT */
-    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_PKT(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_PKT(0),
         c.s.agl = -1;
         c.s.agx = -1;
         c.s.ilk = -1;
@@ -1134,7 +1134,7 @@ static void enable_cn68xx(void)
     /* AGL, MIX, ILK, GMX, PCS and PCSX are enabled in the bdk_if code */
 
     /* Interrupts connected to RML */
-    BDK_CSR_MODIFY(c, BDK_CIU_EN_PPX_IP2_RML(0),
+    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_RML(0),
         c.s.dfa = -1;
         c.s.dpi = -1;
         c.s.fpa = -1;
@@ -1149,34 +1149,34 @@ static void enable_cn68xx(void)
         c.s.tim = -1;
         c.s.zip = -1;
     );
-    enable_dfa();
-    enable_dpi();
-    enable_fpa();
-    enable_iob();
-    enable_ipd();
-    enable_key();
-    enable_l2c();
-    enable_pip();
-    enable_pko();
-    enable_rad();
-    enable_sso_cn68xx();
-    enable_tim_cn68xx();
-    enable_zip();
+    enable_dfa(node);
+    enable_dpi(node);
+    enable_fpa(node);
+    enable_iob(node);
+    enable_ipd(node);
+    enable_key(node);
+    enable_l2c(node);
+    enable_pip(node);
+    enable_pko(node);
+    enable_rad(node);
+    enable_sso_cn68xx(node);
+    enable_tim_cn68xx(node);
+    enable_zip(node);
 }
 
-void (*bdk_error_check)(void) = NULL;
-void bdk_error_enable(void)
+void (*bdk_error_check)(bdk_node_t node) = NULL;
+void bdk_error_enable(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return;
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
-        enable_cn68xx();
+        enable_cn68xx(node);
         bdk_error_check = check_cn68xx;
     }
     else
     {
-        enable_cn6xxx();
+        enable_cn6xxx(node);
         bdk_error_check = check_cn6xxx;
     }
 }

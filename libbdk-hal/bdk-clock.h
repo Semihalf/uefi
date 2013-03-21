@@ -43,13 +43,13 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
         case BDK_CLOCK_TIM:
         case BDK_CLOCK_IPD:
             if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-                return BDK_CSR_READ(BDK_FPA_CLK_COUNT);
+                return BDK_CSR_READ(BDK_NODE_LOCAL, BDK_FPA_CLK_COUNT);
             else
-                return BDK_CSR_READ(BDK_IPD_CLK_COUNT);
+                return BDK_CSR_READ(BDK_NODE_LOCAL, BDK_IPD_CLK_COUNT);
     }
     return 0;
 }
 
-extern uint64_t bdk_clock_get_rate(bdk_clock_t clock) __attribute__ ((pure));
+extern uint64_t bdk_clock_get_rate(bdk_node_t node, bdk_clock_t clock) __attribute__ ((pure));
 
 /** @} */

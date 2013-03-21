@@ -101,25 +101,25 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         octeon_remote_write_mem32(debug_handler_base + 48, 0x675a0000 | ((core_base>>60)&0xf) | 8);
 
         octeon_remote_debug(2, "Installing bootbus region 1\n");
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_CFGX(1), (1ull << 31) | (0x1fc00480 >> 4));
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_ADR, 0x80);  /* Auto increments after write */
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_CFGX(1), (1ull << 31) | (0x1fc00480 >> 4));
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_ADR, 0x80);  /* Auto increments after write */
         /* Most sig. word executes first */
         /*      dmtc0   ra, $COP0_DESAVE    40bff800 */
         /*      bal     1f                  04110001 */
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_DAT, 0x40bff80004110001ull);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, 0x40bff80004110001ull);
         /*       nop                        00000000 */
         /* 1:   ld      ra, 12(ra)          dfff000c */
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_DAT, 0x00000000dfff000cull);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, 0x00000000dfff000cull);
         /*      jr      ra                  03e00008 */
         /*      dmfc0  ra, $COP0_DESAVE     403ff800 */
-        OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_DAT, 0x03e00008403ff800ull);
+        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, 0x03e00008403ff800ull);
     }
 
     uint64_t address = debug_handler_base;
     octeon_remote_debug(2, "Writing secondary handler address 0x%llx\n", (1ull<<63) | address);
-    OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_ADR, 0x98);
-    OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_DAT, (1ull<<63) | address);
-    OCTEON_REMOTE_READ_CSR(BDK_MIO_BOOT_LOC_DAT);  /* Ensure write has completed */
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_ADR, 0x98);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, (1ull<<63) | address);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT);  /* Ensure write has completed */
 
     /* For the handlers we must set the core stop
         mode. A value of "2" in the R0 storage location tells the low level
@@ -146,7 +146,7 @@ int octeon_remote_debug_handler_remove(void)
         OCTEON_REMOTE_DEBUG_RETURNED("%d - Nothing to do", 0);
         return 0;
     }
-    OCTEON_REMOTE_WRITE_CSR(BDK_MIO_BOOT_LOC_CFGX(1), 0);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_CFGX(1), 0);
     installed_handler = -1;
     OCTEON_REMOTE_DEBUG_RETURNED("%d", 0);
     return 0;

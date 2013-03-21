@@ -24,8 +24,9 @@ static uint64_t build_mask(int bits, int left_shift)
 static int octeon_csr_read(lua_State* L)
 {
     const char *name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     luaL_argcheck(L, lua_gettop(L) == 0, 1, "No arguments expected");
-    lua_pushnumber(L, bdk_csr_read_by_name(name));
+    lua_pushnumber(L, bdk_csr_read_by_name(node, name));
     return 1;
 }
 
@@ -39,7 +40,8 @@ static int octeon_csr_read(lua_State* L)
 static int octeon_csr_write(lua_State* L)
 {
     const char *name = lua_tostring(L, lua_upvalueindex(1));
-    bdk_csr_write_by_name(name, luaL_checknumber(L, 1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
+    bdk_csr_write_by_name(node, name, luaL_checknumber(L, 1));
     return 0;
 }
 
@@ -53,11 +55,12 @@ static int octeon_csr_write(lua_State* L)
 static int octeon_csr_display(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     uint64_t value;
     if (lua_isnumber(L, 1))
         value = luaL_checknumber(L, 1);
     else
-        value = bdk_csr_read_by_name(csr_name);
+        value = bdk_csr_read_by_name(node, csr_name);
     if (bdk_csr_decode(csr_name, value))
         return luaL_error(L, "%s: CSR not found", __FUNCTION__);
     return 0;
@@ -73,11 +76,12 @@ static int octeon_csr_display(lua_State* L)
 static int octeon_csr_decode(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     uint64_t value;
     if (lua_isnumber(L, 1))
         value = luaL_checknumber(L, 1);
     else
-        value = bdk_csr_read_by_name(csr_name);
+        value = bdk_csr_read_by_name(node, csr_name);
 
     const char *fieldn;
     int start_bit = 0;
@@ -109,6 +113,7 @@ static int octeon_csr_decode(lua_State* L)
 static int octeon_csr_encode(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     luaL_checktype(L, 1, LUA_TTABLE);
 
     uint64_t value = 0;
@@ -133,7 +138,7 @@ static int octeon_csr_encode(lua_State* L)
         start_bit += field_width;
         field_width = bdk_csr_field(csr_name, start_bit, &fieldn);
     }
-    bdk_csr_write_by_name(csr_name, value);
+    bdk_csr_write_by_name(node, csr_name, value);
     return 0;
 }
 
@@ -147,6 +152,7 @@ static int octeon_csr_encode(lua_State* L)
 static int octeon_csr_field_index(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     const char *field_name = luaL_checkstring(L, 2);
 
     const char *fieldn;
@@ -156,7 +162,7 @@ static int octeon_csr_field_index(lua_State* L)
     {
         if (strcasecmp(field_name, fieldn) == 0)
         {
-            uint64_t value = bdk_csr_read_by_name(csr_name);
+            uint64_t value = bdk_csr_read_by_name(node, csr_name);
             value >>= start_bit;
             value &= build_mask(field_width, 0);
             lua_pushnumber(L, value);
@@ -178,6 +184,7 @@ static int octeon_csr_field_index(lua_State* L)
 static int octeon_csr_field_newindex(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
+    bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
     const char *field_name = luaL_checkstring(L, 2);
     uint64_t new_value = luaL_checknumber(L, 3);
 
@@ -189,11 +196,11 @@ static int octeon_csr_field_newindex(lua_State* L)
     {
         if (strcasecmp(field_name, fieldn) == 0)
         {
-            uint64_t value = bdk_csr_read_by_name(csr_name);
+            uint64_t value = bdk_csr_read_by_name(node, csr_name);
             value &= ~build_mask(field_width, start_bit);
             new_value &= build_mask(field_width, 0);
             value |= new_value << start_bit;
-            bdk_csr_write_by_name(csr_name, value);
+            bdk_csr_write_by_name(node, csr_name, value);
             return 0;
         }
         start_bit += field_width;
@@ -213,33 +220,41 @@ static int octeon_csr_field_newindex(lua_State* L)
 static int octeon_csr_lookup(lua_State* L)
 {
     const char *name = luaL_checkstring(L, -1);
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
 
     if(bdk_csr_get_name(name, NULL))
         luaL_error(L, "Invalid CSR");
 
     lua_newtable(L);
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_read, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_read, 2);
     lua_setfield(L, -2, "read");
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_write, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_write, 2);
     lua_setfield(L, -2, "write");
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_display, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_display, 2);
     lua_setfield(L, -2, "display");
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_decode, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_decode, 2);
     lua_setfield(L, -2, "decode");
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_encode, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_encode, 2);
     lua_setfield(L, -2, "encode");
 
     lua_newtable(L);
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_field_index, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_field_index, 2);
     lua_setfield(L, -2, "__index");
     lua_pushstring(L, name);
-    lua_pushcclosure(L, octeon_csr_field_newindex, 1);
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, octeon_csr_field_newindex, 2);
     lua_setfield(L, -2, "__newindex");
     lua_setmetatable(L, -2);
     return 1;
@@ -295,7 +310,7 @@ static int octeon_csr_index(lua_State* L)
     {
         /* Can't find CSR, assume it is an indexed function */
         /* Use our argument as the upvalue for the function */
-        lua_pushcclosure(L, octeon_csr_namecall, 1);
+        lua_pushcclosure(L, octeon_csr_namecall, 2);
         return 1;
     }
     else

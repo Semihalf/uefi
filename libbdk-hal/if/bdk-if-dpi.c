@@ -1,11 +1,11 @@
 #include <bdk.h>
 
-static int if_num_interfaces(void)
+static int if_num_interfaces(bdk_node_t node)
 {
     return 0; /* FIXME: Change number of DPI interfaces to 1 once they are supported */
 }
 
-static int if_num_ports(int interface)
+static int if_num_ports(bdk_node_t node, int interface)
 {
     return 4;
 }
@@ -16,7 +16,7 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0x100 - 0x11f */
         handle->ipd_port = 0x100 + handle->index;
-        handle->pko_port = __bdk_pko_alloc_port();
+        handle->pko_port = __bdk_pko_alloc_port(handle->node);
     }
     else
     {
@@ -32,7 +32,7 @@ static int if_init(bdk_if_handle_t handle)
 {
     /* We need to disable length checking so packet < 64 bytes and jumbo
         frames don't get errors */
-    BDK_CSR_MODIFY(port_cfg, BDK_PIP_PRT_CFGX(handle->pknd),
+    BDK_CSR_MODIFY(port_cfg, handle->node, BDK_PIP_PRT_CFGX(handle->pknd),
             port_cfg.s.maxerr_en = 0;
             port_cfg.s.minerr_en = 0);
 
@@ -42,13 +42,13 @@ static int if_init(bdk_if_handle_t handle)
         static int pko_eid = -1;
         if (base_pipe == -1)
         {
-            base_pipe = __bdk_pko_alloc_pipe(if_num_ports(handle->interface));
-            pko_eid = __bdk_pko_alloc_engine();
+            base_pipe = __bdk_pko_alloc_pipe(handle->node, if_num_ports(handle->node, handle->interface));
+            pko_eid = __bdk_pko_alloc_engine(handle->node);
         }
         /* Configure the PKO internal port mappings */
         if (handle->index == 0)
-            BDK_CSR_MODIFY(c, BDK_SLI_TX_PIPE,
-                c.s.nump = if_num_ports(handle->interface);
+            BDK_CSR_MODIFY(c, handle->node, BDK_SLI_TX_PIPE,
+                c.s.nump = if_num_ports(handle->node, handle->interface);
                 c.s.base = base_pipe);
 
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
@@ -60,10 +60,10 @@ static int if_init(bdk_if_handle_t handle)
         ptrs.s.intr = 30;           /* Which interface */
         ptrs.s.eid = pko_eid;       /* Which engine */
         ptrs.s.ipid = handle->pko_port;
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+        BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* Setup PKIND and BPID */
-        BDK_CSR_MODIFY(c, BDK_SLI_PORTX_PKIND(handle->index),
+        BDK_CSR_MODIFY(c, handle->node, BDK_SLI_PORTX_PKIND(handle->index),
             c.s.bpkind = handle->pknd;
             c.s.pkind = handle->pknd);
     }

@@ -42,8 +42,8 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 
 extern int bdk_csr_decode(const char *name, uint64_t value);
 extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
-extern uint64_t bdk_csr_read_by_name(const char *name);
-extern int bdk_csr_write_by_name(const char *name, uint64_t value);
+extern uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name);
+extern int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
 
 #ifndef BDK_BUILD_HOST
@@ -53,6 +53,7 @@ extern int bdk_csr_get_name(const char *last_name, char *buffer);
  * used directly. Instead use the macro BDK_CSR_READ that fills
  * in the parameters to this function for you.
  *
+ * @param node    Node to use in a Numa setup. Can be an exact ID or a special value.
  * @param type    Bus type the CSR is on
  * @param busnum  Bus number the CSR is on
  * @param size    Width of the CSR in bytes
@@ -60,16 +61,17 @@ extern int bdk_csr_get_name(const char *last_name, char *buffer);
  *
  * @return The value of the CSR
  */
-static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, uint64_t address) __attribute__ ((always_inline));
-static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, uint64_t address)
+static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address) __attribute__ ((always_inline));
+static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
-    extern uint64_t __bdk_csr_read_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address);
+    extern uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
+            address |= (uint64_t)bdk_numa_id(node) << 36;
             switch (size)
             {
                 case 1:
@@ -82,7 +84,7 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
                     return *(volatile uint64_t *)address;
             }
         default:
-            return __bdk_csr_read_slow(type, busnum, size, address);
+            return __bdk_csr_read_slow(node, type, busnum, size, address);
     }
 }
 
@@ -92,22 +94,24 @@ static inline uint64_t bdk_csr_read(bdk_csr_type_t type, int busnum, int size, u
  * used directly. Instead use the macro BDK_CSR_WRITE that fills
  * in the parameters to this function for you.
  *
+ * @param node    Node to use in a Numa setup. Can be an exact ID or a special value.
  * @param type    Bus type the CSR is on
  * @param busnum  Bus number the CSR is on
  * @param size    Width of the CSR in bytes
  * @param address The address of the CSR
  * @param value   Value to write to the CSR
  */
-static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__ ((always_inline));
-static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
+static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__ ((always_inline));
+static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
-    extern void __bdk_csr_write_slow(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+    extern void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
+            address |= (uint64_t)bdk_numa_id(node) << 36;
             switch (size)
             {
                 case 1:
@@ -126,7 +130,7 @@ static inline void bdk_csr_write(bdk_csr_type_t type, int busnum, int size, uint
             break;
 
         default:
-            __bdk_csr_write_slow(type, busnum, size, address, value);
+            __bdk_csr_write_slow(node, type, busnum, size, address, value);
     }
 }
 
@@ -151,27 +155,27 @@ static inline void bdk_send_single(uint64_t data)
  * This macro makes it easy to define a variable and initialize it
  * with a CSR.
  */
-#define BDK_CSR_INIT(name, csr) typedef_##csr name = {.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}
+#define BDK_CSR_INIT(name, node, csr) typedef_##csr name = {.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}
 
 /**
  * Macro to read a CSR
  */
-#define BDK_CSR_READ(csr) bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)
+#define BDK_CSR_READ(node, csr) bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)
 
 /**
  * Macro to write a CSR
  */
-#define BDK_CSR_WRITE(csr, value) bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
+#define BDK_CSR_WRITE(node, csr, value) bdk_csr_write(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
 
 /**
  * Macro to make a read, modify, and write sequence easy. The "code_block"
  * should be replaced with a C code block or a comma separated list of
  * "name.s.field = value", without the quotes.
  */
-#define BDK_CSR_MODIFY(name, csr, code_block) do { \
-        typedef_##csr name = {.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
+#define BDK_CSR_MODIFY(name, node, csr, code_block) do { \
+        typedef_##csr name = {.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
         code_block; \
-        bdk_csr_write(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u); \
+        bdk_csr_write(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u); \
     } while (0)
 
 /**
@@ -183,15 +187,15 @@ static inline void bdk_send_single(uint64_t data)
  * 2) Check if ("type".s."field" "op" "value")
  * 3) If #2 isn't true loop to #1 unless too much time has passed.
  */
-#define BDK_CSR_WAIT_FOR_FIELD(csr, field, op, value, timeout_usec)     \
+#define BDK_CSR_WAIT_FOR_FIELD(node, csr, field, op, value, timeout_usec) \
     ({int result;                                                       \
     do {                                                                \
         uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)timeout_usec * \
-                        bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;   \
+                        bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;   \
         typedef_##csr c;                                                \
         while (1)                                                       \
         {                                                               \
-            c.u = bdk_csr_read(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
+            c.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
             if ((c.s.field) op (value)) {                               \
                 result = 0;                                             \
                 break;                                                  \

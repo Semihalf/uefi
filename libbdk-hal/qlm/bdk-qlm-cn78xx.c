@@ -7,7 +7,7 @@
  *
  * @return Number of QLMs
  */
-static int qlm_get_num(void)
+static int qlm_get_num(bdk_node_t node)
 {
     return 14;
 }
@@ -23,7 +23,7 @@ static int qlm_get_num(void)
  *
  * @return QLM number. Dies on a fatal error on failure.
  */
-static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
+static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
     bdk_fatal("bdk_qlm_get called incorrectly for type=%d, interface=%d\n", iftype, interface);
     return -1;
@@ -37,7 +37,7 @@ static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
  *
  * @return Number of lanes on the QLM
  */
-static int qlm_get_lanes(int qlm)
+static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
     return 4;
 }
@@ -50,11 +50,11 @@ static int qlm_get_lanes(int qlm)
  *
  * @return String mode
  */
-static const char *qlm_get_mode(int qlm)
+static const char *qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
-        BDK_CSR_INIT(gserx_cfg, BDK_GSERX_CFG(qlm));
+        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
         if (gserx_cfg.s.pcie)
             return "PCIE";
         else if (gserx_cfg.s.ila)
@@ -76,7 +76,7 @@ static const char *qlm_get_mode(int qlm)
  *
  * @return Speed in Mhz
  */
-static int qlm_get_gbaud_mhz(int qlm)
+static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
@@ -84,7 +84,7 @@ static int qlm_get_gbaud_mhz(int qlm)
     }
     else
     {
-        BDK_CSR_INIT(gserx_spd, BDK_GSERX_SPD(qlm));
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
         switch (gserx_spd.s.spd & 0x3)
         {
             case 0: return 1250;
@@ -107,44 +107,44 @@ static int qlm_get_gbaud_mhz(int qlm)
  *
  * @return Clock rate in Hz
  */
-static int qlm_measure_refclock(int qlm)
+static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
     /* We can't measure the OCI QLMs */
     if (qlm >= 8)
         return 0;
 
     /* Disable the PTP event counter while we configure it */
-    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
     /* Count on rising edge, Choose which QLM to count */
-    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG,
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG,
         c.s.evcnt_edge = 0;
         c.s.evcnt_in = 0x20 + qlm);
     /* Clear MIO_PTP_EVT_CNT */
-    int64_t count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
-    BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, -count);
+    int64_t count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
+    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, -count);
     /* Set MIO_PTP_EVT_CNT to 1 billion */
-    BDK_CSR_WRITE(BDK_MIO_PTP_EVT_CNT, 1000000000);
+    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, 1000000000);
     /* Enable the PTP event counter */
-    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
     uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     /* Wait for 50ms */
     bdk_wait_usec(50000);
     /* Read the counter */
-    count = BDK_CSR_READ(BDK_MIO_PTP_EVT_CNT);
+    count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
     uint64_t stop_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     /* Disable the PTP event counter */
-    BDK_CSR_MODIFY(c, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
     /* Clock counted down, so reverse it */
     count = 1000000000 - count;
     /* Return the rate */
-    return count * bdk_clock_get_rate(BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
+    return count * bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
 }
 
 
 /**
  * Initialize the QLM layer
  */
-static void qlm_init(void)
+static void qlm_init(bdk_node_t node)
 {
 }
 

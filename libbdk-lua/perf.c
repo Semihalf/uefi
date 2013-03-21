@@ -6,6 +6,7 @@
 
 static int l2_perf(lua_State* L)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     /* We cycle through 6 counter sets. 0-3 are each quad, and 4,5 are
         handpicked values */
     static int count_set = 0;
@@ -14,7 +15,7 @@ static int l2_perf(lua_State* L)
     /* This is the time of the last update for each counter */
     static uint64_t last_update_bus[4];
 
-    uint64_t clock_rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    uint64_t clock_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
     uint64_t current_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
 
     /* All results will be in a table with fields for each TAD */
@@ -50,41 +51,41 @@ static int l2_perf(lua_State* L)
 
         /* Counts the number of cycles the XMC(Add bus) was busy. So the
             percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_XMCX_PFC(tad)) / delta_cycle_percent);
-        BDK_CSR_WRITE(BDK_L2C_XMCX_PFC(tad), 0);
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_XMCX_PFC(tad)) / delta_cycle_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_XMCX_PFC(tad), 0);
         lua_setfield(L, -2, "bus_xmc(add)");
         /* Counts the number of cycles the XMD(Store bus) was busy. So the
             percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_XMDX_PFC(tad)) / delta_cycle_percent);
-        BDK_CSR_WRITE(BDK_L2C_XMDX_PFC(tad), 0);
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_XMDX_PFC(tad)) / delta_cycle_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_XMDX_PFC(tad), 0);
         lua_setfield(L, -2, "bus_xmd(store)");
         /* Counts the number of cycles the RSC(Commit bus) was busy. So the
             percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_RSCX_PFC(tad)) / delta_cycle_percent);
-        BDK_CSR_WRITE(BDK_L2C_RSCX_PFC(tad), 0);
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_RSCX_PFC(tad)) / delta_cycle_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_RSCX_PFC(tad), 0);
         lua_setfield(L, -2, "bus_rsc(commit)");
         /* Counts the number of cycles the RSD(Fill bus) was busy. So the
             percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_RSDX_PFC(tad)) / delta_cycle_percent);
-        BDK_CSR_WRITE(BDK_L2C_RSDX_PFC(tad), 0);
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_RSDX_PFC(tad)) / delta_cycle_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_RSDX_PFC(tad), 0);
         lua_setfield(L, -2, "bus_rsd(fill)");
         /* There is only one IO bus */
         if (tad == 0)
         {
             /* Counts the number of cycles the IOC(IO request bus) was busy.
                 So the percentage used is simply 100 * count / RCLK */
-            lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_IOCX_PFC(tad)) / delta_cycle_percent);
-            BDK_CSR_WRITE(BDK_L2C_IOCX_PFC(tad), 0);
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_IOCX_PFC(tad)) / delta_cycle_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_IOCX_PFC(tad), 0);
             lua_setfield(L, -2, "bus_ioc(IO req)");
             /* Counts the number of cycles the IOR(IO response bus) was busy.
                 So the percentage used is simply 100 * count / RCLK */
-            lua_pushnumber(L, BDK_CSR_READ(BDK_L2C_IORX_PFC(tad)) / delta_cycle_percent);
-            BDK_CSR_WRITE(BDK_L2C_IORX_PFC(tad), 0);
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_IORX_PFC(tad)) / delta_cycle_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_IORX_PFC(tad), 0);
             lua_setfield(L, -2, "bus_ior(IO resp)");
         }
 
         /* Read the current performace counter settings */
-        BDK_CSR_INIT(tadx_prf, BDK_L2C_TADX_PRF(tad));
+        BDK_CSR_INIT(tadx_prf, node, BDK_L2C_TADX_PRF(tad));
 
         /* Cycle through counters adding them to our TAD's table */
         for (int counter=0; counter<NUM_COUNTERS; counter++)
@@ -103,16 +104,16 @@ static int l2_perf(lua_State* L)
             switch (counter)
             {
                 case 0:
-                    value = BDK_CSR_READ(BDK_L2C_TADX_PFC0(tad));
+                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC0(tad));
                     break;
                 case 1:
-                    value = BDK_CSR_READ(BDK_L2C_TADX_PFC1(tad));
+                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC1(tad));
                     break;
                 case 2:
-                    value = BDK_CSR_READ(BDK_L2C_TADX_PFC2(tad));
+                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC2(tad));
                     break;
                 case 3:
-                    value = BDK_CSR_READ(BDK_L2C_TADX_PFC3(tad));
+                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC3(tad));
                     break;
             }
 
@@ -317,11 +318,11 @@ static int l2_perf(lua_State* L)
                 //0x09; /* LFB Wait VAB (each cycle adds \# LFBs waiting for VAB) */
                 break;
         }
-        BDK_CSR_WRITE(BDK_L2C_TADX_PRF(tad), tadx_prf.u64);
-        BDK_CSR_WRITE(BDK_L2C_TADX_PFC0(tad), 0);
-        BDK_CSR_WRITE(BDK_L2C_TADX_PFC1(tad), 0);
-        BDK_CSR_WRITE(BDK_L2C_TADX_PFC2(tad), 0);
-        BDK_CSR_WRITE(BDK_L2C_TADX_PFC3(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PRF(tad), tadx_prf.u64);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC0(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC1(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC2(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC3(tad), 0);
     }
     count_set++;
     if (count_set > 5)

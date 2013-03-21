@@ -92,7 +92,7 @@ extern void bdk_wait_usec(uint64_t usec);
  *
  * @return
  */
-extern void bdk_reset_octeon(void);
+extern void bdk_reset_octeon(bdk_node_t node);
 
 #undef BDK_FUNCTION
 

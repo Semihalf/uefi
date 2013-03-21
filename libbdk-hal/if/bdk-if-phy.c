@@ -2,6 +2,9 @@
 
 bdk_if_link_t __bdk_if_phy_get(int phy_addr)
 {
+    int node = phy_addr >> 24;
+    int mdio_bus = (phy_addr >> 8) & 0xff;
+    int mdio_addr = phy_addr & 0xff;
     int phy_status;
     int is_broadcom_phy;
     bdk_if_link_t result;
@@ -41,7 +44,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
         return result;
     }
 
-    phy_status = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_ID1);
+    phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, BDK_MDIO_PHY_REG_ID1);
     if ((phy_status <= 0) || (phy_status == 0xffff))
         return result;
 
@@ -52,7 +55,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
     {
         /* Below we are going to read SMI/MDIO register 0x19 which works
             on Broadcom parts */
-        phy_status = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, 0x19);
+        phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 0x19);
         if (phy_status < 0)
             return result;
 
@@ -104,7 +107,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
             speed information can be read from register 17 in one go. Somebody
             using a different PHY will need to handle it above in the board
             specific area */
-        phy_status = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, 17);
+        phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 17);
         if (phy_status < 0)
             return result;
 
@@ -114,7 +117,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
         if ((phy_status & (1<<11)) == 0)
         {
             bdk_mdio_phy_reg_control_t control;
-            int phy_c = bdk_mdio_read(phy_addr >> 8, phy_addr & 0xff, BDK_MDIO_PHY_REG_CONTROL);
+            int phy_c = bdk_mdio_read(node, mdio_bus, mdio_addr, BDK_MDIO_PHY_REG_CONTROL);
             if (phy_c < 0)
                 return result;
             control.u16 = phy_c;

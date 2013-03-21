@@ -65,9 +65,9 @@ static inline uint64_t bdk_build_bits(uint64_t high_bit, uint64_t low_bit, uint6
  *
  * @return
  */
-static inline int bdk_octeon_num_cores(void)
+static inline int bdk_octeon_num_cores(bdk_node_t node)
 {
-    uint64_t ciu_fuse = BDK_CSR_READ(BDK_CIU_FUSE);
+    uint64_t ciu_fuse = BDK_CSR_READ(node, BDK_CIU_FUSE);
     return bdk_dpop(ciu_fuse);
 }
 
@@ -77,9 +77,9 @@ static inline int bdk_octeon_num_cores(void)
  *
  * @return Boolean
  */
-static inline int __bdk_is_dram_enabled(void)
+static inline int __bdk_is_dram_enabled(bdk_node_t node)
 {
-    BDK_CSR_INIT(lmcx_ddr_pll_ctl, BDK_LMCX_DDR_PLL_CTL(0));
+    BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0));
     return lmcx_ddr_pll_ctl.s.reset_n;
 }
 

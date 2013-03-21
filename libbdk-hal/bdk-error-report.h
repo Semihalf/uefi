@@ -13,11 +13,11 @@
  * Call this function to check if any error interrupts are
  * set in the chip.
  */
-extern void (*bdk_error_check)(void) BDK_WEAK;
+extern void (*bdk_error_check)(bdk_node_t node) BDK_WEAK;
 
 /**
  * Call this function to setup error enables.
  */
-extern void bdk_error_enable(void) BDK_WEAK;
+extern void bdk_error_enable(bdk_node_t node) BDK_WEAK;
 
 /** @} */

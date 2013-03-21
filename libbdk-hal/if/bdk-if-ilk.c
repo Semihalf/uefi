@@ -3,22 +3,22 @@
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle);
 
-static int if_num_interfaces(void)
+static int if_num_interfaces(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* No ports if QLM speed says disabled */
-        if (bdk_qlm_get_gbaud_mhz(1) == 0)
+        if (bdk_qlm_get_gbaud_mhz(node, 1) == 0)
             return 0;
-        if (strstr(bdk_qlm_get_mode(1), "ILK") == NULL)
+        if (strstr(bdk_qlm_get_mode(node, 1), "ILK") == NULL)
             return 0;
 
         /* Configure the SERDES */
-        BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
+        BDK_CSR_MODIFY(c, node, BDK_ILK_SER_CFG,
             c.s.ser_rxpol_auto = 1;
             c.s.ser_rxpol = 0;
             c.s.ser_txpol = 0);
-        BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
+        BDK_CSR_MODIFY(c, node, BDK_ILK_SER_CFG,
             c.s.ser_reset_n = 0xff;
             c.s.ser_pwrup = 3;
             c.s.ser_haul = 0);
@@ -31,7 +31,7 @@ static int if_num_interfaces(void)
             for (int qlm=1; qlm<=2; qlm++)
             {
                 /* This workaround only applies to QLMs running ILK at 6.25Ghz */
-                if (strstr(bdk_qlm_get_mode(qlm), "ILK") && (bdk_qlm_get_gbaud_mhz(qlm) == 6250) &&
+                if (strstr(bdk_qlm_get_mode(node, qlm), "ILK") && (bdk_qlm_get_gbaud_mhz(node, qlm) == 6250) &&
                     (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
                 {
                     bdk_wait_usec(100); /* Wait 100us for links to stabalize */
@@ -50,7 +50,7 @@ static int if_num_interfaces(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         /* Configure the SERDES */
-        BDK_CSR_MODIFY(c, BDK_ILK_SER_CFG,
+        BDK_CSR_MODIFY(c, node, BDK_ILK_SER_CFG,
             c.s.ser_rxpol_auto = 1;
             c.s.ser_rxpol = 0;
             c.s.ser_txpol = 0);
@@ -60,13 +60,13 @@ static int if_num_interfaces(void)
         return 0;
 }
 
-static int if_num_ports(int interface)
+static int if_num_ports(bdk_node_t node, int interface)
 {
     /* See how many lanes we can potentially have. We already checked QLM1
         when probing the inteface number, now we check QLM2 */
     int max_lanes;
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        max_lanes = (strstr(bdk_qlm_get_mode(2), "ILK")) ? 8 : 4;
+        max_lanes = (strstr(bdk_qlm_get_mode(node, 2), "ILK")) ? 8 : 4;
     else
         max_lanes = 16; // FIXME: What about QLM modes
 
@@ -107,7 +107,7 @@ static int if_probe(bdk_if_handle_t handle)
 
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
-    handle->pko_port = __bdk_pko_alloc_port();
+    handle->pko_port = __bdk_pko_alloc_port(handle->node);
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
@@ -118,7 +118,7 @@ static int if_probe(bdk_if_handle_t handle)
  *
  * @param interface Interface to clear
  */
-static void ilk_clear_cal_cn68xx(int interface)
+static void ilk_clear_cal_cn68xx(bdk_node_t node, int interface)
 {
     int i;
 
@@ -127,7 +127,7 @@ static void ilk_clear_cal_cn68xx(int interface)
     ctidx.u64 = 0;
     ctidx.s.index = 0;
     ctidx.s.inc = 1;
-    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
 
     /* Each entry will be XOF to disable TX */
     BDK_CSR_DEFINE(tcal0, BDK_ILK_TXX_MEM_CAL0(interface));
@@ -145,8 +145,8 @@ static void ilk_clear_cal_cn68xx(int interface)
     /* Write all 288 entries, 8 at a time */
     for (i=0; i<36; i++)
     {
-        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
-        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
     }
 
     /* Setup RX write chunk */
@@ -154,7 +154,7 @@ static void ilk_clear_cal_cn68xx(int interface)
     cridx.u64 = 0;
     cridx.s.index = 0;
     cridx.s.inc = 1;
-    BDK_CSR_WRITE(BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
 
     /* Each entry will be Link to simplify RX */
     BDK_CSR_DEFINE(rcal0, BDK_ILK_RXX_MEM_CAL0(interface));
@@ -172,36 +172,36 @@ static void ilk_clear_cal_cn68xx(int interface)
     /* Write all 288 entries, 8 at a time */
     for (i=0; i<36; i++)
     {
-        BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
-        BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
     }
 }
 
-static void ilk_clear_cal_cn78xx(int interface)
+static void ilk_clear_cal_cn78xx(bdk_node_t node, int interface)
 {
     for (int i=0; i<288; i++)
     {
         BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(interface, i));
         tx_cal.u = 0;
         tx_cal.s.ctl = 2;
-        BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, i), tx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, i), tx_cal.u);
 
         BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(interface, i));
         rx_cal.u = 0;
         rx_cal.s.ctl = 2;
-        BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, i), rx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, i), rx_cal.u);
     }
 }
 
-static void ilk_clear_cal(int interface)
+static void ilk_clear_cal(bdk_node_t node, int interface)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        ilk_clear_cal_cn68xx(interface);
+        ilk_clear_cal_cn68xx(node, interface);
     else
-        ilk_clear_cal_cn78xx(interface);
+        ilk_clear_cal_cn78xx(node, interface);
 }
 
-static void ilk_write_cal_entry_cn68xx(int interface, int channel, int bpid, int pko_pipe)
+static void ilk_write_cal_entry_cn68xx(bdk_node_t node, int interface, int channel, int bpid, int pko_pipe)
 {
     /* Calendar will be setup such that each 16 entries has the global
         link status in the first entry. This allows the received to
@@ -216,10 +216,10 @@ static void ilk_write_cal_entry_cn68xx(int interface, int channel, int bpid, int
     BDK_CSR_DEFINE(ctidx, BDK_ILK_TXX_IDX_CAL(interface));
     ctidx.u64 = 0;
     ctidx.s.index = table_chunk;
-    BDK_CSR_WRITE(BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_IDX_CAL(interface), ctidx.u64);
     /* Read the current values */
-    BDK_CSR_INIT(tcal0, BDK_ILK_TXX_MEM_CAL0(interface));
-    BDK_CSR_INIT(tcal1, BDK_ILK_TXX_MEM_CAL1(interface));
+    BDK_CSR_INIT(tcal0, node, BDK_ILK_TXX_MEM_CAL0(interface));
+    BDK_CSR_INIT(tcal1, node, BDK_ILK_TXX_MEM_CAL1(interface));
 
     /* The first entry of every other calendar chunk is link status. This
         corresponds to the first bit in every 16 bit block */
@@ -263,17 +263,17 @@ static void ilk_write_cal_entry_cn68xx(int interface, int channel, int bpid, int
             break;
     }
     /* Write the new values */
-    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
-    BDK_CSR_WRITE(BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_MEM_CAL0(interface), tcal0.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_MEM_CAL1(interface), tcal1.u64);
 
     /* Setup RX write chunk */
     BDK_CSR_DEFINE(cridx, BDK_ILK_RXX_IDX_CAL(interface));
     cridx.u64 = 0;
     cridx.s.index = table_chunk;
-    BDK_CSR_WRITE(BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_IDX_CAL(interface), cridx.u64);
     /* Read the current values */
-    BDK_CSR_INIT(rcal0, BDK_ILK_RXX_MEM_CAL0(interface));
-    BDK_CSR_INIT(rcal1, BDK_ILK_RXX_MEM_CAL1(interface));
+    BDK_CSR_INIT(rcal0, node, BDK_ILK_RXX_MEM_CAL0(interface));
+    BDK_CSR_INIT(rcal1, node, BDK_ILK_RXX_MEM_CAL1(interface));
 
     /* The first entry of every other calendar chunk is link status. This
         corresponds to the first bit in every 16 bit block */
@@ -317,11 +317,11 @@ static void ilk_write_cal_entry_cn68xx(int interface, int channel, int bpid, int
             break;
     }
     /* Write the new values */
-    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
-    BDK_CSR_WRITE(BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_MEM_CAL0(interface), rcal0.u64);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_MEM_CAL1(interface), rcal1.u64);
 }
 
-static void ilk_write_cal_entry_cn78xx(int interface, int channel, int bpid, int pko_pipe)
+static void ilk_write_cal_entry_cn78xx(bdk_node_t node, int interface, int channel, int bpid, int pko_pipe)
 {
     BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(0,0));
     BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(0,0));
@@ -339,30 +339,30 @@ static void ilk_write_cal_entry_cn78xx(int interface, int channel, int bpid, int
     {
         tx_cal.u = 0;
         tx_cal.s.ctl = 1;
-        BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, index-1), tx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, index-1), tx_cal.u);
 
         rx_cal.u = 0;
         rx_cal.s.ctl = 1;
-        BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, index-1), rx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, index-1), rx_cal.u);
     }
 
     tx_cal.u = 0;
     tx_cal.s.ctl = 0;
     tx_cal.s.channel = channel;
-    BDK_CSR_WRITE(BDK_ILK_TXX_CAL_ENTRYX_2(interface, index), tx_cal.u);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, index), tx_cal.u);
 
     rx_cal.u = 0;
     rx_cal.s.ctl = 0;
     rx_cal.s.channel = channel;
-    BDK_CSR_WRITE(BDK_ILK_RXX_CAL_ENTRYX_2(interface, index), rx_cal.u);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, index), rx_cal.u);
 }
 
-static void ilk_write_cal_entry(int interface, int channel, int bpid, int pko_pipe)
+static void ilk_write_cal_entry(bdk_node_t node, int interface, int channel, int bpid, int pko_pipe)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        ilk_write_cal_entry_cn68xx(interface, channel, bpid, pko_pipe);
+        ilk_write_cal_entry_cn68xx(node, interface, channel, bpid, pko_pipe);
     else
-        ilk_write_cal_entry_cn78xx(interface, channel, bpid, pko_pipe);
+        ilk_write_cal_entry_cn78xx(node, interface, channel, bpid, pko_pipe);
 }
 
 static int if_init(bdk_if_handle_t handle)
@@ -373,20 +373,20 @@ static int if_init(bdk_if_handle_t handle)
     if (OCTEON_IS_MODEL(OCTEON_CN68XX) && (pko_eid[handle->interface] == -1))
     {
         /* All ports use same eid and intr */
-        pko_eid[handle->interface] = __bdk_pko_alloc_engine();
-        pipe[handle->interface] = __bdk_pko_alloc_pipe(num_ilk);
+        pko_eid[handle->interface] = __bdk_pko_alloc_engine(handle->node);
+        pipe[handle->interface] = __bdk_pko_alloc_pipe(handle->node, num_ilk);
     }
 
     if (handle->index == 0)
     {
-        ilk_clear_cal(handle->interface);
+        ilk_clear_cal(handle->node, handle->interface);
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            BDK_CSR_MODIFY(c, BDK_ILK_TXX_PIPE(handle->interface),
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_PIPE(handle->interface),
                 c.s.nump = num_ilk;
                 c.s.base = pipe[handle->interface]);
 
         /* Set jabber to allow max sized packets */
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_JABBER(handle->interface),
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_JABBER(handle->interface),
             c.s.cnt = 0xfff8);
     }
 
@@ -401,31 +401,31 @@ static int if_init(bdk_if_handle_t handle)
         ptrs.s.intr = 28+handle->interface; /* Which interface */
         ptrs.s.eid = pko_eid[handle->interface];  /* Which engine */
         ptrs.s.ipid = handle->pko_port;
-        BDK_CSR_WRITE(BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
+        BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
 
         /* Map pipes to channels */
         BDK_CSR_DEFINE(idx, BDK_ILK_TXX_IDX_PMAP(handle->interface));
         idx.u64 = 0;
         idx.s.index = pipe[handle->interface]+handle->index;
-        BDK_CSR_WRITE(BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
-        BDK_CSR_WRITE(BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_TXX_IDX_PMAP(handle->interface), idx.u64);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_TXX_MEM_PMAP(handle->interface), handle->index);
     }
     else
     {
         const int MAC_NUMBER = 0x2 + handle->interface; /* Constant from cn78xx */
         if (handle->index == 0)
         {
-            int fifo = __bdk_pko_allocate_fifo(MAC_NUMBER, 4);
+            int fifo = __bdk_pko_allocate_fifo(handle->node, MAC_NUMBER, 4);
             if (fifo < 0)
                 return -1;
-            BDK_CSR_MODIFY(c, BDK_PKO_MACX_CFG(MAC_NUMBER),
+            BDK_CSR_MODIFY(c, handle->node, BDK_PKO_MACX_CFG(MAC_NUMBER),
                 c.s.fcs_ena = 1; /* FCS */
                 c.s.fcs_sop_off = 0; /* No FCS offset */
                 c.s.skid_max_cnt = 2; /* All credits to one MAC */
                 c.s.fifo_num = fifo); /* PKO FIFO number */
         }
     }
-    ilk_write_cal_entry(handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
+    ilk_write_cal_entry(handle->node, handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
 
     /* Setup PKIND */
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
@@ -433,13 +433,13 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_DEFINE(pidx, BDK_ILK_RXF_IDX_PMAP);
         pidx.u64 = 0;
         pidx.s.index = handle->interface * 256 + handle->index;
-        BDK_CSR_WRITE(BDK_ILK_RXF_IDX_PMAP, pidx.u64);
-        BDK_CSR_MODIFY(c, BDK_ILK_RXF_MEM_PMAP,
+        BDK_CSR_WRITE(handle->node, BDK_ILK_RXF_IDX_PMAP, pidx.u64);
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXF_MEM_PMAP,
             c.s.port_kind = handle->pknd);
     }
     else
     {
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CHAX_2(handle->interface, handle->index),
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CHAX_2(handle->interface, handle->index),
             c.s.port_kind = handle->pknd);
     }
 
@@ -455,13 +455,13 @@ static int if_init(bdk_if_handle_t handle)
             lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
 
         /* Bringup the TX side */
-        BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG0(handle->interface),
             c.s.lane_ena = lane_mask;
             c.s.cal_ena = 1;
             c.s.cal_depth = (cal_depth+7) & 0x1f8; /* Round up */
             c.s.lnk_stats_ena = 1);
         /* Configure the RX lanes */
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface),
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CFG0(handle->interface),
             c.s.lane_ena = lane_mask;
             c.s.cal_ena = 1;
             c.s.cal_depth = cal_depth;
@@ -475,7 +475,7 @@ static int if_init(bdk_if_handle_t handle)
 static int if_enable(bdk_if_handle_t handle)
 {
     /* Enable the TX path */
-    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG1(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG1(handle->interface),
         c.s.pkt_ena = 1);
     /* The RX path will be enabled if the link is ready */
     if_link_get(handle);
@@ -484,9 +484,9 @@ static int if_enable(bdk_if_handle_t handle)
 
 static int if_disable(bdk_if_handle_t handle)
 {
-    BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CFG1(handle->interface),
         c.s.pkt_ena = 0);
-    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG1(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG1(handle->interface),
         c.s.pkt_ena = 0);
     return 0;
 }
@@ -505,15 +505,15 @@ retry:
         goto fail;
 
     /* Read RX config and status bits */
-    BDK_CSR_INIT(ilk_rxx_cfg1, BDK_ILK_RXX_CFG1(handle->interface));
-    BDK_CSR_INIT(ilk_rxx_int, BDK_ILK_RXX_INT(handle->interface));
+    BDK_CSR_INIT(ilk_rxx_cfg1, handle->node, BDK_ILK_RXX_CFG1(handle->interface));
+    BDK_CSR_INIT(ilk_rxx_int, handle->node, BDK_ILK_RXX_INT(handle->interface));
 
     if (ilk_rxx_cfg1.s.rx_bdry_lock_ena == 0)
     {
         /* Clear the boundary lock status bit */
         ilk_rxx_int.u64 = 0;
         ilk_rxx_int.s.word_sync_done = 1;
-        BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
 
         /* We need to start looking for word boundary lock */
         int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
@@ -522,7 +522,7 @@ retry:
 
         ilk_rxx_cfg1.s.rx_bdry_lock_ena = lane_mask;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
-        BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
         //printf("ILK%d: Looking for word boundary lock\n", handle->interface);
         goto retry;
     }
@@ -535,10 +535,10 @@ retry:
             ilk_rxx_int.u64 = 0;
             ilk_rxx_int.s.lane_align_fail = 1;
             ilk_rxx_int.s.lane_align_done = 1;
-            BDK_CSR_WRITE(BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
+            BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
 
             ilk_rxx_cfg1.s.rx_align_ena = 1;
-            BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
+            BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
             //printf("ILK%d: Looking for lane alignment\n", handle->interface);
             goto retry;
         }
@@ -549,7 +549,7 @@ retry:
     {
         ilk_rxx_cfg1.s.rx_bdry_lock_ena = 0;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
-        BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
         //printf("ILK%d: Lane alignment failed\n", handle->interface);
         goto fail;
     }
@@ -557,24 +557,24 @@ retry:
     if ((ilk_rxx_cfg1.s.pkt_ena == 0) && ilk_rxx_int.s.lane_align_done)
     {
         /* set the RX to match the TX state set by the if_enable call */
-        BDK_CSR_INIT(ilk_txx_cfg1, BDK_ILK_TXX_CFG1(handle->interface));
-        BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG1(handle->interface),
+        BDK_CSR_INIT(ilk_txx_cfg1, handle->node, BDK_ILK_TXX_CFG1(handle->interface));
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CFG1(handle->interface),
             c.s.pkt_ena = ilk_txx_cfg1.s.pkt_ena);
 
         if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
             /* Enable error interrupts */
-            BDK_CSR_MODIFY(c, BDK_ILK_GBL_INT_EN,
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_GBL_INT_EN,
                 c.s.rxf_ctl_perr = -1;
                 c.s.rxf_lnk0_perr = -1;
                 c.s.rxf_lnk1_perr = -1;
                 c.s.rxf_pop_empty = -1;
                 c.s.rxf_push_full = -1);
-            BDK_CSR_MODIFY(c, BDK_ILK_TXX_INT_EN(handle->interface),
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_INT_EN(handle->interface),
                 c.s.bad_pipe = -1;
                 c.s.bad_seq = -1;
                 c.s.txf_err = 0); /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
-            BDK_CSR_MODIFY(c, BDK_ILK_RXX_INT_EN(handle->interface),
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_INT_EN(handle->interface),
                 c.s.crc24_err = -1;
                 c.s.lane_bad_word = -1;
                 c.s.pkt_drop_rid = -1;
@@ -595,9 +595,9 @@ retry:
             stat.s.serdes_lock_loss = -1;
             stat.s.stat_msg = -1;
             stat.s.ukwn_cntl_word = -1;
-            BDK_CSR_WRITE(BDK_ILK_RX_LNEX_INT(lane), stat.u64);
+            BDK_CSR_WRITE(handle->node, BDK_ILK_RX_LNEX_INT(lane), stat.u64);
             if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-                BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+                BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RX_LNEX_INT_EN(lane),
                     c.s.bad_64b67b = -1;
                     c.s.bdry_sync_loss = -1;
                     c.s.crc32_err = -1;
@@ -614,7 +614,7 @@ retry:
     result.s.up = 1;
     result.s.lanes = bdk_pop(ilk_rxx_cfg1.s.rx_bdry_lock_ena);
     result.s.full_duplex = 1;
-    result.s.speed = bdk_qlm_get_gbaud_mhz(1 + handle->interface) * 64 / 67;
+    result.s.speed = bdk_qlm_get_gbaud_mhz(handle->node, 1 + handle->interface) * 64 / 67;
     result.s.speed *= result.s.lanes;
     return result;
 
@@ -622,13 +622,13 @@ fail:
     if (ilk_rxx_cfg1.s.pkt_ena)
     {
         ilk_rxx_cfg1.s.pkt_ena = 0;
-        BDK_CSR_WRITE(BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
+        BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
         /* Disable error interrupts */
         int start_lane = (handle->interface) ? bdk_config_get(BDK_CONFIG_ILK0_LANES) : 0;
         int stop_lane = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface) + start_lane - 1;
         for (int lane=start_lane; lane<stop_lane; lane++)
         {
-            BDK_CSR_MODIFY(c, BDK_ILK_RX_LNEX_INT_EN(lane),
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RX_LNEX_INT_EN(lane),
                 c.s.bad_64b67b = 0;
                 c.s.bdry_sync_loss = 0;
                 c.s.crc32_err = 0;
@@ -647,12 +647,12 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     int internal = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0);
     int external = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0);
-    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG0(handle->interface),
         c.s.int_lpbk = internal);
-    BDK_CSR_MODIFY(c, BDK_ILK_TXX_CFG0(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG0(handle->interface),
         c.s.ext_lpbk_fc = external;
         c.s.ext_lpbk = external);
-    BDK_CSR_MODIFY(c, BDK_ILK_RXX_CFG0(handle->interface),
+    BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CFG0(handle->interface),
         c.s.ext_lpbk_fc = external;
         c.s.ext_lpbk = external);
     return 0;

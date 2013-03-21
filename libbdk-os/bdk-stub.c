@@ -50,7 +50,7 @@ caddr_t sbrk(int incr)
     if (next == NULL)
     {
         extern uint64_t bdk_fs_romfs_get_end(void);
-        unsigned int l2_size = bdk_l2c_get_cache_size_bytes();
+        unsigned int l2_size = bdk_l2c_get_cache_size_bytes(BDK_NODE_MASTER);
         /* Heap starts after the _end symbol and goes until the end of
             the L2 cache */
         uint64_t start_paddr = bdk_fs_romfs_get_end();
@@ -58,7 +58,7 @@ caddr_t sbrk(int incr)
         end = bdk_phys_to_ptr(l2_size);
 
         /* If DRAM is setup assume there is at least 256MB */
-        if (__bdk_is_dram_enabled())
+        if (__bdk_is_dram_enabled(BDK_NODE_MASTER))
             end = bdk_phys_to_ptr(256<<20);
     }
 
@@ -103,7 +103,7 @@ int wait(int *status)
 
 int gettimeofday(struct timeval *tv, void *tz)
 {
-    uint64_t rate = bdk_clock_get_rate(BDK_CLOCK_CORE);
+    uint64_t rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
     uint64_t count = bdk_clock_get_count(BDK_CLOCK_CORE);
     /* Run the simlator clock much faster */
     if (bdk_is_simulation())

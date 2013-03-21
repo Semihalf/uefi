@@ -24,15 +24,15 @@ typedef union
 /**
  * Enables the random number generator. Must be called before RNG is used
  */
-void bdk_rng_enable(void)
+void bdk_rng_enable(bdk_node_t node)
 {
     bdk_rnm_ctl_status_t rnm_ctl_status;
-    rnm_ctl_status.u64 = BDK_CSR_READ(BDK_RNM_CTL_STATUS);
+    rnm_ctl_status.u64 = BDK_CSR_READ(node, BDK_RNM_CTL_STATUS);
     if (!rnm_ctl_status.s.rng_en)
     {
         rnm_ctl_status.s.ent_en = 1;
         rnm_ctl_status.s.rng_en = 1;
-        BDK_CSR_WRITE(BDK_RNM_CTL_STATUS, rnm_ctl_status.u64);
+        BDK_CSR_WRITE(node, BDK_RNM_CTL_STATUS, rnm_ctl_status.u64);
     }
 }
 

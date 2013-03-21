@@ -197,7 +197,7 @@ typedef union
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_dma_engine_initialize(void);
+extern int bdk_dma_engine_initialize(bdk_node_t node);
 
 /**
  * Shutdown all DMA engines. The engeines must be idle when this
@@ -205,18 +205,19 @@ extern int bdk_dma_engine_initialize(void);
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_dma_engine_shutdown(void);
+extern int bdk_dma_engine_shutdown(bdk_node_t node);
 
 /**
  * Return the number of DMA engimes supported by this chip
  *
  * @return Number of DMA engines
  */
-extern int bdk_dma_engine_get_num(void);
+extern int bdk_dma_engine_get_num(bdk_node_t node);
 
 /**
  * Submit a series of DMA comamnd to the DMA engines.
  *
+ * @param node    Node to use in a Numa setup. Can be an exact ID or a special value.
  * @param engine  Engine to submit to (0 to bdk_dma_engine_get_num()-1)
  * @param header  Command header
  * @param num_buffers
@@ -225,7 +226,7 @@ extern int bdk_dma_engine_get_num(void);
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[]);
+extern int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[]);
 
 /**
  * Build the first and last pointers based on a DMA engine header
@@ -235,6 +236,8 @@ extern int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int
  * or PCI / PCIe address list. This function does not support gather lists,
  * so you will need to build your own lists in that case.
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param engine Engine to submit to (0 to bdk_dma_engine_get_num()-1)
  * @param header DMA Command header. Note that the nfst and nlst fields do not
  *               need to be filled in. All other fields must be set properly.
@@ -250,7 +253,7 @@ extern int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
+extern int bdk_dma_engine_transfer(bdk_node_t node, int engine, bdk_dma_engine_header_t header,
                              uint64_t first_address, uint64_t last_address,
                              int size);
 

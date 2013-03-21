@@ -19,7 +19,7 @@ typedef struct
 /**
  * Initialize the flash access library
  */
-void bdk_flash_initialize(void);
+void bdk_flash_initialize(bdk_node_t node);
 
 /**
  * Return a pointer to the flash chip

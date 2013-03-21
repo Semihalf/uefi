@@ -12,12 +12,12 @@ static int next_free_aura = NUM_POOLS; /* Reserve the first auras for 1:1 mappin
 /**
  * Perform global FPA initialization
  */
-static int fpa_init(void)
+static int fpa_init(bdk_node_t node)
 {
     bdk_zero_memory(fpa_buffer_size_pool, sizeof(fpa_buffer_size_pool));
     bdk_zero_memory(fpa_buffer_size_aura, sizeof(fpa_buffer_size_aura));
 
-    uint64_t bist = BDK_CSR_READ(BDK_FPA_BIST_STATUS);
+    uint64_t bist = BDK_CSR_READ(node, BDK_FPA_BIST_STATUS);
     if (bist)
         bdk_error("FPA reports BIST failures (0x%lx)\n", bist);
 
@@ -30,12 +30,12 @@ static int fpa_init(void)
     else
         pool_divide = 0;
 
-    BDK_CSR_MODIFY(c, BDK_FPA_GEN_CFG,
+    BDK_CSR_MODIFY(c, node, BDK_FPA_GEN_CFG,
         c.s.lvl_dly = 3; /* Levelizer delay */
         c.s.pools = pool_divide);
 
     /* Clear global errors */
-    BDK_CSR_WRITE(BDK_FPA_ERR_INT, 0xf);
+    BDK_CSR_WRITE(node, BDK_FPA_ERR_INT, 0xf);
     return 0;
 }
 
@@ -49,7 +49,7 @@ static int fpa_init(void)
  *
  * @return Aura number or negative on failure
  */
-static int fpa_init_aura(int aura, int pool, int num_blocks)
+static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
 {
     if (aura < 0)
     {
@@ -62,7 +62,7 @@ static int fpa_init_aura(int aura, int pool, int num_blocks)
     }
 
     /* Set auto tracking of counts and disable averaging */
-    BDK_CSR_MODIFY(c, BDK_FPA_AURAX_CFG(aura),
+    BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_CFG(aura),
         c.s.ptr_dis = 0;
         c.s.avg_con = 0);
 
@@ -72,13 +72,13 @@ static int fpa_init_aura(int aura, int pool, int num_blocks)
         shift++;
 
     /* Start count at zero */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT(aura), 0);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT(aura), 0);
     /* Assign to a pool */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_POOL(aura), pool);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_POOL(aura), pool);
     /* Limit to not overflow */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT_LIMIT(aura), num_blocks);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_LIMIT(aura), num_blocks);
     /* Set backpressure limits based on aura count */
-    BDK_CSR_MODIFY(c, BDK_FPA_AURAX_CNT_LEVELS(aura),
+    BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_CNT_LEVELS(aura),
         c.s.bp_ena = 1;                     /* Enable backpressure based on [BP] level */
         c.s.red_ena = 1;                    /* Enable RED based on [DROP] and [PASS] levels */
         c.s.shift = shift;                  /* Right shift to apply to FPA_AURA(0..1023)_CNT */
@@ -86,12 +86,12 @@ static int fpa_init_aura(int aura, int pool, int num_blocks)
         c.s.drop = (num_blocks*3/4)>>shift; /* Packet will be dropped if the average shifted level is equal to or greater than this value */
         c.s.pass = (num_blocks/2)>>shift);  /* Packet will be passed if the average shifted level is less than this value */
     /* Set backpressure limits based on pool count */
-    BDK_CSR_MODIFY(c, BDK_FPA_AURAX_POOL_LEVELS(aura),
+    BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_POOL_LEVELS(aura),
         c.s.bp_ena = 0;                     /* Enable backpressure based on [BP] level */
         c.s.red_ena = 0);                   /* Enable RED based on [DROP] and [PASS] levels */
     /* Disable the threshold */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT_THRESHOLD(aura), 0xffffffffffull);
-    BDK_CSR_WRITE(BDK_FPA_AURAX_INT(aura), 1);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_THRESHOLD(aura), 0xffffffffffull);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_INT(aura), 1);
 
     fpa_buffer_size_aura[aura] = fpa_buffer_size_pool[pool];
     return aura;
@@ -107,7 +107,7 @@ static int fpa_init_aura(int aura, int pool, int num_blocks)
  *
  * @return Zero on success, negative on failure
  */
-static int fpa_init_pool(int pool, int num_blocks, int block_size)
+static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_size)
 {
     uint64_t stack_size = BDK_CACHE_LINE_SIZE * ((num_blocks + PTRS_PER_LINE - 1) / PTRS_PER_LINE);
     uint64_t pool_size = num_blocks * block_size;
@@ -125,26 +125,26 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
     //    pool, pool_start, stack_start-1, stack_start, stack_end-1);
 
     /* Set the pool to be at the front */
-    BDK_CSR_WRITE(BDK_FPA_POOLX_START_ADDR(pool), pool_start);
-    BDK_CSR_WRITE(BDK_FPA_POOLX_END_ADDR(pool), stack_start);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_START_ADDR(pool), pool_start);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_END_ADDR(pool), stack_start);
 
     /* Set the stack to be at the back */
-    BDK_CSR_WRITE(BDK_FPA_POOLX_STACK_BASE(pool), stack_start);
-    BDK_CSR_WRITE(BDK_FPA_POOLX_STACK_ADDR(pool), stack_start);
-    BDK_CSR_WRITE(BDK_FPA_POOLX_STACK_END(pool), stack_end);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_STACK_BASE(pool), stack_start);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_STACK_ADDR(pool), stack_start);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_STACK_END(pool), stack_end);
 
     /* Clear any pool error interrupts */
-    BDK_CSR_WRITE(BDK_FPA_POOLX_INT(pool), 0xf);
+    BDK_CSR_WRITE(node, BDK_FPA_POOLX_INT(pool), 0xf);
 
     /* Optimize the FPA internal storage */
-    BDK_CSR_INIT(fpa_gen_cfg, BDK_FPA_GEN_CFG);
+    BDK_CSR_INIT(fpa_gen_cfg, node, BDK_FPA_GEN_CFG);
     int fpf_size = 320 * (1 << fpa_gen_cfg.s.pools);
     int marks = fpf_size * 3 / 4;
-    BDK_CSR_MODIFY(c, BDK_FPA_POOLX_FPF_MARKS(pool),
+    BDK_CSR_MODIFY(c, node, BDK_FPA_POOLX_FPF_MARKS(pool),
         c.s.fpf_rd = marks);
 
     /* Configure the pool */
-    BDK_CSR_MODIFY(c, BDK_FPA_POOLX_CFG(pool),
+    BDK_CSR_MODIFY(c, node, BDK_FPA_POOLX_CFG(pool),
         c.s.buf_size = block_size / BDK_CACHE_LINE_SIZE;
         c.s.buf_offset = 0;
         c.s.nat_align = 1;
@@ -153,18 +153,18 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
     fpa_buffer_size_pool[pool] = block_size;
 
     /* Create an aura that 1:1 maps the pool */
-    int aura = fpa_init_aura(pool, pool, num_blocks);
+    int aura = fpa_init_aura(node, pool, pool, num_blocks);
     if (aura < 0)
         return -1;
 
     /* Adding buffers decrement the aura count. Update the count
         for the new buffers */
-    BDK_CSR_WRITE(BDK_FPA_AURAX_CNT_ADD(aura), num_blocks);
+    BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_ADD(aura), num_blocks);
 
     /* Free the buffers */
     while (num_blocks--)
     {
-        bdk_fpa_free(buf, aura, 0);
+        bdk_fpa_free(node, buf, aura, 0);
         buf += block_size;
     }
     return 0;
@@ -177,7 +177,7 @@ static int fpa_init_pool(int pool, int num_blocks, int block_size)
  *
  * @return Size of the buffer in bytes
  */
-static int fpa_get_block_size(int aura)
+static int fpa_get_block_size(bdk_node_t node, int aura)
 {
     return fpa_buffer_size_aura[aura];
 }
@@ -189,11 +189,10 @@ static int fpa_get_block_size(int aura)
  *
  * @return Pointer to the block or NULL on failure
  */
-static uint64_t fpa_alloc(int aura)
+static uint64_t fpa_alloc(bdk_node_t node, int aura)
 {
-    uint64_t node = 0;
     uint64_t address = 0x800129ull << 40;
-    address |= node << 36;
+    address |= (uint64_t)bdk_numa_id(node) << 36;
     /* address |= 0ull << 35; Don't use RED */
     address |= aura << 16;
     address = bdk_read64_uint64(address);
@@ -210,11 +209,10 @@ static uint64_t fpa_alloc(int aura)
  * @param num_cache_lines
  *                Cache lines to invalidate
  */
-static void fpa_free(uint64_t address, int aura, int num_cache_lines)
+static void fpa_free(bdk_node_t node, uint64_t address, int aura, int num_cache_lines)
 {
-    uint64_t node = 0;
     uint64_t store = 0x800129ull << 40;
-    store |= node << 36;
+    store |= (uint64_t)bdk_numa_id(node) << 36;
     store |= aura << 16;
     /* store |= 0 << 15; Not absolute */
     store |= num_cache_lines << 3;

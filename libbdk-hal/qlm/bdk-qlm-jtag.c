@@ -48,7 +48,7 @@ void __bdk_qlm_jtag_init(const __bdk_qlm_jtag_field_t *fields)
     bdk_ciu_qlm_jtgc_t jtgc;
     int clock_div = 0;
     /* Clock the JTAG chain at 10 Mhz */
-    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / (10 * 1000000);
+    int divisor = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_SCLK) / (10 * 1000000);
     divisor = (divisor-1)>>2;
     /* Convert the divisor into a power of 2 shift */
     while (divisor)
@@ -61,16 +61,16 @@ void __bdk_qlm_jtag_init(const __bdk_qlm_jtag_field_t *fields)
     jtgc.u64 = 0;
     jtgc.s.clk_div = clock_div;
     jtgc.s.mux_sel = 0;
-    int bypass = (1<<bdk_qlm_get_num())-1;
+    int bypass = (1<<bdk_qlm_get_num(BDK_NODE_LOCAL))-1;
     jtgc.s.bypass = bypass;
     jtgc.s.bypass_ext = bypass >> 4;
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
-    BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC, jtgc.u64);
+    BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
 
     /* Read the XOR defaults for the JTAG chain */
-    for (int qlm=0; qlm<bdk_qlm_get_num(); qlm++)
+    for (int qlm=0; qlm<bdk_qlm_get_num(BDK_NODE_LOCAL); qlm++)
     {
-        int num_lanes = bdk_qlm_get_lanes(qlm);
+        int num_lanes = bdk_qlm_get_lanes(BDK_NODE_LOCAL, qlm);
         /* Shift all zeros in the chain to make sure all fields are at
             reset defaults */
         __bdk_qlm_jtag_shift_zeros(qlm, __bdk_qlm_jtag_length * num_lanes);
@@ -114,10 +114,10 @@ uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
     }
 
     /* Choose the QLM */
-    jtgc.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    jtgc.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
     jtgc.s.mux_sel = qlm;
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
-    BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC, jtgc.u64);
+    BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
 
     uint64_t result = 0;
     int shifted = 0;
@@ -131,10 +131,10 @@ uint64_t __bdk_qlm_jtag_shift(int qlm, int bits, uint64_t data)
         jtgd.s.shft_cnt = n-1;
         jtgd.s.shft_reg = data >> shifted;
         jtgd.s.select = 1 << qlm;
-        BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
+        BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD, jtgd.u64);
         do
         {
-            jtgd.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGD);
+            jtgd.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD);
         } while (jtgd.s.shift);
         result |= ((uint64_t)jtgd.s.shft_reg >> (32-n)) << shifted;
         shifted += n;
@@ -185,20 +185,20 @@ void __bdk_qlm_jtag_update(int qlm)
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
-    jtgc.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    jtgc.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
     jtgc.s.mux_sel = qlm;
 
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
-    BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC, jtgc.u64);
+    BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
 
     /* Update the new data */
     jtgd.u64 = 0;
     jtgd.s.update = 1;
     jtgd.s.select = 1 << qlm;
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD, jtgd.u64);
     do
     {
-        jtgd.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGD);
+        jtgd.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD);
     } while (jtgd.s.update);
 }
 
@@ -217,19 +217,19 @@ void __bdk_qlm_jtag_capture(int qlm)
     bdk_ciu_qlm_jtgc_t jtgc;
     bdk_ciu_qlm_jtgd_t jtgd;
 
-    jtgc.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    jtgc.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
     jtgc.s.mux_sel = qlm;
 
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGC, jtgc.u64);
-    BDK_CSR_READ(BDK_CIU_QLM_JTGC);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC, jtgc.u64);
+    BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGC);
 
     jtgd.u64 = 0;
     jtgd.s.capture = 1;
     jtgd.s.select = 1 << qlm;
-    BDK_CSR_WRITE(BDK_CIU_QLM_JTGD, jtgd.u64);
+    BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD, jtgd.u64);
     do
     {
-        jtgd.u64 = BDK_CSR_READ(BDK_CIU_QLM_JTGD);
+        jtgd.u64 = BDK_CSR_READ(BDK_NODE_LOCAL, BDK_CIU_QLM_JTGD);
     } while (jtgd.s.capture);
 }
 
@@ -273,7 +273,7 @@ uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name)
         return -1; /* This is obviously invalid for any field as it is wider than the field */
     if (bdk_is_simulation())
         return -1;
-    int num_lanes = bdk_qlm_get_lanes(qlm);
+    int num_lanes = bdk_qlm_get_lanes(BDK_NODE_LOCAL, qlm);
 
     /* Capture the current settings */
     __bdk_qlm_jtag_capture(qlm);
@@ -301,7 +301,7 @@ void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value)
         return;
     if (bdk_is_simulation())
         return;
-    int num_lanes = bdk_qlm_get_lanes(qlm);
+    int num_lanes = bdk_qlm_get_lanes(BDK_NODE_LOCAL, qlm);
 
     uint32_t shift_values[MAX_JTAG_UINT32];
 
@@ -358,7 +358,7 @@ void bdk_qlm_dump_jtag(int qlm)
 {
     if (bdk_is_simulation())
         return;
-    int num_lanes = bdk_qlm_get_lanes(qlm);
+    int num_lanes = bdk_qlm_get_lanes(BDK_NODE_LOCAL, qlm);
     printf("%29s", "Field[<stop bit>:<start bit>]");
     for (int lane=0; lane<num_lanes; lane++)
         printf("\t      Lane %d", lane);

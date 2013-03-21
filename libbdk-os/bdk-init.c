@@ -13,10 +13,10 @@ int __bdk_is_simulation;
  * @param use_flow_control
  *                 Non zero if hardware flow control should be enabled
  */
-void bdk_set_baudrate(int uart, int baudrate, int use_flow_control)
+void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control)
 {
     /* Setup the UART */
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(uart),
+    BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
         u.s.dlab = 1; /* Divisor Latch Address bit */
         u.s.eps = 0; /* Even Parity Select bit */
         u.s.pen = 0; /* Parity Enable bit */
@@ -24,27 +24,27 @@ void bdk_set_baudrate(int uart, int baudrate, int use_flow_control)
         u.s.cls = 3); /* Character Length Select */
 
     /* FCR is a write only register */
-    BDK_CSR_WRITE(BDK_MIO_UARTX_FCR(uart), 7);
+    BDK_CSR_WRITE(node, BDK_MIO_UARTX_FCR(uart), 7);
 
-    int divisor = bdk_clock_get_rate(BDK_CLOCK_SCLK) / baudrate / 16;
+    int divisor = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / baudrate / 16;
     if (bdk_is_simulation())
         divisor = 1;
 
-    BDK_CSR_WRITE(BDK_MIO_UARTX_DLH(uart), divisor>>8);
-    BDK_CSR_WRITE(BDK_MIO_UARTX_DLL(uart), divisor & 0xff);
+    BDK_CSR_WRITE(node, BDK_MIO_UARTX_DLH(uart), divisor>>8);
+    BDK_CSR_WRITE(node, BDK_MIO_UARTX_DLL(uart), divisor & 0xff);
 
-    BDK_CSR_MODIFY(u, BDK_MIO_UARTX_LCR(uart),
+    BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
         u.s.dlab = 0); /* Divisor Latch Address bit */
-    BDK_CSR_READ(BDK_MIO_UARTX_LCR(uart));
+    BDK_CSR_READ(node, BDK_MIO_UARTX_LCR(uart));
     bdk_wait(1000);
 
     use_flow_control = !!use_flow_control;
-    BDK_CSR_MODIFY(mcr, BDK_MIO_UARTX_MCR(uart),
+    BDK_CSR_MODIFY(mcr, node, BDK_MIO_UARTX_MCR(uart),
         mcr.s.afce = use_flow_control;
         mcr.s.rts = use_flow_control);
 }
 
-static void __bdk_init_exception(void)
+static void __bdk_init_exception(bdk_node_t node)
 {
     extern void __bdk_exception(void);
 
@@ -91,9 +91,11 @@ void __bdk_init(long base_address)
     cvmctl |= 1<<14;    /* Fix unaligned accesses */
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+
     /* Sync cycle counter */
-    uint64_t core_rate = bdk_clock_get_rate(BDK_CLOCK_CORE) / 1000000;
-    uint64_t sclk_rate = bdk_clock_get_rate(BDK_CLOCK_SCLK) / 1000000;
+    uint64_t core_rate = bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000;
+    uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000;
     BDK_SYNC;
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
@@ -116,30 +118,30 @@ void __bdk_init(long base_address)
         }
         else
         {
-            BDK_CSR_INIT(dbg, BDK_SLI_DBG_SELECT);
+            BDK_CSR_INIT(dbg, node, BDK_SLI_DBG_SELECT);
             BDK_CSR_DEFINE(tmp, BDK_SLI_DBG_SELECT);
             tmp = dbg;
             tmp.s.dbg_sel = 1;
-            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, tmp.u64);
-            tmp.u64 = BDK_CSR_READ(BDK_SLI_DBG_SELECT);
-            BDK_CSR_WRITE(BDK_SLI_DBG_SELECT, dbg.u64);
+            BDK_CSR_WRITE(node, BDK_SLI_DBG_SELECT, tmp.u64);
+            tmp.u64 = BDK_CSR_READ(node, BDK_SLI_DBG_SELECT);
+            BDK_CSR_WRITE(node, BDK_SLI_DBG_SELECT, dbg.u64);
             __bdk_is_simulation = (tmp.s.dbg_sel == 0);
         }
 
-        bdk_set_baudrate(0, 115200, 0);
-        bdk_set_baudrate(1, 115200, 0);
+        bdk_set_baudrate(node, 0, 115200, 0);
+        bdk_set_baudrate(node, 1, 115200, 0);
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
-        __bdk_init_exception();
+        __bdk_init_exception(node);
 
         /* Only lock L2 if DDR3 isn't initialized */
-        BDK_CSR_INIT(lmcx_ddr_pll_ctl, BDK_LMCX_DDR_PLL_CTL(0));
+        BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0));
         if ((lmcx_ddr_pll_ctl.s.reset_n == 0) && !bdk_is_simulation())
         {
             if (BDK_SHOW_BOOT_BANNERS)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
-            bdk_l2c_lock_mem_region(0, bdk_l2c_get_num_sets() * bdk_l2c_get_num_assoc() * BDK_CACHE_LINE_SIZE);
+            bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_num_sets(node) * bdk_l2c_get_num_assoc(node) * BDK_CACHE_LINE_SIZE);
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
@@ -148,19 +150,19 @@ void __bdk_init(long base_address)
                 l2c_tadx_int.cn78xx.rddislmc = 1;
             else
                 l2c_tadx_int.cn68xx.rddislmc = 1;
-            BDK_CSR_WRITE(BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
             if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
             {
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(3), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(3), l2c_tadx_int.u64);
             }
             if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             {
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(4), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(5), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(BDK_L2C_TADX_INT(7), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(4), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(5), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);
+                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(7), l2c_tadx_int.u64);
             }
         }
 
@@ -177,19 +179,19 @@ void __bdk_init(long base_address)
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 
-int bdk_init_cores(uint64_t coremask)
+int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
     extern void __bdk_reset_vector(void);
 
     /* Install reset vector */
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_ADR, 0);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
     const uint64_t *src = (const uint64_t *)__bdk_reset_vector;
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, *src++);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_DAT, 0xffffffff80002000);
-    BDK_CSR_WRITE(BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
-    BDK_CSR_READ(BDK_MIO_BOOT_LOC_CFGX(0));
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, 0xffffffff80002000);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
+    BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
 
     /* Choose all cores by default */
     if (coremask == 0)
@@ -204,21 +206,21 @@ int bdk_init_cores(uint64_t coremask)
         coremask &= config_coremask;
 
     /* Limit to the cores that exist */
-    coremask &= (1ull<<bdk_octeon_num_cores()) - 1;
+    coremask &= (1ull<<bdk_octeon_num_cores(node)) - 1;
 
     /* First send a NMI */
-    BDK_CSR_WRITE(BDK_CIU_NMI, coremask);
+    BDK_CSR_WRITE(node, BDK_CIU_NMI, coremask);
 
     /* Then take cores out of reset */
-    uint64_t reset = BDK_CSR_READ(BDK_CIU_PP_RST);
+    uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
     if (reset & coremask)
     {
         reset &= ~coremask;
-        BDK_CSR_WRITE(BDK_CIU_PP_RST, reset);
+        BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset);
     }
 
     /* Wait up to 100us for the cores to boot */
-    uint64_t timeout = bdk_clock_get_rate(BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t timeout = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask) & coremask) != coremask))
     {
         /* Tight spin */

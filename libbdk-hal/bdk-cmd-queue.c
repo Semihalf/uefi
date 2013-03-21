@@ -5,16 +5,18 @@
  * allocated and the hardware unit is configured to point to the
  * new command queue.
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param qstate Hardware command queue to initialize.
  *
  * @return BDK_CMD_QUEUE_SUCCESS or a failure code
  */
-bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate)
+bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_state_t *qstate)
 {
     int fpa_pool = BDK_FPA_OUTPUT_BUFFER_POOL;
-    int pool_size = bdk_fpa_get_block_size(fpa_pool);
+    int pool_size = bdk_fpa_get_block_size(node, fpa_pool);
 
-    void *buffer = bdk_fpa_alloc(fpa_pool);
+    void *buffer = bdk_fpa_alloc(node, fpa_pool);
     if (buffer == NULL)
     {
         bdk_error("bdk_cmd_queue_initialize: Unable to allocate initial buffer.\n");
@@ -23,6 +25,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_cmd_queue_state_t *qstate)
 
     bdk_zero_memory(qstate, sizeof(*qstate));
     qstate->fpa_pool = fpa_pool;
+    qstate->node = node;
     qstate->pool_size_m1 = (pool_size>>3)-1;
     qstate->base_ptr = buffer;
     BDK_SYNCW;
@@ -44,7 +47,7 @@ bdk_cmd_queue_result_t bdk_cmd_queue_shutdown(bdk_cmd_queue_state_t *qptr)
     __bdk_cmd_queue_lock(qptr);
     if (qptr->base_ptr)
     {
-        bdk_fpa_free(qptr->base_ptr, qptr->fpa_pool, 0);
+        bdk_fpa_free(qptr->node, qptr->base_ptr, qptr->fpa_pool, 0);
         qptr->base_ptr = NULL;
     }
     __bdk_cmd_queue_unlock(qptr);

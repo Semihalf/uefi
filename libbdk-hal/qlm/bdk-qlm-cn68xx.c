@@ -7,7 +7,7 @@
  *
  * @return Number of QLMs
  */
-static int qlm_get_num(void)
+static int qlm_get_num(bdk_node_t node)
 {
     return 5;
 }
@@ -23,7 +23,7 @@ static int qlm_get_num(void)
  *
  * @return QLM number. Dies on a fatal error on failure.
  */
-static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
+static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
     switch (iftype)
     {
@@ -73,7 +73,7 @@ static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
  *
  * @return Number of lanes on the QLM
  */
-static int qlm_get_lanes(int qlm)
+static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
     return 4;
 }
@@ -86,9 +86,9 @@ static int qlm_get_lanes(int qlm)
  *
  * @return String mode
  */
-static const char *qlm_get_mode(int qlm)
+static const char *qlm_get_mode(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm_cfg.s.qlm_cfg)
     {
         case 0: return "PCIE";
@@ -108,9 +108,9 @@ static const char *qlm_get_mode(int qlm)
  *
  * @return Speed in Mhz
  */
-static int qlm_get_gbaud_mhz(int qlm)
+static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm_cfg.s.qlm_spd)
     {
         case 0: return 5000;    /* 5     Gbaud */
@@ -140,10 +140,10 @@ static int qlm_get_gbaud_mhz(int qlm)
  *
  * @return Clock rate in Hz
  */
-static int qlm_measure_refclock(int qlm)
+static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
     extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
-    return bdk_qlm_ops_cn61xx.measure_refclock(qlm);
+    return bdk_qlm_ops_cn61xx.measure_refclock(node, qlm);
 }
 
 /**
@@ -152,14 +152,14 @@ static int qlm_measure_refclock(int qlm)
  * at 5Ghz, but doesn't do 6.25Ghz. The CN68XX pass 2.0
  * workaround is different and done somewhere else.
  */
-void __bdk_qlm_chip_tweak_5Ghz_G16467(void)
+void __bdk_qlm_chip_tweak_5Ghz_G16467(bdk_node_t node)
 {
-    int num_qlms = bdk_qlm_get_num();
+    int num_qlms = bdk_qlm_get_num(node);
     for (int qlm=0; qlm<num_qlms; qlm++)
     {
         /* This workaround only applies to QLMs running at 5Ghz, but not PCIe */
-        if ((bdk_qlm_get_gbaud_mhz(qlm) == 5000) &&
-            (strstr(bdk_qlm_get_mode(qlm), "PCIE") == NULL))
+        if ((bdk_qlm_get_gbaud_mhz(node, qlm) == 5000) &&
+            (strstr(bdk_qlm_get_mode(node, qlm), "PCIE") == NULL))
         {
             int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
             if (ir50dac < 31)
@@ -181,19 +181,19 @@ void __bdk_qlm_chip_tweak_5Ghz_G16467(void)
 /**
  * Apply QLM tweaks based on the chip errata
  */
-static void qlm_chip_tweak(void)
+static void qlm_chip_tweak(bdk_node_t node)
 {
-    int num_qlms = bdk_qlm_get_num();
+    int num_qlms = bdk_qlm_get_num(node);
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
     {
-        __bdk_qlm_chip_tweak_5Ghz_G16467();
+        __bdk_qlm_chip_tweak_5Ghz_G16467(node);
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
             QLM jitter for 6.25 Gbaud */
         for (int qlm=0; qlm<num_qlms; qlm++)
         {
             /* This workaround only applies to QLMs running at 6.25Ghz */
-            if (bdk_qlm_get_gbaud_mhz(qlm) == 6250)
+            if (bdk_qlm_get_gbaud_mhz(node, qlm) == 6250)
             {
                 bdk_qlm_jtag_set(qlm, -1, "cfg_cdr_trunc", 0);
                 /* Hold the QLM in reset */
@@ -222,11 +222,11 @@ static void qlm_chip_tweak(void)
 /**
  * Initialize the QLM layer
  */
-static void qlm_init(void)
+static void qlm_init(bdk_node_t node)
 {
     extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn68xx[];
     __bdk_qlm_jtag_init(__bdk_qlm_jtag_field_cn68xx);
-    qlm_chip_tweak();
+    qlm_chip_tweak(node);
 }
 
 

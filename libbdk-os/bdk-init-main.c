@@ -39,7 +39,7 @@ static void __bdk_init_cop0(void)
 }
 
 
-static void __bdk_setup_bootbus(void)
+static void __bdk_setup_bootbus(bdk_node_t node)
 {
     /* Set each region to be max size, 256MB. Align regions such that
         a 128MB flash would alias to allow the MIPS boot region to see
@@ -47,7 +47,7 @@ static void __bdk_setup_bootbus(void)
         all regions to make the code easier */
     for (int region=0; region<8; region++)
     {
-        BDK_CSR_MODIFY(c, BDK_MIO_BOOT_REG_CFGX(region),
+        BDK_CSR_MODIFY(c, node, BDK_MIO_BOOT_REG_CFGX(region),
             c.s.size = 0xfff;
             c.s.base = 0x0fc0 + region*0x2000);
     }
@@ -57,7 +57,7 @@ static void __bdk_error_poll(int arg, void *arg1)
 {
     while (bdk_error_check)
     {
-        bdk_error_check();
+        bdk_error_check(BDK_NODE_LOCAL);
         bdk_wait_usec(100000);
     }
 }
@@ -71,6 +71,7 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_main(int arg, void *arg1)
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     /* All cores start running threads here. Only the setup required to get
         threading up is done. More init is needed. This code will be locked to
         a singel core with threads being spawned for each core */
@@ -82,7 +83,7 @@ void __bdk_init_main(int arg, void *arg1)
         if (BDK_SHOW_BOOT_BANNERS)
             printf("Performing common initialization\n");
 
-        bdk_l2c_initialize();
+        bdk_l2c_initialize(node);
         __bdk_config_init(); /* Some config setting are dynamically updated */
 
         extern char **environ;
@@ -91,15 +92,15 @@ void __bdk_init_main(int arg, void *arg1)
             bdk_error("Failed to allocate environment, setenv will crash\n");
 
         if (!bdk_is_simulation())
-            __bdk_setup_bootbus();
+            __bdk_setup_bootbus(node);
 
-        bdk_twsix_initialize();
-        bdk_qlm_init();
+        bdk_twsix_initialize(node);
+        bdk_qlm_init(node);
         if (bdk_error_enable)
         {
             if (BDK_SHOW_BOOT_BANNERS)
                 printf("Enabling error reporting\n");
-            bdk_error_enable();
+            bdk_error_enable(node);
         }
 
         if (BDK_SHOW_BOOT_BANNERS)
@@ -108,14 +109,14 @@ void __bdk_init_main(int arg, void *arg1)
             {
                 /* Always enable flow control in the simulator. The simulator reports
                     CTS=0, but it prevents the FIFO being overrun */
-                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
+                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_UARTX_MSR(i), cts, ==, 1, 1000))
                 {
                     bdk_warn("Not enabling hardware flow control on UART%d as CTS appears stuck\n", i);
                 }
                 else
                 {
                     printf("Enabling hardware flow control on UART%d\n", i);
-                    bdk_set_baudrate(i, 115200, 1);
+                    bdk_set_baudrate(node, i, 115200, 1);
                 }
             }
         }

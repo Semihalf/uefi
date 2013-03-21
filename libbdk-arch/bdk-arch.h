@@ -29,6 +29,7 @@
 #include "bdk-asm.h"
 #endif
 #include "bdk-model.h"
+#include "bdk-numa.h"
 #include "bdk-csr.h"
 #include "bdk-warn.h"
 #include "bdk-csrs.h"

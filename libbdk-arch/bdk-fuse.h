@@ -14,5 +14,5 @@
  *
  * @return fuse value: 0 or 1
  */
-extern int bdk_fuse_read(int fuse);
+extern int bdk_fuse_read(bdk_node_t node, int fuse);
 

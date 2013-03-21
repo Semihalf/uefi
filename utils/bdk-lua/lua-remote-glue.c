@@ -58,7 +58,7 @@ static int oremote_read_csr(lua_State* L)
     int busnum = luaL_checknumber(L, 2);
     int size = luaL_checknumber(L, 3);
     uint64_t address = luaL_checknumber(L, 4);
-    lua_pushnumber(L, octeon_remote_read_csr(type, busnum, size, address));
+    lua_pushnumber(L, octeon_remote_read_csr(OCTEON_REMOTE_NODE, type, busnum, size, address));
     return 1;
 }
 
@@ -82,7 +82,7 @@ static int oremote_write_csr(lua_State* L)
     int size = luaL_checknumber(L, 3);
     uint64_t address = luaL_checknumber(L, 4);
     uint64_t value = luaL_checknumber(L, 5);
-    octeon_remote_write_csr(type, busnum, size, address, value);
+    octeon_remote_write_csr(OCTEON_REMOTE_NODE, type, busnum, size, address, value);
     return 0;
 }
 

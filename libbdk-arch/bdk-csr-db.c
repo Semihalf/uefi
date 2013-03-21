@@ -278,11 +278,13 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
 /**
  * Do a CSR read based on the string name of a CSR
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param name   Name of CSR to read
  *
  * @return Zero on failure or the CSR value
  */
-uint64_t bdk_csr_read_by_name(const char *name)
+uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name)
 {
     int offset = -1;
     int block = -1;
@@ -291,11 +293,11 @@ uint64_t bdk_csr_read_by_name(const char *name)
         return 0;
 
 #ifndef BDK_BUILD_HOST
-    return bdk_csr_read(db->type, (block == -1) ? offset : block, db->width,
+    return bdk_csr_read(node, db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
 #else
-    extern uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
-    return octeon_remote_read_csr(db->type, (block == -1) ? offset : block, db->width,
+    extern uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
+    return octeon_remote_read_csr(node, db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block));
 #endif
 }
@@ -304,12 +306,14 @@ uint64_t bdk_csr_read_by_name(const char *name)
 /**
  * Do a CSR write based on the string name of a CSR
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param name   Name of the CSR to write
  * @param value  Value to write
  *
  * @return Zero on success, negative on failure
  */
-int bdk_csr_write_by_name(const char *name, uint64_t value)
+int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value)
 {
     int offset = -1;
     int block = -1;
@@ -317,11 +321,11 @@ int bdk_csr_write_by_name(const char *name, uint64_t value)
     if (!db)
         return -1;
 #ifndef BDK_BUILD_HOST
-    bdk_csr_write(db->type, (block == -1) ? offset : block, db->width,
+    bdk_csr_write(node, db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block), value);
 #else
-    extern void octeon_remote_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
-    octeon_remote_write_csr(db->type, (block == -1) ? offset : block, db->width,
+    extern void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+    octeon_remote_write_csr(node, db->type, (block == -1) ? offset : block, db->width,
         __bdk_csr_lookup_address(db, offset, block), value);
 #endif
     return 0;

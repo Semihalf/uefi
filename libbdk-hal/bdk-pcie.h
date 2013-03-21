@@ -72,63 +72,77 @@ typedef union
  * Return the Core virtual base address for PCIe IO access. IOs are
  * read/written as an offset from this address.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the IO is for
  *
  * @return 64bit Octeon IO base address for read/write
  */
-uint64_t bdk_pcie_get_io_base_address(int pcie_port);
+uint64_t bdk_pcie_get_io_base_address(bdk_node_t node, int pcie_port);
 
 /**
  * Size of the IO address region returned at address
  * bdk_pcie_get_io_base_address()
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the IO is for
  *
  * @return Size of the IO window
  */
-uint64_t bdk_pcie_get_io_size(int pcie_port);
+uint64_t bdk_pcie_get_io_size(bdk_node_t node, int pcie_port);
 
 /**
  * Return the Core virtual base address for PCIe MEM access. Memory is
  * read/written as an offset from this address.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the IO is for
  *
  * @return 64bit Octeon IO base address for read/write
  */
-uint64_t bdk_pcie_get_mem_base_address(int pcie_port);
+uint64_t bdk_pcie_get_mem_base_address(bdk_node_t node, int pcie_port);
 
 /**
  * Size of the Mem address region returned at address
  * bdk_pcie_get_mem_base_address()
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the IO is for
  *
  * @return Size of the Mem window
  */
-uint64_t bdk_pcie_get_mem_size(int pcie_port);
+uint64_t bdk_pcie_get_mem_size(bdk_node_t node, int pcie_port);
 
 /**
  * Initialize a PCIe port for use in host(RC) mode. It doesn't enumerate the bus.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port to initialize
  *
  * @return Zero on success
  */
-int bdk_pcie_rc_initialize(int pcie_port);
+int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port);
 
 /**
  * Shutdown a PCIe port and put it in reset
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port to shutdown
  *
  * @return Zero on success
  */
-int bdk_pcie_rc_shutdown(int pcie_port);
+int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port);
 
 /**
  * Read 8bits from a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -137,11 +151,13 @@ int bdk_pcie_rc_shutdown(int pcie_port);
  *
  * @return Result of the read
  */
-uint8_t bdk_pcie_config_read8(int pcie_port, int bus, int dev, int fn, int reg);
+uint8_t bdk_pcie_config_read8(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg);
 
 /**
  * Read 16bits from a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -150,11 +166,13 @@ uint8_t bdk_pcie_config_read8(int pcie_port, int bus, int dev, int fn, int reg);
  *
  * @return Result of the read
  */
-uint16_t bdk_pcie_config_read16(int pcie_port, int bus, int dev, int fn, int reg);
+uint16_t bdk_pcie_config_read16(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg);
 
 /**
  * Read 32bits from a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -163,11 +181,13 @@ uint16_t bdk_pcie_config_read16(int pcie_port, int bus, int dev, int fn, int reg
  *
  * @return Result of the read
  */
-uint32_t bdk_pcie_config_read32(int pcie_port, int bus, int dev, int fn, int reg);
+uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg);
 
 /**
  * Write 8bits to a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -175,11 +195,13 @@ uint32_t bdk_pcie_config_read32(int pcie_port, int bus, int dev, int fn, int reg
  * @param reg       Register to access
  * @param val       Value to write
  */
-void bdk_pcie_config_write8(int pcie_port, int bus, int dev, int fn, int reg, uint8_t val);
+void bdk_pcie_config_write8(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint8_t val);
 
 /**
  * Write 16bits to a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -187,11 +209,13 @@ void bdk_pcie_config_write8(int pcie_port, int bus, int dev, int fn, int reg, ui
  * @param reg       Register to access
  * @param val       Value to write
  */
-void bdk_pcie_config_write16(int pcie_port, int bus, int dev, int fn, int reg, uint16_t val);
+void bdk_pcie_config_write16(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint16_t val);
 
 /**
  * Write 32bits to a Device's config space
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port the device is on
  * @param bus       Sub bus
  * @param dev       Device ID
@@ -199,16 +223,18 @@ void bdk_pcie_config_write16(int pcie_port, int bus, int dev, int fn, int reg, u
  * @param reg       Register to access
  * @param val       Value to write
  */
-void bdk_pcie_config_write32(int pcie_port, int bus, int dev, int fn, int reg, uint32_t val);
+void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint32_t val);
 
 /**
  * Initialize a PCIe port for use in target(EP) mode.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port to initialize
  *
  * @return Zero on success
  */
-int bdk_pcie_ep_initialize(int pcie_port);
+int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port);
 
 /**
  * Wait for posted PCIe read/writes to reach the other side of
@@ -217,8 +243,10 @@ int bdk_pcie_ep_initialize(int pcie_port);
  * is called. This may be necessary when writing to memory that
  * will later be read using the DMA/PKT engines.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param pcie_port PCIe port to wait for
  */
-void bdk_pcie_wait_for_pending(int pcie_port);
+void bdk_pcie_wait_for_pending(bdk_node_t node, int pcie_port);
 
 /** @} */

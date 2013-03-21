@@ -6,7 +6,7 @@
  *
  * @return Zero on success, negative on failure.
  */
-int bdk_l2c_initialize(void)
+int bdk_l2c_initialize(bdk_node_t node)
 {
     int ddr_hertz = 0; // FIXME
 
@@ -16,7 +16,7 @@ int bdk_l2c_initialize(void)
             first LMC fill cycle to wait before requesting a fill on the
             RSC/RSD bus.*/
         /* 7 dclks (we've received 1st out of 8 by the time we start counting) */
-        long long ef_cnt = (int64_t)7 * bdk_clock_get_rate(BDK_CLOCK_RCLK) / ddr_hertz;
+        long long ef_cnt = (int64_t)7 * bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / ddr_hertz;
         /* + 1 rclk if the dclk and rclk edges don't stay in the same position */
         ef_cnt++; /* Always add one so we don't have a special case where the clock line up, which is unlikely */
         /* + 2 rclk synchronization uncertainty */
@@ -29,7 +29,7 @@ int bdk_l2c_initialize(void)
         ef_cnt -= 9;
         if ((ef_cnt >=  0) && (ef_cnt < 127))
         {
-            BDK_CSR_MODIFY(c, BDK_L2C_CTL,
+            BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
                 c.s.ef_ena = 1;
                 c.s.ef_cnt = ef_cnt);
         }
@@ -40,21 +40,21 @@ int bdk_l2c_initialize(void)
     if (!OCTEON_IS_MODEL(OCTEON_CN78XX) && !OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         /* Clear the IOB0 FIFO delay if the RCLK/SCLK ratio is less than 3 */
-        uint64_t sclk = bdk_clock_get_rate(BDK_CLOCK_SCLK);
-        uint64_t rclk = bdk_clock_get_rate(BDK_CLOCK_RCLK);
+        uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
+        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
         if (rclk < sclk * 3)
         {
             if (OCTEON_IS_MODEL(OCTEON_CN68XX))
             {
-                BDK_CSR_MODIFY(c, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(BDK_IOB0_CTL_STATUS);
-                BDK_CSR_MODIFY(c, BDK_IOB1_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(BDK_IOB1_CTL_STATUS);
+                BDK_CSR_MODIFY(c, node, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
+                BDK_CSR_READ(node, BDK_IOB0_CTL_STATUS);
+                BDK_CSR_MODIFY(c, node, BDK_IOB1_CTL_STATUS, c.s.fif_dly = 0);
+                BDK_CSR_READ(node, BDK_IOB1_CTL_STATUS);
             }
             else
             {
-                BDK_CSR_MODIFY(c, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(BDK_IOB_CTL_STATUS);
+                BDK_CSR_MODIFY(c, node, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
+                BDK_CSR_READ(node, BDK_IOB_CTL_STATUS);
             }
         }
     }
@@ -62,55 +62,55 @@ int bdk_l2c_initialize(void)
     /* Tell L2 to give the IOB statically higher priority compared to the
         cores. This avoids conditions where IO blocks might be starved under
         very high L2 loads */
-    BDK_CSR_MODIFY(c, BDK_L2C_CTL,
+    BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
         c.s.rsp_arb_mode = 1;
         c.s.xmc_arb_mode = 0);
 
     return 0;
 }
 
-int bdk_l2c_get_core_way_partition(int core)
+int bdk_l2c_get_core_way_partition(bdk_node_t node, int core)
 {
     /* Validate the core number */
-    if (core >= bdk_octeon_num_cores())
+    if (core >= bdk_octeon_num_cores(node))
         return -1;
 
-    return (BDK_CSR_READ(BDK_L2C_WPAR_PPX(core)) & 0xffff);
+    return (BDK_CSR_READ(node, BDK_L2C_WPAR_PPX(core)) & 0xffff);
 }
 
-int bdk_l2c_set_core_way_partition(int core, uint32_t mask)
+int bdk_l2c_set_core_way_partition(bdk_node_t node, int core, uint32_t mask)
 {
-    uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc()) - 1;
+    uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc(node)) - 1;
     mask &= valid_mask;
 
     /* Validate the core number */
-    if (core >= bdk_octeon_num_cores())
+    if (core >= bdk_octeon_num_cores(node))
         return -1;
 
-    BDK_CSR_WRITE(BDK_L2C_WPAR_PPX(core), mask);
+    BDK_CSR_WRITE(node, BDK_L2C_WPAR_PPX(core), mask);
     return 0;
 }
 
 
-int bdk_l2c_set_hw_way_partition(uint32_t mask)
+int bdk_l2c_set_hw_way_partition(bdk_node_t node, uint32_t mask)
 {
-    uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc()) - 1;
+    uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc(node)) - 1;
     mask &= valid_mask;
 
-    BDK_CSR_WRITE(BDK_L2C_WPAR_IOBX(0), mask);
+    BDK_CSR_WRITE(node, BDK_L2C_WPAR_IOBX(0), mask);
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_WRITE(BDK_L2C_WPAR_IOBX(1), mask);
+        BDK_CSR_WRITE(node, BDK_L2C_WPAR_IOBX(1), mask);
     return 0;
 }
 
 
-int bdk_l2c_get_hw_way_partition(void)
+int bdk_l2c_get_hw_way_partition(bdk_node_t node)
 {
-    return (BDK_CSR_READ(BDK_L2C_WPAR_IOBX(0)) & 0xffff);
+    return (BDK_CSR_READ(node, BDK_L2C_WPAR_IOBX(0)) & 0xffff);
 }
 
 
-int bdk_l2c_lock_mem_region(uint64_t start, uint64_t len)
+int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 {
     /* Round start/end to cache line boundaries */
     len += start & BDK_CACHE_LINE_MASK;
@@ -128,12 +128,12 @@ int bdk_l2c_lock_mem_region(uint64_t start, uint64_t len)
 }
 
 
-void bdk_l2c_flush(void)
+void bdk_l2c_flush(bdk_node_t node)
 {
-    int n_set = bdk_l2c_get_num_sets();
-    int n_assoc = bdk_l2c_get_num_assoc();
+    int n_set = bdk_l2c_get_num_sets(node);
+    int n_assoc = bdk_l2c_get_num_assoc(node);
     int set_shift = 7;  /* based on 128 byte cache line size */
-    int assoc_shift = set_shift + bdk_l2c_get_set_bits();
+    int assoc_shift = set_shift + bdk_l2c_get_set_bits(node);
 
     for (int set=0; set < n_set; set++)
     {
@@ -146,7 +146,7 @@ void bdk_l2c_flush(void)
 }
 
 
-int bdk_l2c_unlock_mem_region(uint64_t start, uint64_t len)
+int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 {
     /* Round start/end to cache line boundaries */
     len += start & BDK_CACHE_LINE_MASK;
@@ -165,9 +165,9 @@ int bdk_l2c_unlock_mem_region(uint64_t start, uint64_t len)
 }
 
 
-int bdk_l2c_get_cache_size_bytes(void)
+int bdk_l2c_get_cache_size_bytes(bdk_node_t node)
 {
-    return bdk_l2c_get_num_sets() * bdk_l2c_get_num_assoc() * BDK_CACHE_LINE_SIZE;
+    return bdk_l2c_get_num_sets(node) * bdk_l2c_get_num_assoc(node) * BDK_CACHE_LINE_SIZE;
 }
 
 
@@ -175,7 +175,7 @@ int bdk_l2c_get_cache_size_bytes(void)
  * Return log base 2 of the number of sets in the L2 cache
  * @return
  */
-int bdk_l2c_get_set_bits(void)
+int bdk_l2c_get_set_bits(bdk_node_t node)
 {
     static int l2_set_bits = -1;
 
@@ -199,13 +199,13 @@ int bdk_l2c_get_set_bits(void)
 }
 
 /* Return the number of sets in the L2 Cache */
-int bdk_l2c_get_num_sets(void)
+int bdk_l2c_get_num_sets(bdk_node_t node)
 {
-    return 1 << bdk_l2c_get_set_bits();
+    return 1 << bdk_l2c_get_set_bits(node);
 }
 
 /* Return the number of associations in the L2 Cache */
-int bdk_l2c_get_num_assoc(void)
+int bdk_l2c_get_num_assoc(bdk_node_t node)
 {
     static int l2_assoc = -1;
 
@@ -213,7 +213,7 @@ int bdk_l2c_get_num_assoc(void)
         return l2_assoc;
 
     /* Check to see if part of the cache is disabled */
-    BDK_CSR_INIT(mio_fus_dat3, BDK_MIO_FUS_DAT3);
+    BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
     /* bdk_mio_fus_dat3.s.l2c_crip fuses map as follows
        <2> will be not used for 63xx
        <1> disables 1/2 ways

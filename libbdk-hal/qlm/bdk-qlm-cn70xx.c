@@ -7,7 +7,7 @@
  *
  * @return Number of QLMs
  */
-static int qlm_get_num(void)
+static int qlm_get_num(bdk_node_t node)
 {
     return 3;
 }
@@ -23,7 +23,7 @@ static int qlm_get_num(void)
  *
  * @return QLM number. Dies on a fatal error on failure.
  */
-static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
+static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
     switch (iftype)
     {
@@ -46,7 +46,7 @@ static int qlm_get_qlm_num(bdk_if_t iftype, int interface)
  *
  * @return Number of lanes on the QLM
  */
-static int qlm_get_lanes(int qlm)
+static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
     return 2;
 }
@@ -59,9 +59,9 @@ static int qlm_get_lanes(int qlm)
  *
  * @return String mode
  */
-static const char *qlm_get_mode(int qlm)
+static const char *qlm_get_mode(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm)
     {
         case 0:
@@ -104,9 +104,9 @@ static const char *qlm_get_mode(int qlm)
  *
  * @return Speed in Mhz
  */
-static int qlm_get_gbaud_mhz(int qlm)
+static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, BDK_MIO_QLMX_CFG(qlm));
+    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm_cfg.s.qlm_spd)
     {
         case 0: return 5000;    /* 5     Gbaud */
@@ -136,17 +136,17 @@ static int qlm_get_gbaud_mhz(int qlm)
  *
  * @return Clock rate in Hz
  */
-static int qlm_measure_refclock(int qlm)
+static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
     extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
-    return bdk_qlm_ops_cn61xx.measure_refclock(qlm);
+    return bdk_qlm_ops_cn61xx.measure_refclock(node, qlm);
 }
 
 
 /**
  * Initialize the QLM layer
  */
-static void qlm_init(void)
+static void qlm_init(bdk_node_t node)
 {
     /* Same as CN61XX */
     extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[];

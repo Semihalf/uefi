@@ -54,6 +54,8 @@ extern "C" {
 #define OCTEON_REMOTE_DEFAULT NULL
 #endif
 
+#define OCTEON_REMOTE_NODE BDK_NODE_LOCAL
+
 /**
  * - regs[0][0-31] = General purpose registers
  * - regs[0][32] = Lo
@@ -187,8 +189,8 @@ void octeon_remote_close(void);
  *
  * @return 64bit value of the CSR
  */
-uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
-#define OCTEON_REMOTE_READ_CSR(csr) octeon_remote_read_csr(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)
+uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
+#define OCTEON_REMOTE_READ_CSR(node, csr) octeon_remote_read_csr(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)
 uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address);
 
 /**
@@ -198,8 +200,8 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
  *               Physical address of the CSR. Bits 63-49 should be zero.
  * @param value  Value to write
  */
-void octeon_remote_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
-#define OCTEON_REMOTE_WRITE_CSR(csr, value) octeon_remote_write_csr(bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
+void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+#define OCTEON_REMOTE_WRITE_CSR(node, csr, value) octeon_remote_write_csr(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, value)
 void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
 
 /**

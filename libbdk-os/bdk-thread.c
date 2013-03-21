@@ -215,7 +215,7 @@ void bdk_thread_destroy(void)
             bdk_spinlock_unlock(&bdk_thread_lock);
         }
         BDK_ASM_PAUSE;
-        if (bdk_atomic_get32(&dead_cores) == bdk_octeon_num_cores())
+        if (bdk_atomic_get32(&dead_cores) == bdk_octeon_num_cores(BDK_NODE_LOCAL))
             __bdk_die();
     }
 }

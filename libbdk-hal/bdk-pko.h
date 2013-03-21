@@ -38,9 +38,9 @@ typedef union
 } bdk_pko_command_word0_t;
 
 
-extern int __bdk_pko_alloc_pipe(int num_pipes);
-extern int __bdk_pko_alloc_engine(void);
-extern int __bdk_pko_alloc_port(void);
+extern int __bdk_pko_alloc_pipe(bdk_node_t node, int num_pipes);
+extern int __bdk_pko_alloc_engine(bdk_node_t node);
+extern int __bdk_pko_alloc_port(bdk_node_t node);
 
 
 /**
@@ -55,7 +55,7 @@ extern int __bdk_pko_alloc_port(void);
  *
  * @return The base queue number, or negative on failure.
  */
-extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr);
+extern int bdk_pko_config_port(bdk_node_t node, int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr);
 
 
 /**
@@ -64,11 +64,13 @@ extern int bdk_pko_config_port(int pko_port, int num_queues, int num_static_queu
  * to its pending list.  This command includes the required
  * BDK_SYNCW before the doorbell ring.
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param port   Port the packet is for
  * @param queue  Queue the packet is for
  * @param len    Length of the command in 64 bit words
  */
-static inline void bdk_pko_doorbell(int port, int queue, int len)
+static inline void bdk_pko_doorbell(bdk_node_t node, int port, int queue, int len)
 {
     /**
      * This structure defines the address to use on a packet enqueue

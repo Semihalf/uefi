@@ -19,12 +19,14 @@
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_twsix_initialize(void);
+extern int bdk_twsix_initialize(bdk_node_t node);
 
 /**
  * Do a twsi read from a 7 bit device address using an (optional)
  * internal address. Up to 4 bytes can be read at a time.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param twsi_id   which Octeon TWSI bus to use
  * @param dev_addr  Device address (7 bit)
  * @param internal_addr
@@ -35,11 +37,13 @@ extern int bdk_twsix_initialize(void);
  *
  * @return Read data, or -1 on failure
  */
-extern int64_t bdk_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes);
+extern int64_t bdk_twsix_read_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes);
 
 /**
  * Write 1-8 bytes to a TWSI device using an internal address.
  *
+ * @param node      Node to use in a Numa setup. Can be an exact ID or a special
+ *                  value.
  * @param twsi_id   which TWSI interface on Octeon to use
  * @param dev_addr  TWSI device address (7 bit only)
  * @param internal_addr
@@ -54,6 +58,6 @@ extern int64_t bdk_twsix_read_ia(int twsi_id, uint8_t dev_addr, uint16_t interna
  *
  * @return Zero on success, -1 on error
  */
-extern int bdk_twsix_write_ia(int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t data);
+extern int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t internal_addr, int num_bytes, int ia_width_bytes, uint64_t data);
 
 /** @} */

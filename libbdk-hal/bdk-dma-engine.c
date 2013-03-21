@@ -7,7 +7,7 @@ static bdk_cmd_queue_state_t dma_queue[8];
  *
  * @return Number of DMA engines
  */
-int bdk_dma_engine_get_num(void)
+int bdk_dma_engine_get_num(bdk_node_t node)
 {
     return 8;
 }
@@ -17,24 +17,24 @@ int bdk_dma_engine_get_num(void)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_initialize(void)
+int bdk_dma_engine_initialize(bdk_node_t node)
 {
     int engine;
 
-    for (engine=0; engine < bdk_dma_engine_get_num(); engine++)
+    for (engine=0; engine < bdk_dma_engine_get_num(node); engine++)
     {
         bdk_cmd_queue_result_t result;
-        result = bdk_cmd_queue_initialize(dma_queue + engine);
+        result = bdk_cmd_queue_initialize(node, dma_queue + engine);
         if (result != BDK_CMD_QUEUE_SUCCESS)
             return -1;
 
         bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
         dpi_dmax_ibuff_saddr.u64 = 0;
-        dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/8;
+        dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/8;
         /* Due to a conflict with the "idle" field on cn78xx, the saddr below
             uses the cn78xx specific field, but this works on all chips */
         dpi_dmax_ibuff_saddr.cn78xx.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue + engine)) >> 7;
-        BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
+        BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
     }
 
     bdk_dpi_engx_buf_t dpi_engx_buf;
@@ -45,27 +45,27 @@ int bdk_dma_engine_initialize(void)
         performance. Total must not exceed 8KB */
     dpi_engx_buf.u64 = 0;
     dpi_engx_buf.s.blks = 2;
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(0), dpi_engx_buf.u64);
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(1), dpi_engx_buf.u64);
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(2), dpi_engx_buf.u64);
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(3), dpi_engx_buf.u64);
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(4), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(0), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(1), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(2), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(3), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(4), dpi_engx_buf.u64);
     dpi_engx_buf.s.blks = 6;
-    BDK_CSR_WRITE(BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
 
-    dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
+    dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
     dma_control.s.pkt_hp = 1;
     dma_control.s.pkt_en = 1;
     dma_control.s.dma_enb = 0x1f;
     dma_control.s.dwb_denb = BDK_USE_DWB;
-    dma_control.s.dwb_ichk = bdk_fpa_get_block_size(BDK_FPA_OUTPUT_BUFFER_POOL)/128;
+    dma_control.s.dwb_ichk = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/128;
     dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
     dma_control.s.o_es = 1;
     dma_control.s.o_mode = 1;
-    BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
-    dpi_ctl.u64 = BDK_CSR_READ(BDK_DPI_CTL);
+    BDK_CSR_WRITE(node, BDK_DPI_DMA_CONTROL, dma_control.u64);
+    dpi_ctl.u64 = BDK_CSR_READ(node, BDK_DPI_CTL);
     dpi_ctl.s.en = 1;
-    BDK_CSR_WRITE(BDK_DPI_CTL, dpi_ctl.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_CTL, dpi_ctl.u64);
 
     return 0;
 }
@@ -77,19 +77,19 @@ int bdk_dma_engine_initialize(void)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_shutdown(void)
+int bdk_dma_engine_shutdown(bdk_node_t node)
 {
     bdk_dpi_dma_control_t dma_control;
-    dma_control.u64 = BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
+    dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
     dma_control.s.dma_enb = 0;
-    BDK_CSR_WRITE(BDK_DPI_DMA_CONTROL, dma_control.u64);
+    BDK_CSR_WRITE(node, BDK_DPI_DMA_CONTROL, dma_control.u64);
     /* Make sure the disable completes */
-    BDK_CSR_READ(BDK_DPI_DMA_CONTROL);
+    BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
 
-    for (int engine=0; engine < bdk_dma_engine_get_num(); engine++)
+    for (int engine=0; engine < bdk_dma_engine_get_num(node); engine++)
     {
         bdk_cmd_queue_shutdown(dma_queue + engine);
-        BDK_CSR_WRITE(BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
+        BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
     }
 
     return 0;
@@ -107,7 +107,7 @@ int bdk_dma_engine_shutdown(void)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[])
+int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[])
 {
     bdk_cmd_queue_result_t result;
     int cmd_count = 1;
@@ -132,7 +132,7 @@ int bdk_dma_engine_submit(int engine, bdk_dma_engine_header_t header, int num_bu
     BDK_SYNCW;
     /* A syncw isn't needed here since the command queue did one as part of the queue unlock */
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
-        BDK_CSR_WRITE(BDK_DPI_DMAX_DBELL(engine), cmd_count);
+        BDK_CSR_WRITE(node, BDK_DPI_DMAX_DBELL(engine), cmd_count);
 
     /* Here is the unlock for the above errata workaround */
     __bdk_cmd_queue_unlock(dma_queue + engine);
@@ -288,7 +288,7 @@ static inline int __bdk_dma_engine_build_external_pointers(bdk_dma_engine_buffer
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
+int bdk_dma_engine_transfer(bdk_node_t node, int engine, bdk_dma_engine_header_t header,
                              uint64_t first_address, uint64_t last_address,
                              int size)
 {
@@ -317,6 +317,6 @@ int bdk_dma_engine_transfer(int engine, bdk_dma_engine_header_t header,
             words +=  header.s.nlst + ((header.s.nlst-1) >> 2) + 1;
             break;
     }
-    return bdk_dma_engine_submit(engine, header, words, buffers);
+    return bdk_dma_engine_submit(node, engine, header, words, buffers);
 }
 

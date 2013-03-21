@@ -198,7 +198,7 @@ static void default_unlock(void)
 static int default_reset(int stop_core __attribute__ ((unused)))
 {
     OCTEON_REMOTE_DEBUG_CALLED();
-    OCTEON_REMOTE_WRITE_CSR(BDK_CIU_SOFT_RST, 1);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST, 1);
     OCTEON_REMOTE_DEBUG_RETURNED();
     return 0;
 }
@@ -237,8 +237,8 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
             bdk_pemx_cfg_rd_t pemx_cfg_rd;
             pemx_cfg_rd.u = 0;
             pemx_cfg_rd.s.addr = address;
-            OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
-            pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(BDK_PEMX_CFG_RD(busnum));
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
+            pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum));
             return pemx_cfg_rd.s.data;
         }
     }
@@ -284,7 +284,7 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
             pemx_cfg_wr.u = 0;
             pemx_cfg_wr.s.addr = address;
             pemx_cfg_wr.s.data = value;
-            OCTEON_REMOTE_WRITE_CSR(BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
             break;
         }
     }
@@ -661,7 +661,7 @@ void octeon_remote_close(void)
  *
  * @return 64bit value of the CSR
  */
-uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address)
+uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
     uint64_t result;
     OCTEON_REMOTE_DEBUG_CALLED("%d, %d, %d, 0x%llx", type, busnum, size, (ULL)address);
@@ -682,7 +682,7 @@ uint64_t octeon_remote_read_csr(bdk_csr_type_t type, int busnum, int size, uint6
  *               Physical address of the CSR. Bits 63-49 should be zero.
  * @param value  Value to write
  */
-void octeon_remote_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
+void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
     OCTEON_REMOTE_DEBUG_CALLED("%d, %d, %d, 0x%llx, 0x%llx", type, busnum, size, (ULL)address, (ULL)value);
     octeon_remote_lock();
@@ -835,7 +835,7 @@ int octeon_remote_get_num_cores(void)
 {
     if (!__octeon_remote_num_cores)
     {
-        __octeon_remote_num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(BDK_CIU_FUSE));
+        __octeon_remote_num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_FUSE));
     }
     return __octeon_remote_num_cores;
 }
