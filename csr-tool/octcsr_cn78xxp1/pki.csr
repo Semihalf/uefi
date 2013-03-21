@@ -1116,10 +1116,10 @@ enums:
         description: |
           L3 flags summary. This match is only performed if LC parsing was enabled and IP was found
           (WQE[LCTY]==IP*).
-          MATCH<23:16> DiffSrv (IPv4) or Flowclass (IPv6).
-          MATCH<15:8> Next header/ Protocol.
+          MATCH<31:24> DiffSrv (IPv4) or Flowclass (IPv6).
+          MATCH<23:16> Next header/ Protocol.
           MATCH<12:8> WQE[LCTY] as decoded up to this point.
-          MATCH<15> Fragment.
+          MATCH<0> Fragment.
 
       - name: LD_VNI
         value: 0x28
@@ -1144,10 +1144,10 @@ enums:
         description: |
           Inner L3 flags summary. This match is only performed if LE parsing was enabled and IP-in-
           IP was found (WQE[LETY]==IP*).
-          MATCH<23:16> DiffSrv (IPv4) or Flowclass (IPv6).
-          MATCH<15:8> Next header/ Protocol.
+          MATCH<31:24> DiffSrv (IPv4) or Flowclass (IPv6).
+          MATCH<23:16> Next header/ Protocol.
           MATCH<12:8> WQE[LETY] as decoded up to this point.
-          MATCH<15> Fragment.
+          MATCH<0> Fragment.
 
       - name: L4_PORT
         value: 0x30
@@ -5006,8 +5006,27 @@ registers:
         typical: --
         description: Algorithm to select QoS field in QPG calculation. Enumerated with PKI_QPGQOS_E. See QPG.
 
-      - name: RSVDRW20
-        bits: 23..11
+      - name: QPG_PORT_SH
+        bits: 23..21
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Number of bits to shift port number in QPG calculation. See QPG.
+
+      - name: QPG_PORT_MSB
+        bits: 20..17
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          MSB to take from port number in QPG calculation. See QPG.
+          0 = Exclude port number from QPG.
+          4 = Include port<3:0>.
+          8 = Include port<7:0>.
+          else Reserved.
+
+      - name: RSVDRW16
+        bits: 16..11
         access: R/W
         reset: 0x0
         typical: --
@@ -5415,7 +5434,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Specifies what to add to Aura Counts:
+          Specifies what to add to FPA_AURA(0..1023)_CNT when PKI enqueues a packet, see Aura
+          Counts:
           0 = zero.
           1 = one.
           2 = The number of FPA buffers allocated; i.e. if PKI_STYLE(0..63)_BUF[DIS_WQ_DAT] is set,

@@ -1146,7 +1146,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Disable pipe credits. Should be set to 1 when PKO is configured to ignore pipe credits.
+        description: Disable channel credits. Should be set to 1 when PKO is configured to ignore channel credits.
 
       - name: PTP_DELAY
         bits: 30..26
@@ -1252,7 +1252,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Multiuse bits are used when LA_MODE = 0 and ILK_TX(0..1)_CFG0[MLTUSE_FC_ENA] = 0.
+        description: Multiuse bits are used when ILK_TX(0..1)_CFG0[MLTUSE_FC_ENA] = 0.
 
 
   - name: ILK_TX(0..1)_RMATCH
@@ -1518,7 +1518,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: PKI channel for the calendar table entry. Unused if CTL == 0.
+        description: PKI channel for the calendar table entry. Unused if CTL != 0.
 
 
   - name: ILK_TX(0..1)_PKT_CNT(0..255)
@@ -1814,11 +1814,10 @@ registers:
 
       - name: LA_MODE
         bits: 19
-        access: R/W
+        access: ---
         reset: 0
         typical: --
-        description: |
-          Look-aside mode: 1 = Interlaken look-aside,0 = Interlaken
+        description: Reserved.
 
       - name: TX_LINK_FC
         bits: 18
@@ -2392,7 +2391,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: PKO channel for the calendar table entry.  Unused if CTL = 0x0.
+        description: PKO channel for the calendar table entry. Unused if CTL != 0.
 
 
   - name: ILK_RX(0..1)_PKT_CNT(0..255)

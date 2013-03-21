@@ -758,7 +758,7 @@ registers:
           for this field is:
           fpf_sz * 0.75
           where,
-          fpf_sz = 320*(2FPA_GEN_CFG[POOLS]).
+          fpf_sz = 320*(2^FPA_GEN_CFG[POOLS]).
           The maximum value is fpf_sz - 48.
           It is recommended that software APIs represent this value as a percentage of fpf_sz, as
           fpf_sz may vary between products.

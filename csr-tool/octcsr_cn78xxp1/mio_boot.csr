@@ -728,19 +728,42 @@ registers:
       signal first deasserts following a cold reset.
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..33
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
+      - name: VRM_DISABLE
+        bits: 32
+        access: RO
+        reset: --
+        typical: --
+        description: VRM disabled
+
       - name: USER1
-        bits: 31..16
+        bits: 31..19
         access: RO
         reset: --
         typical: --
         description: |
-          BOOT_AD<31:16> latched during power up
+          BOOT_AD<31:19> latched during power up
+
+      - name: DEVICE
+        bits: 18..16
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          BOOT_AD<18:16> latched during power up. Indicates boot device:
+          0 = Parallel NOR.
+          1 = Reserved.
+          2 = eMMC/SD.
+          3 = Reserved.
+          4 = SPI Boot (16-bit address).
+          5 = SPI Boot (24-bit address).
+          6 = SPI Boot (32-bit address).
+          7 = SPI NAND Boot (reserved).
 
       - name: ALE
         bits: 15
@@ -756,12 +779,12 @@ registers:
         typical: --
         description: Region 0 default bus width
 
-      - name: VRM_DISABLE
+      - name: USER13
         bits: 13
         access: RO
         reset: --
         typical: --
-        description: VRM disabled
+        description: BOOT_AD<13> latched during power up
 
       - name: DMACK_P1
         bits: 12
@@ -789,20 +812,13 @@ registers:
           10 = 50ohm
           11 = 65ohm
 
-      - name: NAND
-        bits: 8
-        access: RO
-        reset: --
-        typical: --
-        description: Boot from eMMC
-
       - name: USER0
-        bits: 7..0
+        bits: 8..0
         access: RO
         reset: --
         typical: --
         description: |
-          BOOT_AD<7:0> latched during power up
+          BOOT_AD<8:0> latched during power up
 
 
   - name: MIO_BOOT_BIST_STAT

@@ -1143,13 +1143,10 @@ registers:
         typical: 0
         description: |
           If the MIX1 block is reset, software also needs to reset the the MIX interface in the BGX
-          by setting
-          this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and pending
-          requests to MIX)
-          and prevents the RXB FIFOs for all LMACs from pushing data to the interface.  Setting this
-          bit to 0
-          will not reset the MIX interface.  After MIX comes out of reset, software should clear
-          CMR_MIX_RESET.
+          by setting this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and
+          pending requests to MIX) and prevents the RXB FIFOs for all LMACs from pushing data
+          to the interface. Setting this bit to 0 will not reset the MIX interface.
+          After MIX comes out of reset, software should clear CMR_MIX_RESET.
 
       - name: CMR_MIX0_RESET
         bits: 3
@@ -1158,13 +1155,10 @@ registers:
         typical: 0
         description: |
           If the MIX0 block is reset, software also needs to reset the the MIX interface in the BGX
-          by setting
-          this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and pending
-          requests to MIX)
-          and prevents the RXB FIFOs for all LMACs from pushing data to the interface.  Setting this
-          bit to 0
-          will not reset the MIX interface.  After MIX comes out of reset, software should clear
-          CMR_MIX_RESET.
+          by setting this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and
+          pending requests to MIX) and prevents the RXB FIFOs for all LMACs from pushing data
+          to the interface. Setting this bit to 0 will not reset the MIX interface.
+          After MIX comes out of reset, software should clear CMR_MIX_RESET.
 
       - name: CMR_X2P_RESET
         bits: 2
@@ -1173,13 +1167,10 @@ registers:
         typical: 0
         description: |
           If the PKI block is reset, software also needs to reset the the X2P interface in the BGX
-          by setting
-          this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
-          requests to PKI)
-          and prevents the RXB FIFOs for all LMACs from pushing data to the interface.  Setting this
-          bit to 0
-          will not reset the X2P interface.  After PKI comes out of reset, software should clear
-          CMR_X2P_RESET.
+          by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
+          pending requests to PKI) and prevents the RXB FIFOs for all LMACs from pushing data
+          to the interface. Setting this bit to 0 will not reset the X2P interface.
+          After PKI comes out of reset, software should clear CMR_X2P_RESET.
 
       - name: BGX_CLK_ENABLE
         bits: 1
@@ -1188,10 +1179,10 @@ registers:
         typical: 1
         description: |
           The global clock enable for BGX.  Setting this bit will override clock enables set by the
-          BGX_CMR_CONFIG[ENABLE] and BGX_CMR_CONFIG[LMAC_TYPE] register bits, essentially turning on
-          clocks for the entire BGX.  Setting this bit to 0 will result in  not overriding clock
-          enables
-          set by BGX_CMR_CONFIG[ENABLE] and BGX_CMR_CONFIG[LMAC_TYPE] register bits.
+          BGX_CMR_CONFIG[ENABLE] and BGX_CMR_CONFIG[LMAC_TYPE] register bits, essentially
+          turning on clocks for the entire BGX.  Setting this bit to 0 will result in
+          not overriding clock enables set by BGX_CMR_CONFIG[ENABLE] and
+          BGX_CMR_CONFIG[LMAC_TYPE] register bits.
 
       - name: PMUX_SDS_SEL
         bits: 0
@@ -1200,8 +1191,7 @@ registers:
         typical: 1
         description: |
           The global serdes output select for BGX.  Setting this bit to 1 will select serdes output
-          1
-          Setting this bit to 1 will select serdes output 0.
+          1 Setting this bit to 1 will select serdes output 0.
 
 
   - name: BGX(0..5)_CMR_MEM_INT
@@ -1297,56 +1287,56 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank1 spr1 single bit error
+        description: RXB Main FIFO Bank1 srf1 single bit error
 
       - name: RXB_FIF_BK1_DBE1
         bits: 6
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank1 spr1 double bit error
+        description: RXB Main FIFO Bank1 srf1 double bit error
 
       - name: RXB_FIF_BK1_SBE0
         bits: 5
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank1 spr0 single bit error
+        description: RXB Main FIFO Bank1 srf0 single bit error
 
       - name: RXB_FIF_BK1_DBE0
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank1 spr0 double bit error
+        description: RXB Main FIFO Bank1 srf0 double bit error
 
       - name: RXB_FIF_BK0_SBE1
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank0 spr1 single bit error
+        description: RXB Main FIFO Bank0 srf1 single bit error
 
       - name: RXB_FIF_BK0_DBE1
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank0 spr1 double bit error
+        description: RXB Main FIFO Bank0 srf1 double bit error
 
       - name: RXB_FIF_BK0_SBE0
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank0 spr0 single bit error
+        description: RXB Main FIFO Bank0 srf0 single bit error
 
       - name: RXB_FIF_BK0_DBE0
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RXB Main FIFO Bank0 spr0 double bit error
+        description: RXB Main FIFO Bank0 srf0 double bit error
 
 
   - name: BGX(0..5)_CMR_MEM_CTRL
@@ -1421,56 +1411,56 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank1 spr1
+        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank1 srf1
 
       - name: RXB_FIF_BK1_CDIS1
         bits: 9
         access: R/W
         reset: 0
         typical: 0
-        description: ECC corr disable for the RXB main Bank1 spr1
+        description: ECC corr disable for the RXB main Bank1 srf1
 
       - name: RXB_FIF_BK1_SYN0
         bits: 8..7
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank1 spr0
+        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank1 srf0
 
       - name: RXB_FIF_BK1_CDIS0
         bits: 6
         access: R/W
         reset: 0
         typical: 0
-        description: ECC corr disable for the RXB main Bank1 spr0
+        description: ECC corr disable for the RXB main Bank1 srf0
 
       - name: RXB_FIF_BK0_SYN1
         bits: 5..4
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank0 spr1
+        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank0 srf1
 
       - name: RXB_FIF_BK0_CDIS1
         bits: 3
         access: R/W
         reset: 0
         typical: 0
-        description: ECC corr disable for the RXB main Bank0 spr1
+        description: ECC corr disable for the RXB main Bank0 srf1
 
       - name: RXB_FIF_BK0_SYN0
         bits: 2..1
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank0 spr0
+        description: Syndrom to flip and generate 1-bit/2-bits error for RXB main Bank0 srf0
 
       - name: RXB_FIF_BK0_CDIS0
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: ECC corr disable for the RXB main Bank0 spr0
+        description: ECC corr disable for the RXB main Bank0 srf0
 
 
   - name: BGX(0..5)_CMR(0..3)_INT
@@ -1867,7 +1857,7 @@ registers:
         description: |
           Hiwater mark (number of 8B cycles to assert bp)
           Each register is for an individual lmac.
-          BGX_CMR_RX_BP_ON must satisfy
+          BGX_CMR_RX_BP_ON(MARK) must satisfy
           BP_OFF <= BP_ON < (FIFO_SIZE - BP_DROP)
           A value of zero will immediately assert back
           pressure.

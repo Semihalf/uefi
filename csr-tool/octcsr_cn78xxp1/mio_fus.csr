@@ -699,28 +699,7 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..48
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RCLK_ALIGN_R
-        bits: 47..40
-        access: RO
-        reset: --
-        typical: --
-        description: RCLK (core clock) right alignment settings
-
-      - name: RCLK_ALIGN_L
-        bits: 39..32
-        access: RO
-        reset: --
-        typical: --
-        description: RCLK (core clock) left alignment settings
-
-      - name: --
-        bits: 31..15
+        bits: 63..15
         access: ---
         reset: --
         typical: --

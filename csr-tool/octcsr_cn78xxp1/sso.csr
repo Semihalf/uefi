@@ -1370,7 +1370,7 @@ registers:
         description: |
           Enable XAQ operations. This bit should be set after SSO_XAQ(0..255)_HEAD_PTR and
           SSO_XAQ(0..255)_TAIL_PTR have been programmed. If cleared, all cached buffers will be
-          returned from the FPA as soon as possible.
+          returned from the FPA as soon as possible, and TAQ arbitration is simplified.
 
 
   - name: SSO_RESET
@@ -2415,7 +2415,9 @@ registers:
         access: R/W
         reset: 0x8
         typical: --
-        description: Number of read slots reserved for XAQ exclusive use.
+        description: |
+          Number of read slots reserved for XAQ exclusive use. Values > 16 will not result in
+          additional XAQ reads in flight, but will reduce maximum AW_TAG reads in flight.
 
       - name: --
         bits: 15..14
@@ -2712,6 +2714,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Head's WAE number within current cache line, 0-12. This provides the second index into
           SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2721,6 +2725,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Tail's WAE number within current cache line, 0-12. This provides the second index into
           SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2737,6 +2743,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Number of WAEs in use.
 
       - name: --
@@ -2751,6 +2759,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Head's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
           and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2767,6 +2777,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Tail's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
           and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2790,6 +2802,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: External queuing is in use on this group.
 
       - name: PARTIAL
@@ -2797,6 +2811,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Partial cache line is allocated to tail of queue.
 
       - name: WAE_TAIL
@@ -2804,6 +2820,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           If PARTIAL is set, tail's WAE number within current cache line, 0-12. This provides the
           second index into SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2820,6 +2838,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: Number of cache lines in use.
 
       - name: --
@@ -2834,6 +2854,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Head's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
           and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
@@ -2850,6 +2872,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Tail's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
           and SSO_TAQ(0..1279)_WAE(0..12)_WQP.

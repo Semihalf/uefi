@@ -137,6 +137,12 @@ enums:
           cib_rtl_module: "ase"
         description: See ASE_GEN_INT[LUE_INVALID_REQ].
 
+      - name: ASE_LUE_RME_FATAL
+        value: 0xDD027
+        attributes:
+          cib_rtl_module: "ase"
+        description: See ASE_GEN_INT[LUE_RME_FATAL].
+
       - name: ASE_ECC_LIP_ISF_SBE
         value: 0xDD040
         attributes:
@@ -369,6 +375,10 @@ enums:
       - name: KDT_DBE
         value: 0x14
         description: A double-bit error occurred in RMC Key Data Transfer Buffer.
+
+      - name: RME_FATAL
+        value: 0x15
+        description: One of the RMEs has detected a fatal error.
 
 
   - name: ASE_LUF_ERROR_ID_E
@@ -990,6 +1000,24 @@ structs:
 
       - name: --
         bits: 47..41
+        attributes:
+          const: "0x0"
+        description: Reserved.
+
+
+  - name: ASE_LUE_ERROR_LOG_RME_FATAL_S
+    description: |
+      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
+      ASE_LUE_ERROR_LOG[ERROR_ID] == RME_FATAL.
+    fields:
+      - name: RME_MASK
+        bits: 3..0
+        attributes:
+          const: "--"
+        description: Bitmask of which RME engine encountered the error.
+
+      - name: --
+        bits: 47..4
         attributes:
           const: "0x0"
         description: Reserved.
@@ -3123,11 +3151,21 @@ registers:
       rtlgen_cib: "True"
     fields:
       - name: --
-        bits: 63..39
+        bits: 63..40
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LUE_RME_FATAL
+        bits: 39
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          One or more of the Rule Match Engines detected a fatal error.
+          INTERNAL: It is expected that error recovery will require resetting
+          the chip and loading corrected software into OSM.
 
       - name: LUE_INVALID_REQ
         bits: 38
@@ -4137,11 +4175,18 @@ registers:
         description: Enables logging for ASE_LUE_ERROR_ID_E[KDB_SBE] errors.
 
       - name: --
-        bits: 31..7
+        bits: 31..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: RME_FATAL
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 1
+        description: Enables logging for ASE_LUE_ERROR_ID_E[RME_FATAL] errors.
 
       - name: INVALID_REQ
         bits: 6
@@ -4272,6 +4317,7 @@ registers:
             TIC_BAD_WRITE: see ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S.
             INVALID_TBL_ACC: see ASE_LUE_ERROR_LOG_INVTBLACC_S.
             INVALID_REQ: see ASE_LUE_ERROR_LOG_INVREQ_S.
+            RME_FATAL: see ASE_LUE_ERROR_LOG_RME_FATAL_S.
             KDB_*BE: see ASE_LUE_ERROR_LOG_KDB_ECC_S.
             TAT_*BE: see ASE_LUE_ERROR_LOG_TAT_ECC_S.
             RFT_*BE: see ASE_LUE_ERROR_LOG_RFT_ECC_S.

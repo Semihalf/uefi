@@ -228,8 +228,22 @@ registers:
     address: 0x11800A8000080 | a<<24
     bus: RSL
     fields:
+      - name: FSM1_STATE
+        bits: 63..60
+        access: RO
+        reset: 0x0
+        typical: --
+        description: FSM1 current state.
+
+      - name: FSM0_STATE
+        bits: 59..56
+        access: RO
+        reset: 0x0
+        typical: --
+        description: FSM0 current state.
+
       - name: --
-        bits: 63..36
+        bits: 55..36
         access: ---
         reset: --
         typical: --
@@ -367,8 +381,22 @@ registers:
     bus: RSL
     description: This register reads identically to OCLA(0..4)_STATE_INT, but allows R/W1S instead of R/W1C access.
     fields:
+      - name: FSM1_STATE
+        bits: 63..60
+        access: RO
+        reset: 0x0
+        typical: --
+        description: See OCLA(0..4)_STATE_INT[FSM1_STATE].
+
+      - name: FSM0_STATE
+        bits: 59..56
+        access: RO
+        reset: 0x0
+        typical: --
+        description: See OCLA(0..4)_STATE_INT[FSM0_STATE].
+
       - name: --
-        bits: 63..36
+        bits: 55..36
         access: ---
         reset: --
         typical: --
@@ -393,14 +421,14 @@ registers:
         access: R/W1S
         reset: 0
         typical: 1
-        description: See OCLA(0..4)_STATE_INT[FSM1_ENA]
+        description: See OCLA(0..4)_STATE_INT[FSM1_ENA].
 
       - name: FSM0_ENA
         bits: 32
         access: R/W1S
         reset: 0
         typical: 1
-        description: See OCLA(0..4)_STATE_INT[FSM1_ENA]
+        description: See OCLA(0..4)_STATE_INT[FSM0_ENA].
 
       - name: --
         bits: 31..19

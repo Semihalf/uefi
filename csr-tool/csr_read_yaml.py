@@ -183,7 +183,7 @@ def read(chip_name, input_dir):
     csr_list = CsrList(chip_name)
     input_files = os.listdir(input_dir)
     for file in input_files:
-        if file in [".svn", ".gitignore"]:
+        if file in [".svn", ".gitignore", "csr.txt"]:
             continue
         try:
             print "\t\t%s" % file

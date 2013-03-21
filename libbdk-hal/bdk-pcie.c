@@ -109,15 +109,16 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
         /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
         bdk_dpi_sli_prtx_cfg_t prt_cfg;
-        bdk_sli_s2m_portx_ctl_t sli_s2m_portx_ctl;
         prt_cfg.u64 = BDK_CSR_READ(node, BDK_DPI_SLI_PRTX_CFG(pcie_port));
         prt_cfg.s.mps = MPS_CN6XXX;
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u64);
 
-        sli_s2m_portx_ctl.u64 = BDK_CSR_READ(node, BDK_SLI_S2M_PORTX_CTL(pcie_port));
-        sli_s2m_portx_ctl.s.mrrs = MRRS_CN6XXX;
-        BDK_CSR_WRITE(node, BDK_SLI_S2M_PORTX_CTL(pcie_port), sli_s2m_portx_ctl.u64);
+        if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
+                c.cn61xx.mrrs = MRRS_CN6XXX);
+        }
     }
 
     /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
@@ -738,15 +739,16 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
         /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
         /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
         bdk_dpi_sli_prtx_cfg_t prt_cfg;
-        bdk_sli_s2m_portx_ctl_t sli_s2m_portx_ctl;
         prt_cfg.u64 = BDK_CSR_READ(node, BDK_DPI_SLI_PRTX_CFG(pcie_port));
         prt_cfg.s.mps = MPS_CN6XXX;
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u64);
 
-        sli_s2m_portx_ctl.u64 = BDK_CSR_READ(node, BDK_SLI_S2M_PORTX_CTL(pcie_port));
-        sli_s2m_portx_ctl.s.mrrs = MRRS_CN6XXX;
-        BDK_CSR_WRITE(node, BDK_SLI_S2M_PORTX_CTL(pcie_port), sli_s2m_portx_ctl.u64);
+        if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
+                c.cn61xx.mrrs = MRRS_CN6XXX);
+        }
     }
 
     /* Setup Mem access SubDID 12 to access Host memory */

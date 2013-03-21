@@ -944,17 +944,17 @@ enums:
           reg_name: "OCX_COM_LINK(0..2)_INT"
         description: See OCX_COM_LINK(0..2)_INT[BLK_ERR].
 
-      - name: OCX_LNK(0..2)_DOWN
+      - name: OCX_LNK(0..2)_STOP
         value: 0x11109 + a*0x100
         attributes:
-          bit_name: "DOWN"
+          bit_name: "STOP"
           bit_num: "9"
           blk_enum_name: "OCX_INTSN_E"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
           reg_name: "OCX_COM_LINK(0..2)_INT"
-        description: See OCX_COM_LINK(0..2)_INT[DOWN].
+        description: See OCX_COM_LINK(0..2)_INT[STOP].
 
       - name: OCX_LNK(0..2)_UP
         value: 0x1110A + a*0x100
@@ -1718,58 +1718,54 @@ enums:
       - name: SLI_MSI_RCV0(0..63)
         value: 0x1E000 + a
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "INTR<a>"
+          bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_int"
-          intsn_complex: "true"
+          cib_rtl_module: "sli_msi"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
-          reg_addr: "0"
-          reg_name: ""
-        description: MSI received interrupts, see SLI_MSI_RCV0[INT]<a>.
+          reg_addr: "(0x11F0000013C10)"
+          reg_name: "SLI_MSI_RCV0"
+        description: MSI received interrupts, see SLI_MSI_RCV0[INTR<a>].
 
       - name: SLI_MSI_RCV1(0..63)
         value: 0x1E040 + a
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "INTR<a>"
+          bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_int"
-          intsn_complex: "true"
+          cib_rtl_module: "sli_msi"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
-          reg_addr: "0"
-          reg_name: ""
-        description: MSI received interrupts, see  SLI_MSI_RCV1[INT]<a>.
+          reg_addr: "(0x11F0000013C20)"
+          reg_name: "SLI_MSI_RCV1"
+        description: MSI received interrupts, see  SLI_MSI_RCV1[INTR<a>].
 
       - name: SLI_MSI_RCV2(0..63)
         value: 0x1E080 + a
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "INTR<a>"
+          bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_int"
-          intsn_complex: "true"
+          cib_rtl_module: "sli_msi"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
-          reg_addr: "0"
-          reg_name: ""
-        description: MSI received interrupts, see  SLI_MSI_RCV2[INT]<a>.
+          reg_addr: "(0x11F0000013C30)"
+          reg_name: "SLI_MSI_RCV2"
+        description: MSI received interrupts, see  SLI_MSI_RCV2[INTR<a>].
 
       - name: SLI_MSI_RCV3(0..63)
         value: 0x1E0C0 + a
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "INTR<a>"
+          bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_int"
-          intsn_complex: "true"
+          cib_rtl_module: "sli_msi"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
-          reg_addr: "0"
-          reg_name: ""
-        description: MSI received interrupts, see  SLI_MSI_RCV3[INT]<a>.
+          reg_addr: "(0x11F0000013C40)"
+          reg_name: "SLI_MSI_RCV3"
+        description: MSI received interrupts, see  SLI_MSI_RCV3[INTR<a>].
 
       - name: SLI_INT_RML_TO
         value: 0x1F000
@@ -1783,24 +1779,13 @@ enums:
           reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[RML_TO].
 
-      - name: SLI_INT_IOB2BIG
-        value: 0x1F003
-        attributes:
-          bit_name: "IOB2BIG"
-          bit_num: "3"
-          blk_enum_name: "SLI_INTSN_E"
-          major_name: "SLI"
-          major_val: "(0x1F)"
-          reg_addr: "(0x11F0000010330)"
-          reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[IOB2BIG].
-
       - name: SLI_INT_PCNT
         value: 0x1F004
         attributes:
           bit_name: "PCNT"
           bit_num: "4"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -1813,6 +1798,7 @@ enums:
           bit_name: "PTIME"
           bit_num: "5"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -1825,6 +1811,7 @@ enums:
           bit_name: "MIO_INT2"
           bit_num: "6"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -1837,6 +1824,7 @@ enums:
           bit_name: "MIO_INT3"
           bit_num: "7"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -1945,6 +1933,7 @@ enums:
           bit_name: "MIO_INT0"
           bit_num: "16"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -1957,6 +1946,7 @@ enums:
           bit_name: "MIO_INT1"
           bit_num: "17"
           blk_enum_name: "SLI_INTSN_E"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
@@ -2098,53 +2088,53 @@ enums:
       - name: SLI_INT_DCNT0
         value: 0x1F022
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "DCNT<0>"
+          bit_num: "34+0"
           blk_enum_name: "SLI_INTSN_E"
-          intsn_complex: "1"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "0"
-          reg_name: ""
+          reg_addr: "(0x11F0000010330)"
+          reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[DCNT<0>].
 
       - name: SLI_INT_DCNT1
         value: 0x1F023
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "DCNT<1>"
+          bit_num: "34+1"
           blk_enum_name: "SLI_INTSN_E"
-          intsn_complex: "1"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "0"
-          reg_name: ""
+          reg_addr: "(0x11F0000010330)"
+          reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[DCNT<1>].
 
       - name: SLI_INT_DTIME0
         value: 0x1F024
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "DTIME<0>"
+          bit_num: "36+0"
           blk_enum_name: "SLI_INTSN_E"
-          intsn_complex: "1"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "0"
-          reg_name: ""
+          reg_addr: "(0x11F0000010330)"
+          reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[DTIME<0>].
 
       - name: SLI_INT_DTIME1
         value: 0x1F025
         attributes:
-          bit_name: ""
-          bit_num: "-1"
+          bit_name: "DTIME<1>"
+          bit_num: "36+1"
           blk_enum_name: "SLI_INTSN_E"
-          intsn_complex: "1"
+          intsn_level_sensitive: "1"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "0"
-          reg_name: ""
+          reg_addr: "(0x11F0000010330)"
+          reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[DTIME<1>].
 
       - name: SLI_INT_PIDBOF
@@ -2170,18 +2160,6 @@ enums:
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[PSLDBOF].
-
-      - name: SLI_INT_POUT_ERR
-        value: 0x1F032
-        attributes:
-          bit_name: "POUT_ERR"
-          bit_num: "50"
-          blk_enum_name: "SLI_INTSN_E"
-          major_name: "SLI"
-          major_val: "(0x1F)"
-          reg_addr: "(0x11F0000010330)"
-          reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[POUT_ERR].
 
       - name: SLI_INT_PGL_ERR
         value: 0x1F034
@@ -2279,29 +2257,221 @@ enums:
           reg_name: "SLI_INT_SUM"
         description: See SLI_INT_SUM[SPRT3_ERR].
 
-      - name: SLI_INT_ILL_PAD
-        value: 0x1F03C
+      - name: SLI_MEM_INT_CPL0_SBE
+        value: 0x1F040
         attributes:
-          bit_name: "ILL_PAD"
-          bit_num: "60"
+          bit_name: "CPL0_SBE"
+          bit_num: "0"
           blk_enum_name: "SLI_INTSN_E"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "(0x11F0000010330)"
-          reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[ILL_PAD].
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[CPL0_SBE].
 
-      - name: SLI_INT_PIPE_ERR
-        value: 0x1F03D
+      - name: SLI_MEM_INT_CPL0_DBE
+        value: 0x1F041
         attributes:
-          bit_name: "PIPE_ERR"
-          bit_num: "61"
+          bit_name: "CPL0_DBE"
+          bit_num: "1"
           blk_enum_name: "SLI_INTSN_E"
           major_name: "SLI"
           major_val: "(0x1F)"
-          reg_addr: "(0x11F0000010330)"
-          reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[PIPE_ERR].
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[CPL0_DBE].
+
+      - name: SLI_MEM_INT_CPL1_SBE
+        value: 0x1F042
+        attributes:
+          bit_name: "CPL1_SBE"
+          bit_num: "2"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[CPL1_SBE].
+
+      - name: SLI_MEM_INT_CPL1_DBE
+        value: 0x1F043
+        attributes:
+          bit_name: "CPL1_DBE"
+          bit_num: "3"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[CPL1_DBE].
+
+      - name: SLI_MEM_INT_NPPR_SBE
+        value: 0x1F044
+        attributes:
+          bit_name: "NPPR_SBE"
+          bit_num: "4"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[NPPR_SBE].
+
+      - name: SLI_MEM_INT_NPPR_DBE
+        value: 0x1F045
+        attributes:
+          bit_name: "NPPR_DBE"
+          bit_num: "5"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[NPPR_DBE].
+
+      - name: SLI_MEM_INT_TLPC0_SBE
+        value: 0x1F046
+        attributes:
+          bit_name: "TLPC0_SBE"
+          bit_num: "6"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPC0_SBE].
+
+      - name: SLI_MEM_INT_TLPC0_DBE
+        value: 0x1F047
+        attributes:
+          bit_name: "TLPC0_DBE"
+          bit_num: "7"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPC0_DBE].
+
+      - name: SLI_MEM_INT_TLPP0_SBE
+        value: 0x1F048
+        attributes:
+          bit_name: "TLPP0_SBE"
+          bit_num: "8"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPP0_SBE].
+
+      - name: SLI_MEM_INT_TLPP0_DBE
+        value: 0x1F049
+        attributes:
+          bit_name: "TLPP0_DBE"
+          bit_num: "9"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPP0_DBE].
+
+      - name: SLI_MEM_INT_TLPN0_SBE
+        value: 0x1F04A
+        attributes:
+          bit_name: "TLPN0_SBE"
+          bit_num: "10"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPN0_SBE].
+
+      - name: SLI_MEM_INT_TLPN0_DBE
+        value: 0x1F04B
+        attributes:
+          bit_name: "TLPN0_DBE"
+          bit_num: "11"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPN0_DBE].
+
+      - name: SLI_MEM_INT_TLPC1_SBE
+        value: 0x1F04C
+        attributes:
+          bit_name: "TLPC1_SBE"
+          bit_num: "12"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPC1_SBE].
+
+      - name: SLI_MEM_INT_TLPC1_DBE
+        value: 0x1F04D
+        attributes:
+          bit_name: "TLPC1_DBE"
+          bit_num: "13"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPC1_DBE].
+
+      - name: SLI_MEM_INT_TLPP1_SBE
+        value: 0x1F04E
+        attributes:
+          bit_name: "TLPP1_SBE"
+          bit_num: "14"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPP1_SBE].
+
+      - name: SLI_MEM_INT_TLPP1_DBE
+        value: 0x1F04F
+        attributes:
+          bit_name: "TLPP1_DBE"
+          bit_num: "15"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPP1_DBE].
+
+      - name: SLI_MEM_INT_TLPN1_SBE
+        value: 0x1F050
+        attributes:
+          bit_name: "TLPN1_SBE"
+          bit_num: "16"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPN1_SBE].
+
+      - name: SLI_MEM_INT_TLPN1_DBE
+        value: 0x1F051
+        attributes:
+          bit_name: "TLPN1_DBE"
+          bit_num: "17"
+          blk_enum_name: "SLI_INTSN_E"
+          major_name: "SLI"
+          major_val: "(0x1F)"
+          reg_addr: "(0x11F00000105D0)"
+          reg_name: "SLI_MEM_INT_SUM"
+        description: See SLI_MEM_INT_SUM[TLPN1_DBE].
 
       - name: KEY_ECC_KED0_SBE
         value: 20'h20000
@@ -6578,6 +6748,19 @@ enums:
           reg_addr: "(0x11800DD000020)"
           reg_name: "ASE_GEN_INT"
         description: See ASE_GEN_INT[LUE_INVALID_REQ].
+
+      - name: ASE_LUE_RME_FATAL
+        value: 0xDD027
+        attributes:
+          bit_name: "LUE_RME_FATAL"
+          bit_num: "39"
+          blk_enum_name: "ASE_INTSN_E"
+          cib_rtl_module: "ase"
+          major_name: "ASE"
+          major_val: "(0xDD)"
+          reg_addr: "(0x11800DD000020)"
+          reg_name: "ASE_GEN_INT"
+        description: See ASE_GEN_INT[LUE_RME_FATAL].
 
       - name: ASE_ECC_LIP_ISF_SBE
         value: 0xDD040

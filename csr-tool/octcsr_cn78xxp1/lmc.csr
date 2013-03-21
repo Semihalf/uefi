@@ -161,19 +161,33 @@ registers:
     description: This register has additional configuration and control bits for the LMC
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DLCRAM_BIST_STATUS
-        bits: 9
+        bits: 11
         access: RO/H
         reset: 0
         typical: 0
         description: |
           INTERNAL: DLC RAM BIST status.
+
+      - name: START_BIST
+        bits: 10
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Start BIST on DLC memory.
+
+      - name: CLEAR_BIST
+        bits: 9
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Start clear BIST on DLC memory.
 
       - name: DRIVE_ENA_BPRCH
         bits: 8
@@ -2544,11 +2558,20 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..50
+        bits: 63..51
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DSK_DBG_RD_COMPLETE
+        bits: 50
+        access: RO
+        reset: 0
+        typical: --
+        description: |
+          INTERNAL: Indicates completion of a read operation, will clear to 0 when
+          a read operation is started, then set to 1 when operation is complete.
 
       - name: DSK_DBG_RD_DATA
         bits: 49..40
@@ -2559,17 +2582,8 @@ registers:
           INTERNAL: Data from a deskew read operation.  Only valid when the
           LMCX_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set.
 
-      - name: DSK_DBG_RD_COMPLETE
-        bits: 39
-        access: RO
-        reset: 0
-        typical: --
-        description: |
-          INTERNAL: Indicates completion of a read operation, will clear to 0 when
-          a read operation is started, then set to 1 when operation is complete.
-
       - name: DSK_DBG_RD_START
-        bits: 38
+        bits: 39
         access: WO/H
         reset: 0
         typical: 0
@@ -2578,7 +2592,7 @@ registers:
           clear to 0.  Write to 1 will also clear the complete bit.
 
       - name: DSK_DBG_CLK_SCALER
-        bits: 37..36
+        bits: 38..37
         access: R/W
         reset: 0x1
         typical: 0x1
@@ -2590,7 +2604,7 @@ registers:
           3: Deskew read clock toggles every 4 DCLKs
 
       - name: DSK_DBG_OFFSET
-        bits: 35..34
+        bits: 36..35
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -2599,7 +2613,7 @@ registers:
           to LMC from DDR PHY.
 
       - name: DSK_DBG_NUM_BITS_SEL
-        bits: 33
+        bits: 34
         access: R/W
         reset: 1
         typical: 1
@@ -2609,7 +2623,7 @@ registers:
           1: 9 bits ber byte lane, including DBI
 
       - name: DSK_DBG_BYTE_SEL
-        bits: 32..29
+        bits: 33..30
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -2618,20 +2632,26 @@ registers:
           to byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7.
 
       - name: DSK_DBG_BIT_SEL
-        bits: 28..25
+        bits: 29..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
           INTERNAL: Deskew debug bit select for dsk read operation.
 
+      - name: DBI_MODE_ENA
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: --
+        description: Enable DBI mode for PHY.
+
       - name: DDR_ERROR_N_ENA
         bits: 24
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          INTERNAL: Voltage reference pin enabled.
+        description: Enable error_alert_n signal for PHY.
 
       - name: REF_PIN_ON
         bits: 23
@@ -4302,23 +4322,44 @@ registers:
       DDR3 interface.
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..36
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
+      - name: PAR_MASK
+        bits: 35
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for PAR.
+
+      - name: ACT_N_MASK
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for ACT_N.
+
+      - name: A17_MASK
+        bits: 33
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for A17.
+
       - name: RESET_N_MASK
         bits: 32
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for RESET_L.
 
       - name: A_MASK
         bits: 31..16
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: |
           Mask for A<15:0>.
@@ -4326,7 +4367,7 @@ registers:
       - name: BA_MASK
         bits: 15..13
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: |
           Mask for BA<2:0>.
@@ -4334,56 +4375,56 @@ registers:
       - name: WE_N_MASK
         bits: 12
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for WE_N.
 
       - name: CAS_N_MASK
         bits: 11
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for CAS_N.
 
       - name: RAS_N_MASK
         bits: 10
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for RAS_N.
 
       - name: ODT1_MASK
         bits: 9..8
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for ODT1.
 
       - name: ODT0_MASK
         bits: 7..6
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for ODT0.
 
       - name: CS1_N_MASK
         bits: 5..4
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CS1_N.
 
       - name: CS0_N_MASK
         bits: 3..2
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CS0_N.
 
       - name: CKE_MASK
         bits: 1..0
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CKE*.
 

@@ -853,9 +853,9 @@ registers:
           The other QLM GSER_ANA_SEL registers are unused.
 
 
-  - name: GSER(0..13)_PLL_P(0..8)_MODE_0_OFST
+  - name: GSER(0..13)_PLL_P(0..8)_MODE_0
     title: GSER PLL Protocol Mode 0
-    address: 0x11800904B0030 + a*0x1000000 + b*0x20
+    address: 0x11800904E0030 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       RAW PCS PLL Global Settings Mode 0 Register
@@ -900,9 +900,9 @@ registers:
         description: The divider that generates pcs_mac_tx_clk.
 
 
-  - name: GSER(0..13)_PLL_P(0..8)_MODE_1_OFST
+  - name: GSER(0..13)_PLL_P(0..8)_MODE_1
     title: GSER PLL Protocol Mode 1
-    address: 0x11800904B0038 + a*0x1000000 + b*0x20
+    address: 0x11800904E0038 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       RAW PCS PLL Global Settings Mode 0 Register
@@ -963,9 +963,9 @@ registers:
         description: PLL divider in feedback path which sets the PLL frequency.
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_0_OFST
+  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_0
     title: GSER LANE Protocol Mode 0
-    address: 0x11800904B0040 + a*0x1000000 + b*0x100000 + c*0x20
+    address: 0x11800904E0040 + a*0x1000000 + b*0x100000 + c*0x20
     bus: RSL
     description: |
       RAW PCS Per Lane Global Settings Mode 0 Register
@@ -997,7 +997,7 @@ registers:
 
       - name: PCIE
         bits: 12
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1007,21 +1007,21 @@ registers:
 
       - name: TX_LDIV
         bits: 11..10
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Configues clock divider used to determine the transmit rate.
 
       - name: RX_LDIV
         bits: 9..8
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Configues clock divider used to determine the receive rate.
 
       - name: SRATE
         bits: 7..5
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1030,14 +1030,14 @@ registers:
 
       - name: OP_RANGE
         bits: 4
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: When set DFE is enabled.  Otherwise DFE is disabled.
 
       - name: TX_MODE
         bits: 3..2
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1045,11 +1045,11 @@ registers:
           00: 8-bit  raw data (not supported)
           01: 10-bit raw data (not supported)
           10: 16-bit raw data (not supported)
-          11: 10-bit raw data
+          11: 20-bit raw data
 
       - name: RX_MODE
         bits: 1..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1057,12 +1057,12 @@ registers:
           00: 8-bit  raw data (not supported)
           01: 10-bit raw data (not supported)
           10: 16-bit raw data (not supported)
-          11: 10-bit raw data
+          11: 20-bit raw data
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_1_OFST
+  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_1
     title: GSER LANE Protocol Mode 1
-    address: 0x11800904B0048 + a*0x1000000 + b*0x100000 + c*0x20
+    address: 0x11800904E0048 + a*0x1000000 + b*0x100000 + c*0x20
     bus: RSL
     description: |
       RAW PCS Per Lane Global Settings Mode 1 Register
@@ -1087,7 +1087,7 @@ registers:
 
       - name: VMA_KR_SEL
         bits: 15
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1096,7 +1096,7 @@ registers:
 
       - name: VMA_MM
         bits: 14
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1105,22 +1105,22 @@ registers:
 
       - name: CDR_FGAIN
         bits: 13..10
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: CDR Frequency Gain.
 
       - name: PH_ACC_ADJ
         bits: 9..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Phase accumulator adjust.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_0_OFST
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_0
     title: GSER LANE VMA Protocol Control 0 Register
-    address: 0x11800904B0150 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E0150 + a*0x1000000 + b*0x100000 + c*0x18
     bus: RSL
     description: |
       RAW PCS Per Lane VMA Control Configuration 0 Register
@@ -1138,35 +1138,35 @@ registers:
 
       - name: IQ_MAX
         bits: 15..12
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Slice DLL IQ Maximum Value.
 
       - name: IQ_MIN
         bits: 11..8
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Slice DLL IQ Minimum Value.
 
       - name: IQ_STEP
         bits: 7..6
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Slice DLL IQ step size.
 
       - name: WINDOW_WAIT
         bits: 5..3
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Adaptation window wait setting.
 
       - name: LMS_WAIT
         bits: 2..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1175,9 +1175,9 @@ registers:
           statistics.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_1_OFST
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_1
     title: GSER LANE VMA Protocol Control 1 Register
-    address: 0x11800904B0158 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E0158 + a*0x1000000 + b*0x100000 + c*0x18
     bus: RSL
     description: |
       RAW PCS Per Lane VMA Control Configuration 1 Register
@@ -1195,29 +1195,29 @@ registers:
 
       - name: CTLE_PMAX
         bits: 9..6
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: RX CTLE Peak maximum value.
 
       - name: CTLE_PMIN
         bits: 5..2
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: RX CTLE Peak minimum value.
 
       - name: CTLE_PSTEP
         bits: 1..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: CTLE Peak Peak step size.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_2_OFST
+  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_2
     title: GSER LANE VMA Protocol Control 2 Register
-    address: 0x11800904B0160 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E0160 + a*0x1000000 + b*0x100000 + c*0x18
     bus: RSL
     description: |
       RAW PCS Per Lane VMA Control Configuration 2 Register
@@ -1235,29 +1235,29 @@ registers:
 
       - name: PCTLE_GMAX
         bits: 9..6
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: RX PRE-CTLE Gain maximum value.
 
       - name: PCTLE_GMIN
         bits: 5..2
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: RX PRE-CTLE Gain minimum value.
 
       - name: PCTLE_GSTEP
         bits: 1..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: CTLE PRE-Peak Gain step size.
 
 
-  - name: GSER(0..13)_SLICE(0..1)_P(0..1)_MODE_OFST
+  - name: GSER(0..13)_SLICE(0..1)_P(0..1)_MODE
     title: GSER SLICE Protocol Mode
-    address: 0x11800905E0228 + a*0x1000000 + b*0x100000 + c*0x8
+    address: 0x1180090560228 + a*0x1000000 + b*0x100000 + c*0x8
     bus: RSL
     description: |
       RAW PCS Slice Mode Register
@@ -1283,7 +1283,7 @@ registers:
 
       - name: S_SPARE
         bits: 14..13
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1292,35 +1292,35 @@ registers:
 
       - name: LDLL_ISEL
         bits: 12..11
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Lane DLL current select.
 
       - name: SDLL_ISEL
         bits: 10..9
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Slice DLL current select.
 
       - name: PI_BWSEL
         bits: 8..6
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: PI bandwidth select.
 
       - name: LDLL_BWSEL
         bits: 5..3
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Lane DLL bandwidth select.
 
       - name: SDLL_BWSEL
         bits: 2..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Slice DLL bandwidth select.

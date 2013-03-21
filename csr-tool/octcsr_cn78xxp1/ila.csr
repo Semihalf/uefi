@@ -192,32 +192,11 @@ registers:
         description: SerDes lane reset.
 
       - name: --
-        bits: 7..6
+        bits: 7..0
         access: ---
         reset: 0x0
         typical: --
         description: Reserved.
-
-      - name: SER_PWRUP
-        bits: 5..4
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: SerDes modules (QLM) power up.
-
-      - name: --
-        bits: 3..2
-        access: ---
-        reset: 0x0
-        typical: --
-        description: Reserved.
-
-      - name: SER_HAUL
-        bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: SerDes module (QLM) haul mode.
 
 
   - name: ILA_BIST_SUM
@@ -352,17 +331,17 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Lane enable mask. Link is enabled if any lane is enabled. The same lane should not be
-          enabled in multiple ILA_TX(0)_CFG0. Each bit of LANE_ENA maps to a TX lane (TLE) and a QLM
+          Lane enable mask. The link is enabled if any lane is enabled. The same lane should not be
+          enabled in multiple ILK_TXn_CFG0. Each bit of LANE_ENA maps to an TX lane (TLE) and a QLM
           lane. Note that LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = TLE0  =  QLM1 lane 0
-          LANE_ENA[1] = TLE1  =  QLM1 lane 1
-          LANE_ENA[2] = TLE2  =  QLM1 lane 2
-          LANE_ENA[3] = TLE3  =  QLM1 lane 3
-          LANE_ENA[4] = TLE4  =  QLM2 lane 0
-          LANE_ENA[5] = TLE5  =  QLM2 lane 1
-          LANE_ENA[6] = TLE6  =  QLM2 lane 2
-          LANE_ENA[7] = TLE7  =  QLM2 lane 3
+          LANE_ENA[0] = TLE0 =  QLM2 lane 0
+          LANE_ENA[1] = TLE1 =  QLM2 lane 1
+          LANE_ENA[2] = TLE2 =  QLM2 lane 2
+          LANE_ENA[3] = TLE3 =  QLM2 lane 3
+          LANE_ENA[4] = TLE4 =  QLM3 lane 0
+          LANE_ENA[5] = TLE5 =  QLM3 lane 1
+          LANE_ENA[6] = TLE6 =  QLM3 lane 2
+          LANE_ENA[7] = TLE7 =  QLM3 lane 3
 
 
   - name: ILA_TX(0)_CFG1
@@ -822,17 +801,17 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Lane-enable mask. The link is enabled if any lane is enabled. The same lane should not be
+          Lane enable mask. The link is enabled if any lane is enabled. The same lane should not be
           enabled in multiple ILK_RXn_CFG0. Each bit of LANE_ENA maps to an RX lane (RLE) and a QLM
           lane. Note that LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = RLE0 =  QLM1 lane 0
-          LANE_ENA[1] = RLE1 =  QLM1 lane 1
-          LANE_ENA[2] = RLE2 =  QLM1 lane 2
-          LANE_ENA[3] = RLE3 =  QLM1 lane 3
-          LANE_ENA[4] = RLE4 =  QLM2 lane 0
-          LANE_ENA[5] = RLE5 =  QLM2 lane 1
-          LANE_ENA[6] = RLE6 =  QLM2 lane 2
-          LANE_ENA[7] = RLE7 =  QLM2 lane 3
+          LANE_ENA[0] = RLE0 =  QLM2 lane 0
+          LANE_ENA[1] = RLE1 =  QLM2 lane 1
+          LANE_ENA[2] = RLE2 =  QLM2 lane 2
+          LANE_ENA[3] = RLE3 =  QLM2 lane 3
+          LANE_ENA[4] = RLE4 =  QLM3 lane 0
+          LANE_ENA[5] = RLE5 =  QLM3 lane 1
+          LANE_ENA[6] = RLE6 =  QLM3 lane 2
+          LANE_ENA[7] = RLE7 =  QLM3 lane 3
 
 
   - name: ILA_RX(0)_CFG1
@@ -865,13 +844,12 @@ registers:
         typical: --
         description: Packet receive enable. When set to 0, any received SOP causes the entire packet to be dropped.
 
-      - name: LA_MODE
+      - name: --
         bits: 19
         access: R/W
         reset: 0
         typical: --
-        description: |
-          Look-aside mode: 1 = Interlaken look-aside,0 = Interlaken
+        description: Reserved.
 
       - name: TX_LINK_FC
         bits: 18

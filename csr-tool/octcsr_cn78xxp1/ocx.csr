@@ -85,9 +85,9 @@ enums:
         value: 0x11108 + a*0x100
         description: See OCX_COM_LINK(0..2)_INT[BLK_ERR].
 
-      - name: OCX_LNK(0..2)_DOWN
+      - name: OCX_LNK(0..2)_STOP
         value: 0x11109 + a*0x100
-        description: See OCX_COM_LINK(0..2)_INT[DOWN].
+        description: See OCX_COM_LINK(0..2)_INT[STOP].
 
       - name: OCX_LNK(0..2)_UP
         value: 0x1110A + a*0x100
@@ -197,7 +197,7 @@ registers:
         typical: all-ones
         description: |
           Number of unacknowledged retry requests issued
-          before link failure is declared.
+          before link stops operation and OCX_LNK(0..2)_INT[STOP] is asserted.
 
 
   - name: OCX_COM_LINK(0..2)_CTL
@@ -558,14 +558,15 @@ registers:
         typical: --
         description: Link is fully initialized and ready to pass traffic.
 
-      - name: DOWN
+      - name: STOP
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: --
         description: |
           Link has stopped operating.  Link Retry count has reached threshold specified in
-          OCX_COM_LINK_TIMER and initialization request has been reissued.
+          OCX_COM_LINK_TIMER, outgoing traffic has been dropped and an initialization request has
+          been reissued.
 
       - name: BLK_ERR
         bits: 8

@@ -169,8 +169,8 @@ registers:
         description: Selects the GPIO(0..19) input pin to use in the Timer coprocessor for GPIO-based timing.
 
 
-  - name: GPIO_OCLA_DBG_CTL
-    title: GPIO OCLA Debug Control Register
+  - name: GPIO_OCLA_EXTEN_TRIG
+    title: GPIO OCLA External Trigger Register
     address: 0x10700000008A8
     bus: NCB
     fields:
