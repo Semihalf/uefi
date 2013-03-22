@@ -31,7 +31,8 @@ typedef struct
  */
 static void *remote_open(const char *name, int flags)
 {
-    remote_console_t *remote = bdk_phys_to_ptr(0x500);
+    uint64_t master_offset = (uint64_t)bdk_numa_id(BDK_NODE_MASTER) << 40;
+    remote_console_t *remote = bdk_phys_to_ptr(0x500 + master_offset);
     if (remote->magic == REMOTE_MAGIC)
     {
         bdk_error("Attempt to open the remote console twice\n");
