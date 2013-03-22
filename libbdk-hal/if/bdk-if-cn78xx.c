@@ -731,7 +731,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_dma_s.s.scraddr = BDK_IF_SCR_PKO(2) >> 3;
     pko_send_dma_s.s.rtnlen = 1; /* One result work */
     pko_send_dma_s.s.did = 0x51;
-    pko_send_dma_s.s.node = 0; // FIXME: Node number
+    pko_send_dma_s.s.node = handle->node;
     pko_send_dma_s.s.dqop = 0; /* 0=Send */
     pko_send_dma_s.s.dq = handle->pko_queue;
 
