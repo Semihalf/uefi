@@ -24,6 +24,7 @@ typedef struct
     uint64_t         __padding[16-3];
 } bdk_thread_node_t;
 
+int __bdk_numa_master_node = -1;
 static bdk_thread_node_t bdk_thread_node[BDK_NUMA_MAX_NODES];
 
 extern void __bdk_thread_switch(void* next_context, int delete_old);

@@ -23,7 +23,10 @@ static inline int bdk_numa_id(bdk_node_t node)
     switch (node)
     {
         case BDK_NODE_MASTER:
-            return BDK_NODE_0; /* FIXME: choose numa master */
+        {
+            extern int __bdk_numa_master_node;
+            return __bdk_numa_master_node;
+        }
         case BDK_NODE_LOCAL:
         {
 #ifndef BDK_BUILD_HOST
