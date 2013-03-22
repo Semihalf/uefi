@@ -121,8 +121,8 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
     uint64_t pool_start = bdk_ptr_to_phys(buf);
     uint64_t stack_start = pool_start + pool_size;
     uint64_t stack_end = stack_start + stack_size;
-    //bdk_dprintf("FPA: pool %d uses 0x%lx - 0x%lx with links in 0x%lx - 0x%lx\n",
-    //    pool, pool_start, stack_start-1, stack_start, stack_end-1);
+    //bdk_dprintf("N%d FPA: pool %d uses 0x%lx - 0x%lx with links in 0x%lx - 0x%lx\n",
+    //    node, pool, pool_start, stack_start-1, stack_start, stack_end-1);
 
     /* Set the pool to be at the front */
     BDK_CSR_WRITE(node, BDK_FPA_POOLX_START_ADDR(pool), pool_start);
@@ -192,11 +192,11 @@ static int fpa_get_block_size(bdk_node_t node, int aura)
 static uint64_t fpa_alloc(bdk_node_t node, int aura)
 {
     uint64_t address = 0x800129ull << 40;
-    address |= (uint64_t)bdk_numa_id(node) << 36;
+    address |= (uint64_t)node << 36;
     /* address |= 0ull << 35; Don't use RED */
     address |= aura << 16;
     address = bdk_read64_uint64(address);
-    //bdk_dprintf("FPA alloc aura=%d addr=0x%lx\n", aura, address);
+    //bdk_dprintf("N%d FPA alloc aura=%d addr=0x%lx\n", node, aura, address);
     return address;
 }
 
@@ -212,11 +212,11 @@ static uint64_t fpa_alloc(bdk_node_t node, int aura)
 static void fpa_free(bdk_node_t node, uint64_t address, int aura, int num_cache_lines)
 {
     uint64_t store = 0x800129ull << 40;
-    store |= (uint64_t)bdk_numa_id(node) << 36;
+    store |= (uint64_t)node << 36;
     store |= aura << 16;
     /* store |= 0 << 15; Not absolute */
     store |= num_cache_lines << 3;
-    //bdk_dprintf("FPA free aura=%d addr=0x%lx\n", aura, address);
+    //bdk_dprintf("N%d FPA free aura=%d addr=0x%lx\n", node, aura, address);
     bdk_write64_uint64(store, address);
 }
 
