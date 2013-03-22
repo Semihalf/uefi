@@ -14,7 +14,7 @@ static void *uart_open(const char *name, int flags)
 static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int count = 0;
-    int id = (long)handle->fs_state - 1;
+    int id = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
 
     BDK_CSR_INIT(lsr, node, BDK_MIO_UARTX_LSR(id));
@@ -62,7 +62,7 @@ static void uart_write_byte(bdk_node_t node, int id, uint8_t byte)
 static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     int l = length;
-    int id = (long)handle->fs_state - 1;
+    int id = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
     const char *p = buffer;
 
