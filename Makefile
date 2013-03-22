@@ -43,6 +43,9 @@ suid: all
 RUN_SIM_ARGS = target-bin/ipemainc_new.elf
 RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full-no-romfs
 RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full.bin
+#RUN_SIM_ARGS += bdk-boot/bdk-another-node
+#RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full-no-romfs
+#RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full.bin
 RUN_SIM_ARGS += -ld0:0x1000000
 RUN_SIM_ARGS += -modes=fastboot,pass1
 RUN_SIM_ARGS += -numnodes=4

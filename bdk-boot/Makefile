@@ -25,6 +25,9 @@ bdk-quick-boot: bdk-quick-boot.o $(BDK_ROOT)/libbdk/libbdk.a
 bdk-reset-rtl: bdk-reset-rtl.S
 	$(CC) -nostdlib -nostartfiles -Ttext=0xBFC00000 -o $@ $^
 
+bdk-another-node: bdk-another-node.S
+	$(CC) -nostdlib -nostartfiles -Ttext=0xBFC00000 -o $@ $^
+
 clean:
-	rm -f *.o *.map *.bin  bdk-reset-rtl $(IMAGES) $(BDK_ROOT)/target-bin/*-no-romfs*
+	rm -f *.o *.map *.bin  bdk-reset-rtl bdk-another-node $(IMAGES) $(BDK_ROOT)/target-bin/*-no-romfs*
 
