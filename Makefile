@@ -40,33 +40,61 @@ tftp: all
 suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
-RUN_SIM_ARGS = target-bin/ipemainc_new.elf
+RUN_SIM_ARGS =
+#
+# Use these to boot off Node 0
+#
 RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full-no-romfs
 RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full.bin
+RUN_SIM_ARGS += -ld0:0x1000000
+#
+# Use these to boot off Node 1
+#
 #RUN_SIM_ARGS += bdk-boot/bdk-another-node
 #RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full-no-romfs
 #RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full.bin
-RUN_SIM_ARGS += -ld0:0x1000000
+#RUN_SIM_ARGS += -ld0x0010000000000:0x1000000
+#RUN_SIM_ARGS += -ld0:0x100 # FIXME: Why is this needed
+#
+# Common sim options
+#
 RUN_SIM_ARGS += -modes=fastboot,pass1
-RUN_SIM_ARGS += -numnodes=4
 RUN_SIM_ARGS += -numcores=1
 RUN_SIM_ARGS += -noperf
 RUN_SIM_ARGS += -quiet
 RUN_SIM_ARGS += -trace=all
-RUN_SIM_ARGS += -uart0=2020
+# Sim option for Node 0
 RUN_SIM_ARGS += -serve=2000
-RUN_SIM_ARGS += -qlm_is_sgmii_mask0=0x1
-RUN_SIM_ARGS += -qlm_is_xaui_mask0=0x8
-RUN_SIM_ARGS += -qlm_is_ilk_mask0=0x6
-RUN_SIM_ARGS += -qlm_is_sgmii_mask1=0x1
-RUN_SIM_ARGS += -qlm_is_xaui_mask1=0x8
-RUN_SIM_ARGS += -qlm_is_ilk_mask1=0x6
-RUN_SIM_ARGS += -qlm_is_sgmii_mask2=0x1
-RUN_SIM_ARGS += -qlm_is_xaui_mask2=0x8
-RUN_SIM_ARGS += -qlm_is_ilk_mask2=0x6
-RUN_SIM_ARGS += -qlm_is_sgmii_mask3=0x1
-RUN_SIM_ARGS += -qlm_is_xaui_mask3=0x8
-RUN_SIM_ARGS += -qlm_is_ilk_mask3=0x6
+RUN_SIM_ARGS += -uart0=2020
+RUN_SIM_ARGS += -uart1=2030
+RUN_SIM_ARGS += -qlm_is_sgmii_mask=0x1
+RUN_SIM_ARGS += -qlm_is_xaui_mask=0x8
+RUN_SIM_ARGS += -qlm_is_ilk_mask=0x6
+ifeq ($(SIM),cn78xx)
+    RUN_SIM_ARGS += -numnodes=4
+    RUN_SIM_ARGS += target-bin/ipemainc_new.elf
+    # Sim option for Node 1
+    RUN_SIM_ARGS += -serve=1:2001
+    RUN_SIM_ARGS += -uart0=1:2021
+    RUN_SIM_ARGS += -uart1=0:2031
+    RUN_SIM_ARGS += -qlm_is_sgmii_mask1=0x1
+    RUN_SIM_ARGS += -qlm_is_xaui_mask1=0x8
+    RUN_SIM_ARGS += -qlm_is_ilk_mask1=0x6
+    # Sim option for Node 2
+    RUN_SIM_ARGS += -serve=1:2002
+    RUN_SIM_ARGS += -uart0=1:2022
+    RUN_SIM_ARGS += -uart1=0:2032
+    RUN_SIM_ARGS += -qlm_is_sgmii_mask2=0x1
+    RUN_SIM_ARGS += -qlm_is_xaui_mask2=0x8
+    RUN_SIM_ARGS += -qlm_is_ilk_mask2=0x6
+    # Sim option for Node 3
+    RUN_SIM_ARGS += -serve=1:2003
+    RUN_SIM_ARGS += -uart0=1:2023
+    RUN_SIM_ARGS += -uart1=0:2033
+    RUN_SIM_ARGS += -qlm_is_sgmii_mask3=0x1
+    RUN_SIM_ARGS += -qlm_is_xaui_mask3=0x8
+    RUN_SIM_ARGS += -qlm_is_ilk_mask3=0x6
+endif
 
 .PHONY: run
 run:
