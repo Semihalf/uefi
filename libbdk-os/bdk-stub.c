@@ -46,6 +46,7 @@ caddr_t sbrk(int incr)
 {
     static caddr_t next;
     static caddr_t end;
+    uint64_t master_offset = (uint64_t)bdk_numa_id(BDK_NODE_MASTER) << 40;
 
     if (next == NULL)
     {
@@ -55,11 +56,11 @@ caddr_t sbrk(int incr)
             the L2 cache */
         uint64_t start_paddr = bdk_fs_romfs_get_end();
         next = bdk_phys_to_ptr(start_paddr);
-        end = bdk_phys_to_ptr(l2_size);
+        end = bdk_phys_to_ptr(l2_size + master_offset);
 
         /* If DRAM is setup assume there is at least 256MB */
         if (__bdk_is_dram_enabled(BDK_NODE_MASTER))
-            end = bdk_phys_to_ptr(256<<20);
+            end = bdk_phys_to_ptr((256<<20) + master_offset);
     }
 
     /* See of DRAM was setup and we can use more memory */
@@ -71,15 +72,15 @@ caddr_t sbrk(int incr)
         /* More than 256MB gets offset by 256MB due to the bootbus hole */
         if (dram_top > 0x10000000)
             dram_top += 0x10000000;
-        end = bdk_phys_to_ptr(dram_top);
+        end = bdk_phys_to_ptr(dram_top + master_offset);
     }
 
     /* Skip 256MB-512MB which is the bootbus. Note that this doesn't affect
         end, so it needs to be set correctly. If end is less that 256MB, this
         code will increment past it and fail all allocations */
-    uint64_t paddr = bdk_ptr_to_phys(next);
+    uint64_t paddr = bdk_ptr_to_phys(next) - master_offset;
     if ((paddr < 0x20000000) && ((paddr + incr) > 0x10000000))
-        next = bdk_phys_to_ptr(0x20000000);
+        next = bdk_phys_to_ptr(0x20000000 + master_offset);
 
     caddr_t result = next;
 
