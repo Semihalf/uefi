@@ -76,21 +76,21 @@ ifeq ($(SIM),cn78xx)
     # Sim option for Node 1
     RUN_SIM_ARGS += -serve=1:2001
     RUN_SIM_ARGS += -uart0=1:2021
-    RUN_SIM_ARGS += -uart1=0:2031
+    RUN_SIM_ARGS += -uart1=1:2031
     RUN_SIM_ARGS += -qlm_is_sgmii_mask1=0x1
     RUN_SIM_ARGS += -qlm_is_xaui_mask1=0x8
     RUN_SIM_ARGS += -qlm_is_ilk_mask1=0x6
     # Sim option for Node 2
-    RUN_SIM_ARGS += -serve=1:2002
-    RUN_SIM_ARGS += -uart0=1:2022
-    RUN_SIM_ARGS += -uart1=0:2032
+    RUN_SIM_ARGS += -serve=2:2002
+    RUN_SIM_ARGS += -uart0=2:2022
+    RUN_SIM_ARGS += -uart1=2:2032
     RUN_SIM_ARGS += -qlm_is_sgmii_mask2=0x1
     RUN_SIM_ARGS += -qlm_is_xaui_mask2=0x8
     RUN_SIM_ARGS += -qlm_is_ilk_mask2=0x6
     # Sim option for Node 3
-    RUN_SIM_ARGS += -serve=1:2003
-    RUN_SIM_ARGS += -uart0=1:2023
-    RUN_SIM_ARGS += -uart1=0:2033
+    RUN_SIM_ARGS += -serve=3:2003
+    RUN_SIM_ARGS += -uart0=3:2023
+    RUN_SIM_ARGS += -uart1=3:2033
     RUN_SIM_ARGS += -qlm_is_sgmii_mask3=0x1
     RUN_SIM_ARGS += -qlm_is_xaui_mask3=0x8
     RUN_SIM_ARGS += -qlm_is_ilk_mask3=0x6
