@@ -73,6 +73,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     }
 
     handle->iftype = iftype;
+    handle->node = node;
     handle->interface = interface;
     handle->index = index;
     handle->next = NULL;
@@ -139,9 +140,8 @@ fail:
  *
  * @return Zero on success, negative on failure
  */
-static int __bdk_if_init(void)
+static int __bdk_if_init_node(bdk_node_t node)
 {
-    const bdk_node_t node = BDK_NODE_LOCAL;
     extern __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx;
     extern __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx;
     int result = 0;
@@ -228,6 +228,23 @@ static int __bdk_if_init(void)
     return result;
 }
 
+/**
+ * Initialize all packet interfaces of all types for use. This
+ * is the one call needed to get all interfaces configured. Enable
+ * needs to be called on each handle before actual packets flow.
+ *
+ * @return Zero on success, negative on failure
+ */
+static int __bdk_if_init(void)
+{
+    int result = 0;
+    for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
+    {
+        if ((1<<node) & bdk_numa_get_running_mask())
+            result |= __bdk_if_init_node(node);
+    }
+    return result;
+}
 
 /**
  * Return if the bdk_if system has been configured. This is useful

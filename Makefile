@@ -40,9 +40,34 @@ tftp: all
 suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
+RUN_SIM_ARGS = target-bin/ipemainc_new.elf
+RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full-no-romfs
+RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-full.bin
+RUN_SIM_ARGS += -ld0:0x1000000
+RUN_SIM_ARGS += -modes=fastboot,pass1
+RUN_SIM_ARGS += -numnodes=4
+RUN_SIM_ARGS += -numcores=1
+RUN_SIM_ARGS += -noperf
+RUN_SIM_ARGS += -quiet
+RUN_SIM_ARGS += -trace=all
+RUN_SIM_ARGS += -uart0=2020
+RUN_SIM_ARGS += -serve=2000
+RUN_SIM_ARGS += -qlm_is_sgmii_mask0=0x1
+RUN_SIM_ARGS += -qlm_is_xaui_mask0=0x8
+RUN_SIM_ARGS += -qlm_is_ilk_mask0=0x6
+RUN_SIM_ARGS += -qlm_is_sgmii_mask1=0x1
+RUN_SIM_ARGS += -qlm_is_xaui_mask1=0x8
+RUN_SIM_ARGS += -qlm_is_ilk_mask1=0x6
+RUN_SIM_ARGS += -qlm_is_sgmii_mask2=0x1
+RUN_SIM_ARGS += -qlm_is_xaui_mask2=0x8
+RUN_SIM_ARGS += -qlm_is_ilk_mask2=0x6
+RUN_SIM_ARGS += -qlm_is_sgmii_mask3=0x1
+RUN_SIM_ARGS += -qlm_is_xaui_mask3=0x8
+RUN_SIM_ARGS += -qlm_is_ilk_mask3=0x6
+
 .PHONY: run
 run:
-	$(SIMULATOR) target-bin/ipemainc_new.elf -ld0x1fc00000:target-bin/bdk-full-no-romfs -ld0x1fc00000:target-bin/bdk-full.bin -ld0:0x1000000 -modes=fastboot,pass1 -uart0=2020 -noperf -quiet -serve=2000 -qlm_is_sgmii_mask=0x1 -qlm_is_xaui_mask=0x8 -qlm_is_ilk_mask=0x6 -trace=all -numnodes=4
+	$(SIMULATOR) $(RUN_SIM_ARGS)
 
 .PHONY: run-min
 run-min:

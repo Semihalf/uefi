@@ -7,20 +7,25 @@
 
 const int PKO_QUEUES_PER_CHANNEL = 1;
 
-/* PKI global variables */
-static __bdk_if_port_t *__bdk_if_ipd_map[0x1000]; /* Channels is 12 bits in WQE */
-static int next_free_qpg_table = 1;
-static int next_free_pknd = 0;
-static int next_wqe_grp = 0;
+typedef struct
+{
+    /* PKI global variables */
+    __bdk_if_port_t *__bdk_if_ipd_map[0x1000]; /* Channels is 12 bits in WQE */
+    int next_free_qpg_table;
+    int next_free_pknd;
+    int next_wqe_grp;
 
-/* PKO global variables */
-static uint64_t pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
-static int pko_next_free_port_queue = 0; /* L1 = Port Queues are 0-31 */
-static int pko_next_free_l2_queue = 0; /* L2 = Channel Queues 0-511 */
-static int pko_next_free_l3_queue = 0; /* L3 = Channel Queues 0-511 */
-static int pko_next_free_l4_queue = 0; /* L4 = Channel Queues 0-511 */
-static int pko_next_free_l5_queue = 0; /* L5 = Channel Queues 0-511 */
-static int pko_next_free_descr_queue = 0; /* L6 = Descriptor Queues 0-1023 */
+    /* PKO global variables */
+    uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+    int pko_next_free_port_queue;   /* L1 = Port Queues are 0-31 */
+    int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-511 */
+    int pko_next_free_l3_queue;     /* L3 = Channel Queues 0-511 */
+    int pko_next_free_l4_queue;     /* L4 = Channel Queues 0-511 */
+    int pko_next_free_l5_queue;     /* L5 = Channel Queues 0-511 */
+    int pko_next_free_descr_queue;  /* L6 = Descriptor Queues 0-1023 */
+} global_node_state_t;
+
+static global_node_state_t global_node_state[BDK_NUMA_MAX_NODES];
 
 /**
  * One time init of global Packet Input
@@ -29,7 +34,9 @@ static int pko_next_free_descr_queue = 0; /* L6 = Descriptor Queues 0-1023 */
  */
 static int pki_global_init(bdk_node_t node)
 {
-    bdk_zero_memory(__bdk_if_ipd_map, sizeof(__bdk_if_ipd_map));
+    global_node_state_t *node_state = &global_node_state[bdk_numa_id(node)];
+    bdk_zero_memory(node_state, sizeof(*node_state));
+    node_state->pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
 
     /* Setup all Auras to support backpressure */
     for (int aura=0; aura<1024; aura++)
@@ -92,14 +99,15 @@ static int pki_global_init(bdk_node_t node)
  */
 static int pki_port_init(bdk_if_handle_t handle)
 {
+    global_node_state_t *node_state = &global_node_state[handle->node];
     /* Make sure we have room in the QPG table */
-    if (next_free_qpg_table >= 2048)
+    if (node_state->next_free_qpg_table >= 2048)
     {
         bdk_error("PKI QPG table full\n");
         return -1;
     }
 
-    if ((handle->index == 0) && (next_free_pknd >= 64))
+    if ((handle->index == 0) && (node_state->next_free_pknd >= 64))
     {
         bdk_error("PKI ran out of PKNDs\n");
         return -1;
@@ -114,12 +122,12 @@ static int pki_port_init(bdk_if_handle_t handle)
     /* Find the PKND for this port. This code only works since the
         ports are enumerated in order */
     if (handle->index == 0)
-        handle->pknd = next_free_pknd++;
+        handle->pknd = node_state->next_free_pknd++;
     else
-        handle->pknd = next_free_pknd - 1;
+        handle->pknd = node_state->next_free_pknd - 1;
 
     // Setup QPG table per channel
-    int qpg = next_free_qpg_table++;
+    int qpg = node_state->next_free_qpg_table++;
 
     /* Set PKI to use the right backpressure id for this port. We use
         a 1:1 mapping between aura and bpid */
@@ -149,8 +157,8 @@ static int pki_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_PKI_PKINDX_ICGSEL(handle->pknd),
         c.s.icg = 0);
     /* Round robbin through groups */
-    int wqe_grp = next_wqe_grp;
-    next_wqe_grp = (next_wqe_grp+1) & 255;
+    int wqe_grp = node_state->next_wqe_grp;
+    node_state->next_wqe_grp = (node_state->next_wqe_grp+1) & 255;
     BDK_CSR_MODIFY(c, handle->node, BDK_PKI_QPG_TBLX(qpg),
         c.s.padd = 0; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
@@ -158,7 +166,7 @@ static int pki_port_init(bdk_if_handle_t handle)
         c.s.aura = handle->aura); /* Set WQE[AURA] */
 
     /* We lookup the handle using the PKI input channel */
-    __bdk_if_ipd_map[handle->ipd_port] = handle;
+    node_state->__bdk_if_ipd_map[handle->ipd_port] = handle;
     bdk_dprintf("%s: pknd=%d, ipd_port=0x%x, aura=%d\n",
         bdk_if_name(handle), handle->pknd, handle->ipd_port, handle->aura);
     return 0;
@@ -187,6 +195,11 @@ static int pki_enable(bdk_node_t node)
  */
 static int pko_global_init(bdk_node_t node)
 {
+    if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, 1024))
+        return -1;
+    const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
+    BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
+        c.s.aura = aura | (node <<10));
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
         c.s.max_read_size = 72);
     return 0;
@@ -202,6 +215,7 @@ static int pko_global_init(bdk_node_t node)
  */
 int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
 {
+    global_node_state_t *node_state = &global_node_state[bdk_numa_id(node)];
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
     int fifo = 0;
@@ -210,10 +224,10 @@ int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
         /* Buid a mask representing what this fifo would use */
         uint64_t mask = bdk_build_mask(size) << fifo;
         /* Stop search if all bits are free */
-        if ((mask & pko_free_fifo_mask) == mask)
+        if ((mask & node_state->pko_free_fifo_mask) == mask)
         {
             /* Found a spot, mark it used and stop searching */
-            pko_free_fifo_mask &= ~mask;
+            node_state->pko_free_fifo_mask &= ~mask;
             break;
         }
         /* Increment by size to keep alignment */
@@ -313,6 +327,7 @@ int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
  */
 static int pko_port_init(bdk_if_handle_t handle)
 {
+    global_node_state_t *node_state = &global_node_state[handle->node];
     int pq;     /* L1 = port queue */
     int sq_l2;  /* L2 = schedule queue feeding PQ */
     int sq_l3;  /* L3 = schedule queue feeding L2 */
@@ -320,27 +335,27 @@ static int pko_port_init(bdk_if_handle_t handle)
     int sq_l5;  /* L5 = schedule queue feeding L4 */
     int dq;     /* L6 = descriptor queue feeding L5 */
 
-    if (pko_next_free_l2_queue >= 512)
+    if (node_state->pko_next_free_l2_queue >= 512)
     {
         bdk_error("pko_port_init: Ran out of L2 queues\n");
         return -1;
     }
-    if (pko_next_free_l3_queue >= 512)
+    if (node_state->pko_next_free_l3_queue >= 512)
     {
         bdk_error("pko_port_init: Ran out of L3 queues\n");
         return -1;
     }
-    if (pko_next_free_l4_queue >= 512)
+    if (node_state->pko_next_free_l4_queue >= 512)
     {
         bdk_error("pko_port_init: Ran out of L4 queues\n");
         return -1;
     }
-    if (pko_next_free_l5_queue >= 512)
+    if (node_state->pko_next_free_l5_queue >= 512)
     {
         bdk_error("pko_port_init: Ran out of L5 queues\n");
         return -1;
     }
-    if (pko_next_free_descr_queue > 1024 - PKO_QUEUES_PER_CHANNEL)
+    if (node_state->pko_next_free_descr_queue > 1024 - PKO_QUEUES_PER_CHANNEL)
     {
         bdk_error("pko_port_init: Ran out of descriptor (L6) queues\n");
         return -1;
@@ -348,25 +363,25 @@ static int pko_port_init(bdk_if_handle_t handle)
 
     if (handle->index == 0) /* FIXME: BGX needs 4 L1 queues */
     {
-        if (pko_next_free_port_queue >= 32)
+        if (node_state->pko_next_free_port_queue >= 32)
         {
             bdk_error("pko_port_init: Ran out of port (L1) queues\n");
             return -1;
         }
-        pq = pko_next_free_port_queue++;
+        pq = node_state->pko_next_free_port_queue++;
     }
     else
     {
         /* This relies on channels being initialized in order */
-        pq = pko_next_free_port_queue - 1;
+        pq = node_state->pko_next_free_port_queue - 1;
     }
 
-    sq_l2 = pko_next_free_l2_queue++;
-    sq_l3 = pko_next_free_l3_queue++;
-    sq_l4 = pko_next_free_l4_queue++;
-    sq_l5 = pko_next_free_l5_queue++;
-    dq = pko_next_free_descr_queue;
-    pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
+    sq_l2 = node_state->pko_next_free_l2_queue++;
+    sq_l3 = node_state->pko_next_free_l3_queue++;
+    sq_l4 = node_state->pko_next_free_l4_queue++;
+    sq_l5 = node_state->pko_next_free_l5_queue++;
+    dq = node_state->pko_next_free_descr_queue;
+    node_state->pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
 
     int lmac;
     switch (handle->iftype)
@@ -552,6 +567,7 @@ static int sso_init(bdk_node_t node)
 static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const bdk_wqe_t *wqe = work;
+    const global_node_state_t *node_state = &global_node_state[bdk_numa_id(BDK_NODE_LOCAL)];
 
     const char *tag_type = "illegal";
     switch (wqe->word1.v3.tt)
@@ -610,7 +626,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         wqe->unused[1],         /* word6 */
         wqe->unused[2]);        /* word7 */
 
-    packet->if_handle = __bdk_if_ipd_map[wqe->word0.v3.chan];
+    packet->if_handle = node_state->__bdk_if_ipd_map[wqe->word0.v3.chan];
     bdk_dprintf("  Maps to %s, port=%d, aura=%d, pknd=%d\n",
         bdk_if_name(packet->if_handle), packet->if_handle->ipd_port,
         packet->if_handle->aura, packet->if_handle->pknd);

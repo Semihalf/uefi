@@ -39,11 +39,6 @@ static inline int bdk_numa_id(bdk_node_t node)
     }
 }
 
-static inline uint64_t bdk_numa_get_running_mask(void)
-{
-    return 0x1; /* FIXME: Detect numa nodes */
-}
-
 static inline uint64_t bdk_numa_get_exists_mask(void)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
@@ -52,6 +47,11 @@ static inline uint64_t bdk_numa_get_exists_mask(void)
         return 0x1;
 }
 
+
+static inline uint64_t bdk_numa_get_running_mask(void)
+{
+    return bdk_numa_get_exists_mask(); /* FIXME: Detect numa nodes */
+}
 
 
 
