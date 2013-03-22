@@ -65,7 +65,17 @@ uint64_t __bdk_ptr_to_phys_slow(void *ptr)
             {
                 case 0xffffffff80000000ull: /* Kernel Unmapped */
                 case 0xffffffffa0000000ull: /* Kernel Unmapped, Uncached */
-                    return address & bdk_build_mask(30);
+                    address &= bdk_build_mask(30);
+                    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                    {
+                        uint64_t cvmmemctl2;
+                        BDK_MF_COP0(cvmmemctl2, COP0_CVMMEMCTL2);
+                        cvmmemctl2 >>= 12; /* Extract KSEGNODE */
+                        cvmmemctl2 &= 0x3;
+                        /* Insert the node number into the address */
+                        address |= cvmmemctl2 << 40;
+                    }
+                    return address;
                 case 0xffffffffc0000000ull: /* Supervisor Mapped */
                 case 0xffffffffe0000000ull: /* Kernel Mapped */
                 {
