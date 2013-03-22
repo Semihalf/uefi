@@ -922,16 +922,17 @@ void __bdk_require_depends(void)
 
 int main()
 {
+    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
     printf("Starting all cores\n");
-    bdk_init_cores(0);
-    int num_cores = bdk_octeon_num_cores();
+    bdk_init_cores(node, 0);
+    int num_cores = bdk_octeon_num_cores(node);
 
     fflush(NULL);
     for (int core=0; core<num_cores; core++)
     {
         done = 0;
         BDK_SYNCW;
-        if (bdk_thread_create(1ull<<core, test_crypto, 0, NULL, 0))
+        if (bdk_thread_create(node, 1ull<<core, test_crypto, 0, NULL, 0))
         {
             bdk_error("Failed to create thread for core %d\n", core);
         }
