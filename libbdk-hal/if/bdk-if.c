@@ -36,7 +36,8 @@ static inline void sso_get_work_async(int scr_addr, int wait)
             uint64_t    scraddr : 8;    /**< the (64-bit word) location in scratchpad to write to (if len != 0) */
             uint64_t    len     : 8;    /**< the number of words in the response (0 => no response) */
             uint64_t    did     : 8;    /**< the ID of the device on the non-coherent bus */
-            uint64_t    unused  :36;
+            uint64_t    node    : 4;    /**< Node to get work from */
+            uint64_t    unused  :32;
             uint64_t    wait    : 1;    /**< if set, don't return load response until work is available */
             uint64_t    unused2 : 3;
         } s;
@@ -46,7 +47,8 @@ static inline void sso_get_work_async(int scr_addr, int wait)
     data.u64 = 0;
     data.s.scraddr = scr_addr >> 3;
     data.s.len = 1;
-    data.s.did = 12<<3 | 0;
+    data.s.did = 0x60;
+    data.s.node = bdk_numa_id(BDK_NODE_LOCAL);
     data.s.wait = wait;
     bdk_send_single(data.u64);
 }
