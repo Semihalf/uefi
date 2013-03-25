@@ -35,5 +35,6 @@ int bdk_fs_register(const char *prefix, const __bdk_fs_ops_t *ops);
 uint64_t bdk_mmap(const char *name, int flags);
 int bdk_jump_address(uint64_t paddress);
 int __bdk_fs_check_break(void);
+void bdk_fs_set_uart_node(bdk_node_t node);
 
 /** @} */

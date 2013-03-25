@@ -407,3 +407,25 @@ int bdk_jump_address(uint64_t paddress)
     }
     return ptr();
 }
+
+/**
+ * Used to override the default node 0 for uart output. Called early
+ * in init to make uart output go to the local node.
+ *
+ * @param node   Node to use. Must be a physical node number.
+ */
+void bdk_fs_set_uart_node(bdk_node_t node)
+{
+    /* Change uart0 */
+    long state = (long)file_handle[3].fs_state;
+    state &= 0xff;
+    state |= node << 8;
+    file_handle[3].fs_state = (void*)state;
+
+    /* Change uart1 */
+    state = (long)file_handle[4].fs_state;
+    state &= 0xff;
+    state |= node << 8;
+    file_handle[4].fs_state = (void*)state;
+}
+

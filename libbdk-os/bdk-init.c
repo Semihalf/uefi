@@ -132,6 +132,7 @@ void __bdk_init(long base_address)
 
         bdk_set_baudrate(node, 0, 115200, 0);
         bdk_set_baudrate(node, 1, 115200, 0);
+        bdk_fs_set_uart_node(node);
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
