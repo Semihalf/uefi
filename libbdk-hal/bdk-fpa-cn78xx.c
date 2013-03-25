@@ -115,7 +115,7 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
     void *buf = memalign(block_size, pool_size + stack_size);
     if (!buf)
     {
-        bdk_dprintf("N%d FPA: pool %d failed memory allocation\n", node, pool);
+        bdk_error("N%d FPA: pool %d failed memory allocation\n", node, pool);
         return -num_blocks;
     }
 
