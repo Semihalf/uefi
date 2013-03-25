@@ -5,17 +5,25 @@
 #define NUM_AURAS 1024
 #define PTRS_PER_LINE 29
 
-static int fpa_buffer_size_pool[NUM_POOLS];
-static int fpa_buffer_size_aura[NUM_AURAS];
-static int next_free_aura = NUM_POOLS; /* Reserve the first auras for 1:1 mapping to pools */
+typedef struct
+{
+    int buffer_size_pool[NUM_POOLS];
+    int buffer_size_aura[NUM_AURAS];
+    int next_free_aura;
+} bdk_fpa_state_t;
+
+static bdk_fpa_state_t fpa_node_state[BDK_NUMA_MAX_NODES];
 
 /**
  * Perform global FPA initialization
  */
 static int fpa_init(bdk_node_t node)
 {
-    bdk_zero_memory(fpa_buffer_size_pool, sizeof(fpa_buffer_size_pool));
-    bdk_zero_memory(fpa_buffer_size_aura, sizeof(fpa_buffer_size_aura));
+    bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
+
+    bdk_zero_memory(fpa_state, sizeof(*fpa_state));
+    /* Reserve the first auras for 1:1 mapping to pools */
+    fpa_state->next_free_aura = NUM_POOLS;
 
     uint64_t bist = BDK_CSR_READ(node, BDK_FPA_BIST_STATUS);
     if (bist)
@@ -51,14 +59,16 @@ static int fpa_init(bdk_node_t node)
  */
 static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
 {
+    bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
+
     if (aura < 0)
     {
-        if (next_free_aura >= NUM_AURAS)
+        if (fpa_state->next_free_aura >= NUM_AURAS)
         {
             bdk_error("No more FPA auras available\n");
             return -1;
         }
-        aura = next_free_aura++;
+        aura = fpa_state->next_free_aura++;
     }
 
     /* Set auto tracking of counts and disable averaging */
@@ -93,7 +103,7 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_THRESHOLD(aura), 0xffffffffffull);
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_INT(aura), 1);
 
-    fpa_buffer_size_aura[aura] = fpa_buffer_size_pool[pool];
+    fpa_state->buffer_size_aura[aura] = fpa_state->buffer_size_pool[pool];
     return aura;
 }
 
@@ -109,6 +119,8 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
  */
 static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_size)
 {
+    bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
+
     uint64_t stack_size = BDK_CACHE_LINE_SIZE * ((num_blocks + PTRS_PER_LINE - 1) / PTRS_PER_LINE);
     uint64_t pool_size = num_blocks * block_size;
 
@@ -153,7 +165,7 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
         c.s.nat_align = 1;
         c.s.ena = 1);
 
-    fpa_buffer_size_pool[pool] = block_size;
+    fpa_state->buffer_size_pool[pool] = block_size;
 
     /* Create an aura that 1:1 maps the pool */
     int aura = fpa_init_aura(node, pool, pool, num_blocks);
@@ -182,7 +194,8 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
  */
 static int fpa_get_block_size(bdk_node_t node, int aura)
 {
-    return fpa_buffer_size_aura[aura];
+    bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
+    return fpa_state->buffer_size_aura[aura];
 }
 
 /**
