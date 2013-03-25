@@ -177,12 +177,22 @@ __init:
     or      t0, 1<<7
     MTC0    t0, COP0_STATUS
 
-    /* Check if we need relocation */
-    dmfc0   t0, COP0_EBASE  /* Only core zero needs to do relocation */
-    and     t0, 0x3ff       /* Core nubmer is lower 10 bits */
-    bnez    t0, after_relocate
+    /* Figure out the location of code as an offset from our link address */
+    dla     t1, 1f          /* VA of label 1 */
+    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
+     nop
+1:
+    dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
+    li      t0, 0xc0400000  /* Skip relocate if we're already there */
+    beq     t0, s0, after_relocate
+
+    /* See if we're running from a bootbus address */
+    dsra    t0, ra, 28              /* Shift PC 28 bits, leaving the top nibble */
+    li      t1, 0xfffffffb          /* Bootbus address starts with 0xb, sign extended */
+    bne     t0, t1, skip_l2_disidxalias /* only run the next code if we're not in flash */
      nop
 
+#if 0 /* FIXME: Do we want to speedup flash in early boot? */
     /* Speed up flash.  Here we use a hardcoded value that will
         work up to 1 GHz.  The speed will be adjusted again once
         the actual speed of the CPU is determined, but this setting here
@@ -207,21 +217,7 @@ __init:
     dli     t2, 0x0107fc024724d343
     or      t0, t2
     sd      t0, (t1)
-
-    /* Figure out the location of code as an offset from our link address */
-    dla     t1, 1f          /* VA of label 1 */
-    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
-     nop
-1:
-    dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
-    li      t0, 0xc0400000  /* Skip relocate if we're already there */
-    beq     t0, s0, after_relocate
-
-    /* See if we're running from a bootbus address */
-    dsra    t0, ra, 28              /* Shift PC 28 bits, leaving the top nibble */
-    li      t1, 0xfffffffb          /* Bootbus address starts with 0xb, sign extended */
-    bne     t0, t1, skip_l2_disidxalias /* only run the next code if we're not in flash */
-     nop
+#endif
 
     /* Disable L2 indexed aliasing if we're running from flash. Indexed
         aliasing won't allow us to lock a linear range into L2 */
