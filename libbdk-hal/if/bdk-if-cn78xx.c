@@ -169,8 +169,8 @@ static int pki_port_init(bdk_if_handle_t handle)
 
     /* We lookup the handle using the PKI input channel */
     node_state->__bdk_if_ipd_map[handle->ipd_port] = handle;
-    bdk_dprintf("%s: pknd=%d, ipd_port=0x%x, aura=%d\n",
-        bdk_if_name(handle), handle->pknd, handle->ipd_port, handle->aura);
+    //bdk_dprintf("%s: pknd=%d, ipd_port=0x%x, aura=%d\n",
+    //    bdk_if_name(handle), handle->pknd, handle->ipd_port, handle->aura);
     return 0;
 }
 
@@ -488,8 +488,8 @@ static int pko_port_init(bdk_if_handle_t handle)
     handle->pko_port = pq;
     handle->pko_queue = dq;
 
-    bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
-        bdk_if_name(handle), lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
+    //bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
+    //    bdk_if_name(handle), lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
     return 0;
 }
