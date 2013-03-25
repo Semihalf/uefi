@@ -117,14 +117,14 @@ registers:
         description: Reserved.
 
       - name: UN_ADDR
-        bits: 49..48
+        bits: 49..47
         access: RO
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: ADDR
-        bits: 47..40
+        bits: 46..40
         access: R/W/H
         reset: 0x0
         typical: --

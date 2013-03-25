@@ -163,19 +163,33 @@ registers:
     description: This register has additional configuration and control bits for the LMC
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..10
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DLCRAM_BIST_STATUS
-        bits: 7
+        bits: 9
         access: RO/H
         reset: 0
         typical: 0
         description: |
           INTERNAL: DLC RAM BIST status.
+
+      - name: DRIVE_ENA_BPRCH
+        bits: 8
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQx for one cycle longer than normal during write operations.
+
+      - name: DRIVE_ENA_FPRCH
+        bits: 7
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQX starting one cycle earlier than normal during write operations.
 
       - name: SLOT_CTL_RESET_FORCE
         bits: 6
@@ -183,9 +197,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          INTERNAL: Write 1 to reset the slot control override for all slot control registers.
+          Write 1 to reset the slot control override for all slot control registers.
           After writing a 1 to this bit, slot control registers will update with changes made to
-          other timing control registers.  One shot operation.
+          other timing control registers.  One shot operation, will automatically return to 0
+          after a write to 1.
 
       - name: DLCRAM_FLIP_SYND
         bits: 5..4
@@ -4289,23 +4304,44 @@ registers:
       DDR3 interface.
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..36
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
+      - name: PAR_MASK
+        bits: 35
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for PAR.
+
+      - name: ACT_N_MASK
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for ACT_N.
+
+      - name: A17_MASK
+        bits: 33
+        access: R/W
+        reset: 0
+        typical: --
+        description: Mask for A17.
+
       - name: RESET_N_MASK
         bits: 32
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for RESET_L.
 
       - name: A_MASK
         bits: 31..16
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: |
           Mask for A<15:0>.
@@ -4313,7 +4349,7 @@ registers:
       - name: BA_MASK
         bits: 15..13
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: |
           Mask for BA<2:0>.
@@ -4321,56 +4357,56 @@ registers:
       - name: WE_N_MASK
         bits: 12
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for WE_N.
 
       - name: CAS_N_MASK
         bits: 11
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for CAS_N.
 
       - name: RAS_N_MASK
         bits: 10
         access: R/W
-        reset: --
+        reset: 0
         typical: --
         description: Mask for RAS_N.
 
       - name: ODT1_MASK
         bits: 9..8
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for ODT1.
 
       - name: ODT0_MASK
         bits: 7..6
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for ODT0.
 
       - name: CS1_N_MASK
         bits: 5..4
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CS1_N.
 
       - name: CS0_N_MASK
         bits: 3..2
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CS0_N.
 
       - name: CKE_MASK
         bits: 1..0
         access: R/W
-        reset: --
+        reset: 0x0
         typical: --
         description: Mask for CKE*.
 

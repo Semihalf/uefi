@@ -650,7 +650,7 @@ registers:
     address: 0x1180080800000
     bus: RSL
     description: |
-      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB/2.
+      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
 
       (1b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
 
@@ -727,20 +727,20 @@ registers:
         description: Disable conditional clocking in L2C PNR blocks
 
       - name: --
-        bits: 23..21
+        bits: 23..19
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MAXLFB
-        bits: 20..16
+        bits: 18..16
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
           Maximum VABs/LFBs in use at once.
-          (0 means 32, but only 16 exist in 70xx) FIXME soon to be only 8
+          (0 means 8, 1-7 as expected)
 
       - name: RSP_ARB_MODE
         bits: 15
@@ -799,8 +799,15 @@ registers:
           // to final fbf read
           ef_cnt = ef_cnt - 9;
 
+      - name: --
+        bits: 5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: VBF_THRESH
-        bits: 5..2
+        bits: 4..2
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -1312,14 +1319,14 @@ registers:
     description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MASK
-        bits: 7..0
+        bits: 3..0
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -1333,14 +1340,14 @@ registers:
     description: (1) The read value of MASK will include bits set because of the L2C cripple fuses.
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MASK
-        bits: 7..0
+        bits: 3..0
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -2081,7 +2088,7 @@ registers:
       (2) The syndrome is recorded for DBE errors, though the utility of the value is not clear.
 
       (3) A NOWAY error does not change the value of the SYN field, and leaves WAY unpredictable.
-      L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
+      L2IDX[16:7] is the L2 block index associated with the command which had no way to allocate.
     fields:
       - name: TAGDBE
         bits: 63
@@ -2119,14 +2126,14 @@ registers:
         description: Syndrome for the single-bit error
 
       - name: --
-        bits: 31..21
+        bits: 31..19
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: WAY
-        bits: 20..17
+        bits: 18..17
         access: RO/H
         reset: 0x0
         typical: --
@@ -2218,7 +2225,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: BIST failure status for RTG ways 0-15
+        description: Always zero for 70xx.
 
       - name: --
         bits: 31..18
@@ -2410,7 +2417,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: BIST failure status for VBF0-1
+        description: BIST failure status for VBF0-1. For 70xx, VBFFL[1] will always be 0.
 
 
   - name: L2C_CBC(0..0)_INT

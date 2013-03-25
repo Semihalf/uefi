@@ -1676,12 +1676,12 @@ registers:
         typical: 0
         description: BIST Status for P2N Port0 C0
 
-      - name: P2N0_C1
+      - name: --
         bits: 17
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for P2N Port0 C1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: P2N0_N
         bits: 16
@@ -1697,12 +1697,12 @@ registers:
         typical: 0
         description: BIST Status for P2N Port0 P0
 
-      - name: P2N0_P1
+      - name: --
         bits: 14
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for P2N Port0 P1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: P2N1_C0
         bits: 13
@@ -1711,12 +1711,12 @@ registers:
         typical: 0
         description: BIST Status for P2N Port1 C0
 
-      - name: P2N1_C1
+      - name: --
         bits: 12
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for P2N Port1 C1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: P2N1_N
         bits: 11
@@ -1732,12 +1732,12 @@ registers:
         typical: 0
         description: BIST Status for P2N Port1 P0
 
-      - name: P2N1_P1
+      - name: --
         bits: 9
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for P2N Port1 P1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: --
         bits: 8

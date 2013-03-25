@@ -1825,7 +1825,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Address.
+        description: |
+          Address<39:7>.
 
 
   - name: FPA_POOL(0..7)_END_ADDR
@@ -1847,7 +1848,8 @@ registers:
         access: R/W
         reset: 0x1ffffffff
         typical: --
-        description: Address.
+        description: |
+          Address<39:7>.
 
 
   - name: FPA_ADDR_RANGE_ERROR

@@ -2199,7 +2199,7 @@ registers:
         typical: 0x0
         description: |
           "BIST Results.
-          HW sets a bit in BIST for memory that fails
+          HW sets a bit in BIST for memory that fails. INTERNAL:
           0: bgx#.rxb.infif_gmp
           1: bgx#.rxb.infif_smu
           2: bgx#.rxb.fif_bnk00

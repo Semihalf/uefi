@@ -1247,6 +1247,33 @@ registers:
           Timer disabled when LEN==0
 
 
+  - name: CIU_TIM_MULTI_CAST
+    address: 0x10700000004F0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          General Timer Interrupt Mutli-Cast mode:
+          0: Timer interrupt is common for all PP/IRQs.
+          1: Timer interrupts are set at the same time for
+          all PP/IRQs, but interrupt clearings can/need
+          to be done Individually based on per cnMIPS core.
+          Timer interrupts for IOs (@=32,33) will always use
+          common interrupts. Clear any of the I/O interrupts
+          will clear the common interrupt.
+
+
   - name: CIU_WDOG(0..3)
     address: 0x1070000000500 + a*0x8
     bus: NCB
@@ -2406,15 +2433,15 @@ registers:
           Selects GPIO output. When [TX_OE] is set, selects
           what output data is driven.
           0x0 : TX Normal GPIO output, controlled by GPIO_TX.
-          0x1 : PTP_CKOU, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
+          0x1 : PTP_CKOUT, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
           0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
-          0x3+a  :  CLK_SYNCE(0..1) CLK_QLM(a);
-          see GPIO_CLK_QLM.
+          0x3+a  :  CLK_SYNCE(0..1)
+          see GPIO_CLK_SYNCE.
           0x5-0x7: Reserved.
           0x8    : LMC_ECC(0)  LMC ECC error detected;
           0x9-0xb: Reserved.
           0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
-          0x10+a : CLK(0..3), GPIO clock generator;
+          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator;
           See GPIO_CLK_GEN.
           0x14   : USBH_VBUS_CTRL  USBH Vbus control;
           0x15   : SATA port0 cold presence power-on device.
@@ -2694,7 +2721,7 @@ registers:
           N  should be <= 2^31-1.
 
 
-  - name: GPIO_CLK_QLM(0..1)
+  - name: GPIO_CLK_SYNCE(0..1)
     address: 0x10700000008E0 + a*0x8
     bus: NCB
     fields:
@@ -2705,15 +2732,15 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: QLM_SEL
+      - name: DLM_SEL
         bits: 9..8
         access: R/W
         reset: 0x1
         typical: 0x1
         description: |
-          Selects which QLM to select from
-          01 = select QLM0 as clock source
-          1x = select QLM2 as clock source
+          Selects which DLM to select from
+          01 = select DLM0 as clock source
+          1x = select DLM2 as clock source
           0  = Disabled
 
       - name: --
@@ -2739,10 +2766,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Selects which RX lane clock from QLMx to use as
-          the GPIO internal QLMx clock.  The GPIO block can
+          Selects which RX lane clock from DLMx to use as
+          the GPIO internal DLMx clock.  The GPIO block can
           support upto two unique clocks to send out any
-          GPIO pin as configured by $GPIO_BIT_CFG[SYNCE_SEL]
+          GPIO pin as configured by
+          $GPIO_BIT_CFG/$GPIO_XBIT_CFG[OUTPUT_SEL]
           The clock can either be a divided by 2 or divide
           by 4 of the selected RX lane clock.
 
@@ -2767,15 +2795,15 @@ registers:
           Selects GPIO output. When [TX_OE] is set, selects
           what output data is driven.
           0x0 : TX Normal GPIO output, controlled by GPIO_TX.
-          0x1 : PTP_CKOU, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
+          0x1 : PTP_CKOUT, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
           0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
-          0x3+a  :  CLK_SYNCE(0..1) CLK_QLM(a);
-          see GPIO_CLK_QLM.
+          0x3+a  :  CLK_SYNCE(0..1)
+          see GPIO_CLK_SYNCE.
           0x5-0x7: Reserved.
           0x8    : LMC_ECC(0)  LMC ECC error detected;
           0x9-0xb: Reserved.
           0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
-          0x10+a : CLK(0..3), GPIO clock generator;
+          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator;
           See GPIO_CLK_GEN.
           0x14   : USBH_VBUS_CTRL  USBH Vbus control;
           0x15   : SATA port0 cold presence power-on device.
@@ -7305,11 +7333,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: OCLA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: OCLA interrupt summary
 
       - name: SATA
         bits: 16
@@ -7355,11 +7390,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: OCLA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: OCLA interrupt summary
 
       - name: SATA
         bits: 16
@@ -7405,11 +7447,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: OCLA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: OCLA interrupt summary
 
       - name: SATA
         bits: 16
@@ -7455,11 +7504,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: OCLA
+        bits: 17
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: OCLA interrupt summary
 
       - name: SATA
         bits: 16
@@ -7511,19 +7567,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt enable
+        description: OCLA interrupt enable
 
-      - name: RST
+      - name: SATA
         bits: 16
         access: R/W/H
         reset: 0
         typical: 0
-        description: RST interrupt enable
+        description: SATA_UNTL interrupt enable
 
       - name: --
         bits: 15..10
@@ -7558,19 +7614,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt enable
+        description: OCLA interrupt enable
 
-      - name: RST
+      - name: SATA
         bits: 16
         access: R/W/H
         reset: 0
         typical: 0
-        description: RST interrupt enable
+        description: SATA_UNTL interrupt enable
 
       - name: --
         bits: 15..10
@@ -7605,19 +7661,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt enable
+        description: OCLA interrupt enable
 
-      - name: RST
+      - name: SATA
         bits: 16
         access: R/W/H
         reset: 0
         typical: 0
-        description: RST interrupt enable
+        description: SATA_UNTL interrupt enable
 
       - name: --
         bits: 15..10
@@ -7652,19 +7708,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt enable
+        description: OCLA interrupt enable
 
-      - name: RST
+      - name: SATA
         bits: 16
         access: R/W/H
         reset: 0
         typical: 0
-        description: RST interrupt enable
+        description: SATA_UNTL interrupt enable
 
       - name: --
         bits: 15..10
@@ -7699,19 +7755,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1S/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1S/H
         reset: 0
         typical: 0
         description: Write 1 to set SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -7746,19 +7802,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1S/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1S/H
         reset: 0
         typical: 0
         description: Write 1 to set SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -7793,19 +7849,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1S/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1S/H
         reset: 0
         typical: 0
         description: Write 1 to set SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -7840,19 +7896,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1S/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1S/H
         reset: 0
         typical: 0
         description: Write 1 to set SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -7876,33 +7932,6 @@ registers:
         description: Reserved.
 
 
-  - name: CIU_TIM_MULTI_CAST
-    address: 0x107000000C200
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          General Timer Interrupt Mutli-Cast mode:
-          0: Timer interrupt is common for all PP/IRQs.
-          1: Timer interrupts are set at the same time for
-          all PP/IRQs, but interrupt clearings can/need
-          to be done Individually based on per cnMIPS core.
-          Timer interrupts for IOs (@=32,33) will always use
-          common interrupts. Clear any of the I/O interrupts
-          will clear the common interrupt.
-
-
   - name: CIU_EN2_PP(0..3)_IP2_W1C
     address: 0x107000000C800 + a*0x8
     bus: NCB
@@ -7914,19 +7943,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Write 1 to clear SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -7961,19 +7990,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Write 1 to clear SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -8008,19 +8037,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Write 1 to clear SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -8055,19 +8084,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SATA
+      - name: OCLA
         bits: 17
-        access: RO/H
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear OCLA interrupt enable
+
+      - name: SATA
+        bits: 16
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Write 1 to clear SATA_UCTL interrupt enable
-
-      - name: RST
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RST interrupt enable
 
       - name: --
         bits: 15..10
@@ -8209,6 +8238,30 @@ registers:
         reset: 0x0
         typical: 0x0
         description: USBDRD UCTL interrupt Enable bits
+
+
+  - name: CIU_CIB_OCLA(0)_RAW
+    address: 0x107000000EA00 + a*0x10
+    bus: NCB
+    fields:
+      - name: RAW
+        bits: 63..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: OCLA interrupt RAW bits
+
+
+  - name: CIU_CIB_OCLA(0)_EN
+    address: 0x107000000EB00 + a*0x10
+    bus: NCB
+    fields:
+      - name: EN
+        bits: 63..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: OCLA interrupt Enable bits
 
 
   - name: PCM_CLK(0..1)_CFG
@@ -9757,10 +9810,10 @@ registers:
     bus: RSL
     description: |
       Reset value is as follows:
-      no pullups,               PCTL=38, NCTL=30 (25 ohm termination)
-      pullup on boot_ad[9],     PCTL=19, NCTL=15 (50 ohm termination)
-      pullup on boot_ad[10],    PCTL=15, NCTL=12 (65 ohm termination)
-      pullups on boot_ad[10:9], PCTL=15, NCTL=12 (65 ohm termination)
+      no pullups,                               PCTL=38, NCTL=30 (25 ohm termination)
+      pullup on boot_cle,                       PCTL=19, NCTL=15 (50 ohm termination)
+      pullup on boot_ale[0],                    PCTL=15, NCTL=12 (65 ohm termination)
+      pullups on both boot_cle and boot_ale[0], PCTL=15, NCTL=12 (65 ohm termination)
     fields:
       - name: --
         bits: 63..12
@@ -9790,19 +9843,11 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..16
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: USER1
-        bits: 31..16
-        access: RO
-        reset: --
-        typical: --
-        description: |
-          BOOT_AD [31:16] latched during power up
 
       - name: ALE
         bits: 15
@@ -9833,12 +9878,13 @@ registers:
         description: |
           Boot Device
           0   = Parallel NOR
-          1   = eMMC/SD
-          2,3 = Reserved
+          1   = Parallel NOR via int bootrom (reserved)
+          2   = eMMC/SD
+          3   = reserved
           4   = SPI Boot 16bit Address
           5   = SPI Boot 24bit Address
-          6   = SPI Boot 32bit Address
-          7   = SPI NAND Boot 32bit Address
+          6   = SPI Boot 32bit Address (reserved)
+          7   = SPI NAND Boot 32bit Address (reserved)
 
       - name: TERM
         bits: 9..8
@@ -9905,7 +9951,7 @@ registers:
 
 
   - name: MIO_NDF_DMA_CFG
-    title: MIO NAND Flash DMA Config Register
+    title: MIO NAND Flash and eMMC Controller DMA Config Register
     address: 0x1180000000168
     bus: RSL
     description: |
@@ -9984,7 +10030,7 @@ registers:
 
 
   - name: MIO_NDF_DMA_INT
-    title: MIO NAND Flash DMA Interrupt Register
+    title: MIO NAND Flash and eMMC Controller DMA Interrupt Register
     address: 0x1180000000170
     bus: RSL
     fields:
@@ -10004,7 +10050,7 @@ registers:
 
 
   - name: MIO_NDF_DMA_INT_EN
-    title: MIO NAND Flash DMA Interrupt Enable Register
+    title: MIO NAND Flash and eMMC Controller DMA Interrupt Enable Register
     address: 0x1180000000178
     bus: RSL
     fields:
@@ -12587,11 +12633,23 @@ registers:
           BOOT_WE_L driven to 1
 
       - name: --
-        bits: 15..4
+        bits: 15..5
         access: ---
         reset: 0x0
         typical: --
         description: Reserved.
+
+      - name: LOCKOUT
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          eMMC Lockout.  Setting this bit keeps the eMMC controller from
+          requesting the boot bus.  This setting will allow NDF
+          even when the BUS_ENA bits have been set.  Care must be taken
+          to only set this bit when both the eMMC controller and the
+          shared NDF DMA engine are idle.
 
       - name: BUS_ENA
         bits: 3..0

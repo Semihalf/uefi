@@ -5,8 +5,11 @@ import pprint
 from csr import *
 
 RE_ADDRESS_1 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)$")
+RE_ADDRESS_1b = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a$")
 RE_ADDRESS_2a = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)$")
 RE_ADDRESS_2b = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*]([0-9]+)$")
+RE_ADDRESS_2c = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)$")
+RE_ADDRESS_2d = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[ ]*[+][ ]*b$")
 RE_ADDRESS_3 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)$")
 RE_ADDRESS_4 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)[ ]*[|][ ]*b<<([0-9]+)$")
 RE_ADDRESS_5 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*c[*]([0-9]+)$")
@@ -58,12 +61,21 @@ def parseAddress(addressStr):
     match = RE_ADDRESS_1.match(addressStr)
     if match:
         return [long(match.group(1), 0), long(match.group(2), 0)]
+    match = RE_ADDRESS_1b.match(addressStr)
+    if match:
+        return [long(match.group(1), 0), 0L]
     match = RE_ADDRESS_2a.match(addressStr)
     if match:
         return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0)]
     match = RE_ADDRESS_2b.match(addressStr)
     if match:
         return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0)]
+    match = RE_ADDRESS_2c.match(addressStr)
+    if match:
+        return [long(match.group(1), 0), 0L, long(match.group(2), 0)]
+    match = RE_ADDRESS_2d.match(addressStr)
+    if match:
+        return [long(match.group(1), 0), 0L, 0L]
     match = RE_ADDRESS_3.match(addressStr)
     if match:
         return [long(match.group(1), 0), 1<<long(match.group(2), 0)]

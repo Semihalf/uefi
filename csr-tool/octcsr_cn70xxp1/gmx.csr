@@ -58,11 +58,18 @@ registers:
       (D) In XAUI mode prt0 is used for interrupt logging.
     fields:
       - name: --
-        bits: 63..29
+        bits: 63..30
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: WOL
+        bits: 29
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: A Wake-on-LAN event has occurred
 
       - name: HG2CC
         bits: 28
@@ -306,11 +313,18 @@ registers:
     internal: In XAUI mode prt0 is used for checking.
     fields:
       - name: --
-        bits: 63..29
+        bits: 63..30
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: WOL
+        bits: 29
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: A Wake-on-LAN event has occurred
 
       - name: HG2CC
         bits: 28
@@ -3688,6 +3702,60 @@ registers:
           specification.
           (does not obey 6.25GHz SERDES disparity)
           (RXAUI mode only)
+
+
+  - name: GMX(0..1)_WOL_CTL
+    address: 0x1180008000780 + a*0x8000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 47..36
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAGIC_EN
+        bits: 35..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Port enable for magic pkt WOL event detection.
+
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DIRECT_EN
+        bits: 19..16
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Port enable for directed pkt WOL event detection.
+
+      - name: --
+        bits: 15..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Enter WOL mode.
 
 
   - name: GMX(0..1)_TB_REG

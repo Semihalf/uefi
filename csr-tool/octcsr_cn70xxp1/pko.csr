@@ -205,7 +205,7 @@ registers:
         access: R/W
         reset: 0x4
         typical: 0x4
-        description: Reserved.
+        description: Maximum number of inflight packets for engine10
 
       - name: ENGINE9
         bits: 39..36
@@ -297,7 +297,7 @@ registers:
         description: |
           Mask[n]=0 disables packet send threshold for engine n
           Mask[n]=1 enables  packet send threshold for engine n  $PR       NS
-          Bits <13:10> are unused
+          Bits <13:11> are unused
 
 
   - name: PKO_REG_TIMESTAMP
@@ -326,91 +326,91 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..35
+        bits: 63..30
         access: ---
         reset: --
         typical: --
         description: RESERVED
 
       - name: CSR
-        bits: 34
+        bits: 29
         access: RO
         reset: X
         typical: 0
         description: BiST result of CSR      memories (0=pass, !0=fail)
 
       - name: IOB
-        bits: 33
+        bits: 28
         access: RO
         reset: X
         typical: 0
         description: BiST result of IOB      memories (0=pass, !0=fail)
 
       - name: OUT_DAT
-        bits: 32
+        bits: 27
         access: RO
         reset: X
         typical: 0
         description: BiST result of OUT_DAT  memories (0=pass, !0=fail)
 
       - name: OUT_CTL
-        bits: 31..29
+        bits: 26
         access: RO
         reset: X
-        typical: 0x0
+        typical: 0
         description: BiST result of OUT_CTL  memories (0=pass, !0=fail)
 
       - name: OUT_STA
-        bits: 28
+        bits: 25
         access: RO
         reset: X
         typical: 0
         description: BiST result of OUT_STA  memories (0=pass, !0=fail)
 
       - name: OUT_WIF
-        bits: 27
+        bits: 24
         access: RO
         reset: X
         typical: 0
         description: BiST result of OUT_WIF  memories (0=pass, !0=fail)
 
       - name: PRT_CHK
-        bits: 26..24
+        bits: 23..21
         access: RO
         reset: X
         typical: 0x0
         description: BiST result of PRT_CHK  memories (0=pass, !0=fail)
 
       - name: PRT_NXT
-        bits: 23
+        bits: 20
         access: RO
         reset: X
         typical: 0
         description: BiST result of PRT_NXT  memories (0=pass, !0=fail)
 
       - name: PRT_PSB
-        bits: 22..15
+        bits: 19..12
         access: RO
         reset: X
         typical: 0x0
         description: BiST result of PRT_PSB  memories (0=pass, !0=fail)
 
       - name: NCB_INB
-        bits: 14..13
+        bits: 11
         access: RO
         reset: X
-        typical: 0x0
+        typical: 0
         description: BiST result of NCB_INB  memories (0=pass, !0=fail)
 
       - name: PRT_QCB
-        bits: 12..11
+        bits: 10
         access: RO
         reset: X
-        typical: 0x0
+        typical: 0
         description: BiST result of PRT_QCB  memories (0=pass, !0=fail)
 
       - name: PRT_QSB
-        bits: 10..8
+        bits: 9..8
         access: RO
         reset: X
         typical: 0x0
@@ -791,7 +791,7 @@ registers:
         typical: 0x0
         description: |
           Engine ID to which this port is mapped
-          Legal EIDs: 0-9, 15 (15 only if port not used)
+          Legal EIDs: 0-10, 15 (15 only if port not used)
 
       - name: PID
         bits: 5..0

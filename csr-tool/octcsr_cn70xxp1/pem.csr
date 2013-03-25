@@ -1696,33 +1696,26 @@ registers:
        The input strapping pins"
     fields:
       - name: --
-        bits: 63..5
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PILANESWAP
-        bits: 4
+        bits: 3
         access: RO/H
         reset: --
         typical: --
         description: The value of the pi_select_laneswap pin
 
-      - name: PILANES
-        bits: 3..2
-        access: RO/H
-        reset: --
-        typical: --
-        description: The value of the pi_select_lane_cfg pins
-
       - name: PIMODE
-        bits: 1..0
+        bits: 2..0
         access: RO/H
         reset: X
         typical: --
         description: |
-          The value of the pi_select_mode[1:0] pins
+          The value of the pi_select_mode[2:0] pins
 
 
   - name: PEM(0..2)_CFG
@@ -1732,14 +1725,14 @@ registers:
     description: Configuration of the PCIe Application
     fields:
       - name: --
-        bits: 63..5
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: LANESWAP
-        bits: 4
+        bits: 3
         access: R/W/H
         reset: --
         typical: --
@@ -1747,28 +1740,22 @@ registers:
           When set, lane swapping is performed to/from the SerDes.
           When clear, no lane swapping is performed.
 
-      - name: LANES
-        bits: 3..2
-        access: R/W/H
-        reset: --
-        typical: --
-        description: |
-          The number of lanes the PEM is configured for:
-            00 - 2 lanes
-            01 - 1 lane
-            10 - 4 lanes
-
       - name: MD
-        bits: 1..0
+        bits: 2..0
         access: R/W/H
         reset: --
         typical: --
         description: |
-          When the msb is set, the PEM is configured to be a Root Complex.
-          When the msb is not set, the PEM is configured to be an End Point:
-            00 - EP Mode, Gen1 Speed
-            01 - EP Mode, Gen2 Speed
-            10 - RC Mode
+          When the two lsbs are set, the PEM is configured to be a Root Complex.
+          When both lsbs are not set, the PEM is configured to be an End Point:
+            000 - EP Mode, Gen2 Speed, 2-lanes
+            001 - EP Mode, Gen2 Speed, 1-lane
+            010 - EP Mode, Gen2 Speed, 4-lanes
+            011 - RC Mode, Gen2 Speed
+            100 - EP Mode, Gen1 Speed, 2-lanes
+            101 - EP Mode, Gen1 Speed, 1-lane
+            110 - EP Mode, Gen1 Speed, 4-lanes
+            111 - RC Mode, Gen1 Speed
 
 
   - name: PEM(0..2)_ON

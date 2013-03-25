@@ -1059,7 +1059,7 @@ registers:
     description: |
       Values for PLA-AND plane. AND(0..31) represents the 32 allowed AND terms. I(0..1) for I=0
       indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
-      disabled by setting the same bit in both _I(0) and _I(1), as '(A & !A)' is always false.
+      disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
     fields:
       - name: --
         bits: 63..15

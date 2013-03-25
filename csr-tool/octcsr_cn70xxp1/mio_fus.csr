@@ -545,11 +545,45 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..22
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: FLIP_SYND
+        bits: 21..20
+        access: R/W/H
+        reset: --
+        typical: 0x0
+        description: |
+          INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
+
+      - name: DBE
+        bits: 19
+        access: R/W/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. Write 1 to
+          clear.
+
+      - name: SBE
+        bits: 18
+        access: R/W/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. Write 1 to clear.
+
+      - name: AUTOBLOW
+        bits: 17
+        access: R/W/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+          blown.
 
       - name: TOO_MANY
         bits: 16
@@ -731,7 +765,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: RCLK (core clock) PLL status information
+        description: Core clock PLL status information.
 
       - name: --
         bits: 11
@@ -745,7 +779,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: SCLK (pnr clock) PLL status information
+        description: PNR clock PLL status information.
 
       - name: C_COUT_RST
         bits: 7

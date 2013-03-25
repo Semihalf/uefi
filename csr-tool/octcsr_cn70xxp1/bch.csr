@@ -9,11 +9,34 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..23
         access: ---
         reset: 0x0
         typical: 0x0
         description: Reserved.
+
+      - name: FREE_ENA
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable freeing of command buffers.
+
+      - name: EARLY_TERM
+        bits: 21..18
+        access: R/W
+        reset: 0x5
+        typical: 0x5
+        description: |
+          Threshold of zero delta interations before declaring early termination.
+          0 will force all iterations to run.  Diagnostic only.
+
+      - name: ONE_CMD
+        bits: 17
+        access: ---
+        reset: 0
+        typical: 0
+        description: Execute a single operation at a time.  Diagnostic only.
 
       - name: ERASE_DISABLE
         bits: 16
