@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-static bdk_cmd_queue_state_t dma_queue[8];
+static bdk_cmd_queue_state_t dma_queue[BDK_NUMA_MAX_NODES][8];
 
 /**
  * Return the number of DMA engimes supported by this chip
@@ -24,7 +24,7 @@ int bdk_dma_engine_initialize(bdk_node_t node)
     for (engine=0; engine < bdk_dma_engine_get_num(node); engine++)
     {
         bdk_cmd_queue_result_t result;
-        result = bdk_cmd_queue_initialize(node, dma_queue + engine);
+        result = bdk_cmd_queue_initialize(node, dma_queue[node] + engine);
         if (result != BDK_CMD_QUEUE_SUCCESS)
             return -1;
 
@@ -33,7 +33,7 @@ int bdk_dma_engine_initialize(bdk_node_t node)
         dpi_dmax_ibuff_saddr.s.csize = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/8;
         /* Due to a conflict with the "idle" field on cn78xx, the saddr below
             uses the cn78xx specific field, but this works on all chips */
-        dpi_dmax_ibuff_saddr.cn78xx.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue + engine)) >> 7;
+        dpi_dmax_ibuff_saddr.cn78xx.saddr = bdk_ptr_to_phys(bdk_cmd_queue_buffer(dma_queue[node] + engine)) >> 7;
         BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), dpi_dmax_ibuff_saddr.u64);
     }
 
@@ -88,7 +88,7 @@ int bdk_dma_engine_shutdown(bdk_node_t node)
 
     for (int engine=0; engine < bdk_dma_engine_get_num(node); engine++)
     {
-        bdk_cmd_queue_shutdown(dma_queue + engine);
+        bdk_cmd_queue_shutdown(dma_queue[node] + engine);
         BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
     }
 
@@ -124,8 +124,8 @@ int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t h
         ring the doorbell for the DMA engines. This prevents doorbells from
         possibly arriving out of order with respect to the command queue
         entries */
-    __bdk_cmd_queue_lock(dma_queue + engine);
-    result = bdk_cmd_queue_write(dma_queue + engine, 0, cmd_count, cmds);
+    __bdk_cmd_queue_lock(dma_queue[node] + engine);
+    result = bdk_cmd_queue_write(dma_queue[node] + engine, 0, cmd_count, cmds);
     /* This SYNCW is needed since the command queue didn't do locking, which
         normally implies the SYNCW. This one makes sure the command queue
         updates make it to L2 before we ring the doorbell */
@@ -135,7 +135,7 @@ int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t h
         BDK_CSR_WRITE(node, BDK_DPI_DMAX_DBELL(engine), cmd_count);
 
     /* Here is the unlock for the above errata workaround */
-    __bdk_cmd_queue_unlock(dma_queue + engine);
+    __bdk_cmd_queue_unlock(dma_queue[node] + engine);
     return result;
 }
 
