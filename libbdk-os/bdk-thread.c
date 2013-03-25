@@ -199,13 +199,19 @@ int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func
 void bdk_thread_destroy(void)
 {
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
-    const int num_cores = bdk_octeon_num_cores(BDK_NODE_LOCAL);
     static int dead_cores = 0;
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
     if (current)
         fflush(NULL);
+
+    int num_cores = 0;
+    for (int node = 0; node<BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_get_running_mask() & (1<<node))
+            num_cores += bdk_octeon_num_cores(BDK_NODE_LOCAL);
+    }
 
     bdk_atomic_add32(&dead_cores, 1);
     while (1)
