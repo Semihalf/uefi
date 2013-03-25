@@ -177,7 +177,7 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
  */
 int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
-    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(BDK_NODE_LOCAL)];
+    bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_id(node)];
     bdk_thread_t *thread = __bdk_thread_create(coremask, func, arg0, arg1, stack_size);
     if (thread == NULL)
         return -1;
