@@ -614,8 +614,8 @@ function TrafficGen.new()
             -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
             if octeon.is_model(octeon.CN78XX) then
                 printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                    octeon.csr.FPA_POOLX_AVAILABLE(0).read(),
-                    octeon.csr.FPA_POOLX_AVAILABLE(1).read(),
+                    0,
+                    0,
                     collectgarbage("count"),
                     octeon.c.get_sbrk() / 1024,
                     ERASE_EOL);
