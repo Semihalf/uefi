@@ -1,9 +1,9 @@
 #include <bdk.h>
 #include <malloc.h>
 
-bdk_fpa_ops_t __bdk_fpa_ops;
-static int __bdk_fpa_init_done = 0;
-static bdk_spinlock_t fpa_lock;
+bdk_fpa_ops_t __bdk_fpa_ops;        /* Assume all nodes use same FPA ops */
+static int __bdk_fpa_init_done = 0; /* Bitmask of Nodes that have done init */
+static bdk_spinlock_t fpa_lock;     /* Protects __bdk_fpa_init_done */
 
 /**
  * Global FPA initialization
@@ -17,15 +17,15 @@ static int __bdk_fpa_init(bdk_node_t node)
     int result;
 
     bdk_spinlock_lock(&fpa_lock);
-    if (!__bdk_fpa_init_done)
+    if (!(__bdk_fpa_init_done & (1<<node)))
     {
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             __bdk_fpa_ops = __bdk_fpa_ops_cn78xx;
         else
             __bdk_fpa_ops = __bdk_fpa_ops_cn6xxx;
-        //bdk_dprintf("FPA: Performing global init\n");
-        result = __bdk_fpa_ops.init(bdk_numa_id(node));
-        __bdk_fpa_init_done = 1;
+        //bdk_dprintf("FPA: Performing global init node %d\n", node);
+        result = __bdk_fpa_ops.init(node);
+        __bdk_fpa_init_done |= 1<<node;
     }
     else
         result = 0;
@@ -46,7 +46,7 @@ static int __bdk_fpa_init(bdk_node_t node)
 int bdk_fpa_fill_pool(bdk_node_t node, int pool, int num_blocks)
 {
     node = bdk_numa_id(node);
-    if (!__bdk_fpa_init_done)
+    if (!(__bdk_fpa_init_done & (1<<node)))
     {
         int result = __bdk_fpa_init(node);
         if (result)
