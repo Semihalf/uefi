@@ -1,5 +1,13 @@
 #include <bdk.h>
 
+typedef struct
+{
+    int set_bits;
+    int ways;
+} l2_node_state_t;
+
+static l2_node_state_t l2_node_state[BDK_NUMA_MAX_NODES];
+
 /**
  * Perform one time initialization of L2 for improved
  * performance. This can be called after L2 is in use.
@@ -177,25 +185,26 @@ int bdk_l2c_get_cache_size_bytes(bdk_node_t node)
  */
 int bdk_l2c_get_set_bits(bdk_node_t node)
 {
-    static int l2_set_bits = -1;
-
-    if (l2_set_bits != -1)
-        return l2_set_bits;
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        l2_set_bits =  11; /* 2048 sets */
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        l2_set_bits =  9; /* 512 sets */
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        l2_set_bits =  13; /* 8192 sets */
-    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        l2_set_bits =  13; /* FIXME: Should be 1024 sets */
-    else
+    node = bdk_numa_id(node);
+    if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
-        bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
-        l2_set_bits =  11; /* 2048 sets */
+        int l2_set_bits;
+        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+            l2_set_bits =  11; /* 2048 sets */
+        else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+            l2_set_bits =  9; /* 512 sets */
+        else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            l2_set_bits =  13; /* 8192 sets */
+        else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            l2_set_bits =  13; /* FIXME: Should be 1024 sets */
+        else
+        {
+            bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
+            l2_set_bits =  11; /* 2048 sets */
+        }
+        l2_node_state[node].set_bits = l2_set_bits;
     }
-    return l2_set_bits;
+    return l2_node_state[node].set_bits;
 }
 
 /* Return the number of sets in the L2 Cache */
@@ -207,37 +216,38 @@ int bdk_l2c_get_num_sets(bdk_node_t node)
 /* Return the number of associations in the L2 Cache */
 int bdk_l2c_get_num_assoc(bdk_node_t node)
 {
-    static int l2_assoc = -1;
+    node = bdk_numa_id(node);
+    if (bdk_unlikely(l2_node_state[node].ways == 0))
+    {
+        int l2_assoc;
+        /* Check to see if part of the cache is disabled */
+        BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
+        /* bdk_mio_fus_dat3.s.l2c_crip fuses map as follows
+           <2> will be not used for 63xx
+           <1> disables 1/2 ways
+           <0> disables 1/4 ways
+           They are cumulative, so for 63xx:
+           <1> <0>
+           0 0 16-way 2MB cache
+           0 1 12-way 1.5MB cache
+           1 0 8-way 1MB cache
+           1 1 4-way 512KB cache */
 
-    if (l2_assoc != -1)
-        return l2_assoc;
+        if (mio_fus_dat3.s.l2c_crip == 3)
+            l2_assoc = 4;
+        else if (mio_fus_dat3.s.l2c_crip == 2)
+            l2_assoc = 8;
+        else if (mio_fus_dat3.s.l2c_crip == 1)
+            l2_assoc = 12;
+        else
+            l2_assoc = 16;
 
-    /* Check to see if part of the cache is disabled */
-    BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
-    /* bdk_mio_fus_dat3.s.l2c_crip fuses map as follows
-       <2> will be not used for 63xx
-       <1> disables 1/2 ways
-       <0> disables 1/4 ways
-       They are cumulative, so for 63xx:
-       <1> <0>
-       0 0 16-way 2MB cache
-       0 1 12-way 1.5MB cache
-       1 0 8-way 1MB cache
-       1 1 4-way 512KB cache */
+        /* CN70XX always is 4 way */
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            l2_assoc = 4;
 
-    if (mio_fus_dat3.s.l2c_crip == 3)
-        l2_assoc = 4;
-    else if (mio_fus_dat3.s.l2c_crip == 2)
-        l2_assoc = 8;
-    else if (mio_fus_dat3.s.l2c_crip == 1)
-        l2_assoc = 12;
-    else
-        l2_assoc = 16;
-
-    /* CN70XX always is 4 way */
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        l2_assoc = 4;
-
-    return(l2_assoc);
+        l2_node_state[node].ways = l2_assoc;
+    }
+    return l2_node_state[node].ways;
 }
 
