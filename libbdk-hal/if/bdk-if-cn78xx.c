@@ -5,7 +5,9 @@
 /* PKO uses three scratch dwords, two for commands and one for return status */
 #define BDK_IF_SCR_PKO(dword) (BDK_IF_SCR_LMTDMA + (dword<<3))
 
-const int PKO_QUEUES_PER_CHANNEL = 1;
+static const int PKO_QUEUES_PER_CHANNEL = 1;
+static const int PKO_POOL_BUFFERS = 256;
+static const int MAX_SSO_ENTRIES = 1024;
 
 typedef struct
 {
@@ -195,7 +197,7 @@ static int pki_enable(bdk_node_t node)
  */
 static int pko_global_init(bdk_node_t node)
 {
-    if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, 1024))
+    if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, PKO_POOL_BUFFERS))
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
@@ -511,17 +513,14 @@ static int pko_enable(bdk_node_t node)
  */
 static int sso_init(bdk_node_t node)
 {
-    int grp;
-
     /* Setup an FPA pool to store the SSO queues */
-    const int MAX_SSO_ENTRIES = 4096;
     int num_blocks = 256 + 48 + ((MAX_SSO_ENTRIES+25)/26);
     if (bdk_fpa_fill_pool(node, BDK_FPA_SSO_POOL, num_blocks))
         return -1;
     const int aura = BDK_FPA_SSO_POOL; /* Use 1:1 mapping aura */
 
     /* Initialize the 256 group/qos queues */
-    for (grp=0; grp<256; grp++)
+    for (int grp=0; grp<256; grp++)
     {
         void *buffer = bdk_fpa_alloc(node, aura);
         if (buffer == NULL)

@@ -167,6 +167,10 @@ void __bdk_config_init(void)
         /* L2 is big, so use more buffers */
         num_packet_buffers = 1536;
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        num_packet_buffers = 256;
+    }
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
 
