@@ -18,6 +18,13 @@ typedef enum
     BDK_NODE_3 = 3,
 } bdk_node_t;
 
+/**
+ * Get the hardware ID related to a node
+ *
+ * @param node   Node number of virtual enum
+ *
+ * @return Node ID
+ */
 static inline int bdk_numa_id(bdk_node_t node)
 {
     switch (node)
@@ -42,20 +49,41 @@ static inline int bdk_numa_id(bdk_node_t node)
     }
 }
 
+/**
+ * Get a bitmask of the nodes that exist
+ *
+ * @return bitmask
+ */
 static inline uint64_t bdk_numa_get_exists_mask(void)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        return 0xf; /* FIXME: Detect numa nodes */
-    else
-        return 0x1;
+    extern int __bdk_numa_exists_mask;
+    return __bdk_numa_exists_mask;
 }
 
-
+/**
+ * Get a bitmask of the running nodes
+ *
+ * @return bitmask
+ */
 static inline uint64_t bdk_numa_get_running_mask(void)
 {
-    return bdk_numa_get_exists_mask(); /* FIXME: Detect numa nodes */
+    extern int __bdk_numa_running_mask;
+    return __bdk_numa_running_mask;
 }
 
+/**
+ * Add a node to the exists mask
+ *
+ * @param node   Node to add
+ */
+extern void bdk_numa_set_exists(bdk_node_t node);
+
+/**
+ * Add a node to the running mask
+ *
+ * @param node   Node to add
+ */
+extern void bdk_numa_set_running(bdk_node_t node);
 
 
 

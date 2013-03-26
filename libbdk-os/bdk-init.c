@@ -94,6 +94,7 @@ void __bdk_init(long base_address)
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
     bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_numa_set_running(node);
 
     /* Sync cycle counter */
     uint64_t core_rate = bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000;
