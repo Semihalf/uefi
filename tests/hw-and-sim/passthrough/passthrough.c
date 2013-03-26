@@ -26,7 +26,7 @@ static int packet_receiver(bdk_if_packet_t *packet, void *arg)
 int main()
 {
     printf("Starting all cores\n");
-    bdk_init_cores(0);
+    bdk_init_cores(bdk_numa_local(), 0);
 
     printf("Registering for packets from XAUI interfaces\n");
     for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle != NULL; handle = bdk_if_next_port(handle))
