@@ -8,7 +8,7 @@ else
 	NUMCORES=4
 endif
 
-MAX_CYCLE = $(shell let i=1000000*$(NUMCORES) && echo $$i)
+MAX_CYCLE = $(shell let i=1500000*$(NUMCORES) && echo $$i)
 GREP_BEGIN = $(shell for ((i=0; i<${NUMCORES}; i++)); do echo " && grep \"Core $$i beginning crypto\" test-crypto.log"; done)
 GREP_END = $(shell for ((i=0; i<${NUMCORES}; i++)); do echo " && grep \"PP$$i: stopping due to BREAK instruction\" test-crypto-sim.log"; done)
 
