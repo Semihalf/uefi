@@ -39191,26 +39191,9 @@ local csr_db = {
             range2 = {0,5},
             range2_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_33_63", start = 33, stop = 63},
-                {name = "IGN_CCRED_BP", start = 32, stop = 32},
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "MSK", start = 16, stop = 31},
                 {name = "DIS", start = 0, stop = 15},
-            }
-        },
-        BGXX_CMRX_TX_CTL = {
-            name = "BGX#_CMR#_TX_CTL",
-            type = "RSL",
-            width = 8,
-            address = 0x11800e0000500,
-            range1 = {0,3},
-            range1_inc = 0x100000,
-            range2 = {0,5},
-            range2_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
-                {name = "CORRUPT", start = 2, stop = 2},
-                {name = "XSDEF_EN", start = 1, stop = 1},
-                {name = "XSCOL_EN", start = 0, stop = 0},
             }
         },
         BGXX_CMRX_TX_FIFO_LEN = {
@@ -43238,8 +43221,9 @@ local csr_db = {
             range1 = {0,13},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_1_63", start = 1, stop = 63},
-                {name = "ANA_TEST", start = 0, stop = 0},
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "ANA_DAC_B", start = 5, stop = 11},
+                {name = "ANA_DAC_A", start = 0, stop = 4},
             }
         },
         GSERX_ANA_SEL = {
@@ -43250,8 +43234,8 @@ local csr_db = {
             range1 = {0,13},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_17_63", start = 17, stop = 63},
-                {name = "ANA_SEL", start = 0, stop = 16},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "ANA_SEL", start = 0, stop = 8},
             }
         },
         GSERX_BR_RXX_CTL = {
@@ -46792,7 +46776,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "DQ_CHAR_CHECK_LOCK", start = 52, stop = 52},
                 {name = "DQ_CHAR_CHECK_ENABLE", start = 51, stop = 51},
                 {name = "DQ_CHAR_BIT_SEL", start = 48, stop = 50},
                 {name = "DQ_CHAR_BYTE_SEL", start = 44, stop = 47},
@@ -46808,7 +46793,7 @@ local csr_db = {
             name = "LMC#_CHAR_DQ_ERR_COUNT",
             type = "RSL",
             width = 8,
-            address = 0x1180088000248,
+            address = 0x1180088000040,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47030,7 +47015,7 @@ local csr_db = {
             name = "LMC#_DIMM#_DDR4_PARAMS0",
             type = "RSL",
             width = 8,
-            address = 0x11800880003d0,
+            address = 0x11800880000d0,
             range1 = {0,1},
             range1_inc = 0x8,
             range2 = {0,3},
@@ -47050,7 +47035,7 @@ local csr_db = {
             name = "LMC#_DIMM#_DDR4_PARAMS1",
             type = "RSL",
             width = 8,
-            address = 0x11800880003e0,
+            address = 0x1180088000140,
             range1 = {0,1},
             range1_inc = 0x8,
             range2 = {0,3},
@@ -47185,8 +47170,9 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_12_63", start = 12, stop = 63},
-                {name = "DLCRAM_BIST_STATUS", start = 11, stop = 11},
+                {name = "RESERVED_13_63", start = 13, stop = 63},
+                {name = "DLCRAM_BIST_STATUS", start = 12, stop = 12},
+                {name = "DLCRAM_BIST_DONE", start = 11, stop = 11},
                 {name = "START_BIST", start = 10, stop = 10},
                 {name = "CLEAR_BIST", start = 9, stop = 9},
                 {name = "DRIVE_ENA_BPRCH", start = 8, stop = 8},
@@ -47270,15 +47256,24 @@ local csr_db = {
             range2 = {0,3},
             range2_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_24_63", start = 24, stop = 63},
-                {name = "SWIZ7", start = 21, stop = 23},
-                {name = "SWIZ6", start = 18, stop = 20},
-                {name = "SWIZ5", start = 15, stop = 17},
-                {name = "SWIZ4", start = 12, stop = 14},
-                {name = "SWIZ3", start = 9, stop = 11},
-                {name = "SWIZ2", start = 6, stop = 8},
-                {name = "SWIZ1", start = 3, stop = 5},
-                {name = "SWIZ0", start = 0, stop = 2},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "R1_SWIZ7", start = 53, stop = 55},
+                {name = "R1_SWIZ6", start = 50, stop = 52},
+                {name = "R1_SWIZ5", start = 47, stop = 49},
+                {name = "R1_SWIZ4", start = 44, stop = 46},
+                {name = "R1_SWIZ3", start = 41, stop = 43},
+                {name = "R1_SWIZ2", start = 38, stop = 40},
+                {name = "R1_SWIZ1", start = 35, stop = 37},
+                {name = "R1_SWIZ0", start = 32, stop = 34},
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "R0_SWIZ7", start = 21, stop = 23},
+                {name = "R0_SWIZ6", start = 18, stop = 20},
+                {name = "R0_SWIZ5", start = 15, stop = 17},
+                {name = "R0_SWIZ4", start = 12, stop = 14},
+                {name = "R0_SWIZ3", start = 9, stop = 11},
+                {name = "R0_SWIZ2", start = 6, stop = 8},
+                {name = "R0_SWIZ1", start = 3, stop = 5},
+                {name = "R0_SWIZ0", start = 0, stop = 2},
             }
         },
         LMCX_MODEREG_PARAMS0 = {
@@ -47346,7 +47341,7 @@ local csr_db = {
             name = "LMC#_MODEREG_PARAMS2",
             type = "RSL",
             width = 8,
-            address = 0x1180088000340,
+            address = 0x1180088000050,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47369,7 +47364,7 @@ local csr_db = {
             name = "LMC#_MODEREG_PARAMS3",
             type = "RSL",
             width = 8,
-            address = 0x1180088000348,
+            address = 0x1180088000058,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47402,7 +47397,7 @@ local csr_db = {
             name = "LMC#_MPR_DATA0",
             type = "RSL",
             width = 8,
-            address = 0x1180088000360,
+            address = 0x1180088000070,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47413,7 +47408,7 @@ local csr_db = {
             name = "LMC#_MPR_DATA1",
             type = "RSL",
             width = 8,
-            address = 0x1180088000368,
+            address = 0x1180088000078,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47424,7 +47419,7 @@ local csr_db = {
             name = "LMC#_MPR_DATA2",
             type = "RSL",
             width = 8,
-            address = 0x1180088000370,
+            address = 0x1180088000080,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47436,7 +47431,7 @@ local csr_db = {
             name = "LMC#_MR_MPR_CTL",
             type = "RSL",
             width = 8,
-            address = 0x1180088000358,
+            address = 0x1180088000068,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47663,7 +47658,7 @@ local csr_db = {
             name = "LMC#_SEQ_CTL",
             type = "RSL",
             width = 8,
-            address = 0x1180088000338,
+            address = 0x1180088000048,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -47769,7 +47764,7 @@ local csr_db = {
             name = "LMC#_TIMING_PARAMS2",
             type = "RSL",
             width = 8,
-            address = 0x1180088000350,
+            address = 0x1180088000060,
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
@@ -63923,10 +63918,10 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_58_63", start = 58, stop = 63},
                 {name = "T_FSM", start = 48, stop = 57},
-                {name = "RESERVED_44_47", start = 44, stop = 47},
-                {name = "COEFF_A", start = 32, stop = 43},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "COEFF_B", start = 16, stop = 27},
+                {name = "RESERVED_38_47", start = 38, stop = 47},
+                {name = "COEFF_A", start = 32, stop = 37},
+                {name = "RESERVED_25_31", start = 25, stop = 31},
+                {name = "COEFF_B", start = 16, stop = 24},
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "COEFF_C", start = 0, stop = 11},
             }

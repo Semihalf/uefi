@@ -1009,14 +1009,14 @@ registers:
           Enable TX calendar. When not asserted, the default calendar is used:
           First control word:
           entry 0 = link
-          entry 1 = backpressue ID 0
-          entry 2 = backpressue ID 1
+          entry 1 = backpressure ID 0
+          entry 2 = backpressure ID 1
           ...
-          entry 15 = backpressue ID 14
+          entry 15 = backpressure ID 14
           Second control word:
           entry 16 = link
-          entry 17 = backpressue ID 15
-          entry 18 = backpressue ID 16
+          entry 17 = backpressure ID 15
+          entry 18 = backpressure ID 16
           ...
           This continues until the calendar depth is reached.
           To disable backpressure completely, enable the calendar table
@@ -1473,7 +1473,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          IPD flow control status for backpressue ID 255-0, where a 0 indicates the presence of
+          PKI flow control status for backpressure ID 255-0, where a 0 indicates the presence of
           backpressure (i.e. XOFF) and 1 indicates the absence of backpressure (i.e. XON).
           ILK_TX(0..1)_CHA_XON[0]--Channels 63-0
           ILK_TX(0..1)_CHA_XON[1]--Channels 127-64
@@ -2373,7 +2373,7 @@ registers:
         typical: --
         description: |
           Select source of XON/XOFF for entry (IDX * 8) + 0.
-          0 = PKO backpressue channel
+          0 = PKO backpressure channel
           1 = link
           2 = XOFF
           3 = XON
@@ -2391,7 +2391,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: PKO channel for the calendar table entry. Unused if CTL != 0.
+        description: PKO channel for the calendar table entry. Unused if CTL != 0x0.
 
 
   - name: ILK_RX(0..1)_PKT_CNT(0..255)

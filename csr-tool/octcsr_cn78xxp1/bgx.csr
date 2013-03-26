@@ -2252,10 +2252,10 @@ registers:
                     |   size per LMAC       LMAC ID
           ----------+---------------------------------------------------
           0         |   reserved
-          1         |   88KB                0
-          2         |   44KB                1
-          3         |   22KB                2
-          4         |   22KB                3
+          1         |   64KB                0
+          2         |   32KB                1
+          3         |   16KB                2
+          4         |   8KB                 3
           5-7       |   reserved
           ----------+---------------------------------------------------
           Note: The maximum LMAC ID is determined by the smaller of
@@ -2318,21 +2318,11 @@ registers:
       BGX_CMR_TX_CHANNEL"
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..32
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: IGN_CCRED_BP
-        bits: 32
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          When set, BGX will not throttle the TX machines
-          if the channel credit counters roll over.
-          IGN_BP should be clear in normal operation.
 
       - name: MSK
         bits: 31..16
@@ -2478,52 +2468,6 @@ registers:
           Per channel BP sent to PKO
           0=Channel is available
           1=Channel should be back pressured
-
-
-  - name: BGX(0..5)_CMR(0..3)_TX_CTL
-    address: 0x11800E0000500 + a*0x1000000 + b*0x100000
-    bus: RSL
-    description: BGX_CMR_TX_CTL = TX Control register
-    fields:
-      - name: --
-        bits: 63..3
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CORRUPT
-        bits: 2
-        access: R/W
-        reset: 1
-        typical: 1
-        description: |
-          Packets sent from PKO with the ERR wire asserted will be corrupted by
-          the transmitter if CORRUPT[lmac] is set.
-          Corruption means that BGX will use /E/ to terminate packet, instead of /T/
-          Per lmac error propagation as follows:
-           0=Never corrupt packets
-           1=Corrupt packets with ERR
-
-      - name: XSDEF_EN
-        bits: 1
-        access: R/W
-        reset: 1
-        typical: 1
-        description: |
-          Enables the excessive deferral check for stats
-          and interrupts
-          (SGMII/1000Base-X half-duplex only)
-
-      - name: XSCOL_EN
-        bits: 0
-        access: R/W
-        reset: 1
-        typical: 1
-        description: |
-          Enables the excessive collision check for stats
-          and interrupts
-          (SGMII/1000Base-X half-duplex only)
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT0
@@ -3090,10 +3034,10 @@ registers:
                     |   size per LMAC       LMAC ID
           ----------+---------------------------------------------------
           0         |   reserved
-          1         |   40KB                0
-          2         |   20KB                1
-          3         |   10KB                2
-          4         |   10KB                3
+          1         |   32KB                0
+          2         |   16KB                1
+          3         |   8KB                 2
+          4         |   4KB                 3
           5-7       |   reserved
           ----------+---------------------------------------------------
           Note: The maximum LMAC ID is determined by the smaller of

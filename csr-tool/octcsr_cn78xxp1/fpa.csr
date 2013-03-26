@@ -83,7 +83,9 @@ structs:
         bits: 25..16
         attributes:
           const: "--"
-        description: Aura number.
+        description: |
+          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          node to which the operation is sent.
 
       - name: --
         bits: 34..26
@@ -139,7 +141,9 @@ structs:
         bits: 25..16
         attributes:
           const: "--"
-        description: Aura number
+        description: |
+          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          node to which the operation is sent.
 
       - name: --
         bits: 34..26
@@ -224,7 +228,9 @@ structs:
         bits: 25..16
         attributes:
           const: "--"
-        description: Aura number
+        description: |
+          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          node to which the operation is sent.
 
       - name: --
         bits: 35..26

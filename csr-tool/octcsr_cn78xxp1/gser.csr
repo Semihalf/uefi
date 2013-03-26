@@ -253,7 +253,7 @@ registers:
 
       - name: RST_RDY
         bits: 1
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: |
@@ -263,7 +263,7 @@ registers:
 
       - name: DCOK
         bits: 0
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: |
@@ -807,24 +807,37 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: ANA_TEST
-        bits: 0
+      - name: ANA_DAC_B
+        bits: 11..5
         access: R/W
-        reset: 0
-        typical: 0
+        reset: 0x0
+        typical: 0x0
         description: |
-          Used to control the analog test block.
+          Used to control the B-side DAC input to the analog test block.
           Note that the QLM0 register is tied to the analog
           test block, for non-OCI links.
           Note that the OCI0 register is tied to the analog
           test block, for OCI links.
-          The other QLM GSER_ANA_ATEST registers are unused.
+          The other QLM GSER_ANA_DAC_B registers are unused.
+
+      - name: ANA_DAC_A
+        bits: 4..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Used to control A-side DAC input to the analog test block.
+          Note that the QLM0 register is tied to the analog
+          test block, for non-OCI links.
+          Note that the OCI0 register is tied to the analog
+          test block, for OCI links.
+          The other QLM GSER_ANA_DAC_A registers are unused.
 
 
   - name: GSER(0..13)_ANA_SEL
@@ -833,19 +846,19 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..9
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: ANA_SEL
-        bits: 16..0
+        bits: 8..0
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          Used to control the analog test block.
+          Used to control the adr_global input to the analog test block.
           Note that the QLM0 register is tied to the analog
           test block, for non-OCI links.
           Note that the QLM8 register is tied to the analog
