@@ -129,7 +129,7 @@ void bdk_thread_yield(void)
  */
 static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
-    extern void _gp;
+    extern void _gp();
     bdk_thread_t *thread;
     if (!stack_size)
         stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);

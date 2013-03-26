@@ -7,7 +7,7 @@
 
 static void *find_file(const char *name)
 {
-    extern void _end;
+    extern void _end();
     /* Do a needless address transaltion to force pointer to be a XKPHYS
         address. This is in case the filesystem is larger than my code
         TLB entry */
@@ -29,7 +29,7 @@ static void *find_file(const char *name)
 
 uint64_t bdk_fs_romfs_get_end(void)
 {
-    extern void _end;
+    extern void _end();
     /* Do a needless address transaltion to force pointer to be a XKPHYS
         address. This is in case the filesystem is larger than my code
         TLB entry */
