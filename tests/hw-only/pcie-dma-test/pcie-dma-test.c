@@ -61,11 +61,11 @@ void hex_compare(const char *title1, const char *title2,
     }
 }
 
-static int setup_pcie(int pcie_port)
+static int setup_pcie(bdk_node_t node, int pcie_port)
 {
-    if (bdk_pcie_ep_initialize(pcie_port))
+    if (bdk_pcie_ep_initialize(node, pcie_port))
     {
-        RETURN_ON_FAIL(bdk_pcie_rc_initialize(pcie_port));
+        RETURN_ON_FAIL(bdk_pcie_rc_initialize(node, pcie_port));
     }
     else
     {
@@ -77,15 +77,15 @@ static int setup_pcie(int pcie_port)
         #define BAR0_BASE (BAR1_BASE + BAR1_SIZE)
 
         /* Enable bus master and memory */
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG001(pcie_port), 0x6);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG001(pcie_port), 0x6);
 
         /* Set BAR0 address */
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG004(pcie_port), 0xc | (uint32_t)BAR0_BASE);
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG005(pcie_port),  BAR0_BASE >> 32);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG004(pcie_port), 0xc | (uint32_t)BAR0_BASE);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG005(pcie_port),  BAR0_BASE >> 32);
 
         /* Set BAR1 address */
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG006(pcie_port), 0xc | (uint32_t)BAR1_BASE);
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG007(pcie_port), BAR1_BASE>>32);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG006(pcie_port), 0xc | (uint32_t)BAR1_BASE);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG007(pcie_port), BAR1_BASE>>32);
 #if 0
         int i;
         /* Configure BAR1 to linearly map the first 64MB */
@@ -96,43 +96,43 @@ static int setup_pcie(int pcie_port)
             bar1.s.end_swp = 1;
             bar1.s.addr_v = 1;
             bar1.s.addr_idx = i;
-            BDK_CSR_WRITE(BDK_PEMX_BAR1_INDEXX(i, pcie_port), bar1.u64);
+            BDK_CSR_WRITE(node, BDK_PEMX_BAR1_INDEXX(i, pcie_port), bar1.u64);
         }
 #endif
 
         /* Enable BAR2 */
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG008_MASK(pcie_port), 0x1);
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG008(pcie_port), 0xc);
-        BDK_CSR_READ(BDK_PCIEEPX_CFG008(pcie_port));
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG008_MASK(pcie_port), 0xffffffff & (BAR2_SIZE-1));
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG009_MASK(pcie_port), (BAR2_SIZE-1) >> 32);
-        BDK_CSR_READ(BDK_PCIEEPX_CFG009(pcie_port));
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG008_MASK(pcie_port), 0x1);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG008(pcie_port), 0xc);
+        BDK_CSR_READ(node, BDK_PCIEEPX_CFG008(pcie_port));
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG008_MASK(pcie_port), 0xffffffff & (BAR2_SIZE-1));
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG009_MASK(pcie_port), (BAR2_SIZE-1) >> 32);
+        BDK_CSR_READ(node, BDK_PCIEEPX_CFG009(pcie_port));
 
         bdk_pemx_bar_ctl_t pemx_bar_ctl;
-        pemx_bar_ctl.u64 = BDK_CSR_READ(BDK_PEMX_BAR_CTL(pcie_port));
+        pemx_bar_ctl.u64 = BDK_CSR_READ(node, BDK_PEMX_BAR_CTL(pcie_port));
         pemx_bar_ctl.s.bar2_enb = 1;
         pemx_bar_ctl.s.bar2_cax = 0;
         pemx_bar_ctl.s.bar2_esx = 1;
-        BDK_CSR_WRITE(BDK_PEMX_BAR_CTL(pcie_port), pemx_bar_ctl.u64);
+        BDK_CSR_WRITE(node, BDK_PEMX_BAR_CTL(pcie_port), pemx_bar_ctl.u64);
 
         /* Set BAR2 address */
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG008(pcie_port), 0xc | (uint32_t)BAR2_BASE);
-        BDK_CSR_WRITE(BDK_PCIEEPX_CFG009(pcie_port), BAR2_BASE>>32);
-        BDK_CSR_READ(BDK_PCIEEPX_CFG009(pcie_port));
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG008(pcie_port), 0xc | (uint32_t)BAR2_BASE);
+        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG009(pcie_port), BAR2_BASE>>32);
+        BDK_CSR_READ(node, BDK_PCIEEPX_CFG009(pcie_port));
 
         bdk_dprintf("BAR0 %#08lx  %08lx\n",
-            BDK_CSR_READ(BDK_PCIEEPX_CFG005(pcie_port)),
-            BDK_CSR_READ(BDK_PCIEEPX_CFG004(pcie_port)));
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG005(pcie_port)),
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG004(pcie_port)));
         bdk_dprintf("BAR1 %#08lx  %08lx\n",
-            BDK_CSR_READ(BDK_PCIEEPX_CFG007(pcie_port)),
-            BDK_CSR_READ(BDK_PCIEEPX_CFG006(pcie_port)));
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG007(pcie_port)),
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG006(pcie_port)));
         bdk_dprintf("BAR2 %#08lx  %08lx\n",
-            BDK_CSR_READ(BDK_PCIEEPX_CFG009(pcie_port)),
-            BDK_CSR_READ(BDK_PCIEEPX_CFG008(pcie_port)));
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG009(pcie_port)),
+            BDK_CSR_READ(node, BDK_PCIEEPX_CFG008(pcie_port)));
     }
 
 
-    BDK_CSR_MODIFY(c, BDK_PEMX_BAR_CTL(pcie_port),
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_BAR_CTL(pcie_port),
         c.s.bar2_enb = 1;
         c.s.bar2_cax = 0;
         c.s.bar2_esx = 1);
@@ -155,7 +155,7 @@ static bdk_spinlock_t lock;
 
 static int wait_for_zero(int engine, const char *label, volatile uint8_t *zero_loc)
 {
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_CLOCK_CORE) * 8;
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) * 8;
     //printf("Waiting for DMA %d\n", engine);
     while (*zero_loc)
     {
@@ -169,7 +169,7 @@ static int wait_for_zero(int engine, const char *label, volatile uint8_t *zero_l
     return 0;
 }
 
-static int dma_test(int unused1, void *unused2)
+static int dma_test(bdk_node_t node, void *unused2)
 {
     volatile uint8_t zero_loc[3];
 
@@ -188,7 +188,7 @@ static int dma_test(int unused1, void *unused2)
     uint8_t *dma_in_buffer = dma_external_buffer + PER_BUFFER_SIZE;
     uint64_t zero_base = bdk_ptr_to_phys((void*)&zero_loc);
 
-    int engine = bdk_get_core_num() % bdk_dma_engine_get_num();
+    int engine = bdk_get_core_num() % bdk_dma_engine_get_num(node);
 
     int size;
     int local_align;
@@ -224,7 +224,7 @@ static int dma_test(int unused1, void *unused2)
                 dma_header.s.lport = 0;
                 dma_header.s.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
                 dma_header.s.addr = zero_base + 0;
-                if (bdk_unlikely(bdk_dma_engine_transfer(engine, dma_header,
+                if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                                          bdk_ptr_to_phys(starting_buffer + local_align),
                                          ptr_to_sli(dma_header.s.lport, dma_out_buffer + remote_align), size)))
                 {
@@ -241,7 +241,7 @@ static int dma_test(int unused1, void *unused2)
                 dma_header.s.fport = 0;
                 dma_header.s.lport = 1;
                 dma_header.s.addr = zero_base + 1;
-                if (bdk_unlikely(bdk_dma_engine_transfer(engine, dma_header,
+                if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     ptr_to_sli(dma_header.s.fport, dma_out_buffer + remote_align),
                     ptr_to_sli(dma_header.s.lport, dma_external_buffer + remote_align), size)))
                 {
@@ -258,7 +258,7 @@ static int dma_test(int unused1, void *unused2)
                 dma_header.s.fport = 0;
                 dma_header.s.lport = 1;
                 dma_header.s.addr = zero_base + 2;
-                if (bdk_unlikely(bdk_dma_engine_transfer(engine, dma_header,
+                if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     bdk_ptr_to_phys(dma_in_buffer + local_align),
                     ptr_to_sli(dma_header.s.lport, dma_external_buffer + remote_align), size)))
                 {
@@ -385,30 +385,29 @@ void __bdk_require_depends(void)
 
 int main()
 {
+    bdk_node_t node = bdk_numa_local();
+
     /* Disable reset on loss of link or prst*/
-    BDK_CSR_MODIFY(c, BDK_MIO_RST_CTLX(0),
+    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_CTLX(0),
         c.s.rst_link = 0;
         c.s.rst_chip = 0);
-    BDK_CSR_MODIFY(c, BDK_MIO_RST_CTLX(1),
+    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_CTLX(1),
         c.s.rst_link = 0;
         c.s.rst_chip = 0);
 
-    RETURN_ON_FAIL(bdk_fpa_fill_pool(BDK_FPA_OUTPUT_BUFFER_POOL, 16));
-    RETURN_ON_FAIL(bdk_dma_engine_initialize());
+    RETURN_ON_FAIL(bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, 16));
+    RETURN_ON_FAIL(bdk_dma_engine_initialize(node));
 
-    //bdk_qlm_cn6xxx_force_link(0);
-    //bdk_qlm_cn6xxx_force_link(1);
-
-    RETURN_ON_FAIL(setup_pcie(0));
-    RETURN_ON_FAIL(setup_pcie(1));
+    RETURN_ON_FAIL(setup_pcie(node, 0));
+    RETURN_ON_FAIL(setup_pcie(node, 1));
 
     printf("Setup complete\n");
     printf("Starting all cores\n");
-    bdk_init_cores(0);
-    int num_cores = bdk_octeon_num_cores();
+    bdk_init_cores(node, 0);
+    int num_cores = bdk_octeon_num_cores(node);
     for (int core=0; core<num_cores; core++)
     {
-        if (bdk_thread_create(1ull<<core, (bdk_thread_func_t)dma_test, 0, NULL, 0))
+        if (bdk_thread_create(node, 1ull<<core, (bdk_thread_func_t)dma_test, node, NULL, 0))
             bdk_error("Failed to create thread for core %d\n", core);
     }
 }
