@@ -45,7 +45,7 @@
  * $Id: octeon_debugger_handler.S 24122 2007-04-27 16:27:15Z cchavva $
  *
  */
-#include <asm/regdef.h>
+#include <regdef.h>
 #include "mips-octeon-common.S"
 
 .set noreorder
