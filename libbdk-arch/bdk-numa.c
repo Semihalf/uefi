@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 int __bdk_numa_master_node = -1;    /* Which node is the master */
-int __bdk_numa_exists_mask = 0xf;   /* Bitmask of nodes that exist */
+int __bdk_numa_exists_mask = 0;     /* Bitmask of nodes that exist */
 int __bdk_numa_running_mask = 0;    /* Bitmask of nodes that are running */
 static bdk_spinlock_t __bdk_numa_lock;
 
@@ -49,6 +49,7 @@ void bdk_numa_set_exists(bdk_node_t node)
 void bdk_numa_set_running(bdk_node_t node)
 {
     bdk_spinlock_lock(&__bdk_numa_lock);
+    __bdk_numa_exists_mask |= 1 << node;
     __bdk_numa_running_mask |= 1 << node;
     if (__bdk_numa_master_node == -1)
         __bdk_numa_master_node = node;
