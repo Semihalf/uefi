@@ -42,7 +42,7 @@ m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if octeon.trafficgen then
     m:item("tg",    "Traffic Generator",    menu.dofile, "trafficgen")
 end
-m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon)
+m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon, 0)
 if octeon.global then
     m:item("quit", "Exit menu")
 end
