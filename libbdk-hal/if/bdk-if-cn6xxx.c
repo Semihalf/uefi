@@ -467,7 +467,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
             /* WARNING: This code assume that the packet is not RAW. If it was,
                 we would use PIP_GBL_CFG[RAW_SHF] instead of
                 PIP_GBL_CFG[NIP_SHF] */
-            BDK_CSR_INIT(pip_gbl_cfg, BDK_NODE_LOCAL, BDK_PIP_GBL_CFG);
+            BDK_CSR_INIT(pip_gbl_cfg, bdk_numa_local(), BDK_PIP_GBL_CFG);
             packet->packet.v1.addr += pip_gbl_cfg.s.nip_shf;
         }
     }
@@ -490,7 +490,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         page_cnt.u64 = 0;
         page_cnt.s.port = packet->if_handle->pknd;
         page_cnt.s.page_cnt = (wqe->word2.v1.bufs == 0) ? -1 : -packet->segments-1;
-        BDK_CSR_WRITE(BDK_NODE_LOCAL, BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
     }
     return 0;
 }

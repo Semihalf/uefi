@@ -10,8 +10,6 @@
 #define BDK_NUMA_MAX_NODES 4
 typedef enum
 {
-    BDK_NODE_MASTER = -2,
-    BDK_NODE_LOCAL = -1,
     BDK_NODE_0 = 0,
     BDK_NODE_1 = 1,
     BDK_NODE_2 = 2,
@@ -19,34 +17,30 @@ typedef enum
 } bdk_node_t;
 
 /**
- * Get the hardware ID related to a node
+ * Return the local node number
  *
- * @param node   Node number of virtual enum
- *
- * @return Node ID
+ * @return Node number
  */
-static inline int bdk_numa_id(bdk_node_t node)
+static inline bdk_node_t bdk_numa_local(void)
 {
-    switch (node)
-    {
-        case BDK_NODE_MASTER:
-        {
-            extern int __bdk_numa_master_node;
-            return __bdk_numa_master_node;
-        }
-        case BDK_NODE_LOCAL:
-        {
 #ifndef BDK_BUILD_HOST
-            int core_num;
-            BDK_RDHWRNV(core_num, 0);
-            return BDK_NODE_0 + (core_num >> 7);
+    int core_num;
+    BDK_RDHWRNV(core_num, 0);
+    return BDK_NODE_0 + (core_num >> 7);
 #else
-            return BDK_NODE_0; /* FIXME: choose remote node */
+    return BDK_NODE_0; /* FIXME: choose remote node */
 #endif
-        }
-        default:
-            return node;
-    }
+}
+
+/**
+ * Return the master node number
+ *
+ * @return Node number
+ */
+static inline bdk_node_t bdk_numa_master(void)
+{
+    extern int __bdk_numa_master_node;
+    return __bdk_numa_master_node;
 }
 
 /**
@@ -54,22 +48,14 @@ static inline int bdk_numa_id(bdk_node_t node)
  *
  * @return bitmask
  */
-static inline uint64_t bdk_numa_get_exists_mask(void)
-{
-    extern int __bdk_numa_exists_mask;
-    return __bdk_numa_exists_mask;
-}
+extern uint64_t bdk_numa_get_exists_mask(void);
 
 /**
  * Get a bitmask of the running nodes
  *
  * @return bitmask
  */
-static inline uint64_t bdk_numa_get_running_mask(void)
-{
-    extern int __bdk_numa_running_mask;
-    return __bdk_numa_running_mask;
-}
+extern uint64_t bdk_numa_get_running_mask(void);
 
 /**
  * Add a node to the exists mask

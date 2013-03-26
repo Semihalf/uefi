@@ -185,7 +185,6 @@ int bdk_l2c_get_cache_size_bytes(bdk_node_t node)
  */
 int bdk_l2c_get_set_bits(bdk_node_t node)
 {
-    node = bdk_numa_id(node);
     if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
         int l2_set_bits;
@@ -216,7 +215,6 @@ int bdk_l2c_get_num_sets(bdk_node_t node)
 /* Return the number of associations in the L2 Cache */
 int bdk_l2c_get_num_assoc(bdk_node_t node)
 {
-    node = bdk_numa_id(node);
     if (bdk_unlikely(l2_node_state[node].ways == 0))
     {
         int l2_assoc;

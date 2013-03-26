@@ -14,17 +14,17 @@ uint64_t cvmx_clock_get_rate(int clock)
     switch (clock)
     {
         case 0: // CVMX_CLOCK_RCLK
-            return bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_RCLK);
+            return bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_RCLK);
         case 1: // CVMX_CLOCK_SCLK
-            return bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_SCLK);
+            return bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_SCLK);
         case 2: // CVMX_CLOCK_DDR
             return 0;
         case 3: // CVMX_CLOCK_CORE
-            return bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
+            return bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
         case 4: // CVMX_CLOCK_TIM
-            return bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_TIM);
+            return bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIM);
         case 5: // CVMX_CLOCK_IPD
-            return bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_IPD);
+            return bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_IPD);
     }
     return 0;
 }
@@ -36,17 +36,17 @@ void octeon_delay_cycles(uint64_t cycles)
 
 int cvmx_l2c_get_num_assoc(void)
 {
-    return bdk_l2c_get_num_assoc(BDK_NODE_LOCAL);
+    return bdk_l2c_get_num_assoc(bdk_numa_local());
 }
 
 int cvmx_l2c_set_core_way_partition(uint32_t core, uint32_t mask)
 {
-    return bdk_l2c_set_core_way_partition(BDK_NODE_LOCAL, core, mask);
+    return bdk_l2c_set_core_way_partition(bdk_numa_local(), core, mask);
 }
 
 int cvmx_l2c_set_hw_way_partition(uint32_t mask)
 {
-    return bdk_l2c_set_hw_way_partition(BDK_NODE_LOCAL, mask);
+    return bdk_l2c_set_hw_way_partition(bdk_numa_local(), mask);
 }
 
 int bdk_is_model_wrapper(unsigned int arg_model)

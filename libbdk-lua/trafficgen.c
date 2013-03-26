@@ -181,7 +181,7 @@ static int get_size_payload(const tg_port_t *tg_port)
  */
 static int trafficgen_do_update(bool do_clear)
 {
-    uint64_t clock_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
+    uint64_t clock_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
 
     /* Get the statistics for displayed ports */
     for (tg_port_t *tg_port = tg_port_head; tg_port!=NULL; tg_port = tg_port->next)
@@ -731,7 +731,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         packet_rate = packet_rate * 125000ull / (tg_port->pinfo.setup.size + get_size_wire_overhead(tg_port));
     if (packet_rate == 0)
         packet_rate = 1;
-    uint64_t output_cycle_gap = (bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
+    uint64_t output_cycle_gap = (bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
 
     /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
         as we need software stats that aren't updated in the optimized PKO */

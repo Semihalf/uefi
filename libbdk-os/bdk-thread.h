@@ -45,8 +45,8 @@ static inline uint64_t bdk_core_to_mask(void)
 
 static inline int bdk_is_boot_core(void)
 {
-    int coreid = bdk_get_core_num();
-    return coreid == (bdk_numa_id(BDK_NODE_MASTER) << 7);
+    unsigned int coreid = bdk_get_core_num();
+    return coreid == (bdk_numa_master() << 7);
 }
 
 static inline void *bdk_thread_get_id(void)

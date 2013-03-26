@@ -31,7 +31,7 @@ typedef struct
  */
 static void *remote_open(const char *name, int flags)
 {
-    uint64_t master_offset = (uint64_t)bdk_numa_id(BDK_NODE_MASTER) << 40;
+    uint64_t master_offset = (uint64_t)bdk_numa_master() << 40;
     remote_console_t *remote = bdk_phys_to_ptr(0x500 + master_offset);
     if (remote->magic == REMOTE_MAGIC)
     {

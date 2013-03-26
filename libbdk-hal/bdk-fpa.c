@@ -45,7 +45,6 @@ static int __bdk_fpa_init(bdk_node_t node)
  */
 int bdk_fpa_fill_pool(bdk_node_t node, int pool, int num_blocks)
 {
-    node = bdk_numa_id(node);
     if (!(__bdk_fpa_init_done & (1<<node)))
     {
         int result = __bdk_fpa_init(node);
@@ -70,7 +69,6 @@ int bdk_fpa_fill_pool(bdk_node_t node, int pool, int num_blocks)
 int bdk_fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
 {
     int result = -1;
-    node = bdk_numa_id(node);
     if (__bdk_fpa_ops.init_aura)
         result = __bdk_fpa_ops.init_aura(node, aura, pool, num_blocks);
     //bdk_dprintf("FPA: Init aura %d for pool %d with %d blocks\n", result, pool, num_blocks);

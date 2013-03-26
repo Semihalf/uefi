@@ -7,7 +7,7 @@ static void *uart_open(const char *name, int flags)
         return NULL;
     /* Return the uart number plus one as our internal state */
     long state = id + 1;
-    state += bdk_numa_id(BDK_NODE_LOCAL) << 8;
+    state += bdk_numa_local() << 8;
     return (void*)state;
 }
 

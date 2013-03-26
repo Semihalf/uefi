@@ -39,7 +39,7 @@ typedef enum
 static inline void *bdk_fpa_alloc(bdk_node_t node, int aura)
 {
     extern bdk_fpa_ops_t __bdk_fpa_ops;
-    uint64_t address = __bdk_fpa_ops.alloc(bdk_numa_id(node), aura);
+    uint64_t address = __bdk_fpa_ops.alloc(node, aura);
     if (bdk_likely(address))
         return bdk_phys_to_ptr(address);
     else
@@ -59,7 +59,7 @@ static inline void __bdk_fpa_raw_free(bdk_node_t node, uint64_t address, int aur
 {
     extern bdk_fpa_ops_t __bdk_fpa_ops;
     asm volatile ("" : : : "memory");  /* Prevent GCC from reordering around free */
-    __bdk_fpa_ops.free(bdk_numa_id(node), address, aura, num_cache_lines);
+    __bdk_fpa_ops.free(node, address, aura, num_cache_lines);
 }
 
 /**
@@ -76,7 +76,7 @@ static inline void __bdk_fpa_raw_free(bdk_node_t node, uint64_t address, int aur
 static inline void bdk_fpa_free(bdk_node_t node, void *ptr, bdk_fpa_pool_t pool, int num_cache_lines)
 {
     BDK_SYNCW;
-    __bdk_fpa_raw_free(bdk_numa_id(node), bdk_ptr_to_phys(ptr), pool, num_cache_lines);
+    __bdk_fpa_raw_free(node, bdk_ptr_to_phys(ptr), pool, num_cache_lines);
 }
 
 /**
@@ -92,7 +92,7 @@ static inline void bdk_fpa_free(bdk_node_t node, void *ptr, bdk_fpa_pool_t pool,
 static inline int bdk_fpa_get_block_size(bdk_node_t node, int aura)
 {
     extern bdk_fpa_ops_t __bdk_fpa_ops;
-    return __bdk_fpa_ops.get_block_size(bdk_numa_id(node), aura);
+    return __bdk_fpa_ops.get_block_size(node, aura);
 }
 
 /**

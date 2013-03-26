@@ -15,8 +15,6 @@ int __bdk_is_simulation;
  */
 void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control)
 {
-    /* Convert virtual node ID to physical one  */
-    node = bdk_numa_id(node);
     /* Setup the UART */
     BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
         u.s.dlab = 1; /* Divisor Latch Address bit */
@@ -93,7 +91,7 @@ void __bdk_init(long base_address)
     cvmctl |= 1<<14;    /* Fix unaligned accesses */
     BDK_MT_COP0(cvmctl, COP0_CVMCTL);
 
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     bdk_numa_set_running(node);
 
     /* Sync cycle counter */
@@ -188,9 +186,6 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     extern void __bdk_reset_vector(void);
     extern void __bdk_reset_vector_data(void);
 
-    /* Convert virtual node ID to physical one  */
-    node = bdk_numa_id(node);
-
     /* Install reset vector */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
     int length = (__bdk_reset_vector_data - __bdk_reset_vector)/8;
@@ -205,7 +200,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* We will now be at __bdk_reset_vector_data. Write the jump address
         and KSEGNODE */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, 0xffffffff80002000);
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, bdk_numa_id(BDK_NODE_MASTER));
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, bdk_numa_master());
     /* Now set the address and enable it */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
@@ -237,7 +232,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     }
 
     /* Wait up to 100us for the cores to boot */
-    uint64_t timeout = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
         /* Tight spin */

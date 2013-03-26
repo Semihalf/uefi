@@ -54,7 +54,7 @@ extern "C" {
 #define OCTEON_REMOTE_DEFAULT NULL
 #endif
 
-#define OCTEON_REMOTE_NODE BDK_NODE_LOCAL
+#define OCTEON_REMOTE_NODE bdk_numa_local()
 
 /**
  * - regs[0][0-31] = General purpose registers

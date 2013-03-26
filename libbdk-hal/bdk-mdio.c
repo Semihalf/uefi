@@ -60,7 +60,7 @@ static bdk_smix_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
 {
     bdk_smix_rd_dat_t smi_rd;
     uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)BDK_MDIO_TIMEOUT *
-                       bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;
+                       bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;
     do
     {
         bdk_wait(1000);

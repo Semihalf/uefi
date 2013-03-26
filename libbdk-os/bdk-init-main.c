@@ -57,7 +57,7 @@ static void __bdk_error_poll(int arg, void *arg1)
 {
     while (bdk_error_check)
     {
-        bdk_error_check(BDK_NODE_LOCAL);
+        bdk_error_check(bdk_numa_local());
         bdk_wait_usec(100000);
     }
 }
@@ -71,7 +71,7 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_main(int arg, void *arg1)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     /* All cores start running threads here. Only the setup required to get
         threading up is done. More init is needed. This code will be locked to
         a singel core with threads being spawned for each core */

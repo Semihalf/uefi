@@ -6,7 +6,7 @@
 
 static int l2_perf(lua_State* L)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     /* We cycle through 6 counter sets. 0-3 are each quad, and 4,5 are
         handpicked values */
     static int count_set = 0;
@@ -15,7 +15,7 @@ static int l2_perf(lua_State* L)
     /* This is the time of the last update for each counter */
     static uint64_t last_update_bus[4];
 
-    uint64_t clock_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
+    uint64_t clock_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
     uint64_t current_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
 
     /* All results will be in a table with fields for each TAD */

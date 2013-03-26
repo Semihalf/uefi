@@ -71,7 +71,7 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
-            address |= (uint64_t)bdk_numa_id(node) << 36;
+            address |= (uint64_t)node << 36;
             switch (size)
             {
                 case 1:
@@ -111,7 +111,7 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
-            address |= (uint64_t)bdk_numa_id(node) << 36;
+            address |= (uint64_t)node << 36;
             switch (size)
             {
                 case 1:
@@ -191,7 +191,7 @@ static inline void bdk_send_single(uint64_t data)
     ({int result;                                                       \
     do {                                                                \
         uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)timeout_usec * \
-                        bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;   \
+                        bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;   \
         typedef_##csr c;                                                \
         while (1)                                                       \
         {                                                               \

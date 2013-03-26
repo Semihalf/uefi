@@ -23,7 +23,7 @@ static int show_debug = 0;
  */
 static void print_cmd_status(void)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
     BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
     BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
@@ -70,7 +70,7 @@ static void print_cmd_status(void)
  */
 static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid, uint64_t dbuf, uint64_t rtype_xor, uint64_t ctype_xor, uint64_t offset)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     BDK_CSR_DEFINE(cmd_reg, BDK_MIO_EMM_CMD);
     cmd_reg.u64 = 0;
     cmd_reg.s.bus_id = busid;
@@ -302,7 +302,7 @@ static void print_csd_reg(uint64_t reg_hi, uint64_t reg_lo)
  */
 static void wdog_default()
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     BDK_CSR_INIT(mio_rst_boot, node, BDK_MIO_RST_BOOT);
     BDK_CSR_INIT(mode_reg, node, BDK_MIO_EMM_MODEX(0));
     uint64_t sclk = 50000000ull * mio_rst_boot.s.pnr_mul;
@@ -331,7 +331,7 @@ do {                                                                            
  */
 static int mmc_init(lua_State *L)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     show_debug = lua_toboolean(L, 1);
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
@@ -526,7 +526,7 @@ static int mmc_init(lua_State *L)
  */
 static int mmc_read(lua_State *L)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     /* Check the first parameter, the address to read from */
     uint64_t address = luaL_checklong(L, 1);
     if (address > (1ull<<40))
@@ -587,7 +587,7 @@ static int mmc_read(lua_State *L)
  */
 static int mmc_write(lua_State *L)
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     /* Check the first parameter, the address to write to */
     uint64_t address = luaL_checklong(L, 1);
     if (address > (1ull<<40))

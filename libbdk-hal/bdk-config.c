@@ -147,7 +147,7 @@ void __bdk_config_init(void)
     /* Set the lower MAC address bits based on the chip manufacturing
         information. This should give reasonable MAC address defaults
         for production parts */
-    BDK_CSR_INIT(fus_dat0, BDK_NODE_LOCAL, BDK_MIO_FUS_DAT0);
+    BDK_CSR_INIT(fus_dat0, bdk_numa_local(), BDK_MIO_FUS_DAT0);
     uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
     mac_address |= fus_dat0.u64 & 0xffffff;
     bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
@@ -174,7 +174,7 @@ void __bdk_config_init(void)
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
 
-    if (__bdk_is_dram_enabled(BDK_NODE_LOCAL))
+    if (__bdk_is_dram_enabled(bdk_numa_local()))
     {
         /* Use more packet buffers if DRAM is enabled */
         bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, 2048);

@@ -220,7 +220,7 @@ static int octeon_csr_field_newindex(lua_State* L)
 static int octeon_csr_lookup(lua_State* L)
 {
     const char *name = luaL_checkstring(L, -1);
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
 
     if(bdk_csr_get_name(name, NULL))
         luaL_error(L, "Invalid CSR");

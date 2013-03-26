@@ -8,7 +8,7 @@
  */
 void bdk_wait_usec(uint64_t usec)
 {
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;
     do
     {
         bdk_thread_yield();

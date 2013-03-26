@@ -254,7 +254,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
     start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
     do
     {
-        if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE))
+        if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE))
             return -1;
         bdk_wait(10000);
         pciercx_cfg032.u32 = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));

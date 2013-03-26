@@ -36,7 +36,7 @@ static global_node_state_t global_node_state[BDK_NUMA_MAX_NODES];
  */
 static int pki_global_init(bdk_node_t node)
 {
-    global_node_state_t *node_state = &global_node_state[bdk_numa_id(node)];
+    global_node_state_t *node_state = &global_node_state[node];
     bdk_zero_memory(node_state, sizeof(*node_state));
     node_state->pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
 
@@ -217,7 +217,7 @@ static int pko_global_init(bdk_node_t node)
  */
 int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
 {
-    global_node_state_t *node_state = &global_node_state[bdk_numa_id(node)];
+    global_node_state_t *node_state = &global_node_state[node];
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
     int fifo = 0;
@@ -566,7 +566,7 @@ static int sso_init(bdk_node_t node)
 static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const bdk_wqe_t *wqe = work;
-    const global_node_state_t *node_state = &global_node_state[bdk_numa_id(BDK_NODE_LOCAL)];
+    const global_node_state_t *node_state = &global_node_state[bdk_numa_local()];
 
     const char *tag_type = "illegal";
     switch (wqe->word1.v3.tt)

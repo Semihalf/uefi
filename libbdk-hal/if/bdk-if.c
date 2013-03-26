@@ -48,7 +48,7 @@ static inline void sso_get_work_async(int scr_addr, int wait)
     data.s.scraddr = scr_addr >> 3;
     data.s.len = 1;
     data.s.did = 0x60;
-    data.s.node = bdk_numa_id(BDK_NODE_LOCAL);
+    data.s.node = bdk_numa_local();
     data.s.wait = wait;
     bdk_send_single(data.u64);
 }
@@ -660,7 +660,7 @@ static void bdk_if_dispatch_thread(int unused, void *unused2)
 {
     bdk_if_handle_t link_handle = NULL;
     uint64_t last_poll = 0;
-    const uint64_t poll_rate = bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 16;
+    const uint64_t poll_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 16;
 
     while (1)
     {

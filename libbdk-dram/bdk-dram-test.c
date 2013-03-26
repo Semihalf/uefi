@@ -178,7 +178,7 @@ int bdk_dram_test(bdk_dram_test_t test, uint64_t start_address, uint64_t length)
         case BDK_DRAM_TEST_SEQUENCIAL_WRITE_READ:
             return __bdk_dram_test_sequencial_write_read(start_address, length);
         case BDK_DRAM_TEST_RANDOM_XOR:
-            bdk_rng_enable(BDK_NODE_LOCAL);
+            bdk_rng_enable(bdk_numa_local());
             return __bdk_dram_test_random_xor(start_address, length);
     }
     return -1;

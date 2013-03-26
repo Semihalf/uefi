@@ -167,7 +167,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     /* Clock counted down, so reverse it */
     count = 1000000000 - count;
     /* Return the rate */
-    return count * bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
+    return count * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
 }
 
 

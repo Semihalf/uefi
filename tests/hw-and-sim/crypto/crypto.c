@@ -922,7 +922,7 @@ void __bdk_require_depends(void)
 
 int main()
 {
-    bdk_node_t node = bdk_numa_id(BDK_NODE_LOCAL);
+    bdk_node_t node = bdk_numa_local();
     printf("Starting all cores\n");
     bdk_init_cores(node, 0);
     int num_cores = bdk_octeon_num_cores(node);

@@ -283,8 +283,8 @@ static int __bdk_flash_queury_cfi(bdk_node_t node, int chip_id, uint64_t base_ad
     }
 
     /* Convert the timeouts to cycles */
-    flash->write_timeout *= bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000000;
-    flash->erase_timeout *= bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE) / 1000;
+    flash->write_timeout *= bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;
+    flash->erase_timeout *= bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000;
 
     /* Print the information about the chip */
     bdk_dprintf(
@@ -424,7 +424,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
 
             /* Loop checking status */
             uint8_t status = __bdk_flash_read8(flash, offset);
-            uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
+            uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
             while (status != 0xff)
             {
                 if (bdk_clock_get_count(BDK_CLOCK_CORE) > end_cycle)
@@ -526,7 +526,7 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
                     __bdk_flash_write8(flash, offset, *ptr);
                 }
                 /* Loop polling for status */
-                uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(BDK_NODE_LOCAL, BDK_CLOCK_CORE);
+                uint64_t end_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
                 uint16_t status = ~data;
                 while (status != data)
                 {
