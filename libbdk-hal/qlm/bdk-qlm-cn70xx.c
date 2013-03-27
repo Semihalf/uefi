@@ -71,7 +71,8 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
             switch (last)
             {
                 case BDK_QLM_MODE_DISABLED: return BDK_QLM_MODE_SGMII;
-                case BDK_QLM_MODE_SGMII:    return BDK_QLM_MODE_RXAUI_1x2;
+                case BDK_QLM_MODE_SGMII:    return BDK_QLM_MODE_QSGMII;
+                case BDK_QLM_MODE_QSGMII:   return BDK_QLM_MODE_RXAUI_1x2;
                 default:                    return BDK_QLM_MODE_DISABLED;
             }
             break;
@@ -113,13 +114,17 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     switch (qlm)
     {
         case 0:
-            switch (qlm_cfg.s.qlm_cfg)
+        {
+            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
+            switch (inf_mode.s.mode)
             {
-                case 2: return BDK_QLM_MODE_SGMII;
-                case 3: return BDK_QLM_MODE_RXAUI_1x2;
+                case 0: return BDK_QLM_MODE_SGMII;
+                case 1: return BDK_QLM_MODE_RXAUI_1x2;
+                case 2: return BDK_QLM_MODE_QSGMII;
                 default: return BDK_QLM_MODE_DISABLED;
             }
             break;
+        }
         case 1:
             switch (qlm_cfg.s.qlm_cfg)
             {
