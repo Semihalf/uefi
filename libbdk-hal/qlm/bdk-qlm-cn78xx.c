@@ -25,8 +25,24 @@ static int qlm_get_num(bdk_node_t node)
  */
 static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
-    bdk_fatal("bdk_qlm_get called incorrectly for type=%d, interface=%d\n", iftype, interface);
-    return -1;
+    switch (iftype)
+    {
+        case BDK_IF_ILK:
+            if (interface < 2)
+            {
+                int qlm = 4;
+                if (bdk_is_simulation())
+                    return qlm;
+                if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
+                    return qlm;
+                else
+                    return -1;
+            }
+            else
+                return -1;
+        default:
+            return -1;
+    }
 }
 
 /**
