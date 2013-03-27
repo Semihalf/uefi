@@ -55,14 +55,100 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
     return qlm_ops->get_lanes(node, qlm);
 }
 
+
+/**
+ * Iterate through the supported modes of a QLM. On first call specify
+ * disabled as the last value. It will then return supported modes,
+ * ending the list with disabled.
+ *
+ * @param node   Node to use in a Numa setup
+ * @param qlm    QLM to examine
+ * @param last   Previous value returned, or disabled to start list
+ *
+ * @return Next supported QLM mode
+ */
+bkd_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last)
+{
+    return qlm_ops->get_supported_modes(node, qlm, last);
+}
+
+/**
+ * Convert a mode into a human understandable string
+ *
+ * @param mode   Mode to convert
+ *
+ * @return Easy to read string
+ */
+const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode)
+{
+    const char *result = "Unknown, update bdk_qlm_mode_tostring()";
+    switch (mode)
+    {
+        case BDK_QLM_MODE_DISABLED:
+            result = "Disabled";
+            break;
+        case BDK_QLM_MODE_PCIE_1X1:
+            result = "1 PCIe, 1 lane";
+            break;
+        case BDK_QLM_MODE_PCIE_2X1:
+            result = "2 PCIe, 1 lane each";
+            break;
+        case BDK_QLM_MODE_PCIE_1X2:
+            result = "1 PCIe, 2 lanes";
+            break;
+        case BDK_QLM_MODE_PCIE_1X4:
+            result = "1 PCIe, 4 lanes";
+            break;
+        case BDK_QLM_MODE_PCIE_1X8:
+            result = "1 PCIe, 8 lanes";
+            break;
+        case BDK_QLM_MODE_ILK:
+            result = "Interlaken";
+            break;
+        case BDK_QLM_MODE_SGMII:
+            result = "4 SGMII, each lane independent";
+            break;
+        case BDK_QLM_MODE_QSGMII:
+            result = "4 SGMII, muliplex over one lane";
+            break;
+        case BDK_QLM_MODE_XAUI_1x4:
+            result = "1 XAUI, 4 lanes";
+            break;
+        case BDK_QLM_MODE_XAUI_4x1:
+            result = "4 XAUI, 1 lane each";
+            break;
+        case BDK_QLM_MODE_RXAUI_2X2:
+            result = "2 RXAUI, 2 lanes each";
+            break;
+        case BDK_QLM_MODE_RXAUI_1x2:
+            result = "1 RXAUI, 2 lanes";
+            break;
+        case BDK_QLM_MODE_SATA_2X2:
+            result = "2 SATA, one lane each";
+            break;
+        case BDK_QLM_MODE_PCIE_1X1_SATA:
+            result = "1 lane PCIe, 1 lane SATA";
+            break;
+        case BDK_QLM_MODE_SATA_PCIE_1X1:
+            result = "1 lane SATA, 1 lane PCIe";
+            break;
+        case BDK_QLM_MODE_OCI:
+            result = "Octeon Coherent Interconnect";
+            break;
+    }
+    return result;
+}
+
 /**
  * Get the mode of a QLM as a human readable string
  *
+ * @param node   Node to use in a Numa setup. Can be an exact ID or a special
+ *               value.
  * @param qlm    QLM to examine
  *
  * @return String mode
  */
-const char *bdk_qlm_get_mode(bdk_node_t node, int qlm)
+bkd_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
 {
     return qlm_ops->get_mode(node, qlm);
 }
@@ -94,6 +180,37 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
         return 156250000;
     return qlm_ops->measure_refclock(node, qlm);
 }
+
+
+/**
+ * Enable PRBS on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ * @param prbs   PRBS mode (31, etc)
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
+{
+    return qlm_ops->enable_prbs(node, qlm, prbs);
+}
+
+
+/**
+ * Enable shallow loopback on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ * @param loop   Type of loopback. Not all QLMs support all modes
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
+{
+    return qlm_ops->enable_loop(node, qlm, loop);
+}
+
 
 /**
  * Initialize the QLM layer

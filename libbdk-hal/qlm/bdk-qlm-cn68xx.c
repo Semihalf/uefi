@@ -80,24 +80,68 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
 
 
 /**
+ * Iterate through the supported modes of a QLM. On first call specify
+ * disabled as the last value. It will then return supported modes,
+ * ending the list with disabled.
+ *
+ * @param node   Node to use in a Numa setup
+ * @param qlm    QLM to examine
+ * @param last   Previous value returned, or disabled to start list
+ *
+ * @return Next supported QLM mode
+ */
+static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last)
+{
+    /* Chip has straps, so software can't change the mode. Return
+        the current mode */
+    if (last == BDK_QLM_MODE_DISABLED)
+        return bdk_qlm_get_mode(node, qlm);
+    else
+        return BDK_QLM_MODE_DISABLED;
+}
+
+
+/**
  * Get the mode of a QLM as a human readable string
  *
  * @param qlm    QLM to examine
  *
  * @return String mode
  */
-static const char *qlm_get_mode(bdk_node_t node, int qlm)
+static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm_cfg.s.qlm_cfg)
     {
-        case 0: return "PCIE";
-        case 1: return "ILK";
-        case 2: return "SGMII";
-        case 3: return "XAUI";
-        case 7: return "RXAUI";
-        default: return "RESERVED";
+        case 0: return BDK_QLM_MODE_PCIE_1X4;
+        case 1: return BDK_QLM_MODE_ILK;
+        case 2: return BDK_QLM_MODE_SGMII;
+        case 3: return BDK_QLM_MODE_XAUI_1x4;
+        case 7: return BDK_QLM_MODE_RXAUI_2X2;
+        default: return BDK_QLM_MODE_DISABLED;
     }
+}
+
+
+/**
+ * For chips that don't use pin strapping, this function programs
+ * the QLM to the specified mode
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param mode     Desired mode
+ * @param baud_mhz Desired speed
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz)
+{
+    /* Chip has straps, so software can't change the mode */
+    if ((mode == bdk_qlm_get_mode(node, qlm)) &&
+        (baud_mhz == bdk_qlm_get_gbaud_mhz(node, qlm)))
+        return 0;
+    else
+        return -1;
 }
 
 
@@ -146,6 +190,78 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     return bdk_qlm_ops_cn61xx.measure_refclock(node, qlm);
 }
 
+static void check_qlm_powerup_errata(int qlm)
+{
+    /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
+        jitter for 6.25 Gbaud */
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
+    {
+        /* This workaround only applies to QLMs running at 6.25Ghz */
+        if (bdk_qlm_get_gbaud_mhz(0, qlm) == 6250)
+        {
+            if (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20)
+            {
+                bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
+                bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+                /* Allow the QLM to exit reset */
+                bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
+                /* Allow TX on QLM */
+                bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
+            }
+        }
+    }
+}
+
+
+/**
+ * Enable PRBS on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ * @param prbs   PRBS mode (31, etc)
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
+{
+}
+
+
+/**
+ * Enable shallow loopback on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ * @param loop   Type of loopback. Not all QLMs support all modes
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
+{
+    //qlm.do_reset(qlm_num)
+
+    /* Turn on Shallow Loopback */
+    switch (loop)
+    {
+        case BDK_QLM_LOOP_0_3:
+            bdk_qlm_jtag_set(qlm, -1, "shlpbck", 1);
+            break;
+        case BDK_QLM_LOOP_1_2:
+            bdk_qlm_jtag_set(qlm, -1, "shlpbck", 3);
+            break;
+        default:
+            return -1;
+    }
+    bdk_qlm_jtag_set(qlm, -1, "sl_posedge_sample", 0);
+    bdk_qlm_jtag_set(qlm, -1, "sl_enable", 1);
+
+    /* Power up the QLM */
+    bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_set", 1);
+
+    check_qlm_powerup_errata(qlm);
+    return 0;
+}
+
 /**
  * The workaround for G-16467 applies to a number of chips at
  * 5Ghz. This function implements the workaround for all chips
@@ -159,7 +275,7 @@ void __bdk_qlm_chip_tweak_5Ghz_G16467(bdk_node_t node)
     {
         /* This workaround only applies to QLMs running at 5Ghz, but not PCIe */
         if ((bdk_qlm_get_gbaud_mhz(node, qlm) == 5000) &&
-            (strstr(bdk_qlm_get_mode(node, qlm), "PCIE") == NULL))
+            (bdk_qlm_get_mode(node, qlm) != BDK_QLM_MODE_PCIE_1X4))
         {
             int ir50dac = bdk_qlm_jtag_get(qlm, 0, "ir50dac");
             if (ir50dac < 31)
@@ -236,9 +352,13 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn68xx = {
     .init = qlm_init,
     .get_num = qlm_get_num,
     .get_lanes = qlm_get_lanes,
+    .get_supported_modes = qlm_get_supported_modes,
     .get_mode = qlm_get_mode,
+    .set_mode = qlm_set_mode,
     .get_gbaud_mhz = qlm_get_gbaud_mhz,
     .measure_refclock = qlm_measure_refclock,
     .get_qlm_num = qlm_get_qlm_num,
+    .enable_prbs = qlm_enable_prbs,
+    .enable_loop = qlm_enable_loop,
 };
 

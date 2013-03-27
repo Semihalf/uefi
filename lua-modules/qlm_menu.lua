@@ -265,13 +265,15 @@ repeat
     end
     -- Build a list of QLMs showing the current config. Selecting them
     -- does nothing
-    local num_qlms = octeon.c.bdk_qlm_get_num()
+    local node = 0
+    local num_qlms = octeon.c.bdk_qlm_get_num(node)
     for qlm_num = 0, num_qlms-1 do
-        local config_mode = octeon.c.bdk_qlm_get_mode(qlm_num)
-        local config_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num)
-        local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+        local mode = octeon.c.bdk_qlm_get_mode(node, qlm_num)
+        local config_mode = octeon.c.bdk_qlm_mode_tostring(mode)
+        local config_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm_num)
+        local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
         local label = (num_lanes == 2) and "DLM" or "QLM"
-        local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
+        local ref_clock = octeon.c.bdk_qlm_measure_clock(node, qlm_num)
         local option
         if config_speed == 0 then
             option = "%s %d - Disabled" % {label, qlm_num}

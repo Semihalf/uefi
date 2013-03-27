@@ -5,14 +5,11 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle);
 
 static int if_num_interfaces(bdk_node_t node)
 {
+    if (bdk_qlm_get(node, BDK_IF_ILK, 0) < 0)
+        return 0;
+
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
-        /* No ports if QLM speed says disabled */
-        if (bdk_qlm_get_gbaud_mhz(node, 1) == 0)
-            return 0;
-        if (strstr(bdk_qlm_get_mode(node, 1), "ILK") == NULL)
-            return 0;
-
         /* Configure the SERDES */
         BDK_CSR_MODIFY(c, node, BDK_ILK_SER_CFG,
             c.s.ser_rxpol_auto = 1;
@@ -31,7 +28,7 @@ static int if_num_interfaces(bdk_node_t node)
             for (int qlm=1; qlm<=2; qlm++)
             {
                 /* This workaround only applies to QLMs running ILK at 6.25Ghz */
-                if (strstr(bdk_qlm_get_mode(node, qlm), "ILK") && (bdk_qlm_get_gbaud_mhz(node, qlm) == 6250) &&
+                if ((bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK) && (bdk_qlm_get_gbaud_mhz(node, qlm) == 6250) &&
                     (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
                 {
                     bdk_wait_usec(100); /* Wait 100us for links to stabalize */
@@ -66,7 +63,7 @@ static int if_num_ports(bdk_node_t node, int interface)
         when probing the inteface number, now we check QLM2 */
     int max_lanes;
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        max_lanes = (strstr(bdk_qlm_get_mode(node, 2), "ILK")) ? 8 : 4;
+        max_lanes = (bdk_qlm_get_mode(node, 2) == BDK_QLM_MODE_ILK) ? 8 : 4;
     else
         max_lanes = 16; // FIXME: What about QLM modes
 

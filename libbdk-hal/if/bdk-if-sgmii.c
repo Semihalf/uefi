@@ -16,45 +16,12 @@ static int if_num_interfaces(bdk_node_t node)
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* GMX1 is never SGMII */
-        if (interface == 1)
-            return 0;
-        else
-        {
-            /* No ports if QLM speed says disabled */
-            if (bdk_qlm_get_gbaud_mhz(node, bdk_qlm_get(node, BDK_IF_SGMII, interface)) == 0)
-                return 0;
-            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
-            if (inf_mode.s.mode == 2)
-                return 4;
-            else
-                return 0;
-        }
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        int qlm = bdk_qlm_get(node, BDK_IF_SGMII, interface);
-        /* No ports if QLM speed says disabled */
-        if (bdk_qlm_get_gbaud_mhz(node, qlm) == 0)
-            return 0;
-        BDK_CSR_INIT(gserx_lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-        if (gserx_lane_mode.s.lmode == 6)
-            return 4;
-        else
-            return 0;
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        int qlm = bdk_qlm_get(node, BDK_IF_SGMII, interface);
-        if (strstr(bdk_qlm_get_mode(node, qlm), "SGMII") && bdk_qlm_get_gbaud_mhz(node, qlm))
-            return (OCTEON_IS_MODEL(OCTEON_CN70XX)) ? 2 : 4;
-        else
-            return 0;
-    }
-    else
+    if (bdk_qlm_get(node, BDK_IF_SGMII, interface) < 0)
         return 0;
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        return 2;
+    else
+        return 4;
 }
 
 static int if_probe(bdk_if_handle_t handle)

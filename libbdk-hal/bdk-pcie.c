@@ -310,25 +310,10 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     bdk_sli_mem_access_subidx_t mem_access_subid;
     bdk_pemx_bar1_indexx_t bar1_index;
 
+    if (bdk_qlm_get(node, BDK_IF_DPI, pcie_port) < 0)
     {
-        int qlm = pcie_port;
-        /* PCIe is on QLM 3 and QLM 1 on CN68XX */
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            qlm = 3 - pcie_port * 2;
-        /* PCIe is on QLM 0 or 1 for CN61XX, depending on the mode of QLM1 */
-        if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        {
-            BDK_CSR_INIT(qlmcfg, node, BDK_MIO_QLMX_CFG(1));
-            if (qlmcfg.s.qlm_cfg == 1)
-                qlm = 1;
-            else
-                qlm = (pcie_port) ? 1 : 0;
-        }
-        if (strstr(bdk_qlm_get_mode(node, qlm), "PCIE") == NULL)
-        {
-            bdk_dprintf("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
-            return -1;
-        }
+        bdk_error("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
+        return -1;
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */

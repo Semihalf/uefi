@@ -28,61 +28,15 @@ static int if_num_ports(bdk_node_t node, int interface)
     if (interface < 0)
         interface = -interface-1;
 
+    if (bdk_qlm_get(node, BDK_IF_XAUI, interface) < 0)
+        return 0;
+
     /* Check if we should skip this port if we are probing XAUI and it is
         in Higig mode */
     if (!skip_higig_check && bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface))
         return 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* GMX1 is RXAUI only if GMX0 is RXAUI */
-        if (interface == 1)
-        {
-            /* No ports if QLM speed says disabled */
-            if (bdk_qlm_get_gbaud_mhz(node, 0) == 0)
-                return 0;
-            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
-            if (inf_mode.s.mode == 7)
-                return 1;
-            else
-                return 0;
-        }
-        else
-        {
-            /* No ports if QLM speed says disabled */
-            if (bdk_qlm_get_gbaud_mhz(node, bdk_qlm_get(node, BDK_IF_XAUI, interface)) == 0)
-                return 0;
-            /* All other GMXs are the same mode as the QLM with same number */
-            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
-            if ((inf_mode.s.mode == 3) || (inf_mode.s.mode == 7))
-                return 1;
-            else
-                return 0;
-        }
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        int qlm = bdk_qlm_get(node, BDK_IF_XAUI, interface);
-        /* No ports if QLM speed says disabled */
-        if (bdk_qlm_get_gbaud_mhz(node, qlm) == 0)
-            return 0;
-        BDK_CSR_INIT(gserx_lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-        if (gserx_lane_mode.s.lmode == 3)
-            return 1;
-        else
-            return 0;
-    }
-    else
-    {
-        /* No ports if QLM speed says disabled */
-        if (bdk_qlm_get_gbaud_mhz(node, bdk_qlm_get(node, BDK_IF_XAUI, interface)) == 0)
-            return 0;
-        BDK_CSR_INIT(mode, node, BDK_GMXX_INF_MODE(interface));
-        if (mode.s.type == 1)
-            return 1;
-        else
-            return 0;
-    }
+    return 1;
 }
 
 static int if_probe(bdk_if_handle_t handle)
