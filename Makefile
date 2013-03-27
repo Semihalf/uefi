@@ -67,12 +67,13 @@ RUN_SIM_ARGS += -trace=all
 RUN_SIM_ARGS += -serve=2000
 RUN_SIM_ARGS += -uart0=2020
 RUN_SIM_ARGS += -uart1=2030
-RUN_SIM_ARGS += -qlm_is_sgmii_mask=0x1
-RUN_SIM_ARGS += -qlm_is_xaui_mask=0x8
-RUN_SIM_ARGS += -qlm_is_ilk_mask=0x6
 ifeq ($(SIM),cn78xx)
     RUN_SIM_ARGS += -numnodes=4
     RUN_SIM_ARGS += target-bin/ipemainc_new.elf
+    # Sim option for Node 0
+    RUN_SIM_ARGS += -qlm_is_sgmii_mask0=0x1
+    RUN_SIM_ARGS += -qlm_is_xaui_mask0=0x8
+    RUN_SIM_ARGS += -qlm_is_ilk_mask0=0x6
     # Sim option for Node 1
     RUN_SIM_ARGS += -serve=1:2001
     RUN_SIM_ARGS += -uart0=1:2021
