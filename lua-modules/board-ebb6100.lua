@@ -8,7 +8,7 @@ set_config(octeon.CONFIG_PHY_MGMT_PORT1, 5) -- Mgmt port 1 PHY address
 
 -- SGMII PHYs are behind a MDIO switch controlled by GPIO 3
 -- Configure GPIO 3 as an output high, using QLM2
-octeon.c.bdk_gpio_initialize(3, true, 1)
+octeon.c.bdk_gpio_initialize(0, 3, true, 1)
 
 -- GPIO 3 high selects the PHYs on QLM2, which is GMX0
 set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 1) -- QLM2 SGMII port 0 PHY address

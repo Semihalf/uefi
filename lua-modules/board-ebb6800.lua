@@ -3,7 +3,7 @@ print("Configuring for the EBB6800")
 
 -- Configure MDIO mux to connect MGMT port _and_ QLM4 to MDIO 0.
 -- Connect just QLM0 to MDIO 1, as only QLM0 has GMX interfaces.
-octeon.c.bdk_twsix_write_ia(0, 0x71, 0, 1, 1, 0xf3)
+octeon.c.bdk_twsix_write_ia(0, 0, 0x71, 0, 1, 1, 0xf3)
 octeon.c.bdk_wait_usec(11000)
 
 local set_config = octeon.c.bdk_config_set
