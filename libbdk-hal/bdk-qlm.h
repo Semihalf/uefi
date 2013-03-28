@@ -33,10 +33,18 @@ typedef enum
 
 typedef enum
 {
-    BDK_QLM_LOOP_DISABLED,
-    BDK_QLM_LOOP_0_3,
-    BDK_QLM_LOOP_1_2,
-    BDK_QLM_LOOP_ALL,
+    BDK_QLM_MODE_FLAG_ENDPOINT = 1, /* PCIe in EP instead of RC */
+    BDK_QLM_MODE_FLAG_GEN1 = 2,     /* Limit PCIe to gen1 speeds */
+    BDK_QLM_MODE_FLAG_GEN2 = 4,     /* Limit PCIe to gen2 speeds */
+    BDK_QLM_MODE_FLAG_GEN3 = 8,     /* Limit PCIe to gen3 speeds */
+} bdk_qlm_mode_flags_t;
+
+typedef enum
+{
+    BDK_QLM_LOOP_DISABLED,  /* No shallow loopback */
+    BDK_QLM_LOOP_0_3,       /* Loopback lane 0 and 3 */
+    BDK_QLM_LOOP_1_2,       /* Loopback lane 1 and 2 */
+    BDK_QLM_LOOP_ALL,       /* Loopback all lanes */
 } bdk_qlm_loop_t;
 
 typedef enum
@@ -60,7 +68,7 @@ typedef struct
     int (*get_lanes)(bdk_node_t node, int qlm);
     bdk_qlm_modes_t (*get_supported_modes)(bdk_node_t node, int qlm, bdk_qlm_modes_t last);
     bdk_qlm_modes_t (*get_mode)(bdk_node_t node, int qlm);
-    int (*set_mode)(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
+    int (*set_mode)(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags);
     int (*get_gbaud_mhz)(bdk_node_t node, int qlm);
     int (*measure_refclock)(bdk_node_t node, int qlm);
     int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface);
@@ -134,10 +142,11 @@ extern bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm);
  * @param qlm      QLM to configure
  * @param mode     Desired mode
  * @param baud_mhz Desired speed
+ * @param flags    Flags to specify mode specific options
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
+extern int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags);
 
 /**
  * Get the speed (Gbaud) of the QLM in Mhz.

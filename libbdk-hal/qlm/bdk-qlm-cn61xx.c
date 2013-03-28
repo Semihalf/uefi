@@ -154,10 +154,11 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  * @param qlm      QLM to configure
  * @param mode     Desired mode
  * @param baud_mhz Desired speed
+ * @param flags    Flags to specify mode specific options
  *
  * @return Zero on success, negative on failure
  */
-static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
+static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
 }
 
