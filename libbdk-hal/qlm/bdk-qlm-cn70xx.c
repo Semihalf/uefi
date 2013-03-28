@@ -1,6 +1,4 @@
 #include <bdk.h>
-#include "bdk-qlm-jtag.h"
-#include <stdio.h>
 
 /**
  * Return the number of QLMs supported for the chip
@@ -9,7 +7,7 @@
  */
 static int qlm_get_num(bdk_node_t node)
 {
-    return 3;
+    return 3; /* Three DLMs */
 }
 
 /**
@@ -27,15 +25,60 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
     switch (iftype)
     {
-        case BDK_IF_SGMII:
-        case BDK_IF_XAUI:
-            if (interface < 2)
-                return 0;
-            break;
+        case BDK_IF_SGMII: /* Looking for SGMII or QSGMII */
+        {
+            if (interface >= 2)
+                return -1;
+            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
+            switch (inf_mode.s.mode)
+            {
+                case 0: return 0; /* SGMII */
+                case 2: return 0; /* QSGMII */
+                default: return -1;
+            }
+        }
+        case BDK_IF_XAUI: /* Looking for RXAUI */
+        {
+            if (interface >= 1)
+                return -1;
+            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
+            switch (inf_mode.s.mode)
+            {
+                case 1: return 0; /* RXAUI */
+                default: return -1;
+            }
+        }
+        case BDK_IF_DPI: /* Used for PCIe detection */
+        {
+            bkd_qlm_modes_t qlm_mode = bdk_qlm_get_mode(bdk_numa_local(), 1);
+            switch (interface)
+            {
+                case 0: /* PCIe0 can be DLM1, 1, 2, or 4 lanes */
+                    if ((qlm_mode == BDK_QLM_MODE_PCIE_1X2) ||
+                        (qlm_mode == BDK_QLM_MODE_PCIE_2X1) ||
+                        (qlm_mode == BDK_QLM_MODE_PCIE_1X4))
+                        return 1;
+                    else
+                        return -1;
+                case 1: /* PCIe1 can be DLM1, 1 lane */
+                    if (qlm_mode == BDK_QLM_MODE_PCIE_2X1)
+                        return 1;
+                    else
+                        return -1;
+                case 2: /* PCIe2 can be DLM2, 2 lanes */
+                    if (qlm_mode == BDK_QLM_MODE_PCIE_1X4)
+                        return -1;
+                    else if (bdk_qlm_get_mode(bdk_numa_local(), 2) == BDK_QLM_MODE_PCIE_1X2)
+                        return 2;
+                    else
+                        return -1;
+                default: /* Only three PEM blocks */
+                    return -1;
+            }
+        }
         default:
-            break;
+            return -1;
     }
-    return -1;
 }
 
 /**
@@ -48,7 +91,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
  */
 static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
-    return 2;
+    return 2; /* Each DLM has two lanes */
 }
 
 
@@ -75,7 +118,6 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
                 case BDK_QLM_MODE_QSGMII:   return BDK_QLM_MODE_RXAUI_1x2;
                 default:                    return BDK_QLM_MODE_DISABLED;
             }
-            break;
         case 1:
             switch (last)
             {
@@ -84,7 +126,6 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
                 case BDK_QLM_MODE_PCIE_2X1: return BDK_QLM_MODE_PCIE_1X4;
                 default:                    return BDK_QLM_MODE_DISABLED;
             }
-            break;
         case 2:
             switch (last)
             {
@@ -95,9 +136,9 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
                 case BDK_QLM_MODE_PCIE_1X1_SATA: return BDK_QLM_MODE_SATA_PCIE_1X1;
                 default:                    return BDK_QLM_MODE_DISABLED;
             }
-            break;
+        default:
+            return BDK_QLM_MODE_DISABLED;
     }
-    return BDK_QLM_MODE_DISABLED;
 }
 
 
@@ -110,7 +151,6 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
  */
 static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm)
     {
         case 0:
@@ -123,30 +163,14 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 case 2: return BDK_QLM_MODE_QSGMII;
                 default: return BDK_QLM_MODE_DISABLED;
             }
-            break;
         }
         case 1:
-            switch (qlm_cfg.s.qlm_cfg)
-            {
-                case 0: return BDK_QLM_MODE_PCIE_1X2;
-                case 1: return BDK_QLM_MODE_PCIE_2X1;
-                case 2: return BDK_QLM_MODE_PCIE_1X4;
-                default: return BDK_QLM_MODE_DISABLED;
-            }
-            break;
+            return BDK_QLM_MODE_DISABLED; /* FIXME: DLM1 mode */
         case 2:
-            switch (qlm_cfg.s.qlm_cfg)
-            {
-                case 0: return BDK_QLM_MODE_PCIE_1X4;
-                case 1: return BDK_QLM_MODE_PCIE_1X2;
-                case 2: return BDK_QLM_MODE_SATA_2X2;
-                case 3: return BDK_QLM_MODE_PCIE_1X1_SATA;
-                case 4: return BDK_QLM_MODE_SATA_PCIE_1X1;
-                default: return BDK_QLM_MODE_DISABLED;
-            }
-            break;
+            return BDK_QLM_MODE_DISABLED; /* FIXME: DLM2 mode */
+        default:
+            return BDK_QLM_MODE_DISABLED;
     }
-    return BDK_QLM_MODE_DISABLED;
 }
 
 
@@ -163,6 +187,9 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz)
 {
+    /* FIXME: Set mode */
+    bdk_error("CN70XX qlm_set_mode not implemented\n");
+    return -1;
 }
 
 
@@ -175,25 +202,37 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud
  */
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
-    switch (qlm_cfg.s.qlm_spd)
+    switch (qlm)
     {
-        case 0: return 5000;    /* 5     Gbaud */
-        case 1: return 5000;    /* 2.5/5 Gbaud */
-        case 2: return 2500;    /* 2.5   Gbaud */
-        case 3: return 1250;    /* 1.25  Gbaud */
-        case 4: return 1250;    /* 1.25  Gbaud */
-        case 5: return 6250;    /* 6.25  Gbaud */
-        case 6: return 5000;    /* 5     Gbaud */
-        case 7: return 2500;    /* 2.5   Gbaud */
-        case 8: return 3125;    /* 3.125 Gbaud */
-        case 9: return 2500;    /* 2.5   Gbaud */
-        case 10: return 1250;   /* 1.25  Gbaud */
-        case 11: return 5000;   /* 5     Gbaud */
-        case 12: return 6250;   /* 6.25  Gbaud */
-        case 13: return 3750;   /* 3.75  Gbaud */
-        case 14: return 3125;   /* 3.125 Gbaud */
-        default: return 0;      /* Disabled */
+        case 0:
+        {
+            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
+            switch (inf_mode.s.speed)
+            {
+                case 0: return 5000;    /* 5     Gbaud */
+                case 1: return 2500;    /* 2.5   Gbaud */
+                case 2: return 2500;    /* 2.5   Gbaud */
+                case 3: return 1250;    /* 1.25  Gbaud */
+                case 4: return 1250;    /* 1.25  Gbaud */
+                case 5: return 6250;    /* 6.25  Gbaud */
+                case 6: return 5000;    /* 5     Gbaud */
+                case 7: return 2500;    /* 2.5   Gbaud */
+                case 8: return 3125;    /* 3.125 Gbaud */
+                case 9: return 2500;    /* 2.5   Gbaud */
+                case 10: return 1250;   /* 1.25  Gbaud */
+                case 11: return 5000;   /* 5     Gbaud */
+                case 12: return 6250;   /* 6.25  Gbaud */
+                case 13: return 3750;   /* 3.75  Gbaud */
+                case 14: return 3125;   /* 3.125 Gbaud */
+                default: return 0;      /* Disabled */
+            }
+        }
+        case 1:
+            return 0; /* FIXME: QLM speed */
+        case 2:
+            return 0; /* FIXME: QLM speed */
+        default:
+            return 0;
     }
 }
 
@@ -223,6 +262,9 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
  */
 static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
 {
+    /* FIXME: Enable PRBS */
+    bdk_error("CN70XX PRBS not implemented\n");
+    return -1;
 }
 
 
@@ -237,6 +279,8 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
  */
 static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 {
+    bdk_error("CN70XX doesn't support shallow QLM loopback\n");
+    return -1;
 }
 
 
@@ -245,9 +289,7 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
  */
 static void qlm_init(bdk_node_t node)
 {
-    /* Same as CN61XX */
-    extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[];
-    __bdk_qlm_jtag_init(__bdk_qlm_jtag_field_cn61xx);
+    /* Nothing to do? */
 }
 
 

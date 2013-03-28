@@ -1,6 +1,5 @@
 #include <bdk.h>
 #include "bdk-qlm-jtag.h"
-#include <stdio.h>
 
 /**
  * Return the number of QLMs supported for the chip
