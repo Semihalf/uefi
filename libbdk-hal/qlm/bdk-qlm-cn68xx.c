@@ -8,7 +8,7 @@
  */
 static int qlm_get_num(bdk_node_t node)
 {
-    return 5;
+    return 5; /* CN68XX has 5 QLMs */
 }
 
 /**
@@ -27,41 +27,72 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
     switch (iftype)
     {
         case BDK_IF_SGMII:
-            /* SGMII 0, 2, 3, and 4 are on QLMs 0, 2, 3, 4 */
-            /* SGMII 1 is illegal */
-            switch (interface)
+            if (interface == 1)
             {
-                case 0: return 0;
-                case 2: return 2;
-                case 3: return 3;
-                case 4: return 4;
+                /* SGMII 1 is illegal */
+                return -1;
             }
+            else if (interface < 5)
+            {
+                /* SGMII 0, 2, 3, and 4 are on QLMs 0, 2, 3, 4 */
+                bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, interface);
+                if (mode == BDK_QLM_MODE_SGMII)
+                    return interface;
+                else
+                    return -1;
+            }
+            else
+                return -1;
             break;
         case BDK_IF_XAUI:
         case BDK_IF_HIGIG:
-            /* XAUI 0, 1, 2, 3, and 4 are on QLMs 0, 0, 2, 3, 4 */
-            /* XAUI 1 only exists in RXAUI mode */
-            switch (interface)
+            if (interface == 1)
             {
-                case 0: return 0;
-                case 1: return 0;
-                case 2: return 2;
-                case 3: return 3;
-                case 4: return 4;
+                /* XAUI 1 only exists in RXAUI mode */
+                if (bdk_qlm_get_mode(node, 0) == BDK_QLM_MODE_RXAUI_2X2)
+                    return 0;
+                else
+                    return -1;
             }
-            break;
+            else if (interface < 5)
+            {
+                bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, interface);
+                /* XAUI 0, 2, 3, and 4 are on QLMs 0, 2, 3, 4 */
+                if ((mode == BDK_QLM_MODE_XAUI_1X4) || (mode == BDK_QLM_MODE_RXAUI_2X2))
+                    return interface;
+                else
+                    return -1;
+            }
+            else
+                return -1;
         case BDK_IF_ILK:
             /* ILK 0 and 1 span QLMs 1, 2 depending on lanes */
-            switch (interface)
+            if (interface < 2)
             {
-                case 0: return 1;
-                case 1: return 1;
+                bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, 1);
+                if (mode == BDK_QLM_MODE_ILK)
+                    return 1;
+                else
+                    return -1;
             }
-            break;
+            else
+                return -1;
+        case BDK_IF_DPI:
+            /* PCIe 0 and 1 are on QLM3 and QLM1 */
+            if (interface < 2)
+            {
+                int qlm = (interface) ? 1 : 3;
+                bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
+                if (mode == BDK_QLM_MODE_PCIE_1X4)
+                    return qlm;
+                else
+                    return -1;
+            }
+            else
+                return -1;
         default:
-            break;
+            return -1;
     }
-    return -1;
 }
 
 /**
@@ -74,7 +105,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
  */
 static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
-    return 4;
+    return 4; /* All QLMs have 4 lanes each */
 }
 
 
@@ -89,7 +120,7 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  *
  * @return Next supported QLM mode
  */
-static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last)
+static bdk_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
 {
     /* Chip has straps, so software can't change the mode. Return
         the current mode */
@@ -107,7 +138,7 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
  *
  * @return String mode
  */
-static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
+static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     BDK_CSR_INIT(qlm_cfg, node, BDK_MIO_QLMX_CFG(qlm));
     switch (qlm_cfg.s.qlm_cfg)
@@ -115,7 +146,7 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         case 0: return BDK_QLM_MODE_PCIE_1X4;
         case 1: return BDK_QLM_MODE_ILK;
         case 2: return BDK_QLM_MODE_SGMII;
-        case 3: return BDK_QLM_MODE_XAUI_1x4;
+        case 3: return BDK_QLM_MODE_XAUI_1X4;
         case 7: return BDK_QLM_MODE_RXAUI_2X2;
         default: return BDK_QLM_MODE_DISABLED;
     }
@@ -133,7 +164,7 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  *
  * @return Zero on success, negative on failure
  */
-static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz)
+static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
     /* Chip has straps, so software can't change the mode */
     if ((mode == bdk_qlm_get_mode(node, qlm)) &&

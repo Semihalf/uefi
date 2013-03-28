@@ -50,7 +50,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
         }
         case BDK_IF_DPI: /* Used for PCIe detection */
         {
-            bkd_qlm_modes_t qlm_mode = bdk_qlm_get_mode(bdk_numa_local(), 1);
+            bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(bdk_numa_local(), 1);
             switch (interface)
             {
                 case 0: /* PCIe0 can be DLM1, 1, 2, or 4 lanes */
@@ -106,7 +106,7 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  *
  * @return Next supported QLM mode
  */
-static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last)
+static bdk_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
 {
     switch (qlm)
     {
@@ -115,7 +115,7 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
             {
                 case BDK_QLM_MODE_DISABLED: return BDK_QLM_MODE_SGMII;
                 case BDK_QLM_MODE_SGMII:    return BDK_QLM_MODE_QSGMII;
-                case BDK_QLM_MODE_QSGMII:   return BDK_QLM_MODE_RXAUI_1x2;
+                case BDK_QLM_MODE_QSGMII:   return BDK_QLM_MODE_RXAUI_1X2;
                 default:                    return BDK_QLM_MODE_DISABLED;
             }
         case 1:
@@ -149,7 +149,7 @@ static bkd_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm
  *
  * @return String mode
  */
-static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
+static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     switch (qlm)
     {
@@ -159,7 +159,7 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             switch (inf_mode.s.mode)
             {
                 case 0: return BDK_QLM_MODE_SGMII;
-                case 1: return BDK_QLM_MODE_RXAUI_1x2;
+                case 1: return BDK_QLM_MODE_RXAUI_1X2;
                 case 2: return BDK_QLM_MODE_QSGMII;
                 default: return BDK_QLM_MODE_DISABLED;
             }
@@ -185,7 +185,7 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  *
  * @return Zero on success, negative on failure
  */
-static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz)
+static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
     /* FIXME: Set mode */
     bdk_error("CN70XX qlm_set_mode not implemented\n");

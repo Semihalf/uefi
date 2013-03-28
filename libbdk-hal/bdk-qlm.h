@@ -21,15 +21,15 @@ typedef enum
     BDK_QLM_MODE_ILK,       /* ILK 4 lanes */
     BDK_QLM_MODE_SGMII,     /* 4 SGMII, each lane independent */
     BDK_QLM_MODE_QSGMII,    /* 4 SGMII, muliplex over one lane */
-    BDK_QLM_MODE_XAUI_1x4,  /* 1 XAUI, 4 lanes */
-    BDK_QLM_MODE_XAUI_4x1,  /* 4 XAUI, 1 lane each */
+    BDK_QLM_MODE_XAUI_1X4,  /* 1 XAUI, 4 lanes */
+    BDK_QLM_MODE_XAUI_4X1,  /* 4 XAUI, 1 lane each */
     BDK_QLM_MODE_RXAUI_2X2, /* 2 RXAUI, 2 lanes each */
-    BDK_QLM_MODE_RXAUI_1x2, /* 1 RXAUI, 2 lanes */
+    BDK_QLM_MODE_RXAUI_1X2, /* 1 RXAUI, 2 lanes */
     BDK_QLM_MODE_SATA_2X2,  /* 2 SATA, one lane each */
     BDK_QLM_MODE_PCIE_1X1_SATA, /* 1 lane PCIe, 1 lane SATA */
     BDK_QLM_MODE_SATA_PCIE_1X1, /* 1 lane SATA, 1 lane PCIe */
     BDK_QLM_MODE_OCI,       /* OCI Multichip interconnect */
-} bkd_qlm_modes_t;
+} bdk_qlm_modes_t;
 
 typedef enum
 {
@@ -51,9 +51,9 @@ typedef struct
     void (*init)(bdk_node_t node);
     int (*get_num)(bdk_node_t node);
     int (*get_lanes)(bdk_node_t node, int qlm);
-    bkd_qlm_modes_t (*get_supported_modes)(bdk_node_t node, int qlm, bkd_qlm_modes_t last);
-    bkd_qlm_modes_t (*get_mode)(bdk_node_t node, int qlm);
-    int (*set_mode)(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz);
+    bdk_qlm_modes_t (*get_supported_modes)(bdk_node_t node, int qlm, bdk_qlm_modes_t last);
+    bdk_qlm_modes_t (*get_mode)(bdk_node_t node, int qlm);
+    int (*set_mode)(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
     int (*get_gbaud_mhz)(bdk_node_t node, int qlm);
     int (*measure_refclock)(bdk_node_t node, int qlm);
     int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface);
@@ -96,7 +96,7 @@ extern int bdk_qlm_get_lanes(bdk_node_t node, int qlm);
  *
  * @return Next supported QLM mode
  */
-extern bkd_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last);
+extern bdk_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last);
 
 /**
  * Convert a mode into a human understandable string
@@ -105,7 +105,7 @@ extern bkd_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bkd
  *
  * @return Easy to read string
  */
-extern const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode);
+extern const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode);
 
 /**
  * Get the mode of a QLM as a human readable string
@@ -116,7 +116,7 @@ extern const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode);
  *
  * @return String mode
  */
-extern bkd_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm);
+extern bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm);
 
 /**
  * For chips that don't use pin strapping, this function programs
@@ -129,7 +129,7 @@ extern bkd_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm);
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz);
+extern int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
 
 /**
  * Get the speed (Gbaud) of the QLM in Mhz.

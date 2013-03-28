@@ -67,7 +67,7 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
  *
  * @return Next supported QLM mode
  */
-bkd_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_modes_t last)
+bdk_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
 {
     return qlm_ops->get_supported_modes(node, qlm, last);
 }
@@ -79,7 +79,7 @@ bkd_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bkd_qlm_mo
  *
  * @return Easy to read string
  */
-const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode)
+const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
 {
     const char *result = "Unknown, update bdk_qlm_mode_tostring()";
     switch (mode)
@@ -111,16 +111,16 @@ const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode)
         case BDK_QLM_MODE_QSGMII:
             result = "4 SGMII, muliplex over one lane";
             break;
-        case BDK_QLM_MODE_XAUI_1x4:
+        case BDK_QLM_MODE_XAUI_1X4:
             result = "1 XAUI, 4 lanes";
             break;
-        case BDK_QLM_MODE_XAUI_4x1:
+        case BDK_QLM_MODE_XAUI_4X1:
             result = "4 XAUI, 1 lane each";
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
             result = "2 RXAUI, 2 lanes each";
             break;
-        case BDK_QLM_MODE_RXAUI_1x2:
+        case BDK_QLM_MODE_RXAUI_1X2:
             result = "1 RXAUI, 2 lanes";
             break;
         case BDK_QLM_MODE_SATA_2X2:
@@ -148,7 +148,7 @@ const char *bdk_qlm_mode_tostring(bkd_qlm_modes_t mode)
  *
  * @return String mode
  */
-bkd_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
+bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
 {
     return qlm_ops->get_mode(node, qlm);
 }
