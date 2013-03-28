@@ -65,19 +65,32 @@ local function do_shutdown(pcie_port)
     pcie_root[pcie_port] = nil
 end
 
-
+local function do_port_menu(pcie_port)
+    local m = menu.new("PCIe" .. pcie_port .." Menu")
+    local prefix = "PCIe" .. pcie_port
+    m:item("init", prefix .. ": Initialize", do_initialize, pcie_port)
+    m:item("scan", prefix .. ": Scan for devices", do_scan, pcie_port)
+    m:item("enum", prefix .. ": Enumerate devices", do_enumerate, pcie_port)
+    m:item("disp", prefix .. ": Display devices", do_display, pcie_port)
+    m:item("read", prefix .. ": Perform a memory read", do_read, pcie_port)
+    m:item("write", prefix .. ": Perform a memory write", do_write, pcie_port)
+    m:item("shut", prefix .. ": Shutdown", do_shutdown, pcie_port)
+    m:item("quit", "Main menu")
+    while (m:show() ~= "quit") do
+        -- Spinning on menu
+    end
+end
 
 local m = menu.new("PCIe Menu")
+local max_ports = 2
+if octeon.is_model(octeon.CN78XX) then
+    max_ports = 4
+elseif octeon.is_model(octeon.CN70XX) then
+    max_ports = 3
+end
 
-for pcie_port=0,1 do
-    local prefix = "PCIe" .. pcie_port
-    m:item(prefix .. "i", prefix .. ": Initialize", do_initialize, pcie_port)
-    m:item(prefix .. "s", prefix .. ": Scan for devices", do_scan, pcie_port)
-    m:item(prefix .. "e", prefix .. ": Enumerate devices", do_enumerate, pcie_port)
-    m:item(prefix .. "d", prefix .. ": Display devices", do_display, pcie_port)
-    m:item(prefix .. "r", prefix .. ": Perform a memory read", do_read, pcie_port)
-    m:item(prefix .. "w", prefix .. ": Perform a memory write", do_write, pcie_port)
-    m:item(prefix .. "f", prefix .. ": Shutdown", do_shutdown, pcie_port)
+for pcie_port=0,max_ports-1 do
+    m:item("p" .. pcie_port, "PCIe port " .. pcie_port, do_port_menu, pcie_port)
 end
 
 m:item("quit", "Main menu")
