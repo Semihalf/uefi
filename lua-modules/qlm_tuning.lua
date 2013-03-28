@@ -364,9 +364,11 @@ function qlm_tuning.run()
         m:item("prbs15", "PRBS-15", do_prbs, 15)
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
-        m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
-        m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
-        m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
+        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+            m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
+            m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
+            m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
+        end
         m:item("quit",   "Main menu")
     until (m:show() == "quit")
 end
