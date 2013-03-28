@@ -15,7 +15,8 @@ end
 
 -- CN61XX: Set the speed of either QLM0 or QLM2. Doesn't support QLM1
 local function set_qlm_speed(qlm_num, speed)
-    local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
+    local node = 0
+    local ref_clock = octeon.c.bdk_qlm_measure_clock(node, qlm_num)
     if is_ref_clock(ref_clock, 100) then
         -- Using 100Mhz reference
         if speed == "1250" then
@@ -166,7 +167,7 @@ local function set_config_cn61xx()
         -- the clock speed
         local gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
         local root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
+        local ref_clock = octeon.c.bdk_qlm_measure_clock(node, qlm_num)
         if is_ref_clock(ref_clock, 100) then
             octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = gen2 and 1 or 2
         elseif is_ref_clock(ref_clock, 125) then
@@ -183,7 +184,7 @@ local function set_config_cn61xx()
         local pem0_root_complex = menu.prompt_yes_no("Configure PCIe port 0 as a root complex")
         local pem1_gen2 = menu.prompt_yes_no("Configure PCIe port 1 for gen2")
         local pem1_root_complex = menu.prompt_yes_no("Configure PCIe port 1 as a root complex")
-        local ref_clock = octeon.c.bdk_qlm_measure_clock(qlm_num)
+        local ref_clock = octeon.c.bdk_qlm_measure_clock(node, qlm_num)
         if is_ref_clock(ref_clock, 100) then
             if pem0_gen2 and pem1_gen2 then
                 octeon.csr.MIO_QLMX_CFG(qlm_num).QLM_SPD = 0

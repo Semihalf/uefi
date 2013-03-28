@@ -8,6 +8,7 @@ require("strict")
 require("utils")
 
 qlm = {}
+local node = 0
 
 --- Reset a QLM
 -- @param qlm_num QLM number to reset
@@ -22,7 +23,7 @@ function qlm.do_reset(qlm_num)
     if octeon.is_model(octeon.CN68XXP2) then
         -- This workaround only applies to QLMs running at 6.25Ghz
         -- Note that other pll settings were applied early in C code
-        if octeon.c.bdk_qlm_get_gbaud_mhz(qlm_num) == 6250 then
+        if octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm_num) == 6250 then
             if octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "clkf_byp") ~= 16 then
                 octeon.c.bdk_qlm_jtag_set(qlm_num, -1, "clkf_byp", 16);
             end
@@ -50,7 +51,7 @@ local function check_qlm_powerup_errata(qlm)
     -- jitter for 6.25 Gbaud
     if octeon.is_model(octeon.CN68XXP2) then
         -- This workaround only applies to QLMs running at 6.25Ghz
-        if octeon.c.bdk_qlm_get_gbaud_mhz(qlm) == 6250 then
+        if octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm) == 6250 then
             if octeon.c.bdk_qlm_jtag_get(qlm, 0, "clkf_byp") ~= 20 then
                 octeon.c.bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
                 octeon.c.bdk_wait_usec(100); -- Wait 100us for links to stabalize

@@ -7,6 +7,7 @@ require("qlm")
 local readline = require("readline")
 
 local qlm_tuning = {}
+local node = 0
 qlm_tuning.qlm = 0
 
 -- Table of TX biasdrvsel to Amplitude in millivolts
@@ -121,14 +122,14 @@ end
 
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
-    local num_qlms = octeon.c.bdk_qlm_get_num()
+    local num_qlms = octeon.c.bdk_qlm_get_num(node)
     qlm_tuning.qlm = menu.prompt_number("QLM/DLM", qlm_tuning.qlm, 0, num_qlms-1)
     return qlm_tuning.qlm
 end
 
 -- Prompt for which lane to edit
 local function select_lane(qlm_num, allow_all)
-    local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+    local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
     local default = allow_all and -1 or 0
     local lane
     if allow_all then
@@ -141,7 +142,7 @@ end
 
 -- Select a list of QLMs to perform operations on
 local function select_qlm_list(qlm_list)
-    local num_qlms = octeon.c.bdk_qlm_get_num()
+    local num_qlms = octeon.c.bdk_qlm_get_num(node)
     -- Default to all QLMs if the list wasn't supplied
     if not qlm_list then
         qlm_list = {}
@@ -298,7 +299,7 @@ local function do_prbs(mode)
         end
         for qlm_index = qlm_base,qlm_max do
             local qlm_num = qlm_list[qlm_index]
-            local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_num)
+            local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
             for lane=0, num_lanes-1 do
                 local v = get_value(qlm_num, lane)
                 if lane == 0 then
@@ -359,7 +360,7 @@ local function do_prbs(mode)
                 end
             end)
             output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
-                local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm)
+                local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm)
                 local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
                 if (v == 0) or (run_time == 0) then
                     return "-"
@@ -423,7 +424,7 @@ local function auto_tune()
     -- Calculate the time we need to run before DESIRED_MAX_ERROR bit errors
     -- represent the desired error rate
     local function get_max_run_time(qlm, error_rate_exponent)
-        local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm)
+        local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm)
         return 10^(error_rate_exponent-6) / qlm_speed
     end
     -- Check if the current settings are done
@@ -445,12 +446,12 @@ local function auto_tune()
         local qlm_good = false
         local need_more_time = false
         for _,qlm in ipairs(qlm_list) do
-            local bits_transferred = run_time * octeon.c.bdk_qlm_get_gbaud_mhz(qlm) * 1000000
+            local bits_transferred = run_time * octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm) * 1000000
             local max_run_time = get_max_run_time(qlm, error_rate_exponent)
             need_more_time = need_more_time or (run_time < max_run_time)
             local qlm_lanes_good = true
             results[qlm] = {}
-            for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+            for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
                 local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
                 if v == 1 then
                     -- We have PRBS lock
@@ -526,7 +527,7 @@ local function auto_tune()
     local lane_num = -1 -- Test all lanes on each QLM
     local summary = {} -- Good values will be stored here as they are found
     local iter_count = 0
-    local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(qlm_list[1])
+    local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm_list[1])
     local rx_equal_values = table.sorted_keys(qlm_tuning.rx_equal[qlm_speed])
     local iter_max = #rx_equal_values * (max_biasdrv - min_biasdrv + 1) * (max_tcoeff - min_tcoeff + 1)
     for _,rx_equal in ipairs(rx_equal_values) do
@@ -567,7 +568,7 @@ local function auto_tune()
                 -- Search to see if any QLM passed
                 for _,qlm in ipairs(qlm_list) do
                     local all_good = true -- Are all lanes good?
-                    for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                    for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
                         local key = "%d,%d,%d,%d,%d" % {qlm, lane, biasdrv, tcoeff, rx_eq, rx_cap}
                         summary[key] = prbs_result[qlm][lane]
                     end
@@ -598,7 +599,7 @@ local function auto_tune()
         title[10] = "%21s|" % "RX Eq"
         title[11] = "%21s|" % ""
         title[12] = "%21s|" % " biasdrv  | tcoeff   "
-        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+        for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
             for _,rx_equal in ipairs(rx_equal_values) do
                 local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
                 local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
@@ -612,7 +613,7 @@ local function auto_tune()
             end
         end
         printf("\n\n%-21s|", "QLM/DLM%d" % qlm)
-        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+        for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
             printf("   Lane %d%s|", lane, string.rep(" ", #rx_equal_values - 9))
         end
         printf("\n")
@@ -626,7 +627,7 @@ local function auto_tune()
                 printf("%4dmv(%2d)|%-d.%ddB(%2d)|",
                     interpolate(biasdrv, qlm_tuning.biasdrv), biasdrv,
                     qlm_tuning.tcoeff[tcoeff] / 10, -qlm_tuning.tcoeff[tcoeff] % 10, tcoeff)
-                for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+                for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
                     for _,rx_equal in ipairs(rx_equal_values) do
                         local rx_cap = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_cap
                         local rx_eq = qlm_tuning.rx_equal[qlm_speed][rx_equal].rx_eq
@@ -668,7 +669,7 @@ local function auto_tune()
             end
         end
         printf("\n")
-        for lane=0, octeon.c.bdk_qlm_get_lanes(qlm)-1 do
+        for lane=0, octeon.c.bdk_qlm_get_lanes(node, qlm)-1 do
             if best_settings[lane] then
                 printf("Lane %d best results at rx_cap=%d, rx_eq=%d, biasdrv=%d, tcoeff=%d\n",
                     lane, best_settings[lane].rx_cap, best_settings[lane].rx_eq,
@@ -682,7 +683,7 @@ end
 function qlm_tuning.run()
     local m = menu.new("PRBS and SERDES Tuning Menu")
     repeat
-        local num_lanes = octeon.c.bdk_qlm_get_lanes(qlm_tuning.qlm)
+        local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_tuning.qlm)
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
