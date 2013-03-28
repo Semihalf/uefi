@@ -9,7 +9,7 @@ static int if_num_interfaces(bdk_node_t node)
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         return 0;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        return 2;
+        return 2; /* DLM0 has both GMX connected to it */
     else
         return 0;
 }
@@ -19,7 +19,18 @@ static int if_num_ports(bdk_node_t node, int interface)
     if (bdk_qlm_get(node, BDK_IF_SGMII, interface) < 0)
         return 0;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        return 2;
+    {
+        BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
+        switch (inf_mode.s.mode)
+        {
+            case 0: /* Normal SGMII */
+                return 1;
+            case 2: /* Quad SGMII */
+                return 4;
+            default: /* Not SGMII */
+                return 0;
+        }
+    }
     else
         return 4;
 }
@@ -425,6 +436,13 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
     int qlm = bdk_qlm_get(handle->node, BDK_IF_SGMII, handle->interface);
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        /* Divide speed by four to account for QSGMII multiplexing */
+        BDK_CSR_INIT(inf_mode, handle->node, BDK_GMXX_INF_MODE(gmx_block));
+        if (inf_mode.s.mode == 2)
+            speed >>= 2;
+    }
 
     if (bdk_is_simulation())
     {
