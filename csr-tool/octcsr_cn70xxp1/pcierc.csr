@@ -3,7 +3,7 @@
 ---
 name: PCIERC
 registers:
-  - name: PCIERC(0..1)_CFG000
+  - name: PCIERC(0..2)_CFG000
     address: 0x20000000000 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG000 = First 32-bits of PCIE type 1 config space (Device ID and Vendor ID Register)
@@ -11,8 +11,8 @@ registers:
       - name: DEVID
         bits: 31..16
         access: R/W
-        reset: 0x93
-        typical: 0x93
+        reset: 0x96
+        typical: 0x96
         description: |
           "Device ID, writable through PEM#_CFG_WR
           However, the application must not change this field."
@@ -27,7 +27,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG001
+  - name: PCIERC(0..2)_CFG001
     address: 0x20000000004 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG001 = Second 32-bits of PCIE type 1 config space (Command/Status Register)
@@ -220,7 +220,7 @@ registers:
         description: I/O Space Enable
 
 
-  - name: PCIERC(0..1)_CFG002
+  - name: PCIERC(0..2)_CFG002
     address: 0x20000000008 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG002 = Third 32-bits of PCIE type 1 config space (Revision ID/Class Code Register)
@@ -262,7 +262,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG003
+  - name: PCIERC(0..2)_CFG003
     address: 0x2000000000C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -319,7 +319,7 @@ registers:
           functionality.
 
 
-  - name: PCIERC(0..1)_CFG004
+  - name: PCIERC(0..2)_CFG004
     address: 0x20000000010 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG004 = Fifth 32-bits of PCIE type 1 config space (Base Address Register 0 - Low)
@@ -332,7 +332,7 @@ registers:
         description: Unused
 
 
-  - name: PCIERC(0..1)_CFG005
+  - name: PCIERC(0..2)_CFG005
     address: 0x20000000014 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG005 = Sixth 32-bits of PCIE type 1 config space (Base Address Register 0 - High)
@@ -345,7 +345,7 @@ registers:
         description: Unused
 
 
-  - name: PCIERC(0..1)_CFG006
+  - name: PCIERC(0..2)_CFG006
     address: 0x20000000018 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG006 = Seventh 32-bits of PCIE type 1 config space (Bus Number Registers)
@@ -381,7 +381,7 @@ registers:
         description: Primary Bus Number
 
 
-  - name: PCIERC(0..1)_CFG007
+  - name: PCIERC(0..2)_CFG007
     address: 0x2000000001C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -522,7 +522,7 @@ registers:
           to bit 8 of this register."
 
 
-  - name: PCIERC(0..1)_CFG008
+  - name: PCIERC(0..2)_CFG008
     address: 0x20000000020 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG008 = Ninth 32-bits of PCIE type 1 config space (Memory Base and Memory Limit Register)
@@ -556,7 +556,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIERC(0..1)_CFG009
+  - name: PCIERC(0..2)_CFG009
     address: 0x20000000024 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -617,7 +617,7 @@ registers:
           to bit 16 of this register."
 
 
-  - name: PCIERC(0..1)_CFG010
+  - name: PCIERC(0..2)_CFG010
     address: 0x20000000028 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -635,7 +635,7 @@ registers:
           enabled.
 
 
-  - name: PCIERC(0..1)_CFG011
+  - name: PCIERC(0..2)_CFG011
     address: 0x2000000002C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -653,7 +653,7 @@ registers:
           enabled.
 
 
-  - name: PCIERC(0..1)_CFG012
+  - name: PCIERC(0..2)_CFG012
     address: 0x20000000030 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -679,7 +679,7 @@ registers:
           for devices on the secondary side)
 
 
-  - name: PCIERC(0..1)_CFG013
+  - name: PCIERC(0..2)_CFG013
     address: 0x20000000034 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG013 = Fourteenth 32-bits of PCIE type 1 config space (Capability Pointer Register)
@@ -703,7 +703,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG014
+  - name: PCIERC(0..2)_CFG014
     address: 0x20000000038 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG014 = Fifteenth 32-bits of PCIE type 1 config space (Expansion ROM Base Address Register)
@@ -716,7 +716,7 @@ registers:
         description: Unused
 
 
-  - name: PCIERC(0..1)_CFG015
+  - name: PCIERC(0..2)_CFG015
     address: 0x2000000003C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -854,7 +854,7 @@ registers:
         description: Interrupt Line
 
 
-  - name: PCIERC(0..1)_CFG016
+  - name: PCIERC(0..2)_CFG016
     address: 0x20000000040 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -958,7 +958,7 @@ registers:
         description: Power Management Capability ID
 
 
-  - name: PCIERC(0..1)_CFG017
+  - name: PCIERC(0..2)_CFG017
     address: 0x20000000044 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1065,7 +1065,7 @@ registers:
           not supported.
 
 
-  - name: PCIERC(0..1)_CFG020
+  - name: PCIERC(0..2)_CFG020
     address: 0x20000000050 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1148,7 +1148,7 @@ registers:
         description: MSI Capability ID
 
 
-  - name: PCIERC(0..1)_CFG021
+  - name: PCIERC(0..2)_CFG021
     address: 0x20000000054 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1170,7 +1170,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIERC(0..1)_CFG022
+  - name: PCIERC(0..2)_CFG022
     address: 0x20000000058 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG022 = Twenty-third 32-bits of PCIE type 1 config space (MSI Upper 32 bits Address Register)
@@ -1183,7 +1183,7 @@ registers:
         description: Upper 32-bit Address
 
 
-  - name: PCIERC(0..1)_CFG023
+  - name: PCIERC(0..2)_CFG023
     address: 0x2000000005C + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG023 = Twenty-fourth 32-bits of PCIE type 1 config space (MSI Data Register)
@@ -1206,7 +1206,7 @@ registers:
           MSI_VECTOR to generate 32 MSI Messages per function.
 
 
-  - name: PCIERC(0..1)_CFG028
+  - name: PCIERC(0..2)_CFG028
     address: 0x20000000070 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1275,7 +1275,7 @@ registers:
         description: PCIE Capability ID
 
 
-  - name: PCIERC(0..1)_CFG029
+  - name: PCIERC(0..2)_CFG029
     address: 0x20000000074 + a*0x100000000
     bus: PCICONFIGRC
     description: PCIE_CFG029 = Thirtieth 32-bits of PCIE type 1 config space (Device Capabilities Register)
@@ -1393,7 +1393,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG030
+  - name: PCIERC(0..2)_CFG030
     address: 0x20000000078 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1592,7 +1592,7 @@ registers:
         description: Correctable Error Reporting Enable
 
 
-  - name: PCIERC(0..1)_CFG031
+  - name: PCIERC(0..2)_CFG031
     address: 0x2000000007C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1721,7 +1721,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG032
+  - name: PCIERC(0..2)_CFG032
     address: 0x20000000080 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -1912,7 +1912,7 @@ registers:
         description: Active State Link PM Control
 
 
-  - name: PCIERC(0..1)_CFG033
+  - name: PCIERC(0..2)_CFG033
     address: 0x20000000084 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2024,7 +2024,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG034
+  - name: PCIERC(0..2)_CFG034
     address: 0x20000000088 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2186,7 +2186,7 @@ registers:
         description: Attention Button Pressed Enable
 
 
-  - name: PCIERC(0..1)_CFG035
+  - name: PCIERC(0..2)_CFG035
     address: 0x2000000008C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2254,7 +2254,7 @@ registers:
         description: System Error on Correctable Error Enable
 
 
-  - name: PCIERC(0..1)_CFG036
+  - name: PCIERC(0..2)_CFG036
     address: 0x20000000090 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2290,7 +2290,7 @@ registers:
         description: PME Requester ID
 
 
-  - name: PCIERC(0..1)_CFG037
+  - name: PCIERC(0..2)_CFG037
     address: 0x20000000094 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2390,7 +2390,7 @@ registers:
         description: Completion Timeout Ranges Supported
 
 
-  - name: PCIERC(0..1)_CFG038
+  - name: PCIERC(0..2)_CFG038
     address: 0x20000000098 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2475,7 +2475,7 @@ registers:
           Values not defined are reserved
 
 
-  - name: PCIERC(0..1)_CFG039
+  - name: PCIERC(0..2)_CFG039
     address: 0x2000000009C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2526,7 +2526,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIERC(0..1)_CFG040
+  - name: PCIERC(0..2)_CFG040
     address: 0x200000000A0 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2688,7 +2688,7 @@ registers:
           0             0010b       5.0 GHz and 2.5 GHz supported"
 
 
-  - name: PCIERC(0..1)_CFG041
+  - name: PCIERC(0..2)_CFG041
     address: 0x200000000A4 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2703,7 +2703,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIERC(0..1)_CFG042
+  - name: PCIERC(0..2)_CFG042
     address: 0x200000000A8 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2718,7 +2718,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIERC(0..1)_CFG064
+  - name: PCIERC(0..2)_CFG064
     address: 0x20000000100 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2747,7 +2747,7 @@ registers:
         description: PCIE Express Extended Capability
 
 
-  - name: PCIERC(0..1)_CFG065
+  - name: PCIERC(0..2)_CFG065
     address: 0x20000000104 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -2876,7 +2876,7 @@ registers:
           (Was Training Error Status for PCI Express 1.0a)
 
 
-  - name: PCIERC(0..1)_CFG066
+  - name: PCIERC(0..2)_CFG066
     address: 0x20000000108 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3005,7 +3005,7 @@ registers:
           (Was Training Error Mask for PCI Express 1.0a)
 
 
-  - name: PCIERC(0..1)_CFG067
+  - name: PCIERC(0..2)_CFG067
     address: 0x2000000010C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3134,7 +3134,7 @@ registers:
           (Was Training Error Severity for PCI Express 1.0a)
 
 
-  - name: PCIERC(0..1)_CFG068
+  - name: PCIERC(0..2)_CFG068
     address: 0x20000000110 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3205,7 +3205,7 @@ registers:
         description: Receiver Error Status
 
 
-  - name: PCIERC(0..1)_CFG069
+  - name: PCIERC(0..2)_CFG069
     address: 0x20000000114 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3276,7 +3276,7 @@ registers:
         description: Receiver Error Mask
 
 
-  - name: PCIERC(0..1)_CFG070
+  - name: PCIERC(0..2)_CFG070
     address: 0x20000000118 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3326,7 +3326,7 @@ registers:
         description: First Error Pointer
 
 
-  - name: PCIERC(0..1)_CFG071
+  - name: PCIERC(0..2)_CFG071
     address: 0x2000000011C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3342,7 +3342,7 @@ registers:
         description: Header Log Register (first DWORD)
 
 
-  - name: PCIERC(0..1)_CFG072
+  - name: PCIERC(0..2)_CFG072
     address: 0x20000000120 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3358,7 +3358,7 @@ registers:
         description: Header Log Register (second DWORD)
 
 
-  - name: PCIERC(0..1)_CFG073
+  - name: PCIERC(0..2)_CFG073
     address: 0x20000000124 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3374,7 +3374,7 @@ registers:
         description: Header Log Register (third DWORD)
 
 
-  - name: PCIERC(0..1)_CFG074
+  - name: PCIERC(0..2)_CFG074
     address: 0x20000000128 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3390,7 +3390,7 @@ registers:
         description: Header Log Register (fourth DWORD)
 
 
-  - name: PCIERC(0..1)_CFG075
+  - name: PCIERC(0..2)_CFG075
     address: 0x2000000012C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3426,7 +3426,7 @@ registers:
         description: Correctable Error Reporting Enable
 
 
-  - name: PCIERC(0..1)_CFG076
+  - name: PCIERC(0..2)_CFG076
     address: 0x20000000130 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3499,7 +3499,7 @@ registers:
         description: ERR_COR Received
 
 
-  - name: PCIERC(0..1)_CFG077
+  - name: PCIERC(0..2)_CFG077
     address: 0x20000000134 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3521,7 +3521,7 @@ registers:
         description: ERR_COR Source Identification
 
 
-  - name: PCIERC(0..1)_CFG448
+  - name: PCIERC(0..2)_CFG448
     address: 0x20000000700 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3559,7 +3559,7 @@ registers:
           for the correct value.
 
 
-  - name: PCIERC(0..1)_CFG449
+  - name: PCIERC(0..2)_CFG449
     address: 0x20000000704 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3586,7 +3586,7 @@ registers:
           it into the packet.
 
 
-  - name: PCIERC(0..1)_CFG450
+  - name: PCIERC(0..2)_CFG450
     address: 0x20000000708 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3685,7 +3685,7 @@ registers:
         description: Link Number
 
 
-  - name: PCIERC(0..1)_CFG451
+  - name: PCIERC(0..2)_CFG451
     address: 0x2000000070C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3782,7 +3782,7 @@ registers:
           sending an Ack.
 
 
-  - name: PCIERC(0..1)_CFG452
+  - name: PCIERC(0..2)_CFG452
     address: 0x20000000710 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3912,7 +3912,7 @@ registers:
           transmits the Message contained in the Other Message register.
 
 
-  - name: PCIERC(0..1)_CFG453
+  - name: PCIERC(0..2)_CFG453
     address: 0x20000000714 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -3967,7 +3967,7 @@ registers:
           symbol times.
 
 
-  - name: PCIERC(0..1)_CFG454
+  - name: PCIERC(0..2)_CFG454
     address: 0x20000000718 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4029,7 +4029,7 @@ registers:
         description: Max Number of Functions Supported
 
 
-  - name: PCIERC(0..1)_CFG455
+  - name: PCIERC(0..2)_CFG455
     address: 0x2000000071C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4172,7 +4172,7 @@ registers:
         description: SKP Interval Value
 
 
-  - name: PCIERC(0..1)_CFG456
+  - name: PCIERC(0..2)_CFG456
     address: 0x20000000720 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4215,7 +4215,7 @@ registers:
         description: Mask Vendor MSG Type 0 dropped with UR error reporting.
 
 
-  - name: PCIERC(0..1)_CFG458
+  - name: PCIERC(0..2)_CFG458
     address: 0x20000000728 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4231,7 +4231,7 @@ registers:
           The value on cxpl_debug_info[31:0].
 
 
-  - name: PCIERC(0..1)_CFG459
+  - name: PCIERC(0..2)_CFG459
     address: 0x2000000072C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4247,7 +4247,7 @@ registers:
           The value on cxpl_debug_info[63:32].
 
 
-  - name: PCIERC(0..1)_CFG460
+  - name: PCIERC(0..2)_CFG460
     address: 0x20000000730 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4282,7 +4282,7 @@ registers:
           end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIERC(0..1)_CFG461
+  - name: PCIERC(0..2)_CFG461
     address: 0x20000000734 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4317,7 +4317,7 @@ registers:
           other end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIERC(0..1)_CFG462
+  - name: PCIERC(0..2)_CFG462
     address: 0x20000000738 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4352,7 +4352,7 @@ registers:
           other end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIERC(0..1)_CFG463
+  - name: PCIERC(0..2)_CFG463
     address: 0x2000000073C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4397,7 +4397,7 @@ registers:
           the Link.
 
 
-  - name: PCIERC(0..1)_CFG464
+  - name: PCIERC(0..2)_CFG464
     address: 0x20000000740 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4433,7 +4433,7 @@ registers:
         description: WRR Weight for VC0
 
 
-  - name: PCIERC(0..1)_CFG465
+  - name: PCIERC(0..2)_CFG465
     address: 0x20000000744 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4469,7 +4469,7 @@ registers:
         description: WRR Weight for VC4
 
 
-  - name: PCIERC(0..1)_CFG466
+  - name: PCIERC(0..2)_CFG466
     address: 0x20000000748 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4561,7 +4561,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG467
+  - name: PCIERC(0..2)_CFG467
     address: 0x2000000074C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4623,7 +4623,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG468
+  - name: PCIERC(0..2)_CFG468
     address: 0x20000000750 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4685,7 +4685,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG490
+  - name: PCIERC(0..2)_CFG490
     address: 0x200000007A8 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4731,7 +4731,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG491
+  - name: PCIERC(0..2)_CFG491
     address: 0x200000007AC + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4777,7 +4777,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG492
+  - name: PCIERC(0..2)_CFG492
     address: 0x200000007B0 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4823,7 +4823,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIERC(0..1)_CFG515
+  - name: PCIERC(0..2)_CFG515
     address: 0x2000000080C + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4906,7 +4906,7 @@ registers:
           L0s.
 
 
-  - name: PCIERC(0..1)_CFG516
+  - name: PCIERC(0..2)_CFG516
     address: 0x20000000810 + a*0x100000000
     bus: PCICONFIGRC
     description: |
@@ -4921,7 +4921,7 @@ registers:
         description: PHY Status
 
 
-  - name: PCIERC(0..1)_CFG517
+  - name: PCIERC(0..2)_CFG517
     address: 0x20000000814 + a*0x100000000
     bus: PCICONFIGRC
     description: |

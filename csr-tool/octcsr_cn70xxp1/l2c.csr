@@ -650,11 +650,7 @@ registers:
     address: 0x1180080800000
     bus: RSL
     description: |
-      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
-
-      (1b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
-
-      (2) L2DFDBE and L2DFSBE allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors
+      (1) L2DFDBE and L2DFSBE allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors
       for the purposes of testing error handling code.  When one (or both) of these bits are set a
       PL2
       which misses in the L2 will fill with the appropriate error in the first 2 OWs of the fill.
@@ -671,20 +667,11 @@ registers:
       trigger the VBFSBE/VBFDBE error.
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..29
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: MAXVBF
-        bits: 32..29
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Maximum VBFs in use at once (per-TAD)
-          (0 means 16, 1-15 as expected)
 
       - name: RDF_FAST
         bits: 28
@@ -727,20 +714,11 @@ registers:
         description: Disable conditional clocking in L2C PNR blocks
 
       - name: --
-        bits: 23..19
+        bits: 23..16
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: MAXLFB
-        bits: 18..16
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Maximum VABs/LFBs in use at once.
-          (0 means 8, 1-7 as expected)
 
       - name: RSP_ARB_MODE
         bits: 15
@@ -800,21 +778,11 @@ registers:
           ef_cnt = ef_cnt - 9;
 
       - name: --
-        bits: 5
+        bits: 5..2
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: VBF_THRESH
-        bits: 4..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          VBF Threshold (per-TAD)
-          When the number of inuse VBFs exceeds this number the
-          L2C TAD increases the priority of all its writes in the LMC.
 
       - name: DISECC
         bits: 1
@@ -919,6 +887,60 @@ registers:
         reset: 0x0
         typical: 0x0
         description: Generate an ECC error in all corresponding IOCCMD memories.
+
+
+  - name: L2C_TAD_CTL
+    title: L2C TAD Control
+    address: 0x1180080800018
+    bus: RSL
+    description: |
+      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
+
+      (1b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
+    fields:
+      - name: --
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VBF_THRESH
+        bits: 10..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          VBF Threshold. When the number of inuse VBFs exceeds this number the L2C TAD increases the
+          priority of all its writes in the LMC.
+
+      - name: --
+        bits: 7
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAXVBF
+        bits: 6..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Maximum VBFs in use at once (0 means 16, 1-15 as expected)
+
+      - name: --
+        bits: 3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAXLFB
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Maximum VABs/LFBs in use at once (0 means 8, 1-7 as expected)
 
 
   - name: L2C_XMC_CMD

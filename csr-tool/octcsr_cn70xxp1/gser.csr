@@ -3,9 +3,9 @@
 ---
 name: GSER
 registers:
-  - name: GSER(0)_DLM(0..2)_STATUS
-    title: GSER DLM0 STATUS
-    address: 0x1180090000000 + a + b*0x80000
+  - name: GSER(0)_DLM(0..2)_MPLL_STATUS
+    title: GSER DLM0 MPLL_STATUS
+    address: 0x1180090001000 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -16,7 +16,7 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: STATUS
+      - name: MPLL_STATUS
         bits: 0
         access: RO
         reset: 0
@@ -24,14 +24,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_LANE0_LOOPBK_EN
-    title: GSER DLM0 LANE0_LOOPBK_EN
-    address: 0x1180090000008 + a + b
+  - name: GSER(0)_DLM(0)_LOOPBK_EN
+    title: GSER DLM0 LOOPBK_EN
+    address: 0x1180090001008 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LANE1_LOOPBK_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -45,30 +59,9 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_LANE1_LOOPBK_EN
-    title: GSER DLM0 LANE1_LOOPBK_EN
-    address: 0x1180090000010 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: LANE1_LOOPBK_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
   - name: GSER(0)_DLM(0..2)_LOS_BIAS
     title: GSER DLM LOS_BIAS
-    address: 0x1180090000018 + a + b*0x80000
+    address: 0x1180090001010 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -89,7 +82,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_LOS_LEVEL
     title: GSER DLM LOS_LEVEL
-    address: 0x1180090000020 + a + b*0x80000
+    address: 0x1180090001018 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -110,7 +103,7 @@ registers:
 
   - name: GSER(0)_DLM(0)_MPLL_EN
     title: GSER DLM0 MPLL_EN
-    address: 0x1180090000028 + a + b
+    address: 0x1180090001020 + a + b
     bus: RSL
     description: TBD.
     fields:
@@ -131,7 +124,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_MPLL_HALF_RATE
     title: GSER DLM MPLL_HALF_RATE
-    address: 0x1180090000030 + a + b*0x80000
+    address: 0x1180090001028 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -152,7 +145,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_MPLL_MULTIPLIER
     title: GSER DLM MPLL_MULTIPLIER
-    address: 0x1180090000038 + a + b*0x80000
+    address: 0x1180090001030 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -173,7 +166,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_PHY_RESET
     title: GSER DLM0 PHY_RESET
-    address: 0x1180090000040 + a + b*0x80000
+    address: 0x1180090001038 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -194,7 +187,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_REF_CLKDIV2
     title: GSER DLM REF_CLKDIV2
-    address: 0x1180090000048 + a + b*0x80000
+    address: 0x1180090001040 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -215,7 +208,7 @@ registers:
 
   - name: GSER(0)_DLM(0)_REF_SSP_EN
     title: GSER DLM0 REF_SSP_EN
-    address: 0x1180090000050 + a + b
+    address: 0x1180090001048 + a + b
     bus: RSL
     description: TBD.
     fields:
@@ -236,7 +229,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_REF_USE_PAD
     title: GSER DLM REF_USE_PAD
-    address: 0x1180090000058 + a + b*0x80000
+    address: 0x1180090001050 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -257,7 +250,7 @@ registers:
 
   - name: GSER(0)_DLM(0..2)_TEST_BYPASS
     title: GSER DLM TEST_BYPASS
-    address: 0x1180090000060 + a + b*0x80000
+    address: 0x1180090001058 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
@@ -278,7 +271,7 @@ registers:
 
   - name: GSER(0)_DLM(0)_TEST_POWERDOWN
     title: GSER DLM0 TEST_POWERDOWN
-    address: 0x1180090000068 + a + b
+    address: 0x1180090001060 + a + b
     bus: RSL
     description: TBD.
     fields:
@@ -297,14 +290,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0..2)_RX0_STATUS
-    title: GSER DLM RX0_STATUS
-    address: 0x1180090000070 + a + b*0x80000
+  - name: GSER(0)_DLM(0..2)_RX_STATUS
+    title: GSER DLM RX_STATUS
+    address: 0x1180090002000 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_STATUS
+        bits: 8
+        access: RO
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -318,14 +325,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_DATA_EN
-    title: GSER DLM0 RX0_DATA_EN
-    address: 0x1180090000078 + a + b
+  - name: GSER(0)_DLM(0)_RX_DATA_EN
+    title: GSER DLM0 RX_DATA_EN
+    address: 0x1180090002008 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_DATA_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -339,14 +360,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0..2)_RX0_EQ
-    title: GSER DLM RX0_EQ
-    address: 0x1180090000080 + a + b*0x80000
+  - name: GSER(0)_DLM(0..2)_RX_EQ
+    title: GSER DLM RX_EQ
+    address: 0x1180090002010 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_EQ
+        bits: 10..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..3
         access: ---
         reset: --
         typical: --
@@ -360,14 +395,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_LOS_EN
-    title: GSER DLM0 RX0_LOS_EN
-    address: 0x1180090000088 + a + b
+  - name: GSER(0)_DLM(0)_RX_LOS_EN
+    title: GSER DLM0 RX_LOS_EN
+    address: 0x1180090002018 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_LOS_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -381,14 +430,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_PLL_EN
-    title: GSER DLM0 RX0_PLL_EN
-    address: 0x1180090000090 + a + b
+  - name: GSER(0)_DLM(0)_RX_PLL_EN
+    title: GSER DLM0 RX_PLL_EN
+    address: 0x1180090002020 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_PLL_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -402,14 +465,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_RATE
-    title: GSER DLM0 RX0_RATE
-    address: 0x1180090000098 + a + b
+  - name: GSER(0)_DLM(0)_RX_RATE
+    title: GSER DLM0 RX_RATE
+    address: 0x1180090002028 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..2
+        bits: 63..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_RATE
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..2
         access: ---
         reset: --
         typical: --
@@ -423,14 +500,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_RESET
-    title: GSER DLM0 RX0_RESET
-    address: 0x11800900000A0 + a + b
+  - name: GSER(0)_DLM(0)_RX_RESET
+    title: GSER DLM0 RX_RESET
+    address: 0x1180090002030 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_RESET
+        bits: 8
+        access: R/W
+        reset: 1
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -444,14 +535,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_RX0_TERM_EN
-    title: GSER DLM0 RX0_TERM_EN
-    address: 0x11800900000A8 + a + b
+  - name: GSER(0)_DLM(0)_RX_TERM_EN
+    title: GSER DLM0 RX_TERM_EN
+    address: 0x1180090002038 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX1_TERM_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -465,182 +570,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0..2)_RX1_STATUS
-    title: GSER DLM RX1_STATUS
-    address: 0x11800900000B0 + a + b*0x80000
+  - name: GSER(0)_DLM(0..2)_TX_STATUS
+    title: GSER DLM0 TX_STATUS
+    address: 0x1180090003000 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..10
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: RX1_STATUS
-        bits: 0
+      - name: TX1_STATUS
+        bits: 9..8
         access: RO
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_RX1_DATA_EN
-    title: GSER DLM0 RX1_DATA_EN
-    address: 0x11800900000B8 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_DATA_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0..2)_RX1_EQ
-    title: GSER DLM0 RX1_EQ
-    address: 0x11800900000C0 + a + b*0x80000
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..3
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_EQ
-        bits: 2..0
-        access: R/W
         reset: 0x0
         typical: --
         description: TBD.
 
-
-  - name: GSER(0)_DLM(0)_RX1_LOS_EN
-    title: GSER DLM0 RX1_LOS_EN
-    address: 0x11800900000C8 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
       - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_LOS_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_RX1_PLL_EN
-    title: GSER DLM0 RX1_PLL_EN
-    address: 0x11800900000D0 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_PLL_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_RX1_RATE
-    title: GSER DLM0 RX1_RATE
-    address: 0x11800900000D8 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_RATE
-        bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_RX1_RESET
-    title: GSER DLM0 RX1_RESET
-    address: 0x11800900000E0 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_RESET
-        bits: 0
-        access: R/W
-        reset: 1
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_RX1_TERM_EN
-    title: GSER DLM0 RX1_TERM_EN
-    address: 0x11800900000E8 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RX1_TERM_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0..2)_TX0_STATUS
-    title: GSER DLM0 TX0_STATUS
-    address: 0x11800900000F0 + a + b*0x80000
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..2
+        bits: 7..2
         access: ---
         reset: --
         typical: --
@@ -654,14 +605,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_AMPLITUDE
-    title: GSER DLM0 TX0_AMPLITUDE
-    address: 0x11800900000F8 + a + b
+  - name: GSER(0)_DLM(0)_TX_AMPLITUDE
+    title: GSER DLM0 TX_AMPLITUDE
+    address: 0x1180090003008 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..7
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_AMPLITUDE
+        bits: 14..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7
         access: ---
         reset: --
         typical: --
@@ -675,14 +640,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_CM_EN
-    title: GSER DLM0 TX0_CM_EN
-    address: 0x1180090000100 + a + b
+  - name: GSER(0)_DLM(0)_TX_CM_EN
+    title: GSER DLM0 TX_CM_EN
+    address: 0x1180090003010 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_CM_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -696,14 +675,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_DATA_EN
-    title: GSER DLM0 TX0_DATA_EN
-    address: 0x1180090000108 + a + b
+  - name: GSER(0)_DLM(0)_TX_DATA_EN
+    title: GSER DLM0 TX_DATA_EN
+    address: 0x1180090003018 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_DATA_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -717,14 +710,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_EN
-    title: GSER DLM0 TX0_EN
-    address: 0x1180090000110 + a + b
+  - name: GSER(0)_DLM(0)_TX_EN
+    title: GSER DLM0 TX_EN
+    address: 0x1180090003020 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -738,14 +745,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_PREEMPH
-    title: GSER DLM0 TX0_PREEMPH
-    address: 0x1180090000118 + a + b
+  - name: GSER(0)_DLM(0)_TX_PREEMPH
+    title: GSER DLM0 TX_PREEMPH
+    address: 0x1180090003028 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..7
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_PREEMPH
+        bits: 14..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7
         access: ---
         reset: --
         typical: --
@@ -759,14 +780,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_RATE
-    title: GSER DLM0 TX0_RATE
-    address: 0x1180090000120 + a + b
+  - name: GSER(0)_DLM(0)_TX_RATE
+    title: GSER DLM0 TX_RATE
+    address: 0x1180090003030 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..2
+        bits: 63..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_RATE
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..2
         access: ---
         reset: --
         typical: --
@@ -780,14 +815,28 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TX0_RESET
-    title: GSER DLM0 TX0_RESET
-    address: 0x1180090000128 + a + b
+  - name: GSER(0)_DLM(0)_TX_RESET
+    title: GSER DLM0 TX_RESET
+    address: 0x1180090003038 + a + b
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_RESET
+        bits: 8
+        access: R/W
+        reset: 1
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..1
         access: ---
         reset: --
         typical: --
@@ -801,209 +850,34 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0..2)_TX0_TERM_OFFSET
-    title: GSER DLM TX0_TERM_OFFSET
-    address: 0x1180090000130 + a + b*0x80000
+  - name: GSER(0)_DLM(0..2)_TX_TERM_OFFSET
+    title: GSER DLM TX_TERM_OFFSET
+    address: 0x1180090003040 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:
       - name: --
-        bits: 63..5
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX0_TERM_OFFSET
-        bits: 4..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0..2)_TX1_STATUS
-    title: GSER DLM TX1_STATUS
-    address: 0x1180090000138 + a + b*0x80000
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_STATUS
-        bits: 1..0
-        access: RO
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_AMPLITUDE
-    title: GSER DLM0 TX1_AMPLITUDE
-    address: 0x1180090000140 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..7
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_AMPLITUDE
-        bits: 6..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_CM_EN
-    title: GSER DLM0 TX1_CM_EN
-    address: 0x1180090000148 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_CM_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_DATA_EN
-    title: GSER DLM0 TX1_DATA_EN
-    address: 0x1180090000150 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_DATA_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_EN
-    title: GSER DLM0 TX1_EN
-    address: 0x1180090000158 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_EN
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_PREEMPH
-    title: GSER DLM0 TX1_PREEMPH
-    address: 0x1180090000160 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..7
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_PREEMPH
-        bits: 6..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_RATE
-    title: GSER DLM0 TX1_RATE
-    address: 0x1180090000168 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..2
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_RATE
-        bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0)_TX1_RESET
-    title: GSER DLM0 TX1_RESET
-    address: 0x1180090000170 + a + b
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX1_RESET
-        bits: 0
-        access: R/W
-        reset: 1
-        typical: --
-        description: TBD.
-
-
-  - name: GSER(0)_DLM(0..2)_TX1_TERM_OFFSET
-    title: GSER DLM TX1_TERM_OFFSET
-    address: 0x1180090000178 + a + b*0x80000
-    bus: RSL
-    description: TBD.
-    fields:
-      - name: --
-        bits: 63..5
+        bits: 63..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: TX1_TERM_OFFSET
+        bits: 12..8
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: TBD.
+
+      - name: --
+        bits: 7..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX0_TERM_OFFSET
         bits: 4..0
         access: R/W
         reset: 0x0

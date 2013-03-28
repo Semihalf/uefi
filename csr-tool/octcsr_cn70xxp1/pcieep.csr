@@ -3,7 +3,7 @@
 ---
 name: PCIEEP
 registers:
-  - name: PCIEEP(0..1)_CFG000
+  - name: PCIEEP(0..2)_CFG000
     address: 0x30000000000 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG000 = First 32-bits of PCIE type 0 config space (Device ID and Vendor ID Register)
@@ -11,8 +11,8 @@ registers:
       - name: DEVID
         bits: 31..16
         access: RO/WRSL
-        reset: 0x93
-        typical: 0x93
+        reset: 0x96
+        typical: 0x96
         description: |
           "Device ID, writable through PEM#_CFG_WR
           However, the application must not change this field.
@@ -33,7 +33,7 @@ registers:
           PCIE_CFG452 register."
 
 
-  - name: PCIEEP(0..1)_CFG001
+  - name: PCIEEP(0..2)_CFG001
     address: 0x30000000004 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG001 = Second 32-bits of PCIE type 0 config space (Command/Status Register)
@@ -226,7 +226,7 @@ registers:
         description: I/O Space Enable
 
 
-  - name: PCIEEP(0..1)_CFG002
+  - name: PCIEEP(0..2)_CFG002
     address: 0x30000000008 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG002 = Third 32-bits of PCIE type 0 config space (Revision ID/Class Code Register)
@@ -268,7 +268,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG003
+  - name: PCIEEP(0..2)_CFG003
     address: 0x3000000000C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -327,7 +327,7 @@ registers:
           functionality.
 
 
-  - name: PCIEEP(0..1)_CFG004
+  - name: PCIEEP(0..2)_CFG004
     address: 0x30000000010 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG004 = Fifth 32-bits of PCIE type 0 config space (Base Address Register 0 - Low)
@@ -384,7 +384,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG005
+  - name: PCIEEP(0..2)_CFG005
     address: 0x30000000014 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG005 = Sixth 32-bits of PCIE type 0 config space (Base Address Register 0 - High)
@@ -397,7 +397,7 @@ registers:
         description: Contains the upper 32 bits of the BAR 0 base address.
 
 
-  - name: PCIEEP(0..1)_CFG006
+  - name: PCIEEP(0..2)_CFG006
     address: 0x30000000018 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG006 = Seventh 32-bits of PCIE type 0 config space (Base Address Register 1 - Low)
@@ -454,7 +454,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG007
+  - name: PCIEEP(0..2)_CFG007
     address: 0x3000000001C + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG007 = Eighth 32-bits of PCIE type 0 config space (Base Address Register 1 - High)
@@ -467,7 +467,7 @@ registers:
         description: Contains the upper 32 bits of the BAR 1 base address.
 
 
-  - name: PCIEEP(0..1)_CFG008
+  - name: PCIEEP(0..2)_CFG008
     address: 0x30000000020 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG008 = Ninth 32-bits of PCIE type 0 config space (Base Address Register 2 - Low)
@@ -517,7 +517,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG009
+  - name: PCIEEP(0..2)_CFG009
     address: 0x30000000024 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG009 = Tenth 32-bits of PCIE type 0 config space (Base Address Register 2 - High)
@@ -540,7 +540,7 @@ registers:
           is changed, see UBAB.
 
 
-  - name: PCIEEP(0..1)_CFG010
+  - name: PCIEEP(0..2)_CFG010
     address: 0x30000000028 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG010 = Eleventh 32-bits of PCIE type 0 config space (CardBus CIS Pointer Register)
@@ -555,7 +555,7 @@ registers:
           Optional, writable through PEM#_CFG_WR."
 
 
-  - name: PCIEEP(0..1)_CFG011
+  - name: PCIEEP(0..2)_CFG011
     address: 0x3000000002C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -583,7 +583,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG012
+  - name: PCIEEP(0..2)_CFG012
     address: 0x30000000030 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG012 = Thirteenth 32-bits of PCIE type 0 config space (Expansion ROM Base Address Register)
@@ -610,7 +610,7 @@ registers:
         description: Expansion ROM Enable
 
 
-  - name: PCIEEP(0..1)_CFG013
+  - name: PCIEEP(0..2)_CFG013
     address: 0x30000000034 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG013 = Fourteenth 32-bits of PCIE type 0 config space (Capability Pointer Register)
@@ -634,7 +634,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG015
+  - name: PCIEEP(0..2)_CFG015
     address: 0x3000000003C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -676,7 +676,7 @@ registers:
         description: Interrupt Line
 
 
-  - name: PCIEEP(0..1)_CFG016
+  - name: PCIEEP(0..2)_CFG016
     address: 0x30000000040 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -778,7 +778,7 @@ registers:
         description: Power Management Capability ID
 
 
-  - name: PCIEEP(0..1)_CFG017
+  - name: PCIEEP(0..2)_CFG017
     address: 0x30000000044 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -885,7 +885,7 @@ registers:
           not supported.
 
 
-  - name: PCIEEP(0..1)_CFG020
+  - name: PCIEEP(0..2)_CFG020
     address: 0x30000000050 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -965,7 +965,7 @@ registers:
         description: MSI Capability ID
 
 
-  - name: PCIEEP(0..1)_CFG021
+  - name: PCIEEP(0..2)_CFG021
     address: 0x30000000054 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -987,7 +987,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIEEP(0..1)_CFG022
+  - name: PCIEEP(0..2)_CFG022
     address: 0x30000000058 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG022 = Twenty-third 32-bits of PCIE type 0 config space (MSI Upper 32 bits Address Register)
@@ -1000,7 +1000,7 @@ registers:
         description: Upper 32-bit Address
 
 
-  - name: PCIEEP(0..1)_CFG023
+  - name: PCIEEP(0..2)_CFG023
     address: 0x3000000005C + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG023 = Twenty-fourth 32-bits of PCIE type 0 config space (MSI Data Register)
@@ -1023,7 +1023,7 @@ registers:
           MSI_VECTOR to generate 32 MSI Messages per function.
 
 
-  - name: PCIEEP(0..1)_CFG028
+  - name: PCIEEP(0..2)_CFG028
     address: 0x30000000070 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1092,7 +1092,7 @@ registers:
         description: PCIE Capability ID
 
 
-  - name: PCIEEP(0..1)_CFG029
+  - name: PCIEEP(0..2)_CFG029
     address: 0x30000000074 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG029 = Thirtieth 32-bits of PCIE type 0 config space (Device Capabilities Register)
@@ -1219,7 +1219,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG030
+  - name: PCIEEP(0..2)_CFG030
     address: 0x30000000078 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1420,7 +1420,7 @@ registers:
         description: Correctable Error Reporting Enable
 
 
-  - name: PCIEEP(0..1)_CFG031
+  - name: PCIEEP(0..2)_CFG031
     address: 0x3000000007C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1546,7 +1546,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG032
+  - name: PCIEEP(0..2)_CFG032
     address: 0x30000000080 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1727,7 +1727,7 @@ registers:
         description: Active State Link PM Control
 
 
-  - name: PCIEEP(0..1)_CFG037
+  - name: PCIEEP(0..2)_CFG037
     address: 0x30000000094 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1826,7 +1826,7 @@ registers:
         description: Completion Timeout Ranges Supported
 
 
-  - name: PCIEEP(0..1)_CFG038
+  - name: PCIEEP(0..2)_CFG038
     address: 0x30000000098 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1903,7 +1903,7 @@ registers:
           Completion timeout is the range of 16 ms to 55 ms.
 
 
-  - name: PCIEEP(0..1)_CFG039
+  - name: PCIEEP(0..2)_CFG039
     address: 0x3000000009C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -1954,7 +1954,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCIEEP(0..1)_CFG040
+  - name: PCIEEP(0..2)_CFG040
     address: 0x300000000A0 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2112,7 +2112,7 @@ registers:
           0             0010b       5.0 GHz and 2.5 GHz supported"
 
 
-  - name: PCIEEP(0..1)_CFG064
+  - name: PCIEEP(0..2)_CFG064
     address: 0x30000000100 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2141,7 +2141,7 @@ registers:
         description: PCIE Express Extended Capability
 
 
-  - name: PCIEEP(0..1)_CFG065
+  - name: PCIEEP(0..2)_CFG065
     address: 0x30000000104 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2270,7 +2270,7 @@ registers:
           (Was Training Error Status for PCI Express 1.0a)
 
 
-  - name: PCIEEP(0..1)_CFG066
+  - name: PCIEEP(0..2)_CFG066
     address: 0x30000000108 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2399,7 +2399,7 @@ registers:
           (Was Training Error Mask for PCI Express 1.0a)
 
 
-  - name: PCIEEP(0..1)_CFG067
+  - name: PCIEEP(0..2)_CFG067
     address: 0x3000000010C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2528,7 +2528,7 @@ registers:
           (Was Training Error Severity for PCI Express 1.0a)
 
 
-  - name: PCIEEP(0..1)_CFG068
+  - name: PCIEEP(0..2)_CFG068
     address: 0x30000000110 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2599,7 +2599,7 @@ registers:
         description: Receiver Error Status
 
 
-  - name: PCIEEP(0..1)_CFG069
+  - name: PCIEEP(0..2)_CFG069
     address: 0x30000000114 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2670,7 +2670,7 @@ registers:
         description: Receiver Error Mask
 
 
-  - name: PCIEEP(0..1)_CFG070
+  - name: PCIEEP(0..2)_CFG070
     address: 0x30000000118 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2720,7 +2720,7 @@ registers:
         description: First Error Pointer
 
 
-  - name: PCIEEP(0..1)_CFG071
+  - name: PCIEEP(0..2)_CFG071
     address: 0x3000000011C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2735,7 +2735,7 @@ registers:
         description: Header Log Register (first DWORD)
 
 
-  - name: PCIEEP(0..1)_CFG072
+  - name: PCIEEP(0..2)_CFG072
     address: 0x30000000120 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2750,7 +2750,7 @@ registers:
         description: Header Log Register (second DWORD)
 
 
-  - name: PCIEEP(0..1)_CFG073
+  - name: PCIEEP(0..2)_CFG073
     address: 0x30000000124 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2765,7 +2765,7 @@ registers:
         description: Header Log Register (third DWORD)
 
 
-  - name: PCIEEP(0..1)_CFG074
+  - name: PCIEEP(0..2)_CFG074
     address: 0x30000000128 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2780,7 +2780,7 @@ registers:
         description: Header Log Register (fourth DWORD)
 
 
-  - name: PCIEEP(0..1)_CFG448
+  - name: PCIEEP(0..2)_CFG448
     address: 0x30000000700 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2818,7 +2818,7 @@ registers:
           for the correct value.
 
 
-  - name: PCIEEP(0..1)_CFG449
+  - name: PCIEEP(0..2)_CFG449
     address: 0x30000000704 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2845,7 +2845,7 @@ registers:
           it into the packet.
 
 
-  - name: PCIEEP(0..1)_CFG450
+  - name: PCIEEP(0..2)_CFG450
     address: 0x30000000708 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -2946,7 +2946,7 @@ registers:
           Not used for Endpoint
 
 
-  - name: PCIEEP(0..1)_CFG451
+  - name: PCIEEP(0..2)_CFG451
     address: 0x3000000070C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3043,7 +3043,7 @@ registers:
           sending an Ack.
 
 
-  - name: PCIEEP(0..1)_CFG452
+  - name: PCIEEP(0..2)_CFG452
     address: 0x30000000710 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3176,7 +3176,7 @@ registers:
           transmits the Message contained in the Other Message register.
 
 
-  - name: PCIEEP(0..1)_CFG453
+  - name: PCIEEP(0..2)_CFG453
     address: 0x30000000714 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3231,7 +3231,7 @@ registers:
           symbol times.
 
 
-  - name: PCIEEP(0..1)_CFG454
+  - name: PCIEEP(0..2)_CFG454
     address: 0x30000000718 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3293,7 +3293,7 @@ registers:
         description: Max Number of Functions Supported
 
 
-  - name: PCIEEP(0..1)_CFG455
+  - name: PCIEEP(0..2)_CFG455
     address: 0x3000000071C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3436,7 +3436,7 @@ registers:
         description: SKP Interval Value
 
 
-  - name: PCIEEP(0..1)_CFG456
+  - name: PCIEEP(0..2)_CFG456
     address: 0x30000000720 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3479,7 +3479,7 @@ registers:
         description: Mask Vendor MSG Type 0 dropped with UR error reporting.
 
 
-  - name: PCIEEP(0..1)_CFG458
+  - name: PCIEEP(0..2)_CFG458
     address: 0x30000000728 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3494,7 +3494,7 @@ registers:
         description: Debug Info Lower 32 Bits
 
 
-  - name: PCIEEP(0..1)_CFG459
+  - name: PCIEEP(0..2)_CFG459
     address: 0x3000000072C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3509,7 +3509,7 @@ registers:
         description: Debug Info Upper 32 Bits
 
 
-  - name: PCIEEP(0..1)_CFG460
+  - name: PCIEEP(0..2)_CFG460
     address: 0x30000000730 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3544,7 +3544,7 @@ registers:
           end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIEEP(0..1)_CFG461
+  - name: PCIEEP(0..2)_CFG461
     address: 0x30000000734 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3579,7 +3579,7 @@ registers:
           other end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIEEP(0..1)_CFG462
+  - name: PCIEEP(0..2)_CFG462
     address: 0x30000000738 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3614,7 +3614,7 @@ registers:
           other end of the Link, updated with each UpdateFC DLLP.
 
 
-  - name: PCIEEP(0..1)_CFG463
+  - name: PCIEEP(0..2)_CFG463
     address: 0x3000000073C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3659,7 +3659,7 @@ registers:
           the Link.
 
 
-  - name: PCIEEP(0..1)_CFG464
+  - name: PCIEEP(0..2)_CFG464
     address: 0x30000000740 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3695,7 +3695,7 @@ registers:
         description: WRR Weight for VC0
 
 
-  - name: PCIEEP(0..1)_CFG465
+  - name: PCIEEP(0..2)_CFG465
     address: 0x30000000744 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3731,7 +3731,7 @@ registers:
         description: WRR Weight for VC4
 
 
-  - name: PCIEEP(0..1)_CFG466
+  - name: PCIEEP(0..2)_CFG466
     address: 0x30000000748 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3823,7 +3823,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG467
+  - name: PCIEEP(0..2)_CFG467
     address: 0x3000000074C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3885,7 +3885,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG468
+  - name: PCIEEP(0..2)_CFG468
     address: 0x30000000750 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3947,7 +3947,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG490
+  - name: PCIEEP(0..2)_CFG490
     address: 0x300000007A8 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -3993,7 +3993,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG491
+  - name: PCIEEP(0..2)_CFG491
     address: 0x300000007AC + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4039,7 +4039,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG492
+  - name: PCIEEP(0..2)_CFG492
     address: 0x300000007B0 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4085,7 +4085,7 @@ registers:
           However, the application must not change this field."
 
 
-  - name: PCIEEP(0..1)_CFG515
+  - name: PCIEEP(0..2)_CFG515
     address: 0x3000000080C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4168,7 +4168,7 @@ registers:
           L0s.
 
 
-  - name: PCIEEP(0..1)_CFG516
+  - name: PCIEEP(0..2)_CFG516
     address: 0x30000000810 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4183,7 +4183,7 @@ registers:
         description: PHY Status
 
 
-  - name: PCIEEP(0..1)_CFG517
+  - name: PCIEEP(0..2)_CFG517
     address: 0x30000000814 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4198,7 +4198,7 @@ registers:
         description: PHY Control
 
 
-  - name: PCIEEP(0..1)_CFG004_MASK
+  - name: PCIEEP(0..2)_CFG004_MASK
     address: 0x30080000010 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4228,7 +4228,7 @@ registers:
           written prior to writing the other mask bits.
 
 
-  - name: PCIEEP(0..1)_CFG005_MASK
+  - name: PCIEEP(0..2)_CFG005_MASK
     address: 0x30080000014 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4244,7 +4244,7 @@ registers:
         description: Bar Mask High
 
 
-  - name: PCIEEP(0..1)_CFG006_MASK
+  - name: PCIEEP(0..2)_CFG006_MASK
     address: 0x30080000018 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4274,7 +4274,7 @@ registers:
           written prior to writing the other mask bits.
 
 
-  - name: PCIEEP(0..1)_CFG007_MASK
+  - name: PCIEEP(0..2)_CFG007_MASK
     address: 0x3008000001C + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4290,7 +4290,7 @@ registers:
         description: Bar Mask High
 
 
-  - name: PCIEEP(0..1)_CFG008_MASK
+  - name: PCIEEP(0..2)_CFG008_MASK
     address: 0x30080000020 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4320,7 +4320,7 @@ registers:
           written prior to writing the other mask bits.
 
 
-  - name: PCIEEP(0..1)_CFG009_MASK
+  - name: PCIEEP(0..2)_CFG009_MASK
     address: 0x30080000024 + a*0x100000000
     bus: PCICONFIGEP
     description: |
@@ -4336,7 +4336,7 @@ registers:
         description: Bar Mask High
 
 
-  - name: PCIEEP(0..1)_CFG012_MASK
+  - name: PCIEEP(0..2)_CFG012_MASK
     address: 0x30080000030 + a*0x100000000
     bus: PCICONFIGEP
     description: |

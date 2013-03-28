@@ -390,8 +390,8 @@ registers:
         description: |
           Controls whether PERST*_L is driven. A warm/soft reset does not change this field. On cold
           reset, this field is initialized as follows:
-          0 when RST_CTL*[HOST_MODE] = 1
-          1 when RST_CTL*[HOST_MODE] = 0
+          0 when RST_CTL*[HOST_MODE] = 0
+          1 when RST_CTL*[HOST_MODE] = 1
           When set, CN78XX drives the corresponding PERST*_L pin. Otherwise, CN78XX does not drive
           the corresponding PERST*_L pin.
 
@@ -421,7 +421,6 @@ registers:
         description: |
           Controls whether PERST*_L causes a chip warm reset like CHIP_RESET_L. A warm/soft reset
           will not change this field. On cold reset, this field is initialized to 0.
-          RST_CHIP is not used when RST_RCV = 0.
           When RST_RCV = 0, RST_CHIP is ignored.
           When RST_RCV = 1, RST_CHIP = 1, and PERST*_L asserts, a chip warm reset is generated.
 

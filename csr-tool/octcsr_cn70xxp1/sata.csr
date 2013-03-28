@@ -1726,7 +1726,7 @@ registers:
     fields:
       - name: FBU
         bits: 31..0
-        access: RO
+        access: R/W
         reset: 0x0
         typical: --
         description: FIS base upper address.
@@ -2121,7 +2121,7 @@ registers:
 
       - name: FR
         bits: 14
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: FIS receive running.
@@ -2223,7 +2223,7 @@ registers:
     fields:
       - name: SIG
         bits: 31..0
-        access: RO
+        access: RO/H
         reset: 0xffffffff
         typical: --
         description: Signature.
@@ -2245,21 +2245,21 @@ registers:
 
       - name: IPM
         bits: 11..8
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: Interface power management.
 
       - name: SPD
         bits: 7..4
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: Current interface speed.
 
       - name: DET
         bits: 3..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: Device detection.
