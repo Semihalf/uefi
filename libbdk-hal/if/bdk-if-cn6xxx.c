@@ -6,6 +6,7 @@
 #define PIP_IP_OFFSET 2
 #define BDK_PKO_MAX_OUTPUT_QUEUES 256
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
+static int bdk_pko_next_free_queue = 0;
 
 /**
  * One time init of global Packet Input
@@ -247,16 +248,56 @@ static int pko_global_init(bdk_node_t node)
 static int pko_port_init(bdk_if_handle_t handle)
 {
     int num_queues = sizeof(handle->cmd_queue) / sizeof(handle->cmd_queue[0]);
+    int base_queue = bdk_pko_next_free_queue;
+    int num_static_queues = 0;
+    bdk_pko_next_free_queue += num_queues;
+
     for (int queue=0; queue<num_queues; queue++)
     {
         if (bdk_cmd_queue_initialize(handle->node, &handle->cmd_queue[queue]))
             return -1;
-    }
+        void *buf_ptr = bdk_cmd_queue_buffer(&handle->cmd_queue[queue]);
 
-    int result = bdk_pko_config_port(handle->node, handle->pko_port, num_queues, 0, handle->cmd_queue);
-    if (result < 0)
-        return result;
-    handle->pko_queue = result;
+        if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
+        {
+            BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_QUEUE_PTRS);
+            BDK_CSR_DEFINE(ptrs1, BDK_PKO_REG_QUEUE_PTRS1);
+
+            ptrs1.u64 = 0;
+            ptrs1.s.idx3    = queue >> 3;
+            ptrs1.s.qid7    = (base_queue + queue) >> 7;
+
+            ptrs.u64 = 0;
+            ptrs.s.s_tail   = queue == (num_static_queues - 1);
+            ptrs.s.static_p = num_static_queues > 0;
+            ptrs.s.static_q = queue < num_static_queues;
+            ptrs.s.qos_mask = 0xff;
+            ptrs.s.buf_ptr  = bdk_ptr_to_phys(buf_ptr);
+            ptrs.s.tail     = queue == (num_queues - 1);
+            ptrs.s.index    = queue;
+            ptrs.s.port     = handle->pko_port;
+            ptrs.s.queue    = base_queue + queue;
+
+            BDK_CSR_WRITE(handle->node, BDK_PKO_REG_QUEUE_PTRS1, ptrs1.u64);
+            BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_QUEUE_PTRS, ptrs.u64);
+        }
+        else
+        {
+            BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IQUEUE_PTRS);
+            ptrs.u64 = 0;
+            ptrs.s.s_tail   = queue == (num_static_queues - 1);
+            ptrs.s.static_p = num_static_queues > 0;
+            ptrs.s.static_q = queue < num_static_queues;
+            ptrs.s.qos_mask = 0xff;
+            ptrs.s.buf_ptr  = bdk_ptr_to_phys(buf_ptr) >> 7;
+            ptrs.s.tail     = queue == (num_queues - 1);
+            ptrs.s.index    = queue;
+            ptrs.s.ipid     = handle->pko_port;
+            ptrs.s.qid      = base_queue + queue;
+            BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
+        }
+    }
+    handle->pko_queue = base_queue;
 
     BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_COUNT0, handle->pko_port);
     BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_COUNT1, handle->pko_port);

@@ -44,21 +44,6 @@ extern int __bdk_pko_alloc_port(bdk_node_t node);
 
 
 /**
- * Configure a output port and the associated queues for use.
- *
- * @param pko_port   PKO internal port to program
- * @param num_queues Number of queues to associate with this port
- * @param num_static_queues
- *                   Number of queues that should have static priority. Must be less
- *                   than or equal to num_queues.
- * @param qptr       Command queue pointer to use for queues. Must already be initialized.
- *
- * @return The base queue number, or negative on failure.
- */
-extern int bdk_pko_config_port(bdk_node_t node, int pko_port, int num_queues, int num_static_queues, bdk_cmd_queue_state_t *qptr);
-
-
-/**
  * Ring the packet output doorbell. This tells the packet
  * output hardware that "len" command words have been added
  * to its pending list.  This command includes the required
