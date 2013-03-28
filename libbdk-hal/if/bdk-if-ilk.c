@@ -54,9 +54,22 @@ static int if_num_ports(bdk_node_t node, int interface)
         when probing the inteface number, now we check QLM2 */
     int max_lanes;
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
         max_lanes = (bdk_qlm_get_mode(node, 2) == BDK_QLM_MODE_ILK) ? 8 : 4;
+    }
     else
-        max_lanes = 16; // FIXME: What about QLM modes
+    {
+        /* CN78XX: Loop through QLMs 4-7 counting ILK lanes. The first QLM
+            that isn't ILK stops the search */
+        max_lanes = 0;
+        for (int qlm=4; qlm<7; qlm++)
+        {
+            if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
+                max_lanes += 4;
+            else
+                break;
+        }
+    }
 
     /* In ILK interface only exists if there are lanes configured for it */
     int lanes_interface0 = bdk_config_get(BDK_CONFIG_ILK0_LANES);
