@@ -623,78 +623,6 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
 
 
 /**
- * Transmitter loop for PKO ports. This is a PKO optimized
- * version of the above generic implementation.
- *
- * @param tg_port Trafficgen port to transmit on
- * @param packet  Packet to send
- * @param output_cycle_gap
- *                Gap between each packet in core cycles shifted by CYCLE_SHIFT
- */
-static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, uint64_t output_cycle_gap)
-{
-    if (bdk_unlikely(packet->segments >= 64))
-    {
-        bdk_error("PKO can't transmit packets with more than 63 segments\n");
-        return;
-    }
-
-    const trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
-    const int pko_port = tg_port->handle->pko_port;
-    /* Use a second queue if it exists, otherwise use the first queue */
-    const int queue_offset = (sizeof(tg_port->handle->cmd_queue) > sizeof(tg_port->handle->cmd_queue[0])) ? 1 : 0;
-    const int pko_queue = tg_port->handle->pko_queue + queue_offset;
-    bdk_cmd_queue_state_t *cmd_queue = &tg_port->handle->cmd_queue[queue_offset];
-
-    uint64_t count = port_tx->output_count;
-    bdk_pko_command_word0_t pko_command;
-    pko_command.u64 = 0;
-    pko_command.s.dontfree = (count != 1);
-    pko_command.s.ignore_i = 1;
-    pko_command.s.segs = packet->segments;
-    pko_command.s.total_bytes = packet->length;
-    bdk_buf_ptr_t buf = packet->packet;
-    buf.v1.i = 0;
-
-    uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    uint64_t cycle;
-loop_begin:
-    cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    if (bdk_unlikely(cycle < output_cycle))
-        goto idle;
-
-    output_cycle += output_cycle_gap;
-    /* Only free the packet on TX if this is the last packet "i=1"
-        means the packet isn't freed */
-    pko_command.s.dontfree = (count != 1);
-
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(cmd_queue, 0, pko_command.u64, buf.u64);
-    if (bdk_unlikely(result != BDK_CMD_QUEUE_SUCCESS))
-        goto tx_failed;
-
-    bdk_pko_doorbell(tg_port->handle->node, pko_port, pko_queue, 2);
-    count--;
-
-check_done:
-    if (bdk_likely(count))
-    {
-        if (bdk_unlikely(!port_tx->output_enable))
-            count = 1;
-        goto loop_begin;
-    }
-    packet->packet.v1.i = pko_command.s.dontfree;
-    return;
-
-tx_failed:
-    /* Transmit failed. Remember we need to free the packet */
-    pko_command.s.dontfree = 1;
-idle:
-    bdk_thread_yield();
-    goto check_done;
-}
-
-
-/**
  * Transmit loop for each port. This is started as an independent
  * thread.
  *
@@ -735,10 +663,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
         as we need software stats that aren't updated in the optimized PKO */
-    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation() && !OCTEON_IS_MODEL(OCTEON_CN78XX))
-        packet_transmitter_pko(tg_port, &packet, output_cycle_gap);
-    else
-        packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
+    packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
 
     if ((OCTEON_IS_MODEL(OCTEON_CN78XX) && packet.packet.v3.i) ||
         (!OCTEON_IS_MODEL(OCTEON_CN78XX) && packet.packet.v1.i))
