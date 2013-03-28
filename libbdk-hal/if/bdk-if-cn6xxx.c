@@ -252,6 +252,12 @@ static int pko_port_init(bdk_if_handle_t handle)
     int num_static_queues = 0;
     bdk_pko_next_free_queue += num_queues;
 
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        handle->pko_port = __bdk_pko_alloc_port(handle->node);
+    else
+        handle->pko_port = handle->ipd_port;
+
+
     for (int queue=0; queue<num_queues; queue++)
     {
         if (bdk_cmd_queue_initialize(handle->node, &handle->cmd_queue[queue]))

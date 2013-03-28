@@ -25,20 +25,16 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use PKI_CHAN_E channel numbers 0 - 63 */
         handle->ipd_port = handle->index;
-        handle->pko_port = __bdk_pko_alloc_port(handle->node);
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Use IPD ports 0 - 7 */
         handle->ipd_port = handle->index;
-        handle->pko_port = __bdk_pko_alloc_port(handle->node);
     }
     else
     {
         /* Use IPD ports 36 - 39 */
         handle->ipd_port = 36 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
     }
 
     return 0;

@@ -85,17 +85,13 @@ static int if_probe(bdk_if_handle_t handle)
         snprintf(handle->name, sizeof(handle->name), "RGMII%d", handle->index);
         handle->name[sizeof(handle->name)-1] = 0;
         handle->ipd_port = 24; /* New for CN70XX */
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
     }
     else
     {
         /* Change name to be "MGMT%d" */
         snprintf(handle->name, sizeof(handle->name), "MGMT%d", handle->index);
         handle->name[sizeof(handle->name)-1] = 0;
-
         handle->ipd_port = -1;
-        handle->pko_port = -1;
     }
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;

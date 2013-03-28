@@ -45,14 +45,11 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
         handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
-        handle->pko_port = __bdk_pko_alloc_port(handle->node);
     }
     else
     {
         /* Use IPD ports 0 - 3 */
         handle->ipd_port = handle->interface*16 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
     }
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;

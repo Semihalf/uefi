@@ -16,14 +16,11 @@ static int if_probe(bdk_if_handle_t handle)
     {
         /* Use IPD ports 0x100 - 0x11f */
         handle->ipd_port = 0x100 + handle->index;
-        handle->pko_port = __bdk_pko_alloc_port(handle->node);
     }
     else
     {
         /* Use IPD ports 32 - 35 */
         handle->ipd_port = 32 + handle->index;
-        /* PKO ports are the same as IPD */
-        handle->pko_port = handle->ipd_port;
     }
     return 0;
 }
