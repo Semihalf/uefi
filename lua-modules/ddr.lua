@@ -166,9 +166,10 @@ end
 -- @return SPD string or throws an error
 --
 function ddr.read_spd(spd_addr)
-    local twsi_bus = spd_addr / 256
+    local node = spd_addr / 65536
+    local twsi_bus = (spd_addr / 256) % 256
     local twsi_addr = spd_addr % 256
-    local spd_len = octeon.c.bdk_twsix_read_ia(twsi_bus, twsi_addr, 0, 1, 1)
+    local spd_len = octeon.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, 0, 1, 1)
     assert(spd_len ~= -1, "TWSI read failed for SPD")
     spd_len = spd_len % 16
     local length
@@ -183,7 +184,7 @@ function ddr.read_spd(spd_addr)
     end
     local spd = {}
     for i=1,length do
-        local v = octeon.c.bdk_twsix_read_ia(twsi_bus, twsi_addr, i-1, 1, 1)
+        local v = octeon.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, i-1, 1, 1)
         assert(v ~= -1, "TWSI read failed for SPD")
         spd[i] = string.char(v)
     end
