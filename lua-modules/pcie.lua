@@ -74,26 +74,26 @@ local function create_device(root, bus, deviceid, func)
     -- PCIe config space reads
     --
     function newdev:read8(reg)
-        return bit64.band(configr8(self.root.port, self.bus, self.deviceid, self.func, reg), 0xff)
+        return bit64.band(configr8(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg), 0xff)
     end
     function newdev:read16(reg)
-        return bit64.band(configr16(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffff)
+        return bit64.band(configr16(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg), 0xffff)
     end
     function newdev:read32(reg)
-        return bit64.band(configr32(self.root.port, self.bus, self.deviceid, self.func, reg), 0xffffffff)
+        return bit64.band(configr32(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg), 0xffffffff)
     end
 
     --
     -- PCIe config space writes
     --
     function newdev:write8(reg, val)
-        configw8(self.root.port, self.bus, self.deviceid, self.func, reg, val)
+        configw8(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg, val)
     end
     function newdev:write16(reg, val)
-        configw16(self.root.port, self.bus, self.deviceid, self.func, reg, val)
+        configw16(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg, val)
     end
     function newdev:write32(reg, val)
-        configw32(self.root.port, self.bus, self.deviceid, self.func, reg, val)
+        configw32(self.root.node, self.root.port, self.bus, self.deviceid, self.func, reg, val)
     end
 
     --
@@ -443,14 +443,15 @@ end
 --
 -- Initialize a PCIe port and return a table of information about it.
 --
-function pcie.initialize(pcie_port)
+function pcie.initialize(node, pcie_port)
     -- Initialize the PCIe link
-    if octeon.c.bdk_pcie_rc_initialize(pcie_port) ~= 0 then
+    if octeon.c.bdk_pcie_rc_initialize(node, pcie_port) ~= 0 then
         error("bdk_pcie_rc_initialize() failed")
     end
 
     -- Create the root table for storing information
     local pcie_root = {}
+    pcie_root.node = node
     pcie_root.port = pcie_port
     pcie_root.last_bus = 0
     pcie_root.devices = {}
@@ -523,7 +524,7 @@ function pcie.initialize(pcie_port)
     -- Shutdown a PCIe port
     --
     function pcie_root:shutdown()
-        local status = octeon.c.bdk_pcie_rc_shutdown(self.port)
+        local status = octeon.c.bdk_pcie_rc_shutdown(self.node, self.port)
         if status ~= 0 then
             error("bdk_pcie_rc_shutdown() failed")
         end

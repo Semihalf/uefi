@@ -9,7 +9,8 @@ local pcie = require("pcie")
 local pcie_root = {}
 
 local function do_initialize(pcie_port)
-    pcie_root[pcie_port] = pcie.initialize(pcie_port)
+    local node = 0
+    pcie_root[pcie_port] = pcie.initialize(node, pcie_port)
 end
 
 local function do_scan(pcie_port)
