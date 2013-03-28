@@ -270,53 +270,61 @@ static int qlm_reset(bdk_node_t node, int qlm)
  * @param node   Node to use in a numa setup
  * @param qlm    QLM to use
  * @param prbs   PRBS mode (31, etc)
+ * @param dir    Directions to enable. This is so you can enable TX and later
+ *               enable RX after TX has run for a time
  *
  * @return Zero on success, negative on failure
  */
-static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
+static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir)
 {
-    /* 61xx PRBS:
-        cfg_pwrup_set 0 (Covered in qlm.do_reset)
-        cfg_pwrup_clr 1 (Covered in qlm.do_reset)
-        cfg_rst_n_set 1 (Covered in qlm.do_reset)
-        jtg_prbs_mode 0 (0=PRBS7, 1=PRBS15, 2=PRBS23, 3=PRBS31)
-        cfg_pwrup_set 1
-        jtg_prbs_tx_rst_n 1
-        jtg_prbs_rx_rst_n 1 */
-    int jtg_prbs_mode;
-    switch (prbs)
+    if (dir & BDK_QLM_DIRECTION_TX)
     {
-        case 7:
-            jtg_prbs_mode = 0; /* PRBS7 */
-            break;
-        case 15:
-            jtg_prbs_mode = 1; /* PRBS15 */
-            break;
-        case 23:
-            jtg_prbs_mode = 2; /* PRBS23 */
-            break;
-        case 31:
-            jtg_prbs_mode = 3; /* PRBS31 */
-            break;
-        default:
-            bdk_error("Invalid PRBS mode. 7,  15,  23,  31 are supported\n");
-            return -1;
+        /* 61xx PRBS:
+            cfg_pwrup_set 0 (Covered in qlm.do_reset)
+            cfg_pwrup_clr 1 (Covered in qlm.do_reset)
+            cfg_rst_n_set 1 (Covered in qlm.do_reset)
+            jtg_prbs_mode 0 (0=PRBS7, 1=PRBS15, 2=PRBS23, 3=PRBS31)
+            cfg_pwrup_set 1
+            jtg_prbs_tx_rst_n 1
+            jtg_prbs_rx_rst_n 1 */
+        int jtg_prbs_mode;
+        switch (prbs)
+        {
+            case 7:
+                jtg_prbs_mode = 0; /* PRBS7 */
+                break;
+            case 15:
+                jtg_prbs_mode = 1; /* PRBS15 */
+                break;
+            case 23:
+                jtg_prbs_mode = 2; /* PRBS23 */
+                break;
+            case 31:
+                jtg_prbs_mode = 3; /* PRBS31 */
+                break;
+            default:
+                bdk_error("Invalid PRBS mode. 7,  15,  23,  31 are supported\n");
+                return -1;
+        }
+        bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_mode", jtg_prbs_mode);
+
+        /* Disable pattern inversion. Octeon's default (0) has the PRBS
+            pattern inverted. These are persistent and need clearing. */
+        bdk_qlm_jtag_set(qlm, -1, "cfg_tx_pol_set", 1);
+        bdk_qlm_jtag_set(qlm, -1, "cfg_rx_pol_set", 1);
+
+        /* Power up the QLM */
+        bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_set", 1);
+
+        /* Take PRBS TX out of reset */
+        bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_tx_rst_n", 1);
     }
-    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_mode", jtg_prbs_mode);
 
-    /* Disable pattern inversion. Octeon's default (0) has the PRBS
-        pattern inverted. These are persistent and need clearing. */
-    bdk_qlm_jtag_set(qlm, -1, "cfg_tx_pol_set", 1);
-    bdk_qlm_jtag_set(qlm, -1, "cfg_rx_pol_set", 1);
-
-    /* Power up the QLM */
-    bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_set", 1);
-
-    /* Take PRBS TX out of reset */
-    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_tx_rst_n", 1);
-
-    /* Take PRBS RX out of reset */
-    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_rx_rst_n", 1);
+    if (dir & BDK_QLM_DIRECTION_RX)
+    {
+        /* Take PRBS RX out of reset */
+        bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_rx_rst_n", 1);
+    }
     return 0;
 }
 

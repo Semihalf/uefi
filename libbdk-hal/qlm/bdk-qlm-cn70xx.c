@@ -273,10 +273,12 @@ static int qlm_reset(bdk_node_t node, int qlm)
  * @param node   Node to use in a numa setup
  * @param qlm    QLM to use
  * @param prbs   PRBS mode (31, etc)
+ * @param dir    Directions to enable. This is so you can enable TX and later
+ *               enable RX after TX has run for a time
  *
  * @return Zero on success, negative on failure
  */
-static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
+static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir)
 {
     /* FIXME: Enable PRBS */
     bdk_error("CN70XX PRBS not implemented\n");

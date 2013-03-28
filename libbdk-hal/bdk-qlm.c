@@ -202,12 +202,14 @@ int bdk_qlm_reset(bdk_node_t node, int qlm)
  * @param node   Node to use in a numa setup
  * @param qlm    QLM to use
  * @param prbs   PRBS mode (31, etc)
+ * @param dir    Directions to enable. This is so you can enable TX and later
+ *               enable RX after TX has run for a time
  *
  * @return Zero on success, negative on failure
  */
-int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
+int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir)
 {
-    return qlm_ops->enable_prbs(node, qlm, prbs);
+    return qlm_ops->enable_prbs(node, qlm, prbs, dir);
 }
 
 
