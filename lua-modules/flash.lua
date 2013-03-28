@@ -33,7 +33,7 @@ while (option ~= "quit") do
         end
     end
     -- eMMC only available on some chips
-    if octeon.is_model(octeon.CN61XX) then
+    if not octeon.is_model(octeon.CN68XX) then
         m:item("mmc-ini", "Query for eMMC, MMC, or SD", function()
             local mmc_size = octeon.mmc.init()
             printf("Found device of size %d bytes\n", mmc_size)
