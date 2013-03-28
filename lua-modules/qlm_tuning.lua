@@ -3,7 +3,6 @@
 require("strict")
 require("utils")
 require("menu")
-require("qlm")
 local readline = require("readline")
 
 local qlm_tuning = {}
@@ -275,16 +274,16 @@ local function start_prbs(mode, qlm_list)
     -- Reset the QLMs. Do this independently from PRBS so that all
     -- resets are complete before we start PRBS
     for _,qlm_num in ipairs(qlm_list) do
-        qlm.do_reset(qlm_num)
+        octeon.c.bdk_qlm_reset(node, qlm_num)
     end
     -- Start PRBS on the QLMs.
     for _,qlm_num in ipairs(qlm_list) do
-        qlm.do_prbs_tx(qlm_num, mode)
+        octeon.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 1)
     end
     -- Let TX run for 1ms before starting RX
     octeon.c.bdk_wait_usec(1000)
     for _,qlm_num in ipairs(qlm_list) do
-        qlm.do_prbs_rx(qlm_num, mode)
+        octeon.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 2)
     end
 end
 
@@ -689,9 +688,9 @@ function qlm_tuning.run()
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
         m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
         m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
-        m:item("down",   "Reset and power down", qlm.do_reset, qlm_tuning.qlm)
-        m:item("loop1", "Shallow loopback lane 0 and 3", qlm.do_loop, qlm_tuning.qlm, 1)
-        m:item("loop3", "Shallow loopback lane 1 and 2", qlm.do_loop, qlm_tuning.qlm, 3)
+        m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
+        m:item("loop1", "Shallow loopback lane 0 and 3", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 1)
+        m:item("loop3", "Shallow loopback lane 1 and 2", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 2)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
         m:item("prbs23", "PRBS-23", do_prbs, 23)

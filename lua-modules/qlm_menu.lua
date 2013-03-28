@@ -3,7 +3,6 @@
 require("strict")
 require("utils")
 require("menu")
-require("qlm")
 local qlm_tuning = require("qlm_tuning")
 
 -- Check if measured is within 10% of the reference
