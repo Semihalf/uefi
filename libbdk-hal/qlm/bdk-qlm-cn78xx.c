@@ -1,5 +1,4 @@
 #include <bdk.h>
-#include "bdk-qlm-jtag.h"
 #include <stdio.h>
 
 /**
@@ -9,7 +8,7 @@
  */
 static int qlm_get_num(bdk_node_t node)
 {
-    return 14;
+    return 14; /* 8 QLM + 6 OCI */
 }
 
 /**
@@ -55,7 +54,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
  */
 static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
-    return 4;
+    return 4; /* All are 4 lanes each */
 }
 
 
@@ -131,6 +130,9 @@ static bkd_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bkd_qlm_modes_t mode, int baud_mhz)
 {
+    /* FIXME: Set mode */
+    bdk_error("CN78XX qlm_set_mode not implemented\n");
+    return -1;
 }
 
 
@@ -217,6 +219,9 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
  */
 static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
 {
+    /* FIXME: Enable PRBS */
+    bdk_error("CN78XX PRBS not implemented\n");
+    return -1;
 }
 
 
@@ -231,6 +236,8 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs)
  */
 static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 {
+    bdk_error("CN78XX doesn't support shallow QLM loopback\n");
+    return -1;
 }
 
 
@@ -239,6 +246,7 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
  */
 static void qlm_init(bdk_node_t node)
 {
+    /* Nothing to do? */
 }
 
 
