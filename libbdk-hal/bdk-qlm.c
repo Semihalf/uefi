@@ -183,6 +183,20 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 
 
 /**
+ * Reset a QLM to its initial state
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_reset(bdk_node_t node, int qlm)
+{
+    return qlm_ops->reset(node, qlm);
+}
+
+
+/**
  * Enable PRBS on a QLM
  *
  * @param node   Node to use in a numa setup

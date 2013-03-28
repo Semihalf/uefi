@@ -209,6 +209,22 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
 
 
 /**
+ * Reset a QLM to its initial state
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_reset(bdk_node_t node, int qlm)
+{
+    /* FIXME: Reset QLM */
+    bdk_error("CN78XX QLM reset not implemented\n");
+    return -1;
+}
+
+
+/**
  * Enable PRBS on a QLM
  *
  * @param node   Node to use in a numa setup
@@ -262,6 +278,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
     .get_gbaud_mhz = qlm_get_gbaud_mhz,
     .measure_refclock = qlm_measure_refclock,
     .get_qlm_num = qlm_get_qlm_num,
+    .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
     .enable_loop = qlm_enable_loop,
 };

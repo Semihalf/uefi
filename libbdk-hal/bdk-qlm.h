@@ -57,6 +57,7 @@ typedef struct
     int (*get_gbaud_mhz)(bdk_node_t node, int qlm);
     int (*measure_refclock)(bdk_node_t node, int qlm);
     int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface);
+    int (*reset)(bdk_node_t node, int qlm);
     int (*enable_prbs)(bdk_node_t node, int qlm, int prbs);
     int (*enable_loop)(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
 } bdk_qlm_ops_t;
@@ -165,6 +166,16 @@ extern int bdk_qlm_measure_clock(bdk_node_t node, int qlm);
  * @return QLM number or -1 on failure
  */
 extern int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface);
+
+/**
+ * Reset a QLM to its initial state
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_reset(bdk_node_t node, int qlm);
 
 /**
  * Enable PRBS on a QLM

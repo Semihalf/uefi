@@ -232,6 +232,39 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
 
 
 /**
+ * Reset a QLM to its initial state
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+static int qlm_reset(bdk_node_t node, int qlm)
+{
+    /* Place QLM in power down */
+    bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
+    bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_set", 0);
+    bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_clr", 1);
+
+    /* Take and hold QLM out of reset */
+    bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_set", 1);
+    bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_clr", 0);
+
+    /* Turn off Shallow Loopback */
+    bdk_qlm_jtag_set(qlm, -1, "shlpbck", 0);
+    bdk_qlm_jtag_set(qlm, -1, "sl_enable", 0);
+
+    /* Turn off PRBS */
+    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_rst_n", 0);
+    bdk_qlm_jtag_set(qlm, -1, "jtg_run_prbs7", 0);
+    bdk_qlm_jtag_set(qlm, -1, "jtg_run_prbs31", 0);
+    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_tx_rst_n", 0);
+    bdk_qlm_jtag_set(qlm, -1, "jtg_prbs_rx_rst_n", 0);
+    return 0;
+}
+
+
+/**
  * Enable PRBS on a QLM
  *
  * @param node   Node to use in a numa setup
@@ -346,6 +379,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn61xx = {
     .get_gbaud_mhz = qlm_get_gbaud_mhz,
     .measure_refclock = qlm_measure_refclock,
     .get_qlm_num = qlm_get_qlm_num,
+    .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
     .enable_loop = qlm_enable_loop,
 };
