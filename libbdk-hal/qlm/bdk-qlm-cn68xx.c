@@ -189,7 +189,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     return bdk_qlm_ops_cn61xx.measure_refclock(node, qlm);
 }
 
-static void check_qlm_powerup_errata(int qlm)
+static void __bdk_qlm_powerup_G16467_part1(int qlm)
 {
     /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive QLM
         jitter for 6.25 Gbaud */
@@ -208,6 +208,23 @@ static void check_qlm_powerup_errata(int qlm)
                 bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
             }
         }
+    }
+}
+
+void __bdk_qlm_powerup_G16467_part2(int qlm)
+{
+    /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
+        QLM jitter for 6.25 Gbaud */
+    /* This workaround only applies to QLMs running ILK at 6.25Ghz */
+    if ((bdk_qlm_get_gbaud_mhz(bdk_numa_local(), qlm) == 6250) && (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
+    {
+        bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+        bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
+        /* Allow the QLM to exit reset */
+        bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
+        bdk_wait_usec(100); /* Wait 100us for links to stabalize */
+        /* Allow TX on QLM */
+        bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
     }
 }
 
@@ -257,7 +274,7 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     /* Power up the QLM */
     bdk_qlm_jtag_set(qlm, -1, "cfg_pwrup_set", 1);
 
-    check_qlm_powerup_errata(qlm);
+    __bdk_qlm_powerup_G16467_part1(qlm);
     return 0;
 }
 

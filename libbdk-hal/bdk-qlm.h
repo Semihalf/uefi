@@ -40,16 +40,6 @@ typedef enum
 } bdk_qlm_loop_t;
 
 /**
- * This structure is used to describe the QLM bits in bdk-qlm-table
- */
-typedef struct
-{
-    const char *name;
-    uint16_t stop_bit;
-    uint16_t start_bit;
-} __bdk_qlm_jtag_field_t;
-
-/**
  * How to do the various QLM operations changes greatly
  * between chips. Each chip has its specific operations
  * stored in the structure below. The correct structure
@@ -197,26 +187,5 @@ extern int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs);
  * @return Zero on success, negative on failure
  */
 extern int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
-
-/**
- * Get a field in a QLM JTAG chain
- *
- * @param qlm    QLM to get
- * @param lane   Lane in QLM to get
- * @param name   String name of field
- *
- * @return JTAG field value
- */
-extern uint64_t bdk_qlm_jtag_get(int qlm, int lane, const char *name);
-
-/**
- * Set a field in a QLM JTAG chain
- *
- * @param qlm    QLM to set
- * @param lane   Lane in QLM to set, or -1 for all lanes
- * @param name   String name of field
- * @param value  Value of the field
- */
-extern void bdk_qlm_jtag_set(int qlm, int lane, const char *name, uint64_t value);
 
 /** @} */

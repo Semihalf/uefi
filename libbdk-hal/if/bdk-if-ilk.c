@@ -22,23 +22,14 @@ static int if_num_interfaces(bdk_node_t node)
 
         if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
         {
+            extern void __bdk_qlm_powerup_G16467_part2(int qlm);
             /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
                 QLM jitter for 6.25 Gbaud */
             /* Only QLM 1 and 2 can potentially be ILK */
             for (int qlm=1; qlm<=2; qlm++)
             {
-                /* This workaround only applies to QLMs running ILK at 6.25Ghz */
-                if ((bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK) && (bdk_qlm_get_gbaud_mhz(node, qlm) == 6250) &&
-                    (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
-                {
-                    bdk_wait_usec(100); /* Wait 100us for links to stabalize */
-                    bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
-                    /* Allow the QLM to exit reset */
-                    bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
-                    bdk_wait_usec(100); /* Wait 100us for links to stabalize */
-                    /* Allow TX on QLM */
-                    bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
-                }
+                if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
+                    __bdk_qlm_powerup_G16467_part2(qlm);
             }
         }
 

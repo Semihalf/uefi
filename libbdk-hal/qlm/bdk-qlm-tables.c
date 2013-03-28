@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include "bdk-qlm-jtag.h"
 
 const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[] =
 {

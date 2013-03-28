@@ -91,22 +91,12 @@ static int xaui_link_init(bdk_if_handle_t handle)
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X) && (gmx_block != 1))
     {
+        extern void __bdk_qlm_powerup_G16467_part2(int qlm);
         /* Note that GMX 1 was skipped as GMX0 is on the same QLM and
             will always be done first */
         /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
             QLM jitter for 6.25 Gbaud */
-        int qlm = bdk_qlm_get(handle->node, BDK_IF_XAUI, gmx_block);
-        /* This workaround only applies to QLMs running ILK at 6.25Ghz */
-        if ((bdk_qlm_get_gbaud_mhz(handle->node, qlm) == 6250) && (bdk_qlm_jtag_get(qlm, 0, "clkf_byp") != 20))
-        {
-            bdk_wait_usec(100); /* Wait 100us for links to stabalize */
-            bdk_qlm_jtag_set(qlm, -1, "clkf_byp", 20);
-            /* Allow the QLM to exit reset */
-            bdk_qlm_jtag_set(qlm, -1, "cfg_rst_n_clr", 0);
-            bdk_wait_usec(100); /* Wait 100us for links to stabalize */
-            /* Allow TX on QLM */
-            bdk_qlm_jtag_set(qlm, -1, "cfg_tx_idle_set", 0);
-        }
+        __bdk_qlm_powerup_G16467_part2(bdk_qlm_get(handle->node, BDK_IF_XAUI, gmx_block));
     }
 
     /* Wait for PCS to come out of reset */
