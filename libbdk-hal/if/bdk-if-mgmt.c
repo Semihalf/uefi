@@ -60,6 +60,11 @@ static int if_num_ports(bdk_node_t node, int interface)
         return 2;
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 1;
+    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        /* Simulator currently doesn't support IPD port 24 correctly */
+        return bdk_is_simulation() ? 0 : 1;
+    }
     else
         return 0;
 }
@@ -74,12 +79,24 @@ static int if_num_ports(bdk_node_t node, int interface)
  */
 static int if_probe(bdk_if_handle_t handle)
 {
-    /* Change name to be "MGMT%d" */
-    snprintf(handle->name, sizeof(handle->name), "MGMT%d", handle->index);
-    handle->name[sizeof(handle->name)-1] = 0;
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        /* Change name to be "RGMII%d" */
+        snprintf(handle->name, sizeof(handle->name), "RGMII%d", handle->index);
+        handle->name[sizeof(handle->name)-1] = 0;
+        handle->ipd_port = 24; /* New for CN70XX */
+        /* PKO ports are the same as IPD */
+        handle->pko_port = handle->ipd_port;
+    }
+    else
+    {
+        /* Change name to be "MGMT%d" */
+        snprintf(handle->name, sizeof(handle->name), "MGMT%d", handle->index);
+        handle->name[sizeof(handle->name)-1] = 0;
 
-    handle->ipd_port = -1;
-    handle->pko_port = -1;
+        handle->ipd_port = -1;
+        handle->pko_port = -1;
+    }
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
@@ -94,106 +111,121 @@ static int if_probe(bdk_if_handle_t handle)
  */
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->priv = calloc(1, sizeof(mgmt_port_state_t));
-    if (!handle->priv)
-        return -1;
+    int is_rgmii = 1;
 
-    mgmt_port_state_t *state = handle->priv;
-
-    bdk_spinlock_init(&state->tx_lock);
-    bdk_spinlock_init(&state->rx_lock);
-
-    /* Read PHY status register to find the mode of the interface. */
-    int phy_id = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + handle->index);
-    if (phy_id >= 0x1000)
+    /* Chips other than CN70XX feed this with MIX. CN70XX uses the
+        normal IPD/PKO paths */
+    if (handle->ipd_port == -1)
     {
-        /* A PHY address with the special value 0x1000 represents a PHY we can't
-            connect to through MDIO which is assumed to be at 1Gbps */
-        /* A PHY address with the special value 0x1001 represents a PHY we can't
-            connect to through MDIO which is assumed to be at 100Mbps */
-        state->is_rgmii = (phy_id == 0x1000);
-    }
-    else if (phy_id != -1)
-    {
-        bdk_mdio_phy_reg_status_t phy_status;
-        phy_status.u16 = bdk_mdio_read(handle->node, phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
-        state->is_rgmii = (phy_status.s.capable_extended_status == 1);
-    }
-    else
-        state->is_rgmii = 1;
+        handle->priv = calloc(1, sizeof(mgmt_port_state_t));
+        if (!handle->priv)
+            return -1;
 
-    /* Reset the MIX block if it is already running. */
-    BDK_CSR_INIT(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index));
-    if (!mix_ctl.s.reset)
-    {
-        mix_ctl.s.en = 0;
-        BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), busy, ==, 0, 1000000))
+        mgmt_port_state_t *state = handle->priv;
+
+        bdk_spinlock_init(&state->tx_lock);
+        bdk_spinlock_init(&state->rx_lock);
+
+        /* Read PHY status register to find the mode of the interface. */
+        int phy_id = bdk_config_get(BDK_CONFIG_PHY_MGMT_PORT0 + handle->index);
+        if (phy_id >= 0x1000)
         {
-            bdk_error("Timeout waiting for MIX idle\n");
-            free(handle->priv);
-            handle->priv = NULL;
+            /* A PHY address with the special value 0x1000 represents a PHY we can't
+                connect to through MDIO which is assumed to be at 1Gbps */
+            /* A PHY address with the special value 0x1001 represents a PHY we can't
+                connect to through MDIO which is assumed to be at 100Mbps */
+            state->is_rgmii = (phy_id == 0x1000);
+        }
+        else if (phy_id != -1)
+        {
+            bdk_mdio_phy_reg_status_t phy_status;
+            phy_status.u16 = bdk_mdio_read(handle->node, phy_id >> 8, phy_id & 0xff, BDK_MDIO_PHY_REG_STATUS);
+            state->is_rgmii = (phy_status.s.capable_extended_status == 1);
+        }
+        else
+            state->is_rgmii = 1;
+
+        /* Reset the MIX block if it is already running. */
+        BDK_CSR_INIT(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index));
+        if (!mix_ctl.s.reset)
+        {
+            mix_ctl.s.en = 0;
+            BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
+            if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), busy, ==, 0, 1000000))
+            {
+                bdk_error("Timeout waiting for MIX idle\n");
+                free(handle->priv);
+                handle->priv = NULL;
+                return -1;
+            }
+            mix_ctl.s.reset = 1;
+            BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
+            BDK_CSR_READ(handle->node, BDK_MIXX_CTL(handle->index));
+        }
+
+        /* Make sure BIST passed */
+        BDK_CSR_INIT(mix_bist, handle->node, BDK_MIXX_BIST(handle->index));
+        if (mix_bist.u64)
+            bdk_warn("Management port MIX failed BIST (0x%016lx)\n", mix_bist.u64);
+
+        /* Take the control logic out of reset */
+        BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
+            mix_ctl.s.reset = 0);
+
+        /* Read until reset == 0.  Timeout should never happen... */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), reset, ==, 0, 1000000))
+        {
+            bdk_error("Timeout waiting for MIX reset.\n");
             return -1;
         }
-        mix_ctl.s.reset = 1;
-        BDK_CSR_WRITE(handle->node, BDK_MIXX_CTL(handle->index), mix_ctl.u64);
-        BDK_CSR_READ(handle->node, BDK_MIXX_CTL(handle->index));
-    }
 
-    /* Make sure BIST passed */
-    BDK_CSR_INIT(mix_bist, handle->node, BDK_MIXX_BIST(handle->index));
-    if (mix_bist.u64)
-        bdk_warn("Management port MIX failed BIST (0x%016lx)\n", mix_bist.u64);
+        /* Tell the HW where the TX ring is */
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
+                oring1.cn78xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
+                oring1.cn78xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
+        else
+            BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
+                oring1.cn68xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
+                oring1.cn68xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
+
+        /* Setup the RX ring */
+        for (int i=0; i<MGMT_PORT_NUM_RX_BUFFERS; i++)
+        {
+            void *fpa = bdk_fpa_alloc(handle->node, BDK_FPA_PACKET_POOL);
+            if (!fpa)
+            {
+                bdk_error("Failed to allocate buffer.\n");
+                return -1;
+            }
+            state->rx_ring[i].s.len = bdk_fpa_get_block_size(handle->node, BDK_FPA_PACKET_POOL);
+            state->rx_ring[i].s.addr = bdk_ptr_to_phys(fpa);
+        }
+        BDK_SYNCW;
+
+        /* Tell the HW where the RX ring is */
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
+                iring1.cn78xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
+                iring1.cn78xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
+        else
+            BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
+                iring1.cn68xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
+                iring1.cn68xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
+        BDK_CSR_WRITE(handle->node, BDK_MIXX_IRING2(handle->index), MGMT_PORT_NUM_RX_BUFFERS);
+
+        /* Enable the port HW. Packets are not allowed until bdk_mgmt_port_enable() is called */
+        BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
+            mix_ctl.s.crc_strip = 0;    /* Don't strip the ending CRC */
+            mix_ctl.s.en = 1;           /* Enable the port */
+            mix_ctl.s.nbtarb = 0;       /* Arbitration mode */
+            mix_ctl.s.mrq_hwm = 1);     /* MII CB-request FIFO programmable high watermark */
+        is_rgmii = state->is_rgmii;
+    }
 
     BDK_CSR_INIT(agl_gmx_bist, handle->node, BDK_AGL_GMX_BIST);
     if (agl_gmx_bist.u64)
         bdk_warn("Management port AGL failed BIST (0x%016lx)\n", agl_gmx_bist.u64);
-
-    /* Take the control logic out of reset */
-    BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
-        mix_ctl.s.reset = 0);
-
-    /* Read until reset == 0.  Timeout should never happen... */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_MIXX_CTL(handle->index), reset, ==, 0, 1000000))
-    {
-        bdk_error("Timeout waiting for MIX reset.\n");
-        return -1;
-    }
-
-    /* Tell the HW where the TX ring is */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
-            oring1.cn78xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
-            oring1.cn78xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
-    else
-        BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
-            oring1.cn68xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
-            oring1.cn68xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
-
-    /* Setup the RX ring */
-    for (int i=0; i<MGMT_PORT_NUM_RX_BUFFERS; i++)
-    {
-        void *fpa = bdk_fpa_alloc(handle->node, BDK_FPA_PACKET_POOL);
-        if (!fpa)
-        {
-            bdk_error("Failed to allocate buffer.\n");
-            return -1;
-        }
-        state->rx_ring[i].s.len = bdk_fpa_get_block_size(handle->node, BDK_FPA_PACKET_POOL);
-        state->rx_ring[i].s.addr = bdk_ptr_to_phys(fpa);
-    }
-    BDK_SYNCW;
-
-    /* Tell the HW where the RX ring is */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
-            iring1.cn78xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
-            iring1.cn78xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
-    else
-        BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
-            iring1.cn68xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
-            iring1.cn68xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
-    BDK_CSR_WRITE(handle->node, BDK_MIXX_IRING2(handle->index), MGMT_PORT_NUM_RX_BUFFERS);
 
     /* Disable the external input/output */
     BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
@@ -203,16 +235,9 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_FRM_MAX(handle->index), 16384 + 4 - 1);
     BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_RXX_JABBER(handle->index), 16384 + 8);
 
-    /* Enable the port HW. Packets are not allowed until bdk_mgmt_port_enable() is called */
-    BDK_CSR_MODIFY(mix_ctl, handle->node, BDK_MIXX_CTL(handle->index),
-        mix_ctl.s.crc_strip = 0;    /* Don't strip the ending CRC */
-        mix_ctl.s.en = 1;           /* Enable the port */
-        mix_ctl.s.nbtarb = 0;       /* Arbitration mode */
-        mix_ctl.s.mrq_hwm = 1);     /* MII CB-request FIFO programmable high watermark */
-
     /* Select the mode of operation for the interface. */
     BDK_CSR_MODIFY(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index),
-        agl_prtx_ctl.s.mode = !state->is_rgmii);
+        agl_prtx_ctl.s.mode = !is_rgmii);
 
     /* MII clocks counts are based on the 125Mhz reference, so our
         delays need to be scaled to match the core clock rate. The
@@ -223,7 +248,7 @@ static int if_init(bdk_if_handle_t handle)
     /* Take the DLL and clock tree out of reset */
     BDK_CSR_INIT(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index));
     agl_prtx_ctl.s.clkrst = 0;
-    if (state->is_rgmii) // RGMII Initialization
+    if (is_rgmii) // RGMII Initialization
     {
         agl_prtx_ctl.s.dllrst = 0;
         agl_prtx_ctl.s.clktx_byp = 0;
@@ -337,7 +362,6 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
  */
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
-    mgmt_port_state_t *state = handle->priv;
     /* Disable GMX before we make any changes. */
     BDK_CSR_MODIFY(agl_gmx_prtx, handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index),
         agl_gmx_prtx.s.en = 0;
@@ -417,9 +441,10 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     /* Read GMX CFG again to make sure the config is completed. */
     agl_gmx_prtx.u64 = BDK_CSR_READ(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index));
 
+    BDK_CSR_INIT(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index));
     BDK_CSR_INIT(agl_clk, handle->node, BDK_AGL_GMX_TXX_CLK(handle->index));
     agl_clk.s.clk_cnt = 1;    /* MII (both speeds) and RGMII 1000 setting */
-    if (state->is_rgmii)
+    if (agl_prtx_ctl.s.mode == 0)
     {
         if (link_info.s.speed == 10)
             agl_clk.s.clk_cnt = 50;
@@ -446,13 +471,17 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
         c.s.pko_nxa = -1;
         c.s.undflw = -1;
     );
-    BDK_CSR_MODIFY(c, handle->node, BDK_MIXX_INTENA(handle->index),
-        c.s.data_drpena = -1;
-        c.s.ivfena = -1;
-        c.s.irunena = -1;
-        c.s.ovfena = -1;
-        c.s.orunena = -1;
-    );
+
+    if (handle->ipd_port == -1)
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_MIXX_INTENA(handle->index),
+            c.s.data_drpena = -1;
+            c.s.ivfena = -1;
+            c.s.irunena = -1;
+            c.s.ovfena = -1;
+            c.s.orunena = -1;
+        );
+    }
 }
 
 
@@ -529,6 +558,8 @@ static void poll_tx_complete(bdk_if_handle_t handle)
  */
 static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
+    /* Note that this will never be called on CN70XX since the IPD port number
+        isn't -1 */
     mgmt_port_state_t *state = handle->priv;
 
     if (bdk_unlikely(packet->segments != 1))
@@ -581,6 +612,9 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
  */
 static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
+    if (handle->ipd_port != -1)
+        return -1;
+
     /* Find out how many RX packets are pending. As an optimization we
         check this before getting the lock */
     BDK_CSR_INIT(mix_ircnt, handle->node, BDK_MIXX_IRCNT(handle->index));

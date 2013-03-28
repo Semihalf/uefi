@@ -543,7 +543,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
  */
 int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
-    if (bdk_unlikely(__bdk_if_ops[handle->iftype]->if_transmit))
+    if (bdk_unlikely(handle->ipd_port == -1))
         return __bdk_if_ops[handle->iftype]->if_transmit(handle, packet);
     else
         return __bdk_if_global_ops.pko_transmit(handle, packet);
