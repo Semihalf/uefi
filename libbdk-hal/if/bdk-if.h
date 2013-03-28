@@ -93,7 +93,7 @@ typedef struct
     bdk_if_handle_t if_handle;
     int             length;
     int             segments;
-    int             rx_error; /* FIXME: Should be an enum */
+    int             rx_error;
     bdk_buf_ptr_t   packet;
 } bdk_if_packet_t;
 
