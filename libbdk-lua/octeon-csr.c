@@ -309,7 +309,9 @@ static int octeon_csr_index(lua_State* L)
     if(bdk_csr_get_name(name, NULL))
     {
         /* Can't find CSR, assume it is an indexed function */
-        /* Use our argument as the upvalue for the function */
+        /* Use our argument as the first upvalue for the function */
+        /* Put the node in as the second upvalue */
+        lua_pushinteger(L, bdk_numa_local());
         lua_pushcclosure(L, octeon_csr_namecall, 2);
         return 1;
     }
