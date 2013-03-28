@@ -241,7 +241,7 @@ static int trafficgen_do_update(bool do_clear)
                 break;
             case BDK_IF_XAUI:
             {
-                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), 0));
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_block(tg_port->handle), 0));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
             }
@@ -253,7 +253,7 @@ static int trafficgen_do_update(bool do_clear)
             }
             case BDK_IF_SGMII:
             {
-                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO_2(__bdk_if_get_gmx_block(tg_port->handle), __bdk_if_get_gmx_index(tg_port->handle)));
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_block(tg_port->handle), __bdk_if_get_gmx_index(tg_port->handle)));
                 tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
                 break;
             }
@@ -286,7 +286,7 @@ static int trafficgen_do_update(bool do_clear)
                 {
                     int chunk = tg_port->handle->index >> 6;
                     int bit = tg_port->handle->index & 63;
-                    BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX_2(tg_port->handle->interface, chunk));
+                    BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX(tg_port->handle->interface, chunk));
                     if (ilk_rxx_cha_xonx.u & (1ull << bit))
                         tg_port->pinfo.stats.rx_backpressure++;
                 }

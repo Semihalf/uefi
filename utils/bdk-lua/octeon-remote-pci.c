@@ -324,8 +324,8 @@ static void pci_bar1_setup(uint64_t address)
     bar1_entry.s.addr_idx   = address>>22;  /* Physical memory address in 4MB pages */
     bar1_entry.s.end_swp    = 1;            /* 1=little endian order */
     bar1_entry.s.addr_v     = 1;            /* Valid */
-    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0), bar1_entry.u64);
-    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX_2(octeon_pci_port, 0));
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX(octeon_pci_port, 0), bar1_entry.u64);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_BAR1_INDEXX(octeon_pci_port, 0));
 }
 
 

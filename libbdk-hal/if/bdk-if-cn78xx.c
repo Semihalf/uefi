@@ -56,10 +56,10 @@ static int pki_global_init(bdk_node_t node)
         for (int pknd=0; pknd<64; pknd++)
         {
             /* Set all PKNDS to be the correct SSO tag type */
-            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_STYLEX_ALG_2(cluster, pknd),
+            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_STYLEX_ALG(cluster, pknd),
                 c.s.tt = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE));
             /* Set all PKNDS to use style of same number */
-            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_PKINDX_STYLE_2(cluster, pknd),
+            BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_PKINDX_STYLE(cluster, pknd),
                 c.s.pm = 0;
                 c.s.style = pknd);
         }
@@ -143,7 +143,7 @@ static int pki_port_init(bdk_if_handle_t handle)
         int qpg_base = qpg - handle->index;
         int style = handle->pknd;
         /* Configure PKI style */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG_2(cluster, style),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG(cluster, style),
             c.s.lenerr_en = 0; /* Don't check L2 length */
             c.s.fcs_strip = 0; /* Don't strip FCS */
             c.s.fcs_chk = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;
@@ -152,7 +152,7 @@ static int pki_port_init(bdk_if_handle_t handle)
             c.s.qpg_dis_aura = 0; /* Use QPG for aura */
             c.s.qpg_base = qpg_base); /* Base for QPG */
         /* FIXME: Tell PKI to compute checksum */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG2_2(cluster, style),
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG2(cluster, style),
             c.s.csum_lb = 0);
     }
     /* Tell PKI to use cluster group 0 for this PKND */

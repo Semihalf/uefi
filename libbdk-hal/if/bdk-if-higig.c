@@ -66,20 +66,20 @@ static int if_init(bdk_if_handle_t handle)
     }
 
     /* Setup GMX RX to treat the HiGig header as user data to ignore */
-    BDK_CSR_MODIFY(gmx_rx_udd_skp, handle->node, BDK_GMXX_RXX_UDD_SKP_2(gmx_block, 0),
+    BDK_CSR_MODIFY(gmx_rx_udd_skp, handle->node, BDK_GMXX_RXX_UDD_SKP(gmx_block, 0),
         gmx_rx_udd_skp.s.len = header_size;
         gmx_rx_udd_skp.s.fcssel = 0);
 
     /* Disable GMX preamble checking */
-    BDK_CSR_MODIFY(gmx_rx_frm_ctl, handle->node, BDK_GMXX_RXX_FRM_CTL_2(gmx_block, 0),
+    BDK_CSR_MODIFY(gmx_rx_frm_ctl, handle->node, BDK_GMXX_RXX_FRM_CTL(gmx_block, 0),
         gmx_rx_frm_ctl.s.pre_chk = 0);
 
     /* Setup GMX TX to pad properly min sized packets */
-    BDK_CSR_MODIFY(gmx_tx_min_pkt, handle->node, BDK_GMXX_TXX_MIN_PKT_2(gmx_block, 0),
+    BDK_CSR_MODIFY(gmx_tx_min_pkt, handle->node, BDK_GMXX_TXX_MIN_PKT(gmx_block, 0),
         gmx_tx_min_pkt.s.min_size = 59 + header_size);
 
     /* Setup GMX TX to not add a preamble */
-    BDK_CSR_MODIFY(gmx_tx_append, handle->node, BDK_GMXX_TXX_APPEND_2(gmx_block, 0),
+    BDK_CSR_MODIFY(gmx_tx_append, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, 0),
         gmx_tx_append.s.preamble = 0);
 
     /* Reduce the inter frame gap to 8 bytes */

@@ -182,15 +182,15 @@ static void ilk_clear_cal_cn78xx(bdk_node_t node, int interface)
 {
     for (int i=0; i<288; i++)
     {
-        BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(interface, i));
+        BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX(interface, i));
         tx_cal.u = 0;
         tx_cal.s.ctl = 2;
-        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, i), tx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX(interface, i), tx_cal.u);
 
-        BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(interface, i));
+        BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX(interface, i));
         rx_cal.u = 0;
         rx_cal.s.ctl = 2;
-        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, i), rx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX(interface, i), rx_cal.u);
     }
 }
 
@@ -324,8 +324,8 @@ static void ilk_write_cal_entry_cn68xx(bdk_node_t node, int interface, int chann
 
 static void ilk_write_cal_entry_cn78xx(bdk_node_t node, int interface, int channel, int bpid, int pko_pipe)
 {
-    BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX_2(0,0));
-    BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX_2(0,0));
+    BDK_CSR_DEFINE(tx_cal, BDK_ILK_TXX_CAL_ENTRYX(0,0));
+    BDK_CSR_DEFINE(rx_cal, BDK_ILK_RXX_CAL_ENTRYX(0,0));
 
     /* Calendar will be setup such that each 16 entries has the global
         link status in the first entry. This allows the received to
@@ -340,22 +340,22 @@ static void ilk_write_cal_entry_cn78xx(bdk_node_t node, int interface, int chann
     {
         tx_cal.u = 0;
         tx_cal.s.ctl = 1;
-        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, index-1), tx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX(interface, index-1), tx_cal.u);
 
         rx_cal.u = 0;
         rx_cal.s.ctl = 1;
-        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, index-1), rx_cal.u);
+        BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX(interface, index-1), rx_cal.u);
     }
 
     tx_cal.u = 0;
     tx_cal.s.ctl = 0;
     tx_cal.s.channel = channel;
-    BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX_2(interface, index), tx_cal.u);
+    BDK_CSR_WRITE(node, BDK_ILK_TXX_CAL_ENTRYX(interface, index), tx_cal.u);
 
     rx_cal.u = 0;
     rx_cal.s.ctl = 0;
     rx_cal.s.channel = channel;
-    BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX_2(interface, index), rx_cal.u);
+    BDK_CSR_WRITE(node, BDK_ILK_RXX_CAL_ENTRYX(interface, index), rx_cal.u);
 }
 
 static void ilk_write_cal_entry(bdk_node_t node, int interface, int channel, int bpid, int pko_pipe)
@@ -440,7 +440,7 @@ static int if_init(bdk_if_handle_t handle)
     }
     else
     {
-        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CHAX_2(handle->interface, handle->index),
+        BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CHAX(handle->interface, handle->index),
             c.s.port_kind = handle->pknd);
     }
 

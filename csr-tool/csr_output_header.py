@@ -153,8 +153,6 @@ def write(file, csr_list, include_cisco_only):
             out.write("#define arguments_%s -1,-1,-1,-1\n" % macro_name)
             out.write("#define basename_%s \"%s\"\n" % (macro_name, cname.upper()[4:]))
         else:
-            if len(csr["s"].range) == 2:
-                macro_name += "_2" # FIXME: Rename for finding order issues
             out.write("#define typedef_%s(...) %s_t\n" % (macro_name, cname))
             out.write("#define bustype_%s(...) BDK_CSR_TYPE_%s\n" % (macro_name, csr["s"].type))
             params = "p1"

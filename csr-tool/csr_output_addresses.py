@@ -61,8 +61,8 @@ def writeAddress(out, csr, chip_list):
         out.write("static inline uint64_t %s(unsigned long param1)\n" % name)
         error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "param1", "0", "0", "0")
     elif num_params == 2:
-        out.write("static inline uint64_t %s_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));\n" % name)
-        out.write("static inline uint64_t %s_2(unsigned long param1, unsigned long param2)\n" % name)
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));\n" % name)
+        out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2)\n" % name)
         error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "param1", "param2", "0", "0")
     elif num_params == 3:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
