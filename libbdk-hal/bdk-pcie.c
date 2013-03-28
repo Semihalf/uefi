@@ -286,6 +286,31 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
     return 0;
 }
 
+static int __bdk_pcie_read_soft_prst(bdk_node_t node, int pcie_port)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        if (pcie_port)
+            return BDK_CSR_READ(node, BDK_CIU_SOFT_PRST1);
+        else
+            return BDK_CSR_READ(node, BDK_CIU_SOFT_PRST);
+    }
+    else
+        return BDK_CSR_READ(node, BDK_RST_SOFT_PRSTX(pcie_port));
+}
+
+static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_prst)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        if (pcie_port)
+            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST1, soft_prst);
+        else
+            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST, soft_prst);
+    }
+    else
+        BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), soft_prst);
+}
 
 /**
  * Initialize a PCIe gen 2 port for use in host(RC) mode. It doesn't enumerate
@@ -298,7 +323,6 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
 static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
 {
     int i;
-    bdk_ciu_soft_prst_t ciu_soft_prst;
     bdk_mio_rst_ctlx_t mio_rst_ctl;
     bdk_pemx_bar_ctl_t pemx_bar_ctl;
     bdk_pemx_ctl_status_t pemx_ctl_status;
@@ -325,36 +349,17 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     }
 
     /* Bring the PCIe out of reset */
-    if (pcie_port)
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST1);
-    else
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST);
     /* After a chip reset the PCIe will also be in reset. If it isn't,
         most likely someone is trying to init it again without a proper
         PCIe reset */
-    if (ciu_soft_prst.s.soft_prst == 0)
+    if (__bdk_pcie_read_soft_prst(node, pcie_port) == 0)
     {
         /* Reset the port */
-        ciu_soft_prst.s.soft_prst = 1;
-        if (pcie_port)
-            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-        else
-            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
+        __bdk_pcie_write_soft_prst(node, pcie_port, 1);
         /* Wait until pcie resets the ports. */
         bdk_wait_usec(2000);
     }
-    if (pcie_port)
-    {
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST1);
-        ciu_soft_prst.s.soft_prst = 0;
-        BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-    }
-    else
-    {
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST);
-        ciu_soft_prst.s.soft_prst = 0;
-        BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-    }
+    __bdk_pcie_write_soft_prst(node, pcie_port, 0);
 
     /* Wait for PCIe reset to complete */
     bdk_wait_usec(1000);
@@ -513,20 +518,7 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
         bdk_dprintf("PCIe: Port %d shutdown timeout\n", pcie_port);
 
     /* Force reset */
-    if (pcie_port)
-    {
-        bdk_ciu_soft_prst_t ciu_soft_prst;
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST1);
-        ciu_soft_prst.s.soft_prst = 1;
-        BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST1, ciu_soft_prst.u64);
-    }
-    else
-    {
-        bdk_ciu_soft_prst_t ciu_soft_prst;
-        ciu_soft_prst.u64 = BDK_CSR_READ(node, BDK_CIU_SOFT_PRST);
-        ciu_soft_prst.s.soft_prst = 1;
-        BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST, ciu_soft_prst.u64);
-    }
+    __bdk_pcie_write_soft_prst(node, pcie_port, 1);
     return 0;
 }
 
