@@ -662,7 +662,6 @@ static void check_cn68xx(bdk_node_t node)
         if (c.s.dfa) check_dfa(node);
         if (c.s.dpi) check_dpi(node);
         if (c.s.fpa) check_fpa(node);
-        if (c.s.iob) check_iob(node);
         if (c.s.ipd) check_ipd(node);
         if (c.s.key) check_key(node);
         if (c.s.l2c) check_l2c(node);
@@ -1152,7 +1151,6 @@ static void enable_cn68xx(bdk_node_t node)
     enable_dfa(node);
     enable_dpi(node);
     enable_fpa(node);
-    enable_iob(node);
     enable_ipd(node);
     enable_key(node);
     enable_l2c(node);
