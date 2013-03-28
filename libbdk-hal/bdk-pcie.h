@@ -236,17 +236,4 @@ void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, i
  */
 int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port);
 
-/**
- * Wait for posted PCIe read/writes to reach the other side of
- * the internal PCIe switch. This will insure that core
- * read/writes are posted before anything after this function
- * is called. This may be necessary when writing to memory that
- * will later be read using the DMA/PKT engines.
- *
- * @param node      Node to use in a Numa setup. Can be an exact ID or a special
- *                  value.
- * @param pcie_port PCIe port to wait for
- */
-void bdk_pcie_wait_for_pending(bdk_node_t node, int pcie_port);
-
 /** @} */
