@@ -19,7 +19,7 @@ static void *pcie_open(const char *name, int flags)
 
 static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
-    int pcie_port = (long)handle->fs_state - 1;
+    int pcie_port = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
     volatile char in_progress = 1;
 
@@ -32,7 +32,7 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
         return -1;
 
     /* Wait up to 2 seconds for the DMA to complete */
-    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
         bdk_thread_yield();
 
@@ -48,7 +48,7 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
 static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
-    int pcie_port = (long)handle->fs_state - 1;
+    int pcie_port = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
     volatile char in_progress = 1;
 
@@ -61,7 +61,7 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         return -1;
 
     /* Wait up to 2 seconds for the DMA to complete */
-    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
         bdk_thread_yield();
 
