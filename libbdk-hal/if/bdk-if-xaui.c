@@ -9,7 +9,7 @@ static int if_num_interfaces(bdk_node_t node)
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         return 0;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        return 1;
+        return 1; /* CN70XX can have RXAUI on DLM0 */
     else
         return 0;
 }
@@ -304,6 +304,8 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             BDK_CSR_INIT(qlm_cfg, handle->node, BDK_MIO_QLMX_CFG(qlm));
             result.s.lanes = (qlm_cfg.s.qlm_cfg == 7) ? 2 : 4;
         }
+        else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            result.s.lanes = 2; /* CN70XX is RXAUI */
         else
             result.s.lanes = 4;
         result.s.up = 1;
