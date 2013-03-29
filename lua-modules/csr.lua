@@ -28,21 +28,21 @@ local bit64 = require("bit64")
 -- Create an instance of a CSR object that can perform operations on a CSR.
 -- Instances are created once the full address information is resolved.
 --
-local function csr_instance(csr_name, csr_type, busnum, csr_size, address, fields, read_func, write_func)
+local function csr_instance(node, csr_name, csr_type, busnum, csr_size, address, fields, read_func, write_func)
     local csr = {}
 
     ---
     -- Read a CSR and return its value
     --
     function csr.read()
-        return read_func(csr_type, busnum, csr_size, address)
+        return read_func(node, csr_type, busnum, csr_size, address)
     end
 
     ---
     -- Write a value to a CSR
     --
     function csr.write(value)
-        write_func(csr_type, busnum, csr_size, address, value)
+        write_func(node, csr_type, busnum, csr_size, address, value)
     end
 
     ---
@@ -149,27 +149,37 @@ end
 -- function that returns the CSR object once the proper parameters are
 -- present.
 --
-local function create_csr(csr_name, csr_type, csr_size, num_params, base_address,
-    range1, increment1, range2, increment2, fields, read_func, write_func)
+local function create_csr(node, csr_name, csr_type, csr_size, base_address, params,
+    fields, read_func, write_func)
+    local num_params = #params / 2
     if num_params == 0 then
-        return csr_instance(csr_name, csr_type, 0, csr_size, base_address, fields, read_func, write_func)
-    elseif num_params == 1 then
-        return function (index)
-            check_range(index, range1)
-            local address = base_address + index * increment1
-            local name = "%s(%d)" % {csr_name, index}
-            return csr_instance(name, csr_type, index, csr_size, address, fields, read_func, write_func)
-        end
-    elseif num_params == 2 then
-        return function (index, block)
-            check_range(index, range1)
-            check_range(block, range2)
-            local address = base_address + index * increment1 + block * increment2
-            local name = "%s(%d,%d)" % {csr_name, index, block}
-            return csr_instance(name, csr_type, block, csr_size, address, fields, read_func, write_func)
-        end
+        return csr_instance(node, csr_name, csr_type, 0, csr_size, base_address, fields, read_func, write_func)
     else
-        error("Invalid number of parameters for a CSR")
+        return function (...)
+            local args = table.pack(...)
+            local address = base_address
+            local name = csr_name
+            if #args ~= num_params then
+                error("CSR %s requires %d parameters" % {name, num_params})
+            end
+            for i=1,num_params do
+                check_range(args[i], params[i*2-1])
+                address = address + args[i] * params[i*2]
+                if i == 1 then
+                    name = "(%d" % args[i]
+                else
+                    name = ",%d" % args[i]
+                end
+            end
+            if num_params > 0 then
+                name = name .. ")"
+            end
+            local busnum = 0
+            if num_params > 0 then
+                busnum = args[1]
+            end
+            return csr_instance(node, name, csr_type, busnum, csr_size, address, fields, read_func, write_func)
+        end
     end
 end
 
@@ -179,21 +189,27 @@ end
 --
 local function build_table(chip_csr, container, read_func, write_func)
     local csr_table = {}
+    local node = 0 -- FIXME: Numa support in Lua CSRs
     for n,c in pairs(chip_csr) do
         -- Determine if this CSR needs parameters
-        local params = 0
-        if c.range2 then
-            params = 2
-        elseif c.range1 then
-            params = 1
+        local params = {}
+        local i = 0
+        while true do
+            local key = "range" .. (i+1)
+            if c[key] then
+                table.insert(params, c[key])
+                table.insert(params, c[key .. "_inc"])
+                i = i + 1
+            else
+                break
+            end
         end
         -- Convert the CSR type from a string into a number
         local csr_type = container["CSR_TYPE_" .. c.type]
         assert(csr_type, "Illegal CSR type " .. c.type)
         -- Create the CSR table entry
-        csr_table[n] = create_csr(n, csr_type, c.width, params, c.address,
-            c.range1, c.range1_inc, c.range2, c.range2_inc, c.fields,
-            read_func, write_func)
+        csr_table[n] = create_csr(node, n, csr_type, c.width, c.address, params,
+            c.fields, read_func, write_func)
     end
 
     --
