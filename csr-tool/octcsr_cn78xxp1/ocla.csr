@@ -123,11 +123,12 @@ registers:
       - name: DAT_SIZE
         bits: 15..0
         access: RO
-        reset: 0x2000
+        reset: --
         typical: 0x2000
         description: |
           Size of data RAM in units of 36-bit entries. This value is subject to change between chip
           passes, and software should thus use this value rather than a hard coded constant.
+          ROC capture size is 8K .PCL capture size is 4K.
 
 
   - name: OCLA(0..4)_SFT_RST
