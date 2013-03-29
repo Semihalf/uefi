@@ -33,10 +33,8 @@ def write(file, separate_chip_lists, include_cisco_only):
             out.write("            width = %d,\n" % (csr.getNumBits() / 8))
             out.write("            address = 0x%x,\n" % csr.address_info[0])
             for i in xrange(len(csr.range)):
-                # Reverse the order so offset is before block, which is what
-                # has historically been used with Octeon
-                r = csr.range[-i-1]
-                mult = csr.address_info[-i-1]
+                r = csr.range[i]
+                mult = csr.address_info[i+1]
                 out.write("            range%d = %s,\n" % (i+1, range_string(r)))
                 out.write("            range%d_inc = 0x%x,\n" % (i+1, mult))
             out.write("            fields = {\n")
