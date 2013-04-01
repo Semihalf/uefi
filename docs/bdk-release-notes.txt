@@ -10,7 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon-bdk-2012.10-79005
+octeon-bdk-2012.12-79005
 ------------------------
 * Fix SGMII auto negotiation broken in last release. The changes to allow
 	forcing of SGMII speed in the previous release broke speed
