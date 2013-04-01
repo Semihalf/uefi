@@ -696,15 +696,15 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         {
             uint64_t    reserved_60_63  : 4;
             uint64_t    aura            :12;    /**< Aura to return buffers to */
-            uint64_t    reserved_47     : 1;
-            uint64_t    ckl4            : 1;    /**< Checksum L4 (TCP/UDP) */
+            uint64_t    ckl4            : 2;    /**< Checksum L4 (TCP/UDP) */
             uint64_t    ckl3            : 1;    /**< Checksum L3 (IP) */
             uint64_t    ds              : 1;    /**< Don't send */
             uint64_t    le              : 1;    /**< Little endian */
             uint64_t    n2              : 1;    /**< No L2 allocate */
             uint64_t    ii              : 1;    /**< Ignore I bit */
             uint64_t    df              : 1;    /**< Don't free */
-            uint64_t    format          : 8;    /**< Format index */
+            uint64_t    fcs             : 1;    /**< Add FCS */
+            uint64_t    format          : 7;    /**< Format index */
             uint64_t    l4ptr           : 8;    /**< Layer 4 offset */
             uint64_t    l3Ptr           : 8;    /**< Layer 3 offset */
             uint64_t    total           :16;    /**< Total byte count */
@@ -747,6 +747,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_hdr_s.u = 0;
     pko_send_hdr_s.s.aura = handle->aura;
     pko_send_hdr_s.s.n2 = 1;
+    pko_send_hdr_s.s.fcs = (handle->flags & BDK_IF_FLAGS_HAS_FCS) != 0;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
 
