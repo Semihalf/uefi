@@ -3669,7 +3669,7 @@ enums:
           reg_name: "HNA_ERROR"
         description: See HNA_ERROR[OSMERR].
 
-      - name: LUT_SBE_CMB0
+      - name: PKO_LUT_SBE_CMB0
         value: 0x50000
         attributes:
           bit_name: "LUT_SBE_CMB0"
@@ -3680,10 +3680,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000BFFFE8)"
-          reg_name: "LUT_ECC_SBE_STS_CMB0"
-        description: See LUT_ECC_SBE_STS_CMB0[LUT_SBE_CMB0].
+          reg_name: "PKO_LUT_ECC_SBE_STS_CMB0"
+        description: See PKO_LUT_ECC_SBE_STS_CMB0[LUT_SBE_CMB0].
 
-      - name: LUT_DBE_CMB0
+      - name: PKO_LUT_DBE_CMB0
         value: 0x50001
         attributes:
           bit_name: "LUT_DBE_CMB0"
@@ -3694,10 +3694,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000BFFFD8)"
-          reg_name: "LUT_ECC_DBE_STS_CMB0"
-        description: See LUT_ECC_DBE_STS_CMB0[LUT_DBE_CMB0].
+          reg_name: "PKO_LUT_ECC_DBE_STS_CMB0"
+        description: See PKO_LUT_ECC_DBE_STS_CMB0[LUT_DBE_CMB0].
 
-      - name: PSE_DQ_SBE_CMB0
+      - name: PKO_PSE_DQ_SBE_CMB0
         value: 0x50002
         attributes:
           bit_name: "PSE_DQ_SBE_CMB0"
@@ -3708,10 +3708,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000000110)"
-          reg_name: "PSE_DQ_ECC_SBE_STS_CMB0"
-        description: See PSE_DQ_ECC_SBE_STS_CMB0[PSE_DQ_SBE_CMB0].
+          reg_name: "PKO_PSE_DQ_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_DQ_ECC_SBE_STS_CMB0[PSE_DQ_SBE_CMB0].
 
-      - name: PSE_DQ_DBE_CMB0
+      - name: PKO_PSE_DQ_DBE_CMB0
         value: 0x50003
         attributes:
           bit_name: "PSE_DQ_DBE_CMB0"
@@ -3722,10 +3722,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000000120)"
-          reg_name: "PSE_DQ_ECC_DBE_STS_CMB0"
-        description: See PSE_DQ_ECC_DBE_STS_CMB0[PSE_DQ_DBE_CMB0].
+          reg_name: "PKO_PSE_DQ_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_DQ_ECC_DBE_STS_CMB0[PSE_DQ_DBE_CMB0].
 
-      - name: PSE_SQ2_SBE_CMB0
+      - name: PKO_PSE_SQ2_SBE_CMB0
         value: 0x50004
         attributes:
           bit_name: "PSE_SQ2_SBE_CMB0"
@@ -3736,10 +3736,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000100110)"
-          reg_name: "PSE_SQ2_ECC_SBE_STS_CMB0"
-        description: See PSE_SQ2_ECC_SBE_STS_CMB0[PSE_SQ2_SBE_CMB0].
+          reg_name: "PKO_PSE_SQ2_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_SQ2_ECC_SBE_STS_CMB0[PSE_SQ2_SBE_CMB0].
 
-      - name: PSE_SQ2_DBE_CMB0
+      - name: PKO_PSE_SQ2_DBE_CMB0
         value: 0x50005
         attributes:
           bit_name: "PSE_SQ2_DBE_CMB0"
@@ -3750,10 +3750,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000100120)"
-          reg_name: "PSE_SQ2_ECC_DBE_STS_CMB0"
-        description: See PSE_SQ2_ECC_DBE_STS_CMB0[PSE_SQ2_DBE_CMB0].
+          reg_name: "PKO_PSE_SQ2_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_SQ2_ECC_DBE_STS_CMB0[PSE_SQ2_DBE_CMB0].
 
-      - name: PSE_SQ3_SBE_CMB0
+      - name: PKO_PSE_SQ3_SBE_CMB0
         value: 0x50006
         attributes:
           bit_name: "PSE_SQ3_SBE_CMB0"
@@ -3764,10 +3764,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000180110)"
-          reg_name: "PSE_SQ3_ECC_SBE_STS_CMB0"
-        description: See PSE_SQ3_ECC_SBE_STS_CMB0[PSE_SQ3_SBE_CMB0].
+          reg_name: "PKO_PSE_SQ3_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_SQ3_ECC_SBE_STS_CMB0[PSE_SQ3_SBE_CMB0].
 
-      - name: PSE_SQ3_DBE_CMB0
+      - name: PKO_PSE_SQ3_DBE_CMB0
         value: 0x50007
         attributes:
           bit_name: "PSE_SQ3_DBE_CMB0"
@@ -3778,10 +3778,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000180120)"
-          reg_name: "PSE_SQ3_ECC_DBE_STS_CMB0"
-        description: See PSE_SQ3_ECC_DBE_STS_CMB0[PSE_SQ3_DBE_CMB0].
+          reg_name: "PKO_PSE_SQ3_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_SQ3_ECC_DBE_STS_CMB0[PSE_SQ3_DBE_CMB0].
 
-      - name: PDM_SBE_CMB0
+      - name: PKO_PDM_SBE_CMB0
         value: 0x50008
         attributes:
           bit_name: "PDM_SBE_CMB0"
@@ -3792,10 +3792,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x15400008FFFE8)"
-          reg_name: "PDM_ECC_SBE_STS_CMB0"
-        description: See PDM_ECC_SBE_STS_CMB0[PDM_SBE_CMB0].
+          reg_name: "PKO_PDM_ECC_SBE_STS_CMB0"
+        description: See PKO_PDM_ECC_SBE_STS_CMB0[PDM_SBE_CMB0].
 
-      - name: PDM_DBE_CMB0
+      - name: PKO_PDM_DBE_CMB0
         value: 0x50009
         attributes:
           bit_name: "PDM_DBE_CMB0"
@@ -3806,10 +3806,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x15400008FFFD8)"
-          reg_name: "PDM_ECC_DBE_STS_CMB0"
-        description: See PDM_ECC_DBE_STS_CMB0[PDM_DBE_CMB0].
+          reg_name: "PKO_PDM_ECC_DBE_STS_CMB0"
+        description: See PKO_PDM_ECC_DBE_STS_CMB0[PDM_DBE_CMB0].
 
-      - name: PSE_SQ1_SBE_CMB0
+      - name: PKO_PSE_SQ1_SBE_CMB0
         value: 0x5000A
         attributes:
           bit_name: "PSE_SQ1_SBE_CMB0"
@@ -3820,10 +3820,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000080110)"
-          reg_name: "PSE_SQ1_ECC_SBE_STS_CMB0"
-        description: See PSE_SQ1_ECC_SBE_STS_CMB0[PSE_SQ1_SBE_CMB0].
+          reg_name: "PKO_PSE_SQ1_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_SQ1_ECC_SBE_STS_CMB0[PSE_SQ1_SBE_CMB0].
 
-      - name: PSE_SQ1_DBE_CMB0
+      - name: PKO_PSE_SQ1_DBE_CMB0
         value: 0x5000B
         attributes:
           bit_name: "PSE_SQ1_DBE_CMB0"
@@ -3834,10 +3834,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000080120)"
-          reg_name: "PSE_SQ1_ECC_DBE_STS_CMB0"
-        description: See PSE_SQ1_ECC_DBE_STS_CMB0[PSE_SQ1_DBE_CMB0].
+          reg_name: "PKO_PSE_SQ1_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_SQ1_ECC_DBE_STS_CMB0[PSE_SQ1_DBE_CMB0].
 
-      - name: PSE_PQ_SBE_CMB0
+      - name: PKO_PSE_PQ_SBE_CMB0
         value: 0x5000C
         attributes:
           bit_name: "PSE_PQ_SBE_CMB0"
@@ -3848,10 +3848,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000300110)"
-          reg_name: "PSE_PQ_ECC_SBE_STS_CMB0"
-        description: See PSE_PQ_ECC_SBE_STS_CMB0[PSE_PQ_SBE_CMB0].
+          reg_name: "PKO_PSE_PQ_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_PQ_ECC_SBE_STS_CMB0[PSE_PQ_SBE_CMB0].
 
-      - name: PSE_PQ_DBE_CMB0
+      - name: PKO_PSE_PQ_DBE_CMB0
         value: 0x5000D
         attributes:
           bit_name: "PSE_PQ_DBE_CMB0"
@@ -3862,10 +3862,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000300120)"
-          reg_name: "PSE_PQ_ECC_DBE_STS_CMB0"
-        description: See PSE_PQ_ECC_DBE_STS_CMB0[PSE_PQ_DBE_CMB0].
+          reg_name: "PKO_PSE_PQ_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_PQ_ECC_DBE_STS_CMB0[PSE_PQ_DBE_CMB0].
 
-      - name: PSE_SQ4_SBE_CMB0
+      - name: PKO_PSE_SQ4_SBE_CMB0
         value: 0x5000E
         attributes:
           bit_name: "PSE_SQ4_SBE_CMB0"
@@ -3876,10 +3876,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000200110)"
-          reg_name: "PSE_SQ4_ECC_SBE_STS_CMB0"
-        description: See PSE_SQ4_ECC_SBE_STS_CMB0[PSE_SQ4_SBE_CMB0].
+          reg_name: "PKO_PSE_SQ4_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_SQ4_ECC_SBE_STS_CMB0[PSE_SQ4_SBE_CMB0].
 
-      - name: PSE_SQ4_DBE_CMB0
+      - name: PKO_PSE_SQ4_DBE_CMB0
         value: 0x5000F
         attributes:
           bit_name: "PSE_SQ4_DBE_CMB0"
@@ -3890,10 +3890,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000200120)"
-          reg_name: "PSE_SQ4_ECC_DBE_STS_CMB0"
-        description: See PSE_SQ4_ECC_DBE_STS_CMB0[PSE_SQ4_DBE_CMB0].
+          reg_name: "PKO_PSE_SQ4_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_SQ4_ECC_DBE_STS_CMB0[PSE_SQ4_DBE_CMB0].
 
-      - name: PSE_SQ5_SBE_CMB0
+      - name: PKO_PSE_SQ5_SBE_CMB0
         value: 0x50010
         attributes:
           bit_name: "PSE_SQ5_SBE_CMB0"
@@ -3904,10 +3904,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000280110)"
-          reg_name: "PSE_SQ5_ECC_SBE_STS_CMB0"
-        description: See PSE_SQ5_ECC_SBE_STS_CMB0[PSE_SQ5_SBE_CMB0].
+          reg_name: "PKO_PSE_SQ5_ECC_SBE_STS_CMB0"
+        description: See PKO_PSE_SQ5_ECC_SBE_STS_CMB0[PSE_SQ5_SBE_CMB0].
 
-      - name: PSE_SQ5_DBE_CMB0
+      - name: PKO_PSE_SQ5_DBE_CMB0
         value: 0x50011
         attributes:
           bit_name: "PSE_SQ5_DBE_CMB0"
@@ -3918,10 +3918,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000280120)"
-          reg_name: "PSE_SQ5_ECC_DBE_STS_CMB0"
-        description: See PSE_SQ5_ECC_DBE_STS_CMB0[PSE_SQ5_DBE_CMB0].
+          reg_name: "PKO_PSE_SQ5_ECC_DBE_STS_CMB0"
+        description: See PKO_PSE_SQ5_ECC_DBE_STS_CMB0[PSE_SQ5_DBE_CMB0].
 
-      - name: NCB_SBE_CMB0
+      - name: PKO_NCB_SBE_CMB0
         value: 0x50012
         attributes:
           bit_name: "NCB_SBE_CMB0"
@@ -3932,10 +3932,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000EFFFE8)"
-          reg_name: "NCB_ECC_SBE_STS_CMB0"
-        description: See NCB_ECC_SBE_STS_CMB0[NCB_SBE_CMB0].
+          reg_name: "PKO_NCB_ECC_SBE_STS_CMB0"
+        description: See PKO_NCB_ECC_SBE_STS_CMB0[NCB_SBE_CMB0].
 
-      - name: NCB_DBE_CMB0
+      - name: PKO_NCB_DBE_CMB0
         value: 0x50013
         attributes:
           bit_name: "NCB_DBE_CMB0"
@@ -3946,10 +3946,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x1540000EFFFD8)"
-          reg_name: "NCB_ECC_DBE_STS_CMB0"
-        description: See NCB_ECC_DBE_STS_CMB0[NCB_DBE_CMB0].
+          reg_name: "PKO_NCB_ECC_DBE_STS_CMB0"
+        description: See PKO_NCB_ECC_DBE_STS_CMB0[NCB_DBE_CMB0].
 
-      - name: PEB_SBE_CMB0
+      - name: PKO_PEB_SBE_CMB0
         value: 0x50014
         attributes:
           bit_name: "PEB_SBE_CMB0"
@@ -3960,10 +3960,10 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x15400009FFFE8)"
-          reg_name: "PEB_ECC_SBE_STS_CMB0"
-        description: See PEB_ECC_SBE_STS_CMB0[PEB_SBE_CMB0].
+          reg_name: "PKO_PEB_ECC_SBE_STS_CMB0"
+        description: See PKO_PEB_ECC_SBE_STS_CMB0[PEB_SBE_CMB0].
 
-      - name: PEB_DBE_CMB0
+      - name: PKO_PEB_DBE_CMB0
         value: 0x50015
         attributes:
           bit_name: "PEB_DBE_CMB0"
@@ -3974,8 +3974,8 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           reg_addr: "(0x15400009FFFD8)"
-          reg_name: "PEB_ECC_DBE_STS_CMB0"
-        description: See PEB_ECC_DBE_STS_CMB0[PEB_DBE_CMB0].
+          reg_name: "PKO_PEB_ECC_DBE_STS_CMB0"
+        description: See PKO_PEB_ECC_DBE_STS_CMB0[PEB_DBE_CMB0].
 
       - name: PKO_FPA_NO_PTRS
         value: 0x500FB
