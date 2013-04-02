@@ -523,6 +523,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         packet->segments = wqe->word2.v1.bufs;
         packet->packet = wqe->packet_ptr;
     }
+    packet->aura = packet->packet.v1.pool;
 
     if (bdk_unlikely(!packet->if_handle))
     {
@@ -659,6 +660,7 @@ static int packet_alloc(bdk_if_packet_t *packet, int length)
     /* Start off with an empty packet */
     packet->length = 0;
     packet->segments = 0;
+    packet->aura = BDK_FPA_PACKET_POOL;
 
     /* Add buffers while the packet is less that the needed length */
     while (packet->length < length)

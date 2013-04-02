@@ -92,6 +92,7 @@ typedef struct
 {
     bdk_if_handle_t if_handle;
     int             length;
+    int             aura;
     int             segments;
     int             rx_error;
     bdk_buf_ptr_t   packet;

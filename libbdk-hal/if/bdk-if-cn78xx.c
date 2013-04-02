@@ -665,6 +665,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         packet->if_handle->aura, packet->if_handle->pknd);
     packet->length = wqe->word1.v3.len;
     packet->segments = wqe->word0.v3.bufs;
+    packet->aura = wqe->word0.v3.aura;
     packet->packet = wqe->packet_ptr;
     if (bdk_unlikely(wqe->word2.v3.errlev || wqe->word2.v3.opcode))
         packet->rx_error = wqe->word2.u64 & 0x7ff;
@@ -745,7 +746,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Build the two PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
-    pko_send_hdr_s.s.aura = handle->aura;
+    pko_send_hdr_s.s.aura = packet->aura;
     pko_send_hdr_s.s.n2 = 1;
     pko_send_hdr_s.s.fcs = (handle->flags & BDK_IF_FLAGS_HAS_FCS) != 0;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
@@ -803,6 +804,7 @@ static int packet_alloc(bdk_if_packet_t *packet, int length)
     /* Start off with an empty packet */
     packet->length = 0;
     packet->segments = 0;
+    packet->aura = aura;
 
     /* Add buffers while the packet is less that the needed length */
     while (packet->length < length)
@@ -837,7 +839,7 @@ static int packet_alloc(bdk_if_packet_t *packet, int length)
  */
 static void packet_free(bdk_if_packet_t *packet)
 {
-    const int aura = packet->if_handle->aura;
+    const int aura = packet->aura;
     int number_buffers = packet->segments;
     bdk_buf_ptr_t buffer_ptr = packet->packet;
     bdk_buf_ptr_t next_buffer_ptr;
