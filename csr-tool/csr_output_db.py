@@ -129,7 +129,7 @@ def getCsrTable(csr_str):
 #
 # Create a CSR database
 #
-def write(file, separate_chip_lists, include_cisco_only):
+def write(file, separate_chip_infos, include_cisco_only):
     out = open(file, "w")
     out.write('#include <bdk.h>\n')
     out.write("\n")
@@ -139,10 +139,10 @@ def write(file, separate_chip_lists, include_cisco_only):
     # Write the per chip CSR tables
     #
     null_csr = getCsrTable("{-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}")
-    for chip_index in range(len(separate_chip_lists)):
-        chip = separate_chip_lists[chip_index].name
+    for chip_index in range(len(separate_chip_infos)):
+        chip = separate_chip_infos[chip_index].name
         out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
-        for csr in separate_chip_lists[chip_index]:
+        for csr in separate_chip_infos[chip_index].iterCsr():
             if csr.cisco_only and not include_cisco_only:
                 continue
             # Leave out Fusion
@@ -229,8 +229,8 @@ def write(file, separate_chip_lists, include_cisco_only):
     # Write the chip id to CSR table map
     #
     out.write("const __bdk_csr_db_map_t __bdk_csr_db[] = {\n")
-    for chip_index in range(len(separate_chip_lists)):
-        chip = separate_chip_lists[chip_index].name
+    for chip_index in range(len(separate_chip_infos)):
+        chip = separate_chip_infos[chip_index].name
         out.write("    {%s, __bdk_csr_db_%s},\n" % (CHIP_TO_MODEL[chip], chip))
     out.write("    {0, NULL}\n")
     out.write("};\n\n")

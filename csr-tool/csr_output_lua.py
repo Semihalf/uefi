@@ -10,7 +10,7 @@ def range_string(range):
 #
 # Create a CSR database
 #
-def write(file, separate_chip_lists, include_cisco_only):
+def write(file, separate_chip_infos, include_cisco_only):
     out = open(file, "w")
     out.write('--\n')
     out.write('-- Definitions for Octeon CSR\n')
@@ -20,10 +20,10 @@ def write(file, separate_chip_lists, include_cisco_only):
     #
     # Write the per chip CSR tables
     #
-    for chip_index in range(len(separate_chip_lists)):
-        chip = separate_chip_lists[chip_index].name
+    for chip_info in separate_chip_infos:
+        chip = chip_info.name
         out.write("    %s = {\n" % chip.upper())
-        for csr in separate_chip_lists[chip_index]:
+        for csr in chip_info.iterCsr():
             if csr.cisco_only and not include_cisco_only:
                 continue
             name = csr.name.replace("#", "X")

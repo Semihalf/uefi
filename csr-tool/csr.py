@@ -25,49 +25,6 @@ VALID_CSR_TYPES = ["RSL", "NCB",
                    ]
 
 #
-# This class contains a list of CSRs for a specific chip. It is iterable, so
-# you can use it in loops and such
-#
-class CsrList:
-    def __init__(self, name):
-        assert isinstance(name, StringType), type(name)
-        self.name = name
-        self._csrs = {}
-
-    def __iter__(self):
-        keys = self._csrs.keys()
-        keys.sort()
-        sorted = []
-        for k in keys:
-            sorted.append(self._csrs[k])
-        return sorted.__iter__()
-
-    def addCsr(self, csr):
-        assert isinstance(csr, Csr), type(Csr)
-        if csr.name in self._csrs:
-            existing = self._csrs[csr.name]
-            if len(csr.fields) != len(existing.fields):
-                raise Exception("Two CSRs with same name but differnet bits")
-            for bit in csr.fields:
-                if not bit in existing.fields:
-                    raise Exception("Two CSRs with same name but differnet bits")
-            if len(csr.range) !=  len(existing.range):
-                raise Exception("Two CSRs with same name but differnet range number")
-            for i in range(len(csr.range)):
-                if len(csr.range[i]) != 2:
-                    raise Exception("Illegal range added")
-                if existing.range[i][-1]+1 == csr.range[i][0]:
-                    # New range continues an existing range
-                    existing.range[i][-1] = csr.range[i][1]
-                else:
-                    # New range is disjoint from existing range
-                    existing.range[i].extend(csr.range[i])
-                    #if len(existing.range[i]) != 4:
-                    #    raise Exception("Not allowed to have more than one disjoint range: " + str(existing.range))
-        else:
-            self._csrs[csr.name] = csr
-
-#
 # The basic definition of a CSR. Each one only supports a single chip's version
 #
 class Csr:

@@ -67,7 +67,7 @@ if not csr_files:
 
 # Loop through the CSR files and read them in. There will be a list per chip
 print "Reading CSRs:"
-separate_chip_lists = []
+separate_chip_infos = []
 for name,file in csr_files:
     pickle_file = file + ".pickle"
     try:
@@ -81,20 +81,24 @@ for name,file in csr_files:
             csrs = csr_read_yaml.read(name, file)
         else:
             csrs = csr_read_hw_octcsr.read(name, file)
+        for enum in csrs.iterEnum():
+            enum.validate()
+        for struct in csrs.iterStruct():
+            struct.validate()
         # Should really be done in csr.validate() but address isn't known then
-        for csr in csrs:
+        for csr in csrs.iterCsr():
             csr.validateAddresses()
         out = open(pickle_file, "w")
         cPickle.dump(csrs, out)
         out.close()
-    separate_chip_lists.append(csrs)
+    separate_chip_infos.append(csrs)
 
 print "Checking for address overlaps"
-for csr_list in separate_chip_lists:
+for chip_info in separate_chip_infos:
     io_space_used_addresses = {}
     per_type_used_addresses = {}
-    chip = csr_list.name
-    for csr in csr_list:
+    chip = chip_info.name
+    for csr in chip_info.iterCsr():
         for address_instance in csr.iterateAddresses():
             name = address_instance[0]
             address = address_instance[1]
@@ -118,7 +122,7 @@ for csr_list in separate_chip_lists:
 
 # Combine all chips into a master CSR list
 print "Combining CSRs"
-combined_list = csr_list_combiner.combine(separate_chip_lists)
+combined_list = csr_list_combiner.combine(separate_chip_infos)
 
 # Generate the html docs if needed
 if generate_html:
@@ -132,13 +136,13 @@ csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
 #csr_output_error_decodes.write(combined_list)
 
 print "Writing " + OUTPUT_FILENAME_DB
-csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_lists, 0)
+csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_infos, 0)
 print "Writing " + OUTPUT_FILENAME_LUA
-csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_lists, 0)
+csr_output_lua.write(OUTPUT_FILENAME_LUA, separate_chip_infos, 0)
 
 if False:
     print "Writing Cisco " + OUTPUT_FILENAME_TYPEDEFS
     csr_output_header.write("cisco/" + OUTPUT_FILENAME_TYPEDEFS, combined_list, 1)
     print "Writing Cisco " + OUTPUT_FILENAME_DB
-    csr_output_db.write("cisco/" + OUTPUT_FILENAME_DB, separate_chip_lists, 1)
+    csr_output_db.write("cisco/" + OUTPUT_FILENAME_DB, separate_chip_infos, 1)
 

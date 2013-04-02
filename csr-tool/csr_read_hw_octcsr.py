@@ -4,7 +4,11 @@ import re
 import csr_output_html
 import traceback
 from pyparsing import *
-from csr import *
+from csr import Csr
+from csr import CsrField
+from csr import VALID_CSR_TYPES
+from csr import VALID_FIELD_TYPES
+from chip_info import ChipInfo
 
 NAME_TO_ADDRESS_NAME_MAPPING = {
     "LMC0_WODT_CTL0":          "LMC0_WODT_CTL",
@@ -31,7 +35,7 @@ CSR_NAMES_TO_SKIP = [
 #
 # Global variables
 #
-current_csr_list = None
+current_chip_info = None
 current_csr = None
 current_address_list = None
 incomplete_csrs = []
@@ -117,17 +121,17 @@ def actionNotes(pstr, loc, t):
 # Called when a CSR has been completely parsed
 def actionCsr(pstr, loc, t):
     global current_csr
-    global current_csr_list
+    global current_chip_info
     global incomplete_csrs
     try:
         for csr in incomplete_csrs[0:-1]:
             csr.fields = current_csr.fields
             csr.validate()
-            current_csr_list.addCsr(csr)
+            current_chip_info.addCsr(csr)
         incomplete_csrs = []
         if not current_csr.name in CSR_NAMES_TO_SKIP:
             current_csr.validate()
-            current_csr_list.addCsr(current_csr)
+            current_chip_info.addCsr(current_csr)
     except:
         raise ParseFatalException(pstr, loc, traceback.format_exc())
 
@@ -246,9 +250,9 @@ CSR_FILE.leaveWhitespace()
 #
 #
 def read(name, file):
-    global current_csr_list
+    global current_chip_info
     global current_address_list
-    current_csr_list = CsrList(name)
+    current_chip_info = ChipInfo(name)
     current_address_list = {}
     try:
         CSR_FILE.parseFile(file)
@@ -259,7 +263,7 @@ def read(name, file):
             print"********************************************"
         raise
     # Loop through all CSRs to calculate the address base, block offset, and offset increment
-    for csr in current_csr_list:
+    for csr in current_chip_info.iterCsr():
         #print csr.name, csr.range
         if len(csr.range) == 0:
             # This CSR doesn't have a range. Get a single value
@@ -345,5 +349,5 @@ def read(name, file):
     # When we are done the address list should be empty. Each was removed as a
     # CSR verified against it.
     assert not current_address_list, str(current_address_list)
-    return current_csr_list
+    return current_chip_info
 

@@ -1,4 +1,5 @@
-from csr import *
+from csr import Csr
+from csr import CsrField
 
 class CombinedCsrList:
     def __init__(self):
@@ -39,22 +40,22 @@ class CombinedCsrList:
         else:
             self._csrs[csr.name] = {chip:csr}
 
-def combine(csr_lists):
+def combine(chip_infos):
     final_list = CombinedCsrList()
     # Create a information search order. Whenever we need to get generic info,
     # we use this to determine the order to search the supported chips
     info_search_order = []
-    for list in csr_lists:
-        info_search_order.append(list.name)
+    for info in chip_infos:
+        info_search_order.append(info.name)
     info_search_order.reverse()
     # Create a dictionary index by CSR names. Each entry is another dictionary
     # index by the chip the CSR is for "combined_list[csr_name][chip] = Csr()".
     # Chips that don't support a csr are missing in the combined_list[csr_name]
     # map.
     combined_list = {}
-    for csr_list in csr_lists:
-        for csr in csr_list:
-            chip = csr_list.name
+    for chip_info in chip_infos:
+        for csr in chip_info.iterCsr():
+            chip = chip_info.name
             if not csr.name in combined_list:
                 combined_list[csr.name] = {}
             combined_list[csr.name][chip] = csr
