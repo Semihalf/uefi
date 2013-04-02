@@ -269,9 +269,9 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_DLM(0)_TEST_POWERDOWN
-    title: GSER DLM0 TEST_POWERDOWN
-    address: 0x1180090001060 + a + b
+  - name: GSER(0)_DLM(0..2)_TEST_POWERDOWN
+    title: GSER DLM TEST_POWERDOWN
+    address: 0x1180090001060 + a + b*0x80000
     bus: RSL
     description: TBD.
     fields:

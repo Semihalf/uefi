@@ -7909,11 +7909,11 @@ $GSER(0)_DLM(0..2)_TEST_BYPASS   Address=(0x1180090001058+a+b*0x80000)   Bus=(RS
 
 
  * 
- * GSER_DLM_TEST_POWERDOWN = GSER DLM0 TEST_POWERDOWN
+ * GSER_DLM_TEST_POWERDOWN = GSER DLM TEST_POWERDOWN
  * 
  *  TBD.
  * 
-$GSER(0)_DLM(0)_TEST_POWERDOWN   Address=(0x1180090001060+a+b)   Bus=(RSL)
+$GSER(0)_DLM(0..2)_TEST_POWERDOWN   Address=(0x1180090001060+a+b*0x80000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field          Field   Reset      Typical    Field                                             
  Pos     Name           Type    Value      Value      Description                                       
@@ -15781,15 +15781,11 @@ $GPIO_BIT_CFG(0..15)   Address=(0x1070000000800+a*0x8)   Bus=(NCB)
                                                   0x3+a  :  CLK_SYNCE(0..1) see GPIO_CLK_SYNCE.
                                                   0x5-0x7: Reserved.
                                                   0x8    : LMC_ECC(0)  LMC ECC error detected;
-                                                  0x9-0xb: Reserved.
-                                                  0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
-                                                  0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator;
-                                                  See GPIO_CLK_GEN.
+                                                  0x9-0xf: Reserved.
+                                                  0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator; See GPIO_CLK_GEN.
                                                   0x14   : USBH_VBUS_CTRL  USBH Vbus control;
-                                                  0x15   : SATA port0 cold presence power-on device.
-                                                  (p0_cp_pod)
-                                                  0x16   : SATA port1 cold presence power-on device.
-                                                  (p1_cp_pod)
+                                                  0x15   : SATA port0 cold presence power-on device.(p0_cp_pod)
+                                                  0x16   : SATA port1 cold presence power-on device.(p1_cp_pod)
                                                   0x17   : SATA port0 LED  (p0_act_led)
                                                   0x18   : SATA port1 LED  (p1_act_led)
                                                   0x19-  : Reserved.
@@ -16497,9 +16493,9 @@ $MPI_CFG   Address=(0x1070000001000)   Bus=(NCB)
  <15>    CSENA3   R/W     0x0        0x0        If 0, UART1_RTS_L/SPI_CS3_L pin is UART pin       
                                                 1, UART1_RTS_L/SPI_CS3_L pin is SPI pin
                                                 SPI_CS3_L drives UART1_RTS_L/SPI_CS3_L
- <14>    CSENA2   R/W     0x0        0x0        If 0, UART0_RTS_L/SPI_CS2_L pin is UART pin       
-                                                1, UART0_RTS_L/SPI_CS2_L pin is SPI pin
-                                                SPI_CS2_L drives  UART0_RTS_L/SPI_CS2_L
+ <14>    CSENA2   R/W     0x0        0x0        If 0, UART1_CTS_L/SPI_CS2_L pin is UART pin       
+                                                1, UART0_CTS_L/SPI_CS2_L pin is SPI pin
+                                                SPI_CS2_L drives  UART0_CTS_L/SPI_CS2_L
  <13>    CSENA1   R/W     0x0        0x0        If 0, BOOT_CE_N<7>/SPI_CS1_L pin is BOOT pin      
                                                 1, BOOT_CE_N<7>/SPI_CS1_L pin is SPI pin
                                                 SPI_CS1_L drives BOOT_CE_N<7>/SPI_CS1_L
@@ -16534,15 +16530,9 @@ $MPI_CFG   Address=(0x1070000001000)   Bus=(NCB)
                                                 assertion between commands
  <1>     IDLELO   R/W     0x0        0x0        If 0, SPI_CLK idles high, 1st transition is hi->lo
                                                 1, SPI_CLK idles low, 1st transition is lo->hi
- <0>     ENABLE   R/W     0x0        0x0        If 0, UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI      
-                                                BOOT_CE_N<7:6>/SPI_CSx_L
-                                                pins are UART/BOOT pins
-                                                1, UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI
-                                                pins are SPI/MPI pins.
-                                                BOOT_CE_N<6>/SPI_CS0_L is SPI pin if CSENA0=1
-                                                BOOT_CE_N<7>/SPI_CS1_L is SPI pin if CSENA1=1
-                                                UART0_RTS_L/SPI_CS2_L  is SPI pin if CSENA2=1
-                                                UART1_RTS_L/SPI_CS3_L  is SPI pin if CSENA3=1
+ <0>     ENABLE   R/W     0x0        0x0        MPI/SPI enable.                                   
+                                                0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI,  pins are UART pins.
+                                                1 = UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI pins are MPI/SPI pins.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17664,9 +17654,10 @@ $CIU_EN2_IO(0..1)_INT_W1C   Address=(0x107000000CE00+a*0x8)   Bus=(NCB)
 $CIU_CIB_L2C(0..2)_RAW   Address=(0x107000000E000+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        L2C interrupt RAW bits                            
+ <63:23> NS    ---     NS         NS         Reserved.                                         
+ <22:0>  RAW   R/W1C/H 0x0        0x0        L2C interrupt RAW bits                            
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17678,9 +17669,10 @@ $CIU_CIB_L2C(0..2)_RAW   Address=(0x107000000E000+a*0x10)   Bus=(NCB)
 $CIU_CIB_L2C(0..2)_EN   Address=(0x107000000E100+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        L2C interrupt Enable bits                         
+ <63:23> NS    ---     NS         NS         Reserved.                                         
+ <22:0>  EN    R/W/H   0x0        0x0        L2C interrupt Enable bits                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17692,9 +17684,10 @@ $CIU_CIB_L2C(0..2)_EN   Address=(0x107000000E100+a*0x10)   Bus=(NCB)
 $CIU_CIB_LMC(0)_RAW   Address=(0x107000000E200+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        LMC interrupt RAW bits                            
+ <63:48> NS    ---     NS         NS         Reserved.                                         
+ <47:0>  RAW   R/W1C/H 0x0        0x0        LMC interrupt RAW bits                            
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17706,9 +17699,10 @@ $CIU_CIB_LMC(0)_RAW   Address=(0x107000000E200+a*0x10)   Bus=(NCB)
 $CIU_CIB_LMC(0)_EN   Address=(0x107000000E300+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        LMC interrupt Enable bits                         
+ <63:48> NS    ---     NS         NS         Reserved.                                         
+ <47:0>  EN    R/W/H   0x0        0x0        LMC interrupt Enable bits                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17720,9 +17714,10 @@ $CIU_CIB_LMC(0)_EN   Address=(0x107000000E300+a*0x10)   Bus=(NCB)
 $CIU_CIB_RST(0)_RAW   Address=(0x107000000E400+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        LMC interrupt RAW bits                            
+ <63:6>  NS    ---     NS         NS         Reserved.                                         
+ <5:0>   RAW   R/W1C/H 0x0        0x0        RST interrupt RAW bits                            
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17734,9 +17729,10 @@ $CIU_CIB_RST(0)_RAW   Address=(0x107000000E400+a*0x10)   Bus=(NCB)
 $CIU_CIB_RST(0)_EN   Address=(0x107000000E500+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        LMC interrupt Enable bits                         
+ <63:6>  NS    ---     NS         NS         Reserved.                                         
+ <5:0>   EN    R/W/H   0x0        0x0        RST interrupt Enable bits                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17748,9 +17744,10 @@ $CIU_CIB_RST(0)_EN   Address=(0x107000000E500+a*0x10)   Bus=(NCB)
 $CIU_CIB_SATA_UCTL(0)_RAW   Address=(0x107000000E600+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        SATA_UCTL interrupt RAW bits                      
+ <63:4>  NS    ---     NS         NS         Reserved.                                         
+ <3:0>   RAW   R/W1C/H 0x0        0x0        SATA_UCTL interrupt RAW bits                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17762,9 +17759,10 @@ $CIU_CIB_SATA_UCTL(0)_RAW   Address=(0x107000000E600+a*0x10)   Bus=(NCB)
 $CIU_CIB_SATA_UCTL(0)_EN   Address=(0x107000000E700+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        SATA_UCTL interrupt Enable bits                   
+ <63:4>  NS    ---     NS         NS         Reserved.                                         
+ <3:0>   EN    R/W/H   0x0        0x0        SATA_UCTL interrupt Enable bits                   
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17776,9 +17774,10 @@ $CIU_CIB_SATA_UCTL(0)_EN   Address=(0x107000000E700+a*0x10)   Bus=(NCB)
 $CIU_CIB_UCTL(0)_RAW   Address=(0x107000000E800+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        USBDRD UCTL interrupt RAW bits                    
+ <63:11> NS    ---     NS         NS         Reserved.                                         
+ <10:0>  RAW   R/W1C/H 0x0        0x0        USBDRD UCTL interrupt RAW bits                    
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17790,9 +17789,10 @@ $CIU_CIB_UCTL(0)_RAW   Address=(0x107000000E800+a*0x10)   Bus=(NCB)
 $CIU_CIB_UCTL(0)_EN   Address=(0x107000000E900+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        USBDRD UCTL interrupt Enable bits                 
+ <63:11> NS    ---     NS         NS         Reserved.                                         
+ <10:0>  EN    R/W/H   0x0        0x0        USBDRD UCTL interrupt Enable bits                 
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17804,9 +17804,10 @@ $CIU_CIB_UCTL(0)_EN   Address=(0x107000000E900+a*0x10)   Bus=(NCB)
 $CIU_CIB_OCLA(0)_RAW   Address=(0x107000000EA00+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  RAW R/W1C/H 0x0        0x0        OCLA interrupt RAW bits                           
+ <63:15> NS    ---     NS         NS         Reserved.                                         
+ <14:0>  RAW   R/W1C/H 0x0        0x0        OCLA interrupt RAW bits                           
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17818,9 +17819,10 @@ $CIU_CIB_OCLA(0)_RAW   Address=(0x107000000EA00+a*0x10)   Bus=(NCB)
 $CIU_CIB_OCLA(0)_EN   Address=(0x107000000EB00+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
+ Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  EN R/W/H   0x0        0x0        OCLA interrupt Enable bits                        
+ <63:15> NS    ---     NS         NS         Reserved.                                         
+ <14:0>  EN    R/W/H   0x0        0x0        OCLA interrupt Enable bits                        
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -18703,7 +18705,15 @@ $MIO_BOOT_PIN_DEFS   Address=(0x11800000000C0)   Bus=(RSL)
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:16> NS          ---     NS         NS         Reserved.                                         
+ <63:57> NS          ---     NS         NS         Reserved.                                         
+ <56>    DLM_SUPPLY  RO      NS         NS         DLM Power Supply Setting based on DLMC_VPH_SELECT_18 pin 1 = 1.8V 0 = 2.5V All others = Reserved
+ <55:54> RGM_SUPPLY  RO      NS         NS         RGMii Power Supply Setting based on VDD_RGM_SUPPLY_SELECT pin 01 = 1.8V 10 = 2.5V All
+                                                   others = Reserved
+ <53:51> SMI_SUPPLY  RO      NS         NS         SMI Power Supply Setting based on VDD_SMI_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+                                                   3.3V All others = Reserved
+ <50:48> IO_SUPPLY   RO      NS         NS         I/O Power Supply Setting based on VDD_IO_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+                                                   3.3V All others = Reserved
+ <47:16> NS          ---     NS         NS         Reserved.                                         
  <15>    ALE         RO      NS         NS         Set to 1 for backward compatability               
  <14>    WIDTH       RO      NS         NS         Set to 0 for backward compatability               
  <13>    VRM_DISABLE RO      NS         NS         VRM disable based on BOOT_DIR pin at powerup      
@@ -20597,7 +20607,7 @@ $MIO_FUS_DAT3   Address=(0x1180000001418)   Bus=(RSL)
  * 
  *  
  * 
-$MIO_FUS_PDF   Address=(0x1180000001420)   Bus=(RSL)
+$MIO_FUS_PDF   Address=(0x1180000001428)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -20611,7 +20621,7 @@ $MIO_FUS_PDF   Address=(0x1180000001420)   Bus=(RSL)
  * 
  *  
  * 
-$MIO_FUS_TGG   Address=(0x1180000001428)   Bus=(RSL)
+$MIO_FUS_TGG   Address=(0x1180000001430)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -21226,7 +21236,7 @@ $OCLA(0)_CONST   Address=(0x11800A8000000|a<<24)   Bus=(RSL)
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS       ---     NS         NS         Reserved.                                         
- <15:0>  DAT_SIZE RO      0x200      0x200      Size of data RAM in units of 36-bit entries. This value is subject to change between chip
+ <15:0>  DAT_SIZE RO      0x1000     0x1000     Size of data RAM in units of 36-bit entries. This value is subject to change between chip
                                                 passes, and software should thus use this value rather than a hard coded constant.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -23801,12 +23811,12 @@ $PCIEEP(0..2)_CFG466   Address=(0x30000000748+a*0x100000000)   Bus=(PCICONFIGEP)
                                                       o Bit 22: Cut-through
                                                       o Bit 21: Store-and-forward"
  <20>    NS             ---     NS         NS         Reserved.                                         
- <19:12> HEADER_CREDITS RO/WRSL 0x1f       0x1f       "VC0 Posted Header Credits                        
+ <19:12> HEADER_CREDITS RO/WRSL 0x20       0x20       "VC0 Posted Header Credits                        
                                                       The number of initial Posted header credits for VC0, used for
                                                       all receive queue buffer configurations.
                                                       This field is writable through PEM#_CFG_WR.
                                                       However, the application must not change this field."
- <11:0>  DATA_CREDITS   RO/WRSL 0x38       0x38       "VC0 Posted Data Credits                          
+ <11:0>  DATA_CREDITS   RO/WRSL 0x40       0x40       "VC0 Posted Data Credits                          
                                                       The number of initial Posted data credits for VC0, used for all
                                                       receive queue buffer configurations.
                                                       This field is writable through PEM#_CFG_WR.
@@ -26174,12 +26184,12 @@ $PCIERC(0..2)_CFG466   Address=(0x20000000748+a*0x100000000)   Bus=(PCICONFIGRC)
                                                       o Bit 22: Cut-through
                                                       o Bit 21: Store-and-forward"
  <20>    NS             ---     NS         NS         Reserved.                                         
- <19:12> HEADER_CREDITS R/W     0x1f       0x1f       "VC0 Posted Header Credits                        
+ <19:12> HEADER_CREDITS R/W     0x20       0x20       "VC0 Posted Header Credits                        
                                                       The number of initial Posted header credits for VC0, used for
                                                       all receive queue buffer configurations.
                                                       This field is writable through PEM#_CFG_WR.
                                                       However, the application must not change this field."
- <11:0>  DATA_CREDITS   R/W     0x38       0x38       "VC0 Posted Data Credits                          
+ <11:0>  DATA_CREDITS   R/W     0x40       0x40       "VC0 Posted Data Credits                          
                                                       The number of initial Posted data credits for VC0, used for all
                                                       receive queue buffer configurations.
                                                       This field is writable through PEM#_CFG_WR.
@@ -27544,11 +27554,7 @@ $PEM(0..2)_DBG_INFO_EN   Address=(0x11800C00000A0+a*0x1000000)   Bus=(RSL)
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:50> NS      ---     NS         NS         Reserved.                                         
- <49>    PPFDBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[49] to generate an interrupt. 
- <48>    PPFDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[48] to generate an interrupt. 
- <47>    PPFSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[47] to generate an interrupt. 
- <46>    PPFSBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[46] to generate an interrupt. 
+ <63:46> NS      ---     NS         NS         Reserved.                                         
  <45>    TPCDBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[45] to generate an interrupt. 
  <44>    TPCDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[44] to generate an interrupt. 
  <43>    TPCSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[43] to generate an interrupt. 
@@ -27666,9 +27672,7 @@ $PEM(0..2)_ECC_ENA   Address=(0x11800C00000C0+a*0x1000000)   Bus=(RSL)
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  NS         ---     NS         NS         Reserved.                                         
- <5>     PPF_C_ENA  R/W     0x1        0x1        ECC enable for PPF ctl Fifo                       
- <4>     PPF_D_ENA  R/W     0x1        0x1        ECC enable for PPF data Fifo                      
+ <63:4>  NS         ---     NS         NS         Reserved.                                         
  <3>     TLP_PC_ENA R/W     0x1        0x1        ECC enable for TLP Posted ctl Fifo                
  <2>     TLP_PD_ENA R/W     0x1        0x1        ECC enable for TLP Posted data Fifo               
  <1>     TLP_CC_ENA R/W     0x1        0x1        ECC enable for TLP CPL ctl Fifo                   
@@ -27687,9 +27691,7 @@ $PEM(0..2)_ECC_SYND_CTRL   Address=(0x11800C00000C8+a*0x1000000)   Bus=(RSL)
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:12> NS         ---     NS         NS         Reserved.                                         
- <11:10> PPF_C_SYN  R/W     0x0        0x0        Syndrome Flip bits for PPF ctl Fifo               
- <9:8>   PPF_D_SYN  R/W     0x0        0x0        Syndrome Flip bits for PPF data Fifo              
+ <63:8>  NS         ---     NS         NS         Reserved.                                         
  <7:6>   TLP_PC_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Posted ctl Fifo        
  <5:4>   TLP_PD_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Posted data Fifo       
  <3:2>   TLP_CC_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP CPL ctl Fifo           
@@ -27705,107 +27707,103 @@ $PEM(0..2)_ECC_SYND_CTRL   Address=(0x11800C00000C8+a*0x1000000)   Bus=(RSL)
  * 
 $PEM(0..2)_DBG_INFO   Address=(0x11800C00000D0+a*0x1000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field     Field   Reset      Typical    Field                                             
- Pos     Name      Type    Value      Value      Description                                       
+ Bit     Field   Field   Reset      Typical    Field                                             
+ Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:50> NS        ---     NS         NS         Reserved.                                         
- <49>    PPF_C_DBE R/W1C/H 0x0        0x0        Detected a PPF Fifo ctrl double bit error         
- <48>    PPF_C_SBE R/W1C/H 0x0        0x0        Detected a PPF Fifo ctrl single bit error         
- <47>    PPF_D_DBE R/W1C/H 0x0        0x0        Detected a PPF Fifo data double bit error         
- <46>    PPF_D_SBE R/W1C/H 0x0        0x0        Detected a PPF Fifo data single bit error         
- <45>    C_C_DBE   R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo ctrl double bit error     
- <44>    C_C_SBE   R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo ctrl single bit error     
- <43>    C_D_DBE   R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo data double bit error     
- <42>    C_D_SBE   R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo data single bit error     
- <41>    N_C_DBE   R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo ctrl double bit error
- <40>    N_C_SBE   R/W1C/H 0x0        0x0        Detected a TLP Non-Posted fifo ctrl single bit error
- <39>    N_D_DBE   R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo data double bit error
- <38>    N_D_SBE   R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo data single bit error
- <37>    P_C_DBE   R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo ctrl double bit error  
- <36>    P_C_SBE   R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo ctrl single bit error  
- <35>    P_D_DBE   R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo data double bit error  
- <34>    P_D_SBE   R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo data single bit error  
- <33>    DATQ_PE   R/W1C/H 0x0        0x0        Detected a Data Queue RAM parity error            
- <32>    HDRQ_PE   R/W1C/H 0x0        0x0        Detected a Header Queue RAM parity error          
- <31>    RTRY_PE   R/W1C/H 0x0        0x0        Detected a Retry RAM parity error                 
- <30>    ECRC_E    R/W1C/H 0x0        0x0        Received a ECRC error.                            
-                                                 radm_ecrc_err
- <29>    RAWWPP    R/W1C/H 0x0        0x0        Received a write with poisoned payload            
-                                                 radm_rcvd_wreq_poisoned
- <28>    RACPP     R/W1C/H 0x0        0x0        Received a completion with poisoned payload       
-                                                 radm_rcvd_cpl_poisoned
- <27>    RAMTLP    R/W1C/H 0x0        0x0        Received a malformed TLP                          
-                                                 radm_mlf_tlp_err
- <26>    RARWDNS   R/W1C/H 0x0        0x0        Recieved a request which device does not support  
-                                                 radm_rcvd_ur_req
- <25>    CAAR      R/W1C/H 0x0        0x0        Completer aborted a request                       
-                                                 radm_rcvd_ca_req
-                                                 This bit will never be set because Octeon does
-                                                 not generate Completer Aborts.
- <24>    RACCA     R/W1C/H 0x0        0x0        Received a completion with CA status              
-                                                 radm_rcvd_cpl_ca
- <23>    RACUR     R/W1C/H 0x0        0x0        Received a completion with UR status              
-                                                 radm_rcvd_cpl_ur
- <22>    RAUC      R/W1C/H 0x0        0x0        Received an unexpected completion                 
-                                                 radm_unexp_cpl_err
- <21>    RQO       R/W1C/H 0x0        0x0        Receive queue overflow. Normally happens only when
-                                                 flow control advertisements are ignored
-                                                 radm_qoverflow
- <20>    FCUV      R/W1C/H 0x0        0x0        Flow Control Update Violation (opt. checks)       
-                                                 int_xadm_fc_prot_err
- <19>    RPE       R/W1C/H 0x0        0x0        When the PHY reports 8B/10B decode error          
-                                                 (RxStatus = 3b100) or disparity error
-                                                 (RxStatus = 3b111), the signal rmlh_rcvd_err will
-                                                 be asserted.
-                                                 rmlh_rcvd_err
- <18>    FCPVWT    R/W1C/H 0x0        0x0        Flow Control Protocol Violation (Watchdog Timer)  
-                                                 rtlh_fc_prot_err
- <17>    DPEOOSD   R/W1C/H 0x0        0x0        DLLP protocol error (out of sequence DLLP)        
-                                                 rdlh_prot_err
- <16>    RTWDLE    R/W1C/H 0x0        0x0        Received TLP with DataLink Layer Error            
-                                                 rdlh_bad_tlp_err
- <15>    RDWDLE    R/W1C/H 0x0        0x0        Received DLLP with DataLink Layer Error           
-                                                 rdlh_bad_dllp_err
- <14>    MRE       R/W1C/H 0x0        0x0        Max Retries Exceeded                              
-                                                 xdlh_replay_num_rlover_err
- <13>    RTE       R/W1C/H 0x0        0x0        Replay Timer Expired                              
-                                                 xdlh_replay_timeout_err
-                                                 This bit is set when the REPLAY_TIMER expires in
-                                                 the PCIE core. The probability of this bit being
-                                                 set will increase with the traffic load.
- <12>    ACTO      R/W1C/H 0x0        0x0        A Completion Timeout Occured                      
-                                                 pedc_radm_cpl_timeout
- <11>    RVDM      R/W1C/H 0x0        0x0        Received Vendor-Defined Message                   
-                                                 pedc_radm_vendor_msg
- <10>    RUMEP     R/W1C/H 0x0        0x0        Received Unlock Message (EP Mode Only)            
-                                                 pedc_radm_msg_unlock
- <9>     RPTAMRC   R/W1C/H 0x0        0x0        Received PME Turnoff Acknowledge Message          
-                                                 (RC Mode only)
-                                                 pedc_radm_pm_to_ack
- <8>     RPMERC    R/W1C/H 0x0        0x0        Received PME Message (RC Mode only)               
-                                                 pedc_radm_pm_pme
- <7>     RFEMRC    R/W1C/H 0x0        0x0        Received Fatal Error Message (RC Mode only)       
-                                                 pedc_radm_fatal_err
-                                                 Bit set when a message with ERR_FATAL is set.
- <6>     RNFEMRC   R/W1C/H 0x0        0x0        Received Non-Fatal Error Message (RC Mode only)   
-                                                 pedc_radm_nonfatal_err
- <5>     RCEMRC    R/W1C/H 0x0        0x0        Received Correctable Error Message (RC Mode only) 
-                                                 pedc_radm_correctable_err
- <4>     RPOISON   R/W1C/H 0x0        0x0        Received Poisoned TLP                             
-                                                 pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv
- <3>     RECRCE    R/W1C/H 0x0        0x0        Received ECRC Error                               
-                                                 pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot
- <2>     RTLPLLE   R/W1C/H 0x0        0x0        Received TLP has link layer error                 
-                                                 pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot
- <1>     RTLPMAL   R/W1C/H 0x0        0x0        Received TLP is malformed or a message.           
-                                                 pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot
-                                                 If the core receives a MSG (or Vendor Message)
-                                                 or if a received AtomicOp viloates address/length rules,
-                                                 this bit is set as well.
- <0>     SPOISON   R/W1C/H 0x0        0x0        Poisoned TLP sent                                 
-                                                 peai__client0_tlp_ep & peai__client0_tlp_hv
-                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op).
-                                                 Throws PEM_INTSN_E::PEM(0..2)_ERROR_SPOISON.
+ <63:46> NS      ---     NS         NS         Reserved.                                         
+ <45>    C_C_DBE R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo ctrl double bit error     
+ <44>    C_C_SBE R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo ctrl single bit error     
+ <43>    C_D_DBE R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo data double bit error     
+ <42>    C_D_SBE R/W1C/H 0x0        0x0        Detected a TLP CPL Fifo data single bit error     
+ <41>    N_C_DBE R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo ctrl double bit error
+ <40>    N_C_SBE R/W1C/H 0x0        0x0        Detected a TLP Non-Posted fifo ctrl single bit error
+ <39>    N_D_DBE R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo data double bit error
+ <38>    N_D_SBE R/W1C/H 0x0        0x0        Detected a TLP Non-Posted Fifo data single bit error
+ <37>    P_C_DBE R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo ctrl double bit error  
+ <36>    P_C_SBE R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo ctrl single bit error  
+ <35>    P_D_DBE R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo data double bit error  
+ <34>    P_D_SBE R/W1C/H 0x0        0x0        Detected a TLP Posted Fifo data single bit error  
+ <33>    DATQ_PE R/W1C/H 0x0        0x0        Detected a Data Queue RAM parity error            
+ <32>    HDRQ_PE R/W1C/H 0x0        0x0        Detected a Header Queue RAM parity error          
+ <31>    RTRY_PE R/W1C/H 0x0        0x0        Detected a Retry RAM parity error                 
+ <30>    ECRC_E  R/W1C/H 0x0        0x0        Received a ECRC error.                            
+                                               radm_ecrc_err
+ <29>    RAWWPP  R/W1C/H 0x0        0x0        Received a write with poisoned payload            
+                                               radm_rcvd_wreq_poisoned
+ <28>    RACPP   R/W1C/H 0x0        0x0        Received a completion with poisoned payload       
+                                               radm_rcvd_cpl_poisoned
+ <27>    RAMTLP  R/W1C/H 0x0        0x0        Received a malformed TLP                          
+                                               radm_mlf_tlp_err
+ <26>    RARWDNS R/W1C/H 0x0        0x0        Recieved a request which device does not support  
+                                               radm_rcvd_ur_req
+ <25>    CAAR    R/W1C/H 0x0        0x0        Completer aborted a request                       
+                                               radm_rcvd_ca_req
+                                               This bit will never be set because Octeon does
+                                               not generate Completer Aborts.
+ <24>    RACCA   R/W1C/H 0x0        0x0        Received a completion with CA status              
+                                               radm_rcvd_cpl_ca
+ <23>    RACUR   R/W1C/H 0x0        0x0        Received a completion with UR status              
+                                               radm_rcvd_cpl_ur
+ <22>    RAUC    R/W1C/H 0x0        0x0        Received an unexpected completion                 
+                                               radm_unexp_cpl_err
+ <21>    RQO     R/W1C/H 0x0        0x0        Receive queue overflow. Normally happens only when
+                                               flow control advertisements are ignored
+                                               radm_qoverflow
+ <20>    FCUV    R/W1C/H 0x0        0x0        Flow Control Update Violation (opt. checks)       
+                                               int_xadm_fc_prot_err
+ <19>    RPE     R/W1C/H 0x0        0x0        When the PHY reports 8B/10B decode error          
+                                               (RxStatus = 3b100) or disparity error
+                                               (RxStatus = 3b111), the signal rmlh_rcvd_err will
+                                               be asserted.
+                                               rmlh_rcvd_err
+ <18>    FCPVWT  R/W1C/H 0x0        0x0        Flow Control Protocol Violation (Watchdog Timer)  
+                                               rtlh_fc_prot_err
+ <17>    DPEOOSD R/W1C/H 0x0        0x0        DLLP protocol error (out of sequence DLLP)        
+                                               rdlh_prot_err
+ <16>    RTWDLE  R/W1C/H 0x0        0x0        Received TLP with DataLink Layer Error            
+                                               rdlh_bad_tlp_err
+ <15>    RDWDLE  R/W1C/H 0x0        0x0        Received DLLP with DataLink Layer Error           
+                                               rdlh_bad_dllp_err
+ <14>    MRE     R/W1C/H 0x0        0x0        Max Retries Exceeded                              
+                                               xdlh_replay_num_rlover_err
+ <13>    RTE     R/W1C/H 0x0        0x0        Replay Timer Expired                              
+                                               xdlh_replay_timeout_err
+                                               This bit is set when the REPLAY_TIMER expires in
+                                               the PCIE core. The probability of this bit being
+                                               set will increase with the traffic load.
+ <12>    ACTO    R/W1C/H 0x0        0x0        A Completion Timeout Occured                      
+                                               pedc_radm_cpl_timeout
+ <11>    RVDM    R/W1C/H 0x0        0x0        Received Vendor-Defined Message                   
+                                               pedc_radm_vendor_msg
+ <10>    RUMEP   R/W1C/H 0x0        0x0        Received Unlock Message (EP Mode Only)            
+                                               pedc_radm_msg_unlock
+ <9>     RPTAMRC R/W1C/H 0x0        0x0        Received PME Turnoff Acknowledge Message          
+                                               (RC Mode only)
+                                               pedc_radm_pm_to_ack
+ <8>     RPMERC  R/W1C/H 0x0        0x0        Received PME Message (RC Mode only)               
+                                               pedc_radm_pm_pme
+ <7>     RFEMRC  R/W1C/H 0x0        0x0        Received Fatal Error Message (RC Mode only)       
+                                               pedc_radm_fatal_err
+                                               Bit set when a message with ERR_FATAL is set.
+ <6>     RNFEMRC R/W1C/H 0x0        0x0        Received Non-Fatal Error Message (RC Mode only)   
+                                               pedc_radm_nonfatal_err
+ <5>     RCEMRC  R/W1C/H 0x0        0x0        Received Correctable Error Message (RC Mode only) 
+                                               pedc_radm_correctable_err
+ <4>     RPOISON R/W1C/H 0x0        0x0        Received Poisoned TLP                             
+                                               pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv
+ <3>     RECRCE  R/W1C/H 0x0        0x0        Received ECRC Error                               
+                                               pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot
+ <2>     RTLPLLE R/W1C/H 0x0        0x0        Received TLP has link layer error                 
+                                               pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot
+ <1>     RTLPMAL R/W1C/H 0x0        0x0        Received TLP is malformed or a message.           
+                                               pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot
+                                               If the core receives a MSG (or Vendor Message)
+                                               or if a received AtomicOp viloates address/length rules,
+                                               this bit is set as well.
+ <0>     SPOISON R/W1C/H 0x0        0x0        Poisoned TLP sent                                 
+                                               peai__client0_tlp_ep & peai__client0_tlp_hv
+                                               peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op).
+                                               Throws PEM_INTSN_E::PEM(0..2)_ERROR_SPOISON.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35028,7 +35026,7 @@ $SLI_MAC_CREDIT_CNT   Address=(0x11F0000013D70)   Bus=(PEXP_NCB)
  *  making an access(i.e. MAC memory space) that requires the value of this register to be
  *  updated.
  * 
-$SLI_S2M_PORT(0..1)_CTL   Address=(0x11F0000013D80+a*0x10)   Bus=(PEXP_NCB)
+$SLI_S2M_PORT(0..2)_CTL   Address=(0x11F0000013D80+a*0x10)   Bus=(PEXP_NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -39329,7 +39327,7 @@ $VRM_TWS_TWSI_SW   Address=(0x118002100008)   Bus=(RSL)
                                                Cleared when a TWSI configuration register access completes.
                                                Cleared when the TWSI device reads the register if SLONLY = 1.
  <62>    SL_ONLY RO      0x0        0x0        Reserved.                                         
- <61>    EIA     RO      0x1        0x1        Reserved.                                         
+ <61>    EIA     RO      0x0        0x0        Reserved.                                         
  <60:57> OP      RO      0x1        0x1        Reserved.                                         
  <56>    R       R/W/H   0x0        NS         Read bit or result. If this bit is set on a CSR write when SLONLY = 0, the operation is a
                                                read operation (if clear, it is a write operation).
@@ -39460,7 +39458,9 @@ $VRM_TS_TEMP_CONV_RESULT   Address=(0x118002100068)   Bus=(RSL)
  <23>    N_VALID        RO/H    0x0        NS         When set implies,N_VALUE is valid.                
  <22:12> N_VALUE        RO/H    0x0        NS         N cycle count values after calibration initiated. Qualified by N_VALID.
  <11>    TEMP_VALID     RO/H    0x0        NS         When set implies,TEMP_CORRECTED is valid.         
+                                                      This is not sticky and most likely SW will miss it.
  <10:0>  TEMP_CORRECTED RO/H    0x0        NS         Corrected temperature read out from the temp sensor module.
+                                                      Will always have valid data,once TEMP_VALID transitions.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39476,12 +39476,18 @@ $VRM_TS_TEMP_CONV_COEFF_FSM   Address=(0x118002100078)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:58> NS      ---     NS         NS         Reserved.                                         
  <57:48> T_FSM   R/W     0xfa       NS         Sets time interval for FSM update.                
- <47:44> NS      ---     NS         NS         Reserved.                                         
- <43:32> COEFF_A R/W     0x0        NS         Coefficient A value for polynomial fit.           
- <31:28> NS      ---     NS         NS         Reserved.                                         
- <27:16> COEFF_B R/W     0x1        NS         Coefficient B value for polynomial fit.           
+ <47:38> NS      ---     NS         NS         Reserved.                                         
+ <37:32> COEFF_A R/W     0x0        NS         Coefficient A value for polynomial fit.           
+                                               [37]   acts as a sign bit to flip the shifted results.
+                                               [36:32] Bits dictate the amount of right shift.
+ <31:25> NS      ---     NS         NS         Reserved.                                         
+ <24:16> COEFF_B R/W     0x1        NS         Coefficient B value for polynomial fit. It should be a positive number and between 1 and
+                                               2.
+                                               [24] is the integer part should always be 1.
+                                               [23:16] form the fractional part.
  <15:12> NS      ---     NS         NS         Reserved.                                         
  <11:0>  COEFF_C R/W     0x0        NS         Coefficient C value for polynomial fit.           
+                                               A 2's complement number.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

@@ -4539,8 +4539,8 @@ registers:
       - name: HEADER_CREDITS
         bits: 19..12
         access: R/W
-        reset: 0x1f
-        typical: 0x1f
+        reset: 0x20
+        typical: 0x20
         description: |
           "VC0 Posted Header Credits
           The number of initial Posted header credits for VC0, used for
@@ -4551,8 +4551,8 @@ registers:
       - name: DATA_CREDITS
         bits: 11..0
         access: R/W
-        reset: 0x38
-        typical: 0x38
+        reset: 0x40
+        typical: 0x40
         description: |
           "VC0 Posted Data Credits
           The number of initial Posted data credits for VC0, used for all

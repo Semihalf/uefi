@@ -123,8 +123,8 @@ registers:
       - name: DAT_SIZE
         bits: 15..0
         access: RO
-        reset: 0x200
-        typical: 0x200
+        reset: 0x1000
+        typical: 0x1000
         description: |
           Size of data RAM in units of 36-bit entries. This value is subject to change between chip
           passes, and software should thus use this value rather than a hard coded constant.

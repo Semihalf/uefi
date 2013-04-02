@@ -40,8 +40,8 @@ registers:
         typical: 0x0
         description: |
           Clock divisor.
-          SPI_CK = SCLK / (2 * CLKDIV)
-          CLKDIV = SCLK / (2 * SPI_CK)
+          SPI_CK = coprocessor clock / (2 * CLKDIV)
+          CLKDIV = coprocessor clock / (2 * SPI_CK)
 
       - name: CSENA3
         bits: 15
@@ -61,9 +61,9 @@ registers:
         typical: 0
         description: |
           SPI_CS2_L enable:
-          0=UART0_RTS_L/SPI_CS2_L pin is UART pin
-          1=UART0_RTS_L/SPI_CS2_L pin is MPI/SPI pin
-          SPI_CS2_L drives UART0_RTS_L/SPI_CS2_L.
+          0=UART1_CTS_L/SPI_CS2_L pin is UART pin.
+          1=UART1_CTS_L/SPI_CS2_L pin is MPI/SPI pin.
+          SPI_CS2_L drives UART1_CTS_L/SPI_CS2_L.
 
       - name: CSENA1
         bits: 13
@@ -146,7 +146,7 @@ registers:
           Wire-OR DO and DI.
           0 = SPI_DO and SPI_DI are separate wires (SPI). SPI_DO pin is always driven.
           1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
-          If WIREOR==1, SPI_DI pin is not used by the MPI/SPI engine.
+          If WIREOR = 1, SPI_DI pin is not used by the MPI/SPI engine.
 
       - name: CLK_CONT
         bits: 2

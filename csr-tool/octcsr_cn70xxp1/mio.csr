@@ -2002,15 +2002,11 @@ registers:
           0x3+a  :  CLK_SYNCE(0..1) see GPIO_CLK_SYNCE.
           0x5-0x7: Reserved.
           0x8    : LMC_ECC(0)  LMC ECC error detected;
-          0x9-0xb: Reserved.
-          0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
-          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator;
-          See GPIO_CLK_GEN.
+          0x9-0xf: Reserved.
+          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator; See GPIO_CLK_GEN.
           0x14   : USBH_VBUS_CTRL  USBH Vbus control;
-          0x15   : SATA port0 cold presence power-on device.
-          (p0_cp_pod)
-          0x16   : SATA port1 cold presence power-on device.
-          (p1_cp_pod)
+          0x15   : SATA port0 cold presence power-on device.(p0_cp_pod)
+          0x16   : SATA port1 cold presence power-on device.(p1_cp_pod)
           0x17   : SATA port0 LED  (p0_act_led)
           0x18   : SATA port1 LED  (p1_act_led)
           0x19-  : Reserved.
@@ -3573,9 +3569,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If 0, UART0_RTS_L/SPI_CS2_L pin is UART pin
-          1, UART0_RTS_L/SPI_CS2_L pin is SPI pin
-          SPI_CS2_L drives  UART0_RTS_L/SPI_CS2_L
+          If 0, UART1_CTS_L/SPI_CS2_L pin is UART pin
+          1, UART0_CTS_L/SPI_CS2_L pin is SPI pin
+          SPI_CS2_L drives  UART0_CTS_L/SPI_CS2_L
 
       - name: CSENA1
         bits: 13
@@ -3700,15 +3696,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If 0, UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI
-          BOOT_CE_N<7:6>/SPI_CSx_L
-          pins are UART/BOOT pins
-          1, UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI
-          pins are SPI/MPI pins.
-          BOOT_CE_N<6>/SPI_CS0_L is SPI pin if CSENA0=1
-          BOOT_CE_N<7>/SPI_CS1_L is SPI pin if CSENA1=1
-          UART0_RTS_L/SPI_CS2_L  is SPI pin if CSENA2=1
-          UART1_RTS_L/SPI_CS3_L  is SPI pin if CSENA3=1
+          MPI/SPI enable.
+          0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI,  pins are UART pins.
+          1 = UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI pins are MPI/SPI pins.
 
 
   - name: MPI_STS
@@ -6254,8 +6244,15 @@ registers:
     address: 0x107000000E000 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 22..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -6266,8 +6263,15 @@ registers:
     address: 0x107000000E100 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 22..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -6278,8 +6282,15 @@ registers:
     address: 0x107000000E200 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 47..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -6290,8 +6301,15 @@ registers:
     address: 0x107000000E300 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 47..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -6302,32 +6320,53 @@ registers:
     address: 0x107000000E400 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 5..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: LMC interrupt RAW bits
+        description: RST interrupt RAW bits
 
 
   - name: CIU_CIB_RST(0)_EN
     address: 0x107000000E500 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 5..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: LMC interrupt Enable bits
+        description: RST interrupt Enable bits
 
 
   - name: CIU_CIB_SATA_UCTL(0)_RAW
     address: 0x107000000E600 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 3..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -6338,8 +6377,15 @@ registers:
     address: 0x107000000E700 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 3..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -6350,8 +6396,15 @@ registers:
     address: 0x107000000E800 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 10..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -6362,8 +6415,15 @@ registers:
     address: 0x107000000E900 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 10..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -6374,8 +6434,15 @@ registers:
     address: 0x107000000EA00 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAW
-        bits: 63..0
+        bits: 14..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -6386,8 +6453,15 @@ registers:
     address: 0x107000000EB00 + a*0x10
     bus: NCB
     fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: EN
-        bits: 63..0
+        bits: 14..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -7970,7 +8044,48 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..57
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DLM_SUPPLY
+        bits: 56
+        access: RO
+        reset: --
+        typical: --
+        description: DLM Power Supply Setting based on DLMC_VPH_SELECT_18 pin 1 = 1.8V 0 = 2.5V All others = Reserved
+
+      - name: RGM_SUPPLY
+        bits: 55..54
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          RGMii Power Supply Setting based on VDD_RGM_SUPPLY_SELECT pin 01 = 1.8V 10 = 2.5V All
+          others = Reserved
+
+      - name: SMI_SUPPLY
+        bits: 53..51
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          SMI Power Supply Setting based on VDD_SMI_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+          3.3V All others = Reserved
+
+      - name: IO_SUPPLY
+        bits: 50..48
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          I/O Power Supply Setting based on VDD_IO_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+          3.3V All others = Reserved
+
+      - name: --
+        bits: 47..16
         access: ---
         reset: --
         typical: --

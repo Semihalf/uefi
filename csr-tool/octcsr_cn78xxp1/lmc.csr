@@ -4616,11 +4616,25 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..22
+        bits: 63..32
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PATTERN
+        bits: 31..24
+        access: R/W
+        reset: 0x55
+        typical: 0x55
+        description: Sets the data pattern used to match in read leveling operations.
+
+      - name: MPRLOC
+        bits: 23..22
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Sets the MPR location used for read level operations.
 
       - name: DELAY_UNLOAD_3
         bits: 21

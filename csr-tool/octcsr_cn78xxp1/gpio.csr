@@ -48,10 +48,6 @@ enums:
         value: 0x08 + a
         description: LMC ECC error detected; see TBD.
 
-      - name: MPI_CS(0..1)
-        value: 0x0C + a
-        description: MPI chip select (0..1); see MPI_TX.
-
       - name: CLK(0..3)
         value: 0x10 + a
         description: GPIO clock generator; see GPIO_CLK_GEN(0..3).
@@ -242,7 +238,9 @@ registers:
     title: GPIO Clock SyncE Registers
     address: 0x10700000008E0 + a*0x8
     bus: NCB
-    description: A QLM can be configured as a clock source.  shows the clock speed output for different modes.
+    description: |
+      A QLM can be configured as a clock source. The following table shows the clock speed output
+      for different modes.
     fields:
       - name: --
         bits: 63..12

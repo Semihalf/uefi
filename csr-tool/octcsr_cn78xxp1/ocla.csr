@@ -124,11 +124,11 @@ registers:
         bits: 15..0
         access: RO
         reset: --
-        typical: 0x2000
+        typical: --
         description: |
           Size of data RAM in units of 36-bit entries. This value is subject to change between chip
           passes, and software should thus use this value rather than a hard coded constant.
-          ROC capture size is 8K .PCL capture size is 4K.
+          OCLA(0..3) size is 8192, OCLA(4) size is 4096.
 
 
   - name: OCLA(0..4)_SFT_RST

@@ -647,11 +647,7 @@ registers:
     address: 0x1180080800000
     bus: RSL
     description: |
-      (1a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB/2.
-
-      (1b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
-
-      (2) L2DFDBE and L2DFSBE allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors
+      (1) L2DFDBE and L2DFSBE allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors
       for the purposes of testing error handling code.  When one (or both) of these bits are set a
       PL2
       which misses in the L2 will fill with the appropriate error in the first 2 OWs of the fill.
@@ -668,20 +664,11 @@ registers:
       trigger the VBFSBE/VBFDBE error.
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..29
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: MAXVBF
-        bits: 32..29
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Maximum VBFs in use at once (per-TAD)
-          (0 means 16, 1-15 as expected)
 
       - name: RDF_FAST
         bits: 28
@@ -724,21 +711,11 @@ registers:
         description: Disable conditional clocking in L2C PNR blocks
 
       - name: --
-        bits: 23..21
+        bits: 23..16
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: MAXLFB
-        bits: 20..16
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Maximum VABs/LFBs in use at once (per-TAD)
-          (0 means 32, 1-3 are illegal, 4-31 as expected)
-          FIXME: 2,3 shouldn't be illegal and OCI will alter this
 
       - name: RSP_ARB_MODE
         bits: 15
@@ -797,15 +774,12 @@ registers:
           // to final fbf read
           ef_cnt = ef_cnt - 9;
 
-      - name: VBF_THRESH
+      - name: --
         bits: 5..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          VBF Threshold (per-TAD)
-          When the number of inuse VBFs exceeds this number the
-          L2C TAD increases the priority of all its writes in the LMC.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: DISECC
         bits: 1
@@ -885,7 +859,7 @@ registers:
 
 
   - name: L2C_ECC_CTL
-    title: L2C Control
+    title: L2C ECC Control
     address: 0x1180080800010
     bus: RSL
     description: |
@@ -910,6 +884,119 @@ registers:
         reset: 0x0
         typical: 0x0
         description: Generate an ECC error in all corresponding IOCCMD memories.
+
+
+  - name: L2C_TAD_CTL
+    title: L2C TAD Control
+    address: 0x1180080800018
+    bus: RSL
+    description: |
+      (1) On 78xx MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
+      though there are 32 LFBs/VABs in a full TAD, the number applies to both halves.
+
+      (2a) If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
+
+      (2b) If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
+
+      (3a) If MAXLFB == 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 13.
+
+      (3b) If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB-3.
+    fields:
+      - name: --
+        bits: 63..28
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EXLRQ
+        bits: 27..24
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
+          correctness.
+
+      - name: EXRRQ
+        bits: 23..20
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Extra LFBs to reserve for Rxxx OCI commands beyond the 1 required for OCI protocol
+          functional correctness.
+
+      - name: EXFWD
+        bits: 19..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Extra LFBs to reserve for Fxxx/SINV OCI commands beyond the 1 required for OCI protocol
+          functional correctness.
+
+      - name: EXVIC
+        bits: 15..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Extra LFBs to reserve for VICx OCI commands beyond the 1 required for OCI protocol
+          functional correctness.
+
+      - name: VBF_THRESH
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          VBF Threshold. When the number of inuse VBFs exceeds this number the L2C TAD increases the
+          priority of all its writes in the LMC.
+
+      - name: MAXVBF
+        bits: 7..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Maximum VBFs in use at once (0 means 16, 1-15 as expected).
+
+      - name: MAXLFB
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Maximum VABs/LFBs in use at once (0 means 16, 1-15 as expected).
+
+
+  - name: L2C_OCI_CTL
+    title: L2C OCI Control
+    address: 0x1180080800020
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IOFRCL
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          When set, L2C services all IO reads and writes on the local node, regardless of the value
+          of the node ID bits in the physical address. During normal operation this bit is expected
+          to be 0.
+
+      - name: GKSEGNODE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Intialized to OCI node on reset, writeable by software.
 
 
   - name: L2C_XMC_CMD

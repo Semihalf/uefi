@@ -288,7 +288,7 @@ registers:
 
   - name: MIO_FUS_PDF
     title: MIO Fuse Product Definition Field Register
-    address: 0x1180000001420
+    address: 0x1180000001428
     bus: RSL
     fields:
       - name: PDF
@@ -301,7 +301,7 @@ registers:
 
   - name: MIO_FUS_TGG
     title: MIO Fuse TGG Register
-    address: 0x1180000001428
+    address: 0x1180000001430
     bus: RSL
     fields:
       - name: VAL

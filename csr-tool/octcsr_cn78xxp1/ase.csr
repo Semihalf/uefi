@@ -6,6 +6,7 @@ description: |
   Algorithmic Search Engine
   http://mawiki.caveonetworks.com/wiki/index.php/78xx/ASE
 attributes:
+  rtlgen: "True"
   rtlgen_clock: "sclk"
   rtlgen_reset_n: "srst_n"
 enums:
@@ -527,16 +528,22 @@ enums:
 
   - name: ASE_RSP_ERR_E
     attributes:
-      width: "2"
+      width: "1"
     description: ASE Reponse Error.
     values:
       - name: "NONE"
         value: 0x0
-        description: No error.
+        description: |
+          No error.
+          INTERNAL: This corresponds to a final accumulated error
+          in LOP of luc_err_t NONE or COR(SBE).
 
       - name: ERROR
         value: 0x1
-        description: Error occurred, response data is not valid.
+        description: |
+          Error occurred, response data is not valid.
+          INTERNAL: This corresponds to a final accumulated error
+          in LOP of luc_err_t FATAL or UNCOR(DBE).
 
 
   - name: ASE_RSP_RSP_E
@@ -1561,8 +1568,14 @@ structs:
         description: Unused by ASE.
 
       - name: ERR
-        bits: 51..50
+        bits: 50
         description: Error indication for this response. See ASE_RSP_ERR_E.
+
+      - name: --
+        bits: 51
+        attributes:
+          const: "0x0"
+        description: Unused by ASE.
 
       - name: RSP
         bits: 56..52
@@ -3236,7 +3249,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          The incoming TBL command did not indicate EOP on the correct beat.
+          The incoming TBL command did not indicate EOP on the correct beat,
+          or the incoming LU command did not indicate EOP before the 12th beat.
           The request will be marked FATAL.
 
       - name: LIP_TBF_EARLY_EOP

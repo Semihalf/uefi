@@ -55,7 +55,7 @@ registers:
         typical: 0
         description: For non-OCI links, indicates a 125Mhz Reference clock.
 
-      - name: QLM_REFCLK
+      - name: COM_CLK_SEL
         bits: 1
         access: R/W
         reset: 0
@@ -367,11 +367,11 @@ registers:
            0x1: PCIE2
            0x2: PCIE3
            0x3: KX
-           0x4: KX4
+           0x4: XAUI
            0x5: KR
            0x6: SGMII
            0x7: QSGMII
-           0x8: CEI
+           0x8: RXAUI
            0x9: PCIE1_125
            0xa: PCIE2_125
            0xb: PCIE3_125
@@ -599,11 +599,18 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..2
+        bits: 63..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: RXT_SWM
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Set when RX Base-R Link Training is to be performed under software control.
 
       - name: RXT_PRESET
         bits: 1
@@ -612,16 +619,22 @@ registers:
         typical: 0
         description: |
           When in SW Base-R Training Mode, this bit is used to determine how to
-          set the preset and initialize bits the the Coefficient Update Message.
-           0: initialize is set, preset is clear
-           1: initialize is clear, preset is set
+          set the preset bit. When preset is set, RX training is disabled.
+          Note that it is illegal to set both the preset and initialize bits at the same time.
+           1: preset is set.  A single CU message is sent to the link partner
+           0: preset is clear
 
-      - name: RXT_SWM
+      - name: RXT_INITIALIZE
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: Set when RX Base-R Link Training is to be performed under software control.
+        description: |
+          When in SW Base-R Training Mode, this bit is used to determine how to
+          set the initialize bit the the Coefficient Update Message at the start
+          of RX training.
+           1: training starts with initialize set
+           0: training starts with initialize clear
 
 
   - name: GSER(0..13)_BR_RX(0..3)_CU
@@ -866,7 +879,7 @@ registers:
           The other QLM GSER_ANA_SEL registers are unused.
 
 
-  - name: GSER(0..13)_PLL_P(0..8)_MODE_0
+  - name: GSER(0..13)_PLL_P(0..11)_MODE_0
     title: GSER PLL Protocol Mode 0
     address: 0x11800904E0030 + a*0x1000000 + b*0x20
     bus: RSL
@@ -878,11 +891,14 @@ registers:
       P1:  PCIE2
       P2:  PCIE3
       P3:  KX
-      P4:  KX4
+      P4:  XAUI
       P5:  KR
       P6:  SGMII
-      P7:  QSGMII
-      P8:  CEI
+      P7:  RXAUI
+      P9:  CEI
+      P9:  PCIE1_125
+      P10: PCIE2_125
+      P11: PCIE3_125
     fields:
       - name: --
         bits: 63..16
@@ -893,27 +909,27 @@ registers:
 
       - name: PLL_ICP
         bits: 15..12
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: PLL Charge pump enable.
 
       - name: PLL_RLOOP
         bits: 11..9
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: Loop resistor tuning.
 
       - name: PLL_PCS_DIV
         bits: 8..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: The divider that generates pcs_mac_tx_clk.
 
 
-  - name: GSER(0..13)_PLL_P(0..8)_MODE_1
+  - name: GSER(0..13)_PLL_P(0..11)_MODE_1
     title: GSER PLL Protocol Mode 1
     address: 0x11800904E0038 + a*0x1000000 + b*0x20
     bus: RSL
@@ -925,11 +941,14 @@ registers:
       P1:  PCIE2
       P2:  PCIE3
       P3:  KX
-      P4:  KX4
+      P4:  XAUI
       P5:  KR
       P6:  SGMII
-      P7:  QSGMII
+      P7:  RXAUI
       P8:  CEI
+      P9:  PCIE1_125
+      P10: PCIE2_125
+      P11: PCIE3_125
     fields:
       - name: --
         bits: 63..14
@@ -940,28 +959,28 @@ registers:
 
       - name: PLL_16P5EN
         bits: 13
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: Enable for the div 16.5 clock.
 
       - name: PLL_CPADJ
         bits: 12..11
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: PLL Charge adjust.
 
       - name: PLL_PCIE3EN
         bits: 10
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: Enable PCIE3 Mode.
 
       - name: PLL_OPR
         bits: 9
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -970,13 +989,13 @@ registers:
 
       - name: PLL_DIV
         bits: 8..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: PLL divider in feedback path which sets the PLL frequency.
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_0
+  - name: GSER(0..13)_LANE(0..3)_P(0..11)_MODE_0
     title: GSER LANE Protocol Mode 0
     address: 0x11800904E0040 + a*0x1000000 + b*0x100000 + c*0x20
     bus: RSL
@@ -988,11 +1007,14 @@ registers:
       P1:  PCIE2
       P2:  PCIE3
       P3:  KX
-      P4:  KX4
+      P4:  XAUI
       P5:  KR
       P6:  SGMII
       P7:  QSGMII
-      P8:  CEI
+      P8:  RXAUI
+      P9:  PCIE1_125
+      P10: PCIE2_125
+      P11: PCIE3_125
     fields:
       - name: --
         bits: 63..15
@@ -1003,7 +1025,7 @@ registers:
 
       - name: CTLE
         bits: 14..13
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: CTLE pole value.
@@ -1073,7 +1095,7 @@ registers:
           11: 20-bit raw data
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..8)_MODE_1
+  - name: GSER(0..13)_LANE(0..3)_P(0..11)_MODE_1
     title: GSER LANE Protocol Mode 1
     address: 0x11800904E0048 + a*0x1000000 + b*0x100000 + c*0x20
     bus: RSL
@@ -1085,11 +1107,14 @@ registers:
       P1:  PCIE2
       P2:  PCIE3
       P3:  KX
-      P4:  KX4
+      P4:  XAUI
       P5:  KR
       P6:  SGMII
       P7:  QSGMII
-      P8:  CEI
+      P8:  RXAUI
+      P9:  PCIE1_125
+      P10: PCIE2_125
+      P11: PCIE3_125
     fields:
       - name: --
         bits: 63..16
@@ -1131,16 +1156,13 @@ registers:
         description: Phase accumulator adjust.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_0
+  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_0
     title: GSER LANE VMA Protocol Control 0 Register
-    address: 0x11800904E0150 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E01B0 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      RAW PCS Per Lane VMA Control Configuration 0 Register
+      RAW PCS Per Lane Coarse VMA Control Configuration 0 Register
       Per Lane registers are specific to a paticular lane.
-      The Protocol selects the specific protocol register as follows.
-      P0:  PCIE1
-      P1:  KR
     fields:
       - name: --
         bits: 63..16
@@ -1188,16 +1210,13 @@ registers:
           statistics.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_1
+  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_1
     title: GSER LANE VMA Protocol Control 1 Register
-    address: 0x11800904E0158 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E01B8 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      RAW PCS Per Lane VMA Control Configuration 1 Register
+      RAW PCS Per Lane Coarse VMA Control Configuration 1 Register
       Per Lane registers are specific to a paticular lane.
-      The Protocol selects the specific protocol register as follows.
-      P0:  PCIE1
-      P1:  KR
     fields:
       - name: --
         bits: 63..10
@@ -1228,16 +1247,13 @@ registers:
         description: CTLE Peak Peak step size.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_P(0..1)_CTRL_2
+  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_2
     title: GSER LANE VMA Protocol Control 2 Register
-    address: 0x11800904E0160 + a*0x1000000 + b*0x100000 + c*0x18
+    address: 0x11800904E01C0 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      RAW PCS Per Lane VMA Control Configuration 2 Register
+      RAW PCS Per Lane Coarse VMA Control Configuration 2 Register
       Per Lane registers are specific to a paticular lane.
-      The Protocol selects the specific protocol register as follows.
-      P0:  PCIE1
-      P1:  KR
     fields:
       - name: --
         bits: 63..10
@@ -1268,7 +1284,7 @@ registers:
         description: CTLE PRE-Peak Gain step size.
 
 
-  - name: GSER(0..13)_SLICE(0..1)_P(0..1)_MODE
+  - name: GSER(0..13)_SLICE(0..1)_P(0..11)_MODE
     title: GSER SLICE Protocol Mode
     address: 0x1180090560228 + a*0x1000000 + b*0x100000 + c*0x8
     bus: RSL
@@ -1281,11 +1297,14 @@ registers:
       P1:  PCIE2
       P2:  PCIE3
       P3:  KX
-      P4:  KX4
+      P4:  XAUI
       P5:  KR
       P6:  SGMII
       P7:  QSGMII
-      P8:  CEI
+      P8:  RXAUI
+      P9:  PCIE1_125
+      P10: PCIE2_125
+      P11: PCIE3_125
     fields:
       - name: --
         bits: 63..15

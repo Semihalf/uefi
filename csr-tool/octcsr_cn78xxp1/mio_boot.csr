@@ -702,9 +702,9 @@ registers:
         description: |
           Boot bus PCTL. This controls the pull-up drive strength of the boot-bus drivers.
           0x26 = No pullups (25ohm termination)
-          0x13 = Pullup on boot_ad<9> (50ohm termination)
-          0xF = Pullup on boot_ad<10> (65ohm termination)
-          0xF = Pullup on boot_ad<10:9> (65ohm termination)
+          0x13 = Pullup on BOOT_AD<9> (50ohm termination)
+          0xF = Pullup on BOOT_AD<10> (65ohm termination)
+          0xF = Pullup on BOOT_AD<10:9> (65ohm termination)
 
       - name: NCTL
         bits: 5..0
@@ -714,9 +714,9 @@ registers:
         description: |
           Boot bus NCTL. This controls the pull-down drive strength of the boot-bus drivers.
           0x1E = No pullups (25ohm termination)
-          0xF = Pullup on boot_ad<9> (50ohm termination)
-          0xC = Pullup on boot_ad<10> (65ohm termination)
-          0xC = Pullup on boot_ad<10:9> (65ohm termination)
+          0xF = Pullup on BOOT_AD<9> (50ohm termination)
+          0xC = Pullup on BOOT_AD<10> (65ohm termination)
+          0xC = Pullup on BOOT_AD<10:9> (65ohm termination)
 
 
   - name: MIO_BOOT_PIN_DEFS
@@ -728,7 +728,38 @@ registers:
       signal first deasserts following a cold reset.
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..54
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SMI_SUPPLY
+        bits: 53..51
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
+          0x1 = 1.8V.
+          0x2 = 2.5V.
+          0x8 = 3.3V.
+          else Reserved.
+
+      - name: IO_SUPPLY
+        bits: 50..48
+        access: RO
+        reset: --
+        typical: --
+        description: |
+          I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
+          0x1 = 1.8V.
+          0x2 = 2.5V.
+          0x8 = 3.3V.
+          else Reserved.
+
+      - name: --
+        bits: 47..33
         access: ---
         reset: --
         typical: --
@@ -763,7 +794,7 @@ registers:
           4 = SPI Boot (16-bit address).
           5 = SPI Boot (24-bit address).
           6 = SPI Boot (32-bit address).
-          7 = SPI NAND Boot (reserved).
+          7 = Reserved.
 
       - name: ALE
         bits: 15

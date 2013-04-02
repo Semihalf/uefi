@@ -64,8 +64,8 @@ registers:
       - name: EIA
         bits: 61
         access: RO
-        reset: 1
-        typical: 1
+        reset: 0
+        typical: 0
         description: Reserved.
 
       - name: OP
@@ -375,14 +375,18 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: When set implies,TEMP_CORRECTED is valid.
+        description: |
+          When set implies,TEMP_CORRECTED is valid.
+          This is not sticky and most likely SW will miss it.
 
       - name: TEMP_CORRECTED
         bits: 10..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: Corrected temperature read out from the temp sensor module.
+        description: |
+          Corrected temperature read out from the temp sensor module.
+          Will always have valid data,once TEMP_VALID transitions.
 
 
   - name: VRM_TS_TEMP_CONV_COEFF_FSM
@@ -405,32 +409,39 @@ registers:
         description: Sets time interval for FSM update.
 
       - name: --
-        bits: 47..44
+        bits: 47..38
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: COEFF_A
-        bits: 43..32
+        bits: 37..32
         access: R/W
         reset: 0x0
         typical: --
-        description: Coefficient A value for polynomial fit.
+        description: |
+          Coefficient A value for polynomial fit.
+          [37]   acts as a sign bit to flip the shifted results.
+          [36:32] Bits dictate the amount of right shift.
 
       - name: --
-        bits: 31..28
+        bits: 31..25
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: COEFF_B
-        bits: 27..16
+        bits: 24..16
         access: R/W
         reset: 0x1
         typical: --
-        description: Coefficient B value for polynomial fit.
+        description: |
+          Coefficient B value for polynomial fit. It should be a positive number and between 1 and
+          2.
+          [24] is the integer part should always be 1.
+          [23:16] form the fractional part.
 
       - name: --
         bits: 15..12
@@ -444,7 +455,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Coefficient C value for polynomial fit.
+        description: |
+          Coefficient C value for polynomial fit.
+          A 2's complement number.
 
 
 

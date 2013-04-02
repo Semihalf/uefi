@@ -508,39 +508,11 @@ registers:
       Allows PEM_DBG_INFO to generate interrupts when cooresponding enable bit is set."
     fields:
       - name: --
-        bits: 63..50
+        bits: 63..46
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PPFDBE1
-        bits: 49
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Allows PEM_DBG_INFO[49] to generate an interrupt.
-
-      - name: PPFDBE0
-        bits: 48
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Allows PEM_DBG_INFO[48] to generate an interrupt.
-
-      - name: PPFSBE1
-        bits: 47
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Allows PEM_DBG_INFO[47] to generate an interrupt.
-
-      - name: PPFSBE0
-        bits: 46
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Allows PEM_DBG_INFO[46] to generate an interrupt.
 
       - name: TPCDBE1
         bits: 45
@@ -976,25 +948,11 @@ registers:
     description: Contains enables for ECC RAMs
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PPF_C_ENA
-        bits: 5
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for PPF ctl Fifo
-
-      - name: PPF_D_ENA
-        bits: 4
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for PPF data Fifo
 
       - name: TLP_PC_ENA
         bits: 3
@@ -1033,25 +991,11 @@ registers:
       Contains Syndrome Control for ECC RAMs
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PPF_C_SYN
-        bits: 11..10
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for PPF ctl Fifo
-
-      - name: PPF_D_SYN
-        bits: 9..8
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for PPF data Fifo
 
       - name: TLP_PC_SYN
         bits: 7..6
@@ -1090,39 +1034,11 @@ registers:
       General debug info."
     fields:
       - name: --
-        bits: 63..50
+        bits: 63..46
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PPF_C_DBE
-        bits: 49
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Detected a PPF Fifo ctrl double bit error
-
-      - name: PPF_C_SBE
-        bits: 48
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Detected a PPF Fifo ctrl single bit error
-
-      - name: PPF_D_DBE
-        bits: 47
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Detected a PPF Fifo data double bit error
-
-      - name: PPF_D_SBE
-        bits: 46
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Detected a PPF Fifo data single bit error
 
       - name: C_C_DBE
         bits: 45
