@@ -138,37 +138,27 @@ def write(file, separate_chip_infos, include_cisco_only):
     #
     # Write the per chip CSR tables
     #
-    null_csr = getCsrTable("{-1, BDK_CSR_TYPE_NCB,0,0,0,0,0,0,0}")
+    null_csr = getCsrTable("{-1, BDK_CSR_TYPE_NCB,0,0,{0,0,0,0},0,{0,0,0,0}}")
     for chip_index in range(len(separate_chip_infos)):
         chip = separate_chip_infos[chip_index].name
         out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
         for csr in separate_chip_infos[chip_index].iterCsr():
             if csr.cisco_only and not include_cisco_only:
                 continue
-            # Leave out Fusion
-            if csr.name.startswith("bbp_"):
-                continue
             num_fields = len(csr.fields.keys())
             range_len = len(csr.range)
-            if range_len == 0:
-                range1 = empty_range
-                range2 = empty_range
-                offset_inc = 0
-                block_inc = 0
-            elif range_len == 1:
-                range1 = getRangeTable(csr.range[0])
-                range2 = empty_range
-                offset_inc = csr.address_info[1]
-                block_inc = 0
-            else:
-                range1 = getRangeTable(csr.range[1])
-                range2 = getRangeTable(csr.range[0])
-                offset_inc = csr.address_info[2]
-                block_inc = csr.address_info[1]
+            assert range_len <= 4, "Only support four params for now"
+            range_list = [empty_range, empty_range, empty_range, empty_range]
+            param_inc = [0, 0, 0, 0]
+            for i in range(range_len):
+                range_list[i] = getRangeTable(csr.range[i])
+                param_inc[i] = getNumberTable(csr.address_info[i])
             name = csr.name.replace("#", "X")
-            csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,%2d,%2d,%s,%s,%s}" % (
+            csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,{%2d,%2d,%2d,%2d},%2d,{%2d,%2d,%2d,%2d}}" % (
                         getStringTable(name), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
-                        range1, range2, getNumberTable(csr.address_info[0]), getNumberTable(offset_inc), getNumberTable(block_inc))
+                        range_list[0], range_list[1], range_list[2], range_list[3],
+                        getNumberTable(csr.address_info[0]),
+                        param_inc[0], param_inc[1], param_inc[2], param_inc[3])
             csr_index = getCsrTable(csr_str)
             out.write("    %d, /* %s */\n" % (csr_index, name))
 

@@ -21,16 +21,15 @@ typedef enum {
    BDK_CSR_TYPE_PCICONFIGRC,/**< PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
 } bdk_csr_type_t;
 
+#define BDK_CSR_DB_MAX_PARAM 4
 typedef struct __attribute__ ((packed)) {
     uint16_t        name_index;     /**< Index into __bdk_csr_db_string where the name is */
     bdk_csr_type_t  type : 4;       /**< Enum type from above */
     uint8_t         width : 4;      /**< CSR width in bytes */
     uint16_t        field_index;    /**< Index into __bdk_csr_db_fieldList where the fields start */
-    uint8_t         offset_range;   /**< Index into __bdk_csr_db_range where the offset range is */
-    uint8_t         block_range;    /**< Index into __bdk_csr_db_range where the block range is */
+    uint8_t         range[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_range where the range is */
     uint16_t        base_index;     /**< Index into __bdk_csr_db_number where the base address is */
-    uint16_t        offset_index;   /**< Index into __bdk_csr_db_number where the offset multiplier is */
-    uint16_t        block_index;    /**< Index into __bdk_csr_db_number where the block multiplier is */
+    uint16_t        param_inc[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_number where the param multiplier is */
 } __bdk_csr_db_type_t;
 
 typedef struct {

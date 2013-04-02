@@ -65,7 +65,7 @@ static int __bdk_csr_check_range(int rangeid, int value, int *next)
  *
  * @return Index into csr_list table, or -1 on failure
  */
-static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
+static int __bdk_csr_lookup_index(const char *name, int params[])
 {
     if (!csr_list)
     {
@@ -88,24 +88,16 @@ static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
     /* Extract the CSR index info from the name */
     char *compare = strdup(name);
     char *ptr = strchr(compare, '(');
+    int arg_count;
     if (ptr)
     {
-        if (strchr(ptr, ','))
-        {
-            sscanf(ptr+1, " %d, %d", offset, block);
-        }
-        else
-        {
-            sscanf(ptr+1, " %d", offset);
-            *block = -1;
-        }
+        arg_count = sscanf(ptr+1, " %d, %d, %d, %d", &params[0], &params[1], &params[2], &params[3]);
         *ptr = 0;
     }
     else
-    {
-        *offset = -1;
-        *block = -1;
-    }
+        arg_count = 0;
+    for (int i=arg_count; i<BDK_CSR_DB_MAX_PARAM; i++)
+        params[i] = -1;
 
     /* Search the DB for this CSR */
     int index=0;
@@ -123,18 +115,14 @@ static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
     if (db->width == 0)
         return -1;
 
-    /* Fail if offset in invalid */
-    if (__bdk_csr_check_range(db->offset_range, *offset, NULL))
+    /* Fail if range in invalid */
+    for (int i=0; i<BDK_CSR_DB_MAX_PARAM; i++)
     {
-        //bdk_error("CSR lookup with invalid offset\n");
-        return -1;
-    }
-
-    /* Fail if block in invalid */
-    if (__bdk_csr_check_range(db->block_range, *block, NULL))
-    {
-        //bdk_error("CSR lookup with invalid block\n");
-        return -1;
+        if (__bdk_csr_check_range(db->range[i], params[i], NULL))
+        {
+            //bdk_error("CSR lookup with invalid offset\n");
+            return -1;
+        }
     }
 
     return index;
@@ -150,9 +138,9 @@ static int __bdk_csr_lookup_index(const char *name, int *offset, int *block)
  *
  * @return Non NULL on success
  */
-static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset, int *block)
+static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int params[])
 {
-    int db_index = __bdk_csr_lookup_index(name, offset, block);
+    int db_index = __bdk_csr_lookup_index(name, params);
     /* Fail if we can't find the CSR */
     if (db_index == -1)
     {
@@ -172,13 +160,14 @@ static const __bdk_csr_db_type_t *__bdk_csr_lookup(const char *name, int *offset
  *
  * @return Address of CSR
  */
-static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offset, int block)
+static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int params[])
 {
     uint64_t address = __bdk_csr_db_number[db->base_index];
-    if (offset != -1)
-        address += __bdk_csr_db_number[db->offset_index] * offset;
-    if (block != -1)
-        address += __bdk_csr_db_number[db->block_index] * block;
+    for (int i=0; i<BDK_CSR_DB_MAX_PARAM; i++)
+    {
+        if (params[i] != -1)
+            address += __bdk_csr_db_number[db->param_inc[i]] * params[i];
+    }
     return address;
 }
 
@@ -193,9 +182,8 @@ static uint64_t __bdk_csr_lookup_address(const __bdk_csr_db_type_t *db, int offs
  */
 int bdk_csr_decode(const char *name, uint64_t value)
 {
-    int offset = -1;
-    int block = -1;
-    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
+    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, params);
     int num_fields;
 
     /* Fail if we can't find the CSR */
@@ -203,15 +191,22 @@ int bdk_csr_decode(const char *name, uint64_t value)
         return -1;
 
     /* Print the official CSR name */
-    if (block != -1)
-        printf("%s(%d,%d)", __bdk_csr_db_string + db->name_index*2, offset, block);
-    else if (offset != -1)
-        printf("%s(%d)", __bdk_csr_db_string + db->name_index*2, offset);
-    else
-        printf("%s", __bdk_csr_db_string + db->name_index*2);
+    printf("%s", __bdk_csr_db_string + db->name_index*2);
+    if (params[0] != -1)
+    {
+        printf("(%d", params[0]);
+        for (int i=1; i<BDK_CSR_DB_MAX_PARAM; i++)
+        {
+            if (params[i] != -1)
+                printf(",%d", params[i]);
+            else
+                break;
+        }
+        printf(")");
+    }
 
     /* Print the address and value */
-    printf("[0x%016llx] = 0x%016llx\n", (unsigned long long)__bdk_csr_lookup_address(db, offset, block), (unsigned long long)value);
+    printf("[0x%016llx] = 0x%016llx\n", (unsigned long long)__bdk_csr_lookup_address(db, params), (unsigned long long)value);
 
     num_fields = __bdk_csr_db_fieldList[db->field_index];
     while (num_fields--)
@@ -248,9 +243,8 @@ int bdk_csr_decode(const char *name, uint64_t value)
  */
 int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name)
 {
-    int offset = -1;
-    int block = -1;
-    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(csr_name, &offset, &block);
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
+    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(csr_name, params);
     int num_fields;
     int i;
 
@@ -286,19 +280,18 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
  */
 uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name)
 {
-    int offset = -1;
-    int block = -1;
-    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
+    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, params);
     if (!db)
         return 0;
 
 #ifndef BDK_BUILD_HOST
-    return bdk_csr_read(node, db->type, (block == -1) ? offset : block, db->width,
-        __bdk_csr_lookup_address(db, offset, block));
+    return bdk_csr_read(node, db->type, params[0], db->width,
+        __bdk_csr_lookup_address(db, params));
 #else
     extern uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
-    return octeon_remote_read_csr(node, db->type, (block == -1) ? offset : block, db->width,
-        __bdk_csr_lookup_address(db, offset, block));
+    return octeon_remote_read_csr(node, db->type, params[0], db->width,
+        __bdk_csr_lookup_address(db, params));
 #endif
 }
 
@@ -315,18 +308,17 @@ uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name)
  */
 int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value)
 {
-    int offset = -1;
-    int block = -1;
-    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, &offset, &block);
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
+    const __bdk_csr_db_type_t *db = __bdk_csr_lookup(name, params);
     if (!db)
         return -1;
 #ifndef BDK_BUILD_HOST
-    bdk_csr_write(node, db->type, (block == -1) ? offset : block, db->width,
-        __bdk_csr_lookup_address(db, offset, block), value);
+    bdk_csr_write(node, db->type, params[0], db->width,
+        __bdk_csr_lookup_address(db, params), value);
 #else
     extern void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
-    octeon_remote_write_csr(node, db->type, (block == -1) ? offset : block, db->width,
-        __bdk_csr_lookup_address(db, offset, block), value);
+    octeon_remote_write_csr(node, db->type, params[0], db->width,
+        __bdk_csr_lookup_address(db, params), value);
 #endif
     return 0;
 }
@@ -343,12 +335,11 @@ int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value)
  */
 int bdk_csr_get_name(const char *last_name, char *buffer)
 {
-    int offset = -1;
-    int block = -1;
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
     const __bdk_csr_db_type_t *db;
 
     /* Find our current DB spot */
-    int db_index = __bdk_csr_lookup_index(last_name, &offset, &block);
+    int db_index = __bdk_csr_lookup_index(last_name, params);
     if (db_index == -1)
         return -1;
     db = &__bdk_csr_db_csr[csr_list[db_index]];
@@ -356,51 +347,42 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     /* We we are continuing we need to process the range data and figure out what is next */
     if (last_name)
     {
-        /* Check if offset might need to increment */
-        if (offset != -1)
+        int need_next_csr = 1;
+        for (int p=BDK_CSR_DB_MAX_PARAM-1; p>=0; p--)
         {
+            /* Skip unused params */
+            if (params[p] == -1)
+                continue;
             int next = -1;
-            /* Make sure the current offset is valid */
-            if (__bdk_csr_check_range(db->offset_range, offset, &next))
+            /* Make sure the current param is valid */
+            if (__bdk_csr_check_range(db->range[p], params[p], &next))
                 return -1;
-            /* If there isn't a next, we may need to increment block */
+            /* If there isn't a next, we may need to increment the next param */
             if (next == -1)
             {
-                /* Offset goes back to the lowest index */
-                offset = __bdk_csr_db_range[db->offset_range+1];
-                if (block != -1)
-                {
-                    /* Make sure the current block is valid */
-                    if (__bdk_csr_check_range(db->block_range, block, &next))
-                        return -1;
-                    /* If there isn't a next, we're done with this CSR */
-                    if (next == -1)
-                    {
-                        /* End of block range, so skip to next CSR */
-                        db = &__bdk_csr_db_csr[csr_list[++db_index]];
-                        offset = __bdk_csr_db_range[db->offset_range+1];
-                        block = __bdk_csr_db_range[db->block_range+1];
-                    }
-                    else
-                        block = next;
-                }
+                /* This param goes back to the lowest index */
+                params[p] = __bdk_csr_db_range[db->range[p]+1];
+                if (p>0)
+                    continue;
                 else
                 {
-                    /* No block range, so skip to next CSR */
-                    db = &__bdk_csr_db_csr[csr_list[++db_index]];
-                    offset = __bdk_csr_db_range[db->offset_range+1];
-                    block = __bdk_csr_db_range[db->block_range+1];
+                    need_next_csr = 1;
+                    break;
                 }
             }
             else
-                offset = next;
+            {
+                params[p] = next;
+                need_next_csr = 0;
+                break;
+            }
         }
-        else
+        if (need_next_csr)
         {
-            /* No range data, so skip to next CSR */
+            /* End of params, so skip to next CSR */
             db = &__bdk_csr_db_csr[csr_list[++db_index]];
-            offset = __bdk_csr_db_range[db->offset_range+1];
-            block = __bdk_csr_db_range[db->block_range+1];
+            for (int i=0; i<BDK_CSR_DB_MAX_PARAM; i++)
+                params[i] = __bdk_csr_db_range[db->range[i]+1];
         }
     }
 
@@ -411,12 +393,19 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     /* Fill in the next name */
     if (buffer)
     {
-        if (block != -1)
-            sprintf(buffer, "%s(%d,%d)", __bdk_csr_db_string + db->name_index*2, offset, block);
-        else if (offset != -1)
-            sprintf(buffer, "%s(%d)", __bdk_csr_db_string + db->name_index*2, offset);
-        else
-            sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index*2);
+        buffer += sprintf(buffer, "%s", __bdk_csr_db_string + db->name_index*2);
+        if (params[0] != -1)
+        {
+            buffer += sprintf(buffer, "(%d", params[0]);
+            for (int i=1; i<BDK_CSR_DB_MAX_PARAM; i++)
+            {
+                if (params[i] != -1)
+                    buffer += sprintf(buffer, ",%d", params[i]);
+                else
+                    break;
+            }
+            buffer += sprintf(buffer, ")");
+        }
     }
 
     return 0;
