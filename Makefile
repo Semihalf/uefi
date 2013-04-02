@@ -69,7 +69,7 @@ RUN_SIM_ARGS += -uart0=2020
 RUN_SIM_ARGS += -uart1=2030
 ifeq ($(SIM),cn78xx)
     RUN_SIM_ARGS += -numnodes=4
-    RUN_SIM_ARGS += target-bin/ipemainc_new.elf
+    RUN_SIM_ARGS += target-bin/ipemainc.elf
     # Sim option for Node 0
     RUN_SIM_ARGS += -qlm_is_sgmii_mask0=0x1
     RUN_SIM_ARGS += -qlm_is_xaui_mask0=0x8
