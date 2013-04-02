@@ -158,8 +158,9 @@ static int pki_port_init(bdk_if_handle_t handle)
     /* Tell PKI to use cluster group 0 for this PKND */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKI_PKINDX_ICGSEL(handle->pknd),
         c.s.icg = 0);
-    /* Round robbin through groups */
-    int wqe_grp = node_state->next_wqe_grp;
+    /* Round robbin through groups. It isn't obvious, but the node
+        number is embedded into the group */
+    int wqe_grp = node_state->next_wqe_grp | (handle->node << 8);
     node_state->next_wqe_grp = (node_state->next_wqe_grp+1) & 255;
     BDK_CSR_MODIFY(c, handle->node, BDK_PKI_QPG_TBLX(qpg),
         c.s.padd = 0; /* Set WQE[CHAN] */
