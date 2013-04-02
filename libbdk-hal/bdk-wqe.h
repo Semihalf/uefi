@@ -33,7 +33,8 @@ typedef union
     struct
     {
         uint64_t    reserved_60_63  :  4;
-        uint64_t    aura            : 12;   /**< Backpressure aura */
+        uint64_t    node            :  2;   /**< Node for aura */
+        uint64_t    aura            : 10;   /**< Backpressure aura */
         uint64_t    reserved_47     :  1;
         uint64_t    apad            :  3;   /**< Alignment padding bytes */
         uint64_t    chan            : 12;   /**< MAC channel number */
@@ -72,7 +73,8 @@ typedef union
     {
         uint64_t    len             : 16;   /**< HW sets to the total number of bytes in the packet */
         uint64_t    reserved_44_47  :  4;
-        uint64_t    grp             : 10;   /**< the group that the work queue entry will be scheduled to */
+        uint64_t    node            :  2;   /**< the node that the work queue entry will be scheduled to */
+        uint64_t    grp             :  8;   /**< the group that the work queue entry will be scheduled to */
         bdk_wqe_tag_type_t tt       :  2;   /**< the type of the tag (ORDERED, ATOMIC, NULL) */
         uint64_t    tag             : 32;   /**< the synchronization/ordering tag */
     } v3;                                   /**< CN78XX */

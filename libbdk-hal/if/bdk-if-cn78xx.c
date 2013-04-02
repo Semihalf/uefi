@@ -600,7 +600,8 @@ static int sso_init(bdk_node_t node)
 static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const bdk_wqe_t *wqe = work;
-    const global_node_state_t *node_state = &global_node_state[bdk_numa_local()];
+    const bdk_node_t input_node = wqe->word0.v3.node;
+    const global_node_state_t *node_state = &global_node_state[input_node];
 
     const char *tag_type = "illegal";
     switch (wqe->word1.v3.tt)
@@ -619,17 +620,18 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
             break;
     }
 
-    bdk_dprintf("SSO work %p\n"
-        "  word0: 0x%016lx [aura=%d, apad=%d, chan=0x%x, bufs=%d, style=%d, pknd=%d]\n"
-        "  word1: 0x%016lx [len=%d, grp=%d, tt=%s, tag=0x%08x]\n"
+    bdk_dprintf("N%d: SSO work %p\n"
+        "  word0: 0x%016lx [node %d, aura=%d, apad=%d, chan=0x%x, bufs=%d, style=%d, pknd=%d]\n"
+        "  word1: 0x%016lx [len=%d, node=%d, grp=%d, tt=%s, tag=0x%08x]\n"
         "  word2: 0x%016lx\n"
         "  word3: 0x%016lx [size=%d, dwd=%d, addr=0x%lx]\n"
         "  word4: 0x%016lx [vlptr=%d, lgptr=%d, lfptr=%d, leptr=%d, ldptr=%d, lcptr=%d, lbptr=%d, laptr=%d\n"
         "  word5: 0x%016lx\n"
         "  word6: 0x%016lx\n"
         "  word7: 0x%016lx\n",
-        wqe,
+        bdk_numa_local(), wqe,
         wqe->word0.u64,         /* word0 */
+        wqe->word0.v3.node,
         wqe->word0.v3.aura,
         wqe->word0.v3.apad,
         wqe->word0.v3.chan,
@@ -638,6 +640,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         wqe->word0.v3.pknd,
         wqe->word1.u64,         /* word1 */
         wqe->word1.v3.len,
+        wqe->word1.v3.node,
         wqe->word1.v3.grp,
         tag_type,
         wqe->word1.v3.tag,
