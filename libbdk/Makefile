@@ -22,6 +22,11 @@ ifeq (,$(findstring lib_octeon_shared,$(src)))
     # we must add it
     src += $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c
 endif
+ifeq (,$(findstring bdk_microcode_cn78xx,$(src)))
+    # The wildcard will find it if the link is already there, otherwise
+    # we must add it
+    src += $(BDK_ROOT)/libbdk-hal/if/bdk_microcode_cn78xx.c
+endif
 
 
 #
@@ -93,6 +98,8 @@ $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
 	ln -fs $(UBOOT_PATH)/arch/mips/cpu/octeon/lib_octeon_shared.c $@
 $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i:
 	ln -fs $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon/lib_octeon_board_table_entry.h $@
+$(BDK_ROOT)/libbdk-hal/if/bdk_microcode_cn78xx.c: $(BDK_ROOT)/target-bin/ipemainc.elf
+	bdk-convert-pki-elf $^ $@
 
 $(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
 $(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+="-O3"

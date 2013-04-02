@@ -20,6 +20,7 @@
 /libbdk-lua/lib_octeon_board_table_entry.i
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
+/libbdk-hal/if/bdk_microcode_cn78xx.c
 /bdk-boot/bdk-minimal
 /bdk-boot/bdk-full
 /bdk-boot/bdk-reset-rtl

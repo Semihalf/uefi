@@ -8,6 +8,8 @@
 static const int PKO_QUEUES_PER_CHANNEL = 1;
 static const int PKO_POOL_BUFFERS = 256;
 static const int MAX_SSO_ENTRIES = 1024;
+extern const uint64_t __BDK_PKI_MICROCODE_CN78XX[];
+extern const int __BDK_PKI_MICROCODE_CN78XX_LENGTH;
 
 typedef struct
 {
@@ -39,6 +41,10 @@ static int pki_global_init(bdk_node_t node)
     global_node_state_t *node_state = &global_node_state[node];
     bdk_zero_memory(node_state, sizeof(*node_state));
     node_state->pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+
+    /* Load microcode */
+    for (int i=0; i<__BDK_PKI_MICROCODE_CN78XX_LENGTH; i++)
+        BDK_CSR_WRITE(node, BDK_PKI_IMEMX(i), __BDK_PKI_MICROCODE_CN78XX[i]);
 
     /* Setup all Auras to support backpressure */
     for (int aura=0; aura<1024; aura++)
