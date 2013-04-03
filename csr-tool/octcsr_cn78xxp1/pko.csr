@@ -1251,13 +1251,12 @@ structs:
       - name: TOTAL
         bits: 15..0
         description: |
-          Total Byte Count. The total number of bytes to send, including zero pad (if any),
-          but excluding FCS if [CKFCS] is used.
-          Must be greater than 0 and not exceed 2^16 - 8 bytes (65528 bytes).
-          PKO zero pads the packet when a PKO_SEND_LINK_S is not present in the
-          descriptor and [TOTAL] is larger than the sum of all PKO_SEND_GATHER_S[SIZE]'s
-          and PKO_SEND_IMM_S[SIZE]'s in the descriptor. [TOTAL] does not include any of
-          the outside FCS bytes that PKO may append to the packet.
+          Total Byte Count. The total number of bytes to send, including zero pad (if any), but
+          excluding FCS any of the outside FCS bytes that PKO or an interface may append to the
+          packet. Must be greater than 0 and not exceed 2^16 - 8 bytes (65528 bytes). PKO zero pads
+          the packet when a PKO_SEND_LINK_S is not present in the descriptor and [TOTAL] is larger
+          than the sum of all PKO_SEND_GATHER_S[SIZE]'s and PKO_SEND_IMM_S[SIZE]'s in the
+          descriptor.
 
       - name: L3PTR
         bits: 23..16
@@ -1287,14 +1286,9 @@ structs:
         bits: 38..32
         description: Format Index. Specifies the marking format index for the packet, see Shaper Marking.
 
-      - name: FCS
+      - name: --
         bits: 39
-        description: |
-          Append FCS. A 4-byte Ethernet FCS will be computed and appended to the packet. The 4 bytes
-          appended are not included in the number of payload bytes specified in [TOTAL]. Note if
-          this packet's CQ is moved to be attached to a different channel, the CKFCS bit will retain
-          its old state; therefore a CQ with packets with [FCS] set should not be moved to a
-          different channel which does not expect FCS appended.
+        description: Reserved.
 
       - name: DF
         bits: 40

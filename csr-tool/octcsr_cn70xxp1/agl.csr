@@ -51,7 +51,21 @@ registers:
       Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..20
+        bits: 63..30
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: WOL
+        bits: 29
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: A Wake-on-LAN event has occurred
+
+      - name: --
+        bits: 28..20
         access: ---
         reset: --
         typical: --
@@ -209,7 +223,21 @@ registers:
     internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..20
+        bits: 63..30
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: WOL
+        bits: 29
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: A Wake-on-LAN event has occurred
+
+      - name: --
+        bits: 28..20
         access: ---
         reset: --
         typical: --
@@ -2899,6 +2927,74 @@ registers:
         description: |
           Number of cycles that BP has been asserted
           Saturating counter
+
+
+  - name: AGL_GMX_WOL_CTL
+    address: 0x11800E0000780
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 47..36
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 35..33
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAGIC_EN
+        bits: 32
+        access: R/W
+        reset: 0
+        typical: --
+        description: Port enable for magic pkt WOL event detection.
+
+      - name: --
+        bits: 31..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 19..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DIRECT_EN
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: --
+        description: Port enable for directed pkt WOL event detection.
+
+      - name: --
+        bits: 15..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Enter WOL mode.
 
 
   - name: AGL_GMX_RX_TX_STATUS

@@ -62,163 +62,152 @@ enums:
           reg_name: "RST_INT"
         description: See RST_INT[PERST<a>].
 
-      - name: UCTL(0)_INTSTAT_XS_NCB_OOB
-        value: 0x68000 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_XS_NCB_OOB
+        value: 0x68001 + a*0x1000
         attributes:
           bit_name: "XS_NCB_OOB"
           bit_num: "1"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[XS_NCB_OOB].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB].
 
-      - name: UCTL(0)_INTSTAT_XM_BAD_DMA
-        value: 0x68001 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_XM_BAD_DMA
+        value: 0x68002 + a*0x1000
         attributes:
           bit_name: "XM_BAD_DMA"
           bit_num: "2"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[XM_BAD_DMA].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA].
 
-      - name: UCTL(0)_INTSTAT_RAM0_SBE
-        value: 0x68002 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM0_SBE
+        value: 0x68010 + a*0x1000
         attributes:
           bit_name: "RAM0_SBE"
           bit_num: "16"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM0_SBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE].
 
-      - name: UCTL(0)_INTSTAT_RAM0_DBE
-        value: 0x68003 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM0_DBE
+        value: 0x68011 + a*0x1000
         attributes:
           bit_name: "RAM0_DBE"
           bit_num: "17"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM0_DBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE].
 
-      - name: UCTL(0)_INTSTAT_RAM1_SBE
-        value: 0x68004 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM1_SBE
+        value: 0x68012 + a*0x1000
         attributes:
           bit_name: "RAM1_SBE"
           bit_num: "18"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM1_SBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE].
 
-      - name: UCTL(0)_INTSTAT_RAM1_DBE
-        value: 0x68005 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM1_DBE
+        value: 0x68013 + a*0x1000
         attributes:
           bit_name: "RAM1_DBE"
           bit_num: "19"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM1_DBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE].
 
-      - name: UCTL(0)_INTSTAT_RAM2_SBE
-        value: 0x68006 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE
+        value: 0x68014 + a*0x1000
         attributes:
           bit_name: "RAM2_SBE"
           bit_num: "20"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM2_SBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE].
 
-      - name: UCTL(0)_INTSTAT_RAM2_DBE
-        value: 0x68007 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM2_DBE
+        value: 0x68015 + a*0x1000
         attributes:
           bit_name: "RAM2_DBE"
           bit_num: "21"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1180068000030+a*0x1000000)"
-          reg_name: "UCTL(0)_INTSTAT"
-        description: See UCTL(0)_INTSTAT[RAM2_DBE].
+          reg_name: "USBDRD(0..1)_UCTL_INTSTAT"
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE].
 
-      - name: UCTL(0)_UAHC_USBSTS_HSE
-        value: 0x68008 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_UAHC_USBSTS_HSE
+        value: 0x68042 + a*0x1000
         attributes:
           bit_name: "HSE"
           bit_num: "2"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
           intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1680000000024+a*0x10000000000)"
-          reg_name: "UAHC(0)_USBSTS"
-        description: See UAHC(0)_USBSTS[HSE].
+          reg_name: "USBDRD(0..1)_UAHC_USBSTS"
+        description: See USBDRD(0..1)_UAHC_USBSTS[HSE].
 
-      - name: UCTL(0)_UAHC_IMAN(0..0)_IP
-        value: 0x68009 + a*0x1000 + b
+      - name: USBDRD(0..1)_UCTL_UAHC_IMAN(0..0)_IP
+        value: 0x68080 + a*0x1000 + b
         attributes:
           bit_name: "IP"
           bit_num: "0"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
           intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1680000000460+a*0x10000000000+b*0x20)"
-          reg_name: "UAHC(0)_IMAN(0..0)"
-        description: See UAHC(0)_IMAN(0..0)[IP].
+          reg_name: "USBDRD(0..1)_UAHC_IMAN(0..0)"
+        description: See USBDRD(0..1)_UAHC_IMAN(0..0)[IP].
 
-      - name: UCTL(0)_UAHC_DEV_INT
-        value: 0x6800A + a*0x1000
+      - name: USBDRD(0..1)_UCTL_UAHC_DEV_INT
+        value: 0x680C0 + a*0x1000
         attributes:
           bit_name: ""
           bit_num: "-1"
-          blk_enum_name: "UCTL_INTSN_E"
+          blk_enum_name: "USBDRD_UCTL_INTSN_E"
           cib_rtl_module: "usbdrd"
           intsn_complex: "1"
           intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-          major_name: "UCTL(0..1)"
+          major_name: "USBDRD_UCTL(0..1)"
           major_val: "(0x68+a)"
           reg_addr: "0"
           reg_name: ""
-        description: See UAHC(0)_GEVNTCOUNT[EVNTCOUNT]
+        description: See USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT]
 
       - name: SATA_UCTL_INTSTAT_XS_NCB_OOB
         value: 0x6C001
@@ -589,7 +578,6 @@ enums:
           bit_name: "NXM_WR_ERR"
           bit_num: "0"
           blk_enum_name: "LMC_INTSN_E"
-          cib_rtl_major_width: "2"
           major_name: "LMC(0)"
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"

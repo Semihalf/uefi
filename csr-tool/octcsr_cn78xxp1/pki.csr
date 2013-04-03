@@ -1813,10 +1813,11 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word1<63:48>. The total number of bytes of packet
           data, from 1 to 65535. The total packet length includes all the packet bytes shown in the
-          formats in PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP] = 1. (If
-          PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP] = 0, both the LEN value and the stored packet
-          (both the work-queue-entry copy and the ordinary copy) include the CRC bytes. See Packet
-          Input FCS for more details on CRC processing.)
+          formats in PKI Hardware Work-Queue Entry, except that the CRC field is discarded when
+          PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP] = 1. (If PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP]
+          = 0, both the LEN value and the stored packet (both the work-queue-entry copy and the
+          ordinary copy) include the CRC bytes. See Packet Input FCS for more details on CRC
+          processing.)
           ...
 
       - name: OPCODE
@@ -2194,7 +2195,7 @@ registers:
         description: |
           Set when data arrives before a SOP for the same reasm-id for a packet. The first detected
           error associated with bits [DAT,SOP,EOP] of this register is only set here. A new bit can
-          be set when the previous reported bit is cleared.Throws PKI_INTSN_E::PKI_GEN_DAT.
+          be set when the previous reported bit is cleared. Throws PKI_INTSN_E::PKI_GEN_DAT.
 
       - name: EOP
         bits: 4
@@ -2204,7 +2205,7 @@ registers:
         description: |
           Set when an EOP is followed by an EOP for the same reasm-id for a packet. The first
           detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
-          bit can be set when the previous reported bit is cleared. Also see
+          bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. Throws
           PKI_INTSN_E::PKI_GEN_EOP.
 
       - name: SOP
@@ -2215,7 +2216,7 @@ registers:
         description: |
           Set when a SOP is followed by an SOP for the same reasm-id for a packet. The first
           detected error associated with bits [DAT,EOP,SOP] of this register is only set here. A new
-          bit can be set when the previous reported bit is cleared. Also see
+          bit can be set when the previous reported bit is cleared. Also see PKI_PKT_ERR. Throws
           PKI_INTSN_E::PKI_GEN_SOP.
 
       - name: BCKPRS
@@ -2225,8 +2226,8 @@ registers:
         typical: 0
         description: |
           PKI asserted backpressure. PKI can assert backpressure to the receive logic when the to-do
-          list exceeds a high-water mark. When this occurs, PKI can raise an interrupt to
-          software.Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
+          list exceeds a high-water mark. When this occurs, PKI can raise an interrupt to software.
+          Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
 
       - name: CRCERR
         bits: 1
@@ -2236,7 +2237,7 @@ registers:
         description: |
           PKI calculated bad CRC. PKI can compute CRC in two places. Each RGMII port computes its
           own CRC, but PKI can provide an additional check. If PKI computes a bad CRC, PKI raises an
-          interrupt.Throws PKI_INTSN_E::PKI_GEN_CRCERR.
+          interrupt. Throws PKI_INTSN_E::PKI_GEN_CRCERR.
 
       - name: PKTDRP
         bits: 0
@@ -2245,7 +2246,7 @@ registers:
         typical: 0
         description: |
           Packet dropped due to QOS. If the QOS algorithm decides to drop a packet, PKI asserts this
-          interrupt.Throws PKI_INTSN_E::PKI_GEN_PKTDRP.
+          interrupt. Throws PKI_INTSN_E::PKI_GEN_PKTDRP.
 
 
   - name: PKI_PKT_ERR
@@ -3213,8 +3214,8 @@ registers:
         typical: 0
         description: |
           Custom LG parsing enable.
-          0 = Custom LG is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_LG_CUSTOM[VALID]
-          is zero for all indices. This enables internal power and latency reductions.
+          0 = Custom LG is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[LG_CUSTOM] is
+          zero for all indices. This enables internal power and latency reductions.
           1 = Custom LG parsing may be used.
           Changing this bit should be done via the TBD software development toolkit routine.
 
@@ -4332,12 +4333,16 @@ registers:
           INST header. When set, the eight-byte INST_HDR is present on all packets (except incoming
           packets on the DPI ports).
 
-      - name: F96_EN
+      - name: LG_CUSTOM
         bits: 4
         access: R/W
         reset: 0
-        typical: --
-        description: Reserved.
+        typical: 1
+        description: |
+          Layer G Custom Match Enable.
+          0 = Disable custom LG header extraction
+          1 = Enable custom LG header extraction.
+          PKI_GBL_PEN[CLG_PEN] must be set.
 
       - name: FULC_EN
         bits: 3
@@ -4529,27 +4534,9 @@ registers:
       regtest_alias: "True"
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..8
         access: ---
         reset: --
-        typical: --
-        description: Reserved.
-
-      - name: VALID
-        bits: 15
-        access: R/W
-        reset: 0
-        typical: 1
-        description: |
-          Valid.
-          0 = Disable custom LG header extraction
-          1 = Enable custom LG header extraction.
-          PKI_GBL_PEN[CL2_PEN] must be set.
-
-      - name: RSVDRW14
-        bits: 14..8
-        access: R/W
-        reset: 0x0
         typical: --
         description: Reserved.
 
@@ -6071,7 +6058,9 @@ registers:
     title: PKI Dropped L2 Broadcast Statistic Registers
     address: 0x1180044E000A8 | a<<8
     bus: RSL
+    description: PKI Registers for address.
     attributes:
+      arch_max: "256"
       uvm_default_constraint: "True"
     fields:
       - name: --

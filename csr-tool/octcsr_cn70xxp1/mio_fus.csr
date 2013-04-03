@@ -286,6 +286,72 @@ registers:
         description: Reserved.
 
 
+  - name: MIO_FUS_DAT4
+    title: MIO Fuse Data4 Register
+    address: 0x1180000001420
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..52
+        access: RO
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EAST_RCLK_BYP_SELECT
+        bits: 51
+        access: RO
+        reset: 0
+        typical: --
+
+      - name: EAST_RCLK_BYP_SETTING
+        bits: 50..39
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: CMB_RCLK_BYP_SELECT
+        bits: 38
+        access: RO
+        reset: 0
+        typical: --
+        description: Reserved.
+
+      - name: CMB_RCLK_BYP_SETTING
+        bits: 37..26
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: PP_RCLK_BYP_SELECT
+        bits: 25
+        access: RO
+        reset: 0
+        typical: --
+        description: Reserved.
+
+      - name: PP_RCLK_BYP_SETTING
+        bits: 24..13
+        access: RO
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: TAD_RCLK_BYP_SELECT
+        bits: 12
+        access: RO
+        reset: 0
+        typical: --
+
+      - name: TAD_RCLK_BYP_SETTING
+        bits: 11..0
+        access: RO
+        reset: 0x0
+        typical: --
+
+
   - name: MIO_FUS_PDF
     title: MIO Fuse Product Definition Field Register
     address: 0x1180000001428

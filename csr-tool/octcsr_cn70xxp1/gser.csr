@@ -4,7 +4,7 @@
 name: GSER
 registers:
   - name: GSER(0)_DLM(0..2)_MPLL_STATUS
-    title: GSER DLM0 MPLL_STATUS
+    title: GSER DLM MPLL Status Register
     address: 0x1180090001000 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -25,7 +25,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_LOOPBK_EN
-    title: GSER DLM0 LOOPBK_EN
+    title: GSER DLM Loopback Enable Register
     address: 0x1180090001008 + a + b
     bus: RSL
     description: TBD.
@@ -60,7 +60,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_LOS_BIAS
-    title: GSER DLM LOS_BIAS
+    title: GSER DLM LOS Bias Register
     address: 0x1180090001010 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -81,7 +81,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_LOS_LEVEL
-    title: GSER DLM LOS_LEVEL
+    title: GSER DLM LOS Level Register
     address: 0x1180090001018 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -102,7 +102,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_MPLL_EN
-    title: GSER DLM0 MPLL_EN
+    title: GSER DLM MPLL Enable Register
     address: 0x1180090001020 + a + b
     bus: RSL
     description: TBD.
@@ -123,7 +123,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_MPLL_HALF_RATE
-    title: GSER DLM MPLL_HALF_RATE
+    title: GSER DLM MPLL Half Rate Register
     address: 0x1180090001028 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -144,7 +144,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_MPLL_MULTIPLIER
-    title: GSER DLM MPLL_MULTIPLIER
+    title: GSER DLM MPLL Multiplier Register
     address: 0x1180090001030 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -165,7 +165,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_PHY_RESET
-    title: GSER DLM0 PHY_RESET
+    title: GSER DLM Phy Reset Register
     address: 0x1180090001038 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -186,7 +186,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_REF_CLKDIV2
-    title: GSER DLM REF_CLKDIV2
+    title: GSER DLM Reference CLKDIV2 Register
     address: 0x1180090001040 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -207,7 +207,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_REF_SSP_EN
-    title: GSER DLM0 REF_SSP_EN
+    title: GSER DLM REF_SSP Enable Register
     address: 0x1180090001048 + a + b
     bus: RSL
     description: TBD.
@@ -228,7 +228,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_REF_USE_PAD
-    title: GSER DLM REF_USE_PAD
+    title: GSER DLM Reference USE PAD Register
     address: 0x1180090001050 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -249,7 +249,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_TEST_BYPASS
-    title: GSER DLM TEST_BYPASS
+    title: GSER DLM Test Bypass Register
     address: 0x1180090001058 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -270,7 +270,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_TEST_POWERDOWN
-    title: GSER DLM TEST_POWERDOWN
+    title: GSER DLM Test Power Down Register
     address: 0x1180090001060 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -291,7 +291,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_RX_STATUS
-    title: GSER DLM RX_STATUS
+    title: GSER DLM Receive Status Register
     address: 0x1180090002000 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -326,7 +326,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_DATA_EN
-    title: GSER DLM0 RX_DATA_EN
+    title: GSER DLM Receive Data Enable Register
     address: 0x1180090002008 + a + b
     bus: RSL
     description: TBD.
@@ -361,7 +361,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_RX_EQ
-    title: GSER DLM RX_EQ
+    title: GSER DLM Receive EQ Register
     address: 0x1180090002010 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -396,7 +396,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_LOS_EN
-    title: GSER DLM0 RX_LOS_EN
+    title: GSER DLM Receive LOS Enable Register
     address: 0x1180090002018 + a + b
     bus: RSL
     description: TBD.
@@ -431,7 +431,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_PLL_EN
-    title: GSER DLM0 RX_PLL_EN
+    title: GSER DLM Receive PLL Enable Register
     address: 0x1180090002020 + a + b
     bus: RSL
     description: TBD.
@@ -466,7 +466,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_RATE
-    title: GSER DLM0 RX_RATE
+    title: GSER DLM Receive Rate Register
     address: 0x1180090002028 + a + b
     bus: RSL
     description: TBD.
@@ -501,7 +501,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_RESET
-    title: GSER DLM0 RX_RESET
+    title: GSER DLM Receive Reset Register
     address: 0x1180090002030 + a + b
     bus: RSL
     description: TBD.
@@ -536,7 +536,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_RX_TERM_EN
-    title: GSER DLM0 RX_TERM_EN
+    title: GSER DLM Receive TERM Enable Register
     address: 0x1180090002038 + a + b
     bus: RSL
     description: TBD.
@@ -571,7 +571,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_TX_STATUS
-    title: GSER DLM0 TX_STATUS
+    title: GSER DLM Transmit Status Register
     address: 0x1180090003000 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -606,7 +606,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_AMPLITUDE
-    title: GSER DLM0 TX_AMPLITUDE
+    title: GSER DLM Transmit Amplitude Register
     address: 0x1180090003008 + a + b
     bus: RSL
     description: TBD.
@@ -641,7 +641,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_CM_EN
-    title: GSER DLM0 TX_CM_EN
+    title: GSER DLM Transmit CM Enable Register
     address: 0x1180090003010 + a + b
     bus: RSL
     description: TBD.
@@ -676,7 +676,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_DATA_EN
-    title: GSER DLM0 TX_DATA_EN
+    title: GSER DLM Transmit Data Enable Register
     address: 0x1180090003018 + a + b
     bus: RSL
     description: TBD.
@@ -711,7 +711,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_EN
-    title: GSER DLM0 TX_EN
+    title: GSER DLM Transmit Enable Register
     address: 0x1180090003020 + a + b
     bus: RSL
     description: TBD.
@@ -746,7 +746,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_PREEMPH
-    title: GSER DLM0 TX_PREEMPH
+    title: GSER DLM Transmit Pre-Emphasis Register
     address: 0x1180090003028 + a + b
     bus: RSL
     description: TBD.
@@ -781,7 +781,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_RATE
-    title: GSER DLM0 TX_RATE
+    title: GSER DLM Transmit Rate Register
     address: 0x1180090003030 + a + b
     bus: RSL
     description: TBD.
@@ -816,7 +816,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0)_TX_RESET
-    title: GSER DLM0 TX_RESET
+    title: GSER DLM Transmit Reset Register
     address: 0x1180090003038 + a + b
     bus: RSL
     description: TBD.
@@ -851,7 +851,7 @@ registers:
 
 
   - name: GSER(0)_DLM(0..2)_TX_TERM_OFFSET
-    title: GSER DLM TX_TERM_OFFSET
+    title: GSER DLM Transmit Term Offset Register
     address: 0x1180090003040 + a + b*0x80000
     bus: RSL
     description: TBD.
@@ -886,7 +886,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE_STATUS
-    title: GSER PCIE PIPE STATUS
+    title: GSER PCIE Pipe Status Register
     address: 0x1180090080400 + a
     bus: RSL
     description: TBD.
@@ -907,7 +907,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_DEEMPH_GEN1
-    title: GSER PCIE TX DEEMPH GEN1
+    title: GSER PCIE Transmit GEN1 Deemphsis Register
     address: 0x1180090080408 + a
     bus: RSL
     description: TBD.
@@ -928,7 +928,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_DEEMPH_GEN2_3P5DB
-    title: GSER PCIE TX DEEMPH GEN2 3P5DB
+    title: GSER PCIE Transmit 3P5DB Deemphsis Register
     address: 0x1180090080410 + a
     bus: RSL
     description: TBD.
@@ -949,7 +949,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_DEEMPH_GEN2_6DB
-    title: GSER PCIE TX DEEMPH GEN2 6DB
+    title: GSER PCIE Transmit GEN2 6DB Deemphsis Register
     address: 0x1180090080418 + a
     bus: RSL
     description: TBD.
@@ -970,7 +970,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_SWING_FULL
-    title: GSER PCIE TX SWING FULL
+    title: GSER PCIE Transmit Swing Full Register
     address: 0x1180090080420 + a
     bus: RSL
     description: TBD.
@@ -991,7 +991,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_SWING_LOW
-    title: GSER PCIE TX SWING LOW
+    title: GSER PCIE Transmit Swing Low Register
     address: 0x1180090080428 + a
     bus: RSL
     description: TBD.
@@ -1012,7 +1012,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_TX_VBOOST_LVL
-    title: GSER PCIE TX VBOOST LEVEL
+    title: GSER PCIE Transmit Voltage Boost Level Register
     address: 0x1180090080440 + a
     bus: RSL
     description: TBD.
@@ -1033,7 +1033,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE_RST
-    title: GSER PCIE PIPE RESET
+    title: GSER PCIE Pipe Reset Register
     address: 0x1180090080448 + a
     bus: RSL
     description: TBD.
@@ -1054,7 +1054,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE_PORT_SEL
-    title: GSER PCIE PIPE PORT SELECT
+    title: GSER PCIE Pipe Port Select Register
     address: 0x1180090080450 + a
     bus: RSL
     description: TBD.
@@ -1075,7 +1075,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE_PORT_LOOPBK
-    title: GSER PCIE PIPE PORT LOOPBACK
+    title: GSER PCIE Pipe Port Loopback Register
     address: 0x1180090080458 + a
     bus: RSL
     description: TBD.
@@ -1096,7 +1096,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE_COM_CLK
-    title: GSER PCIE PIPE COMMON CLOCK
+    title: GSER PCIE Pipe Common Clock Register
     address: 0x1180090080460 + a
     bus: RSL
     description: TBD.
@@ -1117,7 +1117,7 @@ registers:
 
 
   - name: GSER(0)_PCIE_PIPE(0..3)_TXDEEMPH
-    title: GSER PCIE PIPE TX DEEMPH
+    title: GSER PCIE Pipe Transmit Deemphsis Register
     address: 0x1180090080480 + a + b*0x8
     bus: RSL
     description: TBD.
@@ -1138,7 +1138,7 @@ registers:
 
 
   - name: GSER(0)_SATA_STATUS
-    title: GSER SATA STATUS
+    title: GSER SATA Status Register
     address: 0x1180090100200 + a
     bus: RSL
     description: TBD.
@@ -1166,7 +1166,7 @@ registers:
 
 
   - name: GSER(0)_SATA_CFG
-    title: GSER SATA CFG
+    title: GSER SATA Configuration Register
     address: 0x1180090100208 + a
     bus: RSL
     description: TBD.
@@ -1186,9 +1186,37 @@ registers:
         description: TBD.
 
 
-  - name: GSER(0)_SATA_RX_INVERT
-    title: GSER SATA RX INVERT
+  - name: GSER(0)_SATA_LANE_RST
+    title: GSER SATA Lane Reset Register
     address: 0x1180090100210 + a
+    bus: RSL
+    description: TBD.
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: L1_RST
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+      - name: L0_RST
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: TBD.
+
+
+  - name: GSER(0)_SATA_RX_INVERT
+    title: GSER SATA Receive Invert Register
+    address: 0x1180090100218 + a
     bus: RSL
     description: TBD.
     fields:
@@ -1215,8 +1243,8 @@ registers:
 
 
   - name: GSER(0)_SATA_TX_INVERT
-    title: GSER SATA TX INVERT
-    address: 0x1180090100218 + a
+    title: GSER SATA Transmit Invert Register
+    address: 0x1180090100220 + a
     bus: RSL
     description: TBD.
     fields:
@@ -1243,8 +1271,8 @@ registers:
 
 
   - name: GSER(0)_SATA_SSC_EN
-    title: GSER SATA SSC EN
-    address: 0x1180090100220 + a
+    title: GSER SATA SSC Enable Register
+    address: 0x1180090100228 + a
     bus: RSL
     description: TBD.
     fields:
@@ -1264,8 +1292,8 @@ registers:
 
 
   - name: GSER(0)_SATA_SSC_RANGE
-    title: GSER SATA SSC RANGE
-    address: 0x1180090100228 + a
+    title: GSER SATA SSC Range Register
+    address: 0x1180090100230 + a
     bus: RSL
     description: TBD.
     fields:
@@ -1285,8 +1313,8 @@ registers:
 
 
   - name: GSER(0)_SATA_SSC_CLK_SEL
-    title: GSER SATA SSC CLOCK SELECT
-    address: 0x1180090100230 + a
+    title: GSER SATA SSC Clock Select Register
+    address: 0x1180090100238 + a
     bus: RSL
     description: TBD.
     fields:
@@ -1306,7 +1334,7 @@ registers:
 
 
   - name: GSER(0)_SATA_P0_TX_PREEMPH_GEN(1..3)
-    title: GSER SATA PORT TX PREEMPH GEN
+    title: GSER SATA Port Transmit Preemphsis Gen Register
     address: 0x1180090100400 + a + b*0x8
     bus: RSL
     description: TBD.
@@ -1327,7 +1355,7 @@ registers:
 
 
   - name: GSER(0)_SATA_P1_TX_PREEMPH_GEN(1..3)
-    title: GSER SATA PORT TX PREEMPH GEN
+    title: GSER SATA Port Transmit Preemphsis Gen Register
     address: 0x1180090100420 + a + b*0x8
     bus: RSL
     description: TBD.
@@ -1348,7 +1376,7 @@ registers:
 
 
   - name: GSER(0)_SATA_P0_TX_AMP_GEN(1..3)
-    title: GSER SATA PORT TX AMPLITUDE GEN
+    title: GSER SATA Port Transmit Amplitude Gen Register
     address: 0x1180090100480 + a + b*0x8
     bus: RSL
     description: TBD.
@@ -1369,7 +1397,7 @@ registers:
 
 
   - name: GSER(0)_SATA_P1_TX_AMP_GEN(1..3)
-    title: GSER SATA PORT TX AMPLITUDE GEN
+    title: GSER SATA Port Transmit Amplitude Gen Register
     address: 0x11800901004A0 + a + b*0x8
     bus: RSL
     description: TBD.
@@ -1390,7 +1418,7 @@ registers:
 
 
   - name: GSER(0)_SATA_REF_SSP_EN
-    title: GSER SATA REF_SSP_EN
+    title: GSER SATA Ref SSP Enable Register
     address: 0x1180090100600 + a
     bus: RSL
     description: TBD.

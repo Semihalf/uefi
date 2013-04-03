@@ -3431,8 +3431,8 @@ registers:
       - name: SKPIV
         bits: 10..0
         access: R/W
-        reset: 0x500
-        typical: 0x500
+        reset: 0x280
+        typical: 0x280
         description: SKP Interval Value
 
 

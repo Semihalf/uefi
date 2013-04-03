@@ -66,7 +66,7 @@ description: |
   mechanism using the UCTL.PORT*_CR_DBG_* registers. For more information,
   see the PHY Databook.
 enums:
-  - name: UCTL_DMA_READ_CMD_E
+  - name: USBDRD_UCTL_DMA_READ_CMD_E
     attributes:
       width: "1"
     description: Enumerate IOI inbound command selections for DMA reads.
@@ -80,7 +80,7 @@ enums:
         description: Use LDT (no allocate).
 
 
-  - name: UCTL_ECC_ERR_SOURCE_E
+  - name: USBDRD_UCTL_ECC_ERR_SOURCE_E
     attributes:
       width: "4"
     description: Enumerate sources of ECC error log information.
@@ -114,7 +114,7 @@ enums:
         description: UAHC RAM0 double-bit error.
 
 
-  - name: UCTL_ENDIAN_MODE_E
+  - name: USBDRD_UCTL_ENDIAN_MODE_E
     attributes:
       width: "2"
     description: Enumerate endian mode selections.
@@ -143,94 +143,83 @@ enums:
         description: Reserved. A-B-C-D-E-F-G-H becomes E-F-G-H-A-B-C-D.
 
 
-  - name: UCTL_INTSN_E
+  - name: USBDRD_UCTL_INTSN_E
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
     values:
-      - name: UCTL(0)_INTSTAT_XS_NCB_OOB
-        value: 0x68000 + a*0x1000
-        attributes:
-          cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[XS_NCB_OOB].
-
-      - name: UCTL(0)_INTSTAT_XM_BAD_DMA
+      - name: USBDRD(0..1)_UCTL_INTSTAT_XS_NCB_OOB
         value: 0x68001 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[XM_BAD_DMA].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB].
 
-      - name: UCTL(0)_INTSTAT_RAM0_SBE
+      - name: USBDRD(0..1)_UCTL_INTSTAT_XM_BAD_DMA
         value: 0x68002 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM0_SBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA].
 
-      - name: UCTL(0)_INTSTAT_RAM0_DBE
-        value: 0x68003 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM0_SBE
+        value: 0x68010 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM0_DBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE].
 
-      - name: UCTL(0)_INTSTAT_RAM1_SBE
-        value: 0x68004 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM0_DBE
+        value: 0x68011 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM1_SBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE].
 
-      - name: UCTL(0)_INTSTAT_RAM1_DBE
-        value: 0x68005 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM1_SBE
+        value: 0x68012 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM1_DBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE].
 
-      - name: UCTL(0)_INTSTAT_RAM2_SBE
-        value: 0x68006 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM1_DBE
+        value: 0x68013 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM2_SBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE].
 
-      - name: UCTL(0)_INTSTAT_RAM2_DBE
-        value: 0x68007 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE
+        value: 0x68014 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_lsb_mismatch: "True"
-        description: See UCTL(0)_INTSTAT[RAM2_DBE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE].
 
-      - name: UCTL(0)_UAHC_USBSTS_HSE
-        value: 0x68008 + a*0x1000
+      - name: USBDRD(0..1)_UCTL_INTSTAT_RAM2_DBE
+        value: 0x68015 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
-          intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-        description: See UAHC(0)_USBSTS[HSE].
+        description: See USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE].
 
-      - name: UCTL(0)_UAHC_IMAN(0..0)_IP
-        value: 0x68009 + a*0x1000 + b
+      - name: USBDRD(0..1)_UCTL_UAHC_USBSTS_HSE
+        value: 0x68042 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
           intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-        description: See UAHC(0)_IMAN(0..0)[IP].
+        description: See USBDRD(0..1)_UAHC_USBSTS[HSE].
 
-      - name: UCTL(0)_UAHC_DEV_INT
-        value: 0x6800A + a*0x1000
+      - name: USBDRD(0..1)_UCTL_UAHC_IMAN(0..0)_IP
+        value: 0x68080 + a*0x1000 + b
+        attributes:
+          cib_rtl_module: "usbdrd"
+          intsn_level_sensitive: "1"
+        description: See USBDRD(0..1)_UAHC_IMAN(0..0)[IP].
+
+      - name: USBDRD(0..1)_UCTL_UAHC_DEV_INT
+        value: 0x680C0 + a*0x1000
         attributes:
           cib_rtl_module: "usbdrd"
           intsn_complex: "1"
           intsn_level_sensitive: "1"
-          intsn_lsb_mismatch: "True"
-        description: See UAHC(0)_GEVNTCOUNT[EVNTCOUNT]
+        description: See USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT]
 
 
-  - name: UCTL_XM_BAD_DMA_TYPE_E
+  - name: USBDRD_UCTL_XM_BAD_DMA_TYPE_E
     attributes:
       width: "4"
     description: Enumerate type of DMA error seen.
@@ -262,7 +251,7 @@ enums:
 
 
 registers:
-  - name: UCTL(0)_CTL
+  - name: USBDRD(0..1)_UCTL_CTL
     title: UCTL Control Register
     address: 0x1180068000000 + a*0x1000000
     bus: RSL
@@ -285,7 +274,8 @@ registers:
           To avoid race conditions, software must first perform a CSR write operation that puts the
           clear_bist setting into the correct state and then perform another CSR write operation to
           set the BIST trigger (keeping the clear_bist state constant).
-          CLEAR BIST completion is indicated by UCTL(0)_BIST_STATUS[NDONE]. A BIST clear operation
+          CLEAR BIST completion is indicated by USBDRD(0..1)_UCTL_BIST_STATUS[NDONE]. A BIST clear
+          operation
           takes almost 2,000 host-controller-clock cycles for the largest RAM.
 
       - name: START_BIST
@@ -301,7 +291,8 @@ registers:
           Also, the UCTL, UAHC, and UPHY should be held in software- initiated reset (using
           UPHY_RST, UAHC_RST, UCTL_RST) until BIST is complete.
           BIST defect status can be checked after FULL BIST completion, both of which are indicated
-          in UCTL(0)_BIST_STATUS. The full BIST run takes almost 80,000 host-controller-clock cycles
+          in USBDRD(0..1)_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 host-controller-
+          clock cycles
           for the largest RAM.
 
       - name: --
@@ -539,7 +530,7 @@ registers:
           reporting connect/disconnect events on the port and keeps the port in disabled state. This
           could be used for security reasons where hardware can disable a port regardless of whether
           XHCI driver enables a port or not.
-          UAHC(0)_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+          USBDRD(0..1)_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
           This is a strap signal; it should be modified only when UPHY_RST is asserted.
 
       - name: --
@@ -559,7 +550,7 @@ registers:
           signal stops reporting connect/disconnect events on the port and keeps the port in
           disabled state. This could be used for security reasons where hardware can disable a port
           regardless of whether XHCI driver enables a port or not.
-          UAHC(0)_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+          USBDRD(0..1)_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
           This is a strap signal; it should only be modified when UPHY_RST is asserted.
           If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
           speed. Also, all the enabled USB2.0 ports should have the same clock frequency as Port0.
@@ -615,7 +606,7 @@ registers:
       - name: DRD_MODE
         bits: 3
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
           Switches between Host or Device mode for USBDRD.
@@ -654,7 +645,7 @@ registers:
           RSL, NCB, and CIB protocols.
 
 
-  - name: UCTL(0)_BIST_STATUS
+  - name: USBDRD(0..1)_UCTL_BIST_STATUS
     title: UCTL BIST Status Register
     address: 0x1180068000008 + a*0x1000000
     bus: RSL
@@ -763,7 +754,7 @@ registers:
         description: BIST status of the UAHC descriptor/register cache (RAM0).
 
 
-  - name: UCTL(0)_SPARE0
+  - name: USBDRD(0..1)_UCTL_SPARE0
     title: UCTL Spare Register 0
     address: 0x1180068000010 + a*0x1000000
     bus: RSL
@@ -780,7 +771,7 @@ registers:
         description: Spare.
 
 
-  - name: UCTL(0)_INTSTAT
+  - name: USBDRD(0..1)_UCTL_INTSTAT
     title: UCTL Interrupt Status Register
     address: 0x1180068000030 + a*0x1000000
     bus: RSL
@@ -812,7 +803,7 @@ registers:
         typical: 0
         description: |
           Detected double-bit error on the UAHC RxFIFO RAMs (RAM2). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM2_DBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_DBE.
 
       - name: RAM2_SBE
         bits: 20
@@ -821,7 +812,7 @@ registers:
         typical: 0
         description: |
           Detected single-bit error on the UAHC RxFIFO RAMs (RAM2). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM2_SBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE.
 
       - name: RAM1_DBE
         bits: 19
@@ -830,7 +821,7 @@ registers:
         typical: 0
         description: |
           Detected double-bit error on the UAHC TxFIFO RAMs (RAM1). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM1_DBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM1_DBE.
 
       - name: RAM1_SBE
         bits: 18
@@ -839,7 +830,7 @@ registers:
         typical: 0
         description: |
           Detected single-bit error on the UAHC TxFIFO RAMs (RAM1). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM2_SBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE.
 
       - name: RAM0_DBE
         bits: 17
@@ -848,7 +839,7 @@ registers:
         typical: 0
         description: |
           Detected double-bit error on the UAHC Desc/Reg Cache (RAM0). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM0_DBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM0_DBE.
 
       - name: RAM0_SBE
         bits: 16
@@ -857,7 +848,7 @@ registers:
         typical: 0
         description: |
           Detected single-bit error on the UAHC Desc/Reg Cache (RAM0). Throws
-          UCTL_INTSN_E::UCTL(0)_INTSTAT_RAM0_SBE.
+          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM0_SBE.
 
       - name: --
         bits: 15..3
@@ -873,15 +864,16 @@ registers:
         typical: 0
         description: |
           Detected bad DMA access from UAHC to IOI. Error information is logged in
-          UCTL(0)_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
+          USBDRD(0..1)_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates
+          the
           assumptions
           made by the AXI-to-IOI shim. Such scenarios include: illegal length/size combinations and
           address out-of-bounds.
           For more information on exact failures, see description in
-          UCTL(0)_SHIM_CFG[XM_BAD_DMA_TYPE].
+          USBDRD(0..1)_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE].
           The hardware does not translate the request correctly and results may violate IOI
           protocols.
-          Throws UCTL_INTSN_E::UCTL(0)_INTSTAT_XM_BAD_DMA.
+          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_XM_BAD_DMA.
 
       - name: XS_NCB_OOB
         bits: 1
@@ -891,8 +883,8 @@ registers:
         description: |
           Detected out-of-bound register access to UAHC over IOI. The UAHC defines 1MB of register
           space, starting at offset 0x0. Any accesses outside of this register space cause this bit
-          to be set to 1. Error information is logged in UCTL(0)_SHIM_CFG[XS_NCB_OOB_*].
-          Throws UCTL_INTSN_E::UCTL(0)_INTSTAT_XS_NCB_OOB.
+          to be set to 1. Error information is logged in USBDRD(0..1)_UCTL_SHIM_CFG[XS_NCB_OOB_*].
+          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_XS_NCB_OOB.
 
       - name: --
         bits: 0
@@ -902,51 +894,21 @@ registers:
         description: Reserved.
 
 
-  - name: UCTL(0)_PORT(0..0)_CFG
+  - name: USBDRD(0..1)_UCTL_PORT(0..0)_CFG_HS
     title: UCTL Port Configuration Registers
     address: 0x1180068000040 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register controls configuration and test controls for the port@ PHY.
     fields:
-      - name: TX_VBOOST_LVL
-        bits: 63..61
-        access: R/W
-        reset: 0x4
-        typical: 0x4
-        description: |
-          TX voltage-boost level. Sets the boosted transmit launch amplitude (mVppd). The default
-          bit setting is intended to set the launch amplitude to approximately 1,008 mVppd. A
-          single, positive binary bit setting change results in a +156 mVppd change in the Tx launch
-          amplitude.
-          A single, negative binary bit setting change results in a -156 mVppd change in the Tx
-          launch amplitude. All settings more than one binary bit change should not be used.
-          0x3 = 0.844 V launch amplitude
-          0x4 = 1.008 V launch amplitude
-          0x5 = 1.156 V launch amplitude
-          All others values are invalid.
-
-      - name: LOS_BIAS
-        bits: 60..58
-        access: R/W
-        reset: 0x5
-        typical: 0x5
-        description: |
-          Loss-of-signal detector threshold-level control. A positive, binary bit setting change
-          results in a +15 mVp incremental change in the LOS threshold.
-          A negative binary bit setting change results in a -15 mVp incremental change in the LOS
-          threshold. The 0x0 setting is reserved and must not be used. The default 0x5 setting
-          corresponds to approximately 105 mVp.
-              0x0: invalid
-              0x1:  45 mV
-              0x2:  60 mV
-              0x3:  75 mV
-              0x4:  90 mV
-              0x5: 105 mV
-              0x6: 120 mV
-              0x7: 135 mV
+      - name: RESERVED0
+        bits: 63..58
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: COMP_DIS_TUNE
         bits: 57..55
@@ -1022,14 +984,12 @@ registers:
           0x0 = HighSpeed TX pre-emphasis is disabled.
           If these signals are not used, set them to 0x0.
 
-      - name: LANE0_TX2RX_LOOPBK
+      - name: RESERVED1
         bits: 41
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
-          based on the tx0_en input so that rx0_los = !tx_data_en.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: TX_PREEMP_PULSE_TUNE
         bits: 40
@@ -1087,11 +1047,148 @@ registers:
           The default bit setting is intended to create a HighSpeed transmit
           DC level of approximately 400mV.
 
+      - name: RESERVED2
+        bits: 31..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VATEST_ENABLE
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Analog test-pin select. Enables analog test voltages to be placed on the ID0 pin.
+          0x0 = test functionality disabled
+          0x1 = test functionality enabled
+          0x2, 0x3 = reserved, invalid settings
+          See also the PHY databook for details on how to select which analog test voltage.
+
+      - name: LOOPBACK_ENABLE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Places the HighSpeed PHY in loopback mode, which concurrently enables HighSpeed receive
+          and transmit logic.
+
+      - name: ATERESET
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Per-PHY ATE reset. When the USB core is powered up (not in suspend mode), an automatic
+          tester can use this to disable PHYCLOCK and FREECLK, then re-enable them with an aligned
+          phase.
+          1 = PHYCLOCK and FREECLK outputs are disabled.
+          0 = PHYCLOCK and FREECLK are available within a specific period after ATERESET is
+          deasserted.
+
+
+  - name: USBDRD(0..1)_UCTL_PORT(0..0)_CFG_SS
+    title: UCTL Port Configuration Registers
+    address: 0x1180068000048 + a*0x1000000 + b*0x20
+    bus: RSL
+    description: |
+      Accessible by: only when H_CLKDIV_EN
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
+      This register controls configuration and test controls for the port@ PHY.
+    fields:
+      - name: TX_VBOOST_LVL
+        bits: 63..61
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          TX voltage-boost level. Sets the boosted transmit launch amplitude (mVppd). The default
+          bit setting is intended to set the launch amplitude to approximately 1,008 mVppd. A
+          single, positive binary bit setting change results in a +156 mVppd change in the Tx launch
+          amplitude.
+          A single, negative binary bit setting change results in a -156 mVppd change in the Tx
+          launch amplitude. All settings more than one binary bit change should not be used.
+          0x3 = 0.844 V launch amplitude
+          0x4 = 1.008 V launch amplitude
+          0x5 = 1.156 V launch amplitude
+          All others values are invalid.
+
+      - name: LOS_BIAS
+        bits: 60..58
+        access: R/W
+        reset: 0x5
+        typical: 0x5
+        description: |
+          Loss-of-signal detector threshold-level control. A positive, binary bit setting change
+          results in a +15 mVp incremental change in the LOS threshold.
+          A negative binary bit setting change results in a -15 mVp incremental change in the LOS
+          threshold. The 0x0 setting is reserved and must not be used. The default 0x5 setting
+          corresponds to approximately 105 mVp.
+              0x0: invalid
+              0x1:  45 mV
+              0x2:  60 mV
+              0x3:  75 mV
+              0x4:  90 mV
+              0x5: 105 mV
+              0x6: 120 mV
+              0x7: 135 mV
+
+      - name: RESERVED0
+        bits: 57
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LANE0_TX2RX_LOOPBK
+        bits: 56
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
+          based on the tx0_en input so that rx0_los = !tx_data_en.
+
+      - name: RESERVED1
+        bits: 55..42
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_RX_LOS_MASK_VAL
+        bits: 41..32
+        access: R/W
+        reset: 0xc0
+        typical: 0xc0
+        description: |
+          Configurable Loss-of-Signal Mask Width.
+          Sets the number of reference clock cycles to mask the incoming LFPS in U3 and U2 states.
+          Masks the incoming LFPS for the number of reference clock cycles equal to the value of
+          pcs_rx_los_mask_val[9:0]. This control filters out short, non-compliant LFPS glitches
+          sent by a non-compliant host.
+          For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
+          If the USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is used, the value = 10us / (2 * Tref_clk).
+            Based on USBDRD(0..1)_UCTL_CTL[REF_CLK_FSEL], and assuming
+          USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is set to
+          zero,the value of PCS_RX_LOS_MASK_VAL should be:
+              Enum   Tref_clk   LOS_MASK
+              0x27 = 100MHz   = 0x3E8
+              0x07 =  50MHz   = 0x1F4
+              0x2A =  24MHz   = 0x0F0
+              0x31 =  20MHz   = 0x0C8
+              0x38 =  19.2MHz = 0x0C0
+          Setting this bus to 0x0 disables masking.
+          The value should be defined when the PHY is in reset. Changing this value during operation
+          might disrupt normal operation of the link.
+
       - name: PCS_TX_DEEMPH_3P5DB
         bits: 31..26
         access: R/W
-        reset: 0x15
-        typical: 0x15
+        reset: 0x18
+        typical: 0x18
         description: |
           Fine-tune transmitter driver de-emphasis when set to 3.5db.
           This static value sets the Tx driver de-emphasis value when pipeP_tx_deemph[1:0] is set to
@@ -1108,8 +1205,8 @@ registers:
       - name: PCS_TX_DEEMPH_6DB
         bits: 25..20
         access: R/W
-        reset: 0x20
-        typical: 0x20
+        reset: 0x23
+        typical: 0x23
         description: |
           Fine-tune transmitter driver de-emphasis when set to 6db.
           This static value sets the Tx driver de-emphasis value when pipeP_tx_deemph[1:0] is set to
@@ -1127,8 +1224,8 @@ registers:
       - name: PCS_TX_SWING_FULL
         bits: 19..13
         access: R/W
-        reset: 0x78
-        typical: 0x78
+        reset: 0x7f
+        typical: 0x7f
         description: |
           Launch amplitude of the transmitter. Sets the launch amplitude of the transmitter. The
           values for transmit amplitude are derived from the following equation:
@@ -1172,48 +1269,21 @@ registers:
           Tuning disrupts the normal flow of data; therefore, assert RES_TUNE_REQ only when the PHY
           is inactive. The PHY automatically performs a tune when coming out of PRST.
 
-      - name: VATEST_ENABLE
-        bits: 3..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Analog test-pin select. Enables analog test voltages to be placed on the ID0 pin.
-          0x0 = test functionality disabled
-          0x1 = test functionality enabled
-          0x2, 0x3 = reserved, invalid settings
-          See also the PHY databook for details on how to select which analog test voltage.
-
-      - name: LOOPBACK_ENABLE
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Places the HighSpeed PHY in loopback mode, which concurrently enables HighSpeed receive
-          and transmit logic.
-
-      - name: ATERESET
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Per-PHY ATE reset. When the USB core is powered up (not in suspend mode), an automatic
-          tester can use this to disable PHYCLOCK and FREECLK, then re-enable them with an aligned
-          phase.
-          1 = PHYCLOCK and FREECLK outputs are disabled.
-          0 = PHYCLOCK and FREECLK are available within a specific period after ATERESET is
-          deasserted.
+      - name: RESERVED2
+        bits: 3..0
+        access: ---
+        reset: --
+        typical: --
+        description: RESERVED
 
 
-  - name: UCTL(0)_PORT(0..0)_CR_DBG_CFG
+  - name: USBDRD(0..1)_UCTL_PORT(0..0)_CR_DBG_CFG
     title: UCTL Port Debug Configuration Registers
-    address: 0x1180068000048 + a*0x1000000 + b*0x20
+    address: 0x1180068000050 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register allows indirect access to the configuration and test controls for the port@ PHY.
 
       To access the PHY registers indirectly through the CR interface, the HCLK must be running,
@@ -1320,13 +1390,13 @@ registers:
         description: Rising edge triggers a register write operation of the captured address with the captured data.
 
 
-  - name: UCTL(0)_PORT(0..0)_CR_DBG_STATUS
+  - name: USBDRD(0..1)_UCTL_PORT(0..0)_CR_DBG_STATUS
     title: UCTL Port Debug Status Registers
-    address: 0x1180068000050 + a*0x1000000 + b*0x20
+    address: 0x1180068000058 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register allows indirect access to the configuration and test controls for the port@ PHY.
       For usage, see above description in CR_DBG_CFG.
     fields:
@@ -1359,13 +1429,13 @@ registers:
         description: Acknowledge that the CAP_ADDR, CAP_DATA, READ, WRITE commands have completed.
 
 
-  - name: UCTL(0)_HOST_CFG
+  - name: USBDRD(0..1)_UCTL_HOST_CFG
     title: UCTL Host Controller Configuration Register
     address: 0x11800680000E0 + a*0x1000000
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register allows configuration of various host controller (UAHC) features.
       Most of these are strap signals and should only be modified while the controller is not
       running.
@@ -1461,8 +1531,9 @@ registers:
         typical: 0
         description: |
           Port-power-control enable.
-          0 = UAHC(0)_HCCPARAMS[PPC] report port-power-control feature is unavailable.
-          1 = UAHC(0)_HCCPARAMS[PPC] reports port-power-control feature is available. PPC output
+          0 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
+          1 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
+          output
           from UAHC is taken to the MIO's GPIO signals and sense-converted based on
           PPC_ACTIVE_HIGH_EN. The MIO GPIO multiplexer must be programmed accordingly.
           This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
@@ -1489,13 +1560,13 @@ registers:
         description: Reserved.
 
 
-  - name: UCTL(0)_SHIM_CFG
+  - name: USBDRD(0..1)_UCTL_SHIM_CFG
     title: UCTL Shim Configuration Register
     address: 0x11800680000E8 + a*0x1000000
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register allows configuration of various shim (UCTL) features.
       Fields XS_NCB_OOB_* are captured when there are no outstanding OOB errors indicated in INTSTAT
       and a new OOB error arrives.
@@ -1556,7 +1627,7 @@ registers:
         typical: --
         description: |
           ErrType error log for bad DMA access from UAHC. Encodes the type of error encountered
-          (error largest encoded value has priority). See UCTL_XM_BAD_DMA_TYPE_E.
+          (error largest encoded value has priority). See USBDRD_UCTL_XM_BAD_DMA_TYPE_E.
 
       - name: --
         bits: 39..13
@@ -1570,7 +1641,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: Selects the IOI read command used by DMA accesses. See UCTL_DMA_READ_CMD_E.
+        description: Selects the IOI read command used by DMA accesses. See USBDRD_UCTL_DMA_READ_CMD_E.
 
       - name: --
         bits: 11..10
@@ -1584,7 +1655,7 @@ registers:
         access: R/W
         reset: 0x1
         typical: 0x1
-        description: Selects the endian format for DMA accesses to the L2C. See UCTL_ENDIAN_MODE_E.
+        description: Selects the endian format for DMA accesses to the L2C. See USBDRD_UCTL_ENDIAN_MODE_E.
 
       - name: --
         bits: 7..2
@@ -1600,16 +1671,16 @@ registers:
         typical: 0x1
         description: |
           Selects the endian format for IOI CSR accesses to the UAHC. Note that when UAHC CSRs are
-          accessed via RSL, they are returned as big-endian. See UCTL_ENDIAN_MODE_E.
+          accessed via RSL, they are returned as big-endian. See USBDRD_UCTL_ENDIAN_MODE_E.
 
 
-  - name: UCTL(0)_ECC
+  - name: USBDRD(0..1)_UCTL_ECC
     title: UCTL ECC Control/Debug Register
     address: 0x11800680000F0 + a*0x1000000
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register can be used to disable ECC checks, insert ECC errors, and debug ECC failures.
       Fields ECC_ERR* are captured when there are no outstanding ECC errors indicated in INTSTAT
       and a new ECC error arrives. Prioritization for multiple events occurring on the same cycle is
@@ -1634,7 +1705,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Source of ECC error, see UCTL_ECC_ERR_SOURCE_E.
+        description: Source of ECC error, see USBDRD_UCTL_ECC_ERR_SOURCE_E.
 
       - name: ECC_ERR_SYNDROME
         bits: 55..48
@@ -1700,13 +1771,13 @@ registers:
         description: Enables ECC correction on UAHC Desc/Reg cache (RAM0).
 
 
-  - name: UCTL(0)_SPARE1
+  - name: USBDRD(0..1)_UCTL_SPARE1
     title: UCTL Spare Register 1
     address: 0x11800680000F8 + a*0x1000000
     bus: RSL
     description: |
       Accessible by: only when H_CLKDIV_EN
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register is spare.
     fields:
       - name: SPARE
@@ -1717,7 +1788,7 @@ registers:
         description: Spare.
 
 
-  - name: UAHC(0)_CAPLENGTH
+  - name: USBDRD(0..1)_UAHC_CAPLENGTH
     title: XHCI Capability Length Register
     address: 0x1680000000000 + a*0x10000000000
     bus: NCB
@@ -1745,7 +1816,7 @@ registers:
         description: Capability registers length.
 
 
-  - name: UAHC(0)_HCSPARAMS1
+  - name: USBDRD(0..1)_UAHC_HCSPARAMS1
     title: XHCI Host-Controller Structural Parameters Register 1
     address: 0x1680000000004 + a*0x10000000000
     bus: NCB
@@ -1780,7 +1851,7 @@ registers:
         description: Maximum number of device slots.
 
 
-  - name: UAHC(0)_HCSPARAMS2
+  - name: USBDRD(0..1)_UAHC_HCSPARAMS2
     title: XHCI Host-Controller Structural Parameters Register 2
     address: 0x1680000000008 + a*0x10000000000
     bus: NCB
@@ -1831,7 +1902,7 @@ registers:
         description: Isochronous scheduling threshold.
 
 
-  - name: UAHC(0)_HCSPARAMS3
+  - name: USBDRD(0..1)_UAHC_HCSPARAMS3
     title: XHCI Host-Controller Structural Parameters Register 3
     address: 0x168000000000C + a*0x10000000000
     bus: NCB
@@ -1859,7 +1930,7 @@ registers:
         description: U1 device exit latency.
 
 
-  - name: UAHC(0)_HCCPARAMS
+  - name: USBDRD(0..1)_UAHC_HCCPARAMS
     title: XHCI Host-Controller Capability Parameters Register
     address: 0x1680000000010 + a*0x10000000000
     bus: NCB
@@ -1926,7 +1997,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Port power control. Value is based on UCTL(0)_HOST_CFG[PPC_EN].
+        description: Port power control. Value is based on USBDRD(0..1)_UCTL_HOST_CFG[PPC_EN].
 
       - name: CSZ
         bits: 2
@@ -1950,7 +2021,7 @@ registers:
         description: 64-bit addressing capability.
 
 
-  - name: UAHC(0)_DBOFF
+  - name: USBDRD(0..1)_UAHC_DBOFF
     title: XHCI Doorbell Array Offset Register
     address: 0x1680000000014 + a*0x10000000000
     bus: NCB
@@ -1971,7 +2042,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_RTSOFF
+  - name: USBDRD(0..1)_UAHC_RTSOFF
     title: XHCI Runtime Register-Space Offset Register
     address: 0x1680000000018 + a*0x10000000000
     bus: NCB
@@ -1992,14 +2063,15 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_USBCMD
+  - name: USBDRD(0..1)_UAHC_USBCMD
     title: XHCI Command Register
     address: 0x1680000000020 + a*0x10000000000
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.4.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..12
@@ -2079,14 +2151,15 @@ registers:
         description: Run/stop.
 
 
-  - name: UAHC(0)_USBSTS
+  - name: USBDRD(0..1)_UAHC_USBSTS
     title: XHCI Status Register
     address: 0x1680000000024 + a*0x10000000000
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.4.2.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..13
@@ -2158,7 +2231,7 @@ registers:
         typical: --
         description: |
           Host-system error. The typical software response to an HSE is to reset the core.
-          Throws UCTL_INTSN_E::USBDRD_UAHC_USBSTS_HSE.
+          Throws USBDRD_UCTL_INTSN_E::USBDRD_UAHC_USBSTS_HSE.
 
       - name: --
         bits: 1
@@ -2175,7 +2248,7 @@ registers:
         description: HC halted.
 
 
-  - name: UAHC(0)_PAGESIZE
+  - name: USBDRD(0..1)_UAHC_PAGESIZE
     title: XHCI Page-Size Register
     address: 0x1680000000028 + a*0x10000000000
     bus: NCB
@@ -2196,7 +2269,7 @@ registers:
         description: Page size.
 
 
-  - name: UAHC(0)_DNCTRL
+  - name: USBDRD(0..1)_UAHC_DNCTRL
     title: XHCI Device Notification Control Register
     address: 0x1680000000034 + a*0x10000000000
     bus: NCB
@@ -2217,7 +2290,7 @@ registers:
         description: Notification enable.
 
 
-  - name: UAHC(0)_CRCR_L
+  - name: USBDRD(0..1)_UAHC_CRCR_L
     title: XHCI Command Ring Control Register Low
     address: 0x1680000000038 + a*0x10000000000
     bus: NCB
@@ -2271,7 +2344,7 @@ registers:
         description: Ring Cycle State
 
 
-  - name: UAHC(0)_CRCR_H
+  - name: USBDRD(0..1)_UAHC_CRCR_H
     title: XHCI Command Ring Control Register High
     address: 0x168000000003C + a*0x10000000000
     bus: NCB
@@ -2286,7 +2359,7 @@ registers:
           Command ring pointer bits<64:32>.
 
 
-  - name: UAHC(0)_DCBAAP_L
+  - name: USBDRD(0..1)_UAHC_DCBAAP_L
     title: XHCI Device Context Base-Address-Array Pointer Register Low
     address: 0x1680000000050 + a*0x10000000000
     bus: NCB
@@ -2308,7 +2381,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_DCBAAP_H
+  - name: USBDRD(0..1)_UAHC_DCBAAP_H
     title: XHCI Device Context Base-Address-Array Pointer Register High
     address: 0x1680000000054 + a*0x10000000000
     bus: NCB
@@ -2323,7 +2396,7 @@ registers:
           Device context base address array pointer bits<63:32>.
 
 
-  - name: UAHC(0)_CONFIG
+  - name: USBDRD(0..1)_UAHC_CONFIG
     title: XHCI Configuration Register
     address: 0x1680000000058 + a*0x10000000000
     bus: NCB
@@ -2344,15 +2417,16 @@ registers:
         description: Maximum device slots enabled
 
 
-  - name: UAHC(0)_PORTSC(0..1)
+  - name: USBDRD(0..1)_UAHC_PORTSC(0..1)
     title: XHCI Port Status and Control Registers
     address: 0x1680000000420 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.4.8.
       Port 1 is USB3.0 SuperSpeed link. Port 0 is USB2.0 HighSpeed/FullSpeed/LowSpeed link.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: WPR
         bits: 31
@@ -2557,14 +2631,15 @@ registers:
         description: Current connect status.
 
 
-  - name: UAHC(0)_PORTPMSC_20(0..0)
+  - name: USBDRD(0..1)_UAHC_PORTPMSC_20(0..0)
     title: XHCI Port Power Management Status/Control Registers (HighSpeed)
     address: 0x1680000000424 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.4.9.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: PORT_TEST_CONTROL
         bits: 31..28
@@ -2616,7 +2691,7 @@ registers:
         description: L1 status.
 
 
-  - name: UAHC(0)_PORTLI_20(0..0)
+  - name: USBDRD(0..1)_UAHC_PORTLI_20(0..0)
     title: XHCI Port Link Information Registers (HighSpeed)
     address: 0x1680000000428 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -2630,15 +2705,16 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_PORTHLPMC_20(0..0)
+  - name: USBDRD(0..1)_UAHC_PORTHLPMC_20(0..0)
     title: XHCI Port Hardware LPM Control Registers (HighSpeed)
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       See XHCI specification v1.? section ?.
       INTERNAL: TODO (new unreleased XHCI errata!)
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: --
         bits: 31..14
@@ -2670,14 +2746,15 @@ registers:
         description: Host-initiated resume-duration mode.
 
 
-  - name: UAHC(0)_PORTPMSC_SS(1..1)
+  - name: USBDRD(0..1)_UAHC_PORTPMSC_SS(1..1)
     title: XHCI Port Power Management Status/Control Registers (SuperSpeed)
     address: 0x1680000000424 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.4.9.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: --
         bits: 31..17
@@ -2712,7 +2789,7 @@ registers:
         description: U1 timeout.
 
 
-  - name: UAHC(0)_PORTLI_SS(1..1)
+  - name: USBDRD(0..1)_UAHC_PORTLI_SS(1..1)
     title: XHCI Port Link Information Registers (SuperSpeed)
     address: 0x1680000000428 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -2733,15 +2810,16 @@ registers:
         description: Link error count.
 
 
-  - name: UAHC(0)_PORTHLPMC_SS(1..1)
+  - name: USBDRD(0..1)_UAHC_PORTHLPMC_SS(1..1)
     title: XHCI Port Hardware LPM Control Registers (SuperSpeed)
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       See XHCI specification v1.? section ?.
       INTERNAL: TODO: (new unreleased XHCI errata!)
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: --
         bits: 31..0
@@ -2751,14 +2829,15 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_MFINDEX
+  - name: USBDRD(0..1)_UAHC_MFINDEX
     title: XHCI Microframe Index Register
     address: 0x1680000000440 + a*0x10000000000
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.5.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..14
@@ -2775,14 +2854,15 @@ registers:
         description: Microframe index.
 
 
-  - name: UAHC(0)_IMAN(0..0)
+  - name: USBDRD(0..1)_UAHC_IMAN(0..0)
     title: XHCI Interrupt Management Registers
     address: 0x1680000000460 + a*0x10000000000 + b*0x20
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.5.2.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..2
@@ -2805,17 +2885,18 @@ registers:
         typical: --
         description: |
           Interrupt pending.
-          Throws UCTL_INTSN_E::UCTL(0)_UAHC_IMAN(0..0)_IP.
+          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_UAHC_IMAN(0..0)_IP.
 
 
-  - name: UAHC(0)_IMOD(0..0)
+  - name: USBDRD(0..1)_UAHC_IMOD(0..0)
     title: XHCI Interrupt Moderation Registers
     address: 0x1680000000464 + a*0x10000000000 + b*0x20
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.5.2.2.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: IMODC
         bits: 31..16
@@ -2832,14 +2913,15 @@ registers:
         description: Interrupt moderation interval.
 
 
-  - name: UAHC(0)_ERSTSZ(0..0)
+  - name: USBDRD(0..1)_UAHC_ERSTSZ(0..0)
     title: XHCI Event-Ring Segment-Table Size Registers
     address: 0x1680000000468 + a*0x10000000000 + b*0x20
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.5.2.3.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..16
@@ -2856,7 +2938,7 @@ registers:
         description: Event-ring segment-table size.
 
 
-  - name: UAHC(0)_ERSTBA_L(0..0)
+  - name: USBDRD(0..1)_UAHC_ERSTBA_L(0..0)
     title: XHCI Event-Ring Segment-Table Base-Address Registers Low
     address: 0x1680000000470 + a*0x10000000000 + b*0x20
     bus: NCB
@@ -2878,7 +2960,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_ERSTBA_H(0..0)
+  - name: USBDRD(0..1)_UAHC_ERSTBA_H(0..0)
     title: XHCI Event-Ring Segment-Table Base-Address Registers High
     address: 0x1680000000474 + a*0x10000000000 + b*0x20
     bus: NCB
@@ -2893,7 +2975,7 @@ registers:
           Event-ring segment-table base-address bits<64:32>.
 
 
-  - name: UAHC(0)_ERDP_L(0..0)
+  - name: USBDRD(0..1)_UAHC_ERDP_L(0..0)
     title: XHCI Event Ring Dequeue Pointer Registers Low
     address: 0x1680000000478 + a*0x10000000000 + b*0x20
     bus: NCB
@@ -2922,7 +3004,7 @@ registers:
         description: Dequeue ERST segment index.
 
 
-  - name: UAHC(0)_ERDP_H(0..0)
+  - name: USBDRD(0..1)_UAHC_ERDP_H(0..0)
     title: XHCI Event Ring Dequeue Pointer Registers High
     address: 0x168000000047C + a*0x10000000000 + b*0x20
     bus: NCB
@@ -2937,13 +3019,14 @@ registers:
           Event ring dequeue pointer bits<63:32>.
 
 
-  - name: UAHC(0)_DB(0..64)
+  - name: USBDRD(0..1)_UAHC_DB(0..64)
     title: XHCI Doorbell Registers
     address: 0x1680000000480 + a*0x10000000000 + b*0x4
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.6.
-      INTERNAL: XHCI spec, page 32: there are UAHC(0)_HCSPARAMS1[MAXSLOTS]+1 doorbell registers.
+      INTERNAL: XHCI spec, page 32: there are USBDRD(0..1)_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell
+      registers.
     fields:
       - name: DBSTREAMID
         bits: 31..16
@@ -2967,14 +3050,15 @@ registers:
         description: Doorbell target.
 
 
-  - name: UAHC(0)_USBLEGSUP
+  - name: USBDRD(0..1)_UAHC_USBLEGSUP
     title: XHCI Legacy Support Capability Register
     address: 0x1680000000880 + a*0x10000000000
     bus: NCB
     description: |
       See XHCI specification v1.0 section 7.1.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: --
         bits: 31..25
@@ -3019,15 +3103,16 @@ registers:
         description: Capability ID = USB legacy support.
 
 
-  - name: UAHC(0)_USBLEGCTLSTS
+  - name: USBDRD(0..1)_UAHC_USBLEGCTLSTS
     title: XHCI Legacy Support Control/Status Register
     address: 0x1680000000884 + a*0x10000000000
     bus: NCB
     description: |
       See XHCI specification v1.0 section 7.1.2.
       Note that the SMI interrupts are not connected to anything in an Octeon configuration.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
-      UAHC(0)_USBCMD[HCRST].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST].
     fields:
       - name: SMI_ON_BAR
         bits: 31
@@ -3137,7 +3222,7 @@ registers:
         description: USB system-management interrupt enable.
 
 
-  - name: UAHC(0)_SUPTPRT2_DW0
+  - name: USBDRD(0..1)_UAHC_SUPTPRT2_DW0
     title: XHCI Supported-Protocol-Capability (USB 2.0) Register 0
     address: 0x1680000000890 + a*0x10000000000
     bus: NCB
@@ -3172,7 +3257,7 @@ registers:
         description: Capability ID = supported protocol.
 
 
-  - name: UAHC(0)_SUPTPRT2_DW1
+  - name: USBDRD(0..1)_UAHC_SUPTPRT2_DW1
     title: XHCI Supported-Protocol-Capability (USB 2.0) Register 1
     address: 0x1680000000894 + a*0x10000000000
     bus: NCB
@@ -3187,7 +3272,7 @@ registers:
           Name string: 'USB'.
 
 
-  - name: UAHC(0)_SUPTPRT2_DW2
+  - name: USBDRD(0..1)_UAHC_SUPTPRT2_DW2
     title: XHCI Supported-Protocol-Capability (USB 2.0) Register 2
     address: 0x1680000000898 + a*0x10000000000
     bus: NCB
@@ -3257,7 +3342,7 @@ registers:
         description: Compatible port offset.
 
 
-  - name: UAHC(0)_SUPTPRT2_DW3
+  - name: USBDRD(0..1)_UAHC_SUPTPRT2_DW3
     title: XHCI Supported-Protocol-Capability (USB 2.0) Register 3
     address: 0x168000000089C + a*0x10000000000
     bus: NCB
@@ -3280,7 +3365,7 @@ registers:
         description: Protocol slot type.
 
 
-  - name: UAHC(0)_SUPTPRT3_DW0
+  - name: USBDRD(0..1)_UAHC_SUPTPRT3_DW0
     title: XHCI Supported-Protocol-Capability (USB 3.0) Register 0
     address: 0x16800000008A0 + a*0x10000000000
     bus: NCB
@@ -3307,7 +3392,7 @@ registers:
         typical: 0x0
         description: |
           Next Capability Pointer
-          Value depends on UAHC(0)_GUCTL[EXTCAPSUPTEN].
+          Value depends on USBDRD(0..1)_UAHC_GUCTL[EXTCAPSUPTEN].
           If EXTCAPSUPTEN = 0, value is 0x0. If = 1, value is 0x4.
 
       - name: CAPID
@@ -3318,7 +3403,7 @@ registers:
         description: Capability ID = supported protocol.
 
 
-  - name: UAHC(0)_SUPTPRT3_DW1
+  - name: USBDRD(0..1)_UAHC_SUPTPRT3_DW1
     title: XHCI Supported-Protocol-Capability (USB 3.0) Register 1
     address: 0x16800000008A4 + a*0x10000000000
     bus: NCB
@@ -3333,7 +3418,7 @@ registers:
           Name string: 'USB'.
 
 
-  - name: UAHC(0)_SUPTPRT3_DW2
+  - name: USBDRD(0..1)_UAHC_SUPTPRT3_DW2
     title: XHCI Supported-Protocol-Capability (USB 3.0) Register 2
     address: 0x16800000008A8 + a*0x10000000000
     bus: NCB
@@ -3368,7 +3453,7 @@ registers:
         description: Compatible port offset.
 
 
-  - name: UAHC(0)_SUPTPRT3_DW3
+  - name: USBDRD(0..1)_UAHC_SUPTPRT3_DW3
     title: XHCI Supported-Protocol-Capability (USB 3.0) Register 3
     address: 0x16800000008AC + a*0x10000000000
     bus: NCB
@@ -3391,7 +3476,7 @@ registers:
         description: Protocol slot type.
 
 
-  - name: UAHC(0)_GSBUSCFG0
+  - name: USBDRD(0..1)_UAHC_GSBUSCFG0
     title: UAHC Bus Configuration Register 0
     address: 0x168000000C100 + a*0x10000000000
     bus: NCB
@@ -3405,7 +3490,7 @@ registers:
       INTERNAL: The AXI cache signals are not connected in Cavium's hookup, so the *REQINFO fields
       can be ignored.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: DATRDREQINFO
         bits: 31..28
@@ -3451,7 +3536,7 @@ registers:
         typical: 0
         description: |
           Data access is big-endian. Keep this set to 0 (little-endian) and use the
-          UCTL(0)_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+          USBDRD(0..1)_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
       - name: DESCBIGEND
         bits: 10
@@ -3460,7 +3545,7 @@ registers:
         typical: 0
         description: |
           Descriptor access is big-endian. Keep this set to 0 (little-endian) and use the
-          UCTL(0)_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+          USBDRD(0..1)_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
       - name: RESERVED_0
         bits: 9..8
@@ -3536,7 +3621,7 @@ registers:
           burst length based on the INCR*BRSTENA fields.
 
 
-  - name: UAHC(0)_GSBUSCFG1
+  - name: USBDRD(0..1)_UAHC_GSBUSCFG1
     title: UAHC Bus Configuration Register 1
     address: 0x168000000C104 + a*0x10000000000
     bus: NCB
@@ -3546,7 +3631,7 @@ registers:
       Do not change this register after the initial programming. The application must program
       this register before starting any transactions on AXI.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..13
@@ -3594,7 +3679,7 @@ registers:
           Read must ignore.
 
 
-  - name: UAHC(0)_GTXTHRCFG
+  - name: USBDRD(0..1)_UAHC_GTXTHRCFG
     title: UAHC TX Threshold Control Register
     address: 0x168000000C108 + a*0x10000000000
     bus: NCB
@@ -3615,7 +3700,7 @@ registers:
         * A larger threshold will affect the performance, since the scheduler is idle during this
           time.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RESERVED_0
         bits: 31..30
@@ -3698,7 +3783,7 @@ registers:
           These are apparently backed by read/write registers.
 
 
-  - name: UAHC(0)_GRXTHRCFG
+  - name: USBDRD(0..1)_UAHC_GRXTHRCFG
     title: UAHC RX Threshhold Control Register
     address: 0x168000000C10C + a*0x10000000000
     bus: NCB
@@ -3721,7 +3806,7 @@ registers:
         minimize retry due to underrun. Setting threshold and burst size guarantees this.
       * A larger Rx threshold affects the performance since the scheduler is idle during this time.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..30
@@ -3807,13 +3892,13 @@ registers:
           Read must ignore.
 
 
-  - name: UAHC(0)_GCTL
+  - name: USBDRD(0..1)_UAHC_GCTL
     title: UAHC Control Register
     address: 0x168000000C110 + a*0x10000000000
     bus: NCB
     description: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: PWRDNSCALE
         bits: 31..19
@@ -3887,16 +3972,19 @@ registers:
         typical: 0
         description: |
           Core soft reset: 1 = soft reset to core, 0 = no soft reset.
-          Clears the interrupts and all the UAHC(0)_* CSRs except the
-          following registers: UAHC(0)_GCTL, UAHC(0)_GUCTL, UAHC(0)_GSTS,
-          UAHC(0)_GRLSID, UAHC(0)_GGPIO, UAHC(0)_GUID, UAHC(0)_GUSB2PHYCFG[*],
-          UAHC(0)_GUSB3PIPECTL[*].
-          When you reset PHYs (using UAHC(0)_GUBS3PHYCFG or UAHC(0)_GUSB3PIPECTL
+          Clears the interrupts and all the USBDRD(0..1)_UAHC_* CSRs except the
+          following registers: USBDRD(0..1)_UAHC_GCTL, USBDRD(0..1)_UAHC_GUCTL,
+          USBDRD(0..1)_UAHC_GSTS,
+          USBDRD(0..1)_UAHC_GRLSID, USBDRD(0..1)_UAHC_GGPIO, USBDRD(0..1)_UAHC_GUID,
+          USBDRD(0..1)_UAHC_GUSB2PHYCFG[*],
+          USBDRD(0..1)_UAHC_GUSB3PIPECTL[*].
+          When you reset PHYs (using USBDRD(0..1)_UAHC_GUBS3PHYCFG or USBDRD(0..1)_UAHC_GUSB3PIPECTL
           registers), you must keep the core in reset state until PHY
           clocks are stable. This controls the bus, ram, and mac domain
           resets.
           INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
-          Note: Under soft reset, accesses to UAHC(0)_* CSRs other than UAHC(0)_GCTL
+          Note: Under soft reset, accesses to USBDRD(0..1)_UAHC_* CSRs other than
+          USBDRD(0..1)_UAHC_GCTL
           may fail (Timeout).
           Note: This bit is for debug purposes only. Use USBCMD.HCRESET for soft reset.
 
@@ -3916,20 +4004,23 @@ registers:
           placed in suspend state.
           This bit must be programmed as a part of initialization at power-on reset, and must not be
           dynamically changed afterwards.
-          Note: UAHC(0)_USB2PHYCFG[*][SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
+          Note: USBDRD(0..1)_UAHC_USB2PHYCFG[*][SUSPHY] eventually decides to put the UTMI/ULPI PHY
+          in to
           suspend
           state. In addition, when this bit is set to 1, the core generates ITP off of the
           REF_CLK-based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based
           counter. To program the reference clock period inside the core, refer to
-          UAHC(0)_GUCTL[REFCLKPER].
+          USBDRD(0..1)_UAHC_GUCTL[REFCLKPER].
           INTERNAL: If you do not plan to ever use this feature or the
-          UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the ref_clk can
+          USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the
+          ref_clk can
           be
           as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
           Note: If you plan to enable hardware-based LPM (PORTPMSC.HLE = 1), this feature cannot be
           used. Turn off this feature by setting this bit to zero and use the
-          UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
-          Note: If you set this bit to 1, the UAHC(0)_GUSB2PHYCFG[U2_FREECLK_EXISTS] bit must be set
+          USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
+          Note: If you set this bit to 1, the USBDRD(0..1)_UAHC_GUSB2PHYCFG[U2_FREECLK_EXISTS] bit
+          must be set
           to zero.
 
       - name: U1U2TIMERSCALE
@@ -4025,7 +4116,7 @@ registers:
           after power-up reset.
 
 
-  - name: UAHC(0)_GPMSTS
+  - name: USBDRD(0..1)_UAHC_GPMSTS
     title: UAHC Global Power Management Status Register
     address: 0x168000000C114 + a*0x10000000000
     bus: NCB
@@ -4039,7 +4130,7 @@ registers:
       of these registers.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
       INTERNAL: Contact Synopsys directly.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: PORTSEL
         bits: 31..28
@@ -4094,7 +4185,7 @@ registers:
           Bit [9]: Resume Detected Changed
 
 
-  - name: UAHC(0)_GSTS
+  - name: USBDRD(0..1)_UAHC_GSTS
     title: UAHC Status Register
     address: 0x168000000C118 + a*0x10000000000
     bus: NCB
@@ -4148,7 +4239,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Bus-error address valid. Indicates that UAHC(0)_GBUSERRADDR_* is valid and reports the
+          Bus-error address valid. Indicates that USBDRD(0..1)_UAHC_GBUSERRADDR_* is valid and
+          reports the
           first bus address that encounters a bus error.
 
       - name: --
@@ -4165,16 +4257,16 @@ registers:
         typical: 0x0
         description: |
           Current mode of operation. Always 0x0 for DRD.
-          INTERNAL: May vary from 0x1 if you write UAHC(0)_GCTL[PRTCAPDIR]!=0x1.
+          INTERNAL: May vary from 0x1 if you write USBDRD(0..1)_UAHC_GCTL[PRTCAPDIR]!=0x1.
 
 
-  - name: UAHC(0)_GUCTL1
+  - name: USBDRD(0..1)_UAHC_GUCTL1
     title: UAHC Global User Control Register 1
     address: 0x168000000C11C + a*0x10000000000
     bus: NCB
     description: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RESERVED_0
         bits: 31..2
@@ -4201,7 +4293,7 @@ registers:
           triggering of the babble condition when using low quality cables.
 
 
-  - name: UAHC(0)_GRLSID
+  - name: USBDRD(0..1)_UAHC_GRLSID
     title: UAHC Release ID Register
     address: 0x168000000C120 + a*0x10000000000
     bus: NCB
@@ -4224,7 +4316,7 @@ registers:
           INTERNAL:   * SynopsysID[15:0] indicates the release number. Current Release is 2.50a.
 
 
-  - name: UAHC(0)_GGPIO
+  - name: USBDRD(0..1)_UAHC_GGPIO
     title: UAHC General-Purpose I/O Register
     address: 0x168000000C124 + a*0x10000000000
     bus: NCB
@@ -4232,7 +4324,7 @@ registers:
       The application can use this register for general purpose input and output ports or for
       debugging.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: GPO
         bits: 31..16
@@ -4249,7 +4341,7 @@ registers:
         description: General purpose input. These inputs are tied 0x0.
 
 
-  - name: UAHC(0)_GUID
+  - name: USBDRD(0..1)_UAHC_GUID
     title: UAHC User ID Register
     address: 0x168000000C128 + a*0x10000000000
     bus: NCB
@@ -4261,7 +4353,7 @@ registers:
         * To store hardware configurations that are outside the core
         * As a scratch register
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: USERID
         bits: 31..0
@@ -4271,7 +4363,7 @@ registers:
         description: User ID. Application-programmable ID field.
 
 
-  - name: UAHC(0)_GUCTL
+  - name: USBDRD(0..1)_UAHC_GUCTL
     title: UAHC User-Control Register
     address: 0x168000000C12C + a*0x10000000000
     bus: NCB
@@ -4280,7 +4372,7 @@ registers:
       mode.
       Most of the options are used to improve host inter-operability with different devices.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: REFCLKPER
         bits: 31..22
@@ -4290,8 +4382,10 @@ registers:
         description: |
           Reference-clock period. Indicates (in terms of ns) the period of REF_CLK. The default
           value is set to 0x8 (8 ns/125 MHz).
-          This field needs to be updated during power on initialization if UAHC(0)_GCTL[SOFITPSYNC]
-          = 1 or UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] = 1. The progammable maximum value 62 ns, and
+          This field needs to be updated during power on initialization if
+          USBDRD(0..1)_UAHC_GCTL[SOFITPSYNC]
+          = 1 or USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] = 1. The progammable maximum value
+          62 ns, and
           the
           minimum value is 8 ns. You use a reference clock with a period that is a integer multiple,
           so that ITP can meet the jitter margin of 32ns. The allowable REF_CLK frequencies whose
@@ -4403,10 +4497,10 @@ registers:
         typical: 0
         description: |
           External Extended Capability Support Enable.
-          If disabled, a read UAHC(0)_SUPTPRT3_DW0[NEXTCAPPTR]
+          If disabled, a read USBDRD(0..1)_UAHC_SUPTPRT3_DW0[NEXTCAPPTR]
           will return 0 in the Next Capability Pointer field. This
           indicates there are no more capabilities. If enabled, a read
-          to UAHC(0)_SUPTPRT3_DW0[NEXTCAPPTR] will return 4 in the
+          to USBDRD(0..1)_UAHC_SUPTPRT3_DW0[NEXTCAPPTR] will return 4 in the
           Next Capability Pointer field.
 
           Always set to 0x0.
@@ -4466,7 +4560,7 @@ registers:
           0x62 98 * 256 * 8 200 us
 
 
-  - name: UAHC(0)_GBUSERRADDR_L
+  - name: USBDRD(0..1)_UAHC_GBUSERRADDR_L
     title: UAHC Bus-Error-Address Register Low
     address: 0x168000000C130 + a*0x10000000000
     bus: NCB
@@ -4493,11 +4587,12 @@ registers:
         typical: 0x0
         description: |
           Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the UAHC(0)_GSTS[BUSERRADDRVLD] = 1.
+          encountered an SoC bus error. It is valid when the USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] =
+          1.
           It can only be cleared by resetting the core.
 
 
-  - name: UAHC(0)_GBUSERRADDR_H
+  - name: USBDRD(0..1)_UAHC_GBUSERRADDR_H
     title: UAHC Bus-Error-Address Register High
     address: 0x168000000C134 + a*0x10000000000
     bus: NCB
@@ -4512,11 +4607,12 @@ registers:
         typical: 0x0
         description: |
           Bus address bits<63:32>. Contains the upper 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the UAHC(0)_GSTS[BUSERRADDRVLD] = 1.
+          encountered an SoC bus error. It is valid when the USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] =
+          1.
           It can only be cleared by resetting the core.
 
 
-  - name: UAHC(0)_GPRTBIMAP_L
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_L
     title: UAHC SuperSpeed Port-to-Bus Instance Mapping Register Low
     address: 0x168000000C138 + a*0x10000000000
     bus: NCB
@@ -4527,7 +4623,7 @@ registers:
       to SuperSpeed USB instances.
       The UAHC only implements one SuperSpeed bus-instance, so this register should always be 0.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..4
@@ -4544,7 +4640,7 @@ registers:
         description: SuperSpeed USB instance number for port 1
 
 
-  - name: UAHC(0)_GPRTBIMAP_H
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_H
     title: UAHC SuperSpeed Port-to-Bus Instance Mapping Register High
     address: 0x168000000C13C + a*0x10000000000
     bus: NCB
@@ -4558,7 +4654,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_GHWPARAMS0
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS0
     title: UAHC Hardware Parameters Register 0
     address: 0x168000000C140 + a*0x10000000000
     bus: NCB
@@ -4613,7 +4709,7 @@ registers:
           Operation mode: 0x2: DRD-only.
 
 
-  - name: UAHC(0)_GHWPARAMS1
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS1
     title: UAHC Hardware Parameters Register 1
     address: 0x168000000C144 + a*0x10000000000
     bus: NCB
@@ -4734,7 +4830,7 @@ registers:
         description: Width - 1 of AXI ID field.
 
 
-  - name: UAHC(0)_GHWPARAMS2
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS2
     title: UAHC Hardware Parameters Register 2
     address: 0x168000000C148 + a*0x10000000000
     bus: NCB
@@ -4751,7 +4847,7 @@ registers:
         description: User ID.
 
 
-  - name: UAHC(0)_GHWPARAMS3
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS3
     title: UAHC Hardware Parameters Register 3
     address: 0x168000000C14C + a*0x10000000000
     bus: NCB
@@ -4840,7 +4936,7 @@ registers:
           SuperSpeed PHY interface: 0x1 = PIPE3.
 
 
-  - name: UAHC(0)_GHWPARAMS4
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS4
     title: UAHC Hardware Parameters Register 4
     address: 0x168000000C150 + a*0x10000000000
     bus: NCB
@@ -4913,7 +5009,7 @@ registers:
         description: Number of TRBs per transfer that can be cached.
 
 
-  - name: UAHC(0)_GHWPARAMS5
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS5
     title: UAHC Hardware Parameters Register 5
     address: 0x168000000C154 + a*0x10000000000
     bus: NCB
@@ -4965,7 +5061,7 @@ registers:
         description: Depth of the BMU-BUSGM source/sink buffers.
 
 
-  - name: UAHC(0)_GHWPARAMS6
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS6
     title: UAHC Hardware Parameters Register 6
     address: 0x168000000C158 + a*0x10000000000
     bus: NCB
@@ -5052,7 +5148,7 @@ registers:
         description: Size of the BMU-protocol status queue.
 
 
-  - name: UAHC(0)_GHWPARAMS7
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS7
     title: UAHC Hardware Parameters Register 7
     address: 0x168000000C15C + a*0x10000000000
     bus: NCB
@@ -5076,7 +5172,7 @@ registers:
         description: RAM1 depth.
 
 
-  - name: UAHC(0)_GDBGFIFOSPACE
+  - name: USBDRD(0..1)_UAHC_GDBGFIFOSPACE
     title: UAHC Debug Queue/FIFO Space Available Register
     address: 0x168000000C160 + a*0x10000000000
     bus: NCB
@@ -5089,7 +5185,7 @@ registers:
       of these registers.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
       INTERNAL: Contact Synopsys directly.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: SPACEAVAILABLE
         bits: 31..16
@@ -5123,16 +5219,16 @@ registers:
           0xA0: DescFetchQ
           0xA1: EventQ
           0xA2: ProtocolStatusQ
-          Port-select: <3:0> selects the port-number when accessing UAHC(0)_GDBGLTSSM.
+          Port-select: <3:0> selects the port-number when accessing USBDRD(0..1)_UAHC_GDBGLTSSM.
 
 
-  - name: UAHC(0)_GDBGLTSSM
+  - name: USBDRD(0..1)_UAHC_GDBGLTSSM
     title: UAHC LTSSM Debug Register
     address: 0x168000000C164 + a*0x10000000000
     bus: NCB
     description: |
       In multi-port host configuration, the port-number is defined by
-      UAHC(0)_GDBGFIFOSPACE[SELECT][3:0].
+      USBDRD(0..1)_UAHC_GDBGFIFOSPACE[SELECT][3:0].
       Value of this register may change immediately after reset.
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
@@ -5198,7 +5294,7 @@ registers:
           <0> Tx Ones/Zeros
 
 
-  - name: UAHC(0)_GDBGLNMCC
+  - name: USBDRD(0..1)_UAHC_GDBGLNMCC
     title: UAHC LNMCC Debug Register
     address: 0x168000000C168 + a*0x10000000000
     bus: NCB
@@ -5225,7 +5321,7 @@ registers:
           This field is for debug purposes only.
 
 
-  - name: UAHC(0)_GDBGBMU
+  - name: USBDRD(0..1)_UAHC_GDBGBMU
     title: UAHC BMU Debug Register
     address: 0x168000000C16C + a*0x10000000000
     bus: NCB
@@ -5255,7 +5351,7 @@ registers:
         description: BMU_CCU debug information.
 
 
-  - name: UAHC(0)_GDBGLSPMUX
+  - name: USBDRD(0..1)_UAHC_GDBGLSPMUX
     title: UAHC LSP Multiplexer Debug Register
     address: 0x168000000C170 + a*0x10000000000
     bus: NCB
@@ -5263,7 +5359,7 @@ registers:
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
       INTERNAL: This register is for Synopsys internal use only.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RESERVED_0
         bits: 31..24
@@ -5310,10 +5406,10 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Host select. Selects the LSP debug information presented in UAHC(0)_GDBGLSP.
+        description: Host select. Selects the LSP debug information presented in USBDRD(0..1)_UAHC_GDBGLSP.
 
 
-  - name: UAHC(0)_GDBGLSP
+  - name: USBDRD(0..1)_UAHC_GDBGLSP
     title: UAHC LSP Debug Register
     address: 0x168000000C174 + a*0x10000000000
     bus: NCB
@@ -5330,7 +5426,7 @@ registers:
         description: LSP debug information.
 
 
-  - name: UAHC(0)_GDBGEPINFO_L
+  - name: USBDRD(0..1)_UAHC_GDBGEPINFO_L
     title: UAHC Endpoint Information Debug Register Low
     address: 0x168000000C178 + a*0x10000000000
     bus: NCB
@@ -5348,7 +5444,7 @@ registers:
           Endpoint debug information, bits<31:0>.
 
 
-  - name: UAHC(0)_GDBGEPINFO_H
+  - name: USBDRD(0..1)_UAHC_GDBGEPINFO_H
     title: UAHC Endpoint Information Debug Register High
     address: 0x168000000C17C + a*0x10000000000
     bus: NCB
@@ -5366,7 +5462,7 @@ registers:
           Endpoint debug information, bits<63:32>.
 
 
-  - name: UAHC(0)_GPRTBIMAP_HS_L
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_HS_L
     title: UAHC HighSpeed Port-to-Bus Instance Mapping Register Low
     address: 0x168000000C180 + a*0x10000000000
     bus: NCB
@@ -5377,7 +5473,7 @@ registers:
       to HighSpeed USB instances.
       The UAHC only implements one HighSpeed bus-instance, so this register should always be 0.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..4
@@ -5394,7 +5490,7 @@ registers:
         description: HighSpeed USB instance number for port 1.
 
 
-  - name: UAHC(0)_GPRTBIMAP_HS_H
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_HS_H
     title: UAHC HighSpeed Port-to-Bus Instance Mapping Register High
     address: 0x168000000C184 + a*0x10000000000
     bus: NCB
@@ -5408,7 +5504,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_GPRTBIMAP_FS_L
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_FS_L
     title: UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register Low
     address: 0x168000000C188 + a*0x10000000000
     bus: NCB
@@ -5421,7 +5517,7 @@ registers:
       The UAHC only implements one FullSpeed/LowSpeed bus-instance, so this register should always
       be 0.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..4
@@ -5438,7 +5534,7 @@ registers:
         description: FullSpeed USB instance number for port 1.
 
 
-  - name: UAHC(0)_GPRTBIMAP_FS_H
+  - name: USBDRD(0..1)_UAHC_GPRTBIMAP_FS_H
     title: UAHC FullSpeed/LowSpeed Port-to-Bus Instance Mapping Register HIgh
     address: 0x168000000C18C + a*0x10000000000
     bus: NCB
@@ -5452,7 +5548,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_GUSB2PHYCFG(0..0)
+  - name: USBDRD(0..1)_UAHC_GUSB2PHYCFG(0..0)
     title: UAHC USB2 PHY-Configuration Registers
     address: 0x168000000C200 + a*0x10000000000 + b*0x4
     bus: NCB
@@ -5463,7 +5559,7 @@ registers:
       Per-port registers are implemented.
       Note: Do not make changes to this register after the initial programming.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: PHYSOFTRST
         bits: 31
@@ -5657,14 +5753,14 @@ registers:
           - one 48-MHz PHY clock = 0.25 bit times
 
 
-  - name: UAHC(0)_GUSB2I2CCTL(0..0)
+  - name: USBDRD(0..1)_UAHC_GUSB2I2CCTL(0..0)
     title: UAHC USB2 I2C Control Register
     address: 0x168000000C240 + a*0x10000000000 + b*0x4
     bus: NCB
     description: |
       Reserved for future use.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..0
@@ -5674,7 +5770,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_GUSB3PIPECTL(0..0)
+  - name: USBDRD(0..1)_UAHC_GUSB3PIPECTL(0..0)
     title: UAHC USB3 Pipe-Control Registers
     address: 0x168000000C2C0 + a*0x10000000000 + b*0x4
     bus: NCB
@@ -5685,7 +5781,7 @@ registers:
       Per-port registers are implemented.
       Note: Do not make changes to this register after the initial programming.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: PHYSOFTRST
         bits: 31
@@ -5711,8 +5807,8 @@ registers:
           first polling sequence after power on. Set this bit to 0, when you run compliance tests.
           The sequence for using this functionality is as follows:
           Disconnect any plugged in devices.
-          Set UAHC(0)_USBCMD[HCRST] = 1 or power-on-chip reset.
-          Set UAHC(0)_PORTSC[PP] = 0.
+          Set USBDRD(0..1)_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+          Set USBDRD(0..1)_UAHC_PORTSC[PP] = 0.
           Set HSTPRTCMPL = 1. This places the link into compliance state.
           To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
           Set HSTPRTCMPL = 0.
@@ -5995,7 +6091,7 @@ registers:
         description: Elastic buffer mode. Refer to the PIPE3 specificiation, table 5-3.
 
 
-  - name: UAHC(0)_GTXFIFOSIZ(0..3)
+  - name: USBDRD(0..1)_UAHC_GTXFIFOSIZ(0..3)
     title: UAHC TX FIFO Size Registers
     address: 0x168000000C300 + a*0x10000000000 + b*0x4
     bus: NCB
@@ -6008,7 +6104,7 @@ registers:
       INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
       Databook page 238.
       reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: TXFSTADDR
         bits: 31..16
@@ -6032,7 +6128,7 @@ registers:
           Reset value derived from configuration parameters.
 
 
-  - name: UAHC(0)_GRXFIFOSIZ(0..2)
+  - name: USBDRD(0..1)_UAHC_GRXFIFOSIZ(0..2)
     title: UAHC RX FIFO Size Registers
     address: 0x168000000C380 + a*0x10000000000 + b*0x4
     bus: NCB
@@ -6045,7 +6141,7 @@ registers:
       INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
       page 238.
       reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RXFSTADDR
         bits: 31..16
@@ -6069,7 +6165,7 @@ registers:
           The reset value is derived from configuration parameters.
 
 
-  - name: UAHC(0)_GEVNTADR(0)_L
+  - name: USBDRD(0..1)_UAHC_GEVNTADR(0)_L
     title: Global Event Buffer Address Register
     address: 0x168000000C400 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -6093,7 +6189,7 @@ registers:
           this address.
 
 
-  - name: UAHC(0)_GEVNTADR(0)_H
+  - name: USBDRD(0..1)_UAHC_GEVNTADR(0)_H
     title: Global Event Buffer Address Register
     address: 0x168000000C404 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -6117,7 +6213,7 @@ registers:
           this address.
 
 
-  - name: UAHC(0)_GEVNTSIZ(0)
+  - name: USBDRD(0..1)_UAHC_GEVNTSIZ(0)
     title: Global Event Buffer Size Register
     address: 0x168000000C408 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -6157,7 +6253,7 @@ registers:
           The minimum size of the event buffer is 32 bytes.
 
 
-  - name: UAHC(0)_GEVNTCOUNT(0)
+  - name: USBDRD(0..1)_UAHC_GEVNTCOUNT(0)
     title: Global Event Buffer Count Register
     address: 0x168000000C40C + a*0x10000000000 + b*0x10
     bus: NCB
@@ -6199,7 +6295,7 @@ registers:
           The interrupt line remains high when count is not 0.
 
 
-  - name: UAHC(0)_GHWPARAMS8
+  - name: USBDRD(0..1)_UAHC_GHWPARAMS8
     title: UAHC Hardware Parameters Register 8
     address: 0x168000000C600 + a*0x10000000000
     bus: NCB
@@ -6216,7 +6312,7 @@ registers:
         description: Dcache depth.
 
 
-  - name: UAHC(0)_GTXFIFOPRIDEV
+  - name: USBDRD(0..1)_UAHC_GTXFIFOPRIDEV
     address: 0x168000000C610 + a*0x10000000000
     bus: NCB
     description: |
@@ -6262,7 +6358,7 @@ registers:
           group.
 
 
-  - name: UAHC(0)_GTXFIFOPRIHST
+  - name: USBDRD(0..1)_UAHC_GTXFIFOPRIHST
     address: 0x168000000C618 + a*0x10000000000
     bus: NCB
     description: |
@@ -6276,13 +6372,13 @@ registers:
              high priority TXFIFOs have no further processing to do (i.e., either the TXQs are empty
              or thecorresponding TXFIFOs are full).
         2. The TX DMA arbiter prioritizes the SuperSpeed group or HighSpeed/FullSpeed/LowSpeed group
-           according to the ratio programmed in the UAHC(0)_GDMAHLRATIO register.
+           according to the ratio programmed in the USBDRD(0..1)_UAHC_GDMAHLRATIO register.
       For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
       the entire packet is completed.
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..3
@@ -6301,7 +6397,7 @@ registers:
           group.
 
 
-  - name: UAHC(0)_GRXFIFOPRIHST
+  - name: USBDRD(0..1)_UAHC_GRXFIFOPRIHST
     address: 0x168000000C61C + a*0x10000000000
     bus: NCB
     description: |
@@ -6316,13 +6412,13 @@ registers:
              priority RXFIFOs have no further processing to do (i.e., either the RXQs are empty or
              the corresponding RXFIFOs do not have the required data).
         2. The RX DMA arbiter prioritizes the SuperSpeed group or HighSpeed/FullSpeed/LowSpeed group
-           according to the ratio programmed in the UAHC(0)_GDMAHLRATIO register.
+           according to the ratio programmed in the USBDRD(0..1)_UAHC_GDMAHLRATIO register.
       For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
       the entire packet is completed.
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..3
@@ -6341,7 +6437,7 @@ registers:
           group.
 
 
-  - name: UAHC(0)_GDMAHLRATIO
+  - name: USBDRD(0..1)_UAHC_GDMAHLRATIO
     address: 0x168000000C624 + a*0x10000000000
     bus: NCB
     description: |
@@ -6360,7 +6456,7 @@ registers:
          the next request.
        * if there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant
          is always awarded; there is no idle.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
         bits: 31..13
@@ -6391,7 +6487,7 @@ registers:
         description: Speed ratio for TX arbitration.
 
 
-  - name: UAHC(0)_GFLADJ
+  - name: USBDRD(0..1)_UAHC_GFLADJ
     address: 0x168000000C630 + a*0x10000000000
     bus: NCB
     description: |
@@ -6404,7 +6500,7 @@ registers:
       counters completely off of the ref_clk. This facilitates hardware LPM in host mode with the
       SOF or ITP
       counters being run off of the ref_clk signal.
-      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: GFLADJ_REFCLK_240MHZDECR_PLS1
         bits: 31
@@ -6458,8 +6554,8 @@ registers:
         description: |
           This bit enables the functionality of running SOF/ITP counters on the
           ref_clk.
-          This bit must not be set to 1 if UAHC(0)_GCTL[SOFITPSYNC] bit is set to 1.
-          Similarly, if GFLADJ_REFCLK_LPM_SEL set to 1, UAHC(0)_GCTL[SOFITPSYNC]
+          This bit must not be set to 1 if USBDRD(0..1)_UAHC_GCTL[SOFITPSYNC] bit is set to 1.
+          Similarly, if GFLADJ_REFCLK_LPM_SEL set to 1, USBDRD(0..1)_UAHC_GCTL[SOFITPSYNC]
           must not be set to 1. When GFLADJ_REFCLK_LPM_SEL is set to 1 the
           overloading of the suspend control of the USB 2.0 first port PHY
           (UTMI) with USB 3.0 port states is removed. Note that the
@@ -6546,7 +6642,7 @@ registers:
           Adjustment Register (FLADJ) of the the xHCI Specification.
 
 
-  - name: UAHC(0)_DCFG
+  - name: USBDRD(0..1)_UAHC_DCFG
     title: Device Configuration Register
     address: 0x168000000C700 + a*0x10000000000
     bus: NCB
@@ -6652,7 +6748,7 @@ registers:
             - 3fb001: Full-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz)
 
 
-  - name: UAHC(0)_DCTL
+  - name: USBDRD(0..1)_UAHC_DCTL
     title: Device Configuration Register
     address: 0x168000000C704 + a*0x10000000000
     bus: NCB
@@ -6930,7 +7026,7 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_DEVTEN
+  - name: USBDRD(0..1)_UAHC_DEVTEN
     title: Device Event Enable Register
     address: 0x168000000C708 + a*0x10000000000
     bus: NCB
@@ -7030,7 +7126,7 @@ registers:
         description: Disconnect Detected Event Enable 
 
 
-  - name: UAHC(0)_DSTS
+  - name: USBDRD(0..1)_UAHC_DSTS
     title: Device Event Enable Register
     address: 0x168000000C70C + a*0x10000000000
     bus: NCB
@@ -7186,7 +7282,7 @@ registers:
            Low-speed is not supported for devices using a UTMI+ PHY.
 
 
-  - name: UAHC(0)_DGCMDPAR
+  - name: USBDRD(0..1)_UAHC_DGCMDPAR
     title: Device Event Enable Register
     address: 0x168000000C710 + a*0x10000000000
     bus: NCB
@@ -7203,7 +7299,7 @@ registers:
         description: Device Generic Command Parameter
 
 
-  - name: UAHC(0)_DGCMD
+  - name: USBDRD(0..1)_UAHC_DGCMD
     title: Device Generic Command Register
     address: 0x168000000C714 + a*0x10000000000
     bus: NCB
@@ -7276,7 +7372,7 @@ registers:
           perform.
 
 
-  - name: UAHC(0)_DALEPENA
+  - name: USBDRD(0..1)_UAHC_DALEPENA
     title: Device Generic Command Register
     address: 0x168000000C720 + a*0x10000000000
     bus: NCB
@@ -7307,7 +7403,7 @@ registers:
           For more information, see gFlexible Endpoint Mappingh on page 82.
 
 
-  - name: UAHC(0)_DEPCMDPAR2_(0..15)
+  - name: USBDRD(0..1)_UAHC_DEPCMDPAR2_(0..15)
     title: Device Generic Command Register
     address: 0x168000000C800 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -7324,7 +7420,7 @@ registers:
         description: Physical endpoint command Parameter 2
 
 
-  - name: UAHC(0)_DEPCMDPAR1_(0..15)
+  - name: USBDRD(0..1)_UAHC_DEPCMDPAR1_(0..15)
     title: Device Generic Command Register
     address: 0x168000000C804 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -7341,7 +7437,7 @@ registers:
         description: Physical endpoint command Parameter 1
 
 
-  - name: UAHC(0)_DEPCMDPAR0_(0..15)
+  - name: USBDRD(0..1)_UAHC_DEPCMDPAR0_(0..15)
     title: Device Generic Command Register
     address: 0x168000000C808 + a*0x10000000000 + b*0x10
     bus: NCB
@@ -7358,7 +7454,7 @@ registers:
         description: Physical endpoint command Parameter 0
 
 
-  - name: UAHC(0)_DEPCMD(0..15)
+  - name: USBDRD(0..1)_UAHC_DEPCMD(0..15)
     title: Device Generic Command Register
     address: 0x168000000C80C + a*0x10000000000 + b*0x10
     bus: NCB

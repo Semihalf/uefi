@@ -45,10 +45,10 @@ enums:
           see enumeration: "RST_INTSN_E on TBD-TECHDOC"
         description: Reset interrupts
 
-      - name: UCTL(0..1)
+      - name: USBDRD_UCTL(0..1)
         value: 0x68 + a
         attributes:
-          see enumeration: "UCTL_INTSN_E on TBD-TECHDOC"
+          see enumeration: "USBDRD_UCTL_INTSN_E on TBD-TECHDOC"
         description: USB controller interrupts; see .
 
       - name: SATA_UCTL
@@ -74,5 +74,20 @@ enums:
         attributes:
           see enumeration: "OCLA_INTSN_E on"
         description: OCLA interrupts; see .
+
+
+registers:
+  - name: CIU3_FIXME_DUMMY
+    title: CIU Control Dummy Register
+    address: 0x10100000000E0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
 
 
