@@ -418,6 +418,21 @@ static int sso_init(bdk_node_t node)
     else
         BDK_CSR_WRITE(node, BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
 
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        /* Set work timeout to 1023 * 1k cycles */
+        BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
+            c.s.nw_tim = 1023);
+    }
+    else
+    {
+        /* Set work timeout to 1k cycles. Due to a bug in Octeon 2, reads
+            from scratch will always wait for get_work to complete, so we
+            want this fast */
+        BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
+            c.s.nw_tim = 0);
+    }
+
     /* Only CN68XX needs setup */
     if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 0;
@@ -425,12 +440,6 @@ static int sso_init(bdk_node_t node)
     /* Errata FPA-15816 in CN68XX pass 1.x has the pool 8 threshold wrong */
     BDK_CSR_MODIFY(c, node, BDK_FPA_FPF8_MARKS,
         c.s.fpf_wr = 164);
-
-    /* Set work timeout to 1k cycles. Due to a bug in Octeon 2, reads
-        from scratch will always wait for get_work to complete, so we
-        want this fast */
-    BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
-        c.s.nw_tim = 0);
 
     void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE*(16+SSO_RWQ_COUNT));
     if (!buffer)
