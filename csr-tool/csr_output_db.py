@@ -152,7 +152,7 @@ def write(file, separate_chip_infos, include_cisco_only):
             param_inc = [0, 0, 0, 0]
             for i in range(range_len):
                 range_list[i] = getRangeTable(csr.range[i])
-                param_inc[i] = getNumberTable(csr.address_info[i])
+                param_inc[i] = getNumberTable(csr.address_info[i+1])
             name = csr.name.replace("#", "X")
             csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,{%2d,%2d,%2d,%2d},%2d,{%2d,%2d,%2d,%2d}}" % (
                         getStringTable(name), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
