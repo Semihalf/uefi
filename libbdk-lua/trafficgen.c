@@ -523,7 +523,7 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
     {
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         {
-            printf("    Aura:        ?\n"); // FIXME
+            printf("    Aura:        %d\n", packet->aura);
             printf("    Address:     0x%llx\n", (unsigned long long)buffer_next.v3.addr);
             printf("                 ");
             data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next.v3.addr);
