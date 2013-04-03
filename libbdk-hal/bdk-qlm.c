@@ -106,10 +106,10 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
             result = "Interlaken";
             break;
         case BDK_QLM_MODE_SGMII:
-            result = "4 SGMII, each lane independent";
+            result = "SGMII, each lane independent";
             break;
         case BDK_QLM_MODE_QSGMII:
-            result = "4 SGMII, muliplex over one lane";
+            result = "Quad SGMII, four SGMII muliplex over each lane";
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             result = "1 XAUI, 4 lanes";
