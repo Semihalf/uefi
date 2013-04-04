@@ -24,10 +24,20 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
     volatile char in_progress = 1;
 
     bdk_dma_engine_header_t header;
-    header.u64 = 0;
-    header.s.lport = pcie_port;
-    header.s.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
-    header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
+    header.word0.u64 = 0;
+    header.word1.u64 = 0;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        header.word0.v3.lport = pcie_port;
+        header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
+        header.word1.v3.addr = bdk_ptr_to_phys((void*)&in_progress);
+    }
+    else
+    {
+        header.word0.v1.lport = pcie_port;
+        header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
+        header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
+    }
     if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys(buffer), handle->location, length))
         return -1;
 
@@ -53,10 +63,20 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     volatile char in_progress = 1;
 
     bdk_dma_engine_header_t header;
-    header.u64 = 0;
-    header.s.lport = pcie_port;
-    header.s.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
-    header.s.addr = bdk_ptr_to_phys((void*)&in_progress);
+    header.word0.u64 = 0;
+    header.word1.u64 = 0;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        header.word0.v3.lport = pcie_port;
+        header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
+        header.word1.v3.addr = bdk_ptr_to_phys((void*)&in_progress);
+    }
+    else
+    {
+        header.word0.v1.lport = pcie_port;
+        header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
+        header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
+    }
     if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys((void*)buffer), handle->location, length))
         return -1;
 

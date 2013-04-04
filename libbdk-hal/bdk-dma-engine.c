@@ -111,9 +111,11 @@ int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t h
 {
     bdk_cmd_queue_result_t result;
     int cmd_count = 1;
-    uint64_t cmds[num_buffers + 1];
+    uint64_t cmds[num_buffers + 2];
 
-    cmds[0] = header.u64;
+    cmds[0] = header.word0.u64;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        cmds[cmd_count++] = header.word1.u64;
     while (num_buffers--)
     {
         cmds[cmd_count++] = buffers->u64;
@@ -303,27 +305,55 @@ int bdk_dma_engine_transfer(bdk_node_t node, int engine, bdk_dma_engine_header_t
     bdk_dma_engine_buffer_t buffers[32];
     int words = 0;
 
-    switch (header.s.type)
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
-        case BDK_DMA_ENGINE_TRANSFER_INTERNAL:
-            header.s.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
-            words += header.s.nfst;
-            header.s.nlst = __bdk_dma_engine_build_internal_pointers(buffers + words, last_address, size);
-            words += header.s.nlst;
-            break;
-        case BDK_DMA_ENGINE_TRANSFER_INBOUND:
-        case BDK_DMA_ENGINE_TRANSFER_OUTBOUND:
-            header.s.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
-            words += header.s.nfst;
-            header.s.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
-            words +=  header.s.nlst + ((header.s.nlst-1) >> 2) + 1;
-            break;
-        case BDK_DMA_ENGINE_TRANSFER_EXTERNAL:
-            header.s.nfst = __bdk_dma_engine_build_external_pointers(buffers, first_address, size);
-            words +=  header.s.nfst + ((header.s.nfst-1) >> 2) + 1;
-            header.s.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
-            words +=  header.s.nlst + ((header.s.nlst-1) >> 2) + 1;
-            break;
+        switch (header.word0.v3.type)
+        {
+            case BDK_DMA_ENGINE_TRANSFER_INTERNAL:
+                header.word0.v3.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
+                words += header.word0.v3.nfst;
+                header.word0.v3.nlst = __bdk_dma_engine_build_internal_pointers(buffers + words, last_address, size);
+                words += header.word0.v3.nlst;
+                break;
+            case BDK_DMA_ENGINE_TRANSFER_INBOUND:
+            case BDK_DMA_ENGINE_TRANSFER_OUTBOUND:
+                header.word0.v3.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
+                words += header.word0.v3.nfst;
+                header.word0.v3.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
+                words +=  header.word0.v3.nlst + ((header.word0.v3.nlst-1) >> 2) + 1;
+                break;
+            case BDK_DMA_ENGINE_TRANSFER_EXTERNAL:
+                header.word0.v3.nfst = __bdk_dma_engine_build_external_pointers(buffers, first_address, size);
+                words +=  header.word0.v3.nfst + ((header.word0.v3.nfst-1) >> 2) + 1;
+                header.word0.v3.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
+                words +=  header.word0.v3.nlst + ((header.word0.v3.nlst-1) >> 2) + 1;
+                break;
+        }
+    }
+    else
+    {
+        switch (header.word0.v1.type)
+        {
+            case BDK_DMA_ENGINE_TRANSFER_INTERNAL:
+                header.word0.v1.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
+                words += header.word0.v1.nfst;
+                header.word0.v1.nlst = __bdk_dma_engine_build_internal_pointers(buffers + words, last_address, size);
+                words += header.word0.v1.nlst;
+                break;
+            case BDK_DMA_ENGINE_TRANSFER_INBOUND:
+            case BDK_DMA_ENGINE_TRANSFER_OUTBOUND:
+                header.word0.v1.nfst = __bdk_dma_engine_build_internal_pointers(buffers, first_address, size);
+                words += header.word0.v1.nfst;
+                header.word0.v1.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
+                words +=  header.word0.v1.nlst + ((header.word0.v1.nlst-1) >> 2) + 1;
+                break;
+            case BDK_DMA_ENGINE_TRANSFER_EXTERNAL:
+                header.word0.v1.nfst = __bdk_dma_engine_build_external_pointers(buffers, first_address, size);
+                words +=  header.word0.v1.nfst + ((header.word0.v1.nfst-1) >> 2) + 1;
+                header.word0.v1.nlst = __bdk_dma_engine_build_external_pointers(buffers + words, last_address, size);
+                words +=  header.word0.v1.nlst + ((header.word0.v1.nlst-1) >> 2) + 1;
+                break;
+        }
     }
     return bdk_dma_engine_submit(node, engine, header, words, buffers);
 }

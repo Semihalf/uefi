@@ -219,14 +219,27 @@ static int dma_test(bdk_node_t node, void *unused2)
 
                 /* DMA the starting_buffer to dma_out_buffer */
                 bdk_dma_engine_header_t dma_header;
-                dma_header.u64 = 0;
-                dma_header.s.fport = 0;
-                dma_header.s.lport = 0;
-                dma_header.s.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
-                dma_header.s.addr = zero_base + 0;
+                int fport = 0;
+                int lport = 0;
+                dma_header.word0.u64 = 0;
+                dma_header.word1.u64 = 0;
+                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                {
+                    dma_header.word0.v3.fport = fport;
+                    dma_header.word0.v3.lport = lport;
+                    dma_header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
+                    dma_header.word1.v3.addr = zero_base + 0;
+                }
+                else
+                {
+                    dma_header.word0.v1.fport = fport;
+                    dma_header.word0.v1.lport = lport;
+                    dma_header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
+                    dma_header.word0.v1.addr = zero_base + 0;
+                }
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                                          bdk_ptr_to_phys(starting_buffer + local_align),
-                                         ptr_to_sli(dma_header.s.lport, dma_out_buffer + remote_align), size)))
+                                         ptr_to_sli(lport, dma_out_buffer + remote_align), size)))
                 {
                     bdk_spinlock_lock(&lock);
                     printf("DMA OUTBOUND submit failed\n");
@@ -237,13 +250,25 @@ static int dma_test(bdk_node_t node, void *unused2)
                     goto fail;
 
                 /* DMA dma_out_buffer to dma_external_buffer */
-                dma_header.s.type = BDK_DMA_ENGINE_TRANSFER_EXTERNAL;
-                dma_header.s.fport = 0;
-                dma_header.s.lport = 1;
-                dma_header.s.addr = zero_base + 1;
+                fport = 0;
+                lport = 1;
+                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                {
+                    dma_header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_EXTERNAL;
+                    dma_header.word0.v3.fport = fport;
+                    dma_header.word0.v3.lport = lport;
+                    dma_header.word1.v3.addr = zero_base + 1;
+                }
+                else
+                {
+                    dma_header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_EXTERNAL;
+                    dma_header.word0.v1.fport = fport;
+                    dma_header.word0.v1.lport = lport;
+                    dma_header.word0.v1.addr = zero_base + 1;
+                }
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
-                    ptr_to_sli(dma_header.s.fport, dma_out_buffer + remote_align),
-                    ptr_to_sli(dma_header.s.lport, dma_external_buffer + remote_align), size)))
+                    ptr_to_sli(fport, dma_out_buffer + remote_align),
+                    ptr_to_sli(lport, dma_external_buffer + remote_align), size)))
                 {
                     bdk_spinlock_lock(&lock);
                     printf("DMA EXTERNAL submit failed\n");
@@ -254,13 +279,25 @@ static int dma_test(bdk_node_t node, void *unused2)
                     goto fail;
 
                 /* DMA dma_external_buffer to dma_in_buffer */
-                dma_header.s.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
-                dma_header.s.fport = 0;
-                dma_header.s.lport = 1;
-                dma_header.s.addr = zero_base + 2;
+                fport = 0;
+                lport = 1;
+                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                {
+                    dma_header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
+                    dma_header.word0.v3.fport = fport;
+                    dma_header.word0.v3.lport = lport;
+                    dma_header.word1.v3.addr = zero_base + 2;
+                }
+                else
+                {
+                    dma_header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
+                    dma_header.word0.v1.fport = fport;
+                    dma_header.word0.v1.lport = lport;
+                    dma_header.word0.v1.addr = zero_base + 2;
+                }
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     bdk_ptr_to_phys(dma_in_buffer + local_align),
-                    ptr_to_sli(dma_header.s.lport, dma_external_buffer + remote_align), size)))
+                    ptr_to_sli(lport, dma_external_buffer + remote_align), size)))
                 {
                     bdk_spinlock_lock(&lock);
                     printf("DMA INBOUND submit failed\n");
