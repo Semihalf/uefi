@@ -161,8 +161,16 @@ static inline int __bdk_dma_engine_build_internal_pointers(bdk_dma_engine_buffer
         if (chunk > 8191)
             chunk = 8191;
         buffers[segments].u64 = 0;
-        buffers[segments].internal.size = chunk;
-        buffers[segments].internal.addr = address;
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            buffers[segments].internal_v3.size = chunk;
+            buffers[segments].internal_v3.addr = address;
+        }
+        else
+        {
+            buffers[segments].internal_v1.size = chunk;
+            buffers[segments].internal_v1.addr = address;
+        }
         address += chunk;
         size -= chunk;
         segments++;
