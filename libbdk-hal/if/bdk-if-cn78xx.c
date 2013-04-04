@@ -440,7 +440,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.prio = 0;
         c.s.rr_quantum = 0);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_CREDIT(sq_l2),
-        c.s.cc_channel_select = 0;
+        c.s.cc_channel_select = 1;
         c.s.parent = pq;
         c.s.cc_channel = handle->ipd_port;
         c.s.cc_enable = 0);
