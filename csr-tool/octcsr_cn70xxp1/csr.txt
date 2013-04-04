@@ -20849,23 +20849,37 @@ $MIO_FUS_RPR_DAT(0..1)   Address=(0x1180000001530+a*0x8)   Bus=(RSL)
  * 
 $MIO_FUS_SOFT_REPAIR   Address=(0x1180000001540)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field      Field   Reset      Typical    Field                                             
- Pos     Name       Type    Value      Value      Description                                       
+ Bit     Field         Field   Reset      Typical    Field                                             
+ Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:22> NS         ---     NS         NS         Reserved.                                         
- <21:20> FLIP_SYND  R/W/H   NS         0x0        INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
- <19>    DBE        R/W/H   NS         0x0        INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. Write 1 to
-                                                  clear.
- <18>    SBE        R/W/H   NS         0x0        INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. Write 1 to clear.
- <17>    AUTOBLOW   R/W/H   NS         0x0        INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
-                                                  blown.
- <16>    TOO_MANY   RO/H    NS         0x0        INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195.
- <15:8>  NUMDEFECTS RO/H    NS         NS         INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
-                                                  stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
-                                                  1).
- <7:0>   NUMREPAIRS R/W     NS         0x0        INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
-                                                  a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
-                                                  cold reset.
+ <63:20> NS            ---     NS         NS         Reserved.                                         
+ <19:18> RPR_FLIP_SYND R/W/H   NS         0x0        INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
+ <17>    AUTOBLOW      R/W/H   NS         0x0        INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+                                                     blown.
+ <16>    TOO_MANY      RO/H    NS         0x0        INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195.
+ <15:8>  NUMDEFECTS    RO/H    NS         NS         INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
+                                                     stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+                                                     1).
+ <7:0>   NUMREPAIRS    R/W     NS         0x0        INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
+                                                     a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+                                                     cold reset.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * MIO_FUS_INT = INTERNAL: MIO Fuse Repair Interrupt Register
+
+ * 
+ *  
+ * 
+$MIO_FUS_INT   Address=(0x1180000001548)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field   Field   Reset      Typical    Field                                             
+ Pos     Name    Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:2>  NS      ---     NS         NS         Reserved.                                         
+ <1>     RPR_DBE R/W1C/H NS         0x0        INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM.
+ <0>     RPR_SBE R/W1C/H NS         0x0        INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

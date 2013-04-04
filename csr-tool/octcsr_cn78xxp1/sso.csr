@@ -851,7 +851,7 @@ structs:
   - name: SSO_PREP_WORK_DMA_S
     description: |
       PREP_WORK operations form an IOBADDR request with this structure. Note this format closely
-      coincides with SSO_GET_WORK_LD_S. The store data for a PREP_WORK must be zero.
+      coincides with SSO_GET_WORK_LD_S.
     fields:
       - name: --
         bits: 3..0
@@ -1113,6 +1113,8 @@ registers:
         access: R/W/H
         reset: 0x200
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Number of free reserved entries. Used to ensure that each group can get a specific number
           of entries. Must always be greater than or equal to the sum across all
@@ -1132,7 +1134,9 @@ registers:
         access: RO/H
         reset: 0xfc0
         typical: --
-        description: Number of total free entries
+        attributes:
+          dv_uvm_force_compare: "True"
+        description: Number of total free entries.
 
 
   - name: SSO_WS_CFG
@@ -2899,6 +2903,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Group's entry count. Number of internal entries allocated to IAQ, conflicted work, or CQ
           in this group. INTERNAL: Increments on admission to IAQ, decrements on scheduling into
@@ -3362,7 +3368,9 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Work schedule performance counter for group.
+        description: |
+          Work schedule performance counter for group. Writes are for diagnostic use only, and
+          defined only when neither work nor GET_WORKs are present in the SSO.
 
 
   - name: SSO_GRP(0..255)_EXT_PC
@@ -3378,7 +3386,10 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: External admission queue cache lines written. Each write corresponds to 13 WAEs.
+        description: |
+          External admission queue cache lines written. Each write corresponds to 13 WAEs. Writes
+          are for diagnostic use only, and defined only when neither work nor GET_WORKs are present
+          in the SSO.
 
 
   - name: SSO_GRP(0..255)_WA_PC
@@ -3394,7 +3405,10 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Work add performance counter for group. Increments when work moves into IAQ.
+        description: |
+          Work add performance counter for group. Increments when work moves into IAQ. Writes are
+          for diagnostic use only, and defined only when neither work nor GET_WORKs are present in
+          the SSO.
 
 
   - name: SSO_GRP(0..255)_TS_PC
@@ -3410,7 +3424,9 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Tag switch performance counter
+        description: |
+          Tag switch performance counter. Writes are for diagnostic use only, and defined only when
+          neither work nor GET_WORKs are present in the SSO.
 
 
   - name: SSO_GRP(0..255)_DS_PC
@@ -3426,7 +3442,9 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deschedule performance counter
+        description: |
+          Deschedule performance counter. Writes are for diagnostic use only, and defined only when
+          neither work nor GET_WORKs are present in the SSO.
 
 
   - name: SSO_PP(0..47)_ARB

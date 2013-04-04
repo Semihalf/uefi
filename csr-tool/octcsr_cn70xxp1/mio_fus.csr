@@ -611,36 +611,19 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..22
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: FLIP_SYND
-        bits: 21..20
+      - name: RPR_FLIP_SYND
+        bits: 19..18
         access: R/W/H
         reset: --
         typical: 0x0
         description: |
           INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
-
-      - name: DBE
-        bits: 19
-        access: R/W/H
-        reset: --
-        typical: 0
-        description: |
-          INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. Write 1 to
-          clear.
-
-      - name: SBE
-        bits: 18
-        access: R/W/H
-        reset: --
-        typical: 0
-        description: |
-          INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. Write 1 to clear.
 
       - name: AUTOBLOW
         bits: 17
@@ -678,6 +661,36 @@ registers:
           INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
           a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
           cold reset.
+
+
+  - name: MIO_FUS_INT
+    title: |
+      INTERNAL: MIO Fuse Repair Interrupt Register
+    address: 0x1180000001548
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RPR_DBE
+        bits: 1
+        access: R/W1C/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM.
+
+      - name: RPR_SBE
+        bits: 0
+        access: R/W1C/H
+        reset: --
+        typical: 0
+        description: |
+          INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM.
 
 
   - name: MIO_FUS_EMA

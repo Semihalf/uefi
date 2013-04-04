@@ -48464,6 +48464,23 @@ local csr_db = {
                 {name = "RESERVED_0_23", start = 0, stop = 23},
             }
         },
+        MIO_FUS_DAT4 = {
+            name = "MIO_FUS_DAT4",
+            type = "RSL",
+            width = 8,
+            address = 0x1180000001420,
+            fields = {
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "EAST_RCLK_BYP_SELECT", start = 51, stop = 51},
+                {name = "EAST_RCLK_BYP_SETTING", start = 39, stop = 50},
+                {name = "CMB_RCLK_BYP_SELECT", start = 38, stop = 38},
+                {name = "CMB_RCLK_BYP_SETTING", start = 26, stop = 37},
+                {name = "PP_RCLK_BYP_SELECT", start = 25, stop = 25},
+                {name = "PP_RCLK_BYP_SETTING", start = 13, stop = 24},
+                {name = "TAD_RCLK_BYP_SELECT", start = 12, stop = 12},
+                {name = "TAD_RCLK_BYP_SETTING", start = 0, stop = 11},
+            }
+        },
         MIO_FUS_EMA = {
             name = "MIO_FUS_EMA",
             type = "RSL",
@@ -48472,6 +48489,17 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_3_63", start = 3, stop = 63},
                 {name = "EMA", start = 0, stop = 2},
+            }
+        },
+        MIO_FUS_INT = {
+            name = "MIO_FUS_INT",
+            type = "RSL",
+            width = 8,
+            address = 0x1180000001548,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "RPR_DBE", start = 1, stop = 1},
+                {name = "RPR_SBE", start = 0, stop = 0},
             }
         },
         MIO_FUS_PDF = {
@@ -48572,7 +48600,9 @@ local csr_db = {
             width = 8,
             address = 0x1180000001540,
             fields = {
-                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "RPR_FLIP_SYND", start = 18, stop = 19},
+                {name = "AUTOBLOW", start = 17, stop = 17},
                 {name = "TOO_MANY", start = 16, stop = 16},
                 {name = "NUMDEFECTS", start = 8, stop = 15},
                 {name = "NUMREPAIRS", start = 0, stop = 7},
@@ -73010,6 +73040,17 @@ local csr_db = {
                 {name = "EMA", start = 0, stop = 2},
             }
         },
+        MIO_FUS_INT = {
+            name = "MIO_FUS_INT",
+            type = "RSL",
+            width = 8,
+            address = 0x1180000001548,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "RPR_DBE", start = 1, stop = 1},
+                {name = "RPR_SBE", start = 0, stop = 0},
+            }
+        },
         MIO_FUS_PDF = {
             name = "MIO_FUS_PDF",
             type = "RSL",
@@ -73108,10 +73149,8 @@ local csr_db = {
             width = 8,
             address = 0x1180000001540,
             fields = {
-                {name = "RESERVED_22_63", start = 22, stop = 63},
-                {name = "FLIP_SYND", start = 20, stop = 21},
-                {name = "DBE", start = 19, stop = 19},
-                {name = "SBE", start = 18, stop = 18},
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "RPR_FLIP_SYND", start = 18, stop = 19},
                 {name = "AUTOBLOW", start = 17, stop = 17},
                 {name = "TOO_MANY", start = 16, stop = 16},
                 {name = "NUMDEFECTS", start = 8, stop = 15},
