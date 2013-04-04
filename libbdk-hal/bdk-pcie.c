@@ -25,6 +25,7 @@ uint64_t bdk_pcie_get_io_base_address(bdk_node_t node, int pcie_port)
     pcie_addr.io.io = 1;
     pcie_addr.io.did = 3;
     pcie_addr.io.subdid = 2;
+    pcie_addr.io.node = node;
     pcie_addr.io.es = 1;
     pcie_addr.io.port = pcie_port;
     return pcie_addr.u64;
@@ -61,6 +62,7 @@ uint64_t bdk_pcie_get_mem_base_address(bdk_node_t node, int pcie_port)
     pcie_addr.mem.io = 1;
     pcie_addr.mem.did = 3;
     pcie_addr.mem.subdid = 3 + pcie_port;
+    pcie_addr.mem.node = node;
     return pcie_addr.u64;
 }
 
@@ -549,6 +551,7 @@ static inline uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_po
     pcie_addr.config.io = 1;
     pcie_addr.config.did = 3;
     pcie_addr.config.subdid = 1;
+    pcie_addr.config.node = node;
     pcie_addr.config.es = 1;
     pcie_addr.config.port = pcie_port;
     pcie_addr.config.ty = (bus > pciercx_cfg006.s.pbnum);

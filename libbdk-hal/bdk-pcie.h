@@ -32,7 +32,8 @@ typedef union
         uint64_t    io              : 1;    /* 1 for IO space access */
         uint64_t    did             : 5;    /* PCIe DID = 3 */
         uint64_t    subdid          : 3;    /* PCIe SubDID = 1 */
-        uint64_t    reserved_36_39  : 4;    /* Must be zero */
+        uint64_t    reserved_38_39  : 2;    /* Must be zero */
+        uint64_t    node            : 2;    /* Numa node number */
         uint64_t    es              : 2;    /* Endian swap = 1 */
         uint64_t    port            : 2;    /* PCIe port 0,1 */
         uint64_t    reserved_29_31  : 3;    /* Must be zero */
@@ -50,7 +51,8 @@ typedef union
         uint64_t    io              : 1;    /* 1 for IO space access */
         uint64_t    did             : 5;    /* PCIe DID = 3 */
         uint64_t    subdid          : 3;    /* PCIe SubDID = 2 */
-        uint64_t    reserved_36_39  : 4;    /* Must be zero */
+        uint64_t    reserved_38_39  : 2;    /* Must be zero */
+        uint64_t    node            : 2;    /* Numa node number */
         uint64_t    es              : 2;    /* Endian swap = 1 */
         uint64_t    port            : 2;    /* PCIe port 0,1 */
         uint64_t    address         : 32;   /* PCIe IO address */
@@ -62,7 +64,8 @@ typedef union
         uint64_t    io              : 1;    /* 1 for IO space access */
         uint64_t    did             : 5;    /* PCIe DID = 3 */
         uint64_t    subdid          : 3;    /* PCIe SubDID = 3-6 */
-        uint64_t    reserved_36_39  : 4;    /* Must be zero */
+        uint64_t    reserved_38_39  : 2;    /* Must be zero */
+        uint64_t    node            : 2;    /* Numa node number */
         uint64_t    address         : 36;   /* PCIe Mem address */
     } mem;
 } bdk_pcie_address_t;
