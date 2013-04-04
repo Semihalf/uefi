@@ -747,11 +747,11 @@ void test_crypto(int unused0, void *unused1)
         uint64_t counter;
         /* Fill the on chip key memory with incrementing numbers */
         for (counter=0; counter<BDK_KEY_MEM_SIZE; counter+=8)
-            bdk_key_write(counter, counter);
+            bdk_key_write(bdk_numa_local(), counter, counter);
 
         /* Read back the on chip key memory making sure it contains the correct stuff */
         for (counter=0; counter<BDK_KEY_MEM_SIZE; counter+=8)
-            if (counter != bdk_key_read(counter))
+            if (counter != bdk_key_read(bdk_numa_local(), counter))
                 printf("Key memory at address 0x%llx - ***** TEST FAILED *****\n", (unsigned long long)counter);
 
         /* In this example we only check if key memory is there. We don't
