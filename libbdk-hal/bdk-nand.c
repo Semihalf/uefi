@@ -1,7 +1,5 @@
 #include <bdk.h>
 
-#if 0 /* NAND disabled to save space. Enable when we actually use it */
-
 #define NAND_COMMAND_READ_ID            0x90
 #define NAND_COMMAND_READ_PARAM_PAGE    0xec
 #define NAND_COMMAND_RESET              0xff
@@ -378,6 +376,7 @@ static int __wait_for_busy_done(int chip)
  */
 bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int active_chips)
 {
+    const bdk_node_t node = bdk_numa_local();
     int chip;
     int start_chip;
     int stop_chip;
@@ -392,30 +391,30 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
     memset(&bdk_nand_state,  0,  sizeof(bdk_nand_state));
 
     /* Disable boot mode and reset the fifo */
-    ndf_misc.u64 = BDK_CSR_READ(BDK_NDF_MISC);
+    ndf_misc.u64 = BDK_CSR_READ(node, BDK_NDF_MISC);
     ndf_misc.s.rd_cmd = 0;
     ndf_misc.s.bt_dma = 0;
     ndf_misc.s.bt_dis = 1;
     ndf_misc.s.ex_dis = 0;
     ndf_misc.s.rst_ff = 1;
-    BDK_CSR_WRITE(BDK_NDF_MISC, ndf_misc.u64);
-    BDK_CSR_READ(BDK_NDF_MISC);
+    BDK_CSR_WRITE(node, BDK_NDF_MISC, ndf_misc.u64);
+    BDK_CSR_READ(node, BDK_NDF_MISC);
 
     /* Bring the fifo out of reset */
     bdk_wait_usec(1);
     ndf_misc.s.rst_ff = 0;
-    BDK_CSR_WRITE(BDK_NDF_MISC, ndf_misc.u64);
-    BDK_CSR_READ(BDK_NDF_MISC);
+    BDK_CSR_WRITE(node, BDK_NDF_MISC, ndf_misc.u64);
+    BDK_CSR_READ(node, BDK_NDF_MISC);
     bdk_wait_usec(1);
 
     /* Clear the ECC counter */
-    //BDK_CSR_WRITE(BDK_NDF_ECC_CNT, BDK_CSR_READ(BDK_NDF_ECC_CNT));
+    //BDK_CSR_WRITE(node, BDK_NDF_ECC_CNT, BDK_CSR_READ(node, BDK_NDF_ECC_CNT));
 
     /* Clear the interrupt state */
-    BDK_CSR_WRITE(BDK_NDF_INT, BDK_CSR_READ(BDK_NDF_INT));
-    BDK_CSR_WRITE(BDK_NDF_INT_EN, 0);
-    BDK_CSR_WRITE(BDK_MIO_NDF_DMA_INT, BDK_CSR_READ(BDK_MIO_NDF_DMA_INT));
-    BDK_CSR_WRITE(BDK_MIO_NDF_DMA_INT_EN, 0);
+    BDK_CSR_WRITE(node, BDK_NDF_INT, BDK_CSR_READ(node, BDK_NDF_INT));
+    BDK_CSR_WRITE(node, BDK_NDF_INT_EN, 0);
+    BDK_CSR_WRITE(node, BDK_MIO_NDF_DMA_INT, BDK_CSR_READ(node, BDK_MIO_NDF_DMA_INT));
+    BDK_CSR_WRITE(node, BDK_MIO_NDF_DMA_INT_EN, 0);
 
 
     /* The simulator crashes if you access non existent devices. Assume
@@ -432,7 +431,7 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
     }
 
     /* Figure out how many clocks are in one microsecond, rounding up */
-    clocks_us = BDK_NAND_ROUNDUP(bdk_clock_get_rate(BDK_CLOCK_SCLK), 1000000);
+    clocks_us = BDK_NAND_ROUNDUP(bdk_clock_get_rate(node, BDK_CLOCK_SCLK), 1000000);
 
     /* If the BDK_NAND_INITIALIZE_FLAGS_DONT_PROBE flag is set, then
     ** use the supplied default values to configured the chips in the
@@ -464,7 +463,7 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
         if (((1<<chip) & active_chips) == 0)
             continue;
 
-        mio_boot_reg_cfg.u64 = BDK_CSR_READ(BDK_MIO_BOOT_REG_CFGX(chip));
+        mio_boot_reg_cfg.u64 = BDK_CSR_READ(node, BDK_MIO_BOOT_REG_CFGX(chip));
         /* Enabled regions can't be connected to NAND flash */
         if (mio_boot_reg_cfg.s.en)
             continue;
@@ -750,9 +749,10 @@ bdk_nand_status_t bdk_nand_set_timing(int chip, int tim_mult, int tim_par[8], in
  */
 static inline int __bdk_nand_get_free_cmd_bytes(void)
 {
+    const bdk_node_t node = bdk_numa_local();
     union bdk_ndf_misc ndf_misc;
     BDK_NAND_LOG_CALLED();
-    ndf_misc.u64 = BDK_CSR_READ(BDK_NDF_MISC);
+    ndf_misc.u64 = BDK_CSR_READ(node, BDK_NDF_MISC);
     BDK_NAND_RETURN((int)ndf_misc.s.fr_byt);
 }
 
@@ -768,6 +768,7 @@ static inline int __bdk_nand_get_free_cmd_bytes(void)
  */
 bdk_nand_status_t bdk_nand_submit(bdk_nand_cmd_t cmd)
 {
+    const bdk_node_t node = bdk_numa_local();
     BDK_NAND_LOG_CALLED();
     BDK_NAND_LOG_PARAM("0x%llx", (ULL)cmd.u64[0]);
     BDK_NAND_LOG_PARAM("0x%llx", (ULL)cmd.u64[1]);
@@ -786,7 +787,7 @@ bdk_nand_status_t bdk_nand_submit(bdk_nand_cmd_t cmd)
         case 15: /* Bus Acquire/Release */
             if (__bdk_nand_get_free_cmd_bytes() < 8)
                 BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
-            BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[1]);
+            BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[1]);
             BDK_NAND_RETURN(BDK_NAND_SUCCESS);
 
         case 5: /* ALE commands take either one or two 64bit words */
@@ -794,23 +795,23 @@ bdk_nand_status_t bdk_nand_submit(bdk_nand_cmd_t cmd)
             {
                 if (__bdk_nand_get_free_cmd_bytes() < 8)
                     BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
-                BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[1]);
+                BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[1]);
                 BDK_NAND_RETURN(BDK_NAND_SUCCESS);
             }
             else
             {
                 if (__bdk_nand_get_free_cmd_bytes() < 16)
                     BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
-                BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[1]);
-                BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[0]);
+                BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[1]);
+                BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[0]);
                 BDK_NAND_RETURN(BDK_NAND_SUCCESS);
             }
 
         case 11: /* Wait status commands take two 64bit words */
             if (__bdk_nand_get_free_cmd_bytes() < 16)
                 BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
-            BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[1]);
-            BDK_CSR_WRITE(BDK_NDF_CMD, cmd.u64[0]);
+            BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[1]);
+            BDK_CSR_WRITE(node, BDK_NDF_CMD, cmd.u64[0]);
             BDK_NAND_RETURN(BDK_NAND_SUCCESS);
 
         default:
@@ -999,6 +1000,7 @@ static inline bdk_nand_status_t __bdk_nand_build_pre_cmd(int chip, int cmd_data,
  */
 static inline bdk_nand_status_t __bdk_nand_build_post_cmd(void)
 {
+    const bdk_node_t node = bdk_numa_local();
     bdk_nand_status_t result;
     bdk_nand_cmd_t cmd;
 
@@ -1019,7 +1021,7 @@ static inline bdk_nand_status_t __bdk_nand_build_post_cmd(void)
         BDK_NAND_RETURN(result);
 
     /* Ring the doorbell */
-    BDK_CSR_WRITE(BDK_NDF_DRBELL, 1);
+    BDK_CSR_WRITE(node, BDK_NDF_DRBELL, 1);
     BDK_NAND_RETURN(BDK_NAND_SUCCESS);
 }
 
@@ -1037,6 +1039,7 @@ static inline bdk_nand_status_t __bdk_nand_build_post_cmd(void)
  */
 static inline void __bdk_nand_setup_dma(int chip, int is_write, uint64_t buffer_address, int buffer_length)
 {
+    const bdk_node_t node = bdk_numa_local();
     union bdk_mio_ndf_dma_cfg ndf_dma_cfg;
     BDK_NAND_LOG_CALLED();
     BDK_NAND_LOG_PARAM("%d", chip);
@@ -1050,7 +1053,7 @@ static inline void __bdk_nand_setup_dma(int chip, int is_write, uint64_t buffer_
     ndf_dma_cfg.s.size = ((buffer_length + 7) >> 3) - 1;
     ndf_dma_cfg.s.adr = buffer_address;
     BDK_SYNCW;
-    BDK_CSR_WRITE(BDK_MIO_NDF_DMA_CFG, ndf_dma_cfg.u64);
+    BDK_CSR_WRITE(node, BDK_MIO_NDF_DMA_CFG, ndf_dma_cfg.u64);
     BDK_NAND_RETURN_NOTHING();
 }
 
@@ -1107,6 +1110,7 @@ static void __bdk_nand_hex_dump(uint64_t buffer_address, int buffer_length)
  */
 static inline int __bdk_nand_low_level_read(int chip, int nand_command1, int address_cycles, uint64_t nand_address, int nand_command2, uint64_t buffer_address, int buffer_length)
 {
+    const bdk_node_t node = bdk_numa_local();
     bdk_nand_cmd_t cmd;
     union bdk_mio_ndf_dma_cfg ndf_dma_cfg;
     int bytes;
@@ -1171,11 +1175,11 @@ static inline int __bdk_nand_low_level_read(int chip, int nand_command1, int add
         BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
 
     /* Wait for the DMA to complete */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_NDF_DMA_CFG, en, ==, 0, NAND_TIMEOUT_USECS))
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_NDF_DMA_CFG, en, ==, 0, NAND_TIMEOUT_USECS))
         BDK_NAND_RETURN(BDK_NAND_TIMEOUT);
 
     /* Return the number of bytes transferred */
-    ndf_dma_cfg.u64 = BDK_CSR_READ(BDK_MIO_NDF_DMA_CFG);
+    ndf_dma_cfg.u64 = BDK_CSR_READ(node, BDK_MIO_NDF_DMA_CFG);
     bytes = ndf_dma_cfg.s.adr - buffer_address;
 
     if (bdk_unlikely(bdk_nand_flags & BDK_NAND_INITIALIZE_FLAGS_DEBUG))
@@ -1245,6 +1249,7 @@ int bdk_nand_page_read(int chip, uint64_t nand_address, uint64_t buffer_address,
  */
 bdk_nand_status_t bdk_nand_page_write(int chip, uint64_t nand_address, uint64_t buffer_address)
 {
+    const bdk_node_t node = bdk_numa_local();
     bdk_nand_cmd_t cmd;
     int buffer_length;
 
@@ -1308,7 +1313,7 @@ bdk_nand_status_t bdk_nand_page_write(int chip, uint64_t nand_address, uint64_t 
         BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
 
     /* Wait for the DMA to complete */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_MIO_NDF_DMA_CFG, en, ==, 0, NAND_TIMEOUT_USECS))
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_NDF_DMA_CFG, en, ==, 0, NAND_TIMEOUT_USECS))
         BDK_NAND_RETURN(BDK_NAND_TIMEOUT);
 
     BDK_NAND_RETURN(BDK_NAND_SUCCESS);
@@ -1326,6 +1331,7 @@ bdk_nand_status_t bdk_nand_page_write(int chip, uint64_t nand_address, uint64_t 
  */
 bdk_nand_status_t bdk_nand_block_erase(int chip, uint64_t nand_address)
 {
+    const bdk_node_t node = bdk_numa_local();
     BDK_NAND_LOG_CALLED();
     BDK_NAND_LOG_PARAM("%d", chip);
     BDK_NAND_LOG_PARAM("0x%llx", (ULL)nand_address);
@@ -1350,7 +1356,7 @@ bdk_nand_status_t bdk_nand_block_erase(int chip, uint64_t nand_address)
         BDK_NAND_RETURN(BDK_NAND_NO_MEMORY);
 
     /* Wait for the command queue to be idle, which means the wait is done */
-    if (BDK_CSR_WAIT_FOR_FIELD(BDK_NDF_ST_REG, exe_idle, ==, 1, NAND_TIMEOUT_USECS))
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_NDF_ST_REG, exe_idle, ==, 1, NAND_TIMEOUT_USECS))
         BDK_NAND_RETURN(BDK_NAND_TIMEOUT);
 
     BDK_NAND_RETURN(BDK_NAND_SUCCESS);
@@ -1842,4 +1848,3 @@ bdk_nand_status_t bdk_nand_set_defaults(int page_size, int oob_size, int pages_p
     BDK_NAND_RETURN(BDK_NAND_SUCCESS);
 }
 
-#endif
