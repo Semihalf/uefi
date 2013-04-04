@@ -355,12 +355,12 @@ static int pko_port_init(bdk_if_handle_t handle)
         bdk_error("pko_port_init: Ran out of L3 queues\n");
         return -1;
     }
-    if (node_state->pko_next_free_l4_queue >= 512)
+    if (node_state->pko_next_free_l4_queue >= 1024)
     {
         bdk_error("pko_port_init: Ran out of L4 queues\n");
         return -1;
     }
-    if (node_state->pko_next_free_l5_queue >= 512)
+    if (node_state->pko_next_free_l5_queue >= 1024)
     {
         bdk_error("pko_port_init: Ran out of L5 queues\n");
         return -1;
