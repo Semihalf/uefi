@@ -429,7 +429,8 @@ static int pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_SHAPE(pq),
         c.s.link = lmac);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_CREDIT(pq),
-        c.s.link = lmac);
+        c.s.link = lmac;
+        c.s.cc_enable = 0);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_PICK(pq),
         c.s.child = sq_l2;
         c.s.dq = dq;
