@@ -16,19 +16,21 @@
 /**
  * Read from KEY memory
  *
+ * @param node    Which node to use
  * @param address Address (byte) in key memory to read
  *                0 <= address < BDK_KEY_MEM_SIZE
  * @return Value from key memory
  */
-extern uint64_t bdk_key_read(uint64_t address);
+extern uint64_t bdk_key_read(bdk_node_t node, uint64_t address);
 
 /**
  * Write to KEY memory
  *
+ * @param node    Which node to use
  * @param address Address (byte) in key memory to write
  *                0 <= address < BDK_KEY_MEM_SIZE
  * @param value   Value to write to key memory
  */
-extern void bdk_key_write(uint64_t address, uint64_t value);
+extern void bdk_key_write(bdk_node_t node, uint64_t address, uint64_t value);
 
 /** @} */
