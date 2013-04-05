@@ -41,6 +41,10 @@ m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
 m:item("twsi",  "TWSI options",             menu.dofile, "twsi_menu")
 m:item("smi",   "SMI/MDIO options",         menu.dofile, "smi_menu")
+if not octeon.is_model(octeon.CN68XX) then
+    -- SPI/MPI doesn't exist on CN68XX
+    m:item("mpi",   "SPI/MPI options",      menu.dofile, "mpi_menu")
+end
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if octeon.trafficgen then
