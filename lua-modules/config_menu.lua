@@ -96,7 +96,7 @@ end
 local if_xaui = 1
 for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_xaui)-1 do
     if octeon.c.bdk_if_num_ports(node, if_xaui, interface) > 0 then
-        addMenu("XAUI interface " .. interface .. " Higig mode, 0=XAUI,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
+        addMenu("XAUI interface " .. interface .. " Higig mode, 0=None,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
     end
 end
 
@@ -106,6 +106,19 @@ for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_ilk)-1 do
     addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface, 0, 8)
     addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface, 1, 64)
 end
+
+-- Add an item for each BGX port
+local if_bgx = 7
+for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_bgx)-1 do
+    local num_ports = octeon.c.bdk_if_num_ports(node, if_bgx, interface)
+    if num_ports > 0 then
+        addMenu("BGX interface " .. interface .. " Higig mode, 0=None,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
+    end
+    for port = 0, num_ports-1 do
+        addPhyMenu("BGX interface " .. interface .. ", port " .. port, octeon.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
+    end
+end
+
 
 -- Allow the user to enable/disable link status message
 addMenu("Show link status messages", octeon.CONFIG_SHOW_LINK_STATUS, 0, 1)

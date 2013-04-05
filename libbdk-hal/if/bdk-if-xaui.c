@@ -7,7 +7,7 @@ static int if_num_interfaces(bdk_node_t node)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 5;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        return 0;
+        return 0; /* Covered by bdk-if-bgx */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 1; /* CN70XX can have RXAUI on DLM0 */
     else

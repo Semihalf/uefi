@@ -9,6 +9,7 @@ extern const __bdk_if_ops_t __bdk_if_ops_dpi;
 extern const __bdk_if_ops_t __bdk_if_ops_loop;
 extern const __bdk_if_ops_t __bdk_if_ops_mgmt;
 extern const __bdk_if_ops_t __bdk_if_ops_ilk;
+extern const __bdk_if_ops_t __bdk_if_ops_bgx;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_SGMII] = &__bdk_if_ops_sgmii,
@@ -18,6 +19,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_LOOP] = &__bdk_if_ops_loop,
     [BDK_IF_MGMT] = &__bdk_if_ops_mgmt,
     [BDK_IF_ILK] = &__bdk_if_ops_ilk,
+    [BDK_IF_BGX] = &__bdk_if_ops_bgx,
 };
 
 static void bdk_if_dispatch_thread(int unused, void *unused2);

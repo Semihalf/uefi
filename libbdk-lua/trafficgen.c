@@ -292,6 +292,18 @@ static int trafficgen_do_update(bool do_clear)
                 }
                 break;
             }
+            case BDK_IF_BGX:
+            {
+                int port = tg_port->handle->index;
+                if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + tg_port->handle->interface))
+                    port = port >> 4;
+#if 0 // FIXME: When sim support BGX regs
+                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(tg_port->handle->interface, port));
+                if (txx_pause_togo.s.ptime)
+                    tg_port->pinfo.stats.rx_backpressure++;
+#endif
+                break;
+            }
             case __BDK_IF_LAST:
                 break;
         }

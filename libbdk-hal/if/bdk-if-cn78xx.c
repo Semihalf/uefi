@@ -396,11 +396,14 @@ static int pko_port_init(bdk_if_handle_t handle)
     int lmac;
     switch (handle->iftype)
     {
-        case BDK_IF_SGMII: /* BGX */
-        case BDK_IF_XAUI:
-        case BDK_IF_HIGIG:
-            lmac = 4 + 4 * handle->interface + handle->index;
+        case BDK_IF_BGX:
+        {
+            int port = handle->index;
+            if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
+                port = port >> 4;
+            lmac = 4 + 4 * handle->interface + port;
             break;
+        }
         case BDK_IF_DPI:
             lmac = 1;
             break;
