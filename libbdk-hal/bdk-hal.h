@@ -47,6 +47,7 @@
 #include "bdk-key.h"
 #include "bdk-l2c.h"
 #include "bdk-mdio.h"
+#include "bdk-mpi.h"
 #include "bdk-nand.h"
 #include "bdk-pcie.h"
 #include "bdk-pko.h"
