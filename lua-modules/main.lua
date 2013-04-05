@@ -26,6 +26,8 @@ elseif octeon.is_model(octeon.CN61XX) then
     menu.dofile("board-ebb6100")
 elseif octeon.is_model(octeon.CN70XX) then
     menu.dofile("board-ebb7000")
+elseif octeon.is_model(octeon.CN78XX) then
+    menu.dofile("board-ebb7800")
 end
 -- Allow the user to do some board specific customization
 utils.run("autorun-board")
