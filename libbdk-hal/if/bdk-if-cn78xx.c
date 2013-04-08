@@ -546,8 +546,24 @@ static int pko_port_init(bdk_if_handle_t handle)
  */
 static int pko_enable(bdk_node_t node)
 {
+    const global_node_state_t *node_state = &global_node_state[node];
+
     BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
         c.s.enable = 1);
+
+    /* Open all configured descriptor queues */
+    for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq++)
+    {
+        uint64_t pko_address = 1ull<<63;
+        pko_address |= 1ull<<48;
+        pko_address |= 0x51ull<<40;
+        pko_address |= (uint64_t)node<<36;
+        pko_address |= 1ull<<32; /* Open */
+        pko_address |= (uint64_t)dq<<16;
+        uint64_t pko_resp = bdk_read64_uint64(pko_address);
+        if (pko_resp >> 60)
+            bdk_error("PKO open failed with response 0x%lx\n", pko_resp);
+    }
     return 0;
 }
 
