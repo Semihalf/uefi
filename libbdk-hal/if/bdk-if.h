@@ -194,14 +194,4 @@ static inline int bdk_if_get_pknd(bdk_if_handle_t handle)
     return handle->pknd;
 }
 
-/**
- * Dynamically allocate a PKO fifo for a port
- *
- * @param lmac   Logical mac to use (0-27)
- * @param size   The size needed in 2.5kb chunks (1,2,4).
- *
- * @return Fifo number of negative on failure
- */
-int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size);
-
 /** @} */

@@ -45,14 +45,10 @@ static int if_init_cn78xx(bdk_if_handle_t handle)
     const int MAC_NUMBER = 0x0; /* Constant from cn78xx */
     if (handle->index == 0)
     {
-        int fifo = __bdk_pko_allocate_fifo(handle->node, MAC_NUMBER, 4);
-        if (fifo < 0)
-            return -1;
         BDK_CSR_MODIFY(c, handle->node, BDK_PKO_MACX_CFG(MAC_NUMBER),
             c.s.fcs_ena = 0; /* No FCS */
             c.s.fcs_sop_off = 0; /* No FCS offset */
-            c.s.skid_max_cnt = 2; /* All credits to one MAC */
-            c.s.fifo_num = fifo); /* PKO FIFO number */
+            c.s.skid_max_cnt = 2); /* All credits to one MAC */
     }
     /* Record the PKND for this port */
     BDK_CSR_MODIFY(c, handle->node, BDK_LBK_CHX_PKIND(handle->index),
