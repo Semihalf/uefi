@@ -50,7 +50,7 @@ RUN_SIM_ARGS += -ld0:0x1000000
 #
 # Use these to boot off Node 1
 #
-#RUN_SIM_ARGS += bdk-boot/bdk-another-node
+#RUN_SIM_ARGS += -remoteboot=0xd
 #RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full-no-romfs
 #RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-full.bin
 #RUN_SIM_ARGS += -ld0x0010000000000:0x1000000
