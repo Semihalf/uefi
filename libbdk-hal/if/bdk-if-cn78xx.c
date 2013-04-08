@@ -324,7 +324,7 @@ int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     /* Confine the credits to not overflow the LBK FIFO */
     BDK_CSR_MODIFY(c, node, BDK_PKO_MCI1_MAX_CREDX(lmac),
         c.s.max_cred_lim = mac_credit / 16);
-    return 0;
+    return fifo;
 }
 
 /**
