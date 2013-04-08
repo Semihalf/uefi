@@ -345,6 +345,23 @@ static int init_link_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
 static int if_init(bdk_if_handle_t handle)
 {
+    bgx_priv_t priv = {.ptr = handle->priv};
+    /* Only setup the PKO MAC on real ports, so only do channel 0 */
+    if (priv.s.channel == 0)
+    {
+        const int MAC_NUMBER = 0x4 + handle->interface * 4 + priv.s.port; /* Constant from cn78xx */
+        int fifo = __bdk_pko_allocate_fifo(handle->node, MAC_NUMBER,
+            (priv.s.num_port == 4) ? 1 :
+            (priv.s.num_port == 2) ? 2 : 4);
+        if (fifo < 0)
+            return -1;
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_MACX_CFG(MAC_NUMBER),
+            c.s.fcs_ena = 1; /* FCS */
+            c.s.fcs_sop_off = 0; /* No FCS offset */
+            c.s.skid_max_cnt = (priv.s.num_port == 4) ? 0 : (priv.s.num_port == 2) ? 1 : 2;
+            c.s.fifo_num = fifo); /* PKO FIFO number */
+    }
+
 #if 0 // FIXME: Implement init
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
