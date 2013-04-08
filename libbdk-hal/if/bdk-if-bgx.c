@@ -4,6 +4,84 @@
     for CN78XX. This block combines SGMII, XAUI, DXAUI, 10G, and 40G all
     into one interface */
 
+typedef enum
+{
+    BGX_MODE_SGMII,
+    BGX_MODE_XAUI,
+    BGX_MODE_RXAUI,
+    BGX_MODE_10G,
+    BGX_MODE_40G,
+} bgx_mode_t;
+
+typedef union
+{
+    void *ptr;
+    struct
+    {
+        uint64_t    reserved_33_64  : 31;
+        uint64_t    higig           : 1;    /* True if this port is in higig mode */
+        uint64_t    num_port        : 4;    /* Number of physical ports on this interface */
+        uint64_t    port            : 4;    /* Which physical port this handle connects to */
+        bgx_mode_t  mode            : 4;    /* BGX mode */
+        uint64_t    num_channels    : 12;   /* Total number of channels on this physical port */
+        uint64_t    channel         : 8;    /* Which logical channel this handle coresponds to */
+    } s;
+} bgx_priv_t;
+
+/**
+ * The private structure needed by BGX is small enough to fit
+ * in 64bits. It will be store in the private pointer, not in
+ * memory pointed to by the private pointer
+ *
+ * @param node      Node this BGX is on
+ * @param interface Which BGX
+ * @param index     Which channel on the BGX. This is an encoding of port and channel.
+ *
+ * @return The private structure
+ */
+static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
+{
+    bgx_priv_t priv;
+    priv.ptr = NULL;
+    priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
+
+#if 0 // FIXME: When sim support BGX regs
+    BDK_CSR_INIT(config, node, BDK_BGXX_CMRX_CONFIG(interface, 0));
+#else
+    BDK_CSR_DEFINE(config, BDK_BGXX_CMRX_CONFIG(interface, 0));
+    config.s.lmac_type = 3; /* 10G */
+#endif
+
+    switch (config.s.lmac_type)
+    {
+        case 0: /* SGMII - 1 lane each */
+            priv.s.higig = 0; /* We don't support Higig over SGMII */
+            priv.s.num_port = 4;
+            priv.s.mode = BGX_MODE_SGMII;
+            break;
+        case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
+            priv.s.num_port = 1;
+            priv.s.mode = BGX_MODE_XAUI;
+            break;
+        case 2: /* Reduced XAUI - 2 lanes each */
+            priv.s.num_port = 2;
+            priv.s.mode = BGX_MODE_RXAUI;
+            break;
+        case 3: /* 10GBASE-R - 1 lane each */
+            priv.s.num_port = 4;
+            priv.s.mode = BGX_MODE_10G;
+            break;
+        case 4: /* 40GBASE-R - 4 lanes each */
+            priv.s.num_port = 1;
+            priv.s.mode = BGX_MODE_40G;
+            break;
+    }
+    priv.s.port = (priv.s.higig) ? (index>>4) : index;
+    priv.s.num_channels = (priv.s.higig) ? 16 : 1;
+    priv.s.channel = (priv.s.higig) ? (index&0xf) : 0;
+    return priv;
+}
+
 static int if_num_interfaces(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
@@ -14,85 +92,42 @@ static int if_num_interfaces(bdk_node_t node)
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    int higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
-#if 0 // FIXME: When sim support BGX regs
-    BDK_CSR_INIT(config, node, BDK_BGXX_CMRX_CONFIG(interface, 0));
-#else
-    BDK_CSR_DEFINE(config, BDK_BGXX_CMRX_CONFIG(interface, 0));
-    config.s.lmac_type = 3; /* 10G */
-#endif
-    switch (config.s.lmac_type)
-    {
-        case 0: /* SGMII - 1 lane each */
-            /* We don't support Higig over SGMII */
-            bdk_config_set(BDK_CONFIG_HIGIG_MODE_IF0 + interface, 0);
-            return 4;
-        case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
-            return (higig) ? 16 : 1;
-        case 2: /* Reduced XAUI - 2 lanes each */
-            return (higig) ? 16*2 : 2;
-        case 3: /* 10GBASE-R - 1 lane each */
-            return (higig) ? 16*4 : 4;
-        case 4: /* 40GBASE-R - 4 lanes each */
-            return (higig) ? 16 : 1;
-        default:
-            return 0;
-    }
+    bgx_priv_t priv = create_priv(node, interface, 0);
+    return priv.s.num_port * priv.s.num_channels;
 }
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    int higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface);
-    int port;
-    int channel;
-    if (higig)
-    {
-        /* For ports in higig mode we encode two fields in "index". Bits
-            7:4 are the hardware port number, bits 3:0 are the higig channel */
-        port = handle->index >> 4;
-        channel = handle->index & 0xf;
-    }
-    else
-    {
-        /* For ports not in higig mode there is only one channel and the
-            hardware port in the "index" */
-        port = handle->index;
-        channel = 0;
-    }
+    bgx_priv_t priv = create_priv(handle->node, handle->interface, handle->index);
+    handle->priv = priv.ptr;
 
     /* Change name to be something that might be meaningful to the user */
     const char *name_format;
-#if 0 // FIXME: When sim support BGX regs
-    BDK_CSR_INIT(config, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, 0));
-#else
-    BDK_CSR_DEFINE(config, BDK_BGXX_CMRX_CONFIG(handle->interface, 0));
-    config.s.lmac_type = 3; /* 10G */
-#endif
-    switch (config.s.lmac_type)
+    switch (priv.s.mode)
     {
-        case 0: /* SGMII - 1 lane each */
+        case BGX_MODE_SGMII:
             name_format = "N%d.SGMII%d.%d";
             break;
-        case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
-            name_format = (higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
+        case BGX_MODE_XAUI:
+            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
             break;
-        case 2: /* Reduced XAUI - 2 lanes each */
-            name_format = (higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
+        case BGX_MODE_RXAUI:
+            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
             break;
-        case 3: /* 10GBASE-R - 1 lane each */
-            name_format = (higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
+        case BGX_MODE_10G:
+            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
             break;
-        case 4: /* 40GBASE-R - 4 lanes each */
-            name_format = (higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
+        case BGX_MODE_40G:
+            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
             break;
         default:
             return -1;
     }
-    snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, port, channel);
+    snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
     handle->name[sizeof(handle->name)-1] = 0;
 
     /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
-    handle->ipd_port = 0x800 + handle->interface*0x100 + port*0x10 + channel;
+    handle->ipd_port = 0x800 + handle->interface*0x100 + priv.s.port*0x10 + priv.s.channel;
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
@@ -453,11 +488,9 @@ static int if_init(bdk_if_handle_t handle)
 
 static int if_enable(bdk_if_handle_t handle)
 {
-    int port = handle->index;
-    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
-        port = port >> 4;
 #if 0 // FIXME: When sim support BGX regs
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, port),
+    bgx_priv_t priv = {.ptr = handle->priv};
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
         c.s.data_pkt_tx_en = 1;
         c.s.data_pkt_rx_en = 1);
 #endif
@@ -466,11 +499,9 @@ static int if_enable(bdk_if_handle_t handle)
 
 static int if_disable(bdk_if_handle_t handle)
 {
-    int port = handle->index;
-    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
-        port = port >> 4;
 #if 0 // FIXME: When sim support BGX regs
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, port),
+    bgx_priv_t priv = {.ptr = handle->priv};
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
         c.s.data_pkt_tx_en = 0;
         c.s.data_pkt_rx_en = 0);
 #endif
@@ -479,9 +510,7 @@ static int if_disable(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
-    int port = handle->index;
-    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
-        port = port >> 4;
+    //bgx_priv_t priv = {.ptr = handle->priv};
 
     bdk_if_link_t result;
 
@@ -602,14 +631,12 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
-    int port = handle->index;
-    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
-        port = port >> 4;
+    bgx_priv_t priv = {.ptr = handle->priv};
 
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, port),
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv.s.port),
         c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
 
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, port),
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
         c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
 
     init_link(handle);
