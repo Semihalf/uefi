@@ -726,7 +726,8 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         struct
         {
             uint64_t    reserved_60_63  : 4;
-            uint64_t    aura            :12;    /**< Aura to return buffers to */
+            uint64_t    node            : 2;    /**< Node for aura */
+            uint64_t    aura            :10;    /**< Aura to return buffers to */
             uint64_t    ckl4            : 2;    /**< Checksum L4 (TCP/UDP) */
             uint64_t    ckl3            : 1;    /**< Checksum L3 (IP) */
             uint64_t    ds              : 1;    /**< Don't send */
@@ -776,6 +777,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Build the two PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
+    pko_send_hdr_s.s.node = packet->if_handle->node;
     pko_send_hdr_s.s.aura = packet->aura;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
