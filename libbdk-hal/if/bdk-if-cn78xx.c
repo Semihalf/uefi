@@ -761,7 +761,6 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
     pko_send_hdr_s.s.aura = packet->aura;
-    pko_send_hdr_s.s.n2 = 1;
     pko_send_hdr_s.s.fcs = (handle->flags & BDK_IF_FLAGS_HAS_FCS) != 0;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
