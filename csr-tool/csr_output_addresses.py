@@ -55,23 +55,23 @@ def writeAddress(out, csr, chip_list):
         out.write("#define %s %s_FUNC()\n" % (name, name))
         out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 0, "0", "0", "0", "0")
     elif num_params == 1:
         out.write("static inline uint64_t %s(unsigned long param1) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "param1", "0", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 1, "param1", "0", "0", "0")
     elif num_params == 2:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "param1", "param2", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 2, "param1", "param2", "0", "0")
     elif num_params == 3:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 3, "param1", "param2", "param3", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 3, "param1", "param2", "param3", "0")
     elif num_params == 4:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 4, "param1", "param2", "param3", "param4")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 4, "param1", "param2", "param3", "param4")
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")
