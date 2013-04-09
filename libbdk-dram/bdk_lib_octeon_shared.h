@@ -4,11 +4,20 @@
 
 /* This is needed to make lib_octeon_shared build reasonably sanely */
 #define unix 1
+
+/* This stops the DRAM code from changing L2 index aliasing */
 #define CONFIG_OCTEON_NAND_STAGE2 1
 
+#define CONFIG_OCTEON_DISABLE_DDR2 1
+
+/* Enable or disable CSR checking */
+#define CVMX_ENABLE_CSR_ADDRESS_CHECKING 0
+
+#if CVMX_ENABLE_CSR_ADDRESS_CHECKING
 /* Use the BDKs warn function instead of cvmx_warn */
 #define cvmx_warn bdk_warn
 extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
+#endif
 
 /* Replace OCTEON_IS_MODEL with our version to avoid the feature nastiness */
 #define OCTEON_IS_MODEL bdk_is_model_wrapper
