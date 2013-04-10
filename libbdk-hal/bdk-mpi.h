@@ -36,32 +36,31 @@ typedef enum
 extern int bdk_mpi_initialize(bdk_node_t node, int clock_rate_hz, bdk_mpi_flags_t flags);
 
 /**
- * Perform a SPI/MPI transfer
+ * Perform a SPI/MPI transfer. The transfer can contain tx_count
+ * bytes that are transfered out, followed by rx_count bytes
+ * that are read in. Both tx_count and rx_count may be zero if
+ * no transfer is needed. Transmit data is sent most significant
+ * byte first, unless BDK_MPI_FLAGS_LSB_FIRST is set. Receive data
+ * is in the return value with the last byte in the least
+ * signnificant byte.
  *
  * @param node     Numa node to use
  * @param chip_select
  *                 Which chip select to enable during the transfer
- * @param tri_state_shift
- *                 Non zero if SPI_DO should be tristated during the shift stage of
- *                 the transfer. This will only be needed in one wire more for reads.
  * @param leave_cs_enabled
  *                 Leave the chip select assert after the transaction. Normally can
- *                 be zero. Set to non zero if you want to perform repeated poll
- *                 reads.
- * @param tx_count Number of bytes to transfer before startng the shift data. Can
- *                 be zero.
- * @param tx_bytes Bytes to transmit
- * @param shift_count
- *                 Number of byte shift in/out after the transmit phase. May be
- *                 zero.
- * @param shift_bytes
- *                 Data being shifted out and where data shifted in gets written
+ *                 be zero. Set to non zero if you want to perform repeated
+ *                 transactions.
+ * @param tx_count Number of bytes to transfer before startng the rx/shift data.
+ *                 Can be zero.
+ * @param tx_data  Data to transmit. The low order bytes are used for the data. Order
+ *                 of shift out is controlled by BDK_MPI_FLAGS_LSB_FIRST
+ * @param rx_count Number of bytes to read. These bytes will be in the return value
+ *                 least significant bytes
  *
- * @return Zero on success, negative on failure
+ * @return Read data
  */
-extern int bdk_mpi_transfer(bdk_node_t node, int chip_select,
-    int tri_state_shift, int leave_cs_enabled,
-    int tx_count, const uint8_t tx_bytes[],
-    int shift_count, uint8_t shift_bytes[]);
+extern uint64_t bdk_mpi_transfer(bdk_node_t node, int chip_select,
+    int leave_cs_enabled, int tx_count, uint64_t tx_data, int rx_count);
 
 /** @} */
