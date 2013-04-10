@@ -914,12 +914,11 @@ const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int 
         } while (c == -1);
 
 #ifndef BDK_BUILD_HOST
-        if ((cmd_len == 0) && (c == 0xA3))
+        if (c == 0xA3)
         {
             extern void __bdk_rpc_serve(void) __attribute__ ((weak));
             if (__bdk_rpc_serve)
             {
-                ungetc(c, stdin);
                 __bdk_rpc_serve();
                 continue;
             }

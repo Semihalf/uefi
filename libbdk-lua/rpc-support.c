@@ -1,4 +1,22 @@
 #include <bdk.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
+#ifdef BDK_BUILD_HOST
+#include <poll.h>
+#include <sys/socket.h>
+#include <resolv.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netinet/tcp.h>
+#include <netdb.h>
+#endif
+
+static const char RPC_BEGIN = 0xa3;
+static const char RPC_END = 0xa2;
 
 // Module for supporting RPC by supplying common used building
 // blocks that are slow in pure Lua.
@@ -212,6 +230,202 @@ static int newproxy(lua_State* L)
     return 1;
 }
 
+static uint8_t calc_checksum(const char *buffer, size_t length)
+{
+    uint8_t checksum = 0;
+    while (length--)
+        checksum += *buffer++;
+    return checksum;
+}
+
+static int do_connect(lua_State* L)
+{
+    const char *filename = luaL_checkstring(L, 1);
+#ifdef BDK_BUILD_HOST
+    const char *ptr = strchr(filename, ':');
+    if (ptr)
+    {
+        char name[ptr - filename + 1];
+        int port = atoi(ptr + 1);
+        strncpy(name, filename, ptr - filename);
+        name[ptr - filename] = 0;
+
+        struct hostent *host_info = gethostbyname(name);
+        if (!host_info)
+            return luaL_error(L, "Hostname lookup failed\n");
+
+        /* Set up socket structure */
+        struct sockaddr_in ejtag_addr;
+        memset(&ejtag_addr, 0, sizeof(ejtag_addr));
+        ejtag_addr.sin_family = AF_INET;
+        ejtag_addr.sin_addr.s_addr = ((struct in_addr *)(host_info->h_addr))->s_addr;
+        ejtag_addr.sin_port = htons(port);
+
+        int sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+        if (sock_fd == -1)
+            return luaL_error(L, strerror(errno));
+
+        int i=1;
+        setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, &i, 4);
+        int status = connect(sock_fd, (struct sockaddr *)&ejtag_addr, sizeof(ejtag_addr));
+        if (status == -1)
+        {
+            close(sock_fd);
+            return luaL_error(L, strerror(errno));
+        }
+        lua_pushinteger(L, sock_fd);
+        return 1;
+    }
+#endif
+    int fd = open(filename, O_RDWR);
+    if (fd<0)
+        return luaL_error(L, strerror(errno));
+    lua_pushinteger(L, fd);
+    return 1;
+}
+
+static int send_message(lua_State* L)
+{
+    size_t input_len;
+    int fd = luaL_checkinteger(L, 1);
+    const char *input = luaL_checklstring(L, 2, &input_len);
+
+    if (fd == -1)
+    {
+        fflush(stdout);
+        fd = 1; /* Use stdout */
+    }
+
+    uint8_t checksum = calc_checksum(input, input_len);
+    char csum[4];
+    snprintf(csum, sizeof(csum), "%c%02x", RPC_BEGIN, checksum);
+    size_t count = write(fd, csum, 3);
+    count += write(fd, input, input_len);
+    count += write(fd, &RPC_END, 1);
+    if (count != input_len + 4)
+        return luaL_error(L, "Write failure");
+    return 0;
+}
+
+static int receive_message(lua_State* L)
+{
+    const int TIMEOUT = 5000; /* 1sec */
+    enum
+    {
+        LOOKING_FOR_BEGIN,
+        READING_CSUM,
+        LOOKING_FOR_END,
+    } state = LOOKING_FOR_BEGIN;
+
+#ifdef BDK_BUILD_HOST
+    int fd = luaL_checkinteger(L, 1);
+    if (fd == -1)
+        fd = 0; /* Use stdin */
+#else
+    if (lua_toboolean(L, 2))
+        state = READING_CSUM;
+#endif
+
+    luaL_Buffer out_buffer;
+    luaL_buffinit(L, &out_buffer);
+
+    uint8_t good_csum = 0;
+    size_t index = 0;
+retry:
+    while (1)
+    {
+        fflush(stdout);
+        char c;
+#ifdef BDK_BUILD_HOST
+        struct pollfd fds;
+        fds.fd = fd;
+        fds.events = POLLIN;
+        fds.revents = 0;
+        int status = poll(&fds, 1, TIMEOUT);
+        if (status < 0)
+            return luaL_error(L, strerror(errno));
+        else if (status == 0)
+            return luaL_error(L, "Timeout on read");
+        else if (status != 1)
+            return luaL_error(L, "Unexpected result from poll()");
+        if (read(fd, &c, 1) != 1)
+            return luaL_error(L, strerror(errno));
+#else
+        int status = bdk_readline_getkey(TIMEOUT * 1000);
+        if (status < 0)
+            return luaL_error(L, "Timeout on read");
+        c = status;
+#endif
+
+        switch (state)
+        {
+            case LOOKING_FOR_BEGIN:
+                if (c == RPC_BEGIN)
+                {
+                    state = READING_CSUM;
+                    index = 0;
+                }
+                else
+                {
+                    /* Spurios data */
+#ifdef BDK_BUILD_HOST
+                    fputc(c, stdout);
+#else
+                    if (c == '\r')
+                        printf("BDK waiting for remote connection\n");
+#endif
+                }
+                break;
+            case READING_CSUM:
+                if (((c >= '0') && (c <= '9')) || ((c >= 'a') && (c <= 'f')))
+                {
+                    good_csum <<= 4;
+                    good_csum |= ((c >= '0') && (c <= '9')) ? (c - '0') : (c - 'a' + 10);
+                    index++;
+                    if (index >= 2)
+                    {
+                        state = LOOKING_FOR_END;
+                        index = 0;
+                    }
+                }
+                else
+                {
+                    /* Corrupt data */
+                    state = LOOKING_FOR_BEGIN;
+                    index = 0;
+#ifdef BDK_BUILD_HOST
+                    fputc(c, stdout);
+#endif
+                }
+                break;
+            case LOOKING_FOR_END:
+                if (c == RPC_END)
+                {
+                    /* Done */
+                    index = 0;
+                    goto done;
+                }
+                else
+                {
+                    /* Data we will need */
+                    luaL_addchar(&out_buffer, c);
+                }
+                break;
+        }
+    }
+done:
+    /* Check the csum */
+    if (good_csum != calc_checksum(out_buffer.b, out_buffer.n))
+    {
+        state = LOOKING_FOR_BEGIN;
+        out_buffer.n = 0;
+        goto retry;
+    }
+
+    luaL_pushresult(&out_buffer);
+    return 1;
+}
+
 LUALIB_API int luaopen_rpc_support(lua_State *L)
 {
     lua_newtable(L);
@@ -223,6 +437,12 @@ LUALIB_API int luaopen_rpc_support(lua_State *L)
     lua_setfield(L, -2, "server_do_pack");
     lua_pushcfunction(L, newproxy);
     lua_setfield(L, -2, "newproxy");
+    lua_pushcfunction(L, do_connect);
+    lua_setfield(L, -2, "connect");
+    lua_pushcfunction(L, send_message);
+    lua_setfield(L, -2, "send_message");
+    lua_pushcfunction(L, receive_message);
+    lua_setfield(L, -2, "receive_message");
     return 1;
 }
 

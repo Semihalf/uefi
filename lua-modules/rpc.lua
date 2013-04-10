@@ -9,8 +9,6 @@ local bit64 = require("bit64")
 local debug = require("debug")
 local rpc_support = require("rpc-support")
 
-local RPC_BEGIN = "\xA3"
-local RPC_END = "\n"
 local is_server = false
 
 --
@@ -18,91 +16,6 @@ local is_server = false
 --
 rpc = {}
 rpc.debug = false
-
-local function getconnection(stream, is_input)
-    if type(stream) == "string" then
-        -- Set the baud rate for filenames that start with "/". This
-        -- is a best guess of what should work for people
-        if stream:sub(1,1) == "/" then
-            local baud = os.getenv("OCTEON_REMOTE_BAUDRATE")
-            if not baud then
-                baud = "115200"
-            end
-            os.execute("stty -F " .. stream .. " " .. baud .. " -crtscts pass8 raw -onlcr -echo")
-        end
-        -- Open for RW in case we are running over Pipes. Linux pipes
-        -- block until someone connects to the other side unless the
-        -- pipe is openned RW.
-        local f = io.open(stream, "r+b")
-        if f then
-            return f
-        end
-        assert(not stream:find("/"), "Failed to open file " .. stream)
-        -- Not a file, try a TCP connection
-        -- Default to the telnet port if not specified
-        local host = stream
-        local port = 23
-        if stream:find(":") then
-            local sep = stream:find(":")
-            host = stream:sub(1,sep-1)
-            port = tonumber(stream:sub(sep+1))
-        end
-        -- Create a wrapper that makes a socket work like a file
-        f = {}
-        function f:read(arg)
-            local r, message = self.s:receive(arg)
-            assert(r, "socket:receive(): " .. tostring(message))
-            return r
-        end
-        function f:write(arg)
-            local status, message = self.s:send(arg)
-            assert(status == #arg, "socket:send(): " .. tostring(message))
-        end
-        function f:flush(arg)
-            -- Do nothing
-        end
-        -- Create a scoket connection
-        local socket = require("socket")
-        f.s = socket.tcp()
-        f.s:setoption("tcp-nodelay", true)
-        local status, message = f.s:connect(host, port)
-        assert(status, "socket:connect(): " .. tostring(message))
-        return f
-    elseif not stream then
-        -- Use standard IO if nothing specified
-        if is_input then
-            return io.stdin
-        else
-            return io.stdout
-        end
-    else
-        -- Assume the passed object supports read and write
-        return stream
-    end
-end
-
---
--- Convert user supplied streams or file names into an input and output
--- file descriptor.
---
-local function connectStreams(instream, outstream)
-    local inf, outf
-    if instream == "remote" then
-        local oremote = require("oremote")
-        local remoteconsole = require("remoteconsole")
-        local handle = remoteconsole.open()
-        return handle, handle
-    end
-    inf = getconnection(instream, true)
-    if outstream then
-        outf = getconnection(outstream, false)
-    else
-        -- If no output stream was supplied assume we should use the same one
-        -- as input. Useful for sockets and hardware devices.
-        outf = inf
-    end
-    return inf, outf
-end
 
 --
 -- Pack arguments into a remote param string
@@ -229,9 +142,7 @@ end
 --
 -- Send a RPC command
 --
-local function send_command(inf, outf, line)
-    -- Add the checksum
-    line = line .. get_checksum(line)
+local function send_command(stream, line)
     -- Debug output as necessary
     if rpc.debug then
         if is_server then
@@ -240,42 +151,14 @@ local function send_command(inf, outf, line)
             io.write("[RPC Send]" .. line .. "\n")
         end
     end
-    -- Send the string and flush to make sure it goes immediately
-    outf:write(RPC_BEGIN .. line .. RPC_END)
-    outf:flush()
+    rpc_support.send_message(stream, line)
 end
 
 --
 -- Receive a RPC command
 --
-local function receive_command(inf, outf)
-    -- Read lines unitl we get the response. Extra lines are displayed
-    -- to stdout. We might be using the same serial channel for RPC and
-    -- general output
-    local result
-    repeat
-        -- Read a line
-        result = inf:read()
-        -- Strip off ending carriage returns
-        if result:sub(-1) == '\r' then
-            result = result:sub(1,-2)
-        end
-        -- Look for the start of response indicator
-        local d = result:find(RPC_BEGIN, 1, true)
-        if d and (d > 1) then
-            -- Write any extra stuff to the console
-            io.write(result:sub(1, d-1))
-            result = result:sub(d)
-        elseif not d then
-            -- Write any extra stuff to the console
-            io.write(result)
-            io.write("\n")
-        end
-    until d
-
-    -- Strip the RPC_BEGIN header
-    result = result:sub(2)
-
+local function receive_command(stream, already_began)
+    local result = rpc_support.receive_message(stream, already_began)
     -- Log debug output of what we received
     if rpc.debug then
         if is_server then
@@ -284,27 +167,6 @@ local function receive_command(inf, outf)
             io.write("[RPC Receive]" .. result .. "\n")
         end
     end
-
-    -- Check that the length could contain a checksum
-    if #result < 3 then
-        io.write("[RPC ERROR]Too short to have checksum\n")
-        return nil
-    end
-
-    -- Verify the checksum
-    local got_checksum = result:sub(-3)
-    local result = result:sub(1,-4)
-    local checksum = get_checksum(result)
-    if checksum ~= got_checksum then
-        io.write("[RPC ERROR]Incorrect checksum\n")
-        if is_server then
-            -- Send garbage back to force the client to resend
-            io.write(RPC_BEGIN .. RPC_END)
-        end
-        return nil
-    end
-
-    -- Everything is good
     return result
 end
 
@@ -315,8 +177,13 @@ local function do_remote_command(remote, line)
     local meta = getmetatable(remote)
     local command
     repeat
-        send_command(meta.inf, meta.outf, line)
-        command = receive_command(meta.inf, meta.outf)
+        local status
+        send_command(meta.stream, line)
+        status, command = pcall(receive_command, meta.stream)
+        if not status then
+            print("ERROR:", command)
+            command = nil
+        end
     until command
     -- Convert the response to Lua data structures
     local len, r = do_unpack(remote, 1, command, false)
@@ -394,11 +261,10 @@ end
 
 ---
 -- Create a new RPC connection to a remote rpc.serve
--- @param instream Input stream to use for RPC. Can be a filename, TCP host, nil (stdin).
--- @param outstream Input stream to use for RPC. Can be a filename, TCP host, nil (same as instream).
+-- @param stream_name Can be a filename, TCP host, nil (stdin).
 -- @return Returns a RPC object that represents the top level global environment of the remote system.
 --
-function rpc.connect(instream, outstream)
+function rpc.connect(stream_name)
     local object = rpc_support.newproxy(true)
     local meta = getmetatable(object)
     -- Table used to track remote numeric IDs
@@ -420,14 +286,14 @@ function rpc.connect(instream, outstream)
     meta.__pairs = rpc_object_pairs
     meta.__ipairs = rpc_object_ipairs
     -- File handles for communications
-    meta.inf, meta.outf = connectStreams(instream, outstream)
+    meta.stream = rpc_support.connect(stream_name)
     return object
 end
 
 --
 -- Create a RPC server
 --
-local function rpc_serve(inf, outf, only_one)
+local function rpc_serve(stream, only_one)
     -- We keep a table of all objects that remote connections have a ref_id
     -- to. We can't let these objects garbage collect until all references are
     -- gone. The objects table is accessed either by reference number or
@@ -439,8 +305,8 @@ local function rpc_serve(inf, outf, only_one)
         rpc.objects[_ENV] = {0, 1}
     end
     repeat
-        local full_command = receive_command(inf, outf)
-        if full_command then
+        local status, full_command = pcall(receive_command, stream, only_one)
+        if status and full_command then
             local command = full_command:sub(1,1)
             local obj = full_command:match("^%d+", 2)
             local line = full_command:sub(#obj + 2)
@@ -485,7 +351,7 @@ local function rpc_serve(inf, outf, only_one)
             end
             line = rpc_support.server_do_pack(rpc.objects, table.unpack(result, 1, result.n))
             -- Write the response and flush it
-            send_command(inf, outf, line)
+            send_command(stream, line)
         end
     until only_one
 end
@@ -495,10 +361,11 @@ end
 -- @param only_one If true, then accept a single RPC command and return. Otherwise loop forever servicing RPC.
 --
 function rpc.serve(only_one)
+    local stream = -1
     is_server = true
-    local status, message = xpcall(rpc_serve, debug.traceback, io.stdin, io.stdout, only_one)
+    local status, message = xpcall(rpc_serve, debug.traceback, stream, only_one)
     if not status then
-        send_command(io.stdin, io.stdout, "e" .. rpc_support.server_do_pack(rpc.objects, message))
+        send_command(stream, "e" .. rpc_support.server_do_pack(rpc.objects, message))
     end
     is_server = false
 end
