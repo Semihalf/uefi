@@ -413,10 +413,10 @@ static int sso_init(bdk_node_t node)
     fau_to.u64 = 0;
     fau_to.s.tout_val = 0xfff;
     fau_to.s.tout_enb = 0;
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        BDK_CSR_WRITE(node, BDK_IOB_FAU_TIMEOUT, fau_to.u64);
-    else
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         BDK_CSR_WRITE(node, BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
+    else
+        BDK_CSR_WRITE(node, BDK_IOB_FAU_TIMEOUT, fau_to.u64);
 
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
