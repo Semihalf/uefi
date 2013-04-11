@@ -547,7 +547,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         page_cnt.u64 = 0;
         page_cnt.s.port = packet->if_handle->pknd;
         page_cnt.s.page_cnt = (wqe->word2.v1.bufs == 0) ? -1 : -packet->segments-1;
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
+        BDK_CSR_WRITE(packet->if_handle->node, BDK_IPD_SUB_PORT_BP_PAGE_CNT, page_cnt.u64);
     }
     return 0;
 }
