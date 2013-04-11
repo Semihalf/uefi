@@ -419,7 +419,7 @@
 #define lua_str2number(s,p)	strtoll((s), (p), 10)
 
 #if defined(LUA_USE_STRTODHEX)
-#define lua_strx2number(s,p)	strtoll((s), (p), 16)
+#define lua_strx2number(s,p)	strtoull((s), (p), 16)
 #endif
 
 
