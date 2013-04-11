@@ -798,6 +798,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
                         buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
+                        buffer_ptr = bdk_phys_to_ptr(OCTEON_IS_MODEL(OCTEON_CN78XX) ? buffer_next.v3.addr : buffer_next.v1.addr);
                         memcpy(buffer_ptr, ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
                         return 0;
                     }
