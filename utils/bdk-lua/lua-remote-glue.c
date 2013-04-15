@@ -54,11 +54,12 @@ static int oremote_close(lua_State* L)
  */
 static int oremote_read_csr(lua_State* L)
 {
-    int type = luaL_checknumber(L, 1);
-    int busnum = luaL_checknumber(L, 2);
-    int size = luaL_checknumber(L, 3);
-    uint64_t address = luaL_checknumber(L, 4);
-    lua_pushnumber(L, octeon_remote_read_csr(OCTEON_REMOTE_NODE, type, busnum, size, address));
+    int node = luaL_checknumber(L, 1);
+    int type = luaL_checknumber(L, 2);
+    int busnum = luaL_checknumber(L, 3);
+    int size = luaL_checknumber(L, 4);
+    uint64_t address = luaL_checknumber(L, 5);
+    lua_pushnumber(L, octeon_remote_read_csr(node, type, busnum, size, address));
     return 1;
 }
 
@@ -77,12 +78,13 @@ static int oremote_read_csr(lua_State* L)
  */
 static int oremote_write_csr(lua_State* L)
 {
-    int type = luaL_checknumber(L, 1);
-    int busnum = luaL_checknumber(L, 2);
-    int size = luaL_checknumber(L, 3);
-    uint64_t address = luaL_checknumber(L, 4);
-    uint64_t value = luaL_checknumber(L, 5);
-    octeon_remote_write_csr(OCTEON_REMOTE_NODE, type, busnum, size, address, value);
+    int node = luaL_checknumber(L, 1);
+    int type = luaL_checknumber(L, 2);
+    int busnum = luaL_checknumber(L, 3);
+    int size = luaL_checknumber(L, 4);
+    uint64_t address = luaL_checknumber(L, 5);
+    uint64_t value = luaL_checknumber(L, 6);
+    octeon_remote_write_csr(node, type, busnum, size, address, value);
     return 0;
 }
 

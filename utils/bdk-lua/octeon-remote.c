@@ -664,7 +664,7 @@ void octeon_remote_close(void)
 uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address)
 {
     uint64_t result;
-    OCTEON_REMOTE_DEBUG_CALLED("%d, %d, %d, 0x%llx", type, busnum, size, (ULL)address);
+    OCTEON_REMOTE_DEBUG_CALLED("node=%d, type=%d, busnum=%d, size=%d, address=0x%llx", node, type, busnum, size, (ULL)address);
     octeon_remote_lock();
     uint64_t start_time = timing_get_clock();
     result = remote_funcs.read_csr(type, busnum, size, address);
@@ -684,7 +684,7 @@ uint64_t octeon_remote_read_csr(bdk_node_t node, bdk_csr_type_t type, int busnum
  */
 void octeon_remote_write_csr(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
-    OCTEON_REMOTE_DEBUG_CALLED("%d, %d, %d, 0x%llx, 0x%llx", type, busnum, size, (ULL)address, (ULL)value);
+    OCTEON_REMOTE_DEBUG_CALLED("node=%d, type=%d, busnum=%d, size=%d, address=0x%llx, value=0x%llx", node, type, busnum, size, (ULL)address, (ULL)value);
     octeon_remote_lock();
     uint64_t start_time = timing_get_clock();
     remote_funcs.write_csr(type, busnum, size, address, value);

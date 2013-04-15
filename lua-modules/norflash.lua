@@ -12,6 +12,7 @@ local log = logging.new("NOR")
 --local log = logging.new("NOR", logging.DEBUG)
 
 local norflash = {}
+local node = 0
 local init_complete = false
 local READ_CSR
 local WRITE_CSR
@@ -75,7 +76,7 @@ end
 local function nor_read_num(nor, offset, length)
     local address = nor.bootbus.base + bit64.lshift(1, 48)
     address = address + offset
-    local v = READ_CSR(CSR_TYPE_NCB, 0, length, address)
+    local v = READ_CSR(node, CSR_TYPE_NCB, 0, length, address)
     log:debug("Read%d 0x%x: 0x%x\n", length*8, address, v)
     return v
 end
@@ -88,7 +89,7 @@ local function nor_write_num(nor, offset, length, data)
     local address = nor.bootbus.base + bit64.lshift(1, 48)
     address = address + offset
     log:debug("Write%d 0x%x: 0x%x\n", length*8, address, data)
-    WRITE_CSR(CSR_TYPE_NCB, 0, length, address, data)
+    WRITE_CSR(node, CSR_TYPE_NCB, 0, length, address, data)
 end
 
 --
