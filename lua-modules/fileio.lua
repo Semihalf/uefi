@@ -38,6 +38,7 @@ end
 
 --- Transfer data from one file handle to another.
 function fileio.transfer(source_handle, dest_handle, length)
+    local on_target, unused = pcall(require, "octeon-internal")
     if length == nil then
         -- Assume no file is larger than 64GB
         length = 0x1000000000
@@ -54,6 +55,12 @@ function fileio.transfer(source_handle, dest_handle, length)
         end
         dest_handle:write(data)
         transfer_count = transfer_count + #data
+        if not on_target then
+            printf("\rTransferred %7d bytes", transfer_count)
+        end
+    end
+    if not on_target then
+        printf("\n")
     end
     return transfer_count
 end
