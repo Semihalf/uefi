@@ -818,6 +818,11 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
 
+    /* The hardware doesn't pad runt packets unless you tell it to on every
+        PKO send. The old Octeon way worked better */
+    if ((pko_send_hdr_s.s.total < 60) && (handle->flags & BDK_IF_FLAGS_HAS_FCS))
+        pko_send_hdr_s.s.total = 60;
+
     bdk_pko_send_link_s_t pko_send_link_s;
     pko_send_link_s = packet->packet;
 
