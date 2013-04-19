@@ -10130,7 +10130,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <32:0>  ADDR     R/W      0x0         NS        Address.
+ <32:0>  ADDR     R/W      0x0         NS        Address<39:7>.
  <63:33> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -10151,7 +10151,7 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <32:0>  ADDR     R/W      0x1ffffffff NS        Address.
+ <32:0>  ADDR     R/W      0x1ffffffff NS        Address<39:7>.
  <63:33> NS       RAZ      NS          NS        Reserved
 ----------------------------------------------------------------------------------------------------
 ===
@@ -12537,19 +12537,19 @@ Pos      Name    Type     Value     Value       Description
  <10:9>  HG_PAUSE_HGI R/W  0x2         2         HGI Field for HW generated HiGig pause packets	    |
 						  (XAUI mode only)				    |
  <8>     HG_EN    R/W      0x0         0         Enable HiGig Mode				    |
-						  When HG_EN is set and GMX_RX_UDD_SKP[SKIP]=12	    |
+						  When HG_EN is set and GMX_RX_UDD_SKP[LEN]=12	    |
 						   the interface is in HiGig/HiGig+ mode and the    |
 						   following must be set:			    |
 						   GMX_RX_FRM_CTL[PRE_CHK] == 0			    |
 						   GMX_RX_UDD_SKP[FCSSEL] == 0			    |
-						   GMX_RX_UDD_SKP[SKIP] == 12      		    |
+						   GMX_RX_UDD_SKP[LEN] == 12      		    |
 						   GMX_TX_APPEND[PREAMBLE] == 0			    |
-						  When HG_EN is set and GMX_RX_UDD_SKP[SKIP]=16	    |
+						  When HG_EN is set and GMX_RX_UDD_SKP[LEN]=16	    |
 						   the interface is in HiGig2 mode and the	    |
 						   following must be set:			    |
 						   GMX_RX_FRM_CTL[PRE_CHK] == 0			    |
 						   GMX_RX_UDD_SKP[FCSSEL] == 0			    |
-						   GMX_RX_UDD_SKP[SKIP] == 16			    |
+						   GMX_RX_UDD_SKP[LEN] == 16			    |
 						   GMX_TX_APPEND[PREAMBLE] == 0			    |
 						   GMX_PRT0_CBFC_CTL[RX_EN] == 0		    |
 						   GMX_PRT0_CBFC_CTL[TX_EN] == 0		    |
@@ -12740,7 +12740,7 @@ Pos      Name    Type     Value     Value       Description
                                                  bit value changes                                  |
 						  Only write in HiGig2 mode i.e. when		    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
 Notes:
 The TX_XOF[15:0] field in GMX(0..1)_TX_HG2_REG1 and the TX_XON[15:0] field in
 GMX(0..1)_TX_HG2_REG2 register map to the same 16 physical flops. When written with address of
@@ -12766,7 +12766,7 @@ Pos      Name    Type     Value     Value       Description
                                                  bit value changes                                  |
 						  Only write in HiGig2 mode i.e. when		    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
 Notes:
 The TX_XOF[15:0] field in GMX(0..1)_TX_HG2_REG1 and the TX_XON[15:0] field in
 GMX(0..1)_TX_HG2_REG2 register map to the same 16 physical flops. When written with address  of
@@ -12809,11 +12809,11 @@ Pos      Name    Type     Value     Value       Description
  <1>     TX_EN    R/W      0x0         0         When set, allow for CBFC Pause Packets		    |
 						  Must be clear in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
  <0>     RX_EN    R/W      0x0         0         When set, allow for CBFC Pause Packets		    |
 						  Must be clear in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
 
 Notes:
 XOFF for a specific port is XOFF<prt> = (PHYS_EN<prt> & PHYS_BP) | (LOGL_EN<prt> & LOGL_BP<prt>)
@@ -12833,7 +12833,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  XOFF     R/W1     0x0         0         Which ports to backpressure			    |
 						  Do not write in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -12850,7 +12850,7 @@ Pos      Name    Type     Value     Value       Description
  <15:0>  XON      R/W1C    0x0         0         Which ports to stop backpressure		    |
 						  Do not write in HiGig2 mode i.e. when 	    |
 						  GMX_TX_XAUI_CTL[HG_EN]=1 and			    |
-						  GMX_RX_UDD_SKP[SKIP]=16.			    |
+						  GMX_RX_UDD_SKP[LEN]=16.			    |
 ----------------------------------------------------------------------------------------------------
 ===
 
@@ -31084,7 +31084,7 @@ Pos      Name    Type     Value     Value       Description
  <63:6>  NS       RAZ       0           0        RESERVED
  <5:2>   MAX_READ R/W       8           8        Maximum number of outstanding data read commands
  <1>     STORE_LE R/W       0           0        Force STORE0 byte write address to little endian
- <0>     RESET    RAZ       0           0        Reset oneshot pulse (lasts for 4 cycles)
+ <0>     RESET    WR0       0           0        Reset oneshot pulse (lasts for 4 cycles)
 
 Notes:
  MAX_READ is a throttle to control NCB usage.  Values >8 are illegal.

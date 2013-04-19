@@ -2354,21 +2354,11 @@ registers:
           only the value of the ADJUST field described below is used.
 
       - name: --
-        bits: 23..18
+        bits: 23..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PARENT
-        bits: 17..13
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Parent queue index. The index of the shaping element at the next lower
-          hierachical level that accepts *this* shaping element's outputs.
-          Must match PKO_L2_SQ(0..511)_TOPOLOGY[PARENT].
 
       - name: YELLOW_DISABLE
         bits: 12
@@ -2453,43 +2443,11 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..55
+        bits: 63..44
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: CC_CHANNEL_SELECT
-        bits: 54
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Channel Credit Channel Select. Channels can be configured at
-          levels 2 and 3 of the PSE hierarchy. This selector specifies which
-          CC_CHANNEL value is used. Note that a channel configured at level 3
-          is prohibited from feeding into a channel at level 2. The default
-          value allows channels to be setup at level 3 without need to program
-          any level 2 CSRs.
-          0: Selects the level-3 CC_CHANNEL value.
-          1: Selects the level-2 CC_CHANNEL value.
-
-      - name: --
-        bits: 53..49
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PARENT
-        bits: 48..44
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Parent queue index. The index of the shaping element at the next lower
-          hierachical level that accepts *this* shaping element's outputs.
-          Must match PKO_L2_SQ(0..511)_TOPOLOGY[PARENT]
 
       - name: CC_CHANNEL
         bits: 43..32
@@ -2542,6 +2500,28 @@ registers:
           Hardware XOFF Status. The status of hardware xon/xoff. This is write-able to get around
           LUT issues and for reconfiguration.
 
+  - name: PKO_CHANNEL_LEVEL
+    title: PSE Level 2 Channel Level
+    address: 0x15400000800f0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CC_LEVEL
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Channel Credit Level. Channels can be configured at
+          levels 2 or 3 of the PSE hierarchy.
+          0: Selects the level-2 as the channel level.
+          1: Selects the level-3 as the channel level.
 
   - name: PKO_L1_SQ(0..31)_GREEN
     title: PSE Level 1 Shaping Queue Green State (Debug)
@@ -2736,21 +2716,11 @@ registers:
           only the value of the ADJUST field described below is used.
 
       - name: --
-        bits: 23..22
+        bits: 23..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PARENT
-        bits: 21..13
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Parent queue index. The index of the shaping element at the next lower
-          hierachical level that accepts *this* shaping element's outputs.
-          Must match PKO_L3_SQ(0..511)_TOPOLOGY[PARENT].
 
       - name: YELLOW_DISABLE
         bits: 12
@@ -2806,64 +2776,6 @@ registers:
     address: 0x1540000100030 + a*0x200
     bus: NCB
     inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
-
-  - name: PKO_L3_SQ(0..511)_CREDIT
-    title: PSE Level 3 Channel Credit
-    address: 0x1540000100038 + a*0x200
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..53
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PARENT
-        bits: 52..44
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Parent queue index. The index of the shaping element at the next lower
-          hierachical level that accepts *this* shaping element's outputs.
-          Must match PKO_L3_SQ(0..511)_TOPOLOGY[PARENT].
-
-      - name: CC_CHANNEL
-        bits: 43..32
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: See PKO_L2_SQ(0..511)_CREDIT[CC_CHANNEL].
-
-      - name: CC_WORD_CNT
-        bits: 31..12
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        description: See PKO_L2_SQ(0..511)_CREDIT[CC_WORD_CNT].
-
-      - name: CC_PACKET_CNT
-        bits: 11..2
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        description: See PKO_L2_SQ(0..511)_CREDIT[CC_PACKET_CNT].
-
-      - name: CC_ENABLE
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 1
-        description: See PKO_L2_SQ(0..511)_CREDIT[CC_ENABLE].
-
-      - name: HW_XOFF
-        bits: 0
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: See PKO_L2_SQ(0..511)_CREDIT[HW_XOFF].
-
 
   - name: PKO_L2_SQ(0..511)_GREEN
     title: PSE Level 2 Shaping Queue Green State (Debug)
@@ -3181,21 +3093,11 @@ registers:
           only the value of the ADJUST field described below is used.
 
       - name: --
-        bits: 23
+        bits: 23..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PARENT
-        bits: 22..13
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Parent queue index. The index of the shaping element at the next lower
-          hierachical level that accepts *this* shaping element's outputs.
-          Must match PKO_L5_SQ(0..1023)_TOPOLOGY[PARENT].
 
       - name: YELLOW_DISABLE
         bits: 12
@@ -3454,17 +3356,25 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: PTR_STS_FAIL_MODE
+      - name: DIAG_MODE
         bits: 2
         access: R/W
         reset: 0
         typical: 0
         description: |
-          2 Modes for status return:
-          0: this mode will fail send-packets when pointers are not available locally in PKO (or if
-          there are no pointers in the FPA).
-          1: this mode bit will make PKO/PDM only fail send-packets if no pointers are available in
-          the FPA, otherwise they will stall.
+          Enable to Read/Write to Memories in PDM thru CSR interface.
+
+#      - name: PTR_STS_FAIL_MODE
+#        bits: 2
+#        access: R/W
+#        reset: 0
+#        typical: 0
+#        description: |
+#          2 Modes for status return:
+#          0: this mode will fail send-packets when pointers are not available locally in PKO (or if
+#          there are no pointers in the FPA).
+#          1: this mode bit will make PKO/PDM only fail send-packets if no pointers are available in
+#          the FPA, otherwise they will stall.
 
       - name: ALLOC_LDS
         bits: 1
@@ -3505,7 +3415,7 @@ registers:
 
       - name: FPA_NO_PTRS
         bits: 2
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |
@@ -3513,7 +3423,7 @@ registers:
 
       - name: CP_PKT_DRP
         bits: 1
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |
@@ -3521,12 +3431,114 @@ registers:
 
       - name: DESC_CRC_ERR
         bits: 0
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |
           CRC error ocurred in a descriptor. (State may have been corrupted). Throws
           PKO_INTSN_E::PKO_DESC_CRC_ERR.
+
+#PDM MEMORY R/W CSRS
+  - name: PKO_PDM_MEM_DATA
+    title: PDM Mem Data Word 0 csr in PKO
+    address: 0x1540000800010
+    bus: NCB
+    fields:
+      - name: DATA
+        bits: 63..0
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: This is the raw data to write into the memory, or the raw data read out from the memory.
+
+
+  - name: PKO_PDM_MEM_ADDR
+    title: PDM mem R/W addr csr in PKO
+    address: 0x1540000800018
+    bus: NCB
+    fields:
+      - name: MEMSEL
+        bits: 63..61
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Selects the RAM to read or write to. (0=Invalid, 1=ISRM states, 2=ISRDstates, 3=DWPBUF, 4=DRPBUF, 5=MWPBUF)
+
+      - name: --
+        bits: 60..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MEMADDR
+        bits: 16..3
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: This is the memory address for the RAM.
+
+      - name: --
+        bits: 2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MEMBANKSEL
+        bits: 1..0
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Select the bank to write to.
+
+  - name: PKO_PDM_MEM_RW_CTL
+    title: PDM Mem Read/Write Control
+    address: 0x1540000800020
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..2
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: READ
+        bits: 1
+        access: WO/H
+        reset: 0
+        typical: --
+        description: Set 1 to read memory.
+
+      - name: WRITE
+        bits: 0
+        access: WO/H
+        reset: 0
+        typical: --
+        description: Set 1 to write memory.
+
+  - name: PKO_PDM_MEM_RW_STS
+    title: PDM Mem Read/Write Control
+    address: 0x1540000800028
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: READDONE
+        bits: 0
+        access: RC/H
+        reset: 0
+        typical: --
+        description: This will be set to 1 when the read is complete and the data is valid in the data register.
+
+
+#-------------
 
 
   - name: PKO_MAC(0..27)_CFG
@@ -3567,11 +3579,16 @@ registers:
         access: R/W
         reset: 0x1f
         typical: --
-        description: The PEB Tx FIFO number associated to the given MAC.  A value of 0x1F means unassigned.
+        description: |
+            The PEB Tx FIFO number assigned to the given MAC. A value of 0x1F 
+            means unassigned. Unused MACs must be assigned a FIFO_NUM=0x1F. For
+            each active MAC, a unique FIFO_NUM must be assigned. Legal values depend 
+            on the values in PKO_PTGF(0..7)_CFG.SIZE (see description below). Assigning 
+            the same FIFO_NUM to more than a single active MAC will have unpredictable results. 
 
 
   - name: PKO_PTF(0..27)_STATUS
-    title: PEB Tx FIFO / MAC translation status register
+    title: PKO Tx FIFO / MAC translation status register
     address: 0x1540000900100 + a*0x08
     bus: NCB
     fields:
@@ -3587,11 +3604,14 @@ registers:
         access: RO/H
         reset: 0x1f
         typical: --
-        description: The MAC assigned to the given PEB Tx FIFO.  A value of 0x1F means unassigned.
+        description: |
+            The MAC assigned to the given PKO Tx FIFO. A value of 0x1F means unassigned.
+            These registers values are derived automatically by the hardware from the 
+            PKO_MAC(0..27)_CFG.FIFO_NUM settings.
 
 
   - name: PKO_PTGF(0..7)_CFG
-    title: Configurations specific to the PEB Tx FIFO groups (clusters of 4 PEB Tx FIFOs)
+    title: Configurations specific to the PKO Tx FIFO groups (clusters of 4 PKO Tx FIFOs)
     address: 0x1540000900200 + a*0x08
     bus: NCB
     fields:
@@ -3608,16 +3628,45 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          xxx   FIFO0   FIFO1   FIFO2   FIFO3
-          000 :  2.5k    2.5k    2.5k    2.5k
-          001 :  5.0k    0.0k    2.5k    2.5k
-          010 :  2.5k    2.5k    5.0k    0.0k
-          011 :  5.0k    0.0k    5.0k    0.0k
-          1xx : 10.0k    0.0k    0.0k    0.0k
+          The PKO supports up to 29 independent TX FIFOs where 0-27 are physical and 28 is 
+          virtual. The FIFOs are grouped into 8 sets of four contiguously numbered queues 
+          where each FIFO has a base storage amount of 2.5K bytes of buffering. 
+
+          PKO_PTGF(0)_CFG -> FIFO#  0-3
+          PKO_PTGF(1)_CFG -> FIFO#  4-7
+          PKO_PTGF(2)_CFG -> FIFO#  8-11
+          PKO_PTGF(3)_CFG -> FIFO#  12-15
+          PKO_PTGF(4)_CFG -> FIFO#  16-19
+          PKO_PTGF(5)_CFG -> FIFO#  20-23
+          PKO_PTGF(6)_CFG -> FIFO#  24-27
+          PKO_PTGF(7)_CFG -> FIFO#  28   (Virtual/NULL)
+
+          Within each set, 2 or 4 FIFOs can be combined to produce a larger FIFO if desired. 
+          The SIZE field is used to configure the number and depth of the FIFOs in a set. The
+          supported options for a FIFO set are as follows:
+          
+          SIZE: Set of 4 Contiguously Numbered FIFOs        
+          ------------------------------------------
+          xxx      Queue0  Queue1  Queue2  Queue3 
+          000 :     2.5k    2.5k    2.5k    2.5k
+          001 :     5.0k    0.0k    2.5k    2.5k
+          010 :     2.5k    2.5k    5.0k    0.0k
+          011 :     5.0k    0.0k    5.0k    0.0k
+          1xx :    10.0k    0.0k    0.0k    0.0k
+
+          Note that when a FIFO is set to a size of 0K bytes that FIFO_NUM is no longer legal and
+          cannot be assigned to an active MAC. For example, for the set of FIFOs 8-11, if the 
+          PKO_PTGF(2)_CFG.SIZE = 3'b100 then FIFO_NUMs 9, 10 and 11 are no longer valid. Only
+          FIFO_NUM = 8 is available from this set for assignment to a MAC because all of the 
+          10 Kbytes of buffering was configured to FIFO#8.
+
+          FIFO_NUM = 28 is a virtual FIFO and is used exclusively to indicate the NULL FIFO. Packets
+          targeting the NULL FIFO are dropped by the PKO and their buffers returned to the FPA.
+
 
 
   - name: PKO_PTF_IOBP_CFG
-    title: PEB IOBP interface configuration
+    title: PKO IOBP interface configuration
     address: 0x1540000900300
     bus: NCB
     fields:
@@ -3650,8 +3699,8 @@ registers:
         description: Maximum number of IOBP1 read requests outstanding to be allowed by any given PEB Tx FIFO.
 
 
-  - name: PKO_PEB_SBE_INFO(0..21)
-    title: SBE ECC information for PEB memories
+  - name: PKO_PEB_SBE_INFO(0..20)
+    title: SBE ECC information for PKO Packet Engine & TX Buffer (PEB) Unit memories
     address: 0x1540000900400 + a*0x08
     bus: NCB
     fields:
@@ -3705,8 +3754,8 @@ registers:
         description: Value of the SYND output for the last captured single bit error.
 
 
-  - name: PKO_PEB_DBE_INFO(0..21)
-    title: DBE ECC information for PEB memories
+  - name: PKO_PEB_DBE_INFO(0..20)
+    title: DBE ECC information for PKO Packet Engine & TX Buffer (PEB) Unit memories
     address: 0x1540000900500 + a*0x08
     bus: NCB
     fields:
@@ -4218,6 +4267,30 @@ registers:
         description: FPA Aura number to use for PKO command buffering. Must be on local OCI node.
 
 
+  - name: PKO_DPFI_ENA
+    title: PKO Descriptor Manager FPA Interface Enable
+    address: 0x1540000C00018
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ENABLE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Setting this bit enables the PKO to request/return pointers to FPA. This enable must be set
+          after reset so the the PKO can fill its private pointer cache prior to setting the PKO_RDY
+          flag in the PKO_STATUS register.
+
+
+
   - name: PKO_STATUS
     title: PKO global status
     address: 0x1540000D00000
@@ -4657,8 +4730,24 @@ registers:
         description: |
           Single-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS1_RAM_SBE
+      - name: TP1_SRAM_SBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_SBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP0_SRAM. 
+    
+      - name: STS1_RAM_SBE
+        bits: 54
         access: RC/W/H
         reset: 0
         typical: --
@@ -4666,7 +4755,7 @@ registers:
           Single-bit error for STS1_RAM. 
     
       - name: STS0_RAM_SBE
-        bits: 55
+        bits: 53
         access: RC/W/H
         reset: 0
         typical: --
@@ -4674,7 +4763,7 @@ registers:
           Single-bit error for STS0_RAM. 
     
       - name: STD1_RAM_SBE
-        bits: 54
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -4682,7 +4771,7 @@ registers:
           Single-bit error for STD1_RAM. 
     
       - name: STD0_RAM_SBE
-        bits: 53
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -4690,7 +4779,7 @@ registers:
           Single-bit error for STD0_RAM. 
     
       - name: WT_RAM_SBE
-        bits: 52
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -4698,7 +4787,7 @@ registers:
           Single-bit error for WT_RAM. 
     
       - name: --
-        bits: 51..0
+        bits: 49..0
         access: ---
         reset: --
         typical: --
@@ -4789,8 +4878,40 @@ registers:
         description: |
           Single-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_SBE
+      - name: TP3_SRAM_SBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_SBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_SBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_SBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_SBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -4798,7 +4919,7 @@ registers:
           Single-bit error for STS3_RAM. 
     
       - name: STS2_RAM_SBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -4806,7 +4927,7 @@ registers:
           Single-bit error for STS2_RAM. 
     
       - name: STS1_RAM_SBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -4814,7 +4935,7 @@ registers:
           Single-bit error for STS1_RAM. 
     
       - name: STS0_RAM_SBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -4822,7 +4943,7 @@ registers:
           Single-bit error for STS0_RAM. 
     
       - name: STD3_RAM_SBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -4830,7 +4951,7 @@ registers:
           Single-bit error for STD3_RAM. 
     
       - name: STD2_RAM_SBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -4838,7 +4959,7 @@ registers:
           Single-bit error for STD2_RAM. 
     
       - name: STD1_RAM_SBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -4846,7 +4967,7 @@ registers:
           Single-bit error for STD1_RAM. 
     
       - name: STD0_RAM_SBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -4854,7 +4975,7 @@ registers:
           Single-bit error for STD0_RAM. 
     
       - name: WT_RAM_SBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -4862,7 +4983,7 @@ registers:
           Single-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -4913,16 +5034,8 @@ registers:
         description: |
           Single-bit error for FLSHB_CACHE_HI_RAM. 
     
-      - name: ISRD_O_RAM_SBE
-        bits: 61
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Single-bit error for ISRD_O_RAM. 
-    
       - name: ISRM_CA_IINST_RAM_SBE
-        bits: 60
+        bits: 61
         access: RC/W/H
         reset: 0
         typical: --
@@ -4930,55 +5043,71 @@ registers:
           Single-bit error for ISRM_CA_IINST_RAM. 
     
       - name: ISRM_CA_CM_RAM_SBE
-        bits: 59
+        bits: 60
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Single-bit error for ISRM_CA_CM_RAM. 
     
-      - name: ISRD_T_RAM_SBE
+      - name: ISRM_ST_RAM2_SBE
+        bits: 59
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for ISRM_ST_RAM2. 
+    
+      - name: ISRM_ST_RAM1_SBE
         bits: 58
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for ISRD_T_RAM. 
+          Single-bit error for ISRM_ST_RAM1. 
     
-      - name: ISRD_H_RAM_SBE
+      - name: ISRM_ST_RAM0_SBE
         bits: 57
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for ISRD_H_RAM. 
+          Single-bit error for ISRM_ST_RAM0. 
     
-      - name: ISRM_T_RAM_SBE
+      - name: ISRD_ST_RAM3_SBE
         bits: 56
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for ISRM_T_RAM. 
+          Single-bit error for ISRD_ST_RAM3. 
     
-      - name: ISRM_H_RAM_SBE
+      - name: ISRD_ST_RAM2_SBE
         bits: 55
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for ISRM_H_RAM. 
+          Single-bit error for ISRD_ST_RAM2. 
     
-      - name: ISRM_O_RAM_SBE
+      - name: ISRD_ST_RAM1_SBE
         bits: 54
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for ISRM_O_RAM. 
+          Single-bit error for ISRD_ST_RAM1. 
+    
+      - name: ISRD_ST_RAM0_SBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for ISRD_ST_RAM0. 
     
       - name: DRP_HI_RAM_SBE
-        bits: 53
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -4986,7 +5115,7 @@ registers:
           Single-bit error for DRP_HI_RAM. 
     
       - name: DRP_LO_RAM_SBE
-        bits: 52
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -4994,7 +5123,7 @@ registers:
           Single-bit error for DRP_LO_RAM. 
     
       - name: DWP_HI_RAM_SBE
-        bits: 51
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -5002,7 +5131,7 @@ registers:
           Single-bit error for DWP_HI_RAM. 
     
       - name: DWP_LO_RAM_SBE
-        bits: 50
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -5010,7 +5139,7 @@ registers:
           Single-bit error for DWP_LO_RAM. 
     
       - name: MWP_HI_RAM_SBE
-        bits: 49
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -5018,7 +5147,7 @@ registers:
           Single-bit error for MWP_HI_RAM. 
     
       - name: MWP_LO_RAM_SBE
-        bits: 48
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -5026,7 +5155,7 @@ registers:
           Single-bit error for MWP_LO_RAM. 
     
       - name: FILLB_M_DAT_RAM_SBE
-        bits: 47
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -5034,7 +5163,7 @@ registers:
           Single-bit error for FILLB_M_DAT_RAM. 
     
       - name: FILLB_D_DAT_RAM_SBE
-        bits: 46
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -5042,7 +5171,7 @@ registers:
           Single-bit error for FILLB_D_DAT_RAM. 
     
       - name: --
-        bits: 45..0
+        bits: 44..0
         access: ---
         reset: --
         typical: --
@@ -5093,8 +5222,24 @@ registers:
         description: |
           Single-bit error for CXD_RAM. 
     
-      - name: SQ_PT_RAM_SBE
+      - name: VC1_SRAM_SBE
         bits: 61
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for VC1_SRAM. 
+    
+      - name: VC0_SRAM_SBE
+        bits: 60
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for VC0_SRAM. 
+    
+      - name: SQ_PT_RAM_SBE
+        bits: 59
         access: RC/W/H
         reset: 0
         typical: --
@@ -5102,7 +5247,7 @@ registers:
           Single-bit error for SQ_PT_RAM. 
     
       - name: SQ_NT_RAM_SBE
-        bits: 60
+        bits: 58
         access: RC/W/H
         reset: 0
         typical: --
@@ -5110,7 +5255,7 @@ registers:
           Single-bit error for SQ_NT_RAM. 
     
       - name: RT_RAM_SBE
-        bits: 59
+        bits: 57
         access: RC/W/H
         reset: 0
         typical: --
@@ -5118,7 +5263,7 @@ registers:
           Single-bit error for RT_RAM. 
     
       - name: TW1_CMD_FIFO_RAM_SBE
-        bits: 58
+        bits: 56
         access: RC/W/H
         reset: 0
         typical: --
@@ -5126,15 +5271,31 @@ registers:
           Single-bit error for TW1_CMD_FIFO_RAM. 
     
       - name: TW0_CMD_FIFO_RAM_SBE
-        bits: 57
+        bits: 55
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Single-bit error for TW0_CMD_FIFO_RAM. 
     
+      - name: TP1_SRAM_SBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_SBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP0_SRAM. 
+    
       - name: STS1_RAM_SBE
-        bits: 56
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -5142,7 +5303,7 @@ registers:
           Single-bit error for STS1_RAM. 
     
       - name: STS0_RAM_SBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -5150,7 +5311,7 @@ registers:
           Single-bit error for STS0_RAM. 
     
       - name: STD1_RAM_SBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -5158,7 +5319,7 @@ registers:
           Single-bit error for STD1_RAM. 
     
       - name: STD0_RAM_SBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -5166,7 +5327,7 @@ registers:
           Single-bit error for STD0_RAM. 
     
       - name: WT_RAM_SBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -5174,7 +5335,7 @@ registers:
           Single-bit error for WT_RAM. 
     
       - name: --
-        bits: 51..0
+        bits: 47..0
         access: ---
         reset: --
         typical: --
@@ -5233,8 +5394,16 @@ registers:
         description: |
           Single-bit error for IRQ_FIFO_SRAM. 
     
-      - name: PQ_STD_RAM_SBE
+      - name: TP_SRAM_SBE
         bits: 60
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP_SRAM. 
+    
+      - name: PQ_STD_RAM_SBE
+        bits: 59
         access: RC/W/H
         reset: 0
         typical: --
@@ -5242,7 +5411,7 @@ registers:
           Single-bit error for PQ_STD_RAM. 
     
       - name: PQ_ST_RAM_SBE
-        bits: 59
+        bits: 58
         access: RC/W/H
         reset: 0
         typical: --
@@ -5250,7 +5419,7 @@ registers:
           Single-bit error for PQ_ST_RAM. 
     
       - name: PQ_WMD_RAM_SBE
-        bits: 58
+        bits: 57
         access: RC/W/H
         reset: 0
         typical: --
@@ -5258,7 +5427,7 @@ registers:
           Single-bit error for PQ_WMD_RAM. 
     
       - name: PQ_WMS_RAM_SBE
-        bits: 57
+        bits: 56
         access: RC/W/H
         reset: 0
         typical: --
@@ -5266,7 +5435,7 @@ registers:
           Single-bit error for PQ_WMS_RAM. 
     
       - name: --
-        bits: 56..0
+        bits: 55..0
         access: ---
         reset: --
         typical: --
@@ -5357,8 +5526,40 @@ registers:
         description: |
           Single-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_SBE
+      - name: TP3_SRAM_SBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_SBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_SBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_SBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_SBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -5366,7 +5567,7 @@ registers:
           Single-bit error for STS3_RAM. 
     
       - name: STS2_RAM_SBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -5374,7 +5575,7 @@ registers:
           Single-bit error for STS2_RAM. 
     
       - name: STS1_RAM_SBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -5382,7 +5583,7 @@ registers:
           Single-bit error for STS1_RAM. 
     
       - name: STS0_RAM_SBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -5390,7 +5591,7 @@ registers:
           Single-bit error for STS0_RAM. 
     
       - name: STD3_RAM_SBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -5398,7 +5599,7 @@ registers:
           Single-bit error for STD3_RAM. 
     
       - name: STD2_RAM_SBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -5406,7 +5607,7 @@ registers:
           Single-bit error for STD2_RAM. 
     
       - name: STD1_RAM_SBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -5414,7 +5615,7 @@ registers:
           Single-bit error for STD1_RAM. 
     
       - name: STD0_RAM_SBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -5422,7 +5623,7 @@ registers:
           Single-bit error for STD0_RAM. 
     
       - name: WT_RAM_SBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -5430,7 +5631,7 @@ registers:
           Single-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -5521,8 +5722,40 @@ registers:
         description: |
           Single-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_SBE
+      - name: TP3_SRAM_SBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_SBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_SBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_SBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_SBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -5530,7 +5763,7 @@ registers:
           Single-bit error for STS3_RAM. 
     
       - name: STS2_RAM_SBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -5538,7 +5771,7 @@ registers:
           Single-bit error for STS2_RAM. 
     
       - name: STS1_RAM_SBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -5546,7 +5779,7 @@ registers:
           Single-bit error for STS1_RAM. 
     
       - name: STS0_RAM_SBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -5554,7 +5787,7 @@ registers:
           Single-bit error for STS0_RAM. 
     
       - name: STD3_RAM_SBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -5562,7 +5795,7 @@ registers:
           Single-bit error for STD3_RAM. 
     
       - name: STD2_RAM_SBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -5570,7 +5803,7 @@ registers:
           Single-bit error for STD2_RAM. 
     
       - name: STD1_RAM_SBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -5578,7 +5811,7 @@ registers:
           Single-bit error for STD1_RAM. 
     
       - name: STD0_RAM_SBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -5586,7 +5819,7 @@ registers:
           Single-bit error for STD0_RAM. 
     
       - name: WT_RAM_SBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -5594,7 +5827,7 @@ registers:
           Single-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -5745,21 +5978,21 @@ registers:
         description: |
           Single-bit error for PDM_PSE_BUF_RAM. 
     
-      - name: PEB_ST_INF_RAM_SBE
+      - name: PEB_SM_JMP_RAM_SBE
         bits: 58
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for PEB_ST_INF_RAM. 
+          Single-bit error for PEB_SM_JMP_RAM. 
     
-      - name: JMP_BANK3_RAM_SBE
+      - name: PEB_ST_INF_RAM_SBE
         bits: 57
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Single-bit error for JMP_BANK3_RAM. 
+          Single-bit error for PEB_ST_INF_RAM. 
     
       - name: PD_BANK3_RAM_SBE
         bits: 56
@@ -5769,32 +6002,8 @@ registers:
         description: |
           Single-bit error for PD_BANK3_RAM. 
     
-      - name: JMP_BANK2_RAM_SBE
-        bits: 55
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Single-bit error for JMP_BANK2_RAM. 
-    
-      - name: JMP_BANK1_RAM_SBE
-        bits: 54
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Single-bit error for JMP_BANK1_RAM. 
-    
-      - name: JMP_BANK0_RAM_SBE
-        bits: 53
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Single-bit error for JMP_BANK0_RAM. 
-    
       - name: PD_BANK2_RAM_SBE
-        bits: 52
+        bits: 55
         access: RC/W/H
         reset: 0
         typical: --
@@ -5802,7 +6011,7 @@ registers:
           Single-bit error for PD_BANK2_RAM. 
     
       - name: PD_BANK1_RAM_SBE
-        bits: 51
+        bits: 54
         access: RC/W/H
         reset: 0
         typical: --
@@ -5810,7 +6019,7 @@ registers:
           Single-bit error for PD_BANK1_RAM. 
     
       - name: PD_BANK0_RAM_SBE
-        bits: 50
+        bits: 53
         access: RC/W/H
         reset: 0
         typical: --
@@ -5818,7 +6027,7 @@ registers:
           Single-bit error for PD_BANK0_RAM. 
     
       - name: PD_VAR_BANK_RAM_SBE
-        bits: 49
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -5826,7 +6035,7 @@ registers:
           Single-bit error for PD_VAR_BANK_RAM. 
     
       - name: TX_FIFO_CRC_RAM_SBE
-        bits: 48
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -5834,7 +6043,7 @@ registers:
           Single-bit error for TX_FIFO_CRC_RAM. 
     
       - name: TX_FIFO_HDR_RAM_SBE
-        bits: 47
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -5842,7 +6051,7 @@ registers:
           Single-bit error for TX_FIFO_HDR_RAM. 
     
       - name: TX_FIFO_PKT_RAM_SBE
-        bits: 46
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -5850,7 +6059,7 @@ registers:
           Single-bit error for TX_FIFO_PKT_RAM. 
     
       - name: ADD_WORK_FIFO_SBE
-        bits: 45
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -5858,7 +6067,7 @@ registers:
           Single-bit error for ADD_WORK_FIFO. 
     
       - name: SEND_MEM_FIFO_SBE
-        bits: 44
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -5866,15 +6075,23 @@ registers:
           Single-bit error for SEND_MEM_FIFO. 
     
       - name: SEND_MEM_STDN_FIFO_SBE
-        bits: 43
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Single-bit error for SEND_MEM_STDN_FIFO. 
     
+      - name: SEND_MEM_TS_FIFO_SBE
+        bits: 45
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Single-bit error for SEND_MEM_TS_FIFO. 
+    
       - name: NXT_LINK_PTR_RAM_SBE
-        bits: 42
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -5882,7 +6099,7 @@ registers:
           Single-bit error for NXT_LINK_PTR_RAM. 
     
       - name: PKT_MRK_RAM_SBE
-        bits: 41
+        bits: 43
         access: RC/W/H
         reset: 0
         typical: --
@@ -5890,7 +6107,7 @@ registers:
           Single-bit error for PKT_MRK_RAM. 
     
       - name: TS_ADDWORK_RAM_SBE
-        bits: 40
+        bits: 42
         access: RC/W/H
         reset: 0
         typical: --
@@ -5898,7 +6115,7 @@ registers:
           Single-bit error for TS_ADDWORK_RAM. 
     
       - name: --
-        bits: 39..0
+        bits: 41..0
         access: ---
         reset: --
         typical: --
@@ -6093,8 +6310,24 @@ registers:
         description: |
           Double-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS1_RAM_DBE
+      - name: TP1_SRAM_DBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_DBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP0_SRAM. 
+    
+      - name: STS1_RAM_DBE
+        bits: 54
         access: RC/W/H
         reset: 0
         typical: --
@@ -6102,7 +6335,7 @@ registers:
           Double-bit error for STS1_RAM. 
     
       - name: STS0_RAM_DBE
-        bits: 55
+        bits: 53
         access: RC/W/H
         reset: 0
         typical: --
@@ -6110,7 +6343,7 @@ registers:
           Double-bit error for STS0_RAM. 
     
       - name: STD1_RAM_DBE
-        bits: 54
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6118,7 +6351,7 @@ registers:
           Double-bit error for STD1_RAM. 
     
       - name: STD0_RAM_DBE
-        bits: 53
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6126,7 +6359,7 @@ registers:
           Double-bit error for STD0_RAM. 
     
       - name: WT_RAM_DBE
-        bits: 52
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6134,7 +6367,7 @@ registers:
           Double-bit error for WT_RAM. 
     
       - name: --
-        bits: 51..0
+        bits: 49..0
         access: ---
         reset: --
         typical: --
@@ -6225,8 +6458,40 @@ registers:
         description: |
           Double-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_DBE
+      - name: TP3_SRAM_DBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_DBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_DBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_DBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_DBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6234,7 +6499,7 @@ registers:
           Double-bit error for STS3_RAM. 
     
       - name: STS2_RAM_DBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6242,7 +6507,7 @@ registers:
           Double-bit error for STS2_RAM. 
     
       - name: STS1_RAM_DBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6250,7 +6515,7 @@ registers:
           Double-bit error for STS1_RAM. 
     
       - name: STS0_RAM_DBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -6258,7 +6523,7 @@ registers:
           Double-bit error for STS0_RAM. 
     
       - name: STD3_RAM_DBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -6266,7 +6531,7 @@ registers:
           Double-bit error for STD3_RAM. 
     
       - name: STD2_RAM_DBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -6274,7 +6539,7 @@ registers:
           Double-bit error for STD2_RAM. 
     
       - name: STD1_RAM_DBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -6282,7 +6547,7 @@ registers:
           Double-bit error for STD1_RAM. 
     
       - name: STD0_RAM_DBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -6290,7 +6555,7 @@ registers:
           Double-bit error for STD0_RAM. 
     
       - name: WT_RAM_DBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -6298,7 +6563,7 @@ registers:
           Double-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -6349,16 +6614,8 @@ registers:
         description: |
           Double-bit error for FLSHB_CACHE_HI_RAM. 
     
-      - name: ISRD_O_RAM_DBE
-        bits: 61
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Double-bit error for ISRD_O_RAM. 
-    
       - name: ISRM_CA_IINST_RAM_DBE
-        bits: 60
+        bits: 61
         access: RC/W/H
         reset: 0
         typical: --
@@ -6366,55 +6623,71 @@ registers:
           Double-bit error for ISRM_CA_IINST_RAM. 
     
       - name: ISRM_CA_CM_RAM_DBE
-        bits: 59
+        bits: 60
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Double-bit error for ISRM_CA_CM_RAM. 
     
-      - name: ISRD_T_RAM_DBE
+      - name: ISRM_ST_RAM2_DBE
+        bits: 59
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for ISRM_ST_RAM2. 
+    
+      - name: ISRM_ST_RAM1_DBE
         bits: 58
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for ISRD_T_RAM. 
+          Double-bit error for ISRM_ST_RAM1. 
     
-      - name: ISRD_H_RAM_DBE
+      - name: ISRM_ST_RAM0_DBE
         bits: 57
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for ISRD_H_RAM. 
+          Double-bit error for ISRM_ST_RAM0. 
     
-      - name: ISRM_T_RAM_DBE
+      - name: ISRD_ST_RAM3_DBE
         bits: 56
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for ISRM_T_RAM. 
+          Double-bit error for ISRD_ST_RAM3. 
     
-      - name: ISRM_H_RAM_DBE
+      - name: ISRD_ST_RAM2_DBE
         bits: 55
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for ISRM_H_RAM. 
+          Double-bit error for ISRD_ST_RAM2. 
     
-      - name: ISRM_O_RAM_DBE
+      - name: ISRD_ST_RAM1_DBE
         bits: 54
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for ISRM_O_RAM. 
+          Double-bit error for ISRD_ST_RAM1. 
+    
+      - name: ISRD_ST_RAM0_DBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for ISRD_ST_RAM0. 
     
       - name: DRP_HI_RAM_DBE
-        bits: 53
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6422,7 +6695,7 @@ registers:
           Double-bit error for DRP_HI_RAM. 
     
       - name: DRP_LO_RAM_DBE
-        bits: 52
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6430,7 +6703,7 @@ registers:
           Double-bit error for DRP_LO_RAM. 
     
       - name: DWP_HI_RAM_DBE
-        bits: 51
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6438,7 +6711,7 @@ registers:
           Double-bit error for DWP_HI_RAM. 
     
       - name: DWP_LO_RAM_DBE
-        bits: 50
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -6446,7 +6719,7 @@ registers:
           Double-bit error for DWP_LO_RAM. 
     
       - name: MWP_HI_RAM_DBE
-        bits: 49
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -6454,7 +6727,7 @@ registers:
           Double-bit error for MWP_HI_RAM. 
     
       - name: MWP_LO_RAM_DBE
-        bits: 48
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -6462,7 +6735,7 @@ registers:
           Double-bit error for MWP_LO_RAM. 
     
       - name: FILLB_M_DAT_RAM_DBE
-        bits: 47
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -6470,7 +6743,7 @@ registers:
           Double-bit error for FILLB_M_DAT_RAM. 
     
       - name: FILLB_D_DAT_RAM_DBE
-        bits: 46
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -6478,7 +6751,7 @@ registers:
           Double-bit error for FILLB_D_DAT_RAM. 
     
       - name: --
-        bits: 45..0
+        bits: 44..0
         access: ---
         reset: --
         typical: --
@@ -6529,8 +6802,24 @@ registers:
         description: |
           Double-bit error for CXD_RAM. 
     
-      - name: SQ_PT_RAM_DBE
+      - name: VC1_SRAM_DBE
         bits: 61
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for VC1_SRAM. 
+    
+      - name: VC0_SRAM_DBE
+        bits: 60
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for VC0_SRAM. 
+    
+      - name: SQ_PT_RAM_DBE
+        bits: 59
         access: RC/W/H
         reset: 0
         typical: --
@@ -6538,7 +6827,7 @@ registers:
           Double-bit error for SQ_PT_RAM. 
     
       - name: SQ_NT_RAM_DBE
-        bits: 60
+        bits: 58
         access: RC/W/H
         reset: 0
         typical: --
@@ -6546,7 +6835,7 @@ registers:
           Double-bit error for SQ_NT_RAM. 
     
       - name: RT_RAM_DBE
-        bits: 59
+        bits: 57
         access: RC/W/H
         reset: 0
         typical: --
@@ -6554,7 +6843,7 @@ registers:
           Double-bit error for RT_RAM. 
     
       - name: TW1_CMD_FIFO_RAM_DBE
-        bits: 58
+        bits: 56
         access: RC/W/H
         reset: 0
         typical: --
@@ -6562,15 +6851,31 @@ registers:
           Double-bit error for TW1_CMD_FIFO_RAM. 
     
       - name: TW0_CMD_FIFO_RAM_DBE
-        bits: 57
+        bits: 55
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Double-bit error for TW0_CMD_FIFO_RAM. 
     
+      - name: TP1_SRAM_DBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_DBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP0_SRAM. 
+    
       - name: STS1_RAM_DBE
-        bits: 56
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6578,7 +6883,7 @@ registers:
           Double-bit error for STS1_RAM. 
     
       - name: STS0_RAM_DBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6586,7 +6891,7 @@ registers:
           Double-bit error for STS0_RAM. 
     
       - name: STD1_RAM_DBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6594,7 +6899,7 @@ registers:
           Double-bit error for STD1_RAM. 
     
       - name: STD0_RAM_DBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -6602,7 +6907,7 @@ registers:
           Double-bit error for STD0_RAM. 
     
       - name: WT_RAM_DBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -6610,7 +6915,7 @@ registers:
           Double-bit error for WT_RAM. 
     
       - name: --
-        bits: 51..0
+        bits: 47..0
         access: ---
         reset: --
         typical: --
@@ -6669,8 +6974,16 @@ registers:
         description: |
           Double-bit error for IRQ_FIFO_SRAM. 
     
-      - name: PQ_STD_RAM_DBE
+      - name: TP_SRAM_DBE
         bits: 60
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP_SRAM. 
+    
+      - name: PQ_STD_RAM_DBE
+        bits: 59
         access: RC/W/H
         reset: 0
         typical: --
@@ -6678,7 +6991,7 @@ registers:
           Double-bit error for PQ_STD_RAM. 
     
       - name: PQ_ST_RAM_DBE
-        bits: 59
+        bits: 58
         access: RC/W/H
         reset: 0
         typical: --
@@ -6686,7 +6999,7 @@ registers:
           Double-bit error for PQ_ST_RAM. 
     
       - name: PQ_WMD_RAM_DBE
-        bits: 58
+        bits: 57
         access: RC/W/H
         reset: 0
         typical: --
@@ -6694,7 +7007,7 @@ registers:
           Double-bit error for PQ_WMD_RAM. 
     
       - name: PQ_WMS_RAM_DBE
-        bits: 57
+        bits: 56
         access: RC/W/H
         reset: 0
         typical: --
@@ -6702,7 +7015,7 @@ registers:
           Double-bit error for PQ_WMS_RAM. 
     
       - name: --
-        bits: 56..0
+        bits: 55..0
         access: ---
         reset: --
         typical: --
@@ -6793,8 +7106,40 @@ registers:
         description: |
           Double-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_DBE
+      - name: TP3_SRAM_DBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_DBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_DBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_DBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_DBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6802,7 +7147,7 @@ registers:
           Double-bit error for STS3_RAM. 
     
       - name: STS2_RAM_DBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6810,7 +7155,7 @@ registers:
           Double-bit error for STS2_RAM. 
     
       - name: STS1_RAM_DBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6818,7 +7163,7 @@ registers:
           Double-bit error for STS1_RAM. 
     
       - name: STS0_RAM_DBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -6826,7 +7171,7 @@ registers:
           Double-bit error for STS0_RAM. 
     
       - name: STD3_RAM_DBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -6834,7 +7179,7 @@ registers:
           Double-bit error for STD3_RAM. 
     
       - name: STD2_RAM_DBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -6842,7 +7187,7 @@ registers:
           Double-bit error for STD2_RAM. 
     
       - name: STD1_RAM_DBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -6850,7 +7195,7 @@ registers:
           Double-bit error for STD1_RAM. 
     
       - name: STD0_RAM_DBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -6858,7 +7203,7 @@ registers:
           Double-bit error for STD0_RAM. 
     
       - name: WT_RAM_DBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -6866,7 +7211,7 @@ registers:
           Double-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -6957,8 +7302,40 @@ registers:
         description: |
           Double-bit error for TW0_CMD_FIFO_RAM. 
     
-      - name: STS3_RAM_DBE
+      - name: TP3_SRAM_DBE
         bits: 56
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP3_SRAM. 
+    
+      - name: TP2_SRAM_DBE
+        bits: 55
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP2_SRAM. 
+    
+      - name: TP1_SRAM_DBE
+        bits: 54
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP1_SRAM. 
+    
+      - name: TP0_SRAM_DBE
+        bits: 53
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for TP0_SRAM. 
+    
+      - name: STS3_RAM_DBE
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -6966,7 +7343,7 @@ registers:
           Double-bit error for STS3_RAM. 
     
       - name: STS2_RAM_DBE
-        bits: 55
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -6974,7 +7351,7 @@ registers:
           Double-bit error for STS2_RAM. 
     
       - name: STS1_RAM_DBE
-        bits: 54
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -6982,7 +7359,7 @@ registers:
           Double-bit error for STS1_RAM. 
     
       - name: STS0_RAM_DBE
-        bits: 53
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -6990,7 +7367,7 @@ registers:
           Double-bit error for STS0_RAM. 
     
       - name: STD3_RAM_DBE
-        bits: 52
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -6998,7 +7375,7 @@ registers:
           Double-bit error for STD3_RAM. 
     
       - name: STD2_RAM_DBE
-        bits: 51
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -7006,7 +7383,7 @@ registers:
           Double-bit error for STD2_RAM. 
     
       - name: STD1_RAM_DBE
-        bits: 50
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
@@ -7014,7 +7391,7 @@ registers:
           Double-bit error for STD1_RAM. 
     
       - name: STD0_RAM_DBE
-        bits: 49
+        bits: 45
         access: RC/W/H
         reset: 0
         typical: --
@@ -7022,7 +7399,7 @@ registers:
           Double-bit error for STD0_RAM. 
     
       - name: WT_RAM_DBE
-        bits: 48
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -7030,7 +7407,7 @@ registers:
           Double-bit error for WT_RAM. 
     
       - name: --
-        bits: 47..0
+        bits: 43..0
         access: ---
         reset: --
         typical: --
@@ -7181,21 +7558,21 @@ registers:
         description: |
           Double-bit error for PDM_PSE_BUF_RAM. 
     
-      - name: PEB_ST_INF_RAM_DBE
+      - name: PEB_SM_JMP_RAM_DBE
         bits: 58
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for PEB_ST_INF_RAM. 
+          Double-bit error for PEB_SM_JMP_RAM. 
     
-      - name: JMP_BANK3_RAM_DBE
+      - name: PEB_ST_INF_RAM_DBE
         bits: 57
         access: RC/W/H
         reset: 0
         typical: --
         description: |
-          Double-bit error for JMP_BANK3_RAM. 
+          Double-bit error for PEB_ST_INF_RAM. 
     
       - name: PD_BANK3_RAM_DBE
         bits: 56
@@ -7205,32 +7582,8 @@ registers:
         description: |
           Double-bit error for PD_BANK3_RAM. 
     
-      - name: JMP_BANK2_RAM_DBE
-        bits: 55
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Double-bit error for JMP_BANK2_RAM. 
-    
-      - name: JMP_BANK1_RAM_DBE
-        bits: 54
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Double-bit error for JMP_BANK1_RAM. 
-    
-      - name: JMP_BANK0_RAM_DBE
-        bits: 53
-        access: RC/W/H
-        reset: 0
-        typical: --
-        description: |
-          Double-bit error for JMP_BANK0_RAM. 
-    
       - name: PD_BANK2_RAM_DBE
-        bits: 52
+        bits: 55
         access: RC/W/H
         reset: 0
         typical: --
@@ -7238,7 +7591,7 @@ registers:
           Double-bit error for PD_BANK2_RAM. 
     
       - name: PD_BANK1_RAM_DBE
-        bits: 51
+        bits: 54
         access: RC/W/H
         reset: 0
         typical: --
@@ -7246,7 +7599,7 @@ registers:
           Double-bit error for PD_BANK1_RAM. 
     
       - name: PD_BANK0_RAM_DBE
-        bits: 50
+        bits: 53
         access: RC/W/H
         reset: 0
         typical: --
@@ -7254,7 +7607,7 @@ registers:
           Double-bit error for PD_BANK0_RAM. 
     
       - name: PD_VAR_BANK_RAM_DBE
-        bits: 49
+        bits: 52
         access: RC/W/H
         reset: 0
         typical: --
@@ -7262,7 +7615,7 @@ registers:
           Double-bit error for PD_VAR_BANK_RAM. 
     
       - name: TX_FIFO_CRC_RAM_DBE
-        bits: 48
+        bits: 51
         access: RC/W/H
         reset: 0
         typical: --
@@ -7270,7 +7623,7 @@ registers:
           Double-bit error for TX_FIFO_CRC_RAM. 
     
       - name: TX_FIFO_HDR_RAM_DBE
-        bits: 47
+        bits: 50
         access: RC/W/H
         reset: 0
         typical: --
@@ -7278,7 +7631,7 @@ registers:
           Double-bit error for TX_FIFO_HDR_RAM. 
     
       - name: TX_FIFO_PKT_RAM_DBE
-        bits: 46
+        bits: 49
         access: RC/W/H
         reset: 0
         typical: --
@@ -7286,7 +7639,7 @@ registers:
           Double-bit error for TX_FIFO_PKT_RAM. 
     
       - name: ADD_WORK_FIFO_DBE
-        bits: 45
+        bits: 48
         access: RC/W/H
         reset: 0
         typical: --
@@ -7294,7 +7647,7 @@ registers:
           Double-bit error for ADD_WORK_FIFO. 
     
       - name: SEND_MEM_FIFO_DBE
-        bits: 44
+        bits: 47
         access: RC/W/H
         reset: 0
         typical: --
@@ -7302,15 +7655,23 @@ registers:
           Double-bit error for SEND_MEM_FIFO. 
     
       - name: SEND_MEM_STDN_FIFO_DBE
-        bits: 43
+        bits: 46
         access: RC/W/H
         reset: 0
         typical: --
         description: |
           Double-bit error for SEND_MEM_STDN_FIFO. 
     
+      - name: SEND_MEM_TS_FIFO_DBE
+        bits: 45
+        access: RC/W/H
+        reset: 0
+        typical: --
+        description: |
+          Double-bit error for SEND_MEM_TS_FIFO. 
+    
       - name: NXT_LINK_PTR_RAM_DBE
-        bits: 42
+        bits: 44
         access: RC/W/H
         reset: 0
         typical: --
@@ -7318,7 +7679,7 @@ registers:
           Double-bit error for NXT_LINK_PTR_RAM. 
     
       - name: PKT_MRK_RAM_DBE
-        bits: 41
+        bits: 43
         access: RC/W/H
         reset: 0
         typical: --
@@ -7326,7 +7687,7 @@ registers:
           Double-bit error for PKT_MRK_RAM. 
     
       - name: TS_ADDWORK_RAM_DBE
-        bits: 40
+        bits: 42
         access: RC/W/H
         reset: 0
         typical: --
@@ -7334,7 +7695,7 @@ registers:
           Double-bit error for TS_ADDWORK_RAM. 
     
       - name: --
-        bits: 39..0
+        bits: 41..0
         access: ---
         reset: --
         typical: --
@@ -7535,78 +7896,106 @@ registers:
         typical: 0
         description: TW0_CMD_FIFO_RAM ECC correction disable.
     
-      - name: STS1_RAM_FLIP
+      - name: TP1_SRAM_FLIP
         bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP1_SRAM flip syndrome bits on write.
+
+      - name: TP1_SRAM_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP1_SRAM ECC correction disable.
+    
+      - name: TP0_SRAM_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP0_SRAM flip syndrome bits on write.
+
+      - name: TP0_SRAM_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP0_SRAM ECC correction disable.
+    
+      - name: STS1_RAM_FLIP
+        bits: 36..35
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS1_RAM flip syndrome bits on write.
 
       - name: STS1_RAM_CDIS
-        bits: 40
+        bits: 34
         access: R/W
         reset: 0
         typical: 0
         description: STS1_RAM ECC correction disable.
     
       - name: STS0_RAM_FLIP
-        bits: 39..38
+        bits: 33..32
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS0_RAM flip syndrome bits on write.
 
       - name: STS0_RAM_CDIS
-        bits: 37
+        bits: 31
         access: R/W
         reset: 0
         typical: 0
         description: STS0_RAM ECC correction disable.
     
       - name: STD1_RAM_FLIP
-        bits: 36..35
+        bits: 30..29
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD1_RAM flip syndrome bits on write.
 
       - name: STD1_RAM_CDIS
-        bits: 34
+        bits: 28
         access: R/W
         reset: 0
         typical: 0
         description: STD1_RAM ECC correction disable.
     
       - name: STD0_RAM_FLIP
-        bits: 33..32
+        bits: 27..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD0_RAM flip syndrome bits on write.
 
       - name: STD0_RAM_CDIS
-        bits: 31
+        bits: 25
         access: R/W
         reset: 0
         typical: 0
         description: STD0_RAM ECC correction disable.
     
       - name: WT_RAM_FLIP
-        bits: 30..29
+        bits: 24..23
         access: R/W
         reset: 0x0
         typical: 0x0
         description: WT_RAM flip syndrome bits on write.
 
       - name: WT_RAM_CDIS
-        bits: 28
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
         description: WT_RAM ECC correction disable.
     
       - name: --
-        bits: 27..0
+        bits: 21..0
         access: ---
         reset: --
         typical: --
@@ -7719,89 +8108,667 @@ registers:
         typical: 0
         description: TW0_CMD_FIFO_RAM ECC correction disable.
     
-      - name: STS3_RAM_FLIP
+      - name: TP3_SRAM_FLIP
         bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP3_SRAM flip syndrome bits on write.
+
+      - name: TP3_SRAM_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP3_SRAM ECC correction disable.
+    
+      - name: TP2_SRAM_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP2_SRAM flip syndrome bits on write.
+
+      - name: TP2_SRAM_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP2_SRAM ECC correction disable.
+    
+      - name: TP1_SRAM_FLIP
+        bits: 36..35
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP1_SRAM flip syndrome bits on write.
+
+      - name: TP1_SRAM_CDIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP1_SRAM ECC correction disable.
+    
+      - name: TP0_SRAM_FLIP
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP0_SRAM flip syndrome bits on write.
+
+      - name: TP0_SRAM_CDIS
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP0_SRAM ECC correction disable.
+    
+      - name: STS3_RAM_FLIP
+        bits: 30..29
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS3_RAM flip syndrome bits on write.
 
       - name: STS3_RAM_CDIS
-        bits: 40
+        bits: 28
         access: R/W
         reset: 0
         typical: 0
         description: STS3_RAM ECC correction disable.
     
       - name: STS2_RAM_FLIP
-        bits: 39..38
+        bits: 27..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS2_RAM flip syndrome bits on write.
 
       - name: STS2_RAM_CDIS
-        bits: 37
+        bits: 25
         access: R/W
         reset: 0
         typical: 0
         description: STS2_RAM ECC correction disable.
     
       - name: STS1_RAM_FLIP
-        bits: 36..35
+        bits: 24..23
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS1_RAM flip syndrome bits on write.
 
       - name: STS1_RAM_CDIS
-        bits: 34
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
         description: STS1_RAM ECC correction disable.
     
       - name: STS0_RAM_FLIP
-        bits: 33..32
+        bits: 21..20
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS0_RAM flip syndrome bits on write.
 
       - name: STS0_RAM_CDIS
-        bits: 31
+        bits: 19
         access: R/W
         reset: 0
         typical: 0
         description: STS0_RAM ECC correction disable.
     
       - name: STD3_RAM_FLIP
-        bits: 30..29
+        bits: 18..17
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD3_RAM flip syndrome bits on write.
 
       - name: STD3_RAM_CDIS
-        bits: 28
+        bits: 16
         access: R/W
         reset: 0
         typical: 0
         description: STD3_RAM ECC correction disable.
     
       - name: STD2_RAM_FLIP
-        bits: 27..26
+        bits: 15..14
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD2_RAM flip syndrome bits on write.
 
       - name: STD2_RAM_CDIS
-        bits: 25
+        bits: 13
         access: R/W
         reset: 0
         typical: 0
         description: STD2_RAM ECC correction disable.
+    
+      - name: STD1_RAM_FLIP
+        bits: 12..11
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: STD1_RAM flip syndrome bits on write.
+
+      - name: STD1_RAM_CDIS
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: STD1_RAM ECC correction disable.
+    
+      - name: STD0_RAM_FLIP
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: STD0_RAM flip syndrome bits on write.
+
+      - name: STD0_RAM_CDIS
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: STD0_RAM ECC correction disable.
+    
+      - name: WT_RAM_FLIP
+        bits: 6..5
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: WT_RAM flip syndrome bits on write.
+
+      - name: WT_RAM_CDIS
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: WT_RAM ECC correction disable.
+    
+      - name: --
+        bits: 3..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+#*** THE FOLLOWING CSR WAS AUTOGENERATED - edit fields in pko.mem (not here) & talk to ajones to regenerate ***
+  - name: PKO_PDM_ECC_CTL0
+    title: PDM RAM ECC Control Register 0
+    address: 0x15400008fffd0
+    bus: NCB
+    attributes:
+      regtest_skip: "True"
+    fields:
+    
+      - name: FLSHB_CACHE_LO_RAM_FLIP
+        bits: 63..62
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: FLSHB_CACHE_LO_RAM flip syndrome bits on write.
+
+      - name: FLSHB_CACHE_LO_RAM_CDIS
+        bits: 61
+        access: R/W
+        reset: 0
+        typical: 0
+        description: FLSHB_CACHE_LO_RAM ECC correction disable.
+    
+      - name: FLSHB_CACHE_HI_RAM_FLIP
+        bits: 60..59
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: FLSHB_CACHE_HI_RAM flip syndrome bits on write.
+
+      - name: FLSHB_CACHE_HI_RAM_CDIS
+        bits: 58
+        access: R/W
+        reset: 0
+        typical: 0
+        description: FLSHB_CACHE_HI_RAM ECC correction disable.
+    
+      - name: ISRM_CA_IINST_RAM_FLIP
+        bits: 57..56
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRM_CA_IINST_RAM flip syndrome bits on write.
+
+      - name: ISRM_CA_IINST_RAM_CDIS
+        bits: 55
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRM_CA_IINST_RAM ECC correction disable.
+    
+      - name: ISRM_CA_CM_RAM_FLIP
+        bits: 54..53
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRM_CA_CM_RAM flip syndrome bits on write.
+
+      - name: ISRM_CA_CM_RAM_CDIS
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRM_CA_CM_RAM ECC correction disable.
+    
+      - name: ISRM_ST_RAM2_FLIP
+        bits: 51..50
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRM_ST_RAM2 flip syndrome bits on write.
+
+      - name: ISRM_ST_RAM2_CDIS
+        bits: 49
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRM_ST_RAM2 ECC correction disable.
+    
+      - name: ISRM_ST_RAM1_FLIP
+        bits: 48..47
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRM_ST_RAM1 flip syndrome bits on write.
+
+      - name: ISRM_ST_RAM1_CDIS
+        bits: 46
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRM_ST_RAM1 ECC correction disable.
+    
+      - name: ISRM_ST_RAM0_FLIP
+        bits: 45..44
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRM_ST_RAM0 flip syndrome bits on write.
+
+      - name: ISRM_ST_RAM0_CDIS
+        bits: 43
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRM_ST_RAM0 ECC correction disable.
+    
+      - name: ISRD_ST_RAM3_FLIP
+        bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRD_ST_RAM3 flip syndrome bits on write.
+
+      - name: ISRD_ST_RAM3_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRD_ST_RAM3 ECC correction disable.
+    
+      - name: ISRD_ST_RAM2_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRD_ST_RAM2 flip syndrome bits on write.
+
+      - name: ISRD_ST_RAM2_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRD_ST_RAM2 ECC correction disable.
+    
+      - name: ISRD_ST_RAM1_FLIP
+        bits: 36..35
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRD_ST_RAM1 flip syndrome bits on write.
+
+      - name: ISRD_ST_RAM1_CDIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRD_ST_RAM1 ECC correction disable.
+    
+      - name: ISRD_ST_RAM0_FLIP
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: ISRD_ST_RAM0 flip syndrome bits on write.
+
+      - name: ISRD_ST_RAM0_CDIS
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: ISRD_ST_RAM0 ECC correction disable.
+    
+      - name: DRP_HI_RAM_FLIP
+        bits: 30..29
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: DRP_HI_RAM flip syndrome bits on write.
+
+      - name: DRP_HI_RAM_CDIS
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DRP_HI_RAM ECC correction disable.
+    
+      - name: DRP_LO_RAM_FLIP
+        bits: 27..26
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: DRP_LO_RAM flip syndrome bits on write.
+
+      - name: DRP_LO_RAM_CDIS
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DRP_LO_RAM ECC correction disable.
+    
+      - name: DWP_HI_RAM_FLIP
+        bits: 24..23
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: DWP_HI_RAM flip syndrome bits on write.
+
+      - name: DWP_HI_RAM_CDIS
+        bits: 22
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DWP_HI_RAM ECC correction disable.
+    
+      - name: DWP_LO_RAM_FLIP
+        bits: 21..20
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: DWP_LO_RAM flip syndrome bits on write.
+
+      - name: DWP_LO_RAM_CDIS
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DWP_LO_RAM ECC correction disable.
+    
+      - name: MWP_HI_RAM_FLIP
+        bits: 18..17
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: MWP_HI_RAM flip syndrome bits on write.
+
+      - name: MWP_HI_RAM_CDIS
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: MWP_HI_RAM ECC correction disable.
+    
+      - name: MWP_LO_RAM_FLIP
+        bits: 15..14
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: MWP_LO_RAM flip syndrome bits on write.
+
+      - name: MWP_LO_RAM_CDIS
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: MWP_LO_RAM ECC correction disable.
+    
+      - name: FILLB_M_DAT_RAM_FLIP
+        bits: 12..11
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: FILLB_M_DAT_RAM flip syndrome bits on write.
+
+      - name: FILLB_M_DAT_RAM_CDIS
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: FILLB_M_DAT_RAM ECC correction disable.
+    
+      - name: FILLB_D_DAT_RAM_FLIP
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: FILLB_D_DAT_RAM flip syndrome bits on write.
+
+      - name: FILLB_D_DAT_RAM_CDIS
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: FILLB_D_DAT_RAM ECC correction disable.
+    
+      - name: --
+        bits: 6..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+#*** THE FOLLOWING CSR WAS AUTOGENERATED - edit fields in pko.mem (not here) & talk to ajones to regenerate ***
+  - name: PKO_PSE_SQ1_ECC_CTL0
+    title: PSE_SQ1 RAM ECC Control Register 0
+    address: 0x1540000080100
+    bus: NCB
+    attributes:
+      regtest_skip: "True"
+    fields:
+    
+      - name: CXS_RAM_FLIP
+        bits: 63..62
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CXS_RAM flip syndrome bits on write.
+
+      - name: CXS_RAM_CDIS
+        bits: 61
+        access: R/W
+        reset: 0
+        typical: 0
+        description: CXS_RAM ECC correction disable.
+    
+      - name: CXD_RAM_FLIP
+        bits: 60..59
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: CXD_RAM flip syndrome bits on write.
+
+      - name: CXD_RAM_CDIS
+        bits: 58
+        access: R/W
+        reset: 0
+        typical: 0
+        description: CXD_RAM ECC correction disable.
+    
+      - name: VC1_SRAM_FLIP
+        bits: 57..56
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: VC1_SRAM flip syndrome bits on write.
+
+      - name: VC1_SRAM_CDIS
+        bits: 55
+        access: R/W
+        reset: 0
+        typical: 0
+        description: VC1_SRAM ECC correction disable.
+    
+      - name: VC0_SRAM_FLIP
+        bits: 54..53
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: VC0_SRAM flip syndrome bits on write.
+
+      - name: VC0_SRAM_CDIS
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 0
+        description: VC0_SRAM ECC correction disable.
+    
+      - name: SQ_PT_RAM_FLIP
+        bits: 51..50
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SQ_PT_RAM flip syndrome bits on write.
+
+      - name: SQ_PT_RAM_CDIS
+        bits: 49
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SQ_PT_RAM ECC correction disable.
+    
+      - name: SQ_NT_RAM_FLIP
+        bits: 48..47
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SQ_NT_RAM flip syndrome bits on write.
+
+      - name: SQ_NT_RAM_CDIS
+        bits: 46
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SQ_NT_RAM ECC correction disable.
+    
+      - name: RT_RAM_FLIP
+        bits: 45..44
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RT_RAM flip syndrome bits on write.
+
+      - name: RT_RAM_CDIS
+        bits: 43
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RT_RAM ECC correction disable.
+    
+      - name: TW1_CMD_FIFO_RAM_FLIP
+        bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TW1_CMD_FIFO_RAM flip syndrome bits on write.
+
+      - name: TW1_CMD_FIFO_RAM_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TW1_CMD_FIFO_RAM ECC correction disable.
+    
+      - name: TW0_CMD_FIFO_RAM_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TW0_CMD_FIFO_RAM flip syndrome bits on write.
+
+      - name: TW0_CMD_FIFO_RAM_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TW0_CMD_FIFO_RAM ECC correction disable.
+    
+      - name: TP1_SRAM_FLIP
+        bits: 36..35
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP1_SRAM flip syndrome bits on write.
+
+      - name: TP1_SRAM_CDIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP1_SRAM ECC correction disable.
+    
+      - name: TP0_SRAM_FLIP
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP0_SRAM flip syndrome bits on write.
+
+      - name: TP0_SRAM_CDIS
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP0_SRAM ECC correction disable.
+    
+      - name: STS1_RAM_FLIP
+        bits: 30..29
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: STS1_RAM flip syndrome bits on write.
+
+      - name: STS1_RAM_CDIS
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 0
+        description: STS1_RAM ECC correction disable.
+    
+      - name: STS0_RAM_FLIP
+        bits: 27..26
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: STS0_RAM flip syndrome bits on write.
+
+      - name: STS0_RAM_CDIS
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: 0
+        description: STS0_RAM ECC correction disable.
     
       - name: STD1_RAM_FLIP
         bits: 24..23
@@ -7847,458 +8814,6 @@ registers:
     
       - name: --
         bits: 15..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-#*** THE FOLLOWING CSR WAS AUTOGENERATED - edit fields in pko.mem (not here) & talk to ajones to regenerate ***
-  - name: PKO_PDM_ECC_CTL0
-    title: PDM RAM ECC Control Register 0
-    address: 0x15400008fffd0
-    bus: NCB
-    attributes:
-      regtest_skip: "True"
-    fields:
-    
-      - name: FLSHB_CACHE_LO_RAM_FLIP
-        bits: 63..62
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: FLSHB_CACHE_LO_RAM flip syndrome bits on write.
-
-      - name: FLSHB_CACHE_LO_RAM_CDIS
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: 0
-        description: FLSHB_CACHE_LO_RAM ECC correction disable.
-    
-      - name: FLSHB_CACHE_HI_RAM_FLIP
-        bits: 60..59
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: FLSHB_CACHE_HI_RAM flip syndrome bits on write.
-
-      - name: FLSHB_CACHE_HI_RAM_CDIS
-        bits: 58
-        access: R/W
-        reset: 0
-        typical: 0
-        description: FLSHB_CACHE_HI_RAM ECC correction disable.
-    
-      - name: ISRD_O_RAM_FLIP
-        bits: 57..56
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRD_O_RAM flip syndrome bits on write.
-
-      - name: ISRD_O_RAM_CDIS
-        bits: 55
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRD_O_RAM ECC correction disable.
-    
-      - name: ISRM_CA_IINST_RAM_FLIP
-        bits: 54..53
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRM_CA_IINST_RAM flip syndrome bits on write.
-
-      - name: ISRM_CA_IINST_RAM_CDIS
-        bits: 52
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRM_CA_IINST_RAM ECC correction disable.
-    
-      - name: ISRM_CA_CM_RAM_FLIP
-        bits: 51..50
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRM_CA_CM_RAM flip syndrome bits on write.
-
-      - name: ISRM_CA_CM_RAM_CDIS
-        bits: 49
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRM_CA_CM_RAM ECC correction disable.
-    
-      - name: ISRD_T_RAM_FLIP
-        bits: 48..47
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRD_T_RAM flip syndrome bits on write.
-
-      - name: ISRD_T_RAM_CDIS
-        bits: 46
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRD_T_RAM ECC correction disable.
-    
-      - name: ISRD_H_RAM_FLIP
-        bits: 45..44
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRD_H_RAM flip syndrome bits on write.
-
-      - name: ISRD_H_RAM_CDIS
-        bits: 43
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRD_H_RAM ECC correction disable.
-    
-      - name: ISRM_T_RAM_FLIP
-        bits: 42..41
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRM_T_RAM flip syndrome bits on write.
-
-      - name: ISRM_T_RAM_CDIS
-        bits: 40
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRM_T_RAM ECC correction disable.
-    
-      - name: ISRM_H_RAM_FLIP
-        bits: 39..38
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRM_H_RAM flip syndrome bits on write.
-
-      - name: ISRM_H_RAM_CDIS
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRM_H_RAM ECC correction disable.
-    
-      - name: ISRM_O_RAM_FLIP
-        bits: 36..35
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: ISRM_O_RAM flip syndrome bits on write.
-
-      - name: ISRM_O_RAM_CDIS
-        bits: 34
-        access: R/W
-        reset: 0
-        typical: 0
-        description: ISRM_O_RAM ECC correction disable.
-    
-      - name: DRP_HI_RAM_FLIP
-        bits: 33..32
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: DRP_HI_RAM flip syndrome bits on write.
-
-      - name: DRP_HI_RAM_CDIS
-        bits: 31
-        access: R/W
-        reset: 0
-        typical: 0
-        description: DRP_HI_RAM ECC correction disable.
-    
-      - name: DRP_LO_RAM_FLIP
-        bits: 30..29
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: DRP_LO_RAM flip syndrome bits on write.
-
-      - name: DRP_LO_RAM_CDIS
-        bits: 28
-        access: R/W
-        reset: 0
-        typical: 0
-        description: DRP_LO_RAM ECC correction disable.
-    
-      - name: DWP_HI_RAM_FLIP
-        bits: 27..26
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: DWP_HI_RAM flip syndrome bits on write.
-
-      - name: DWP_HI_RAM_CDIS
-        bits: 25
-        access: R/W
-        reset: 0
-        typical: 0
-        description: DWP_HI_RAM ECC correction disable.
-    
-      - name: DWP_LO_RAM_FLIP
-        bits: 24..23
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: DWP_LO_RAM flip syndrome bits on write.
-
-      - name: DWP_LO_RAM_CDIS
-        bits: 22
-        access: R/W
-        reset: 0
-        typical: 0
-        description: DWP_LO_RAM ECC correction disable.
-    
-      - name: MWP_HI_RAM_FLIP
-        bits: 21..20
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: MWP_HI_RAM flip syndrome bits on write.
-
-      - name: MWP_HI_RAM_CDIS
-        bits: 19
-        access: R/W
-        reset: 0
-        typical: 0
-        description: MWP_HI_RAM ECC correction disable.
-    
-      - name: MWP_LO_RAM_FLIP
-        bits: 18..17
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: MWP_LO_RAM flip syndrome bits on write.
-
-      - name: MWP_LO_RAM_CDIS
-        bits: 16
-        access: R/W
-        reset: 0
-        typical: 0
-        description: MWP_LO_RAM ECC correction disable.
-    
-      - name: FILLB_M_DAT_RAM_FLIP
-        bits: 15..14
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: FILLB_M_DAT_RAM flip syndrome bits on write.
-
-      - name: FILLB_M_DAT_RAM_CDIS
-        bits: 13
-        access: R/W
-        reset: 0
-        typical: 0
-        description: FILLB_M_DAT_RAM ECC correction disable.
-    
-      - name: FILLB_D_DAT_RAM_FLIP
-        bits: 12..11
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: FILLB_D_DAT_RAM flip syndrome bits on write.
-
-      - name: FILLB_D_DAT_RAM_CDIS
-        bits: 10
-        access: R/W
-        reset: 0
-        typical: 0
-        description: FILLB_D_DAT_RAM ECC correction disable.
-    
-      - name: --
-        bits: 9..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-#*** THE FOLLOWING CSR WAS AUTOGENERATED - edit fields in pko.mem (not here) & talk to ajones to regenerate ***
-  - name: PKO_PSE_SQ1_ECC_CTL0
-    title: PSE_SQ1 RAM ECC Control Register 0
-    address: 0x1540000080100
-    bus: NCB
-    attributes:
-      regtest_skip: "True"
-    fields:
-    
-      - name: CXS_RAM_FLIP
-        bits: 63..62
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: CXS_RAM flip syndrome bits on write.
-
-      - name: CXS_RAM_CDIS
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: 0
-        description: CXS_RAM ECC correction disable.
-    
-      - name: CXD_RAM_FLIP
-        bits: 60..59
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: CXD_RAM flip syndrome bits on write.
-
-      - name: CXD_RAM_CDIS
-        bits: 58
-        access: R/W
-        reset: 0
-        typical: 0
-        description: CXD_RAM ECC correction disable.
-    
-      - name: SQ_PT_RAM_FLIP
-        bits: 57..56
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: SQ_PT_RAM flip syndrome bits on write.
-
-      - name: SQ_PT_RAM_CDIS
-        bits: 55
-        access: R/W
-        reset: 0
-        typical: 0
-        description: SQ_PT_RAM ECC correction disable.
-    
-      - name: SQ_NT_RAM_FLIP
-        bits: 54..53
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: SQ_NT_RAM flip syndrome bits on write.
-
-      - name: SQ_NT_RAM_CDIS
-        bits: 52
-        access: R/W
-        reset: 0
-        typical: 0
-        description: SQ_NT_RAM ECC correction disable.
-    
-      - name: RT_RAM_FLIP
-        bits: 51..50
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: RT_RAM flip syndrome bits on write.
-
-      - name: RT_RAM_CDIS
-        bits: 49
-        access: R/W
-        reset: 0
-        typical: 0
-        description: RT_RAM ECC correction disable.
-    
-      - name: TW1_CMD_FIFO_RAM_FLIP
-        bits: 48..47
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: TW1_CMD_FIFO_RAM flip syndrome bits on write.
-
-      - name: TW1_CMD_FIFO_RAM_CDIS
-        bits: 46
-        access: R/W
-        reset: 0
-        typical: 0
-        description: TW1_CMD_FIFO_RAM ECC correction disable.
-    
-      - name: TW0_CMD_FIFO_RAM_FLIP
-        bits: 45..44
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: TW0_CMD_FIFO_RAM flip syndrome bits on write.
-
-      - name: TW0_CMD_FIFO_RAM_CDIS
-        bits: 43
-        access: R/W
-        reset: 0
-        typical: 0
-        description: TW0_CMD_FIFO_RAM ECC correction disable.
-    
-      - name: STS1_RAM_FLIP
-        bits: 42..41
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: STS1_RAM flip syndrome bits on write.
-
-      - name: STS1_RAM_CDIS
-        bits: 40
-        access: R/W
-        reset: 0
-        typical: 0
-        description: STS1_RAM ECC correction disable.
-    
-      - name: STS0_RAM_FLIP
-        bits: 39..38
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: STS0_RAM flip syndrome bits on write.
-
-      - name: STS0_RAM_CDIS
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: STS0_RAM ECC correction disable.
-    
-      - name: STD1_RAM_FLIP
-        bits: 36..35
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: STD1_RAM flip syndrome bits on write.
-
-      - name: STD1_RAM_CDIS
-        bits: 34
-        access: R/W
-        reset: 0
-        typical: 0
-        description: STD1_RAM ECC correction disable.
-    
-      - name: STD0_RAM_FLIP
-        bits: 33..32
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: STD0_RAM flip syndrome bits on write.
-
-      - name: STD0_RAM_CDIS
-        bits: 31
-        access: R/W
-        reset: 0
-        typical: 0
-        description: STD0_RAM ECC correction disable.
-    
-      - name: WT_RAM_FLIP
-        bits: 30..29
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: WT_RAM flip syndrome bits on write.
-
-      - name: WT_RAM_CDIS
-        bits: 28
-        access: R/W
-        reset: 0
-        typical: 0
-        description: WT_RAM ECC correction disable.
-    
-      - name: --
-        bits: 27..0
         access: ---
         reset: --
         typical: --
@@ -8355,64 +8870,78 @@ registers:
         typical: 0
         description: IRQ_FIFO_SRAM ECC correction disable.
     
-      - name: PQ_STD_RAM_FLIP
+      - name: TP_SRAM_FLIP
         bits: 54..53
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP_SRAM flip syndrome bits on write.
+
+      - name: TP_SRAM_CDIS
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP_SRAM ECC correction disable.
+    
+      - name: PQ_STD_RAM_FLIP
+        bits: 51..50
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PQ_STD_RAM flip syndrome bits on write.
 
       - name: PQ_STD_RAM_CDIS
-        bits: 52
+        bits: 49
         access: R/W
         reset: 0
         typical: 0
         description: PQ_STD_RAM ECC correction disable.
     
       - name: PQ_ST_RAM_FLIP
-        bits: 51..50
+        bits: 48..47
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PQ_ST_RAM flip syndrome bits on write.
 
       - name: PQ_ST_RAM_CDIS
-        bits: 49
+        bits: 46
         access: R/W
         reset: 0
         typical: 0
         description: PQ_ST_RAM ECC correction disable.
     
       - name: PQ_WMD_RAM_FLIP
-        bits: 48..47
+        bits: 45..44
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PQ_WMD_RAM flip syndrome bits on write.
 
       - name: PQ_WMD_RAM_CDIS
-        bits: 46
+        bits: 43
         access: R/W
         reset: 0
         typical: 0
         description: PQ_WMD_RAM ECC correction disable.
     
       - name: PQ_WMS_RAM_FLIP
-        bits: 45..44
+        bits: 42..41
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PQ_WMS_RAM flip syndrome bits on write.
 
       - name: PQ_WMS_RAM_CDIS
-        bits: 43
+        bits: 40
         access: R/W
         reset: 0
         typical: 0
         description: PQ_WMS_RAM ECC correction disable.
     
       - name: --
-        bits: 42..0
+        bits: 39..0
         access: ---
         reset: --
         typical: --
@@ -8525,134 +9054,190 @@ registers:
         typical: 0
         description: TW0_CMD_FIFO_RAM ECC correction disable.
     
-      - name: STS3_RAM_FLIP
+      - name: TP3_SRAM_FLIP
         bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP3_SRAM flip syndrome bits on write.
+
+      - name: TP3_SRAM_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP3_SRAM ECC correction disable.
+    
+      - name: TP2_SRAM_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP2_SRAM flip syndrome bits on write.
+
+      - name: TP2_SRAM_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP2_SRAM ECC correction disable.
+    
+      - name: TP1_SRAM_FLIP
+        bits: 36..35
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP1_SRAM flip syndrome bits on write.
+
+      - name: TP1_SRAM_CDIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP1_SRAM ECC correction disable.
+    
+      - name: TP0_SRAM_FLIP
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP0_SRAM flip syndrome bits on write.
+
+      - name: TP0_SRAM_CDIS
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP0_SRAM ECC correction disable.
+    
+      - name: STS3_RAM_FLIP
+        bits: 30..29
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS3_RAM flip syndrome bits on write.
 
       - name: STS3_RAM_CDIS
-        bits: 40
+        bits: 28
         access: R/W
         reset: 0
         typical: 0
         description: STS3_RAM ECC correction disable.
     
       - name: STS2_RAM_FLIP
-        bits: 39..38
+        bits: 27..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS2_RAM flip syndrome bits on write.
 
       - name: STS2_RAM_CDIS
-        bits: 37
+        bits: 25
         access: R/W
         reset: 0
         typical: 0
         description: STS2_RAM ECC correction disable.
     
       - name: STS1_RAM_FLIP
-        bits: 36..35
+        bits: 24..23
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS1_RAM flip syndrome bits on write.
 
       - name: STS1_RAM_CDIS
-        bits: 34
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
         description: STS1_RAM ECC correction disable.
     
       - name: STS0_RAM_FLIP
-        bits: 33..32
+        bits: 21..20
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS0_RAM flip syndrome bits on write.
 
       - name: STS0_RAM_CDIS
-        bits: 31
+        bits: 19
         access: R/W
         reset: 0
         typical: 0
         description: STS0_RAM ECC correction disable.
     
       - name: STD3_RAM_FLIP
-        bits: 30..29
+        bits: 18..17
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD3_RAM flip syndrome bits on write.
 
       - name: STD3_RAM_CDIS
-        bits: 28
+        bits: 16
         access: R/W
         reset: 0
         typical: 0
         description: STD3_RAM ECC correction disable.
     
       - name: STD2_RAM_FLIP
-        bits: 27..26
+        bits: 15..14
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD2_RAM flip syndrome bits on write.
 
       - name: STD2_RAM_CDIS
-        bits: 25
+        bits: 13
         access: R/W
         reset: 0
         typical: 0
         description: STD2_RAM ECC correction disable.
     
       - name: STD1_RAM_FLIP
-        bits: 24..23
+        bits: 12..11
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD1_RAM flip syndrome bits on write.
 
       - name: STD1_RAM_CDIS
-        bits: 22
+        bits: 10
         access: R/W
         reset: 0
         typical: 0
         description: STD1_RAM ECC correction disable.
     
       - name: STD0_RAM_FLIP
-        bits: 21..20
+        bits: 9..8
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD0_RAM flip syndrome bits on write.
 
       - name: STD0_RAM_CDIS
-        bits: 19
+        bits: 7
         access: R/W
         reset: 0
         typical: 0
         description: STD0_RAM ECC correction disable.
     
       - name: WT_RAM_FLIP
-        bits: 18..17
+        bits: 6..5
         access: R/W
         reset: 0x0
         typical: 0x0
         description: WT_RAM flip syndrome bits on write.
 
       - name: WT_RAM_CDIS
-        bits: 16
+        bits: 4
         access: R/W
         reset: 0
         typical: 0
         description: WT_RAM ECC correction disable.
     
       - name: --
-        bits: 15..0
+        bits: 3..0
         access: ---
         reset: --
         typical: --
@@ -8765,134 +9350,190 @@ registers:
         typical: 0
         description: TW0_CMD_FIFO_RAM ECC correction disable.
     
-      - name: STS3_RAM_FLIP
+      - name: TP3_SRAM_FLIP
         bits: 42..41
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP3_SRAM flip syndrome bits on write.
+
+      - name: TP3_SRAM_CDIS
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP3_SRAM ECC correction disable.
+    
+      - name: TP2_SRAM_FLIP
+        bits: 39..38
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP2_SRAM flip syndrome bits on write.
+
+      - name: TP2_SRAM_CDIS
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP2_SRAM ECC correction disable.
+    
+      - name: TP1_SRAM_FLIP
+        bits: 36..35
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP1_SRAM flip syndrome bits on write.
+
+      - name: TP1_SRAM_CDIS
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP1_SRAM ECC correction disable.
+    
+      - name: TP0_SRAM_FLIP
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: TP0_SRAM flip syndrome bits on write.
+
+      - name: TP0_SRAM_CDIS
+        bits: 31
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TP0_SRAM ECC correction disable.
+    
+      - name: STS3_RAM_FLIP
+        bits: 30..29
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS3_RAM flip syndrome bits on write.
 
       - name: STS3_RAM_CDIS
-        bits: 40
+        bits: 28
         access: R/W
         reset: 0
         typical: 0
         description: STS3_RAM ECC correction disable.
     
       - name: STS2_RAM_FLIP
-        bits: 39..38
+        bits: 27..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS2_RAM flip syndrome bits on write.
 
       - name: STS2_RAM_CDIS
-        bits: 37
+        bits: 25
         access: R/W
         reset: 0
         typical: 0
         description: STS2_RAM ECC correction disable.
     
       - name: STS1_RAM_FLIP
-        bits: 36..35
+        bits: 24..23
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS1_RAM flip syndrome bits on write.
 
       - name: STS1_RAM_CDIS
-        bits: 34
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
         description: STS1_RAM ECC correction disable.
     
       - name: STS0_RAM_FLIP
-        bits: 33..32
+        bits: 21..20
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STS0_RAM flip syndrome bits on write.
 
       - name: STS0_RAM_CDIS
-        bits: 31
+        bits: 19
         access: R/W
         reset: 0
         typical: 0
         description: STS0_RAM ECC correction disable.
     
       - name: STD3_RAM_FLIP
-        bits: 30..29
+        bits: 18..17
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD3_RAM flip syndrome bits on write.
 
       - name: STD3_RAM_CDIS
-        bits: 28
+        bits: 16
         access: R/W
         reset: 0
         typical: 0
         description: STD3_RAM ECC correction disable.
     
       - name: STD2_RAM_FLIP
-        bits: 27..26
+        bits: 15..14
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD2_RAM flip syndrome bits on write.
 
       - name: STD2_RAM_CDIS
-        bits: 25
+        bits: 13
         access: R/W
         reset: 0
         typical: 0
         description: STD2_RAM ECC correction disable.
     
       - name: STD1_RAM_FLIP
-        bits: 24..23
+        bits: 12..11
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD1_RAM flip syndrome bits on write.
 
       - name: STD1_RAM_CDIS
-        bits: 22
+        bits: 10
         access: R/W
         reset: 0
         typical: 0
         description: STD1_RAM ECC correction disable.
     
       - name: STD0_RAM_FLIP
-        bits: 21..20
+        bits: 9..8
         access: R/W
         reset: 0x0
         typical: 0x0
         description: STD0_RAM flip syndrome bits on write.
 
       - name: STD0_RAM_CDIS
-        bits: 19
+        bits: 7
         access: R/W
         reset: 0
         typical: 0
         description: STD0_RAM ECC correction disable.
     
       - name: WT_RAM_FLIP
-        bits: 18..17
+        bits: 6..5
         access: R/W
         reset: 0x0
         typical: 0x0
         description: WT_RAM flip syndrome bits on write.
 
       - name: WT_RAM_CDIS
-        bits: 16
+        bits: 4
         access: R/W
         reset: 0
         typical: 0
         description: WT_RAM ECC correction disable.
     
       - name: --
-        bits: 15..0
+        bits: 3..0
         access: ---
         reset: --
         typical: --
@@ -9063,33 +9704,33 @@ registers:
         typical: 0
         description: PDM_PSE_BUF_RAM ECC correction disable.
     
-      - name: PEB_ST_INF_RAM_FLIP
+      - name: PEB_SM_JMP_RAM_FLIP
         bits: 48..47
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PEB_SM_JMP_RAM flip syndrome bits on write.
+
+      - name: PEB_SM_JMP_RAM_CDIS
+        bits: 46
+        access: R/W
+        reset: 0
+        typical: 0
+        description: PEB_SM_JMP_RAM ECC correction disable.
+    
+      - name: PEB_ST_INF_RAM_FLIP
+        bits: 45..44
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PEB_ST_INF_RAM flip syndrome bits on write.
 
       - name: PEB_ST_INF_RAM_CDIS
-        bits: 46
-        access: R/W
-        reset: 0
-        typical: 0
-        description: PEB_ST_INF_RAM ECC correction disable.
-    
-      - name: JMP_BANK3_RAM_FLIP
-        bits: 45..44
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: JMP_BANK3_RAM flip syndrome bits on write.
-
-      - name: JMP_BANK3_RAM_CDIS
         bits: 43
         access: R/W
         reset: 0
         typical: 0
-        description: JMP_BANK3_RAM ECC correction disable.
+        description: PEB_ST_INF_RAM ECC correction disable.
     
       - name: PD_BANK3_RAM_FLIP
         bits: 42..41
@@ -9105,187 +9746,187 @@ registers:
         typical: 0
         description: PD_BANK3_RAM ECC correction disable.
     
-      - name: JMP_BANK2_RAM_FLIP
-        bits: 39..38
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: JMP_BANK2_RAM flip syndrome bits on write.
-
-      - name: JMP_BANK2_RAM_CDIS
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: JMP_BANK2_RAM ECC correction disable.
-    
-      - name: JMP_BANK1_RAM_FLIP
-        bits: 36..35
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: JMP_BANK1_RAM flip syndrome bits on write.
-
-      - name: JMP_BANK1_RAM_CDIS
-        bits: 34
-        access: R/W
-        reset: 0
-        typical: 0
-        description: JMP_BANK1_RAM ECC correction disable.
-    
-      - name: JMP_BANK0_RAM_FLIP
-        bits: 33..32
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: JMP_BANK0_RAM flip syndrome bits on write.
-
-      - name: JMP_BANK0_RAM_CDIS
-        bits: 31
-        access: R/W
-        reset: 0
-        typical: 0
-        description: JMP_BANK0_RAM ECC correction disable.
-    
       - name: PD_BANK2_RAM_FLIP
-        bits: 30..29
+        bits: 39..38
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PD_BANK2_RAM flip syndrome bits on write.
 
       - name: PD_BANK2_RAM_CDIS
-        bits: 28
+        bits: 37
         access: R/W
         reset: 0
         typical: 0
         description: PD_BANK2_RAM ECC correction disable.
     
       - name: PD_BANK1_RAM_FLIP
-        bits: 27..26
+        bits: 36..35
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PD_BANK1_RAM flip syndrome bits on write.
 
       - name: PD_BANK1_RAM_CDIS
-        bits: 25
+        bits: 34
         access: R/W
         reset: 0
         typical: 0
         description: PD_BANK1_RAM ECC correction disable.
     
       - name: PD_BANK0_RAM_FLIP
-        bits: 24..23
+        bits: 33..32
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PD_BANK0_RAM flip syndrome bits on write.
 
       - name: PD_BANK0_RAM_CDIS
-        bits: 22
+        bits: 31
         access: R/W
         reset: 0
         typical: 0
         description: PD_BANK0_RAM ECC correction disable.
     
       - name: PD_VAR_BANK_RAM_FLIP
-        bits: 21..20
+        bits: 30..29
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PD_VAR_BANK_RAM flip syndrome bits on write.
 
       - name: PD_VAR_BANK_RAM_CDIS
-        bits: 19
+        bits: 28
         access: R/W
         reset: 0
         typical: 0
         description: PD_VAR_BANK_RAM ECC correction disable.
     
       - name: TX_FIFO_CRC_RAM_FLIP
-        bits: 18..17
+        bits: 27..26
         access: R/W
         reset: 0x0
         typical: 0x0
         description: TX_FIFO_CRC_RAM flip syndrome bits on write.
 
       - name: TX_FIFO_CRC_RAM_CDIS
-        bits: 16
+        bits: 25
         access: R/W
         reset: 0
         typical: 0
         description: TX_FIFO_CRC_RAM ECC correction disable.
     
       - name: TX_FIFO_HDR_RAM_FLIP
-        bits: 15..14
+        bits: 24..23
         access: R/W
         reset: 0x0
         typical: 0x0
         description: TX_FIFO_HDR_RAM flip syndrome bits on write.
 
       - name: TX_FIFO_HDR_RAM_CDIS
-        bits: 13
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
         description: TX_FIFO_HDR_RAM ECC correction disable.
     
       - name: TX_FIFO_PKT_RAM_FLIP
-        bits: 12..11
+        bits: 21..20
         access: R/W
         reset: 0x0
         typical: 0x0
         description: TX_FIFO_PKT_RAM flip syndrome bits on write.
 
       - name: TX_FIFO_PKT_RAM_CDIS
-        bits: 10
+        bits: 19
         access: R/W
         reset: 0
         typical: 0
         description: TX_FIFO_PKT_RAM ECC correction disable.
     
       - name: ADD_WORK_FIFO_FLIP
-        bits: 9..8
+        bits: 18..17
         access: R/W
         reset: 0x0
         typical: 0x0
         description: ADD_WORK_FIFO flip syndrome bits on write.
 
       - name: ADD_WORK_FIFO_CDIS
-        bits: 7
+        bits: 16
         access: R/W
         reset: 0
         typical: 0
         description: ADD_WORK_FIFO ECC correction disable.
     
       - name: SEND_MEM_FIFO_FLIP
-        bits: 6..5
+        bits: 15..14
         access: R/W
         reset: 0x0
         typical: 0x0
         description: SEND_MEM_FIFO flip syndrome bits on write.
 
       - name: SEND_MEM_FIFO_CDIS
-        bits: 4
+        bits: 13
         access: R/W
         reset: 0
         typical: 0
         description: SEND_MEM_FIFO ECC correction disable.
     
       - name: SEND_MEM_STDN_FIFO_FLIP
-        bits: 3..2
+        bits: 12..11
         access: R/W
         reset: 0x0
         typical: 0x0
         description: SEND_MEM_STDN_FIFO flip syndrome bits on write.
 
       - name: SEND_MEM_STDN_FIFO_CDIS
-        bits: 1
+        bits: 10
         access: R/W
         reset: 0
         typical: 0
         description: SEND_MEM_STDN_FIFO ECC correction disable.
+    
+      - name: SEND_MEM_TS_FIFO_FLIP
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SEND_MEM_TS_FIFO flip syndrome bits on write.
+
+      - name: SEND_MEM_TS_FIFO_CDIS
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SEND_MEM_TS_FIFO ECC correction disable.
+    
+      - name: NXT_LINK_PTR_RAM_FLIP
+        bits: 6..5
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: NXT_LINK_PTR_RAM flip syndrome bits on write.
+
+      - name: NXT_LINK_PTR_RAM_CDIS
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: NXT_LINK_PTR_RAM ECC correction disable.
+    
+      - name: PKT_MRK_RAM_FLIP
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PKT_MRK_RAM flip syndrome bits on write.
+
+      - name: PKT_MRK_RAM_CDIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: PKT_MRK_RAM ECC correction disable.
     
       - name: --
         bits: 0..0
@@ -9303,50 +9944,22 @@ registers:
       regtest_skip: "True"
     fields:
     
-      - name: NXT_LINK_PTR_RAM_FLIP
-        bits: 63..62
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: NXT_LINK_PTR_RAM flip syndrome bits on write.
-
-      - name: NXT_LINK_PTR_RAM_CDIS
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: 0
-        description: NXT_LINK_PTR_RAM ECC correction disable.
-    
-      - name: PKT_MRK_RAM_FLIP
-        bits: 60..59
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: PKT_MRK_RAM flip syndrome bits on write.
-
-      - name: PKT_MRK_RAM_CDIS
-        bits: 58
-        access: R/W
-        reset: 0
-        typical: 0
-        description: PKT_MRK_RAM ECC correction disable.
-    
       - name: TS_ADDWORK_RAM_FLIP
-        bits: 57..56
+        bits: 63..62
         access: R/W
         reset: 0x0
         typical: 0x0
         description: TS_ADDWORK_RAM flip syndrome bits on write.
 
       - name: TS_ADDWORK_RAM_CDIS
-        bits: 55
+        bits: 61
         access: R/W
         reset: 0
         typical: 0
         description: TS_ADDWORK_RAM ECC correction disable.
     
       - name: --
-        bits: 54..0
+        bits: 60..0
         access: ---
         reset: --
         typical: --
