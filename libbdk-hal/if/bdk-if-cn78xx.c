@@ -857,6 +857,17 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         bdk_error("%s: PKO transmit failed with status 0x%x\n", bdk_if_name(handle), status.s.dqstatus);
         return -1;
     }
+
+    /* Updates the statistics in software if need to. The simulator
+        doesn't implement the hardware counters */
+    if (bdk_unlikely(bdk_is_simulation()))
+    {
+        int octets = pko_send_hdr_s.s.total;
+        if (handle->flags & BDK_IF_FLAGS_HAS_FCS)
+            octets += 4;
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.octets, octets);
+        bdk_atomic_add64_nosync((int64_t*)&handle->stats.tx.packets, 1);
+    }
     return 0;
 }
 
