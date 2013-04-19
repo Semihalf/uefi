@@ -210,6 +210,8 @@ static int pko_global_init(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
         c.s.node = node;
         c.s.aura = aura);
+    BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
+        c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
         c.s.max_read_size = 72);
     return 0;
