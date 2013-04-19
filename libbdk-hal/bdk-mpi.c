@@ -29,7 +29,6 @@ int bdk_mpi_initialize(bdk_node_t node, int clock_rate_hz, bdk_mpi_flags_t flags
     mpi_cfg.s.csena1 = (flags & BDK_MPI_FLAGS_ENABLE_CS1) != 0;
     mpi_cfg.s.csena0 = (flags & BDK_MPI_FLAGS_ENABLE_CS0) != 0;
     /* mpi_cfg.s.cslate is unchanged */
-    /* mpi_cfg.s.tritx is programed during transmit */
     mpi_cfg.s.idleclks = (flags & BDK_MPI_FLAGS_IDLE_CLOCKS) != 0;
     mpi_cfg.s.cshi = (flags & BDK_MPI_FLAGS_CS_ACTIVE_HI) != 0;
     mpi_cfg.s.lsbfirst = (flags & BDK_MPI_FLAGS_LSB_FIRST) != 0;
