@@ -1,5 +1,4 @@
 import os
-import re
 import yaml
 import pprint
 from csr import Csr
@@ -10,20 +9,6 @@ from chip_enum import ChipEnumValue
 from chip_struct import ChipStruct
 from chip_struct import ChipStructField
 from types import *
-
-RE_ADDRESS_1 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)$")
-RE_ADDRESS_1b = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a$")
-RE_ADDRESS_2a = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)$")
-RE_ADDRESS_2b = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*]([0-9]+)$")
-RE_ADDRESS_2c = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)$")
-RE_ADDRESS_2d = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[ ]*[+][ ]*b$")
-RE_ADDRESS_3 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)$")
-RE_ADDRESS_4 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)[ ]*[|][ ]*b<<([0-9]+)$")
-RE_ADDRESS_5 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*c[*]([0-9]+)$")
-RE_ADDRESS_5b = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*a[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*b[*](0x[0-9a-fA-F]+)[ ]*[+][ ]*c[*](0x[0-9]+)$")
-RE_ADDRESS_6 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[+][ ]*[(]a-([0-9]+)[)][*](0x[0-9a-fA-F]+)$")
-RE_ADDRESS_7 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)[ ]*[|][ ]*b<<([0-9]+)[ ]*[|][ ]*c<<([0-9]+)$")
-RE_ADDRESS_8 = re.compile("^(0x[0-9a-fA-F]+)[ ]*[|][ ]*a<<([0-9]+)[ ]*[|][ ]*b<<([0-9]+)[ ]*[|][ ]*c<<([0-9]+)[ ]*[|][ ]*d<<([0-9]+)$")
 
 pp = pprint.PrettyPrinter(indent=4, width=132)
 
@@ -105,55 +90,26 @@ def parseCsrName(name):
 #
 # Parse the string from YAML into the three numbers we need
 #
-def parseAddress(addressStr):
+def parseAddress(addressStr, num_params):
     # A number means we got the address directly
     if isinstance(addressStr, IntType):
         return [addressStr]
     assert isinstance(addressStr, StringType)
-    match = RE_ADDRESS_1.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), long(match.group(2), 0)]
-    match = RE_ADDRESS_1b.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 0L]
-    match = RE_ADDRESS_2a.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0)]
-    match = RE_ADDRESS_2b.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0)]
-    match = RE_ADDRESS_2c.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 0L, long(match.group(2), 0)]
-    match = RE_ADDRESS_2d.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 0L, 0L]
-    match = RE_ADDRESS_3.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 1<<long(match.group(2), 0)]
-    match = RE_ADDRESS_4.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 1<<long(match.group(2), 0), 1<<long(match.group(3), 0)]
-    match = RE_ADDRESS_5.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0), long(match.group(4), 0)]
-    match = RE_ADDRESS_5b.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), long(match.group(2), 0), long(match.group(3), 0), long(match.group(4), 0)]
-    match = RE_ADDRESS_6.match(addressStr)
-    if match:
-        base = long(match.group(1), 0)
-        offset = long(match.group(2), 0)
-        mult = long(match.group(3), 0)
-        base = base - offset*mult
-        return [base, mult]
-    match = RE_ADDRESS_7.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 1<<long(match.group(2), 0), 1<<long(match.group(3), 0), 1<<long(match.group(4), 0)]
-    match = RE_ADDRESS_8.match(addressStr)
-    if match:
-        return [long(match.group(1), 0), 1<<long(match.group(2), 0), 1<<long(match.group(3), 0), 1<<long(match.group(4), 0), 1<<long(match.group(5), 0)]
-    assert False, addressStr
+    address_info = []
+    locals = {}
+    for i in range(num_params):
+        locals[chr(ord('a') + i)] = 0
+    address_base = eval(addressStr, {}, locals)
+    assert isinstance(address_base, IntType), address_base
+    address_info.append(address_base)
+    for i in range(num_params):
+        locals[chr(ord('a') + i)] = 1
+        tmp = eval(addressStr, {}, locals)
+        assert isinstance(tmp, IntType), tmp
+        locals[chr(ord('a') + i)] = 0
+        tmp -= address_base
+        address_info.append(tmp)
+    return address_info
 
 def build_enum(chip_info, enum):
     pass # FIXME: Not implementing the enum craziness
@@ -236,7 +192,7 @@ def build_csr(chip_info, register, raw):
     # We now have enough to start building the CSR
     csr = Csr(name_list, register["bus"], description)
     # Parse this address information
-    csr.address_info = parseAddress(register["address"])
+    csr.address_info = parseAddress(register["address"], len(csr.range))
     # Due to a carry over from the old CSRs, some CSRs are special
     # in that the address equation is generated by these scripts and not
     # from the yaml
