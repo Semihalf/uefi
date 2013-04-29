@@ -172,7 +172,7 @@ static int pki_port_init(bdk_if_handle_t handle)
         c.s.padd = 0; /* Set WQE[CHAN] */
         c.s.grp_ok = wqe_grp; /* Set WQE[GRP] */
         c.s.grp_bad = wqe_grp; /* Set WQE[GRP] */
-        c.s.aura = handle->aura); /* Set WQE[AURA] */
+        c.s.laura = handle->aura); /* Set WQE[AURA] */
 
     /* We lookup the handle using the PKI input channel */
     node_state->__bdk_if_ipd_map[handle->ipd_port] = handle;
@@ -209,7 +209,7 @@ static int pko_global_init(bdk_node_t node)
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
         c.s.node = node;
-        c.s.aura = aura);
+        c.s.laura = aura);
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
@@ -628,7 +628,7 @@ static int sso_init(bdk_node_t node)
     }
     /* Set the aura number */
     BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
-        c.s.aura = aura);
+        c.s.laura = aura);
     /* Set work timeout to 1023 * 1k cycles */
     BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
         c.s.nw_tim = 1023);
