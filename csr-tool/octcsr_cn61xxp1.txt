@@ -15991,12 +15991,11 @@ Pos      Name    Type     Value     Value       Description
 
 Notes:
 
-(1) For 63xx TAG[35] must be written zero for STGL2I's or operation is undefined.  During normal
-    operation, TAG[35] will also read 0.
+(1) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
 
-(2) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
+(2) TAG[35:17] is [34:16] from the L2C+LMC internal L2/DRAM byte address.
 
-(3) The tag is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
+(3) The ECC field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
 
 ----------------------------------------------------------------------------------------------------
 ===
@@ -32387,20 +32386,18 @@ Pos      Name    Type     Value     Value       Description
 Bit      Field   Field    Reset     Typical     Field
 Pos      Name    Type     Value     Value       Description
 ----------------------------------------------------------------------------------------------------
- <5:0>   P0_FCNT  RO       0x0         NS        SLI Order-FIFO0 Data Out Fifo Count. Number of     |
-                                                 address data words to be sent out the Order-FIFO   |
-                                                 presently buffered in the FIFO.                    |
- <21:6>  P0_UCNT  RO       0x0         NS        SLI Order-FIFO0 Fifo Unload Count. This counter is |
-                                                 incremented by '1' every time a word is removed    |
-                                                 from the Data Out FIFO, whose count is shown in    |
-                                                 P0_FCNT.                                           |
- <27:22> P1_FCNT  RAZ      0x0         NS        SLI Order-FIFO1 Data Out Fifo Count. Number of     |
-                                                 address data words to be sent out the Order-FIFO   |
-                                                 presently buffered in the FIFO.                    |
- <43:28> P1_UCNT  RAZ      0x0         NS        SLI Order-FIFO1 Fifo Unload Count. This counter is |
-                                                 incremented by '1' every time a word is removed    |
-                                                 from the Data Out FIFO, whose count is shown in    |
-                                                 P1_FCNT.                                           |
+ <5:0>   P0_FCNT  RO       0x0         NS        FIFO0 Data Out Count. Number of address data words |
+                                                 presently buffered in the FIFO0.                   |
+                                                 MACs associated with FIFO0: PCIe0, PCIe1           |
+ <21:6>  P0_UCNT  RO       0x0         NS        FIFO0 Unload Count. This counter is incremented by |
+                                                 '1' every time a word is removed from Data Out     |
+                                                 FIFO0. Whose count is shown in P0_FCNT.            |
+ <27:22> P1_FCNT  RAZ      0x0         NS        FIFO1 Data Out Count. Number of address data words |
+                                                 presently buffered in the FIFO1.                   |
+                                                 MACs associated with FIFO1: NONE                   |
+ <43:28> P1_UCNT  RAZ      0x0         NS        FIFO1 Unload Count. This counter is incremented by |
+                                                 '1' every time a word is removed from Data Out     |
+                                                 FIFO1. Whose count is shown in P1_FCNT.            |
  <63:44> NS       RAZ      NS          NS        Reserved					    |
 ----------------------------------------------------------------------------------------------------
 ===

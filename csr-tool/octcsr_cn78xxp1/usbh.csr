@@ -1217,12 +1217,15 @@ registers:
               0x6: 120 mV
               0x7: 135 mV
 
-      - name: --
+      - name: LANE0_EXT_PCLK_REQ
         bits: 57
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, this signal enables the pipe0_pclk output regardless of power state
+          (along with the associated increase in power consumption). You can use this input
+          to enable pipe0_pclk in the P3 state without going through a complete boot sequence.
 
       - name: LANE0_TX2RX_LOOPBK
         bits: 56

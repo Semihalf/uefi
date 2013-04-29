@@ -1495,7 +1495,7 @@ registers:
 
       - name: CTL
         bits: 33..32
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: --
         description: |
@@ -1515,7 +1515,7 @@ registers:
 
       - name: CHANNEL
         bits: 7..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: --
         description: PKI channel for the calendar table entry. Unused if CTL != 0.
@@ -2368,7 +2368,7 @@ registers:
 
       - name: CTL
         bits: 33..32
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: --
         description: |
@@ -2388,7 +2388,7 @@ registers:
 
       - name: CHANNEL
         bits: 7..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: --
         description: PKO channel for the calendar table entry. Unused if CTL != 0x0.

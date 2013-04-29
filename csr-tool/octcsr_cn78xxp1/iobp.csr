@@ -108,7 +108,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKO1 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD1_FS
         bits: 20..19
@@ -122,7 +122,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKO0 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD0_FS
         bits: 17..16
@@ -136,7 +136,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKI1 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC3_FS
         bits: 14..13
@@ -150,7 +150,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKI0 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC2_FS
         bits: 11..10
@@ -164,7 +164,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKO1 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC1_FS
         bits: 8..7
@@ -178,7 +178,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKO Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC0_FS
         bits: 5..4
@@ -579,6 +579,30 @@ registers:
         reset: 0x20
         typical: 0x1
         description: Number of reads PKO0 can have in flight to the L2.
+
+
+  - name: IOBP_PP_BIST_STATUS
+    title: BIST Status of the PPs
+    address: 0x11800F0010700
+    bus: RSL
+    description: The result of the BIST run on the PP.
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PP_BSTAT
+        bits: 47..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          BIST Status of PPs. Bit vector position is the number of the PP (i.e. PP0 == PP_BSTAT[0]).
+          Only odd number bits are valid, all even number bits will read as '0'. For even number PPs
+          see IOBN_PP_BIST_STATUS.
 
 
 

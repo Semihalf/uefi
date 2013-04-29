@@ -1721,7 +1721,7 @@ enums:
           bit_name: "INTR<a>"
           bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi0"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C10)"
@@ -1734,7 +1734,7 @@ enums:
           bit_name: "INTR<a>"
           bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi1"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C20)"
@@ -1747,7 +1747,7 @@ enums:
           bit_name: "INTR<a>"
           bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi2"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C30)"
@@ -1760,7 +1760,7 @@ enums:
           bit_name: "INTR<a>"
           bit_num: "0+a"
           blk_enum_name: "SLI_INTSN_E"
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi3"
           major_name: "SLI_MSI"
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C40)"
@@ -2967,6 +2967,19 @@ enums:
           reg_name: "PKI_GEN_INT"
         description: See PKI_GEN_INT[DAT].
 
+      - name: PKI_GEN_DRP_NOAVAIL
+        value: 0x44006
+        attributes:
+          bit_name: "DRP_NOAVAIL"
+          bit_num: "6"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pfe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000020)"
+          reg_name: "PKI_GEN_INT"
+        description: See PKI_GEN_INT[DRP_NOAVAIL].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -3707,7 +3720,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
-          reg_addr: "(0x1540000000110)"
+          reg_addr: "(0x1540000300110)"
           reg_name: "PKO_PSE_DQ_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_DQ_ECC_SBE_STS_CMB0[PSE_DQ_SBE_CMB0].
 
@@ -3721,7 +3734,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
-          reg_addr: "(0x1540000000120)"
+          reg_addr: "(0x1540000300120)"
           reg_name: "PKO_PSE_DQ_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_DQ_ECC_DBE_STS_CMB0[PSE_DQ_DBE_CMB0].
 
@@ -3847,7 +3860,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
-          reg_addr: "(0x1540000300110)"
+          reg_addr: "(0x1540000000110)"
           reg_name: "PKO_PSE_PQ_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_PQ_ECC_SBE_STS_CMB0[PSE_PQ_SBE_CMB0].
 
@@ -3861,7 +3874,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
-          reg_addr: "(0x1540000300120)"
+          reg_addr: "(0x1540000000120)"
           reg_name: "PKO_PSE_PQ_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_PQ_ECC_DBE_STS_CMB0[PSE_PQ_DBE_CMB0].
 
@@ -7060,6 +7073,174 @@ enums:
           reg_name: "DPI_INT_REG"
         description: See DPI_INT_REG[NDERR].
 
+      - name: DPI_INT_NFOVR
+        value: 0xDF001
+        attributes:
+          bit_name: "NFOVR"
+          bit_num: "1"
+          blk_enum_name: "DPI_INTSN_E"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[NFOVR].
+
+      - name: DPI_INT_DMADBO(0..7)
+        value: 0xDF002 + a
+        attributes:
+          bit_name: "DMADBO<a>"
+          bit_num: "8+a"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[DMADBO<a>].
+
+      - name: DPI_INT_REQ_BADADR
+        value: 0xDF00A
+        attributes:
+          bit_name: "REQ_BADADR"
+          bit_num: "16"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_BADADR].
+
+      - name: DPI_INT_REQ_BADLEN
+        value: 0xDF00B
+        attributes:
+          bit_name: "REQ_BADLEN"
+          bit_num: "17"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_BADLEN].
+
+      - name: DPI_INT_REQ_OVFLW
+        value: 0xDF00C
+        attributes:
+          bit_name: "REQ_OVRFLW"
+          bit_num: "18"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_OVRFLW].
+
+      - name: DPI_INT_REQ_UNDFLW
+        value: 0xDF00D
+        attributes:
+          bit_name: "REQ_UNDFLW"
+          bit_num: "19"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_UNDFLW].
+
+      - name: DPI_INT_REQ_ANULL
+        value: 0xDF00E
+        attributes:
+          bit_name: "REQ_ANULL"
+          bit_num: "20"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_ANULL].
+
+      - name: DPI_INT_REQ_INULL
+        value: 0xDF00F
+        attributes:
+          bit_name: "REQ_INULL"
+          bit_num: "21"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_INULL].
+
+      - name: DPI_INT_REQ_BADFIL
+        value: 0xDF010
+        attributes:
+          bit_name: "REQ_BADFIL"
+          bit_num: "22"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[REQ_BADFIL].
+
+      - name: DPI_INT_SPRT0_RST
+        value: 0xDF011
+        attributes:
+          bit_name: "SPRT0_RST"
+          bit_num: "24"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[SPRT0_RST].
+
+      - name: DPI_INT_SPRT1_RST
+        value: 0xDF012
+        attributes:
+          bit_name: "SPRT1_RST"
+          bit_num: "25"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[SPRT1_RST].
+
+      - name: DPI_INT_SPRT2_RST
+        value: 0xDF013
+        attributes:
+          bit_name: "SPRT2_RST"
+          bit_num: "26"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[SPRT2_RST].
+
+      - name: DPI_INT_SPRT3_RST
+        value: 0xDF014
+        attributes:
+          bit_name: "SPRT3_RST"
+          bit_num: "27"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000008)"
+          reg_name: "DPI_INT_REG"
+        description: See DPI_INT_REG[SPRT3_RST].
+
       - name: BGX(0..5)_CMR(0..3)_INT_PKO_PAUSE_DRP
         value: 0xE0000 + a*0x1000 + b*0x40
         attributes:
@@ -8399,35 +8580,107 @@ enums:
           reg_name: "IOBN_INT_SUM"
         description: See IOBN_INT_SUM[IOR3_DBE].
 
-      - name: IOBN_INT_SUM_IOC_SBE
+      - name: IOBN_INT_SUM_IOC0_SBE
         value: 0xF0010
         attributes:
-          bit_name: "IOC_SBE"
+          bit_name: "IOC0_SBE"
           bit_num: "16"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
           reg_addr: "(0x11800F0000020)"
           reg_name: "IOBN_INT_SUM"
-        description: See IOBN_INT_SUM[IOC_SBE].
+        description: See IOBN_INT_SUM[IOC0_SBE].
 
-      - name: IOBN_INT_SUM_IOC_DBE
+      - name: IOBN_INT_SUM_IOC0_DBE
         value: 0xF0011
         attributes:
-          bit_name: "IOC_DBE"
+          bit_name: "IOC0_DBE"
           bit_num: "17"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
           reg_addr: "(0x11800F0000020)"
           reg_name: "IOBN_INT_SUM"
-        description: See IOBN_INT_SUM[IOC_DBE].
+        description: See IOBN_INT_SUM[IOC0_DBE].
 
-      - name: IOBN_INT_SUM_XMDA0_SBE
+      - name: IOBN_INT_SUM_IOC1_SBE
         value: 0xF0012
         attributes:
-          bit_name: "XMDA0_SBE"
+          bit_name: "IOC1_SBE"
           bit_num: "18"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC1_SBE].
+
+      - name: IOBN_INT_SUM_IOC1_DBE
+        value: 0xF0013
+        attributes:
+          bit_name: "IOC1_DBE"
+          bit_num: "19"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC1_DBE].
+
+      - name: IOBN_INT_SUM_IOC2_SBE
+        value: 0xF0014
+        attributes:
+          bit_name: "IOC2_SBE"
+          bit_num: "20"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC2_SBE].
+
+      - name: IOBN_INT_SUM_IOC2_DBE
+        value: 0xF0015
+        attributes:
+          bit_name: "IOC2_DBE"
+          bit_num: "21"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC2_DBE].
+
+      - name: IOBN_INT_SUM_IOC3_SBE
+        value: 0xF0016
+        attributes:
+          bit_name: "IOC3_SBE"
+          bit_num: "22"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC3_SBE].
+
+      - name: IOBN_INT_SUM_IOC3_DBE
+        value: 0xF0017
+        attributes:
+          bit_name: "IOC3_DBE"
+          bit_num: "23"
+          blk_enum_name: "IOBN_INTSN_E"
+          major_name: "IOBN"
+          major_val: "(0xF0)"
+          reg_addr: "(0x11800F0000020)"
+          reg_name: "IOBN_INT_SUM"
+        description: See IOBN_INT_SUM[IOC3_DBE].
+
+      - name: IOBN_INT_SUM_XMDA0_SBE
+        value: 0xF0018
+        attributes:
+          bit_name: "XMDA0_SBE"
+          bit_num: "24"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8436,10 +8689,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA0_SBE].
 
       - name: IOBN_INT_SUM_XMDA0_DBE
-        value: 0xF0013
+        value: 0xF0019
         attributes:
           bit_name: "XMDA0_DBE"
-          bit_num: "19"
+          bit_num: "25"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8448,10 +8701,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA0_DBE].
 
       - name: IOBN_INT_SUM_XMDA1_SBE
-        value: 0xF0014
+        value: 0xF001A
         attributes:
           bit_name: "XMDA1_SBE"
-          bit_num: "20"
+          bit_num: "26"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8460,10 +8713,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA1_SBE].
 
       - name: IOBN_INT_SUM_XMDA1_DBE
-        value: 0xF0015
+        value: 0xF001B
         attributes:
           bit_name: "XMDA1_DBE"
-          bit_num: "21"
+          bit_num: "27"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8472,10 +8725,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA1_DBE].
 
       - name: IOBN_INT_SUM_XMDA2_SBE
-        value: 0xF0016
+        value: 0xF001C
         attributes:
           bit_name: "XMDA2_SBE"
-          bit_num: "22"
+          bit_num: "28"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8484,10 +8737,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA2_SBE].
 
       - name: IOBN_INT_SUM_XMDA2_DBE
-        value: 0xF0017
+        value: 0xF001D
         attributes:
           bit_name: "XMDA2_DBE"
-          bit_num: "23"
+          bit_num: "29"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8496,10 +8749,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA2_DBE].
 
       - name: IOBN_INT_SUM_XMDA3_SBE
-        value: 0xF0018
+        value: 0xF001E
         attributes:
           bit_name: "XMDA3_SBE"
-          bit_num: "24"
+          bit_num: "30"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8508,10 +8761,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA3_SBE].
 
       - name: IOBN_INT_SUM_XMDA3_DBE
-        value: 0xF0019
+        value: 0xF001F
         attributes:
           bit_name: "XMDA3_DBE"
-          bit_num: "25"
+          bit_num: "31"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8520,10 +8773,10 @@ enums:
         description: See IOBN_INT_SUM[XMDA3_DBE].
 
       - name: IOBN_INT_SUM_XMDB0_SBE
-        value: 0xF001A
+        value: 0xF0020
         attributes:
           bit_name: "XMDB0_SBE"
-          bit_num: "26"
+          bit_num: "32"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8532,10 +8785,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB0_SBE].
 
       - name: IOBN_INT_SUM_XMDB0_DBE
-        value: 0xF001B
+        value: 0xF0021
         attributes:
           bit_name: "XMDB0_DBE"
-          bit_num: "27"
+          bit_num: "33"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8544,10 +8797,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB0_DBE].
 
       - name: IOBN_INT_SUM_XMDB1_SBE
-        value: 0xF001C
+        value: 0xF0022
         attributes:
           bit_name: "XMDB1_SBE"
-          bit_num: "28"
+          bit_num: "34"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8556,10 +8809,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB1_SBE].
 
       - name: IOBN_INT_SUM_XMDB1_DBE
-        value: 0xF001D
+        value: 0xF0023
         attributes:
           bit_name: "XMDB1_DBE"
-          bit_num: "29"
+          bit_num: "35"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8568,10 +8821,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB1_DBE].
 
       - name: IOBN_INT_SUM_XMDB2_SBE
-        value: 0xF001E
+        value: 0xF0024
         attributes:
           bit_name: "XMDB2_SBE"
-          bit_num: "30"
+          bit_num: "36"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8580,10 +8833,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB2_SBE].
 
       - name: IOBN_INT_SUM_XMDB2_DBE
-        value: 0xF001F
+        value: 0xF0025
         attributes:
           bit_name: "XMDB2_DBE"
-          bit_num: "31"
+          bit_num: "37"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8592,10 +8845,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB2_DBE].
 
       - name: IOBN_INT_SUM_XMDB3_SBE
-        value: 0xF0020
+        value: 0xF0026
         attributes:
           bit_name: "XMDB3_SBE"
-          bit_num: "32"
+          bit_num: "38"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8604,10 +8857,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB3_SBE].
 
       - name: IOBN_INT_SUM_XMDB3_DBE
-        value: 0xF0021
+        value: 0xF0027
         attributes:
           bit_name: "XMDB3_DBE"
-          bit_num: "33"
+          bit_num: "39"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8616,10 +8869,10 @@ enums:
         description: See IOBN_INT_SUM[XMDB3_DBE].
 
       - name: IOBN_INT_SUM_XMC_SBE
-        value: 0xF0022
+        value: 0xF0028
         attributes:
           bit_name: "XMC_SBE"
-          bit_num: "34"
+          bit_num: "40"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8628,10 +8881,10 @@ enums:
         description: See IOBN_INT_SUM[XMC_SBE].
 
       - name: IOBN_INT_SUM_XMC_DBE
-        value: 0xF0023
+        value: 0xF0029
         attributes:
           bit_name: "XMC_DBE"
-          bit_num: "35"
+          bit_num: "41"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8640,10 +8893,10 @@ enums:
         description: See IOBN_INT_SUM[XMC_DBE].
 
       - name: IOBN_INT_SUM_IDE_SBE
-        value: 0xF0024
+        value: 0xF002A
         attributes:
           bit_name: "IDE_SBE"
-          bit_num: "36"
+          bit_num: "42"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8652,10 +8905,10 @@ enums:
         description: See IOBN_INT_SUM[IDE_SBE].
 
       - name: IOBN_INT_SUM_IDE_DBE
-        value: 0xF0025
+        value: 0xF002B
         attributes:
           bit_name: "IDE_DBE"
-          bit_num: "37"
+          bit_num: "43"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8664,10 +8917,10 @@ enums:
         description: See IOBN_INT_SUM[IDE_DBE].
 
       - name: IOBN_INT_SUM_ICC0_SBE
-        value: 0xF0026
+        value: 0xF002C
         attributes:
           bit_name: "ICC0_SBE"
-          bit_num: "38"
+          bit_num: "44"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8676,10 +8929,10 @@ enums:
         description: See IOBN_INT_SUM[ICC0_SBE].
 
       - name: IOBN_INT_SUM_ICC0_DBE
-        value: 0xF0027
+        value: 0xF002D
         attributes:
           bit_name: "ICC0_DBE"
-          bit_num: "39"
+          bit_num: "45"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8688,10 +8941,10 @@ enums:
         description: See IOBN_INT_SUM[ICC0_DBE].
 
       - name: IOBN_INT_SUM_ICC1_SBE
-        value: 0xF0028
+        value: 0xF002E
         attributes:
           bit_name: "ICC1_SBE"
-          bit_num: "40"
+          bit_num: "46"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8700,10 +8953,10 @@ enums:
         description: See IOBN_INT_SUM[ICC1_SBE].
 
       - name: IOBN_INT_SUM_ICC1_DBE
-        value: 0xF0029
+        value: 0xF002F
         attributes:
           bit_name: "ICC1_DBE"
-          bit_num: "41"
+          bit_num: "47"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8712,10 +8965,10 @@ enums:
         description: See IOBN_INT_SUM[ICC1_DBE].
 
       - name: IOBN_INT_SUM_ICC2_SBE
-        value: 0xF002A
+        value: 0xF0030
         attributes:
           bit_name: "ICC2_SBE"
-          bit_num: "42"
+          bit_num: "48"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8724,10 +8977,10 @@ enums:
         description: See IOBN_INT_SUM[ICC2_SBE].
 
       - name: IOBN_INT_SUM_ICC2_DBE
-        value: 0xF002B
+        value: 0xF0031
         attributes:
           bit_name: "ICC2_DBE"
-          bit_num: "43"
+          bit_num: "49"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8736,10 +8989,10 @@ enums:
         description: See IOBN_INT_SUM[ICC2_DBE].
 
       - name: IOBN_INT_SUM_ICC3_SBE
-        value: 0xF002C
+        value: 0xF0032
         attributes:
           bit_name: "ICC3_SBE"
-          bit_num: "44"
+          bit_num: "50"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"
@@ -8748,10 +9001,10 @@ enums:
         description: See IOBN_INT_SUM[ICC3_SBE].
 
       - name: IOBN_INT_SUM_ICC3_DBE
-        value: 0xF002D
+        value: 0xF0033
         attributes:
           bit_name: "ICC3_DBE"
-          bit_num: "45"
+          bit_num: "51"
           blk_enum_name: "IOBN_INTSN_E"
           major_name: "IOBN"
           major_val: "(0xF0)"

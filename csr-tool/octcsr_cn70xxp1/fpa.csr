@@ -537,7 +537,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q7_COFF
         bits: 26
@@ -548,7 +547,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q7_UND
         bits: 25
@@ -558,7 +556,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q6_PERR
         bits: 24
@@ -568,7 +565,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q6_COFF
         bits: 23
@@ -579,7 +575,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q6_UND
         bits: 22
@@ -589,7 +584,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q5_PERR
         bits: 21
@@ -599,7 +593,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q5_COFF
         bits: 20
@@ -610,7 +603,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q5_UND
         bits: 19
@@ -620,7 +612,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q4_PERR
         bits: 18
@@ -630,7 +621,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q4_COFF
         bits: 17
@@ -641,7 +631,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q4_UND
         bits: 16
@@ -651,7 +640,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q3_PERR
         bits: 15
@@ -661,7 +649,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q3_COFF
         bits: 14
@@ -672,7 +659,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q3_UND
         bits: 13
@@ -682,7 +668,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q2_PERR
         bits: 12
@@ -692,7 +677,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q2_COFF
         bits: 11
@@ -703,7 +687,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q2_UND
         bits: 10
@@ -713,7 +696,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q1_PERR
         bits: 9
@@ -723,7 +705,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q1_COFF
         bits: 8
@@ -734,7 +715,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q1_UND
         bits: 7
@@ -744,7 +724,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: Q0_PERR
         bits: 6
@@ -754,7 +733,6 @@ registers:
         description: |
           Set when a Queue0 pointer read from the stack in
           the L2C does not have the FPA owner ship bit set.
-          PASS2 Field.
 
       - name: Q0_COFF
         bits: 5
@@ -765,7 +743,6 @@ registers:
           Set when a Queue0 stack end tag is present and
           the count available is greater than pointers
           present in the FPA.
-          PASS2 Field.
 
       - name: Q0_UND
         bits: 4
@@ -775,7 +752,6 @@ registers:
         description: |
           Set when a Queue0 page count available goes
           negative.
-          PASS2 Field.
 
       - name: FED1_DBE
         bits: 3
@@ -1329,7 +1305,7 @@ registers:
         typical: 0
         description: |
           When clear '0' the FPA will use LDT to load
-          pointers from the L2C. This is a PASS-2 field.
+          pointers from the L2C.
 
       - name: USE_STT
         bits: 15
@@ -1338,7 +1314,7 @@ registers:
         typical: 0
         description: |
           When clear '0' the FPA will use STT to store
-          pointers to the L2C. This is a PASS-2 field.
+          pointers to the L2C.
 
       - name: ENB
         bits: 14
@@ -1461,9 +1437,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          The number of free pages available in this Queue.
-          In PASS-1 this field was [25:0].
+        description: The number of free pages available in this Queue.
 
 
   - name: FPA_BIST_STATUS
@@ -1520,7 +1494,7 @@ registers:
     address: 0x11800280000F0
     bus: RSL
     description: |
-      The present index page for queue 0 of the FPA, this is a PASS-2 register.
+      The present index page for queue 0 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1544,7 +1518,7 @@ registers:
     address: 0x11800280000F8
     bus: RSL
     description: |
-      The present index page for queue 1 of the FPA, this is a PASS-2 register.
+      The present index page for queue 1 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1568,7 +1542,7 @@ registers:
     address: 0x1180028000100
     bus: RSL
     description: |
-      The present index page for queue 2 of the FPA, this is a PASS-2 register.
+      The present index page for queue 2 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1592,7 +1566,7 @@ registers:
     address: 0x1180028000108
     bus: RSL
     description: |
-      The present index page for queue 3 of the FPA, this is a PASS-2 register.
+      The present index page for queue 3 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1616,7 +1590,7 @@ registers:
     address: 0x1180028000110
     bus: RSL
     description: |
-      The present index page for queue 4 of the FPA, this is a PASS-2 register.
+      The present index page for queue 4 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1640,7 +1614,7 @@ registers:
     address: 0x1180028000118
     bus: RSL
     description: |
-      The present index page for queue 5 of the FPA, this is a PASS-2 register.
+      The present index page for queue 5 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1664,7 +1638,7 @@ registers:
     address: 0x1180028000120
     bus: RSL
     description: |
-      The present index page for queue 6 of the FPA, this is a PASS-2 register.
+      The present index page for queue 6 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1688,7 +1662,7 @@ registers:
     address: 0x1180028000128
     bus: RSL
     description: |
-      The present index page for queue 7 of the FPA, this is a PASS-2 register.
+      The present index page for queue 7 of the FPA.
       This number reflects the number of pages of pointers that have been written to memory
       for this queue.
     fields:
@@ -1712,7 +1686,7 @@ registers:
     address: 0x1180028000130
     bus: RSL
     description: |
-      "When a INT_SUM[PERR#] occurs this will be latched with the expected value. PASS-2 register.
+      "When a INT_SUM[PERR#] occurs this will be latched with the expected value.
       This is latched on the first error and will not latch again unitl all errors are cleared."
     fields:
       - name: --
@@ -1749,8 +1723,7 @@ registers:
     address: 0x1180028000138
     bus: RSL
     description: |
-      "When a INT_SUM[PERR#] occurs this will be latched with the value read from L2C. PASS-2
-      register.
+      "When a INT_SUM[PERR#] occurs this will be latched with the value read from L2C.
       This is latched on the first error and will not latch again unitl all errors are cleared."
     fields:
       - name: --

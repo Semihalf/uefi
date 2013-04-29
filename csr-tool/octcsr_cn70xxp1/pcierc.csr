@@ -1698,8 +1698,8 @@ registers:
       - name: MLW
         bits: 9..4
         access: R/W
-        reset: 0x4
-        typical: 0x4
+        reset: --
+        typical: --
         description: |
           "Maximum Link Width
           The default value is the value you specify during hardware
@@ -2898,7 +2898,21 @@ registers:
         description: Unsupported AtomicOp Egress Blocked Mask
 
       - name: --
-        bits: 23..21
+        bits: 23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCIEM
+        bits: 22
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Uncorrectable Internal Error Mask
+
+      - name: --
+        bits: 21
         access: ---
         reset: --
         typical: --
@@ -3213,11 +3227,18 @@ registers:
       (Correctable Error Mask Register)
     fields:
       - name: --
-        bits: 31..14
+        bits: 31..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CIEM
+        bits: 14
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Corrected Internal Error Mask
 
       - name: ANFEM
         bits: 13
@@ -4702,8 +4723,8 @@ registers:
       - name: HEADER_DEPTH
         bits: 25..16
         access: R/W
-        reset: 0x25
-        typical: 0x25
+        reset: 0x26
+        typical: 0x26
         description: |
           "VC0 Posted Header Queue Depth
           Sets the number of entries in the Posted header queue for VC0
@@ -4721,8 +4742,8 @@ registers:
       - name: DATA_DEPTH
         bits: 13..0
         access: R/W
-        reset: 0xb7
-        typical: 0xb7
+        reset: 0xc8
+        typical: 0xc8
         description: |
           "VC0 Posted Data Queue Depth
           Sets the number of entries in the Posted data queue for VC0
@@ -4813,8 +4834,8 @@ registers:
       - name: DATA_DEPTH
         bits: 13..0
         access: R/W
-        reset: 0x188
-        typical: 0x188
+        reset: 0x18e
+        typical: 0x18e
         description: |
           "VC0 Completion Data Queue Depth
           Sets the number of entries in the Completion data queue for VC0
@@ -4879,8 +4900,8 @@ registers:
       - name: LE
         bits: 16..8
         access: R/W
-        reset: 0x8
-        typical: 0x8
+        reset: 0x4
+        typical: 0x4
         description: |
           Lane Enable
           Indicates the number of lanes to check for exit from electrical

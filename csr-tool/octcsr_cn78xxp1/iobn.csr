@@ -71,124 +71,148 @@ enums:
         value: 0xF000F
         description: See IOBN_INT_SUM[IOR3_DBE].
 
-      - name: IOBN_INT_SUM_IOC_SBE
+      - name: IOBN_INT_SUM_IOC0_SBE
         value: 0xF0010
-        description: See IOBN_INT_SUM[IOC_SBE].
+        description: See IOBN_INT_SUM[IOC0_SBE].
 
-      - name: IOBN_INT_SUM_IOC_DBE
+      - name: IOBN_INT_SUM_IOC0_DBE
         value: 0xF0011
-        description: See IOBN_INT_SUM[IOC_DBE].
+        description: See IOBN_INT_SUM[IOC0_DBE].
+
+      - name: IOBN_INT_SUM_IOC1_SBE
+        value: 0xF0012
+        description: See IOBN_INT_SUM[IOC1_SBE].
+
+      - name: IOBN_INT_SUM_IOC1_DBE
+        value: 0xF0013
+        description: See IOBN_INT_SUM[IOC1_DBE].
+
+      - name: IOBN_INT_SUM_IOC2_SBE
+        value: 0xF0014
+        description: See IOBN_INT_SUM[IOC2_SBE].
+
+      - name: IOBN_INT_SUM_IOC2_DBE
+        value: 0xF0015
+        description: See IOBN_INT_SUM[IOC2_DBE].
+
+      - name: IOBN_INT_SUM_IOC3_SBE
+        value: 0xF0016
+        description: See IOBN_INT_SUM[IOC3_SBE].
+
+      - name: IOBN_INT_SUM_IOC3_DBE
+        value: 0xF0017
+        description: See IOBN_INT_SUM[IOC3_DBE].
 
       - name: IOBN_INT_SUM_XMDA0_SBE
-        value: 0xF0012
+        value: 0xF0018
         description: See IOBN_INT_SUM[XMDA0_SBE].
 
       - name: IOBN_INT_SUM_XMDA0_DBE
-        value: 0xF0013
+        value: 0xF0019
         description: See IOBN_INT_SUM[XMDA0_DBE].
 
       - name: IOBN_INT_SUM_XMDA1_SBE
-        value: 0xF0014
+        value: 0xF001A
         description: See IOBN_INT_SUM[XMDA1_SBE].
 
       - name: IOBN_INT_SUM_XMDA1_DBE
-        value: 0xF0015
+        value: 0xF001B
         description: See IOBN_INT_SUM[XMDA1_DBE].
 
       - name: IOBN_INT_SUM_XMDA2_SBE
-        value: 0xF0016
+        value: 0xF001C
         description: See IOBN_INT_SUM[XMDA2_SBE].
 
       - name: IOBN_INT_SUM_XMDA2_DBE
-        value: 0xF0017
+        value: 0xF001D
         description: See IOBN_INT_SUM[XMDA2_DBE].
 
       - name: IOBN_INT_SUM_XMDA3_SBE
-        value: 0xF0018
+        value: 0xF001E
         description: See IOBN_INT_SUM[XMDA3_SBE].
 
       - name: IOBN_INT_SUM_XMDA3_DBE
-        value: 0xF0019
+        value: 0xF001F
         description: See IOBN_INT_SUM[XMDA3_DBE].
 
       - name: IOBN_INT_SUM_XMDB0_SBE
-        value: 0xF001A
+        value: 0xF0020
         description: See IOBN_INT_SUM[XMDB0_SBE].
 
       - name: IOBN_INT_SUM_XMDB0_DBE
-        value: 0xF001B
+        value: 0xF0021
         description: See IOBN_INT_SUM[XMDB0_DBE].
 
       - name: IOBN_INT_SUM_XMDB1_SBE
-        value: 0xF001C
+        value: 0xF0022
         description: See IOBN_INT_SUM[XMDB1_SBE].
 
       - name: IOBN_INT_SUM_XMDB1_DBE
-        value: 0xF001D
+        value: 0xF0023
         description: See IOBN_INT_SUM[XMDB1_DBE].
 
       - name: IOBN_INT_SUM_XMDB2_SBE
-        value: 0xF001E
+        value: 0xF0024
         description: See IOBN_INT_SUM[XMDB2_SBE].
 
       - name: IOBN_INT_SUM_XMDB2_DBE
-        value: 0xF001F
+        value: 0xF0025
         description: See IOBN_INT_SUM[XMDB2_DBE].
 
       - name: IOBN_INT_SUM_XMDB3_SBE
-        value: 0xF0020
+        value: 0xF0026
         description: See IOBN_INT_SUM[XMDB3_SBE].
 
       - name: IOBN_INT_SUM_XMDB3_DBE
-        value: 0xF0021
+        value: 0xF0027
         description: See IOBN_INT_SUM[XMDB3_DBE].
 
       - name: IOBN_INT_SUM_XMC_SBE
-        value: 0xF0022
+        value: 0xF0028
         description: See IOBN_INT_SUM[XMC_SBE].
 
       - name: IOBN_INT_SUM_XMC_DBE
-        value: 0xF0023
+        value: 0xF0029
         description: See IOBN_INT_SUM[XMC_DBE].
 
       - name: IOBN_INT_SUM_IDE_SBE
-        value: 0xF0024
+        value: 0xF002A
         description: See IOBN_INT_SUM[IDE_SBE].
 
       - name: IOBN_INT_SUM_IDE_DBE
-        value: 0xF0025
+        value: 0xF002B
         description: See IOBN_INT_SUM[IDE_DBE].
 
       - name: IOBN_INT_SUM_ICC0_SBE
-        value: 0xF0026
+        value: 0xF002C
         description: See IOBN_INT_SUM[ICC0_SBE].
 
       - name: IOBN_INT_SUM_ICC0_DBE
-        value: 0xF0027
+        value: 0xF002D
         description: See IOBN_INT_SUM[ICC0_DBE].
 
       - name: IOBN_INT_SUM_ICC1_SBE
-        value: 0xF0028
+        value: 0xF002E
         description: See IOBN_INT_SUM[ICC1_SBE].
 
       - name: IOBN_INT_SUM_ICC1_DBE
-        value: 0xF0029
+        value: 0xF002F
         description: See IOBN_INT_SUM[ICC1_DBE].
 
       - name: IOBN_INT_SUM_ICC2_SBE
-        value: 0xF002A
+        value: 0xF0030
         description: See IOBN_INT_SUM[ICC2_SBE].
 
       - name: IOBN_INT_SUM_ICC2_DBE
-        value: 0xF002B
+        value: 0xF0031
         description: See IOBN_INT_SUM[ICC2_DBE].
 
       - name: IOBN_INT_SUM_ICC3_SBE
-        value: 0xF002C
+        value: 0xF0032
         description: See IOBN_INT_SUM[ICC3_SBE].
 
       - name: IOBN_INT_SUM_ICC3_DBE
-        value: 0xF002D
+        value: 0xF0033
         description: See IOBN_INT_SUM[ICC3_DBE].
 
 
@@ -259,18 +283,60 @@ registers:
       Various control bits for IOBN ECC functionality.
     fields:
       - name: --
-        bits: 63..49
+        bits: 63..58
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: IOC3_ECC
+        bits: 57
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RAM ECC correction disable.
+
+      - name: IOC3_FS
+        bits: 56..55
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for PP transfers to NCB.
+
+      - name: IOC2_ECC
+        bits: 54
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RAM ECC correction disable.
+
+      - name: IOC2_FS
+        bits: 53..52
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for PP transfers to NCB.
+
+      - name: IOC1_ECC
+        bits: 51
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RAM ECC correction disable.
+
+      - name: IOC1_FS
+        bits: 50..49
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for PP transfers to NCB.
 
       - name: IOC0_ECC
         bits: 48
         access: R/W
         reset: 0
         typical: 0
-        description: When set transfers from PP to NCB will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IOC0_FS
         bits: 47..46
@@ -284,7 +350,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set fill data from NCB3 will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IOR3_FS
         bits: 44..43
@@ -298,7 +364,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set fill data from NCB2 will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IOR2_FS
         bits: 41..40
@@ -312,7 +378,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set fill data from NCB1 will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IOR1_FS
         bits: 38..37
@@ -326,7 +392,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set fill data from NCB0 will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IOR0_FS
         bits: 35..34
@@ -340,7 +406,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set DWB Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: IDE_FS
         bits: 32..31
@@ -354,7 +420,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBI0 High Prioirty Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC0_HP_FS
         bits: 29..28
@@ -368,7 +434,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBO3 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD3_FS
         bits: 26..25
@@ -382,7 +448,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBO2 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD2_FS
         bits: 23..22
@@ -396,7 +462,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBO1 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD1_FS
         bits: 20..19
@@ -410,7 +476,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBO0 response data have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: RSD0_FS
         bits: 17..16
@@ -424,7 +490,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBI0 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC3_FS
         bits: 14..13
@@ -438,7 +504,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBI0 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC2_FS
         bits: 11..10
@@ -452,7 +518,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBI0 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC1_FS
         bits: 8..7
@@ -466,7 +532,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set NCBI0 Commands to L2C will have an ECC generated and checked.
+        description: RAM ECC correction disable.
 
       - name: XMC0_FS
         bits: 5..4
@@ -512,39 +578,60 @@ registers:
       The result of the BIST run on the IOB memories.
     fields:
       - name: --
-        bits: 63..24
+        bits: 63..27
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RSDM3
-        bits: 23
+        bits: 26
         access: RO
         reset: 0
         typical: 0
         description: rsd_mem3_bstatus
 
       - name: RSDM2
-        bits: 22
+        bits: 25
         access: RO
         reset: 0
         typical: 0
         description: rsd_mem2_bstatus
 
       - name: RSDM1
-        bits: 21
+        bits: 24
         access: RO
         reset: 0
         typical: 0
         description: rsd_mem1_bstatus
 
       - name: RSDM0
-        bits: 20
+        bits: 23
         access: RO
         reset: 0
         typical: 0
         description: rsd_mem0_bstatus
+
+      - name: IOCF3
+        bits: 22
+        access: RO
+        reset: 0
+        typical: 0
+        description: iocfif3_bstatus
+
+      - name: IOCF2
+        bits: 21
+        access: RO
+        reset: 0
+        typical: 0
+        description: iocfif2_bstatus
+
+      - name: IOCF1
+        bits: 20
+        access: RO
+        reset: 0
+        typical: 0
+        description: iocfif1_bstatus
 
       - name: IOCF0
         bits: 19
@@ -695,14 +782,14 @@ registers:
       IOBN Interrupt SUmmary CSR.
     fields:
       - name: --
-        bits: 63..46
+        bits: 63..52
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: ICC3_DBE
-        bits: 45
+        bits: 51
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -711,7 +798,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC3_DBE.
 
       - name: ICC3_SBE
-        bits: 44
+        bits: 50
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -720,7 +807,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC3_SBE.
 
       - name: ICC2_DBE
-        bits: 43
+        bits: 49
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -729,7 +816,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC2_DBE.
 
       - name: ICC2_SBE
-        bits: 42
+        bits: 48
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -738,7 +825,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC2_SBE.
 
       - name: ICC1_DBE
-        bits: 41
+        bits: 47
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -747,7 +834,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC1_DBE.
 
       - name: ICC1_SBE
-        bits: 40
+        bits: 46
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -756,7 +843,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC1_SBE.
 
       - name: ICC0_DBE
-        bits: 39
+        bits: 45
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -765,7 +852,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC0_DBE.
 
       - name: ICC0_SBE
-        bits: 38
+        bits: 44
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -774,7 +861,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_ICC0_SBE.
 
       - name: IDE_DBE
-        bits: 37
+        bits: 43
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -783,7 +870,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_IDE_DBE.
 
       - name: IDE_SBE
-        bits: 36
+        bits: 42
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -792,7 +879,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_IDE_SBE.
 
       - name: XMC_DBE
-        bits: 35
+        bits: 41
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -801,7 +888,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMC_DBE.
 
       - name: XMC_SBE
-        bits: 34
+        bits: 40
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -810,7 +897,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMC_SBE.
 
       - name: XMDB3_DBE
-        bits: 33
+        bits: 39
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -819,7 +906,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB3_DBE.
 
       - name: XMDB3_SBE
-        bits: 32
+        bits: 38
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -828,7 +915,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB3_SBE.
 
       - name: XMDB2_DBE
-        bits: 31
+        bits: 37
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -837,7 +924,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB2_DBE.
 
       - name: XMDB2_SBE
-        bits: 30
+        bits: 36
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -846,7 +933,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB2_SBE.
 
       - name: XMDB1_DBE
-        bits: 29
+        bits: 35
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -855,7 +942,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB1_DBE.
 
       - name: XMDB1_SBE
-        bits: 28
+        bits: 34
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -864,7 +951,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB1_SBE.
 
       - name: XMDB0_DBE
-        bits: 27
+        bits: 33
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -873,7 +960,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB0_DBE.
 
       - name: XMDB0_SBE
-        bits: 26
+        bits: 32
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -882,7 +969,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDB0_SBE.
 
       - name: XMDA3_DBE
-        bits: 25
+        bits: 31
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -891,7 +978,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA3_DBE.
 
       - name: XMDA3_SBE
-        bits: 24
+        bits: 30
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -900,7 +987,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA3_SBE.
 
       - name: XMDA2_DBE
-        bits: 23
+        bits: 29
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -909,7 +996,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA2_DBE.
 
       - name: XMDA2_SBE
-        bits: 22
+        bits: 28
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -918,7 +1005,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA2_SBE.
 
       - name: XMDA1_DBE
-        bits: 21
+        bits: 27
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -927,7 +1014,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA1_DBE.
 
       - name: XMDA1_SBE
-        bits: 20
+        bits: 26
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -936,7 +1023,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA1_SBE.
 
       - name: XMDA0_DBE
-        bits: 19
+        bits: 25
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -945,7 +1032,7 @@ registers:
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA0_DBE.
 
       - name: XMDA0_SBE
-        bits: 18
+        bits: 24
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -953,7 +1040,61 @@ registers:
           Single-bit error for XMDA MEM0.
           Throws IOBN_INTSN_E::IOBN_INT_SUM_XMDA0_SBE.
 
-      - name: IOC_DBE
+      - name: IOC3_DBE
+        bits: 23
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Double-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+
+      - name: IOC3_SBE
+        bits: 22
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Single-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+
+      - name: IOC2_DBE
+        bits: 21
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Double-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+
+      - name: IOC2_SBE
+        bits: 20
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Single-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+
+      - name: IOC1_DBE
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Double-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+
+      - name: IOC1_SBE
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Single-bit error for IOC MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+
+      - name: IOC0_DBE
         bits: 17
         access: R/W1C/H
         reset: 0
@@ -962,7 +1103,7 @@ registers:
           Double-bit error for IOC MEM.
           Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
 
-      - name: IOC_SBE
+      - name: IOC0_SBE
         bits: 16
         access: R/W1C/H
         reset: 0
@@ -1328,6 +1469,30 @@ registers:
         reset: 0x0
         typical: --
         description: Current Power Setting.
+
+
+  - name: IOBN_PP_BIST_STATUS
+    title: BIST Status of the PPs
+    address: 0x11800F0000700
+    bus: RSL
+    description: The result of the BIST run on the PP.
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PP_BSTAT
+        bits: 47..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          BIST Status of PPs. Bit vector position is the number of the PP (i.e. PP0 == PP_BSTAT[0]).
+          Only even number bits are valid, all odd number bits will read as '0'. For odd number PPs
+          see IOBP_PP_BIST_STATUS.
 
 
 

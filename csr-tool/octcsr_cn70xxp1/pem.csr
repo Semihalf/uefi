@@ -1641,14 +1641,14 @@ registers:
     description: Configuration of the PCIe Application
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: LANESWAP
-        bits: 3
+        bits: 4
         access: R/W/H
         reset: --
         typical: --
@@ -1656,22 +1656,31 @@ registers:
           When set, lane swapping is performed to/from the SerDes.
           When clear, no lane swapping is performed.
 
+      - name: HOSTMD
+        bits: 3
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          When set, the PEM is configured to be a Root Complex.
+          When clear, the PEM is configured to be an End Point.
+
       - name: MD
         bits: 2..0
         access: R/W/H
         reset: --
         typical: --
         description: |
-          When the two lsbs are set, the PEM is configured to be a Root Complex.
-          When both lsbs are not set, the PEM is configured to be an End Point:
-            000 - EP Mode, Gen2 Speed, 2-lanes
-            001 - EP Mode, Gen2 Speed, 1-lane
-            010 - EP Mode, Gen2 Speed, 4-lanes
-            011 - RC Mode, Gen2 Speed
-            100 - EP Mode, Gen1 Speed, 2-lanes
-            101 - EP Mode, Gen1 Speed, 1-lane
-            110 - EP Mode, Gen1 Speed, 4-lanes
-            111 - RC Mode, Gen1 Speed
+          This field will overwrite the pin settings for speed and lane
+          configuration:
+            000 - Gen2 Speed, 2-lanes
+            001 - Gen2 Speed, 1-lane
+            010 - Gen2 Speed, 4-lanes
+            011 - Rsvd
+            100 - Gen1 Speed, 2-lanes
+            101 - Gen1 Speed, 1-lane
+            110 - Gen1 Speed, 4-lanes
+            111 - Rsvd
 
 
   - name: PEM(0..2)_ON

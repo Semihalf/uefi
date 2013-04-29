@@ -1,0 +1,185 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: DTX
+registers:
+  - name: DTX_L2C_TAD(0)_SEL(0..1)
+    title: DTX L2C_TAD(0) Select Register
+    address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_TAD(0)_ENA(0..1)
+    title: DTX L2C_TAD(0) Mask Register
+    address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_TAD(0)_DAT(0..1)
+    title: DTX L2C_TAD(0) Raw Data Register
+    address: 0x11800FE000040 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_TAD(0)_CTL
+    title: DTX L2C_TAD(0) Control Register
+    address: 0x11800FE000060 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_MCI(0)_SEL(0..1)
+    title: DTX L2C_MCI(0) Select Register
+    address: 0x11800FE000000 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_MCI(0)_ENA(0..1)
+    title: DTX L2C_MCI(0) Mask Register
+    address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_MCI(0)_DAT(0..1)
+    title: DTX L2C_MCI(0) Raw Data Register
+    address: 0x11800FE000040 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_MCI(0)_CTL
+    title: DTX L2C_MCI(0) Control Register
+    address: 0x11800FE000060 + ((0x5c + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_CBC(0)_SEL(0..1)
+    title: DTX L2C_CBC(0) Select Register
+    address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_CBC(0)_ENA(0..1)
+    title: DTX L2C_CBC(0) Mask Register
+    address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_CBC(0)_DAT(0..1)
+    title: DTX L2C_CBC(0) Raw Data Register
+    address: 0x11800FE000040 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_CBC(0)_CTL
+    title: DTX L2C_CBC(0) Control Register
+    address: 0x11800FE000060 + ((0x84 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_BROADCAST_SEL(0..1)
+    title: DTX BROADCAST Select Register
+    address: 0x11800FE7F0000 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: VALUE
+        bits: 35..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+
+
+  - name: DTX_BROADCAST_ENA(0..1)
+    title: DTX BROADCAST Mask Register
+    address: 0x11800FE7F0020 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: MASK
+        bits: 35..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+          will drive each bit.
+
+
+  - name: DTX_BROADCAST_DAT(0..1)
+    title: DTX BROADCAST Raw Data Register
+    address: 0x11800FE7F0040 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: RAW
+        bits: 35..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+          peek into blocks during an OCLA capture without OCLA reconfiguration.
+
+
+  - name: DTX_BROADCAST_CTL
+    title: DTX BROADCAST Control Register
+    address: 0x11800FE7F0060
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..5
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ACTIVE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Force block's gated clocks on, so that the state of idle signals may be captured.
+
+      - name: --
+        bits: 3..2
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ECHOEN
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+          diagnostic use only.
+
+      - name: SWAP
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Swap the high and low 36-bit debug bus outputs.
+
+
+

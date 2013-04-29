@@ -940,21 +940,7 @@ registers:
       results for the corresponding physical PP ('0' = pass, '1' = fail).
     fields:
       - name: --
-        bits: 63..20
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PP
-        bits: 19..16
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        description: Physical PP BIST status
-
-      - name: --
-        bits: 15..12
+        bits: 63..12
         access: ---
         reset: --
         typical: --

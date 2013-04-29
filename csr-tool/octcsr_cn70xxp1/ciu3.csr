@@ -45,13 +45,13 @@ enums:
           see enumeration: "RST_INTSN_E on TBD-TECHDOC"
         description: Reset interrupts
 
-      - name: USBDRD_UCTL(0..1)
+      - name: USBDRD(0..1)
         value: 0x68 + a
         attributes:
           see enumeration: "USBDRD_UCTL_INTSN_E on TBD-TECHDOC"
         description: USB controller interrupts; see .
 
-      - name: SATA_UCTL
+      - name: SATA
         value: 0x6C
         attributes:
           see enumeration: "SATA_UCTL_INTSN_E on TBD-TECHDOC"

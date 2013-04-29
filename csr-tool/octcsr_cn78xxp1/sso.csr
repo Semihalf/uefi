@@ -1146,19 +1146,20 @@ registers:
     description: This register contains various SSO work-slot configuration bits.
     fields:
       - name: --
-        bits: 63..55
+        bits: 63..56
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: OCLA_BP
-        bits: 54..48
+        bits: 55..48
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
           Enable OCLA backpressure stalls. For diagnostic use only. INTERNAL:
+          <55> NCBB input fifo stall (ncbo.)
           <54> Work-slot response. (arbrsp.)
           <53> Work-slot switching of descheduled work entries. (arbx.)
           <52> Work-slot SWTAG response. (arbs.)
@@ -2605,12 +2606,12 @@ registers:
         typical: --
         description: Node number of current chip, to ensure that the aura is on the local node.
 
-      - name: AURA
+      - name: LAURA
         bits: 9..0
         access: R/W
         reset: 0x0
         typical: --
-        description: FPA aura to use for SSO XAQ allocations and frees.
+        description: FPA local-node aura to use for SSO XAQ allocations and frees.
 
 
   - name: SSO_XAQ(0..255)_HEAD_PTR
@@ -2923,9 +2924,8 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Max threshold for this internal admission queue. Must be >= [RSVD_THR], and to insure full
-          streaming performance on this group to a single core, should be at least 4. To insure full
-          streaming performance to all cores, should be at least 208.
+          Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
+          To insure full streaming performance to all cores, should be at least 208.
 
       - name: --
         bits: 31..13

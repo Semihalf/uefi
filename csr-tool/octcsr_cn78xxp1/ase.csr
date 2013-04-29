@@ -2581,7 +2581,7 @@ registers:
       - name: BUSY
         bits: 63
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: |
           When 1, ASE is busy completing reset. No access except the reading of this bit should
@@ -2620,8 +2620,8 @@ registers:
 
       - name: LUE_RMC_NDONE
         bits: 59..56
-        access: ---
-        reset: 0xf
+        access: RO/H
+        reset: 0x0
         typical: 0x0
         description: Combined 'BIST is not complete' for the LUE RMC[3..0] RAMs.
 
@@ -2635,21 +2635,21 @@ registers:
       - name: LUE_RFT_NDONE
         bits: 50
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete for the LUE HST RFT RAM.
 
       - name: LUE_TAT_NDONE
         bits: 49
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete for the LUE HST TAT RAM.
 
       - name: LUE_KDB_NDONE
         bits: 48
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete for the LUE KRQ KDB RAM.
 
@@ -2663,7 +2663,7 @@ registers:
       - name: LOP_TXB_NDONE
         bits: 41..40
         access: RO/H
-        reset: 0x3
+        reset: 0x0
         typical: 0x0
         description: BIST is not complete on the LOP TXBUFF RAM banks.
 
@@ -2677,28 +2677,28 @@ registers:
       - name: LIP_NEWQ_NDONE
         bits: 35
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete on the LIP NEWQ RAM.
 
       - name: LIP_PHT_NDONE
         bits: 34
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete on the LIP PHT RAM.
 
       - name: LIP_GDT_NDONE
         bits: 33
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete on the LIP GDT RAM.
 
       - name: LIP_ISF_NDONE
         bits: 32
         access: RO/H
-        reset: 1
+        reset: 0
         typical: 0
         description: BIST is not complete on the LIP ISF RAM.
 
@@ -4424,7 +4424,11 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: 32-bit column of context information to display in the DEBUG_CTX field.
+        description: |
+          32-bit column of context information to display in the ASE_LUE_CTX debug field.
+            TWE: Valid column values 0-12.
+            BWE: Valid column values 0-2.
+            RWE: Valid column values 0-8.
 
       - name: --
         bits: 15..13
@@ -4440,7 +4444,7 @@ registers:
         typical: --
         description: |
           Engine ID from which context information will be made
-          available in the DEBUG_CTX field.
+          available in the ASE_LUE_CTX debug field.
 
           Valid values are 0-19.
 
@@ -4458,7 +4462,7 @@ registers:
         typical: --
         description: |
           Engine type from which context information will be made
-          available in the DEBUG_CTX field.
+          available in the ASE_LUE_CTX debug field.
           0 = Tree Walk Engine
           1 = Bucket Walk Engine
           2 = Rule Walk Engine
@@ -4815,6 +4819,8 @@ registers:
         access: WO/H
         reset: 0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Writing 1 to this bit will generate a hardware pulse
           that will clear the LUE_PERFOMANCE_COUNTER and
@@ -4923,6 +4929,8 @@ registers:
         access: WO/H
         reset: 0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Writing 1 to this bit will generate a hardware pulse
           that will clear the LUE_PERFOMANCE_COUNTER and
@@ -5032,6 +5040,8 @@ registers:
         access: WO/H
         reset: 0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           Writing 1 to this bit will generate a hardware pulse
           that will clear the LUE_PERFOMANCE_COUNTER and

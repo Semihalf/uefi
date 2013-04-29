@@ -1666,10 +1666,7 @@ registers:
         description: |
           Number of page pointers for WQE storage that are
           buffered in the IPD. The total count is the value
-          of this buffer plus the field [WQEV_CNT]. For
-          PASS-1 (which does not have the WQEV_CNT field)
-          when the value of this register is '0' there still
-          may be 1 pointer being held by IPD.
+          of this buffer plus the field [WQEV_CNT].
 
 
   - name: IPD_BP_PRT_RED_END

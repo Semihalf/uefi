@@ -210,14 +210,14 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..24
+        bits: 63..32
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: IOUT
-        bits: 23..16
+        bits: 31..16
         access: RO
         reset: --
         typical: --
@@ -261,11 +261,35 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..11
+        bits: 63..40
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: VRM_CTL_RCV_STATUS_ERROR
+        bits: 39..16
+        access: RO/H
+        reset: --
+        typical: --
+        description: Holds the recived status read from the external controller only for failing status.
+
+      - name: VRM_CTL_CUR_STATE
+        bits: 15..13
+        access: RO/H
+        reset: --
+        typical: --
+        description: Current state of the VRM_CTL.
+
+      - name: VRM_TYPE
+        bits: 12..11
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          VRM_TYPE identifies the type of device connected to the chip.
+          00 : Linear type ,default or PMBus.
+          01 : VID type , ISL6367
 
       - name: BOOT_SEQ
         bits: 10
@@ -458,6 +482,83 @@ registers:
         description: |
           Coefficient C value for polynomial fit.
           A 2's complement number.
+
+
+  - name: VRM_TS_TEMP_NOFF_MC
+    title: VRM Temp Sensor, SW settable values for mc and noff.These would be used to bypass fused values
+    address: 0x118002100088
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..28
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MC
+        bits: 27..16
+        access: R/W
+        reset: 0xbb8
+        typical: --
+        description: The MC value, default is 3000 decimal.
+
+      - name: --
+        bits: 15..11
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NOFF
+        bits: 10..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The N cycle count offset. It is used to subtract the appropriate count from N cycle.
+          It should be such that at 0C, the difference between NOFF and NCYCLE would be 0.
+
+
+  - name: VRM_FUSE_BYPASS
+    title: Bypass the loaded fuses.
+    address: 0x118002100098
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTL_HW_BYPASS
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If SET, will bypass VRM CTL, this HW is reponsible for controlling external voltage
+          regulator.
+          SW can then send commands to the regulator.
+
+      - name: CTL_FUSE_BYPASS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If SET, will bypass fuses which feed the PMBus VRM CTL.
+          Fuses that gets bypassed are v_max,v_base,max_step,slope,tran_temp.
+
+      - name: TS_FUSE_BYPASS
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If SET, will bypass fuses which feed the temperature sensor.
+          Fuses bypassed with this are the MC and NOFF.
 
 
 

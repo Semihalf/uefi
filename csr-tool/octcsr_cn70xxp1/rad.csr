@@ -30,7 +30,7 @@ registers:
 
       - name: RESET
         bits: 0
-        access: ---
+        access: WO
         reset: 0
         typical: 0
         description: Reset oneshot pulse (lasts for 4 cycles)
@@ -127,35 +127,35 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..8
         access: ---
         reset: --
         typical: --
         description: RESERVED
 
       - name: STA
-        bits: 5
+        bits: 7
         access: RO
         reset: X
         typical: 0
         description: BiST result of the STA     memories
 
       - name: NCB_OUB
-        bits: 4
+        bits: 6
         access: RO
         reset: X
         typical: 0
         description: BiST result of the NCB_OUB memories
 
       - name: NCB_INB
-        bits: 3..2
+        bits: 5..4
         access: RO
         reset: X
         typical: 0x0
         description: BiST result of the NCB_INB memories
 
       - name: DAT
-        bits: 1..0
+        bits: 3..0
         access: RO
         reset: X
         typical: 0x0

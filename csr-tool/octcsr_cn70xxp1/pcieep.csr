@@ -472,8 +472,15 @@ registers:
     bus: PCICONFIGEP
     description: PCIE_CFG008 = Ninth 32-bits of PCIE type 0 config space (Base Address Register 2 - Low)
     fields:
+      - name: LBAB
+        bits: 31..20
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Lower bits of the BAR 2 base address
+
       - name: --
-        bits: 31..4
+        bits: 19..4
         access: ---
         reset: --
         typical: --
@@ -523,21 +530,11 @@ registers:
     description: PCIE_CFG009 = Tenth 32-bits of PCIE type 0 config space (Base Address Register 2 - High)
     fields:
       - name: UBAB
-        bits: 31..9
+        bits: 31..0
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Contains the upper 32 bits of the BAR 2 base address.
-
-      - name: --
-        bits: 8..0
-        access: ---
-        reset: --
-        typical: --
-        description: |
-          Reserved
-          If the Bit Mask Register (PCIE_CFG008_MASK or PCIE_CFG009_MASK)
-          is changed, see UBAB.
 
 
   - name: PCIEEP(0..2)_CFG010
@@ -2122,8 +2119,8 @@ registers:
       - name: NCO
         bits: 31..20
         access: RO
-        reset: 0x0
-        typical: 0x0
+        reset: 0x148
+        typical: 0x148
         description: Next Capability Offset
 
       - name: CV
@@ -2292,7 +2289,21 @@ registers:
         description: Unsupported AtomicOp Egress Blocked Mask
 
       - name: --
-        bits: 23..21
+        bits: 23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCIEM
+        bits: 22
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Uncorrectable Internal Error Mask
+
+      - name: --
+        bits: 21
         access: ---
         reset: --
         typical: --
@@ -2607,11 +2618,18 @@ registers:
       (Correctable Error Mask Register)
     fields:
       - name: --
-        bits: 31..14
+        bits: 31..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CIEM
+        bits: 14
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Corrected Internal Error Mask
 
       - name: ANFEM
         bits: 13
@@ -2778,6 +2796,118 @@ registers:
         reset: 0x0
         typical: 0x0
         description: Header Log Register (fourth DWORD)
+
+
+  - name: PCIEEP(0..2)_CFG082
+    address: 0x30000000148 + a*0x100000000
+    bus: PCICONFIGEP
+    description: |
+      PCIE_CFG110 = One hundred eleventh 32-bits of PCIE type 0 config space
+      (PCI Express Resizable BAR (RBAR) Capability Header)
+    fields:
+      - name: NCO
+        bits: 31..20
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Next Capability Offset
+
+      - name: CV
+        bits: 19..16
+        access: RO
+        reset: 0x1
+        typical: 0x1
+        description: Capability Version
+
+      - name: PCIEEC
+        bits: 15..0
+        access: RO
+        reset: 0x15
+        typical: 0x15
+        description: PCIE Express Extended Capability
+
+
+  - name: PCIEEP(0..2)_CFG083
+    address: 0x3000000014C + a*0x100000000
+    bus: PCICONFIGEP
+    description: |
+      PCIE_CFG111 = One hundred twelvth 32-bits of PCIE type 0 config space
+      (PCI Express Resizable BAR (RBAR) Capability Register)
+    fields:
+      - name: --
+        bits: 31..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SRS
+        bits: 25..4
+        access: RO
+        reset: 0xfffff
+        typical: 0xfffff
+        description: |
+          "Supported Resource Sizes
+          The OCTEON advertises the maximum allowable BAR size (512GB - 0xf_ffff)
+          when the fus__bar2_size_conf is intact. When the fuse is blown,
+          the OCTEON advertised a BAR size of 2TB (0x3f_ffff).
+          The BAR is disabled at runtime by writing all zeros through
+          PEM#_CFG_WR to this field"
+
+      - name: --
+        bits: 3..0
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: PCIEEP(0..2)_CFG084
+    address: 0x30000000150 + a*0x100000000
+    bus: PCICONFIGEP
+    description: |
+      PCIE_CFG112 = One hundred thirteenth 32-bits of PCIE type 0 config space
+      (PCI Express Resizable BAR (RBAR) Control Register)
+    fields:
+      - name: --
+        bits: 31..13
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: RBARS
+        bits: 12..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          BAR Size
+          The OCTEON advertises the minimum allowable BAR size of 0x0 (1MB)
+          but will accept values as large as 0x15 (2TB)
+
+      - name: NRBAR
+        bits: 7..5
+        access: RO
+        reset: 0x1
+        typical: 0x1
+        description: Number of Resizable BARs
+
+      - name: --
+        bits: 4..3
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: RBARI
+        bits: 2..0
+        access: RO
+        reset: 0x4
+        typical: 0x4
+        description: |
+          BAR Index
+          Points to the BAR located at offset 0x18 (BAR2)
 
 
   - name: PCIEEP(0..2)_CFG448
@@ -3964,8 +4094,8 @@ registers:
       - name: HEADER_DEPTH
         bits: 25..16
         access: RO/WRSL
-        reset: 0x25
-        typical: 0x25
+        reset: 0x26
+        typical: 0x26
         description: |
           "VC0 Posted Header Queue Depth
           Sets the number of entries in the Posted header queue for VC0
@@ -3983,8 +4113,8 @@ registers:
       - name: DATA_DEPTH
         bits: 13..0
         access: RO/WRSL
-        reset: 0xb7
-        typical: 0xb7
+        reset: 0xc8
+        typical: 0xc8
         description: |
           "VC0 Posted Data Queue Depth
           Sets the number of entries in the Posted data queue for VC0
@@ -4075,8 +4205,8 @@ registers:
       - name: DATA_DEPTH
         bits: 13..0
         access: RO/WRSL
-        reset: 0x188
-        typical: 0x188
+        reset: 0x18e
+        typical: 0x18e
         description: |
           "VC0 Completion Data Queue Depth
           Sets the number of entries in the Completion data queue for VC0
@@ -4141,8 +4271,8 @@ registers:
       - name: LE
         bits: 16..8
         access: R/W
-        reset: 0x8
-        typical: 0x8
+        reset: 0x4
+        typical: 0x4
         description: |
           Lane Enable
           Indicates the number of lanes to check for exit from electrical

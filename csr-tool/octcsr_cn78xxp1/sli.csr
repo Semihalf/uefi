@@ -10,25 +10,25 @@ enums:
       - name: SLI_MSI_RCV0(0..63)
         value: 0x1E000 + a
         attributes:
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi0"
         description: MSI received interrupts, see SLI_MSI_RCV0[INTR<a>].
 
       - name: SLI_MSI_RCV1(0..63)
         value: 0x1E040 + a
         attributes:
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi1"
         description: MSI received interrupts, see  SLI_MSI_RCV1[INTR<a>].
 
       - name: SLI_MSI_RCV2(0..63)
         value: 0x1E080 + a
         attributes:
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi2"
         description: MSI received interrupts, see  SLI_MSI_RCV2[INTR<a>].
 
       - name: SLI_MSI_RCV3(0..63)
         value: 0x1E0C0 + a
         attributes:
-          cib_rtl_module: "sli_msi"
+          cib_rtl_module: "sli_msi3"
         description: MSI received interrupts, see  SLI_MSI_RCV3[INTR<a>].
 
       - name: SLI_INT_RML_TO
@@ -893,8 +893,7 @@ registers:
         typical: 0
         description: |
           Interrupt from MIO for PORT 1.
-          See CIU_INT33_SUM0, CIU_INT_SUM1
-          (enabled by CIU_INT33_EN0, CIU_INT33_EN1)
+          See CIU3_IDT_IO and CIU3_DEST_IO_INT.
 
       - name: MIO_INT0
         bits: 16
@@ -903,8 +902,7 @@ registers:
         typical: 0
         description: |
           Interrupt from MIO for PORT 0.
-          See CIU_INT32_SUM0, CIU_INT_SUM1
-          (enabled by CIU_INT32_EN0, CIU_INT32_EN1)
+          See CIU3_IDT_IO and CIU3_DEST_IO_INT.
 
       - name: M1_UN_WI
         bits: 15
@@ -993,8 +991,7 @@ registers:
         typical: 0
         description: |
           Interrupt from MIO for PORT 3.
-          See CIU_INT33_SUM0, CIU_INT_SUM1
-          (enabled by CIU_INT33_EN0, CIU_INT33_EN1)
+          See CIU3_IDT_IO and CIU3_DEST_IO_INT.
 
       - name: MIO_INT2
         bits: 6
@@ -1003,8 +1000,7 @@ registers:
         typical: 0
         description: |
           Interrupt from MIO for PORT 2.
-          See CIU_INT32_SUM0, CIU_INT_SUM1
-          (enabled by CIU_INT32_EN0, CIU_INT32_EN1)
+          See CIU3_IDT_IO and CIU3_DEST_IO_INT.
 
       - name: PTIME
         bits: 5
@@ -2146,10 +2142,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MAC Port1 Fifo Unload Count. This counter is
-          incremented by '1' every time a word is removed
-          from the Data Out FIFO, whose count is shown in
-          P0_FCNT.
+          FIFO1 Unload Count. This counter is incremented by
+          '1' every time a word is removed from Data Out
+          FIFO1. Whose count is shown in P1_FCNT.
 
       - name: P1_FCNT
         bits: 27..22
@@ -2157,9 +2152,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MAC Port1 Data Out Fifo Count. Number of address
-          data words to be sent out the MAC port presently
-          buffered in the FIFO.
+          FIFO1 Data Out Count. Number of address data words |   $RW
+          presently buffered in the FIFO1.                   |
+          MACs associated with FIFO1:                        |
+            PCIe2, PCIe3
 
       - name: P0_UCNT
         bits: 21..6
@@ -2167,10 +2163,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MAC Port0 Fifo Unload Count. This counter is
-          incremented by '1' every time a word is removed
-          from the Data Out FIFO, whose count is shown in
-          P0_FCNT.
+          FIFO0 Unload Count. This counter is incremented by
+          '1' every time a word is removed from Data Out
+          FIFO0. Whose count is shown in P0_FCNT.
 
       - name: P0_FCNT
         bits: 5..0
@@ -2178,9 +2173,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MAC Port0 Data Out Fifo Count. Number of address
-          data words to be sent out the MAC port presently
-          buffered in the FIFO.
+          FIFO0 Data Out Count. Number of address data words
+          presently buffered in the FIFO0.
+          MACs associated with FIFO0:
+            PCIe0, PCIe1
 
 
   - name: SLI_STATE1
@@ -3501,11 +3497,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bits 63-0 of the 256 bits of MSI interrupt.
-          This register is used to create the legacy
-          CIU2_RAW_xx_yy_IO[PCI_MSI] interrupt.
-          See also CIU2_MSI_RCV.
+        description: Bits 63-0 of the 256 bits of MSI interrupt.
 
 
   - name: SLI_MSI_RCV1
@@ -3520,11 +3512,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bits 127-64 of the 256 bits of MSI interrupt.
-          This register is used to create the legacy
-          CIU2_RAW_xx_yy_IO[PCI_MSI] interrupt.
-          See also CIU2_MSI_RCV.
+        description: Bits 127-64 of the 256 bits of MSI interrupt.
 
 
   - name: SLI_MSI_RCV2
@@ -3539,11 +3527,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bits 191-128 of the 256 bits of MSI interrupt.
-          This register is used to create the legacy
-          CIU2_RAW_xx_yy_IO[PCI_MSI] interrupt.
-          See also CIU2_MSI_RCV.
+        description: Bits 191-128 of the 256 bits of MSI interrupt.
 
 
   - name: SLI_MSI_RCV3
@@ -3558,11 +3542,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bits 255-192 of the 256 bits of MSI interrupt.
-          This register is used to create the legacy
-          CIU2_RAW_xx_yy_IO[PCI_MSI] interrupt.
-          See also CIU2_MSI_RCV.
+        description: Bits 255-192 of the 256 bits of MSI interrupt.
 
 
   - name: SLI_MSI_WR_MAP

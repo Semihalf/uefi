@@ -20,7 +20,7 @@ registers:
     bus: NCB
     description: |
       This register provides configuration for the MPI/SPI interface. Note that some of the MPI/SPI
-      pins are multiplexed with UART pins.
+      pins are multiplexed with UART and BOOT pins.
       SPI_CK MPI/SPI clock; dedicated pin.
       SPI_DI MPI/SPI input; shared with UART0_DCD_L/SPI_DI; enabled when MPI_CFG[ENABLE]=1.
       SPI_DO MPI/SPI output; mux to UART0_DTR_L/SPI_DO; enabled when MPI_CFG[ENABLE]=1.
@@ -175,8 +175,11 @@ registers:
         typical: 0
         description: |
           MPI/SPI enable.
-          0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI,  pins are UART pins.
+          0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI, UART1_CTS_L/SPI_CS2_L, UART1_RTS_L/SPI_CS3_L
+          pins are UART pins.
           1 = UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI pins are MPI/SPI pins.
+          UART1_CTS_L/SPI_CS2_L is an MPI/SPI pin if CSENA2 = 1
+          UART1_RTS_L/SPI_CS3_L is an MPI/SPI pin if CSENA3 = 1
 
 
   - name: MPI_STS
@@ -193,7 +196,7 @@ registers:
 
       - name: RXNUM
         bits: 12..8
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: Number of bytes written for the transaction.
@@ -215,7 +218,7 @@ registers:
 
       - name: BUSY
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -296,7 +299,7 @@ registers:
     fields:
       - name: DATA
         bits: 63..0
-        access: R/W
+        access: R/W/H
         reset: --
         typical: --
         description: Data to transmit/receive.
@@ -316,7 +319,7 @@ registers:
 
       - name: DATA
         bits: 7..0
-        access: R/W
+        access: R/W/H
         reset: --
         typical: --
         description: Data to transmit/receive.

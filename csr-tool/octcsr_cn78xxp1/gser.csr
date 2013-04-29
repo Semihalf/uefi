@@ -62,8 +62,7 @@ registers:
         typical: 0
         description: |
           For non-OCI links, this allows the reference clock to
-          be sourced from the external clock mux (when set).  For
-          OCI links, this bit should never be set.
+          be sourced from the external clock mux (when set).
 
       - name: USE_COM1
         bits: 0
@@ -554,14 +553,14 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: EIESTS
-        bits: 3..0
+        bits: 7..4
         access: RO
         reset: 0x0
         typical: 0x0
@@ -569,6 +568,39 @@ registers:
           Status from lane X's RX indicating the detection of a electical IDLE exit
           condition.  Note that this is a dynamic indication and valid when the
           associated mac_pcs_rx_eie_det_en[3:0] bit is set.
+
+      - name: EIELTCH
+        bits: 3..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Status from lane X's RX indicating the detection of a electical IDLE exit
+          condition.  Note that this is a latched indication that electrical IDLE
+          exit condition was met at least once during the period of time that the
+          associate mac_pcs_rx_eie_det_en[3:0] bit was set.
+
+
+  - name: GSER(0..13)_RX_POLARITY
+    title: GSER RX Polarity
+    address: 0x1180090000158 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_INV
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Control signal to invert the polarity of received data.  When
+          asserted, the polarity of the received data is inverted.
 
 
   - name: GSER(0..13)_PIPE_LPBK

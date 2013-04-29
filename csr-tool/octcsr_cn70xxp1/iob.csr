@@ -392,7 +392,7 @@ registers:
     title: IOB's Interrupt Summary Register
     address: 0x11800F0000058
     bus: RSL
-    description: Contains the diffrent interrupt summary bits of the IOB. This is a PASS-2 register.
+    description: Contains the diffrent interrupt summary bits of the IOB.
     fields:
       - name: --
         bits: 63..8
@@ -408,7 +408,7 @@ registers:
         typical: 0
         description: |
           Was a match on the outbound bus to the inb pattern
-          matchers. PASS2 FIELD.
+          matchers.
 
       - name: INB_MAT
         bits: 6
@@ -417,7 +417,7 @@ registers:
         typical: 0
         description: |
           Was a match on the inbound bus to the inb pattern
-          matchers. PASS2 FIELD.
+          matchers.
 
       - name: P_DAT
         bits: 5
@@ -496,7 +496,7 @@ registers:
     title: IOB's Interrupt Enable
     address: 0x11800F0000060
     bus: RSL
-    description: The IOB's interrupt enable register. This is a PASS-2 register.
+    description: The IOB's interrupt enable register.
     fields:
       - name: --
         bits: 63..8
@@ -590,7 +590,7 @@ registers:
     title: IOB Packet Error Register
     address: 0x11800F0000068
     bus: RSL
-    description: Provides status about the failing packet recevie error. This is a PASS-2 register.
+    description: Provides status about the failing packet recevie error.
     fields:
       - name: --
         bits: 63..12
@@ -624,7 +624,7 @@ registers:
     title: IOB Inbound Data Match
     address: 0x11800F0000070
     bus: RSL
-    description: Match pattern for the inbound data to set the INB_MATCH_BIT. PASS-2 Register
+    description: Match pattern for the inbound data to set the INB_MATCH_BIT.
     fields:
       - name: DATA
         bits: 63..0
@@ -638,7 +638,7 @@ registers:
     title: IOB Inbound Control Match
     address: 0x11800F0000078
     bus: RSL
-    description: Match pattern for the inbound control to set the INB_MATCH_BIT. PASS-2 Register
+    description: Match pattern for the inbound control to set the INB_MATCH_BIT.
     fields:
       - name: --
         bits: 63..29
@@ -680,7 +680,7 @@ registers:
     title: IOB Inbound Data Match Enable
     address: 0x11800F0000080
     bus: RSL
-    description: Enables the match of the corresponding bit in the IOB_INB_DATA_MATCH reister. PASS-2 Register
+    description: Enables the match of the corresponding bit in the IOB_INB_DATA_MATCH reister.
     fields:
       - name: DATA
         bits: 63..0
@@ -694,7 +694,7 @@ registers:
     title: IOB Inbound Control Match Enable
     address: 0x11800F0000088
     bus: RSL
-    description: Enables the match of the corresponding bit in the IOB_INB_CONTROL_MATCH reister. PASS-2 Register
+    description: Enables the match of the corresponding bit in the IOB_INB_CONTROL_MATCH reister.
     fields:
       - name: --
         bits: 63..29
@@ -736,7 +736,7 @@ registers:
     title: IOB Outbound Data Match
     address: 0x11800F0000090
     bus: RSL
-    description: Match pattern for the outbound data to set the OUTB_MATCH_BIT. PASS-2 Register
+    description: Match pattern for the outbound data to set the OUTB_MATCH_BIT.
     fields:
       - name: DATA
         bits: 63..0
@@ -750,7 +750,7 @@ registers:
     title: IOB Outbound Control Match
     address: 0x11800F0000098
     bus: RSL
-    description: Match pattern for the outbound control to set the OUTB_MATCH_BIT. PASS-2 Register
+    description: Match pattern for the outbound control to set the OUTB_MATCH_BIT.
     fields:
       - name: --
         bits: 63..26
@@ -792,7 +792,7 @@ registers:
     title: IOB Outbound Data Match Enable
     address: 0x11800F00000A0
     bus: RSL
-    description: Enables the match of the corresponding bit in the IOB_OUTB_DATA_MATCH reister. PASS-2 Register
+    description: Enables the match of the corresponding bit in the IOB_OUTB_DATA_MATCH reister.
     fields:
       - name: DATA
         bits: 63..0
@@ -806,7 +806,7 @@ registers:
     title: IOB Outbound Control Match Enable
     address: 0x11800F00000A8
     bus: RSL
-    description: Enables the match of the corresponding bit in the IOB_OUTB_CONTROL_MATCH reister. PASS-2 Register
+    description: Enables the match of the corresponding bit in the IOB_OUTB_CONTROL_MATCH reister.
     fields:
       - name: --
         bits: 63..26
@@ -883,6 +883,27 @@ registers:
         description: |
           Number of NCB/PKI writes that can be out to L2C
           where 0 == 8-credits.
+
+
+  - name: IOB_PP_BIST_STATUS
+    title: BIST Status of the PPs
+    address: 0x11800F0000700
+    bus: RSL
+    description: The result of the BIST run on the PPs.
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PP_BSTAT
+        bits: 3..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST Status of PPs. Bit vector position is the number of the PP (i.e. PP0 == PP_BSTAT[0]).
 
 
   - name: IOB_BIST_STATUS

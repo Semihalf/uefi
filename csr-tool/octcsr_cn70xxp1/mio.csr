@@ -6,6 +6,20 @@ registers:
   - name: CIU_INT(0..7,32)_SUM0
     address: 0x1070000000000 + a*0x8
     bus: NCB
+    description: |
+      The remaining IP4 summary bits will be CIU_INT@_SUM4.
+      CIU_INT0_SUM0:  PP0/IP2
+      CIU_INT1_SUM0:  PP0/IP3
+      CIU_INT2_SUM0:  PP1/IP2
+      CIU_INT3_SUM0:  PP1/IP3
+      CIU_INT4_SUM0:  PP2/IP2
+      CIU_INT5_SUM0:  PP2/IP3
+      CIU_INT6_SUM0:  PP3/IP2
+      CIU_INT7_SUM0:  PP3/IP3
+       .....
+      (hole)
+      CIU_INT32_SUM0: IO 0
+      CIU_INT33_SUM0: IO 1 (in seperate address group)
     fields:
       - name: BOOTDMA
         bits: 63
@@ -66,14 +80,12 @@ registers:
         typical: 0
         description: PCM/TDM interrupt
 
-      - name: USB
+      - name: --
         bits: 56
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          USB EHCI or OHCI Interrupt
-          See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved for USB.
 
       - name: TIMER
         bits: 55..52
@@ -135,15 +147,12 @@ registers:
           Trace buffer interrupt
           See TRA_INT_STATUS
 
-      - name: RML
+      - name: --
         bits: 46
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          RML Interrupt
-          This interrupt will assert if any bit within
-          CIU_BLOCK_INT is asserted.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -243,6 +252,9 @@ registers:
   - name: CIU_INT_SUM1
     address: 0x1070000000108
     bus: NCB
+    description: |
+      CIU_INT_SUM1 is kept to keep backward compatible.
+      Refer to CIU_SUM1_PP@_IPx which is the one should use.
     fields:
       - name: RST
         bits: 63
@@ -250,8 +262,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MIO RST interrupt
-          See MIO_RST_INT
+          MIO RST interrupt. |(CIU_CIB_RST_RAW(0) & CIU_CIB_RST_EN(0))
+          See CIU_CIB_RST_RAW(0) and CIU_CIB_RST_EN(0)
 
       - name: --
         bits: 62..60
@@ -280,8 +292,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          LMC0 interrupt
-          See LMC0_INT
+          LMC0 interrupt. |(CIU_CIB_LMC(0)_RAW[0] & CIU_CIB_LMC(0)_EN[0])
+          See CIU_CIB_LMC(0)_RAW[0] and CIU_CIB_LMC(0)_EN[0]
 
       - name: --
         bits: 51
@@ -400,8 +412,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USB UCTL0 interrupt
-          See UCTL0_INT_REG
+          USBDRD0 Interrupt.  (CIU_CIB_USBDRD(0)_RAW[0] & CIU_CIB_USBDRD(0)_EN)
+          See CIU_CIB_USBDRD(0)_RAW[0] and CIU_CIB_USBDRD(0)_EN[0]
 
       - name: DFA
         bits: 32
@@ -481,8 +493,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          L2C interrupt
-          See L2C_INT_REG
+          L2C interrupt. |(CIU_CIB_L2C_RAW[0..2] & CIU_CIB_L2C_EN[0..2])
+          See CIU_CIB_L2C_RAW[0..2] and CIU_CIB_L2C_EN[0..2].
 
       - name: POW
         bits: 23
@@ -518,7 +530,7 @@ registers:
         typical: 0
         description: |
           MIO boot interrupt
-          See MIO_BOOT_ERR
+           See MIO_BOOT_ERR
 
       - name: NAND
         bits: 19
@@ -536,12 +548,14 @@ registers:
         typical: --
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for additional USB Interrupts
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          USBDRD1 Interrupt.  (CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0])
+          See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0]
 
       - name: --
         bits: 16
@@ -562,12 +576,13 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Per PP watchdog interrupts
+        description: Watchdog interrupts. Bit 0 for PP0 watchdog, and Bit n for PPn.
 
 
   - name: CIU_INT33_SUM0
     address: 0x1070000000110
     bus: NCB
+    description: This bit is associated with CIU_INT@_SUM0.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -626,14 +641,12 @@ registers:
         typical: 0
         description: PCM/TDM interrupt
 
-      - name: USB
+      - name: --
         bits: 56
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          USB EHCI or OHCI Interrupt
-          See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS
+        description: Reserved.
 
       - name: TIMER
         bits: 55..52
@@ -695,15 +708,12 @@ registers:
           Trace buffer interrupt
           See TRA_INT_STATUS
 
-      - name: RML
+      - name: --
         bits: 46
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          RML Interrupt
-          This interrupt will assert if any bit within
-          CIU_BLOCK_INT is asserted.
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -799,6 +809,19 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN0
     address: 0x1070000000200 + a*0x10
     bus: NCB
+    description: |
+      CIU_INT0_EN0:  PP0/IP2
+      CIU_INT1_EN0:  PP0/IP3
+      CIU_INT2_EN0:  PP1/IP2
+      CIU_INT3_EN0:  PP1/IP3
+      CIU_INT4_EN0:  PP2/IP2
+      CIU_INT5_EN0:  PP2/IP3
+      CIU_INT6_EN0:  PP3/IP2
+      CIU_INT7_EN0:  PP3/IP3
+      .....
+      (hole)
+      CIU_INT32_EN0: IO 0
+      CIU_INT33_EN0: IO 1
     fields:
       - name: BOOTDMA
         bits: 63
@@ -849,12 +872,12 @@ registers:
         typical: 0
         description: PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W/H
+        access: ---
         reset: 0
         typical: 0
-        description: USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB
 
       - name: TIMER
         bits: 55..52
@@ -958,6 +981,42 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN1
     address: 0x1070000000208 + a*0x10
     bus: NCB
+    description: |
+      Enables for CIU_SUM1_PP@_IPx  or CIU_SUM1_IO@_INT
+      CIU_INT0_EN1:  PP0/IP2
+      CIU_INT1_EN1:  PP0/IP3
+      CIU_INT2_EN1:  PP1/IP2
+      CIU_INT3_EN1:  PP1/IP3
+      CIU_INT4_EN1:  PP2/IP2
+      CIU_INT5_EN1:  PP2/IP3
+      CIU_INT6_EN1:  PP3/IP2
+      CIU_INT7_EN1:  PP3/IP3
+      .....
+      (hole)
+      CIU_INT32_EN1: IO0
+      CIU_INT33_EN1: IO1
+
+      PPx/IP2 will be raised when...
+
+      n = x*2
+      PPx/IP2 = |({CIU_SUM2_PPx_IP2,CIU_SUM1_PPx_IP2, CIU_INTn_SUM0} &
+      {CIU_EN2_PPx_IP2,CIU_INTn_EN1, CIU_INTn_EN0})
+
+      PPx/IP3 will be raised when...
+
+      n = x*2 + 1
+      PPx/IP3 =  |({CIU_SUM2_PPx_IP3,CIU_SUM1_PPx_IP3, CIU_INTn_SUM0} &
+      {CIU_EN2_PPx_IP3,CIU_INTn_EN1, CIU_INTn_EN0})
+
+      PPx/IP4 will be raised when...
+      PPx/IP4 = |({CIU_SUM1_PPx_IP4, CIU_INTx_SUM4} & {CIU_INTx_EN4_1, CIU_INTx_EN4_0})
+
+      PCI/INT will be raised when...
+
+      PCI/INT = |({CIU_SUM2_IO0_INT,CIU_SUM1_IO0_INT, CIU_INT32_SUM0} &
+      {CIU_EN2_IO0_INT,CIU_INT32_EN1, CIU_INT32_EN0})
+      PCI/INT = |({CIU_SUM2_IO1_INT,CIU_SUM1_IO1_INT, CIU_INT33_SUM0} &
+      {CIU_EN2_IO1_INT,CIU_INT33_EN1, CIU_INT33_EN0})
     fields:
       - name: RST
         bits: 63
@@ -1097,7 +1156,7 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
-        description: USB UCTL0 interrupt enable
+        description: USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -1204,12 +1263,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: USBDRD1 summary interrupt enable vector.
 
       - name: --
         bits: 16
@@ -1230,7 +1289,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Watchdog summary interrupt enable vector
+        description: Watchdog summary interrupt enable vector.
 
 
   - name: CIU_TIM(0..9)
@@ -1364,6 +1423,10 @@ registers:
   - name: CIU_PP_POKE(0..3)
     address: 0x1070000000580 + a*0x8
     bus: NCB
+    description: |
+      Any write to a CIU_PP_POKE register clears any pending interrupt generated
+      by the associated watchdog, resets the CIU_WDOG[STATE] field, and set
+      CIU_WDOG[CNT] to be (CIU_WDOG[LEN] << 8).
     fields:
       - name: POKE
         bits: 63..0
@@ -1605,379 +1668,37 @@ registers:
           where X=32-33
 
 
-  - name: CIU_BLOCK_INT
-    title: CIU Blocks Interrupt
-    address: 0x10700000007C0
-    bus: NCB
-    description: The interrupt lines from the various chip blocks.
-    fields:
-      - name: --
-        bits: 63..62
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 61..43
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PTP
-        bits: 42
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PTP interrupt
-          See CIU_INT_SUM1[PTP]
-
-      - name: DPI
-        bits: 41
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          DPI interrupt
-          See DPI_INT_REG
-
-      - name: --
-        bits: 40
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for DFM
-
-      - name: --
-        bits: 39..34
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 33..31
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: IOB
-        bits: 30
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          IOB interrupt
-          See IOB_INT_SUM
-
-      - name: --
-        bits: 29
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for LMC1
-
-      - name: AGL
-        bits: 28
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          AGL interrupt
-          See AGL_GMX_RX*_INT_REG, AGL_GMX_TX_INT_REG
-
-      - name: PEM2
-        bits: 27
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PEM2 interrupt
-          See PEM2_INT_SUM (enabled by PEM2_INT_ENB)
-
-      - name: PEM1
-        bits: 26
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PEM1 interrupt
-          See PEM1_INT_SUM (enabled by PEM1_INT_ENB)
-
-      - name: PEM0
-        bits: 25
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PEM0 interrupt
-          See PEM0_INT_SUM (enabled by PEM0_INT_ENB)
-
-      - name: --
-        bits: 24
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ASXPCS1
-        bits: 23
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: See PCS1_INT*_REG, PCSX1_INT_REG
-
-      - name: ASXPCS0
-        bits: 22
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: See PCS0_INT*_REG, PCSX0_INT_REG
-
-      - name: --
-        bits: 21
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PIP
-        bits: 20
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PIP interrupt
-          See PIP_INT_REG
-
-      - name: --
-        bits: 19..18
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for SPX* interrupts
-
-      - name: LMC0
-        bits: 17
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          LMC0 interrupt
-          See LMC0_INT
-
-      - name: L2C
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          L2C interrupt
-          See L2C_INT_REG
-
-      - name: --
-        bits: 15
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for additional USB interrupts
-
-      - name: RAD
-        bits: 14
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          RAD interrupt
-          See RAD_REG_ERROR
-
-      - name: USB
-        bits: 13
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          USB UCTL0 interrupt
-          See UCTL0_INT_REG
-
-      - name: POW
-        bits: 12
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          POW err interrupt
-          See POW_ECC_ERR
-
-      - name: TIM
-        bits: 11
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          TIM interrupt
-          See TIM_REG_ERROR
-
-      - name: PKO
-        bits: 10
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          PKO interrupt
-          See PKO_REG_ERROR
-
-      - name: IPD
-        bits: 9
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          IPD interrupt
-          See IPD_INT_SUM
-
-      - name: --
-        bits: 8
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ZIP
-        bits: 7
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          ZIP interrupt
-          See ZIP_ERROR
-
-      - name: DFA
-        bits: 6
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          DFA interrupt
-          See DFA_ERROR
-
-      - name: FPA
-        bits: 5
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          FPA interrupt
-          See FPA_INT_SUM
-
-      - name: KEY
-        bits: 4
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          KEY interrupt
-          See KEY_INT_SUM
-
-      - name: SLI
-        bits: 3
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          SLI interrupt
-          See SLI_INT_SUM (enabled by SLI_INT_ENB_CIU)
-
-      - name: GMX1
-        bits: 2
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          GMX1 interrupt
-          See GMX1_RX*_INT_REG, GMX1_TX_INT_REG
-
-      - name: GMX0
-        bits: 1
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          GMX0 interrupt
-          See GMX0_RX*_INT_REG, GMX0_TX_INT_REG
-
-      - name: MIO
-        bits: 0
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          MIO boot interrupt
-          See MIO_BOOT_ERR
-
-
-  - name: CIU_INT_DBG_SEL
+  - name: CIU_INTR_SLOWDOWN
+    title: CIU Interrupt Slow Down Register
     address: 0x10700000007D0
     bus: NCB
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: SEL
-        bits: 18..16
+      - name: CTL
+        bits: 2..0
         access: R/W
         reset: 0x0
-        typical: --
+        typical: 0x0
         description: |
-          Selects if all or the specific interrupt is
-          presented on the debug port.
-          0=erst_n
-          1=start_bist
-          2=toggle at sclk/2 freq
-          3=All PP interrupt bits are ORed together
-          4=Only the selected virtual  PP/IRQ is selected
-
-      - name: --
-        bits: 15..10
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: IRQ
-        bits: 9..8
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Which IRQ to select
-          0=IRQ2
-          1=IRQ3
-          2=IRQ4
-
-      - name: --
-        bits: 7..4
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PP
-        bits: 3..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: Which PP to select
+          Slow down CIU interrupt walker processing time. IRQ2/3/4 for all 48 cores are sent to the
+          core (MRC) in a serial bus to reduce global routing. There is no backpressure mechanism
+          designed for this scheme. It will only be a problem when SCLK is faster; this Control will
+          process 1 interrupt in 2^CTL SCLK cycles. With different a setting, clock rate ratio can
+          handle:
+          SLOWDOWN sclk_freq/aclk_freq ratio
+          0 3
+          1 6
+          n 3*2n
 
 
   - name: GPIO_BIT_CFG(0..15)
+    title: GPIO Bit Configuration Register
     address: 0x1070000000800 + a*0x8
     bus: NCB
     fields:
@@ -1996,20 +1717,22 @@ registers:
         description: |
           Selects GPIO output. When [TX_OE] is set, selects
           what output data is driven.
-          0x0 : TX Normal GPIO output, controlled by GPIO_TX.
-          0x1 : PTP_CKOUT, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
-          0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
-          0x3+a  :  CLK_SYNCE(0..1) see GPIO_CLK_SYNCE.
-          0x5-0x7: Reserved.
-          0x8    : LMC_ECC(0)  LMC ECC error detected;
-          0x9-0xf: Reserved.
-          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator; See GPIO_CLK_GEN.
-          0x14   : USBH_VBUS_CTRL  USBH Vbus control;
-          0x15   : SATA port0 cold presence power-on device.(p0_cp_pod)
-          0x16   : SATA port1 cold presence power-on device.(p1_cp_pod)
-          0x17   : SATA port0 LED  (p0_act_led)
-          0x18   : SATA port1 LED  (p1_act_led)
-          0x19-  : Reserved.
+            0x0 : TX Normal GPIO output, controlled by GPIO_TX.
+            0x1 : PTP_CKOUT, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
+            0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
+            0x3+a  :  CLK_SYNCE(0..1) see GPIO_CLK_SYNCE.
+            0x5+a  : MCD(0..2) Multi Core Debug output; see TBD
+            0x8    : LMC_ECC(0)  LMC ECC error detected.
+            0x9-0xf: Reserved.
+            0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator; See GPIO_CLK_GEN.
+            0x14   : USB0_VBUS_CTRL  see USB0 Vbus Control.
+            0x15   : SATA port0 cold presence power-on device.(p0_cp_pod)
+            0x16   : SATA port1 cold presence power-on device.(p1_cp_pod)
+            0x17   : SATA port0 LED  (p0_act_led)
+            0x18   : SATA port1 LED  (p1_act_led)
+            0x19   : USB1_VBUS_CTRL  see USB1 Vbus control.
+            0x1a-  : Reserved.
+          Note: GPIO[19:10] controls are ignored if PCM is enabled.  See PCM(0..3)_TDM_CFG
 
       - name: --
         bits: 15..12
@@ -2065,6 +1788,7 @@ registers:
 
 
   - name: GPIO_RX_DAT
+    title: GPIO Receive Data
     address: 0x1070000000880
     bus: NCB
     fields:
@@ -2084,6 +1808,7 @@ registers:
 
 
   - name: GPIO_TX_SET
+    title: GPIO Transmit Data Set Register
     address: 0x1070000000888
     bus: NCB
     fields:
@@ -2106,6 +1831,7 @@ registers:
 
 
   - name: GPIO_TX_CLR
+    title: GPIO Transmit Data Clear Register
     address: 0x1070000000890
     bus: NCB
     fields:
@@ -2128,8 +1854,11 @@ registers:
 
 
   - name: GPIO_INT_CLR
+    title: GPIO Interrupt Clear Register
     address: 0x1070000000898
     bus: NCB
+    description: |
+      Interrupts are limited to GPIO bits 15:0
     fields:
       - name: --
         bits: 63..16
@@ -2149,9 +1878,29 @@ registers:
   - name: GPIO_USBH_CTL
     address: 0x10700000008A0
     bus: NCB
+    description: |
+      Select GPIO0-19 received data (GPIO_RX_DAT[DAT]) routing to USB.
+      The signals sent to USB from GPIO are filtered and optional inverted.
     fields:
       - name: --
-        bits: 63..5
+        bits: 63..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL1
+        bits: 12..8
+        access: R/W/H
+        reset: 0x1f
+        typical: 0x0
+        description: |
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for USB1
+          over-current control. With SEL1 values 20-31,
+          signal is always zero.
+
+      - name: --
+        bits: 7..5
         access: ---
         reset: --
         typical: --
@@ -2163,7 +1912,7 @@ registers:
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for USBH
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) USB0
           over-current control. With SEL values 20-31,
           signal is always zero.
 
@@ -2171,6 +1920,9 @@ registers:
   - name: GPIO_SATA_CTL
     address: 0x10700000008A8
     bus: NCB
+    description: |
+      Select GPIO0-19 received data (GPIO_RX_DAT[DAT]) routing to SATA.
+      The signals sent to SATA from GPIO are filtered and optional inverted.
     fields:
       - name: --
         bits: 63..25
@@ -2181,58 +1933,118 @@ registers:
 
       - name: SEL4
         bits: 24..20
-        access: R/W/H
+        access: R/W
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for SATA
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for SATA
           port1 cold presence detect(p1_cp_det).
           With SEL values 20-31, signal is always zero.
 
       - name: SEL3
         bits: 19..15
-        access: R/W/H
+        access: R/W
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for SATA
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for SATA
           port0 cold presence detect(p0_cp_det).
           With SEL values 20-31, signal is always zero.
 
       - name: SEL2
         bits: 14..10
-        access: R/W/H
+        access: R/W
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for SATA
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for SATA
           port1 mechanical presence detect(p1_mp_switch).
           With SEL values 20-31, signal is always zero.
 
       - name: SEL1
         bits: 9..5
-        access: R/W/H
+        access: R/W
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for SATA
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for SATA
           port0 mechanical presence detect(p0_mp_switch).
           With SEL values 20-31, signal is always zero.
 
       - name: SEL0
         bits: 4..0
-        access: R/W/H
+        access: R/W
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) input pin for SATA
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for SATA
           compliance lab loopback testing(lab_lb_pin).
           With SEL values 20-31, signal is always zero.
 
 
   - name: GPIO_MULTI_CAST
+    title: GPIO Multicast Control
     address: 0x10700000008B0
     bus: NCB
+    description: |
+      GPIO<7..4> have the option of operating in GPIO Interrupt Multicast mode.  In this mode,
+      the PP GPIO interrupts (CIU_INT<0-7>_SUM0/CIU_INT<0-3>_SUM4[GPIO<7..4>] values are
+      stored per cnMIPS core.
+      For GPIO<7..4> (x=4-7)
+      When GPIO_MULTI_CAST[EN] = 1:
+          When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt
+      enabled)
+            * Reads to CIU_INT<0-7>_SUM0/<0-3>_SUM4[GPIO<x>] will return a unique interrupt state
+      per
+              cnMIPS core.
+            * Reads to CIU_INT32/33_SUM0/4[GPIO<x>] will return the common GPIO<x>
+              interrupt state.
+            * Write of '1' to CIU_INT<0-7>_SUM0/<0-3>_SUM4[GPIO<x>] will clear the individual
+              interrupt associated with the cnMIPS core.
+            * Write of '1' to CIU_INT32/33_SUM0/4[GPIO<x>] will clear the common GPIO<x>
+              interrupt state.
+            * Write of '1' to GPIO_INT_CLR[TYPE<x>] will clear all
+              CIU_INT*_SUM0/4[GPIO<x>] state across all cnMIPS cores and common GPIO<x> interrupt
+      states.
+          When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+            * either leveled interrupt or interrupt not enabled, write of '1' to
+      CIU_INT*_SUM0/4[GPIO<x>]
+              will have no effects.
+       When GPIO_MULTI_CAST[EN] = 0:
+          * Write of '1' to CIU_INT_SUM0/4[GPIO<x>] will have no effects, as this field is RO,
+            backward compatible with o63.
+          When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt
+      enabled)
+            * Reads to CIU_INT*_SUM0/4[GPIO<x>] will return the common GPIO<X> interrupt state.
+            * Write of '1' to GPIO_INT_CLR[TYPE<x>] will clear all
+              CIU_INT*_SUM0/4[GPIO<x>] state across all cnMIPS cores and common GPIO<x> interrupt
+      states.
+          When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+            * either leveled interrupt or interrupt not enabled, write of '1' to
+      CIU_INT*_SUM0/4[GPIO<x>]
+              will have no effects.
+
+      GPIO<19..8> and GPIO<3..0> will never be in multicast mode as those don't have per cnMIPS
+      capabilities.
+      For GPIO<y> (y=0-3,8-19):
+      When GPIO_BIT_CFGx[INT_EN]==1 &  GPIO_BIT_CFGx[INT_TYPE]==1 (edge detection and interrupt
+      enabled):
+         * Reads to CIU_INT*_SUM0/4[GPIO<y>] will return the common GPIO<y> interrupt state.
+         * Write of '1' to GPIO_INT_CLR[TYPE<y>] will clear all CIU_INT*_SUM0/4[GPIO<y>] common
+      GPIO<y>
+           interrupt states.
+         When GPIO_MULTI_CAST[EN] = 1:
+           * Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] will clear the common GPIO<y> interrupt state.
+         When GPIO_MULTI_CAST[EN] = 0:
+           * Write of '1' to CIU_INT*_SUM0/4[GPIO<y>] has no effect, as this field is RO,
+             backward compatible to o63.
+      When GPIO_BIT_CFGx[INT_EN]==0 or GPIO_BIT_CFGx[INT_TYPE]==0,
+         * either leveled interrupt or interrupt not enabled, write of '1' to
+      CIU_INT*_SUM0/4[GPIO<y>]
+           will have no effects.
+      NOTE:  Whenever there is mode change, (GPIO_BIT_CFGx[INT_EN] or  GPIO_BIT_CFGx[INT_TYPE] or
+      GPIO_MULTI_CAST[EN])
+      software needs to write to  $GPIO_INT_CLR to clear up all pending/stale interrupts.
     fields:
       - name: --
         bits: 63..1
@@ -2257,6 +2069,7 @@ registers:
 
 
   - name: GPIO_CLK_GEN(0..3)
+    title: GPIO Clock Generation
     address: 0x10700000008C0 + a*0x8
     bus: NCB
     fields:
@@ -2297,10 +2110,11 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          Selects which DLM to select from
-          01 = select DLM0 as clock source
-          1x = select DLM2 as clock source
-          0  = Disabled
+          Selects clock source from
+          00 = Disabled
+          01 = DLM0
+          10 = DLM1
+          11 = DLM2
 
       - name: --
         bits: 7..3
@@ -2319,17 +2133,24 @@ registers:
           0=DIV2
           1=DIV4
 
-      - name: LANE_SEL
-        bits: 1..0
+      - name: --
+        bits: 1
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
+        description: Reserved.
+
+      - name: LANE_SEL
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
         description: |
           Selects which RX lane clock from DLMx to use as
           the GPIO internal DLMx clock.  The GPIO block can
           support upto two unique clocks to send out any
           GPIO pin as configured by
-          $GPIO_BIT_CFG/$GPIO_XBIT_CFG[OUTPUT_SEL]
+          $GPIO_BIT_CFG[OUTPUT_SEL]
           The clock can either be a divided by 2 or divide
           by 4 of the selected RX lane clock.
 
@@ -2337,97 +2158,16 @@ registers:
   - name: GPIO_XBIT_CFG(16..19)
     address: 0x1070000000880 + a*0x8
     bus: NCB
-    fields:
-      - name: --
-        bits: 63..21
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: OUTPUT_SEL
-        bits: 20..16
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Selects GPIO output. When [TX_OE] is set, selects
-          what output data is driven.
-          0x0 : TX Normal GPIO output, controlled by GPIO_TX.
-          0x1 : PTP_CKOUT, PTP CKOUT; see MIO_PTP_CLOCK_CFG.
-          0x2 : PTP_PPS, PTP PPS; see MIO_PTP_CLOCK_CFG.
-          0x3+a  :  CLK_SYNCE(0..1) see GPIO_CLK_SYNCE.
-          0x5-0x7: Reserved.
-          0x8    : LMC_ECC(0)  LMC ECC error detected;
-          0x9-0xb: Reserved.
-          0xC+a  : MPI_CS(0..1). MPI chip select; see MPI_TX.
-          0x10+a : GPIO_CLK_GEN(0..3), GPIO clock generator;
-          See GPIO_CLK_GEN.
-          0x14   : USBH_VBUS_CTRL  USBH Vbus control;
-          0x15   : SATA port0 cold presence power-on device.
-          (p0_cp_pod)
-          0x16   : SATA port1 cold presence power-on device.
-          (p1_cp_pod)
-          0x17   : SATA port0 LED  (p0_act_led)
-          0x18   : SATA port1 LED  (p1_act_led)
-          0x19-  : Reserved.
-
-      - name: --
-        bits: 15..12
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: FIL_SEL
-        bits: 11..8
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Global counter bit-select (controls sample rate)
-
-      - name: FIL_CNT
-        bits: 7..4
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Number of consecutive samples to change state
-
-      - name: INT_TYPE
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Type of interrupt
-          0 = level (default)
-          1 = rising edge
-
-      - name: INT_EN
-        bits: 2
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Bit mask to indicate which bits to raise interrupt
-
-      - name: RX_XOR
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Invert the GPIO pin
-
-      - name: TX_OE
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Drive the GPIO pin as an output pin
-
+    inherits: GPIO_BIT_CFG(0..15)
 
   - name: CIU_INT(0..3)_SUM4
     address: 0x1070000000C00 + a*0x8
     bus: NCB
+    description: |
+      CIU_INT0_SUM4:   PP0  /IP4
+      CIU_INT1_SUM4:   PP1  /IP4
+      ...
+      CIU_INT3_SUm4:   PP3  /IP4
     fields:
       - name: BOOTDMA
         bits: 63
@@ -2486,14 +2226,12 @@ registers:
         typical: 0
         description: PCM/TDM interrupt
 
-      - name: USB
+      - name: --
         bits: 56
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          USB EHCI or OHCI Interrupt
-          See UAHC0_EHCI_USBSTS UAHC0_OHCI0_HCINTERRUPTSTATUS
+        description: Reserved.
 
       - name: TIMER
         bits: 55..52
@@ -2555,15 +2293,12 @@ registers:
           Trace buffer interrupt
           See TRA_INT_STATUS
 
-      - name: RML
+      - name: --
         bits: 46
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          RML Interrupt
-          This bit is set when any bit is set in
-          CIU_BLOCK_INT.
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -2662,6 +2397,11 @@ registers:
   - name: CIU_INT(0..3)_EN4_0
     address: 0x1070000000C80 + a*0x10
     bus: NCB
+    description: |
+      CIU_INT0_EN4_0:   PP0  /IP4
+      CIU_INT1_EN4_0:   PP1  /IP4
+      ...
+      CIU_INT3_EN4_0:   PP3  /IP4
     fields:
       - name: BOOTDMA
         bits: 63
@@ -2712,12 +2452,12 @@ registers:
         typical: 0
         description: PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W/H
+        access: ---
         reset: 0
         typical: 0
-        description: USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB interrupt
 
       - name: TIMER
         bits: 55..52
@@ -2821,6 +2561,9 @@ registers:
   - name: CIU_INT(0..3)_EN4_1
     address: 0x1070000000C88 + a*0x10
     bus: NCB
+    description: |
+      PPx/IP4 will be raised when...
+       PPx/IP4 = |({CIU_SUM1_PPx_IP4, CIU_INTx_SUM4} & {CIU_INTx_EN4_1, CIU_INTx_EN4_0})
     fields:
       - name: RST
         bits: 63
@@ -2960,7 +2703,7 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
-        description: USB UCTL0 interrupt enable
+        description: USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -3067,12 +2810,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: USBDRD1 summary interrupt enable vector
 
       - name: --
         bits: 16
@@ -3533,9 +3276,9 @@ registers:
 
 
   - name: MPI_CFG
+    title: SPI_MPI Interface Control register
     address: 0x1070000001000
     bus: NCB
-    description: SPI_MPI interface control register
     fields:
       - name: --
         bits: 63..29
@@ -3570,8 +3313,8 @@ registers:
         typical: 0
         description: |
           If 0, UART1_CTS_L/SPI_CS2_L pin is UART pin
-          1, UART0_CTS_L/SPI_CS2_L pin is SPI pin
-          SPI_CS2_L drives  UART0_CTS_L/SPI_CS2_L
+          1, UART1_CTS_L/SPI_CS2_L pin is SPI pin
+          SPI_CS2_L drives  UART1_CTS_L/SPI_CS2_L
 
       - name: CSENA1
         bits: 13
@@ -3696,12 +3439,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MPI/SPI enable.
+          MPI/SPI master enable.
           0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI,  pins are UART pins.
           1 = UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI pins are MPI/SPI pins.
+          This bit must be set for CSENA0-3 to operate as MPI/SPI Chip Selects
 
 
   - name: MPI_STS
+    title: MPI Status
     address: 0x1070000001008
     bus: NCB
     fields:
@@ -3737,6 +3482,7 @@ registers:
 
 
   - name: MPI_TX
+    title: MPI Transmit Control
     address: 0x1070000001010
     bus: NCB
     fields:
@@ -3800,9 +3546,10 @@ registers:
 
 
   - name: MPI_WIDE_DAT
-    title: MPI/SPI Wide Data Register
+    title: MPI Wide Data Register
     address: 0x1070000001040
     bus: NCB
+    description: This register aliases operations to MPI_DAT(0..7) in a single access
     fields:
       - name: DATA
         bits: 63..0
@@ -3813,6 +3560,7 @@ registers:
 
 
   - name: MPI_DAT(0..8)
+    title: MPI Byte Data Registers
     address: 0x1070000001080 + a*0x8
     bus: NCB
     fields:
@@ -3834,6 +3582,7 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN0_W1C
     address: 0x1070000002200 + a*0x10
     bus: NCB
+    description: Write-1-to-clear version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -3888,12 +3637,12 @@ registers:
         typical: 0
         description: Write 1 to clear PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W1C/H
+        access: ---
         reset: 0
         typical: 0
-        description: Write 1 to clear USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB interrupt enable
 
       - name: TIMER
         bits: 55..52
@@ -4001,6 +3750,7 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN1_W1C
     address: 0x1070000002208 + a*0x10
     bus: NCB
+    description: Write-1-to-clear version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
     fields:
       - name: RST
         bits: 63
@@ -4140,7 +3890,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Write 1 to clear USB UCTL0 interrupt enable
+        description: Write 1 to clear USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -4249,12 +3999,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: Write 1s to clear USBDRD1 summary interrupt enable
 
       - name: --
         bits: 16
@@ -4281,6 +4031,9 @@ registers:
   - name: CIU_INT(0..3)_EN4_0_W1C
     address: 0x1070000002C80 + a*0x10
     bus: NCB
+    description: |
+      Write-1-to-clear version of the CIU_INTx_EN4_0 register, read back corresponding
+      CIU_INTx_EN4_0 value.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -4331,12 +4084,12 @@ registers:
         typical: 0
         description: Write 1 to clear PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W1C/H
+        access: ---
         reset: 0
         typical: 0
-        description: Write 1 to clear USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB interrupt enable
 
       - name: TIMER
         bits: 55..52
@@ -4440,6 +4193,9 @@ registers:
   - name: CIU_INT(0..3)_EN4_1_W1C
     address: 0x1070000002C88 + a*0x10
     bus: NCB
+    description: |
+      Write-1-to-clear version of the CIU_INT@_EN4_1 register, read back corresponding
+      CIU_INT@_EN4_1 value.
     fields:
       - name: RST
         bits: 63
@@ -4579,7 +4335,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Write 1 to clear USB UCTL0 interrupt enable
+        description: Write 1 to clear USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -4688,12 +4444,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: Write 1s to clear USBDRD1 summary interrupt enable
 
       - name: --
         bits: 16
@@ -4720,6 +4476,7 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN0_W1S
     address: 0x1070000006200 + a*0x10
     bus: NCB
+    description: Write-1-to-set version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -4770,12 +4527,12 @@ registers:
         typical: 0
         description: Write 1 to set PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W1S/H
+        access: ---
         reset: 0
         typical: 0
-        description: Write 1 to set USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB interrupt enable
 
       - name: TIMER
         bits: 55..52
@@ -4883,6 +4640,7 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN1_W1S
     address: 0x1070000006208 + a*0x10
     bus: NCB
+    description: Write-1-to-set version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
     fields:
       - name: RST
         bits: 63
@@ -5022,7 +4780,7 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Write 1 to set USB UCTL0 interrupt enable
+        description: Write 1 to set USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -5131,12 +4889,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: Write 1s to set USBDRD1 summary interrupt enable
 
       - name: --
         bits: 16
@@ -5163,6 +4921,9 @@ registers:
   - name: CIU_INT(0..3)_EN4_0_W1S
     address: 0x1070000006C80 + a*0x10
     bus: NCB
+    description: |
+      Write-1-to-set version of the CIU_INT@_EN4_0 register, read back corresponding CIU_INT@_EN4_0
+      value.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -5217,12 +4978,12 @@ registers:
         typical: 0
         description: Write 1 to set PCM/TDM interrupt enable
 
-      - name: USB
+      - name: --
         bits: 56
-        access: R/W1S/H
+        access: ---
         reset: 0
         typical: 0
-        description: Write 1 to set USB EHCI or OHCI Interrupt enable
+        description: Reserved for USB interrupt enable
 
       - name: TIMER
         bits: 55..52
@@ -5328,6 +5089,9 @@ registers:
   - name: CIU_INT(0..3)_EN4_1_W1S
     address: 0x1070000006C88 + a*0x10
     bus: NCB
+    description: |
+      Write-1-to-set version of the CIU_INT@_EN4_1 register, read back corresponding CIU_INT@_EN4_1
+      value.
     fields:
       - name: RST
         bits: 63
@@ -5467,7 +5231,7 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Write 1 to set USB UCTL0 interrupt enable
+        description: Write 1 to set USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
@@ -5576,12 +5340,12 @@ registers:
         typical: 0
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Reserved for additional USB Interrupts
+        description: Write 1s to set USBDRD1 summary interrupt enable
 
       - name: --
         bits: 16
@@ -5608,6 +5372,12 @@ registers:
   - name: CIU_SUM1_PP(0..3)_IP2
     address: 0x1070000008000 + a*0x8
     bus: NCB
+    description: |
+      SUM1 becomes per IPx in o65/6 and afterwards. Only Field <40> DPI_DMA will have
+      different value per PP(IP) for  $CIU_SUM1_PPx_IPy, and <40> DPI_DMA will always
+      be zero for  $CIU_SUM1_IO@_INT. All other fields ([63:41] and [39:0]) values  are idential for
+      different PPs, same value as $CIU_INT_SUM1.
+      Write to any IRQ's PTP fields will clear PTP for all IRQ's PTP field.
     fields:
       - name: RST
         bits: 63
@@ -5720,7 +5490,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DPI DMA instruction completion interrupt
+          DPI DMA instruction completion interrupt.
+          This bit is different for each CIU_SUM1_PPx.
           TBD, See DPI DMA instruction completion
 
       - name: --
@@ -5774,8 +5545,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USB UCTL0 interrupt
-          See UCTL0_INT_REG
+          USBDRD0 interrupt. (CIU_CIB_USBDRD(0)_RAW[0] & CIU_CIB_USBDRD(0)_EN(0))
+          See CIU_CIB_USBDRD(0)_RAW[0] and CIU_CIB_USBDRD(0)_EN(0)
 
       - name: DFA
         bits: 32
@@ -5910,12 +5681,14 @@ registers:
         typical: --
         description: Reserved for additional Interrupts
 
-      - name: --
+      - name: USB1
         bits: 17
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved for additional USB Interrupts
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          USBDRD1 interrupts. |(CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0]).
+          See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0].
 
       - name: --
         bits: 16
@@ -5936,7 +5709,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Per PP watchdog interrupts
+        description: Watchdog interrupts, bit 0 is watchdog for PP0, ..., bit x for PPx.
 
 
   - name: CIU_SUM1_PP(0..3)_IP3
@@ -5957,6 +5730,9 @@ registers:
   - name: CIU_SUM2_PP(0..3)_IP2
     address: 0x1070000008800 + a*0x8
     bus: NCB
+    description: |
+      Only TIMER field may have different value per PP(IP).
+      All other fields  values  are idential for different PPs.
     fields:
       - name: --
         bits: 63..19
@@ -5970,21 +5746,25 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: AGL parket drop interrupt
+        description: AGL parket drop interrupt. TBD.
 
       - name: OCLA
         bits: 17
         access: RO/H
         reset: 0
         typical: 0
-        description: OCLA interrupt summary
+        description: |
+          OCLA interrupt summary. |(CIU_CIB_OCLA(0)_RAW[0] & CIU_CIB_OCLA(0)_EN[0]).
+          See  CIU_CIB_OCLA(0)_RAW[0]  and  CIU_CIB_OCLA(0)_EN[0].
 
       - name: SATA
         bits: 16
         access: RO/H
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt summary
+        description: |
+          SATA interrupt summary. |(CIU_CIB_SATA(0)_RAW[0] & CIU_CIB_SATA(0)_EN(0)).
+          See  CIU_CIB_SATA(0)_RAW[0]  and  CIU_CIB_SATA(0)_EN(0).
 
       - name: --
         bits: 15..10
@@ -6105,6 +5885,9 @@ registers:
   - name: CIU_EN2_PP(0..3)_IP2_W1S
     address: 0x107000000A800 + a*0x8
     bus: NCB
+    description: |
+      Write-1-to-set version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+      CIU_EN2_PP(IO)@_IPx(INT) value.
     fields:
       - name: --
         bits: 63..19
@@ -6174,6 +5957,9 @@ registers:
   - name: CIU_EN2_PP(0..3)_IP2_W1C
     address: 0x107000000C800 + a*0x8
     bus: NCB
+    description: |
+      Write-1-to-clear version of the CIU_EN2_PP(IO)@_IPx(INT) register, read back corresponding
+      CIU_EN2_PP(IO)@_IPx(INT) value.
     fields:
       - name: --
         bits: 63..19
@@ -6240,7 +6026,7 @@ registers:
     bus: NCB
     inherits: CIU_EN2_PP(0..3)_IP2_W1C
 
-  - name: CIU_CIB_L2C(0..2)_RAW
+  - name: CIU_CIB_L2C_RAW(0)
     address: 0x107000000E000 + a*0x10
     bus: NCB
     fields:
@@ -6253,13 +6039,13 @@ registers:
 
       - name: RAW
         bits: 22..0
-        access: R/W1C/H
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: L2C interrupt RAW bits
 
 
-  - name: CIU_CIB_L2C(0..2)_EN
+  - name: CIU_CIB_L2C_EN(0)
     address: 0x107000000E100 + a*0x10
     bus: NCB
     fields:
@@ -6272,51 +6058,51 @@ registers:
 
       - name: EN
         bits: 22..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: L2C interrupt Enable bits
 
 
-  - name: CIU_CIB_LMC(0)_RAW
-    address: 0x107000000E200 + a*0x10
+  - name: CIU_CIB_LMC(0)_RAW(0)
+    address: 0x107000000E200 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
-        bits: 63..48
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAW
-        bits: 47..0
-        access: R/W1C/H
+        bits: 11..0
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: LMC interrupt RAW bits
 
 
-  - name: CIU_CIB_LMC(0)_EN
-    address: 0x107000000E300 + a*0x10
+  - name: CIU_CIB_LMC(0)_EN(0)
+    address: 0x107000000E300 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
-        bits: 63..48
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: EN
-        bits: 47..0
-        access: R/W/H
+        bits: 11..0
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: LMC interrupt Enable bits
 
 
-  - name: CIU_CIB_RST(0)_RAW
+  - name: CIU_CIB_RST_RAW(0)
     address: 0x107000000E400 + a*0x10
     bus: NCB
     fields:
@@ -6329,13 +6115,13 @@ registers:
 
       - name: RAW
         bits: 5..0
-        access: R/W1C/H
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: RST interrupt RAW bits
 
 
-  - name: CIU_CIB_RST(0)_EN
+  - name: CIU_CIB_RST_EN(0)
     address: 0x107000000E500 + a*0x10
     bus: NCB
     fields:
@@ -6348,13 +6134,13 @@ registers:
 
       - name: EN
         bits: 5..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: RST interrupt Enable bits
 
 
-  - name: CIU_CIB_SATA_UCTL(0)_RAW
+  - name: CIU_CIB_SATA_RAW(0)
     address: 0x107000000E600 + a*0x10
     bus: NCB
     fields:
@@ -6367,13 +6153,13 @@ registers:
 
       - name: RAW
         bits: 3..0
-        access: R/W1C/H
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: SATA_UCTL interrupt RAW bits
 
 
-  - name: CIU_CIB_SATA_UCTL(0)_EN
+  - name: CIU_CIB_SATA_EN(0)
     address: 0x107000000E700 + a*0x10
     bus: NCB
     fields:
@@ -6386,14 +6172,14 @@ registers:
 
       - name: EN
         bits: 3..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: SATA_UCTL interrupt Enable bits
 
 
-  - name: CIU_CIB_UCTL(0)_RAW
-    address: 0x107000000E800 + a*0x10
+  - name: CIU_CIB_USBDRD(0..1)_RAW(0)
+    address: 0x107000000E800 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
@@ -6405,14 +6191,14 @@ registers:
 
       - name: RAW
         bits: 10..0
-        access: R/W1C/H
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: USBDRD UCTL interrupt RAW bits
 
 
-  - name: CIU_CIB_UCTL(0)_EN
-    address: 0x107000000E900 + a*0x10
+  - name: CIU_CIB_USBDRD(0..1)_EN(0)
+    address: 0x107000000EA00 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
@@ -6424,14 +6210,14 @@ registers:
 
       - name: EN
         bits: 10..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: USBDRD UCTL interrupt Enable bits
 
 
-  - name: CIU_CIB_OCLA(0)_RAW
-    address: 0x107000000EA00 + a*0x10
+  - name: CIU_CIB_OCLA(0)_RAW(0)
+    address: 0x107000000EC00 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
@@ -6443,14 +6229,14 @@ registers:
 
       - name: RAW
         bits: 14..0
-        access: R/W1C/H
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: OCLA interrupt RAW bits
 
 
-  - name: CIU_CIB_OCLA(0)_EN
-    address: 0x107000000EB00 + a*0x10
+  - name: CIU_CIB_OCLA(0)_EN(0)
+    address: 0x107000000EE00 + a*0x100 + b*0x10
     bus: NCB
     fields:
       - name: --
@@ -6462,13 +6248,14 @@ registers:
 
       - name: EN
         bits: 14..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: OCLA interrupt Enable bits
 
 
   - name: PCM_CLK(0..1)_CFG
+    title: PCM Clock Configuration
     address: 0x1070000010000 + a*0x4000
     bus: NCB
     fields:
@@ -6527,8 +6314,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          FSYNC location, in 1/2 BCLKS before timeslot 0,
-          bit 0.
+          FSYNC location, in 1/2 BCLKS before timeslot 0, bit 0.
           NOTE: also used to detect framing errors and
           therefore must have a correct value even if GEN==0
 
@@ -6606,6 +6392,7 @@ registers:
 
 
   - name: PCM_CLK(0..1)_GEN
+    title: PCM Clock Generation
     address: 0x1070000010008 + a*0x4000
     bus: NCB
     fields:
@@ -6646,6 +6433,7 @@ registers:
 
 
   - name: PCM(0..3)_TDM_CFG
+    title: PCM TDM Configuration
     address: 0x1070000010010 + a*0x4000
     bus: NCB
     fields:
@@ -6708,6 +6496,7 @@ registers:
 
 
   - name: PCM(0..3)_DMA_CFG
+    title: PCM DMA Configuration
     address: 0x1070000010018 + a*0x4000
     bus: NCB
     fields:
@@ -6818,6 +6607,7 @@ registers:
 
 
   - name: PCM(0..3)_INT_ENA
+    title: PCM Interrupt Enables
     address: 0x1070000010020 + a*0x4000
     bus: NCB
     fields:
@@ -6896,6 +6686,7 @@ registers:
 
 
   - name: PCM(0..3)_INT_SUM
+    title: PCM Interrupt Summary
     address: 0x1070000010028 + a*0x4000
     bus: NCB
     fields:
@@ -6964,6 +6755,7 @@ registers:
 
 
   - name: PCM(0..3)_TDM_DBG
+    title: PCM TDM Debug Information
     address: 0x1070000010030 + a*0x4000
     bus: NCB
     fields:
@@ -6976,6 +6768,7 @@ registers:
 
 
   - name: PCM_CLK(0..1)_DBG
+    title: PCM Clock Debug Information
     address: 0x1070000010038 + a*0x4000
     bus: NCB
     fields:
@@ -6988,6 +6781,7 @@ registers:
 
 
   - name: PCM(0..3)_TXSTART
+    title: PCM Transmit Start Address
     address: 0x1070000010040 + a*0x4000
     bus: NCB
     fields:
@@ -7014,6 +6808,7 @@ registers:
 
 
   - name: PCM(0..3)_TXCNT
+    title: PCM Superframe Transmit Count
     address: 0x1070000010048 + a*0x4000
     bus: NCB
     fields:
@@ -7033,6 +6828,7 @@ registers:
 
 
   - name: PCM(0..3)_TXADDR
+    title: PCM Transmit Address
     address: 0x1070000010050 + a*0x4000
     bus: NCB
     fields:
@@ -7064,6 +6860,7 @@ registers:
 
 
   - name: PCM(0..3)_RXSTART
+    title: PCM Receive Start Address
     address: 0x1070000010058 + a*0x4000
     bus: NCB
     fields:
@@ -7090,6 +6887,7 @@ registers:
 
 
   - name: PCM(0..3)_RXCNT
+    title: PCM Receive Superframe Count
     address: 0x1070000010060 + a*0x4000
     bus: NCB
     fields:
@@ -7109,6 +6907,7 @@ registers:
 
 
   - name: PCM(0..3)_RXADDR
+    title: PCM Receive Address
     address: 0x1070000010068 + a*0x4000
     bus: NCB
     fields:
@@ -7129,8 +6928,9 @@ registers:
           region
 
 
-  - name: PCM(0..3)_TXMSK0
-    address: 0x1070000010080 + a*0x4000
+  - name: PCM(0..3)_TXMSK(0..7)
+    title: PCM Transmit bit masks
+    address: 0x1070000010080 + a*0x4000 + b*0x8
     bus: NCB
     fields:
       - name: MASK
@@ -7139,12 +6939,21 @@ registers:
         reset: --
         typical: --
         description: |
-          Transmit mask bits for slots 63 to 0
+          Transmit mask bits
           (1 means transmit, 0 means don't transmit)
+          TXMSK0 covers slots  63 to   0
+          TXMSK1 covers slots 127 to  64
+          TXMSK2 covers slots 191 to 128
+          TXMSK3 covers slots 255 to 192
+          TXMSK4 covers slots 319 to 256
+          TXMSK5 covers slots 383 to 320
+          TXMSK6 covers slots 447 to 384
+          TXMSK7 covers slots 511 to 448
 
 
-  - name: PCM(0..3)_TXMSK1
-    address: 0x1070000010088 + a*0x4000
+  - name: PCM(0..3)_RXMSK(0..7)
+    title: PCM Recieve bit masks
+    address: 0x10700000100C0 + a*0x4000 + b*0x8
     bus: NCB
     fields:
       - name: MASK
@@ -7153,211 +6962,23 @@ registers:
         reset: --
         typical: --
         description: |
-          Transmit mask bits for slots 127 to 64
+          Receive mask bits
           (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK2
-    address: 0x1070000010090 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 191 to 128
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK3
-    address: 0x1070000010098 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 255 to 192
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK4
-    address: 0x10700000100A0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 319 to 256
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK5
-    address: 0x10700000100A8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 383 to 320
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK6
-    address: 0x10700000100B0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 447 to 384
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_TXMSK7
-    address: 0x10700000100B8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Transmit mask bits for slots 511 to 448
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK0
-    address: 0x10700000100C0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 63 to 0
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK1
-    address: 0x10700000100C8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 127 to 64
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK2
-    address: 0x10700000100D0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 191 to 128
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK3
-    address: 0x10700000100D8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 255 to 192
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK4
-    address: 0x10700000100E0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 319 to 256
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK5
-    address: 0x10700000100E8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 383 to 320
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK6
-    address: 0x10700000100F0 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 447 to 384
-          (1 means transmit, 0 means don't transmit)
-
-
-  - name: PCM(0..3)_RXMSK7
-    address: 0x10700000100F8 + a*0x4000
-    bus: NCB
-    fields:
-      - name: MASK
-        bits: 63..0
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          Receive mask bits for slots 511 to 448
-          (1 means transmit, 0 means don't transmit)
+          RXMSK0 covers slots  63 to   0
+          RXMSK1 covers slots 127 to  64
+          RXMSK2 covers slots 191 to 128
+          RXMSK3 covers slots 255 to 192
+          RXMSK4 covers slots 319 to 256
+          RXMSK5 covers slots 383 to 320
+          RXMSK6 covers slots 447 to 384
+          RXMSK7 covers slots 511 to 448
 
 
   - name: MIO_BOOT_REG_CFG0
+    title: MIO Boot Region Config Register (1 per region * 8 regions)
     address: 0x1180000000000
     bus: RSL
     description: |
-      MIO_BOOT_REG_CFG = MIO Boot Region Config Register (1 per region * 8 regions)
       Contains region enable, region or, region ALE/SAM mode, region width, region size, and region
       base
       address parameters.
@@ -7499,6 +7120,7 @@ registers:
 
 
   - name: MIO_BOOT_REG_CFG(1..7)
+    title: MIO Boot Region Config Register (1 per region * 8 regions)
     address: 0x1180000000000 + a*0x8
     bus: RSL
     fields:
@@ -7595,10 +7217,10 @@ registers:
 
 
   - name: MIO_BOOT_REG_TIM0
+    title: MIO Boot Region Timing Register (1 per region * 8 regions)
     address: 0x1180000000040
     bus: RSL
     description: |
-      MIO_BOOT_REG_TIM = MIO Boot Region Timing Register (1 per region * 8 regions)
       Contains page mode, wait mode, page size, and region timing parameters.
       Note: OE, WE, PAGE, and ALE must be non-zero to ensure legal transitions on the corresponding
       boot bus outputs.
@@ -7699,8 +7321,16 @@ registers:
 
 
   - name: MIO_BOOT_REG_TIM(1..7)
+    title: MIO Boot Region Timing Register (1 per region * 8 regions)
     address: 0x1180000000040 + a*0x8
     bus: RSL
+    description: |
+      Contains page mode, wait mode, page size, and region timing parameters.
+      Note: OE, WE, PAGE, and ALE must be non-zero to ensure legal transitions on the corresponding
+      boot bus outputs.
+      Note: WAIT must be non-zero if WAITM is set.
+      Note: When region 0 is defined to be NAND flash, all fields in MIO_BOOT_TIM_CFG0 have no
+      effect.
     fields:
       - name: PAGEM
         bits: 63
@@ -8085,24 +7715,33 @@ registers:
           3.3V All others = Reserved
 
       - name: --
-        bits: 47..16
+        bits: 47..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: ALE
-        bits: 15
+      - name: REF_SEL
+        bits: 16
         access: RO
         reset: --
         typical: --
+        description: |
+          Reference Clock Selection based on UART0_RTS_N pin at powerup 0 = DLM_REF_CLK[1] pins div
+          2, must be set to 100Mhz 1 = PLL_REF_CLK pin (default), must be set to 50Mhz
+
+      - name: ALE
+        bits: 15
+        access: RO
+        reset: 1
+        typical: 1
         description: Set to 1 for backward compatability
 
       - name: WIDTH
         bits: 14
         access: RO
-        reset: --
-        typical: --
+        reset: 0
+        typical: 0
         description: Set to 0 for backward compatability
 
       - name: VRM_DISABLE
@@ -8118,16 +7757,10 @@ registers:
         reset: --
         typical: --
         description: |
-          Latched from BOOT_ALE[3:1] pins at power up
-          Boot Device
-          0   = Parallel NOR
-          1   = Parallel NOR via int bootrom (reserved)
-          2   = EMMC/SD
-          3   = reserved
-          4   = SPI Boot 16bit Address
-          5   = SPI Boot 24bit Address
-          6   = SPI Boot 32bit Address (reserved)
-          7   = SPI NAND Boot 32bit Address (reserved)
+          Boot Device based on BOOT_ALE[3:1] pins at power up 0   = Parallel NOR 1   = Parallel NOR
+          via int bootrom (reserved) 2   = EMMC/SD 3   = reserved 4   = SPI Boot 16bit Address 5   =
+          SPI Boot 24bit Address 6   = SPI Boot 32bit Address (reserved) 7   = SPI NAND Boot 32bit
+          Address (reserved)
 
       - name: TERM
         bits: 9..8
@@ -8170,6 +7803,46 @@ registers:
         reset: 0xf
         typical: --
         description: GPIO bus NCTL
+
+
+  - name: MIO_BOOT_CTL
+    title: MIO BOOT Controller Selection
+    address: 0x11800000000D0
+    bus: RSL
+    description: |
+      The hardware allows only one controller to use the BootBus and the MIO_NDF_DMA engine
+      at a time.  The SEL field determines the owner.
+      This field should be changed only when the current controller operations are complete.
+      Here are several situations.
+         1.  If eMMC/SD is currently doing a read or write command without a DMA then the
+             MIO_EMM_INT[CMD_DONE] should occur before SEL is changed.
+         2.  If eMMC/SD is currently doing a dma operation with the device then the
+             MIO_EMM_INT[DMA_DONE] should occur before SEL is changed.  Care must be taken not to
+             reprogram the MIO_NDF_DMA_CFG register until both the previous MIO_NDF_DMA_INT[DONE]
+             has occurred and the new SEL has been set.
+         3.  If NAND is currently doing one or more operations to the external device without using
+             the DMA then the NDF_INT[EMPTY] should occur to guarantee all commands are executed
+             before changing the SEL value.
+         4.  If NAND is currently doing one or more operations to the external device which includes
+             DMAs then the SEL should not change until both the last MIO_NDF_DMA_INT[DONE] and
+             NDF_INT[EMPTY] have occurred.
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Controller Selection.
+                  0 = eMMC/SD,
+                  1 = NAND
 
 
   - name: MIO_BOOT_BIST_STAT
@@ -8416,10 +8089,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_IIR
+    title: MIO UART@ Interrupt Identity Register
     address: 0x1180000000810 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_IIR = MIO UART@ Interrupt Identity Register
       The Interrupt Identity Register (IIR) is a read-only register that identifies the source of
       an interrupt. The lower four bits identify the highest priority pending interrupt. The
       following table defines interrupt source decoding, interrupt priority, and interrupt reset
@@ -8491,10 +8164,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_LCR
+    title: MIO UART@ Line Control Register
     address: 0x1180000000818 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_LCR = MIO UART@ Line Control Register
       The Line Control Register (LCR) controls the format of the data that is transmitted and
       received by the UART.
       LCR bits 0 and 1 are the Character Length Select field. This field is used to select the
@@ -8525,8 +8198,8 @@ registers:
       cleared after initial baud rate setup in order to access other registers.
       Note: The LCR is writeable only when the UART is not busy (when the BUSY bit (bit 0) of the
       UART
-      Status Register (USR) is clear). The LCR is always readable. In PASS3, the LCR is always
-      writable because the BUSY bit is always clear.
+      Status Register (USR) is clear). The LCR is always readable and writable because the BUSY bit
+      is always clear.
     fields:
       - name: --
         bits: 63..8
@@ -8586,10 +8259,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_MCR
+    title: MIO UART@ Modem Control Register
     address: 0x1180000000820 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_MCR = MIO UART@ Modem Control Register
       The lower four bits of the Modem Control Register (MCR) directly manipulate the outputs of the
       UART.
       The DTR (bit 0), RTS (bit 1), OUT1 (bit 2), and OUT2 (bit 3) bits are inverted and then drive
@@ -8716,10 +8389,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_LSR
+    title: MIO UART@ Line Status Register
     address: 0x1180000000828 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_LSR = MIO UART@ Line Status Register
       The Line Status Register (LSR) contains status of the receiver and transmitter data transfers.
       This status can be read by the user at anytime.
       LSR bit 0 is the Data Ready (DR) bit. When set, this bit indicates the receiver contains at
@@ -8858,10 +8531,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_MSR
+    title: MIO UART@ Modem Status Register
     address: 0x1180000000830 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_MSR = MIO UART@ Modem Status Register
       The Modem Status Register (MSR) contains the current status of the modem control input lines
       and if they changed.
       DCTS (bit 0), DDSR (bit 1), and DDCD (bit 3) bits record whether the modem control lines
@@ -8956,10 +8629,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SCR
+    title: MIO UART@ Scratchpad Register
     address: 0x1180000000838 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SCR = MIO UART@ Scratchpad Register
       The Scratchpad Register (SCR) is an 8-bit read/write register for programmers to use as a
       temporary storage space.
     fields:
@@ -8979,10 +8652,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_THR
+    title: MIO UART@ Transmit Holding Register
     address: 0x1180000000840 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_THR = MIO UART@ Transmit Holding Register
       Transmit Holding Register (THR) is a write-only register that contains data to be transmitted
       on the serial output port (sout). Data can be written to the THR any time that the THR Empty
       (THRE)
@@ -9015,10 +8688,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_FCR
+    title: MIO UART@ FIFO Control Register
     address: 0x1180000000850 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_FCR = MIO UART@ FIFO Control Register
       The FIFO Control Register (FCR) is a write-only register that controls the read and write data
       FIFO operation. When FIFOs and Programmable THRE Interrupt mode are enabled, this register
       also
@@ -9104,10 +8777,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_DLL
+    title: MIO UART@ Divisor Latch Low Register
     address: 0x1180000000880 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_DLL = MIO UART@ Divisor Latch Low Register
       The DLH (Divisor Latch High) register in conjunction with DLL (Divisor Latch Low) register
       form a 16-bit, read/write, Divisor Latch register that contains the baud rate divisor for the
       UART.
@@ -9116,8 +8789,6 @@ registers:
       baud rate is equal to eclk frequency divided by sixteen times the value of the baud rate
       divisor,
       as follows: baud rate = eclk / (16 * divisor).
-      Note that the BUSY bit (bit 0) of the UART Status Register (USR) must be clear before writing
-      this register. BUSY bit is always clear in PASS3.
       Note that with the Divisor Latch Registers (DLL and DLH) set to zero, the baud clock is
       disabled and no serial communications will occur. Also, once the DLL or DLH is set, at least 8
       clock
@@ -9141,10 +8812,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_DLH
+    title: MIO UART@ Divisor Latch High Register
     address: 0x1180000000888 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_DLH = MIO UART@ Divisor Latch High Register
       The DLH (Divisor Latch High) register in conjunction with DLL (Divisor Latch Low) register
       form a 16-bit, read/write, Divisor Latch register that contains the baud rate divisor for the
       UART.
@@ -9153,8 +8824,6 @@ registers:
       baud rate is equal to eclk frequency divided by sixteen times the value of the baud rate
       divisor,
       as follows: baud rate = eclk / (16 * divisor).
-      Note that the BUSY bit (bit 0) of the UART Status Register (USR) must be clear before writing
-      this register. BUSY bit is always clear in PASS3.
       Note that with the Divisor Latch Registers (DLL and DLH) set to zero, the baud clock is
       disabled and no serial communications will occur. Also, once the DLL or DLH is set, at least 8
       clock
@@ -9178,10 +8847,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_FAR
+    title: MIO UART@ FIFO Access Register
     address: 0x1180000000920 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_FAR = MIO UART@ FIFO Access Register
       The FIFO Access Register (FAR) is used to enable a FIFO access mode for testing, so that the
       receive FIFO can be written by software and the transmit FIFO can be read by software when the
       FIFOs
@@ -9207,10 +8876,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_TFR
+    title: MIO UART@ Transmit FIFO Read Register
     address: 0x1180000000928 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_TFR = MIO UART@ Transmit FIFO Read Register
       The Transmit FIFO Read Register (TFR) is only valid when FIFO access mode is enabled (FAR bit
       0 is set). When FIFOs are enabled, reading this register gives the data at the top of the
       transmit
@@ -9235,10 +8904,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_RFW
+    title: MIO UART@ Receive FIFO Write Register
     address: 0x1180000000930 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_RFW = MIO UART@ Receive FIFO Write Register
       The Receive FIFO Write Register (RFW) is only valid when FIFO access mode is enabled (FAR bit
       0 is set). When FIFOs are enabled, this register is used to write data to the receive FIFO.
       Each
@@ -9275,14 +8944,14 @@ registers:
 
 
   - name: MIO_UART(0..1)_USR
+    title: MIO UART@ UART Status Register
     address: 0x1180000000938 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_USR = MIO UART@ UART Status Register
       The UART Status Register (USR) contains UART status information.
       USR bit 0 is the BUSY bit.  When set this bit indicates that a serial transfer is in progress,
       when clear it indicates that the UART is idle or inactive.
-      Note: In PASS3, the BUSY bit will always be clear.
+      Note: The BUSY bit will always be clear.
       USR bits 1-4 indicate the following FIFO status: TX FIFO Not Full (TFNF), TX FIFO Empty (TFE),
       RX FIFO Not Empty (RFNE), and RX FIFO Full (RFF).
     fields:
@@ -9326,16 +8995,14 @@ registers:
         access: RO
         reset: 0
         typical: --
-        description: Busy bit (always 0 in PASS3)
+        description: Busy bit (always 0)
 
 
   - name: MIO_UART(0..1)_TFL
+    title: MIO UART@ Transmit FIFO Level Register
     address: 0x1180000000A00 + a*0x400
     bus: RSL
-    description: |
-      MIO_UART@_TFL = MIO UART@ Transmit FIFO Level Register
-      The Transmit FIFO Level Register (TFL) indicates the number of data entries in the transmit
-      FIFO.
+    description: The Transmit FIFO Level Register (TFL) indicates the number of data entries in the transmit FIFO.
     fields:
       - name: --
         bits: 63..7
@@ -9353,10 +9020,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_RFL
+    title: MIO UART@ Receive FIFO Level Register
     address: 0x1180000000A08 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_RFL = MIO UART@ Receive FIFO Level Register
       The Receive FIFO Level Register (RFL) indicates the number of data entries in the receive
       FIFO.
     fields:
@@ -9376,10 +9043,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SRR
+    title: MIO UART@ Software Reset Register
     address: 0x1180000000A10 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SRR = MIO UART@ Software Reset Register
       The Software Reset Register (SRR) is a write-only register that resets the UART and/or the
       receive FIFO and/or the transmit FIFO.
       Bit 0 of the SRR is the UART Soft Reset (USR) bit.  Setting this bit resets the UART.
@@ -9422,10 +9089,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SRTS
+    title: MIO UART@ Shadow Request To Send Register
     address: 0x1180000000A18 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SRTS = MIO UART@ Shadow Request To Send Register
       The Shadow Request To Send Register (SRTS) is a shadow register for the RTS bit (MCR bit 1)
       that can
       be used to remove the burden of having to perform a read-modify-write on the MCR.
@@ -9446,10 +9113,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SBCR
+    title: MIO UART@ Shadow Break Control Register
     address: 0x1180000000A20 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SBCR = MIO UART@ Shadow Break Control Register
       The Shadow Break Control Register (SBCR) is a shadow register for the BRK bit (LCR bit 6) that
       can be used to remove the burden of having to perform a read-modify-write on the LCR.
     fields:
@@ -9469,10 +9136,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SFE
+    title: MIO UART@ Shadow FIFO Enable Register
     address: 0x1180000000A30 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SFE = MIO UART@ Shadow FIFO Enable Register
       The Shadow FIFO Enable Register (SFE) is a shadow register for the FIFO enable bit (FCR bit 0)
       that can be used to remove the burden of having to store the previously written value to the
       FCR in
@@ -9494,10 +9161,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_SRT
+    title: MIO UART@ Shadow RX Trigger Register
     address: 0x1180000000A38 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_SRT = MIO UART@ Shadow RX Trigger Register
       The Shadow RX Trigger Register (SRT) is a shadow register for the RX Trigger bits (FCR bits
       7:6) that
       can be used to remove the burden of having to store the previously written value to the FCR in
@@ -9519,10 +9186,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_STT
+    title: MIO UART@ Shadow TX Trigger Register
     address: 0x1180000000B00 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_STT = MIO UART@ Shadow TX Trigger Register
       The Shadow TX Trigger Register (STT) is a shadow register for the TX Trigger bits (FCR bits
       5:4) that can be used to remove the burden of having to store the previously written value to
       the FCR in
@@ -9544,10 +9211,10 @@ registers:
 
 
   - name: MIO_UART(0..1)_HTX
+    title: MIO UART@ Halt TX Register
     address: 0x1180000000B08 + a*0x400
     bus: RSL
     description: |
-      MIO_UART@_HTX = MIO UART@ Halt TX Register
       The Halt TX Register (HTX) is used to halt transmissions for testing, so that the transmit
       FIFO can be filled by software when FIFOs are enabled. If FIFOs are not enabled, setting the
       HTX
@@ -9569,10 +9236,10 @@ registers:
 
 
   - name: MIO_TWS(0..1)_SW_TWSI
+    title: TWS@ Software to TWSI Register
     address: 0x1180000001000 + a*0x200
     bus: RSL
     description: |
-      MIO_TWS@_SW_TWSI = TWS@ Software to TWSI Register
       This register allows software to
       - initiate TWSI interface master-mode operations with a write and read the result with a read
       - load four bytes for later retrieval (slave mode) with a write and check validity with a read
@@ -9745,10 +9412,10 @@ registers:
 
 
   - name: MIO_TWS(0..1)_TWSI_SW
+    title: TWS@ TWSI to Software Register
     address: 0x1180000001008 + a*0x200
     bus: RSL
     description: |
-      MIO_TWS@_TWSI_SW = TWS@ TWSI to Software Register
       This register allows the TWSI device to transfer data to software and later check that
       software has received the information.
       This register should be read or written by the TWSI device, and read by software. The TWSI
@@ -9782,10 +9449,10 @@ registers:
 
 
   - name: MIO_TWS(0..1)_INT
+    title: TWS@ Interrupt Register
     address: 0x1180000001010 + a*0x200
     bus: RSL
     description: |
-      MIO_TWS@_INT = TWS@ Interrupt Register
       This register contains the TWSI interrupt enable mask and the interrupt source bits.  Note:
       the interrupt source bit for the TWSI core interrupt (CORE_INT) is read-only, the appropriate
       sequence must be written to the TWSI core to clear this interrupt.  The other interrupt source
@@ -9898,10 +9565,10 @@ registers:
 
 
   - name: MIO_TWS(0..1)_SW_TWSI_EXT
+    title: TWS@ Software to TWSI Extension Register
     address: 0x1180000001018 + a*0x200
     bus: RSL
     description: |
-      MIO_TWS@_SW_TWSI_EXT = TWS@ Software to TWSI Extension Register
       This register contains an additional byte of internal address and 4 additional bytes of data
       to be used with TWSI master mode operations.  IA will be sent as the first byte of internal
       address
@@ -9933,15 +9600,10 @@ registers:
 
 
   - name: SMI(0..1)_CMD
+    title: SMI Command
     address: 0x1180000001800 + a*0x100
     bus: RSL
-    description: |
-      global 16-bit counter
-      each GOP bit has
-      each GPIO bit has two CSRs
-      each GPIO bit has local voting counter
-      /
-      SMI_CMD = Force a Read/Write command to the PHY
+    description: Used to force a Read/Write command to the PHY
     internal: |
       Writes to this register will create SMI xactions.  Software will poll on (depending on the
       xaction type).
@@ -10073,7 +9735,7 @@ registers:
 
 
   - name: SMI(0..1)_CLK
-    title: Clock Control Register
+    title: SMI Clock Control Register
     address: 0x1180000001818 + a*0x100
     bus: RSL
     fields:
@@ -10293,19 +9955,19 @@ registers:
           eMMC bus enable mask.
 
           Setting bit0 of BUS_ENA causes BOOT_CE[1] to become dedicated
-          eMMC bus 0 command (ie. disabling any NOR use)
+          eMMC bus 0 command (ie. disabling any other use)
 
           Setting bit1 of BUS_ENA causes BOOT_CE[2] to become dedicated
-          eMMC bus 1 command (ie. disabling any NOR use).
+          eMMC bus 1 command (ie. disabling any other use).
 
           Setting bit2 of BUS_ENA causes BOOT_CE[3] to become dedicated
-          eMMC bus 2 command (ie. disabling any NOR use).
+          eMMC bus 2 command (ie. disabling any other use).
 
           Setting bit3 of BUS_ENA causes BOOT_CE[4] to become dedicated
-          eMMC bus 3 command (ie. disabling any NOR use).
+          eMMC bus 3 command (ie. disabling any other use).
 
           Setting any bit of BUS_ENA causes BOOT_CE[5] to become the eMMC
-          clock for both bus0 and bus1.
+          clock for all eMMC devices.
 
 
   - name: MIO_EMM_MODE(0..3)
@@ -11163,6 +10825,7 @@ registers:
 
 
   - name: MIO_EMM_SAMPLE
+    title: MIO EMMC Sample Point Specification Register
     address: 0x1180000002090
     bus: RSL
     fields:
@@ -11200,6 +10863,7 @@ registers:
 
 
   - name: MIO_EMM_STS_MASK
+    title: MIO EMMC Status Mask Register
     address: 0x1180000002098
     bus: RSL
     fields:
@@ -11221,6 +10885,7 @@ registers:
 
 
   - name: MIO_EMM_RCA
+    title: MIO EMMC RCA Status Register
     address: 0x11800000020A0
     bus: RSL
     fields:

@@ -1822,10 +1822,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          SLI Order-FIFO1 Fifo Unload Count. This counter is
-          incremented by '1' every time a word is removed
-          from the Data Out FIFO, whose count is shown in
-          P1_FCNT.
+          FIFO1 Unload Count. This counter is incremented by
+          '1' every time a word is removed from Data Out
+          FIFO1. Whose count is shown in P1_FCNT.
 
       - name: P1_FCNT
         bits: 27..22
@@ -1833,9 +1832,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          SLI Order-FIFO1 Data Out Fifo Count. Number of
-          address data words to be sent out the Order-FIFO
-          presently buffered in the FIFO.
+          FIFO1 Data Out Count. Number of address data words
+          presently buffered in the FIFO1.
+          MACs associated with FIFO1: NONE
 
       - name: P0_UCNT
         bits: 21..6
@@ -1843,10 +1842,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          SLI Order-FIFO0 Fifo Unload Count. This counter is
-          incremented by '1' every time a word is removed
-          from the Data Out FIFO, whose count is shown in
-          P0_FCNT.
+          FIFO0 Unload Count. This counter is incremented by
+          '1' every time a word is removed from Data Out
+          FIFO0. Whose count is shown in P0_FCNT.
 
       - name: P0_FCNT
         bits: 5..0
@@ -1854,9 +1852,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          SLI Order-FIFO0 Data Out Fifo Count. Number of
-          address data words to be sent out the Order-FIFO
-          presently buffered in the FIFO.
+          FIFO0 Data Out Count. Number of address data words
+          presently buffered in the FIFO0.
+          MACs associated with FIFO0: PCIe0, PCIe1, PCIe2
 
 
   - name: SLI_LAST_WIN_RDATA0

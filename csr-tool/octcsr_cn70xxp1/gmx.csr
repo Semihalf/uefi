@@ -2,6 +2,29 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: GMX
+enums:
+  - name: GMX_INF_MODE_E
+    attributes:
+      width: "2"
+    description: Enumerates the values for GMX(0..1)_INF_MODE[MODE]
+    values:
+      - name: Disabled
+        value: 0x0
+        description: The interface is disabled
+
+      - name: SGMII
+        value: 0x1
+        description: The interface is in SGMII mode
+
+      - name: QSGMII
+        value: 0x2
+        description: The interface is in QSGMII mode
+
+      - name: RXAUI
+        value: 0x3
+        description: The interface is in RXAUI mode
+
+
 registers:
   - name: GMX(0..1)_RX(0..3)_INT_REG
     title: Interrupt Register
@@ -3200,19 +3223,19 @@ registers:
         typical: 0
         description: |
           Enable HiGig Mode
-          When HG_EN is set and GMX_RX_UDD_SKP[SKIP]=12
+          When HG_EN is set and GMX_RX_UDD_SKP[LEN]=12
           the interface is in HiGig/HiGig+ mode and the
           following must be set:
           GMX_RX_FRM_CTL[PRE_CHK] == 0
           GMX_RX_UDD_SKP[FCSSEL] == 0
-          GMX_RX_UDD_SKP[SKIP] == 12
+          GMX_RX_UDD_SKP[LEN] == 12
           GMX_TX_APPEND[PREAMBLE] == 0
-          When HG_EN is set and GMX_RX_UDD_SKP[SKIP]=16
+          When HG_EN is set and GMX_RX_UDD_SKP[LEN]=16
           the interface is in HiGig2 mode and the
           following must be set:
           GMX_RX_FRM_CTL[PRE_CHK] == 0
           GMX_RX_UDD_SKP[FCSSEL] == 0
-          GMX_RX_UDD_SKP[SKIP] == 16
+          GMX_RX_UDD_SKP[LEN] == 16
           GMX_TX_APPEND[PREAMBLE] == 0
           GMX_PRT0_CBFC_CTL[RX_EN] == 0
           GMX_PRT0_CBFC_CTL[TX_EN] == 0
@@ -3514,7 +3537,7 @@ registers:
           bit value changes
           Only write in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
 
   - name: GMX(0..1)_TX_HG2_REG2
@@ -3538,7 +3561,7 @@ registers:
           bit value changes
           Only write in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
 
   - name: GMX(0..1)_PRT(0..0)_CBFC_CTL
@@ -3614,7 +3637,7 @@ registers:
           When set, allow for CBFC Pause Packets
           Must be clear in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
       - name: RX_EN
         bits: 0
@@ -3625,7 +3648,7 @@ registers:
           When set, allow for CBFC Pause Packets
           Must be clear in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
 
   - name: GMX(0..1)_TX(0..0)_CBFC_XOFF
@@ -3648,7 +3671,7 @@ registers:
           Which ports to backpressure
           Do not write in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
 
   - name: GMX(0..1)_TX(0..0)_CBFC_XON
@@ -3671,7 +3694,7 @@ registers:
           Which ports to stop backpressure
           Do not write in HiGig2 mode i.e. when
           GMX_TX_XAUI_CTL[HG_EN]=1 and
-          GMX_RX_UDD_SKP[SKIP]=16.
+          GMX_RX_UDD_SKP[LEN]=16.
 
 
   - name: GMX(0..1)_RXAUI_CTL
@@ -3702,6 +3725,29 @@ registers:
           specification.
           (does not obey 6.25GHz SERDES disparity)
           (RXAUI mode only)
+
+
+  - name: GMX(0..1)_QSGMII_CTL
+    address: 0x1180008000760 + a*0x8000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DISPARITY
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          When set, enables enables the running disparity check at the receiver.  Due to the nature
+          of QSGMII, bit errors on the link may cause a running disparity error to propogate across
+          ports. Disabling running disparity checking at the receiver prevents error propogation to
+          other ports.
 
 
   - name: GMX(0..1)_WOL_CTL
@@ -3824,33 +3870,12 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SPEED
+      - name: --
         bits: 11..8
-        access: RO
+        access: ---
         reset: --
         typical: --
-        description: |
-          Interface Speed
-          QLM speed pins  which select reference clock
-          period and interface data rate.  If the QLM PLL
-          inputs are correct, the speed setting correspond
-          to the following data rates (in Gbaud).
-          0  = 5
-          1  = 2.5
-          2  = 2.5
-          3  = 1.25
-          4  = 1.25
-          5  = 6.25
-          6  = 5
-          7  = 2.5
-          8  = 3.125
-          9  = 2.5
-          10 = 1.25
-          11 = 5
-          12 = 6.25
-          13 = 3.75
-          14 = 3.125
-          15 = QLM disabled
+        description: Reserved.
 
       - name: --
         bits: 7..6
@@ -3861,15 +3886,16 @@ registers:
 
       - name: MODE
         bits: 5..4
-        access: RO
+        access: R/W
         reset: 0x0
         typical: --
         description: |
-          Interface Electrical Operating Mode
-          0: SGMII (v1.8)
-          1: XAUI (IEEE 802.3-2005)
+          Interface Operating Mode.  Enumerated by GMX_INF_MODE_E.
+          0: Disabled
+          1: SGMII (v1.8)
           2: QSGMII
-          3: Reserved
+          3: XAUI (IEEE 802.3-2005)
+          MODE should be written before any of the DLM registers are written and the EN is asserted.
 
       - name: --
         bits: 3..2
@@ -3890,15 +3916,12 @@ registers:
           GMX including enabling port back pressure with
           IPD_CTL_STATUS[PBP_EN]
 
-      - name: TYPE
+      - name: --
         bits: 0
-        access: RO
-        reset: 0
+        access: ---
+        reset: --
         typical: --
-        description: |
-          Interface Protocol Type
-          0: SGMII/1000Base-X
-          1: XAUI
+        description: Reserved.
 
 
 

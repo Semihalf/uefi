@@ -204,6 +204,12 @@ enums:
           cib_rtl_module: "pki_pfe"
         description: See PKI_GEN_INT[DAT].
 
+      - name: PKI_GEN_DRP_NOAVAIL
+        value: 0x44006
+        attributes:
+          cib_rtl_module: "pki_pfe"
+        description: See PKI_GEN_INT[DRP_NOAVAIL].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -1779,9 +1785,10 @@ structs:
       - name: AURA
         bits: w0(59..48)
         description: |
-          Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura computed for the
-          packet. See Auras for an overview on auras, and QPG for the aura calculation. Note the
-          high two bits correspond to an OCI node number, from PKI_QPG_TBL(0..2047)[AURA_NODE].
+          Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including FPA node
+          computed for the packet. See Auras for an overview on auras, and QPG for the aura
+          calculation. Note the high two bits correspond to an OCI node number, from
+          PKI_QPG_TBL(0..2047)[AURA_NODE].
           ...
 
       - name: TAG
@@ -2181,11 +2188,20 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..7
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DRP_NOAVAIL
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Set when packet dropped due to no FPA pointers available for the aura the packet
+          requested. Throws PKI_INTSN_E::PKI_GEN_DRP_NOAVAIL.
 
       - name: DAT
         bits: 5
@@ -3414,11 +3430,18 @@ registers:
         description: PCAM number to lookup within.
 
       - name: TERM
-        bits: 47..32
+        bits: 47..40
         access: R/W
         reset: 0x0
         typical: --
         description: Term value to lookup.
+
+      - name: STYLE
+        bits: 39..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Style value to lookup.
 
       - name: DATA
         bits: 31..0
@@ -5392,12 +5415,12 @@ registers:
           allocate from auras on the local node, therefore these bits are hardcoded to the node
           number.
 
-      - name: AURA
+      - name: LAURA
         bits: 9..0
         access: R/W
         reset: 0x0
         typical: --
-        description: Aura for QOS calculations and loading into WQE[AURA]WQE[AURA].
+        description: Aura on local node for QOS calculations and loading into WQE[AURA]WQE[AURA].
 
 
   - name: PKI_AURA(0..1023)_CFG
@@ -5421,8 +5444,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Specifies what to add to FPA_AURA(0..1023)_CNT when PKI enqueues a packet, see Aura
-          Counts:
+          Specifies what to add to FPA_AURA(0..1023)_CNT when PKI enqueues a packet:
           0 = zero.
           1 = one.
           2 = The number of FPA buffers allocated; i.e. if PKI_STYLE(0..63)_BUF[DIS_WQ_DAT] is set,
@@ -5547,7 +5569,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5573,7 +5594,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5597,7 +5617,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5621,7 +5640,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5645,7 +5663,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5669,7 +5686,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5693,7 +5709,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5717,7 +5732,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5741,7 +5755,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5765,7 +5778,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5789,7 +5801,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5813,7 +5824,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5837,7 +5847,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5863,7 +5872,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5889,7 +5897,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5913,7 +5920,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5937,7 +5943,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5961,7 +5966,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -5985,7 +5989,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6009,7 +6012,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6035,7 +6037,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6061,7 +6062,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6087,7 +6087,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6113,7 +6112,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6139,7 +6137,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6166,7 +6163,6 @@ registers:
     description: PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6192,7 +6188,6 @@ registers:
     description: Inbound packets received by PKI per pkind. PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6216,7 +6211,6 @@ registers:
     description: Inbound octets received by PKI per pkind. PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6240,7 +6234,6 @@ registers:
     description: Inbound error packets received by PKI per pkind. PKI Registers for address.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48

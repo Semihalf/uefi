@@ -1,0 +1,377 @@
+# -*- csr3 -*-
+# You must run "csr3 rtl" after editing this file!
+---
+name: DTX
+registers:
+  - name: DTX_SLI_SEL(0..1)
+    title: DTX SLI Select Register
+    address: 0x11800FE000000 | ((31) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_SLI_ENA(0..1)
+    title: DTX SLI Mask Register
+    address: 0x11800FE000020 | ((31) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_SLI_DAT(0..1)
+    title: DTX SLI Raw Data Register
+    address: 0x11800FE000040 | ((31) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_SLI_CTL
+    title: DTX SLI Control Register
+    address: 0x11800FE0F8060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_FPA_SEL(0..1)
+    title: DTX FPA Select Register
+    address: 0x11800FE000000 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_FPA_ENA(0..1)
+    title: DTX FPA Mask Register
+    address: 0x11800FE000020 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_FPA_DAT(0..1)
+    title: DTX FPA Raw Data Register
+    address: 0x11800FE000040 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_FPA_CTL
+    title: DTX FPA Control Register
+    address: 0x11800FE140060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_TAD(0..0)_SEL(0..1)
+    title: DTX L2C_TAD(0..0) Select Register
+    address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_TAD(0..0)_ENA(0..1)
+    title: DTX L2C_TAD(0..0) Mask Register
+    address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_TAD(0..0)_DAT(0..1)
+    title: DTX L2C_TAD(0..0) Raw Data Register
+    address: 0x11800FE000040 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_TAD(0..0)_CTL
+    title: DTX L2C_TAD(0..0) Control Register
+    address: 0x11800FE000060 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_TIM_SEL(0..1)
+    title: DTX TIM Select Register
+    address: 0x11800FE000000 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_TIM_ENA(0..1)
+    title: DTX TIM Mask Register
+    address: 0x11800FE000020 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_TIM_DAT(0..1)
+    title: DTX TIM Raw Data Register
+    address: 0x11800FE000040 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_TIM_CTL
+    title: DTX TIM Control Register
+    address: 0x11800FE2C0060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_MCI(0..0)_SEL(0..1)
+    title: DTX L2C_MCI(0..0) Select Register
+    address: 0x11800FE000000 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_MCI(0..0)_ENA(0..1)
+    title: DTX L2C_MCI(0..0) Mask Register
+    address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_MCI(0..0)_DAT(0..1)
+    title: DTX L2C_MCI(0..0) Raw Data Register
+    address: 0x11800FE000040 + ((0x5c + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_MCI(0..0)_CTL
+    title: DTX L2C_MCI(0..0) Control Register
+    address: 0x11800FE000060 + ((0x5c + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_POW_SEL(0..1)
+    title: DTX POW Select Register
+    address: 0x11800FE000000 | ((103) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_POW_ENA(0..1)
+    title: DTX POW Mask Register
+    address: 0x11800FE000020 | ((103) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_POW_DAT(0..1)
+    title: DTX POW Raw Data Register
+    address: 0x11800FE000040 | ((103) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_POW_CTL
+    title: DTX POW Control Register
+    address: 0x11800FE338060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_CBC(0..0)_SEL(0..1)
+    title: DTX L2C_CBC(0..0) Select Register
+    address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_L2C_CBC(0..0)_ENA(0..1)
+    title: DTX L2C_CBC(0..0) Mask Register
+    address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_L2C_CBC(0..0)_DAT(0..1)
+    title: DTX L2C_CBC(0..0) Raw Data Register
+    address: 0x11800FE000040 + ((0x84 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_L2C_CBC(0..0)_CTL
+    title: DTX L2C_CBC(0..0) Control Register
+    address: 0x11800FE000060 + ((0x84 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_LMC(0..0)_SEL(0..1)
+    title: DTX LMC(0..0) Select Register
+    address: 0x11800FE000000 + ((0x88 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_LMC(0..0)_ENA(0..1)
+    title: DTX LMC(0..0) Mask Register
+    address: 0x11800FE000020 + ((0x88 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_LMC(0..0)_DAT(0..1)
+    title: DTX LMC(0..0) Raw Data Register
+    address: 0x11800FE000040 + ((0x88 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_LMC(0..0)_CTL
+    title: DTX LMC(0..0) Control Register
+    address: 0x11800FE000060 + ((0x88 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_PEM(0..2)_SEL(0..1)
+    title: DTX PEM(0..2) Select Register
+    address: 0x11800FE000000 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_PEM(0..2)_ENA(0..1)
+    title: DTX PEM(0..2) Mask Register
+    address: 0x11800FE000020 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_PEM(0..2)_DAT(0..1)
+    title: DTX PEM(0..2) Raw Data Register
+    address: 0x11800FE000040 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_PEM(0..2)_CTL
+    title: DTX PEM(0..2) Control Register
+    address: 0x11800FE000060 + ((0xC0 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_AGL_SEL(0..1)
+    title: DTX AGL Select Register
+    address: 0x11800FE000000 | ((224) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_AGL_ENA(0..1)
+    title: DTX AGL Mask Register
+    address: 0x11800FE000020 | ((224) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_AGL_DAT(0..1)
+    title: DTX AGL Raw Data Register
+    address: 0x11800FE000040 | ((224) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_AGL_CTL
+    title: DTX AGL Control Register
+    address: 0x11800FE700060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_IOB_SEL(0..1)
+    title: DTX IOB Select Register
+    address: 0x11800FE000000 | ((240) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_IOB_ENA(0..1)
+    title: DTX IOB Mask Register
+    address: 0x11800FE000020 | ((240) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_IOB_DAT(0..1)
+    title: DTX IOB Raw Data Register
+    address: 0x11800FE000040 | ((240) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_IOB_CTL
+    title: DTX IOB Control Register
+    address: 0x11800FE780060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_BROADCAST_SEL(0..1)
+    title: DTX BROADCAST Select Register
+    address: 0x11800FE7F0000 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: VALUE
+        bits: 35..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+
+
+  - name: DTX_BROADCAST_ENA(0..1)
+    title: DTX BROADCAST Mask Register
+    address: 0x11800FE7F0020 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: MASK
+        bits: 35..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+          will drive each bit.
+
+
+  - name: DTX_BROADCAST_DAT(0..1)
+    title: DTX BROADCAST Raw Data Register
+    address: 0x11800FE7F0040 | a<<3
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..36
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: RAW
+        bits: 35..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+          peek into blocks during an OCLA capture without OCLA reconfiguration.
+
+
+  - name: DTX_BROADCAST_CTL
+    title: DTX BROADCAST Control Register
+    address: 0x11800FE7F0060
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..5
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ACTIVE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Force block's gated clocks on, so that the state of idle signals may be captured.
+
+      - name: --
+        bits: 3..2
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ECHOEN
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+          diagnostic use only.
+
+      - name: SWAP
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Swap the high and low 36-bit debug bus outputs.
+
+
+

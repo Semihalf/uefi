@@ -261,27 +261,6 @@ registers:
           RAD_INTSN_E::RAD_FIFO(0)_DOORBELL.
 
 
-  - name: RAD_REG_INT_MASK
-    title: RAD Interrupt Mask Register
-    address: 0x1180070000090
-    bus: RSL
-    description: When a mask bit is set, the corresponding interrupt is enabled.
-    fields:
-      - name: --
-        bits: 63..1
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DOORBELL
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Interrupt-enable bit mask corresponding to the error mask in RAD_REG_ERROR.
-
-
   - name: RAD_REG_DEBUG0
     title: RAD Debug0 Register
     address: 0x1180070000100

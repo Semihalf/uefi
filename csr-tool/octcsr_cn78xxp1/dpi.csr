@@ -35,20 +35,96 @@ enums:
         value: 0xDF000
         description: See DPI_INT_REG[NDERR].
 
+      - name: DPI_INT_NFOVR
+        value: 0xDF001
+        description: See DPI_INT_REG[NFOVR].
+
+      - name: DPI_INT_DMADBO(0..7)
+        value: 0xDF002 + a
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[DMADBO<a>].
+
+      - name: DPI_INT_REQ_BADADR
+        value: 0xDF00A
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_BADADR].
+
+      - name: DPI_INT_REQ_BADLEN
+        value: 0xDF00B
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_BADLEN].
+
+      - name: DPI_INT_REQ_OVFLW
+        value: 0xDF00C
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_OVRFLW].
+
+      - name: DPI_INT_REQ_UNDFLW
+        value: 0xDF00D
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_UNDFLW].
+
+      - name: DPI_INT_REQ_ANULL
+        value: 0xDF00E
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_ANULL].
+
+      - name: DPI_INT_REQ_INULL
+        value: 0xDF00F
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_INULL].
+
+      - name: DPI_INT_REQ_BADFIL
+        value: 0xDF010
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[REQ_BADFIL].
+
+      - name: DPI_INT_SPRT0_RST
+        value: 0xDF011
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[SPRT0_RST].
+
+      - name: DPI_INT_SPRT1_RST
+        value: 0xDF012
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[SPRT1_RST].
+
+      - name: DPI_INT_SPRT2_RST
+        value: 0xDF013
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[SPRT2_RST].
+
+      - name: DPI_INT_SPRT3_RST
+        value: 0xDF014
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_INT_REG[SPRT3_RST].
+
 
 structs:
   - name: DPI_DMA_INSTR_HDR_S
     description: DPI DMA Instruction Header Format
     fields:
       - name: AURA
-        bits: w0(9..0)
+        bits: w0(11..0)
         description: |
           New field for 78xx.
           FPA Aura.  Indicates the AURA sent to FPA when HW determines that buffers are to be freed
           based on FL, II, and LocalPtr[I].
 
       - name: --
-        bits: w0(15..10)
+        bits: w0(15..12)
         description: Reserved for extending AURA.
 
       - name: TT
@@ -271,7 +347,7 @@ registers:
         typical: 0
         description: |
           DMA instruction was dropped because the source or
-          destination port was in reset.
+          destination port was in reset. Throws DPI_INTSN_E::SPRT3_RST.
           this bit is set.
 
       - name: SPRT2_RST
@@ -281,7 +357,7 @@ registers:
         typical: 0
         description: |
           DMA instruction was dropped because the source or
-          destination port was in reset.
+          destination port was in reset. Throws DPI_INTSN_E::SPRT2_RST.
           this bit is set.
 
       - name: SPRT1_RST
@@ -292,7 +368,7 @@ registers:
         description: |
           DMA instruction was dropped because the source or
           destination port was in reset.
-          this bit is set.
+          this bit is set. Throws DPI_INTSN_E::SPRT1_RST.
 
       - name: SPRT0_RST
         bits: 24
@@ -302,7 +378,7 @@ registers:
         description: |
           DMA instruction was dropped because the source or
           destination port was in reset.
-          this bit is set.
+          this bit is set. Throws DPI_INTSN_E::SPRT0_RST.
 
       - name: --
         bits: 23
@@ -318,7 +394,7 @@ registers:
         typical: 0
         description: |
           DMA instruction unexpected fill
-          Instruction fill when none outstanding.
+          Instruction fill when none outstanding. Throws DPI_INTSN_E::REQ_BADFIL.
 
       - name: REQ_INULL
         bits: 21
@@ -327,7 +403,7 @@ registers:
         typical: 0
         description: |
           DMA instruction filled with NULL pointer
-          Next pointer was NULL.
+          Next pointer was NULL. Throws DPI_INTSN_E::REQ_INULL.
 
       - name: REQ_ANULL
         bits: 20
@@ -336,7 +412,7 @@ registers:
         typical: 0
         description: |
           DMA instruction filled with bad instruction
-          Fetched instruction word was 0.
+          Fetched instruction word was 0. Throws DPI_INTSN_E::REQ_ANULL.
 
       - name: REQ_UNDFLW
         bits: 19
@@ -346,7 +422,7 @@ registers:
         description: |
           DMA instruction FIFO underflow
           DPI tracks outstanding instructions fetches.
-          Interrupt will fire when FIFO underflows.
+          Interrupt will fire when FIFO underflows. Throws DPI_INTSN_E::REQ_UNDFLW.
 
       - name: REQ_OVRFLW
         bits: 18
@@ -356,7 +432,7 @@ registers:
         description: |
           DMA instruction FIFO overflow
           DPI tracks outstanding instructions fetches.
-          Interrupt will fire when FIFO overflows.
+          Interrupt will fire when FIFO overflows. Throws DPI_INTSN_E::REQ_OVRFLW.
 
       - name: REQ_BADLEN
         bits: 17
@@ -366,7 +442,7 @@ registers:
         description: |
           DMA instruction fetch with length
           Interrupt will fire if DPI forms an instruction
-          fetch with length of zero.
+          fetch with length of zero. Throws DPI_INTSN_E::REQ_BADLEN.
 
       - name: REQ_BADADR
         bits: 16
@@ -376,7 +452,7 @@ registers:
         description: |
           DMA instruction fetch with bad pointer
           Interrupt will fire if DPI forms an instruction
-          fetch to the NULL pointer.
+          fetch to the NULL pointer. Throws DPI_INTSN_E::REQ_BADADR.
 
       - name: DMADBO
         bits: 15..8
@@ -387,7 +463,7 @@ registers:
           DMAx doorbell overflow.
           DPI has a 32-bit counter for each request's queue
           outstanding doorbell counts. Interrupt will fire
-          if the count overflows.
+          if the count overflows. Throws DPI_INTSN_E::DPI_INT_DMADBO.
 
       - name: --
         bits: 7..2
@@ -404,7 +480,7 @@ registers:
         description: |
           CSR Fifo Overflow
           DPI can store upto 16 CSR request.  The FIFO will
-          overflow if that number is exceeded.
+          overflow if that number is exceeded. Throws DPI_INTSN_E::DPI_INT_NFOVR.
 
       - name: NDERR
         bits: 0
@@ -552,6 +628,66 @@ registers:
         reset: 0
         typical: 0
         description: NCB Decode Error
+
+
+  - name: DPI_ECC_CTL0
+    title: DPI ECC Control Register
+    address: 0x1DF0000000018
+    bus: NCB
+    description: This register allows inserting ECC errors for testing.
+    fields:
+      - name: --
+        bits: 63..23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RAM_CDIS
+        bits: 22..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: RAM ECC correction disable. Each bit corresponds to a different RAM.
+
+
+  - name: DPI_ECC_CTL1
+    title: DPI ECC Control Register
+    address: 0x1DF0000000020
+    bus: NCB
+    description: This register allows inserting ECC errors for testing.
+    fields:
+      - name: --
+        bits: 63..55
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RAM_FLIP1
+        bits: 54..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+          test single-bit or double-bit error handling.
+
+      - name: --
+        bits: 31..23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RAM_FLIP0
+        bits: 22..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+          test single-bit or double-bit error handling.
 
 
   - name: DPI_CTL

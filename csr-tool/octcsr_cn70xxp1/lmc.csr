@@ -58,11 +58,18 @@ registers:
       LMC*_SCRAMBLED_FADR match the contents of LMC*_FADR
     fields:
       - name: --
-        bits: 63..38
+        bits: 63..40
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: FILL_ORDER
+        bits: 39..38
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Fill order for failing transaction.
 
       - name: FDIMM
         bits: 37
@@ -161,56 +168,14 @@ registers:
     description: This register has additional configuration and control bits for the LMC
     fields:
       - name: --
-        bits: 63..13
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: DLCRAM_BIST_STATUS
-        bits: 12
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: DLC RAM BIST status, 1 means fail.
-
-      - name: DLCRAM_BIST_DONE
-        bits: 11
-        access: RO/H
-        reset: 0
-        typical: --
-        description: DLC RAM BIST complete indication, 1 means complete.
-
-      - name: START_BIST
-        bits: 10
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: Start BIST on DLC memory.
-
-      - name: CLEAR_BIST
-        bits: 9
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: Start clear BIST on DLC memory.
-
-      - name: DRIVE_ENA_BPRCH
-        bits: 8
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: Drive DQx for one cycle longer than normal during write operations.
-
-      - name: DRIVE_ENA_FPRCH
-        bits: 7
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: Drive DQX starting one cycle earlier than normal during write operations.
-
       - name: SLOT_CTL_RESET_FORCE
-        bits: 6
+        bits: 17
         access: WO
         reset: 0
         typical: 0
@@ -219,6 +184,29 @@ registers:
           After writing a 1 to this bit, slot control registers will update with changes made to
           other timing control registers.  One shot operation, will automatically return to 0
           after a write to 1.
+
+      - name: REF_INT_LSBS
+        bits: 16..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          These are the 9 LSBs for the refresh interval value, default to 0, but can be set to
+          a non-zero value to get a more precise refresh interval.
+
+      - name: DRIVE_ENA_BPRCH
+        bits: 7
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQx for one cycle longer than normal during write operations.
+
+      - name: DRIVE_ENA_FPRCH
+        bits: 6
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQX starting one cycle earlier than normal during write operations.
 
       - name: DLCRAM_FLIP_SYND
         bits: 5..4
@@ -713,11 +701,22 @@ registers:
     description: This register sets timing parameters for DDR4.
     fields:
       - name: --
-        bits: 63..11
+        bits: 63..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: TRTP
+        bits: 14..11
+        access: R/W
+        reset: 0x5
+        typical: --
+        description: |
+          Set this field as follows:
+          RNDUP[TRTP(ns) / TCYC(ns)] - 1,
+          Indicates the tRTP parameter, in cycles.  For DDR3, TYP = max(4 nCK, 7.5ns),
+          for DDR4 the rRTP parameter is dictated by the tWR MR bits.
 
       - name: T_RW_OP_MAX
         bits: 10..7
@@ -750,15 +749,15 @@ registers:
         typical: 0x4
         description: |
           Indicates TRRD_L constraints. Set this field as follows:
-          RNDUP[TRRD_L(ns) / TCYC(ns)] - 2,
+          RNDUP[TRRD_L(ns) / TCYC(ns)] - 1,
           where TRRD_L is from the JEDEC DDR4 spec, and TCYC(ns) is the DDR clock frequency (not
           data rate).
           TYP = max(4 nCK, 7.5 ns)
           000: Reserved.
-          001: 3 TCYC
+          001: 2 TCYC
           ...
-          110: 8 TCYC
-          111: 9 TCYC
+          110: 7 TCYC
+          111: 8 TCYC
 
 
   - name: LMC(0..0)_MR_MPR_CTL
@@ -793,42 +792,53 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Select which of 4 bits to read for each nibble of DRAM data.
+        description: |
+          Select which of 4 bits to read for each nibble of DRAM data.  Typically all 4 bits
+          from a x4 device, or all 8 bits from a x8 device, or all 16 bits from a x16 device
+          will carry the same data, but this fields allows selection of which device bit will
+          be used to read the MPR data.
 
       - name: MPR_WR
         bits: 44
         access: R/W
         reset: 0
         typical: 0
-        description: MPR sequence will perform a write operation.
+        description: MPR sequence will perform a write operation when set.
 
       - name: MPR_LOC
         bits: 43..42
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: MPR location select for MPR sequence.
+        description: MPR location select for MPR sequence, only makes a difference for DDR4.
 
       - name: MR_WR_PDA_ENABLE
         bits: 41
         access: R/W
         reset: 0
         typical: 0
-        description: PDA write enable.
+        description: |
+          PDA write enable, if set MRW operations will use PDA, enabled by the
+          LMC(0..3)_MR_MPR_CTL[MR_WR_PDA_MASK] per device.
 
       - name: MR_WR_PDA_MASK
         bits: 40..23
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: PDA mask.
+        description: |
+          PDA mask, if LMC(0..3)_MR_MPR_CTL[MR_WR_PDA_ENABLE] is set and there is a 1 in
+          the bit for this make value, then the correpsonding DRAM device will be enabled
+          for the PDA MR write.  Bit <23> corresponds to the lowest order, x4 device, and
+          bit <40> corresponds to the highest order x4 device, for a total of up to 18
+          devices.
 
       - name: MR_WR_RANK
         bits: 22..21
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: This field selects the DRAM rank.
+        description: This field selects the DRAM rank for either MRW or MPR sequences.
 
       - name: MR_WR_SEL
         bits: 20..18
@@ -836,10 +846,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Use this field to select which MR to write with the MR write seqeunce
-          Which pins to drive and how to drive them is automatically controlled
-          through the DDR3/4 mode setting.
-          MR_WR_SEL==7 selects an RCW write for both DDR4 and DDR3.
+          Use this field to select which MR to write with the MR write seqeunce.  Which pins
+          to drive and how to drive them is automatically controlled through the DDR3/4 mode
+          setting.  Bits <19:18> are also used to select the MPR page for an MPR sequence.
+          MR_WR_SEL==7 selects an RCW write for both DDR4 and DDR3 MRW operations.
 
       - name: MR_WR_ADDR
         bits: 17..0
@@ -847,8 +857,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Use this field to set a value for A[17:0] for MR writes
-          Note that many of these bits must be 0 for various MRs.
+          Use this field to set a value for A<17:0> for MR writes.  Note that many
+          of these bits must be 0 for various MRs.  The lower 8 bits, <7:0> of this
+          field are also used for write data on an MPR sequence write operation.
 
 
   - name: LMC(0..0)_MPR_DATA0
@@ -864,7 +875,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MPR data bits <63:0>.
+          MPR data bits <63:0>.  Bits <7:0> represent the MPR data for the lowest order
+          x4 device (x4 device number 0), bits <15:8> represent x4 device number 1, ...,
+          bits <63:56> are for x4 device number 7.
 
 
   - name: LMC(0..0)_MPR_DATA1
@@ -880,7 +893,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MPR data bits <127:64>.
+          MPR data bits <127:64>.  Bits <7:0> of the field represent the MPR data for
+          x4 device number 8, bits <15:8> represent x4 device numnber 9, ..., and bits
+          <63:56> represent x4 device number 15.
 
 
   - name: LMC(0..0)_MPR_DATA2
@@ -903,7 +918,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          MPR data bits <143:128>.
+          MPR data bits <143:128>.  Bits <7:0> of the field represent the MPR data for
+          x4 device number 16, and bits <15:8> represent x4 device number 17.
 
 
   - name: LMC(0..0)_DUAL_MEMCFG
@@ -1104,6 +1120,48 @@ registers:
         reset: 0x0
         typical: 0x0
         description: RC1x.
+
+
+  - name: LMC(0..0)_BIST_CTL
+    title: LMC DIMM Parameters Register
+    address: 0x1180088000100 | a<<24
+    bus: RSL
+    description: This register has fields to control BIST operation.
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DLCRAM_BIST_STATUS
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: DLC RAM BIST status, 1 means fail.
+
+      - name: DLCRAM_BIST_DONE
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: --
+        description: DLC RAM BIST complete indication, 1 means complete.
+
+      - name: START_BIST
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Start BIST on DLC memory.
+
+      - name: CLEAR_BIST
+        bits: 0
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Start clear BIST on DLC memory.
 
 
   - name: LMC(0..0)_DIMM(0..1)_DDR4_PARAMS1
@@ -1487,28 +1545,29 @@ registers:
           Set this bit to send DQx signals one CK cycle earlier for the case when the shortest DQx
           lines have a larger delay than the CK line.
 
-      - name: --
-        bits: 39..37
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
       - name: REF_ZQCS_INT
-        bits: 36..18
+        bits: 39..18
         access: R/W/H
         reset: 0x1
         typical: --
         description: |
-          Refresh & ZQCS interval represented in number of 512 CK cycle increments. A refresh
-          sequence is triggered when bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered
-          when <36:18> are equal to 0x0.
+          Refresh interval is represented in number of 512 CK cycle increments. ZQCS interval
+          is represented in a number of refresh intervals.  A refresh sequence is triggered when
+          bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered when <39:18> are equal
+          to 0x0.  The ZQCS timer only decrements when the refresh timer is 0.
+
           Program <24:18> to RND-DN(TREFI/clkPeriod/512).
-          Program <36:25> to RND-DN(ZQCS_Interval/clkPeriod/(512*64)). Note that this value should
-          always be greater than 32, to account for resistor calibration delays.
+          A value of 0 in bits <24:18> will effectively turn off refresh.
+
+          Program <36:25> to (RND-DN(ZQCS_Period / Refresh_Period) - 1), where Refresh_Period is the
+          effective period programmed in bis <24:18>. Note that this value should always be greater
+          than 32, to account for resistor calibration delays.
           000_00000000_00000000: Reserved
           Max Refresh interval = 127*512= 65024 CK cycles
-          Max ZQCS interval = (8*256*256-1) * 512 = 268434944 CK cycles ~ 335ms for a 800 MHz CK
+          Max ZQCS interval = 32768 * 127 * 512 = 2130706432 CK cycles
+          If refresh interval is programmed to ~8us, max ZQCS interval is ~262ms, or ~4 ZQCS
+          operations
+          per second.
           LMC(0..0)_CONFIG[INIT_STATUS] determines which ranks receive the REF / ZQCS. LMC does not
           send any refreshes / ZQCS's when LMC(0..0)_CONFIG[INIT_STATUS]=0.
 
@@ -1905,7 +1964,7 @@ registers:
         typical: 0x6
         description: |
           Indicates TRP constraints. Set TRP as follows:
-          RNDUP[TRP(ns) / TCYC(ns)] + ((RNDUP[TRTP(ns) / TCYC(ns)]) - 4) - 1
+          RNDUP[TRP(ns) / TCYC(ns)] - 1
           where TRP and TRTP are from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency
           (not data rate).
           TYP TRP = 10-15ns.
@@ -2090,8 +2149,8 @@ registers:
           000: reserved
           001: 2 TCYC
           ...
-          110: 8 TCYC
-          111: 9 TCYC
+          110: 7 TCYC
+          111: 8 TCYC
           For DDR4, this is the TRRD_S parameter.
 
       - name: TRFC
@@ -2288,6 +2347,8 @@ registers:
           MR0[CAS Latency / CL] value in all the DDR3/4 parts attached to all ranks during normal
           operation.
 
+          tCL must be programmed to greater than or equal to tCWL for proper LMC operation.
+
       - name: BL
         bits: 13..12
         access: R/W
@@ -2422,6 +2483,8 @@ registers:
           instruction sequences. See LMC(0..0)_CONFIG[SEQ_SEL, INIT_START,RANKMASK] and
           LMC(0..0)_RESET_CTL [DDR3PWARM, DDR3PSOFT]. This value must equal the MR2[CWL] value in
           all the DDR3 parts attached to all ranks during normal operation.
+
+          tCWL must be programmed to less than or equal to tCL for proper LMC operation.
 
 
   - name: LMC(0..0)_WODT_MASK
@@ -3851,11 +3914,32 @@ registers:
       cycles) to allow PLL clock alignment.
     fields:
       - name: --
-        bits: 63..26
+        bits: 63..29
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PLL_FBSLIP
+        bits: 28
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PLL FBSLIP indication.
+
+      - name: PLL_LOCK
+        bits: 27
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PLL LOCK indication.
+
+      - name: PLL_RFSLIP
+        bits: 26
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PLL RFSLIP indication.
 
       - name: CLKR
         bits: 25..24
@@ -3911,29 +3995,12 @@ registers:
           0xf = divide LMC PLL by ?.
           DDR_PS_EN is not used when DDR_DIV_RESET = 1
 
-      - name: DIFFAMP
-        bits: 17..14
-        access: R/W
-        reset: 0x0
-        typical: 0x1
-        description: |
-          Reserved; must be zero. INTERNAL: PLL diffamp input transconductance.
-
-      - name: CPS
-        bits: 13..11
-        access: R/W
-        reset: 0x0
-        typical: 0x1
-        description: |
-          Reserved; must be zero. INTERNAL: PLL charge-pump current.
-
-      - name: CPB
-        bits: 10..8
-        access: R/W
-        reset: 0x0
-        typical: 0x1
-        description: |
-          Reserved; must be zero. INTERNAL: PLL charge-pump current.
+      - name: --
+        bits: 17..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: RESET_N
         bits: 7
@@ -4629,12 +4696,12 @@ registers:
         typical: 0x55
         description: Sets the data pattern used to match in read leveling operations.
 
-      - name: MPRLOC
+      - name: --
         bits: 23..22
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Sets the MPR location used for read level operations.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: DELAY_UNLOAD_3
         bits: 21
@@ -5027,11 +5094,18 @@ registers:
       DDR3 interface.
     fields:
       - name: --
-        bits: 63..36
+        bits: 63..45
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DBI_MASK
+        bits: 44..36
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Mask for DBI/DQS<1>.
 
       - name: PAR_MASK
         bits: 35
@@ -5180,11 +5254,18 @@ registers:
       failing address. If FDIMM is 1, that means the error is in the higher DIMM.
     fields:
       - name: --
-        bits: 63..38
+        bits: 63..40
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: FILL_ORDER
+        bits: 39..38
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Fill order for failing transaction.
 
       - name: FDIMM
         bits: 37
@@ -5225,139 +5306,6 @@ registers:
           Failing column address <13:0>. Technically, represents the address of the 128b data that
           had an ECC error, i.e., FCOL<0> is always 0. Can be used in conjunction with
           LMC(0..0)_CONFIG[DED_ERR] to isolate the 64b chunk of data in error.
-
-
-  - name: LMC(0..0)_LANE(0..8)_CRC_SWIZ
-    title: LMC MR Write Control Register
-    address: 0x1180088000380 | a<<24 | b<<3
-    bus: RSL
-    description: CRC bit swizzle for even and odd ranks.
-    fields:
-      - name: --
-        bits: 63..56
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: R1_SWIZ7
-        bits: 55..53
-        access: R/W
-        reset: 0x7
-        typical: 0x7
-        description: Bit select for odd rank, bit 7.
-
-      - name: R1_SWIZ6
-        bits: 52..50
-        access: R/W
-        reset: 0x6
-        typical: 0x6
-        description: Bit select for odd rank, bit 6.
-
-      - name: R1_SWIZ5
-        bits: 49..47
-        access: R/W
-        reset: 0x5
-        typical: 0x5
-        description: Bit select for odd rank, bit 5.
-
-      - name: R1_SWIZ4
-        bits: 46..44
-        access: R/W
-        reset: 0x4
-        typical: 0x4
-        description: Bit select for odd rank, bit 4.
-
-      - name: R1_SWIZ3
-        bits: 43..41
-        access: R/W
-        reset: 0x3
-        typical: 0x3
-        description: Bit select for odd rank, bit 3.
-
-      - name: R1_SWIZ2
-        bits: 40..38
-        access: R/W
-        reset: 0x2
-        typical: 0x2
-        description: Bit select for odd rank, bit 2.
-
-      - name: R1_SWIZ1
-        bits: 37..35
-        access: R/W
-        reset: 0x1
-        typical: 0x1
-        description: Bit select for odd rank, bit 1.
-
-      - name: R1_SWIZ0
-        bits: 34..32
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Bit select for odd rank, bit 0.
-
-      - name: --
-        bits: 31..24
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: R0_SWIZ7
-        bits: 23..21
-        access: R/W
-        reset: 0x7
-        typical: 0x7
-        description: Bit select for even rank, bit 7.
-
-      - name: R0_SWIZ6
-        bits: 20..18
-        access: R/W
-        reset: 0x6
-        typical: 0x6
-        description: Bit select for even rank, bit 6.
-
-      - name: R0_SWIZ5
-        bits: 17..15
-        access: R/W
-        reset: 0x5
-        typical: 0x5
-        description: Bit select for even rank, bit 5.
-
-      - name: R0_SWIZ4
-        bits: 14..12
-        access: R/W
-        reset: 0x4
-        typical: 0x4
-        description: Bit select for even rank, bit 4.
-
-      - name: R0_SWIZ3
-        bits: 11..9
-        access: R/W
-        reset: 0x3
-        typical: 0x3
-        description: Bit select for even rank, bit 3.
-
-      - name: R0_SWIZ2
-        bits: 8..6
-        access: R/W
-        reset: 0x2
-        typical: 0x2
-        description: Bit select for even rank, bit 2.
-
-      - name: R0_SWIZ1
-        bits: 5..3
-        access: R/W
-        reset: 0x1
-        typical: 0x1
-        description: Bit select for even rank, bit 1.
-
-      - name: R0_SWIZ0
-        bits: 2..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Bit select for even rank, bit 0.
 
 
   - name: LMC(0..0)_DDR4_DIMM_CTL

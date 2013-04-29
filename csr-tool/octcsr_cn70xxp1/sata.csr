@@ -1004,7 +1004,7 @@ registers:
 
   - name: SATA_UAHC_GBL_BISTAFR
     title: UAHC BIST Activate FIS Register
-    address: 0x16C0000000090
+    address: 0x16C00000000A0
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
@@ -1053,7 +1053,7 @@ registers:
 
   - name: SATA_UAHC_GBL_BISTCR
     title: UAHC BIST Control Register
-    address: 0x16C0000000094
+    address: 0x16C00000000A4
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
@@ -1208,7 +1208,7 @@ registers:
 
   - name: SATA_UAHC_GBL_BISTFCTR
     title: UAHC BIST FIS Count Register
-    address: 0x16C0000000098
+    address: 0x16C00000000A8
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
@@ -1226,7 +1226,7 @@ registers:
 
   - name: SATA_UAHC_GBL_BISTSR
     title: UAHC BIST Status Register
-    address: 0x16C000000009C
+    address: 0x16C00000000AC
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
@@ -1241,21 +1241,21 @@ registers:
       - name: BRSTERR
         bits: 23..16
         access: RO
-        reset: 0x0
-        typical: 0x0
+        reset: --
+        typical: --
         description: Burst error.
 
       - name: FRAMERR
         bits: 15..0
         access: RO
-        reset: 0x0
-        typical: 0x0
+        reset: --
+        typical: --
         description: Frame error.
 
 
   - name: SATA_UAHC_GBL_BISTDECR
     title: UAHC BIST DWORD Error Count Register
-    address: 0x16C00000000A0
+    address: 0x16C00000000B0
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
@@ -1273,43 +1273,46 @@ registers:
 
   - name: SATA_UAHC_GBL_OOBR
     title: UAHC OOB Register
-    address: 0x16C00000000AC
+    address: 0x16C00000000BC
     bus: NCB
     description: |
       INTERNAL: See DWC_ahsata databook v4.10a
+      This register is shared between SATA ports.  Before accessing this
+      register, first select the required port by writing the port number
+      to the SATA_UAHC_GBL_TESTR[PSEL] field.
     fields:
       - name: WE
         bits: 31
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: Write enable.
 
       - name: CWMIN
         bits: 30..24
-        access: R/W
+        access: R/W/H
         reset: 0x7
         typical: --
         description: COMWAKE minimum value. Writable only if WE is set.
 
       - name: CWMAX
         bits: 23..16
-        access: R/W
+        access: R/W/H
         reset: 0xe
         typical: --
         description: COMWAKE maximum value. Writable only if WE is set.
 
       - name: CIMIN
         bits: 15..8
-        access: R/W
-        reset: 0x2b
+        access: R/W/H
+        reset: 0x18
         typical: --
         description: COMINIT minimum value. Writable only if WE is set.
 
       - name: CIMAX
         bits: 7..0
-        access: R/W
-        reset: 0x18
+        access: R/W/H
+        reset: 0x2b
         typical: --
         description: COMINIT maximum value. Writable only if WE is set.
 
@@ -1825,7 +1828,7 @@ registers:
 
       - name: PCS
         bits: 6
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: Port connect change status.
@@ -2208,7 +2211,7 @@ registers:
 
       - name: STS
         bits: 7..0
-        access: RO
+        access: RO/H
         reset: 0x7f
         typical: --
         description: Copy of task file status register.

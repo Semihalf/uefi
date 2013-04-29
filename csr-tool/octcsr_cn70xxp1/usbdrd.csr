@@ -8,6 +8,7 @@ description: |
     * UAHC NCB-type registers: 1MB starting at address    0x1_6800_0000_0000
     * UPHY indirect registers: indirect access via the UCTL_PORT*_CR_DBG_*
       registers. (See Synopsys PHY databook for details)
+  Note: These address examples are for instance 0.
 
   == UCTL ==================================================
 
@@ -66,6 +67,120 @@ description: |
   mechanism using the UCTL.PORT*_CR_DBG_* registers. For more information,
   see the PHY Databook.
 enums:
+  - name: USBDRD_UAHC_DGCMD_CMDTYPE_E
+    attributes:
+      width: "8"
+    description: |
+      Commands for USBDRD(0..1)_UAHC_DGCMD[CMDTYPE].
+      Any command encodings that are not present are considered Reserved.
+      INTERNAL: Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.6.1 for details.
+    values:
+      - name: SET_PERIODIC_PARAMETERS
+        value: 0x02
+        description: |
+          Allows the software to program the periodic parameters.
+          USBDRD(0..1)_UAHC_DGCMDPAR[9:0] = Software should set this to the same value programmed
+          by the host through the Set SEL device request, in microseconds.
+          The Set SEL control transfer has 6 bytes of data and contains 4 values; Refer to the USB
+          3.0 spec, Section 9.4.12.
+          Offset Name  Meaning
+          0      U1SEL Time in s for U1 System Exit Latency
+          1      U1PEL Time in s for U1 Device to Host Exit Latency
+          2      U2SEL Time in s for U2 System Exit Latency
+          4      U2PEL Time in s for U2 Device to Host Exit Latency
+          If the device is enabled for U1 and U2, then the U2PEL should be programmed. If the device
+          is enabled only for U1, then U1PEL should be programmed into this parameter.
+          If the value is greater than 125us, then the software must program a value of zero into
+          this register.
+
+      - name: SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L
+        value: 0x04
+        description: |
+          This command sets bits [31:0] of the external address of the scratchpad buffer
+          array used for save/restore to the value in USBDRD(0..1)_UAHC_DGCMDPAR.
+          If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H is issued while the
+          controller is stopped (USBDRD(0..1)_UAHC_DCTL[RS]=0), the
+          USBDRD(0..1)_UAHC_DGCMD[CMDIOC] bit must be set to 0.
+          The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
+          array; it contains an array of 64-bit pointers to data buffers that will be used to
+          save the controller's state.
+
+      - name: SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H
+        value: 0x05
+        description: |
+          This command sets bits [63:32] of the external address of the scratchpad buffer
+          array used for save/restore to the value in USBDRD(0..1)_UAHC_DGCMDPAR.
+          If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L is issued while the
+          controller is stopped (USBDRD(0..1)_UAHC_DCTL[RS]=0), the
+          USBDRD(0..1)_UAHC_DGCMD[CMDIOC] bit must be set to 0.
+          The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
+          array; it contains an array of 64-bit pointers to data buffers that will be used to
+          save the controller's state.
+
+      - name: TRANSMIT_DEVICE_NOTIFICATION
+        value: 0x07
+        description: |
+          This command allows any device notification to be transmitted, using the notification type
+          and notification parameters specified in the DGCMDPAR register.
+            USBDRD(0..1)_UAHC_DGCMDPAR[3:0]  = Notification Type
+            USBDRD(0..1)_UAHC_DGCMDPAR[31:4] = Notification parameters, depends on the notification
+          type
+          For example, to transmit a Function Wake, software sets USBDRD(0..1)_UAHC_DGCMDPAR[3:0] to
+          1, and USBDRD(0..1)_UAHC_DGCMDPAR[10:4] to the Interface Number.
+
+          This field relates to the Notification Type Specific field in a Device Notification
+          Transaction Packet as described in Section 8.5.6 of the USB3 Specification. The
+          following bits of the DGCMDPAR register have been put into the corresponding
+          DWORD described in Section 8.5.6 of the USB3 Specification:
+            USBDRD(0..1)_UAHC_DGCMDPAR[3:0]   into DWORD 1[7:4]  (Notification Type)
+            USBDRD(0..1)_UAHC_DGCMDPAR[27:4]  into DWORD 1[31:8] (Notification Type Specific)
+            USBDRD(0..1)_UAHC_DGCMDPAR[31:28] into DWORD 2[3:0]  (Notification Type Specific)
+          There is one exception for the Bus Interval Adjustment Device Notification:
+          USBDRD(0..1)_UAHC_DGCMDPAR[19:4] represents the Bus Interval Adjustment field; however,
+          in the USB3 specification, the Bus Interval Adjustment field is actually at 31:16 of DWORD
+          1.
+          In the case of Host Role Request, USBDRD(0..1)_UAHC_DGCMDPAR[3:0] = 4, and
+          USBDRD(0..1)_UAHC_DGCMDPAR[5:4] = RSP Phase.
+
+      - name: SELECTED_FIFO_FLUSH
+        value: 0x09
+        description: |
+          Flush the selected FIFO.
+          USBDRD(0..1)_UAHC_DGCMDPAR[4:0] = FIFO Number.
+          USBDRD(0..1)_UAHC_DGCMDPAR[5]   = 1 for TX FIFO and 0 for RX FIFO.
+
+      - name: ALL_FIFO_FLUSH
+        value: 0x0A
+        description: |
+          Flush all FIFOs.
+          This command does not use the USBDRD(0..1)_UAHC_DGCMDPAR field.
+
+      - name: SET_ENDPOINT_NRDY
+        value: 0x0C
+        description: |
+          Issuing this command will make the core think that the given endpoint is in an NRDY state.
+          If there are buffers available in that endpoint, the core will immediately transmit an
+          ERDY.
+          USBDRD(0..1)_UAHC_DGCMDPAR[4:0] = Physical Endpoint Number
+
+      - name: RUN_SOC_BUS_LOOPBACK_TEST
+        value: 0x10
+        description: |
+          When enabled, executes an SoC Bus Loopback test, which allows the data flow from transmit
+          to receive to be tested without any connection to a PHY.
+          1. Configure EP0 as a non-stream capable Bulk OUT endpoint with the desired MaxPacketSize.
+          2. Configure EP1 as a non-stream capable Bulk IN endpoint assigned to Tx-FIFO 0 with the
+             desired MaxPacketSize.
+          3. Issue this command with Parameter[0] set to '1', enabling Loopback mode.
+          4. Issue Start Transfer to EP0.
+          5. Issue Start Transfer to EP1.
+          6. The core reads data from the IN buffers and writes it back to the OUT buffers.
+             The IN and OUT must have an equal amount of data buffer. The Tx-FIFO 0 default value of
+             66 should be changed to 130 for loopback mode.
+          USBDRD(0..1)_UAHC_DGCMDPAR[0] = When 1, enables Loopback mode. When 0, disables Loopback
+          mode.
+
+
   - name: USBDRD_UCTL_DMA_READ_CMD_E
     attributes:
       width: "1"
@@ -275,8 +390,7 @@ registers:
           clear_bist setting into the correct state and then perform another CSR write operation to
           set the BIST trigger (keeping the clear_bist state constant).
           CLEAR BIST completion is indicated by USBDRD(0..1)_UCTL_BIST_STATUS[NDONE]. A BIST clear
-          operation
-          takes almost 2,000 host-controller-clock cycles for the largest RAM.
+          operation takes almost 2,000 host-controller-clock cycles for the largest RAM.
 
       - name: START_BIST
         bits: 62
@@ -292,15 +406,26 @@ registers:
           UPHY_RST, UAHC_RST, UCTL_RST) until BIST is complete.
           BIST defect status can be checked after FULL BIST completion, both of which are indicated
           in USBDRD(0..1)_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 host-controller-
-          clock cycles
-          for the largest RAM.
+          clock cycles for the largest RAM.
 
-      - name: --
+      - name: REF_CLK_SEL
         bits: 61..60
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Choose reference clock source for the SuperSpeed and HighSpeed PLL blocks.
+            0x0 = Reference clock source for both PLLs is DLMC_REF_CLK0
+            0x1 = Reference clock source for both PLLs is DLMC_REF_CLK1
+            0x2 = Reference clock source for SuperSpeed PLL is DLMC_REF_CLK0,
+                  reference clock source for HighSpeed PLL is PLL_REF_CLK.
+            0x3 = Reference clock source for SuperSpeed PLL is DLMC_REF_CLK1,
+                  reference clock source for HighSpeed PLL is PLL_REF_CLK.
+          The DLMC_REF_CLK*'s are the shared reference clocks from the SERDES blocks.
+          The PLL_REF_CLK is a 50MHz reference clock from an on-chip PLL.
+          This value can be changed only during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x0 or 0x1, then the DLMC_REF_CLK* input chosen
+          cannot be spread-spectrum.
 
       - name: SSC_EN
         bits: 59
@@ -309,13 +434,16 @@ registers:
         typical: 1
         description: |
           Enables spread-spectrum clock production in the SuperSpeed function.
+          If the DLMC_REF_CLK* inputs are already spread-spectrum, then do not enable this feature.
+          The clocks sourced to the SuperSpeed function must have spread-spectrum to be compliant
+          with the USB specification.
           This value may only be changed during UPHY_RST.
 
       - name: SSC_RANGE
         bits: 58..56
         access: R/W
-        reset: 0x3
-        typical: 0x3
+        reset: 0x0
+        typical: 0x0
         description: |
           Selects the range of spread spectrum modulation when ssc_en is asserted and the PHY is
           spreading the SuperSpeed transmit clocks.
@@ -342,30 +470,53 @@ registers:
           [55:53]: modulus - 1,
           [52:47]: 2's complement push amount
           A value of 0x0 means this feature is disabled.
-          This SuperSpeed feature can only be used if HighSpeed function is not sharing the
-          reference clock with SuperSpeed function, since using it implies the reference clock is
-          not one of the standard values.
+          The legal values are:
+            If REF_CLK_SEL = 0x0 or 0x1, then:
+              0x0 is the only legal value.
+            If REF_CLK_SEL = 0x2 or 0x3, then:
+              INTERNAL: 0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
+              INTERNAL:                   52MHz, 76.8MHz, 96MHz, 104MHz.
+              0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                     MPLL_MULTIPLIER description).
+          All other values are reserved.
           This value may only be changed during UPHY_RST.
-
-          INTERNAL: This is a CYA bit.
+          Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
       - name: MPLL_MULTIPLIER
         bits: 46..40
         access: R/W
-        reset: 0x2
-        typical: 0x2
+        reset: 0x19
+        typical: 0x19
         description: |
           Multiplies the reference clock to a frequency suitable for intended operating speed. The
           legal values are:
-          0x19 = 100MHz (off-chip reference clock)
-          0x32 =  50MHz  (on-chip reference clock)
-          0x68 =  24MHz (off-chip reference clock)
-          0x7D =  20MHz (off-chip reference clock)
-          0x02 =  19.2MHz (off-chip reference clock)
+            If REF_CLK_SEL = 0x0 or 0x1, then:
+              0x19 = 100  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x68 =  24  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x7D =  20  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x02 =  19.2MHz on DLMC_REF_CLK*
+            If REF_CLK_SEL = 0x2 or 0x3, then:
+              INTERNAL: 0x02 =  19.2MHz on DLMC_REF_CLK*
+              INTERNAL: 0x7D =  20  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x68 =  24  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x64 =  25  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x60 =  26  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x41 =  38.4MHz on DLMC_REF_CLK*
+              INTERNAL: 0x7D =  40  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x34 =  48  MHz on DLMC_REF_CLK*
+              0x32 =  50  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x30 =  52  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x41 =  76.8MHz on DLMC_REF_CLK*
+              INTERNAL: 0x1A =  96  MHz on DLMC_REF_CLK*
+              0x19 =  100 MHz on DLMC_REF_CLK*
+              INTERNAL: 0x30 =  104 MHz on DLMC_REF_CLK*
+              0x28 =  125 MHz on DLMC_REF_CLK*
+              INTERNAL: 0x19 =  200 MHz on DLMC_REF_CLK*
           All other values are reserved.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed to use the same
-          reference clock frequency for correct operation.
           This value may only be changed during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
       - name: REF_SSP_EN
         bits: 39
@@ -377,8 +528,8 @@ registers:
           enabled since this output clock is used to drive the UAHC suspend-mode clock during
           low-power states.
           This value can be changed only during UPHY_RST or during low-power states.
-          The reference clock must be running and stable before UPHY_RST is deasserted and
-          REF_SSP_EN is asserted.
+          The reference clock must be running and stable before UPHY_RST is deasserted, and
+          before REF_SSP_EN is asserted.
 
       - name: REF_CLK_DIV2
         bits: 38
@@ -386,43 +537,46 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider. This
-          value can be changed only during UPHY_RST.
-          INTERNAL: Should only be used if refclk is not the standard 100/50/24/20/19.2MHz.
-          INTERNAL: This is a CYA bit.
+          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
+          The legal values are:
+            If REF_CLK_SEL = 0x0 or 0x1, then:
+              all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+            If REF_CLK_SEL = 0x2 or 0x3, then:
+              0x1: if DLMC_REF_CLK* is 125MHz.
+              INTERNAL: 0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
+              0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                   MPLL_MULTIPLIER description).
+          This value can be changed only during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
       - name: REF_CLK_FSEL
         bits: 37..32
         access: R/W
-        reset: 0x38
-        typical: 0x38
+        reset: 0x27
+        typical: 0x27
         description: |
-          Selects the reference-clock frequency for the SuperSpeed and HighSpeed PLL blocks.
+          Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks.
           The legal values are:
-          0x27 = 100MHz (off-chip reference clock)
-          0x07 =  50MHz  (on-chip reference clock)
-          0x2A =  24MHz (off-chip reference clock)
-          0x31 =  20MHz (off-chip reference clock)
-          0x38 =  19.2MHz (off-chip reference clock)
+            If REF_CLK_SEL = 0x0 or 0x1, then:
+              0x07 is the only legal value.
+            If REF_CLK_SEL = 0x2 or 0x3, then:
+              0x27 = 100  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x2A =  24  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x31 =  20  MHz on DLMC_REF_CLK*
+              INTERNAL: 0x38 =  19.2MHz on DLMC_REF_CLK*
           All other values are reserved.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed
-          to use the same reference clock frequency for correct operation.
           This value may only be changed during UPHY_RST.
+          Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
+          SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
+          multiplier.
 
-      - name: REF_CLK_ONCHIP
+      - name: --
         bits: 31
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Use the on-chip 50MHz reference clock instead of the off-chip reference clock.
-          1 = the UPHY uses the 50MHz on-chip reference clock to generate the USB clocks.
-          0 = the UPHY uses the off-chip reference to generate the USB clocks.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed to use the same
-          reference-clock frequency for correct operation.
-          This value can be changed only during UPHY_RST.
-          INTERNAL: On o78 it's still TBD whether ref_clk actually gets wired to USBH.
-          INTERNAL: On o70 this feature should be implemented, saves BOM cost.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: H_CLK_EN
         bits: 30
@@ -430,7 +584,7 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Host-controller-clock enable. When set to 1, the host-controller clock is generated. This
+          Hclk enable. When set to 1, the host-controller clock is generated. This
           also enables access to UCTL registers 0x30-0xF8.
 
       - name: H_CLK_BYP_SEL
@@ -439,15 +593,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Select the bypass input to the host-controller-clock divider.
+          Select the bypass input to the hclk divider.
           0 = use the divided coprocessor clock from the H_CLKDIV divider
           1 = use the bypass clock from the GPIO pins
-          Generally bypass is only used for scan purposes.
           This signal is just a multiplexer-select signal; it does not enable the host-controller
           clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be
           changed unless H_CLKDIV_EN is disabled.
-          The bypass clock can be selected and running even if the host-controller-clock dividers
+          The bypass clock can be selected and running even if the hclk dividers
           are not running.
+          INTERNAL: Generally bypass is only used for scan purposes.
 
       - name: H_CLKDIV_RST
         bits: 28
@@ -455,7 +609,7 @@ registers:
         reset: 1
         typical: 0
         description: |
-          Host-controller-clock divider reset. Divided clocks are not generated while the divider is
+          Hclk divider reset. Divided clocks are not generated while the divider is
           being reset.
           This also resets the suspend-clock divider.
 
@@ -473,20 +627,32 @@ registers:
         typical: 0x3
         description: |
           The hclk frequency is sclk frequency divided by H_CLKDIV_SEL.
-          The host-controller-clock frequency must be at or below 375MHz.
-          The host-controller-clock frequency must be at or above 188MHz for full-rate USB3
+          The hclk frequency must be at or below 300MHz.
+          The hclk frequency must be at or above 150MHz for full-rate USB3
           operation.
-          The host-controller-clock frequency must be at or above 125MHz for any USB3
+          The hclk frequency must be at or above 125MHz for any USB3
           functionality.
-          The host-controller-clock frequency must be at or above 90MHz  for full-rate USB2
-          operation
-          The host-controller-clock frequency must be at or above 60MHz  for any USB2 operation.
+          If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
+          correct USB2 functionality.
+          If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
+          for full-rate USB2 operation.
+          If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
+          for any USB2 operation.
           This field can be changed only when H_CLKDIV_RST = 1.
           The divider values are the following:
           0x0 = divide by 1 0x4 = divide by 8
           0x1 = divide by 2 0x5 = divide by 16
           0x2 = divide by 4 0x6 = divide by 24
           0x3 = divide by 6 0x7 = divide by 32
+          INTERNAL: 150MHz is from the maximum of:
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 1, col 12.
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9.
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 7, col 9.
+          INTERNAL: DEVICE>125MHz is from Synopsys DWC_usb3 Databook v2.50a, section A.12.4.
+          INTERNAL: HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.50a,
+          INTERNAL:   section A.12.5, 3rd bullet in Note on page 894.
+          INTERNAL: HOST2>90MHz was arrived at from some math: 62.5MHz +
+          INTERNAL:   (diff between row 1 and 2, col 12 of table A-16).
 
       - name: --
         bits: 23..22
@@ -865,10 +1031,8 @@ registers:
         description: |
           Detected bad DMA access from UAHC to IOI. Error information is logged in
           USBDRD(0..1)_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates
-          the
-          assumptions
-          made by the AXI-to-IOI shim. Such scenarios include: illegal length/size combinations and
-          address out-of-bounds.
+          the assumptions made by the AXI-to-IOI shim. Such scenarios include: illegal length/size
+          combinations and address out-of-bounds.
           For more information on exact failures, see description in
           USBDRD(0..1)_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE].
           The hardware does not translate the request correctly and results may violate IOI
@@ -903,7 +1067,7 @@ registers:
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register controls configuration and test controls for the port@ PHY.
     fields:
-      - name: RESERVED0
+      - name: --
         bits: 63..58
         access: ---
         reset: --
@@ -984,7 +1148,7 @@ registers:
           0x0 = HighSpeed TX pre-emphasis is disabled.
           If these signals are not used, set them to 0x0.
 
-      - name: RESERVED1
+      - name: --
         bits: 41
         access: ---
         reset: --
@@ -1047,12 +1211,27 @@ registers:
           The default bit setting is intended to create a HighSpeed transmit
           DC level of approximately 400mV.
 
-      - name: RESERVED2
-        bits: 31..4
+      - name: --
+        bits: 31..7
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: OTGTUNE
+        bits: 6..4
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          "VBUS Valid Threshold Adjustment
+          Function: This bus adjusts the voltage level for the VBUS<#>
+          valid threshold. To enable tuning at the board level, connect this
+          bus to a register.
+          Note: A positive binary bit setting change results in a +1.5%
+          incremental change in threshold voltage level, while a negative
+          binary bit setting change results in a 1.5% incremental change
+          in threshold voltage level. "
 
       - name: VATEST_ENABLE
         bits: 3..2
@@ -1135,12 +1314,15 @@ registers:
               0x6: 120 mV
               0x7: 135 mV
 
-      - name: RESERVED0
+      - name: LANE0_EXT_PCLK_REQ
         bits: 57
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, this signal enables the pipe0_pclk output regardless of power state
+          (along with the associated increase in power consumption). You can use this input
+          to enable pipe0_pclk in the P3 state without going through a complete boot sequence.
 
       - name: LANE0_TX2RX_LOOPBK
         bits: 56
@@ -1151,7 +1333,7 @@ registers:
           When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
           based on the tx0_en input so that rx0_los = !tx_data_en.
 
-      - name: RESERVED1
+      - name: --
         bits: 55..42
         access: ---
         reset: --
@@ -1172,8 +1354,8 @@ registers:
           For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
           If the USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is used, the value = 10us / (2 * Tref_clk).
             Based on USBDRD(0..1)_UCTL_CTL[REF_CLK_FSEL], and assuming
-          USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is set to
-          zero,the value of PCS_RX_LOS_MASK_VAL should be:
+            USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is set to
+            zero, the value of PCS_RX_LOS_MASK_VAL should be:
               Enum   Tref_clk   LOS_MASK
               0x27 = 100MHz   = 0x3E8
               0x07 =  50MHz   = 0x1F4
@@ -1269,12 +1451,12 @@ registers:
           Tuning disrupts the normal flow of data; therefore, assert RES_TUNE_REQ only when the PHY
           is inactive. The PHY automatically performs a tune when coming out of PRST.
 
-      - name: RESERVED2
+      - name: --
         bits: 3..0
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
 
   - name: USBDRD(0..1)_UCTL_PORT(0..0)_CR_DBG_CFG
@@ -1533,8 +1715,7 @@ registers:
           Port-power-control enable.
           0 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
           1 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
-          output
-          from UAHC is taken to the MIO's GPIO signals and sense-converted based on
+          output from UAHC is taken to the MIO's GPIO signals and sense-converted based on
           PPC_ACTIVE_HIGH_EN. The MIO GPIO multiplexer must be programmed accordingly.
           This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
           okay).
@@ -2071,7 +2252,8 @@ registers:
       See XHCI specification v1.0 section 5.4.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..12
@@ -2159,7 +2341,8 @@ registers:
       See XHCI specification v1.0 section 5.4.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..13
@@ -2273,7 +2456,12 @@ registers:
     title: XHCI Device Notification Control Register
     address: 0x1680000000034 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.4.
+    description: |
+      See XHCI specification v1.0 section 5.4.4.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..16
@@ -2294,7 +2482,12 @@ registers:
     title: XHCI Command Ring Control Register Low
     address: 0x1680000000038 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.5.
+    description: |
+      See XHCI specification v1.0 section 5.4.5.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: CMD_RING_PTR_L
         bits: 31..6
@@ -2348,7 +2541,12 @@ registers:
     title: XHCI Command Ring Control Register High
     address: 0x168000000003C + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.5.
+    description: |
+      See XHCI specification v1.0 section 5.4.5.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: CMD_RING_PTR_H
         bits: 31..0
@@ -2363,7 +2561,12 @@ registers:
     title: XHCI Device Context Base-Address-Array Pointer Register Low
     address: 0x1680000000050 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.6.
+    description: |
+      See XHCI specification v1.0 section 5.4.6.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: DCBAAP_L
         bits: 31..6
@@ -2385,7 +2588,12 @@ registers:
     title: XHCI Device Context Base-Address-Array Pointer Register High
     address: 0x1680000000054 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.6.
+    description: |
+      See XHCI specification v1.0 section 5.4.6.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: DCBAAP_H
         bits: 31..0
@@ -2400,7 +2608,12 @@ registers:
     title: XHCI Configuration Register
     address: 0x1680000000058 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.7.
+    description: |
+      See XHCI specification v1.0 section 5.4.7.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..8
@@ -2426,7 +2639,7 @@ registers:
       Port 1 is USB3.0 SuperSpeed link. Port 0 is USB2.0 HighSpeed/FullSpeed/LowSpeed link.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: WPR
         bits: 31
@@ -2639,7 +2852,7 @@ registers:
       See XHCI specification v1.0 section 5.4.9.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: PORT_TEST_CONTROL
         bits: 31..28
@@ -2714,7 +2927,7 @@ registers:
       INTERNAL: TODO (new unreleased XHCI errata!)
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..14
@@ -2754,7 +2967,7 @@ registers:
       See XHCI specification v1.0 section 5.4.9.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..17
@@ -2819,7 +3032,7 @@ registers:
       INTERNAL: TODO: (new unreleased XHCI errata!)
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..0
@@ -2837,7 +3050,8 @@ registers:
       See XHCI specification v1.0 section 5.5.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..14
@@ -2862,7 +3076,8 @@ registers:
       See XHCI specification v1.0 section 5.5.2.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..2
@@ -2896,7 +3111,8 @@ registers:
       See XHCI specification v1.0 section 5.5.2.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: IMODC
         bits: 31..16
@@ -2921,7 +3137,8 @@ registers:
       See XHCI specification v1.0 section 5.5.2.3.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..16
@@ -2942,7 +3159,12 @@ registers:
     title: XHCI Event-Ring Segment-Table Base-Address Registers Low
     address: 0x1680000000470 + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.2.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: ERSTBA_L
         bits: 31..6
@@ -2964,7 +3186,12 @@ registers:
     title: XHCI Event-Ring Segment-Table Base-Address Registers High
     address: 0x1680000000474 + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.2.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: ERSTBA_H
         bits: 31..0
@@ -2979,7 +3206,12 @@ registers:
     title: XHCI Event Ring Dequeue Pointer Registers Low
     address: 0x1680000000478 + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.3.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.3.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: ERDP_L
         bits: 31..4
@@ -3008,7 +3240,12 @@ registers:
     title: XHCI Event Ring Dequeue Pointer Registers High
     address: 0x168000000047C + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.3.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.3.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: ERDP_H
         bits: 31..0
@@ -3025,6 +3262,10 @@ registers:
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.6.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
       INTERNAL: XHCI spec, page 32: there are USBDRD(0..1)_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell
       registers.
     fields:
@@ -3058,7 +3299,7 @@ registers:
       See XHCI specification v1.0 section 7.1.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: --
         bits: 31..25
@@ -3112,7 +3353,7 @@ registers:
       Note that the SMI interrupts are not connected to anything in an Octeon configuration.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
-      USBDRD(0..1)_UAHC_USBCMD[HCRST].
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: SMI_ON_BAR
         bits: 31
@@ -3724,7 +3965,7 @@ registers:
           TXFIFO.
           1 = USB transmission multipacket thresholding is enabled. The core can only start
           transmission on the USB after USBTXPKTCNT amount of packets for the USB transaction
-          (burst) are already in the corresponding TXFIFO.
+          (burst) are already in the corresponding TXFIFO. This mode is only valid in host mode.
           This mode is only used for SuperSpeed.
 
       - name: --
@@ -3828,6 +4069,9 @@ registers:
           1 = the core can only start reception on the USB when the RX FIFO has space for at least
           USBRXPKTCNT amount of packets.
           This mode is only used for SuperSpeed.
+          In device mode, setting this bit to 1 also enables the functionality of reporting
+          NUMP in the ACK TP based on the RX FIFO space instead of reporting a fixed NUMP derived
+          from USBDRD(0..1)_UAHC_DCFG[NUMP].
 
       - name: --
         bits: 28
@@ -3842,8 +4086,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          USB receive-packet count. Specifies space (in number of packets) that must be available in
+          USB receive-packet count.
+          In host-mode, specifies space (in number of packets) that must be available in
           the RX FIFO before the core can start the corresponding USB RX transaction (burst).
+          In device mode, specifies the space (in number of packets) that must be available in
+          the RX FIFO before the core can send ERDY for a flow-controlled enpoint.
           This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0xF.
           Note: This field must be less than or equal to the USBMAXRXBURSTSIZE field.
 
@@ -3853,10 +4100,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          USB maximum receive-burst size. Specifies the maximum bulk IN burst the core should do.
+          USB maximum receive-burst size.
+          In host-mode, specifies the maximum bulk IN burst the core should do.
           When the system bus is slower than the USB, RX FIFO can overrun during a long burst.
           Program a smaller value to this field to limit the RX burst size that the core can do. It
           only applies to SuperSpeed Bulk, Isochronous, and Interrupt IN endpoints in the host mode.
+          In device mode, specified the NUMP value that will be sent in ERDy for an OUT endpoint.
           This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0x10.
 
       - name: --
@@ -3933,14 +4182,35 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Master filter bypass. Not relevant for Cavium's configuration.
+        description: |
+          Master Filter Bypass
+          When this bit is set to 1, all the filters in the
+          controller's filter module will be bypassed. The double
+          synchronizers to mac_clk preceding the filters will also be
+          bypassed. For enabling the filters, this bit should be 0.
 
-      - name: RESERVED_0
-        bits: 17..16
+      - name: BYPSSETADDR
+        bits: 17
         access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Reserved.
+        reset: 0
+        typical: 0
+        description: |
+          Bypass SetAddress in Device Mode
+          INTERNAL: When set, core uses the value in USBDRD(0..1)_UAHC_DCFG[DEVADDR] directly
+          for comparing the device address tokens. In simulation, this can be used to avoid
+          sending a SET_ADDRESS command.
+          Always set to 0.
+
+      - name: U2RSTECN
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If the SuperSpeed commenction fails during POLL or LMP exchange, the device connects
+          at non-SuperSpeed mode. If this bit is set, then device attemps three more times to
+          connect at SuperSpeed, even if it previously failed to operate in SuperSpeed mode.
+          This bit is only applicable in device mode.
 
       - name: FRMSCLDWN
         bits: 15..14
@@ -3984,9 +4254,9 @@ registers:
           resets.
           INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
           Note: Under soft reset, accesses to USBDRD(0..1)_UAHC_* CSRs other than
-          USBDRD(0..1)_UAHC_GCTL
-          may fail (Timeout).
-          Note: This bit is for debug purposes only. Use USBCMD.HCRESET for soft reset.
+          USBDRD(0..1)_UAHC_GCTL may fail (Timeout).
+          Note: This bit is for debug purposes only. Use USBDRD(0..1)_UAHC_USBCMD.HCRESET in host
+          mode and USBDRD(0..1)_UAHC_DCTL[CSFTRST] in device mode for soft reset.
 
       - name: SOFITPSYNC
         bits: 10
@@ -4005,23 +4275,20 @@ registers:
           This bit must be programmed as a part of initialization at power-on reset, and must not be
           dynamically changed afterwards.
           Note: USBDRD(0..1)_UAHC_USB2PHYCFG[*][SUSPHY] eventually decides to put the UTMI/ULPI PHY
-          in to
-          suspend
-          state. In addition, when this bit is set to 1, the core generates ITP off of the
-          REF_CLK-based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based
-          counter. To program the reference clock period inside the core, refer to
+          into suspend state. In addition, when this bit is set to 1, the core generates ITP off of
+          the REF_CLK-based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0]
+          based counter. To program the reference clock period inside the core, refer to
           USBDRD(0..1)_UAHC_GUCTL[REFCLKPER].
           INTERNAL: If you do not plan to ever use this feature or the
           USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the
-          ref_clk can
-          be
-          as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
+          ref_clk can be as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to
+          REF_CLK.
           Note: If you plan to enable hardware-based LPM (PORTPMSC.HLE = 1), this feature cannot be
           used. Turn off this feature by setting this bit to zero and use the
           USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
           Note: If you set this bit to 1, the USBDRD(0..1)_UAHC_GUSB2PHYCFG[U2_FREECLK_EXISTS] bit
-          must be set
-          to zero.
+          must be set to zero.
+          This bit is only used in host-mode.
 
       - name: U1U2TIMERSCALE
         bits: 9
@@ -4040,7 +4307,7 @@ registers:
         typical: 0
         description: |
           Debug attach. When this bit is set:
-          SuperSpeed link proceeds directly to the polling-link state (after RUN/STOP in the DCTL
+          SuperSpeed link proceeds directly to the polling-link state (USBDRD(0..1)_UAHC_DCTL[RS]
           register is asserted) without checking remote termination.
           Link LFPS polling timeout is infinite
           Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish).
@@ -4097,6 +4364,13 @@ registers:
           If this bit is,
           0: the link treats 248ns LFPS as a valid U2 exit.
           1: the link waits for 8us of LFPS before it detects a valid U2 exit.
+          This bit is added to improve interoperability with a third party host
+          controller. This host controller in U2 state while performing
+          receiver detection generates an LFPS glitch of about 4s
+          duration. This causes the device to exit from U2 state because
+          the LFPS filter value is 248ns. With the new functionality enabled,
+          the device can stay in U2 while ignoring this glitch from the host
+          controller.
 
       - name: --
         bits: 1
@@ -4191,6 +4465,7 @@ registers:
     bus: NCB
     description: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: CBELT
         bits: 31..20
@@ -4217,12 +4492,14 @@ registers:
           Host interrupt pending. Indicates that there is a pending interrupt pertaining to xHC in
           the host-event queue.
 
-      - name: --
+      - name: DEVICE_IP
         bits: 6
-        access: ---
-        reset: --
+        access: RO/H
+        reset: 0
         typical: --
-        description: Reserved.
+        description: |
+          Device interrupt pending. Indicates that there is a pending interrupt pertaining to
+          peripheral (device) operation in the Device event queue.
 
       - name: CSRTIMEOUT
         bits: 5
@@ -4240,8 +4517,7 @@ registers:
         typical: 0
         description: |
           Bus-error address valid. Indicates that USBDRD(0..1)_UAHC_GBUSERRADDR_* is valid and
-          reports the
-          first bus address that encounters a bus error.
+          reports the first bus address that encounters a bus error.
 
       - name: --
         bits: 3..2
@@ -4255,9 +4531,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Current mode of operation. Always 0x0 for DRD.
-          INTERNAL: May vary from 0x1 if you write USBDRD(0..1)_UAHC_GCTL[PRTCAPDIR]!=0x1.
+        description: Current mode of operation. 0x0 for device, 0x1 for host.
 
 
   - name: USBDRD(0..1)_UAHC_GUCTL1
@@ -4291,6 +4565,7 @@ registers:
           If this bit is set the USB 2.0 port babble is checked at least three
           consecutive times before the port is disabled. This prevents false
           triggering of the babble condition when using low quality cables.
+          This bit is only valid in host mode.
 
 
   - name: USBDRD(0..1)_UAHC_GRLSID
@@ -4358,7 +4633,7 @@ registers:
       - name: USERID
         bits: 31..0
         access: R/W
-        reset: 0x12345678
+        reset: 0xdecafbad
         typical: --
         description: User ID. Application-programmable ID field.
 
@@ -4383,14 +4658,11 @@ registers:
           Reference-clock period. Indicates (in terms of ns) the period of REF_CLK. The default
           value is set to 0x8 (8 ns/125 MHz).
           This field needs to be updated during power on initialization if
-          USBDRD(0..1)_UAHC_GCTL[SOFITPSYNC]
-          = 1 or USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] = 1. The progammable maximum value
-          62 ns, and
-          the
-          minimum value is 8 ns. You use a reference clock with a period that is a integer multiple,
-          so that ITP can meet the jitter margin of 32ns. The allowable REF_CLK frequencies whose
-          period
-          is not integer multiples are 16/17/19.2/24/39.7MHz.
+          USBDRD(0..1)_UAHC_GCTL[SOFITPSYNC] = 1 or
+          USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] = 1. The progammable maximum value
+          62 ns, and the minimum value is 8 ns. You use a reference clock with a period that is
+          a integer multiple, so that ITP can meet the jitter margin of 32ns. The allowable
+          REF_CLK frequencies whose period is not integer multiples are 16/17/19.2/24/39.7MHz.
           This field should not be set to 0x0 at any time. If you do not plan to use this feature,
           then you need to set this field to 0x8, the default value.
 
@@ -4437,9 +4709,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Reserving 85% bandwidth for HighSpeed periodic EPs. By default, HC reserves 80% of the
-          bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to 85% to
-          accommodate two HighSpeed, high-bandwidth ISOC EPs.
+          Reserving 85% bandwidth for HighSpeed periodic EPs. By default, host conroller reserves
+          80% of the bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to
+          85% to accommodate two HighSpeed, high-bandwidth ISOC EPs.
           USB 2.0 required 80% bandwidth allocated for ISOC traffic. If two high bandwidth ISOC
           devices (HD webcams) are connected, and if each requires 1024-bytes * 3 packets per
           microframe, then the bandwidth required is around 82%. If this bit is set to 1, it is
@@ -4459,6 +4731,7 @@ registers:
           The XHCI compliance requires this bit to be set to 1. The 0 mode is for debug purpose
           only. This allows you to easily identify a device connected to a port in the Lecroy or
           Eliisys trace during hardware debug.
+          This bit is used in host mode only.
 
       - name: USBHSTINAUTORETRYEN
         bits: 14
@@ -4579,6 +4852,7 @@ registers:
       GBUSERRADDR reflects the DMA start address of 0xABCD0000 regardless of which AXI transaction
       received the error.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: BUSADDRLO
         bits: 31..0
@@ -4587,8 +4861,7 @@ registers:
         typical: 0x0
         description: |
           Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] =
-          1.
+          encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
           It can only be cleared by resetting the core.
 
 
@@ -4599,6 +4872,7 @@ registers:
     description: |
       See description in BUSERRADDR_L.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: BUSADDRHI
         bits: 31..0
@@ -4607,8 +4881,7 @@ registers:
         typical: 0x0
         description: |
           Bus address bits<63:32>. Contains the upper 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] =
-          1.
+          encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
           It can only be cleared by resetting the core.
 
 
@@ -4706,7 +4979,7 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          Operation mode: 0x2: DRD-only.
+          Operation mode: 0x2: Dual-role device.
 
 
   - name: USBDRD(0..1)_UAHC_GHWPARAMS1
@@ -4842,8 +5115,8 @@ registers:
       - name: USERID
         bits: 31..0
         access: RO
-        reset: 0x12345678
-        typical: 0x12345678
+        reset: 0xdecafbad
+        typical: 0xdecafbad
         description: User ID.
 
 
@@ -5073,15 +5346,15 @@ registers:
       - name: RAM0_DEPTH
         bits: 31..16
         access: RO
-        reset: --
-        typical: --
+        reset: 0x740
+        typical: 0x740
         description: RAM0 Depth.
 
       - name: EN_BUS_FILTERS
         bits: 15
         access: RO
-        reset: 0
-        typical: 0
+        reset: 1
+        typical: 1
         description: VBus filters support.
 
       - name: EN_BC
@@ -5160,15 +5433,15 @@ registers:
       - name: RAM2_DEPTH
         bits: 31..16
         access: RO
-        reset: --
-        typical: --
+        reset: 0x308
+        typical: 0x308
         description: RAM2 depth.
 
       - name: RAM1_DEPTH
         bits: 15..0
         access: RO
-        reset: --
-        typical: --
+        reset: 0x4ce
+        typical: 0x4ce
         description: RAM1 depth.
 
 
@@ -5231,6 +5504,7 @@ registers:
       USBDRD(0..1)_UAHC_GDBGFIFOSPACE[SELECT][3:0].
       Value of this register may change immediately after reset.
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
     fields:
       - name: --
@@ -5300,6 +5574,7 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
     fields:
       - name: --
@@ -5327,6 +5602,7 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
     fields:
       - name: BMU_BCU_DBG
@@ -5417,6 +5693,7 @@ registers:
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.7.
       INTERNAL: This register is for Synopsys internal use only.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: LSP_DBG
         bits: 31..0
@@ -5434,6 +5711,7 @@ registers:
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.8.
       INTERNAL: This register is for Synopsys internal use only.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: ENDPT_DBG_LO
         bits: 31..0
@@ -5452,6 +5730,7 @@ registers:
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.9.
       INTERNAL: This register is for Synopsys internal use only.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: ENDPT_DBG_HI
         bits: 31..0
@@ -5535,7 +5814,7 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_GPRTBIMAP_FS_H
-    title: UAHC FullSpeed/LowSpeed Port-to-Bus Instance Mapping Register HIgh
+    title: UAHC FullSpeed/LowSpeed Port-to-Bus Instance Mapping Register High
     address: 0x168000000C18C + a*0x10000000000
     bus: NCB
     description: See description on PRTBIMAP_FS_L.
@@ -5662,14 +5941,19 @@ registers:
           If SoC bus clock is less than 60 MHz, and USB turnaround time is not critical, this field
           can be set to a larger value.
 
-      - name: RESERVED_0
+      - name: XCVRDLY
         bits: 9
         access: R/W
         reset: 0
         typical: 0
         description: |
-          Reserved.
-          Read must ignore.
+          Transceiver Delay
+          Enables a delay between the assertion of the UTMI Transceiver Select signal (for
+          HighSpeed) and the assertion of the TxValid signal during a HighSpeed Chirp.
+          When this bit is set to 1, a delay of approximately 2.5us is introduced from
+          the time when the Transceiver Select is set to 0x0, to the time when the TxValid
+          is driven to 0 for sending the chirp-K. This delay is required for some UTMI PHYs.
+          This bit is only valid in device mode.
 
       - name: ENBLSLPM
         bits: 8
@@ -5695,11 +5979,12 @@ registers:
       - name: SUSPHY
         bits: 6
         access: R/W
-        reset: 1
+        reset: 0
         typical: 1
         description: |
           Suspend USB2.0 HighSpeed/FullSpeed/LowSpeed PHY. When set, USB2.0 PHY enters suspend mode
-          if suspend conditions are valid.
+          if suspend conditions are valid. Application needs to set this bit to 1 after the
+          core initialization is completed.
 
       - name: FSINTF
         bits: 5
@@ -5945,11 +6230,12 @@ registers:
       - name: SUSPEND_EN
         bits: 17
         access: R/W
-        reset: 1
-        typical: 1
+        reset: 0
+        typical: 0
         description: |
           Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
-          valid, the USB 3.0 PHY enters suspend mode.
+          valid, the USB 3.0 PHY enters suspend mode. Application
+          needs to set this bit to 1 after the core initialization is completed.
 
       - name: DATWIDTH
         bits: 16..15
@@ -6002,7 +6288,7 @@ registers:
           clock earlier.
           the core requests symbol transmission two pipe3_rx_pclks periods after the PHY asserts
           PhyStatus as a result of the PHY switching from P1 or P2 state to P0 state.
-          For USB 3.0 host, this is not required.
+          For USB 3.0 Host, Device, and DRD cores this is not required.
 
       - name: P3P2TRANOK
         bits: 11
@@ -6103,7 +6389,7 @@ registers:
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
       INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
       Databook page 238.
-      reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}
+      Host reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: TXFSTADDR
@@ -6140,7 +6426,7 @@ registers:
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
       INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
       page 238.
-      reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}
+      Host reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RXFSTADDR
@@ -6171,12 +6457,15 @@ registers:
     bus: NCB
     description: |
       This register holds the Event Buffer DMA Address pointer. Software must initialize this
-      address once
-      during power-on initialization. Software must not change the value of this register after it
-      is initialized.
+      address once during power-on initialization. Software must not change the value of this
+      register after it is initialized.
       Software must only use the GEVNTCOUNTn register for event processing. The lower n bits of the
-      address
-      must be GEVNTSIZn.EVNTSiz-aligned.
+      address must be USBDRD(0..1)_UAHC_GEVNTSIZ_(0)[EVNTSIZ]-aligned.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.1.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: EVNTADRLO
         bits: 31..0
@@ -6195,12 +6484,15 @@ registers:
     bus: NCB
     description: |
       This register holds the Event Buffer DMA Address pointer. Software must initialize this
-      address once
-      during power-on initialization. Software must not change the value of this register after it
-      is initialized.
-      Software must only use the GEVNTCOUNTn register for event processing. The lower n bits of the
-      address
-      must be GEVNTSIZn.EVNTSiz-aligned.
+      address once during power-on initialization. Software must not change the value of this
+      register after it is initialized.
+      Software must only use the USBDRD(0..1)_UAHC_GEVNTCOUNT_n register for event processing.
+      The lower n bits of the address must be USBDRD(0..1)_UAHC_GEVNTSIZ_(0)[EVNTSIZ]-aligned.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.1.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: EVNTADRHI
         bits: 31..0
@@ -6219,12 +6511,15 @@ registers:
     bus: NCB
     description: |
       This register holds the Event Buffer Size and the Event Interrupt Mask bit. During power-on
-      initialization,
-      software must initialize the size with the number of bytes allocated for the Event Buffer. The
-      Event Interrupt
-      Mask will mask the interrupt, but events are still queued. After configuration, software must
-      preserve the
-      Event Buffer Size value when changing the Event Interrupt Mask.
+      initialization, software must initialize the size with the number of bytes allocated for
+      the Event Buffer. The Event Interrupt Mask will mask the interrupt, but events are still
+      queued. After configuration, software must preserve the Event Buffer Size value when
+      changing the Event Interrupt Mask.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: EVNTINTMASK
         bits: 31
@@ -6235,7 +6530,7 @@ registers:
           When set to 1, this prevents the interrupt from being generated.
           However, even when the mask is set, the events are queued.
 
-      - name: RESERVED0
+      - name: --
         bits: 30..16
         access: R/W
         reset: --
@@ -6259,30 +6554,30 @@ registers:
     bus: NCB
     description: |
       This register holds the number of valid bytes in the Event Buffer. During initialization,
-      software must
-      initialize the count by writing 0 to the Event Count field. Each time the hardware writes a
-      new event to the
-      Event Buffer, it increments this count. Most events are four bytes, but some events may span
-      over multiple
-      four byte entries. Whenever the count is greater than zero, the hardware raises the
-      corresponding interrupt
-      line (depending on the EvntIntMask bit in the GEVNTSIZn register). On an interrupt, software
-      processes
-      one or more events out of the Event Buffer. Afterwards, software must write the Event Count
-      field with the
-      number of bytes it processed.
+      software must initialize the count by writing 0 to the Event Count field. Each time the
+      hardware writes a new event to the Event Buffer, it increments this count. Most events
+      are four bytes, but some events may span over multiple four byte entries. Whenever the
+      count is greater than zero, the hardware raises the corresponding interrupt
+      line (depending on the USBDRD(0..1)_UAHC_GEVNTSIZ(0)[EVNTINTMASK]). On an interrupt, software
+      processes one or more events out of the Event Buffer. Afterwards, software must write the
+      Event Count field with the number of bytes it processed.
       Clock crossing delays may result in the interrupt's continual assertion after software
-      acknowledges the last
-      event. Therefore, when the interrupt line is asserted, software must read the GEVNTCOUNT
-      register and
-      only process events if the GEVNTCOUNT is greater than 0.
+      acknowledges the last event. Therefore, when the interrupt line is asserted, software must
+      read the GEVNTCOUNT register and only process events if the GEVNTCOUNT is greater than 0.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.3.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
-      - name: RESERVED0
+      - name: RESERVED_0
         bits: 31..16
         access: R/W
-        reset: --
-        typical: --
-        description: Reserved.
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Reserved.
+          These are apparently backed by read/write registers.
 
       - name: EVNTCOUNT
         bits: 15..0
@@ -6307,7 +6602,7 @@ registers:
       - name: DCACHE_DEPTH_INFO
         bits: 31..0
         access: RO
-        reset: --
+        reset: 0x708
         typical: --
         description: Dcache depth.
 
@@ -6319,29 +6614,26 @@ registers:
       This register specifies the relative DMA priority level among the Device TXFIFOs (one per IN
       endpoint).
       Each register bit[n] controls the priority (1: high, 0: low) of each TXFIFO[n]. When multiple
-      TXFIFOs
-      compete for DMA service at a given time (i.e., multiple TXQs contain TX DMA requests and their
-      corresponding TXFIFOs have space available), the TX DMA arbiter grants access on a packet-
-      basis in the
-      following manner:
-      1. High-priority TXFIFOs are granted access using round-robin arbitration
-      2. Low-priority TXFIFOs are granted access using round-robin arbitration only after the high-
-      priority
-      TXFIFOs have no further processing to do (i.e., either the TXQs are empty or the corresponding
-      TXFIFOs are full).
+      TXFIFOs compete for DMA service at a given time (i.e., multiple TXQs contain TX DMA requests
+      and their corresponding TXFIFOs have space available), the TX DMA arbiter grants access on a
+      packet-basis in the following manner:
+        1. High-priority TXFIFOs are granted access using round-robin arbitration
+        2. Low-priority TXFIFOs are granted access using round-robin arbitration only after the
+           high-priority TXFIFOs have no further processing to do (i.e., either the TXQs are empty
+           or the corresponding TXFIFOs are full).
       For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
-      the entire
-      packet is completed.
+      the entire packet is completed.
       When configuring periodic IN endpoints, software must set register bit[n]=1, where n is the
-      TXFIFO
-      assignment. This ensures that the DMA for isochronous or interrupt IN endpoints are
-      prioritized over bulk
-      or control IN endpoints.
+      TXFIFO assignment. This ensures that the DMA for isochronous or interrupt IN endpoints are
+      prioritized over bulk or control IN endpoints.
       This register is present only when the core is configured to operate in the device mode
-      (includes DRD and
-      OTG modes). The register size corresponds to the number of Device IN endpoints.
+      (includes DRD and OTG modes). The register size corresponds to the number of Device IN
+      endpoints.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.1.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET].
     fields:
-      - name: RESERVED0
+      - name: --
         bits: 31..4
         access: ---
         reset: --
@@ -6359,6 +6651,7 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_GTXFIFOPRIHST
+    title: Global Host TX FIFO DMA Priority Register
     address: 0x168000000C618 + a*0x10000000000
     bus: NCB
     description: |
@@ -6378,6 +6671,7 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6398,14 +6692,14 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_GRXFIFOPRIHST
+    title: Global Host RX FIFO DMA Priority Register
     address: 0x168000000C61C + a*0x10000000000
     bus: NCB
     description: |
       This register specifies the relative DMA priority level among the Host RXFIFOs (one per USB
       bus instance) within the associated speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed).
       When multiple RXFIFOs compete for DMA service at a given time, the RxXDMA arbiter grants
-      access
-      on a packet-basis in the following manner:
+      access on a packet-basis in the following manner:
         1. Among the FIFOs in the same speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed):
           a. High-priority RXFIFOs are granted access using round-robin arbitration
           b. Low-priority RXFIFOs are granted access using round-robin arbitration only after high-
@@ -6418,6 +6712,7 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6438,6 +6733,7 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_GDMAHLRATIO
+    title: Global Host FIFO DMA High-Low Priority Ratio Regsiter
     address: 0x168000000C624 + a*0x10000000000
     bus: NCB
     description: |
@@ -6456,6 +6752,7 @@ registers:
          the next request.
        * if there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant
          is always awarded; there is no idle.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6488,18 +6785,17 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_GFLADJ
+    title: Global Frame Length Adjustment Register
     address: 0x168000000C630 + a*0x10000000000
     bus: NCB
     description: |
       This register provides options for the software to control the core behavior with respect to
-      SOF (Start of
-      Frame) and ITP (Isochronous Timestamp Packet) timers and frame timer functionality. It
-      provides option to
-      override the sideband signal fladj_30mhz_reg. In addition, it enables running SOF or ITP frame
-      timer
-      counters completely off of the ref_clk. This facilitates hardware LPM in host mode with the
-      SOF or ITP
-      counters being run off of the ref_clk signal.
+      SOF (Start of Frame) and ITP (Isochronous Timestamp Packet) timers and frame timer
+      functionality. It provides option to override the sideband signal fladj_30mhz_reg. In
+      addition, it enables running SOF or ITP frame timer counters completely off of the ref_clk.
+      This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
+      ref_clk signal.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: GFLADJ_REFCLK_240MHZDECR_PLS1
@@ -6571,7 +6867,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Reserved.
+        description: |
+          Reserved.
+          These are apparently backed by read/write registers.
 
       - name: GFLADJ_REFCLK_FLADJ
         bits: 21..8
@@ -6623,7 +6921,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Reserved.
+        description: |
+          Reserved.
+          These are apparently backed by read/write registers.
 
       - name: GFLADJ_30MHZ
         bits: 5..0
@@ -6648,15 +6948,18 @@ registers:
     bus: NCB
     description: |
       This register configures the core in Device mode after power-on or after certain control
-      commands or
-      enumeration. Do not make changes to this register after initial programming.
+      commands or enumeration. Do not make changes to this register after initial programming.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.1.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
-      - name: RESERVED0
+      - name: RESERVED_0
         bits: 31..24
-        access: RO
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Reserved.
+          These are apparently backed by read/write registers.
 
       - name: IGNORESTREAMPP
         bits: 23
@@ -6665,7 +6968,7 @@ registers:
         typical: 0
         description: |
           This bit only affects stream-capable bulk endpoints.
-          When this bit is set to e0f and the controller receives a Data Packet with the
+          When this bit is set to 0x0 and the controller receives a Data Packet with the
           Packet Pending (PP) bit set to 0 for OUT endpoints, or it receives an ACK
           with the NumP field set to 0 and PP set to 0 for IN endpoints, the core
           attempts to search for another stream (CStream) to initiate to the host.
@@ -6675,7 +6978,7 @@ registers:
            - When the endpoint on the device is configured with one transfer
           resource and therefore does not have any other streams to initiate to the
           host.
-          When this bit is set to '1', the core ignores the Packet Pending bit for the
+          When this bit is set to 0x1, the core ignores the Packet Pending bit for the
           purposes of stream selection and does not search for another stream when
           it receives DP(PP=0) or ACK(NumP=0, PP=0). This can enhance the
           performance when the device system bus bandwidth is low
@@ -6686,11 +6989,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          The application uses this bit to control the DWC_usb3 core LPM
+          LPM Capable
+          The application uses this bit to control the controller's core LPM
           capabilities. If the core operates as a non-LPM-capable device, it cannot
           respond to LPM transactions.
-            1'b0: LPM capability is not enabled.
-            1'b1: LPM capability is enabled.
+            0x0: LPM capability is not enabled.
+            0x1: LPM capability is enabled.
 
       - name: NUMP
         bits: 21..17
@@ -6698,14 +7002,15 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
+          Number of Receive Buffers
           This bit indicates the number of receive buffers to be reported in the ACK
           TP.
-          The DWC_usb3 controller uses this field if GRXTHRCFG.USBRxPktCntSel
-          is set to '0'. The application can program this value based on RxFIFO size,
+          The DWC_usb3 controller uses this field if USBDRD(0..1)_UAHC_GRXTHRCFG[USBRXPKTCNTSEL]
+          is set to 0x0. The application can program this value based on RxFIFO size,
           buffer sizes programmed in descriptors, and system latency.
           For an OUT endpoint, this field controls the number of receive buffers
           reported in the NumP field of the ACK TP transmitted by the core.
-          Note: This bit is used in host mode when Debug Capability is enabled.
+          INTERNAL: Note: This bit is used in host mode when Debug Capability is enabled.
 
       - name: INTRNUM
         bits: 16..12
@@ -6713,15 +7018,18 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          indicates interrupt/EventQ number on which non-endpoint-specific devicerelated
+          Interrupt number
+          Indicates interrupt/EventQ number on which non-endpoint-specific device-related
           interrupts (see DEVT) are generated.
 
-      - name: RESERVED1
+      - name: RESERVED_1
         bits: 11..10
         access: RO/H
         reset: 0x2
         typical: 0x0
-        description: Reserved.
+        description: |
+          Reserved.
+          Read must ignore.
 
       - name: DEVADDR
         bits: 9..3
@@ -6729,7 +7037,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          The application must perform the following,
+          Device Address.
+          The application must perform the following
            - Program this field after every SetAddress request.
            - Reset this field to zero after USB reset.
 
@@ -6739,20 +7048,24 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
+          Device Speed
           Indicates the speed at which the application requires the core to connect, or
           the maximum speed the application can support. However, the actual bus
           speed is determined only after the chirp sequence is completed, and is
           based on the speed of the USB host to which the core is connected.
-            - 3fb100: SuperSpeed (USB 3.0 PHY clock is 125 MHz or 250 MHz)
-            - 3fb000: High-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz)
-            - 3fb001: Full-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz)
+            - 0x4: SuperSpeed (USB 3.0 PHY clock is 125 MHz or 250 MHz)
+            - 0x0: High-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz)
+            - 0x1: Full-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz)
 
 
   - name: USBDRD(0..1)_UAHC_DCTL
-    title: Device Configuration Register
+    title: Device Control Register
     address: 0x168000000C704 + a*0x10000000000
     bus: NCB
-    description: Device Control Register
+    description: |
+      This register controls the
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
       - name: RS
         bits: 31
@@ -6760,11 +7073,12 @@ registers:
         reset: 0
         typical: 0
         description: |
+          Run/Stop.
           The software writes 1 to this bit to start the device controller operation.
           To stop the device controller operation, the software must remove any active
           transfers and write 0 to this bit. When the controller is stopped, it sets the
-          DSTS.DevCtrlHlt bit when the core is idle and the lower layer finishes the
-          disconnect process.
+          USBDRD(0..1)_UAHC_DSTS[DEVCTRLHLT] bit when the core is idle and the lower layer finishes
+          the disconnect process.
           The Run/Stop bit must be used in following cases as specified:
              1. After power-on reset and CSR initialization, the software must write 1 to this bit
              to start the device controller. The controller does not signal connect to the host
@@ -6773,11 +7087,11 @@ registers:
              disconnect. When the software writes 0 to this bit, the host does not see that
              the device is connected. The device controller stays in the disconnected state
              until the software writes 1 to this bit. The minimum duration of keeping this bit
-             cleared is specified in Table 6-58 on page 497.
+             cleared is 30ms in SuperSpeed and 10ms in High/Full/LowSpeed.
              If the software attempts a connect after the soft disconnect or detects a
-             disconnect event, it must set DCTL[8:5] to 5 before reasserting the Run/Stop
-             bit.
-             3. When the USB or Link is in a lower power state and the Two Power Rails
+             disconnect event, it must set USBDRD(0..1)_UAHC_DCTL[ULSTCHNGREQ] to
+             "Rx.Detect" before reasserting the Run/Stop bit.
+             INTERNAL: 3. When the USB or Link is in a lower power state and the Two Power Rails
              configuration is selected, software writes 0 to this bit to indicate that it is going
              to turn off the Core Power Rail. After the software turns on the Core Power Rail
              again and re-initializes the device controller, it must set this bit to start the
@@ -6789,26 +7103,17 @@ registers:
         reset: 0
         typical: 0
         description: |
+          Core Soft Reset.
           Resets the all clock domains as follows:
-           Clears the interrupts and all the CSRs except the following registers:
-          - GCTL
-          - GUCTL
-          - GSTS
-          - GSNPSID
-          - GGPIO
-          - GUID
-          - GUSB2PHYCFGn registers
-          - GUSB3PIPECTLn registers
-          - DCFG
-          - DCTL
-          - DEVTEN
-          - DSTS
-           All module state machines (except the SoC Bus Slave Unit) are reset to the
-          IDLE state, and all the TxFIFOs and the RxFIFO are flushed.
-           Any transactions on the SoC bus Master are terminated as soon as possible,
-          after gracefully completing the last data phase of a SoC bus transfer. Any
-          transactions on the USB are terminated immediately.
-          The application can write this bit at any time to reset the core. This is a selfclearing
+          - Clears the interrupts and all the CSRs except the following registers:
+            GCTL, GUCTL, GSTS, GSNPSID, GGPIO, GUID, GUSB2PHYCFGn registers,
+            GUSB3PIPECTLn registers, DCFG, DCTL, DEVTEN, DSTS
+          - All module state machines (except the SoC Bus Slave Unit) are reset to the
+             IDLE state, and all the TxFIFOs and the RxFIFO are flushed.
+          - Any transactions on the SoC bus Master are terminated as soon as possible,
+            after gracefully completing the last data phase of a SoC bus transfer. Any
+            transactions on the USB are terminated immediately.
+          The application can write this bit at any time to reset the core. This is a self-clearing
           bit; the core clears this bit after all necessary logic is reset in the core,
           which may take several clocks depending on the corefs current state. Once this
           bit is cleared, the software must wait at least 3 PHY clocks before accessing the
@@ -6819,12 +7124,14 @@ registers:
           Once a new clock is selected, the PHY domain must be reset for proper
           operation.
 
-      - name: RESERVED0
+      - name: RESERVED_0
         bits: 29
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Reserved.
+          These are apparently backed by read/write registers.
 
       - name: HIRD_THRES
         bits: 28..24
@@ -6832,11 +7139,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          The core asserts output signals utmi_l1_suspend_n and utmi_sleep_n (see
-          Table 5-17 on page 336) on the basis of this signal:
+          HIRD Threshold.
+          The core asserts output signals utmi_l1_suspend_n and utmi_sleep_n on the basis of this
+          signal:
           * The core asserts utmi_l1_suspend_n to put the PHY into Deep Low-Power
-           mode in L1 when both of the following are true:
-            - HIRD value is greater than or equal to the value in DCTL.HIRD_Thres[3:0]
+            mode in L1 when both of the following are true:
+            - HIRD value is greater than or equal to the value in HIRD_Thres[3:0]
             - HIRD_Thres[4] is set to 1'b1.
           * The core asserts utmi_sleep_n on L1 when one of the following is true:
             - If the HIRD value is less than HIRD_Thres[3:0] or
@@ -6847,9 +7155,30 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Used by LPM. But We don't support LPM 
+        description: |
+          LPM Response Programmed by Application.
+          Handshake response to LPM token specified by device application. Response
+          depends on USBDRD(0..1)_UAHC_DCFG[LPMCap].
+           LPMCap is 0x0 - The core always responds with Timeout (that is, no
+           response).
+           LPMCap is 0x1 - The core response is based on the value of this bit:
+             - 0x0: The core responds with an ACK upon a successful LPM transaction,
+               which requires all of the following are satisfied
+               - There are no PID/CRC5 errors in both the EXT token and the LPM token
+               (if not true, inactivity results in a timeout ERROR)
+               - A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+               STALL)
+               - No data is pending in the Transmit FIFO and OUT endpoints not in flow
+               controlled state (else NYET)
+            - 0x1: The core responds with an ACK upon a successful LPM, independent
+              of transmit FIFO status and OUT endpoint flow control state. The LPM
+              transaction is successful if all of the following are satisfied.
+              - There are no PID/CRC5 errors in both the EXT token and the LPM token
+              (else ERROR)
+              - A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+              STALL)
 
-      - name: RESERVED1
+      - name: --
         bits: 22..20
         access: ---
         reset: --
@@ -6862,15 +7191,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When '1', this bit enables the save and restore programming model by preventing
-          the core from disconnecting from the host when DCTL.RunStop is set to '0'. It
-          also enables the Hibernation Request Event to be generated when the link goes
-          to U3 or L2.
-          The device core disconnects from the host when DCTL.RunStop is set to '0'. This
-          bit indicates whether to preserve this behavior ('0'), or if the core should not
-          disconnect when RunStop is set to 0 ('1').
-          This bit also prevents the LTSSM from automatically going to U0/L0 when the
-          host requests resume from U3/L2.
+          Always write 0.
+          INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature.
 
       - name: L1HIBERNATIONEN
         bits: 18
@@ -6878,12 +7200,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When this bit is set along with KeepConnect, the device core generates a
-          Hibernation Request Event if L1 is enabled and the HIRD value in the LPM token
-          is larger than the threshold programmed in DCTL.HIRD_Thres. The core will not
-          exit the LPM L1 state until software writes Recovery into the
-          DCTL.ULStChngReq field. This prevents corner cases where the device is
-          entering hibernation at the same time the host is attempting to exit L1.
+          Always write 0.
+          INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature.
 
       - name: CRS
         bits: 17
@@ -6891,11 +7209,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          This command is similar to the USBCMD.CRS bit in host mode and initiates the
-          restore process. When software sets this bit to '1', the controller immediately sets
-          DSTS.RSS to '1'. When the controller has finished the restore process, it sets
-          DSTS.RSS to '0'.
-          Note: When read, this field always returns '0'.
+          Controller Restore State.
+          This command is similar to the USBDRD(0..1)_UAHC_USBCMD[CRS] bit in host mode and
+          initiates the restore process. When software sets this bit to 1, the controller
+          immediately sets USBDRD(0..1)_UAHC_DSTS[RSS] to 1. When the controller has finished
+          the restore process, it sets USBDRD(0..1)_UAHC_DSTS[RSS] to 0.
+          Note: When read, this field always returns 0.
 
       - name: CSS
         bits: 16
@@ -6903,13 +7222,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          This command is similar to the USBCMD.CSS bit in host mode and initiates the
-          restore process. When software sets this bit to '1', the controller immediately sets
-          DSTS.SSS to '1'. When the controller has finished the save process, it sets
-          DSTS.SSS to '0'.
-          Note: When read, this field always returns '0'.
+          Controller Save State.
+          This command is similar to the USBDRD(0..1)_UAHC_USBCMD[CSS] bit in host mode and
+          initiates the restore process. When software sets this bit to 1, the controller
+          immediately sets USBDRD(0..1)_UAHC_DSTS[SSS] to 1. When the controller has finished
+          the save process, it sets USBDRD(0..1)_UAHC_DSTS[SSS] to 0.
+          Note: When read, this field always returns 0.
 
-      - name: RESERVED2
+      - name: --
         bits: 15..13
         access: ---
         reset: --
@@ -6922,13 +7242,13 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Initiate U2 Enable (InitU2Ena)4
-           1'b0: May not initiate U2 (default)
-           1'b1: May initiate U2
+          Initiate U2 Enable.
+           0: May not initiate U2 (default)
+           1: May initiate U2
           On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
           SetFeature(U2_ENABLE), and clears this bit when ClearFeature(U2_ENABLE) is
           received.
-          If DCTL[11] (AcceptU2Ena) is 0, the link immediately exits U2 state.
+          If USBDRD(0..1)_UAHC_DCTL[ACCEPTU2ENA] is 0, the link immediately exits U2 state.
 
       - name: ACCEPTU2ENA
         bits: 11
@@ -6936,9 +7256,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          0 Reject U2 except when Force_LinkPM_Accept bit is set (default)
-          1 Core accepts transition to U2 state if nothing is pending on the
-            application side.
+          Accept U2 Enable.
+           0: Reject U2 except when Force_LinkPM_Accept bit is set (default)
+           1: Core accepts transition to U2 state if nothing is pending on the
+              application side.
           On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
           a SetConfiguration command.
 
@@ -6948,12 +7269,13 @@ registers:
         reset: 0
         typical: 0
         description: |
-          0 May not initiate U1 (default)
-          1 May initiate U1
+          Initiate U1 Enable.
+           0: May not initiate U1 (default)
+           1: May initiate U1
           On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
           SetFeature(U1_ENABLE), and clears this bit when ClearFeature(U1_ENABLE) is
           received.
-          If DCTL[9] (AcceptU1Ena) is 0, the link immediately exits U1 state.
+          If USBDRD(0..1)_UAHC_DCTL[ACCEPTU1ENA] is 0, the link immediately exits U1 state.
 
       - name: ACCEPTU1ENA
         bits: 9
@@ -6961,9 +7283,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          0 Reject U1 except when Force_LinkPM_Accept bit is set (default)
-          1 Core accepts transition to U1 state if nothing is pending on the
-            application side.
+          Accept U1 Enable.
+           0: Reject U1 except when Force_LinkPM_Accept bit is set (default)
+           1: Core accepts transition to U1 state if nothing is pending on the
+              application side.
           On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
           a SetConfiguration command.
 
@@ -6973,36 +7296,36 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
+          USB/Link State Change Request.
           Software writes this field to issue a USB/Link state change request. A change in
           this field indicates a new request to the core. If software wants to issue the same
           request back-to-back, it must write a 0 to this field between the two requests. The
-          result of the state change request is reflected in the USB/Link State in DSTS.
+          result of the state change request is reflected in USBDRD(0..1)_UAHC_DSTS[USBLNKST].
           These bits are self-cleared on the MAC Layer exiting suspended state.
-          If software is updating other fields of the DCTL register and not intending to force
-          any link state change, then it must write a 0 to this field.
-          SS Compliance mode is normally entered and controlled by the remote link
+          If software is updating other fields of the USBDRD(0..1)_UAHC_DCTL register and not
+          intending to force any link state change, then it must write a 0 to this field.
+          SuperSpeed Compliance mode is normally entered and controlled by the remote link
           partner. Refer to the USB3 specification. Alternatively, you can force the local link
-          directly into Compliance mode, by resetting the SS link with the RUN/STOP bit
-          set to zero. If you then write 10 to the USB/Link State Change field and 1 to
-          RUN/STOP, the Link will go to Compliance. Once you are in Compliance, you may
-          alternately write zero and 10 to this field to advance the compliance pattern.
+          directly into Compliance mode, by resetting the SuperSpeed link with the
+          USBDRD(0..1)_UAHC_DCTL[RS] bit set to zero. If you then write 0xA to the ULSTCHNGREQ
+          field and 1 to USBDRD(0..1)_UAHC_DCTL[RS], the Link will go to Compliance. Once you
+          are in Compliance, you may alternately write 0x0 and 0xA to this field to advance
+          the compliance pattern.
           In SS mode:
-          Value Requested Link State Transition/Action
-          0 No Action
-          4 SS.Disabled
-          5 Rx.Detect
-          6 SS.Inactive
-          8 Recovery
-          10 Compliance
-          Others: Reserved
+            Value    Requested Link State Transition/Action
+              0x0     No Action
+              0x4     SS.Disabled
+              0x5     Rx.Detect
+              0x6     SS.Inactive
+              0x8     Recovery
+              0xA     Compliance
+              Others  Reserved
           In HS/FS/LS mode:
-          Value Requested USB state transition
-          8 Remote wakeup request
-          Others: Reserved
-          The Remote wakeup request should be issued 2s after the device goes into
-          suspend state (DSTS[21:18] is 3  refer to Table 6-60).
-          Note: After coming out of hibernation, software should write 8 (Recovery) into
-          this field to confirm exit from the suspended state
+            Value    Requested USB state transition
+              0x8     Remote wakeup request
+              Others  Reserved
+              The Remote wakeup request should be issued 2us after the device goes into
+              suspend state (USBDRD(0..1)_UAHC_DSTS[USBLNKST] is 0x3).
 
       - name: TSTCTL
         bits: 4..1
@@ -7010,15 +7333,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          4b000 Test mode disabled
-          4b001 Test_J mode
-          4b010 Test_K mode
-          4b011 Test_SE0_NAK mode
-          4b100 Test_Packet mode
-          4b101 Test_Force_Enable
+          Test Control.
+          0x0    Test mode disabled
+          0x1    Test_J mode
+          0x2    Test_K mode
+          0x3    Test_SE0_NAK mode
+          0x4    Test_Packet mode
+          0x5    Test_Force_Enable
           Others Reserved
 
-      - name: RESERVED3
+      - name: --
         bits: 0
         access: ---
         reset: --
@@ -7030,9 +7354,13 @@ registers:
     title: Device Event Enable Register
     address: 0x168000000C708 + a*0x10000000000
     bus: NCB
-    description: This register controls the generation of Device-Specific events
+    description: |
+      This register controls the generation of Device-Specific events.
+      If an enable bit is set to 0, the event will not be generated.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
-      - name: RESERVED0
+      - name: --
         bits: 31..13
         access: ---
         reset: --
@@ -7044,9 +7372,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Vendor Device Test LMP Received Event 
+        description: Vendor Device Test LMP Received Event.
 
-      - name: RESERVED1
+      - name: --
         bits: 11..10
         access: ---
         reset: --
@@ -7058,9 +7386,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Erratic Error Event Enable
+        description: Erratic Error Event Enable.
 
-      - name: RESERVED2
+      - name: --
         bits: 8
         access: ---
         reset: --
@@ -7073,7 +7401,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Start of (micro)Frame Enable (SofEn)
+          Start of (micro)Frame Enable.
           For debug purposes only; normally software must disable this event.
 
       - name: U3L2L1SUSPEN
@@ -7081,58 +7409,64 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: U3/L2-L1 Suspend Event Enable
+        description: U3/L2-L1 Suspend Event Enable.
 
       - name: HIBERNATIONREQEVTEN
         bits: 5
         access: R/W
         reset: 0
         typical: 0
-        description: This bit enables/disables the generation of the Hibernation Request Event.
+        description: |
+          This bit enables/disables the generation of the Hibernation Request Event.
+          INTERNAL: TODO: is hibernation even enabled?
 
       - name: WKUPEVTEN
         bits: 4
         access: R/W
         reset: 0
         typical: 0
-        description: Resume/Remote Wakeup Detected Event Enable 
+        description: Resume/Remote Wakeup Detected Event Enable.
 
       - name: ULSTCNGEN
         bits: 3
         access: R/W
         reset: 0
         typical: 0
-        description: USB/Link State Change Event Enable 
+        description: USB/Link State Change Event Enable.
 
       - name: CONNECTDONEEN
         bits: 2
         access: R/W
         reset: 0
         typical: 0
-        description: Connection Done Enable 
+        description: Connection Done Enable.
 
       - name: USBRSTEN
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: USB Reset Enable 
+        description: USB Reset Enable.
 
       - name: DISCONNEVTEN
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: Disconnect Detected Event Enable 
+        description: Disconnect Detected Event Enable.
 
 
   - name: USBDRD(0..1)_UAHC_DSTS
-    title: Device Event Enable Register
+    title: Device Status Register
     address: 0x168000000C70C + a*0x10000000000
     bus: NCB
-    description: This register indicates the status of the device controller with respect to USB-related events.
+    description: |
+      This register indicates the status of the device controller with respect to USB-related
+      events.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.3.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
-      - name: RESERVED0
+      - name: --
         bits: 31..30
         access: ---
         reset: --
@@ -7144,7 +7478,10 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: We don't support hibernation. This bit is not used.
+        description: |
+          Device Controller Not Ready.
+          Will always read-as-zero.
+          INTERNAL: Bit is only used with hibernation.
 
       - name: SRE
         bits: 28
@@ -7152,10 +7489,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Save/Restore Error (SRE)
+          Save/Restore Error
           This bit is currently not supported.
 
-      - name: RESERVED1
+      - name: --
         bits: 27..26
         access: ---
         reset: --
@@ -7168,10 +7505,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Restore State Status (RSS)
-          This bit is similar to the USBSTS.RSS in host mode.
+          Restore State Status.
+          This bit is similar to the USBDRD(0..1)_USBSTS[RSS] in host mode.
           When the controller has finished the restore process, it will complete the
-          command by setting DSTS.RSS to '0'.
+          command by setting RSS to 0.
+          Will always read-as-zero.
+          INTERNAL: Bit is only used with hibernation.
 
       - name: SSS
         bits: 24
@@ -7179,9 +7518,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          This bit is similar to the USBSTS.SSS in host mode.
+          Save State Status.
+          This bit is similar to the USBDRD(0..1)_UAHC_USBSTS[SSS] in host mode.
           When the controller has finished the save process, it will complete the
-          command by setting DSTS.SSS to '0'.
+          command by setting SSS to 0.
+          Will always read-as-zero.
+          INTERNAL: Bit is only used with hibernation.
 
       - name: COREIDLE
         bits: 23
@@ -7189,6 +7531,7 @@ registers:
         reset: --
         typical: --
         description: |
+          Core Idle.
           The bit indicates that the core finished transferring all RxFIFO data to
           system memory, writing out all completed descriptors, and all Event Counts
           are zero.
@@ -7201,10 +7544,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          - This bit is set to 0 when the Run/Stop bit in the DCTL register is set to 1.
-          - The core sets this bit to 1 when, after SW sets Run/Stop to e0f, the core is
+          Device Controller Halted.
+          When 1, the core does not generate Device events.
+          - This bit is set to 0 when the USBDRD(0..1)_UAHC_DCTL[RS] register is set to 1.
+          - The core sets this bit to 1 when, after software sets USBDRD(0..1)_UAHC_DCTL[RS] to 0,
+          the core is
             idle and the lower layer finishes the disconnect process.
-            When Halted =1, the core does not generate Device events.
 
       - name: USBLNKST
         bits: 21..18
@@ -7212,45 +7557,40 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
-          In SS mode:
-           LTSSM State
-          - 4'h0: U0
-          - 4'h1: U1
-          - 4'h2: U2
-          - 4'h3: U3
-          - 4'h4: SS_DIS
-          - 4'h5: RX_DET
-          - 4'h6: SS_INACT
-          - 4'h7: POLL
-          - 4'h8: RECOV
-          - 4'h9: HRESET
-          - 4'ha: CMPLY
-          - 4'hb: LPBK
-          - 4'hf: Resume/Reset
-          In HS/FS/LS mode:
-           4'h0: On state
-           4'h2: Sleep (L1) state
-           4'h3: Suspend (L2) state
-           4'h4: Disconnected state (Default state)
-           4'h5: Early Suspend state (valid only when Hibernation is disabled,
-                 GCTL[1].GblHibernationEn = 0)
-           4'he: Reset (valid only when Hibernation is enabled,
-                 GCTL[1].GblHibernationEn = 1)
-           4'hf: Resume (valid only when Hibernation is enabled,
-                 GCTL[1].GblHibernationEn = 1)
+          USB/Link State.
+          In SuperSpeed mode, uses LTSSM State:
+             - 0x0: U0
+             - 0x1: U1
+             - 0x2: U2
+             - 0x3: U3
+             - 0x4: SS_DIS
+             - 0x5: RX_DET
+             - 0x6: SS_INACT
+             - 0x7: POLL
+             - 0x8: RECOV
+             - 0x9: HRESET
+             - 0xa: CMPLY
+             - 0xb: LPBK
+             - 0xf: Resume/Reset
+             - others: Reserved.
+          In High/Full/LowSpeed mode:
+             - 0x0: On state
+             - 0x2: Sleep (L1) state
+             - 0x3: Suspend (L2) state
+             - 0x4: Disconnected state (Default state)
+             - 0x5: Early Suspend state
+             - others: Reserved.
           The link state Resume/Reset indicates that the core received a resume or
           USB reset request from the host while the link was in hibernation. Software
-          must write '8' (Recovery) to the DCTL.ULStChngReq field to acknowledge
-          the resume/reset request. Whe Hibernation is enabled,
-          GCTL[1].GblHibernationEn = 1, this field USBLnkSt is valid only when
-          DCTL[31].Run/Stop set to '1' and DSTS[29].DCNRD = 0.
+          must write '8' (Recovery) to the USBDRD(0..1)_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
+          the resume/reset request.
 
       - name: RXFIFOEMPTY
         bits: 17
         access: RO/H
         reset: 1
         typical: 1
-        description: RxFIFO Empty
+        description: RxFIFO Empty Indication.
 
       - name: SOFFN
         bits: 16..3
@@ -7258,12 +7598,13 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
+          Frame/MicroFrame Number of the Received SOF.
           When the core is operating at high-speed,
-          [16:6] indicates the frame number
-          [5:3] indicates the microframe number
+          - [16:6] indicates the frame number
+          - [5:3] indicates the microframe number
           When the core is operating at full-speed,
-          [16:14] is not used. Software can ignore these 3 bits
-          [13:3] indicates the frame number
+          - [16:14] is not used, software can ignore these 3 bits.
+          - [13:3] indicates the frame number
 
       - name: CONNECTSPD
         bits: 2..0
@@ -7271,32 +7612,38 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
-          Connected Speed (ConnectSpd)
-          Indicates the speed at which the DWC_usb3 core has come up after speed
+          Connected Speed.
+          Indicates the speed at which the controller core has come up after speed
           detection through a chirp sequence.
-           3fb100: SuperSpeed (PHY clock is running at 125 or 250 MHz)
-           3fb000: High-speed (PHY clock is running at 30 or 60 MHz)
-           3fb001: Full-speed (PHY clock is running at 30 or 60 MHz)
-           3fb010: Low-speed (PHY clock is running at 6 MHz)
-           3fb011: Full-speed (PHY clock is running at 48 MHz)
-           Low-speed is not supported for devices using a UTMI+ PHY.
+           0x4: SuperSpeed (PHY clock is running at 125 or 250 MHz)
+           0x0: High-speed (PHY clock is running at 60 MHz)
+           0x1: Full-speed (PHY clock is running at 60 MHz)
+           0x2: Low-speed  (not supported)
+           0x3: Full-speed (PHY clock is running at 48 MHz)
 
 
   - name: USBDRD(0..1)_UAHC_DGCMDPAR
-    title: Device Event Enable Register
+    title: Device Generic Command Parameter Register
     address: 0x168000000C710 + a*0x10000000000
     bus: NCB
     description: |
-      This register indicates the device command parameter. This must be programmed before or along
-      with the
-      device command.
+      This register indicates the device command parameter.
+      This must be programmed before or along with USBDRD(0..1)_UAHC_DGCMD.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.4.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: PARAM
         bits: 31..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Device Generic Command Parameter
+        description: |
+          Device Generic Command Parameter.
+          Usage depends on which USBDRD(0..1)_UAHC_DGCMD[CMDTYPE] is used,
+          see usage notes in USBDRD_UAHC_DGCMD_CMDTYPE_E descriptions.
 
 
   - name: USBDRD(0..1)_UAHC_DGCMD
@@ -7305,12 +7652,16 @@ registers:
     bus: NCB
     description: |
       This register enables software to program the core using a single generic command interface to
-      send link
-      management packets and notifications. This register contains command, control, and status
-      fields relevant
-      to the current generic command, while the DGCMDPAR register provides the command parameter.
+      send link management packets and notifications. This register contains command, control, and
+      status fields relevant to the current generic command, while the USBDRD(0..1)_UAHC_DGCMDPAR
+      register provides the command parameter.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.5.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
-      - name: RESERVED0
+      - name: --
         bits: 31..16
         access: ---
         reset: --
@@ -7323,11 +7674,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          1 CmdErr . Indicates that the device controller encountered an error
-          while processing the command.
-          0 Indicates command success
+          Command Status.
+           1: CmdErr - Indicates that the device controller encountered an error
+              while processing the command.
+           0: Indicates command success
 
-      - name: RESERVED1
+      - name: --
         bits: 14..11
         access: ---
         reset: --
@@ -7340,11 +7692,12 @@ registers:
         reset: 0
         typical: 0
         description: |
+          Command Active.
           The software sets this bit to 1 to enable the device controller to execute the
           generic command.
           The device controller sets this bit to 0 after executing the command.
 
-      - name: RESERVED2
+      - name: --
         bits: 9
         access: ---
         reset: --
@@ -7357,10 +7710,11 @@ registers:
         reset: 0
         typical: 0
         description: |
+          Command Interrupt on Complete.
           When this bit is set, the device controller issues a Generic Command
           Completion event after executing the command. Note that this interrupt is
-          mapped to DCFG.IntrNum.
-          Note: This field must not set to 1 if the DCTL.RunStop field is 0.
+          mapped to USBDRD(0..1)_UAHC_DCFG[INTRNUM].
+          Note: This field must not set to 1 if the USBDRD(0..1)_UAHC_DCTL[RS] field is 0.
 
       - name: CMDTYP
         bits: 7..0
@@ -7369,14 +7723,21 @@ registers:
         typical: 0x0
         description: |
           Specifies the type of command the software driver is requesting the core to
-          perform.
+          perform. See USBDRD_UAHC_DGCMD_CMDTYPE_E for encodings and usage.
 
 
   - name: USBDRD(0..1)_UAHC_DALEPENA
-    title: Device Generic Command Register
+    title: Device Active USB Endpoint Enable Register
     address: 0x168000000C720 + a*0x10000000000
     bus: NCB
-    description: This register indicates whether a USB endpoint is active in a given configuration or interface.
+    description: |
+      This register indicates whether a USB endpoint is active in a given configuration or
+      interface.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.1.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: USBACTEP
         bits: 31..0
@@ -7385,8 +7746,8 @@ registers:
         typical: 0x0
         description: |
           This field indicates if a USB endpoint is active in the current configuration
-          and interface. It applies to USB IN endpoints 0.15 and OUT endpoints 0.
-          15, with one bit for each of the 32 possible endpoints. Even numbers are for
+          and interface. It applies to USB IN endpoints 0-15 and OUT endpoints 0-15,
+          with one bit for each of the 32 possible endpoints. Even numbers are for
           USB OUT endpoints, and odd numbers are for USB IN endpoints, as
           follows:
            Bit[0]: USB EP0-OUT
@@ -7400,17 +7761,22 @@ registers:
           and EP0-IN) after detecting a USB reset. After receiving SetConfiguration
           and SetInterface requests, the application must program endpoint registers
           accordingly and set these bits.
-          For more information, see gFlexible Endpoint Mappingh on page 82.
+          INTERNAL: For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
+          Databook v2.50a, page 82.
 
 
   - name: USBDRD(0..1)_UAHC_DEPCMDPAR2_(0..15)
-    title: Device Generic Command Register
+    title: Device Physical Endpoint-n Command Parameter 2 Register
     address: 0x168000000C800 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       This register indicates the physical endpoint command Parameter 2. It must be programmed
-      before issuing
-      the command.
+      before issuing the command.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.2.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: PARAM2
         bits: 31..0
@@ -7421,13 +7787,17 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_DEPCMDPAR1_(0..15)
-    title: Device Generic Command Register
+    title: Device Physical Endpoint-n Command Parameter 1 Register
     address: 0x168000000C804 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       This register indicates the physical endpoint command Parameter 1. It must be programmed
-      before issuing
-      the command.
+      before issuing the command.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.3.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: PARAM1
         bits: 31..0
@@ -7438,13 +7808,17 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_DEPCMDPAR0_(0..15)
-    title: Device Generic Command Register
+    title: Device Physical Endpoint-n Command Parameter 0 Register
     address: 0x168000000C808 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       This register indicates the physical endpoint command Parameter 0. It must be programmed
-      before issuing
-      the command.
+      before issuing the command.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.4.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: PARAM0
         bits: 31..0
@@ -7455,13 +7829,23 @@ registers:
 
 
   - name: USBDRD(0..1)_UAHC_DEPCMD(0..15)
-    title: Device Generic Command Register
+    title: Device Physical Endpoint-n Command Register
     address: 0x168000000C80C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
       This register enables software to issue physical endpoint-specific commands. This register
-      contains
-      command, control, and status fields relevant to the current generic command
+      contains command, control, and status fields relevant to the current generic command,
+      while the USBDRD(0..1)_UAHC_DEPCMDPAR* registers provide command parameters and return
+      status information.
+      Several fields (including CMDTYPE) are write-only, so their read values are undefined. After
+      power-on, prior to issuing the first endpoint command, the read value of this register is
+      undefined. In particular, the CMDACT bit may be set after power-on. In this case, it is safe
+      to issue an endpoint command.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.5.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
+      USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
+      USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
+      USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
       - name: COMMANDPARAM
         bits: 31..16
@@ -7469,19 +7853,49 @@ registers:
         reset: --
         typical: --
         description: |
-          Command Parameters (CommandParam), when this register is written:
-           For Start Transfer command:
-          - [31:16]: StreamID. The USB StreamID assigned to this transfer
-           For Start Transfer command applied to an isochronous endpoint:
-          - [31:16]: StartMicroFramNum: Indicates the (micro)frame number to
-          which the first TRB applies
-           For Update Transfer, End Transfer, and Start New Configuration
-          commands:
-          - [22:16]: Transfer Resource Index (XferRscIdx). The hardwareassigned
-          transfer resource index for the transfer, which was returned
-          in response to the Start Transfer command. The application
-          software-assigned transfer resource index for a Start New
-          Configuration command.
+          Command or Event Parameters.
+          When this register is written:
+            Command Parameters:
+              For Start Transfer command:
+                - [31:16]: StreamID. The USB StreamID assigned to this transfer
+              For Start Transfer command applied to an isochronous endpoint:
+                - [31:16]: StartMicroFramNum: Indicates the (micro)frame number to
+                which the first TRB applies
+              For Update Transfer, End Transfer, and Start New Configuration
+              commands:
+                - [22:16]: Transfer Resource Index (XferRscIdx). The hardware-assigned
+                transfer resource index for the transfer, which was returned
+                in response to the Start Transfer command. The application
+                software-assigned transfer resource index for a Start New
+                Configuration command.
+          When this register is read:
+            Event Parameters:
+              For XferNotReady, XferComplete, and Stream events on Bulk Endpoints:
+                - [31:16]: StreamID. Applies only to bulk endpoints that support streams. This
+                           indicates the StreamID of the transfer for which the event is
+                           generated
+              For XferInProgress:
+                - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum): Indicates the
+                           microframe number of the beginning of the interval that generated
+                           the XferInProgress event (debug purposes only)
+              For XferNotReady events on Isochronous Endpoints:
+                - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum). Indicates the
+                           microframe number during which the endpoint was not ready
+                Note: controller core represents USB bus time as a 14-bit value on the bus and also
+                in the DSTS register (USBDRD(0..1)_UAHC_DSTS[SOFFN]), but as a 16-bit value in the
+                XferNotReady event. Use the 16-bit value to interact with Isochronous endpoints via
+                the StartXfer command. The extra two bits that the controller core produces will be
+                necessary for handling wrap-around conditions in the interaction between software
+                and hardware.
+              EPCmdCmplt events
+                For all EPCmdCmplt events
+                  - [27:24]: Command Type. The command type that completed (Valid only in a DEPEVT
+                             event. Undefined when read from the
+                             USBDRD(0..1)_UAHC_DEPCMD(0..15)[COMMANDPARAM] field).
+                For EPCmdCmplt event in response to Start Transfer command:
+                  - [22:16]: Transfer Resource Index (XferRscIdx). The internal hardware transfer
+                             resource index assigned to this transfer. This index must be used in
+                             all Update Transfer and End Transfer commands.
 
       - name: CMDSTATUS
         bits: 15..12
@@ -7489,9 +7903,51 @@ registers:
         reset: --
         typical: --
         description: |
+          Command Completion Status.
           Additional information about the completion of this command is available in
-          this field. The information is in the same format as bits 15:12 of the
-          Endpoint Command Complete event, see Table 6-48 on page 473.
+          this field.
+          Within an XferNotReady event:
+            [15]: Indicates the reason why the XferNotReady event is generated:
+              - 0: XferNotActive: Host initiated a transfer, but the requested transfer is not
+                present in the hardware
+              - 1: XferActive: Host initiated a transfer, the transfer is present, but no valid TRBs
+                are available
+            [14]: Not Used
+            [13:12]: For control endpoints, indicates what stage was requested when the transfer was
+            not ready:
+              - 0x1: Control Data Request
+              - 0x2: Control Status Request
+          Within an XferComplete or XferInProgress event:
+            [15]: LST bit of the completed TRB (XferComplete only)
+            [15]: MissedIsoc: Indicates the interval did not complete successfully (XferInProgress
+            only)
+            [14]: IOC bit of the TRB that completed
+            [13]: Indicates the TRB completed with a short packet reception or the last packet of an
+            isochronous interval
+            [12]: Reserved
+            If the host aborts the data stage of a control transfer, software may receive a
+            XferComplete event with the EventStatus field equal to 0. This is a valid event
+            that must be processed as a part of the Control Transfer Programming Model.
+            INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.50a, Section 8.4.
+          Within a Stream Event:
+            [15:12]:
+              - 0x2: StreamNotFound: This stream event is issued when the stream-capable endpoint
+                performed a search in its transfer resource cache, but could not find an active
+                and ready stream.
+              - 0x1: StreamFound: This stream event is issued when the stream-capable endpoint found
+                an active and ready stream in its transfer resource cache, and initiated traffic for
+                that stream to the host. The ID of the selected Stream is in the EventParam field.
+          In response to a Start Transfer command:
+            [15:12]:
+              - 0x2: Indicates expiry of the bus time reflected in the Start Transfer command.
+              - 0x1: Indicates there is no transfer resource available on the endpoint.
+          In response to a Set Transfer Resource (DEPXFERCFG) command:
+            [15:12]:
+              - 0x1: Indicates an error has occurred because software is requesting more transfer
+                resources to be assigned than have been configured in the hardware.
+          In response to a End Transfer command:
+            [15:12]:
+              - 0x1: Indicates an invalid transfer resource was specified.
 
       - name: HIPRI_FORCERM
         bits: 11
@@ -7499,8 +7955,8 @@ registers:
         reset: --
         typical: --
         description: |
-          HighPriority: Only valid for Start Transfer command
-          ForceRM: Only valid for End Transfer command
+          HighPriority: Only valid for Start Transfer command.
+          ForceRM: Only valid for End Transfer command.
 
       - name: CMDACT
         bits: 10
@@ -7510,29 +7966,41 @@ registers:
         description: |
           Software sets this bit to 1 to enable the device endpoint controller to
           execute the generic command.
-          The device controller sets this bit to 0 when the CmdStatus field is valid and
+          The device controller sets this bit to 0 when the CMDSTATUS field is valid and
           the endpoint is ready to accept another command. This does not imply that
           all the effects of the previously-issued command have taken place.
 
-      - name: RESERVED0
+      - name: RESERVED_0
         bits: 9
         access: ---
         reset: --
         typical: --
-        description: Reserved.
+        description: |
+          Reserved.
+          Uninitialized, read must ignore.
 
       - name: CMDIOC
         bits: 8
         access: R/W
         reset: --
         typical: --
+        description: |
+          Command Interrupt on Complete.
+          When this bit is set, the device controller issues a generic Endpoint
+          Command Complete event after executing the command. Note that this
+          interrupt is mapped to DEPCFG.IntrNum. When the DEPCFG command is
+          executed, the command interrupt on completion goes to the interrupt
+          pointed by the USBDRD(0..1)_UAHC_DCFG[INTRNUM] in the current command.
+          Note: This field must not set to 1 if the USBDRD(0..1)_UAHC_DCTL[RS] field is 0.
 
-      - name: RESERVED1
+      - name: RESERVED_1
         bits: 7..4
         access: ---
         reset: --
         typical: --
-        description: Reserved.
+        description: |
+          Reserved.
+          Uninitialized, read must ignore.
 
       - name: CMDTYP
         bits: 3..0
@@ -7540,27 +8008,19 @@ registers:
         reset: --
         typical: --
         description: |
+          Command Type.
           Specifies the type of command the software driver is requesting the core to
           perform.
-          00h: Reserved
-          01h: Set Endpoint Configuration
-               - 64 or 96-bit Parameter
-          02h: Set Endpoint Transfer Resource Configuration
-               - 32-bit Parameter
-          03h: Get Endpoint State
-               - No Parameter Needed
-          04h: Set Stall
-               - No Parameter Needed
-          05h: Clear Stall (see Set Stall)
-               - No Parameter Needed
-          06h: Start Transfer
-               - 64-bit Parameter
-          07h: Update Transfer
-               - No Parameter Needed
-          08h: End Transfer
-               - No Parameter Needed
-          09h: Start New Configuration
-               - No Parameter Needed
+          0x0: Reserved
+          0x1: Set Endpoint Configuration (64 or 96-bit Parameter)
+          0x2: Set Endpoint Transfer Resource Configuration (32-bit Parameter)
+          0x3: Get Endpoint State (No Parameter Needed)
+          0x4: Set Stall (No Parameter Needed)
+          0x5: Clear Stall (see Set Stall, No Parameter Needed)
+          0x6: Start Transfer (64-bit Parameter)
+          0x7: Update Transfer (No Parameter Needed)
+          0x8: End Transfer (No Parameter Needed)
+          0x9: Start New Configuration (No Parameter Needed)
 
 
 

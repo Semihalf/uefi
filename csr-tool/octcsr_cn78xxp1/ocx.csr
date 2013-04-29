@@ -400,6 +400,63 @@ registers:
           Bits <1:0> must be all-ones.
 
 
+  - name: OCX_DLL(0..1)_STATUS
+    address: 0x1180011000080 + a*0x8
+    bus: RSL
+    description: Diagnostic Information on internal core clock DLLs (0=northeast, 1=southeast)
+    fields:
+      - name: --
+        bits: 63..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: INVERT
+        bits: 16
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          DLL Invert Status.
+            0 = Normal Clock.
+            1 = Inverted Clock, Falling edge of core clock occurs before rising edge of reference
+            clock.
+
+      - name: LOCK
+        bits: 15
+        access: RO/H
+        reset: --
+        typical: --
+        description: DLL Lock Status.
+
+      - name: STATE
+        bits: 14..12
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          DLL State.
+            0 = Idle.
+            1-4 = Intermediate States.
+            5 = Locked.
+            6-7 = Reserved.
+
+      - name: COURSE
+        bits: 11..4
+        access: RO/H
+        reset: --
+        typical: --
+        description: DLL Course Settings
+
+      - name: INTERP
+        bits: 3..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: DLL Interpolator Settings
+
+
   - name: OCX_PP_WR_DATA
     title: OCX PP Data Register
     address: 0x11800110000C0
