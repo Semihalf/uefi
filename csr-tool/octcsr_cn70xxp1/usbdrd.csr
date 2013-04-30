@@ -559,12 +559,12 @@ registers:
           Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks.
           The legal values are:
             If REF_CLK_SEL = 0x0 or 0x1, then:
-              0x07 is the only legal value.
-            If REF_CLK_SEL = 0x2 or 0x3, then:
               0x27 = 100  MHz on DLMC_REF_CLK*
               INTERNAL: 0x2A =  24  MHz on DLMC_REF_CLK*
               INTERNAL: 0x31 =  20  MHz on DLMC_REF_CLK*
               INTERNAL: 0x38 =  19.2MHz on DLMC_REF_CLK*
+            If REF_CLK_SEL = 0x2 or 0x3, then:
+              0x07 is the only legal value.
           All other values are reserved.
           This value may only be changed during UPHY_RST.
           Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and

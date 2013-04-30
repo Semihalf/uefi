@@ -3549,7 +3549,10 @@ registers:
     title: SLI MSI Write MAP
     address: 0x11F0000013C90
     bus: PEXP_NCB
-    description: Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+    description: |
+      Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+      At reset, the mapping function is one-to-one, that is MSI_INT 1 maps to CIU_INT 1, 2 to 2, 3
+      to 3, etc.
     fields:
       - name: --
         bits: 63..16

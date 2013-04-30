@@ -3,30 +3,6 @@
 ---
 name: DTX
 registers:
-  - name: DTX_SLI_SEL(0..1)
-    title: DTX SLI Select Register
-    address: 0x11800FE000000 | ((31) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_BROADCAST_SEL(0..1)
-
-  - name: DTX_SLI_ENA(0..1)
-    title: DTX SLI Mask Register
-    address: 0x11800FE000020 | ((31) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_BROADCAST_ENA(0..1)
-
-  - name: DTX_SLI_DAT(0..1)
-    title: DTX SLI Raw Data Register
-    address: 0x11800FE000040 | ((31) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_BROADCAST_DAT(0..1)
-
-  - name: DTX_SLI_CTL
-    title: DTX SLI Control Register
-    address: 0x11800FE0F8060
-    bus: RSL
-    inherits: DTX_BROADCAST_CTL
-
   - name: DTX_FPA_SEL(0..1)
     title: DTX FPA Select Register
     address: 0x11800FE000000 | ((40) << 15)|a<<3
@@ -50,6 +26,12 @@ registers:
     address: 0x11800FE140060
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_FPA_BCST_RSP
+    title: DTX FPA Control Register
+    address: 0x11800FE140080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
   - name: DTX_L2C_TAD(0..0)_SEL(0..1)
     title: DTX L2C_TAD(0..0) Select Register
@@ -75,6 +57,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_L2C_TAD(0..0)_BCST_RSP
+    title: DTX L2C_TAD(0..0) Control Register
+    address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_TIM_SEL(0..1)
     title: DTX TIM Select Register
     address: 0x11800FE000000 | ((88) << 15)|a<<3
@@ -98,6 +86,12 @@ registers:
     address: 0x11800FE2C0060
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_TIM_BCST_RSP
+    title: DTX TIM Control Register
+    address: 0x11800FE2C0080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
   - name: DTX_L2C_MCI(0..0)_SEL(0..1)
     title: DTX L2C_MCI(0..0) Select Register
@@ -123,6 +117,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_L2C_MCI(0..0)_BCST_RSP
+    title: DTX L2C_MCI(0..0) Control Register
+    address: 0x11800FE000080 + ((0x5c + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_POW_SEL(0..1)
     title: DTX POW Select Register
     address: 0x11800FE000000 | ((103) << 15)|a<<3
@@ -146,6 +146,12 @@ registers:
     address: 0x11800FE338060
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_POW_BCST_RSP
+    title: DTX POW Control Register
+    address: 0x11800FE338080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
   - name: DTX_L2C_CBC(0..0)_SEL(0..1)
     title: DTX L2C_CBC(0..0) Select Register
@@ -171,6 +177,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_L2C_CBC(0..0)_BCST_RSP
+    title: DTX L2C_CBC(0..0) Control Register
+    address: 0x11800FE000080 + ((0x84 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_LMC(0..0)_SEL(0..1)
     title: DTX LMC(0..0) Select Register
     address: 0x11800FE000000 + ((0x88 + (a)) << 15) + (b*8)
@@ -194,6 +206,12 @@ registers:
     address: 0x11800FE000060 + ((0x88 + (a)) << 15)
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_LMC(0..0)_BCST_RSP
+    title: DTX LMC(0..0) Control Register
+    address: 0x11800FE000080 + ((0x88 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
   - name: DTX_PEM(0..2)_SEL(0..1)
     title: DTX PEM(0..2) Select Register
@@ -219,6 +237,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_PEM(0..2)_BCST_RSP
+    title: DTX PEM(0..2) Control Register
+    address: 0x11800FE000080 + ((0xC0 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_AGL_SEL(0..1)
     title: DTX AGL Select Register
     address: 0x11800FE000000 | ((224) << 15)|a<<3
@@ -243,6 +267,26 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_AGL_BCST_RSP
+    title: DTX AGL Control Register
+    address: 0x11800FE700080
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ENA
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+
+
   - name: DTX_IOB_SEL(0..1)
     title: DTX IOB Select Register
     address: 0x11800FE000000 | ((240) << 15)|a<<3
@@ -266,6 +310,12 @@ registers:
     address: 0x11800FE780060
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_IOB_BCST_RSP
+    title: DTX IOB Control Register
+    address: 0x11800FE780080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
   - name: DTX_BROADCAST_SEL(0..1)
     title: DTX BROADCAST Select Register
@@ -373,5 +423,65 @@ registers:
         typical: 0
         description: Swap the high and low 36-bit debug bus outputs.
 
+
+  - name: DTX_SLI_SEL(0..1)
+    title: DTX SLI Select Register
+    address: 0x11800FE000000 | ((287) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_SLI_ENA(0..1)
+    title: DTX SLI Mask Register
+    address: 0x11800FE000020 | ((287) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_SLI_DAT(0..1)
+    title: DTX SLI Raw Data Register
+    address: 0x11800FE000040 | ((287) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_SLI_CTL
+    title: DTX SLI Control Register
+    address: 0x11800FE8F8060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_SLI_BCST_RSP
+    title: DTX SLI Control Register
+    address: 0x11800FE8F8080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
+  - name: DTX_DPI_SEL(0..1)
+    title: DTX DPI Select Register
+    address: 0x11800FE000000 | ((479) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_DPI_ENA(0..1)
+    title: DTX DPI Mask Register
+    address: 0x11800FE000020 | ((479) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_DPI_DAT(0..1)
+    title: DTX DPI Raw Data Register
+    address: 0x11800FE000040 | ((479) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_DPI_CTL
+    title: DTX DPI Control Register
+    address: 0x11800FEEF8060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_DPI_BCST_RSP
+    title: DTX DPI Control Register
+    address: 0x11800FEEF8080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
 
 

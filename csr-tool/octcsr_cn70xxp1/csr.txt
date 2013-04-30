@@ -291,7 +291,9 @@ $AGL_GMX_RX(0..0)_FRM_CHK   Address=(0x11800E0000020+a*0x800)   Bus=(RSL)
  <9>     NIBERR R/W     0x1        0x1        Nibble error                                      
  <8>     SKPERR R/W     0x1        0x1        Skipper error                                     
  <7>     RCVERR R/W     0x1        0x1        Frame was received with packet data reception error
- <6>     LENERR R/W     0x1        0x1        Frame was received with length error              
+ <6>     LENERR R/W     0x0        0x0        Frame was received with length error              
+                                              Most systems should use the checking in PKI/PIP
+                                              for checking the L2 length field.
  <5>     ALNERR R/W     0x1        0x1        Frame was received with an alignment error        
  <4>     FCSERR R/W     0x1        0x1        Frame was received with FCS/CRC error             
  <3>     JABBER R/W     0x1        0x1        Frame was received with length > sys_length       
@@ -4279,72 +4281,6 @@ $DPI_DMA_PP(0..3)_CNT   Address=(0x1DF0000000B00+a*0x8)   Bus=(NCB)
 // ***********************************************************************
 
  * 
- * DTX_SLI_SEL = DTX SLI Select Register
- * 
- *  
- * 
-$DTX_SLI_SEL(0..1)   Address=(0x11800FE000000|((31) << 15)|a<<3)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * DTX_SLI_ENA = DTX SLI Mask Register
- * 
- *  
- * 
-$DTX_SLI_ENA(0..1)   Address=(0x11800FE000020|((31) << 15)|a<<3)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-                                             will drive each bit.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * DTX_SLI_DAT = DTX SLI Raw Data Register
- * 
- *  
- * 
-$DTX_SLI_DAT(0..1)   Address=(0x11800FE000040|((31) << 15)|a<<3)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * DTX_SLI_CTL = DTX SLI Control Register
- * 
- *  
- * 
-$DTX_SLI_CTL   Address=(0x11800FE0F8060)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field  Field   Reset      Typical    Field                                             
- Pos     Name   Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:5>  NS     ---     0x0        0x0        Reserved.                                         
- <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
- <3:2>   NS     ---     0x0        0x0        Reserved.                                         
- <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-                                              diagnostic use only.
- <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
  * DTX_FPA_SEL = DTX FPA Select Register
  * 
  *  
@@ -4407,6 +4343,21 @@ $DTX_FPA_CTL   Address=(0x11800FE140060)   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_FPA_BCST_RSP = DTX FPA Control Register
+ * 
+ *  
+ * 
+$DTX_FPA_BCST_RSP   Address=(0x11800FE140080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4477,6 +4428,21 @@ $DTX_L2C_TAD(0..0)_CTL   Address=(0x11800FE000060+((0x48 + (a)) << 15))   Bus=(R
 
 
  * 
+ * DTX_L2C_TAD_BCST_RSP = DTX L2C_TAD(0..0) Control Register
+ * 
+ *  
+ * 
+$DTX_L2C_TAD(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x48 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_TIM_SEL = DTX TIM Select Register
  * 
  *  
@@ -4539,6 +4505,21 @@ $DTX_TIM_CTL   Address=(0x11800FE2C0060)   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_TIM_BCST_RSP = DTX TIM Control Register
+ * 
+ *  
+ * 
+$DTX_TIM_BCST_RSP   Address=(0x11800FE2C0080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4609,6 +4590,21 @@ $DTX_L2C_MCI(0..0)_CTL   Address=(0x11800FE000060+((0x5c + (a)) << 15))   Bus=(R
 
 
  * 
+ * DTX_L2C_MCI_BCST_RSP = DTX L2C_MCI(0..0) Control Register
+ * 
+ *  
+ * 
+$DTX_L2C_MCI(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x5c + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_POW_SEL = DTX POW Select Register
  * 
  *  
@@ -4671,6 +4667,21 @@ $DTX_POW_CTL   Address=(0x11800FE338060)   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_POW_BCST_RSP = DTX POW Control Register
+ * 
+ *  
+ * 
+$DTX_POW_BCST_RSP   Address=(0x11800FE338080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4741,6 +4752,21 @@ $DTX_L2C_CBC(0..0)_CTL   Address=(0x11800FE000060+((0x84 + (a)) << 15))   Bus=(R
 
 
  * 
+ * DTX_L2C_CBC_BCST_RSP = DTX L2C_CBC(0..0) Control Register
+ * 
+ *  
+ * 
+$DTX_L2C_CBC(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x84 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_LMC_SEL = DTX LMC(0..0) Select Register
  * 
  *  
@@ -4803,6 +4829,21 @@ $DTX_LMC(0..0)_CTL   Address=(0x11800FE000060+((0x88 + (a)) << 15))   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_LMC_BCST_RSP = DTX LMC(0..0) Control Register
+ * 
+ *  
+ * 
+$DTX_LMC(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x88 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4873,6 +4914,21 @@ $DTX_PEM(0..2)_CTL   Address=(0x11800FE000060+((0xC0 + (a)) << 15))   Bus=(RSL)
 
 
  * 
+ * DTX_PEM_BCST_RSP = DTX PEM(0..2) Control Register
+ * 
+ *  
+ * 
+$DTX_PEM(0..2)_BCST_RSP   Address=(0x11800FE000080+((0xC0 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_AGL_SEL = DTX AGL Select Register
  * 
  *  
@@ -4935,6 +4991,21 @@ $DTX_AGL_CTL   Address=(0x11800FE700060)   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_AGL_BCST_RSP = DTX AGL Control Register
+ * 
+ *  
+ * 
+$DTX_AGL_BCST_RSP   Address=(0x11800FE700080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5005,6 +5076,21 @@ $DTX_IOB_CTL   Address=(0x11800FE780060)   Bus=(RSL)
 
 
  * 
+ * DTX_IOB_BCST_RSP = DTX IOB Control Register
+ * 
+ *  
+ * 
+$DTX_IOB_BCST_RSP   Address=(0x11800FE780080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_BROADCAST_SEL = DTX BROADCAST Select Register
  * 
  *  
@@ -5067,6 +5153,168 @@ $DTX_BROADCAST_CTL   Address=(0x11800FE7F0060)   Bus=(RSL)
  <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
                                               diagnostic use only.
  <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_SLI_SEL = DTX SLI Select Register
+ * 
+ *  
+ * 
+$DTX_SLI_SEL(0..1)   Address=(0x11800FE000000|((287) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_SLI_ENA = DTX SLI Mask Register
+ * 
+ *  
+ * 
+$DTX_SLI_ENA(0..1)   Address=(0x11800FE000020|((287) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_SLI_DAT = DTX SLI Raw Data Register
+ * 
+ *  
+ * 
+$DTX_SLI_DAT(0..1)   Address=(0x11800FE000040|((287) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_SLI_CTL = DTX SLI Control Register
+ * 
+ *  
+ * 
+$DTX_SLI_CTL   Address=(0x11800FE8F8060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_SLI_BCST_RSP = DTX SLI Control Register
+ * 
+ *  
+ * 
+$DTX_SLI_BCST_RSP   Address=(0x11800FE8F8080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DPI_SEL = DTX DPI Select Register
+ * 
+ *  
+ * 
+$DTX_DPI_SEL(0..1)   Address=(0x11800FE000000|((479) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DPI_ENA = DTX DPI Mask Register
+ * 
+ *  
+ * 
+$DTX_DPI_ENA(0..1)   Address=(0x11800FE000020|((479) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DPI_DAT = DTX DPI Raw Data Register
+ * 
+ *  
+ * 
+$DTX_DPI_DAT(0..1)   Address=(0x11800FE000040|((479) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DPI_CTL = DTX DPI Control Register
+ * 
+ *  
+ * 
+$DTX_DPI_CTL   Address=(0x11800FEEF8060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DPI_BCST_RSP = DTX DPI Control Register
+ * 
+ *  
+ * 
+$DTX_DPI_BCST_RSP   Address=(0x11800FEEF8080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31972,7 +32220,8 @@ $RAD_REG_CTL   Address=(0x1180070000000)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  NS       ---     0x0        0x0        RESERVED                                          
+ <63:7>  NS       ---     0x0        0x0        RESERVED                                          
+ <6>     WC_DIS   R/W/H   0x0        0x0        Reserved. INTERNAL: Bug 17188 diagnostic disable. 
  <5:2>   MAX_READ R/W     0x8        0x8        Maximum number of outstanding data read commands  
  <1>     STORE_LE R/W     0x0        0x0        Force STORE0 byte write address to little endian  
  <0>     RESET    WO      0x0        0x0        Reset oneshot pulse (lasts for 4 cycles)          
@@ -34151,53 +34400,6 @@ $SLI_MEM_ACCESS_CTL   Address=(0x11F00000102F0)   Bus=(PEXP_NCB)
 
 
  * 
- * SLI_DBG_SELECT = Debug Select Register
- * 
- *  Contains the debug select value last written to the RSLs.
- * 
-$SLI_DBG_SELECT   Address=(0x11F0000010300)   Bus=(PEXP_NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:33> NS       ---     NS         NS         Reserved.                                         
- <32>    ADBG_SEL R/W/H   0x0        NS         When set '1' the SLI_DBG_DATA[DATA] will only be  
-                                                loaded when SLI_DBG_DATA[DATA] bit [16] is a '1'.
-                                                When the debug data comes from an Async-RSL bit
-                                                16 is used to tell that the data present is valid.
- <31:0>  DBG_SEL  R/W/H   0x0        NS         When this register is written the RML will write  
-                                                all "F"s to the previous RTL to disable it from
-                                                sending Debug-Data. The RML will then send a write
-                                                to the new RSL with the supplied Debug-Select
-                                                value. Because it takes time for the new Debug
-                                                Select value to take effect and the requested
-                                                Debug-Data to return, time is needed to the new
-                                                Debug-Data to arrive.  The inititator of the Debug
-                                                Select should issue a read to a CSR before reading
-                                                the Debug Data (this read could also be to the
-                                                SLI_DBG_DATA but the returned value for the first
-                                                read will return NS data.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * SLI_DBG_DATA = SLI Debug Data Register
- * 
- *  Value returned on the debug-data lines from the RSLs. FIXME, THIS CSR IS GONE
- * 
-$SLI_DBG_DATA   Address=(0x11F0000010310)   Bus=(PEXP_NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:18> NS       ---     NS         NS         Reserved.                                         
- <17>    DSEL_EXT R/W     0x1        0x0        Allows changes in the external pins to set the    
-                                                debug select value.
- <16:0>  DATA     RO/H    0x0        NS         Value on the debug data lines.                    
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
  * SLI_INT_SUM = SLI Interrupt Summary Register
  * 
  *  Set when an interrupt condition occurs, write '1' to clear. FIXME, THIS CSR IS GONE
@@ -35751,6 +35953,8 @@ $SLI_MSI_ENB3   Address=(0x11F0000013C80)   Bus=(PEXP_NCB)
  * SLI_MSI_WR_MAP = SLI MSI Write MAP
  * 
  *  Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+ *  At reset, the mapping function is one-to-one, that is MSI_INT 1 maps to CIU_INT 1, 2 to 2, 3
+ *  to 3, etc.
  * 
 $SLI_MSI_WR_MAP   Address=(0x11F0000013C90)   Bus=(PEXP_NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -36752,12 +36956,12 @@ $USBDRD(0..1)_UCTL_CTL   Address=(0x1180068000000+a*0x1000000)   Bus=(RSL)
  <37:32> REF_CLK_FSEL          R/W     0x27       0x27       Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks.
                                                              The legal values are:
                                                                If REF_CLK_SEL = 0x0 or 0x1, then:
-                                                                 0x07 is the only legal value.
-                                                               If REF_CLK_SEL = 0x2 or 0x3, then:
                                                                  0x27 = 100  MHz on DLMC_REF_CLK*
                                                                  INTERNAL: 0x2A =  24  MHz on DLMC_REF_CLK*
                                                                  INTERNAL: 0x31 =  20  MHz on DLMC_REF_CLK*
                                                                  INTERNAL: 0x38 =  19.2MHz on DLMC_REF_CLK*
+                                                               If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                 0x07 is the only legal value.
                                                              All other values are reserved.
                                                              This value may only be changed during UPHY_RST.
                                                              Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
@@ -40796,7 +41000,7 @@ $VRM_TWS_TWSI_SW_S
  *  This register allows SW to write data into I2C Controller directly.
  *  This register is for diagnostic use only.
  * 
-$VRM_TWS_TWSI_SW   Address=(0x118002100008)   Bus=(RSL)
+$VRM(0..1)_TWS_TWSI_SW   Address=(0x118002100008|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -40839,7 +41043,7 @@ $VRM_TWS_TWSI_SW   Address=(0x118002100008)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_ALT_FUSE   Address=(0x118002100018)   Bus=(RSL)
+$VRM(0..1)_ALT_FUSE   Address=(0x118002100018|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -40858,7 +41062,7 @@ $VRM_ALT_FUSE   Address=(0x118002100018)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TELEMETRY_READ   Address=(0x118002100028)   Bus=(RSL)
+$VRM(0..1)_TELEMETRY_READ   Address=(0x118002100028|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -40874,7 +41078,7 @@ $VRM_TELEMETRY_READ   Address=(0x118002100028)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TELEMETRY_CMND   Address=(0x118002100038)   Bus=(RSL)
+$VRM(0..1)_TELEMETRY_CMND   Address=(0x118002100038|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -40892,7 +41096,7 @@ $VRM_TELEMETRY_CMND   Address=(0x118002100038)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_MISC_INFO   Address=(0x118002100048)   Bus=(RSL)
+$VRM(0..1)_MISC_INFO   Address=(0x118002100048|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field                    Field   Reset      Typical    Field                                             
  Pos     Name                     Type    Value      Value      Description                                       
@@ -40915,7 +41119,7 @@ $VRM_MISC_INFO   Address=(0x118002100048)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TS_TEMP_CONV_CTL   Address=(0x118002100058)   Bus=(RSL)
+$VRM(0..1)_TS_TEMP_CONV_CTL   Address=(0x118002100058|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
@@ -40934,7 +41138,7 @@ $VRM_TS_TEMP_CONV_CTL   Address=(0x118002100058)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TS_TEMP_CONV_RESULT   Address=(0x118002100068)   Bus=(RSL)
+$VRM(0..1)_TS_TEMP_CONV_RESULT   Address=(0x118002100068|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field          Field   Reset      Typical    Field                                             
  Pos     Name           Type    Value      Value      Description                                       
@@ -40954,7 +41158,7 @@ $VRM_TS_TEMP_CONV_RESULT   Address=(0x118002100068)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TS_TEMP_CONV_COEFF_FSM   Address=(0x118002100078)   Bus=(RSL)
+$VRM(0..1)_TS_TEMP_CONV_COEFF_FSM   Address=(0x118002100078|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -40981,7 +41185,7 @@ $VRM_TS_TEMP_CONV_COEFF_FSM   Address=(0x118002100078)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_TS_TEMP_NOFF_MC   Address=(0x118002100088)   Bus=(RSL)
+$VRM(0..1)_TS_TEMP_NOFF_MC   Address=(0x118002100088|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -40999,7 +41203,7 @@ $VRM_TS_TEMP_NOFF_MC   Address=(0x118002100088)   Bus=(RSL)
  * 
  *  
  * 
-$VRM_FUSE_BYPASS   Address=(0x118002100098)   Bus=(RSL)
+$VRM(0..1)_FUSE_BYPASS   Address=(0x118002100098|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field           Field   Reset      Typical    Field                                             
  Pos     Name            Type    Value      Value      Description                                       

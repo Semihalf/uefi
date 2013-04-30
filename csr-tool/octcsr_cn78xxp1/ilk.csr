@@ -843,8 +843,9 @@ registers:
           ILK can allocate any RID in the range of
           BASE -> (BASE+(MAX_CNT-1)).
           BASE and MAX_CNT must be constrained such that:
-          1) BASE + MAX_CNT <= 96
-          2) BASE..(BASE+(MAX_CNT-1)) does not overlap with any other MAC programming.
+          1) BASE >= 2.
+          2) BASE + MAX_CNT <= 96.
+          3) BASE..(BASE+(MAX_CNT-1)) does not overlap with any other MAC programming.
           The reset value for this CSR has been chosen such that all these conditions are satisfied.
           The reset value supports up to a total of 64 outstanding incomplete packets between ILK0
           and ILK1.

@@ -34,9 +34,9 @@ structs:
 
 
 registers:
-  - name: VRM_TWS_TWSI_SW
+  - name: VRM(0..1)_TWS_TWSI_SW
     title: VRM TWSI to Software Register
-    address: 0x118002100008
+    address: 0x118002100008 | a<<24
     bus: RSL
     description: |
       This register allows SW to write data into I2C Controller directly.
@@ -156,9 +156,9 @@ registers:
           TWSI configuration-register read (contains result).
 
 
-  - name: VRM_ALT_FUSE
+  - name: VRM(0..1)_ALT_FUSE
     title: VRM Alternative Fuse Register
-    address: 0x118002100018
+    address: 0x118002100018 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -204,9 +204,9 @@ registers:
         description: Max voltage. Maximum voltage that gets written to voltage regulator.
 
 
-  - name: VRM_TELEMETRY_READ
+  - name: VRM(0..1)_TELEMETRY_READ
     title: VRM Telemetry Read Register
-    address: 0x118002100028
+    address: 0x118002100028 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -231,9 +231,9 @@ registers:
         description: Voltage reading from external regulator.
 
 
-  - name: VRM_TELEMETRY_CMND
+  - name: VRM(0..1)_TELEMETRY_CMND
     title: VRM Telemetry Command Register
-    address: 0x118002100038
+    address: 0x118002100038 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -255,9 +255,9 @@ registers:
           Hardware clears CMND to indicate operation completed.
 
 
-  - name: VRM_MISC_INFO
+  - name: VRM(0..1)_MISC_INFO
     title: VRM Miscellaneous Register
-    address: 0x118002100048
+    address: 0x118002100048 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -320,9 +320,9 @@ registers:
         description: Last command send to the external voltage regulator.
 
 
-  - name: VRM_TS_TEMP_CONV_CTL
+  - name: VRM(0..1)_TS_TEMP_CONV_CTL
     title: VRM Temp Sensor anlaog block alternate SW inputs
-    address: 0x118002100058
+    address: 0x118002100058 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -368,9 +368,9 @@ registers:
         description: Controls strobe pin on analog temperature sensor block.
 
 
-  - name: VRM_TS_TEMP_CONV_RESULT
+  - name: VRM(0..1)_TS_TEMP_CONV_RESULT
     title: VRM Temp Sensor Result.
-    address: 0x118002100068
+    address: 0x118002100068 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -413,9 +413,9 @@ registers:
           Will always have valid data,once TEMP_VALID transitions.
 
 
-  - name: VRM_TS_TEMP_CONV_COEFF_FSM
+  - name: VRM(0..1)_TS_TEMP_CONV_COEFF_FSM
     title: VRM Temp Sensor Conversion routine coefficient and fsm ctl.
-    address: 0x118002100078
+    address: 0x118002100078 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -484,9 +484,9 @@ registers:
           A 2's complement number.
 
 
-  - name: VRM_TS_TEMP_NOFF_MC
+  - name: VRM(0..1)_TS_TEMP_NOFF_MC
     title: VRM Temp Sensor, SW settable values for mc and noff.These would be used to bypass fused values
-    address: 0x118002100088
+    address: 0x118002100088 | a<<24
     bus: RSL
     fields:
       - name: --
@@ -520,9 +520,9 @@ registers:
           It should be such that at 0C, the difference between NOFF and NCYCLE would be 0.
 
 
-  - name: VRM_FUSE_BYPASS
+  - name: VRM(0..1)_FUSE_BYPASS
     title: Bypass the loaded fuses.
-    address: 0x118002100098
+    address: 0x118002100098 | a<<24
     bus: RSL
     fields:
       - name: --

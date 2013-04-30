@@ -722,9 +722,12 @@ registers:
       - name: LENERR
         bits: 6
         access: R/W
-        reset: 1
-        typical: 1
-        description: Frame was received with length error
+        reset: 0
+        typical: 0
+        description: |
+          Frame was received with length error
+          Most systems should use the checking in PKI/PIP
+          for checking the L2 length field.
 
       - name: ALNERR
         bits: 5

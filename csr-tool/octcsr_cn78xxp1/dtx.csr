@@ -27,6 +27,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_L2C_TAD(0)_BCST_RSP
+    title: DTX L2C_TAD(0) Control Register
+    address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_L2C_CBC(0)_BCST_RSP
+
   - name: DTX_L2C_MCI(0)_SEL(0..1)
     title: DTX L2C_MCI(0) Select Register
     address: 0x11800FE000000 + ((0x5c + (a)) << 15) + (b*8)
@@ -51,6 +57,12 @@ registers:
     bus: RSL
     inherits: DTX_BROADCAST_CTL
 
+  - name: DTX_L2C_MCI(0)_BCST_RSP
+    title: DTX L2C_MCI(0) Control Register
+    address: 0x11800FE000080 + ((0x5c + (a)) << 15)
+    bus: RSL
+    inherits: DTX_L2C_CBC(0)_BCST_RSP
+
   - name: DTX_L2C_CBC(0)_SEL(0..1)
     title: DTX L2C_CBC(0) Select Register
     address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
@@ -74,6 +86,26 @@ registers:
     address: 0x11800FE000060 + ((0x84 + (a)) << 15)
     bus: RSL
     inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_L2C_CBC(0)_BCST_RSP
+    title: DTX L2C_CBC(0) Control Register
+    address: 0x11800FE000080 + ((0x84 + (a)) << 15)
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: ENA
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+
 
   - name: DTX_BROADCAST_SEL(0..1)
     title: DTX BROADCAST Select Register

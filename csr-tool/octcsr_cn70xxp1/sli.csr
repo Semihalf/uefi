@@ -509,80 +509,6 @@ registers:
           1024 where a value of '0' is treated as 1024.
 
 
-  - name: SLI_DBG_SELECT
-    title: Debug Select Register
-    address: 0x11F0000010300
-    bus: PEXP_NCB
-    description: Contains the debug select value last written to the RSLs.
-    fields:
-      - name: --
-        bits: 63..33
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ADBG_SEL
-        bits: 32
-        access: R/W/H
-        reset: 0
-        typical: --
-        description: |
-          When set '1' the SLI_DBG_DATA[DATA] will only be
-          loaded when SLI_DBG_DATA[DATA] bit [16] is a '1'.
-          When the debug data comes from an Async-RSL bit
-          16 is used to tell that the data present is valid.
-
-      - name: DBG_SEL
-        bits: 31..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        description: |
-          When this register is written the RML will write
-          all "F"s to the previous RTL to disable it from
-          sending Debug-Data. The RML will then send a write
-          to the new RSL with the supplied Debug-Select
-          value. Because it takes time for the new Debug
-          Select value to take effect and the requested
-          Debug-Data to return, time is needed to the new
-          Debug-Data to arrive.  The inititator of the Debug
-          Select should issue a read to a CSR before reading
-          the Debug Data (this read could also be to the
-          SLI_DBG_DATA but the returned value for the first
-          read will return NS data.
-
-
-  - name: SLI_DBG_DATA
-    title: SLI Debug Data Register
-    address: 0x11F0000010310
-    bus: PEXP_NCB
-    description: Value returned on the debug-data lines from the RSLs. FIXME, THIS CSR IS GONE
-    fields:
-      - name: --
-        bits: 63..18
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DSEL_EXT
-        bits: 17
-        access: R/W
-        reset: 1
-        typical: 0
-        description: |
-          Allows changes in the external pins to set the
-          debug select value.
-
-      - name: DATA
-        bits: 16..0
-        access: RO/H
-        reset: 0x0
-        typical: --
-        description: Value on the debug data lines.
-
-
   - name: SLI_INT_SUM
     title: SLI Interrupt Summary Register
     address: 0x11F0000010330
@@ -3649,7 +3575,10 @@ registers:
     title: SLI MSI Write MAP
     address: 0x11F0000013C90
     bus: PEXP_NCB
-    description: Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+    description: |
+      Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+      At reset, the mapping function is one-to-one, that is MSI_INT 1 maps to CIU_INT 1, 2 to 2, 3
+      to 3, etc.
     fields:
       - name: --
         bits: 63..16

@@ -85,7 +85,7 @@ enums:
           so the packet will exit through the shaper internally colored either yellow or red. For an
           enabled RFC2698 mode shaper with this selection for a packet, the used counter is PIR, and
           the shaper is effectively always green or red state, so the packet could exit through the
-          shaper with either the same internal color or downgraded to red. (A.K.A. disable CIR)
+          shaper with either the same internal color or downgraded to red (i.e. CIR is disabled).
 
       - name: CIR_ONLY
         value: 0x2
@@ -97,7 +97,7 @@ enums:
           shaper with either the same internal color or downgraded to red. For an enabled RFC2698
           mode shaper with this selection for a packet, the shaper is effectively always green or
           yellow state, so the packet could exit through the shaper with either the same internal
-          color or downgraded from green to yellow. (A.K.A. disable PIR)
+          color or downgraded from green to yellow (i.e. PIR is disabled.)
 
       - name: NO_COLOR
         value: 0x3
@@ -163,7 +163,7 @@ enums:
 
       - name: DQBADSTATE
         value: 0x8
-        description: PKO could not enqueue the descriptor becase the queue was not ready to enqueue descriptors.
+        description: PKO could not enqueue the descriptor because the queue was not ready to enqueue descriptors.
 
       - name: DQNOFPABUF
         value: 0x9
@@ -446,7 +446,7 @@ enums:
         description: |
           Set the memory location to the final resulting color and state of the packet.
           PKO_MEM_RESULT_S indicates the store value. PKO_SEND_MEM_S[DSZ] must be B64.
-          mem = PKO_MEM_RESULT_S
+          mem = PKO_MEM_RESULT_S.
 
       - name: ADD
         value: 0x8
@@ -661,6 +661,7 @@ structs:
         description: |
           Indicates the number of contiguous CSRs read (each being 64-bit words, also the length of
           the result in 64-bit words).
+          INTERNAL: More than one word returns are untested; leave HRM as saying one word until verified.
 
       - name: SCRADDR
         bits: 63..56
@@ -672,18 +673,17 @@ structs:
   - name: PKO_CSR_WR_DMA_S
     description: |
       Structure of the real LMTST address (i.e. the store data for the instruction that initiates an
-      LMTST) that initiates a CSR Write operation. The LMTST store data is written to contiguous
-      PKO CSRs. LMTST CSR Write operations may be used to efficiently update many PKO CSRs
-      simultaneously. The PKO CSRs written by a single PKO_CSR_WR_DMA_S LMTST must be contiguous
-      and from a single arrayed CSR.
+      LMTST) that initiates a CSR Write operation. LMTST CSR Write operations may be used to
+      efficiently update many PKO CSRs simultaneously. The PKO CSRs written by a single
+      PKO_CSR_WR_DMA_S LMTST must be contiguous and target a single arrayed CSR.
     fields:
       - name: ADDR
         bits: 31..0
         attributes:
           const: "--"
         description: |
-          Address of the first CSR to read. Must be 8-byte aligned. Each additional
-          word will be stored to the next sequential address.
+          Address of the first CSR to write. Must be 8-byte aligned. Each additional word will be
+          stored to the next sequential address.
 
       - name: --
         bits: 35..32
@@ -706,7 +706,7 @@ structs:
       - name: RTNLEN
         bits: 55..48
         attributes:
-          const: "--"
+          const: "0x0"
         description: Must be zero to indicate LMTST; LMTDMA return words are not allowed.
 
       - name: SCRADDR
@@ -899,9 +899,9 @@ structs:
         attributes:
           const: "--"
         description: |
-          Constant value to subtract from aura [AURA]. Might represent outside FCS bytes appended
-          to a packet when coupled with PKO_SEND_HDR_S[TOTAL], or directly indicate
-          an aura quantum in other cases, for example. [OFFSET] must be zero when [ALG] is NOP.
+          Constant value to subtract from aura [AURA]. Might represent outside FCS bytes appended to
+          a packet when coupled with PKO_SEND_HDR_S[TOTAL], or directly indicate an aura quantum in
+          other cases, for example. [OFFSET] must be zero when [ALG] is NOP.
 
       - name: --
         bits: 39..8
@@ -929,9 +929,9 @@ structs:
         attributes:
           const: "--"
         description: |
-          Aura number including FPA node. The aura to modify. Note the upper two bits correspond to a node number. This
-          aura number is used for any subsequent subdescriptor free operations until the next
-          PKO_SEND_AURA_S. See Freeing Buffers.
+          Aura number including FPA node. The aura to modify. Note the upper two bits correspond to
+          a node number. This aura number is used for any subsequent subdescriptor free operations
+          until the next PKO_SEND_AURA_S. See Freeing Buffers.
 
       - name: --
         bits: 63..60
@@ -1349,8 +1349,8 @@ structs:
           Checksum L3. If set, PKO hardware calculates the IPv4 header checksum and inserts it into
           the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
           first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
-          any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When CKL3 is set, [L3PTR]
-          must point to a valid IPv4 header.
+          any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR]must
+          point to a valid IPv4 header.
 
       - name: CKL4
         bits: 47..46
@@ -1368,9 +1368,10 @@ structs:
       - name: AURA
         bits: 59..48
         description: |
-          Aura including FPA node. Specifies the aura that buffers will be returned to. The upper two bits correspond
-          to a node number; see TBDIPD-Chapter-OCI-Sec. This aura number until the next
-          PKO_SEND_AURA_S will be used for any automatic free operations, see Freeing Buffers.
+          Aura including FPA node. Specifies the aura that buffers will be returned to. The upper
+          two bits correspond to a node number; see TBDIPD-Chapter-OCI-Sec. This aura number until
+          the next PKO_SEND_AURA_S will be used for any automatic free operations, see Freeing
+          Buffers.
 
       - name: --
         bits: 63..60
@@ -1417,8 +1418,8 @@ structs:
 
   - name: PKO_SEND_JUMP_S
     description: |
-      The Send Jump subdescriptor selects a new address for fetching the next subdescriptor.
-      See Send Jump.
+      The Send Jump subdescriptor selects a new address for fetching the next subdescriptor. See
+      Send Jump.
       This allows software to create subdescriptor lists longer than the 15 directly
       supported by the hardware. There can be only one PKO_SEND_JUMP_S subdescriptor in a
       packet descriptor. PKO_SEND_JUMP_S must be the last subdescriptor
@@ -1472,8 +1473,8 @@ structs:
 
   - name: PKO_SEND_LINK_S
     description: |
-      The Send Linked subdescriptor specifies a linked list of data segments to construct
-      the last data for the packet. See Send Linked.
+      The Send Linked subdescriptor specifies a linked list of data segments to construct the last
+      data for the packet. See Send Linked.
       The first segment is specified directly by the subdescriptor,
       and remaining segments are linked from the preceding segment.
       At most one PKO_SEND_LINK_S can be present in a PKO Send descriptor, and it

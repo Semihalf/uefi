@@ -8,11 +8,19 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..7
         access: ---
         reset: 0x0
         typical: 0x0
         description: RESERVED
+
+      - name: WC_DIS
+        bits: 6
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          Reserved. INTERNAL: Bug 17188 diagnostic disable.
 
       - name: MAX_READ
         bits: 5..2
