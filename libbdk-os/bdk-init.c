@@ -113,7 +113,7 @@ void __bdk_init(long base_address)
     if (bdk_is_boot_core())
     {
         /* Initialize the is_simulation flag */
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
         {
             BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
             __bdk_is_simulation = (c.u == 0);
