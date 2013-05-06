@@ -1661,7 +1661,7 @@ registers:
         typical: --
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state,
-          diagnostic word, zero or more skip words, and the data  payload. Must be large than
+          diagnostic word, zero or more skip words, and the data payload. Must be large than
           ILK_RX(0..1)_CFG1[SKIP_CNT] + 32.
           Supported range:
           ILK_RX(0..1)_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
@@ -1775,7 +1775,9 @@ registers:
         typical: --
         description: |
           Number of 64-bit words consumed by this link before switch transmitted link flow-control
-          status from XON to XOFF.
+          status from XON to XOFF. LSB must be zero. A typical single-link configuration should set
+          this to 2048. A typical multi-link configuration should set this to NL*128 where NL is the
+          number of lanes enabled for a given link.
           XON = RX_FIFO_CNT < RX_FIFO_HWM
           XOFF = RX_FIFO_CNT >= RX_FIFO_HWM.
 
@@ -1793,7 +1795,8 @@ registers:
         typical: --
         description: |
           Specifies the maximum number of 64-bit words consumed by this link in the RX FIFO. The sum
-          of all links should be equal to 2048 (16KB)
+          of all links should be equal to 4096 (32KB). LSB must be zero. Typically set to
+          RX_FIFO_HWM * 2.
 
       - name: PKT_FLUSH
         bits: 21

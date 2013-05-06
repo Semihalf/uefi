@@ -503,7 +503,7 @@ registers:
         bits: 0
         access: R/W
         reset: --
-        typical: --
+        typical: 0
         attributes:
           regtest_force: "0"
         description: Core reset for core 0, depends on standalone mode.

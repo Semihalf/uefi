@@ -5936,8 +5936,8 @@ registers:
       - name: UMASK
         bits: 31..0
         access: WORSL/H
-        reset: 0x1ff
-        typical: 0x1ff
+        reset: 0x1fff
+        typical: 0x1fff
         description: Bar Mask High
 
 

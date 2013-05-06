@@ -170,31 +170,24 @@ registers:
       individual memory (per bit, 0 = pass, 1 = fail).
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..6
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: STA
-        bits: 7
-        access: RO
-        reset: X
-        typical: 0
-        description: BIST result of the STA memories.
-
       - name: NCB_OUB
-        bits: 6
+        bits: 5
         access: RO
         reset: X
         typical: 0
         description: BIST result of the NCB_OUB memories.
 
       - name: NCB_INB
-        bits: 5..4
+        bits: 4
         access: RO
         reset: X
-        typical: 0x0
+        typical: 0
         description: BIST result of the NCB_INB memories.
 
       - name: DAT

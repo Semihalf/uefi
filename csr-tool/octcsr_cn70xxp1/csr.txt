@@ -2164,10 +2164,9 @@ $BCH_BIST_RESULT   Address=(0x1180071000080)   Bus=(RSL)
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:8>  NS      ---     NS         NS         Reserved.                                         
- <7>     STA     RO      NS         0x0        BIST result of the STA memories.                  
- <6>     NCB_OUB RO      NS         0x0        BIST result of the NCB_OUB memories.              
- <5:4>   NCB_INB RO      NS         0x0        BIST result of the NCB_INB memories.              
+ <63:6>  NS      ---     NS         NS         Reserved.                                         
+ <5>     NCB_OUB RO      NS         0x0        BIST result of the NCB_OUB memories.              
+ <4>     NCB_INB RO      NS         0x0        BIST result of the NCB_INB memories.              
  <3:0>   DAT     RO      NS         0x0        BIST result of the DAT memories.                  
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4281,6 +4280,87 @@ $DPI_DMA_PP(0..3)_CNT   Address=(0x1DF0000000B00+a*0x8)   Bus=(NCB)
 // ***********************************************************************
 
  * 
+ * DTX_MIO_SEL = DTX MIO Select Register
+ * 
+ *  
+ * 
+$DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|((0) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_MIO_ENA = DTX MIO Mask Register
+ * 
+ *  
+ * 
+$DTX_MIO_ENA(0..1)   Address=(0x11800FE000020|((0) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_MIO_DAT = DTX MIO Raw Data Register
+ * 
+ *  
+ * 
+$DTX_MIO_DAT(0..1)   Address=(0x11800FE000040|((0) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_MIO_CTL = DTX MIO Control Register
+ * 
+ *  
+ * 
+$DTX_MIO_CTL   Address=(0x11800FE000060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_MIO_BCST_RSP = DTX MIO Control Register
+ * 
+ *  
+ * 
+$DTX_MIO_BCST_RSP   Address=(0x11800FE000080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_FPA_SEL = DTX FPA Select Register
  * 
  *  
@@ -4362,6 +4442,87 @@ $DTX_FPA_BCST_RSP   Address=(0x11800FE140080)   Bus=(RSL)
 
 
  * 
+ * DTX_DFA_SEL = DTX DFA Select Register
+ * 
+ *  
+ * 
+$DTX_DFA_SEL(0..1)   Address=(0x11800FE000000|((55) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DFA_ENA = DTX DFA Mask Register
+ * 
+ *  
+ * 
+$DTX_DFA_ENA(0..1)   Address=(0x11800FE000020|((55) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DFA_DAT = DTX DFA Raw Data Register
+ * 
+ *  
+ * 
+$DTX_DFA_DAT(0..1)   Address=(0x11800FE000040|((55) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DFA_CTL = DTX DFA Control Register
+ * 
+ *  
+ * 
+$DTX_DFA_CTL   Address=(0x11800FE1B8060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_DFA_BCST_RSP = DTX DFA Control Register
+ * 
+ *  
+ * 
+$DTX_DFA_BCST_RSP   Address=(0x11800FE1B8080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * DTX_L2C_TAD_SEL = DTX L2C_TAD(0..0) Select Register
  * 
  *  
@@ -4433,6 +4594,168 @@ $DTX_L2C_TAD(0..0)_CTL   Address=(0x11800FE000060+((0x48 + (a)) << 15))   Bus=(R
  *  
  * 
 $DTX_L2C_TAD(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x48 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_IPD_SEL = DTX IPD Select Register
+ * 
+ *  
+ * 
+$DTX_IPD_SEL(0..1)   Address=(0x11800FE000000|((79) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_IPD_ENA = DTX IPD Mask Register
+ * 
+ *  
+ * 
+$DTX_IPD_ENA(0..1)   Address=(0x11800FE000020|((79) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_IPD_DAT = DTX IPD Raw Data Register
+ * 
+ *  
+ * 
+$DTX_IPD_DAT(0..1)   Address=(0x11800FE000040|((79) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_IPD_CTL = DTX IPD Control Register
+ * 
+ *  
+ * 
+$DTX_IPD_CTL   Address=(0x11800FE278060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_IPD_BCST_RSP = DTX IPD Control Register
+ * 
+ *  
+ * 
+$DTX_IPD_BCST_RSP   Address=(0x11800FE278080)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PKO_SEL = DTX PKO Select Register
+ * 
+ *  
+ * 
+$DTX_PKO_SEL(0..1)   Address=(0x11800FE000000|((80) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PKO_ENA = DTX PKO Mask Register
+ * 
+ *  
+ * 
+$DTX_PKO_ENA(0..1)   Address=(0x11800FE000020|((80) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PKO_DAT = DTX PKO Raw Data Register
+ * 
+ *  
+ * 
+$DTX_PKO_DAT(0..1)   Address=(0x11800FE000040|((80) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PKO_CTL = DTX PKO Control Register
+ * 
+ *  
+ * 
+$DTX_PKO_CTL   Address=(0x11800FE280060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PKO_BCST_RSP = DTX PKO Control Register
+ * 
+ *  
+ * 
+$DTX_PKO_BCST_RSP   Address=(0x11800FE280080)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -4838,6 +5161,87 @@ $DTX_LMC(0..0)_CTL   Address=(0x11800FE000060+((0x88 + (a)) << 15))   Bus=(RSL)
  *  
  * 
 $DTX_LMC(0..0)_BCST_RSP   Address=(0x11800FE000080+((0x88 + (a)) << 15))   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:1>  NS    ---     0x0        0x0        Reserved.                                         
+ <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PIP_SEL = DTX PIP Select Register
+ * 
+ *  
+ * 
+$DTX_PIP_SEL(0..1)   Address=(0x11800FE000000|((160) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PIP_ENA = DTX PIP Mask Register
+ * 
+ *  
+ * 
+$DTX_PIP_ENA(0..1)   Address=(0x11800FE000020|((160) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
+                                             will drive each bit.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PIP_DAT = DTX PIP Raw Data Register
+ * 
+ *  
+ * 
+$DTX_PIP_DAT(0..1)   Address=(0x11800FE000040|((160) << 15)|a<<3)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:36> NS    ---     0x0        0x0        Reserved.                                         
+ <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PIP_CTL = DTX PIP Control Register
+ * 
+ *  
+ * 
+$DTX_PIP_CTL   Address=(0x11800FE500060)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS     ---     0x0        0x0        Reserved.                                         
+ <4>     ACTIVE R/W     0x0        0x0        Force block's gated clocks on, so that the state of idle signals may be captured.
+ <3:2>   NS     ---     0x0        0x0        Reserved.                                         
+ <1>     ECHOEN R/W     0x0        0x0        Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
+                                              diagnostic use only.
+ <0>     SWAP   R/W     0x0        0x0        Swap the high and low 36-bit debug bus outputs.   
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_PIP_BCST_RSP = DTX PIP Control Register
+ * 
+ *  
+ * 
+$DTX_PIP_BCST_RSP   Address=(0x11800FE500080)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -7341,8 +7745,8 @@ $GMX(0..1)_TX(0..3)_SLOT   Address=(0x1180008000220+a*0x8000000+b*0x800)   Bus=(
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:10> NS    ---     NS         NS         Reserved.                                         
  <9:0>   SLOT  R/W     0x200      0x200      Slottime (refer to 802.3 to set correctly)        
-                                             10/100Mbs: 0x40
-                                             1000Mbs:   0x200
+                                             10/100Mbs: 0x40  (corresponds to  512 bitimes)
+                                             1000Mbs:   0x200 (corresponds to 4096 bitimes)
                                              (SGMII/1000Base-X only)
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -8842,7 +9246,7 @@ $GSER(0)_DLM(0..2)_MPLL_STATUS   Address=(0x1180090001000+a+b*0x80000)   Bus=(RS
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS          ---     NS         NS         Reserved.                                         
- <0>     MPLL_STATUS RO      0x0        NS         This is the lock status of the PHY PLL.  When asserted,
+ <0>     MPLL_STATUS RO/H    0x0        NS         This is the lock status of the PHY PLL.  When asserted,
                                                    it indicates the PHY's MPLL has reached a stable, running
                                                    state.
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -9072,11 +9476,11 @@ $GSER(0)_DLM(0..2)_RX_STATUS   Address=(0x1180090002000+a+b*0x80000)   Bus=(RSL)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:9>  NS         ---     NS         NS         Reserved.                                         
- <8>     RX1_STATUS RO      0x0        NS         Indicates the current state of the Lane 1 receiver DPLL and clock.
+ <8>     RX1_STATUS RO/H    0x0        NS         Indicates the current state of the Lane 1 receiver DPLL and clock.
                                                   When cleared, rxN_clk can be disabled or not running at its
                                                   target rate.
  <7:1>   NS         ---     NS         NS         Reserved.                                         
- <0>     RX0_STATUS RO      0x0        NS         Indicates the current state of the Lane 0 receiver DPLL and clock.
+ <0>     RX0_STATUS RO/H    0x0        NS         Indicates the current state of the Lane 0 receiver DPLL and clock.
                                                   When cleared, rxN_clk can be disabled or not running at its
                                                   target rate.
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -13324,7 +13728,6 @@ $L2C_TAD(0..0)_PRF   Address=(0x1180080A00008+a*0x40000)   Bus=(RSL)
  *  
  *  (1) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
  *  (2) TAG is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
- *  (3) The ECC field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
  * 
 $L2C_TAD(0..0)_TAG   Address=(0x1180080A00010+a*0x40000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -13335,7 +13738,7 @@ $L2C_TAD(0..0)_TAG   Address=(0x1180080A00010+a*0x40000)   Bus=(RSL)
  <59:56> NS      ---     NS         NS         Reserved.                                         
  <55:48> BUSINFO R/W/H   0x0        0x0        The businfo bits                                  
  <47>    NS      ---     NS         NS         Reserved.                                         
- <46:40> ECC     R/W/H   0x0        NS         The tag ECC (see note 3)                          
+ <46:40> ECC     R/W/H   0x0        NS         The tag ECC                                       
  <39:17> TAG     R/W/H   0x0        0x0        The tag (see note 2)                              
  <16:4>  NS      ---     NS         NS         Reserved.                                         
  <3>     USED    R/W/H   0x0        0x0        The LRU used bit (see note 1)                     
@@ -14435,11 +14838,11 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
  Bit     Field              Field   Reset      Typical    Field                                             
  Pos     Name               Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63>    BG2_ENABLE         R/W     0x1        NS         BG2 pin is active for DDR4 mode.  Only has an effect when LMC*_CONFIG[MODEDDR4] = 1.
+ <63>    NS                 ---     NS         NS         Reserved.                                         
+ <62>    BG2_ENABLE         R/W     0x1        NS         BG2 pin is active for DDR4 mode.  Only has an effect when LMC*_CONFIG[MODEDDR4] = 1.
                                                           Typically only cleared for DDR4 x16 devices, where there is no BG2 pin on the device.
- <62>    MODE_X4DEV         R/W     0x0        NS         DDR x4 device mode.  Set when using DIMMs with x4 devices or if using
+ <61>    MODE_X4DEV         R/W     0x0        NS         DDR x4 device mode.  Set when using DIMMs with x4 devices or if using
                                                           embedded x4 devices.
- <61>    MODEDDR4           R/W     0x0        NS         DDR4 mode.                                        
  <60>    MODE32B            R/W     0x0        0x0        32-bit datapath mode. When set, only 32 DQ pins are used.
  <59>    SCRZ               R/W1S/H 0x0        NS         Hide LMC(0..0)_SCRAMBLE_CFG0 and LMC(0..0)_SCRAMBLE_CFG1 when set.
  <58>    EARLY_UNLOAD_D1_R1 R/W     0x0        NS         When set, unload the PHY silo one cycle early for Rank 3 reads.
@@ -15493,37 +15896,36 @@ $LMC(0..0)_PHY_CTL   Address=(0x1180088000210|a<<24)   Bus=(RSL)
  Bit     Field                Field   Reset      Typical    Field                                             
  Pos     Name                 Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:51> NS                   ---     NS         NS         Reserved.                                         
- <50>    DSK_DBG_RD_COMPLETE  RO      0x0        NS         INTERNAL: Indicates completion of a read operation, will clear to 0 when
+ <63:50> NS                   ---     NS         NS         Reserved.                                         
+ <49>    DSK_DBG_RD_COMPLETE  RO      0x0        NS         INTERNAL: Indicates completion of a read operation, will clear to 0 when
                                                             a read operation is started, then set to 1 when operation is complete.
- <49:40> DSK_DBG_RD_DATA      RO      0x0        NS         INTERNAL: Data from a deskew read operation.  Only valid when the
+ <48:39> DSK_DBG_RD_DATA      RO      0x0        NS         INTERNAL: Data from a deskew read operation.  Only valid when the
                                                             LMCX_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set.
- <39>    DSK_DBG_RD_START     WO/H    0x0        0x0        INTERNAL: Write 1 to start deskew data read operation, will automatically
+ <38>    DSK_DBG_RD_START     WO/H    0x0        0x0        INTERNAL: Write 1 to start deskew data read operation, will automatically
                                                             clear to 0.  Write to 1 will also clear the complete bit.
- <38:37> DSK_DBG_CLK_SCALER   R/W     0x1        0x1        INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+ <37:36> DSK_DBG_CLK_SCALER   R/W     0x1        0x1        INTERNAL: Adjust clock toggle rate for reading deskew debug information:
                                                             0: Deskew read clock toggles every 1 DCLK
                                                             1: Deskew read clock toggles every 2 DCLKs
                                                             2: Deskew read clock toggles every 3 DCLKs
                                                             3: Deskew read clock toggles every 4 DCLKs
- <36:35> DSK_DBG_OFFSET       R/W     0x0        0x0        INTERNAL: Offset to change delay of deskew debug data return time
+ <35:34> DSK_DBG_OFFSET       R/W     0x0        0x0        INTERNAL: Offset to change delay of deskew debug data return time
                                                             to LMC from DDR PHY.
- <34>    DSK_DBG_NUM_BITS_SEL R/W     0x1        0x1        INTERNAL: Deskew debug, select number of bits per byte lane.
+ <33>    DSK_DBG_NUM_BITS_SEL R/W     0x1        0x1        INTERNAL: Deskew debug, select number of bits per byte lane.
                                                             0: 8 bits per byte lane, no DBI
                                                             1: 9 bits ber byte lane, including DBI
- <33:30> DSK_DBG_BYTE_SEL     R/W     0x0        0x0        INTERNAL: Deskew debug byte select for read operation.  Values 0-3 correspond
+ <32:29> DSK_DBG_BYTE_SEL     R/W     0x0        0x0        INTERNAL: Deskew debug byte select for read operation.  Values 0-3 correspond
                                                             to byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7.
- <29:26> DSK_DBG_BIT_SEL      R/W     0x0        0x0        INTERNAL: Deskew debug bit select for dsk read operation.
- <25>    DBI_MODE_ENA         R/W     0x0        NS         Enable DBI mode for PHY.                          
- <24>    DDR_ERROR_N_ENA      R/W     0x0        0x0        Enable error_alert_n signal for PHY.              
- <23>    REF_PIN_ON           R/W     0x0        0x0        INTERNAL: Voltage reference pin enabled.          
- <22>    DAC_ON               R/W     0x0        0x0        INTERNAL: PHY DAC on.                             
- <21>    INT_PAD_LOOPBACK_ENA R/W     0x0        NS         DDR pad loopback enable.                          
- <20>    INT_PHY_LOOPBACK_ENA R/W     0x0        NS         Internal PHY loopback enable.                     
- <19>    PHY_DSK_RESET        R/W     0x0        NS         Deskew bypass.                                    
- <18>    PHY_DSK_BYP          R/W     0x0        NS         Deskew bypass.                                    
- <17>    PHY_PWR_SAVE_DISABLE R/W     0x0        NS         DDR PHY power save disable.                       
- <16>    TEN                  R/W     0x0        NS         DDR PHY test enable pin.                          
- <15>    PHY_DCOK             R/W     0x0        NS         Set to power up PHY logic after setting DDR4 mode.
+ <28:25> DSK_DBG_BIT_SEL      R/W     0x0        0x0        INTERNAL: Deskew debug bit select for dsk read operation.
+ <24>    DBI_MODE_ENA         R/W     0x0        NS         Enable DBI mode for PHY.                          
+ <23>    DDR_ERROR_N_ENA      R/W     0x0        0x0        Enable error_alert_n signal for PHY.              
+ <22>    REF_PIN_ON           R/W     0x0        0x0        INTERNAL: Voltage reference pin enabled.          
+ <21>    DAC_ON               R/W     0x0        0x0        INTERNAL: PHY DAC on.                             
+ <20>    INT_PAD_LOOPBACK_ENA R/W     0x0        NS         DDR pad loopback enable.                          
+ <19>    INT_PHY_LOOPBACK_ENA R/W     0x0        NS         Internal PHY loopback enable.                     
+ <18>    PHY_DSK_RESET        R/W     0x0        NS         Deskew bypass.                                    
+ <17>    PHY_DSK_BYP          R/W     0x0        NS         Deskew bypass.                                    
+ <16>    PHY_PWR_SAVE_DISABLE R/W     0x0        NS         DDR PHY power save disable.                       
+ <15>    TEN                  R/W     0x0        NS         DDR PHY test enable pin.                          
  <14>    RX_ALWAYS_ON         R/W     0x0        NS         Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active
                                                             all the time.
  <13>    LV_MODE              R/W     0x0        NS         Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.)
@@ -15703,7 +16105,9 @@ $LMC(0..0)_DDR_PLL_CTL   Address=(0x1180088000258|a<<24)   Bus=(RSL)
  Bit     Field         Field   Reset      Typical    Field                                             
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:29> NS            ---     NS         NS         Reserved.                                         
+ <63:31> NS            ---     NS         NS         Reserved.                                         
+ <30>    PHY_DCOK      R/W     0x0        0x1        Set to power up PHY logic after setting LMC#_DDR_PLL_CTL[DDR4_MODE].
+ <29>    DDR4_MODE     R/W     0x0        NS         DDR4 mode select (0 for DDR3).                    
  <28>    PLL_FBSLIP    RO/H    0x0        NS         PLL FBSLIP indication.                            
  <27>    PLL_LOCK      RO/H    0x0        NS         PLL LOCK indication.                              
  <26>    PLL_RFSLIP    RO/H    0x0        NS         PLL RFSLIP indication.                            
@@ -19869,20 +20273,21 @@ $MIO_BOOT_THR   Address=(0x11800000000B0)   Bus=(RSL)
  * 
  * MIO_BOOT_COMP = MIO Boot Compensation Register
  * 
+ *  This register sets the termination of boot-bus output pins.
  *  Reset value is as follows:
- *  no pullups,                               PCTL=38, NCTL=30 (25 ohm termination)
- *  pullup on boot_cle,                       PCTL=19, NCTL=15 (50 ohm termination)
- *  pullup on boot_ale[0],                    PCTL=15, NCTL=12 (65 ohm termination)
- *  pullups on both boot_cle and boot_ale[0], PCTL=15, NCTL=12 (65 ohm termination)
+ *  no pullups,                               PCTL=6, NCTL=6 (50 ohm termination)
+ *  pullup on boot_cle,                       PCTL=7, NCTL=7 (40 ohm termination)
+ *  pullup on boot_ale[0].                    PCTL=4, NCTL=4 (75 ohm termination)
  * 
 $MIO_BOOT_COMP   Address=(0x11800000000B8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:12> NS    ---     NS         NS         Reserved.                                         
- <11:6>  PCTL  R/W     NS         NS         Boot bus PCTL                                     
- <5:0>   NCTL  R/W     NS         NS         Boot bus NCTL                                     
+ <63:11> NS    ---     NS         NS         Reserved.                                         
+ <10:8>  PCTL  R/W     NS         NS         Boot bus PCTL                                     
+ <7:3>   NS    ---     NS         NS         Reserved.                                         
+ <2:0>   NCTL  R/W     NS         NS         Boot bus NCTL                                     
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -19922,16 +20327,19 @@ $MIO_BOOT_PIN_DEFS   Address=(0x11800000000C0)   Bus=(RSL)
  * 
  * MIO_GPIO_COMP = MIO GPIO Compensation Register
  * 
- *  
+ *  suggested values                          PCTL=6, NCTL=6 (50 ohm termination)
+ *                                            PCTL=7, NCTL=7 (40 ohm termination)
+ *                                            PCTL=4, NCTL=4 (75 ohm termination)
  * 
 $MIO_GPIO_COMP   Address=(0x11800000000C8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:12> NS    ---     NS         NS         Reserved.                                         
- <11:6>  PCTL  R/W     0x13       NS         GPIO bus PCTL                                     
- <5:0>   NCTL  R/W     0xf        NS         GPIO bus NCTL                                     
+ <63:11> NS    ---     NS         NS         Reserved.                                         
+ <10:8>  PCTL  R/W     0x6        NS         GPIO bus PCTL                                     
+ <7:3>   NS    ---     NS         NS         Reserved.                                         
+ <2:0>   NCTL  R/W     0x6        NS         GPIO bus NCTL                                     
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -19977,8 +20385,8 @@ $MIO_BOOT_BIST_STAT   Address=(0x11800000000F8)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:11> NS    ---     NS         NS         Reserved.                                         
- <10:0>  STAT  RO      0x0        0x0        BIST status                                       
+ <63:14> NS    ---     NS         NS         Reserved.                                         
+ <13:0>  STAT  RO      0x0        0x0        BIST status                                       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -21162,23 +21570,19 @@ $SMI(0..1)_EN   Address=(0x1180000001820+a*0x100)   Bus=(RSL)
  * 
  * SMI_DRV_CTL = SMI Drive Strength Control
  * 
- *  
+ *  suggested values                          PCTL=6, NCTL=6 (50 ohm termination)
+ *                                            PCTL=7, NCTL=7 (40 ohm termination)
+ *                                            PCTL=4, NCTL=4 (75 ohm termination)
  * 
 $SMI_DRV_CTL   Address=(0x1180000001828)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:14> NS    ---     NS         NS         Reserved.                                         
- <13:8>  PCTL  R/W     0x13       0x13       PCTL Drive strength control bits                  
-                                             Assuming a 50ohm termination
-                                             3.3v supply = 19
-                                             2.5v supply = TBD
- <7:6>   NS    ---     NS         NS         Reserved.                                         
- <5:0>   NCTL  R/W     0xf        0xf        NCTL Drive strength control bits                  
-                                             Assuming a 50ohm termination
-                                             3.3v supply = 15
-                                             2.5v supply = TBD
+ <63:11> NS    ---     NS         NS         Reserved.                                         
+ <10:8>  PCTL  R/W     0x6        0x6        SMI bus NCTL                                      
+ <7:3>   NS    ---     NS         NS         Reserved.                                         
+ <2:0>   NCTL  R/W     0x6        0x6        SMI bus NCTL                                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -23987,11 +24391,11 @@ $PCIEEP(0..2)_CFG031   Address=(0x3000000007C+a*0x100000000)   Bus=(PCICONFIGEP)
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
- <17:15> L1EL   RO/WRSL 0x6        0x6        "L1 Exit Latency                                  
+ <17:15> L1EL   RO/WRSL 0x1        0x1        "L1 Exit Latency                                  
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
- <14:12> L0EL   RO/WRSL 0x6        0x6        "L0s Exit Latency                                 
+ <14:12> L0EL   RO/WRSL 0x0        0x0        "L0s Exit Latency                                 
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
@@ -24712,14 +25116,14 @@ $PCIEEP(0..2)_CFG451   Address=(0x3000000070C+a*0x100000000)   Bus=(PCICONFIGEP)
                                                 o 100: 5 ms
                                                 o 101: 6 ms
                                                 o 110 or 111: 7 ms
- <23:16> N_FTS_CC R/W     0x80       0x80       N_FTS when common clock is used.                  
+ <23:16> N_FTS_CC R/W     0x30       0x30       N_FTS when common clock is used.                  
                                                 The number of Fast Training Sequence ordered sets to be
                                                 transmitted when transitioning from L0s to L0. The maximum
                                                 number of FTS ordered-sets that a component can request is 255.
                                                 Note: A value of zero is not supported; a value of
                                                 zero can cause the LTSSM to go into the recovery state
                                                 when exiting from L0s.
- <15:8>  N_FTS    R/W     0x80       0x80       N_FTS                                             
+ <15:8>  N_FTS    R/W     0x30       0x30       N_FTS                                             
                                                 The number of Fast Training Sequence ordered sets to be
                                                 transmitted when transitioning from L0s to L0. The maximum
                                                 number of FTS ordered-sets that a component can request is 255.
@@ -25282,7 +25686,7 @@ $PCIEEP(0..2)_CFG515   Address=(0x3000000080C+a*0x100000000)   Bus=(PCICONFIGEP)
                                              lanes that detect a receiver, but will not exit electrical
                                              idle and
                                              would otherwise prevent a valid link from being configured.
- <7:0>   N_FTS R/W     0x80       0x80       N_FTS                                             
+ <7:0>   N_FTS R/W     0x30       0x30       N_FTS                                             
                                              Sets the Number of Fast Training Sequences (N_FTS) that
                                              the core advertises as its N_FTS during GEN2 Link training.
                                              This value is used to inform the Link partner about the PHYs
@@ -26198,11 +26602,11 @@ $PCIERC(0..2)_CFG031   Address=(0x2000000007C+a*0x100000000)   Bus=(PCICONFIGRC)
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
- <17:15> L1EL   R/W     0x6        0x6        "L1 Exit Latency                                  
+ <17:15> L1EL   R/W     0x1        0x1        "L1 Exit Latency                                  
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
- <14:12> L0EL   R/W     0x6        0x6        "L0s Exit Latency                                 
+ <14:12> L0EL   R/W     0x0        0x0        "L0s Exit Latency                                 
                                               The default value is the value you specify during hardware
                                               configuration, writable through PEM#_CFG_WR.
                                               However, the application must not change this field."
@@ -27091,14 +27495,14 @@ $PCIERC(0..2)_CFG451   Address=(0x2000000070C+a*0x100000000)   Bus=(PCICONFIGRC)
                                                 o 100: 5 ms
                                                 o 101: 6 ms
                                                 o 110 or 111: 7 ms
- <23:16> N_FTS_CC R/W     0x80       0x80       N_FTS when common clock is used.                  
+ <23:16> N_FTS_CC R/W     0x30       0x30       N_FTS when common clock is used.                  
                                                 The number of Fast Training Sequence ordered sets to be
                                                 transmitted when transitioning from L0s to L0. The maximum
                                                 number of FTS ordered-sets that a component can request is 255.
                                                 Note: The core does not support a value of zero; a value of
                                                 zero can cause the LTSSM to go into the recovery state
                                                 when exiting from L0s.
- <15:8>  N_FTS    R/W     0x80       0x80       N_FTS                                             
+ <15:8>  N_FTS    R/W     0x30       0x30       N_FTS                                             
                                                 The number of Fast Training Sequence ordered sets to be
                                                 transmitted when transitioning from L0s to L0. The maximum
                                                 number of FTS ordered-sets that a component can request is 255.
@@ -27658,7 +28062,7 @@ $PCIERC(0..2)_CFG515   Address=(0x2000000080C+a*0x100000000)   Bus=(PCICONFIGRC)
                                              lanes that detect a receiver, but will not exit electrical
                                              idle and
                                              would otherwise prevent a valid link from being configured.
- <7:0>   N_FTS R/W     0x80       0x80       N_FTS                                             
+ <7:0>   N_FTS R/W     0x30       0x30       N_FTS                                             
                                              Sets the Number of Fast Training Sequences (N_FTS) that
                                              the core advertises as its N_FTS during GEN2 Link training.
                                              This value is used to inform the Link partner about the PHYs
@@ -28755,11 +29159,17 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
                                                 other than 0x80 can lead to unpredictable behavior.
  <47:24> NS       ---     NS         NS         Reserved.                                         
  <23:16> SLI_CPL  R/W     0x80       0x80       TLP 8B credits for Completion TLPs in the SLI.    
-                                                Legal values are 0x24 to 0x80.
+                                                Legal values are 0x24 to 0x80. When multiple PEMS
+                                                are wire-OR'd together, the sum of all PEMs' SLI_CPL
+                                                fields must not exceed 0x80.
  <15:8>  SLI_NP   R/W     0x10       0x10       TLP 8B credits for Non-Posted TLPs in the SLI.    
-                                                Legal values are 0x8 to 0x10.
+                                                Legal values are 0x8 to 0x10. When multiple PEMS
+                                                are wire-OR'd together, the sum of all PEMs' SLI_NP
+                                                fields must not exceed 0x10.
  <7:0>   SLI_P    R/W     0x80       0x80       TLP 8B credits for Posted TLPs in the SLI.        
-                                                Legal values are 0x24 to 0x80.
+                                                Legal values are 0x24 to 0x80. When multiple PEMS
+                                                are wire-OR'd together, the sum of all PEMs' SLI_P
+                                                fields must not exceed 0x80.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -28955,7 +29365,9 @@ $PEM(0..2)_ECC_ENA   Address=(0x11800C00000C0+a*0x1000000)   Bus=(RSL)
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:4>  NS         ---     NS         NS         Reserved.                                         
+ <63:6>  NS         ---     NS         NS         Reserved.                                         
+ <5>     TLP_NC_ENA R/W     0x1        0x1        ECC enable for TLP Non-Posted ctl Fifo            
+ <4>     TLP_ND_ENA R/W     0x1        0x1        ECC enable for TLP Non-Posted data Fifo           
  <3>     TLP_PC_ENA R/W     0x1        0x1        ECC enable for TLP Posted ctl Fifo                
  <2>     TLP_PD_ENA R/W     0x1        0x1        ECC enable for TLP Posted data Fifo               
  <1>     TLP_CC_ENA R/W     0x1        0x1        ECC enable for TLP CPL ctl Fifo                   
@@ -28974,7 +29386,9 @@ $PEM(0..2)_ECC_SYND_CTRL   Address=(0x11800C00000C8+a*0x1000000)   Bus=(RSL)
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:8>  NS         ---     NS         NS         Reserved.                                         
+ <63:12> NS         ---     NS         NS         Reserved.                                         
+ <11:10> TLP_NC_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Non-Posted ctl Fifo    
+ <9:8>   TLP_ND_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Non-Posted data Fifo   
  <7:6>   TLP_PC_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Posted ctl Fifo        
  <5:4>   TLP_PD_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP Posted data Fifo       
  <3:2>   TLP_CC_SYN R/W     0x0        0x0        Syndrome Flip bits for TLP CPL ctl Fifo           
@@ -32966,6 +33380,21 @@ $RST_SOFT_PRST(0..2)   Address=(0x11800060016C0+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
+ * 
+ * RST_PP_POWER = RST PP Power Gating Control
+ * 
+ *  These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).
+ * 
+$RST_PP_POWER   Address=(0x1180006001700)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:4>  NS    ---     NS         NS         Reserved.                                         
+ <3:0>   GATE  R/W     0xf        0x0        When set, corresponding PP has voltage removed to save power.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
 // -*- csr3-text -*-
 // ***********************************************************************
 // *  CAVIUM CONFIDENTIAL AND PROPRIETARY NOTE
@@ -32987,7 +33416,9 @@ $RST_SOFT_PRST(0..2)   Address=(0x11800060016C0+a*0x8)   Bus=(RSL)
 
 The SATA controller implements three kinds of CSRs:
   * UCTL RSL-type registers: 2KB starting at address    0x1_1800_6C00_0000
+    - Only 64-bit accesses are supported.
   * UAHC NCB-type registers: 8KB starting at address    0x1_6C00_0000_0000
+    - Only 32-bit or 64-bit accesses are supported.
 
 == UCTL ==================================================
 
@@ -33002,7 +33433,8 @@ Undefined offsets in the UCTL register region will return
 64'hFFFFFFFF_FFFFFFFF on reads, writes will have no side-effects.
 No addresses should alias.
 
-The UCTL registers are big-endian.
+The UCTL registers are big-endian.  They are not affected by the endian
+configuration registers.
 
 == UAHC =================================================
 
@@ -33045,7 +33477,7 @@ $SATA_UCTL_DMA_READ_CMD_E
  * 
  * SATA_UCTL_ENDIAN_MODE_E
  * 
- *  Enumerate endian mode selections.
+ *  Enumerate endian mode selections.  Applies to NCB-type CSRs only (accessed over RSL or NCB).
  *  Attribute: width = 2
  * 
 $SATA_UCTL_ENDIAN_MODE_E
@@ -33752,22 +34184,8 @@ $SATA_UAHC_P(0..1)_CLB   Address=(0x16C0000000100+a*0x80)   Bus=(NCB)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:10> CLB   R/W     0x0        NS         Command list base address.                        
+ <63:10> CLB   R/W     0x0        NS         Command list base address.                        
  <9:0>   NS    ---     NS         NS         Reserved.                                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * SATA_UAHC_P_CLBU = UAHC Command List Base Upper Address Register
- * 
- *  INTERNAL: See DWC_ahsata databook v4.10a
- * 
-$SATA_UAHC_P(0..1)_CLBU   Address=(0x16C0000000104+a*0x80)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  CLBU R/W     0x0        NS         Command list base upper address.                  
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -33781,22 +34199,8 @@ $SATA_UAHC_P(0..1)_FB   Address=(0x16C0000000108+a*0x80)   Bus=(NCB)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:8>  FB    R/W     0x0        NS         FIS base address.                                 
+ <63:8>  FB    R/W     0x0        NS         FIS base address.                                 
  <7:0>   NS    ---     NS         NS         Reserved.                                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * SATA_UAHC_P_FBU = UAHC FIS Base Upper Address Register
- * 
- *  INTERNAL: See DWC_ahsata databook v4.10a
- * 
-$SATA_UAHC_P(0..1)_FBU   Address=(0x16C000000010C+a*0x80)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  FBU R/W     0x0        NS         FIS base upper address.                           
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -33819,7 +34223,7 @@ $SATA_UAHC_P(0..1)_IS   Address=(0x16C0000000110+a*0x80)   Bus=(NCB)
  <25>    NS    ---     NS         NS         Reserved.                                         
  <24>    OFS   R/W1C/H 0x0        NS         Overflow status.                                  
  <23>    IMPS  R/W1C/H 0x0        NS         Incorrect port multiplier status.                 
- <22>    PRCS  RO      0x0        NS         PHY ready change status.                          
+ <22>    PRCS  RO/H    0x0        NS         PHY ready change status.                          
  <21:8>  NS    ---     NS         NS         Reserved.                                         
  <7>     DMPS  R/W1C/H 0x0        NS         Device mechanical presence status.                
  <6>     PCS   RO/H    0x0        NS         Port connect change status.                       
@@ -36573,7 +36977,7 @@ Note: These address examples are for instance 0.
 
 UCTL registers are only accessible via RSL. They generally contain basic
 clock controls, resets, and static configuration bits for the entire USB
-subsystem.
+subsystem. UCTL registers support 64-bit register accesses.
 
 Note that UCTL registers starting from 0x30 can be accessed only
 after HCLK is enabled and UCTL_RST is deasserted.
@@ -36588,7 +36992,13 @@ The UCTL registers are big-endian.
 
 UAHC registers are implemented by the Host Controller,
 access is provided to these registers over RSL or NCB. The only registers
-that may require the high-performance NCB path are the XHCI Runtime registers.
+that may require the high-performance NCB path are the HOST-mode XHCI
+Runtime registers, and DEVICE-mode EVENT registers.
+UAHC registers only support 64-bit or 32-bit accesses.
+Note that the CSR_ENDIAN_MODE setting only applies to UAHC registers
+accessed over NCB.
+INTERNAL: Due to the nature of the XHCI drivers, it's likely that all
+register accesses from XHCI will go over NCB.
 
 Access to the UAHC registers follows the same rules as registers 0x30 to 0xF8
 of the UCTL. In other words, HCLK must be enabled, UCTL_RST must be deasserted.
@@ -36610,11 +37020,9 @@ The UAHC registers require 1MB of address space. The interior mapping is:
 
 For more information about the "XHCI Registers", see the XHCI specification.
 INTERNAL: For more on "Global Registers", see Synopsys DWC_usb3 Host Controller Databook v2.50a
-sections
-6.1.3 and 6.2.
+sections 6.1.3 and 6.2.
 INTERNAL: For more on XHCI registers, see Synopsys DWC_usb3 Host Controller Databook v2.50a
-sections
-6.1.5 and 6.4.
+sections 6.1.5 and 6.4.
 
 UAHC registers may also be accessed by presenting an NCB-type address over
 RSL. Registers accessed this way are statically mapped from UAHC's
@@ -37290,22 +37698,32 @@ $USBDRD(0..1)_UCTL_PORT(0..0)_CFG_SS   Address=(0x1180068000048+a*0x1000000+b*0x
  <56>    LANE0_TX2RX_LOOPBK   R/W     0x0        0x0        When asserted, data from TX predriver is looped back to RX slicers. LOS is bypassed and
                                                             based on the tx0_en input so that rx0_los = !tx_data_en.
  <55:42> NS                   ---     NS         NS         Reserved.                                         
- <41:32> PCS_RX_LOS_MASK_VAL  R/W     0xc0       0xc0       Configurable Loss-of-Signal Mask Width.           
+ <41:32> PCS_RX_LOS_MASK_VAL  R/W     0x3e8      0x3e8      Configurable Loss-of-Signal Mask Width.           
                                                             Sets the number of reference clock cycles to mask the incoming LFPS in U3 and U2 states.
                                                             Masks the incoming LFPS for the number of reference clock cycles equal to the value of
-                                                            pcs_rx_los_mask_val[9:0]. This control filters out short, non-compliant LFPS glitches
+                                                            pcs_rx_los_mask_val<9:0>. This control filters out short, non-compliant LFPS glitches
                                                             sent by a non-compliant host.
                                                             For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
-                                                            If the USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is used, the value = 10us / (2 * Tref_clk).
-                                                              Based on USBDRD(0..1)_UCTL_CTL[REF_CLK_FSEL], and assuming
-                                                              USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is set to
-                                                              zero, the value of PCS_RX_LOS_MASK_VAL should be:
-                                                                Enum   Tref_clk   LOS_MASK
-                                                                0x27 = 100MHz   = 0x3E8
-                                                                0x07 =  50MHz   = 0x1F4
-                                                                0x2A =  24MHz   = 0x0F0
-                                                                0x31 =  20MHz   = 0x0C8
-                                                                0x38 =  19.2MHz = 0x0C0
+                                                            If the USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is used, then (value = 10us / (2 * Tref_clk)).
+                                                            These equations are based on the SuperSpeed reference clock frequency.
+                                                            The value of PCS_RX_LOS_MASK_VAL should be:
+                                                                         Frequency DIV2 LOS_MASK
+                                                                INTERNAL: 200  MHz    1    0x3E8
+                                                                          125  MHz    0    0x4E2
+                                                                INTERNAL: 104  MHz    0    0x410
+                                                                          100  MHz    0    0x3E8
+                                                                INTERNAL:  96  MHz    0    0x3C0
+                                                                INTERNAL:  76.8MHz    1    0x180
+                                                                INTERNAL:  52  MHz    0    0x208
+                                                                           50  MHz    0    0x1F4
+                                                                INTERNAL:  48  MHz    0    0x1E0
+                                                                INTERNAL:  40  MHz    1    0x0C8
+                                                                INTERNAL:  38.4MHz    0    0x180
+                                                                INTERNAL:  26  MHz    0    0x104
+                                                                INTERNAL:  25  MHz    0    0x0FA
+                                                                INTERNAL:  24  MHz    0    0x0F0
+                                                                INTERNAL:  20  MHz    0    0x0C8
+                                                                INTERNAL:  19.2MHz    0    0x0C0
                                                             Setting this bus to 0x0 disables masking.
                                                             The value should be defined when the PHY is in reset. Changing this value during operation
                                                             might disrupt normal operation of the link.
@@ -37820,7 +38238,7 @@ $USBDRD(0..1)_UAHC_DNCTRL   Address=(0x1680000000034+a*0x10000000000)   Bus=(NCB
 
 
  * 
- * USBDRD_UAHC_CRCR_L = XHCI Command Ring Control Register Low
+ * USBDRD_UAHC_CRCR = XHCI Command Ring Control Register
  * 
  *  See XHCI specification v1.0 section 5.4.5.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
@@ -37828,42 +38246,24 @@ $USBDRD(0..1)_UAHC_DNCTRL   Address=(0x1680000000034+a*0x10000000000)   Bus=(NCB
  *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
  *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
  * 
-$USBDRD(0..1)_UAHC_CRCR_L   Address=(0x1680000000038+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_CRCR   Address=(0x1680000000038+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field          Field   Reset      Typical    Field                                             
- Pos     Name           Type    Value      Value      Description                                       
+ Bit     Field        Field   Reset      Typical    Field                                             
+ Pos     Name         Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:6>  CMD_RING_PTR_L WO      0x0        NS         Command ring pointer bits<31:6>.                  
- <5:4>   NS             ---     NS         NS         Reserved.                                         
- <3>     CRR            RO/H    0x0        NS         Command ring running.                             
- <2>     CA             WO      0x0        0x0        Command abort.                                    
-                                                      Attribute: no_soft_reset = 1
- <1>     CS             WO      0x0        0x0        Command stop.                                     
-                                                      Attribute: no_soft_reset = 1
- <0>     RCS            WO      0x0        NS         Ring Cycle State                                  
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_CRCR_H = XHCI Command Ring Control Register High
- * 
- *  See XHCI specification v1.0 section 5.4.5.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
- *  USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
- *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
- *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
- * 
-$USBDRD(0..1)_UAHC_CRCR_H   Address=(0x168000000003C+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field          Field   Reset      Typical    Field                                             
- Pos     Name           Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  CMD_RING_PTR_H WO      0x0        NS         Command ring pointer bits<64:32>.                 
+ <63:6>  CMD_RING_PTR WO      0x0        NS         Command ring pointer bits<31:6>.                  
+ <5:4>   NS           ---     NS         NS         Reserved.                                         
+ <3>     CRR          RO/H    0x0        NS         Command ring running.                             
+ <2>     CA           WO      0x0        0x0        Command abort.                                    
+                                                    Attribute: no_soft_reset = 1
+ <1>     CS           WO      0x0        0x0        Command stop.                                     
+                                                    Attribute: no_soft_reset = 1
+ <0>     RCS          WO      0x0        NS         Ring Cycle State                                  
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * USBDRD_UAHC_DCBAAP_L = XHCI Device Context Base-Address-Array Pointer Register Low
+ * USBDRD_UAHC_DCBAAP = XHCI Device Context Base-Address-Array Pointer Register
  * 
  *  See XHCI specification v1.0 section 5.4.6.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
@@ -37871,31 +38271,13 @@ $USBDRD(0..1)_UAHC_CRCR_H   Address=(0x168000000003C+a*0x10000000000)   Bus=(NCB
  *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
  *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
  * 
-$USBDRD(0..1)_UAHC_DCBAAP_L   Address=(0x1680000000050+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_DCBAAP   Address=(0x1680000000050+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:6>  DCBAAP_L R/W     0x0        NS         Device context base address array pointer bits<31:6>.
- <5:0>   NS       ---     NS         NS         Reserved.                                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_DCBAAP_H = XHCI Device Context Base-Address-Array Pointer Register High
- * 
- *  See XHCI specification v1.0 section 5.4.6.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
- *  USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
- *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
- *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
- * 
-$USBDRD(0..1)_UAHC_DCBAAP_H   Address=(0x1680000000054+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  DCBAAP_H R/W     0x0        NS         Device context base address array pointer bits<63:32>.
+ <63:6>  DCBAAP R/W     0x0        NS         Device context base address array pointer bits<31:6>.
+ <5:0>   NS     ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -38168,7 +38550,7 @@ $USBDRD(0..1)_UAHC_ERSTSZ(0..0)   Address=(0x1680000000468+a*0x10000000000+b*0x2
 
 
  * 
- * USBDRD_UAHC_ERSTBA_L = XHCI Event-Ring Segment-Table Base-Address Registers Low
+ * USBDRD_UAHC_ERSTBA = XHCI Event-Ring Segment-Table Base-Address Registers
  * 
  *  See XHCI specification v1.0 section 5.5.2.3.2.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
@@ -38176,36 +38558,18 @@ $USBDRD(0..1)_UAHC_ERSTSZ(0..0)   Address=(0x1680000000468+a*0x10000000000+b*0x2
  *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
  *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
  * 
-$USBDRD(0..1)_UAHC_ERSTBA_L(0..0)   Address=(0x1680000000470+a*0x10000000000+b*0x20)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_ERSTBA(0..0)   Address=(0x1680000000470+a*0x10000000000+b*0x20)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
+ Bit     Field  Field   Reset      Typical    Field                                             
+ Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:6>  ERSTBA_L R/W     0x0        NS         Event-ring segment-table base-address bits<31:6>. 
- <5:0>   NS       ---     NS         NS         Reserved.                                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_ERSTBA_H = XHCI Event-Ring Segment-Table Base-Address Registers High
- * 
- *  See XHCI specification v1.0 section 5.5.2.3.2.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
- *  USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
- *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
- *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
- * 
-$USBDRD(0..1)_UAHC_ERSTBA_H(0..0)   Address=(0x1680000000474+a*0x10000000000+b*0x20)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  ERSTBA_H R/W     0x0        NS         Event-ring segment-table base-address bits<64:32>.
+ <63:6>  ERSTBA R/W     0x0        NS         Event-ring segment-table base-address bits<31:6>. 
+ <5:0>   NS     ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * USBDRD_UAHC_ERDP_L = XHCI Event Ring Dequeue Pointer Registers Low
+ * USBDRD_UAHC_ERDP = XHCI Event Ring Dequeue Pointer Registers
  * 
  *  See XHCI specification v1.0 section 5.5.2.3.3.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
@@ -38213,32 +38577,14 @@ $USBDRD(0..1)_UAHC_ERSTBA_H(0..0)   Address=(0x1680000000474+a*0x10000000000+b*0
  *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
  *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
  * 
-$USBDRD(0..1)_UAHC_ERDP_L(0..0)   Address=(0x1680000000478+a*0x10000000000+b*0x20)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_ERDP(0..0)   Address=(0x1680000000478+a*0x10000000000+b*0x20)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field  Field   Reset      Typical    Field                                             
- Pos     Name   Type    Value      Value      Description                                       
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:4>  ERDP_L R/W     0x0        NS         Event ring dequeue pointer bits<31:4>.            
- <3>     EHB    R/W1C/H 0x0        NS         Event handler busy                                
- <2:0>   DESI   R/W     0x0        NS         Dequeue ERST segment index.                       
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_ERDP_H = XHCI Event Ring Dequeue Pointer Registers High
- * 
- *  See XHCI specification v1.0 section 5.5.2.3.3.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
- *  USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
- *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
- *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
- * 
-$USBDRD(0..1)_UAHC_ERDP_H(0..0)   Address=(0x168000000047C+a*0x10000000000+b*0x20)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field  Field   Reset      Typical    Field                                             
- Pos     Name   Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  ERDP_H R/W     0x0        NS         Event ring dequeue pointer bits<63:32>.           
+ <63:4>  ERDP R/W     0x0        NS         Event ring dequeue pointer bits<31:4>.            
+ <3>     EHB  R/W1C/H 0x0        NS         Event handler busy                                
+ <2:0>   DESI R/W     0x0        NS         Dequeue ERST segment index.                       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39072,7 +39418,7 @@ $USBDRD(0..1)_UAHC_GUCTL   Address=(0x168000000C12C+a*0x10000000000)   Bus=(NCB)
 
 
  * 
- * USBDRD_UAHC_GBUSERRADDR_L = UAHC Bus-Error-Address Register Low
+ * USBDRD_UAHC_GBUSERRADDR = UAHC Bus-Error-Address Register
  * 
  *  When the AXI Master Bus returns "Error" response, the "SoC Bus Error" is generated. In the
  *  Host mode, the host_system_err port indicates this condition. In addition, it is also
@@ -39090,37 +39436,19 @@ $USBDRD(0..1)_UAHC_GUCTL   Address=(0x168000000C12C+a*0x10000000000)   Bus=(NCB)
  *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
  * 
-$USBDRD(0..1)_UAHC_GBUSERRADDR_L   Address=(0x168000000C130+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GBUSERRADDR   Address=(0x168000000C130+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:0>  BUSADDRLO RO/H    0x0        0x0        Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
+ <63:0>  BUSADDRLO RO/H    0x0        0x0        Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
                                                  encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
                                                  It can only be cleared by resetting the core.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * USBDRD_UAHC_GBUSERRADDR_H = UAHC Bus-Error-Address Register High
- * 
- *  See description in BUSERRADDR_L.
- *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
- * 
-$USBDRD(0..1)_UAHC_GBUSERRADDR_H   Address=(0x168000000C134+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field     Field   Reset      Typical    Field                                             
- Pos     Name      Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  BUSADDRHI RO/H    0x0        0x0        Bus address bits<63:32>. Contains the upper 32 bits of the first bus address that
-                                                 encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
-                                                 It can only be cleared by resetting the core.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GPRTBIMAP_L = UAHC SuperSpeed Port-to-Bus Instance Mapping Register Low
+ * USBDRD_UAHC_GPRTBIMAP = UAHC SuperSpeed Port-to-Bus Instance Mapping Register
  * 
  *  This register specifies the SuperSpeed USB instance number to which each USB 3.0 port is
  *  connected. By default, USB 3.0 ports are evenly distributed among all SuperSpeed USB
@@ -39130,27 +39458,13 @@ $USBDRD(0..1)_UAHC_GBUSERRADDR_H   Address=(0x168000000C134+a*0x10000000000)   B
  *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
  * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_L   Address=(0x168000000C138+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GPRTBIMAP   Address=(0x168000000C138+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:4>  NS     ---     NS         NS         Reserved.                                         
+ <63:4>  NS     ---     NS         NS         Reserved.                                         
  <3:0>   BINUM1 R/W     0x0        0x0        SuperSpeed USB instance number for port 1         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GPRTBIMAP_H = UAHC SuperSpeed Port-to-Bus Instance Mapping Register High
- * 
- *  See description on PRTBIMAP_L.
- * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_H   Address=(0x168000000C13C+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  NS    ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39505,41 +39819,24 @@ $USBDRD(0..1)_UAHC_GDBGLSP   Address=(0x168000000C174+a*0x10000000000)   Bus=(NC
 
 
  * 
- * USBDRD_UAHC_GDBGEPINFO_L = UAHC Endpoint Information Debug Register Low
+ * USBDRD_UAHC_GDBGEPINFO = UAHC Endpoint Information Debug Register
  * 
  *  See description in DBGFIFOSPACE.
  *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.8.
  *  INTERNAL: This register is for Synopsys internal use only.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
  * 
-$USBDRD(0..1)_UAHC_GDBGEPINFO_L   Address=(0x168000000C178+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GDBGEPINFO   Address=(0x168000000C178+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field        Field   Reset      Typical    Field                                             
  Pos     Name         Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:0>  ENDPT_DBG_LO RO/H    0x0        NS         Endpoint debug information, bits<31:0>.           
+ <63:0>  ENDPT_DBG_LO RO/H    0x0        NS         Endpoint debug information, bits<31:0>.           
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * USBDRD_UAHC_GDBGEPINFO_H = UAHC Endpoint Information Debug Register High
- * 
- *  See description in DBGFIFOSPACE.
- *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.9.
- *  INTERNAL: This register is for Synopsys internal use only.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
- * 
-$USBDRD(0..1)_UAHC_GDBGEPINFO_H   Address=(0x168000000C17C+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field        Field   Reset      Typical    Field                                             
- Pos     Name         Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  ENDPT_DBG_HI RO/H    0x0        NS         Endpoint debug information, bits<63:32>.          
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GPRTBIMAP_HS_L = UAHC HighSpeed Port-to-Bus Instance Mapping Register Low
+ * USBDRD_UAHC_GPRTBIMAP_HS = UAHC HighSpeed Port-to-Bus Instance Mapping Register
  * 
  *  This register specifies the HighSpeed USB instance number to which each USB 2.0 port is
  *  connected. By default, USB 2.0 ports are evenly distributed among all HighSpeed USB
@@ -39549,32 +39846,18 @@ $USBDRD(0..1)_UAHC_GDBGEPINFO_H   Address=(0x168000000C17C+a*0x10000000000)   Bu
  *  INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
  * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_HS_L   Address=(0x168000000C180+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GPRTBIMAP_HS   Address=(0x168000000C180+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:4>  NS     ---     NS         NS         Reserved.                                         
+ <63:4>  NS     ---     NS         NS         Reserved.                                         
  <3:0>   BINUM1 R/W     0x0        0x0        HighSpeed USB instance number for port 1.         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * USBDRD_UAHC_GPRTBIMAP_HS_H = UAHC HighSpeed Port-to-Bus Instance Mapping Register High
- * 
- *  See description on PRTBIMAP_HS_L.
- * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_HS_H   Address=(0x168000000C184+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  NS    ---     NS         NS         Reserved.                                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GPRTBIMAP_FS_L = UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register Low
+ * USBDRD_UAHC_GPRTBIMAP_FS = UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
  * 
  *  This register specifies the FullSpeed/LowSpeed USB instance number to which each USB 1.1 port
  *  is connected. By default, USB 1.1 ports are evenly distributed among all FullSpeed/LowSpeed
@@ -39586,27 +39869,13 @@ $USBDRD(0..1)_UAHC_GPRTBIMAP_HS_H   Address=(0x168000000C184+a*0x10000000000)   
  *  INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
  * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_FS_L   Address=(0x168000000C188+a*0x10000000000)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GPRTBIMAP_FS   Address=(0x168000000C188+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:4>  NS     ---     NS         NS         Reserved.                                         
+ <63:4>  NS     ---     NS         NS         Reserved.                                         
  <3:0>   BINUM1 R/W     0x0        0x0        FullSpeed USB instance number for port 1.         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GPRTBIMAP_FS_H = UAHC FullSpeed/LowSpeed Port-to-Bus Instance Mapping Register High
- * 
- *  See description on PRTBIMAP_FS_L.
- * 
-$USBDRD(0..1)_UAHC_GPRTBIMAP_FS_H   Address=(0x168000000C18C+a*0x10000000000)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  NS    ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39924,7 +40193,7 @@ $USBDRD(0..1)_UAHC_GRXFIFOSIZ(0..2)   Address=(0x168000000C380+a*0x10000000000+b
 
 
  * 
- * USBDRD_UAHC_GEVNTADR_L = Global Event Buffer Address Register
+ * USBDRD_UAHC_GEVNTADR = Global Event Buffer Address Register
  * 
  *  This register holds the Event Buffer DMA Address pointer. Software must initialize this
  *  address once during power-on initialization. Software must not change the value of this
@@ -39937,37 +40206,15 @@ $USBDRD(0..1)_UAHC_GRXFIFOSIZ(0..2)   Address=(0x168000000C380+a*0x10000000000+b
  *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
  *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
  * 
-$USBDRD(0..1)_UAHC_GEVNTADR(0)_L   Address=(0x168000000C400+a*0x10000000000+b*0x10)   Bus=(NCB)
+$USBDRD(0..1)_UAHC_GEVNTADR(0)   Address=(0x168000000C400+a*0x10000000000+b*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:0>  EVNTADRLO R/W/H   0x0        0x0        Holds the lower 32 bits of start address of the external memory
+ <63:32> EVNTADRHI R/W/H   0x0        0x0        Holds the higher 32 bits of start address of the external memory
                                                  for the Event Buffer. During operation, hardware does not update
                                                  this address.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * USBDRD_UAHC_GEVNTADR_H = Global Event Buffer Address Register
- * 
- *  This register holds the Event Buffer DMA Address pointer. Software must initialize this
- *  address once during power-on initialization. Software must not change the value of this
- *  register after it is initialized.
- *  Software must only use the USBDRD(0..1)_UAHC_GEVNTCOUNT_n register for event processing.
- *  The lower n bits of the address must be USBDRD(0..1)_UAHC_GEVNTSIZ_(0)[EVNTSIZ]-aligned.
- *  INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.1.
- *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
- *  USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
- *  USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
- *  USBDRD(0..1)_UAHC_DCTL[CSFTRST].
- * 
-$USBDRD(0..1)_UAHC_GEVNTADR(0)_H   Address=(0x168000000C404+a*0x10000000000+b*0x10)   Bus=(NCB)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field     Field   Reset      Typical    Field                                             
- Pos     Name      Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <31:0>  EVNTADRHI R/W/H   0x0        0x0        Holds the higher 32 bits of start address of the external memory
+ <31:0>  EVNTADRLO R/W/H   0x0        0x0        Holds the lower 32 bits of start address of the external memory
                                                  for the Event Buffer. During operation, hardware does not update
                                                  this address.
 -----------------------------------------------------------------------------------------------------------------------------------

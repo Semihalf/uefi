@@ -1764,8 +1764,8 @@ registers:
         typical: 0x200
         description: |
           Slottime (refer to 802.3 to set correctly)
-          10/100Mbs: 0x40
-          1000Mbs:   0x200
+          10/100Mbs: 0x40  (corresponds to  512 bitimes)
+          1000Mbs:   0x200 (corresponds to 4096 bitimes)
           (SGMII/1000Base-X only)
 
 

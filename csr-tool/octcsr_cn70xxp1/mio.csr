@@ -7640,28 +7640,35 @@ registers:
     address: 0x11800000000B8
     bus: RSL
     description: |
+      This register sets the termination of boot-bus output pins.
       Reset value is as follows:
-      no pullups,                               PCTL=38, NCTL=30 (25 ohm termination)
-      pullup on boot_cle,                       PCTL=19, NCTL=15 (50 ohm termination)
-      pullup on boot_ale[0],                    PCTL=15, NCTL=12 (65 ohm termination)
-      pullups on both boot_cle and boot_ale[0], PCTL=15, NCTL=12 (65 ohm termination)
+      no pullups,                               PCTL=6, NCTL=6 (50 ohm termination)
+      pullup on boot_cle,                       PCTL=7, NCTL=7 (40 ohm termination)
+      pullup on boot_ale[0].                    PCTL=4, NCTL=4 (75 ohm termination)
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 11..6
+        bits: 10..8
         access: R/W
         reset: --
         typical: --
         description: Boot bus PCTL
 
+      - name: --
+        bits: 7..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
         reset: --
         typical: --
@@ -7782,25 +7789,36 @@ registers:
     title: MIO GPIO Compensation Register
     address: 0x11800000000C8
     bus: RSL
+    description: |
+      suggested values                          PCTL=6, NCTL=6 (50 ohm termination)
+                                                PCTL=7, NCTL=7 (40 ohm termination)
+                                                PCTL=4, NCTL=4 (75 ohm termination)
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 11..6
+        bits: 10..8
         access: R/W
-        reset: 0x13
+        reset: 0x6
         typical: --
         description: GPIO bus PCTL
 
+      - name: --
+        bits: 7..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
-        reset: 0xf
+        reset: 0x6
         typical: --
         description: GPIO bus NCTL
 
@@ -7852,14 +7870,14 @@ registers:
     description: Contains the BIST status for the MIO boot memories.  '0' = pass, '1' = fail.
     fields:
       - name: --
-        bits: 63..11
+        bits: 63..14
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: STAT
-        bits: 10..0
+        bits: 13..0
         access: RO
         reset: 0x0
         typical: 0x0
@@ -9862,42 +9880,38 @@ registers:
     title: SMI Drive Strength Control
     address: 0x1180000001828
     bus: RSL
+    description: |
+      suggested values                          PCTL=6, NCTL=6 (50 ohm termination)
+                                                PCTL=7, NCTL=7 (40 ohm termination)
+                                                PCTL=4, NCTL=4 (75 ohm termination)
     fields:
       - name: --
-        bits: 63..14
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 13..8
+        bits: 10..8
         access: R/W
-        reset: 0x13
-        typical: 0x13
-        description: |
-          PCTL Drive strength control bits
-          Assuming a 50ohm termination
-          3.3v supply = 19
-          2.5v supply = TBD
+        reset: 0x6
+        typical: 0x6
+        description: SMI bus NCTL
 
       - name: --
-        bits: 7..6
+        bits: 7..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
-        reset: 0xf
-        typical: 0xf
-        description: |
-          NCTL Drive strength control bits
-          Assuming a 50ohm termination
-          3.3v supply = 15
-          2.5v supply = TBD
+        reset: 0x6
+        typical: 0x6
+        description: SMI bus NCTL
 
 
   - name: MIO_EMM_CFG

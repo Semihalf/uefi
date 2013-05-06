@@ -10,38 +10,40 @@ registers:
     description: Enables the SMI interface. SMI Registers for the register address.
     fields:
       - name: --
-        bits: 63..14
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 13..8
+        bits: 10..8
         access: R/W
-        reset: 0x13
-        typical: 0x13
+        reset: 0x6
+        typical: 0x6
         description: |
-          PCTL drive strength control bits. Assuming a 50ohm termination:
-          3.3v supply = 0x13
-          2.5v supply = 0x17
+          PCTL drive strength control bits. Suggested values:
+          0x4 = 75 ohm.
+          0x6 = 50 ohm.
+          0x7 = 40 ohm.
 
       - name: --
-        bits: 7..6
+        bits: 7..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
-        reset: 0xf
-        typical: 0xf
+        reset: 0x6
+        typical: 0x6
         description: |
-          NCTL drive strength control bits. Assuming a 50ohm termination:
-          3.3v supply = 0xF
-          2.5v supply = 0x13
+          NCTL drive strength control bits. Suggested values:
+          0x4 = 75 ohm.
+          0x6 = 50 ohm.
+          0x7 = 40 ohm.
 
 
   - name: SMI(0..3)_CMD

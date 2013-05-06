@@ -658,17 +658,17 @@ registers:
     description: Selection control for the cores diagnostic bus.
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..6
         access: RO/H
         reset: --
         typical: --
         description: Reserved.
 
       - name: PM_DST
-        bits: 3
+        bits: 5..3
         access: RO
-        reset: 0
-        typical: 0
+        reset: 0x0
+        typical: 0x0
         description: Current power management DSTATE.
 
       - name: PM_STAT

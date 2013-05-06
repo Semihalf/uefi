@@ -1564,7 +1564,6 @@ registers:
 
       (1) If setting the LOCK bit, the USE bit should also be set or operation is undefined.
       (2) TAG is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
-      (3) The ECC field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
     fields:
       - name: --
         bits: 63..60
@@ -1600,7 +1599,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: The tag ECC (see note 3)
+        description: The tag ECC
 
       - name: TAG
         bits: 39..20

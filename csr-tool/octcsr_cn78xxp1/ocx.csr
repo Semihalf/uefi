@@ -1341,6 +1341,109 @@ registers:
           saturation if OCX_OLE_LNE@_INT_EN[STAT_CNT_OVFL]=1.
 
 
+  - name: OCX_LNE(0..23)_TRN_LD
+    address: 0x11800110080C0 + a*0x100
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..49
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: LD_CU_VAL
+        bits: 48
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Local device coefficient update field valid
+
+      - name: LD_CU_DAT
+        bits: 47..32
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Local device coefficient update field data
+
+      - name: --
+        bits: 31..17
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: LD_SR_VAL
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Local device status report field valid
+
+      - name: LD_SR_DAT
+        bits: 15..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Local device status report field data
+
+
+  - name: OCX_LNE(0..23)_TRN_LP
+    address: 0x11800110080C8 + a*0x100
+    bus: RSL
+    fields:
+      - name: LP_MANUAL
+        bits: 63
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Allow software to manually manipulate local device
+          CU/SR by ingoring hardware updated.
+
+      - name: --
+        bits: 62..49
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: LP_CU_VAL
+        bits: 48
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Local device coefficient update field valid
+
+      - name: LP_CU_DAT
+        bits: 47..32
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Local device coefficient update field data
+
+      - name: --
+        bits: 31..17
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: LP_SR_VAL
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Local device status report field valid
+
+      - name: LP_SR_DAT
+        bits: 15..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Local device status report field data
+
+
   - name: OCX_QLM(0..5)_CFG
     address: 0x118001100F800 + a*0x8
     bus: RSL
@@ -1348,7 +1451,37 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..20
+        bits: 63..26
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: TIMER_DIS
+        bits: 25
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: |
+          Disable bad lane timer.   A timer counts rclks when any enabled lane is not ready, ie.
+          not in the scrambler sync state.  If this timer expires before all enabled lanes can be
+          made ready, then any lane which is not ready is disabled via
+          OCX_QLM(0..5)_CFG.SER_LANE_BAD.
+          This field is not affected by soft or warm reset.
+
+      - name: TRN_ENA
+        bits: 24
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: |
+          Link training will be performed during auto link bringup.   Initialized to 1 during cold
+          reset when OCI_SPD pins indicate speed >6.25 GBAUD. Otherwise, initialized to 0 during a
+          cold reset.
+          This field is not affected by soft or warm reset.
+
+      - name: --
+        bits: 23..20
         access: ---
         reset: 0x0
         typical: --
@@ -1356,7 +1489,7 @@ registers:
 
       - name: SER_LANE_BAD
         bits: 19..16
-        access: ---
+        access: R/W/H
         reset: 0x0
         typical: --
         description: Serdes lanes excluded from use.
@@ -1435,7 +1568,39 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..38
+        bits: 63..54
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: QLM_MANUAL
+        bits: 53..48
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          QLM manual mask, where each bit corresponds to a QLM.  A link
+          will automatically select a QLM unless either:
+              1. QLM_MANUAL[QLM] is set
+              2. QLM is not eligible for the link
+
+          QLM_MANUAL<0> = LNE( 0..3) = QLM0.
+          QLM_MANUAL<1> = LNE( 7..4) = QLM1.
+          QLM_MANUAL<2> = LNE(11..8) = QLM2.
+          QLM_MANUAL<3> = LNE(15..12) = QLM3.
+          QLM_MANUAL<4> = LNE(19..16) = QLM4.
+          QLM_MANUAL<5> = LNE(23..23) = QLM5.
+
+          LINK 0 may not select QLM4, QLM5.
+          LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
+          LINK 2 may not select QLM0, QLM1.
+
+          This field is initialized using the OCI_SPD pins during a cold reset.
+          This field is not affected by soft or warm reset.
+
+      - name: --
+        bits: 47..38
         access: ---
         reset: 0x0
         typical: --

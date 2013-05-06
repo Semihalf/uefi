@@ -389,7 +389,9 @@ registers:
         typical: 0x80
         description: |
           TLP 8B credits for Completion TLPs in the SLI.
-          Legal values are 0x24 to 0x80.
+          Legal values are 0x24 to 0x80. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_CPL
+          fields must not exceed 0x80.
 
       - name: SLI_NP
         bits: 15..8
@@ -398,7 +400,9 @@ registers:
         typical: 0x10
         description: |
           TLP 8B credits for Non-Posted TLPs in the SLI.
-          Legal values are 0x8 to 0x10.
+          Legal values are 0x8 to 0x10. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_NP
+          fields must not exceed 0x10.
 
       - name: SLI_P
         bits: 7..0
@@ -407,7 +411,9 @@ registers:
         typical: 0x80
         description: |
           TLP 8B credits for Posted TLPs in the SLI.
-          Legal values are 0x24 to 0x80.
+          Legal values are 0x24 to 0x80. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_P
+          fields must not exceed 0x80.
 
 
   - name: PEM(0..2)_P2N_BAR0_START
@@ -948,11 +954,25 @@ registers:
     description: Contains enables for ECC RAMs
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..6
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: TLP_NC_ENA
+        bits: 5
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Non-Posted ctl Fifo
+
+      - name: TLP_ND_ENA
+        bits: 4
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Non-Posted data Fifo
 
       - name: TLP_PC_ENA
         bits: 3
@@ -991,11 +1011,25 @@ registers:
       Contains Syndrome Control for ECC RAMs
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: TLP_NC_SYN
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Non-Posted ctl Fifo
+
+      - name: TLP_ND_SYN
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Non-Posted data Fifo
 
       - name: TLP_PC_SYN
         bits: 7..6

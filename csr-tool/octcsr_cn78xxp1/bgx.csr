@@ -7112,10 +7112,17 @@ registers:
         reset: 0xffff
         typical: 0xffff
         description: |
-          Marker counter for SPU. Initialize counter to
-          this value and decrement on SPU heartbeat. Insert
-          data-free markers on last 4 (3, 2, 1, 0). Send SPU
-          2 LSB of this counter.
+          40GBASE-R Transmit Marker Interval Count: Specifies the interval
+          (number of 66-bit BASE-R blocks) at which the LMAC transmit logic
+          inserts 40GBASE-R alignment markers. An internal counter in SMU is
+          initialized to this value, counts down for each BASE-R block
+          transmitted by the LMAC, and wraps back to the initial value from 0.
+          The LMAC transmit logic inserts alignment markers for lanes 0, 1, 2
+          and 3, respectively, in the last four BASE-R blocks before the
+          counter wraps (3, 2, 1, 0). The default value corresponds to an
+          alignment marker period of 16363 blocks (exclusive) per lane, as
+          specified in 802.3ba-2010. The default value should always be used
+          for normal operation.
 
       - name: HG_PAUSE_HGI
         bits: 10..9

@@ -43,7 +43,7 @@ registers:
 
       - name: MPLL_STATUS
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -374,7 +374,7 @@ registers:
 
       - name: RX1_STATUS
         bits: 8
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -391,7 +391,7 @@ registers:
 
       - name: RX0_STATUS
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |

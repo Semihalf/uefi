@@ -3,6 +3,36 @@
 ---
 name: DTX
 registers:
+  - name: DTX_MIO_SEL(0..1)
+    title: DTX MIO Select Register
+    address: 0x11800FE000000 | ((0) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_MIO_ENA(0..1)
+    title: DTX MIO Mask Register
+    address: 0x11800FE000020 | ((0) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_MIO_DAT(0..1)
+    title: DTX MIO Raw Data Register
+    address: 0x11800FE000040 | ((0) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_MIO_CTL
+    title: DTX MIO Control Register
+    address: 0x11800FE000060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_MIO_BCST_RSP
+    title: DTX MIO Control Register
+    address: 0x11800FE000080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_FPA_SEL(0..1)
     title: DTX FPA Select Register
     address: 0x11800FE000000 | ((40) << 15)|a<<3
@@ -33,6 +63,36 @@ registers:
     bus: RSL
     inherits: DTX_AGL_BCST_RSP
 
+  - name: DTX_DFA_SEL(0..1)
+    title: DTX DFA Select Register
+    address: 0x11800FE000000 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_DFA_ENA(0..1)
+    title: DTX DFA Mask Register
+    address: 0x11800FE000020 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_DFA_DAT(0..1)
+    title: DTX DFA Raw Data Register
+    address: 0x11800FE000040 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_DFA_CTL
+    title: DTX DFA Control Register
+    address: 0x11800FE1B8060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_DFA_BCST_RSP
+    title: DTX DFA Control Register
+    address: 0x11800FE1B8080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
   - name: DTX_L2C_TAD(0..0)_SEL(0..1)
     title: DTX L2C_TAD(0..0) Select Register
     address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
@@ -60,6 +120,66 @@ registers:
   - name: DTX_L2C_TAD(0..0)_BCST_RSP
     title: DTX L2C_TAD(0..0) Control Register
     address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
+  - name: DTX_IPD_SEL(0..1)
+    title: DTX IPD Select Register
+    address: 0x11800FE000000 | ((79) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_IPD_ENA(0..1)
+    title: DTX IPD Mask Register
+    address: 0x11800FE000020 | ((79) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_IPD_DAT(0..1)
+    title: DTX IPD Raw Data Register
+    address: 0x11800FE000040 | ((79) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_IPD_CTL
+    title: DTX IPD Control Register
+    address: 0x11800FE278060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_IPD_BCST_RSP
+    title: DTX IPD Control Register
+    address: 0x11800FE278080
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
+  - name: DTX_PKO_SEL(0..1)
+    title: DTX PKO Select Register
+    address: 0x11800FE000000 | ((80) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_PKO_ENA(0..1)
+    title: DTX PKO Mask Register
+    address: 0x11800FE000020 | ((80) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_PKO_DAT(0..1)
+    title: DTX PKO Raw Data Register
+    address: 0x11800FE000040 | ((80) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_PKO_CTL
+    title: DTX PKO Control Register
+    address: 0x11800FE280060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_PKO_BCST_RSP
+    title: DTX PKO Control Register
+    address: 0x11800FE280080
     bus: RSL
     inherits: DTX_AGL_BCST_RSP
 
@@ -210,6 +330,36 @@ registers:
   - name: DTX_LMC(0..0)_BCST_RSP
     title: DTX LMC(0..0) Control Register
     address: 0x11800FE000080 + ((0x88 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_AGL_BCST_RSP
+
+  - name: DTX_PIP_SEL(0..1)
+    title: DTX PIP Select Register
+    address: 0x11800FE000000 | ((160) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_SEL(0..1)
+
+  - name: DTX_PIP_ENA(0..1)
+    title: DTX PIP Mask Register
+    address: 0x11800FE000020 | ((160) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_ENA(0..1)
+
+  - name: DTX_PIP_DAT(0..1)
+    title: DTX PIP Raw Data Register
+    address: 0x11800FE000040 | ((160) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_BROADCAST_DAT(0..1)
+
+  - name: DTX_PIP_CTL
+    title: DTX PIP Control Register
+    address: 0x11800FE500060
+    bus: RSL
+    inherits: DTX_BROADCAST_CTL
+
+  - name: DTX_PIP_BCST_RSP
+    title: DTX PIP Control Register
+    address: 0x11800FE500080
     bus: RSL
     inherits: DTX_AGL_BCST_RSP
 

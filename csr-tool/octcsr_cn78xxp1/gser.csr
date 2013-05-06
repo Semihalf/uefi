@@ -467,8 +467,8 @@ registers:
 
       - name: COAST
         bits: 3..0
-        access: R/W
-        reset: 0x0
+        access: R/W/H
+        reset: 0xf
         typical: 0x0
         description: |
           For links that are not in PCIE or BGX mode (including all OCI links),
@@ -538,8 +538,8 @@ registers:
       - name: EIEDE
         bits: 3..0
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0xf
+        typical: 0xf
         description: |
           For links that are not in PCIE mode (including all OCI links),
           this bit ties to the mac_pcs_rx_eie_det_en[3:0] pins of the RAW PCS.
@@ -553,17 +553,26 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
+      - name: CDRLOCK
+        bits: 11..8
+        access: RO/H
+        reset: 0x0
+        typical: 0xf
+        description: |
+          Lane X CDR lock time has been met after the detection of the Electrical
+          Idle Exit condition.
+
       - name: EIESTS
         bits: 7..4
-        access: RO
+        access: RO/H
         reset: 0x0
-        typical: 0x0
+        typical: 0xf
         description: |
           Status from lane X's RX indicating the detection of a electical IDLE exit
           condition.  Note that this is a dynamic indication and valid when the
@@ -571,9 +580,9 @@ registers:
 
       - name: EIELTCH
         bits: 3..0
-        access: RO
+        access: RO/H
         reset: 0x0
-        typical: 0x0
+        typical: 0xf
         description: |
           Status from lane X's RX indicating the detection of a electical IDLE exit
           condition.  Note that this is a latched indication that electrical IDLE
@@ -652,6 +661,7 @@ registers:
         description: |
           When in SW Base-R Training Mode, this bit is used to determine how to
           set the preset bit. When preset is set, RX training is disabled.
+          To perform a preset, set this bit prior to setting training enable.
           Note that it is illegal to set both the preset and initialize bits at the same time.
            1: preset is set.  A single CU message is sent to the link partner
            0: preset is clear
@@ -665,6 +675,8 @@ registers:
           When in SW Base-R Training Mode, this bit is used to determine how to
           set the initialize bit the the Coefficient Update Message at the start
           of RX training.
+          To perform a initialize, set this bit prior to setting training enable.
+          Note that it is illegal to set both the preset and initialize bits at the same time.
            1: training starts with initialize set
            0: training starts with initialize clear
 

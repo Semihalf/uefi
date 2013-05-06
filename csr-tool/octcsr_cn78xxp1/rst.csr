@@ -506,4 +506,46 @@ registers:
           RST_CTL0/1[RST_DRV] = 1), this controls the output value on PERST*_L.
 
 
+  - name: RST_PP_POWER
+    title: RST PP Power Gating Control
+    address: 0x1180006001700
+    bus: RSL
+    description: These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).
+    fields:
+      - name: --
+        bits: 63..48
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: GATE
+        bits: 47..0
+        access: R/W
+        reset: all-ones
+        typical: 0x0
+        description: When set, corresponding PP has voltage removed to save power.  
+
+
+  - name: RST_POWER_DBG
+    title: RST PP Power Debug Control
+    address: 0x1180006001708
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: STR
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Reserved. INTERNAL: Internal power driver strength. Resets only on Cold Reset.
+
+
 

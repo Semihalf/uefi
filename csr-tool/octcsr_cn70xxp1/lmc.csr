@@ -1370,8 +1370,15 @@ registers:
       }
       }
     fields:
-      - name: BG2_ENABLE
+      - name: --
         bits: 63
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BG2_ENABLE
+        bits: 62
         access: R/W
         reset: 1
         typical: --
@@ -1380,20 +1387,13 @@ registers:
           Typically only cleared for DDR4 x16 devices, where there is no BG2 pin on the device.
 
       - name: MODE_X4DEV
-        bits: 62
+        bits: 61
         access: R/W
         reset: 0
         typical: --
         description: |
           DDR x4 device mode.  Set when using DIMMs with x4 devices or if using
           embedded x4 devices.
-
-      - name: MODEDDR4
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: --
-        description: DDR4 mode.
 
       - name: MODE32B
         bits: 60
@@ -3324,14 +3324,14 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..51
+        bits: 63..50
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DSK_DBG_RD_COMPLETE
-        bits: 50
+        bits: 49
         access: RO
         reset: 0
         typical: --
@@ -3340,7 +3340,7 @@ registers:
           a read operation is started, then set to 1 when operation is complete.
 
       - name: DSK_DBG_RD_DATA
-        bits: 49..40
+        bits: 48..39
         access: RO
         reset: 0x0
         typical: --
@@ -3349,7 +3349,7 @@ registers:
           LMCX_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set.
 
       - name: DSK_DBG_RD_START
-        bits: 39
+        bits: 38
         access: WO/H
         reset: 0
         typical: 0
@@ -3358,7 +3358,7 @@ registers:
           clear to 0.  Write to 1 will also clear the complete bit.
 
       - name: DSK_DBG_CLK_SCALER
-        bits: 38..37
+        bits: 37..36
         access: R/W
         reset: 0x1
         typical: 0x1
@@ -3370,7 +3370,7 @@ registers:
           3: Deskew read clock toggles every 4 DCLKs
 
       - name: DSK_DBG_OFFSET
-        bits: 36..35
+        bits: 35..34
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -3379,7 +3379,7 @@ registers:
           to LMC from DDR PHY.
 
       - name: DSK_DBG_NUM_BITS_SEL
-        bits: 34
+        bits: 33
         access: R/W
         reset: 1
         typical: 1
@@ -3389,7 +3389,7 @@ registers:
           1: 9 bits ber byte lane, including DBI
 
       - name: DSK_DBG_BYTE_SEL
-        bits: 33..30
+        bits: 32..29
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -3398,7 +3398,7 @@ registers:
           to byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7.
 
       - name: DSK_DBG_BIT_SEL
-        bits: 29..26
+        bits: 28..25
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -3406,21 +3406,21 @@ registers:
           INTERNAL: Deskew debug bit select for dsk read operation.
 
       - name: DBI_MODE_ENA
-        bits: 25
+        bits: 24
         access: R/W
         reset: 0
         typical: --
         description: Enable DBI mode for PHY.
 
       - name: DDR_ERROR_N_ENA
-        bits: 24
+        bits: 23
         access: R/W
         reset: 0
         typical: 0
         description: Enable error_alert_n signal for PHY.
 
       - name: REF_PIN_ON
-        bits: 23
+        bits: 22
         access: R/W
         reset: 0
         typical: 0
@@ -3428,7 +3428,7 @@ registers:
           INTERNAL: Voltage reference pin enabled.
 
       - name: DAC_ON
-        bits: 22
+        bits: 21
         access: R/W
         reset: 0
         typical: 0
@@ -3436,53 +3436,46 @@ registers:
           INTERNAL: PHY DAC on.
 
       - name: INT_PAD_LOOPBACK_ENA
-        bits: 21
+        bits: 20
         access: R/W
         reset: 0
         typical: --
         description: DDR pad loopback enable.
 
       - name: INT_PHY_LOOPBACK_ENA
-        bits: 20
+        bits: 19
         access: R/W
         reset: 0
         typical: --
         description: Internal PHY loopback enable.
 
       - name: PHY_DSK_RESET
-        bits: 19
-        access: R/W
-        reset: 0
-        typical: --
-        description: Deskew bypass.
-
-      - name: PHY_DSK_BYP
         bits: 18
         access: R/W
         reset: 0
         typical: --
         description: Deskew bypass.
 
-      - name: PHY_PWR_SAVE_DISABLE
+      - name: PHY_DSK_BYP
         bits: 17
+        access: R/W
+        reset: 0
+        typical: --
+        description: Deskew bypass.
+
+      - name: PHY_PWR_SAVE_DISABLE
+        bits: 16
         access: R/W
         reset: 0
         typical: --
         description: DDR PHY power save disable.
 
       - name: TEN
-        bits: 16
-        access: R/W
-        reset: 0
-        typical: --
-        description: DDR PHY test enable pin.
-
-      - name: PHY_DCOK
         bits: 15
         access: R/W
         reset: 0
         typical: --
-        description: Set to power up PHY logic after setting DDR4 mode.
+        description: DDR PHY test enable pin.
 
       - name: RX_ALWAYS_ON
         bits: 14
@@ -3914,11 +3907,25 @@ registers:
       cycles) to allow PLL clock alignment.
     fields:
       - name: --
-        bits: 63..29
+        bits: 63..31
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PHY_DCOK
+        bits: 30
+        access: R/W
+        reset: 0
+        typical: 1
+        description: "Set to power up PHY logic after setting LMC#_DDR_PLL_CTL[DDR4_MODE]."
+
+      - name: DDR4_MODE
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: --
+        description: DDR4 mode select (0 for DDR3).
 
       - name: PLL_FBSLIP
         bits: 28

@@ -685,38 +685,40 @@ registers:
     title: MIO Boot Compensation Register
     address: 0x11800000000B8
     bus: RSL
-    description: This register sets the termination of boot-bus output pins.
+    description: |
+      This register sets the termination of boot-bus output pins.
+      Reset value is as follows:
+      no pullups,                               PCTL=6, NCTL=6 (50 ohm termination)
+      pullup on boot_ad[9]                      PCTL=7, NCTL=7 (40 ohm termination)
+      pullup on boot_ad[10].                    PCTL=4, NCTL=4 (75 ohm termination)
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 11..6
+        bits: 10..8
         access: R/W
         reset: --
         typical: --
-        description: |
-          Boot bus PCTL. This controls the pull-up drive strength of the boot-bus drivers.
-          0x26 = No pullups (25ohm termination)
-          0x13 = Pullup on BOOT_AD<9> (50ohm termination)
-          0xF = Pullup on BOOT_AD<10> (65ohm termination)
-          0xF = Pullup on BOOT_AD<10:9> (65ohm termination)
+        description: Boot bus PCTL
+
+      - name: --
+        bits: 7..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
         reset: --
         typical: --
-        description: |
-          Boot bus NCTL. This controls the pull-down drive strength of the boot-bus drivers.
-          0x1E = No pullups (25ohm termination)
-          0xF = Pullup on BOOT_AD<9> (50ohm termination)
-          0xC = Pullup on BOOT_AD<10> (65ohm termination)
-          0xC = Pullup on BOOT_AD<10:9> (65ohm termination)
+        description: Boot bus NCTL
 
 
   - name: MIO_BOOT_PIN_DEFS

@@ -408,25 +408,40 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCTL
-        bits: 11..6
+        bits: 10..8
         access: R/W
-        reset: 0x13
+        reset: 0x6
         typical: --
-        description: GPIO bus driver PCTL.
+        description: |
+          GPIO bus driver PCTL. Suggested values:
+          0x4 = 75 ohm.
+          0x6 = 50 ohm.
+          0x7 = 40 ohm.
+
+      - name: --
+        bits: 7..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: NCTL
-        bits: 5..0
+        bits: 2..0
         access: R/W
-        reset: 0xf
+        reset: 0x6
         typical: --
-        description: GPIO bus driver NCTL.
+        description: |
+          GPIO bus driver NCTL. Suggested values:
+          0x4 = 75 ohm.
+          0x6 = 50 ohm.
+          0x7 = 40 ohm.
 
 
 
