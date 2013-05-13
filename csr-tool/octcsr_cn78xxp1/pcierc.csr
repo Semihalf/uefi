@@ -10,7 +10,7 @@ registers:
     fields:
       - name: DEVID
         bits: 31..16
-        access: R/W
+        access: RO/WRSL
         reset: 0x95
         typical: 0x95
         description: |
@@ -19,7 +19,7 @@ registers:
 
       - name: VENDID
         bits: 15..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x177d
         typical: 0x177d
         description: |
@@ -227,7 +227,7 @@ registers:
     fields:
       - name: BCC
         bits: 31..24
-        access: R/W
+        access: RO/WRSL
         reset: 0xb
         typical: 0xb
         description: |
@@ -236,7 +236,7 @@ registers:
 
       - name: SC
         bits: 23..16
-        access: R/W
+        access: RO/WRSL
         reset: 0x30
         typical: 0x30
         description: |
@@ -245,7 +245,7 @@ registers:
 
       - name: PI
         bits: 15..8
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -254,7 +254,7 @@ registers:
 
       - name: RID
         bits: 7..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -280,7 +280,7 @@ registers:
 
       - name: MFD
         bits: 23
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -508,7 +508,7 @@ registers:
 
       - name: IO32A
         bits: 0
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -603,7 +603,7 @@ registers:
 
       - name: MEM64A
         bits: 0
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -693,7 +693,7 @@ registers:
 
       - name: CP
         bits: 7..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x40
         typical: 0x40
         description: |
@@ -835,7 +835,7 @@ registers:
 
       - name: INTA
         bits: 15..8
-        access: R/W
+        access: RO/WRSL
         reset: 0x1
         typical: 0x1
         description: |
@@ -865,7 +865,7 @@ registers:
     fields:
       - name: PMES
         bits: 31..27
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -883,7 +883,7 @@ registers:
 
       - name: D2S
         bits: 26
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -892,7 +892,7 @@ registers:
 
       - name: D1S
         bits: 25
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -901,7 +901,7 @@ registers:
 
       - name: AUXC
         bits: 24..22
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -910,7 +910,7 @@ registers:
 
       - name: DSI
         bits: 21
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -933,7 +933,7 @@ registers:
 
       - name: PMSV
         bits: 18..16
-        access: R/W
+        access: RO/WRSL
         reset: 0x3
         typical: 0x3
         description: |
@@ -942,7 +942,7 @@ registers:
 
       - name: NCP
         bits: 15..8
-        access: R/W
+        access: RO/WRSL
         reset: 0x50
         typical: 0x50
         description: |
@@ -1035,7 +1035,7 @@ registers:
 
       - name: NSR
         bits: 3
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1090,7 +1090,7 @@ registers:
 
       - name: M64
         bits: 23
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -1110,7 +1110,7 @@ registers:
 
       - name: MMC
         bits: 19..17
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -1131,7 +1131,7 @@ registers:
 
       - name: NCP
         bits: 15..8
-        access: R/W
+        access: RO/WRSL
         reset: 0x70
         typical: 0x70
         description: |
@@ -1223,7 +1223,7 @@ registers:
 
       - name: IMN
         bits: 29..25
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -1233,7 +1233,7 @@ registers:
 
       - name: SI
         bits: 24
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1259,7 +1259,7 @@ registers:
 
       - name: NCP
         bits: 15..8
-        access: R/W/H
+        access: RO/WRSL
         reset: 0xb0
         typical: 0xb0
         description: |
@@ -1315,7 +1315,7 @@ registers:
 
       - name: RBER
         bits: 15
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -1345,7 +1345,7 @@ registers:
 
       - name: EL1AL
         bits: 11..9
-        access: R/W
+        access: RO
         reset: 0x0
         typical: 0x0
         description: |
@@ -1354,7 +1354,7 @@ registers:
 
       - name: EL0AL
         bits: 8..6
-        access: R/W
+        access: RO
         reset: 0x0
         typical: 0x0
         description: |
@@ -1363,7 +1363,7 @@ registers:
 
       - name: ETFS
         bits: 5
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -1374,7 +1374,7 @@ registers:
 
       - name: PFS
         bits: 4..3
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -1386,7 +1386,7 @@ registers:
 
       - name: MPSS
         bits: 2..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x1
         typical: 0x1
         description: |
@@ -1655,7 +1655,7 @@ registers:
 
       - name: CPM
         bits: 18
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1666,7 +1666,7 @@ registers:
 
       - name: L1EL
         bits: 17..15
-        access: R/W
+        access: RO/WRSL
         reset: 0x6
         typical: 0x6
         description: |
@@ -1677,7 +1677,7 @@ registers:
 
       - name: L0EL
         bits: 14..12
-        access: R/W
+        access: RO/WRSL
         reset: 0x6
         typical: 0x6
         description: |
@@ -1688,7 +1688,7 @@ registers:
 
       - name: ASLPMS
         bits: 11..10
-        access: R/W
+        access: RO/WRSL
         reset: 0x3
         typical: 0x3
         description: |
@@ -1699,7 +1699,7 @@ registers:
 
       - name: MLW
         bits: 9..4
-        access: R/W/H
+        access: RO/WRSL/H
         reset: --
         typical: --
         description: |
@@ -1709,7 +1709,7 @@ registers:
 
       - name: MLS
         bits: 3..0
-        access: R/W/H
+        access: RO/WRSL/H
         reset: --
         typical: --
         description: |
@@ -1770,7 +1770,7 @@ registers:
 
       - name: SCC
         bits: 28
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 0
         description: |
@@ -1848,7 +1848,7 @@ registers:
 
       - name: HAWD
         bits: 9
-        access: R/W
+        access: RO
         reset: 0
         typical: 0
         description: |
@@ -1895,7 +1895,7 @@ registers:
 
       - name: RCB
         bits: 3
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -1927,7 +1927,7 @@ registers:
     fields:
       - name: PS_NUM
         bits: 31..19
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -1936,7 +1936,7 @@ registers:
 
       - name: NCCS
         bits: 18
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1945,7 +1945,7 @@ registers:
 
       - name: EMIP
         bits: 17
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1954,21 +1954,21 @@ registers:
 
       - name: SP_LS
         bits: 16..15
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: "Slot Power Limit Scale, writable through PEM#_CFG_WR."
 
       - name: SP_LV
         bits: 14..7
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: "Slot Power Limit Value, writable through PEM#_CFG_WR."
 
       - name: HP_C
         bits: 6
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1977,7 +1977,7 @@ registers:
 
       - name: HP_S
         bits: 5
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1986,7 +1986,7 @@ registers:
 
       - name: PIP
         bits: 4
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -1995,7 +1995,7 @@ registers:
 
       - name: AIP
         bits: 3
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2004,7 +2004,7 @@ registers:
 
       - name: MRLSP
         bits: 2
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2013,7 +2013,7 @@ registers:
 
       - name: PCP
         bits: 1
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2022,7 +2022,7 @@ registers:
 
       - name: ABP
         bits: 0
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2516,7 +2516,7 @@ registers:
 
       - name: ARI
         bits: 5
-        access: RO
+        access: R/W
         reset: 0
         typical: 0
         description: Alternate Routing ID Forwarding Supported
@@ -2615,7 +2615,7 @@ registers:
 
       - name: LER
         bits: 21
-        access: R/W
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Link Equalization Request
@@ -2723,7 +2723,7 @@ registers:
 
       - name: SDE
         bits: 6
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2831,7 +2831,7 @@ registers:
     fields:
       - name: MSIXEN
         bits: 31
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2840,7 +2840,7 @@ registers:
 
       - name: FUNM
         bits: 30
-        access: R/W
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
@@ -2861,7 +2861,7 @@ registers:
 
       - name: MSIXTS
         bits: 26..16
-        access: RO/H
+        access: RO/WRSL/H
         reset: 0x40
         typical: 0x40
         description: |
@@ -2870,7 +2870,7 @@ registers:
 
       - name: NCP
         bits: 15..8
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -2895,7 +2895,7 @@ registers:
     fields:
       - name: MSIXTOFFS
         bits: 31..3
-        access: RO/H
+        access: RO/WRSL/H
         reset: 0x6000
         typical: 0x6000
         description: |
@@ -2907,7 +2907,7 @@ registers:
 
       - name: MSIXTBIR
         bits: 2..0
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -2929,7 +2929,7 @@ registers:
     fields:
       - name: MSIXPOFFS
         bits: 31..3
-        access: RO/H
+        access: RO/WRSL/H
         reset: 0x7000
         typical: 0x7000
         description: |
@@ -2941,7 +2941,7 @@ registers:
 
       - name: MSIXPBIR
         bits: 2..0
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -3750,7 +3750,7 @@ registers:
     fields:
       - name: AEIMN
         bits: 31..27
-        access: R/W
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -3937,7 +3937,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 1 Downstream Component Receiver Preset Hint
+          "Lane 1 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -3947,7 +3947,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 1 Downstream Component Transmitter Preset
+          "Lane 1 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -3964,7 +3964,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 1 Upstream Component Receiver Preset Hint
+          "Lane 1 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -3974,7 +3974,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 1 Upstream Component Transmitter Preset
+          "Lane 1 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -3991,7 +3991,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 0 Downstream Component Receiver Preset Hint
+          "Lane 0 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4001,7 +4001,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 0 Downstream Component Transmitter Preset
+          "Lane 0 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4018,7 +4018,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 0 Upstream Component Receiver Preset Hint
+          "Lane 0 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4028,7 +4028,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 0 Upstream Component Transmitter Preset
+          "Lane 0 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4054,7 +4054,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 3 Downstream Component Receiver Preset Hint
+          "Lane 3 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4064,7 +4064,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 3 Downstream Component Transmitter Preset
+          "Lane 3 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4081,7 +4081,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 3 Upstream Component Receiver Preset Hint
+          "Lane 3 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4091,7 +4091,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 3 Upstream Component Transmitter Preset
+          "Lane 3 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4108,7 +4108,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 2 Downstream Component Receiver Preset Hint
+          "Lane 2 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4118,7 +4118,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 2 Downstream Component Transmitter Preset
+          "Lane 2 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4135,7 +4135,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 2 Upstream Component Receiver Preset Hint
+          "Lane 2 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4145,7 +4145,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 2 Upstream Component Transmitter Preset
+          "Lane 2 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4171,7 +4171,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 5 Downstream Component Receiver Preset Hint
+          "Lane 5 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4181,7 +4181,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 5 Downstream Component Transmitter Preset
+          "Lane 5 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4198,7 +4198,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 5 Upstream Component Receiver Preset Hint
+          "Lane 5 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4208,7 +4208,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 5 Upstream Component Transmitter Preset
+          "Lane 5 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4225,7 +4225,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 4 Downstream Component Receiver Preset Hint
+          "Lane 4 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4235,7 +4235,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 4 Downstream Component Transmitter Preset
+          "Lane 4 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4252,7 +4252,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 4 Upstream Component Receiver Preset Hint
+          "Lane 4 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4262,7 +4262,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 4 Upstream Component Transmitter Preset
+          "Lane 4 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4288,7 +4288,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 7 Downstream Component Receiver Preset Hint
+          "Lane 7 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4298,7 +4298,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 7 Downstream Component Transmitter Preset
+          "Lane 7 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4315,7 +4315,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 7 Upstream Component Receiver Preset Hint
+          "Lane 7 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4325,7 +4325,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 7 Upstream Component Transmitter Preset
+          "Lane 7 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4342,7 +4342,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 6 Downstream Component Receiver Preset Hint
+          "Lane 6 Upstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4352,7 +4352,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 6 Downstream Component Transmitter Preset
+          "Lane 6 Upstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4369,7 +4369,7 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          "Lane 6 Upstream Component Receiver Preset Hint
+          "Lane 6 Downstream Component Receiver Preset Hint
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4379,7 +4379,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          "Lane 6 Upstream Component Transmitter Preset
+          "Lane 6 Downstream Component Transmitter Preset
           Writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -4458,7 +4458,7 @@ registers:
     fields:
       - name: LPEC
         bits: 31..24
-        access: RO
+        access: R/W
         reset: 0x7
         typical: 0x7
         description: |
@@ -4522,7 +4522,7 @@ registers:
 
       - name: FORCE_LINK
         bits: 15
-        access: R/W/H
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -4766,7 +4766,7 @@ registers:
 
       - name: OMR
         bits: 0
-        access: R/W
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -5381,7 +5381,7 @@ registers:
 
       - name: TYPE_ORDERING
         bits: 30
-        access: R/W
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
@@ -5404,7 +5404,7 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: R/W
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
@@ -5427,7 +5427,7 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: R/W
+        access: RO/WRSL
         reset: 0x7f
         typical: 0x7f
         description: |
@@ -5439,7 +5439,7 @@ registers:
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x100
         typical: 0x100
         description: |
@@ -5466,7 +5466,7 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: R/W
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
@@ -5489,7 +5489,7 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: R/W
+        access: RO/WRSL
         reset: 0x40
         typical: 0x40
         description: |
@@ -5501,7 +5501,7 @@ registers:
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x40
         typical: 0x40
         description: |
@@ -5528,7 +5528,7 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: R/W
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
@@ -5551,7 +5551,7 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: R/W
+        access: RO/WRSL
         reset: 0x7f
         typical: 0x7f
         description: |
@@ -5563,7 +5563,7 @@ registers:
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: R/W
+        access: RO/WRSL
         reset: 0x1f4
         typical: 0x1f4
         description: |
@@ -5897,9 +5897,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Pipe Loopback Enable
-          Placeholder, currently not configured......
+        description: Pipe Loopback Enable
 
       - name: --
         bits: 30..0

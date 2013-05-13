@@ -42704,18 +42704,6 @@ local csr_db = {
                 {name = "SWAP", start = 0, stop = 0},
             }
         },
-        DTX_BROADCAST_DATX = {
-            name = "DTX_BROADCAST_DAT#",
-            type = "RSL",
-            width = 8,
-            address = 0x11800fe7f0040,
-            range1 = {0,1},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "RAW", start = 0, stop = 35},
-            }
-        },
         DTX_BROADCAST_ENAX = {
             name = "DTX_BROADCAST_ENA#",
             type = "RSL",
@@ -42736,8 +42724,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_CBCX_BCST_RSP = {
@@ -42805,8 +42793,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_MCIX_BCST_RSP = {
@@ -42874,8 +42862,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_TADX_BCST_RSP = {
@@ -42943,8 +42931,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         FPA_ADDR_RANGE_ERROR = {
@@ -46244,7 +46232,9 @@ local csr_db = {
             width = 8,
             address = 0x1180080800000,
             fields = {
-                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "OCLA_QOS", start = 29, stop = 31},
+                {name = "RESERVED_28_28", start = 28, stop = 28},
                 {name = "DISSTGL2I", start = 27, stop = 27},
                 {name = "L2DFSBE", start = 26, stop = 26},
                 {name = "L2DFDBE", start = 25, stop = 25},
@@ -46424,42 +46414,6 @@ local csr_db = {
                 {name = "COUNT", start = 0, stop = 63},
             }
         },
-        L2C_TADX_ECC0 = {
-            name = "L2C_TAD#_ECC0",
-            type = "RSL",
-            width = 8,
-            address = 0x1180080a00018,
-            range1 = {0,7},
-            range1_inc = 0x40000,
-            fields = {
-                {name = "QW7ECC", start = 56, stop = 63},
-                {name = "QW6ECC", start = 48, stop = 55},
-                {name = "QW5ECC", start = 40, stop = 47},
-                {name = "QW4ECC", start = 32, stop = 39},
-                {name = "QW3ECC", start = 24, stop = 31},
-                {name = "QW2ECC", start = 16, stop = 23},
-                {name = "QW1ECC", start = 8, stop = 15},
-                {name = "QW0ECC", start = 0, stop = 7},
-            }
-        },
-        L2C_TADX_ECC1 = {
-            name = "L2C_TAD#_ECC1",
-            type = "RSL",
-            width = 8,
-            address = 0x1180080a00020,
-            range1 = {0,7},
-            range1_inc = 0x40000,
-            fields = {
-                {name = "QW15ECC", start = 56, stop = 63},
-                {name = "QW14ECC", start = 48, stop = 55},
-                {name = "QW13ECC", start = 40, stop = 47},
-                {name = "QW12ECC", start = 32, stop = 39},
-                {name = "QW11ECC", start = 24, stop = 31},
-                {name = "QW10ECC", start = 16, stop = 23},
-                {name = "QW9ECC", start = 8, stop = 15},
-                {name = "QW8ECC", start = 0, stop = 7},
-            }
-        },
         L2C_TADX_ERR = {
             name = "L2C_TAD#_ERR",
             type = "RSL",
@@ -46545,7 +46499,8 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x40000,
             fields = {
-                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "SBLKDTY", start = 60, stop = 63},
+                {name = "RESERVED_57_59", start = 57, stop = 59},
                 {name = "BUSINFO", start = 48, stop = 56},
                 {name = "RESERVED_47_47", start = 47, stop = 47},
                 {name = "ECC", start = 40, stop = 46},
@@ -46958,12 +46913,16 @@ local csr_db = {
             range2 = {0,2},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
-                {name = "TAIL", start = 32, stop = 39},
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "HEAD", start = 16, stop = 23},
-                {name = "RESERVED_9_15", start = 9, stop = 15},
-                {name = "LABS", start = 0, stop = 8},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "TAIL", start = 48, stop = 55},
+                {name = "RESERVED_44_47", start = 44, stop = 47},
+                {name = "HEAD_PROC", start = 36, stop = 43},
+                {name = "RESERVED_32_35", start = 32, stop = 35},
+                {name = "HEAD", start = 24, stop = 31},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "LABS_PROC", start = 12, stop = 20},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "LABS_RX", start = 0, stop = 8},
             }
         },
         LAPX_RESP_STATE = {
@@ -47243,7 +47202,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "RCLK_CHAR_MODE", start = 50, stop = 50},
                 {name = "DDR__PTUNE", start = 45, stop = 49},
                 {name = "DDR__NTUNE", start = 40, stop = 44},
                 {name = "PTUNE_OFFSET", start = 36, stop = 39},
@@ -47535,7 +47495,9 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "READ_ENA_BPRCH", start = 19, stop = 19},
+                {name = "READ_ENA_FPRCH", start = 18, stop = 18},
                 {name = "SLOT_CTL_RESET_FORCE", start = 17, stop = 17},
                 {name = "REF_INT_LSBS", start = 8, stop = 16},
                 {name = "DRIVE_ENA_BPRCH", start = 7, stop = 7},
@@ -47861,7 +47823,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "PHY_RESET", start = 50, stop = 50},
                 {name = "DSK_DBG_RD_COMPLETE", start = 49, stop = 49},
                 {name = "DSK_DBG_RD_DATA", start = 39, stop = 48},
                 {name = "DSK_DBG_RD_START", start = 38, stop = 38},
@@ -53309,7 +53272,7 @@ local csr_db = {
             name = "PCIEEPVF#_CFG040",
             type = "PCICONFIGEP",
             width = 4,
-            address = 0x5000000007a,
+            address = 0x500000000a0,
             range1 = {0,3},
             range1_inc = 0x100000000,
             fields = {
@@ -60094,7 +60057,8 @@ local csr_db = {
             width = 8,
             address = 0x1180070000000,
             fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
+                {name = "RESERVED_7_63", start = 7, stop = 63},
+                {name = "WC_DIS", start = 6, stop = 6},
                 {name = "MAX_READ", start = 2, stop = 5},
                 {name = "STORE_LE", start = 1, stop = 1},
                 {name = "RESET", start = 0, stop = 0},
@@ -61004,7 +60968,9 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0x10,
             fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "PO_INT", start = 63, stop = 63},
+                {name = "PI_INT", start = 62, stop = 62},
+                {name = "RESERVED_54_61", start = 54, stop = 61},
                 {name = "TIMER", start = 32, stop = 53},
                 {name = "CNT", start = 0, stop = 31},
             }
@@ -61017,7 +60983,11 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0x10,
             fields = {
-                {name = "RESERVED_27_63", start = 27, stop = 63},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "VF_NUM", start = 32, stop = 38},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "MAC_NUM", start = 29, stop = 30},
+                {name = "RESERVED_27_28", start = 27, stop = 28},
                 {name = "RDSIZE", start = 25, stop = 26},
                 {name = "IS_64B", start = 24, stop = 24},
                 {name = "RST", start = 23, stop = 23},
@@ -61215,7 +61185,11 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0x10,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "PO_INT", start = 63, stop = 63},
+                {name = "PI_INT", start = 62, stop = 62},
+                {name = "RESERVED_49_61", start = 49, stop = 61},
+                {name = "CINT_ENB", start = 48, stop = 48},
+                {name = "WMARK", start = 32, stop = 47},
                 {name = "CNT", start = 0, stop = 31},
             }
         },
@@ -61227,6 +61201,15 @@ local csr_db = {
             fields = {
                 {name = "WR_CNT", start = 32, stop = 63},
                 {name = "RD_CNT", start = 0, stop = 31},
+            }
+        },
+        SLI_PKT_IN_INT = {
+            name = "SLI_PKT_IN_INT",
+            type = "PEXP_NCB",
+            width = 8,
+            address = 0x11f0000011150,
+            fields = {
+                {name = "RING", start = 0, stop = 63},
             }
         },
         SLI_PKT_INSTR_ENB = {
@@ -61242,9 +61225,9 @@ local csr_db = {
             name = "SLI_PKT_INT",
             type = "PEXP_NCB",
             width = 8,
-            address = 0x11f0000011340,
+            address = 0x11f0000011160,
             fields = {
-                {name = "RINGI", start = 0, stop = 63},
+                {name = "RING", start = 0, stop = 63},
             }
         },
         SLI_PKT_MACX_RINFO = {
@@ -61305,7 +61288,22 @@ local csr_db = {
             width = 8,
             address = 0x11f0000011120,
             fields = {
-                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "MSID_FS", start = 42, stop = 43},
+                {name = "MSIA_FS", start = 40, stop = 41},
+                {name = "MSI_ECC", start = 39, stop = 39},
+                {name = "POSI_FS", start = 37, stop = 38},
+                {name = "POSI_ECC", start = 36, stop = 36},
+                {name = "POS_FS", start = 34, stop = 35},
+                {name = "POS_ECC", start = 33, stop = 33},
+                {name = "PINM_FS", start = 31, stop = 32},
+                {name = "PINM_ECC", start = 30, stop = 30},
+                {name = "PIND_FS", start = 28, stop = 29},
+                {name = "PIND_ECC", start = 27, stop = 27},
+                {name = "POINT_FS", start = 25, stop = 26},
+                {name = "POINT_ECC", start = 24, stop = 24},
+                {name = "SLIST_FS", start = 22, stop = 23},
+                {name = "SLIST_ECC", start = 21, stop = 21},
                 {name = "POP1_FS", start = 19, stop = 20},
                 {name = "POP1_ECC", start = 18, stop = 18},
                 {name = "POP0_FS", start = 16, stop = 17},
@@ -62463,8 +62461,8 @@ local csr_db = {
             width = 8,
             address = 0x16700000020c0,
             fields = {
-                {name = "RESERVED_12_63", start = 12, stop = 63},
-                {name = "FREE_CNT", start = 0, stop = 11},
+                {name = "RESERVED_11_63", start = 11, stop = 63},
+                {name = "FREE_CNT", start = 0, stop = 10},
             }
         },
         SSO_TIAQX_STATUS = {
@@ -62864,26 +62862,15 @@ local csr_db = {
                 {name = "MAXSLOTSEN", start = 0, stop = 7},
             }
         },
-        UAHCX_CRCR_H = {
-            name = "UAHC#_CRCR_H",
+        UAHCX_CRCR = {
+            name = "UAHC#_CRCR",
             type = "NCB",
-            width = 4,
-            address = 0x168000000003c,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "CMD_RING_PTR_H", start = 0, stop = 31},
-            }
-        },
-        UAHCX_CRCR_L = {
-            name = "UAHC#_CRCR_L",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x1680000000038,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "CMD_RING_PTR_L", start = 6, stop = 31},
+                {name = "CMD_RING_PTR", start = 6, stop = 63},
                 {name = "RESERVED_4_5", start = 4, stop = 5},
                 {name = "CRR", start = 3, stop = 3},
                 {name = "CA", start = 2, stop = 2},
@@ -62918,26 +62905,15 @@ local csr_db = {
                 {name = "RESERVED_0_1", start = 0, stop = 1},
             }
         },
-        UAHCX_DCBAAP_H = {
-            name = "UAHC#_DCBAAP_H",
+        UAHCX_DCBAAP = {
+            name = "UAHC#_DCBAAP",
             type = "NCB",
-            width = 4,
-            address = 0x1680000000054,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "DCBAAP_H", start = 0, stop = 31},
-            }
-        },
-        UAHCX_DCBAAP_L = {
-            name = "UAHC#_DCBAAP_L",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x1680000000050,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "DCBAAP_L", start = 6, stop = 31},
+                {name = "DCBAAP", start = 6, stop = 63},
                 {name = "RESERVED_0_5", start = 0, stop = 5},
             }
         },
@@ -62953,58 +62929,32 @@ local csr_db = {
                 {name = "N", start = 0, stop = 15},
             }
         },
-        UAHCX_ERDP_HX = {
-            name = "UAHC#_ERDP_H#",
+        UAHCX_ERDPX = {
+            name = "UAHC#_ERDP#",
             type = "NCB",
-            width = 4,
-            address = 0x168000000047c,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            range2 = {0,0},
-            range2_inc = 0x20,
-            fields = {
-                {name = "ERDP_H", start = 0, stop = 31},
-            }
-        },
-        UAHCX_ERDP_LX = {
-            name = "UAHC#_ERDP_L#",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x1680000000478,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             range2 = {0,0},
             range2_inc = 0x20,
             fields = {
-                {name = "ERDP_L", start = 4, stop = 31},
+                {name = "ERDP", start = 4, stop = 63},
                 {name = "EHB", start = 3, stop = 3},
                 {name = "DESI", start = 0, stop = 2},
             }
         },
-        UAHCX_ERSTBA_HX = {
-            name = "UAHC#_ERSTBA_H#",
+        UAHCX_ERSTBAX = {
+            name = "UAHC#_ERSTBA#",
             type = "NCB",
-            width = 4,
-            address = 0x1680000000474,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            range2 = {0,0},
-            range2_inc = 0x20,
-            fields = {
-                {name = "ERSTBA_H", start = 0, stop = 31},
-            }
-        },
-        UAHCX_ERSTBA_LX = {
-            name = "UAHC#_ERSTBA_L#",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x1680000000470,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             range2 = {0,0},
             range2_inc = 0x20,
             fields = {
-                {name = "ERSTBA_L", start = 6, stop = 31},
+                {name = "ERSTBA", start = 6, stop = 63},
                 {name = "RESERVED_0_5", start = 0, stop = 5},
             }
         },
@@ -63022,26 +62972,15 @@ local csr_db = {
                 {name = "ERSTSZ", start = 0, stop = 15},
             }
         },
-        UAHCX_GBUSERRADDR_H = {
-            name = "UAHC#_GBUSERRADDR_H",
+        UAHCX_GBUSERRADDR = {
+            name = "UAHC#_GBUSERRADDR",
             type = "NCB",
-            width = 4,
-            address = 0x168000000c134,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "BUSADDRHI", start = 0, stop = 31},
-            }
-        },
-        UAHCX_GBUSERRADDR_L = {
-            name = "UAHC#_GBUSERRADDR_L",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x168000000c130,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "BUSADDRLO", start = 0, stop = 31},
+                {name = "BUSADDR", start = 0, stop = 63},
             }
         },
         UAHCX_GCTL = {
@@ -63082,26 +63021,15 @@ local csr_db = {
                 {name = "BMU_CCU_DBG", start = 0, stop = 3},
             }
         },
-        UAHCX_GDBGEPINFO_H = {
-            name = "UAHC#_GDBGEPINFO_H",
+        UAHCX_GDBGEPINFO = {
+            name = "UAHC#_GDBGEPINFO",
             type = "NCB",
-            width = 4,
-            address = 0x168000000c17c,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "ENDPT_DBG_HI", start = 0, stop = 31},
-            }
-        },
-        UAHCX_GDBGEPINFO_L = {
-            name = "UAHC#_GDBGEPINFO_L",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x168000000c178,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "ENDPT_DBG_LO", start = 0, stop = 31},
+                {name = "ENDPT_DBG", start = 0, stop = 63},
             }
         },
         UAHCX_GDBGFIFOSPACE = {
@@ -63381,72 +63309,39 @@ local csr_db = {
                 {name = "U2WAKEUP", start = 0, stop = 9},
             }
         },
-        UAHCX_GPRTBIMAP_FS_H = {
-            name = "UAHC#_GPRTBIMAP_FS_H",
+        UAHCX_GPRTBIMAP = {
+            name = "UAHC#_GPRTBIMAP",
             type = "NCB",
-            width = 4,
-            address = 0x168000000c18c,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "RESERVED_0_31", start = 0, stop = 31},
-            }
-        },
-        UAHCX_GPRTBIMAP_FS_L = {
-            name = "UAHC#_GPRTBIMAP_FS_L",
-            type = "NCB",
-            width = 4,
-            address = 0x168000000c188,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "BINUM1", start = 0, stop = 3},
-            }
-        },
-        UAHCX_GPRTBIMAP_H = {
-            name = "UAHC#_GPRTBIMAP_H",
-            type = "NCB",
-            width = 4,
-            address = 0x168000000c13c,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "RESERVED_0_31", start = 0, stop = 31},
-            }
-        },
-        UAHCX_GPRTBIMAP_HS_H = {
-            name = "UAHC#_GPRTBIMAP_HS_H",
-            type = "NCB",
-            width = 4,
-            address = 0x168000000c184,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "RESERVED_0_31", start = 0, stop = 31},
-            }
-        },
-        UAHCX_GPRTBIMAP_HS_L = {
-            name = "UAHC#_GPRTBIMAP_HS_L",
-            type = "NCB",
-            width = 4,
-            address = 0x168000000c180,
-            range1 = {0,0},
-            range1_inc = 0x10000000000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "BINUM1", start = 0, stop = 3},
-            }
-        },
-        UAHCX_GPRTBIMAP_L = {
-            name = "UAHC#_GPRTBIMAP_L",
-            type = "NCB",
-            width = 4,
+            width = 8,
             address = 0x168000000c138,
             range1 = {0,0},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "BINUM1", start = 0, stop = 3},
+            }
+        },
+        UAHCX_GPRTBIMAP_FS = {
+            name = "UAHC#_GPRTBIMAP_FS",
+            type = "NCB",
+            width = 8,
+            address = 0x168000000c188,
+            range1 = {0,0},
+            range1_inc = 0x10000000000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "BINUM1", start = 0, stop = 3},
+            }
+        },
+        UAHCX_GPRTBIMAP_HS = {
+            name = "UAHC#_GPRTBIMAP_HS",
+            type = "NCB",
+            width = 8,
+            address = 0x168000000c180,
+            range1 = {0,0},
+            range1_inc = 0x10000000000,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
                 {name = "BINUM1", start = 0, stop = 3},
             }
         },
@@ -64211,7 +64106,7 @@ local csr_db = {
             fields = {
                 {name = "CLEAR_BIST", start = 63, stop = 63},
                 {name = "START_BIST", start = 62, stop = 62},
-                {name = "RESERVED_60_61", start = 60, stop = 61},
+                {name = "REF_CLK_SEL", start = 60, stop = 61},
                 {name = "SSC_EN", start = 59, stop = 59},
                 {name = "SSC_RANGE", start = 56, stop = 58},
                 {name = "SSC_REF_CLK_SEL", start = 47, stop = 55},
@@ -64219,7 +64114,7 @@ local csr_db = {
                 {name = "REF_SSP_EN", start = 39, stop = 39},
                 {name = "REF_CLK_DIV2", start = 38, stop = 38},
                 {name = "REF_CLK_FSEL", start = 32, stop = 37},
-                {name = "REF_CLK_ONCHIP", start = 31, stop = 31},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
                 {name = "H_CLK_EN", start = 30, stop = 30},
                 {name = "H_CLK_BYP_SEL", start = 29, stop = 29},
                 {name = "H_CLKDIV_RST", start = 28, stop = 28},
@@ -64870,19 +64765,16 @@ local csr_db = {
             width = 8,
             address = 0x11800e0000518,
             fields = {
-                {name = "RESERVED_38_63", start = 38, stop = 63},
-                {name = "TXPSH1", start = 37, stop = 37},
-                {name = "TXPOP1", start = 36, stop = 36},
-                {name = "OVRFLW1", start = 35, stop = 35},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
                 {name = "TXPSH", start = 34, stop = 34},
                 {name = "TXPOP", start = 33, stop = 33},
                 {name = "OVRFLW", start = 32, stop = 32},
                 {name = "RESERVED_27_31", start = 27, stop = 31},
                 {name = "STATOVR", start = 26, stop = 26},
-                {name = "RESERVED_24_25", start = 24, stop = 25},
-                {name = "LOSTSTAT", start = 22, stop = 23},
-                {name = "RESERVED_4_21", start = 4, stop = 21},
-                {name = "OUT_OVR", start = 2, stop = 3},
+                {name = "RESERVED_23_25", start = 23, stop = 25},
+                {name = "LOSTSTAT", start = 22, stop = 22},
+                {name = "RESERVED_3_21", start = 3, stop = 21},
+                {name = "OUT_OVR", start = 2, stop = 2},
                 {name = "RESERVED_0_1", start = 0, stop = 1},
             }
         },
@@ -65384,10 +65276,10 @@ local csr_db = {
             width = 8,
             address = 0x11800e00004e8,
             fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
-                {name = "DROP", start = 16, stop = 17},
-                {name = "RESERVED_2_15", start = 2, stop = 15},
-                {name = "COMMIT", start = 0, stop = 1},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "DROP", start = 16, stop = 16},
+                {name = "RESERVED_1_15", start = 1, stop = 15},
+                {name = "COMMIT", start = 0, stop = 0},
             }
         },
         AGL_GMX_RX_TX_STATUS = {
@@ -65396,10 +65288,10 @@ local csr_db = {
             width = 8,
             address = 0x11800e00007e8,
             fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
-                {name = "TX", start = 4, stop = 5},
-                {name = "RESERVED_2_3", start = 2, stop = 3},
-                {name = "RX", start = 0, stop = 1},
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "TX", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "RX", start = 0, stop = 0},
             }
         },
         AGL_GMX_SMACX = {
@@ -65687,8 +65579,8 @@ local csr_db = {
             width = 8,
             address = 0x11800e00004d0,
             fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
-                {name = "BP", start = 0, stop = 1},
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "BP", start = 0, stop = 0},
             }
         },
         AGL_GMX_TX_COL_ATTEMPT = {
@@ -65718,16 +65610,16 @@ local csr_db = {
             width = 8,
             address = 0x11800e0000508,
             fields = {
-                {name = "RESERVED_22_63", start = 22, stop = 63},
-                {name = "PTP_LOST", start = 20, stop = 21},
-                {name = "RESERVED_18_19", start = 18, stop = 19},
-                {name = "LATE_COL", start = 16, stop = 17},
-                {name = "RESERVED_14_15", start = 14, stop = 15},
-                {name = "XSDEF", start = 12, stop = 13},
-                {name = "RESERVED_10_11", start = 10, stop = 11},
-                {name = "XSCOL", start = 8, stop = 9},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "UNDFLW", start = 2, stop = 3},
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "PTP_LOST", start = 20, stop = 20},
+                {name = "RESERVED_17_19", start = 17, stop = 19},
+                {name = "LATE_COL", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "XSDEF", start = 12, stop = 12},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "XSCOL", start = 8, stop = 8},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "UNDFLW", start = 2, stop = 2},
                 {name = "RESERVED_1_1", start = 1, stop = 1},
                 {name = "PKO_NXA", start = 0, stop = 0},
             }
@@ -65738,16 +65630,16 @@ local csr_db = {
             width = 8,
             address = 0x11800e0000500,
             fields = {
-                {name = "RESERVED_22_63", start = 22, stop = 63},
-                {name = "PTP_LOST", start = 20, stop = 21},
-                {name = "RESERVED_18_19", start = 18, stop = 19},
-                {name = "LATE_COL", start = 16, stop = 17},
-                {name = "RESERVED_14_15", start = 14, stop = 15},
-                {name = "XSDEF", start = 12, stop = 13},
-                {name = "RESERVED_10_11", start = 10, stop = 11},
-                {name = "XSCOL", start = 8, stop = 9},
-                {name = "RESERVED_4_7", start = 4, stop = 7},
-                {name = "UNDFLW", start = 2, stop = 3},
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "PTP_LOST", start = 20, stop = 20},
+                {name = "RESERVED_17_19", start = 17, stop = 19},
+                {name = "LATE_COL", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "XSDEF", start = 12, stop = 12},
+                {name = "RESERVED_9_11", start = 9, stop = 11},
+                {name = "XSCOL", start = 8, stop = 8},
+                {name = "RESERVED_3_7", start = 3, stop = 7},
+                {name = "UNDFLW", start = 2, stop = 2},
                 {name = "RESERVED_1_1", start = 1, stop = 1},
                 {name = "PKO_NXA", start = 0, stop = 0},
             }
@@ -65778,12 +65670,12 @@ local csr_db = {
             width = 8,
             address = 0x11800e00004c8,
             fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
-                {name = "EN", start = 8, stop = 9},
-                {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "BP", start = 4, stop = 5},
-                {name = "RESERVED_2_3", start = 2, stop = 3},
-                {name = "IGN_FULL", start = 0, stop = 1},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "EN", start = 8, stop = 8},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "BP", start = 4, stop = 4},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "IGN_FULL", start = 0, stop = 0},
             }
         },
         AGL_GMX_TX_PAUSE_PKT_DMAC = {
@@ -68082,8 +67974,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_BROADCAST_CTL = {
@@ -68097,18 +67989,6 @@ local csr_db = {
                 {name = "RESERVED_2_3", start = 2, stop = 3},
                 {name = "ECHOEN", start = 1, stop = 1},
                 {name = "SWAP", start = 0, stop = 0},
-            }
-        },
-        DTX_BROADCAST_DATX = {
-            name = "DTX_BROADCAST_DAT#",
-            type = "RSL",
-            width = 8,
-            address = 0x11800fe7f0040,
-            range1 = {0,1},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "RAW", start = 0, stop = 35},
             }
         },
         DTX_BROADCAST_ENAX = {
@@ -68131,8 +68011,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_DFA_BCST_RSP = {
@@ -68190,8 +68070,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_DPI_BCST_RSP = {
@@ -68249,8 +68129,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_FPA_BCST_RSP = {
@@ -68308,8 +68188,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_IOB_BCST_RSP = {
@@ -68367,8 +68247,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_IPD_BCST_RSP = {
@@ -68426,8 +68306,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_CBCX_BCST_RSP = {
@@ -68495,8 +68375,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_MCIX_BCST_RSP = {
@@ -68564,8 +68444,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_L2C_TADX_BCST_RSP = {
@@ -68633,8 +68513,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_LMCX_BCST_RSP = {
@@ -68702,8 +68582,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_MIO_BCST_RSP = {
@@ -68761,8 +68641,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_PEMX_BCST_RSP = {
@@ -68830,8 +68710,8 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_PIP_BCST_RSP = {
@@ -68889,8 +68769,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_PKO_BCST_RSP = {
@@ -68948,8 +68828,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_POW_BCST_RSP = {
@@ -69007,8 +68887,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_SLI_BCST_RSP = {
@@ -69066,8 +68946,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         DTX_TIM_BCST_RSP = {
@@ -69125,8 +69005,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "VALUE", start = 0, stop = 35},
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
             }
         },
         FPA_ADDR_RANGE_ERROR = {
@@ -71561,6 +71441,22 @@ local csr_db = {
                 {name = "TX_VBOOST_LVL", start = 0, stop = 2},
             }
         },
+        GSERX_PHYX_SCOPE_MASKX = {
+            name = "GSER#_PHY#_SCOPE_MASK#",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090000120,
+            range1 = {0,0},
+            range1_inc = 0x1,
+            range2 = {0,2},
+            range2_inc = 0x80000,
+            range3 = {0,7},
+            range3_inc = 0x8,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "MASK_VAL", start = 0, stop = 15},
+            }
+        },
         GSERX_SATA_CFG = {
             name = "GSER#_SATA_CFG",
             type = "RSL",
@@ -72677,7 +72573,9 @@ local csr_db = {
             width = 8,
             address = 0x1180080800000,
             fields = {
-                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "OCLA_QOS", start = 29, stop = 31},
+                {name = "RESERVED_28_28", start = 28, stop = 28},
                 {name = "DISSTGL2I", start = 27, stop = 27},
                 {name = "L2DFSBE", start = 26, stop = 26},
                 {name = "L2DFDBE", start = 25, stop = 25},
@@ -72846,42 +72744,6 @@ local csr_db = {
                 {name = "COUNT", start = 0, stop = 63},
             }
         },
-        L2C_TADX_ECC0 = {
-            name = "L2C_TAD#_ECC0",
-            type = "RSL",
-            width = 8,
-            address = 0x1180080a00018,
-            range1 = {0,0},
-            range1_inc = 0x40000,
-            fields = {
-                {name = "QW7ECC", start = 56, stop = 63},
-                {name = "QW6ECC", start = 48, stop = 55},
-                {name = "QW5ECC", start = 40, stop = 47},
-                {name = "QW4ECC", start = 32, stop = 39},
-                {name = "QW3ECC", start = 24, stop = 31},
-                {name = "QW2ECC", start = 16, stop = 23},
-                {name = "QW1ECC", start = 8, stop = 15},
-                {name = "QW0ECC", start = 0, stop = 7},
-            }
-        },
-        L2C_TADX_ECC1 = {
-            name = "L2C_TAD#_ECC1",
-            type = "RSL",
-            width = 8,
-            address = 0x1180080a00020,
-            range1 = {0,0},
-            range1_inc = 0x40000,
-            fields = {
-                {name = "QW15ECC", start = 56, stop = 63},
-                {name = "QW14ECC", start = 48, stop = 55},
-                {name = "QW13ECC", start = 40, stop = 47},
-                {name = "QW12ECC", start = 32, stop = 39},
-                {name = "QW11ECC", start = 24, stop = 31},
-                {name = "QW10ECC", start = 16, stop = 23},
-                {name = "QW9ECC", start = 8, stop = 15},
-                {name = "QW8ECC", start = 0, stop = 7},
-            }
-        },
         L2C_TADX_ERR = {
             name = "L2C_TAD#_ERR",
             type = "RSL",
@@ -72967,7 +72829,8 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x40000,
             fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "SBLKDTY", start = 60, stop = 63},
+                {name = "RESERVED_56_59", start = 56, stop = 59},
                 {name = "BUSINFO", start = 48, stop = 55},
                 {name = "RESERVED_47_47", start = 47, stop = 47},
                 {name = "ECC", start = 40, stop = 46},
@@ -73264,7 +73127,8 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "RCLK_CHAR_MODE", start = 50, stop = 50},
                 {name = "DDR__PTUNE", start = 45, stop = 49},
                 {name = "DDR__NTUNE", start = 40, stop = 44},
                 {name = "PTUNE_OFFSET", start = 36, stop = 39},
@@ -73556,7 +73420,9 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "READ_ENA_BPRCH", start = 19, stop = 19},
+                {name = "READ_ENA_FPRCH", start = 18, stop = 18},
                 {name = "SLOT_CTL_RESET_FORCE", start = 17, stop = 17},
                 {name = "REF_INT_LSBS", start = 8, stop = 16},
                 {name = "DRIVE_ENA_BPRCH", start = 7, stop = 7},
@@ -73852,7 +73718,8 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "PHY_RESET", start = 50, stop = 50},
                 {name = "DSK_DBG_RD_COMPLETE", start = 49, stop = 49},
                 {name = "DSK_DBG_RD_DATA", start = 39, stop = 48},
                 {name = "DSK_DBG_RD_START", start = 38, stop = 38},
@@ -79225,6 +79092,20 @@ local csr_db = {
                 {name = "BIT_LOCK", start = 0, stop = 0},
             }
         },
+        PCSX_SERDES_CRDT_CNTX_REG = {
+            name = "PCS#_SERDES_CRDT_CNT#_REG",
+            type = "RSL",
+            width = 8,
+            address = 0x11800b00010a0,
+            range1 = {0,1},
+            range1_inc = 0x8000000,
+            range2 = {0,3},
+            range2_inc = 0x400,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "CNT", start = 0, stop = 4},
+            }
+        },
         PCSX_SGMX_AN_ADV_REG = {
             name = "PCS#_SGM#_AN_ADV_REG",
             type = "RSL",
@@ -79454,6 +79335,18 @@ local csr_db = {
                 {name = "SYNC2ST", start = 8, stop = 11},
                 {name = "SYNC1ST", start = 4, stop = 7},
                 {name = "SYNC0ST", start = 0, stop = 3},
+            }
+        },
+        PCSXX_SERDES_CRDT_CNT_REG = {
+            name = "PCSX#_SERDES_CRDT_CNT_REG",
+            type = "RSL",
+            width = 8,
+            address = 0x11800b0000880,
+            range1 = {0,1},
+            range1_inc = 0x8000000,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "CNT", start = 0, stop = 4},
             }
         },
         PCSXX_SPD_ABIL_REG = {
@@ -84453,7 +84346,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "BUSADDRLO", start = 0, stop = 63},
+                {name = "BUSADDR", start = 0, stop = 63},
             }
         },
         USBDRDX_UAHC_GCTL = {
@@ -84503,7 +84396,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "ENDPT_DBG_LO", start = 0, stop = 63},
+                {name = "ENDPT_DBG", start = 0, stop = 63},
             }
         },
         USBDRDX_UAHC_GDBGFIFOSPACE = {
@@ -84596,8 +84489,7 @@ local csr_db = {
             range2 = {0,0},
             range2_inc = 0x10,
             fields = {
-                {name = "EVNTADRHI", start = 32, stop = 63},
-                {name = "EVNTADRLO", start = 0, stop = 31},
+                {name = "EVNTADR", start = 0, stop = 63},
             }
         },
         USBDRDX_UAHC_GEVNTCOUNTX = {

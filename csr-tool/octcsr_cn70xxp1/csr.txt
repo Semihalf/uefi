@@ -82,7 +82,7 @@ and 1500 bytes.  For untagged frames, the length must exact
 match.  For tagged frames the length or length+4 must match.
 (B) PCTERR checks that the frame begins with a valid PREAMBLE sequence.
 Does not check the number of PREAMBLE cycles.
-(C) OVRERR *DON'T PUT IN HRM*
+(C) OVRERR INTERNAL: *DON'T PUT IN HRM*
 OVRERR is an architectural assertion check internal to GMX to
 make sure no assumption was violated.  In a correctly operating
 system, this interrupt can never fire.
@@ -94,7 +94,6 @@ are four ports, they push every two cycles.  So that's the
 assumption.  That the inbound module will always be able to
 consume the tick before another is produced.  If that doesn't
 happen that's when OVRERR will assert.
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -132,9 +131,6 @@ $AGL_GMX_RX(0..0)_INT_EN   Address=(0x11800E0000008+a*0x800)   Bus=(RSL)
  <2>     MAXERR    R/W     0x0        0x0        Frame was received with length > max_length       
  <1>     CAREXT    R/W     0x0        0x0        Carrier extend error                              
  <0>     MINERR    R/W     0x0        0x0        Frame was received with length < min_length       
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -189,9 +185,6 @@ $AGL_GMX_PRT(0..0)_CFG   Address=(0x11800E0000010+a*0x800)   Bus=(RSL)
                                                  be allowed to complete before the bus is idled.
                                                  On the RX side, subsequent packets in a burst
                                                  will be ignored.
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -271,8 +264,7 @@ CTL_BCK=0,CTL_DRP=1   all pause frames are completely ignored
 These control bits should be set to CTL_BCK=0,CTL_DRP=0 in halfdup mode.
 Since PAUSE packets only apply to fulldup operation, any PAUSE packet
 would constitute an exception which should be handled by the processing
-cores.  PAUSE packets should not be forwarded.
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1."
+cores.  PAUSE packets should not be forwarded."
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -303,8 +295,6 @@ $AGL_GMX_RX(0..0)_FRM_CHK   Address=(0x11800E0000020+a*0x800)   Bus=(RSL)
 
 Notes:
 If AGL_GMX_RX_UDD_SKP[LEN] != 0, then LENERR will be forced to zero in HW.
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -323,12 +313,9 @@ $AGL_GMX_RX(0..0)_FRM_MIN   Address=(0x11800E0000028+a*0x800)   Bus=(RSL)
                                              AGL_GMX_RXn_FRM_CHK[MINERR] enables the check
                                              for port n.
                                              If enabled, failing packets set the MINERR
-                                             interrupt and the MIX opcode is set to UNDER_FCS
+                                             interrupt and the WQE opcode is set to UNDER_FCS
                                              (0x6, if packet has bad FCS) or UNDER_ERR (0x8,
                                              if packet has good FCS).
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -347,7 +334,7 @@ $AGL_GMX_RX(0..0)_FRM_MAX   Address=(0x11800E0000030+a*0x800)   Bus=(RSL)
                                              AGL_GMX_RXn_FRM_CHK[MAXERR] enables the check
                                              for port n.
                                              If enabled, failing packets set the MAXERR
-                                             interrupt and the MIX opcode is set to OVER_FCS
+                                             interrupt and the WQE opcode is set to OVER_FCS
                                              (0x3, if packet has bad FCS) or OVER_ERR (0x4, if
                                              packet has good FCS).
                                              LEN <= AGL_GMX_RX_JABBER[CNT]
@@ -357,7 +344,6 @@ When changing the LEN field, be sure that LEN does not exceed
 AGL_GMX_RX_JABBER[CNT]. Failure to meet this constraint will cause packets that
 are within the maximum length parameter to be rejected because they exceed
 the AGL_GMX_RX_JABBER[CNT] limit.
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -391,7 +377,6 @@ Be sure the CNT field value is at least as large as the
 AGL_GMX_RX_FRM_MAX[LEN] value. Failure to meet this constraint will cause
 packets that are within the AGL_GMX_RX_FRM_MAX[LEN] length to be rejected
 because they exceed the CNT limit.
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -428,7 +413,6 @@ RGMII/Half Duplex     drop packet                                apply filters
 packet is unconditionally dropped                accept packet based on DMAC
 where l2_size = MAX(0, total_packet_size AGL_GMX_RX_UDD_SKP[LEN]
 ((AGL_GMX_RX_FRM_CTL[PRE_CHK]==1)*8)
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -471,7 +455,6 @@ part of the packet.  The UDD bytes are never stripped from the actual
 packet.
 (7) If LEN != 0, then AGL_GMX_RX_FRM_CHK[LENERR] will be disabled and
 AGL_GMX_RX_INT_REG[LENERR] will be zero
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -488,9 +471,6 @@ $AGL_GMX_RX(0..0)_STATS_CTL   Address=(0x11800E0000050+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS     ---     NS         NS         Reserved.                                         
  <0>     RD_CLR R/W     0x0        0x0        RX Stats registers will clear on reads            
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -512,9 +492,6 @@ $AGL_GMX_RX(0..0)_IFG   Address=(0x11800E0000058+a*0x800)   Bus=(RSL)
                                              adaptation. For these reasons, the default value
                                              is slightly conservative and does not check upto
                                              the full 96 bits of IFG.
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -545,7 +522,6 @@ Notes:
 These fields are only valid if the attached PHY is operating in RGMII mode
 and supports the optional in-band status (see section 3.4.1 of the RGMII
 specification, version 1.3 for more information).
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -562,9 +538,6 @@ $AGL_GMX_RX(0..0)_PAUSE_DROP_TIME   Address=(0x11800E0000068+a*0x800)   Bus=(RSL
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS     ---     NS         NS         Reserved.                                         
  <15:0>  STATUS R/W1C/H 0x0        NS         Time extracted from the dropped PAUSE packet      
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -586,7 +559,6 @@ $AGL_GMX_RX(0..0)_STATS_PKTS   Address=(0x11800E0000080+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -628,7 +600,6 @@ $AGL_GMX_RX(0..0)_STATS_PKTS_CTL   Address=(0x11800E0000090+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -670,7 +641,6 @@ $AGL_GMX_RX(0..0)_STATS_PKTS_DMAC   Address=(0x11800E00000A0+a*0x800)   Bus=(RSL
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -709,7 +679,6 @@ $AGL_GMX_RX(0..0)_STATS_PKTS_DRP   Address=(0x11800E00000B0+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -746,7 +715,6 @@ $AGL_GMX_RX(0..0)_STATS_PKTS_BAD   Address=(0x11800E00000C0+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -802,8 +770,7 @@ return (AGL_GMX_RX{prt}_ADR_CTL[CAM_MODE] ? ACCEPT : REJECT);
 else
 return (AGL_GMX_RX{prt}_ADR_CTL[CAM_MODE] ? REJECT : ACCEPT);
 }
-@endverbatim
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1."
+@endverbatim"
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -820,9 +787,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM_EN   Address=(0x11800E0000108+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:8>  NS    ---     NS         NS         Reserved.                                         
  <7:0>   EN    R/W     0x0        NS         CAM Entry Enables                                 
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -840,9 +804,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM0   Address=(0x11800E0000180+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -860,9 +821,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM1   Address=(0x11800E0000188+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -880,9 +838,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM2   Address=(0x11800E0000190+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -900,9 +855,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM3   Address=(0x11800E0000198+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -920,9 +872,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM4   Address=(0x11800E00001A0+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -940,9 +889,6 @@ $AGL_GMX_RX(0..0)_ADR_CAM5   Address=(0x11800E00001A8+a*0x800)   Bus=(RSL)
                                            Each entry contributes 8bits to one of 8 matchers.
                                            The CAM matches against unicst or multicst DMAC
                                            addresses.
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -970,7 +916,6 @@ Given a 125MHz PLL reference clock...
 CLK_CNT ==  1 ==> 125.0MHz TXC clock period (8ns* 1)
 CLK_CNT ==  5 ==>  25.0MHz TXC clock period (8ns* 5)
 CLK_CNT == 50 ==>   2.5MHz TXC clock period (8ns*50)
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -992,9 +937,6 @@ $AGL_GMX_TX(0..0)_THRESH   Address=(0x11800E0000210+a*0x800)   Bus=(RSL)
                                              underflow on the packet interface and must never
                                              be set below 4.  This register cannot exceed the
                                              the TX FIFO depth which is 128, 8B entries.
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1017,9 +959,6 @@ $AGL_GMX_TX(0..0)_APPEND   Address=(0x11800E0000218+a*0x800)   Bus=(RSL)
  <2>     FCS       R/W     0x1        0x1        Append the Ethernet FCS on each packet            
  <1>     PAD       R/W     0x1        0x1        Append PAD bytes such that min sized              
  <0>     PREAMBLE  R/W     0x1        0x1        Prepend the Ethernet preamble on each transfer    
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1036,9 +975,6 @@ $AGL_GMX_SMAC(0..0)   Address=(0x11800E0000230+a*0x800)   Bus=(RSL)
  <63:48> NS    ---     NS         NS         Reserved.                                         
  <47:0>  SMAC  R/W     0x0        NS         The SMAC field is used for generating and         
                                              accepting Control Pause packets
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1072,7 +1008,6 @@ INTERVAL <= TIME (largest_pkt_size + IFG + pause_pkt_size)
 where largest_pkt_size is that largest packet that the system can send
 (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
 of the PAUSE packet (normally 64B).
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1093,9 +1028,6 @@ $AGL_GMX_TX(0..0)_MIN_PKT   Address=(0x11800E0000240+a*0x800)   Bus=(RSL)
                                                 AGL_GMX_TX_APPEND[PAD] for the coresponding packet
                                                 port is set. Packets will be padded to
                                                 MIN_SIZE+1 The reset value will pad to 60 bytes.
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1131,7 +1063,6 @@ INTERVAL <= TIME (largest_pkt_size + IFG + pause_pkt_size)
 where largest_pkt_size is that largest packet that the system can send
 (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
 of the PAUSE packet (normally 64B).
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1149,9 +1080,6 @@ $AGL_GMX_TX(0..0)_SOFT_PAUSE   Address=(0x11800E0000250+a*0x800)   Bus=(RSL)
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TIME  R/W     0x0        NS         Back off the TX bus for (TIME*512) bit-times      
                                              for full-duplex operation only
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1167,9 +1095,6 @@ $AGL_GMX_TX(0..0)_PAUSE_TOGO   Address=(0x11800E0000258+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TIME  RO/H    NS         NS         Amount of time remaining to backpressure          
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1187,9 +1112,6 @@ $AGL_GMX_TX(0..0)_PAUSE_ZERO   Address=(0x11800E0000260+a*0x800)   Bus=(RSL)
  <0>     SEND  R/W     0x1        0x1        When backpressure condition clear, send PAUSE     
                                              packet with pause_time of zero to enable the
                                              channel
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1205,9 +1127,6 @@ $AGL_GMX_TX(0..0)_STATS_CTL   Address=(0x11800E0000268+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS     ---     NS         NS         Reserved.                                         
  <0>     RD_CLR R/W     0x0        0x0        Stats registers will clear on reads               
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1226,9 +1145,6 @@ $AGL_GMX_TX(0..0)_CTL   Address=(0x11800E0000270+a*0x800)   Bus=(RSL)
                                                 and interrupts
  <0>     XSCOL_EN R/W     0x1        0x1        Enables the excessive collision check for stats   
                                                 and interrupts
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1251,7 +1167,6 @@ $AGL_GMX_TX(0..0)_STAT0   Address=(0x11800E0000280+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1273,7 +1188,6 @@ $AGL_GMX_TX(0..0)_STAT1   Address=(0x11800E0000288+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1299,7 +1213,6 @@ packet data, pad bytes, fcs bytes, pause bytes, and jam bytes.  The octect
 counts do not include PREAMBLE byte or EXTEND cycles.
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1322,7 +1235,6 @@ $AGL_GMX_TX(0..0)_STAT3   Address=(0x11800E0000298+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1347,7 +1259,6 @@ packet including packet data, pad bytes, fcs bytes, pause bytes, and jam
 bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1373,7 +1284,6 @@ packet including packet data, pad bytes, fcs bytes, pause bytes, and jam
 bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1399,7 +1309,6 @@ packet including packet data, pad bytes, fcs bytes, pause bytes, and jam
 bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1425,7 +1334,6 @@ packet including packet data, pad bytes, fcs bytes, pause bytes, and jam
 bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1453,7 +1361,6 @@ packet.  GMX assumes that the DMAC lies in the first 6 bytes of the packet
 as per the 802.3 frame definition.  If the system requires additional data
 before the L2 header, then the MCST and BCST counters may not reflect
 reality and should be ignored by software.
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1476,7 +1383,6 @@ $AGL_GMX_TX(0..0)_STAT9   Address=(0x11800E00002C8+a*0x800)   Bus=(RSL)
 Notes:
 Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
 Counters will wrap
-Not reset when MIX*_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1519,9 +1425,6 @@ $AGL_GMX_BIST   Address=(0x11800E0000400)   Bus=(RSL)
                                               22: gmx#.outb.stat.drf16x27m1_bist
                                               23: gmx#.outb.stat.drf40x64m1_bist
                                               24: RAZ"
-
-Notes:
-Not reset when MIX*_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1542,9 +1445,6 @@ $AGL_GMX_RX_BP_DROP(0..0)   Address=(0x11800E0000420+a*0x8)   Bus=(RSL)
                                              MARK should typically be programmed to 2.
                                              Failure to program correctly can lead to system
                                              instability.
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1560,9 +1460,6 @@ $AGL_GMX_RX_BP_ON(0..0)   Address=(0x11800E0000440+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:9>  NS    ---     NS         NS         Reserved.                                         
  <8:0>   MARK  R/W     0x40       0x40       Hiwater mark (8B ticks) for backpressure.         
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1578,9 +1475,6 @@ $AGL_GMX_RX_BP_OFF(0..0)   Address=(0x11800E0000460+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:6>  NS    ---     NS         NS         Reserved.                                         
  <5:0>   MARK  R/W     0x10       0x10       Water mark (8B ticks) to deassert backpressure    
-
-Notes:
-Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1624,8 +1518,7 @@ For full-duplex systems that require IEEE 802.3 compatibility, IFG1 must
 be in the range of 1-11, IFG2 must be in the range of 1-11, and the
 IFG1+IFG2 sum must be 12.
 For all other systems, IFG1 and IFG2 can be any value in the range of
-1-15.  Allowing for a total possible IFG sum of 2-30.
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1."
+1-15.  Allowing for a total possible IFG sum of 2-30."
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1642,9 +1535,6 @@ $AGL_GMX_TX_JAM   Address=(0x11800E0000490)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:8>  NS    ---     NS         NS         Reserved.                                         
  <7:0>   JAM   R/W     0xee       NS         Jam pattern                                       
-
-Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1660,9 +1550,6 @@ $AGL_GMX_TX_COL_ATTEMPT   Address=(0x11800E0000498)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:5>  NS    ---     NS         NS         Reserved.                                         
  <4:0>   LIMIT R/W     0x10       0x10       Collision Attempts                                
-
-Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1678,9 +1565,6 @@ $AGL_GMX_TX_PAUSE_PKT_DMAC   Address=(0x11800E00004A0)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:48> NS    ---     NS         NS         Reserved.                                         
  <47:0>  DMAC  R/W     0x180c2000001 0x180c2000001 The DMAC field placed is outbnd pause pkts        
-
-Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1696,9 +1580,6 @@ $AGL_GMX_TX_PAUSE_PKT_TYPE   Address=(0x11800E00004A8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TYPE  R/W     0x8808     0x8808     The TYPE field placed is outbnd pause pkts        
-
-Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1712,19 +1593,14 @@ $AGL_GMX_TX_OVR_BP   Address=(0x11800E00004C8)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:10> NS       ---     NS         NS         Reserved.                                         
- <9:8>   EN       R/W     0x0        0x0        Per port Enable back pressure override            
- <7:6>   NS       ---     NS         NS         Reserved.                                         
- <5:4>   BP       R/W     0x0        0x0        Port BackPressure status to use                   
+ <63:9>  NS       ---     NS         NS         Reserved.                                         
+ <8>     EN       R/W     0x0        0x0        Per port Enable back pressure override            
+ <7:5>   NS       ---     NS         NS         Reserved.                                         
+ <4>     BP       R/W     0x0        0x0        Port BackPressure status to use                   
                                                 0=Port is available
                                                 1=Port should be back pressured
- <3:2>   NS       ---     NS         NS         Reserved.                                         
- <1:0>   IGN_FULL R/W     0x0        0x0        Ignore the RX FIFO full when computing BP         
-
-Notes:
-IGN_FULL[0], BP[0], EN[0] will be reset when MIX0_CTL[RESET] is set to 1.
-IGN_FULL[1], BP[1], EN[1] will be reset when MIX1_CTL[RESET] is set to 1.
-
+ <3:1>   NS       ---     NS         NS         Reserved.                                         
+ <0>     IGN_FULL R/W     0x0        0x0        Ignore the RX FIFO full when computing BP         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1738,15 +1614,10 @@ $AGL_GMX_TX_BP   Address=(0x11800E00004D0)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:2>  NS    ---     NS         NS         Reserved.                                         
- <1:0>   BP    RO      0x0        0x0        Port BackPressure status                          
+ <63:1>  NS    ---     NS         NS         Reserved.                                         
+ <0>     BP    RO      0x0        0x0        Port BackPressure status                          
                                              0=Port is available
                                              1=Port should be back pressured
-
-Notes:
-BP[0] will be reset when MIX0_CTL[RESET] is set to 1.
-BP[1] will be reset when MIX1_CTL[RESET] is set to 1.
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1760,15 +1631,10 @@ $AGL_GMX_RX_PRT_INFO   Address=(0x11800E00004E8)   Bus=(RSL)
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:18> NS     ---     NS         NS         Reserved.                                         
- <17:16> DROP   RO/H    0x0        0x0        Port indication that data was dropped             
- <15:2>  NS     ---     NS         NS         Reserved.                                         
- <1:0>   COMMIT RO/H    0x0        0x0        Port indication that SOP was accepted             
-
-Notes:
-COMMIT[0], DROP[0] will be reset when MIX0_CTL[RESET] is set to 1.
-COMMIT[1], DROP[1] will be reset when MIX1_CTL[RESET] is set to 1.
-
+ <63:17> NS     ---     NS         NS         Reserved.                                         
+ <16>    DROP   RO/H    0x0        0x0        Port indication that data was dropped             
+ <15:1>  NS     ---     NS         NS         Reserved.                                         
+ <0>     COMMIT RO/H    0x0        0x0        Port indication that SOP was accepted             
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1786,9 +1652,6 @@ $AGL_GMX_TX_LFSR   Address=(0x11800E00004F8)   Bus=(RSL)
  <15:0>  LFSR  R/W/H   0xffff     NS         The current state of the LFSR used to feed random 
                                              numbers to compute truncated binary exponential
                                              backoff.
-
-Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1802,27 +1665,19 @@ $AGL_GMX_TX_INT_REG   Address=(0x11800E0000500)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:22> NS       ---     NS         NS         Reserved.                                         
- <21:20> PTP_LOST R/W1C/H 0x0        0x0        A packet with a PTP request was not able to be    
+ <63:21> NS       ---     NS         NS         Reserved.                                         
+ <20>    PTP_LOST R/W1C/H 0x0        0x0        A packet with a PTP request was not able to be    
                                                 sent due to XSCOL
- <19:18> NS       ---     NS         NS         Reserved.                                         
- <17:16> LATE_COL R/W1C/H 0x0        0x0        TX Late Collision                                 
- <15:14> NS       ---     NS         NS         Reserved.                                         
- <13:12> XSDEF    R/W1C/H 0x0        0x0        TX Excessive deferral (halfdup mode only)         
- <11:10> NS       ---     NS         NS         Reserved.                                         
- <9:8>   XSCOL    R/W1C/H 0x0        0x0        TX Excessive collisions (halfdup mode only)       
- <7:4>   NS       ---     NS         NS         Reserved.                                         
- <3:2>   UNDFLW   R/W1C/H 0x0        0x0        TX Underflow                                      
+ <19:17> NS       ---     NS         NS         Reserved.                                         
+ <16>    LATE_COL R/W1C/H 0x0        0x0        TX Late Collision                                 
+ <15:13> NS       ---     NS         NS         Reserved.                                         
+ <12>    XSDEF    R/W1C/H 0x0        0x0        TX Excessive deferral (halfdup mode only)         
+ <11:9>  NS       ---     NS         NS         Reserved.                                         
+ <8>     XSCOL    R/W1C/H 0x0        0x0        TX Excessive collisions (halfdup mode only)       
+ <7:3>   NS       ---     NS         NS         Reserved.                                         
+ <2>     UNDFLW   R/W1C/H 0x0        0x0        TX Underflow                                      
  <1>     NS       ---     NS         NS         Reserved.                                         
  <0>     PKO_NXA  R/W1C/H 0x0        0x0        Port address out-of-range from PKO Interface      
-
-Notes:
-UNDFLW[0], XSCOL[0], XSDEF[0], LATE_COL[0], PTP_LOST[0] will be reset when MIX0_CTL[RESET] is
-set to 1.
-UNDFLW[1], XSCOL[1], XSDEF[1], LATE_COL[1], PTP_LOST[1] will be reset when MIX1_CTL[RESET] is
-set to 1.
-PKO_NXA will bee reset when both MIX0/1_CTL[RESET] are set to 1.
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1837,27 +1692,19 @@ $AGL_GMX_TX_INT_EN   Address=(0x11800E0000508)   Bus=(RSL)
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:24> NS       ---     NS         NS         Reserved.                                         
- <23:22> NS       ---     NS         NS         Reserved.                                         
- <21:20> PTP_LOST R/W     0x0        0x0        A packet with a PTP request was not able to be    
+ <23:21> NS       ---     NS         NS         Reserved.                                         
+ <20>    PTP_LOST R/W     0x0        0x0        A packet with a PTP request was not able to be    
                                                 sent due to XSCOL
- <19:18> NS       ---     NS         NS         Reserved.                                         
- <17:16> LATE_COL R/W     0x0        0x0        TX Late Collision                                 
- <15:14> NS       ---     NS         NS         Reserved.                                         
- <13:12> XSDEF    R/W     0x0        0x0        TX Excessive deferral (halfdup mode only)         
- <11:10> NS       ---     NS         NS         Reserved.                                         
- <9:8>   XSCOL    R/W     0x0        0x0        TX Excessive collisions (halfdup mode only)       
- <7:4>   NS       ---     NS         NS         Reserved.                                         
- <3:2>   UNDFLW   R/W     0x0        0x0        TX Underflow                                      
+ <19:17> NS       ---     NS         NS         Reserved.                                         
+ <16>    LATE_COL R/W     0x0        0x0        TX Late Collision                                 
+ <15:13> NS       ---     NS         NS         Reserved.                                         
+ <12>    XSDEF    R/W     0x0        0x0        TX Excessive deferral (halfdup mode only)         
+ <11:9>  NS       ---     NS         NS         Reserved.                                         
+ <8>     XSCOL    R/W     0x0        0x0        TX Excessive collisions (halfdup mode only)       
+ <7:3>   NS       ---     NS         NS         Reserved.                                         
+ <2>     UNDFLW   R/W     0x0        0x0        TX Underflow                                      
  <1>     NS       ---     NS         NS         Reserved.                                         
  <0>     PKO_NXA  R/W     0x0        0x0        Port address out-of-range from PKO Interface      
-
-Notes:
-UNDFLW[0], XSCOL[0], XSDEF[0], LATE_COL[0], PTP_LOST[0] will be reset when MIX0_CTL[RESET] is
-set to 1.
-UNDFLW[1], XSCOL[1], XSDEF[1], LATE_COL[1], PTP_LOST[1] will be reset when MIX1_CTL[RESET] is
-set to 1.
-PKO_NXA will bee reset when both MIX0/1_CTL[RESET] are set to 1.
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1871,30 +1718,19 @@ $AGL_GMX_BAD_REG   Address=(0x11800E0000518)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:38> NS       ---     NS         NS         Reserved.                                         
- <37>    TXPSH1   R/W1C   0x0        0x0        TX FIFO overflow (RGMII1)                         
- <36>    TXPOP1   R/W1C   0x0        0x0        TX FIFO underflow (RGMII1)                        
- <35>    OVRFLW1  R/W1C   0x0        0x0        RX FIFO overflow (RGMII1)                         
+ <63:35> NS       ---     NS         NS         Reserved.                                         
  <34>    TXPSH    R/W1C   0x0        0x0        TX FIFO overflow (RGMII0)                         
  <33>    TXPOP    R/W1C   0x0        0x0        TX FIFO underflow (RGMII0)                        
  <32>    OVRFLW   R/W1C   0x0        0x0        RX FIFO overflow (RGMII0)                         
  <31:27> NS       ---     NS         NS         Reserved.                                         
  <26>    STATOVR  R/W1C/H 0x0        0x0        TX Statistics overflow                            
- <25:24> NS       ---     NS         NS         Reserved.                                         
- <23:22> LOSTSTAT R/W1C/H 0x0        0x0        TX Statistics data was over-written               
+ <25:23> NS       ---     NS         NS         Reserved.                                         
+ <22>    LOSTSTAT R/W1C/H 0x0        0x0        TX Statistics data was over-written               
                                                 In RGMII, one bit per port
                                                 TX Stats are corrupted
- <21:4>  NS       ---     0x0        0x0        Reserved.                                         
- <3:2>   OUT_OVR  R/W1C/H 0x0        0x0        Outbound data FIFO overflow                       
+ <21:3>  NS       ---     0x0        0x0        Reserved.                                         
+ <2>     OUT_OVR  R/W1C/H 0x0        0x0        Outbound data FIFO overflow                       
  <1:0>   NS       ---     0x0        0x0        Reserved.                                         
-
-Notes:
-OUT_OVR[0], LOSTSTAT[0], OVRFLW, TXPOP, TXPSH    will be reset when MIX0_CTL[RESET] is set to
-1.
-OUT_OVR[1], LOSTSTAT[1], OVRFLW1, TXPOP1, TXPSH1 will be reset when MIX1_CTL[RESET] is set to
-1.
-STATOVR will be reset when both MIX0/1_CTL[RESET] are set to 1.
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1921,8 +1757,7 @@ $AGL_GMX_STAT_BP   Address=(0x11800E0000520)   Bus=(RSL)
                                              Saturating counter
 
 Notes:
-Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
-*DON'T PUT IN HRM*
+INTERNAL: *DON'T PUT IN HRM*
 It has no relationship with the TX FIFO per se.  The TX engine sends packets
 from PKO and upon completion, sends a command to the TX stats block for an
 update based on the packet size.  The stats operation can take a few cycles -
@@ -1969,15 +1804,10 @@ $AGL_GMX_RX_TX_STATUS   Address=(0x11800E00007E8)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  NS    ---     NS         NS         Reserved.                                         
- <5:4>   TX    RC/H    0x0        0x0        Transmit data since last read                     
- <3:2>   NS    ---     NS         NS         Reserved.                                         
- <1:0>   RX    RC/H    0x0        0x0        Receive data since last read                      
-
-Notes:
-RX[0], TX[0] will be reset when MIX0_CTL[RESET] is set to 1.
-RX[1], TX[1] will be reset when MIX1_CTL[RESET] is set to 1.
-
+ <63:5>  NS    ---     NS         NS         Reserved.                                         
+ <4>     TX    RC/H    0x0        0x0        Transmit data since last read                     
+ <3:1>   NS    ---     NS         NS         Reserved.                                         
+ <0>     RX    RC/H    0x0        0x0        Receive data since last read                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -2037,34 +1867,31 @@ The RGMII timing specification requires that devices transmit clock and
 data synchronously. The specification requires external sources (namely
 the PC board trace routes) to introduce the appropriate 1.5 to 2.0 ns of
 delay.
-To eliminate the need for the PC board delays, the MIX RGMII interface
-has optional onboard DLL's for both transmit and receive. For correct
-operation, at most one of the transmitter, board, or receiver involved
-in an RGMII link should introduce delay. By default/reset,
-the MIX RGMII receivers delay the received clock, and the MIX
-RGMII transmitters do not delay the transmitted clock. Whether this
-default works as-is with a given link partner depends on the behavior
-of the link partner and the PC board.
-These are the possible modes of MIX RGMII receive operation:
-o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) The OCTEON MIX RGMII
+To eliminate the need for the PC board delays, the RGMII interface has optional
+onboard DLL's for both transmit and receive. For correct operation, at most one
+of the transmitter, board, or receiver involved in an RGMII link should
+introduce delay. By default/reset, the RGMII receivers delay the received clock,
+and the RGMII transmitters do not delay the transmitted clock. Whether this
+default works as-is with a given link partner depends on the behavior of the
+link partner and the PC board.
+These are the possible modes of RGMII receive operation:
+o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) The OCTEON RGMII
 receive interface introduces clock delay using its internal DLL.
 This mode is appropriate if neither the remote
 transmitter nor the PC board delays the clock.
-o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 The OCTEON MIX
+o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 The OCTEON
 RGMII receive interface introduces no clock delay. This mode
 is appropriate if either the remote transmitter or the PC board
 delays the clock.
-These are the possible modes of MIX RGMII transmit operation:
+These are the possible modes of RGMII transmit operation:
 o AGL_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
-The OCTEON MIX RGMII transmit interface introduces no clock
+The OCTEON RGMII transmit interface introduces no clock
 delay. This mode is appropriate is either the remote receiver
 or the PC board delays the clock.
-o AGL_PRTx_CTL[CLKTX_BYP] = 0 The OCTEON MIX RGMII transmit
+o AGL_PRTx_CTL[CLKTX_BYP] = 0 The OCTEON RGMII transmit
 interface introduces clock delay using its internal DLL.
 This mode is appropriate if neither the remote receiver
 nor the PC board delays the clock.
-AGL_PRT0_CTL will be reset when MIX0_CTL[RESET] is set to 1.
-AGL_PRT1_CTL will be reset when MIX1_CTL[RESET] is set to 1.
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4068,10 +3895,9 @@ $DPI_SLI_PRT(0..2)_CFG   Address=(0x1DF0000000900+a*0x8)   Bus=(NCB)
                                                 used by the SLI to track load responses.  This
                                                 value can range from 1 to 32 depending on the MAC
                                                 type and number of lanes.
-                                                MAC == PCIe:           Max is 32
-                                                MAC == sRio / 4 lanes: Max is 32
-                                                MAC == sRio / 2 lanes: Max is 16
-                                                MAC == sRio / 1 lane:  Max is  8
+                                                MAC == PCIe / 4 lanes: Max is 32
+                                                MAC == PCIe / 2 lanes: Max is 16
+                                                MAC == PCIe / 1 lane:  Max is  8
                                                 Reset value is computed based on the MAC config.
                                                 Setting MOLR to a value of 0 will halt all read
                                                 traffic to the port.  There are no restrictions
@@ -4289,8 +4115,8 @@ $DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|((0) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4370,8 +4196,8 @@ $DTX_FPA_SEL(0..1)   Address=(0x11800FE000000|((40) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4451,8 +4277,8 @@ $DTX_DFA_SEL(0..1)   Address=(0x11800FE000000|((55) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4532,8 +4358,8 @@ $DTX_L2C_TAD(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x48 + (a)) << 15)+(b*
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4613,8 +4439,8 @@ $DTX_IPD_SEL(0..1)   Address=(0x11800FE000000|((79) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4694,8 +4520,8 @@ $DTX_PKO_SEL(0..1)   Address=(0x11800FE000000|((80) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4775,8 +4601,8 @@ $DTX_TIM_SEL(0..1)   Address=(0x11800FE000000|((88) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4856,8 +4682,8 @@ $DTX_L2C_MCI(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x5c + (a)) << 15)+(b*
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4937,8 +4763,8 @@ $DTX_POW_SEL(0..1)   Address=(0x11800FE000000|((103) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5018,8 +4844,8 @@ $DTX_L2C_CBC(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x84 + (a)) << 15)+(b*
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5099,8 +4925,8 @@ $DTX_LMC(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x88 + (a)) << 15)+(b*8)) 
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5180,8 +5006,8 @@ $DTX_PIP_SEL(0..1)   Address=(0x11800FE000000|((160) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5261,8 +5087,8 @@ $DTX_PEM(0..2)_SEL(0..1)   Address=(0x11800FE000000+((0xC0 + (a)) << 15)+(b*8)) 
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5342,8 +5168,8 @@ $DTX_AGL_SEL(0..1)   Address=(0x11800FE000000|((224) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5423,8 +5249,8 @@ $DTX_IOB_SEL(0..1)   Address=(0x11800FE000000|((240) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5504,8 +5330,8 @@ $DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5522,22 +5348,6 @@ $DTX_BROADCAST_ENA(0..1)   Address=(0x11800FE7F0020|a<<3)   Bus=(RSL)
  <63:36> NS    ---     0x0        0x0        Reserved.                                         
  <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
                                              will drive each bit.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * DTX_BROADCAST_DAT = DTX BROADCAST Raw Data Register
- * 
- *  
- * 
-$DTX_BROADCAST_DAT(0..1)   Address=(0x11800FE7F0040|a<<3)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field Field   Reset      Typical    Field                                             
- Pos     Name  Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  RAW   RO      0x0        0x0        Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                             peek into blocks during an OCLA capture without OCLA reconfiguration.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5570,8 +5380,8 @@ $DTX_SLI_SEL(0..1)   Address=(0x11800FE000000|((287) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5651,8 +5461,8 @@ $DTX_DPI_SEL(0..1)   Address=(0x11800FE000000|((479) << 15)|a<<3)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:36> NS    ---     0x0        0x0        Reserved.                                         
- <35:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <63:24> NS    ---     0x0        0x0        Reserved.                                         
+ <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9236,6 +9046,21 @@ $GSER(0)_DLM(0..2)_REFCLK_SEL   Address=(0x1180090000008+a+b*0x80000)   Bus=(RSL
 
 
  * 
+ * GSER_PHY_SCOPE_MASK = GSER PHY SCOPE Mask N Valid Register
+ * 
+ *  Starting count value of PHY Mask register
+ * 
+$GSER(0)_PHY(0..2)_SCOPE_MASK(0..7)   Address=(0x1180090000120+a+b*0x80000+c*0x8)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field    Field   Reset      Typical    Field                                             
+ Pos     Name     Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:16> NS       ---     NS         NS         Reserved.                                         
+ <15:0>  MASK_VAL R/W     0x0        NS         The internal PHY MASK_VAL_N registers.            
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * GSER_DLM_MPLL_STATUS = GSER DLM MPLL Status Register
  * 
  *  DLM PLL Lock Status.
@@ -9935,10 +9760,10 @@ $GSER(0)_PCIE_PIPE_RST   Address=(0x1180090080448+a)   Bus=(RSL)
  Pos     Name      Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:4>  NS        ---     NS         NS         Reserved.                                         
- <3>     PIPE3_RST R/W     0x0        NS         Pipe 3 Reset.                                     
- <2>     PIPE2_RST R/W     0x0        NS         Pipe 2 Reset.                                     
- <1>     PIPE1_RST R/W     0x0        NS         Pipe 1 Reset.                                     
- <0>     PIPE0_RST R/W     0x0        NS         Pipe 0 Reset.                                     
+ <3>     PIPE3_RST R/W     0x1        NS         Pipe 3 Reset.                                     
+ <2>     PIPE2_RST R/W     0x1        NS         Pipe 2 Reset.                                     
+ <1>     PIPE1_RST R/W     0x1        NS         Pipe 1 Reset.                                     
+ <0>     PIPE0_RST R/W/H   0x0        NS         Pipe 0 Reset.                                     
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9968,14 +9793,14 @@ $GSER(0)_PCIE_PIPE_PORT_SEL   Address=(0x1180090080458+a)   Bus=(RSL)
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:3>  NS            ---     NS         NS         Reserved.                                         
- <2>     CFG_PEM1_LANE R/W     0x0        NS         Configues the PIPE/PHY configuration for PEM1     
-                                                     0: PEM1 is tied to DLM1/Lane2   This is 2x1 PCIE with SATA.
+ <2>     CFG_PEM1_LANE R/W     0x0        NS         Configures the PIPE/PHY configuration for PEM1 when all 4 PIPEs are enabled.
+                                                     0: PEM1 is tied to DLM1/Lane1.   This is 2x1 PCIE with SATA.
                                                      1: PEM1 is tied to DLM2/Lane0.  This is 3x1 PCIe mode.
  <1:0>   PIPE_PORT_SEL R/W     0x0        NS         PIPE enable request.  Change only when phy_reset is asserted.
                                                      00: Disables all PIPEs
-                                                     01: Enables PIPE0 only
-                                                     10: Enables PIPEs 0 and 1
-                                                     11: Enables PIPEs 0, 1, 2, and 3
+                                                     01: Enables PIPE0 only.  This is 1x4 PCIe mode.
+                                                     10: Enables PIPEs 0 and 1. This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
+                                                     11: Enables PIPEs 0, 1, 2, and 3. This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -13200,7 +13025,8 @@ $L2C_CTL   Address=(0x1180080800000)   Bus=(RSL)
  Bit     Field        Field   Reset      Typical    Field                                             
  Pos     Name         Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:29> NS           ---     NS         NS         Reserved.                                         
+ <63:32> NS           ---     NS         NS         Reserved.                                         
+ <31:29> OCLA_QOS     R/W     0x7        0x7        QOS level for the transactions from OCLA to L2C   
  <28>    NS           ---     NS         NS         Reserved.                                         
  <27>    DISSTGL2I    R/W     0x0        0x0        Disable STGL2I's from changing the tags           
  <26>    L2DFSBE      R/W     0x0        0x0        Force single bit ECC error on PL2 allocates (2)   
@@ -13303,12 +13129,7 @@ $L2C_TAD_CTL   Address=(0x1180080800018)   Bus=(RSL)
  *  (3) any FILL responses generated by the XMC command will be ignored.  Generated INVLs,
  *  however, will correctly invalidate the required PPs.
  *  
- *  (4) any L2D read generated by the XMC command will record the syndrome information in
- *  L2C_TAD_ECC0/1.  If ECC is disabled prior to the CSR write this provides the ability to read
- *  the ECC bits directly.  If ECC is not disabled this should log 0's (assuming no ECC errors
- *  were found in the block).
- *  
- *  (5) A write which arrives while the INUSE bit is set will block until the INUSE bit clears.
+ *  (4) A write which arrives while the INUSE bit is set will block until the INUSE bit clears.
  *  This gives software 2 options when needing to issue a stream of writes to L2C_XMC_CMD: polling
  *  on the INUSE bit, or allowing HW to handle the interlock -at the expense of locking up the RSL
  *  bus for potentially tens of cycles at a time while waiting for an available LFB/VAB entry.
@@ -13316,12 +13137,12 @@ $L2C_TAD_CTL   Address=(0x1180080800018)   Bus=(RSL)
  *  another XMC command.  Subsequent commands may complete out of order relative to earlier
  *  commands.
  *  
- *  (6) The address written to L2C_XMC_CMD is a 40-bit OCTEON physical address.  The L2C performs
+ *  (5) The address written to L2C_XMC_CMD is a 40-bit OCTEON physical address.  The L2C performs
  *  hole removal and, if applicable to the command, index aliasing (if enabled) on the written
  *  address and uses that for the command. This potentially hole removed/index aliased 40-bit
  *  address is what is returned on a read of the L2C_XMC_CMD register.
  *  
- *  (7) The order of two CSR generated XMC commands is not guaranteed for different QOS levels
+ *  (6) The order of two CSR generated XMC commands is not guaranteed for different QOS levels
  * 
 $L2C_XMC_CMD   Address=(0x1180080800028)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -13334,7 +13155,7 @@ $L2C_XMC_CMD   Address=(0x1180080800028)   Bus=(RSL)
  <55:47> NS    ---     NS         NS         Reserved.                                         
  <46:44> QOS   R/W     0x0        NS         QOS level to use for simulated XMC request        
  <43:40> NODE  R/W     0x0        NS         OCI node to use for simulated XMC request         
- <39:0>  ADDR  R/W     0x0        NS         Address to use for simulated XMC request (see Note 6)
+ <39:0>  ADDR  R/W     0x0        NS         Address to use for simulated XMC request (see Note 5)
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -13734,9 +13555,15 @@ $L2C_TAD(0..0)_TAG   Address=(0x1180080A00010+a*0x40000)   Bus=(RSL)
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:60> NS      ---     NS         NS         Reserved -- TEMP: will be SUBBLKDTY               
+ <63:60> SBLKDTY R/W/H   0x0        0x0        Sub-block dirty bits. 70xx does not implement true sub-block dirty bits, therefore when
+                                               L2C_TAD_TAG is written, it is set to all ones if DIRTY is 1, or all zeroes if DIRTY is
+                                               zero. LTGL2I will always result in similar legal values being loaded.
  <59:56> NS      ---     NS         NS         Reserved.                                         
- <55:48> BUSINFO R/W/H   0x0        0x0        The businfo bits                                  
+ <55:48> BUSINFO R/W/H   0x0        0x0        The businfo bits. Legal values: when [55]==1, we are in idmode and [54:50] must be 0,
+                                               [49:48] are the PPVID of the PP which could be holding the block; when [55]==0, we are in
+                                               bus mask mode and [54:49] must be 0 [48] is 1 if any of the PP's could contain the
+                                               block. Operation is undefined if an STGL2I causes an illegal value to be written to the L2
+                                               TAGs. LTGL2Is will only load legal values into this register.
  <47>    NS      ---     NS         NS         Reserved.                                         
  <46:40> ECC     R/W/H   0x0        NS         The tag ECC                                       
  <39:17> TAG     R/W/H   0x0        0x0        The tag (see note 2)                              
@@ -13745,48 +13572,6 @@ $L2C_TAD(0..0)_TAG   Address=(0x1180080A00010+a*0x40000)   Bus=(RSL)
  <2>     VALID   R/W/H   0x0        0x0        The valid bit                                     
  <1>     DIRTY   R/W/H   0x0        0x0        The dirty bit                                     
  <0>     LOCK    R/W/H   0x0        0x0        The lock bit (see note 1)                         
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * L2C_TAD_ECC0 = L2C ECC logging
- * 
- *  Description: holds the syndromes for a L2D read generated from L2C_XMC_CMD
- * 
-$L2C_TAD(0..0)_ECC0   Address=(0x1180080A00018+a*0x40000)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field  Field   Reset      Typical    Field                                             
- Pos     Name   Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:56> QW7ECC RO      0x0        NS         ECC for QW7 of cache block                        
- <55:48> QW6ECC RO      0x0        NS         ECC for QW6 of cache block                        
- <47:40> QW5ECC RO      0x0        NS         ECC for QW5 of cache block                        
- <39:32> QW4ECC RO      0x0        NS         ECC for QW4 of cache block                        
- <31:24> QW3ECC RO      0x0        NS         ECC for QW3 of cache block                        
- <23:16> QW2ECC RO      0x0        NS         ECC for QW2 of cache block                        
- <15:8>  QW1ECC RO      0x0        NS         ECC for QW1 of cache block                        
- <7:0>   QW0ECC RO      0x0        NS         ECC for QW0 of cache block                        
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * L2C_TAD_ECC1 = L2C ECC logging
- * 
- *  Description: holds the syndromes for a L2D read generated from L2C_XMC_CMD
- * 
-$L2C_TAD(0..0)_ECC1   Address=(0x1180080A00020+a*0x40000)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field   Field   Reset      Typical    Field                                             
- Pos     Name    Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:56> QW15ECC RO      0x0        NS         ECC for QW15 of cache block                       
- <55:48> QW14ECC RO      0x0        NS         ECC for QW14 of cache block                       
- <47:40> QW13ECC RO      0x0        NS         ECC for QW13 of cache block                       
- <39:32> QW12ECC RO      0x0        NS         ECC for QW12 of cache block                       
- <31:24> QW11ECC RO      0x0        NS         ECC for QW11 of cache block                       
- <23:16> QW10ECC RO      0x0        NS         ECC for QW10 of cache block                       
- <15:8>  QW9ECC  RO      0x0        NS         ECC for QW9 of cache block                        
- <7:0>   QW8ECC  RO      0x0        NS         ECC for QW8 of cache block                        
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -13870,7 +13655,7 @@ $L2C_TAD(0..0)_ERR   Address=(0x1180080A007D0+a*0x40000)   Bus=(RSL)
  <60>    HOLEWR RO/H    0x0        0x0        Logged information is for a HOLEWR error.         
  <59:58> NS     ---     NS         NS         Reserved.                                         
  <57:51> CMD    RO/H    0x0        NS         XMC command of request causing error.             
- <50:44> SOURCE RO/H    0x0        NS         XMC "source" of request causing error. If SOURCE<6>==0, SOURCE<5:0>=PPID else SOURCE<3:0>
+ <50:44> SOURCE RO/H    0x0        NS         XMC "source" of request causing error. If SOURCE<6>==0, SOURCE<5:0>=PPVID else SOURCE<3:0>
                                               is BUSID of IOB which made the request.
  <43:40> NODE   RO/H    0x0        NS         OCI Node of XMC request causing error. For BIG* errors NODE will always be the node
                                               logging the error (BIG* errors are logged at the home node). For HOLE* errors, NODE could
@@ -14264,7 +14049,9 @@ $LMC(0..0)_EXT_CONFIG   Address=(0x1180088000030|a<<24)   Bus=(RSL)
  Bit     Field                Field   Reset      Typical    Field                                             
  Pos     Name                 Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:18> NS                   ---     NS         NS         Reserved.                                         
+ <63:20> NS                   ---     NS         NS         Reserved.                                         
+ <19>    READ_ENA_BPRCH       R/W/H   0x0        0x0        Drive DQx for one cycle longer than normal during write operations.
+ <18>    READ_ENA_FPRCH       R/W/H   0x0        0x0        Drive DQX starting one cycle earlier than normal during write operations.
  <17>    SLOT_CTL_RESET_FORCE WO      0x0        0x0        Write 1 to reset the slot control override for all slot control registers.
                                                             After writing a 1 to this bit, slot control registers will update with changes made to
                                                             other timing control registers.  One shot operation, will automatically return to 0
@@ -15483,74 +15270,75 @@ violations.
  * 
 $LMC(0..0)_COMP_CTL2   Address=(0x11800880001B8|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field        Field   Reset      Typical    Field                                             
- Pos     Name         Type    Value      Value      Description                                       
+ Bit     Field          Field   Reset      Typical    Field                                             
+ Pos     Name           Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:50> NS           ---     NS         NS         Reserved.                                         
- <49:45> DDR__PTUNE   RO/H    NS         NS         DDR PCTL from compensation circuit. The encoded value provides debug information for the
-                                                    compensation impedance on P-pullup.
- <44:40> DDR__NTUNE   RO/H    NS         NS         DDR NCTL from compensation circuit. The encoded value provides debug information for the
-                                                    compensation impedance on N-pulldown.
- <39:36> PTUNE_OFFSET R/W     0x0        NS         Ptune Offset value.                               
- <35:32> NTUNE_OFFSET R/W     0x0        NS         Ntune offset value.                               
- <31>    M180         R/W     0x0        NS         Reserved; must be zero. INTERNAL: Cap impedance at 180 ohm, instead of 240 ohm.
- <30>    BYP          R/W     0x0        NS         Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
-                                                    DDR_PTUNE,DDR_NTUNE are the compensation setting.
- <29:25> PTUNE        R/W     0x0        NS         PCTL impedance control in bypass mode.            
- <24:20> NTUNE        R/W     0x0        NS         NCTL impedance control in bypass mode.            
- <19:16> RODT_CTL     R/W     0x0        NS         RODT NCTL impedance control bits. This field controls ODT values during a memory read.
-                                                    In DDR3 mode:
-                                                    0000 = No ODT. 0011 = 40 ohm.
-                                                    0001 = 20 ohm. 0100 = 60 ohm.
-                                                    0010 = 30 ohm. 0101 = 120 ohm.
-                                                    0110-1111 = Reserved.
-                                                    In DDR4 mode:
-                                                    0000 = No ODT. 0100 = 120 ohm.
-                                                    0001 = 40 ohm. 0101 = 240 ohm.
-                                                    0010 = 60 ohm. 0110 =  34 ohm.
-                                                    0011 = 80 ohm. 0111 =  48 ohm.
- <15:12> CONTROL_CTL  R/W     0x4        NS         Drive strength control for ODT, etc. drivers.     
-                                                    In DDR3 mode:
-                                                    0001 = 24 ohm.    0101 = 40 ohm.
-                                                    0010 = 26.67 ohm. 0110 = 48 ohm.
-                                                    0011 = 30 ohm.    0111 = 60 ohm.
-                                                    0100 = 34.3 ohm.  0000,1000-1111 = Reserved.
-                                                    In DDR4 mode:
-                                                    0000 = Reserved.  0001 = Reserved.
-                                                    0010 = 26 ohm.    0011 = 30 ohm.
-                                                    0100 = 34 ohm.    0101 = 40 ohm.
-                                                    0110 = 48 ohm.    0111 = 68 ohm.
-                                                    1000-1111 = Reserved.
- <11:8>  CMD_CTL      R/W     0x4        NS         Drive strength control for CMD/A/RESET_L drivers. 
-                                                    In DDR3 mode:
-                                                    0001 = 24 ohm. 0101 = 40 ohm.
-                                                    0010 = 26.67 ohm. 0110 = 48 ohm.
-                                                    0011 = 30 ohm. 0111 = 60 ohm.
-                                                    0100 = 34.3 ohm. 0000,1000-1111 = Reserved.
-                                                    In DDR4 mode:
-                                                    0000 = Reserved.  0001 = Reserved.
-                                                    0010 = 26 ohm.    0011 = 30 ohm.
-                                                    0100 = 34 ohm.    0101 = 40 ohm.
-                                                    0110 = 48 ohm.    0111 = 68 ohm.
-                                                    1000-1111 = Reserved.
- <7:4>   CK_CTL       R/W     0x4        NS         ""Drive strength control for DDR#_CK_*_P/DDR#_DIMM*_CS*_L/DDR#_DIMM*_ODT_*/DDR#_DIMM*_CKE*
-                                                    drivers.
-                                                    In DDR3 mode:
-                                                    0001 = 24 ohm. 0101 = 40 ohm.
-                                                    0010 = 26.67 ohm. 0110 = 48 ohm.
-                                                    0011 = 30 ohm. 0111 = 60 ohm.
-                                                    0100 = 34.3 ohm. 0000,1000-1111 = Reserved."
-                                                    In DDR4 mode:
-                                                    0000 = Reserved.  0001 = Reserved.
-                                                    0010 = 26 ohm.    0011 = 30 ohm.
-                                                    0100 = 34 ohm.    0101 = 40 ohm.
-                                                    0110 = 48 ohm.    0111 = 68 ohm.
-                                                    1000-1111 = Reserved."
- <3:0>   DQX_CTL      R/W     0x4        NS         "Drive strength control for DDR#_DQ*/DDR#_DQS_*_P/N drivers.
-                                                    0001 = 24 ohm. 0101 = 40 ohm.
-                                                    0010 = 26.67 ohm. 0110 = 48 ohm.
-                                                    0011 = 30 ohm. 0111 = 60 ohm.
-                                                    0100 = 34.3 ohm. 0000,1000-1111 = Reserved."
+ <63:51> NS             ---     NS         NS         Reserved.                                         
+ <50>    RCLK_CHAR_MODE R/W     0x0        0x0        INTERNAL: Select RCLK characterization mode.      
+ <49:45> DDR__PTUNE     RO/H    NS         NS         DDR PCTL from compensation circuit. The encoded value provides debug information for the
+                                                      compensation impedance on P-pullup.
+ <44:40> DDR__NTUNE     RO/H    NS         NS         DDR NCTL from compensation circuit. The encoded value provides debug information for the
+                                                      compensation impedance on N-pulldown.
+ <39:36> PTUNE_OFFSET   R/W     0x0        NS         Ptune Offset value.                               
+ <35:32> NTUNE_OFFSET   R/W     0x0        NS         Ntune offset value.                               
+ <31>    M180           R/W     0x0        NS         Reserved; must be zero. INTERNAL: Cap impedance at 180 ohm, instead of 240 ohm.
+ <30>    BYP            R/W     0x0        NS         Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
+                                                      DDR_PTUNE,DDR_NTUNE are the compensation setting.
+ <29:25> PTUNE          R/W     0x0        NS         PCTL impedance control in bypass mode.            
+ <24:20> NTUNE          R/W     0x0        NS         NCTL impedance control in bypass mode.            
+ <19:16> RODT_CTL       R/W     0x0        NS         RODT NCTL impedance control bits. This field controls ODT values during a memory read.
+                                                      In DDR3 mode:
+                                                      0000 = No ODT. 0011 = 40 ohm.
+                                                      0001 = 20 ohm. 0100 = 60 ohm.
+                                                      0010 = 30 ohm. 0101 = 120 ohm.
+                                                      0110-1111 = Reserved.
+                                                      In DDR4 mode:
+                                                      0000 = No ODT. 0100 = 120 ohm.
+                                                      0001 = 40 ohm. 0101 = 240 ohm.
+                                                      0010 = 60 ohm. 0110 =  34 ohm.
+                                                      0011 = 80 ohm. 0111 =  48 ohm.
+ <15:12> CONTROL_CTL    R/W     0x4        NS         Drive strength control for ODT, etc. drivers.     
+                                                      In DDR3 mode:
+                                                      0001 = 24 ohm.    0101 = 40 ohm.
+                                                      0010 = 26.67 ohm. 0110 = 48 ohm.
+                                                      0011 = 30 ohm.    0111 = 60 ohm.
+                                                      0100 = 34.3 ohm.  0000,1000-1111 = Reserved.
+                                                      In DDR4 mode:
+                                                      0000 = Reserved.  0001 = Reserved.
+                                                      0010 = 26 ohm.    0011 = 30 ohm.
+                                                      0100 = 34 ohm.    0101 = 40 ohm.
+                                                      0110 = 48 ohm.    0111 = 68 ohm.
+                                                      1000-1111 = Reserved.
+ <11:8>  CMD_CTL        R/W     0x4        NS         Drive strength control for CMD/A/RESET_L drivers. 
+                                                      In DDR3 mode:
+                                                      0001 = 24 ohm. 0101 = 40 ohm.
+                                                      0010 = 26.67 ohm. 0110 = 48 ohm.
+                                                      0011 = 30 ohm. 0111 = 60 ohm.
+                                                      0100 = 34.3 ohm. 0000,1000-1111 = Reserved.
+                                                      In DDR4 mode:
+                                                      0000 = Reserved.  0001 = Reserved.
+                                                      0010 = 26 ohm.    0011 = 30 ohm.
+                                                      0100 = 34 ohm.    0101 = 40 ohm.
+                                                      0110 = 48 ohm.    0111 = 68 ohm.
+                                                      1000-1111 = Reserved.
+ <7:4>   CK_CTL         R/W     0x4        NS         ""Drive strength control for DDR#_CK_*_P/DDR#_DIMM*_CS*_L/DDR#_DIMM*_ODT_*/DDR#_DIMM*_CKE*
+                                                      drivers.
+                                                      In DDR3 mode:
+                                                      0001 = 24 ohm. 0101 = 40 ohm.
+                                                      0010 = 26.67 ohm. 0110 = 48 ohm.
+                                                      0011 = 30 ohm. 0111 = 60 ohm.
+                                                      0100 = 34.3 ohm. 0000,1000-1111 = Reserved."
+                                                      In DDR4 mode:
+                                                      0000 = Reserved.  0001 = Reserved.
+                                                      0010 = 26 ohm.    0011 = 30 ohm.
+                                                      0100 = 34 ohm.    0101 = 40 ohm.
+                                                      0110 = 48 ohm.    0111 = 68 ohm.
+                                                      1000-1111 = Reserved."
+ <3:0>   DQX_CTL        R/W     0x4        NS         "Drive strength control for DDR#_DQ*/DDR#_DQS_*_P/N drivers.
+                                                      0001 = 24 ohm. 0101 = 40 ohm.
+                                                      0010 = 26.67 ohm. 0110 = 48 ohm.
+                                                      0011 = 30 ohm. 0111 = 60 ohm.
+                                                      0100 = 34.3 ohm. 0000,1000-1111 = Reserved."
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -15896,7 +15684,9 @@ $LMC(0..0)_PHY_CTL   Address=(0x1180088000210|a<<24)   Bus=(RSL)
  Bit     Field                Field   Reset      Typical    Field                                             
  Pos     Name                 Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:50> NS                   ---     NS         NS         Reserved.                                         
+ <63:51> NS                   ---     NS         NS         Reserved.                                         
+ <50>    PHY_RESET            WO      0x0        0x0        INTERNAL: Write to 1 to reset the PHY, one shot operation, will automatically
+                                                            clear to value of 0.
  <49>    DSK_DBG_RD_COMPLETE  RO      0x0        NS         INTERNAL: Indicates completion of a read operation, will clear to 0 when
                                                             a read operation is started, then set to 1 when operation is complete.
  <48:39> DSK_DBG_RD_DATA      RO      0x0        NS         INTERNAL: Data from a deskew read operation.  Only valid when the
@@ -17443,8 +17233,8 @@ $CIU_INTR_SLOWDOWN   Address=(0x10700000007D0)   Bus=(NCB)
  <2:0>   CTL   R/W     0x0        0x0        Slow down CIU interrupt walker processing time. IRQ2/3/4 for all 48 cores are sent to the
                                              core (MRC) in a serial bus to reduce global routing. There is no backpressure mechanism
                                              designed for this scheme. It will only be a problem when SCLK is faster; this Control will
-                                             process 1 interrupt in 2^CTL SCLK cycles. With different a setting, clock rate ratio can
-                                             handle:
+                                             slow down the data send out rate in INTR interface to PP. With different a setting, clock
+                                             rate ratio can handle:
                                              SLOWDOWN sclk_freq/aclk_freq ratio
                                              0 3
                                              1 6
@@ -28633,6 +28423,29 @@ $PCS(0..1)_LOG_ANL(0..3)_REG   Address=(0x11800B0001090+a*0x8000000+b*0x400)   B
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
+ * 
+ * PCS_SERDES_CRDT_CNT_REG
+ * 
+ *  NOTE: Logic Analyzer is enabled with LA_EN for the specified PCS lane only. PKT_SZ is
+ *  effective only when LA_EN=1
+ *  For normal operation(sgmii or 1000Base-X), this bit must be 0.
+ *  See pcsx.csr for xaui logic analyzer mode.
+ *  For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
+ *  PCS SERDES Credit Count
+ *  INTERNAL: Do not add this register to the HRM
+ * 
+$PCS(0..1)_SERDES_CRDT_CNT(0..3)_REG   Address=(0x11800B00010A0+a*0x8000000+b*0x400)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS    ---     NS         NS         Reserved.                                         
+ <4:0>   CNT   R/W     0x10       0x10       SERDES Credit Count                               
+                                             Valid rand is 1-31
+                                             Value of zero will disable the port
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
 // -*- csr3-text -*-
 // ***********************************************************************
 // *  CAVIUM CONFIDENTIAL AND PROPRIETARY NOTE
@@ -28986,6 +28799,24 @@ $PCSX(0..1)_BIST_STATUS_REG   Address=(0x11800B0000870+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
+ * 
+ * PCSX_SERDES_CRDT_CNT_REG
+ * 
+ *  PCSX SERDES Credit Count
+ *  INTERNAL: Do not add this register to the HRM
+ * 
+$PCSX(0..1)_SERDES_CRDT_CNT_REG   Address=(0x11800B0000880+a*0x8000000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:5>  NS    ---     NS         NS         Reserved.                                         
+ <4:0>   CNT   R/W     0x10       0x10       INTERNAL: SERDES Credit Count.                    
+                                             Valid rand is 1-31.
+                                             Value of zero will disable the port.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
 // -*- csr3-text -*-
 // ***********************************************************************
 // *  CAVIUM CONFIDENTIAL AND PROPRIETARY NOTE
@@ -29158,18 +28989,39 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
                                                 value in this register should not be changed. Values
                                                 other than 0x80 can lead to unpredictable behavior.
  <47:24> NS       ---     NS         NS         Reserved.                                         
- <23:16> SLI_CPL  R/W     0x80       0x80       TLP 8B credits for Completion TLPs in the SLI.    
+ <23:16> SLI_CPL  R/W/H   0x80       0x80       TLP 8B credits for Completion TLPs in the SLI.    
                                                 Legal values are 0x24 to 0x80. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_CPL
-                                                fields must not exceed 0x80.
- <15:8>  SLI_NP   R/W     0x10       0x10       TLP 8B credits for Non-Posted TLPs in the SLI.    
+                                                fields must not exceed 0x80. The reset value for this
+                                                register is based on the pi_select_mode[1:0] straps;
+                                                2'd0 = 2 lanes = 64 credits, 2'd1 = 1 lane = 42 credits,
+                                                else 4 lanes = 128 credits. SW must reprogram this register
+                                                for RC mode PEMs, since they always default to 4 lanes.
+                                                SW may also need to reprogram this register for performance
+                                                reasons (configured as the only PEM, but as 2-lane - in
+                                                this case, this PEM can take all of the credits).
+ <15:8>  SLI_NP   R/W/H   0x10       0x10       TLP 8B credits for Non-Posted TLPs in the SLI.    
                                                 Legal values are 0x8 to 0x10. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_NP
-                                                fields must not exceed 0x10.
- <7:0>   SLI_P    R/W     0x80       0x80       TLP 8B credits for Posted TLPs in the SLI.        
+                                                fields must not exceed 0x10. The reset value for this
+                                                register is based on the pi_select_mode[1:0] straps;
+                                                2'd0 = 2 lanes = 8 credits, 2'd1 = 1 lane = 5 credits,
+                                                else 4 lanes = 16 credits. SW must reprogram this register
+                                                for RC mode PEMs, since they always default to 4 lanes.
+                                                SW may also need to reprogram this register for performance
+                                                reasons (configured as the only PEM, but as 2-lane - in
+                                                this case, this PEM can take all of the credits).
+ <7:0>   SLI_P    R/W/H   0x80       0x80       TLP 8B credits for Posted TLPs in the SLI.        
                                                 Legal values are 0x24 to 0x80. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_P
-                                                fields must not exceed 0x80.
+                                                fields must not exceed 0x80. The reset value for this
+                                                register is based on the pi_select_mode[1:0] straps;
+                                                2'd0 = 2 lanes = 64 credits, 2'd1 = 1 lane = 42 credits,
+                                                else 4 lanes = 128 credits. SW must reprogram this register
+                                                for RC mode PEMs, since they always default to 4 lanes.
+                                                SW may also need to reprogram this register for performance
+                                                reasons (configured as the only PEM, but as 2-lane - in
+                                                this case, this PEM can take all of the credits).
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -38251,7 +38103,7 @@ $USBDRD(0..1)_UAHC_CRCR   Address=(0x1680000000038+a*0x10000000000)   Bus=(NCB)
  Bit     Field        Field   Reset      Typical    Field                                             
  Pos     Name         Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  CMD_RING_PTR WO      0x0        NS         Command ring pointer bits<31:6>.                  
+ <63:6>  CMD_RING_PTR WO      0x0        NS         Command ring pointer bits<63:6>.                  
  <5:4>   NS           ---     NS         NS         Reserved.                                         
  <3>     CRR          RO/H    0x0        NS         Command ring running.                             
  <2>     CA           WO      0x0        0x0        Command abort.                                    
@@ -38276,7 +38128,7 @@ $USBDRD(0..1)_UAHC_DCBAAP   Address=(0x1680000000050+a*0x10000000000)   Bus=(NCB
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  DCBAAP R/W     0x0        NS         Device context base address array pointer bits<31:6>.
+ <63:6>  DCBAAP R/W     0x0        NS         Device context base address array pointer bits<63:6>.
  <5:0>   NS     ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -38563,7 +38415,7 @@ $USBDRD(0..1)_UAHC_ERSTBA(0..0)   Address=(0x1680000000470+a*0x10000000000+b*0x2
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:6>  ERSTBA R/W     0x0        NS         Event-ring segment-table base-address bits<31:6>. 
+ <63:6>  ERSTBA R/W     0x0        NS         Event-ring segment-table base-address bits<63:6>. 
  <5:0>   NS     ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -38582,7 +38434,7 @@ $USBDRD(0..1)_UAHC_ERDP(0..0)   Address=(0x1680000000478+a*0x10000000000+b*0x20)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:4>  ERDP R/W     0x0        NS         Event ring dequeue pointer bits<31:4>.            
+ <63:4>  ERDP R/W     0x0        NS         Event ring dequeue pointer bits<63:4>.            
  <3>     EHB  R/W1C/H 0x0        NS         Event handler busy                                
  <2:0>   DESI R/W     0x0        NS         Dequeue ERST segment index.                       
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -39438,12 +39290,12 @@ $USBDRD(0..1)_UAHC_GUCTL   Address=(0x168000000C12C+a*0x10000000000)   Bus=(NCB)
  * 
 $USBDRD(0..1)_UAHC_GBUSERRADDR   Address=(0x168000000C130+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field     Field   Reset      Typical    Field                                             
- Pos     Name      Type    Value      Value      Description                                       
+ Bit     Field   Field   Reset      Typical    Field                                             
+ Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  BUSADDRLO RO/H    0x0        0x0        Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
-                                                 encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
-                                                 It can only be cleared by resetting the core.
+ <63:0>  BUSADDR RO/H    0x0        0x0        Bus address bits<63:0>. Contains the lower 32 bits of the first bus address that
+                                               encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
+                                               It can only be cleared by resetting the core.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39828,10 +39680,10 @@ $USBDRD(0..1)_UAHC_GDBGLSP   Address=(0x168000000C174+a*0x10000000000)   Bus=(NC
  * 
 $USBDRD(0..1)_UAHC_GDBGEPINFO   Address=(0x168000000C178+a*0x10000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field        Field   Reset      Typical    Field                                             
- Pos     Name         Type    Value      Value      Description                                       
+ Bit     Field     Field   Reset      Typical    Field                                             
+ Pos     Name      Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  ENDPT_DBG_LO RO/H    0x0        NS         Endpoint debug information, bits<31:0>.           
+ <63:0>  ENDPT_DBG RO/H    0x0        NS         Endpoint debug information, bits<63:0>.           
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -40208,15 +40060,12 @@ $USBDRD(0..1)_UAHC_GRXFIFOSIZ(0..2)   Address=(0x168000000C380+a*0x10000000000+b
  * 
 $USBDRD(0..1)_UAHC_GEVNTADR(0)   Address=(0x168000000C400+a*0x10000000000+b*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
- Bit     Field     Field   Reset      Typical    Field                                             
- Pos     Name      Type    Value      Value      Description                                       
+ Bit     Field   Field   Reset      Typical    Field                                             
+ Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:32> EVNTADRHI R/W/H   0x0        0x0        Holds the higher 32 bits of start address of the external memory
-                                                 for the Event Buffer. During operation, hardware does not update
-                                                 this address.
- <31:0>  EVNTADRLO R/W/H   0x0        0x0        Holds the lower 32 bits of start address of the external memory
-                                                 for the Event Buffer. During operation, hardware does not update
-                                                 this address.
+ <63:0>  EVNTADR R/W/H   0x0        0x0        Holds the start address of the external memory    
+                                               for the Event Buffer. During operation, hardware does not update
+                                               this address.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

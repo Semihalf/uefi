@@ -221,8 +221,10 @@ structs:
       - name: TIMEOUT
         bits: 23
         description: |
-          IOBDMA or LMTDMA timeout, or LAP_SEND_LMTDMA_S[ITO] was set in the request. Retry the
-          IOBDMA.
+          This LAB is not in the RECEIVED state yet. Caused by a IOBDMA or LMTDMA timeout, or
+          LAP_SEND_LMTDMA_S[ITO] was set in the request and the data has not yet been received. Any
+          data words that follow the header that were returned in this IOBDMA/LMTDMA will be
+          undefined.
           INTERNAL: Overlaps ILK CRC bits.
 
       - name: AS2
@@ -293,7 +295,23 @@ structs:
         description: LAB to return data for.
 
       - name: --
-        bits: 30..24
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: Reserved.
+
+      - name: ITO
+        bits: 27
+        attributes:
+          const: "--"
+        description: |
+          Instant time out. Immediately return the IOBDMA even if response data is not ready, as if
+          there was a timeout. If LAP_CTL_RTN_S[TIMEOUT] is set the result is still not ready and
+          Any data words that follow the LAP_CTL_RTN_S header that were returned with this IOBDMA
+          will be undefined.
+
+      - name: --
+        bits: 30..28
         attributes:
           const: "--"
         description: Reserved.
@@ -417,8 +435,9 @@ structs:
         attributes:
           const: "--"
         description: |
-          Instant time out. Immediately return the response as if there was a timeout. Software is
-          responsible for later retrieving the data using a separate IOBDMA.
+          Instant time out. Immediately return the response as if there was a timeout. Any data
+          words that follow the LAP_CTL_RTN_S header that were returned with this LMTDMA will be
+          undefined. Software is responsible for later retrieving the data using a separate IOBDMA.
 
       - name: CHAN
         bits: 28
@@ -1440,9 +1459,9 @@ registers:
         typical: --
         description: |
           Maximum number of LABS allowed to be assigned to this queue; compared against
-          LAP0/1_QUE(0..2)_STATE[LABS] to generate errors. The total across all queues' [MAX_LABS]
-          may be over-provisioned, in which case the global LAP0/1_SFT_RST[LAB_SIZE] number of LABs
-          will throttle the transaction count.
+          LAP0/1_QUE(0..2)_STATE[LABS_RX] + LAP0/1_QUE(0..2)_STATE[LABS_PROC] to generate errors.
+          The total across all queues' [MAX_LABS] may be over-provisioned, in which case the global
+          LAP0/1_SFT_RSTLAP0/1_CFG[LAB_SIZE] number of LABs will throttle the transaction count.
 
 
   - name: LAP(0..1)_QUE(0..2)_STATE
@@ -1453,46 +1472,78 @@ registers:
       arch_max: "x,256"
     fields:
       - name: --
-        bits: 63..40
+        bits: 63..56
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: TAIL
-        bits: 39..32
+        bits: 55..48
         access: RO/H
         reset: 0x0
         typical: --
-        description: LAB number that is at tail of this queue. Unspecified if [LABS]=0.
+        description: |
+          LAB number that is at tail of this queue; the most recent one to enter the PROCESSING
+          state (though it may now be in RECEIVED). Unspecified if [LABS_PROC]+[LABS_RX]=0.
 
       - name: --
-        bits: 31..24
+        bits: 47..44
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: HEAD_PROC
+        bits: 43..36
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: LAB number that is at head of the PROCESSING state list this queue. Unspecified if [LABS_PROC]=0.
+
+      - name: --
+        bits: 35..32
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: HEAD
-        bits: 23..16
+        bits: 31..24
         access: RO/H
         reset: 0x0
         typical: --
-        description: LAB number that is at head of this queue. Unspecified if [LABS]=0.
+        description: |
+          LAB number that is at head of the PROCESSING or RECEIVED state list in this queue.
+          Unspecified if [LABS_PROC]+[LABS_RX]=0.
 
       - name: --
-        bits: 15..9
+        bits: 23..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
-      - name: LABS
+      - name: LABS_PROC
+        bits: 20..12
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Number of LABs in PROCESSING state in this queue.
+
+      - name: --
+        bits: 11..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LABS_RX
         bits: 8..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: Number of LABs assigned to this queue.
+        description: Number of LABs in RECEIVED state in this queue.
 
 
   - name: LAP(0..1)_LAB(0..255)_STATE
@@ -1570,7 +1621,7 @@ registers:
     bus: RSL
     description: |
       "This register reads raw data from the LABs. The address is calculated from (LAB#  *
-      words_per_lab_from_table_in_LAP Registers and Address Map for address."
+      words_per_lab_from_table_in_LAP0/1_CFG[LAB_SIZE] + offset_in_LAB) * 8."
     attributes:
       arch_max: "x,16384"
     fields:

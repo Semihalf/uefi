@@ -36,7 +36,7 @@ registers:
       match.  For tagged frames the length or length+4 must match.
       (B) PCTERR checks that the frame begins with a valid PREAMBLE sequence.
       Does not check the number of PREAMBLE cycles.
-      (C) OVRERR *DON'T PUT IN HRM*
+      (C) OVRERR INTERNAL: *DON'T PUT IN HRM*
       OVRERR is an architectural assertion check internal to GMX to
       make sure no assumption was violated.  In a correctly operating
       system, this interrupt can never fire.
@@ -48,7 +48,6 @@ registers:
       assumption.  That the inbound module will always be able to
       consume the tick before another is produced.  If that doesn't
       happen that's when OVRERR will assert.
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..30
@@ -220,7 +219,6 @@ registers:
     title: Interrupt Enable
     address: 0x11800E0000008 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..30
@@ -388,7 +386,6 @@ registers:
     title: Port description
     address: 0x11800E0000010 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..14
@@ -540,8 +537,7 @@ registers:
       These control bits should be set to CTL_BCK=0,CTL_DRP=0 in halfdup mode.
       Since PAUSE packets only apply to fulldup operation, any PAUSE packet
       would constitute an exception which should be handled by the processing
-      cores.  PAUSE packets should not be forwarded.
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1."
+      cores.  PAUSE packets should not be forwarded."
     fields:
       - name: --
         bits: 63..13
@@ -687,9 +683,7 @@ registers:
     title: Which frame errors will set the ERR bit of the frame
     address: 0x11800E0000020 + a*0x800
     bus: RSL
-    internal: |
-      If AGL_GMX_RX_UDD_SKP[LEN] != 0, then LENERR will be forced to zero in HW.
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
+    internal: If AGL_GMX_RX_UDD_SKP[LEN] != 0, then LENERR will be forced to zero in HW.
     fields:
       - name: --
         bits: 63..10
@@ -776,7 +770,6 @@ registers:
     title: Frame Min length
     address: 0x11800E0000028 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -795,7 +788,7 @@ registers:
           AGL_GMX_RXn_FRM_CHK[MINERR] enables the check
           for port n.
           If enabled, failing packets set the MINERR
-          interrupt and the MIX opcode is set to UNDER_FCS
+          interrupt and the WQE opcode is set to UNDER_FCS
           (0x6, if packet has bad FCS) or UNDER_ERR (0x8,
           if packet has good FCS).
 
@@ -809,7 +802,6 @@ registers:
       AGL_GMX_RX_JABBER[CNT]. Failure to meet this constraint will cause packets that
       are within the maximum length parameter to be rejected because they exceed
       the AGL_GMX_RX_JABBER[CNT] limit.
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -828,7 +820,7 @@ registers:
           AGL_GMX_RXn_FRM_CHK[MAXERR] enables the check
           for port n.
           If enabled, failing packets set the MAXERR
-          interrupt and the MIX opcode is set to OVER_FCS
+          interrupt and the WQE opcode is set to OVER_FCS
           (0x3, if packet has bad FCS) or OVER_ERR (0x4, if
           packet has good FCS).
           LEN <= AGL_GMX_RX_JABBER[CNT]
@@ -850,7 +842,6 @@ registers:
       AGL_GMX_RX_FRM_MAX[LEN] value. Failure to meet this constraint will cause
       packets that are within the AGL_GMX_RX_FRM_MAX[LEN] length to be rejected
       because they exceed the CNT limit.
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -894,7 +885,6 @@ registers:
       packet is unconditionally dropped                accept packet based on DMAC
       where l2_size = MAX(0, total_packet_size AGL_GMX_RX_UDD_SKP[LEN]
       ((AGL_GMX_RX_FRM_CTL[PRE_CHK]==1)*8)
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..5
@@ -936,7 +926,6 @@ registers:
       packet.
       (7) If LEN != 0, then AGL_GMX_RX_FRM_CHK[LENERR] will be disabled and
       AGL_GMX_RX_INT_REG[LENERR] will be zero
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..9
@@ -977,7 +966,6 @@ registers:
     title: RX Stats Control register
     address: 0x11800E0000050 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..1
@@ -998,7 +986,6 @@ registers:
     title: RX Min IFG
     address: 0x11800E0000058 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..4
@@ -1030,7 +1017,6 @@ registers:
       These fields are only valid if the attached PHY is operating in RGMII mode
       and supports the optional in-band status (see section 3.4.1 of the RGMII
       specification, version 1.3 for more information).
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..4
@@ -1076,7 +1062,6 @@ registers:
     title: The TIME field in a PAUSE Packet which was dropped due to GMX RX FIFO full condition
     address: 0x11800E0000068 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -1103,7 +1088,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1153,7 +1137,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1203,7 +1186,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1250,7 +1232,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1295,7 +1276,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1346,8 +1326,7 @@ registers:
       else
       return (AGL_GMX_RX{prt}_ADR_CTL[CAM_MODE] ? REJECT : ACCEPT);
       }
-      @endverbatim
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1."
+      @endverbatim"
     fields:
       - name: --
         bits: 63..4
@@ -1390,7 +1369,6 @@ registers:
     title: Address Filtering Control Enable
     address: 0x11800E0000108 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..8
@@ -1411,7 +1389,6 @@ registers:
     address: 0x11800E0000180 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1429,7 +1406,6 @@ registers:
     address: 0x11800E0000188 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1447,7 +1423,6 @@ registers:
     address: 0x11800E0000190 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1465,7 +1440,6 @@ registers:
     address: 0x11800E0000198 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1483,7 +1457,6 @@ registers:
     address: 0x11800E00001A0 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1501,7 +1474,6 @@ registers:
     address: 0x11800E00001A8 + a*0x800
     bus: RSL
     description: AGL_GMX_RX_ADR_CAM = Address Filtering Control
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: ADR
         bits: 63..0
@@ -1528,7 +1500,6 @@ registers:
       CLK_CNT ==  1 ==> 125.0MHz TXC clock period (8ns* 1)
       CLK_CNT ==  5 ==>  25.0MHz TXC clock period (8ns* 5)
       CLK_CNT == 50 ==>   2.5MHz TXC clock period (8ns*50)
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..6
@@ -1552,7 +1523,6 @@ registers:
     title: Packet TX Threshold
     address: 0x11800E0000210 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..6
@@ -1579,7 +1549,6 @@ registers:
     title: Packet TX Append Control
     address: 0x11800E0000218 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..4
@@ -1626,7 +1595,6 @@ registers:
     title: Packet SMAC
     address: 0x11800E0000230 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..48
@@ -1664,7 +1632,6 @@ registers:
       where largest_pkt_size is that largest packet that the system can send
       (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
       of the PAUSE packet (normally 64B).
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -1688,7 +1655,6 @@ registers:
     title: Packet TX Min Size Packet (PAD upto min size)
     address: 0x11800E0000240 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..8
@@ -1729,7 +1695,6 @@ registers:
       where largest_pkt_size is that largest packet that the system can send
       (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
       of the PAUSE packet (normally 64B).
-      Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -1755,7 +1720,6 @@ registers:
     title: Packet TX Software Pause
     address: 0x11800E0000250 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -1778,7 +1742,6 @@ registers:
     title: Packet TX Amount of time remaining to backpressure
     address: 0x11800E0000258 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -1799,7 +1762,6 @@ registers:
     title: Packet TX Amount of time remaining to backpressure
     address: 0x11800E0000260 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..1
@@ -1823,7 +1785,6 @@ registers:
     title: TX Stats Control register
     address: 0x11800E0000268 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..1
@@ -1844,7 +1805,6 @@ registers:
     title: TX Control register
     address: 0x11800E0000270 + a*0x800
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..2
@@ -1879,7 +1839,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: XSDEF
         bits: 63..32
@@ -1908,7 +1867,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: SCOL
         bits: 63..32
@@ -1937,7 +1895,6 @@ registers:
       counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..48
@@ -1964,7 +1921,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..32
@@ -1994,7 +1950,6 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: HIST1
         bits: 63..32
@@ -2023,7 +1978,6 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: HIST3
         bits: 63..32
@@ -2054,7 +2008,6 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: HIST5
         bits: 63..32
@@ -2085,7 +2038,6 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: HIST7
         bits: 63..32
@@ -2118,7 +2070,6 @@ registers:
       as per the 802.3 frame definition.  If the system requires additional data
       before the L2 header, then the MCST and BCST counters may not reflect
       reality and should be ignored by software.
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: MCST
         bits: 63..32
@@ -2146,7 +2097,6 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when AGL_GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
-      Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: UNDFLW
         bits: 63..32
@@ -2170,7 +2120,6 @@ registers:
     title: GMX BIST Results
     address: 0x11800E0000400
     bus: RSL
-    internal: Not reset when MIX*_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..25
@@ -2218,7 +2167,6 @@ registers:
     title: FIFO mark for packet drop
     address: 0x11800E0000420 + a*0x8
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..6
@@ -2245,7 +2193,6 @@ registers:
     title: Hiwater mark for port/interface backpressure
     address: 0x11800E0000440 + a*0x8
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..9
@@ -2266,7 +2213,6 @@ registers:
     title: Lowater mark for packet drop
     address: 0x11800E0000460 + a*0x8
     bus: RSL
-    internal: Additionally reset when MIX<prt>_CTL[RESET] is set to 1.
     fields:
       - name: --
         bits: 63..6
@@ -2298,8 +2244,7 @@ registers:
       be in the range of 1-11, IFG2 must be in the range of 1-11, and the
       IFG1+IFG2 sum must be 12.
       For all other systems, IFG1 and IFG2 can be any value in the range of
-      1-15.  Allowing for a total possible IFG sum of 2-30.
-      Additionally reset when both MIX0/1_CTL[RESET] are set to 1."
+      1-15.  Allowing for a total possible IFG sum of 2-30."
     fields:
       - name: --
         bits: 63..8
@@ -2345,7 +2290,6 @@ registers:
     title: Packet TX Jam Pattern
     address: 0x11800E0000490
     bus: RSL
-    internal: Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..8
@@ -2366,7 +2310,6 @@ registers:
     title: Packet TX collision attempts before dropping frame
     address: 0x11800E0000498
     bus: RSL
-    internal: Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..5
@@ -2387,7 +2330,6 @@ registers:
     title: Packet TX Pause Packet DMAC field
     address: 0x11800E00004A0
     bus: RSL
-    internal: Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..48
@@ -2408,7 +2350,6 @@ registers:
     title: Packet TX Pause Packet TYPE field
     address: 0x11800E00004A8
     bus: RSL
-    internal: Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -2429,53 +2370,50 @@ registers:
     title: Packet TX Override BackPressure
     address: 0x11800E00004C8
     bus: RSL
-    internal: |
-      IGN_FULL[0], BP[0], EN[0] will be reset when MIX0_CTL[RESET] is set to 1.
-      IGN_FULL[1], BP[1], EN[1] will be reset when MIX1_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..9
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: EN
-        bits: 9..8
+        bits: 8
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Per port Enable back pressure override
 
       - name: --
-        bits: 7..6
+        bits: 7..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: BP
-        bits: 5..4
+        bits: 4
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           Port BackPressure status to use
           0=Port is available
           1=Port should be back pressured
 
       - name: --
-        bits: 3..2
+        bits: 3..1
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: IGN_FULL
-        bits: 1..0
+        bits: 0
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Ignore the RX FIFO full when computing BP
 
 
@@ -2483,22 +2421,19 @@ registers:
     title: Packet TX BackPressure Register
     address: 0x11800E00004D0
     bus: RSL
-    internal: |
-      BP[0] will be reset when MIX0_CTL[RESET] is set to 1.
-      BP[1] will be reset when MIX1_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..2
+        bits: 63..1
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: BP
-        bits: 1..0
+        bits: 0
         access: RO
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           Port BackPressure status
           0=Port is available
@@ -2509,36 +2444,33 @@ registers:
     title: state information for the ports
     address: 0x11800E00004E8
     bus: RSL
-    internal: |
-      COMMIT[0], DROP[0] will be reset when MIX0_CTL[RESET] is set to 1.
-      COMMIT[1], DROP[1] will be reset when MIX1_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DROP
-        bits: 17..16
+        bits: 16
         access: RO/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Port indication that data was dropped
 
       - name: --
-        bits: 15..2
+        bits: 15..1
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: COMMIT
-        bits: 1..0
+        bits: 0
         access: RO/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Port indication that SOP was accepted
 
 
@@ -2546,7 +2478,6 @@ registers:
     title: LFSR used to implement truncated binary exponential backoff
     address: 0x11800E00004F8
     bus: RSL
-    internal: Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..16
@@ -2570,83 +2501,77 @@ registers:
     title: Interrupt Register
     address: 0x11800E0000500
     bus: RSL
-    internal: |
-      UNDFLW[0], XSCOL[0], XSDEF[0], LATE_COL[0], PTP_LOST[0] will be reset when MIX0_CTL[RESET] is
-      set to 1.
-      UNDFLW[1], XSCOL[1], XSDEF[1], LATE_COL[1], PTP_LOST[1] will be reset when MIX1_CTL[RESET] is
-      set to 1.
-      PKO_NXA will bee reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
-        bits: 63..22
+        bits: 63..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PTP_LOST
-        bits: 21..20
+        bits: 20
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           A packet with a PTP request was not able to be
           sent due to XSCOL
 
       - name: --
-        bits: 19..18
+        bits: 19..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: LATE_COL
-        bits: 17..16
+        bits: 16
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Late Collision
 
       - name: --
-        bits: 15..14
+        bits: 15..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: XSDEF
-        bits: 13..12
+        bits: 12
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Excessive deferral (halfdup mode only)
 
       - name: --
-        bits: 11..10
+        bits: 11..9
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: XSCOL
-        bits: 9..8
+        bits: 8
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Excessive collisions (halfdup mode only)
 
       - name: --
-        bits: 7..4
+        bits: 7..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: UNDFLW
-        bits: 3..2
+        bits: 2
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Underflow
 
       - name: --
@@ -2668,12 +2593,6 @@ registers:
     title: Interrupt Enable
     address: 0x11800E0000508
     bus: RSL
-    internal: |
-      UNDFLW[0], XSCOL[0], XSDEF[0], LATE_COL[0], PTP_LOST[0] will be reset when MIX0_CTL[RESET] is
-      set to 1.
-      UNDFLW[1], XSCOL[1], XSDEF[1], LATE_COL[1], PTP_LOST[1] will be reset when MIX1_CTL[RESET] is
-      set to 1.
-      PKO_NXA will bee reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
         bits: 63..24
@@ -2683,75 +2602,75 @@ registers:
         description: Reserved.
 
       - name: --
-        bits: 23..22
+        bits: 23..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: PTP_LOST
-        bits: 21..20
+        bits: 20
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           A packet with a PTP request was not able to be
           sent due to XSCOL
 
       - name: --
-        bits: 19..18
+        bits: 19..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: LATE_COL
-        bits: 17..16
+        bits: 16
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Late Collision
 
       - name: --
-        bits: 15..14
+        bits: 15..13
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: XSDEF
-        bits: 13..12
+        bits: 12
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Excessive deferral (halfdup mode only)
 
       - name: --
-        bits: 11..10
+        bits: 11..9
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: XSCOL
-        bits: 9..8
+        bits: 8
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Excessive collisions (halfdup mode only)
 
       - name: --
-        bits: 7..4
+        bits: 7..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: UNDFLW
-        bits: 3..2
+        bits: 2
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: TX Underflow
 
       - name: --
@@ -2773,40 +2692,13 @@ registers:
     title: A collection of things that have gone very, very wrong
     address: 0x11800E0000518
     bus: RSL
-    internal: |
-      OUT_OVR[0], LOSTSTAT[0], OVRFLW, TXPOP, TXPSH    will be reset when MIX0_CTL[RESET] is set to
-      1.
-      OUT_OVR[1], LOSTSTAT[1], OVRFLW1, TXPOP1, TXPSH1 will be reset when MIX1_CTL[RESET] is set to
-      1.
-      STATOVR will be reset when both MIX0/1_CTL[RESET] are set to 1.
     fields:
       - name: --
-        bits: 63..38
+        bits: 63..35
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: TXPSH1
-        bits: 37
-        access: R/W1C
-        reset: 0
-        typical: 0
-        description: TX FIFO overflow (RGMII1)
-
-      - name: TXPOP1
-        bits: 36
-        access: R/W1C
-        reset: 0
-        typical: 0
-        description: TX FIFO underflow (RGMII1)
-
-      - name: OVRFLW1
-        bits: 35
-        access: R/W1C
-        reset: 0
-        typical: 0
-        description: RX FIFO overflow (RGMII1)
 
       - name: TXPSH
         bits: 34
@@ -2844,34 +2736,34 @@ registers:
         description: TX Statistics overflow
 
       - name: --
-        bits: 25..24
+        bits: 25..23
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: LOSTSTAT
-        bits: 23..22
+        bits: 22
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           TX Statistics data was over-written
           In RGMII, one bit per port
           TX Stats are corrupted
 
       - name: --
-        bits: 21..4
+        bits: 21..3
         access: ---
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: OUT_OVR
-        bits: 3..2
+        bits: 2
         access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Outbound data FIFO overflow
 
       - name: --
@@ -2887,8 +2779,7 @@ registers:
     address: 0x11800E0000520
     bus: RSL
     internal: |
-      Additionally reset when both MIX0/1_CTL[RESET] are set to 1.
-      *DON'T PUT IN HRM*
+      INTERNAL: *DON'T PUT IN HRM*
       It has no relationship with the TX FIFO per se.  The TX engine sends packets
       from PKO and upon completion, sends a command to the TX stats block for an
       update based on the packet size.  The stats operation can take a few cycles -
@@ -3004,36 +2895,33 @@ registers:
     title: GMX RX/TX Status
     address: 0x11800E00007E8
     bus: RSL
-    internal: |
-      RX[0], TX[0] will be reset when MIX0_CTL[RESET] is set to 1.
-      RX[1], TX[1] will be reset when MIX1_CTL[RESET] is set to 1.
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: TX
-        bits: 5..4
+        bits: 4
         access: RC/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Transmit data since last read
 
       - name: --
-        bits: 3..2
+        bits: 3..1
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RX
-        bits: 1..0
+        bits: 0
         access: RC/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: Receive data since last read
 
 
@@ -3046,34 +2934,31 @@ registers:
       data synchronously. The specification requires external sources (namely
       the PC board trace routes) to introduce the appropriate 1.5 to 2.0 ns of
       delay.
-      To eliminate the need for the PC board delays, the MIX RGMII interface
-      has optional onboard DLL's for both transmit and receive. For correct
-      operation, at most one of the transmitter, board, or receiver involved
-      in an RGMII link should introduce delay. By default/reset,
-      the MIX RGMII receivers delay the received clock, and the MIX
-      RGMII transmitters do not delay the transmitted clock. Whether this
-      default works as-is with a given link partner depends on the behavior
-      of the link partner and the PC board.
-      These are the possible modes of MIX RGMII receive operation:
-      o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) The OCTEON MIX RGMII
+      To eliminate the need for the PC board delays, the RGMII interface has optional
+      onboard DLL's for both transmit and receive. For correct operation, at most one
+      of the transmitter, board, or receiver involved in an RGMII link should
+      introduce delay. By default/reset, the RGMII receivers delay the received clock,
+      and the RGMII transmitters do not delay the transmitted clock. Whether this
+      default works as-is with a given link partner depends on the behavior of the
+      link partner and the PC board.
+      These are the possible modes of RGMII receive operation:
+      o AGL_PRTx_CTL[CLKRX_BYP] = 0 (reset value) The OCTEON RGMII
       receive interface introduces clock delay using its internal DLL.
       This mode is appropriate if neither the remote
       transmitter nor the PC board delays the clock.
-      o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 The OCTEON MIX
+      o AGL_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 The OCTEON
       RGMII receive interface introduces no clock delay. This mode
       is appropriate if either the remote transmitter or the PC board
       delays the clock.
-      These are the possible modes of MIX RGMII transmit operation:
+      These are the possible modes of RGMII transmit operation:
       o AGL_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
-      The OCTEON MIX RGMII transmit interface introduces no clock
+      The OCTEON RGMII transmit interface introduces no clock
       delay. This mode is appropriate is either the remote receiver
       or the PC board delays the clock.
-      o AGL_PRTx_CTL[CLKTX_BYP] = 0 The OCTEON MIX RGMII transmit
+      o AGL_PRTx_CTL[CLKTX_BYP] = 0 The OCTEON RGMII transmit
       interface introduces clock delay using its internal DLL.
       This mode is appropriate if neither the remote receiver
       nor the PC board delays the clock.
-      AGL_PRT0_CTL will be reset when MIX0_CTL[RESET] is set to 1.
-      AGL_PRT1_CTL will be reset when MIX1_CTL[RESET] is set to 1.
     fields:
       - name: DRV_BYP
         bits: 63

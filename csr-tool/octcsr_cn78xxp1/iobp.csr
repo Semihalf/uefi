@@ -6,6 +6,7 @@ enums:
   - name: IOBP_INTSN_E
     attributes:
       width: "20"
+    description: Enumerates the different IOBP-generated interrupts.
     values:
       - name: IOBP_INT_SUM_RSD0_SBE
         value: 0xF1000
@@ -90,11 +91,10 @@ enums:
 
 registers:
   - name: IOBP_ECC
+    title: IOBP ECC Control Register
     address: 0x11800F0010010
     bus: RSL
-    description: |
-      IOBP ECC Control
-      Various control bits for IOBP ECC functionality.
+    description: This register contains various control bits for IOBP ECC functionality.
     fields:
       - name: --
         bits: 63..22
@@ -108,98 +108,98 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKO1 response data has ECC generated and checked.
 
       - name: RSD1_FS
         bits: 20..19
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. PKO1 Response data..
+        description: Used to flip the syndrome PKO1 response data.
 
       - name: RSD0_ECC
         bits: 18
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKO0 response data has ECC generated and checked.
 
       - name: RSD0_FS
         bits: 17..16
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. PKO0 Response data..
+        description: Used to flip the syndrome PKO0 response data.
 
       - name: XMC3_ECC
         bits: 15
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKI1 commands to L2C have ECC generated and checked.
 
       - name: XMC3_FS
         bits: 14..13
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from PKI1 to the L2C.
+        description: Used to flip the syndrome for commands from PKI1 to the L2C.
 
       - name: XMC2_ECC
         bits: 12
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKI0 commands to L2C have ECC generated and checked.
 
       - name: XMC2_FS
         bits: 11..10
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from PKI0 to the L2C.
+        description: Used to flip the syndrome for commands from PKI0 to the L2C.
 
       - name: XMC1_ECC
         bits: 9
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKO1 commands to L2C have ECC generated and checked.
 
       - name: XMC1_FS
         bits: 8..7
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from PKO1 to the L2C.
+        description: Used to flip the syndrome for commands from PKO1 to the L2C.
 
       - name: XMC0_ECC
         bits: 6
         access: R/W
         reset: 1
         typical: 1
-        description: RAM ECC correction disable.
+        description: When set, PKO commands to L2C have ECC generated and checked.
 
       - name: XMC0_FS
         bits: 5..4
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from PKO to the L2C.
+        description: Used to flip the syndrome for commands from PKO to the L2C.
 
       - name: XMD3_ECC
         bits: 3
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKI1 Data to L2C will have an ECC generated and checked.
+        description: When set, PKI1 data to L2C has ECC generated and checked.
 
       - name: XMD2_ECC
         bits: 2
         access: R/W
         reset: 1
         typical: 1
-        description: When set PKI0 Data to L2C will have an ECC generated and checked.
+        description: When set, PKI0 data to L2C has ECC generated and checked.
 
       - name: --
         bits: 1..0
@@ -210,11 +210,10 @@ registers:
 
 
   - name: IOBP_BIST_STATUS
+    title: IOBP BIST Status Register
     address: 0x11800F0010018
     bus: RSL
-    description: |
-      IOB_BIST_STATUS = BIST Status of IOB Memories
-      The result of the BIST run on the IOB memories.
+    description: This register contains the result of the BIST run on the IOB memories.
     fields:
       - name: --
         bits: 63..11
@@ -302,11 +301,10 @@ registers:
 
 
   - name: IOBP_INT_SUM
+    title: IOBP Interrupt Summary Register
     address: 0x11800F0010020
     bus: RSL
-    description: |
-      IOBP INT_SUM
-      IOBP Interrupt SUmmary CSR.
+    description: This is the IOBP interrupt summary register.
     fields:
       - name: --
         bits: 63..46
@@ -518,11 +516,10 @@ registers:
 
 
   - name: IOBP_CREDITS
+    title: IOBP PKI and PKO Credits Register
     address: 0x11800F0010028
     bus: RSL
-    description: |
-      IOBP PKI And PKO Credits
-      Controls number of loads and stores PKO and PKI can have to the L2.
+    description: This register controls number of loads and stores PKO and PKI can have to the L2.
     fields:
       - name: --
         bits: 63..31
@@ -582,10 +579,10 @@ registers:
 
 
   - name: IOBP_PP_BIST_STATUS
-    title: BIST Status of the PPs
+    title: IOBP Cores BIST Status Register
     address: 0x11800F0010700
     bus: RSL
-    description: The result of the BIST run on the PP.
+    description: This register contains the result of the BIST run on the cores.
     fields:
       - name: --
         bits: 63..48
@@ -600,9 +597,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          BIST Status of PPs. Bit vector position is the number of the PP (i.e. PP0 == PP_BSTAT[0]).
-          Only odd number bits are valid, all even number bits will read as '0'. For even number PPs
-          see IOBN_PP_BIST_STATUS.
+          BIST status of cores. Bit vector position is the number of the core (i.e. core 0 ==
+          PP_BSTAT<0>). Only odd number bits are valid;, all even number bits are read as 0. For
+          even number cores, see IOBN_PP_BIST_STATUS.
 
 
 

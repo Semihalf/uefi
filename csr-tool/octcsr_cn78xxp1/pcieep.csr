@@ -1043,7 +1043,7 @@ registers:
     fields:
       - name: MSIMP
         bits: 31..0
-        access: R/W
+        access: RO
         reset: 0x0
         typical: 0x0
         description: |
@@ -1780,7 +1780,7 @@ registers:
 
       - name: MEETP
         bits: 23..22
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -2080,7 +2080,7 @@ registers:
 
       - name: LER
         bits: 21
-        access: R/W
+        access: R/W1C
         reset: 0
         typical: 0
         description: Link Equalization Request
@@ -4206,7 +4206,7 @@ registers:
 
       - name: SRS
         bits: 29..4
-        access: RO
+        access: RO/WRSL
         reset: 0xfffff
         typical: 0xfffff
         description: |
@@ -4411,7 +4411,7 @@ registers:
 
       - name: FORCE_LINK
         bits: 15
-        access: R/W/H
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -4660,7 +4660,7 @@ registers:
 
       - name: OMR
         bits: 0
-        access: R/W
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -4882,7 +4882,7 @@ registers:
         bits: 19
         access: R/W
         reset: 1
-        typical: 0
+        typical: 1
         description: Mask Type 1 Configuration Request filtering
 
       - name: M_BAR_MATCH
@@ -5791,9 +5791,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Pipe Loopback Enable
-          Placeholder, currently not configured......
+        description: Pipe Loopback Enable
 
       - name: --
         bits: 30..0

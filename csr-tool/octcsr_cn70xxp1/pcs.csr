@@ -1264,4 +1264,34 @@ registers:
           1    1   Packet size 16k bytes
 
 
+  - name: PCS(0..1)_SERDES_CRDT_CNT(0..3)_REG
+    address: 0x11800B00010A0 + a*0x8000000 + b*0x400
+    bus: RSL
+    description: |
+      NOTE: Logic Analyzer is enabled with LA_EN for the specified PCS lane only. PKT_SZ is
+      effective only when LA_EN=1
+      For normal operation(sgmii or 1000Base-X), this bit must be 0.
+      See pcsx.csr for xaui logic analyzer mode.
+      For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
+      PCS SERDES Credit Count
+      INTERNAL: Do not add this register to the HRM
+    fields:
+      - name: --
+        bits: 63..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 4..0
+        access: R/W
+        reset: 0x10
+        typical: 0x10
+        description: |
+          SERDES Credit Count
+          Valid rand is 1-31
+          Value of zero will disable the port
+
+
 

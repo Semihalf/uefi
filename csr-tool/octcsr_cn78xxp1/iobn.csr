@@ -6,6 +6,7 @@ enums:
   - name: IOBN_INTSN_E
     attributes:
       width: "20"
+    description: Enumerates the different IOBN-generated interrupts.
     values:
       - name: IOBN_INT_SUM_RSD0_SBE
         value: 0xF0000
@@ -218,11 +219,12 @@ enums:
 
 registers:
   - name: IOBN_HIGH_PRIORITY
+    title: NCB0 High Priority Devices Register
     address: 0x11800F0000000
     bus: RSL
     description: |
-      NCB0 High Priority Devices
-      For NCB0 sets which of he NCB-Devices (0-15) receive high-priority status for access to L2C.
+      For NCB0, this register sets which of the NCB devices (0-15) receive high-priority status for
+      access to L2C.
     fields:
       - name: --
         bits: 63..2
@@ -237,10 +239,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          When the bit is set the SSO will receive high
-          priority status which will cause the IOBN to make
-          best effort, after servicing FPA when FPA_HP is
-          set, to complete the SSO L2C request first.
+          SSO high priority. When this bit is set, the SSO receives high priority status, causing
+          the IOBN to make best effort, after servicing FPA when FPA_HP is set, to complete the SSO
+          L2C request first.
 
       - name: FPA_HP
         bits: 0
@@ -248,17 +249,15 @@ registers:
         reset: 1
         typical: 1
         description: |
-          When the bit is set the FPA will receive high
-          priority status which will cause the IOBN to make
-          best effort to complete the FPA L2C request first.
+          FPA high priority. When this bit is set, the FPA receives high priority status, causing
+          the IOBN to make best effort to complete the FPA L2C request first.
 
 
   - name: IOBN_CONTROL
+    title: IOBN Control Register
     address: 0x11800F0000008
     bus: RSL
-    description: |
-      IOBN CONTROL
-      Various control bits for IOBN functionality.
+    description: This register contains various control bits for IOBN functionality.
     fields:
       - name: --
         bits: 63..1
@@ -272,15 +271,14 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When '0' the IOBN will not due any DWBs.
+        description: Don't-write-back enable. When cleared to 0, the IOBN does not do any don't-write-back operations.
 
 
   - name: IOBN_ECC
+    title: IOBN ECC Control Register
     address: 0x11800F0000010
     bus: RSL
-    description: |
-      IOBN ECC Control
-      Various control bits for IOBN ECC functionality.
+    description: This register contains various control bits for IOBN ECC functionality.
     fields:
       - name: --
         bits: 63..58
@@ -294,288 +292,287 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, core-to-NCB transfers have ECC generated and checked.
 
       - name: IOC3_FS
         bits: 56..55
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for PP transfers to NCB.
+        description: Used to flip the syndrome for core-to-NCB transfers.
 
       - name: IOC2_ECC
         bits: 54
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, core-to-NCB transfers have ECC generated and checked.
 
       - name: IOC2_FS
         bits: 53..52
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for PP transfers to NCB.
+        description: Used to flip the syndrome for core-to-NCB transfers.
 
       - name: IOC1_ECC
         bits: 51
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, core-to-NCB transfers have ECC generated and checked.
 
       - name: IOC1_FS
         bits: 50..49
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for PP transfers to NCB.
+        description: Used to flip the syndrome for core-to-NCB transfers.
 
       - name: IOC0_ECC
         bits: 48
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, core-to-NCB transfers have ECC generated and checked.
 
       - name: IOC0_FS
         bits: 47..46
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for PP transfers to NCB.
+        description: Used to flip the syndrome for core-to-NCB transfers.
 
       - name: IOR3_ECC
         bits: 45
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, FILL data from NCB3 has ECC generated and checked.
 
       - name: IOR3_FS
         bits: 44..43
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for fill data from NCB3.
+        description: Used to flip the syndrome for FILL data from NCB3.
 
       - name: IOR2_ECC
         bits: 42
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, FILL data from NCB2 has ECC generated and checked.
 
       - name: IOR2_FS
         bits: 41..40
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for fill data from NCB2.
+        description: Used to flip the syndrome for FILL data from NCB2.
 
       - name: IOR1_ECC
         bits: 39
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, FILL data from NCB1 has ECC generated and checked.
 
       - name: IOR1_FS
         bits: 38..37
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for fill data from NCB1.
+        description: Used to flip the syndrome for FILL data from NCB1.
 
       - name: IOR0_ECC
         bits: 36
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, FILL data from NCB0 has ECC generated and checked.
 
       - name: IOR0_FS
         bits: 35..34
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for fill data from NCB0.
+        description: Used to flip the syndrome for FILL data from NCB0.
 
       - name: IDE_ECC
         bits: 33
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, DWB commands to L2C have ECC generated and checked.
 
       - name: IDE_FS
         bits: 32..31
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for DWB Commands to the L2C.
+        description: Used to flip the syndrome for DWB commands to the L2C.
 
       - name: XMC0_HP_ECC
         bits: 30
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBI0 high-priority commands to L2C have ECC generated and checked.
 
       - name: XMC0_HP_FS
         bits: 29..28
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for High Prioirty Commands from NCBI0 to the L2C.
+        description: Used to flip the syndrome for high-priority commands from NCBI0 to L2C.
 
       - name: RSD3_ECC
         bits: 27
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBO3 response data has ECC generated and checked.
 
       - name: RSD3_FS
         bits: 26..25
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for NCBO3 response data.
+        description: Used to flip the syndrome for NCBO3 response data.
 
       - name: RSD2_ECC
         bits: 24
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBO2 response data has ECC generated and checked.
 
       - name: RSD2_FS
         bits: 23..22
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for NCBO2 response data.
+        description: Used to flip the syndrome for NCBO2 response data.
 
       - name: RSD1_ECC
         bits: 21
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBO1 response data has ECC generated and checked.
 
       - name: RSD1_FS
         bits: 20..19
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for NCBO1 response data.
+        description: Used to flip the syndrome for NCBO1 response data.
 
       - name: RSD0_ECC
         bits: 18
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set NCBO0 response data have an ECC generated and checked.
 
       - name: RSD0_FS
         bits: 17..16
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for NCBO0 response data.
+        description: Used to flip the syndrome for NCBO0 response data.
 
       - name: XMC3_ECC
         bits: 15
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBI0 commands to L2C have ECC generated and checked.
 
       - name: XMC3_FS
         bits: 14..13
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from NCBI0 to the L2C.
+        description: Used to flip the syndrome for commands from NCBI0 to the L2C.
 
       - name: XMC2_ECC
         bits: 12
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBI0 commands to L2C have ECC generated and checked.
 
       - name: XMC2_FS
         bits: 11..10
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from NCBI0 to the L2C.
+        description: Used to flip the syndrome for commands from NCBI0 to the L2C.
 
       - name: XMC1_ECC
         bits: 9
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBI0 commands to L2C have ECC generated and checked.
 
       - name: XMC1_FS
         bits: 8..7
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from NCBI0 to the L2C.
+        description: Used to flip the syndrome for commands from NCBI0 to the L2C.
 
       - name: XMC0_ECC
         bits: 6
         access: R/W
         reset: 0
         typical: 0
-        description: RAM ECC correction disable.
+        description: When set, NCBI0 commands to L2C have ECC generated and checked.
 
       - name: XMC0_FS
         bits: 5..4
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd. for commands from NCBI0 to the L2C.
+        description: Used to flip the syndrome for commands from NCBI0 to the L2C.
 
       - name: XMD3_ECC
         bits: 3
         access: R/W
         reset: 1
         typical: 1
-        description: When set NCBI3 Data to L2C will have an ECC generated and checked.
+        description: When set, NCBI3 data to L2C has ECC generated and checked.
 
       - name: XMD2_ECC
         bits: 2
         access: R/W
         reset: 1
         typical: 1
-        description: When set NCBI2 Data to L2C will have an ECC generated and checked.
+        description: When set, NCBI2 data to L2C has ECC generated and checked.
 
       - name: XMD1_ECC
         bits: 1
         access: R/W
         reset: 1
         typical: 1
-        description: When set NCBI1 Data to L2C will have an ECC generated and checked.
+        description: When set, NCBI1 data to L2C has ECC generated and checked.
 
       - name: XMD0_ECC
         bits: 0
         access: R/W
         reset: 1
         typical: 1
-        description: When set NCBI0 Data to L2C will have an ECC generated and checked.
+        description: When set, NCBI0 data to L2C has ECC generated and checked.
 
 
   - name: IOBN_BIST_STATUS
+    title: IOBN BIST Status Register
     address: 0x11800F0000018
     bus: RSL
-    description: |
-      IOB_BIST_STATUS = BIST Status of IOB Memories
-      The result of the BIST run on the IOB memories.
+    description: This register contains the result of the BIST run on the IOB memories.
     fields:
       - name: --
         bits: 63..27
@@ -775,11 +772,10 @@ registers:
 
 
   - name: IOBN_INT_SUM
+    title: IOBN Interrupt Summary Register
     address: 0x11800F0000020
     bus: RSL
-    description: |
-      IOBN INT_SUM
-      IOBN Interrupt SUmmary CSR.
+    description: This is the IOBN interrupt summary register.
     fields:
       - name: --
         bits: 63..52
@@ -1046,8 +1042,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Double-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+          Double-bit error for IOC3 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC3_DBE.
 
       - name: IOC3_SBE
         bits: 22
@@ -1055,8 +1051,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Single-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+          Single-bit error for IOC3 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC3_SBE.
 
       - name: IOC2_DBE
         bits: 21
@@ -1064,8 +1060,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Double-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+          Double-bit error for IOC2 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC2_DBE.
 
       - name: IOC2_SBE
         bits: 20
@@ -1073,8 +1069,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Single-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+          Single-bit error for IOC2 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC2_SBE.
 
       - name: IOC1_DBE
         bits: 19
@@ -1082,8 +1078,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Double-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+          Double-bit error for IOC1 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC1_DBE.
 
       - name: IOC1_SBE
         bits: 18
@@ -1091,8 +1087,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Single-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+          Single-bit error for IOC1 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC1_SBE.
 
       - name: IOC0_DBE
         bits: 17
@@ -1100,8 +1096,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Double-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_DBE.
+          Double-bit error for IOC0 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC0_DBE.
 
       - name: IOC0_SBE
         bits: 16
@@ -1109,8 +1105,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Single-bit error for IOC MEM.
-          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC_SBE.
+          Single-bit error for IOC0 MEM.
+          Throws IOBN_INTSN_E::IOBN_INT_SUM_IOC0_SBE.
 
       - name: IOR3_DBE
         bits: 15
@@ -1258,11 +1254,10 @@ registers:
 
 
   - name: IOBN_CREDITS
+    title: IOBN NCB Credits Register
     address: 0x11800F0000028
     bus: RSL
-    description: |
-      IOBN NCB Credits
-      Controls number of loads and stores each NCB can have to the L2.
+    description: This register controls the number of loads and stores each NCB can have to the L2.
     fields:
       - name: --
         bits: 63..62
@@ -1276,7 +1271,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 writes in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB3 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 55..54
@@ -1290,7 +1287,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 reads in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB3 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 47..46
@@ -1304,7 +1303,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 writes in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB2 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 39..38
@@ -1318,7 +1319,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 reads in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB2 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 31..30
@@ -1332,7 +1335,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 writes in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB1 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 23..22
@@ -1346,7 +1351,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 reads in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB1 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 15..14
@@ -1360,7 +1367,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 writes in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB0 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by."
 
       - name: --
         bits: 7..6
@@ -1374,13 +1383,16 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: "The NCB# can have 32 reads in flight to the L2, this is the number to decrease the 32 by."
+        description: |
+          "NCB0 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by."
 
 
   - name: IOBN_CHIP_GLB_PWR_THROTTLE
+    title: IOBN Chip Global Power Throttle Register
     address: 0x11800F0000038
     bus: RSL
-    description: Controls the min/max power settings.
+    description: This register controls the min/max power settings.
     fields:
       - name: --
         bits: 63..34
@@ -1419,42 +1431,45 @@ registers:
 
 
   - name: IOBN_CHIP_PWR_OUT
+    title: IOBN Chip Power Out Register
     address: 0x11800F0000048
     bus: RSL
-    description: Power numbers from the various partitions on the chip.
+    description: This register contains power numbers from the various partitions on the chip.
     fields:
       - name: CMB_PWR
         bits: 63..48
         access: RO/H
         reset: 0x0
         typical: --
-        description: CMB Power number.
+        description: CMB power number.
 
       - name: CHIP_POWER
         bits: 47..32
         access: RO/H
         reset: 0x0
         typical: --
-        description: Total Chip Power number.
+        description: Total chip power number.
 
       - name: ROC_POWER
         bits: 31..16
         access: RO/H
         reset: 0x0
         typical: --
-        description: Total ROC Power.
+        description: Total ROC power.
 
       - name: AVG_CHIP_POWER
         bits: 15..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: Avg chip power.
+        description: Average chip power.
 
 
   - name: IOBN_CHIP_CUR_PWR
+    title: IOBN Chip Current Power Register
     address: 0x11800F0000068
     bus: RSL
+    description: This register contains the current power setting.
     fields:
       - name: --
         bits: 63..8
@@ -1468,14 +1483,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Current Power Setting.
+        description: Current power setting.
 
 
   - name: IOBN_PP_BIST_STATUS
-    title: BIST Status of the PPs
+    title: IOBN Cores BIST Status Register
     address: 0x11800F0000700
     bus: RSL
-    description: The result of the BIST run on the PP.
+    description: This register contains the result of the BIST run on the cores.
     fields:
       - name: --
         bits: 63..48
@@ -1490,9 +1505,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          BIST Status of PPs. Bit vector position is the number of the PP (i.e. PP0 == PP_BSTAT[0]).
-          Only even number bits are valid, all odd number bits will read as '0'. For odd number PPs
-          see IOBP_PP_BIST_STATUS.
+          BIST Status of the cores. Bit vector position is the number of the core (i.e. core 0 ==
+          PP_BSTAT<0>). Only even number bits are valid; all odd number bits are read as 0. For odd
+          number cores, see IOBP_PP_BIST_STATUS.
 
 
 

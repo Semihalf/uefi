@@ -1689,8 +1689,8 @@ registers:
           Slow down CIU interrupt walker processing time. IRQ2/3/4 for all 48 cores are sent to the
           core (MRC) in a serial bus to reduce global routing. There is no backpressure mechanism
           designed for this scheme. It will only be a problem when SCLK is faster; this Control will
-          process 1 interrupt in 2^CTL SCLK cycles. With different a setting, clock rate ratio can
-          handle:
+          slow down the data send out rate in INTR interface to PP. With different a setting, clock
+          rate ratio can handle:
           SLOWDOWN sclk_freq/aclk_freq ratio
           0 3
           1 6

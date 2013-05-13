@@ -298,6 +298,8 @@ registers:
       Contains the address to be writen to when a write operation is started by writing the
       SLI_WIN_WR_DATA register (see below).
       This register should NOT be used to write SLI_* registers.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: --
         bits: 63..49
@@ -349,6 +351,8 @@ registers:
     description: |
       The address to be read when the SLI_WIN_RD_DATA register is read.
       This register should NOT be used to read SLI_* registers.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: --
         bits: 63..51
@@ -403,6 +407,8 @@ registers:
       Contains the data to write to the address located in the SLI_WIN_WR_ADDR Register.
       Writing the least-significant-byte of this register will cause a write operation to take
       place.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: WR_DATA
         bits: 63..0
@@ -420,6 +426,8 @@ registers:
     address: 0x30
     bus: PEXP
     description: Contains the mask for the data in the SLI_WIN_WR_DATA Register.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: --
         bits: 63..8
@@ -449,6 +457,8 @@ registers:
       Reading this register causes a window read operation to take place. Address read is that
       contained in the SLI_WIN_RD_ADDR
       register.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: RD_DATA
         bits: 63..0
@@ -465,6 +475,8 @@ registers:
     description: |
       When read from a MAC port it returns the MAC's port number.
       register.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: --
         bits: 63..9
@@ -639,7 +651,9 @@ registers:
     title: SLI Interrupt Summary Register
     address: 0x11F0000010330
     bus: PEXP_NCB
-    description: Set when an interrupt condition occurs, write '1' to clear.
+    description: |
+      Set when an interrupt condition occurs, write '1' to clear. All fields of the CSR area valid
+      when a PF reads the CSR. When read by a VF only fields PTIME and PCNT are valid.
     fields:
       - name: --
         bits: 63..60
@@ -2731,11 +2745,116 @@ registers:
     description: Control the ECC of the SLI Packet Memories.
     fields:
       - name: --
-        bits: 63..21
+        bits: 63..44
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MSID_FS
+        bits: 43..42
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_ncsr_msix_data_flip_synd.
+
+      - name: MSIA_FS
+        bits: 41..40
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_ncsr_msix_addr_flip_synd.
+
+      - name: MSI_ECC
+        bits: 39
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pcsr_ncsr_msix_ecc_enawill have an ECC not generated and checked.
+
+      - name: POSI_FS
+        bits: 38..37
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pout_signal_csr_flip_synd.
+
+      - name: POSI_ECC
+        bits: 36
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pout_signal_csr_cor_dis will have an ECC not generated and checked.
+
+      - name: POS_FS
+        bits: 35..34
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_pout_size_csr_flip_synd.
+
+      - name: POS_ECC
+        bits: 33
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set  will have an ECC not generated and checked.
+
+      - name: PINM_FS
+        bits: 32..31
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_instr_mem_csr_flip_synd.
+
+      - name: PINM_ECC
+        bits: 30
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pcsr_instr_mem_csr_cor_dis will have an ECC not generated and checked.
+
+      - name: PIND_FS
+        bits: 29..28
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_in_done_csr_flip_synd.
+
+      - name: PIND_ECC
+        bits: 27
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pcsr_in_done_csr_cor_dis will have an ECC not generated and checked.
+
+      - name: POINT_FS
+        bits: 26..25
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pout_int_csr_flip_synd.
+
+      - name: POINT_ECC
+        bits: 24
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pout_int_csr_cor_dis will have an ECC not generated and checked.
+
+      - name: SLIST_FS
+        bits: 23..22
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Used to flip the synd. for pcsr_slist_csr_flip_synd.
+
+      - name: SLIST_ECC
+        bits: 21
+        access: R/W
+        reset: 1
+        typical: 1
+        description: When set pcsr_slist_csr_cor_dis will have an ECC not generated and checked.
 
       - name: POP1_FS
         bits: 20..19
@@ -2844,7 +2963,7 @@ registers:
     fields:
       - name: PORT
         bits: 63..0
-        access: R/W1C/H
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -2863,7 +2982,7 @@ registers:
     fields:
       - name: PORT
         bits: 63..0
-        access: R/W1C/H
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -2872,6 +2991,48 @@ registers:
           SLI_PKTi_CNTS[TIMER] > SLI_PKT_INT_LEVELS[TIME].
           SLI_PKT_TIME_INT_ENB[PORT<i>] is the corresponding
           enable.
+
+
+  - name: SLI_PKT_IN_INT
+    title: SLI Packet Timer Interrupt
+    address: 0x11F0000011150
+    bus: PEXP_NCB
+    description: |
+      "SET when SLI_PKT_IN_DONE#_CNTS[CNT[15:0]] is updated
+      to be equal to SLI_PKT_IN_DONE#_CNTS[WMARK[15:0]] and
+      SLI_PKT_IN_DONE#_CNTS[CINT_ENB] is set. Cleared
+      when SLI_PKT_IN_DONE#_CNTS[PI_INT] is cleared."
+    fields:
+      - name: RING
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          "SET when SLI_PKT_IN_DONE#_CNTS[CNT[15:0]] is updated
+          to be equal to SLI_PKT_IN_DONE#_CNTS[WMARK[15:0]] and
+          SLI_PKT_IN_DONE#_CNTS[CINT_ENB] is set. Cleared
+          when SLI_PKT_IN_DONE#_CNTS[PI_INT] is cleared."
+
+
+  - name: SLI_PKT_INT
+    title: SLI Packet Interrupt
+    address: 0x11F0000011160
+    bus: PEXP_NCB
+    description: |
+      "Returns a '1' when either the corresponding bit in
+      SLI_PKT_IN_INT[RING[#]] or SLI_PKT_CNT_INT[RING[#]]
+      or SLI_PKT_TIME_INT[RING[#]] is set."
+    fields:
+      - name: RING
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          "Returns a '1' when either the corresponding bit in
+          SLI_PKT_IN_INT[RING[#]] or SLI_PKT_CNT_INT[RING[#]]
+          or SLI_PKT_TIME_INT[RING[#]] is set."
 
 
   - name: SLI_PKT_OUTPUT_WMARK
@@ -3022,24 +3183,6 @@ registers:
         description: Field can be R/W by PF and any VF.
 
 
-  - name: SLI_PKT_INT
-    title: SLI Packet Interrupt
-    address: 0x11F0000011340
-    bus: PEXP_NCB
-    description: |
-      T| When read by a VF this CSR will inform which rings owned by the VF (0 to 63) has an
-      interrupt pending. In PF mode this register returns an unpredictable value. When writing '1's
-      to clear this register will clear both Packet Count an Packet Time interrupts. The clearing of
-      the interrupts will be reflected in the SLI_PKT_CNT_INT and SLI_PKT_TIME_INT CSRs.
-    fields:
-      - name: RINGI
-        bits: 63..0
-        access: R/W1C/H
-        reset: 0x0
-        typical: --
-        description: Ring 63-0 has Packet Count or Packet Time interrupt.
-
-
   - name: SLI_PKT(0..63)_SLIST_BADDR
     title: SLI Packet Ring Scatter List Base Register
     address: 0x11F0000011400 + a*0x10
@@ -3120,12 +3263,53 @@ registers:
       "SLI_PKT_IN_DONE[0..63]_CNTS = SLI Instruction Done ring# Counts
       Counters for instructions completed on Input rings."
     fields:
+      - name: PO_INT
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          "Returns a '1' when either the corresponding bit in
+          SLI_PKT_TIME_INT[RING[#]] or SLI_PKT_CNT_INT[RING[#]]
+          is set."
+
+      - name: PI_INT
+        bits: 62
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          "Returns a '1' when corresponding bit of
+          SLI_PKT_IN_INT[RING[#]] is set. Writing a '1' to this
+          field will clear the corresponding bit in
+          SLI_PKT_IN_INT[RING[#]]."
+
       - name: --
-        bits: 63..32
+        bits: 61..49
         access: RO
         reset: 0x0
         typical: --
         description: Reserverd.
+
+      - name: CINT_ENB
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          "When set allows corresponding bit in SLI_PKT_IN_INT[RING[#]]
+          to be set."
+
+      - name: WMARK
+        bits: 47..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          "When the value of SLI_PKT_IN_DONE#_CNTS[CNT[15:0]] is updated
+          to be equal to  SLI_PKT_IN_DONE#_CNTS[WMARK[15:0]] and
+          SLI_PKT_IN_DONE#_CNTS[CINT_ENB] is also set, the
+          corresponding bit in SLI_PKT_IN_INT[RING[#]] will be set."
 
       - name: CNT
         bits: 31..0
@@ -3145,8 +3329,27 @@ registers:
       "SLI_PKT[0..63]_CNTS = SLI Packet ring# Counts
       The counters for output rings."
     fields:
+      - name: PO_INT
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          "Returns a '1' when either the corresponding bit in
+          SLI_PKT_TIME_INT[RING[#]] or SLI_PKT_CNT_INT[RING[#]]
+          is set."
+
+      - name: PI_INT
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          "Returns a '1' when corresponding bit of
+          SLI_PKT_IN_INT[RING[#]] is set."
+
       - name: --
-        bits: 63..54
+        bits: 61..54
         access: RO
         reset: --
         typical: --
@@ -3951,7 +4154,40 @@ registers:
       VF, add 63 new registers
     fields:
       - name: --
-        bits: 63..27
+        bits: 63..39
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VF_NUM
+        bits: 38..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          The VF number this RING belongs to. A value of 0 means
+          this ring belongs to the PF. The VF number is the value
+          sent to and received from the MAC. This means that if
+          RINGx belongs to MAC0 and RINGy belongs to MAC1 they
+          both could have a VF_NUM of 1. Legal value are 0-64.
+
+      - name: --
+        bits: 31
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAC_NUM
+        bits: 30..29
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: The MAC that the RING belongs to. Legal value are 0-3.
+
+      - name: --
+        bits: 28..27
         access: ---
         reset: --
         typical: --

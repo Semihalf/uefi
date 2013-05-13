@@ -796,30 +796,63 @@ registers:
 
       - name: SLI_CPL
         bits: 23..16
-        access: R/W
+        access: R/W/H
         reset: 0x80
         typical: 0x80
         description: |
           TLP 8B credits for Completion TLPs in the SLI.
-          Legal values are 0x24 to 0x80.
+          Legal values are 0x24 to 0x80. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_CPL
+          fields must not exceed 0x80. The reset value for this
+          register is based on the pi_select_8lanes and the
+          pi_select_mode straps. For EP mode PEMs, the 8lanes strap
+          determines the credits reset value; 1'b0 = 4 lanes = 64
+          credits, 1'b1 = 8 lanes = 128 credits. For RC mode PEMs,
+          the credits are reset assuming a 4 lane configuration.
+          SW can bump this value up in the case of 8 lane RC mode
+          PEMS. SW may need to reprogram this register for performance
+          reasons (configured as the only PEM, but as 4-lane - in
+          this case, this PEM can take all of the credits).
 
       - name: SLI_NP
         bits: 15..8
-        access: R/W
+        access: R/W/H
         reset: 0x10
         typical: 0x10
         description: |
           TLP 8B credits for Non-Posted TLPs in the SLI.
-          Legal values are 0x8 to 0x10.
+          Legal values are 0x8 to 0x10. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_CPL
+          fields must not exceed 0x80. The reset value for this
+          register is based on the pi_select_8lanes and the
+          pi_select_mode straps. For EP mode PEMs, the 8lanes strap
+          determines the credits reset value; 1'b0 = 4 lanes = 8
+          credits, 1'b1 = 8 lanes = 16 credits. For RC mode PEMs,
+          the credits are reset assuming a 4 lane configuration.
+          SW can bump this value up in the case of 8 lane RC mode
+          PEMS. SW may need to reprogram this register for performance
+          reasons (configured as the only PEM, but as 4-lane - in
+          this case, this PEM can take all of the credits).
 
       - name: SLI_P
         bits: 7..0
-        access: R/W
+        access: R/W/H
         reset: 0x80
         typical: 0x80
         description: |
           TLP 8B credits for Posted TLPs in the SLI.
-          Legal values are 0x24 to 0x80.
+          Legal values are 0x24 to 0x80. When multiple PEMS
+          are wire-OR'd together, the sum of all PEMs' SLI_CPL
+          fields must not exceed 0x80. The reset value for this
+          register is based on the pi_select_8lanes and the
+          pi_select_mode straps. For EP mode PEMs, the 8lanes strap
+          determines the credits reset value; 1'b0 = 4 lanes = 64
+          credits, 1'b1 = 8 lanes = 128 credits. For RC mode PEMs,
+          the credits are reset assuming a 4 lane configuration.
+          SW can bump this value up in the case of 8 lane RC mode
+          PEMS. SW may need to reprogram this register for performance
+          reasons (configured as the only PEM, but as 4-lane - in
+          this case, this PEM can take all of the credits).
 
 
   - name: PEM(0..3)_P2P_BAR(0..3)_START

@@ -1143,10 +1143,9 @@ registers:
           used by the SLI to track load responses.  This
           value can range from 1 to 32 depending on the MAC
           type and number of lanes.
-          MAC == PCIe:           Max is 32
-          MAC == sRio / 4 lanes: Max is 32
-          MAC == sRio / 2 lanes: Max is 16
-          MAC == sRio / 1 lane:  Max is  8
+          MAC == PCIe / 4 lanes: Max is 32
+          MAC == PCIe / 2 lanes: Max is 16
+          MAC == PCIe / 1 lane:  Max is  8
           Reset value is computed based on the MAC config.
           Setting MOLR to a value of 0 will halt all read
           traffic to the port.  There are no restrictions

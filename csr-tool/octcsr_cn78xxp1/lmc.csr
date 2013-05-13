@@ -168,11 +168,25 @@ registers:
     description: This register has additional configuration and control bits for the LMC
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: READ_ENA_BPRCH
+        bits: 19
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQx for one cycle longer than normal during write operations.
+
+      - name: READ_ENA_FPRCH
+        bits: 18
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Drive DQX starting one cycle earlier than normal during write operations.
 
       - name: SLOT_CTL_RESET_FORCE
         bits: 17
@@ -2601,11 +2615,19 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..50
+        bits: 63..51
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: RCLK_CHAR_MODE
+        bits: 50
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: Select RCLK characterization mode.
 
       - name: DDR__PTUNE
         bits: 49..45
@@ -3324,11 +3346,20 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..50
+        bits: 63..51
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PHY_RESET
+        bits: 50
+        access: WO
+        reset: 0
+        typical: 0
+        description: |
+          INTERNAL: Write to 1 to reset the PHY, one shot operation, will automatically
+          clear to value of 0.
 
       - name: DSK_DBG_RD_COMPLETE
         bits: 49

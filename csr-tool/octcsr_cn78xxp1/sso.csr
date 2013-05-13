@@ -980,8 +980,8 @@ structs:
         attributes:
           const: "--"
         description: |
-          OCI node number. For SWTAG*, and UPD_WQP_GRP this must always indicate the local node, or
-          an error will result. ADDWQ can be performed onto any node.
+          OCI node number. For non-ADDWQ this must always indicate the local node, or an error will
+          result. ADDWQ can be performed onto any node.
 
       - name: DID
         bits: 47..40
@@ -2521,14 +2521,14 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..28
+        bits: 63..27
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RSVD_FREE
-        bits: 27..16
+        bits: 26..16
         access: R/W/H
         reset: 0x200
         typical: --
@@ -2542,14 +2542,14 @@ registers:
           register when SSO is being used; instead use SSO_TAQ_ADD[RSVD_FREE].
 
       - name: --
-        bits: 15..12
+        bits: 15..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: FREE_CNT
-        bits: 11..0
+        bits: 10..0
         access: RO/H
         reset: 0x500
         typical: --
@@ -2982,9 +2982,10 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Max threshold for this transitory admission queue, in buffers of 13 entries. Must be >=
-          [RSVD_THR], and to insure full streaming performance on this group, should be at least 12
-          buffers.
+          Max threshold for this transitory admission queue, in buffers of 13 entries. Must be >= 3,
+          must be >= [RSVD_THR], and to insure full streaming performance on this group, should be
+          at least 16 buffers. SSO may exceed this count by one buffer if and only if persistently
+          backpressured by IOBI.
 
       - name: --
         bits: 31..11

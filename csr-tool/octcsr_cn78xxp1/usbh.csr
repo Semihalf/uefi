@@ -13,7 +13,7 @@ description: |
 
   UCTL registers are only accessible via RSL. They generally contain basic
   clock controls, resets, and static configuration bits for the entire USB
-  subsystem.
+  subsystem. UCTL registers support 64-bit register accesses.
 
   Note that UCTL registers starting from 0x30 can be accessed only
   after HCLK is enabled and UCTL_RST is deasserted.
@@ -29,6 +29,11 @@ description: |
   UAHC registers are implemented by the Host Controller,
   access is provided to these registers over RSL or NCB. The only registers
   that may require the high-performance NCB path are the XHCI Runtime registers.
+  UAHC registers only support 64-bit or 32-bit accesses.
+  Note that the CSR_ENDIAN_MODE setting only applies to UAHC registers
+  accessed over NCB.
+  INTERNAL: Due to the nature of the XHCI drivers, it's likely that all
+  register accesses from XHCI will go over NCB.
 
   Access to the UAHC registers follows the same rules as registers 0x30 to 0xF8
   of the UCTL. In other words, HCLK must be enabled, UCTL_RST must be deasserted.
@@ -50,11 +55,9 @@ description: |
 
   For more information about the "XHCI Registers", see the XHCI specification.
   INTERNAL: For more on "Global Registers", see Synopsys DWC_usb3 Host Controller Databook v2.50a
-  sections
-  6.1.3 and 6.2.
+  sections 6.1.3 and 6.2.
   INTERNAL: For more on XHCI registers, see Synopsys DWC_usb3 Host Controller Databook v2.50a
-  sections
-  6.1.5 and 6.4.
+  sections 6.1.5 and 6.4.
 
   UAHC registers may also be accessed by presenting an NCB-type address over
   RSL. Registers accessed this way are statically mapped from UAHC's
@@ -342,12 +345,22 @@ registers:
           in UCTL(0)_BIST_STATUS. The full BIST run takes almost 80,000 host-controller-clock cycles
           for the largest RAM.
 
-      - name: --
+      - name: REF_CLK_SEL
         bits: 61..60
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Choose reference clock source for the SuperSpeed and HighSpeed PLL blocks.
+            0x0 = Reference clock source for both PLLs come from the USB pads.
+            0x1 = Reference clock source for SuperSpeed PLL is from the USB pads,
+                  reference clock source for HighSpeed PLL is PLL_REF_CLK.
+            0x2 = Reserved.
+            0x3 = Reference clock source for both PLLs come from PLL_REF_CLK.
+          The PLL_REF_CLK is a 50MHz reference clock from an on-chip PLL.
+          This value can be changed only during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x0, then the reference clock input cannot be
+          spread-spectrum.
 
       - name: SSC_EN
         bits: 59
@@ -356,13 +369,19 @@ registers:
         typical: 1
         description: |
           Enables spread-spectrum clock production in the SuperSpeed function.
+          If the input reference clock for the SuperSpeed PLL is already spread-spectrum,
+          then do not enable this function. The clocks sourced to the SuperSpeed function
+          must have spread-spectrum to be compliant with the USB specification.
+          The HighSpeed PLL cannot support a spread-spectrum input, so REF_CLK_SEL = 0x0
+          must enable this feature. The PLL_REF_CLK is not spread-spectrum, so REF_CLK_SEL
+          = 0x3 must enable this feature.
           This value may only be changed during UPHY_RST.
 
       - name: SSC_RANGE
         bits: 58..56
         access: R/W
-        reset: 0x3
-        typical: 0x3
+        reset: 0x0
+        typical: 0x0
         description: |
           Selects the range of spread spectrum modulation when ssc_en is asserted and the PHY is
           spreading the SuperSpeed transmit clocks.
@@ -389,30 +408,56 @@ registers:
           [55:53]: modulus - 1,
           [52:47]: 2's complement push amount
           A value of 0x0 means this feature is disabled.
-          This SuperSpeed feature can only be used if HighSpeed function is not sharing the
-          reference clock with SuperSpeed function, since using it implies the reference clock is
-          not one of the standard values.
+          The legal values are:
+            If REF_CLK_SEL = 0x0 then:
+              0x0 is the only legal value.
+            If REF_CLK_SEL = 0x1 then:
+              0x108: if the external reference clock is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
+                     52MHz, 76.8MHz, 96MHz, 104MHz.
+              0x0: if the external reference clock is another supported frequency (see list
+                   in MPLL_MULTIPLIER description).
+            If REF_CLK_SEL = 0x3 then:
+              0x0 is the only legal value.
+          All other values are reserved.
           This value may only be changed during UPHY_RST.
-
-          INTERNAL: This is a CYA bit.
+          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
       - name: MPLL_MULTIPLIER
         bits: 46..40
         access: R/W
-        reset: 0x2
-        typical: 0x2
+        reset: 0x0
+        typical: 0x0
         description: |
           Multiplies the reference clock to a frequency suitable for intended operating speed. The
           legal values are:
-          0x19 = 100MHz (off-chip reference clock)
-          0x32 =  50MHz  (on-chip reference clock)
-          0x68 =  24MHz (off-chip reference clock)
-          0x7D =  20MHz (off-chip reference clock)
-          0x02 =  19.2MHz (off-chip reference clock)
+            If REF_CLK_SEL = 0x0 then:
+              0x0 is the only legal value.
+            If REF_CLK_SEL = 0x1 then:
+              0x02 =  19.2MHz on the external reference clock
+              0x7D =  20  MHz on the external reference clock
+              0x68 =  24  MHz on the external reference clock
+              0x64 =  25  MHz on the external reference clock
+              0x60 =  26  MHz on the external reference clock
+              0x41 =  38.4MHz on the external reference clock
+              0x7D =  40  MHz on the external reference clock
+              0x34 =  48  MHz on the external reference clock
+              0x32 =  50  MHz on the external reference clock
+              0x30 =  52  MHz on the external reference clock
+              0x41 =  76.8MHz on the external reference clock
+              0x1A =  96  MHz on the external reference clock
+              0x19 = 100  MHz on the external reference clock
+              0x30 = 104  MHz on the external reference clock
+              0x28 = 125  MHz on the external reference clock
+              0x19 = 200  MHz on the external reference clock
+            If REF_CLK_SEL = 0x3 then:
+              0x32 is the only legal value.
           All other values are reserved.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed to use the same
-          reference clock frequency for correct operation.
           This value may only be changed during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting. When REF_CLK_SEL = 0x0, this value
+          is
+          superceded by the REF_CLK_FSEL<5:3> selection.
 
       - name: REF_SSP_EN
         bits: 39
@@ -425,7 +470,7 @@ registers:
           low-power states.
           This value can be changed only during UPHY_RST or during low-power states.
           The reference clock must be running and stable before UPHY_RST is deasserted and
-          REF_SSP_EN is asserted.
+          before REF_SSP_EN is asserted.
 
       - name: REF_CLK_DIV2
         bits: 38
@@ -433,43 +478,49 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider. This
-          value can be changed only during UPHY_RST.
-          INTERNAL: Should only be used if refclk is not the standard 100/50/24/20/19.2MHz.
-          INTERNAL: This is a CYA bit.
+          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
+          The legal values are:
+            If REF_CLK_SEL = 0x0, then:
+              all reference clock frequencies: 0x0 is the only legal value.
+            If REF_CLK_SEL = 0x1, then:
+              0x1: if external reference clock is 125MHz, 40MHz, 76.8MHz, or 200MHz.
+              0x0: if external reference clock is another supported frequency (see list in
+                   MPLL_MULTIPLIER description).
+            If REF_CLK_SEL = 0x3 then:
+              0x0 is the only legal value.
+          This value can be changed only during UPHY_RST.
+          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
       - name: REF_CLK_FSEL
         bits: 37..32
         access: R/W
-        reset: 0x38
-        typical: 0x38
+        reset: 0x27
+        typical: 0x27
         description: |
-          Selects the reference-clock frequency for the SuperSpeed and HighSpeed PLL blocks.
+          Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks.
           The legal values are:
-          0x27 = 100MHz (off-chip reference clock)
-          0x07 =  50MHz  (on-chip reference clock)
-          0x2A =  24MHz (off-chip reference clock)
-          0x31 =  20MHz (off-chip reference clock)
-          0x38 =  19.2MHz (off-chip reference clock)
+            If REF_CLK_SEL = 0x0 then:
+              0x27: external reference clock 100  MHz
+              0x2A: external reference clock  24  MHz
+              0x31: external reference clock  20  MHz
+              0x38: external reference clock  19.2MHz
+            If REF_CLK_SEL = 0x1 then:
+              0x7 is the only legal value.
+            If REF_CLK_SEL = 0x3 then:
+              0x7 is the only legal value.
           All other values are reserved.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed
-          to use the same reference clock frequency for correct operation.
           This value may only be changed during UPHY_RST.
+          Note: When REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and
+          SSC_REF_CLK_SEL
+          must all be programmed to the same frequency setting.
 
-      - name: REF_CLK_ONCHIP
+      - name: --
         bits: 31
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Use the on-chip 50MHz reference clock instead of the off-chip reference clock.
-          1 = the UPHY uses the 50MHz on-chip reference clock to generate the USB clocks.
-          0 = the UPHY uses the off-chip reference to generate the USB clocks.
-          MPLL_MULTIPLIER, REF_CLK_FSEL, and REF_CLK_ONCHIP must all be programmed to use the same
-          reference-clock frequency for correct operation.
-          This value can be changed only during UPHY_RST.
-          INTERNAL: On o78 it's still TBD whether ref_clk actually gets wired to USBH.
-          INTERNAL: On o70 this feature should be implemented, saves BOM cost.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: H_CLK_EN
         bits: 30
@@ -489,12 +540,12 @@ registers:
           Select the bypass input to the host-controller-clock divider.
           0 = use the divided coprocessor clock from the H_CLKDIV divider
           1 = use the bypass clock from the GPIO pins
-          Generally bypass is only used for scan purposes.
           This signal is just a multiplexer-select signal; it does not enable the host-controller
           clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be
           changed unless H_CLKDIV_EN is disabled.
           The bypass clock can be selected and running even if the host-controller-clock dividers
           are not running.
+          INTERNAL: Generally bypass is only used for scan purposes.
 
       - name: H_CLKDIV_RST
         bits: 28
@@ -520,20 +571,28 @@ registers:
         typical: 0x3
         description: |
           The hclk frequency is sclk frequency divided by H_CLKDIV_SEL.
-          The host-controller-clock frequency must be at or below 375MHz.
-          The host-controller-clock frequency must be at or above 188MHz for full-rate USB3
+          The host-controller-clock frequency must be at or below 300MHz.
+          The host-controller-clock frequency must be at or above 150MHz for full-rate USB3
           operation.
           The host-controller-clock frequency must be at or above 125MHz for any USB3
           functionality.
-          The host-controller-clock frequency must be at or above 90MHz  for full-rate USB2
+          The host-controller-clock frequency must be at or above 90MHz for full-rate USB2
           operation
-          The host-controller-clock frequency must be at or above 60MHz  for any USB2 operation.
+          The host-controller-clock frequency must be at or above 62.5MHz for any USB2 operation.
           This field can be changed only when H_CLKDIV_RST = 1.
           The divider values are the following:
           0x0 = divide by 1 0x4 = divide by 8
           0x1 = divide by 2 0x5 = divide by 16
           0x2 = divide by 4 0x6 = divide by 24
           0x3 = divide by 6 0x7 = divide by 32
+          INTERNAL: 150MHz is from the maximum of:
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 1, col 12.
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9.
+          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 7, col 9.
+          INTERNAL: HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.50a,
+          INTERNAL:   section A.12.5, 3rd bullet in Note on page 894.
+          INTERNAL: HOST2>90MHz was arrived at from some math: 62.5MHz +
+          INTERNAL:   (diff between row 1 and 2, col 12 of table A-16).
 
       - name: --
         bits: 23..22
@@ -1246,25 +1305,35 @@ registers:
       - name: PCS_RX_LOS_MASK_VAL
         bits: 41..32
         access: R/W
-        reset: 0xc0
-        typical: 0xc0
+        reset: 0x3e8
+        typical: 0x3e8
         description: |
           Configurable Loss-of-Signal Mask Width.
           Sets the number of reference clock cycles to mask the incoming LFPS in U3 and U2 states.
           Masks the incoming LFPS for the number of reference clock cycles equal to the value of
-          pcs_rx_los_mask_val[9:0]. This control filters out short, non-compliant LFPS glitches
+          pcs_rx_los_mask_val<9:0>. This control filters out short, non-compliant LFPS glitches
           sent by a non-compliant host.
           For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
-          If the UCTL(0)_CTL[REF_CLK_DIV2] is used, the value = 10us / (2 * Tref_clk).
-            Based on UCTL(0)_CTL[REF_CLK_FSEL], and assuming UCTL(0)_CTL[REF_CLK_DIV2] is set to
-          zero,
-            the value of PCS_RX_LOS_MASK_VAL should be:
-              Enum   Tref_clk   LOS_MASK
-              0x27 = 100MHz   = 0x3E8
-              0x07 =  50MHz   = 0x1F4
-              0x2A =  24MHz   = 0x0F0
-              0x31 =  20MHz   = 0x0C8
-              0x38 =  19.2MHz = 0x0C0
+          If the UCTL(0)_CTL[REF_CLK_DIV2] is used, then (value = 10us / (2 * Tref_clk)).
+          These equations are based on the SuperSpeed reference clock frequency.
+          The value of PCS_RX_LOS_MASK_VAL should be:
+              Frequency DIV2 LOS_MASK
+               200  MHz    1    0x3E8
+               125  MHz    0    0x4E2
+               104  MHz    0    0x410
+               100  MHz    0    0x3E8
+                96  MHz    0    0x3C0
+                76.8MHz    1    0x180
+                52  MHz    0    0x208
+                50  MHz    0    0x1F4
+                48  MHz    0    0x1E0
+                40  MHz    1    0x0C8
+                38.4MHz    0    0x180
+                26  MHz    0    0x104
+                25  MHz    0    0x0FA
+                24  MHz    0    0x0F0
+                20  MHz    0    0x0C8
+                19.2MHz    0    0x0C0
           Setting this bus to 0x0 disables masking.
           The value should be defined when the PHY is in reset. Changing this value during operation
           might disrupt normal operation of the link.
@@ -2398,7 +2467,11 @@ registers:
     title: XHCI Device Notification Control Register
     address: 0x1680000000034 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.4.
+    description: |
+      See XHCI specification v1.0 section 5.4.4.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..16
@@ -2415,19 +2488,22 @@ registers:
         description: Notification enable.
 
 
-  - name: UAHC(0)_CRCR_L
-    title: XHCI Command Ring Control Register Low
+  - name: UAHC(0)_CRCR
+    title: XHCI Command Ring Control Register
     address: 0x1680000000038 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.5.
+    description: |
+      See XHCI specification v1.0 section 5.4.5.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
-      - name: CMD_RING_PTR_L
-        bits: 31..6
+      - name: CMD_RING_PTR
+        bits: 63..6
         access: WO
         reset: 0x0
         typical: --
-        description: |
-          Command ring pointer bits<31:6>.
+        description: Command ring pointer.
 
       - name: --
         bits: 5..4
@@ -2469,34 +2545,22 @@ registers:
         description: Ring Cycle State
 
 
-  - name: UAHC(0)_CRCR_H
-    title: XHCI Command Ring Control Register High
-    address: 0x168000000003C + a*0x10000000000
-    bus: NCB
-    description: See XHCI specification v1.0 section 5.4.5.
-    fields:
-      - name: CMD_RING_PTR_H
-        bits: 31..0
-        access: WO
-        reset: 0x0
-        typical: --
-        description: |
-          Command ring pointer bits<64:32>.
-
-
-  - name: UAHC(0)_DCBAAP_L
-    title: XHCI Device Context Base-Address-Array Pointer Register Low
+  - name: UAHC(0)_DCBAAP
+    title: XHCI Device Context Base-Address-Array Pointer Register
     address: 0x1680000000050 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.6.
+    description: |
+      See XHCI specification v1.0 section 5.4.6.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
-      - name: DCBAAP_L
-        bits: 31..6
+      - name: DCBAAP
+        bits: 63..6
         access: R/W
         reset: 0x0
         typical: --
-        description: |
-          Device context base address array pointer bits<31:6>.
+        description: Device context base address array pointer.
 
       - name: --
         bits: 5..0
@@ -2506,26 +2570,15 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_DCBAAP_H
-    title: XHCI Device Context Base-Address-Array Pointer Register High
-    address: 0x1680000000054 + a*0x10000000000
-    bus: NCB
-    description: See XHCI specification v1.0 section 5.4.6.
-    fields:
-      - name: DCBAAP_H
-        bits: 31..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Device context base address array pointer bits<63:32>.
-
-
   - name: UAHC(0)_CONFIG
     title: XHCI Configuration Register
     address: 0x1680000000058 + a*0x10000000000
     bus: NCB
-    description: See XHCI specification v1.0 section 5.4.7.
+    description: |
+      See XHCI specification v1.0 section 5.4.7.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
       - name: --
         bits: 31..8
@@ -3054,19 +3107,22 @@ registers:
         description: Event-ring segment-table size.
 
 
-  - name: UAHC(0)_ERSTBA_L(0..0)
-    title: XHCI Event-Ring Segment-Table Base-Address Registers Low
+  - name: UAHC(0)_ERSTBA(0..0)
+    title: XHCI Event-Ring Segment-Table Base-Address Registers
     address: 0x1680000000470 + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.2.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.2.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
-      - name: ERSTBA_L
-        bits: 31..6
+      - name: ERSTBA
+        bits: 63..6
         access: R/W
         reset: 0x0
         typical: --
-        description: |
-          Event-ring segment-table base-address bits<31:6>.
+        description: Event-ring segment-table base-address.
 
       - name: --
         bits: 5..0
@@ -3076,34 +3132,22 @@ registers:
         description: Reserved.
 
 
-  - name: UAHC(0)_ERSTBA_H(0..0)
-    title: XHCI Event-Ring Segment-Table Base-Address Registers High
-    address: 0x1680000000474 + a*0x10000000000 + b*0x20
-    bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.2.
-    fields:
-      - name: ERSTBA_H
-        bits: 31..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Event-ring segment-table base-address bits<64:32>.
-
-
-  - name: UAHC(0)_ERDP_L(0..0)
-    title: XHCI Event Ring Dequeue Pointer Registers Low
+  - name: UAHC(0)_ERDP(0..0)
+    title: XHCI Event Ring Dequeue Pointer Registers
     address: 0x1680000000478 + a*0x10000000000 + b*0x20
     bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.3.
+    description: |
+      See XHCI specification v1.0 section 5.5.2.3.3.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
     fields:
-      - name: ERDP_L
-        bits: 31..4
+      - name: ERDP
+        bits: 63..4
         access: R/W
         reset: 0x0
         typical: --
-        description: |
-          Event ring dequeue pointer bits<31:4>.
+        description: Event ring dequeue pointer.
 
       - name: EHB
         bits: 3
@@ -3120,27 +3164,15 @@ registers:
         description: Dequeue ERST segment index.
 
 
-  - name: UAHC(0)_ERDP_H(0..0)
-    title: XHCI Event Ring Dequeue Pointer Registers High
-    address: 0x168000000047C + a*0x10000000000 + b*0x20
-    bus: NCB
-    description: See XHCI specification v1.0 section 5.5.2.3.3.
-    fields:
-      - name: ERDP_H
-        bits: 31..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Event ring dequeue pointer bits<63:32>.
-
-
   - name: UAHC(0)_DB(0..64)
     title: XHCI Doorbell Registers
     address: 0x1680000000480 + a*0x10000000000 + b*0x4
     bus: NCB
     description: |
       See XHCI specification v1.0 section 5.6.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or
+      UAHC(0)_GCTL[CORESOFTRESET] or
+      UAHC(0)_USBCMD[HCRST] or UAHC(0)_USBCMD[LHCRST].
       INTERNAL: XHCI spec, page 32: there are UAHC(0)_HCSPARAMS1[MAXSLOTS]+1 doorbell registers.
     fields:
       - name: DBSTREAMID
@@ -3640,7 +3672,7 @@ registers:
         typical: 0x0
         description: |
           Reserved.
-          These are apparently backed by read/write registers.
+          INTERNAL: These are apparently backed by read/write registers.
 
       - name: DATBIGEND
         bits: 11
@@ -3893,7 +3925,7 @@ registers:
         typical: 0x0
         description: |
           Reserved.
-          These are apparently backed by read/write registers.
+          INTERNAL: These are apparently backed by read/write registers.
 
 
   - name: UAHC(0)_GRXTHRCFG
@@ -3986,7 +4018,7 @@ registers:
         typical: 0
         description: |
           Reserved.
-          These are apparently backed by read/write registers.
+          INTERNAL: These are apparently backed by read/write registers.
 
       - name: --
         bits: 14..11
@@ -4113,15 +4145,13 @@ registers:
           This bit must be programmed as a part of initialization at power-on reset, and must not be
           dynamically changed afterwards.
           Note: UAHC(0)_USB2PHYCFG[*][SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
-          suspend
-          state. In addition, when this bit is set to 1, the core generates ITP off of the
+          suspend state. In addition, when this bit is set to 1, the core generates ITP off of the
           REF_CLK-based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based
           counter. To program the reference clock period inside the core, refer to
           UAHC(0)_GUCTL[REFCLKPER].
           INTERNAL: If you do not plan to ever use this feature or the
           UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the ref_clk can
-          be
-          as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
+          be as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
           Note: If you plan to enable hardware-based LPM (PORTPMSC.HLE = 1), this feature cannot be
           used. Turn off this feature by setting this bit to zero and use the
           UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
@@ -4202,6 +4232,13 @@ registers:
           If this bit is,
           0: the link treats 248ns LFPS as a valid U2 exit.
           1: the link waits for 8us of LFPS before it detects a valid U2 exit.
+          This bit is added to improve interoperability with a third party host
+          controller. This host controller in U2 state while performing
+          receiver detection generates an LFPS glitch of about 4s
+          duration. This causes the device to exit from U2 state because
+          the LFPS filter value is 248ns. With the new functionality enabled,
+          the device can stay in U2 while ignoring this glitch from the host
+          controller.
 
       - name: --
         bits: 1
@@ -4296,6 +4333,7 @@ registers:
     bus: NCB
     description: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: CBELT
         bits: 31..20
@@ -4488,11 +4526,9 @@ registers:
           value is set to 0x8 (8 ns/125 MHz).
           This field needs to be updated during power on initialization if UAHC(0)_GCTL[SOFITPSYNC]
           = 1 or UAHC(0)_GFLADJ[GFLADJ_REFCLK_LPM_SEL] = 1. The progammable maximum value 62 ns, and
-          the
-          minimum value is 8 ns. You use a reference clock with a period that is a integer multiple,
-          so that ITP can meet the jitter margin of 32ns. The allowable REF_CLK frequencies whose
-          period
-          is not integer multiples are 16/17/19.2/24/39.7MHz.
+          the minimum value is 8 ns. You use a reference clock with a period that is a integer
+          multiple, so that ITP can meet the jitter margin of 32ns. The allowable REF_CLK
+          frequencies whose period is not integer multiples are 16/17/19.2/24/39.7MHz.
           This field should not be set to 0x0 at any time. If you do not plan to use this feature,
           then you need to set this field to 0x8, the default value.
 
@@ -4539,9 +4575,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Reserving 85% bandwidth for HighSpeed periodic EPs. By default, HC reserves 80% of the
-          bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to 85% to
-          accommodate two HighSpeed, high-bandwidth ISOC EPs.
+          Reserving 85% bandwidth for HighSpeed periodic EPs. By default, host controller reserves
+          80% of the bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to
+          85% to accommodate two HighSpeed, high-bandwidth ISOC EPs.
           USB 2.0 required 80% bandwidth allocated for ISOC traffic. If two high bandwidth ISOC
           devices (HD webcams) are connected, and if each requires 1024-bytes * 3 packets per
           microframe, then the bandwidth required is around 82%. If this bit is set to 1, it is
@@ -4662,8 +4698,8 @@ registers:
           0x62 98 * 256 * 8 200 us
 
 
-  - name: UAHC(0)_GBUSERRADDR_L
-    title: UAHC Bus-Error-Address Register Low
+  - name: UAHC(0)_GBUSERRADDR
+    title: UAHC Bus-Error-Address Register
     address: 0x168000000C130 + a*0x10000000000
     bus: NCB
     description: |
@@ -4681,39 +4717,21 @@ registers:
       GBUSERRADDR reflects the DMA start address of 0xABCD0000 regardless of which AXI transaction
       received the error.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
-      - name: BUSADDRLO
-        bits: 31..0
+      - name: BUSADDR
+        bits: 63..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
-          Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the UAHC(0)_GSTS[BUSERRADDRVLD] = 1.
+          Bus address. Contains the first bus address that encountered an SoC bus error.
+          It is valid when the UAHC(0)_GSTS[BUSERRADDRVLD] = 1.
           It can only be cleared by resetting the core.
 
 
-  - name: UAHC(0)_GBUSERRADDR_H
-    title: UAHC Bus-Error-Address Register High
-    address: 0x168000000C134 + a*0x10000000000
-    bus: NCB
-    description: |
-      See description in BUSERRADDR_L.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
-    fields:
-      - name: BUSADDRHI
-        bits: 31..0
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Bus address bits<63:32>. Contains the upper 32 bits of the first bus address that
-          encountered an SoC bus error. It is valid when the UAHC(0)_GSTS[BUSERRADDRVLD] = 1.
-          It can only be cleared by resetting the core.
-
-
-  - name: UAHC(0)_GPRTBIMAP_L
-    title: UAHC SuperSpeed Port-to-Bus Instance Mapping Register Low
+  - name: UAHC(0)_GPRTBIMAP
+    title: UAHC SuperSpeed Port-to-Bus Instance Mapping Register
     address: 0x168000000C138 + a*0x10000000000
     bus: NCB
     description: |
@@ -4726,7 +4744,7 @@ registers:
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
-        bits: 31..4
+        bits: 63..4
         access: ---
         reset: --
         typical: --
@@ -4738,20 +4756,6 @@ registers:
         reset: 0x0
         typical: 0x0
         description: SuperSpeed USB instance number for port 1
-
-
-  - name: UAHC(0)_GPRTBIMAP_H
-    title: UAHC SuperSpeed Port-to-Bus Instance Mapping Register High
-    address: 0x168000000C13C + a*0x10000000000
-    bus: NCB
-    description: See description on PRTBIMAP_L.
-    fields:
-      - name: --
-        bits: 31..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
 
 
   - name: UAHC(0)_GHWPARAMS0
@@ -5331,6 +5335,7 @@ registers:
       UAHC(0)_GDBGFIFOSPACE[SELECT][3:0].
       Value of this register may change immediately after reset.
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
     fields:
       - name: --
@@ -5400,6 +5405,7 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
     fields:
       - name: --
@@ -5427,6 +5433,7 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
     fields:
       - name: BMU_BCU_DBG
@@ -5517,6 +5524,7 @@ registers:
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.7.
       INTERNAL: This register is for Synopsys internal use only.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: LSP_DBG
         bits: 31..0
@@ -5526,44 +5534,26 @@ registers:
         description: LSP debug information.
 
 
-  - name: UAHC(0)_GDBGEPINFO_L
-    title: UAHC Endpoint Information Debug Register Low
+  - name: UAHC(0)_GDBGEPINFO
+    title: UAHC Endpoint Information Debug Register
     address: 0x168000000C178 + a*0x10000000000
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.8.
       INTERNAL: This register is for Synopsys internal use only.
+      Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
-      - name: ENDPT_DBG_LO
-        bits: 31..0
+      - name: ENDPT_DBG
+        bits: 63..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Endpoint debug information, bits<31:0>.
+        description: Endpoint debug information.
 
 
-  - name: UAHC(0)_GDBGEPINFO_H
-    title: UAHC Endpoint Information Debug Register High
-    address: 0x168000000C17C + a*0x10000000000
-    bus: NCB
-    description: |
-      See description in DBGFIFOSPACE.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.9.
-      INTERNAL: This register is for Synopsys internal use only.
-    fields:
-      - name: ENDPT_DBG_HI
-        bits: 31..0
-        access: RO/H
-        reset: 0x0
-        typical: --
-        description: |
-          Endpoint debug information, bits<63:32>.
-
-
-  - name: UAHC(0)_GPRTBIMAP_HS_L
-    title: UAHC HighSpeed Port-to-Bus Instance Mapping Register Low
+  - name: UAHC(0)_GPRTBIMAP_HS
+    title: UAHC HighSpeed Port-to-Bus Instance Mapping Register
     address: 0x168000000C180 + a*0x10000000000
     bus: NCB
     description: |
@@ -5576,7 +5566,7 @@ registers:
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
-        bits: 31..4
+        bits: 63..4
         access: ---
         reset: --
         typical: --
@@ -5590,22 +5580,8 @@ registers:
         description: HighSpeed USB instance number for port 1.
 
 
-  - name: UAHC(0)_GPRTBIMAP_HS_H
-    title: UAHC HighSpeed Port-to-Bus Instance Mapping Register High
-    address: 0x168000000C184 + a*0x10000000000
-    bus: NCB
-    description: See description on PRTBIMAP_HS_L.
-    fields:
-      - name: --
-        bits: 31..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-
-  - name: UAHC(0)_GPRTBIMAP_FS_L
-    title: UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register Low
+  - name: UAHC(0)_GPRTBIMAP_FS
+    title: UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
     address: 0x168000000C188 + a*0x10000000000
     bus: NCB
     description: |
@@ -5620,7 +5596,7 @@ registers:
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
-        bits: 31..4
+        bits: 63..4
         access: ---
         reset: --
         typical: --
@@ -5632,20 +5608,6 @@ registers:
         reset: 0x0
         typical: 0x0
         description: FullSpeed USB instance number for port 1.
-
-
-  - name: UAHC(0)_GPRTBIMAP_FS_H
-    title: UAHC FullSpeed/LowSpeed Port-to-Bus Instance Mapping Register HIgh
-    address: 0x168000000C18C + a*0x10000000000
-    bus: NCB
-    description: See description on PRTBIMAP_FS_L.
-    fields:
-      - name: --
-        bits: 31..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
 
 
   - name: UAHC(0)_GUSB2PHYCFG(0..0)
@@ -6302,6 +6264,7 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6328,8 +6291,7 @@ registers:
       This register specifies the relative DMA priority level among the Host RXFIFOs (one per USB
       bus instance) within the associated speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed).
       When multiple RXFIFOs compete for DMA service at a given time, the RxXDMA arbiter grants
-      access
-      on a packet-basis in the following manner:
+      access on a packet-basis in the following manner:
         1. Among the FIFOs in the same speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed):
           a. High-priority RXFIFOs are granted access using round-robin arbitration
           b. Low-priority RXFIFOs are granted access using round-robin arbitration only after high-
@@ -6342,6 +6304,7 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6380,6 +6343,7 @@ registers:
          the next request.
        * if there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant
          is always awarded; there is no idle.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: --
@@ -6412,18 +6376,17 @@ registers:
 
 
   - name: UAHC(0)_GFLADJ
+    title: Global Frame Length Adjustment Register
     address: 0x168000000C630 + a*0x10000000000
     bus: NCB
     description: |
       This register provides options for the software to control the core behavior with respect to
-      SOF (Start of
-      Frame) and ITP (Isochronous Timestamp Packet) timers and frame timer functionality. It
-      provides option to
-      override the sideband signal fladj_30mhz_reg. In addition, it enables running SOF or ITP frame
-      timer
-      counters completely off of the ref_clk. This facilitates hardware LPM in host mode with the
-      SOF or ITP
-      counters being run off of the ref_clk signal.
+      SOF (Start of Frame) and ITP (Isochronous Timestamp Packet) timers and frame timer
+      functionality. It provides option to override the sideband signal fladj_30mhz_reg. In
+      addition, it enables running SOF or ITP frame timer counters completely off of the ref_clk.
+      This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
+      ref_clk signal.
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
       - name: GFLADJ_REFCLK_240MHZDECR_PLS1
@@ -6495,7 +6458,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Reserved.
+        description: |
+          Reserved.
+          INTERNAL: These are apparently backed by read/write registers.
 
       - name: GFLADJ_REFCLK_FLADJ
         bits: 21..8
@@ -6547,7 +6512,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Reserved.
+        description: |
+          Reserved.
+          INTERNAL: These are apparently backed by read/write registers.
 
       - name: GFLADJ_30MHZ
         bits: 5..0

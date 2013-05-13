@@ -28,6 +28,27 @@ registers:
           to select either common reference clock.
 
 
+  - name: GSER(0)_PHY(0..2)_SCOPE_MASK(0..7)
+    title: GSER PHY SCOPE Mask N Valid Register
+    address: 0x1180090000120 + a + b*0x80000 + c*0x8
+    bus: RSL
+    description: Starting count value of PHY Mask register
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MASK_VAL
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: The internal PHY MASK_VAL_N registers.
+
+
   - name: GSER(0)_DLM(0..2)_MPLL_STATUS
     title: GSER DLM MPLL Status Register
     address: 0x1180090001000 + a + b*0x80000
@@ -1238,27 +1259,27 @@ registers:
       - name: PIPE3_RST
         bits: 3
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Pipe 3 Reset.
 
       - name: PIPE2_RST
         bits: 2
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Pipe 2 Reset.
 
       - name: PIPE1_RST
         bits: 1
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Pipe 1 Reset.
 
       - name: PIPE0_RST
         bits: 0
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: --
         description: Pipe 0 Reset.
@@ -1304,8 +1325,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Configues the PIPE/PHY configuration for PEM1
-          0: PEM1 is tied to DLM1/Lane2   This is 2x1 PCIE with SATA.
+          Configures the PIPE/PHY configuration for PEM1 when all 4 PIPEs are enabled.
+          0: PEM1 is tied to DLM1/Lane1.   This is 2x1 PCIE with SATA.
           1: PEM1 is tied to DLM2/Lane0.  This is 3x1 PCIe mode.
 
       - name: PIPE_PORT_SEL
@@ -1316,9 +1337,9 @@ registers:
         description: |
           PIPE enable request.  Change only when phy_reset is asserted.
           00: Disables all PIPEs
-          01: Enables PIPE0 only
-          10: Enables PIPEs 0 and 1
-          11: Enables PIPEs 0, 1, 2, and 3
+          01: Enables PIPE0 only.  This is 1x4 PCIe mode.
+          10: Enables PIPEs 0 and 1. This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
+          11: Enables PIPEs 0, 1, 2, and 3. This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
 
 
   - name: GSER(0)_PCIE_PIPE_PORT_LOOPBK

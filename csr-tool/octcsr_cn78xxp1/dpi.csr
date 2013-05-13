@@ -1121,6 +1121,8 @@ registers:
     bus: NCB
     description: |
       DMA Door Bell: The door bell register for DMA[0..7] queue.
+    attributes:
+      regtest_skip: "True"
     fields:
       - name: --
         bits: 63..16

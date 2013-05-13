@@ -813,7 +813,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Max Payload Size
+          "Max Payload Size.
           Legal values:
           0  = 128B
           1  = 256B
@@ -855,159 +855,6 @@ registers:
         reset: 0
         typical: 0
         description: Correctable Error Reporting Enable
-
-
-  - name: PCIEEPVF(0..3)_CFG040
-    address: 0x5000000007A + a*0x100000000
-    bus: PCICONFIGEP
-    description: |
-      PCIE_CFG040 = Forty-first 32-bits of PCIE type 0 config space
-      (Link Control 2 Register/Link Status 2 Register)
-    fields:
-      - name: --
-        bits: 31..17
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CDL
-        bits: 16
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Current De-emphasis Level
-          When the Link is operating at 5 GT/s speed, this bit
-          reflects the level of de-emphasis. Encodings:
-          1b: -3.5 dB
-          0b: -6 dB
-          Note: The value in this bit is undefined when the Link is
-          operating at 2.5 GT/s speed
-
-      - name: --
-        bits: 15..13
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CDE
-        bits: 12
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          Compliance De-emphasis
-          This bit sets the de-emphasis level in Polling. Compliance
-          state if the entry occurred due to the Tx Compliance
-          Receive bit being 1b. Encodings:
-          1b: -3.5 dB
-          0b: -6 dB
-          Note: When the Link is operating at 2.5 GT/s, the setting
-          of this bit has no effect.
-
-      - name: CSOS
-        bits: 11
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          Compliance SOS
-          When set to 1b, the LTSSM is required to send SKP
-          Ordered Sets periodically in between the (modified)
-          compliance patterns.
-          Note: When the Link is operating at 2.5 GT/s, the setting
-          of this bit has no effect.
-
-      - name: EMC
-        bits: 10
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          Enter Modified Compliance
-          When this bit is set to 1b, the device transmits a modified
-          compliance pattern if the LTSSM enters Polling.
-          Compliance state.
-
-      - name: TM
-        bits: 9..7
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Transmit Margin
-          This field controls the value of the non-de-emphasized
-          voltage level at the Transmitter pins:
-          000: 800-1200 mV for full swing 400-600 mV for half-swing
-          001-010: values must be monotonic with a non-zero slope
-          011: 200-400 mV for full-swing and 100-200 mV for halfswing
-          100-111: reserved
-          This field is reset to 000b on entry to the LTSSM Polling.
-          Compliance substate.
-          When operating in 5.0 GT/s mode with full swing, the
-          de-emphasis ratio must be maintained within +/- 1 dB
-          from the specification-defined operational value
-          either -3.5 or -6 dB).
-
-      - name: SDE
-        bits: 6
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          Selectable De-emphasis
-          Not applicable for an upstream Port or Endpoint device.
-          Hardwired to 0.
-
-      - name: HASD
-        bits: 5
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Hardware Autonomous Speed Disable
-          When asserted, the
-          application must disable hardware from changing the Link
-          speed for device-specific reasons other than attempting to
-          correct unreliable Link operation by reducing Link speed.
-          Initial transition to the highest supported common link
-          speed is not blocked by this signal.
-
-      - name: EC
-        bits: 4
-        access: RO
-        reset: 0
-        typical: 0
-        description: |
-          Enter Compliance
-          Software is permitted to force a link to enter Compliance
-          mode at the speed indicated in the Target Link Speed
-          field by setting this bit to 1b in both components on a link
-          and then initiating a hot reset on the link.
-
-      - name: TLS
-        bits: 3..0
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          "Target Link Speed
-          For Downstream ports, this field sets an upper limit on link
-          operational speed by restricting the values advertised by
-          the upstream component in its training sequences:
-          0001: 2.5Gb/s Target Link Speed
-          0010: 5Gb/s Target Link Speed
-          0100: 8Gb/s Target Link Speed
-          All other encodings are reserved.
-          into compliance mode.
-          The reset value of this field is controled by a value sent from
-          the lsb of the MIO_QLM#_SPD register
-          qlm#_spd[0]   RST_VALUE   NOTE
-          ?             0001b       2.5 GHz supported
-          ?             0010b       5.0 GHz and 2.5 GHz supported
-          ?             0100b       8.0 GHz, 5.0 GHz and 2.5 GHz supported"
 
 
   - name: PCIEEPVF(0..3)_CFG031
@@ -1324,7 +1171,7 @@ registers:
 
       - name: MEETP
         bits: 23..22
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
@@ -1597,6 +1444,159 @@ registers:
         reset: --
         typical: --
         description: Reserved.
+
+
+  - name: PCIEEPVF(0..3)_CFG040
+    address: 0x500000000A0 + a*0x100000000
+    bus: PCICONFIGEP
+    description: |
+      PCIE_CFG040 = Forty-first 32-bits of PCIE type 0 config space
+      (Link Control 2 Register/Link Status 2 Register)
+    fields:
+      - name: --
+        bits: 31..17
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CDL
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Current De-emphasis Level
+          When the Link is operating at 5 GT/s speed, this bit
+          reflects the level of de-emphasis. Encodings:
+          1b: -3.5 dB
+          0b: -6 dB
+          Note: The value in this bit is undefined when the Link is
+          operating at 2.5 GT/s speed
+
+      - name: --
+        bits: 15..13
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CDE
+        bits: 12
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          Compliance De-emphasis
+          This bit sets the de-emphasis level in Polling. Compliance
+          state if the entry occurred due to the Tx Compliance
+          Receive bit being 1b. Encodings:
+          1b: -3.5 dB
+          0b: -6 dB
+          Note: When the Link is operating at 2.5 GT/s, the setting
+          of this bit has no effect.
+
+      - name: CSOS
+        bits: 11
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          Compliance SOS
+          When set to 1b, the LTSSM is required to send SKP
+          Ordered Sets periodically in between the (modified)
+          compliance patterns.
+          Note: When the Link is operating at 2.5 GT/s, the setting
+          of this bit has no effect.
+
+      - name: EMC
+        bits: 10
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          Enter Modified Compliance
+          When this bit is set to 1b, the device transmits a modified
+          compliance pattern if the LTSSM enters Polling.
+          Compliance state.
+
+      - name: TM
+        bits: 9..7
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Transmit Margin
+          This field controls the value of the non-de-emphasized
+          voltage level at the Transmitter pins:
+          000: 800-1200 mV for full swing 400-600 mV for half-swing
+          001-010: values must be monotonic with a non-zero slope
+          011: 200-400 mV for full-swing and 100-200 mV for halfswing
+          100-111: reserved
+          This field is reset to 000b on entry to the LTSSM Polling.
+          Compliance substate.
+          When operating in 5.0 GT/s mode with full swing, the
+          de-emphasis ratio must be maintained within +/- 1 dB
+          from the specification-defined operational value
+          either -3.5 or -6 dB).
+
+      - name: SDE
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          Selectable De-emphasis
+          Not applicable for an upstream Port or Endpoint device.
+          Hardwired to 0.
+
+      - name: HASD
+        bits: 5
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Hardware Autonomous Speed Disable
+          When asserted, the
+          application must disable hardware from changing the Link
+          speed for device-specific reasons other than attempting to
+          correct unreliable Link operation by reducing Link speed.
+          Initial transition to the highest supported common link
+          speed is not blocked by this signal.
+
+      - name: EC
+        bits: 4
+        access: RO
+        reset: 0
+        typical: 0
+        description: |
+          Enter Compliance
+          Software is permitted to force a link to enter Compliance
+          mode at the speed indicated in the Target Link Speed
+          field by setting this bit to 1b in both components on a link
+          and then initiating a hot reset on the link.
+
+      - name: TLS
+        bits: 3..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          "Target Link Speed
+          For Downstream ports, this field sets an upper limit on link
+          operational speed by restricting the values advertised by
+          the upstream component in its training sequences:
+          0001: 2.5Gb/s Target Link Speed
+          0010: 5Gb/s Target Link Speed
+          0100: 8Gb/s Target Link Speed
+          All other encodings are reserved.
+          into compliance mode.
+          The reset value of this field is controled by a value sent from
+          the lsb of the MIO_QLM#_SPD register
+          qlm#_spd[0]   RST_VALUE   NOTE
+          ?             0001b       2.5 GHz supported
+          ?             0010b       5.0 GHz and 2.5 GHz supported
+          ?             0100b       8.0 GHz, 5.0 GHz and 2.5 GHz supported"
 
 
   - name: PCIEEPVF(0..3)_CFG044
@@ -2189,7 +2189,7 @@ registers:
 
       - name: FORCE_LINK
         bits: 15
-        access: R/W/H
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -2438,7 +2438,7 @@ registers:
 
       - name: OMR
         bits: 0
-        access: R/W
+        access: WO/H
         reset: 0
         typical: 0
         description: |
@@ -3037,29 +3037,33 @@ registers:
     fields:
       - name: RX_QUEUE_ORDER
         bits: 31
-        access: RO
+        access: RO/WRSL
         reset: 0
         typical: 0
         description: |
-          VC Ordering for Receive Queues
+          "VC Ordering for Receive Queues
           Determines the VC ordering rule for the receive queues, used
           only in the segmented-buffer configuration,
+          writable through PEM#_CFG_WR:
           o 1: Strict ordering, higher numbered VCs have higher priority
           o 0: Round robin
+          However, the application must not change this field."
 
       - name: TYPE_ORDERING
         bits: 30
-        access: RO
+        access: RO/WRSL
         reset: 1
         typical: 1
         description: |
-          TLP Type Ordering for VC0
+          "TLP Type Ordering for VC0
           Determines the TLP type ordering rule for VC0 receive queues,
           used only in the segmented-buffer configuration,
+          through PEM#_CFG_WR:
           o 1: Ordering of received TLPs follows the rules in
           PCI Express Base Specification
           o 0: Strict ordering for received TLPs: Posted, then
           Completion, then Non-Posted
+          However, the application must not change this field."
 
       - name: --
         bits: 29..24
@@ -3070,17 +3074,19 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: RO
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
-          VC0 Posted TLP Queue Mode
+          "VC0 Posted TLP Queue Mode
           The operating mode of the Posted receive queue for VC0, used
-          only in the segmented-buffer configuration
+          only in the segmented-buffer configuration, writable through
+          PEM#_CFG_WR.
+          However, the application must not change this field.
           Only one bit can be set at a time:
           o Bit 23: Bypass
           o Bit 22: Cut-through
-          o Bit 21: Store-and-forward
+          o Bit 21: Store-and-forward"
 
       - name: --
         bits: 20
@@ -3091,23 +3097,27 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: RO
+        access: RO/WRSL
         reset: 0x60
         typical: 0x60
         description: |
-          VC0 Posted Header Credits
+          "VC0 Posted Header Credits
           The number of initial Posted header credits for VC0, used for
           all receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: RO
+        access: RO/WRSL
         reset: 0x80
         typical: 0x80
         description: |
-          VC0 Posted Data Credits
+          "VC0 Posted Data Credits
           The number of initial Posted data credits for VC0, used for all
           receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
 
   - name: PCIEEPVF(0..3)_CFG467
@@ -3126,17 +3136,19 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: RO
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
-          VC0 Non-Posted TLP Queue Mode
+          "VC0 Non-Posted TLP Queue Mode
           The operating mode of the Non-Posted receive queue for VC0,
-          used only in the segmented-buffer configuration
+          used only in the segmented-buffer configuration, writable
+          through PEM#_CFG_WR.
           Only one bit can be set at a time:
           o Bit 23: Bypass
           o Bit 22: Cut-through
           o Bit 21: Store-and-forward
+          However, the application must not change this field."
 
       - name: --
         bits: 20
@@ -3147,23 +3159,27 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: RO
+        access: RO/WRSL
         reset: 0x1f
         typical: 0x1f
         description: |
-          VC0 Non-Posted Header Credits
+          "VC0 Non-Posted Header Credits
           The number of initial Non-Posted header credits for VC0, used
           for all receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: RO
+        access: RO/WRSL
         reset: 0xd
         typical: 0xd
         description: |
-          VC0 Non-Posted Data Credits
+          "VC0 Non-Posted Data Credits
           The number of initial Non-Posted data credits for VC0, used for
           all receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
 
   - name: PCIEEPVF(0..3)_CFG468
@@ -3182,17 +3198,19 @@ registers:
 
       - name: QUEUE_MODE
         bits: 23..21
-        access: RO
+        access: RO/WRSL
         reset: 0x2
         typical: 0x2
         description: |
-          VC0 Completion TLP Queue Mode
+          "VC0 Completion TLP Queue Mode
           The operating mode of the Completion receive queue for VC0,
-          used only in the segmented-buffer configuration
+          used only in the segmented-buffer configuration, writable
+          through PEM#_CFG_WR.
           Only one bit can be set at a time:
           o Bit 23: Bypass
           o Bit 22: Cut-through
           o Bit 21: Store-and-forward
+          However, the application must not change this field."
 
       - name: --
         bits: 20
@@ -3203,23 +3221,27 @@ registers:
 
       - name: HEADER_CREDITS
         bits: 19..12
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
-          VC0 Completion Header Credits
+          "VC0 Completion Header Credits
           The number of initial Completion header credits for VC0, used
           for all receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
       - name: DATA_CREDITS
         bits: 11..0
-        access: RO
+        access: RO/WRSL
         reset: 0x0
         typical: 0x0
         description: |
-          VC0 Completion Data Credits
+          "VC0 Completion Data Credits
           The number of initial Completion data credits for VC0, used for
           all receive queue buffer configurations.
+          This field is writable through PEM#_CFG_WR.
+          However, the application must not change this field."
 
 
   - name: PCIEEPVF(0..3)_CFG490

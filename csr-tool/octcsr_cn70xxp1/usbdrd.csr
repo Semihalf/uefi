@@ -2509,7 +2509,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Command ring pointer bits<31:6>.
+          Command ring pointer bits<63:6>.
 
       - name: --
         bits: 5..4
@@ -2568,7 +2568,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Device context base address array pointer bits<31:6>.
+          Device context base address array pointer bits<63:6>.
 
       - name: --
         bits: 5..0
@@ -3146,7 +3146,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Event-ring segment-table base-address bits<31:6>.
+          Event-ring segment-table base-address bits<63:6>.
 
       - name: --
         bits: 5..0
@@ -3173,7 +3173,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Event ring dequeue pointer bits<31:4>.
+          Event ring dequeue pointer bits<63:4>.
 
       - name: EHB
         bits: 3
@@ -4788,13 +4788,13 @@ registers:
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
-      - name: BUSADDRLO
+      - name: BUSADDR
         bits: 63..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
-          Bus address bits<31:0>. Contains the lower 32 bits of the first bus address that
+          Bus address bits<63:0>. Contains the lower 32 bits of the first bus address that
           encountered an SoC bus error. It is valid when USBDRD(0..1)_UAHC_GSTS[BUSERRADDRVLD] = 1.
           It can only be cleared by resetting the core.
 
@@ -5613,13 +5613,13 @@ registers:
       INTERNAL: This register is for Synopsys internal use only.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
     fields:
-      - name: ENDPT_DBG_LO
+      - name: ENDPT_DBG
         bits: 63..0
         access: RO/H
         reset: 0x0
         typical: --
         description: |
-          Endpoint debug information, bits<31:0>.
+          Endpoint debug information, bits<63:0>.
 
 
   - name: USBDRD(0..1)_UAHC_GPRTBIMAP_HS
@@ -6320,23 +6320,13 @@ registers:
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
     fields:
-      - name: EVNTADRHI
-        bits: 63..32
+      - name: EVNTADR
+        bits: 63..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
-          Holds the higher 32 bits of start address of the external memory
-          for the Event Buffer. During operation, hardware does not update
-          this address.
-
-      - name: EVNTADRLO
-        bits: 31..0
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Holds the lower 32 bits of start address of the external memory
+          Holds the start address of the external memory
           for the Event Buffer. During operation, hardware does not update
           this address.
 
