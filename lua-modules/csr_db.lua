@@ -62168,7 +62168,8 @@ local csr_db = {
                 {name = "GRP_CNT", start = 48, stop = 60},
                 {name = "RESERVED_45_47", start = 45, stop = 47},
                 {name = "MAX_THR", start = 32, stop = 44},
-                {name = "RESERVED_0_31", start = 0, stop = 31},
+                {name = "RESERVED_13_31", start = 13, stop = 31},
+                {name = "RSVD_THR", start = 0, stop = 12},
             }
         },
         SSO_GRPX_INT = {
@@ -62264,7 +62265,8 @@ local csr_db = {
                 {name = "GRP_CNT", start = 48, stop = 58},
                 {name = "RESERVED_43_47", start = 43, stop = 47},
                 {name = "MAX_THR", start = 32, stop = 42},
-                {name = "RESERVED_0_31", start = 0, stop = 31},
+                {name = "RESERVED_11_31", start = 11, stop = 31},
+                {name = "RSVD_THR", start = 0, stop = 10},
             }
         },
         SSO_GRPX_TS_PC = {

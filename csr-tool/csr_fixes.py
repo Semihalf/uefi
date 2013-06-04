@@ -199,7 +199,7 @@ def fixDescription(descr):
 def fixFieldName(csr, field):
     old_name = field.name
     if ((old_name == "ns") or old_name.startswith("rsvrd") or old_name.startswith("rsvd") or
-        old_name.startswith("unused") or (old_name == "revrd")):
+        old_name.startswith("unused") or (old_name == "revrd")) and (old_name != "rsvd_thr"):
         return "reserved_" + str(field.start_bit) + "_" + str(field.stop_bit)
     elif (csr.name == "ciu_mbox_set#") and (old_name == "set"):
         return "bits"
