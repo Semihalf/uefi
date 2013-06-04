@@ -469,7 +469,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         c.s.rr_prio = 0);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_SHAPE(pq),
         c.s.link = lmac);
-    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_CREDIT(pq),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_LINK(pq),
         c.s.link = lmac;
         c.s.cc_enable = 0);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_PICK(pq),
@@ -481,9 +481,6 @@ static int pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_SCHEDULE(sq_l2),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
-    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_CREDIT(sq_l2),
-        c.s.cc_channel = handle->ipd_port;
-        c.s.cc_enable = 0);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L2_SQX_TOPOLOGY(sq_l2),
         c.s.prio_anchor = sq_l3;
         c.s.parent = pq;

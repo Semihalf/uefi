@@ -57,9 +57,17 @@ int bdk_dma_engine_initialize(bdk_node_t node)
     dma_control.s.pkt_hp = 1;
     dma_control.s.pkt_en = 1;
     dma_control.s.dma_enb = 0x1f;
-    dma_control.s.dwb_denb = BDK_USE_DWB;
-    dma_control.s.dwb_ichk = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/128;
-    dma_control.s.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        dma_control.cn78xx.ldwb = BDK_USE_DWB;
+        dma_control.cn78xx.aura_ichk = BDK_FPA_OUTPUT_BUFFER_POOL;
+    }
+    else
+    {
+        dma_control.cn61xx.dwb_denb = BDK_USE_DWB;
+        dma_control.cn61xx.dwb_ichk = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/128;
+        dma_control.cn61xx.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
+    }
     dma_control.s.o_es = 1;
     dma_control.s.o_mode = 1;
     BDK_CSR_WRITE(node, BDK_DPI_DMA_CONTROL, dma_control.u64);
