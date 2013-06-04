@@ -369,8 +369,8 @@ registers:
     address: 0x1180038000560
     bus: RSL
     description: |
-      This register controls the behavior ZIP DMA engine. It is recommended to keep default values
-      for normal operation. Changing the values of the fields may be useful for diagnostics.
+      This register controls the behavior of the ZIP DMA engines. It is recommended to keep default
+      values for normal operation. Changing the values of the fields may be useful for diagnostics.
     fields:
       - name: --
         bits: 63..52

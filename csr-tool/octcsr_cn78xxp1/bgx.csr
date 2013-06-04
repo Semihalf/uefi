@@ -1573,6 +1573,8 @@ registers:
       2. not dropped due the DMAC filtering
       3. not dropped due FIFO full status
       4. not have have any other OPCODE (FCS, Length, etc).
+      Note: late collision packets (those signaled after eop) will be counted here
+      even though they are dropped by the CMR.
     internal: |
       Counters will wrap.
       Cleared if lmac is disabled with BGX_CMR_CONFIG[ENABLE]=0
@@ -1597,7 +1599,7 @@ registers:
   - name: BGX(0..5)_CMR(0..3)_RX_STAT1
     address: 0x11800E0000040 + a*0x1000000 + b*0x100000
     bus: RSL
-    description: Count of octets of recieved packets
+    description: Count of octets of recieved packets, refer to details above in STAT0 definition
     internal: |
       Counters will wrap.
       Cleared if lmac is disabled with BGX_CMR_CONFIG[ENABLE]=0
@@ -2258,7 +2260,7 @@ registers:
           1         |   64KB                0
           2         |   32KB                1
           3         |   16KB                2
-          4         |   8KB                 3
+          4         |   16KB                3
           5-7       |   reserved
           ----------+---------------------------------------------------
           Note: The maximum LMAC ID is determined by the smaller of
@@ -3040,7 +3042,7 @@ registers:
           1         |   32KB                0
           2         |   16KB                1
           3         |   8KB                 2
-          4         |   4KB                 3
+          4         |   8KB                 3
           5-7       |   reserved
           ----------+---------------------------------------------------
           Note: The maximum LMAC ID is determined by the smaller of
@@ -6668,21 +6670,21 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..18
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: VAL
-        bits: 18
+        bits: 17
         access: R/W1C/H
         reset: 0
         typical: --
         description: Set when BGX_RX_INT[PCTERR] is set.
 
       - name: STATE
-        bits: 17..8
+        bits: 16..8
         access: RO/H
         reset: 0x0
         typical: --
@@ -7155,12 +7157,15 @@ registers:
           BGX_SMU@_CBFC_CTL[RX_EN] == 0
           BGX_SMU@_CBFC_CTL[TX_EN] == 0
 
-      - name: --
+      - name: L2P_BP_CONV
         bits: 7
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If set will cause TX to generate 802.3 pause packets when CMR applies logical backpressure
+          (XOFF), if and only if BGX_SMU@_CBFC_CTL[TX_EN] == 0 and
+          BGX(0..5)_SMU(0..3)_HG2_CONTROL[HG2TX_EN] == 0.
 
       - name: LS_BYP
         bits: 6
@@ -7266,7 +7271,9 @@ registers:
         access: RO/H
         reset: 1
         typical: --
-        description: TX Machine is idle
+        description: |
+          TX Machine is idle This indication pertains to the framer FSM and ignores the effects on
+          the data-path controls or values which occur when BGX_SMU_TX_CTL[LS_BYP] is set
 
       - name: RX_IDLE
         bits: 0
@@ -7372,7 +7379,9 @@ registers:
         typical: --
         description: |
           1 bit physical link pause enable for recevied
-          HiGig2 physical pause message
+          HiGig2 physical pause message. This bit enables the SMU TX
+          to CMR HG2 deferring counter to be set every time SMU RX
+          receives and filters out a valid physical HG2 message.
 
       - name: LOGL_EN
         bits: 15..0
@@ -7381,7 +7390,9 @@ registers:
         typical: --
         description: |
           16 bit xof enables for recevied HiGig2 messages
-          or PFC/CBFC packets
+          or PFC/CBFC packets. This field is NOT used by SMU at all.
+          It is forwarded to CMR without alteration. It appears here
+          for backward compatibility tieh O68.
 
 
   - name: BGX(0..5)_SMU(0..3)_CBFC_CTL
@@ -7610,56 +7621,56 @@ registers:
 
       - name: HUN_T4
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 100Base-T4 capable
 
       - name: HUN_XFD
         bits: 14
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 100Base-X Full Duplex
 
       - name: HUN_XHD
         bits: 13
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 100Base-X Half Duplex
 
       - name: TEN_FD
         bits: 12
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 10Mb/s Full Duplex
 
       - name: TEN_HD
         bits: 11
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 10Mb/s Half Duplex
 
       - name: HUN_T2FD
         bits: 10
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 100Base-T2 Full Duplex
 
       - name: HUN_T2HD
         bits: 9
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means 100Base-T2 Half Duplex
 
       - name: EXT_ST
         bits: 8
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: 1 means extended status info in reg15
@@ -7673,7 +7684,7 @@ registers:
 
       - name: PRB_SUP
         bits: 6
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: |
@@ -7683,7 +7694,7 @@ registers:
 
       - name: AN_CPT
         bits: 5
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -7692,7 +7703,7 @@ registers:
 
       - name: RM_FLT
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -7704,14 +7715,14 @@ registers:
 
       - name: AN_ABIL
         bits: 3
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: 1 means Auto Negotiation capable
 
       - name: LNK_ST
         bits: 2
-        access: RO
+        access: RO/H
         reset: 0
         typical: 1
         description: |
@@ -7729,7 +7740,7 @@ registers:
 
       - name: EXTND
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Always 0, no extended capability regs present
@@ -7749,7 +7760,7 @@ registers:
 
       - name: NP
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Always 0, no next page capability supported
@@ -7831,21 +7842,21 @@ registers:
 
       - name: NP
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1=lp next page capable, 0=lp not next page capable
 
       - name: ACK
         bits: 14
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: 1=Acknowledgement received
 
       - name: REM_FLT
         bits: 13..12
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -7864,7 +7875,7 @@ registers:
 
       - name: PAUSE
         bits: 8..7
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -7876,14 +7887,14 @@ registers:
 
       - name: HFD
         bits: 6
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means link partner Half Duplex capable
 
       - name: FD
         bits: 5
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means link partner Full Duplex capable
@@ -7913,7 +7924,7 @@ registers:
 
       - name: PAUSE
         bits: 6..5
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -7925,7 +7936,7 @@ registers:
 
       - name: SPD
         bits: 4..3
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -7937,21 +7948,21 @@ registers:
 
       - name: AN_CPT
         bits: 2
-        access: RO
+        access: RO/H
         reset: 0
         typical: 1
         description: 1=AN Completed, 0=AN not completed or failed
 
       - name: DUP
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1=Full Duplex, 0=Half Duplex
 
       - name: LINK_OK
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1=Link up(OK), 0=Link down
@@ -8095,14 +8106,14 @@ registers:
 
       - name: SYNC
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means code group synchronization achieved
 
       - name: BIT_LOCK
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: 1 means bit lock achieved
@@ -8121,7 +8132,7 @@ registers:
 
       - name: RX_BAD
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Receive state machine in an illegal state
@@ -8135,7 +8146,7 @@ registers:
 
       - name: SYNC_BAD
         bits: 9
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Receive synchronization SM in an illegal state
@@ -8149,7 +8160,7 @@ registers:
 
       - name: AN_BAD
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Auto Negotiation state machine in an illegal state
@@ -8182,7 +8193,7 @@ registers:
 
       - name: TX_BAD
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Xmit state machine in a bad state
@@ -8222,7 +8233,7 @@ registers:
 
       - name: ACK
         bits: 14
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: Auto negotiation ack
@@ -8262,7 +8273,7 @@ registers:
 
       - name: ONE
         bits: 0
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: Always set to match tx_config_reg<0>
@@ -8282,7 +8293,7 @@ registers:
 
       - name: LINK
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 1
         description: Link status 1 Link Up, 0 Link Down
@@ -8303,14 +8314,14 @@ registers:
 
       - name: DUP
         bits: 12
-        access: RO
+        access: RO/H
         reset: 0
         typical: 1
         description: Duplex mode 1=full duplex, 0=half duplex
 
       - name: SPEED
         bits: 11..10
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x2
         description: |
@@ -8329,7 +8340,7 @@ registers:
 
       - name: ONE
         bits: 0
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: Always set to match tx_config_reg<0>
@@ -8923,7 +8934,7 @@ registers:
 
       - name: PRE_FREE
         bits: 6
-        access: RO
+        access: RO/H
         reset: 1
         typical: 1
         description: |

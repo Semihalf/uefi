@@ -6,21 +6,21 @@ enums:
   - name: DPI_HDR_PT_E
     attributes:
       width: "2"
-    description: Pointer type.
+    description: Enumerates the pointer type.
     values:
-      - name: DPI_HDR_PT_ZBW_CA
+      - name: ZBW_CA
         value: 0x0
         description: Zero-byte-write with cache allocate
 
-      - name: DPI_HDR_PT_ZBW_NC
+      - name: ZBW_NC
         value: 0x1
-        description: Zero-byte-write with no cache allocate
+        description: Zero-byte-write with no cache allocate.
 
-      - name: DPI_HDR_PT_WQP
+      - name: WQP
         value: 0x2
-        description: Pointer is work queue entry pointer for SSO
+        description: Pointer is work queue entry pointer for SSO.
 
-      - name: DPI_HDR_PT_CNT
+      - name: CNT
         value: 0x3
         description: |
           PTR<5:0> indicates which counter to increment.
@@ -29,7 +29,7 @@ enums:
   - name: DPI_INTSN_E
     attributes:
       width: "20"
-    description: FIXME the interrupt list is not complete.
+    description: Enumerates the different DPI-generated interrupts.
     values:
       - name: DPI_INT_NDERR
         value: 0xDF000
@@ -111,9 +111,23 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT3_RST].
 
+      - name: DPI_ERR_RAM_DBE(0..22)
+        value: 0xDF015 + a
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_ECC_INT[RAM_DBE<a>].
+
+      - name: DPI_ERR_RAM_SBE(0..22)
+        value: 0xDF02C + a
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See DPI_ECC_INT[RAM_SBE<a>].
+
 
 structs:
   - name: DPI_DMA_INSTR_HDR_S
+    attributes:
+      allow_missing_bits: "True"
     description: DPI DMA Instruction Header Format
     fields:
       - name: AURA
@@ -186,32 +200,34 @@ structs:
       - name: FL
         bits: w0(47)
         description: |
-          See HRM.
-          Free local pointer.
+          Refer to DMA Instruction-Header Format, word0<47>. Free local buffer.
+          ...
 
       - name: II
         bits: w0(48)
         description: |
-          See HRM.
-          Ignore local pointer invert bit.
+          Refer to DMA Instruction-Header Format, word0<48>. Ignore the I bit (i.e. the I bit of the
+          DPI DMA instruction local pointer. See DPI DMA Local-Pointer Format).
+          ...
 
       - name: FI
         bits: w0(49)
         description: |
-          See HRM.
-          Force interrupt.
+          Refer to DMA Instruction-Header Format, word0<49>. Force interrupt.
+          ...
 
       - name: CA
         bits: w0(50)
         description: |
-          See HRM.
-          Counter add.
+          Refer to DMA Instruction-Header Format, word0<50>. Counter add.
+          ...
 
       - name: CSEL
         bits: w0(51)
         description: |
-          Formerly C.  See HRM.
-          Counter select.
+          Refer to DMA Instruction-Header Format, word0<51>. Counter. 1 = use counter 1, 0 = use
+          counter 0.
+          ...
 
       - name: XTYPE
         bits: w0(53..52)
@@ -263,6 +279,8 @@ structs:
 
 
   - name: DPI_DMA_LOCAL_PTR_S
+    attributes:
+      allow_missing_bits: "True"
     description: DPI DMA Local Pointer Format
     fields:
       - name: PTR
@@ -278,38 +296,41 @@ structs:
       - name: L
         bits: 47
         description: |
-          See HRM.
-          Little endian.
+          Refer to DPI DMA Local-Pointer Format word0<47>. Little-endian.
+          ...
 
       - name: SIZE
         bits: 60..48
         description: |
-          See HRM.
-          Size.
+          Refer to DPI DMA Local-Pointer Format word0<60:48>. Size in bytes of the contiguous space
+          specified by PTR. A Size value of 0 is illegal.
+          ...
 
       - name: AC
         bits: 61
         description: |
-          Formetly A.  See HRM.
-          Allocate L2.
+          Refer to DPI DMA Local-Pointer Format word0<61>. Allocate L2.
+          ...
 
       - name: F
         bits: 62
         description: |
-          See HRM.
-          Full cacheline write.
+          Refer to DPI DMA Local-Pointer Format word0<62>. Full-block write operations are allowed.
+          ...
 
       - name: I
         bits: 63
         description: |
-          See HRM.
-          Invert free.
+          Refer to DPI DMA Local-Pointer Format, word0<63>. Invert free.
+          ...
 
 
 registers:
   - name: DPI_BIST_STATUS
+    title: DPI BIST Status Register
     address: 0x1DF0000000000
     bus: NCB
+    description: This is the built-in self-test (BIST) status register.
     fields:
       - name: --
         bits: 63..45
@@ -323,15 +344,14 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          BIST Results.
-          HW sets a bit in BIST for for memory that fails
-          BIST.
+        description: BIST results. Hardware sets a bit in BIST for memory that fails.
 
 
   - name: DPI_INT_REG
+    title: DPI Interrupt Register
     address: 0x1DF0000000008
     bus: NCB
+    description: This register contains error flags for DPI.
     fields:
       - name: --
         bits: 63..28
@@ -346,9 +366,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset. Throws DPI_INTSN_E::SPRT3_RST.
-          this bit is set.
+          SLI port 3 in-reset error. DMA instruction was dropped because the source or destination
+          port was in reset. Throws DPI_INTSN_E::SPRT3_RST.
 
       - name: SPRT2_RST
         bits: 26
@@ -356,9 +375,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset. Throws DPI_INTSN_E::SPRT2_RST.
-          this bit is set.
+          SLI port 2 in-reset error. DMA instruction was dropped because the source or destination
+          port was in reset. Throws DPI_INTSN_E::SPRT2_RST.
 
       - name: SPRT1_RST
         bits: 25
@@ -366,9 +384,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set. Throws DPI_INTSN_E::SPRT1_RST.
+          SLI port 1 in-reset error. DMA instruction was dropped because the source or destination
+          port was in reset. Throws DPI_INTSN_E::SPRT1_RST.
 
       - name: SPRT0_RST
         bits: 24
@@ -376,9 +393,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set. Throws DPI_INTSN_E::SPRT0_RST.
+          SLI port 0 in-reset error 0. DMA instruction was dropped because the source or destination
+          port was in reset. Throws DPI_INTSN_E::SPRT0_RST.
 
       - name: --
         bits: 23
@@ -393,8 +409,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction unexpected fill
-          Instruction fill when none outstanding. Throws DPI_INTSN_E::REQ_BADFIL.
+          Unexpected fill error. This bit is set when an instruction fill is received when there is
+          no outstanding request. Throws DPI_INTSN_E::REQ_BADFIL.
 
       - name: REQ_INULL
         bits: 21
@@ -402,8 +418,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction filled with NULL pointer
-          Next pointer was NULL. Throws DPI_INTSN_E::REQ_INULL.
+          Null pointer error. This bit is set when an instruction's next pointer is NULL. Throws
+          DPI_INTSN_E::REQ_INULL.
 
       - name: REQ_ANULL
         bits: 20
@@ -411,8 +427,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction filled with bad instruction
-          Fetched instruction word was 0. Throws DPI_INTSN_E::REQ_ANULL.
+          Instruction bad error. This bit is set when a fetched instruction word was 0x0. Throws
+          DPI_INTSN_E::REQ_ANULL.
 
       - name: REQ_UNDFLW
         bits: 19
@@ -420,9 +436,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction FIFO underflow
-          DPI tracks outstanding instructions fetches.
-          Interrupt will fire when FIFO underflows. Throws DPI_INTSN_E::REQ_UNDFLW.
+          Instruction FIFO underflow error. This bit is set when the instruction FIFO underflows.
+          Throws DPI_INTSN_E::REQ_UNDFLW.
 
       - name: REQ_OVRFLW
         bits: 18
@@ -430,9 +445,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction FIFO overflow
-          DPI tracks outstanding instructions fetches.
-          Interrupt will fire when FIFO overflows. Throws DPI_INTSN_E::REQ_OVRFLW.
+          Instruction FIFO overflow error. This bit is set when the instruction FIFO overflows.
+          Throws DPI_INTSN_E::REQ_OVRFLW.
 
       - name: REQ_BADLEN
         bits: 17
@@ -440,9 +454,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction fetch with length
-          Interrupt will fire if DPI forms an instruction
-          fetch with length of zero. Throws DPI_INTSN_E::REQ_BADLEN.
+          Fetch with length zero error. This bit is set when DPI forms an instruction fetch with
+          length of zero. Throws DPI_INTSN_E::REQ_BADLEN.
 
       - name: REQ_BADADR
         bits: 16
@@ -450,9 +463,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMA instruction fetch with bad pointer
-          Interrupt will fire if DPI forms an instruction
-          fetch to the NULL pointer. Throws DPI_INTSN_E::REQ_BADADR.
+          Fetch with bad pointer error. This bit is set when DPI forms an instruction fetch to the
+          NULL pointer. Throws DPI_INTSN_E::REQ_BADADR.
 
       - name: DMADBO
         bits: 15..8
@@ -460,10 +472,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          DMAx doorbell overflow.
-          DPI has a 32-bit counter for each request's queue
-          outstanding doorbell counts. Interrupt will fire
-          if the count overflows. Throws DPI_INTSN_E::DPI_INT_DMADBO.
+          Doorbell overflow error. DPI has a 32-bit counter for each request queue's outstanding
+          doorbell counts. A bit is set when the corresponding doorbell count overflows. Throws
+          DPI_INTSN_E::DPI_INT_DMADBO.
 
       - name: --
         bits: 7..2
@@ -478,9 +489,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          CSR Fifo Overflow
-          DPI can store upto 16 CSR request.  The FIFO will
-          overflow if that number is exceeded. Throws DPI_INTSN_E::DPI_INT_NFOVR.
+          CSR FIFO overflow error. DPI can store up to 16 CSR requests, and the FIFO overflows if
+          that number is exceeded. Throws DPI_INTSN_E::DPI_INT_NFOVR.
 
       - name: NDERR
         bits: 0
@@ -488,10 +498,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          NCB Decode Error
-          DPI received a NCB transaction on the outbound
-          bus to the DPI deviceID, but the command was not
-          recognized. Throws DPI_INTSN_E::DPI_INT_NDERR.
+          IOI decode error. This bit is set when the DPI received an IOI transaction on the outbound
+          bus to the DPI device ID, but the command was not recognized. Throws
+          DPI_INTSN_E::DPI_INT_NDERR.
 
 
   - name: DPI_INT_EN
@@ -630,32 +639,50 @@ registers:
         description: NCB Decode Error
 
 
-  - name: DPI_ECC_CTL0
-    title: DPI ECC Control Register
+  - name: DPI_ECC_CTL
+    title: DPI ECC Control 0 Register
     address: 0x1DF0000000018
     bus: NCB
     description: This register allows inserting ECC errors for testing.
     fields:
       - name: --
-        bits: 63..23
+        bits: 63..48
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAM_CDIS
-        bits: 22..0
+        bits: 47..32
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: RAM ECC correction disable. Each bit corresponds to a different RAM.
+        description: RDB RAM ECC correction disable. Each bit corresponds to a different RAM.
+
+      - name: RAM_FLIP1
+        bits: 31..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding RDB ram
+          to test single-bit or double-bit error handling.
+
+      - name: RAM_FLIP0
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding RDB ram
+          to test single-bit or double-bit error handling.
 
 
-  - name: DPI_ECC_CTL1
-    title: DPI ECC Control Register
+  - name: DPI_ECC_INT
+    title: DPI ECC Control 1 Register
     address: 0x1DF0000000020
     bus: NCB
-    description: This register allows inserting ECC errors for testing.
+    description: This register contains ECC error interrupt summary bits.
     fields:
       - name: --
         bits: 63..55
@@ -664,14 +691,14 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAM_FLIP1
+      - name: RAM_DBE
         bits: 54..32
-        access: R/W
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
         description: |
-          Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
-          test single-bit or double-bit error handling.
+          Set when a double-bit error is detected in the corresponding ram. Throws
+          DPI_INTSN_E::DPI_ERR_RAM_DBE.
 
       - name: --
         bits: 31..23
@@ -680,19 +707,40 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAM_FLIP0
+      - name: RAM_SBE
         bits: 22..0
-        access: R/W
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
         description: |
-          Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
-          test single-bit or double-bit error handling.
+          Set when a single-bit error is detected in the corresponding ram. Throws
+          DPI_INTSN_E::DPI_ERR_RAM_SBE.
+
+
+  - name: DPI_NCB_CTL
+    address: 0x1DF0000000028
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PRT
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Directs traffic to the specified NCB unit.
 
 
   - name: DPI_CTL
+    title: DPI Control Register
     address: 0x1DF0000000040
     bus: NCB
+    description: This register provides the enable bit for the DMA and packet state machines.
     fields:
       - name: --
         bits: 63..1
@@ -706,34 +754,17 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Turns on the DMA and Packet state machines
+        description: Turns on the DMA and packet state machines.
 
 
   - name: DPI_DMA_CONTROL
+    title: DPI DMA Control Register
     address: 0x1DF0000000048
     bus: NCB
-    description: |
-      DMA Control Register: Controls operation of the DMA IN/OUT.
+    description: This register controls the operation of DMA input and output.
     fields:
       - name: --
-        bits: 63..62
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DICI_MODE
-        bits: 61
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          DMA Instruction Completion Interrupt Mode
-          turns on mode to increment DPI_DMA_PPx_CNT
-          counters.
-
-      - name: --
-        bits: 60
+        bits: 63..60
         access: ---
         reset: --
         typical: --
@@ -745,12 +776,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Force forward progress disable
-          The DMA engines will compete for shared resources.
-          If the HW detects that particular engines are not
-          able to make requests to an interface, the HW
-          will periodically trade-off throughput for
-          fairness.
+          Force forward progress disable. The DMA engines will compete for shared resources. If the
+          hardware detects that particular engines are not able to make requests to an interface,
+          the hardware will periodically trade-off throughput for fairness.
 
       - name: COMMIT_MODE
         bits: 58
@@ -758,20 +786,14 @@ registers:
         reset: 0
         typical: 1
         description: |
-          DMA Engine Commit Mode
-          When COMMIT_MODE=0, DPI considers an instruction
-          complete when the HW internally generates the
-          final write for the current instruction.
-          When COMMIT_MODE=1, DPI additionally waits for
-          the final write to reach the interface coherency
-          point to declare the instructions complete.
-          Please note: when COMMIT_MODE == 0, DPI may not
-          follow the HRM ordering rules.
-          DPI hardware performance may be better with
-          COMMIT_MODE == 0 than with COMMIT_MODE == 1 due
-          to the relaxed ordering rules.
-          If the HRM ordering rules are required, set
-          COMMIT_MODE == 1.
+          DMA engine commit mode.
+          When COMMIT_MODE=0, DPI considers an instruction complete when the hardware internally
+          generates the final write for the current instruction.
+          When COMMIT_MODE=1, DPI additionally waits for the final write to reach the interface
+          coherency point to declare the instructions complete.
+          Please note: when COMMIT_MODE == 0, DPI may not follow the HRM ordering rules. DPI
+          hardware performance may be better with COMMIT_MODE == 0 than with COMMIT_MODE == 1 due to
+          the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE == 1.
 
       - name: --
         bits: 57
@@ -786,10 +808,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          Enables the packet interface.
-          When the packet interface is enabled, engines 4 and 5
-          are used for packets and are not available for DMA.
-          When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0.
+          Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
+          used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
+          DMA_ENB<4>=0.
 
       - name: --
         bits: 55..54
@@ -804,9 +825,8 @@ registers:
         reset: 0x0
         typical: 0x3f
         description: |
-          DMA engine enable. Enables the operation of the
-          DMA engine. After being enabled an engine should
-          not be disabled while processing instructions.
+          DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+          should not be disabled while processing instructions.
           When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0.
 
       - name: --
@@ -822,39 +842,29 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When set '1' and the DPI is in the mode to write
-          0 to L2C memory when a DMA is done, the address
-          to be written to will be treated as a Little
-          Endian address.
+          Little-endian. When set to 1 and the DPI is in the mode to write 0 to L2C when a DMA
+          transaction is done, the address to be written is treated as a little-endian address.
 
-      - name: DWB_DENB
+      - name: LDWB
         bits: 32
         access: R/W
         reset: 0
-        typical: 1
+        typical: --
         description: |
-          When set '1', DPI will send a value in the DWB
-          field for a free page operation for the memory
-          that contained the data.
+          Load Dont Write Back
+          When set, the HW will be able to issue LDWB commands to the cache.  As
+          a result the line will not be written back when replaced.  When clear,
+          the HW will issue regular load commands to the cache which will cause
+          the line to be written back before being replaced.
 
-      - name: DWB_ICHK
-        bits: 31..23
+      - name: AURA_ICHK
+        bits: 31..20
         access: R/W
         reset: 0x0
         typical: --
         description: |
-          When Instruction Chunks for DMA operations are
-          freed this value is used for the DWB field of the
-          operation.
-
-      - name: FPA_QUE
-        bits: 22..20
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          The FPA queue that the instruction-chunk page will
-          be returned to when used.
+          The AURA that the Instruction Chunk for DMA operations page will be
+          returned to when freed.
 
       - name: O_ADD1
         bits: 19
@@ -862,31 +872,35 @@ registers:
         reset: 0
         typical: 1
         description: |
-          When set '1' 1 will be added to the SLI_DMA@_CNT
-          DMA counters, if '0' then the number of bytes
-          in the dma transfer will be added to the
-          SLI_DMA@_CNT count register.
+          Add one.
+          1 = add 1 to the SLI SLI_DMA*_CNT DMA counters
+          0 = the number of bytes in the DMA transfer is added to SLI_DMA*_CNT.
 
       - name: O_RO
         bits: 18
         access: R/W
         reset: 0
         typical: --
-        description: Relaxed Ordering Mode for DMA.
+        description: Relaxed ordering mode for DMA transactions
 
       - name: O_NS
         bits: 17
         access: R/W
         reset: 0
         typical: --
-        description: Nosnoop For DMA.
+        description: No snoop.
 
       - name: O_ES
         bits: 16..15
         access: R/W
         reset: 0x0
-        typical: --
-        description: Endian Swap Mode for DMA.
+        typical: 0x0
+        description: |
+          Endian swap mode for DMA.
+          0 = pass-through mode (no swap)
+          1 = 64-bit byte-swap mode [ABCD_EFGH] -> [HGFE_DCBA]
+          2 = 32-bit byte-swap mode [ABCD_EFGH] -> [DCBA_HGFE]
+          3 = 32-bit exchange mode [ABCD_EFGH] -> [EFGH_ABCD]
 
       - name: O_MODE
         bits: 14
@@ -894,13 +908,11 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Select PCI_POINTER MODE to be used.
-          0=DPTR format 1 is used
-          use register values for address and pointer
-          values for ES, NS, RO
-          1=DPTR format 0 is used
-          use pointer values for address and register
-          values for ES, NS, RO
+          Select PCI_POINTER mode.
+          0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+          RO.
+          1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+          RO.
 
       - name: --
         bits: 13..0
@@ -911,6 +923,7 @@ registers:
 
 
   - name: DPI_REQ_GBL_EN
+    title: DPI Request Global Enable Register
     address: 0x1DF0000000050
     bus: NCB
     fields:
@@ -927,11 +940,12 @@ registers:
         reset: 0xff
         typical: 0xff
         description: |
-          Indicates which instruction queues are enabled and
-          can dispatch instructions to a requesting engine.
+          Indicates which instruction queues are enabled, and can dispatch instructions to a
+          requesting engine.
 
 
   - name: DPI_REQ_ERR_RSP
+    title: DPI Instruction Queue ErrorResponse Register
     address: 0x1DF0000000058
     bus: NCB
     fields:
@@ -948,14 +962,13 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Indicates which instruction queue received an
-          ErrorResponse from the I/O subsystem.
-          SW must clear the bit before the the cooresponding
-          instruction queue will continue processing
-          instructions if DPI_REQ_ERR_RSP_EN[EN] is set.
+          Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
+          Software must clear the bit before the corresponding instruction queue will continue
+          processing instructions if DPI_REQ_ERR_RSP_EN[EN] is set.
 
 
   - name: DPI_REQ_ERR_RST
+    title: DPI Instruction Queue Reset Error Register
     address: 0x1DF0000000060
     bus: NCB
     fields:
@@ -972,15 +985,13 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Indicates which instruction queue dropped an
-          instruction because the source or destination
-          was in reset.
-          SW must clear the bit before the the cooresponding
-          instruction queue will continue processing
-          instructions if DPI_REQ_ERR_RST_EN[EN] is set.
+          Indicates which instruction queue dropped an instruction because the source or destination
+          was in reset. Software must clear the bit before the corresponding instruction queue will
+          continue processing instructions if DPI_REQ_ERR_RST_EN[EN] is set.
 
 
   - name: DPI_REQ_ERR_RSP_EN
+    title: DPI Instruction Queue ErrorResponse Enable Register
     address: 0x1DF0000000068
     bus: NCB
     fields:
@@ -997,12 +1008,12 @@ registers:
         reset: 0xff
         typical: 0xff
         description: |
-          Indicates which instruction queues should stop
-          dispatching instructions when an  ErrorResponse
-          is received from the I/O subsystem.
+          Indicates which instruction queues should stop dispatching instructions when an
+          ErrorResponse is received from the I/O subsystem.
 
 
   - name: DPI_REQ_ERR_RST_EN
+    title: DPI Instruction Queue Reset Error Enable Register
     address: 0x1DF0000000070
     bus: NCB
     fields:
@@ -1019,13 +1030,12 @@ registers:
         reset: 0xff
         typical: 0xff
         description: |
-          Indicates which instruction queues should stop
-          dispatching instructions when an instruction
-          is dropped because the source or destination port
-          is in reset.
+          Indicates which instruction queues should stop dispatching instructions when an
+          instruction is dropped because the source or destination port is in reset.
 
 
   - name: DPI_PKT_ERR_RSP
+    title: DPI Packet Error Response Register
     address: 0x1DF0000000078
     bus: NCB
     fields:
@@ -1041,14 +1051,14 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Indicates that an ErrorResponse was received from
-          the I/O subsystem.
+        description: Indicates that an ErrorResponse was received from the I/O subsystem.
 
 
   - name: DPI_DMA_ENG(0..5)_EN
+    title: DPI DMA-Engine Queue Enable Registers
     address: 0x1DF0000000080 + a*0x8
     bus: NCB
+    description: These registers provide control for the DMA engines.
     fields:
       - name: --
         bits: 63..8
@@ -1063,19 +1073,18 @@ registers:
         reset: 0xff
         typical: 0xff
         description: |
-          Controls which logical instruction queues can be
-          serviced by the DMA engine. Setting QEN==0
-          effectively disables the engine.
-          When DPI_DMA_CONTROL[PKT_EN] = 1, then
-          DPI_DMA_ENG5_EN[QEN] and
-          DPI_DMA_ENG4_EN[QEN] must be zero.
+          Instruction queue enable. This field specifies which of eight logical instruction queues
+          can be serviced by the DMA engine.
+          1 = allow service, 0 = prevent service
+          Setting QEN = 0x0 effectively disables the engine. When DPI_DMA_CONTROL[PKT_EN] = 1, then
+          DPI_DMA_ENG4/5_EN [QEN] must be zero.
 
 
   - name: DPI_DMA(0..7)_REQQ_CTL
+    title: DPI DMA Request Queue Control Register
     address: 0x1DF0000000180 + a*0x8
     bus: NCB
-    description: |
-      DMA Request Queue Control: Control bits for transactions on the eight request queues.
+    description: This register contains the control bits for transactions on the eight request queues.
     fields:
       - name: --
         bits: 63..9
@@ -1090,10 +1099,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When the DPI issues a store full line command to the L2C that is to be cached,
-          this field select the type of store command to use:
-          0 - STF
-          1 - STY
+          When DPI issues a store full line command to the L2C that is to be cached, this field
+          select the type of store command to use:
+          0 = STF.
+          1 = STY.
 
       - name: --
         bits: 7..2
@@ -1108,19 +1117,19 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          When the DPI issues a load command to the L2C that is to be cached,
-          this field select the type of load command to use:
-          0 - LDD
-          1 - LDI
-          2 - LDE
-          3 - LDY
+          When DPI issues a load command to the L2C that is to be cached, this field select the type
+          of load command to use:
+          0 = LDD.
+          1 = LDI.
+          2 = LDE.
+          3 = LDY.
 
 
   - name: DPI_DMA(0..7)_DBELL
+    title: DPI DMA Doorbell Registers
     address: 0x1DF0000000200 + a*0x8
     bus: NCB
-    description: |
-      DMA Door Bell: The door bell register for DMA[0..7] queue.
+    description: This is the door bell register for the eight DMA instruction queues.
     attributes:
       regtest_skip: "True"
     fields:
@@ -1137,24 +1146,24 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The value written to this register is added to the
-          number of 8byte words to be read and processes for
-          the low priority dma queue.
+          Doorbell value. The value written to this register is added to the number of eight-byte
+          words to be read and processed for the low-priority DMA queue.
 
 
   - name: DPI_DMA(0..7)_IBUFF_SADDR
+    title: DPI DMA Instruction-Buffer Starting-Address Registers
     address: 0x1DF0000000280 + a*0x8
     bus: NCB
     description: |
-      DMA Instruction Buffer Starting Address: The address to start reading Instructions from for
-      DMA[0..7].
+      These registers provide the address to start reading instructions for the eight DMA
+      instruction queues.
     fields:
       - name: IDLE
         bits: 63
         access: RO/H
         reset: 1
         typical: --
-        description: DMA Request Queue is IDLE
+        description: DMA request queue is idle. When asserted, the associated request queue is idle.
 
       - name: --
         bits: 62
@@ -1169,10 +1178,9 @@ registers:
         reset: 0x40
         typical: --
         description: |
-          The size in 8B words of the DMA Instruction Chunk.
-          This value should only be written at known times
-          in order to prevent corruption of the instruction
-          queue.  The minimum CSIZE is 16 (one cacheblock).
+          The size in 8-byte words of the DMA instruction chunk. This value should only be written
+          at known times in order to prevent corruption of the instruction queue. The minimum CSIZE
+          is 16 (one cache block).
 
       - name: --
         bits: 47..42
@@ -1187,14 +1195,11 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The 128 byte aligned starting or chunk address.
-          SADDR is address bits 41:7 of the starting
-          instructions address. When new chunks are fetched
-          by the HW, SADDR will be updated to reflect the
-          address of the current chunk.
-          A write to SADDR resets both the queue's doorbell
-          (DPI_DMAx_COUNTS[DBELL) and its tail pointer
-          (DPI_DMAx_NADDR[ADDR]).
+          Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
+          <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
+          SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
+          the queue's doorbell (DPI_DMA(0..7)_COUNTS[DBELL) and its tail pointer
+          (DPI_DMA(0..7)_NADDR[ADDR]).
 
       - name: --
         bits: 6..0
@@ -1205,11 +1210,12 @@ registers:
 
 
   - name: DPI_DMA(0..7)_COUNTS
+    title: DPI DMA Instruction Counts Registers
     address: 0x1DF0000000300 + a*0x8
     bus: NCB
     description: |
-      DMA Instruction Counts: Values for determing the number of instructions for DMA[0..7] in the
-      DPI.
+      These registers provide values for determining the number of instructions in the local
+      instruction FIFO.
     fields:
       - name: --
         bits: 63..39
@@ -1223,23 +1229,21 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Number of words in the Instruction FIFO locally
-          cached within DPI.
+        description: FIFO count. Specifies the number of words in the instruction FIFO locally cached within DPI.
 
       - name: DBELL
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Number of available words of Instructions to read.
+        description: Doorbell. Specifies the number of available words of instructions to read.
 
 
   - name: DPI_DMA(0..7)_NADDR
+    title: DPI DMA Next Ichunk Address Registers
     address: 0x1DF0000000380 + a*0x8
     bus: NCB
-    description: |
-      DMA Next Ichunk Address: Place DPI will read the next Ichunk data from.
+    description: These registers provide the L2C addresses to read the next Ichunk data.
     fields:
       - name: --
         bits: 63..42
@@ -1253,40 +1257,39 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          "The next L2C address to read DMA# instructions
-          from."
+        description: Address. Provides the next L2C address to read instructions.
 
 
   - name: DPI_DMA(0..7)_REQBNK0
+    title: DPI DMA Request State Bank 0 Registers
     address: 0x1DF0000000400 + a*0x8
     bus: NCB
-    description: |
-      DMA Request State Bank0: Current contents of the request state machine - bank0
+    description: These registers provide the current contents of the request state machine, bank 0.
     fields:
       - name: STATE
         bits: 63..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: State
+        description: State. Provides the current contents of the request state machine.
 
 
   - name: DPI_DMA(0..7)_REQBNK1
+    title: DPI DMA Request State Bank 1 Registers
     address: 0x1DF0000000480 + a*0x8
     bus: NCB
-    description: |
-      DMA Request State Bank1: Current contents of the request state machine - bank1
+    description: These registers provide the current contents of the request state machine, bank 1.
     fields:
       - name: STATE
         bits: 63..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: State
+        description: State. Provides the current contents of the request state machine.
 
 
-  - name: DPI_NCB(0..0)_CFG
+  - name: DPI_NCB(0)_CFG
+    title: DPI IOI Configuration Register
     address: 0x1DF0000000800 + a*0x8
     bus: NCB
     fields:
@@ -1303,19 +1306,17 @@ registers:
         reset: 0x20
         typical: 0x20
         description: |
-          Max Outstanding Load Requests
-          Limits the number of oustanding load requests on
-          the NCB interface.  This value can range from 1
-          to 32. Setting a value of 0 will halt all read
-          traffic to the NCB interface.  There are no
-          restrictions on when this value can be changed.
+          Max outstanding load requests. Limits the number of outstanding load requests on the I/O
+          Interconnect. This value can range from 1 to 32. Setting a value of 0 halts all read
+          traffic to the I/O Interconnect. There are no restrictions on when this value can be
+          changed.
 
 
   - name: DPI_PINT_INFO
+    title: DPI Packet Interrupt Information Register
     address: 0x1DF0000000830
     bus: NCB
-    description: |
-      DPI Packet Interrupt Info: DPI Packet Interrupt Info.
+    description: This register provides DPI packet interrupt information.
     fields:
       - name: --
         bits: 63..14
@@ -1329,7 +1330,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Packet Instruction Doorbell count overflow info
+        description: Packet instruction doorbell count overflow information.
 
       - name: --
         bits: 7..6
@@ -1343,10 +1344,11 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Packet Scatterlist Doorbell count overflow info
+        description: Packet scatter list doorbell count overflow information.
 
 
   - name: DPI_REQ_ERR_SKIP_COMP
+    title: DPI Instruction Queue Skip Completion Register
     address: 0x1DF0000000838
     bus: NCB
     fields:
@@ -1363,14 +1365,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Indicates which instruction queue should skip the
-          completion  phase once an port reset is
-          detected as indicated by DPI_REQ_ERR_RST.  All
-          completions to the effected instruction queue
-          will be skipped as long as
-          DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
-          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are
-          set.
+          Indicates which instruction queue should skip the completion phase once a port reset is
+          detected as indicated by DPI_REQ_ERR_RST. All completions to the effected instruction
+          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
+          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are set.
 
       - name: --
         bits: 15..8
@@ -1385,17 +1383,14 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Indicates which instruction queue should skip the
-          completion  phase once an ErrorResponse is
-          detected as indicated by DPI_REQ_ERR_RSP.  All
-          completions to the effected instruction queue
-          will be skipped as long as
-          DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
-          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are
-          set.
+          Indicates which instruction queue should skip the completion phase once an ErrorResponse
+          is detected as indicated by DPI_REQ_ERR_RSP. All completions to the effected instruction
+          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
+          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are set.
 
 
   - name: DPI_ENG(0..5)_BUF
+    title: DPI DMA Engine Buffer Registers
     address: 0x1DF0000000880 + a*0x8
     bus: NCB
     fields:
@@ -1425,7 +1420,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: The base address in 512B blocks of the engine fifo
+        description: The base address in 512-byte blocks of the DMA engine FIFO.
 
       - name: BLKS
         bits: 3..0
@@ -1433,27 +1428,22 @@ registers:
         reset: 0x2
         typical: --
         description: |
-          The size of the engine fifo
-          Legal values are 0-10.
-          0  = Engine is disabled
-          1  = 0.5KB buffer
-          2  = 1.0KB buffer
-          3  = 1.5KB buffer
-          4  = 2.0KB buffer
-          5  = 2.5KB buffer
-          6  = 3.0KB buffer
-          7  = 3.5KB buffer
-          8  = 4.0KB buffer
-          9  = 6.0KB buffer
-          10 = 8.0KB buffer
+          The size of the DMA engine FIFO. Legal values are 0-10.
+          0x0 = Disabled. 0x5 = 2.5KB FIFO.
+          0x1 = 0.5KB FIFO. 0x6 = 3KB FIFO.
+          0x2 = 1KB FIFO. 0x7 = 3.5KB FIFO.
+          0x3 = 1.5KB FIFO. 0x8 = 4KB FIFO.
+          0x4 = 2KB FIFO. 0x9 = 6.0KB FIFO.
+          0xA = 8.0KB FIFO.
 
 
   - name: DPI_SLI_PRT(0..3)_CFG
+    title: DPI SLI Port Configuration Register
     address: 0x1DF0000000900 + a*0x8
     bus: NCB
     description: |
-      DPI SLI Port Configuration: Configures the Max Read Request Size, Max Paylod Size, and Max
-      Number of SLI Tags in use
+      This register configures the max read request size, max payload size, and max number of SLI
+      tags in use.
     fields:
       - name: --
         bits: 63..25
@@ -1468,11 +1458,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When set, HALT indicates that the MAC has detected
-          a reset condition. No further instructions that
-          reference the MAC from any instruction Q will be
-          issued until the MAC comes out of reset and HALT
-          is cleared in SLI_CTL_PORTx[DIS_PORT].
+          When set, HALT indicates that the MAC has detected a reset condition. No further
+          instructions that reference the MAC from any instruction queue will be issued until the
+          MAC comes out of reset and HALT is cleared in SLI_CTL_PORT0/1[DIS_PORT].
 
       - name: --
         bits: 23..21
@@ -1487,15 +1475,10 @@ registers:
         reset: --
         typical: --
         description: |
-          Read only copy of the QLM CFG pin
-          Since QLM_CFG is simply a copy of the QLM CFG
-          pins, it may reflect values that are not normal
-          for DMA or packet operations. QLM_CFG does not
-          indicate if a port is disabled.
-          GSERx_CFG can be used for more complete QLM
-          configuration        information.
-          0 = MAC is PCIe
-          1 = Reserved
+          Read only copy of the QLM CFG pin. 0 = MAC is DPI; 1 = reserved.
+          Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
+          normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
+          GSERx_CFG can be used for more complete QLM configuration information.
 
       - name: --
         bits: 19..17
@@ -1510,17 +1493,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Read Mode
-          0=Exact Read Mode
-          The HW reads on a
-          4B granularity.  In this mode, the HW may break
-          a given read into 3 operations to satisify
-          PCIe rules.
-          1=Block Mode
-          The HW will read more data than requested in
-          order to minimize the number of operations
-          necessary to complete the operation.
-          The memory region must be memory like.
+          Read mode.
+          0 = Exact read mode. The hardware reads on a four-byte granularity. In this mode, the
+          hardware may break a given read into 3 operations to satisfy DPI rules.
+          1 = Block mode. The hardware reads more data than requested in order to minimize the
+          number of operations necessary to complete the operation. The memory region must be memory
+          like.
 
       - name: --
         bits: 15..14
@@ -1535,14 +1513,10 @@ registers:
         reset: 0x20
         typical: 0x20
         description: |
-          Max Outstanding Load Requests
-          Limits the number of oustanding load requests on
-          the port by restricting the number of tags
-          used by the SLI to track load responses.  This
-          value can range from 1 to 32. Setting a value of
-          0 will halt all read traffic to the port.  There
-          are no restrictions on when this value
-          can be changed.
+          Maximum outstanding load requests. Limits the number of outstanding load requests on the
+          port by restricting the number of tags used by the SLI to track load responses. This value
+          can range from 1 to 32. Setting MOLR to a value of 0 halts all read traffic to the port.
+          There are no restrictions on when this value can be changed.
 
       - name: MPS_LIM
         bits: 7
@@ -1550,16 +1524,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MAC memory space write requests cannot cross the
-          (naturally-aligned) MPS boundary.
-          When clear, DPI is allowed to issue a MAC memory
-          space read that crosses the naturally-aligned
-          boundary of size defined by MPS. (DPI will still
-          only cross the boundary when it would eliminate a
-          write by doing so.)
-          When set, DPI will never issue a MAC memory space
-          write that crosses the naturally-aligned boundary
-          of size defined by MPS.
+          MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+          When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+          aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+          would eliminate a write by doing so.)
+          When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+          boundary of size defined by MPS.
 
       - name: --
         bits: 6..5
@@ -1574,11 +1544,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Max Payload Size
-          0 = 128B
-          1 = 256B
-          This MPS size must not exceed
-          the size selected by PCIE*_CFG030[MPS].
+          Maximum payload size.
+          0 = 128B.
+          1 = 256B.
+          The MPS size must not exceed the size selected by DPI*_CFG030[MPS].
 
       - name: MRRS_LIM
         bits: 3
@@ -1586,16 +1555,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MAC memory space read requests cannot cross the
-          (naturally-aligned) MRRS boundary.
-          When clear, DPI is allowed to issue a MAC memory
-          space read that crosses the naturally-aligned
-          boundary of size defined by MRRS. (DPI will still
-          only cross the boundary when it would eliminate a
-          read by doing so.)
-          When set, DPI will never issue a MAC memory space
-          read that crosses the naturally-aligned boundary
-          of size defined by MRRS.
+          MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+          When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+          aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+          would eliminate a read by doing so.)
+          When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+          boundary of size defined by MRRS.
 
       - name: --
         bits: 2
@@ -1610,21 +1575,19 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Max Read Request Size
-          0 = 128B
-          1 = 256B
-          2 = 512B
-          3 = 1024B
-          This MRRS size must not exceed
-          the size selected by PCIE*_CFG030[MRRS].
+          Maximum read-request size.
+          0x0 = 128B.
+          0x1 = 256B.
+          0x2 = 512B.
+          0x3 = 1024B.
+          The MRRS size must not exceed the size selected by DPI*_CFG030[MRRS].
 
 
   - name: DPI_SLI_PRT(0..3)_ERR
+    title: DPI SLI Port Error Address Registers
     address: 0x1DF0000000920 + a*0x8
     bus: NCB
-    description: |
-      DPI SLI Port Error: Logs the Address and Request Queue associated with the reported SLI error
-      response
+    description: This register logs the address associated with the reported SLI error response.
     fields:
       - name: ADDR
         bits: 63..3
@@ -1632,11 +1595,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of the failed load request.
-          Address is locked along with the
-          DPI_SLI_PRTx_ERR_INFO register.
-          See the DPI_SLI_PRTx_ERR_INFO[LOCK] description
-          for further information.
+          Address of the failed load request. Address is locked along with the
+          DPI_SLI_PRT(0..3)_ERR_INFO register. See the
+          DPI_SLI_PRT(0..3)_ERR_INFO[LOCK] description for further information.
 
       - name: --
         bits: 2..0
@@ -1647,11 +1608,10 @@ registers:
 
 
   - name: DPI_SLI_PRT(0..3)_ERR_INFO
+    title: DPI SLI MAC Port Error Info Registers
     address: 0x1DF0000000940 + a*0x8
     bus: NCB
-    description: |
-      DPI SLI Port Error Info: Logs the Address and Request Queue associated with the reported SLI
-      error response
+    description: This register logs information associated with the reported SLI error response.
     fields:
       - name: --
         bits: 63..23
@@ -1680,23 +1640,16 @@ registers:
         reset: 0
         typical: --
         description: |
-          DPI_SLI_PRTx_ERR and DPI_SLI_PRTx_ERR_INFO have
-          captured and locked contents.
-          When Octeon first detects an ErrorResponse, the
-          TYPE, REQQ, and ADDR of the error is saved and an
-          internal lock state is set so the data associated
-          with the initial error is perserved.
-          Subsequent ErrorResponses will optionally raise
-          an interrupt, but will not modify the TYPE, REQQ,
-          or ADDR fields until the internal lock state is
-          cleared.
-          SW can clear the internal lock state by writting
-          a '1' to the appropriate bit in either
-          DPI_REQ_ERR_RSP or DPI_PKT_ERR_RSP depending on
-          the TYPE field.
-          Once the internal lock state is cleared,
-          the next ErrorResponse will set the TYPE, REQQ,
-          and ADDR for the new transaction.
+          DPI_SLI_PRT(0..3)_ERR and DPI_SLI_PRT(0..3)_ERR_INFO have captured and locked contents.
+          When CN78XX first detects an ErrorResponse, the TYPE, REQQ, and ADDR of the error is saved
+          and an internal lock state is set so the data associated with the initial error is
+          preserved.
+          Subsequent ErrorResponses will optionally raise an interrupt, but will not modify the
+          TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
+          Software can clear the internal lock state by writing a 1 to the appropriate bit in either
+          DPI_REQ_ERR_RSP or DPI_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
+          state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
+          transaction.
 
       - name: --
         bits: 7..5
@@ -1712,8 +1665,8 @@ registers:
         typical: --
         description: |
           Type of transaction that caused the ErrorResponse.
-          0=DMA Instruction
-          1=PKT Instruction
+          0 = DMA Instruction.
+          1 = PKT Instruction.
 
       - name: --
         bits: 3
@@ -1731,6 +1684,7 @@ registers:
 
 
   - name: DPI_INFO_REG
+    title: DPI Information Register
     address: 0x1DF0000000980
     bus: NCB
     fields:
@@ -1746,7 +1700,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Force Forward Progress Indicator
+        description: Force forward progress indicator.
 
       - name: --
         bits: 3..2
@@ -1761,10 +1715,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          NCB Register Access
-          This interrupt will fire in normal operation
-          when SW reads a DPI register through the NCB
-          interface.
+          NCB register access. This interrupt fires in normal operation when software reads a DPI
+          register through the IOI interface.
 
       - name: RSL
         bits: 0
@@ -1772,13 +1724,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          RSL Register Access
-          This interrupt will fire in normal operation
-          when SW reads a DPI register through the RSL
-          interface.
+          RSL register access. This interrupt fires in normal operation when software reads a DPI
+          register through the RSL interface.
 
 
   - name: DPI_DMA(0..7)_IFLIGHT
+    title: DPI DMA In-Flight Register
     address: 0x1DF0000000A00 + a*0x8
     bus: NCB
     fields:
@@ -1795,12 +1746,12 @@ registers:
         reset: 0x6
         typical: 0x6
         description: |
-          The number of instructions from a given queue that
-          can be inflight to the DMA engines at a time.
-          Reset value matches the number of DMA engines.
+          The number of instructions from a given queue that can be in flight to the DMA engines at
+          a time. Reset value matches the number of DMA engines.
 
 
   - name: DPI_DMA(0..7)_ERR_RSP_STATUS
+    title: DPI DMA Error Response Status Register
     address: 0x1DF0000000A80 + a*0x8
     bus: NCB
     fields:
@@ -1817,28 +1768,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          QUE captures the ErrorResponse status of the last
-          6 instructions for each instruction queue.
-          STATUS<5> represents the status for first
-          instruction in instruction order while STATUS<0>
-          represents the last or most recent instruction.
-          If STATUS<n> is set, then the nth instruction in
-          the given queue experienced an ErrorResponse.
-          Otherwise, it completed normally.
+          QUE captures the ErrorResponse status of the last 6 instructions for each instruction
+          queue. STATUS<5> represents the status for first instruction in instruction order while
+          STATUS<0> represents the last or most recent instruction. If STATUS<n> is set, then the
+          nth instruction in the given queue experienced an ErrorResponse. Otherwise, it completed
+          normally.
 
 
   - name: DPI_DMA_PP(0..47)_CNT
+    title: DPI DMA Per-Core Instruction Completion Counter Register
     address: 0x1DF0000000C00 + a*0x8
     bus: NCB
-    description: |
-      DMA per PP Instr Done Counter:
-      When DMA Instruction Completion Interrupt Mode DPI_DMA_CONTROL.DICI_MODE is enabled, every dma
-      instruction
-      that has the WQP=0 and a PTR value of 1..0x30 will incremrement DPI_DMA_PPx_CNT value-1
-      counter.
-      Instructions with WQP=0 and PTR values higher then 0x3F will still send a zero byte write.
-      Hardware reserves that values 0x31..0x3F for future use and will treat them as a PTR of 0 and
-      do nothing.
     fields:
       - name: --
         bits: 63..16
@@ -1853,10 +1793,14 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Counter incremented according to conditions
-          described above and decremented by values written
-          to this field.  A CNT of non zero, will cause
-          an interrupt in the CIU_SUM1_PP@_IPX register
+          DPI DMA per-core instruction completion counter. The counter is incremented according to
+          conditions described below and is decremented by values written to this field. A CNT of
+          nonzero causes an interrupt in TBD.
+          When DPI_DMA_CONTROL[DICI_MODE] is enabled, every DMA instruction that has the WQP=0 and a
+          PTR value of 1 to 0x30 will increment DPI_DMA_PP(0..47)_CNT value-1 counter. Instructions
+          with WQP=0 and PTR values higher than 0x3F will still send a zero byte write.
+          Hardware reserves the values 0x31 to 0x3F for future use and will treat them as a PTR of 0
+          and do nothing.
 
 
 

@@ -3,6 +3,45 @@
 ---
 name: GSER
 registers:
+  - name: GSER(0)_DLM(0)_MISC_STATUS
+    title: GSER DLM Miscellaneous Status Register
+    address: 0x1180090000000 + a + b*0x80000
+    bus: RSL
+    description: DLM0 Miscellaneous Status.
+    fields:
+      - name: --
+        bits: 63..9
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX1_UFLOW
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          When set, indicates transmit FIFO underflow
+          has occured on lane 1.
+
+      - name: --
+        bits: 7..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX0_UFLOW
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          When set, indicates transmit FIFO underflow
+          has occured on lane 0.
+
+
   - name: GSER(0)_DLM(0..2)_REFCLK_SEL
     title: GSER DLM Reference Clock Select Register
     address: 0x1180090000008 + a + b*0x80000
@@ -697,7 +736,7 @@ registers:
 
       - name: TX1_CM_STATUS
         bits: 9
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -707,7 +746,7 @@ registers:
 
       - name: TX1_STATUS
         bits: 8
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -723,7 +762,7 @@ registers:
 
       - name: TX0_CM_STATUS
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -733,7 +772,7 @@ registers:
 
       - name: TX0_STATUS
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -1261,33 +1300,91 @@ registers:
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 3 Reset.
+        description: Pipe 3 Reset.  Setting this bit will put Pipe 3 into reset.  
 
       - name: PIPE2_RST
         bits: 2
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 2 Reset.
+        description: Pipe 2 Reset.  Setting this bit will put Pipe 2 into reset. 
 
       - name: PIPE1_RST
         bits: 1
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 1 Reset.
+        description: Pipe 1 Reset.  Setting this bit will put Pipe 1 into reset.  
 
       - name: PIPE0_RST
         bits: 0
         access: R/W/H
         reset: 0
         typical: --
-        description: Pipe 0 Reset.
+        description: Pipe 0 Reset.  Setting this bit will put Pipe 0 into reset.  
+
+
+  - name: GSER(0)_PCIE_PIPE_RST_STS
+    title: GSER PCIE Pipe Reset Status Register
+    address: 0x1180090080450 + a
+    bus: RSL
+    description: PCIE PIPE Status Reset.
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PIPE3_RST
+        bits: 3
+        access: RO
+        reset: 1
+        typical: --
+        description: |
+          Reflects the current state of the pipe3_rst_n which includes
+          the rst__pem2_pcs_rst_n term from the reset controller.  Note that
+          when PIPE3_RST is asserted, no Pipe clocks are generated to PEM3 and
+          any RSL reads to the application side registers will time out.
+
+      - name: PIPE2_RST
+        bits: 2
+        access: RO
+        reset: 1
+        typical: --
+        description: |
+          Reflects the current state of the pipe2_rst_n which includes
+          the rst__pem2_pcs_rst_n term from the reset controller.  Note that
+          when PIPE2_RST is asserted, no Pipe clocks are generated to PEM1 and
+          any RSL reads to the application side registers will time out.
+
+      - name: PIPE1_RST
+        bits: 1
+        access: RO
+        reset: 1
+        typical: --
+        description: |
+          Reflects the current state of the pipe1_rst_n which includes
+          the rst__pem1_pcs_rst_n term from the reset controller.  Note that
+          when PIPE1_RST is asserted, no Pipe clocks are generated to PEM1 and
+          any RSL reads to the application side registers will time out.
+
+      - name: PIPE0_RST
+        bits: 0
+        access: RO
+        reset: 0
+        typical: --
+        description: |
+          Reflects the current state of the pipe0_rst_n which includes
+          the rst__pem0_pcs_rst_n term from the reset controller.  Note that
+          when PIPE0_RST is asserted, no Pipe clocks are generated to PEM0 and
+          any RSL reads to the application side registers will time out.
 
 
   - name: GSER(0)_PCIE_PIPE_CRST
     title: GSER PCIE Pipe Reset Register
-    address: 0x1180090080450 + a
+    address: 0x1180090080458 + a
     bus: RSL
     description: PCIE PIPE Cold Reset.
     fields:
@@ -1308,7 +1405,7 @@ registers:
 
   - name: GSER(0)_PCIE_PIPE_PORT_SEL
     title: GSER PCIE Pipe Port Select Register
-    address: 0x1180090080458 + a
+    address: 0x1180090080460 + a
     bus: RSL
     description: PCIE PIPE Enable Request.
     fields:
@@ -1344,7 +1441,7 @@ registers:
 
   - name: GSER(0)_PCIE_PIPE_PORT_LOOPBK
     title: GSER PCIE Pipe Port Loopback Register
-    address: 0x1180090080460 + a
+    address: 0x1180090080468 + a
     bus: RSL
     description: PCIE Tx-to-Rx Loopback Enable.
     fields:
@@ -1398,7 +1495,7 @@ registers:
 
   - name: GSER(0)_PCIE_PIPE_COM_CLK
     title: GSER PCIE Pipe Common Clock Register
-    address: 0x1180090080468 + a
+    address: 0x1180090080470 + a
     bus: RSL
     description: PCIE Select Common Clock Mode for Receive Data Path.
     fields:
@@ -1421,6 +1518,32 @@ registers:
           Assert this control only if all physical lanes of the PHY are
           guaranteed to be connected to links that share a common reference
           clock.
+
+
+  - name: GSER(0)_PCIE_PCS_CLK_REQ
+    title: GSER PCIE Pipe PCS Clock Request
+    address: 0x1180090080478 + a
+    bus: RSL
+    description: PCIE PIPE Clock Required
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CLK_REQ
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          When asserted, indicates that the external logic requires the PHY's
+          PCLK to remain active, preventing the PIPE PCS from powering off
+          that clock while in the P2 state.
+          Note, the PCS hangs if this bit is asserted when a Fundamental Reset
+          is issued to the PEM.
 
 
   - name: GSER(0)_PCIE_PIPE(0..3)_TXDEEMPH

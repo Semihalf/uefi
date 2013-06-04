@@ -165,26 +165,6 @@ registers:
         description: Selects the GPIO(0..19) input pin to use in the Timer coprocessor for GPIO-based timing.
 
 
-  - name: GPIO_OCLA_EXTEN_TRIG
-    title: GPIO OCLA External Trigger Register
-    address: 0x10700000008A8
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..5
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: SEL
-        bits: 4..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Selects the GPIO(0..19) input pin to use in the OCLA coprocessor for GPIO-based triggering.
-
-
   - name: GPIO_MULTI_CAST
     title: GPIO Multicast Register
     address: 0x10700000008B0
@@ -207,6 +187,35 @@ registers:
           Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
           mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
           the GPIO to exist as per-cnMIPS interrupts as opposed to a global interrupt.
+
+
+  - name: GPIO_OCLA_EXTEN_TRIG
+    title: GPIO OCLA External Trigger Register
+    address: 0x10700000008B8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: M_TRIG
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Manual Trigger. Used only when SEL=0x1F.
+
+      - name: SEL
+        bits: 4..0
+        access: R/W
+        reset: 0x1f
+        typical: 0x1f
+        description: |
+          Selects the GPIO(0..19) input pin to use, or 0x1F for manual trigger, to use in the OCLA
+          coprocessor for GPIO-based triggering.
 
 
   - name: GPIO_CLK_GEN(0..3)

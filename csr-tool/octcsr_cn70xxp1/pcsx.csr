@@ -4,11 +4,9 @@
 name: PCSX
 registers:
   - name: PCSX(0..1)_CONTROL1_REG
+    title: Control Register1
     address: 0x11800B0000800 + a*0x8000000
     bus: RSL
-    description: |
-      PCSX regs follow IEEE Std 802.3-2005, Section: 45.2.3
-      PCSX_CONTROL1_REG = Control Register1
     fields:
       - name: --
         bits: 63..16
@@ -446,9 +444,13 @@ registers:
 
 
   - name: PCSX(0..1)_TX_RX_POLARITY_REG
+    title: TX_RX polarity reg
     address: 0x11800B0000840 + a*0x8000000
     bus: RSL
-    description: PCSX_POLARITY_REG = TX_RX polarity reg
+    description: |
+      RX lane polarity vector [3:0] = XOR_RXPLRT<9:6>  ^  {4{RXPLRT<1>}};
+      TX lane polarity vector [3:0] = XOR_TXPLRT<5:2>  ^  {4{TXPLRT<0>}};
+      In short keep <1:0> to 2'b00, and use <5:2> and <9:6> fields to define per lane polarities
     fields:
       - name: --
         bits: 63..10
@@ -490,10 +492,8 @@ registers:
     address: 0x11800B0000848 + a*0x8000000
     bus: RSL
     description: |
-      RX lane polarity vector [3:0] = XOR_RXPLRT<9:6>  ^  {4{RXPLRT<1>}};
-      TX lane polarity vector [3:0] = XOR_TXPLRT<5:2>  ^  {4{TXPLRT<0>}};
-      In short keep <1:0> to 2'b00, and use <5:2> and <9:6> fields to define per lane polarities
       PCSX Misc Control Register
+      LN_SWAP for XAUI is to simplify interconnection layout between devices
     fields:
       - name: --
         bits: 63..4
@@ -542,9 +542,7 @@ registers:
   - name: PCSX(0..1)_BIT_LOCK_STATUS_REG
     address: 0x11800B0000850 + a*0x8000000
     bus: RSL
-    description: |
-      LN_SWAP for XAUI is to simplify interconnection layout between devices
-      PCSX Bit Lock Status Register
+    description: PCSX Bit Lock Status Register
     fields:
       - name: --
         bits: 63..4
@@ -585,7 +583,14 @@ registers:
   - name: PCSX(0..1)_INT_REG
     address: 0x11800B0000858 + a*0x8000000
     bus: RSL
-    description: PCSX Interrupt Register
+    description: |
+      PCSX Interrupt Register
+      Note: DBG_SYNC is a edge triggered interrupt. When set it indicates PCS Synchronization state
+      machine in
+      Figure 48-7 state diagram in IEEE Std 802.3-2005 changes state SYNC_ACQUIRED_1 to
+      SYNC_ACQUIRED_2
+      indicating an invalid code group was received on one of the 4 receive lanes.
+      This interrupt should be always disabled and used only for link problem debugging help.
     fields:
       - name: --
         bits: 63..7
@@ -649,14 +654,7 @@ registers:
   - name: PCSX(0..1)_INT_EN_REG
     address: 0x11800B0000860 + a*0x8000000
     bus: RSL
-    description: |
-      Note: DBG_SYNC is a edge triggered interrupt. When set it indicates PCS Synchronization state
-      machine in
-      Figure 48-7 state diagram in IEEE Std 802.3-2005 changes state SYNC_ACQUIRED_1 to
-      SYNC_ACQUIRED_2
-      indicating an invalid code group was received on one of the 4 receive lanes.
-      This interrupt should be always disabled and used only for link problem debugging help.
-      PCSX Interrupt Enable Register
+    description: PCSX Interrupt Enable Register
     fields:
       - name: --
         bits: 63..7
@@ -718,7 +716,13 @@ registers:
   - name: PCSX(0..1)_LOG_ANL_REG
     address: 0x11800B0000868 + a*0x8000000
     bus: RSL
-    description: PCSX Logic Analyzer Register
+    description: |
+      PCSX Logic Analyzer Register
+      NOTE: Logic Analyzer is enabled with LA_EN for xaui only. PKT_SZ is effective only when
+      LA_EN=1
+      For normal operation(xaui), this bit must be 0. The dropped lane is used to send rxc[3:0].
+      See pcs.csr  for sgmii/1000Base-X logic analyzer mode.
+      For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
     fields:
       - name: --
         bits: 63..7
@@ -782,13 +786,7 @@ registers:
   - name: PCSX(0..1)_BIST_STATUS_REG
     address: 0x11800B0000870 + a*0x8000000
     bus: RSL
-    description: |
-      NOTE: Logic Analyzer is enabled with LA_EN for xaui only. PKT_SZ is effective only when
-      LA_EN=1
-      For normal operation(xaui), this bit must be 0. The dropped lane is used to send rxc[3:0].
-      See pcs.csr  for sgmii/1000Base-X logic analyzer mode.
-      For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
-      PCSX Bist Status Register
+    description: PCSX Bist Status Register
     fields:
       - name: --
         bits: 63..1
@@ -829,6 +827,8 @@ registers:
         description: |
           INTERNAL: SERDES Credit Count.
           Valid rand is 1-31.
+          Recommended value is 16 for all full-duplex operations.  Some clock ratios may require a
+          larger setting of 20.
           Value of zero will disable the port.
 
 

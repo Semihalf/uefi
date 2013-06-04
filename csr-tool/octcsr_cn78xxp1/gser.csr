@@ -18,7 +18,7 @@ registers:
 
       - name: PHY_PD
         bits: 1
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |

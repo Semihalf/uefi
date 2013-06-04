@@ -2963,83 +2963,81 @@ registers:
       - name: DRV_BYP
         bits: 63
         access: R/W
-        reset: 1
+        reset: 0
         typical: 0
         description: |
           Bypass the compensation controller and use
           DRV_NCTL and DRV_PCTL
-          Note: the reset value was changed from pass1
-          to pass2.
 
       - name: --
-        bits: 62
+        bits: 62..61
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: CMP_PCTL
-        bits: 61..56
+        bits: 60..56
         access: RO/H
         reset: --
         typical: --
         description: PCTL drive strength from the compensation ctl
 
       - name: --
-        bits: 55..54
+        bits: 55..53
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: CMP_NCTL
-        bits: 53..48
+        bits: 52..48
         access: RO/H
         reset: --
         typical: --
         description: NCTL drive strength from the compensation ctl
 
       - name: --
-        bits: 47..46
+        bits: 47..45
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DRV_PCTL
-        bits: 45..40
+        bits: 44..40
         access: R/W
-        reset: 0x13
+        reset: 0xd
         typical: --
         description: |
           PCTL drive strength to use in bypass mode
           Reset value of 19 is for 50 ohm termination
 
       - name: --
-        bits: 39..38
+        bits: 39..37
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DRV_NCTL
-        bits: 37..32
+        bits: 36..32
         access: R/W
-        reset: 0xf
+        reset: 0xc
         typical: --
         description: |
           NCTL drive strength to use in bypass mode
           Reset value of 15 is for 50 ohm termination
 
       - name: --
-        bits: 31..29
+        bits: 31
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: CLK_SET
-        bits: 28..24
+        bits: 30..24
         access: RO/H
         reset: --
         typical: --
@@ -3057,15 +3055,8 @@ registers:
           to sample RXD,RXCTL assuming clock and data and
           sourced synchronously from the link partner.
 
-      - name: --
-        bits: 22..21
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
       - name: CLKRX_SET
-        bits: 20..16
+        bits: 22..16
         access: R/W
         reset: 0x0
         typical: --
@@ -3084,15 +3075,8 @@ registers:
           By default, clock and data and sourced
           synchronously.
 
-      - name: --
-        bits: 14..13
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
       - name: CLKTX_SET
-        bits: 12..8
+        bits: 14..8
         access: R/W
         reset: 0x0
         typical: --
@@ -3100,8 +3084,25 @@ registers:
           TX clock delay setting to use in bypass mode
           Skews TXC from TXD
 
+      - name: REFCLK_SEL
+        bits: 7..6
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Select the refclk to use.  Normal RGMII specification requires a 125MHz oscillator.  In
+          order to save some system cost, a 500MHz coprocessor clock can be divided down and remove
+          the requirements for the external oscillator.  Additionally, in some well defined systems,
+          the link partner may be able to source the RXC.  The RGMII would operate correctly in
+          1000Mbs mode only.  (INTERNAL: Some programming magic could allow for 10/100
+          operation if critical).
+          0 = RGMII REFCLK
+          1 = RGMII RXC (1000Mbs only) (INTERNAL: some programming restrictions apply for 10/100)
+          2 = divided coprocessor clk
+          3 = reserved
+
       - name: --
-        bits: 7..5
+        bits: 5
         access: ---
         reset: --
         typical: --
@@ -3124,19 +3125,16 @@ registers:
       - name: ENABLE
         bits: 2
         access: R/W
-        reset: 1
+        reset: 0
         typical: 1
-        description: |
-          Port Enable
-          Note: the reset value was changed from pass1
-          to pass2.
+        description: Port Enable
 
       - name: CLKRST
         bits: 1
         access: R/W
-        reset: 1
-        typical: 0
-        description: Clock Tree Reset
+        reset: 0
+        typical: 1
+        description: DLL CLK Reset
 
       - name: MODE
         bits: 0

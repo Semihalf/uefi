@@ -176,14 +176,14 @@ registers:
 
       - name: READ_ENA_BPRCH
         bits: 19
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQx for one cycle longer than normal during write operations.
 
       - name: READ_ENA_FPRCH
         bits: 18
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQX starting one cycle earlier than normal during write operations.
@@ -210,21 +210,21 @@ registers:
 
       - name: DRIVE_ENA_BPRCH
         bits: 7
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQx for one cycle longer than normal during write operations.
 
       - name: DRIVE_ENA_FPRCH
         bits: 6
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQX starting one cycle earlier than normal during write operations.
 
       - name: DLCRAM_FLIP_SYND
         bits: 5..4
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: |
@@ -232,7 +232,7 @@ registers:
 
       - name: DLCRAM_COR_DIS
         bits: 3
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: |
@@ -618,17 +618,17 @@ registers:
 
       - name: RD_DBI
         bits: 16
-        access: R/W
+        access: RO
         reset: 0
         typical: 0
-        description: Read DBI.
+        description: Read DBI, must be 0.
 
       - name: WR_DBI
         bits: 15
-        access: R/W
+        access: RO
         reset: 0
         typical: 0
-        description: Write DBI.
+        description: Write DBI, must be 0.
 
       - name: DM
         bits: 14
@@ -1165,14 +1165,14 @@ registers:
 
       - name: START_BIST
         bits: 1
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Start BIST on DLC memory.
 
       - name: CLEAR_BIST
         bits: 0
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Start clear BIST on DLC memory.
@@ -1402,19 +1402,19 @@ registers:
 
       - name: MODE_X4DEV
         bits: 61
-        access: R/W
+        access: RO
         reset: 0
         typical: --
         description: |
           DDR x4 device mode.  Set when using DIMMs with x4 devices or if using
-          embedded x4 devices.
+          embedded x4 devices, must be 0.
 
       - name: MODE32B
         bits: 60
-        access: R/W
-        reset: 0
-        typical: 0
-        description: 32-bit datapath mode. When set, only 32 DQ pins are used.
+        access: RO
+        reset: 1
+        typical: 1
+        description: 32-bit datapath mode. When set, only 32 DQ pins are used, must be 1.
 
       - name: SCRZ
         bits: 59
@@ -1561,7 +1561,7 @@ registers:
 
       - name: REF_ZQCS_INT
         bits: 39..18
-        access: R/W/H
+        access: R/W
         reset: 0x1
         typical: --
         description: |
@@ -3363,7 +3363,7 @@ registers:
 
       - name: DSK_DBG_RD_COMPLETE
         bits: 49
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -3372,7 +3372,7 @@ registers:
 
       - name: DSK_DBG_RD_DATA
         bits: 48..39
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -3438,10 +3438,10 @@ registers:
 
       - name: DBI_MODE_ENA
         bits: 24
-        access: R/W
+        access: RO
         reset: 0
         typical: --
-        description: Enable DBI mode for PHY.
+        description: Enable DBI mode for PHY, must be 0.
 
       - name: DDR_ERROR_N_ENA
         bits: 23
@@ -4015,22 +4015,22 @@ registers:
         typical: --
         description: |
           DDR postscalar divide ratio. Determines the LMC CK speed.
-          0x0 = divide LMC PLL by ?
-          0x1 = divide LMC PLL by ?.
-          0x2 = divide LMC PLL by ?.
-          0x3 = divide LMC PLL by ?.
-          0x4 = divide LMC PLL by ?.
-          0x5 = divide LMC PLL by ?.
-          0x6 = divide LMC PLL by ?.
-          0x7 = divide LMC PLL by ?.
-          0x8 = divide LMC PLL by ?
-          0x9 = divide LMC PLL by ?.
-          0xa = divide LMC PLL by ?.
-          0xb = divide LMC PLL by ?.
-          0xc = divide LMC PLL by ?.
-          0xd = divide LMC PLL by ?.
-          0xe = divide LMC PLL by ?.
-          0xf = divide LMC PLL by ?.
+          0x0 = divide LMC PLL by 1.
+          0x1 = divide LMC PLL by 2.
+          0x2 = divide LMC PLL by 3.
+          0x3 = divide LMC PLL by 4.
+          0x4 = divide LMC PLL by 5.
+          0x5 = divide LMC PLL by 6.
+          0x6 = divide LMC PLL by 7.
+          0x7 = divide LMC PLL by 8.
+          0x8 = divide LMC PLL by 10
+          0x9 = divide LMC PLL by 12.
+          0xa = RSVD
+          0xb = RSVD
+          0xc = RSVD
+          0xd = RSVD
+          0xe = RSVD
+          0xf = RSVD
           DDR_PS_EN is not used when DDR_DIV_RESET = 1
 
       - name: --

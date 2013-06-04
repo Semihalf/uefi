@@ -713,7 +713,9 @@ structs:
         bits: 3
         attributes:
           const: "--"
-        description: If set, wait for work; don't return load result until work is available or timeout.
+        description: |
+          If set, wait for work; don't return load result until work is available or timeout. Must
+          be zero if [INDEXED] is set.
 
       - name: INDEX_GRP_MASK
         bits: 15..4
@@ -1253,7 +1255,7 @@ registers:
 
       - name: RND
         bits: 15..0
-        access: R/W
+        access: R/W/H
         reset: 0x1
         typical: --
         description: |
@@ -2925,7 +2927,8 @@ registers:
         typical: --
         description: |
           Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
-          To insure full streaming performance to all cores, should be at least 208.
+          To insure full streaming performance to all cores, should be at least 208. Must not be
+          changed after traffic is sent to this group.
 
       - name: --
         bits: 31..13
@@ -2942,7 +2945,8 @@ registers:
         description: |
           Reserved threshold for this internal group queue. Should be at least 1 for any groups that
           must make forward progress when other group's work is pending. Updates to this field must
-          also update SSO_AW_ADD[RSVD_FREE].
+          also update SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
+          group.
 
 
   - name: SSO_GRP(0..255)_TAQ_THR
@@ -2985,7 +2989,7 @@ registers:
           Max threshold for this transitory admission queue, in buffers of 13 entries. Must be >= 3,
           must be >= [RSVD_THR], and to insure full streaming performance on this group, should be
           at least 16 buffers. SSO may exceed this count by one buffer if and only if persistently
-          backpressured by IOBI.
+          backpressured by IOBI. Must not be changed after traffic is sent to this group.
 
       - name: --
         bits: 31..11
@@ -3002,7 +3006,7 @@ registers:
         description: |
           Reserved threshold for this transitory admission queue, in buffers of 13 entries. Must be
           at least 2 buffers for any groups that are to be used. Changes to this field must also
-          update SSO_TAQ_ADD[RSVD_FREE].
+          update SSO_TAQ_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this group.
 
 
   - name: SSO_GRP(0..255)_PRI
@@ -4009,28 +4013,28 @@ registers:
         description: Exactly one valid entry is in the queue.
 
       - name: --
-        bits: 25..24
+        bits: 25
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: QUEUE_HEAD
-        bits: 23..13
+        bits: 24..13
         access: RO/H
         reset: --
         typical: --
         description: Index of entry at the head of the queue.
 
       - name: --
-        bits: 12..11
+        bits: 12
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: QUEUE_TAIL
-        bits: 10..0
+        bits: 11..0
         access: RO/H
         reset: --
         typical: --

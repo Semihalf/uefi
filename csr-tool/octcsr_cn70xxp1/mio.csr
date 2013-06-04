@@ -18,8 +18,8 @@ registers:
       CIU_INT7_SUM0:  PP3/IP3
        .....
       (hole)
-      CIU_INT32_SUM0: IO 0
-      CIU_INT33_SUM0: IO 1 (in seperate address group)
+      CIU_INT32_SUM0: IO 0 (PEM0).
+      CIU_INT33_SUM0: IO 1 (Reserved in o70, in seperate address group)
     fields:
       - name: BOOTDMA
         bits: 63
@@ -96,8 +96,8 @@ registers:
           General timer 0-3 interrupts.
           When CIU_TIM_MULTI_CAST[EN] == 0, this interrupt is
           common for all PP/IRQs, writing '1' to any PP/IRQ
-          will clear all TIMERx(x=0..9) interrupts.
-          When CIU_TIM_MULTI_CAST[EN] == 1, TIMERx(x=0..9)
+          TIMERn (n=0..3) will clear all TIMERn(n=0..3) interrupts.
+          When CIU_TIM_MULTI_CAST[EN] == 1, TIMERn(n=0..3)
           are set at the same time, but clearing are based on
           per cnMIPS core. See CIU_TIM_MULTI_CAST for detail.
           The combination of this field and the
@@ -138,17 +138,8 @@ registers:
           GMX0/1 packet drop interrupt
           Set any time corresponding GMX0/1 drops a packet
 
-      - name: TRACE
-        bits: 47
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Trace buffer interrupt
-          See TRA_INT_STATUS
-
       - name: --
-        bits: 46
+        bits: 47..46
         access: ---
         reset: --
         typical: --
@@ -451,14 +442,12 @@ registers:
           TIM interrupt
           See TIM_REG_ERROR
 
-      - name: ZIP
+      - name: --
         bits: 28
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          ZIP interrupt
-          See ZIP_ERROR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -582,7 +571,7 @@ registers:
   - name: CIU_INT33_SUM0
     address: 0x1070000000110
     bus: NCB
-    description: This bit is associated with CIU_INT@_SUM0.
+    description: This bit is associated with CIU_INT@_SUM0. Reserved for o70 for future expansion.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -699,20 +688,11 @@ registers:
           GMX packet drop interrupt
           Set any time corresponding GMX drops a packet
 
-      - name: TRACE
-        bits: 47
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Trace buffer interrupt
-          See TRA_INT_STATUS
-
       - name: --
-        bits: 46
+        bits: 47..46
         access: RO/H
-        reset: 0
-        typical: 0
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: TWSI
@@ -820,8 +800,8 @@ registers:
       CIU_INT7_EN0:  PP3/IP3
       .....
       (hole)
-      CIU_INT32_EN0: IO 0
-      CIU_INT33_EN0: IO 1
+      CIU_INT32_EN0: IO 0 (PEM0)
+      CIU_INT33_EN0: IO 1 (reserved in o70).
     fields:
       - name: BOOTDMA
         bits: 63
@@ -907,19 +887,12 @@ registers:
         typical: 0x0
         description: GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED0
+        bits: 47..46
         access: R/W/H
-        reset: 0
-        typical: 0
-        description: Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -993,8 +966,8 @@ registers:
       CIU_INT7_EN1:  PP3/IP3
       .....
       (hole)
-      CIU_INT32_EN1: IO0
-      CIU_INT33_EN1: IO1
+      CIU_INT32_EN1: IO0 (PEM0)
+      CIU_INT33_EN1: IO1 (Reserved for o70)
 
       PPx/IP2 will be raised when...
 
@@ -1013,9 +986,12 @@ registers:
 
       PCI/INT will be raised when...
 
-      PCI/INT = |({CIU_SUM2_IO0_INT,CIU_SUM1_IO0_INT, CIU_INT32_SUM0} &
+      PCI/INT0 (PEM0)
+      PCI/INT0 = |({CIU_SUM2_IO0_INT,CIU_SUM1_IO0_INT, CIU_INT32_SUM0} &
       {CIU_EN2_IO0_INT,CIU_INT32_EN1, CIU_INT32_EN0})
-      PCI/INT = |({CIU_SUM2_IO1_INT,CIU_SUM1_IO1_INT, CIU_INT33_SUM0} &
+
+      PCI/INT1 is reserved for o70.
+      PCI/INT1 = |({CIU_SUM2_IO1_INT,CIU_SUM1_IO1_INT, CIU_INT33_SUM0} &
       {CIU_EN2_IO1_INT,CIU_INT33_EN1, CIU_INT33_EN0})
     fields:
       - name: RST
@@ -1186,12 +1162,12 @@ registers:
         typical: 0
         description: TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
-        description: ZIP interrupt enable
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -1423,17 +1399,17 @@ registers:
   - name: CIU_PP_POKE(0..3)
     address: 0x1070000000580 + a*0x8
     bus: NCB
-    description: |
-      Any write to a CIU_PP_POKE register clears any pending interrupt generated
-      by the associated watchdog, resets the CIU_WDOG[STATE] field, and set
-      CIU_WDOG[CNT] to be (CIU_WDOG[LEN] << 8).
+    description: CIU_PP_POKE for CIU_WDOG
     fields:
       - name: POKE
         bits: 63..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Any write to a CIU_PP_POKE register clears any pending interrupt generated
+          by the associated watchdog, resets the CIU_WDOG[STATE] field, and set
+          CIU_WDOG[CNT] to be (CIU_WDOG[LEN] << 8).
 
 
   - name: CIU_MBOX_SET(0..3)
@@ -2068,6 +2044,33 @@ registers:
           interrupt.
 
 
+  - name: GPIO_OCLA_EXTEN_TRIG
+    title: GPIO OCLA External Trigger Register
+    address: 0x10700000008B8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: M_TRIG
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Manual Trigger.  Used only when SEL=1F.
+
+      - name: SEL
+        bits: 4..0
+        access: R/W
+        reset: 0x1f
+        typical: 0x0
+        description: Selects the GPIO(0..19) input pin or Manual Trigger to use in the OCLA coprocessor for triggering.
+
+
   - name: GPIO_CLK_GEN(0..3)
     title: GPIO Clock Generation
     address: 0x10700000008C0 + a*0x8
@@ -2167,7 +2170,7 @@ registers:
       CIU_INT0_SUM4:   PP0  /IP4
       CIU_INT1_SUM4:   PP1  /IP4
       ...
-      CIU_INT3_SUm4:   PP3  /IP4
+      CIU_INT3_SUM4:   PP3  /IP4
     fields:
       - name: BOOTDMA
         bits: 63
@@ -2284,20 +2287,11 @@ registers:
           GMX packet drop interrupt
           Set any time corresponding GMX drops a packet
 
-      - name: TRACE
-        bits: 47
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Trace buffer interrupt
-          See TRA_INT_STATUS
-
-      - name: --
-        bits: 46
-        access: RO/H
-        reset: 0
-        typical: 0
+      - name: RESERVED_0
+        bits: 47..46
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: TWSI
@@ -2487,19 +2481,12 @@ registers:
         typical: 0x0
         description: GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED_0
+        bits: 47..46
         access: R/W/H
-        reset: 0
-        typical: 0
-        description: Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -2733,12 +2720,12 @@ registers:
         typical: 0
         description: TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
         access: R/W/H
         reset: 0
         typical: 0
-        description: ZIP interrupt enable
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -3582,7 +3569,10 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN0_W1C
     address: 0x1070000002200 + a*0x10
     bus: NCB
-    description: Write-1-to-clear version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
+    description: |
+      Write-1-to-clear version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0
+      value.
+      CIU_INT33_EN0_W1C is reserved.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -3674,19 +3664,12 @@ registers:
         typical: 0x0
         description: Write 1 to clear GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED_0
+        bits: 47..46
         access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -3750,7 +3733,10 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN1_W1C
     address: 0x1070000002208 + a*0x10
     bus: NCB
-    description: Write-1-to-clear version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
+    description: |
+      Write-1-to-clear version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1
+      value.
+      CIU_INT33_EN1_W1C is reserved.
     fields:
       - name: RST
         bits: 63
@@ -3920,12 +3906,12 @@ registers:
         typical: 0
         description: Write 1 to clear TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
-        access: R/W1C/H
+        access: R/W1C
         reset: 0
         typical: 0
-        description: Write 1 to clear ZIP interrupt enable
+        description: Reserved for future Interlaken
 
       - name: PKO
         bits: 27
@@ -4119,19 +4105,12 @@ registers:
         typical: 0x0
         description: Write 1 to clear GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED_0
+        bits: 47..46
         access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Write 1 to clear RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -4365,12 +4344,12 @@ registers:
         typical: 0
         description: Write 1 to clear TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
-        access: R/W1C/H
+        access: R/W1C
         reset: 0
         typical: 0
-        description: Write 1 to clear ZIP interrupt enable
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -4476,7 +4455,10 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN0_W1S
     address: 0x1070000006200 + a*0x10
     bus: NCB
-    description: Write-1-to-set version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0 value.
+    description: |
+      Write-1-to-set version of the CIU_INTx_EN0 register, read back corresponding CIU_INTx_EN0
+      value.
+      CIU_INT33_EN0_W1S is reserved.
     fields:
       - name: BOOTDMA
         bits: 63
@@ -4564,19 +4546,12 @@ registers:
         typical: 0x0
         description: Write 1 to set GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED_0
+        bits: 47..46
         access: R/W1S/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W1S/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved for Key Zeroization interrupt enable
 
       - name: TWSI
         bits: 45
@@ -4640,7 +4615,10 @@ registers:
   - name: CIU_INT(0..7,32..33)_EN1_W1S
     address: 0x1070000006208 + a*0x10
     bus: NCB
-    description: Write-1-to-set version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1 value.
+    description: |
+      Write-1-to-set version of the CIU_INT@_EN1 register, read back corresponding CIU_INT@_EN1
+      value.
+      CIU_INT33_EN1_W1S is reserved.
     fields:
       - name: RST
         bits: 63
@@ -4810,12 +4788,12 @@ registers:
         typical: 0
         description: Write 1 to set TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
-        access: R/W1S/H
+        access: R/W1S
         reset: 0
         typical: 0
-        description: Write 1 to set ZIP interrupt enable
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -5015,19 +4993,12 @@ registers:
         typical: 0x0
         description: Write 1 to set GMX packet drop interrupt enable
 
-      - name: TRACE
-        bits: 47
+      - name: RESERVED_0
+        bits: 47..46
         access: R/W1S/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set Trace buffer interrupt enable
-
-      - name: RML
-        bits: 46
-        access: R/W1S/H
-        reset: 0
-        typical: 0
-        description: Write 1 to set RML Interrupt enable
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
 
       - name: TWSI
         bits: 45
@@ -5261,12 +5232,12 @@ registers:
         typical: 0
         description: Write 1 to set TIM interrupt enable
 
-      - name: ZIP
+      - name: RESERVED_1
         bits: 28
-        access: R/W1S/H
+        access: R/W1S
         reset: 0
         typical: 0
-        description: Write 1 to set ZIP interrupt enable
+        description: Reserved for LMC expansion
 
       - name: PKO
         bits: 27
@@ -5584,14 +5555,12 @@ registers:
           TIM interrupt
           See TIM_REG_ERROR
 
-      - name: ZIP
+      - name: --
         bits: 28
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          ZIP interrupt
-          See ZIP_ERROR
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: PKO
         bits: 27
@@ -5725,6 +5694,7 @@ registers:
   - name: CIU_SUM1_IO(0..1)_INT
     address: 0x1070000008600 + a*0x8
     bus: NCB
+    description: CIU_SUM1_IO0_INT is for PEM0, CIU_SUM1_IO1_INT is reserved.
     inherits: CIU_SUM1_PP(0..3)_IP2
 
   - name: CIU_SUM2_PP(0..3)_IP2
@@ -5735,11 +5705,18 @@ registers:
       All other fields  values  are idential for different PPs.
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: BCH
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: BCH interrupt. TBD.
 
       - name: AGL_DRP
         bits: 18
@@ -5811,6 +5788,7 @@ registers:
   - name: CIU_SUM2_IO(0..1)_INT
     address: 0x1070000008E00 + a*0x8
     bus: NCB
+    description: CIU_SUM2_IO0_INT is for PEM0, CIU_SUM2_IO1_INT is reserved.
     inherits: CIU_SUM2_PP(0..3)_IP2
 
   - name: CIU_EN2_PP(0..3)_IP2
@@ -5818,11 +5796,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: BCH
+        bits: 19
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: BCH interrupt enable
 
       - name: AGL_DRP
         bits: 18
@@ -5880,6 +5865,7 @@ registers:
   - name: CIU_EN2_IO(0..1)_INT
     address: 0x107000000A600 + a*0x8
     bus: NCB
+    description: CIU_EN2_IO0_INT is for PEM0, CIU_EN2_IO1_INT is reserved.
     inherits: CIU_EN2_PP(0..3)_IP2
 
   - name: CIU_EN2_PP(0..3)_IP2_W1S
@@ -5890,11 +5876,18 @@ registers:
       CIU_EN2_PP(IO)@_IPx(INT) value.
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: BCH
+        bits: 19
+        access: R/W1S/H
+        reset: 0
+        typical: 0
+        description: Write 1 to set BCH interrupt enable
 
       - name: AGL_DRP
         bits: 18
@@ -5952,6 +5945,7 @@ registers:
   - name: CIU_EN2_IO(0..1)_INT_W1S
     address: 0x107000000AE00 + a*0x8
     bus: NCB
+    description: CIU_EN2_IO0_INT_W1S is for PEM0, CIU_EN2_IO1_INT_W1S is reserved.
     inherits: CIU_EN2_PP(0..3)_IP2_W1S
 
   - name: CIU_EN2_PP(0..3)_IP2_W1C
@@ -5962,11 +5956,18 @@ registers:
       CIU_EN2_PP(IO)@_IPx(INT) value.
     fields:
       - name: --
-        bits: 63..19
+        bits: 63..20
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: BCH
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write 1 to clear BCH interrupt enable
 
       - name: AGL_DRP
         bits: 18
@@ -6024,6 +6025,7 @@ registers:
   - name: CIU_EN2_IO(0..1)_INT_W1C
     address: 0x107000000CE00 + a*0x8
     bus: NCB
+    description: CIU_EN2_IO0_INT_W1C is for PEM0, CIU_EN2_IO1_INT_W1C is reserved.
     inherits: CIU_EN2_PP(0..3)_IP2_W1C
 
   - name: CIU_CIB_L2C_RAW(0)
@@ -6037,12 +6039,166 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 22..0
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: L2C interrupt RAW bits
+      - name: CBCX_INT_IOCCMDDBE
+        bits: 22
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_CBC(0..0)_INT[IOCCMDDBE] set.
+
+      - name: CBCX_INT_IOCCMDSBE
+        bits: 21
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_CBC(0..0)_INT[IOCCMDSBE] set.
+
+      - name: CBCX_INT_RSDDBE
+        bits: 20
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_CBC(0..0)_INT[RSDDBE] set.
+
+      - name: CBCX_INT_RSDSBE
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_CBC(0..0)_INT[RSDSBE] set.
+
+      - name: MCIX_INT_VBFDBE
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_MCI(0..0)_INT[VBFDBE] set.
+
+      - name: MCIX_INT_VBFSBE
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_MCI(0..0)_INT[VBFSBE] set.
+
+      - name: TADX_INT_RTGDBE
+        bits: 16
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[RTGDBE] set.
+
+      - name: TADX_INT_RTGSBE
+        bits: 15
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[RTGSBE] set.
+
+      - name: TADX_INT_RDDISLMC
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[RDDISLMC] set.
+
+      - name: TADX_INT_WRDISLMC
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[WRDISLMC] set.
+
+      - name: TADX_INT_BIGRD
+        bits: 12
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[BIGRD] set.
+
+      - name: TADX_INT_BIGWR
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[BIGWR] set.
+
+      - name: TADX_INT_HOLERD
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[HOLERD] set.
+
+      - name: TADX_INT_HOLEWR
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[HOLEWR] set.
+
+      - name: TADX_INT_NOWAY
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[NOWAY] set.
+
+      - name: TADX_INT_TAGDBE
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[TAGDBE] set.
+
+      - name: TADX_INT_TAGSBE
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[TAGSBE] set.
+
+      - name: TADX_INT_FBFDBE
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[FBFDBE] set.
+
+      - name: TADX_INT_FBFSBE
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[FBFSBE] set.
+
+      - name: TADX_INT_SBFDBE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[SBFDBE] set.
+
+      - name: TADX_INT_SBFSBE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[SBFSBE] set.
+
+      - name: TADX_INT_L2DDBE
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[L2DDBE] set.
+
+      - name: TADX_INT_L2DSBE
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when L2C_TAD(0..0)_INT[L2DSBE] set.
 
 
   - name: CIU_CIB_L2C_EN(0)
@@ -6056,12 +6212,166 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 22..0
+      - name: CBCX_INT_IOCCMDDBE
+        bits: 22
         access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: L2C interrupt Enable bits
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: CBCX_INT_IOCCMDSBE
+        bits: 21
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: CBCX_INT_RSDDBE
+        bits: 20
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: CBCX_INT_RSDSBE
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: MCIX_INT_VBFDBE
+        bits: 18
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: MCIX_INT_VBFSBE
+        bits: 17
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_RTGDBE
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_RTGSBE
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_RDDISLMC
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_WRDISLMC
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_BIGRD
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_BIGWR
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_HOLERD
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_HOLEWR
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_NOWAY
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_TAGDBE
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_TAGSBE
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_FBFDBE
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_FBFSBE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_SBFDBE
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_SBFSBE
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_L2DDBE
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
+
+      - name: TADX_INT_L2DSBE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_L2C_RAW bit.
 
 
   - name: CIU_CIB_LMC(0)_RAW(0)
@@ -6075,12 +6385,47 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 11..0
-        access: R/W/H
+      - name: INT_DDR_ERR
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when LMC(0..0)_INT[DDR_ERR] set.
+
+      - name: INT_DLC_DED
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when LMC(0..0)_INT[DLCRAM_DED_ERR] set.
+
+      - name: INT_DLC_SEC
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when LMC(0..0)_INT[DLCRAM_SEC_ERR] set.
+
+      - name: INT_DED_ERRX
+        bits: 8..5
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: LMC interrupt RAW bits
+        description: Set when LMC(0..0)_INT[DED_ERR<b>] set.
+
+      - name: INT_SEC_ERRX
+        bits: 4..1
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: Set when LMC(0..0)_INT[SEC_ERR<b>] set.
+
+      - name: INT_NXM_WR_ERR
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when LMC(0..0)_INT[NXM_WR_ERR] set.
 
 
   - name: CIU_CIB_LMC(0)_EN(0)
@@ -6094,12 +6439,47 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 11..0
+      - name: INT_DDR_ERR
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
+
+      - name: INT_DLC_DED
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
+
+      - name: INT_DLC_SEC
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
+
+      - name: INT_DED_ERRX
+        bits: 8..5
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: LMC interrupt Enable bits
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
+
+      - name: INT_SEC_ERRX
+        bits: 4..1
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
+
+      - name: INT_NXM_WR_ERR
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_LMC_RAW bit.
 
 
   - name: CIU_CIB_RST_RAW(0)
@@ -6113,12 +6493,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 5..0
-        access: R/W/H
+      - name: INT_PERSTX
+        bits: 5..3
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: RST interrupt RAW bits
+        description: Set when RST_INT[PERST<a>] set.
+
+      - name: INT_LINKX
+        bits: 2..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: Set when RST_INT[RST_LINK<a>] set.
 
 
   - name: CIU_CIB_RST_EN(0)
@@ -6132,12 +6519,19 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 5..0
+      - name: INT_PERSTX
+        bits: 5..3
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: RST interrupt Enable bits
+        description: Enable corresponding CIU_CIB_RST_RAW bit.
+
+      - name: INT_LINKX
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Enable corresponding CIU_CIB_RST_RAW bit.
 
 
   - name: CIU_CIB_SATA_RAW(0)
@@ -6151,12 +6545,38 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 3..0
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: SATA_UCTL interrupt RAW bits
+      - name: UAHC_PME_REQ_IP
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Set when SATA_UAHC_PX_IS[CPDS],
+          SATA_UAHC_PX_IS[DMPS],
+          SATA_UAHC_PX_IS[PCS],
+          SATA_UAHC_PX_IS[SDBS], or
+          SATA_UAHC_PX_SNTF[PMN] set.
+
+      - name: UAHC_INTRQ_IP
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when SATA_UAHC_GBL_IS[IPS] or SATA_UAHC_PX_IS set.
+
+      - name: INTSTAT_XM_BAD_DMA
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when SATA_UCTL_INTSTAT[XM_BAD_DMA] set.
+
+      - name: INTSTAT_XS_NCB_OOB
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when SATA_UCTL_INTSTAT[XS_NCB_OOB] set.
 
 
   - name: CIU_CIB_SATA_EN(0)
@@ -6170,12 +6590,33 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 3..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: SATA_UCTL interrupt Enable bits
+      - name: UAHC_PME_REQ_IP
+        bits: 3
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_SATA_RAW bit.
+
+      - name: UAHC_INTRQ_IP
+        bits: 2
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_SATA_RAW bit.
+
+      - name: INTSTAT_XM_BAD_DMA
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_SATA_RAW bit.
+
+      - name: INTSTAT_XS_NCB_OOB
+        bits: 0
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_SATA_RAW bit.
 
 
   - name: CIU_CIB_USBDRD(0..1)_RAW(0)
@@ -6189,12 +6630,82 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 10..0
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: USBDRD UCTL interrupt RAW bits
+      - name: UAHC_DEV_INT
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT]
+
+      - name: UAHC_IMANX_IP
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UAHC_IMAN(0..0)[IP] set.
+
+      - name: UAHC_USBSTS_HSE
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UAHC_USBSTS[HSE] set.
+
+      - name: INTSTAT_RAM2_DBE
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE] set.
+
+      - name: INTSTAT_RAM2_SBE
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE] set.
+
+      - name: INTSTAT_RAM1_DBE
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE] set.
+
+      - name: INTSTAT_RAM1_SBE
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE] set.
+
+      - name: INTSTAT_RAM0_DBE
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE] set.
+
+      - name: INTSTAT_RAM0_SBE
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE] set.
+
+      - name: INTSTAT_XM_BAD_DMA
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA] set.
+
+      - name: INTSTAT_XS_NCB_OOB
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB] set.
 
 
   - name: CIU_CIB_USBDRD(0..1)_EN(0)
@@ -6208,12 +6719,82 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 10..0
+      - name: UAHC_DEV_INT
+        bits: 10
         access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: USBDRD UCTL interrupt Enable bits
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: UAHC_IMANX_IP
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: UAHC_USBSTS_HSE
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM2_DBE
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM2_SBE
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM1_DBE
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM1_SBE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM0_DBE
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_RAM0_SBE
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_XM_BAD_DMA
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
+
+      - name: INTSTAT_XS_NCB_OOB
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_USBDRD(0..1)_RAW bit.
 
 
   - name: CIU_CIB_OCLA(0)_RAW(0)
@@ -6227,12 +6808,75 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: RAW
-        bits: 14..0
-        access: R/W/H
+      - name: STATE_DDRFULL
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[DDRFULL] set.
+
+      - name: STATE_WMARK
+        bits: 13
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[WMARK] set.
+
+      - name: STATE_OVERFULL
+        bits: 12
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[OVERFULL] set.
+
+      - name: STATE_TRIGFULL
+        bits: 11
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[TRIGFULL] set.
+
+      - name: STATE_CAPTURED
+        bits: 10
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[CAPTURED] set.
+
+      - name: STATE_FSM1_INT
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[FSM1_INT] set.
+
+      - name: STATE_FSM0_INT
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[FSM0_INT] set.
+
+      - name: STATE_MCDX
+        bits: 7..5
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: OCLA interrupt RAW bits
+        description: Set when OCLA(0)_STATE_INT[MCD<b>] set.
+
+      - name: STATE_TRIG
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Set when OCLA(0)_STATE_INT[TRIG] set.
+
+      - name: STATE_OVFLX
+        bits: 3..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: Set when OCLA(0)_STATE_INT[OVFL<b>] set.
 
 
   - name: CIU_CIB_OCLA(0)_EN(0)
@@ -6246,12 +6890,75 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: EN
-        bits: 14..0
+      - name: STATE_DDRFULL
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_WMARK
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_OVERFULL
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_TRIGFULL
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_CAPTURED
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_FSM1_INT
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_FSM0_INT
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_MCDX
+        bits: 7..5
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: OCLA interrupt Enable bits
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_TRIG
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
+
+      - name: STATE_OVFLX
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Enable corresponding CIU_CIB_OCLA_RAW bit.
 
 
   - name: PCM_CLK(0..1)_CFG

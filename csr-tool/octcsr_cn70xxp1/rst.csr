@@ -312,7 +312,7 @@ registers:
       - name: TIMER
         bits: 46..0
         access: R/W
-        reset: all-ones
+        reset: 0x3ffffffff
         typical: --
         description: |
           Chipkill timer measured in SCLKs. Reads return current chipkill timer. Writes have no
@@ -500,7 +500,7 @@ registers:
       - name: GATE
         bits: 3..0
         access: R/W
-        reset: all-ones
+        reset: 0x0
         typical: 0x0
         description: When set, corresponding PP has voltage removed to save power.  
 

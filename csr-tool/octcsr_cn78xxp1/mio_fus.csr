@@ -609,6 +609,10 @@ registers:
       INTERNAL: MIO Fuse Soft Repair Register
     address: 0x1180000001540
     bus: RSL
+    internal: |
+      INTERNAL: Aka `Soft Blow'. Upon reset fuse repairs are loaded into REPAIR_MEM as they are
+      loaded into the memories. Any new defects are loaded in afterwards, leaving END_PTR at the
+      last defect.
     fields:
       - name: --
         bits: 63..20
@@ -623,7 +627,7 @@ registers:
         reset: --
         typical: 0x0
         description: |
-          INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
+          INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only.
 
       - name: AUTOBLOW
         bits: 17

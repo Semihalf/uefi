@@ -1760,10 +1760,11 @@ structs:
       - name: BUFS
         bits: w0(31..24)
         description: |
-          Refer to PKI Hardware Work-Queue Entry, word0<31:24>. Contains the number of buffers used
-          to store the packet data, never zero. For example, the value will be 1 for dynamic short
-          packets, or if PKI_STYLE(0..63)_BUF[DIS_WQ_DAT]=1 and only a single data buffer was
-          created.
+          Refer to PKI Hardware Work-Queue Entry, word0<31:24>. Contains the number of data buffers
+          used to store the packet data, never zero. For example, the value will be 1 if
+          PKI_STYLE(0..63)_BUF[DIS_WQ_DAT]=0 and all of the data fit into a combined buffer
+          comprising the work queue entry and first data buffer. BUFS will also be one if
+          PKI_STYLE(0..63)_BUF[DIS_WQ_DAT]=1 and only a single data buffer was created.
           ...
 
       - name: CHAN
@@ -2002,8 +2003,9 @@ structs:
         bits: w3(41..0)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word3<41:0> and Buffer Link Structure. Address of
-          the first buffer pointer. When the packet is a dynamic short, ADDR points to the first
-          byte of packet data saved into the work queue entry's buffer.
+          the first buffer pointer. When PKI_STYLE(0..63)_BUF[DIS_WQ_DAT]=0, ADDR points to the
+          first byte of packet data saved into the work queue entry's buffer. When
+          PKI_STYLE(0..63)_BUF[DIS_WQ_DAT]=1, ADDR points to a the first data buffer.
           ...
 
       - name: DWD
@@ -2017,8 +2019,8 @@ structs:
         bits: w3(63..48)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word3<63:48> and Buffer Link Structure. Size of
-          the first buffer pointer. When the packet is a dynamic short, SIZE represents the number
-          of bytes written.
+          the first buffer pointer. When the packet data fits in a single buffer, SIZE represents
+          the number of bytes written.
           ...
 
       - name: LAPTR
@@ -2151,7 +2153,7 @@ registers:
     title: PKI Soft Reset Register
     address: 0x1180044000010
     bus: RSL
-    description: Allows soft reset. PKI Registers for address.
+    description: Allows soft reset.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2183,7 +2185,6 @@ registers:
     title: PKI General Interrupt Register
     address: 0x1180044000020
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2269,7 +2270,6 @@ registers:
     title: PKI Packet Error Register
     address: 0x1180044000030
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2899,7 +2899,7 @@ registers:
     title: PKI BIST Results 0 Register
     address: 0x1180044000080
     bus: RSL
-    description: BIST status register. PKI Registers for address.
+    description: BIST status register.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2938,7 +2938,7 @@ registers:
     title: PKI BIST Results 1 Register
     address: 0x1180044000088
     bus: RSL
-    description: BIST status register. PKI Registers for address.
+    description: BIST status register.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2963,7 +2963,7 @@ registers:
     title: PKI BIST Results 2 Register
     address: 0x1180044000090
     bus: RSL
-    description: BIST status register. PKI Registers for address.
+    description: BIST status register.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3060,14 +3060,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Bpid enable. When set, enables the sending of bpid level backpressure to the CN78XX
-          inputs.
+          Bpid enable. When set, enables the sending of bpid level backpressure to the CN78XX input
+          interface.
           The application should not de-assert this bit after asserting it. The receivers of this
           bit may have been put into backpressure mode and can only be released by PKI informing
           them that the backpressure has been released.
-          TBD_BGX_INF_MODE[EN] must be set to 1 for each BGX interface that requires bpid prior to
-          setting PBP_EN to 1. INTERNAL: Must be one for PKI HW to assert any output backpressure
-          wires.
+          INTERNAL: Must be one for PKI HW to assert any output backpressure wires.
 
       - name: --
         bits: 1
@@ -3091,7 +3089,7 @@ registers:
     title: PKI Stat Control Register
     address: 0x1180044000110
     bus: RSL
-    description: Controls how the PKI statistics counters are handled. PKI Registers for address.
+    description: Controls how the PKI statistics counters are handled.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3119,9 +3117,7 @@ registers:
     title: PKI Request Weight Register
     address: 0x1180044000120
     bus: RSL
-    description: |
-      Controls the round-robin weights between each PKI requestor. Intended for diagnostic tuning
-      only. PKI Registers for address.
+    description: Controls the round-robin weights between each PKI requestor. Intended for diagnostic tuning only.
     fields:
       - name: --
         bits: 63..36
@@ -3198,6 +3194,10 @@ registers:
     title: PKI Global Parser Enable Register
     address: 0x1180044000200
     bus: RSL
+    internal: |
+      INTERNAL: Changes in these bits should cause the SDK to reload appropriate versions of the
+      sequencer code, with appropriate segments disabled.
+      Global configuration information that applies to all pkinds.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3221,7 +3221,6 @@ registers:
           0 = VXLAN/NVGRE is never used in any style. This enables internal power and latency
           reductions.
           1 = VXLAN/NVGRE parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: CLG_PEN
         bits: 8
@@ -3233,7 +3232,6 @@ registers:
           0 = Custom LG is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[LG_CUSTOM] is
           zero for all indices. This enables internal power and latency reductions.
           1 = Custom LG parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: CL2_PEN
         bits: 7
@@ -3245,7 +3243,6 @@ registers:
           0 = Custom L2 is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_L2_CUSTOM[VALID]
           is zero for all indices. This enables internal power and latency reductions.
           1 = Custom L2 parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: L4_PEN
         bits: 6
@@ -3257,7 +3254,6 @@ registers:
           0 = L4 parsing is never used in any style. This enables internal power and latency
           reductions.
           1 = L4 parsing may be used.
-          Changing this bit must be done via the TBD software development toolkit routine.
 
       - name: IL3_PEN
         bits: 5
@@ -3269,7 +3265,6 @@ registers:
           0 = L3 inner parsing is never used in any style. This enables internal power and latency
           reductions.
           1 = L3 inner (IP-in-IP) parsing may be used.
-          Changing this bit must be done via the TBD software development toolkit routine.
 
       - name: L3_PEN
         bits: 4
@@ -3281,7 +3276,6 @@ registers:
           0 = L3 parsing is never used in any style. This enables internal power and latency
           reductions.
           1 = L3 parsing may be used.
-          Changing this bit must be done via the TBD software development toolkit routine.
 
       - name: MPLS_PEN
         bits: 3
@@ -3293,7 +3287,6 @@ registers:
           0 = MPLS parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[MPLS_EN]
           is zero for all indices. This enables internal power and latency reductions.
           1 = MPLS parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: FULC_PEN
         bits: 2
@@ -3306,7 +3299,6 @@ registers:
           PKI_CL(0..3)_PKIND(0..63)_CFG[FULC_EN] is zero for all indices. This enables internal
           power and latency reductions.
           1 = Fulcrum parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: DSA_PEN
         bits: 1
@@ -3318,7 +3310,6 @@ registers:
           0 = DSA parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[DSA_EN] is
           zero for all indices. This enables internal power and latency reductions.
           1 = DSA parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
       - name: HG_PEN
         bits: 0
@@ -3330,14 +3321,12 @@ registers:
           0 = HiGig parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[HG2_EN,
           HG_EN] are zero for all indices. This enables internal power and latency reductions.
           1 = HiGig parsing may be used.
-          Changing this bit should be done via the TBD software development toolkit routine.
 
 
   - name: PKI_CLKEN
     title: PKI Clock Enable Register
     address: 0x1180044000410
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3365,23 +3354,37 @@ registers:
     bus: RSL
     description: |
       The source and destination initial values (IVs) in tag generation provide a mechanism for each
-      CN78XX to be unique. PKI Registers for address.
+      CN78XX to be unique.
     attributes:
       uvm_default_constraint: "True"
     fields:
-      - name: --
-        bits: 63..32
-        access: ---
-        reset: --
+      - name: DST6
+        bits: 63..48
+        access: R/W
+        reset: 0x0
         typical: --
-        description: Reserved.
+        description: |
+          Secret for the destination tuple IPv6 tag CRC calculation. Typically identical to SRC6 to
+          insure tagging is symmetric between source/destination flows. Typically different from DST
+          for maximum security.
+
+      - name: SRC6
+        bits: 47..32
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Secret for the source tuple IPv6 tag CRC calculation. Typically different from SRC for
+          maximum security.
 
       - name: DST
         bits: 31..16
         access: R/W
         reset: 0x0
         typical: --
-        description: Secret for the destination tuple tag CRC calculation.
+        description: |
+          Secret for the destination tuple tag CRC calculation. Typically identical to DST6 to
+          insure tagging is symmetric between source/destination flows.
 
       - name: SRC
         bits: 15..0
@@ -3397,7 +3400,7 @@ registers:
     bus: RSL
     description: |
       For diagnostic use only, perform a PCAM lookup against the provided cluster and PCAM and load
-      results into PKI_PCAM_RESULT. PKI Registers for address.
+      results into PKI_PCAM_RESULT.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3455,6 +3458,10 @@ registers:
     title: PKI PCAM Result Register
     address: 0x1180044000510
     bus: RSL
+    internal: |
+      For diagnostic use only, return PCAM results for the most recent write to PKI_PCAM_LOOKUP. The
+      read will stall until the lookup is completed. INTERNAL: Read stall is implemented by delaying
+      the PKI_PCAM_LOOKUP write acknowledge until the PCAM is free and the lookup can be issued.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3486,6 +3493,8 @@ registers:
     title: PKI Frame Length Check Registers
     address: 0x1180044004000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This doesn't virtualize well, but we don't anticipate many sizes.
     attributes:
       arch_max: "16"
     fields:
@@ -3515,7 +3524,6 @@ registers:
     title: PKI Backend Layer Map Register
     address: 0x1180044005000 | a<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "64"
     fields:
@@ -3562,7 +3570,6 @@ registers:
     title: PKI Tag Inclusion Control Registers
     address: 0x1180044007000 | a<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
       uvm_default_constraint: "True"
@@ -3615,7 +3622,6 @@ registers:
     title: PKI Tag Inclusion Mask
     address: 0x1180044008000 | a<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
       uvm_default_constraint: "True"
@@ -3634,7 +3640,7 @@ registers:
     title: PKI Cluster Group Control Register
     address: 0x118004400A000 | a<<3
     bus: RSL
-    description: Configures a cluster group. PKI Registers for address.
+    description: Configures a cluster group.
     fields:
       - name: --
         bits: 63..53
@@ -3729,7 +3735,6 @@ registers:
     title: PKI Cluster Interrupt Registers
     address: 0x118004400C000 | a<<16
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "16"
       uvm_default_constraint: "True"
@@ -3775,7 +3780,6 @@ registers:
     title: PKI Cluster ECC/Parity Interrupt Registers
     address: 0x118004400C010 | a<<16
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "16"
       uvm_default_constraint: "True"
@@ -3872,7 +3876,6 @@ registers:
     title: PKI Cluster ECC/Parity Control Registers
     address: 0x118004400C020 | a<<16
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "16"
       uvm_default_constraint: "True"
@@ -3982,7 +3985,6 @@ registers:
     title: PKI Cluster Start Registers
     address: 0x118004400C030 | a<<16
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "16"
     fields:
@@ -4006,6 +4008,8 @@ registers:
     title: PKI Per-Pkind Cluster Group Select Register
     address: 0x1180044010000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: In HW, pre-sequencer.
     attributes:
       arch_max: "256"
     fields:
@@ -4030,6 +4034,8 @@ registers:
     title: PKI Per-Style Configuration 2 Registers
     address: 0x1180044020000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is in BE.
     attributes:
       arch_max: "256"
       uvm_default_constraint: "True"
@@ -4101,19 +4107,21 @@ registers:
     title: PKI Per-Style Tag Generation Mask Registers
     address: 0x1180044021000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is in BE.
     attributes:
       arch_max: "256"
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..16
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: MASK
-        bits: 31..0
+        bits: 15..0
         access: R/W
         reset: 0x0
         typical: --
@@ -4127,6 +4135,8 @@ registers:
     title: PKI Per-Style WQ Word 2
     address: 0x1180044022000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is in BE
     attributes:
       arch_max: "256"
     fields:
@@ -4145,6 +4155,8 @@ registers:
     title: PKI Per-Style WQ Word 4
     address: 0x1180044023000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is in BE.
     attributes:
       arch_max: "256"
     fields:
@@ -4163,6 +4175,10 @@ registers:
     title: PKI Per-Style Buffer Configuration Register
     address: 0x1180044024000 | a<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is in BE.
+      Configures skip amounts and other information based on the final style, stored in
+      WQE[STYLE]PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -4275,7 +4291,6 @@ registers:
     title: PKI Cluster IMEM Registers
     address: 0x1180044100000 | a<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "16384"
     fields:
@@ -4296,7 +4311,7 @@ registers:
       PKI_ICG(0..3)_CFG[MLO]). The other PKI_PKND* registers alias inside regions of
       PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15). To avoid confusing tools, these aliases have address
       bit 20 set; the PKI address decoder ignores bit 20 when accessing
-      PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15). PKI Registers for address.
+      PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15).
     attributes:
       arch_max: "4,256,128"
     fields:
@@ -4319,6 +4334,10 @@ registers:
     title: PKI Per-Pkind Configuration Registers
     address: 0x1180044300040 | a<<16 | b<<8
     bus: RSL
+    internal: |
+      This register contains per-pkind tag configuration information. INTERNAL: This register is not
+      passed through to PBE. Information that does need to be passed to PBE is instead in one of the
+      STYLE registers.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4415,6 +4434,8 @@ registers:
     title: PKI Per-Pkind Initial Style Registers
     address: 0x1180044300048 | a<<16 | b<<8
     bus: RSL
+    internal: |
+      INTERNAL: This register is not passed through to PBE.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4470,7 +4491,6 @@ registers:
     title: PKI Per-Pkind L2 Skip Registers
     address: 0x1180044300050 | a<<16 | b<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4508,6 +4528,8 @@ registers:
     title: PKI Per-Pkind L2 Custom Extract Registers
     address: 0x1180044300058 | a<<16 | b<<8
     bus: RSL
+    internal: |
+      INTERNAL: This register is not passed through to PBE.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4552,6 +4574,8 @@ registers:
     title: PKI Per-Pkind LG Custom Extract Registers
     address: 0x1180044300060 | a<<16 | b<<8
     bus: RSL
+    internal: |
+      INTERNAL: This register is not passed through to PBE.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4580,7 +4604,7 @@ registers:
     description: |
       PKI_STYLE* registers alias inside regions of PKI_CL(0..3)_SMEM(0..2047). To avoid confusing
       tools, these aliases have address bit 20 set; the PKI address decoder ignores bit 20 when
-      accessing PKI_CL(0..3)_SMEM(0..2047). PKI Registers for address.
+      accessing PKI_CL(0..3)_SMEM(0..2047).
     attributes:
       arch_max: "4,16k"
     fields:
@@ -4603,6 +4627,10 @@ registers:
     title: PKI Per-Style Configuration Registers
     address: 0x1180044500000 | a<<16 | b<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is inside SMEM and passed to PKI BE via PKI_BEWQ_S[CFG]. All bits are
+      used by PKI BE calculations.
+      This register contains per-pkind configuration information.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4776,6 +4804,9 @@ registers:
     title: PKI Per-Style Configuration 2 Registers
     address: 0x1180044500800 | a<<16 | b<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is inside SMEM and passed to PKI BE via PKI_BEWQ_S[CFG2]. All bits are
+      used by PKI BE calculations.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -4984,6 +5015,8 @@ registers:
     title: PKI Per-Style Algorithm Configuration Registers
     address: 0x1180044501000 | a<<16 | b<<3
     bus: RSL
+    internal: |
+      INTERNAL: This register is inside the SMEM.
     attributes:
       arch_max: "4,256"
       regtest_alias: "True"
@@ -5134,7 +5167,6 @@ registers:
     title: PKI PCAM Entry Term Match Registers
     address: 0x1180044700000 | a<<16 | b<<12 | c<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "4,4,512"
     fields:
@@ -5209,7 +5241,6 @@ registers:
     title: PKI PCAM Entry Data Match Registers
     address: 0x1180044704000 | a<<16 | b<<12 | c<<3
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "4,4,512"
     fields:
@@ -5244,7 +5275,6 @@ registers:
     description: |
       If multiple PCAM entries hit, the PKI_GEN_INT[PCAMERR] error interrupt is signaled, and it is
       unpredictable which PCAM action register will be used.
-      PKI Registers for address.
     attributes:
       arch_max: "4,4,512"
     fields:
@@ -5350,6 +5380,8 @@ registers:
     description: |
       The QPG table is used to indirectly calculate the Portadd/Aura/Group from the Diffsrv, HiGig
       or VLAN information as described in QPG.
+    internal: |
+      INTERNAL: This register is outside SMEM due to opcode detection.
     attributes:
       arch_max: "16k"
     fields:
@@ -5427,7 +5459,7 @@ registers:
     title: PKI Aura Configuration Register
     address: 0x1180044900000 | a<<3
     bus: RSL
-    description: This register configures aura backpressure, etc; see Backpressure. PKI Registers for address.
+    description: This register configures aura backpressure, etc; see Backpressure.
     attributes:
       arch_max: "8k"
     fields:
@@ -5566,7 +5598,6 @@ registers:
     title: PKI Histogram 0 Statistic Registers
     address: 0x1180044E00000 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5591,7 +5622,6 @@ registers:
     title: PKI Histogram 1 Statistic Registers
     address: 0x1180044E00008 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5614,7 +5644,6 @@ registers:
     title: PKI Histogram 2 Statistic Registers
     address: 0x1180044E00010 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5637,7 +5666,6 @@ registers:
     title: PKI Histogram 3 Statistic Registers
     address: 0x1180044E00018 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5660,7 +5688,6 @@ registers:
     title: PKI Histogram 4 Statistic Registers
     address: 0x1180044E00020 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5683,7 +5710,6 @@ registers:
     title: PKI Histogram 5 Statistic Registers
     address: 0x1180044E00028 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5706,7 +5732,6 @@ registers:
     title: PKI Histogram 6 Statistic Registers
     address: 0x1180044E00030 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5729,7 +5754,6 @@ registers:
     title: PKI Packets Statistic Registers
     address: 0x1180044E00038 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5752,7 +5776,6 @@ registers:
     title: PKI Octets Statistic Registers
     address: 0x1180044E00040 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5775,7 +5798,6 @@ registers:
     title: PKI Raw Packets Statistic Registers
     address: 0x1180044E00048 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5798,7 +5820,6 @@ registers:
     title: PKI Dropped Packets Statistic Registers
     address: 0x1180044E00050 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5821,7 +5842,6 @@ registers:
     title: PKI Dropped Octets Statistic Registers
     address: 0x1180044E00058 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5844,7 +5864,6 @@ registers:
     title: PKI L2 Broadcast Statistic Registers
     address: 0x1180044E00060 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5869,7 +5888,6 @@ registers:
     title: PKI L2 Multicast Statistic Registers
     address: 0x1180044E00068 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5894,7 +5912,6 @@ registers:
     title: PKI FCS Statistic Registers
     address: 0x1180044E00070 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5917,7 +5934,6 @@ registers:
     title: PKI Frac Statistic Registers
     address: 0x1180044E00078 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5940,7 +5956,6 @@ registers:
     title: PKI Undersize Statistic Registers
     address: 0x1180044E00080 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5963,7 +5978,6 @@ registers:
     title: PKI Jabber Statistic Registers
     address: 0x1180044E00088 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -5986,7 +6000,6 @@ registers:
     title: PKI Oversize Statistic Registers
     address: 0x1180044E00090 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6009,7 +6022,6 @@ registers:
     title: PKI L2 Error Statistic Registers
     address: 0x1180044E00098 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6034,7 +6046,6 @@ registers:
     title: PKI Special Statistic Registers
     address: 0x1180044E000A0 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6059,9 +6070,9 @@ registers:
     title: PKI Dropped L2 Broadcast Statistic Registers
     address: 0x1180044E000A8 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
+      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48
@@ -6084,7 +6095,6 @@ registers:
     title: PKI Dropped L2 Multicast Statistic Registers
     address: 0x1180044E000B0 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6109,7 +6119,6 @@ registers:
     title: PKI Dropped L3 Broadcast Statistic Registers
     address: 0x1180044E000B8 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6134,7 +6143,6 @@ registers:
     title: PKI Dropped L3 Multicast Statistic Registers
     address: 0x1180044E000C0 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6160,7 +6168,6 @@ registers:
     title: PKI Dropped Special Statistic Registers
     address: 0x1180044E000C8 | a<<8
     bus: RSL
-    description: PKI Registers for address.
     attributes:
       arch_max: "256"
     fields:
@@ -6185,7 +6192,7 @@ registers:
     title: PKI Inbound Packets Statistic Registers
     address: 0x1180044F00000 | a<<8
     bus: RSL
-    description: Inbound packets received by PKI per pkind. PKI Registers for address.
+    description: Inbound packets received by PKI per pkind.
     attributes:
       arch_max: "256"
     fields:
@@ -6208,7 +6215,7 @@ registers:
     title: PKI Inbound Octets Statistic Registers
     address: 0x1180044F00008 | a<<8
     bus: RSL
-    description: Inbound octets received by PKI per pkind. PKI Registers for address.
+    description: Inbound octets received by PKI per pkind.
     attributes:
       arch_max: "256"
     fields:
@@ -6231,7 +6238,7 @@ registers:
     title: PKI Inbound Errors Statistic Registers
     address: 0x1180044F00010 | a<<8
     bus: RSL
-    description: Inbound error packets received by PKI per pkind. PKI Registers for address.
+    description: Inbound error packets received by PKI per pkind.
     attributes:
       arch_max: "256"
     fields:

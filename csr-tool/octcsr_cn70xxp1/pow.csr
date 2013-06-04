@@ -936,8 +936,6 @@ registers:
     bus: NCB
     description: |
       Contains the BIST status for the POW memories ('0' = pass, '1' = fail).
-      Also contains the BIST status for the PP's.  Each bit in the PP field is the OR of all BIST
-      results for the corresponding physical PP ('0' = pass, '1' = fail).
     fields:
       - name: --
         bits: 63..12
@@ -967,7 +965,7 @@ registers:
         typical: 0x0
         description: NCB transmitter memory BIST status
 
-      - name: INDEX
+      - name: IDX
         bits: 3
         access: RO
         reset: 0

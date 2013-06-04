@@ -629,7 +629,7 @@ enums:
         description: See LAP0/1_GEN_INT[NBR_DBE].
 
       - name: MIX(0..1)_ODBLOVF
-        value: 20'h10000 + a*0x10
+        value: 0x10000 + a*0x10
         attributes:
           bit_name: "ODBLOVF"
           bit_num: "0"
@@ -640,10 +640,10 @@ enums:
           major_val: "(0x10)"
           reg_addr: "(0x1070000100048+a*0x800)"
           reg_name: "MIX(0..1)_ISR"
-        description: MIX ODBLOVF interrupt; see MIX(0..1)_ISR[ODBLOVF].
+        description: MIX ODBLOVF interrupt; see MIX0/1_ISR[ODBLOVF].
 
       - name: MIX(0..1)_IDBLOVF
-        value: 20'h10001 + a*0x10
+        value: 0x10001 + a*0x10
         attributes:
           bit_name: "IDBLOVF"
           bit_num: "1"
@@ -657,7 +657,7 @@ enums:
         description: MIX IDBLOVF interrupt; see MIX(0..1)_ISR[IDBLOVF].
 
       - name: MIX(0..1)_ORTHRESH
-        value: 20'h10002 + a*0x10
+        value: 0x10002 + a*0x10
         attributes:
           bit_name: "ORTHRESH"
           bit_num: "2"
@@ -671,7 +671,7 @@ enums:
         description: MIX ORTHRESH interrupt; see MIX(0..1)_ISR[ORTHRESH].
 
       - name: MIX(0..1)_IRTHRESH
-        value: 20'h10003 + a*0x10
+        value: 0x10003 + a*0x10
         attributes:
           bit_name: "IRTHRESH"
           bit_num: "3"
@@ -685,7 +685,7 @@ enums:
         description: MIX IRTHRESH interrupt; see MIX(0..1)_ISR[IRTHRESH].
 
       - name: MIX(0..1)_DATA_DRP
-        value: 20'h10004 + a*0x10
+        value: 0x10004 + a*0x10
         attributes:
           bit_name: "DATA_DRP"
           bit_num: "4"
@@ -699,7 +699,7 @@ enums:
         description: MIX DATA_DRP interrupt; see MIX(0..1)_ISR[DATA_DRP].
 
       - name: MIX(0..1)_IRUN
-        value: 20'h10005 + a*0x10
+        value: 0x10005 + a*0x10
         attributes:
           bit_name: "IRUN"
           bit_num: "5"
@@ -713,7 +713,7 @@ enums:
         description: MIX IRUN interrupt; see MIX(0..1)_ISR[IRUN].
 
       - name: MIX(0..1)_ORUN
-        value: 20'h10006 + a*0x10
+        value: 0x10006 + a*0x10
         attributes:
           bit_name: "ORUN"
           bit_num: "6"
@@ -727,7 +727,7 @@ enums:
         description: MIX ORUN interrupt; see MIX(0..1)_ISR[ORUN].
 
       - name: MIX(0..1)_TS
-        value: 20'h10007 + a*0x10
+        value: 0x10007 + a*0x10
         attributes:
           bit_name: "TS"
           bit_num: "7"
@@ -1726,7 +1726,7 @@ enums:
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C10)"
           reg_name: "SLI_MSI_RCV0"
-        description: MSI received interrupts, see SLI_MSI_RCV0[INTR<a>].
+        description: MSI received interrupts. See SLI_MSI_RCV0[INTR<a>].
 
       - name: SLI_MSI_RCV1(0..63)
         value: 0x1E040 + a
@@ -1739,7 +1739,7 @@ enums:
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C20)"
           reg_name: "SLI_MSI_RCV1"
-        description: MSI received interrupts, see  SLI_MSI_RCV1[INTR<a>].
+        description: MSI received interrupts. See SLI_MSI_RCV1[INTR<a>].
 
       - name: SLI_MSI_RCV2(0..63)
         value: 0x1E080 + a
@@ -1752,7 +1752,7 @@ enums:
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C30)"
           reg_name: "SLI_MSI_RCV2"
-        description: MSI received interrupts, see  SLI_MSI_RCV2[INTR<a>].
+        description: MSI received interrupts. See SLI_MSI_RCV2[INTR<a>].
 
       - name: SLI_MSI_RCV3(0..63)
         value: 0x1E0C0 + a
@@ -1765,7 +1765,7 @@ enums:
           major_val: "(0x1E)"
           reg_addr: "(0x11F0000013C40)"
           reg_name: "SLI_MSI_RCV3"
-        description: MSI received interrupts, see  SLI_MSI_RCV3[INTR<a>].
+        description: MSI received interrupts. See SLI_MSI_RCV3[INTR<a>].
 
       - name: SLI_INT_RML_TO
         value: 0x1F000
@@ -3692,6 +3692,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000BFFFE8)"
           reg_name: "PKO_LUT_ECC_SBE_STS_CMB0"
         description: See PKO_LUT_ECC_SBE_STS_CMB0[LUT_SBE_CMB0].
@@ -3706,6 +3707,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000BFFFD8)"
           reg_name: "PKO_LUT_ECC_DBE_STS_CMB0"
         description: See PKO_LUT_ECC_DBE_STS_CMB0[LUT_DBE_CMB0].
@@ -3720,6 +3722,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000300110)"
           reg_name: "PKO_PSE_DQ_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_DQ_ECC_SBE_STS_CMB0[PSE_DQ_SBE_CMB0].
@@ -3734,6 +3737,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000300120)"
           reg_name: "PKO_PSE_DQ_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_DQ_ECC_DBE_STS_CMB0[PSE_DQ_DBE_CMB0].
@@ -3748,6 +3752,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000100110)"
           reg_name: "PKO_PSE_SQ2_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_SQ2_ECC_SBE_STS_CMB0[PSE_SQ2_SBE_CMB0].
@@ -3762,6 +3767,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000100120)"
           reg_name: "PKO_PSE_SQ2_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_SQ2_ECC_DBE_STS_CMB0[PSE_SQ2_DBE_CMB0].
@@ -3776,6 +3782,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000180110)"
           reg_name: "PKO_PSE_SQ3_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_SQ3_ECC_SBE_STS_CMB0[PSE_SQ3_SBE_CMB0].
@@ -3790,6 +3797,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000180120)"
           reg_name: "PKO_PSE_SQ3_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_SQ3_ECC_DBE_STS_CMB0[PSE_SQ3_DBE_CMB0].
@@ -3804,6 +3812,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x15400008FFFE8)"
           reg_name: "PKO_PDM_ECC_SBE_STS_CMB0"
         description: See PKO_PDM_ECC_SBE_STS_CMB0[PDM_SBE_CMB0].
@@ -3818,6 +3827,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x15400008FFFD8)"
           reg_name: "PKO_PDM_ECC_DBE_STS_CMB0"
         description: See PKO_PDM_ECC_DBE_STS_CMB0[PDM_DBE_CMB0].
@@ -3832,6 +3842,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000080110)"
           reg_name: "PKO_PSE_SQ1_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_SQ1_ECC_SBE_STS_CMB0[PSE_SQ1_SBE_CMB0].
@@ -3846,6 +3857,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000080120)"
           reg_name: "PKO_PSE_SQ1_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_SQ1_ECC_DBE_STS_CMB0[PSE_SQ1_DBE_CMB0].
@@ -3860,6 +3872,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000000110)"
           reg_name: "PKO_PSE_PQ_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_PQ_ECC_SBE_STS_CMB0[PSE_PQ_SBE_CMB0].
@@ -3874,6 +3887,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000000120)"
           reg_name: "PKO_PSE_PQ_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_PQ_ECC_DBE_STS_CMB0[PSE_PQ_DBE_CMB0].
@@ -3888,6 +3902,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000200110)"
           reg_name: "PKO_PSE_SQ4_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_SQ4_ECC_SBE_STS_CMB0[PSE_SQ4_SBE_CMB0].
@@ -3902,6 +3917,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000200120)"
           reg_name: "PKO_PSE_SQ4_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_SQ4_ECC_DBE_STS_CMB0[PSE_SQ4_DBE_CMB0].
@@ -3916,6 +3932,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000280110)"
           reg_name: "PKO_PSE_SQ5_ECC_SBE_STS_CMB0"
         description: See PKO_PSE_SQ5_ECC_SBE_STS_CMB0[PSE_SQ5_SBE_CMB0].
@@ -3930,6 +3947,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000280120)"
           reg_name: "PKO_PSE_SQ5_ECC_DBE_STS_CMB0"
         description: See PKO_PSE_SQ5_ECC_DBE_STS_CMB0[PSE_SQ5_DBE_CMB0].
@@ -3944,6 +3962,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000EFFFE8)"
           reg_name: "PKO_NCB_ECC_SBE_STS_CMB0"
         description: See PKO_NCB_ECC_SBE_STS_CMB0[NCB_SBE_CMB0].
@@ -3958,6 +3977,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x1540000EFFFD8)"
           reg_name: "PKO_NCB_ECC_DBE_STS_CMB0"
         description: See PKO_NCB_ECC_DBE_STS_CMB0[NCB_DBE_CMB0].
@@ -3972,6 +3992,7 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x15400009FFFE8)"
           reg_name: "PKO_PEB_ECC_SBE_STS_CMB0"
         description: See PKO_PEB_ECC_SBE_STS_CMB0[PEB_SBE_CMB0].
@@ -3986,15 +4007,44 @@ enums:
           intsn_lsb_mismatch: "True"
           major_name: "PKO"
           major_val: "(0x50)"
+          mem_to_csr: "True"
           reg_addr: "(0x15400009FFFD8)"
           reg_name: "PKO_PEB_ECC_DBE_STS_CMB0"
         description: See PKO_PEB_ECC_DBE_STS_CMB0[PEB_DBE_CMB0].
+
+      - name: PKO_SENDPKT_LMTDMA_ERR
+        value: 0x500F9
+        attributes:
+          bit_name: "SENDPKT_LMTDMA_ERR"
+          bit_num: "5"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[SENDPKT_LMTDMA_ERR].
+
+      - name: PKO_SENDPKT_LMTST_ERR
+        value: 0x500FA
+        attributes:
+          bit_name: "SENDPKT_LMTST_ERR"
+          bit_num: "4"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[SENDPKT_LMTST_ERR].
 
       - name: PKO_FPA_NO_PTRS
         value: 0x500FB
         attributes:
           bit_name: "FPA_NO_PTRS"
-          bit_num: "2"
+          bit_num: "3"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4031,6 +4081,20 @@ enums:
           reg_addr: "(0x1540000800008)"
           reg_name: "PKO_PDM_STS"
         description: See PKO_PDM_STS[CP_PKT_DRP].
+
+      - name: PKO_CP_SENDPKT_ERR_NO_DRP
+        value: 0x500FE
+        attributes:
+          bit_name: "CP_SENDPKT_ERR_NO_DRP"
+          bit_num: "2"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP].
 
       - name: PKO_DESC_CRC_ERR
         value: 0x500FF
@@ -7240,6 +7304,32 @@ enums:
           reg_addr: "(0x1DF0000000008)"
           reg_name: "DPI_INT_REG"
         description: See DPI_INT_REG[SPRT3_RST].
+
+      - name: DPI_ERR_RAM_DBE(0..22)
+        value: 0xDF015 + a
+        attributes:
+          bit_name: "RAM_DBE<a>"
+          bit_num: "32+a"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000020)"
+          reg_name: "DPI_ECC_INT"
+        description: See DPI_ECC_INT[RAM_DBE<a>].
+
+      - name: DPI_ERR_RAM_SBE(0..22)
+        value: 0xDF02C + a
+        attributes:
+          bit_name: "RAM_SBE<a>"
+          bit_num: "0+a"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000020)"
+          reg_name: "DPI_ECC_INT"
+        description: See DPI_ECC_INT[RAM_SBE<a>].
 
       - name: BGX(0..5)_CMR(0..3)_INT_PKO_PAUSE_DRP
         value: 0xE0000 + a*0x1000 + b*0x40

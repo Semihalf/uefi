@@ -228,8 +228,8 @@ registers:
           1 = use the bypass clock from the GPIO pins
           Generally bypass is only used for scan purposes.
           This signal is just a multiplexer-select signal; it does not enable the host-controller
-          clock. You must still set A_CLKDIV_EN separately. A_CLK_BYP_SEL select should not be
-          changed unless A_CLKDIV_EN is disabled.
+          clock. You must still set A_CLK_EN separately. A_CLK_BYP_SEL select should not be
+          changed unless A_CLK_EN is disabled.
           The bypass clock can be selected and running even if the host-controller-clock dividers
           are not running.
 
@@ -260,11 +260,10 @@ registers:
           The host-controller-clock frequency must be at or below 333MHz.
           This field can be changed only when A_CLKDIV_RST = 1.
           The divider values are the following:
-          0x0 = divide by 1 0x5 = divide by 8
-          0x1 = divide by 2 0x6 = divide by 16
-          0x2 = divide by 3 0x7 = divide by 24
-          0x3 = divide by 4 0x8 = divide by 32
-          0x4 = divide by 6
+          0x0 = divide by 1 0x4 = divide by 6
+          0x1 = divide by 2 0x5 = divide by 8
+          0x2 = divide by 3 0x6 = divide by 16
+          0x3 = divide by 4 0x7 = divide by 24
 
       - name: --
         bits: 23..5
@@ -1644,8 +1643,8 @@ registers:
       - name: VER
         bits: 31..0
         access: RO
-        reset: 0x3431302a
-        typical: 0x3431302a
+        reset: 0x343130c0
+        typical: 0x343130c0
         description: SATA IP version number.
 
 

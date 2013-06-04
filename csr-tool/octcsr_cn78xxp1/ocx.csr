@@ -280,9 +280,10 @@ registers:
     title: OCX Window Write Data Register
     address: 0x1180011000040
     bus: RSL
-    internal: |
-      INTERNAL: This register is typically written by hardware after accesses to the SLI_WIN_WR_DATA
-      register. Contains the data to write to the address located in the OCX_WIN_CMD Register.
+    description: |
+      For diagnostic use only. This register is typically written by hardware after accesses to the
+      SLI_WIN_WR_DATA register. Contains the data to write to the address located in the OCX_WIN_CMD
+      Register.
     fields:
       - name: WR_DATA
         bits: 63..0
@@ -296,12 +297,12 @@ registers:
     title: OCX Window Address Register
     address: 0x1180011000048
     bus: RSL
-    internal: |
-      INTERNAL: This register is for internal use only. This register is typically written by
-      hardware after accesses to the SLI_WIN_* registers. Contains the address, read size and write
-      mask to used for the window operation. Write data should be written first and placed in the
-      OCX_WIN_WR_DATA register. Writing this register starts the operation. A second write to this
-      register while an operation is in progress will stall.
+    description: |
+      For diagnostic use only. This register is typically written by hardware after accesses to the
+      SLI_WIN_* registers. Contains the address, read size and write mask to used for the window
+      operation. Write data should be written first and placed in the OCX_WIN_WR_DATA register.
+      Writing this register starts the operation. A second write to this register while an operation
+      is in progress will stall.
     fields:
       - name: WR_MASK
         bits: 63..56
@@ -309,7 +310,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Mask for the data to be written. When a bit is '1' the corresponding byte will be written.
+          Mask for the data to be written. When a bit is 1, the corresponding byte will be written.
           The values of this field must be contiguous and for 1, 2, 4, or 8 byte operations and
           aligned to operation size. A Value of 0 will produce unpredictable results. Field is
           ignored during a read (LD_OP=1).
@@ -328,8 +329,10 @@ registers:
         typical: --
         description: |
           The load command sent with the read:
-          0x3 == Load 8-bytes. 0x2 == Load 4-bytes,
-          0x1 == Load 2-bytes. 0x0 == Load 1-bytes,
+          0x0 = Load 1-bytes
+          0x1 = Load 2-bytes
+          0x2 = Load 4-bytes
+          0x3 = Load 8-bytes
 
       - name: LD_OP
         bits: 48
@@ -345,26 +348,26 @@ registers:
         typical: --
         description: |
           The address used in both the load and store operations
-          <47:40> == NCB_ID
-          <39:38> == 0, Not Used
-          <37:36> == OCI_ID
-          <35:0>  == Address
+          <47:40> = NCB_ID
+          <39:38> = 0, Not Used
+          <37:36> = OCI_ID
+          <35:0> = Address
           When <47:43> == SLI & <42:40> == 0 bits <39:0> are:
-          <39:38> == 0, Not Used
-          <37:36> == OCI_ID
-          <35:32> == 0, Not Used
-          <31:24> == RSL_ID
-          <23:0>  == RSL Register Offset
-          note:  <2:0> are ignored in a store operation
+          <39:38> = 0, Not Used
+          <37:36> = OCI_ID
+          <35:32> = 0, Not Used
+          <31:24> = RSL_ID
+          <23:0> = RSL Register Offset
+          Note: <2:0> are ignored in a store operation
 
 
   - name: OCX_WIN_RD_DATA
     title: OCX Window Read Data Register
     address: 0x1180011000050
     bus: RSL
-    internal: |
-      INTERNAL: This register is for internal use only. This register is the read response data
-      associated with window command. Reads all 1s until response is received.
+    description: |
+      For diagnostic use only. This register is the read response data associated with window
+      command. Reads all 1s until response is received.
     fields:
       - name: DATA
         bits: 63..0
@@ -436,10 +439,10 @@ registers:
         typical: --
         description: |
           DLL state.
-          0 = Idle.
-          1-4 = Intermediate states.
-          5 = Locked.
-          6-7 = Reserved.
+          0x0 = Idle.
+          0x1-0x4 = Intermediate states.
+          0x5 = Locked.
+          0x6-0x7 = Reserved.
 
       - name: COURSE
         bits: 11..4
@@ -461,8 +464,8 @@ registers:
     address: 0x11800110000C0
     bus: RSL
     description: |
-      Contains the data to write to the address located in the OCX_PP_CMD register. Writing this
-      register will cause a write operation to take place.
+      Contains the data to write to the address located in OCX_PP_CMD. Writing this register will
+      cause a write operation to take place.
       This register has the same bit fields as OCX_WIN_WR_DATA.
     inherits: OCX_WIN_WR_DATA
 
@@ -548,8 +551,8 @@ registers:
         typical: --
         description: |
           Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR or OCX_WIN_CMD has been
-          scheduled for transmission. If the command was not expecting a response then a new command
-          may be issued.
+          scheduled for transmission. If the command was not expecting a response, then a new
+          command may be issued.
 
       - name: WIN_RSP
         bits: 48
@@ -863,8 +866,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Bad 64B/67B codeword encountered. Once the bad word reaches the burst control unit (as
-          denoted by OCX_RXx_INT[LANE_BAD_WORD]), it is tossed and all open packets will receive an
+          Bad 64B/67B codeword encountered. Once the bad word reaches the burst control unit, as
+          denoted by OCX_RXx_INT[LANE_BAD_WORD], it is tossed and all open packets will receive an
           error.
 
       - name: STAT_CNT_OVFL
@@ -941,46 +944,42 @@ registers:
       - name: BAD_64B67B
         bits: 8
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
-        description: |
-          Enable bit for Bad 64B/67B codeword encountered.  Once the bad word reaches
-          the burst control unit (as deonted by
-          OCX_RXx_INT[LANE_BAD_WORD]) it will be tossed and all open
-          packets will receive an error.
+        description: Enable bit for Bad 64B/67B codeword encountered.
 
       - name: STAT_CNT_OVFL
         bits: 7
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for RX lane statistic counter overflow.
 
       - name: STAT_MSG
         bits: 6
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem).
 
       - name: DSKEW_FIFO_OVFL
         bits: 5
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for RX deskew FIFO overflow occurred.
 
       - name: SCRM_SYNC_LOSS
         bits: 4
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for 4 consecutive bad sync words or 3 consecutive scramble state mismatches.
 
       - name: UKWN_CNTL_WORD
         bits: 3
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: |
           Enable bit for unknown framing control word. Block type does not match any of (SYNC,
@@ -989,21 +988,21 @@ registers:
       - name: CRC32_ERR
         bits: 2
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for diagnostic CRC32 errors.
 
       - name: BDRY_SYNC_LOSS
         bits: 1
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for RX logic lost word boundary sync after 16 tries.
 
       - name: SERDES_LOCK_LOSS
         bits: 0
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: Enable bit for RX SerDes loses lock.
 
@@ -1339,13 +1338,14 @@ registers:
 
 
   - name: OCX_LNE(0..23)_TRN_LD
+    title: OCX Lane Training Local Device Register
     address: 0x11800110080C0 + a*0x100
     bus: RSL
     fields:
       - name: --
         bits: 63..49
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1366,7 +1366,7 @@ registers:
       - name: --
         bits: 31..17
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1386,6 +1386,7 @@ registers:
 
 
   - name: OCX_LNE(0..23)_TRN_LP
+    title: OCX Lane Training Link Partner Register
     address: 0x11800110080C8 + a*0x100
     bus: RSL
     fields:
@@ -1394,14 +1395,12 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: |
-          Allow software to manually manipulate local device
-          CU/SR by ingoring hardware updated.
+        description: Allow software to manually manipulate local device CU/SR by ignoring hardware updated.
 
       - name: --
         bits: 62..49
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1410,19 +1409,19 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device coefficient update field valid
+        description: Link partner coefficient update field valid
 
       - name: LP_CU_DAT
         bits: 47..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device coefficient update field data
+        description: Link partner coefficient update field data
 
       - name: --
         bits: 31..17
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1431,14 +1430,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device status report field valid
+        description: Link partner status report field valid
 
       - name: LP_SR_DAT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device status report field data
+        description: Link partner status report field data
 
 
   - name: OCX_QLM(0..5)_CFG
@@ -1451,7 +1450,7 @@ registers:
       - name: --
         bits: 63..26
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1461,11 +1460,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Disable bad lane timer.   A timer counts rclks when any enabled lane is not ready, ie.
-          not in the scrambler sync state.  If this timer expires before all enabled lanes can be
-          made ready, then any lane which is not ready is disabled via
-          OCX_QLM(0..5)_CFG.SER_LANE_BAD.
-          This field is not affected by soft or warm reset.
+          Disable bad lane timer. A timer counts core clocks (RCLKs) when any enabled lane is not
+          ready, i.e. not in the scrambler sync state. If this timer expires before all enabled
+          lanes can be made ready, then any lane which is not ready is disabled via
+          OCX_QLM(0..5)_CFG[SER_LANE_BAD]. This field is not affected by soft or warm reset.
 
       - name: TRN_ENA
         bits: 24
@@ -1473,15 +1471,14 @@ registers:
         reset: 0
         typical: --
         description: |
-          Link training will be performed during auto link bringup.   Initialized to 1 during cold
-          reset when OCI_SPD pins indicate speed >6.25 GBAUD. Otherwise, initialized to 0 during a
-          cold reset.
-          This field is not affected by soft or warm reset.
+          Link training enable. Link training is performed during auto link bring up. Initialized to
+          1 during cold reset when OCI_SPD<3:0> pins indicate speed > 6.25 GBAUD. Otherwise,
+          initialized to 0 during a cold reset. This field is not affected by soft or warm reset.
 
       - name: --
         bits: 23..20
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1573,7 +1570,7 @@ registers:
       - name: --
         bits: 63..54
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1583,29 +1580,26 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          QLM manual mask, where each bit corresponds to a QLM.  A link
-          will automatically select a QLM unless either:
-              1. QLM_MANUAL[QLM] is set
-              2. QLM is not eligible for the link
-
-          QLM_MANUAL<0> = LNE( 0..3) = QLM0.
-          QLM_MANUAL<1> = LNE( 7..4) = QLM1.
+          QLM manual mask, where each bit corresponds to a QLM. A link automatically selects a QLM
+          unless either:
+          QLM_MANUAL[QLM] is set
+          QLM is not eligible for the link
+          QLM_MANUAL<0> = LNE(0..3) = QLM0.
+          QLM_MANUAL<1> = LNE(7..4) = QLM1.
           QLM_MANUAL<2> = LNE(11..8) = QLM2.
           QLM_MANUAL<3> = LNE(15..12) = QLM3.
           QLM_MANUAL<4> = LNE(19..16) = QLM4.
           QLM_MANUAL<5> = LNE(23..23) = QLM5.
-
           LINK 0 may not select QLM4, QLM5.
           LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
           LINK 2 may not select QLM0, QLM1.
-
           This field is initialized using the OCI_SPD pins during a cold reset.
           This field is not affected by soft or warm reset.
 
       - name: --
         bits: 47..38
         access: ---
-        reset: 0x0
+        reset: --
         typical: --
         description: Reserved.
 
@@ -1685,16 +1679,16 @@ registers:
 
       - name: RX_MFRM_LEN
         bits: 35..34
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
-          The quantity of data sent on each lane including one sync word, scrambler state, diag
+          The quantity of data received on each lane including one sync word, scrambler state, diag
           word, zero or more skip words, and the data payload.
-          TX_MFRM_LEN = 0 2048 words
-          TX_MFRM_LEN=1 1024 words
-          TX_MFRM_LEN=2 512 words
-          TX_MFRM_LEN=3 128 words
+          0 = 2048 words.
+          1 = 1024 words.
+          2 = 512 words.
+          3 = 128 words.
 
       - name: RX_DIS_UKWN
         bits: 33
@@ -1731,7 +1725,7 @@ registers:
 
       - name: TX_MFRM_LEN
         bits: 3..2
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |

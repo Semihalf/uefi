@@ -84,7 +84,7 @@ structs:
         attributes:
           const: "--"
         description: |
-          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
@@ -142,7 +142,7 @@ structs:
         attributes:
           const: "--"
         description: |
-          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
@@ -229,7 +229,7 @@ structs:
         attributes:
           const: "--"
         description: |
-          Aura number.  Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
@@ -380,7 +380,9 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure alloc/frees.
+        description: |
+          OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
+          alloc/frees. See also HALFRATE.
 
       - name: LVL_DLY
         bits: 9..4
@@ -414,7 +416,7 @@ registers:
         typical: 0
         description: |
           QoS Averaging enable. When set, compute average buffer levels. When clear, do not compute
-          averages and save TBD a few mW of power.
+          averages and save a few mW of power.
 
       - name: --
         bits: 0

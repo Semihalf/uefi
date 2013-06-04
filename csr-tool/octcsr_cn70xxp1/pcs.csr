@@ -7,6 +7,12 @@ registers:
     title: Control Register0
     address: 0x11800B0001000 + a*0x8000000 + b*0x400
     bus: RSL
+    description: |
+      NOTE:
+      Whenever AN_EN bit[12] is set, Auto negotiation is allowed to happen. The results
+      of the auto negotiation process set the fields in the AN_RESULTS reg. When AN_EN is not set,
+      AN_RESULTS reg is don't care. The effective SPD, DUP etc.. get their values
+      from the pcs_mr_ctrl reg.
     fields:
       - name: --
         bits: 63..16
@@ -129,15 +135,18 @@ registers:
 
 
   - name: PCS(0..1)_MR(0..3)_STATUS_REG
+    title: Status Register1
     address: 0x11800B0001008 + a*0x8000000 + b*0x400
     bus: RSL
     description: |
-      NOTE:
-      Whenever AN_EN bit[12] is set, Auto negotiation is allowed to happen. The results
-      of the auto negotiation process set the fields in the AN_RESULTS reg. When AN_EN is not set,
-      AN_RESULTS reg is don't care. The effective SPD, DUP etc.. get their values
-      from the pcs_mr_ctrl reg.
-      PCS_MR_STATUS_REG = Status Register1
+      Bits [15:9] in the Status Register indicate ability to operate as per those signalling
+      specification,
+      when misc ctl reg MAC_PHY bit is set to MAC mode. Bits [15:9] will all, always read 1'b0,
+      indicating
+      that the chip cannot operate in the corresponding modes.
+      Bit [4] RM_FLT is a don't care when the selected mode is SGMII.
+    attributes:
+      dv_force_no_compare: "UVM"
     fields:
       - name: --
         bits: 63..16
@@ -274,16 +283,9 @@ registers:
 
 
   - name: PCS(0..1)_AN(0..3)_ADV_REG
+    title: AN Advertisement Register4
     address: 0x11800B0001010 + a*0x8000000 + b*0x400
     bus: RSL
-    description: |
-      Bits [15:9] in the Status Register indicate ability to operate as per those signalling
-      specification,
-      when misc ctl reg MAC_PHY bit is set to MAC mode. Bits [15:9] will all, always read 1'b0,
-      indicating
-      that the chip cannot operate in the corresponding modes.
-      Bit [4] RM_FLT is a don't care when the selected mode is SGMII.
-      PCS_AN_ADV_REG = AN Advertisement Register4
     fields:
       - name: --
         bits: 63..16
@@ -446,6 +448,10 @@ registers:
     title: AN Results Register
     address: 0x11800B0001020 + a*0x8000000 + b*0x400
     bus: RSL
+    description: |
+      NOTE:
+      an_results_reg is don't care when AN_OVRD is set to 1. If AN_OVRD=0 and AN_CPT=1
+      the an_results_reg is valid.
     fields:
       - name: --
         bits: 63..7
@@ -501,14 +507,10 @@ registers:
 
 
   - name: PCS(0..1)_AN(0..3)_EXT_ST_REG
+    title: AN Extended Status Register15
     address: 0x11800B0001028 + a*0x8000000 + b*0x400
     bus: RSL
-    description: |
-      NOTE:
-      an_results_reg is don't care when AN_OVRD is set to 1. If AN_OVRD=0 and AN_CPT=1
-      the an_results_reg is valid.
-      PCS_AN_EXT_ST_REG = AN Extended Status Register15
-      as per IEEE802.3 Clause 22
+    description: as per IEEE802.3 Clause 22
     fields:
       - name: --
         bits: 63..16
@@ -578,9 +580,13 @@ registers:
 
 
   - name: PCS(0..1)_TX_RX(0..3)_POLARITY_REG
+    title: TX_RX polarity reg
     address: 0x11800B0001048 + a*0x8000000 + b*0x400
     bus: RSL
-    description: PCS_POLARITY_REG = TX_RX polarity reg
+    description: |
+      Note:
+      r_tx_rx_polarity_reg bit [2] will show correct polarity needed on the link receive path after
+      code grp synchronization is achieved.
     fields:
       - name: --
         bits: 63..4
@@ -625,13 +631,9 @@ registers:
 
 
   - name: PCS(0..1)_RX(0..3)_SYNC_REG
+    title: Code Group synchronization reg
     address: 0x11800B0001050 + a*0x8000000 + b*0x400
     bus: RSL
-    description: |
-      Note:
-      r_tx_rx_polarity_reg bit [2] will show correct polarity needed on the link receive path after
-      code grp synchronization is achieved.
-      PCS_RX_SYNC_REG = Code Group synchronization reg
     fields:
       - name: --
         bits: 63..2
@@ -747,7 +749,13 @@ registers:
   - name: PCS(0..1)_SGM(0..3)_AN_ADV_REG
     address: 0x11800B0001068 + a*0x8000000 + b*0x400
     bus: RSL
-    description: SGMII AN Advertisement Register (sent out as tx_config_reg)
+    description: |
+      SGMII AN Advertisement Register (sent out as tx_config_reg)
+      NOTE: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
+      MAC_PHY mode bit in misc_ctl_reg
+      is set (1=PHY mode). If the bit is not set (0=MAC mode), the tx_config_reg[14] becomes ACK bit
+      and [0] is always 1.
+      All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
     fields:
       - name: --
         bits: 63..16
@@ -814,13 +822,7 @@ registers:
   - name: PCS(0..1)_SGM(0..3)_LP_ADV_REG
     address: 0x11800B0001070 + a*0x8000000 + b*0x400
     bus: RSL
-    description: |
-      NOTE: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
-      MAC_PHY mode bit in misc_ctl_reg
-      is set (1=PHY mode). If the bit is not set (0=MAC mode), the tx_config_reg[14] becomes ACK bit
-      and [0] is always 1.
-      All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
-      SGMII LP Advertisement Register (received as rx_config_reg)
+    description: SGMII LP Advertisement Register (received as rx_config_reg)
     fields:
       - name: --
         bits: 63..16
@@ -887,7 +889,19 @@ registers:
   - name: PCS(0..1)_MISC(0..3)_CTL_REG
     address: 0x11800B0001078 + a*0x8000000 + b*0x400
     bus: RSL
-    description: SGMII Misc Control Register
+    description: |
+      SGMII Misc Control Register
+      SGMII bit [12] is really a misnomer, it is a decode  of pi_qlm_cfg pins to indicate SGMII or
+      1000Base-X modes.
+      Note: MODE bit
+      When MODE=1,  1000Base-X mode is selected. Auto negotiation will follow IEEE 802.3 clause 37.
+      When MODE=0,  SGMII mode is selected and the following note will apply.
+      Repeat note from SGM_AN_ADV register
+      NOTE: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
+      MAC_PHY mode bit in misc_ctl_reg
+      is set (1=PHY mode). If the bit is not set (0=MAC mode), the tx_config_reg[14] becomes ACK bit
+      and [0] is always 1.
+      All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
     fields:
       - name: --
         bits: 63..13
@@ -978,18 +992,14 @@ registers:
     address: 0x11800B0001080 + a*0x8000000 + b*0x400
     bus: RSL
     description: |
-      SGMII bit [12] is really a misnomer, it is a decode  of pi_qlm_cfg pins to indicate SGMII or
-      1000Base-X modes.
-      Note: MODE bit
-      When MODE=1,  1000Base-X mode is selected. Auto negotiation will follow IEEE 802.3 clause 37.
-      When MODE=0,  SGMII mode is selected and the following note will apply.
-      Repeat note from SGM_AN_ADV register
-      NOTE: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
-      MAC_PHY mode bit in misc_ctl_reg
-      is set (1=PHY mode). If the bit is not set (0=MAC mode), the tx_config_reg[14] becomes ACK bit
-      and [0] is always 1.
-      All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
       PCS Interrupt Register
+      NOTE: RXERR and TXERR conditions to be discussed with Dan before finalising
+      DBG_SYNC interrupt fires when code group synchronization state machine makes a transition from
+      SYNC_ACQUIRED_1 state to SYNC_ACQUIRED_2 state(See IEEE 802.3-2005 figure 37-9). It is an
+      indication that a bad code group
+      was received after code group synchronizaton was achieved. This interrupt should be disabled
+      during normal link operation.
+      Use it as a debug help feature only.
     fields:
       - name: --
         bits: 63..13
@@ -1114,15 +1124,7 @@ registers:
   - name: PCS(0..1)_INT(0..3)_EN_REG
     address: 0x11800B0001088 + a*0x8000000 + b*0x400
     bus: RSL
-    description: |
-      NOTE: RXERR and TXERR conditions to be discussed with Dan before finalising
-      DBG_SYNC interrupt fires when code group synchronization state machine makes a transition from
-      SYNC_ACQUIRED_1 state to SYNC_ACQUIRED_2 state(See IEEE 802.3-2005 figure 37-9). It is an
-      indication that a bad code group
-      was received after code group synchronizaton was achieved. This interrupt should be disabled
-      during normal link operation.
-      Use it as a debug help feature only.
-      PCS Interrupt Enable Register
+    description: PCS Interrupt Enable Register
     fields:
       - name: --
         bits: 63..13
@@ -1226,7 +1228,13 @@ registers:
   - name: PCS(0..1)_LOG_ANL(0..3)_REG
     address: 0x11800B0001090 + a*0x8000000 + b*0x400
     bus: RSL
-    description: PCS Logic Analyzer Register
+    description: |
+      PCS Logic Analyzer Register
+      NOTE: Logic Analyzer is enabled with LA_EN for the specified PCS lane only. PKT_SZ is
+      effective only when LA_EN=1
+      For normal operation(sgmii or 1000Base-X), this bit must be 0.
+      See pcsx.csr for xaui logic analyzer mode.
+      For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
     fields:
       - name: --
         bits: 63..4
@@ -1268,11 +1276,6 @@ registers:
     address: 0x11800B00010A0 + a*0x8000000 + b*0x400
     bus: RSL
     description: |
-      NOTE: Logic Analyzer is enabled with LA_EN for the specified PCS lane only. PKT_SZ is
-      effective only when LA_EN=1
-      For normal operation(sgmii or 1000Base-X), this bit must be 0.
-      See pcsx.csr for xaui logic analyzer mode.
-      For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
       PCS SERDES Credit Count
       INTERNAL: Do not add this register to the HRM
     fields:
@@ -1289,9 +1292,39 @@ registers:
         reset: 0x10
         typical: 0x10
         description: |
-          SERDES Credit Count
-          Valid rand is 1-31
-          Value of zero will disable the port
+          PCS to SERDES FIFO credit count
+          Valid range is 1-30
+          Recommended value is 16 for all full-duplex operations; 12 for half-duplex operation.
+          Some clock ratios may require a larger setting of 20.
+          Value of zero will disable TX packet flow on the port
+          Value of 31   is reserved.
+
+
+  - name: PCS(0..1)_MAC_CRDT_CNT(0..3)_REG
+    address: 0x11800B00010B0 + a*0x8000000 + b*0x400
+    bus: RSL
+    description: |
+      PCS MAC Credit Count
+      INTERNAL: Do not add this register to the HRM
+    fields:
+      - name: --
+        bits: 63..5
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 4..0
+        access: R/W
+        reset: 0x8
+        typical: 0x8
+        description: |
+          MAC to PCS FIFO credit count
+          Valid range is 1-16
+          Recommended value is 8 for all full-duplex operations; 4 for half-duplex operation.
+          Value  of zero  will disable TX packet flow on the port
+          Values of 17-31 are reserved.
 
 
 

@@ -141,6 +141,7 @@ def build_struct(chip_info, struct):
         if "attributes" in field:
             check_keys("struct.fields[attributes]", field["attributes"], [
                        "const",                     # Field has a constant value
+                       "verilog_struct_row_offset", # FIXME?
                        "wqe_related_field_name"])   # Affects this WQE field. Text not well formated
             # FIXME: What to do with attributes?
         chip_field = ChipStructField(name, None, start_bit, stop_bit, description)
@@ -171,7 +172,9 @@ def build_csr(chip_info, register, raw):
     if "attributes" in register:
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
+                   "dv_force_no_compare",
                    "min_stride",
+                   "mem_to_csr",
                    "regtest_alias",
                    "regtest_skip",
                    "rtlgen_cib",
@@ -213,6 +216,7 @@ def build_csr(chip_info, register, raw):
            check_keys("register.field[attributes]", field["attributes"], [
                       "no_soft_reset",
                       "dv_uvm_force_compare",
+                      "dv_uvm_cov_val_disable",
                       "regtest_force",
                       "uvm_default_constraint"])
         name = field["name"]

@@ -514,7 +514,8 @@ registers:
               INTERNAL: 0x41 =  76.8MHz on DLMC_REF_CLK*
               INTERNAL: 0x1A =  96  MHz on DLMC_REF_CLK*
               0x19 =  100 MHz on DLMC_REF_CLK*
-              INTERNAL: 0x30 =  104 MHz on DLMC_REF_CLK*
+              INTERNAL: 0x30 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x1
+              INTERNAL: 0x18 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x0
               0x28 =  125 MHz on DLMC_REF_CLK*
               INTERNAL: 0x19 =  200 MHz on DLMC_REF_CLK*
           All other values are reserved.
@@ -548,6 +549,7 @@ registers:
             If REF_CLK_SEL = 0x2 or 0x3, then:
               0x1: if DLMC_REF_CLK* is 125MHz.
               INTERNAL: 0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
+              INTERNAL: 0x0 or 0x1 if DLMC_REF_CLK* is 104MHz (depending on MPLL_MULTIPLIER setting)
               0x0: if DLMC_REF_CLK* is another supported frequency (see list in
                    MPLL_MULTIPLIER description).
           This value can be changed only during UPHY_RST.

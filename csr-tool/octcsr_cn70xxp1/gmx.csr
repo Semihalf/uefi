@@ -2391,6 +2391,58 @@ registers:
           (SGMII/1000Base-X only)
 
 
+  - name: GMX(0..1)_TX(0..3)_JAM_MODE
+    address: 0x1180008000380 + a*0x8000000 + b*0x800
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MODE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When forming halfdup JAM packets use either the incoming SOP or CRS event to begin packet
+          creation.
+          0 = SOP
+          1 = CRS
+          (SGMII/1000Base-X halfdup only)
+
+
+  - name: GMX(0..1)_TX(0..3)_BCK_CRDT
+    address: 0x1180008000388 + a*0x8000000 + b*0x800
+    bus: RSL
+    description: |
+      gmi_tx_bck to gmi_tx_out credit count register
+      INTERNAL: Do not add this register to the HRM
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CNT
+        bits: 3..0
+        access: R/W
+        reset: 0x6
+        typical: 0x6
+        description: |
+          Transmit BCK to OUT credit count
+          Valid range is 1-8
+          Recommended value is 6 (reset value) for all full-duplex operations; 4 for half-duplex
+          operation.
+          Value  of zero  will disable TX packet flow on the port
+          Other values are reserved.
+
+
   - name: GMX(0..1)_BIST
     title: GMX BIST Results
     address: 0x1180008000400 + a*0x8000000

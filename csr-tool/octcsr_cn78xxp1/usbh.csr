@@ -447,7 +447,8 @@ registers:
               0x41 =  76.8MHz on the external reference clock
               0x1A =  96  MHz on the external reference clock
               0x19 = 100  MHz on the external reference clock
-              0x30 = 104  MHz on the external reference clock
+              0x18 = 104  MHz on the external reference clock if REF_CLK_DIV2 is 0x0
+              0x30 = 104  MHz on the external reference clock if REF_CLK_DIV2 is 0x1
               0x28 = 125  MHz on the external reference clock
               0x19 = 200  MHz on the external reference clock
             If REF_CLK_SEL = 0x3 then:
@@ -484,8 +485,10 @@ registers:
               all reference clock frequencies: 0x0 is the only legal value.
             If REF_CLK_SEL = 0x1, then:
               0x1: if external reference clock is 125MHz, 40MHz, 76.8MHz, or 200MHz.
-              0x0: if external reference clock is another supported frequency (see list in
-                   MPLL_MULTIPLIER description).
+              0x0 or 0x: if external reference clock is 104MHz (depending on MPLL_MULTIPLIER
+          setting)
+              0x0: if external reference clock is another supported frequency,
+                   (see list in MPLL_MULTIPLIER description).
             If REF_CLK_SEL = 0x3 then:
               0x0 is the only legal value.
           This value can be changed only during UPHY_RST.

@@ -3,9 +3,9 @@
 ---
 name: DTX
 registers:
-  - name: DTX_L2C_TAD(0)_SEL(0..1)
-    title: DTX L2C_TAD(0) Select Register
-    address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
+  - name: DTX_PKI_PFE_SEL(0..1)
+    title: DTX PKI_PFE Select Register
+    address: 0x11800FE000000 | ((68) << 15)|a<<3
     bus: RSL
     fields:
       - name: --
@@ -20,12 +20,14 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 
 
-  - name: DTX_L2C_TAD(0)_ENA(0..1)
-    title: DTX L2C_TAD(0) Mask Register
-    address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
+  - name: DTX_PKI_PFE_ENA(0..1)
+    title: DTX PKI_PFE Mask Register
+    address: 0x11800FE000020 | ((68) << 15)|a<<3
     bus: RSL
     fields:
       - name: --
@@ -40,14 +42,16 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
           will drive each bit.
 
 
-  - name: DTX_L2C_TAD(0)_DAT(0..1)
-    title: DTX L2C_TAD(0) Raw Data Register
-    address: 0x11800FE000040 + ((0x48 + (a)) << 15) + (b*8)
+  - name: DTX_PKI_PFE_DAT(0..1)
+    title: DTX PKI_PFE Raw Data Register
+    address: 0x11800FE000040 | ((68) << 15)|a<<3
     bus: RSL
     fields:
       - name: --
@@ -59,17 +63,19 @@ registers:
 
       - name: RAW
         bits: 35..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
           peek into blocks during an OCLA capture without OCLA reconfiguration.
 
 
-  - name: DTX_L2C_TAD(0)_CTL
-    title: DTX L2C_TAD(0) Control Register
-    address: 0x11800FE000060 + ((0x48 + (a)) << 15)
+  - name: DTX_PKI_PFE_CTL
+    title: DTX PKI_PFE Control Register
+    address: 0x11800FE220060
     bus: RSL
     fields:
       - name: --
@@ -110,9 +116,9 @@ registers:
         description: Swap the high and low 36-bit debug bus outputs.
 
 
-  - name: DTX_L2C_TAD(0)_BCST_RSP
-    title: DTX L2C_TAD(0) Control Register
-    address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+  - name: DTX_PKI_PFE_BCST_RSP
+    title: DTX PKI_PFE Control Register
+    address: 0x11800FE220080
     bus: RSL
     fields:
       - name: --
@@ -130,65 +136,125 @@ registers:
         description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 
 
-  - name: DTX_L2C_MCI(0)_SEL(0..1)
-    title: DTX L2C_MCI(0) Select Register
+  - name: DTX_PKI_PBE_SEL(0..1)
+    title: DTX PKI_PBE Select Register
+    address: 0x11800FE000000 | ((69) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_SEL(0..1)
+
+  - name: DTX_PKI_PBE_ENA(0..1)
+    title: DTX PKI_PBE Mask Register
+    address: 0x11800FE000020 | ((69) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_ENA(0..1)
+
+  - name: DTX_PKI_PBE_DAT(0..1)
+    title: DTX PKI_PBE Raw Data Register
+    address: 0x11800FE000040 | ((69) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_DAT(0..1)
+
+  - name: DTX_PKI_PBE_CTL
+    title: DTX PKI_PBE Control Register
+    address: 0x11800FE228060
+    bus: RSL
+    inherits: DTX_PKI_PFE_CTL
+
+  - name: DTX_PKI_PBE_BCST_RSP
+    title: DTX PKI_PBE Control Register
+    address: 0x11800FE228080
+    bus: RSL
+    inherits: DTX_PKI_PFE_BCST_RSP
+
+  - name: DTX_L2C_TAD(0..3)_SEL(0..1)
+    title: DTX L2C_TAD(0..3) Select Register
+    address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_SEL(0..1)
+
+  - name: DTX_L2C_TAD(0..3)_ENA(0..1)
+    title: DTX L2C_TAD(0..3) Mask Register
+    address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_ENA(0..1)
+
+  - name: DTX_L2C_TAD(0..3)_DAT(0..1)
+    title: DTX L2C_TAD(0..3) Raw Data Register
+    address: 0x11800FE000040 + ((0x48 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_DAT(0..1)
+
+  - name: DTX_L2C_TAD(0..3)_CTL
+    title: DTX L2C_TAD(0..3) Control Register
+    address: 0x11800FE000060 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_PKI_PFE_CTL
+
+  - name: DTX_L2C_TAD(0..3)_BCST_RSP
+    title: DTX L2C_TAD(0..3) Control Register
+    address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_PKI_PFE_BCST_RSP
+
+  - name: DTX_L2C_MCI(0..3)_SEL(0..1)
+    title: DTX L2C_MCI(0..3) Select Register
     address: 0x11800FE000000 + ((0x5c + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_SEL(0..1)
+    inherits: DTX_PKI_PFE_SEL(0..1)
 
-  - name: DTX_L2C_MCI(0)_ENA(0..1)
-    title: DTX L2C_MCI(0) Mask Register
+  - name: DTX_L2C_MCI(0..3)_ENA(0..1)
+    title: DTX L2C_MCI(0..3) Mask Register
     address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_ENA(0..1)
+    inherits: DTX_PKI_PFE_ENA(0..1)
 
-  - name: DTX_L2C_MCI(0)_DAT(0..1)
-    title: DTX L2C_MCI(0) Raw Data Register
+  - name: DTX_L2C_MCI(0..3)_DAT(0..1)
+    title: DTX L2C_MCI(0..3) Raw Data Register
     address: 0x11800FE000040 + ((0x5c + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_DAT(0..1)
+    inherits: DTX_PKI_PFE_DAT(0..1)
 
-  - name: DTX_L2C_MCI(0)_CTL
-    title: DTX L2C_MCI(0) Control Register
+  - name: DTX_L2C_MCI(0..3)_CTL
+    title: DTX L2C_MCI(0..3) Control Register
     address: 0x11800FE000060 + ((0x5c + (a)) << 15)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_CTL
+    inherits: DTX_PKI_PFE_CTL
 
-  - name: DTX_L2C_MCI(0)_BCST_RSP
-    title: DTX L2C_MCI(0) Control Register
+  - name: DTX_L2C_MCI(0..3)_BCST_RSP
+    title: DTX L2C_MCI(0..3) Control Register
     address: 0x11800FE000080 + ((0x5c + (a)) << 15)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_BCST_RSP
+    inherits: DTX_PKI_PFE_BCST_RSP
 
-  - name: DTX_L2C_CBC(0)_SEL(0..1)
-    title: DTX L2C_CBC(0) Select Register
+  - name: DTX_L2C_CBC(0..3)_SEL(0..1)
+    title: DTX L2C_CBC(0..3) Select Register
     address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_SEL(0..1)
+    inherits: DTX_PKI_PFE_SEL(0..1)
 
-  - name: DTX_L2C_CBC(0)_ENA(0..1)
-    title: DTX L2C_CBC(0) Mask Register
+  - name: DTX_L2C_CBC(0..3)_ENA(0..1)
+    title: DTX L2C_CBC(0..3) Mask Register
     address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_ENA(0..1)
+    inherits: DTX_PKI_PFE_ENA(0..1)
 
-  - name: DTX_L2C_CBC(0)_DAT(0..1)
-    title: DTX L2C_CBC(0) Raw Data Register
+  - name: DTX_L2C_CBC(0..3)_DAT(0..1)
+    title: DTX L2C_CBC(0..3) Raw Data Register
     address: 0x11800FE000040 + ((0x84 + (a)) << 15) + (b*8)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_DAT(0..1)
+    inherits: DTX_PKI_PFE_DAT(0..1)
 
-  - name: DTX_L2C_CBC(0)_CTL
-    title: DTX L2C_CBC(0) Control Register
+  - name: DTX_L2C_CBC(0..3)_CTL
+    title: DTX L2C_CBC(0..3) Control Register
     address: 0x11800FE000060 + ((0x84 + (a)) << 15)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_CTL
+    inherits: DTX_PKI_PFE_CTL
 
-  - name: DTX_L2C_CBC(0)_BCST_RSP
-    title: DTX L2C_CBC(0) Control Register
+  - name: DTX_L2C_CBC(0..3)_BCST_RSP
+    title: DTX L2C_CBC(0..3) Control Register
     address: 0x11800FE000080 + ((0x84 + (a)) << 15)
     bus: RSL
-    inherits: DTX_L2C_TAD(0)_BCST_RSP
+    inherits: DTX_PKI_PFE_BCST_RSP
 
   - name: DTX_BROADCAST_SEL(0..1)
     title: DTX BROADCAST Select Register
@@ -207,6 +273,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 
 
@@ -227,6 +295,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
           will drive each bit.

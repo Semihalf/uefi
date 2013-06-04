@@ -1002,7 +1002,8 @@ registers:
           one and two times this interval an IOBDMA request waiting for a packet will return no-data
           as defined in Interlaken Control Word.
           0x0 = Timeout between 256 and 511 cycles
-          0x1 = Timeout between 512 and 765 cycles
+          0x1 = Timeout between 512 and 1023 cycles
+          0x2 = Timeout between 768 and 1535 cycles
           etc.
 
       - name: --
@@ -1022,7 +1023,8 @@ registers:
           one and two times this interval an in-flight LAB will be considered lost and marked as
           RECEIVED with error. RESP must be set to >= (2 * LAP0/1_TIMEOUT[IOBDMA] + 1).
           0x0 = Timeout between 256 and 511 cycles
-          0x1 = Timeout between 512 and 765 cycles
+          0x1 = Timeout between 512 and 1023 cycles
+          0x2 = Timeout between 768 and 1535 cycles
           etc.
 
 
@@ -1515,7 +1517,8 @@ registers:
         typical: --
         description: |
           LAB number that is at head of the PROCESSING or RECEIVED state list in this queue.
-          Unspecified if [LABS_PROC]+[LABS_RX]=0.
+          Unspecified if [LABS_PROC]+[LABS_RX]=0. Valid for exception queue QUE(2) only, otherwise
+          diagnostic use only.
 
       - name: --
         bits: 23..21
@@ -1543,7 +1546,9 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Number of LABs in RECEIVED state in this queue.
+        description: |
+          Number of LABs in RECEIVED state in this queue. Valid for exception queue QUE(2) only,
+          otherwise diagnostic use only.
 
 
   - name: LAP(0..1)_LAB(0..255)_STATE

@@ -20,6 +20,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 
 
@@ -40,6 +42,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
           will drive each bit.
@@ -59,9 +63,11 @@ registers:
 
       - name: RAW
         bits: 35..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
           peek into blocks during an OCLA capture without OCLA reconfiguration.
@@ -370,6 +376,36 @@ registers:
     bus: RSL
     inherits: DTX_MIO_BCST_RSP
 
+  - name: DTX_SATA_SEL(0..1)
+    title: DTX SATA Select Register
+    address: 0x11800FE000000 | ((108) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_SATA_ENA(0..1)
+    title: DTX SATA Mask Register
+    address: 0x11800FE000020 | ((108) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_SATA_DAT(0..1)
+    title: DTX SATA Raw Data Register
+    address: 0x11800FE000040 | ((108) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_SATA_CTL
+    title: DTX SATA Control Register
+    address: 0x11800FE360060
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_SATA_BCST_RSP
+    title: DTX SATA Control Register
+    address: 0x11800FE360080
+    bus: RSL
+    inherits: DTX_MIO_BCST_RSP
+
   - name: DTX_L2C_CBC(0..0)_SEL(0..1)
     title: DTX L2C_CBC(0..0) Select Register
     address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
@@ -567,6 +603,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
 
 
@@ -587,6 +625,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          dv_uvm_cov_val_disable: "True"
         description: |
           Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
           will drive each bit.
