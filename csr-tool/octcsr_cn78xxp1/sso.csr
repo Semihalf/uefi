@@ -3001,11 +3001,11 @@ registers:
       - name: RSVD_THR
         bits: 10..0
         access: R/W
-        reset: 0x2
+        reset: 0x3
         typical: --
         description: |
           Reserved threshold for this transitory admission queue, in buffers of 13 entries. Must be
-          at least 2 buffers for any groups that are to be used. Changes to this field must also
+          at least 3 buffers for any groups that are to be used. Changes to this field must also
           update SSO_TAQ_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this group.
 
 

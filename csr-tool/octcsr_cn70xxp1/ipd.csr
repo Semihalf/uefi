@@ -2321,10 +2321,9 @@ registers:
     description: |
       See the description for IPD_PORT_QOS_@_CNT
       0=P0-7; 1=P8-15; 2=P16-23; 3=P24-31; 4=P32-39; 5=P40-47; 6=P48-55; 7=P56-63
-      Only ports used are: P0-3, P32-39, and P40-47. Therefore only IPD_PORT_QOS_INT0,
-      IPD_PORT_QOS_INT4,
-      and IPD_PORT_QOS_INT5 exist and, furthermore:  <63:32> of IPD_PORT_QOS_INT0,
-      are reserved.
+      Only ports used are: P0-3, p16-19, P24, P32-39. Therefore only IPD_PORT_QOS_INT0 ([63:32] ==
+      Reserved), IPD_PORT_QOS_INT2 ([63:32] == Reserved), IPD_PORT_QOS_INT3 ([63:8] == Reserved),
+      IPD_PORT_QOS_INT4
     fields:
       - name: INTR
         bits: 63..0

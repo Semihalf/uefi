@@ -13,7 +13,7 @@ enums:
   - name: ASE_ENDIAN_E
     attributes:
       width: "2"
-    description: Endian mode selection. TODO reduce this down to 2 modes (big/little).
+    description: Endian mode selection.
     values:
       - name: "NONE"
         value: 2'h0
@@ -113,18 +113,6 @@ enums:
         attributes:
           cib_rtl_module: "ase"
         description: See ASE_GEN_INT[LUE_TIC_BAD_WRITE].
-
-      - name: ASE_LUE_BIC_MISS
-        value: 0xDD023
-        attributes:
-          cib_rtl_module: "ase"
-        description: See ASE_GEN_INT[LUE_BIC_MISS].
-
-      - name: ASE_LUE_BIC_MULTI_HIT
-        value: 0xDD024
-        attributes:
-          cib_rtl_module: "ase"
-        description: See ASE_GEN_INT[LUE_BIC_MULTI_HIT].
 
       - name: ASE_LUE_HR_ERR_LOG
         value: 0xDD025
@@ -240,18 +228,6 @@ enums:
           cib_rtl_module: "ase"
         description: See ASE_ECC_INT[LUE_RFT_DBE].
 
-      - name: ASE_ECC_LUE_BMT_SBE
-        value: 0xDD066
-        attributes:
-          cib_rtl_module: "ase"
-        description: See ASE_ECC_INT[LUE_BMT_SBE].
-
-      - name: ASE_ECC_LUE_BMT_DBE
-        value: 0xDD067
-        attributes:
-          cib_rtl_module: "ase"
-        description: See ASE_ECC_INT[LUE_BMT_DBE].
-
       - name: ASE_ECC_LUE_RUL_SBE
         value: 0xDD068
         attributes:
@@ -299,10 +275,6 @@ enums:
           can only be triggered by a host access and thus
           is only used when ASE_LUE_ERROR_LOG[ERROR_ID] == HR_ERR_LOG.
 
-      - name: BMT_SBE
-        value: 0x02
-        description: A single-bit error occurred in RMC Block Mask Register Tables.
-
       - name: RFT_SBE
         value: 0x03
         description: A single-bit error occurred in HST and RMC Rule Format Tables.
@@ -331,11 +303,7 @@ enums:
 
       - name: INVALID_REQ
         value: 0x09
-        description: An invalid lookup request was observed.
-
-      - name: BMT_DBE
-        value: 0x0A
-        description: A double-bit error occurred in RMC Block Mask Register Tables.
+        description: An invalid access during a lookup request was observed.
 
       - name: RFT_DBE
         value: 0x0B
@@ -352,14 +320,6 @@ enums:
       - name: RUL_DBE
         value: 0x0E
         description: A double-bit error occurred in RMC Buffer Aligner Wrapper Rule FIFO.
-
-      - name: BIC_MULTI_HIT
-        value: 0x0F
-        description: A BIC lookup request resulted in multiple entries reporting a hit.
-
-      - name: BIC_MISS
-        value: 0x10
-        description: A BIC lookup request did not match a valid entry.
 
       - name: TIC_BAD_WRITE
         value: 0x11
@@ -517,14 +477,6 @@ enums:
         value: 0xA
         description: Rule Format Table.
 
-      - name: BIC
-        value: 0xB
-        description: BMT Indirection CAM.
-
-      - name: BMT
-        value: 0xC
-        description: Block Mask Table.
-
 
   - name: ASE_RSP_ERR_E
     attributes:
@@ -585,164 +537,94 @@ enums:
 
 
 structs:
-  - name: ASE_LUE_ERROR_LOG_BIC_S
-    description: |
-      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
-      ASE_LUE_ERROR_LOG[ERROR_ID] == BIC_MISS or BIC_MULTI_HIT.
-    fields:
-      - name: TID
-        bits: 5..0
-        attributes:
-          const: "--"
-        description: Tree ID for the error.
-
-      - name: --
-        bits: 47..6
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-
-  - name: ASE_LUE_ERROR_LOG_BMT_ECC_S
-    description: |
-      Error log structure for ASE_LUE_ERROR_LOG[DATA] when
-      ASE_LUE_ERROR_LOG[ERROR_ID] == BMT_DBE or BMT_SBE.
-    fields:
-      - name: SYNDROME
-        bits: 7..0
-        attributes:
-          const: "--"
-        description: Syndrome of the ECC error.
-
-      - name: --
-        bits: 15..8
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-      - name: ADDR
-        bits: 20..16
-        attributes:
-          const: "--"
-        description: Memory request address.
-
-      - name: --
-        bits: 23..21
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-      - name: MEMID
-        bits: 26..24
-        attributes:
-          const: "--"
-        description: |
-          Indicates which of the 4 BMT copies had the failure:
-            0   = reserved
-            1   = RMC0
-            2   = RMC1
-            3   = RMC2
-            4   = RMC3
-            5-7 = Unused
-          Priority is RMC0 > RMC1 > RMC2 > RMC3.
-
-      - name: --
-        bits: 30..27
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-      - name: REQTYPE
-        bits: 31
-        attributes:
-          const: "--"
-        description: |
-          Request Type as follows: 0 = Host, 1 = Lookup.
-
-      - name: ID
-        bits: 40..32
-        attributes:
-          const: "--"
-        description: |
-          If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
-          If REQTYPE=Lookup, this will be 0x0.
-
-      - name: --
-        bits: 43..41
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-      - name: COL
-        bits: 46..44
-        attributes:
-          const: "--"
-        description: |
-          Indicates which of the 8 columns within the BMT had the failure:
-          Priority is col0 > col1 > ... > col7.
-
-      - name: --
-        bits: 47
-        attributes:
-          const: "0x0"
-        description: Reserved.
-
-
   - name: ASE_LUE_ERROR_LOG_INVREQ_S
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when
       ASE_LUE_ERROR_LOG[ERROR_ID] == INVALID_REQ.
+      Multiple errors can occur on the same cycle, see prioritization notes below.
     fields:
-      - name: KDTSIZM1
+      - name: FIELD0
         bits: 1..0
         attributes:
           const: "--"
-        description: Required Key Size
+        description: |
+          Meaning depends on ENGTYPE and REQSRC.
+          If ENGTYPE=0x0 and REQSRC=0x0, this field contains the Lookup Required Key Size
+          (KDTsizM1).
+          If ENGTYPE=0x0 and REQSRC=0x2, this field contains the Remote Request Tree Type.
+          For other ENGTYPE and REQSRC combinations, this field is unused.
 
-      - name: KRQSIZM1
+      - name: FIELD1
         bits: 3..2
         attributes:
           const: "--"
-        description: Request Key Size
+        description: |
+          Meaning depends on ENGTYPE and REQSRC. If ENGTYPE=0x0 and REQSRC=0x0, this field contains
+          the Lookup Request Key Size (KRQsizM1). If ENGTYPE=0x0 and REQSRC=0x2, this field contains
+          the Remote Request Type. For other ENGTYPE and REQSRC combinations, this field is unused.
 
       - name: SXID
         bits: 6..4
         attributes:
           const: "--"
-        description: Sub-Tree ID
+        description: Sub-Tree ID.
 
       - name: TID
         bits: 12..7
         attributes:
           const: "--"
-        description: Tree ID for the error.
+        description: |
+          Tree ID for the error.
+          Note that if ENGTYPE=0x1, then the most-significant bit of the TID is unavailable
+          in this report and will be masked to 0x0.
 
-      - name: BMR_SEL
-        bits: 14..13
+      - name: --
+        bits: 15..13
         attributes:
-          const: "--"
-        description: BMR Select.
-
-      - name: BMR_EN
-        bits: 15
-        attributes:
-          const: "--"
-        description: BMR Enable.
+          const: "0x0"
+        description: Reserved.
 
       - name: DESTCLSTR
         bits: 18..16
         attributes:
           const: "--"
-        description: Destination Cluster
+        description: Destination Cluster.
 
       - name: ENG_ID
         bits: 23..19
         attributes:
           const: "--"
-        description: Tree Walk Engine ID.
+        description: Tree/Bucket/Rule Walk Engine ID.
+
+      - name: REQSRC
+        bits: 25..24
+        attributes:
+          const: "--"
+        description: |
+          Request source of the invalid access. Encoding depends on ENGTYPE.
+          If ENGTYPE=0x0, then:
+            0x0 = New Request
+            0x1 = Outbound Remote OCM Request from Tree Walk Engine
+            0x2 = Outbound Tree Migration Request
+            0x3 = Outbound Bucket Migration Request
+            Priority order is New>Migrate>Remote.
+          If ENGTYPE=0x1, then:
+            0x1 = Outbound Remote OCM Request from Bucket Walk Engine
+            0x2 = Outbound Remote OCM Request from Rule Walk Engine
+            others = reserved.
+
+      - name: ENGTYPE
+        bits: 26
+        attributes:
+          const: "--"
+        description: |
+          Engine that generated the invalid request.
+          0x0 = Tree Walk Engine
+          0x1 = Bucket/Rule Walk Engine
+          Priority is BWE/RWE>TWE.
 
       - name: --
-        bits: 47..24
+        bits: 47..27
         attributes:
           const: "0x0"
         description: Reserved.
@@ -781,8 +663,6 @@ structs:
             0x0 = TIC
             0x1 = TAT
             0x2 = RFT
-            0x4 = BIC
-            0x5 = BMT
           Other values are reserved.
           INTERNAL: Maps to lcc_tbl_id_t in luc_globals.svh.
 
@@ -846,20 +726,8 @@ structs:
           const: "--"
         description: Tree ID of this error.
 
-      - name: BMR_SEL
-        bits: 31..30
-        attributes:
-          const: "--"
-        description: BMR Select for the error.
-
-      - name: BMR_EN
-        bits: 32
-        attributes:
-          const: "--"
-        description: BMR Enable for the error.
-
       - name: --
-        bits: 38..33
+        bits: 38..30
         attributes:
           const: "0x0"
         description: Reserved.
@@ -1122,7 +990,7 @@ structs:
           const: "--"
         description: |
           If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
-          If REQTYPE=Lookup, this will be {BMR_En, BMR_Sel, Tree ID}.
+          If REQTYPE=Lookup, this will be {Tree ID}.
 
       - name: --
         bits: 47..41
@@ -1142,20 +1010,8 @@ structs:
           const: "--"
         description: Tree ID for the error.
 
-      - name: BMR_SEL
-        bits: 7..6
-        attributes:
-          const: "--"
-        description: BMR Select for the error.
-
-      - name: BMR_EN
-        bits: 8
-        attributes:
-          const: "--"
-        description: BMR Enable for the error.
-
       - name: --
-        bits: 31..9
+        bits: 31..6
         attributes:
           const: "0x0"
         description: Reserved.
@@ -1190,20 +1046,8 @@ structs:
           const: "--"
         description: Tree ID for the error.
 
-      - name: BMR_SEL
-        bits: 7..6
-        attributes:
-          const: "--"
-        description: BMR Select for the error.
-
-      - name: BMR_EN
-        bits: 8
-        attributes:
-          const: "--"
-        description: BMR Enable for the error.
-
       - name: --
-        bits: 47..9
+        bits: 47..6
         attributes:
           const: "0x0"
         description: Reserved.
@@ -1425,23 +1269,7 @@ structs:
         description: Channel Number. ASE will only work requests to Channel 0.
 
       - name: --
-        bits: 36..33
-        description: Ignored by ASE.
-
-      - name: BMRSEL
-        bits: 38..37
-        description: Block Mask Register Select for LU_REQs.
-
-      - name: --
-        bits: 41..39
-        description: Ignored by ASE.
-
-      - name: BMREN
-        bits: 42
-        description: Block Mask Register Enable for LU_REQs.
-
-      - name: --
-        bits: 43
+        bits: 43..33
         description: Ignored by ASE.
 
       - name: GID
@@ -1514,17 +1342,14 @@ structs:
             LRT:      Use bits TABROW<30..25> for rows 0-63.
             LRT_INFO: Use bits TABROW<30..25> for rows 0-63.
             TXBUF:    Use bits TABROW<31..25> for rows 0-128.
-            BIC:      Use bits TABROW<29..25> for rows 0-31.
-            BMT:      Use bits TABROW<29..25> for rows 0-31.
-                      Use bits TABROW<34..32> to indicate which BMT instance.
             RFT:      Use bits TABROW<30..25> for rows 0-63.
                       Use bits TABROW<34..32> to indicate which RFT instance.
             TIC:      Use bits TABROW<31..25> for rows 0-95.
             TAT:      Use bits TABROW<32..25> for rows 0-191.
           For per-instance access:
-            A write to any valid row will be propagated to all RFT and BMT modules.
-            A read to any valid row will be directed to the specific RFT and BMT module.
-            Encoding: 0x0=HST (no BMT in HST block); 0x1=RMC0; 0x2=RMC1; 0x3=RMC2; 0x4=RMC3.
+            A write to any valid row will be propagated to all RFT modules.
+            A read to any valid row will be directed to the specific RFT module.
+            Encoding: 0x0=HST; 0x1=RMC0; 0x2=RMC1; 0x3=RMC2; 0x4=RMC3.
           All other TABROW values are reserved and should be set to zero.
           Unused TABROW bits must be set to zero.
           "
@@ -1539,7 +1364,6 @@ structs:
             0x1: accesses dimensions 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
             0x2: accesses dimension 0, keymap, and valids using ASE_TBLDAT_PHT_COL2_S.
             others: reserved.
-          For BMT: The 640-bit BMT is accessed as 80-bits in 8 columns using ASE_TBLDAT_BMT_COL_S.
           For all other tables: set to zero.
           "
 
@@ -1608,62 +1432,6 @@ structs:
         description: Match result for SXID 2.
 
 
-  - name: ASE_TBLDAT_BIC_S
-    description: |
-      "
-      BMT Indirection CAM as seen by software during 128-bit table read/write accesses.
-      CAM-addressed by TID. Maps the TID to entires in the BMT. There are 32 entries in
-      the BIC.
-
-      The Key Request's TID is CAM'ed against all entries in the BIC, and if a match occurs,
-      the match's address is used to index into 1 (of 32) BMT entries. Software will write the
-      TID value at a given entry in the BIC which corresponds with the associated BMT entry.
-
-      NOTE: All TIDs marked with VLD=1 in the BIC must be unique.
-      INTERNAL: Copied from bic_entry_t in luc_cav_globals.svh
-      "
-    fields:
-      - name: TID
-        bits: w0(5..0)
-        description: Tree ID associated with the correspnding BMT entry.
-
-      - name: VLD
-        bits: w0(6)
-        description: Entry is valid.
-
-      - name: --
-        bits: w0(63..7)
-        description: Reserved.
-
-      - name: --
-        bits: w1(63..0)
-        description: Reserved.
-
-
-  - name: ASE_TBLDAT_BMT_COL_S
-    description: |
-      "
-      Block Mask Register Table Entry as seen by software during 128-bit table read/write accesses.
-      Indexed by BIC's hit-address. Contains the Block Mask Register associated with a Tree ID.
-      Host access is to an 80-bit column; there are 8 columns to make a full 640-bit BMT entry.
-      There are 32 entires in the BMT.
-
-      INTERNAL: Refer to bmt_entry_t in luc_cav_globals.svh
-      "
-    fields:
-      - name: DATA0
-        bits: w0(63..0)
-        description: Block Mask Register Data for column n, bits <80*n+63..80*n>.
-
-      - name: DATA1
-        bits: w1(15..0)
-        description: Block Mask Register Data for column n, bits <80*n+79..80*n+64>.
-
-      - name: --
-        bits: w1(63..16)
-        description: Reserved.
-
-
   - name: ASE_TBLDAT_GDT_S
     description: |
       Global Definition Table Entry as seen by software during 128-bit table
@@ -1727,15 +1495,7 @@ structs:
           from packet header using the mapping described in PHT[{HID,SXID}].
 
       - name: --
-        bits: w0(55..49)
-        description: Reserved.
-
-      - name: BMR_MODE
-        bits: w0(57..56)
-        description: Determines what the format of the BMR. 0x0=4x80b, 0x1=2x160b, 0x2=1x320b, 0x3=1x640b.
-
-      - name: --
-        bits: w0(63..58)
+        bits: w0(63..49)
         description: Reserved.
 
       - name: --
@@ -2401,7 +2161,7 @@ structs:
     description: |
       "
       TAT Indirection CAM Entry as seen by software during 128-bit table read/write accesses.
-      Content-addressed by TIC_ID = {BMR_EN, BMR_SEL, TID}. Maps the TIC_ID to the entries in
+      Content-addressed by TIC_ID = {TID}. Maps the TIC_ID to the entries in
       the TAT. There are 96 entries in the TIC.
 
       The Key Request's 9-bit TIC_ID is CAM'ed against all entries in the TIC,
@@ -2434,16 +2194,8 @@ structs:
         bits: w0(21..16)
         description: TID for TIC entry (tic_id<5..0>).
 
-      - name: BMR_SEL
-        bits: w0(23..22)
-        description: BMR Sel for TIC entry (tic_id<7..6>).
-
-      - name: BMR_EN
-        bits: w0(24)
-        description: BMR En for TIC entry (tic_id<8>).
-
       - name: --
-        bits: w0(31..25)
+        bits: w0(31..22)
         description: Reserved.
 
       - name: VLD
@@ -2786,12 +2538,12 @@ registers:
     bus: RSL
     description: BIST status register. Per LUE RMC engine.
     fields:
-      - name: LUE_RMC3_BMT_STATUS
+      - name: --
         bits: 63..56
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: LUE_RMC3_KDT_STATUS
         bits: 55..52
@@ -2815,18 +2567,11 @@ registers:
         description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<3>] == 0.
 
       - name: --
-        bits: 49..48
+        bits: 49..40
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: LUE_RMC2_BMT_STATUS
-        bits: 47..40
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
 
       - name: LUE_RMC2_KDT_STATUS
         bits: 39..36
@@ -2850,18 +2595,11 @@ registers:
         description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<2>] == 0.
 
       - name: --
-        bits: 33..32
+        bits: 33..24
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: LUE_RMC1_BMT_STATUS
-        bits: 31..24
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
 
       - name: LUE_RMC1_KDT_STATUS
         bits: 23..20
@@ -2885,18 +2623,11 @@ registers:
         description: BIST status for the LUE per-RMC RFT RAM. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<1>] == 0.
 
       - name: --
-        bits: 17..16
+        bits: 17..8
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: LUE_RMC0_BMT_STATUS
-        bits: 15..8
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: BIST status for the LUE per-RMC BMT RAMs. Only valid if ASE_BIST_STATUS0[LUE_RMC_NDONE<0>] == 0.
 
       - name: LUE_RMC0_KDT_STATUS
         bits: 7..4
@@ -2944,20 +2675,11 @@ registers:
         0x3: DBE on bit<1:0>
     fields:
       - name: --
-        bits: 63..56
+        bits: 63..54
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: LUE_BMT_ECC_FLIP_SYND
-        bits: 55..54
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Flip syndrome in LUE RMC Block Mask Register Table.
-          INTERNAL: BMT replicated 4 times for timing purposes, controls all copies.
 
       - name: LUE_KDT_ECC_FLIP_SYND
         bits: 53..52
@@ -2997,18 +2719,11 @@ registers:
         description: Flip syndrome in LUE KRQ Key Data Buffer.
 
       - name: --
-        bits: 43..38
+        bits: 43..37
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: LUE_BMT_ECC_DIS
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Disable ECC for LUE RMC Block Mask Register Table.
 
       - name: LUE_KDT_ECC_DIS
         bits: 36
@@ -3178,7 +2893,7 @@ registers:
         description: |
           One or more of the Rule Match Engines detected a fatal error.
           INTERNAL: It is expected that error recovery will require resetting
-          the chip and loading corrected software into OSM.
+          the ASE and loading corrected software into OSM.
 
       - name: LUE_INVALID_REQ
         bits: 38
@@ -3186,9 +2901,13 @@ registers:
         reset: 0
         typical: --
         description: |
-          An invalid lookup request was observed.
-          Caused by either a request to an invalid cluster or
-          a new lookup request provided insufficient key data.
+          An invalid access during a lookup request was observed.
+          The cause is one of:
+          * Remote request
+          * Migration request
+          * Insufficient key data provided for a new lookup request
+          INTERNAL: It is expected that error recovery will require resetting
+          the ASE and loading corrected software into OSM.
 
       - name: LUE_HR_ERR_LOG
         bits: 37
@@ -3197,19 +2916,12 @@ registers:
         typical: --
         description: An error occurred for a Host request and generated a Host Response with error.
 
-      - name: LUE_BIC_MULTI_HIT
-        bits: 36
-        access: R/W1C/H
-        reset: 0
+      - name: --
+        bits: 36..35
+        access: ---
+        reset: --
         typical: --
-        description: A BIC lookup request resulted in multiple entries reporting a hit.
-
-      - name: LUE_BIC_MISS
-        bits: 35
-        access: R/W1C/H
-        reset: 0
-        typical: --
-        description: A BIC lookup request did not match a valid entry.
+        description: Reserved.
 
       - name: LUE_TIC_BAD_WRITE
         bits: 34
@@ -3376,29 +3088,12 @@ registers:
         typical: 0
         description: Detected and corrected Single-Bit Error on LUE RMC Buffer Aligner Wrapper Rule FIFO.
 
-      - name: LUE_BMT_DBE
-        bits: 39
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: |
-          Detected Double-Bit Error on LUE RMC Block Mask Tables.
-          This bit will not be set for software accesses to the BMT, it will only get set for lookup
-          accesses.
-          INTERNAL: BMT replicated 4 times for timing purposes, this indicates error for any of the
-          BMT.
-
-      - name: LUE_BMT_SBE
-        bits: 38
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: |
-          Detected and corrected Single-Bit Error on LUE RMC Block Mask Tables.
-          This bit will not be set for software accesses to the BMT, it will only get set for lookup
-          accesses.
-          INTERNAL: BMT replicated 4 times for timing purposes, this indicates error for any of the
-          BMT.
+      - name: --
+        bits: 39..38
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: LUE_RFT_DBE
         bits: 37
@@ -3959,28 +3654,7 @@ registers:
           outstanding requests for a Phase have completed.
 
       - name: --
-        bits: 31..24
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: BMR160_SEL_MSK
-        bits: 23
-        access: R/W
-        reset: 1
-        typical: 1
-        description: |
-          Enable masking of bmr_sel[0] when a Lookup request enables
-          BMR for a 160-bit mask (bmr_mode = 0x2).
-          If this bit is clear the bmr_sel field of the lookup will be
-          preserved for 160-bit mask lookups, allowing for 4 160-bit
-          BMR masks.
-          If this bit is set only 2 160-bit BMR masks (determined by
-          bmr_sel[1]) are supported.
-
-      - name: --
-        bits: 22..20
+        bits: 31..20
         access: ---
         reset: --
         typical: --
@@ -4104,12 +3778,12 @@ registers:
         typical: 1
         description: Enables logging for ASE_LUE_ERROR_ID_E[KDT_DBE] errors.
 
-      - name: BMT_DBE
+      - name: --
         bits: 52
-        access: R/W
-        reset: 0
-        typical: 1
-        description: Enables logging for ASE_LUE_ERROR_ID_E[BMT_DBE] errors.
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: RUL_DBE
         bits: 51
@@ -4140,18 +3814,11 @@ registers:
         description: Enables logging for ASE_LUE_ERROR_ID_E[KDB_DBE] errors.
 
       - name: --
-        bits: 47..38
+        bits: 47..37
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: BMT_SBE
-        bits: 37
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Enables logging for ASE_LUE_ERROR_ID_E[BMT_SBE] errors.
 
       - name: KDT_SBE
         bits: 36
@@ -4216,19 +3883,12 @@ registers:
         typical: 1
         description: Enables logging for ASE_LUE_ERROR_ID_E[HR_ERR_LOG] errors.
 
-      - name: BIC_MULTI_HIT
-        bits: 4
-        access: R/W
-        reset: 0
-        typical: 1
-        description: Enables logging for ASE_LUE_ERROR_ID_E[BIC_MULTI_HIT] errors.
-
-      - name: BIC_MISS
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: 1
-        description: Enables logging for ASE_LUE_ERROR_ID_E[BIC_MISS] errors.
+      - name: --
+        bits: 4..3
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: TIC_BAD_WRITE
         bits: 2
@@ -4270,8 +3930,8 @@ registers:
       which information is currently logged by this CSR.
 
       The priority of the error is encoded by the enumerated values in ASE_LUE_ERROR_ID_E.
-      The highest priority error is KDT_DBE, the lowest is BMT_SBE.
-      For RFT and BMT errors, if multiple errors of equal weight are reported
+      The highest priority error is KDT_DBE, the lowest is RFT_SBE.
+      For RFT errors, if multiple errors of equal weight are reported
       during a clock cycle, the error on the local RFT is reported with highest
       priority, followed by RMC0, RMC1, RMC2, RMC3.
 
@@ -4327,7 +3987,6 @@ registers:
 
           Decode this field based on ERROR_ID and HR_ERR_ID:
             TIC_MISS or TIC_MULTI_HIT: see ASE_LUE_ERROR_LOG_TIC_S.
-            BIC_MISS or BIC_MULTI_HIT: see ASE_LUE_ERROR_LOG_BIC_S.
             TIC_BAD_WRITE: see ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S.
             INVALID_TBL_ACC: see ASE_LUE_ERROR_LOG_INVTBLACC_S.
             INVALID_REQ: see ASE_LUE_ERROR_LOG_INVREQ_S.
@@ -4335,7 +3994,6 @@ registers:
             KDB_*BE: see ASE_LUE_ERROR_LOG_KDB_ECC_S.
             TAT_*BE: see ASE_LUE_ERROR_LOG_TAT_ECC_S.
             RFT_*BE: see ASE_LUE_ERROR_LOG_RFT_ECC_S.
-            BMT_*BE: see ASE_LUE_ERROR_LOG_BMT_ECC_S.
             RUL_*BE: see ASE_LUE_ERROR_LOG_RUL_ECC_S.
             KDT_*BE: see ASE_LUE_ERROR_LOG_KDT_ECC_S.
           "
@@ -4874,8 +4532,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, third mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL1
         bits: 15..8
@@ -4884,8 +4541,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, second mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL0
         bits: 7..0
@@ -4894,8 +4550,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, first mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
 
   - name: ASE_LUE_PERFORMANCE_CONTROL1
@@ -4986,8 +4641,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, third mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL1
         bits: 15..8
@@ -4996,8 +4650,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, second mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL0
         bits: 7..0
@@ -5006,8 +4659,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, first mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
 
   - name: ASE_LUE_PERFORMANCE_CONTROL(2..3)
@@ -5084,8 +4736,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, third mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL1
         bits: 15..8
@@ -5094,8 +4745,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, second mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
       - name: SEL0
         bits: 7..0
@@ -5104,8 +4754,7 @@ registers:
         typical: --
         description: |
           Performance Counter Event Select, first mux.
-
-          For details of mapping of events to selects, see lue.pfm
+          INTERNAL: For details of mapping of events to selects, see lue.perf.
 
 
   - name: ASE_LUE_PERFORMANCE_COUNTER(0..3)

@@ -10,7 +10,9 @@ enums:
     values:
       - name: Disabled
         value: 0x0
-        description: The interface is disabled
+        description: |
+          The interface is disabled.
+          When GMX0 is configured for RXAUI mode, GMX1 must be disabled.
 
       - name: SGMII
         value: 0x1
@@ -22,7 +24,10 @@ enums:
 
       - name: RXAUI
         value: 0x3
-        description: The interface is in RXAUI mode
+        description: |
+          The interface is in RXAUI mode.
+          When GMX0 is configured for RXAUI mode, GMX1 must be disabled.
+          This mode is not a valid operating mode for GMX1.
 
 
 registers:
@@ -3943,10 +3948,6 @@ registers:
         typical: --
         description: |
           Interface Operating Mode.  Enumerated by GMX_INF_MODE_E.
-          0: Disabled
-          1: SGMII (v1.8)
-          2: QSGMII
-          3: XAUI (IEEE 802.3-2005)
           MODE should be written before any of the DLM registers are written and the EN is asserted.
 
       - name: --

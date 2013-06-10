@@ -6,6 +6,20 @@ registers:
   - name: TIM_REG_FLAGS
     address: 0x1180058000000
     bus: RSL
+    internal: |
+      TIM has a counter that causes a periodic tick every 1024 cycles. This counter is shared by all
+      rings. (Each tick causes the HW to decrement the time offset (i.e. COUNT) for all enabled
+      rings.)
+      When ENA_TIM==0, the HW stops this shared periodic counter, so there are no more ticks, and
+      there
+      are no more new bucket traversals (for any ring).
+      If ENA_TIM transitions 1->0, TIM will no longer create new bucket traversals, but there may
+      have been previous ones. If there are ring bucket traversals that were already pending but
+      not currently active (i.e. bucket traversals that need to be done by the HW, but haven't been
+      yet)
+      during this ENA_TIM 1->0 transition, then these bucket traversals will remain pending until
+      ENA_TIM is later set to one. Bucket traversals that were already in progress will complete
+      after the 1->0 ENA_TIM transition, though.
     fields:
       - name: --
         bits: 63..3
@@ -47,6 +61,14 @@ registers:
   - name: TIM_REG_READ_IDX
     address: 0x1180058000008
     bus: RSL
+    internal: |
+      Provides the read index during a CSR read operation to any of the CSRs that are physically
+      stored
+      as memories.  The names of these CSRs begin with the prefix "TIM_MEM_".
+      IDX[7:0] is the read index.  INC[7:0] is an increment that is added to IDX[7:0] after any CSR
+      read.
+      The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+      contents of a CSR memory can be read with consecutive CSR read commands.
     fields:
       - name: --
         bits: 63..16
@@ -73,6 +95,9 @@ registers:
   - name: TIM_REG_BIST_RESULT
     address: 0x1180058000080
     bus: RSL
+    internal: |
+      Access to the internal BiST results
+      Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail).
     fields:
       - name: --
         bits: 63..4
@@ -106,6 +131,11 @@ registers:
   - name: TIM_REG_ERROR
     address: 0x1180058000088
     bus: RSL
+    internal: |
+      A ring is in error if its interval has elapsed more than once without having been serviced.
+      During a CSR write to this register, the write data is used as a mask to clear the selected
+      mask
+      bits (mask'[15:0] = mask[15:0] & ~write_data[15:0]).
     fields:
       - name: --
         bits: 63..16
@@ -125,6 +155,9 @@ registers:
   - name: TIM_REG_INT_MASK
     address: 0x1180058000090
     bus: RSL
+    internal: |
+      Note that this CSR is present only in chip revisions beginning with pass2.
+      When mask bit is set, the interrupt is enabled.
     fields:
       - name: --
         bits: 63..16
@@ -144,6 +177,15 @@ registers:
   - name: TIM_MEM_RING0
     address: 0x1180058001000
     bus: RSL
+    internal: |
+      TIM_MEM_RING0 must not be written for a ring when TIM_MEM_RING1[ENA] is set for the ring.
+      Every write to TIM_MEM_RING0 clears the current bucket for the ring. (The current bucket is
+      readable via TIM_MEM_DEBUG2[BUCKET],TIM_MEM_DEBUG1[BUCKET].)
+      BASE is a 32-byte aligned pointer[35:0].  Only pointer[35:5] are stored because pointer[4:0] =
+      0.
+      This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..55
@@ -178,6 +220,17 @@ registers:
   - name: TIM_MEM_RING1
     address: 0x1180058001008
     bus: RSL
+    internal: |
+      After a 1->0 transition on ENA, the HW will still complete a bucket traversal for the ring
+      if it was pending or active prior to the transition. (SW must delay to ensure the completion
+      of the traversal before reprogramming the ring.)
+      Every write to TIM_MEM_RING1 resets the current time offset for the ring to the INTERVAL
+      value.
+      (The current time offset for the ring is readable via TIM_MEM_DEBUG0[COUNT].)
+      CSIZE must be at least 16.  It is illegal to program CSIZE to a value that is less than 16.
+      This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..43
@@ -228,6 +281,11 @@ registers:
   - name: TIM_MEM_DEBUG0
     address: 0x1180058001100
     bus: RSL
+    internal: |
+      Internal per-ring state intended for debug use only tim.ctl[47:0]
+      This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..48
@@ -283,6 +341,11 @@ registers:
   - name: TIM_MEM_DEBUG1
     address: 0x1180058001108
     bus: RSL
+    internal: |
+      Internal per-ring state intended for debug use only tim.sta[63:0]
+      This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.
     fields:
       - name: BUCKET
         bits: 63..51
@@ -315,6 +378,11 @@ registers:
   - name: TIM_MEM_DEBUG2
     address: 0x1180058001110
     bus: RSL
+    internal: |
+      Internal per-ring state intended for debug use only tim.sta[95:64]
+      This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..24

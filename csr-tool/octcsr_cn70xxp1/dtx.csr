@@ -376,6 +376,36 @@ registers:
     bus: RSL
     inherits: DTX_MIO_BCST_RSP
 
+  - name: DTX_USBDRD(0..1)_SEL(0..1)
+    title: DTX USBDRD(0..1) Select Register
+    address: 0x11800FE000000 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_USBDRD(0..1)_ENA(0..1)
+    title: DTX USBDRD(0..1) Mask Register
+    address: 0x11800FE000020 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_USBDRD(0..1)_DAT(0..1)
+    title: DTX USBDRD(0..1) Raw Data Register
+    address: 0x11800FE000040 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_USBDRD(0..1)_CTL
+    title: DTX USBDRD(0..1) Control Register
+    address: 0x11800FE000060 + ((0x68 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_USBDRD(0..1)_BCST_RSP
+    title: DTX USBDRD(0..1) Control Register
+    address: 0x11800FE000080 + ((0x68 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_MIO_BCST_RSP
+
   - name: DTX_SATA_SEL(0..1)
     title: DTX SATA Select Register
     address: 0x11800FE000000 | ((108) << 15)|a<<3

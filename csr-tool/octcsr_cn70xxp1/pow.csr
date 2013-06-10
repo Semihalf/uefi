@@ -934,8 +934,7 @@ registers:
     title: POW BIST Status Register
     address: 0x16700000003F8
     bus: NCB
-    description: |
-      Contains the BIST status for the POW memories ('0' = pass, '1' = fail).
+    description: Contains the BIST status for the POW memories ('0' = pass, '1' = fail).
     fields:
       - name: --
         bits: 63..12

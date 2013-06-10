@@ -4012,6 +4012,146 @@ enums:
           reg_name: "PKO_PEB_ECC_DBE_STS_CMB0"
         description: See PKO_PEB_ECC_DBE_STS_CMB0[PEB_DBE_CMB0].
 
+      - name: PKO_PEB_EXT_HDR_DEF_ERR
+        value: 0x50030
+        attributes:
+          bit_name: "PEB_EXT_HDR_DEF_ERR"
+          bit_num: "0"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_EXT_HDR_DEF_ERR].
+
+      - name: PKO_PEB_JUMP_DEF_ERR
+        value: 0x50031
+        attributes:
+          bit_name: "PEB_JUMP_DEF_ERR"
+          bit_num: "1"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR].
+
+      - name: PKO_PEB_FCS_SOP_ERR
+        value: 0x50032
+        attributes:
+          bit_name: "PEB_FCS_SOP_ERR"
+          bit_num: "2"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR].
+
+      - name: PKO_PEB_PSE_FIFO_CFG_ERR
+        value: 0x50033
+        attributes:
+          bit_name: "PEB_PSE_FIFO_CFG_ERR"
+          bit_num: "3"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_CFG_ERR].
+
+      - name: PKO_PEB_PAD_ERR
+        value: 0x50034
+        attributes:
+          bit_name: "PEB_PAD_ERR"
+          bit_num: "4"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_PAD_ERR].
+
+      - name: PKO_PEB_TRUNC_ERR
+        value: 0x50035
+        attributes:
+          bit_name: "PEB_TRUNC_ERR"
+          bit_num: "5"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_TRUNC_ERR].
+
+      - name: PKO_PEB_SUBD_ADDR_ERR
+        value: 0x50036
+        attributes:
+          bit_name: "PEB_SUBD_ADDR_ERR"
+          bit_num: "6"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_SUBD_ADDR_ERR].
+
+      - name: PKO_PEB_SUBD_SIZE_ERR
+        value: 0x50037
+        attributes:
+          bit_name: "PEB_SUBD_SIZE_ERR"
+          bit_num: "7"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_SUBD_SIZE_ERR].
+
+      - name: PKO_PEB_MAX_LINK_ERR
+        value: 0x50038
+        attributes:
+          bit_name: "PEB_MAX_LINK_ERR"
+          bit_num: "8"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_MAX_LINK_ERR].
+
+      - name: PKO_PEB_MACX_CFG_WR_ERR
+        value: 0x50039
+        attributes:
+          bit_name: "PEB_MACX_CFG_WR_ERR"
+          bit_num: "9"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000900C00)"
+          reg_name: "PKO_PEB_ERR_INT"
+        description: See PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR].
+
       - name: PKO_SENDPKT_LMTDMA_ERR
         value: 0x500F9
         attributes:
@@ -6774,32 +6914,6 @@ enums:
           reg_name: "ASE_GEN_INT"
         description: See ASE_GEN_INT[LUE_TIC_BAD_WRITE].
 
-      - name: ASE_LUE_BIC_MISS
-        value: 0xDD023
-        attributes:
-          bit_name: "LUE_BIC_MISS"
-          bit_num: "35"
-          blk_enum_name: "ASE_INTSN_E"
-          cib_rtl_module: "ase"
-          major_name: "ASE"
-          major_val: "(0xDD)"
-          reg_addr: "(0x11800DD000020)"
-          reg_name: "ASE_GEN_INT"
-        description: See ASE_GEN_INT[LUE_BIC_MISS].
-
-      - name: ASE_LUE_BIC_MULTI_HIT
-        value: 0xDD024
-        attributes:
-          bit_name: "LUE_BIC_MULTI_HIT"
-          bit_num: "36"
-          blk_enum_name: "ASE_INTSN_E"
-          cib_rtl_module: "ase"
-          major_name: "ASE"
-          major_val: "(0xDD)"
-          reg_addr: "(0x11800DD000020)"
-          reg_name: "ASE_GEN_INT"
-        description: See ASE_GEN_INT[LUE_BIC_MULTI_HIT].
-
       - name: ASE_LUE_HR_ERR_LOG
         value: 0xDD025
         attributes:
@@ -7046,32 +7160,6 @@ enums:
           reg_addr: "(0x11800DD000028)"
           reg_name: "ASE_ECC_INT"
         description: See ASE_ECC_INT[LUE_RFT_DBE].
-
-      - name: ASE_ECC_LUE_BMT_SBE
-        value: 0xDD066
-        attributes:
-          bit_name: "LUE_BMT_SBE"
-          bit_num: "38"
-          blk_enum_name: "ASE_INTSN_E"
-          cib_rtl_module: "ase"
-          major_name: "ASE"
-          major_val: "(0xDD)"
-          reg_addr: "(0x11800DD000028)"
-          reg_name: "ASE_ECC_INT"
-        description: See ASE_ECC_INT[LUE_BMT_SBE].
-
-      - name: ASE_ECC_LUE_BMT_DBE
-        value: 0xDD067
-        attributes:
-          bit_name: "LUE_BMT_DBE"
-          bit_num: "39"
-          blk_enum_name: "ASE_INTSN_E"
-          cib_rtl_module: "ase"
-          major_name: "ASE"
-          major_val: "(0xDD)"
-          reg_addr: "(0x11800DD000028)"
-          reg_name: "ASE_ECC_INT"
-        description: See ASE_ECC_INT[LUE_BMT_DBE].
 
       - name: ASE_ECC_LUE_RUL_SBE
         value: 0xDD068

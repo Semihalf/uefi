@@ -3862,6 +3862,11 @@ $DPI_ENG(0..5)_BUF   Address=(0x1DF0000000880+a*0x8)   Bus=(NCB)
                                                 8  = 4.0KB buffer
                                                 9  = 6.0KB buffer
                                                 10 = 8.0KB buffer
+
+Notes:
+The total amount of storage allocated to the 6 DPI DMA engines (via DPI_ENG*_BUF[BLKS]) must
+not exceed 8KB.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4598,6 +4603,56 @@ $DTX_POW_CTL   Address=(0x11800FE338060)   Bus=(RSL)
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
 $DTX_POW_BCST_RSP   Address=(0x11800FE338080)   Bus=(RSL)
+
+
+ * 
+ * DTX_USBDRD_SEL = DTX USBDRD(0..1) Select Register
+ *  This register has the same bit fields as DTX_MIO_SEL(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_SEL(0..1).
+ * 
+$DTX_USBDRD(0..1)_SEL(0..1)   Address=(0x11800FE000000+((0x68 + (a)) << 15)+(b*8))   Bus=(RSL)
+
+
+ * 
+ * DTX_USBDRD_ENA = DTX USBDRD(0..1) Mask Register
+ *  This register has the same bit fields as DTX_MIO_ENA(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_ENA(0..1).
+ * 
+$DTX_USBDRD(0..1)_ENA(0..1)   Address=(0x11800FE000020+((0x68 + (a)) << 15)+(b*8))   Bus=(RSL)
+
+
+ * 
+ * DTX_USBDRD_DAT = DTX USBDRD(0..1) Raw Data Register
+ *  This register has the same bit fields as DTX_MIO_DAT(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_DAT(0..1).
+ * 
+$DTX_USBDRD(0..1)_DAT(0..1)   Address=(0x11800FE000040+((0x68 + (a)) << 15)+(b*8))   Bus=(RSL)
+
+
+ * 
+ * DTX_USBDRD_CTL = DTX USBDRD(0..1) Control Register
+ *  This register has the same bit fields as DTX_MIO_CTL.
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_CTL.
+ * 
+$DTX_USBDRD(0..1)_CTL   Address=(0x11800FE000060+((0x68 + (a)) << 15))   Bus=(RSL)
+
+
+ * 
+ * DTX_USBDRD_BCST_RSP = DTX USBDRD(0..1) Control Register
+ *  This register has the same bit fields as DTX_MIO_BCST_RSP.
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_BCST_RSP.
+ * 
+$DTX_USBDRD(0..1)_BCST_RSP   Address=(0x11800FE000080+((0x68 + (a)) << 15))   Bus=(RSL)
 
 
  * 
@@ -6055,10 +6110,13 @@ $GMX_INF_MODE_E
 -----------------------------------------------------------------------------------------------------------------------------------
  Value                  Name     Description    
 -----------------------------------------------------------------------------------------------------------------------------------
- 0x0                    Disabled The interface is disabled
+ 0x0                    Disabled The interface is disabled.
+                                 When GMX0 is configured for RXAUI mode, GMX1 must be disabled.
  0x1                    SGMII    The interface is in SGMII mode
  0x2                    QSGMII   The interface is in QSGMII mode
- 0x3                    RXAUI    The interface is in RXAUI mode
+ 0x3                    RXAUI    The interface is in RXAUI mode.
+                                 When GMX0 is configured for RXAUI mode, GMX1 must be disabled.
+                                 This mode is not a valid operating mode for GMX1.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8603,10 +8661,6 @@ $GMX(0..1)_INF_MODE   Address=(0x11800080007F8+a*0x8000000)   Bus=(RSL)
  <11:8>  NS    ---     NS         NS         Reserved.                                         
  <7:6>   NS    ---     NS         NS         Reserved.                                         
  <5:4>   MODE  R/W     0x0        NS         Interface Operating Mode.  Enumerated by GMX_INF_MODE_E.
-                                             0: Disabled
-                                             1: SGMII (v1.8)
-                                             2: QSGMII
-                                             3: XAUI (IEEE 802.3-2005)
                                              MODE should be written before any of the DLM registers are written and the EN is asserted.
  <3:2>   NS    ---     NS         NS         Reserved.                                         
  <1>     EN    R/W     0x0        NS         Interface Enable                                  
@@ -9453,8 +9507,8 @@ $GSER(0)_PCIE_PIPE_PORT_SEL   Address=(0x1180090080460+a)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:3>  NS            ---     NS         NS         Reserved.                                         
  <2>     CFG_PEM1_LANE R/W     0x0        NS         Configures the PIPE/PHY configuration for PEM1 when all 4 PIPEs are enabled.
-                                                     0: PEM1 is tied to DLM1/Lane1.   This is 2x1 PCIE with SATA.
-                                                     1: PEM1 is tied to DLM2/Lane0.  This is 3x1 PCIe mode.
+                                                     Only set this bit for the 3x1 PCIe mode.  In all other modes this bit needs
+                                                     to be clear.
  <1:0>   PIPE_PORT_SEL R/W     0x0        NS         PIPE enable request.  Change only when phy_reset is asserted.
                                                      00: Disables all PIPEs
                                                      01: Enables PIPE0 only.  This is 1x4 PCIe mode.
@@ -12242,10 +12296,9 @@ $IPD_SUB_PORT_QOS_CNT   Address=(0x14F0000000800)   Bus=(NCB)
  * 
  *  See the description for IPD_PORT_QOS_@_CNT
  *  0=P0-7; 1=P8-15; 2=P16-23; 3=P24-31; 4=P32-39; 5=P40-47; 6=P48-55; 7=P56-63
- *  Only ports used are: P0-3, P32-39, and P40-47. Therefore only IPD_PORT_QOS_INT0,
- *  IPD_PORT_QOS_INT4,
- *  and IPD_PORT_QOS_INT5 exist and, furthermore:  <63:32> of IPD_PORT_QOS_INT0,
- *  are reserved.
+ *  Only ports used are: P0-3, p16-19, P24, P32-39. Therefore only IPD_PORT_QOS_INT0 ([63:32] ==
+ *  Reserved), IPD_PORT_QOS_INT2 ([63:32] == Reserved), IPD_PORT_QOS_INT3 ([63:8] == Reserved),
+ *  IPD_PORT_QOS_INT4
  * 
 $IPD_PORT_QOS_INT(0,2,3,4,5)   Address=(0x14F0000000808+a*0x8)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -13718,7 +13771,7 @@ $LMC(0..0)_NXM_FADR   Address=(0x1180088000028|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_EXT_CONFIG = LMC NXM Failing Address Register
+ * LMC_EXT_CONFIG = LMC Extended Configuration register
  * 
  *  This register has additional configuration and control bits for the LMC
  * 
@@ -13727,9 +13780,11 @@ $LMC(0..0)_EXT_CONFIG   Address=(0x1180088000030|a<<24)   Bus=(RSL)
  Bit     Field                Field   Reset      Typical    Field                                             
  Pos     Name                 Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:20> NS                   ---     NS         NS         Reserved.                                         
- <19>    READ_ENA_BPRCH       R/W     0x0        0x0        Drive DQx for one cycle longer than normal during write operations.
- <18>    READ_ENA_FPRCH       R/W     0x0        0x0        Drive DQX starting one cycle earlier than normal during write operations.
+ <63:21> NS                   ---     NS         NS         Reserved.                                         
+ <20>    VREFINT_SEQ_DESKEW   R/W     0x0        0x0        Personality bit to change the operation of what is normally the internal
+                                                            vref training sequence into the deskew training sequence.
+ <19>    READ_ENA_BPRCH       R/W     0x0        0x0        Enable pad receiver one cycle longer than normal during read operations.
+ <18>    READ_ENA_FPRCH       R/W     0x0        0x0        Enable pad receiver starting one cycle earlier than normal during read operations.
  <17>    SLOT_CTL_RESET_FORCE WO      0x0        0x0        Write 1 to reset the slot control override for all slot control registers.
                                                             After writing a 1 to this bit, slot control registers will update with changes made to
                                                             other timing control registers.  One shot operation, will automatically return to 0
@@ -15390,7 +15445,8 @@ $LMC(0..0)_PHY_CTL   Address=(0x1180088000210|a<<24)   Bus=(RSL)
  <21>    DAC_ON               R/W     0x0        0x0        INTERNAL: PHY DAC on.                             
  <20>    INT_PAD_LOOPBACK_ENA R/W     0x0        NS         DDR pad loopback enable.                          
  <19>    INT_PHY_LOOPBACK_ENA R/W     0x0        NS         Internal PHY loopback enable.                     
- <18>    PHY_DSK_RESET        R/W     0x0        NS         Deskew bypass.                                    
+ <18>    PHY_DSK_RESET        R/W     0x0        NS         When set, the deskew reset signal will go active if the vrefint/deskew training
+                                                            sequence is in the idle state.
  <17>    PHY_DSK_BYP          R/W     0x0        NS         Deskew bypass.                                    
  <16>    PHY_PWR_SAVE_DISABLE R/W     0x0        NS         DDR PHY power save disable.                       
  <15>    TEN                  R/W     0x0        NS         DDR PHY test enable pin.                          
@@ -22091,10 +22147,11 @@ $OCLA(0)_GEN_CTL   Address=(0x11800A8000060|a<<24)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:4>  NS    ---     NS         NS         Reserved.                                         
- <3>     EXTEN R/W     0x0        0x1        Enable external triggering. When set, external triggering may be used. Must be clear on
-                                             all OCLAs simultaneously to insure that the external trigger can de-assert. INTERNAL: The
-                                             external trigger is a wire-OR with repeater flops and clock crossings, and without the bit
-                                             clear it would stay set forever as each block 'echos' back the same set state.
+ <3>     EXTEN R/W     0x0        0x0        Enable external triggering.                       
+                                             0 = External triggering ignored.
+                                             1 = When the external trigger pin selected with GPIO_OCLA_EXTEN_TRIG is high it will cause
+                                             triggerring and set OCLA(0)_STATE_SET[TRIG]. The external device must de-assert the
+                                             signal to release the trigger (it is not edge sensitive.)
  <2>     DEN   R/W     0x0        0x1        Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
                                              counters may increment. When clear, the bus is always zero and internal flops may be clock
                                              gated off to save power. Must be set for normal operation. INTERNAL: When clear, RTL must
@@ -22118,17 +22175,19 @@ $OCLA(0)_STATE_INT   Address=(0x11800A8000080|a<<24)   Bus=(RSL)
  <63:60> FSM1_STATE RO      0x0        NS         FSM1 current state.                               
  <59:56> FSM0_STATE RO      0x0        NS         FSM0 current state.                               
  <55:36> NS         ---     NS         NS         Reserved.                                         
- <35>    FSM1_RST   R/W1C   0x0        0x0        Writing one resets FSM1 to state zero.            
- <34>    FSM0_RST   R/W1C   0x0        0x0        Writing one resets FSM0 to state zero.            
+ <35>    FSM1_RST   R/W1C   0x0        0x0        FSM1 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM1_RST] sets this bit and
+                                                  holds FSM1 in state zero, writing one to OCLA(0)_STATE_INT[FSM1_RST] removes the hold.
+ <34>    FSM0_RST   R/W1C   0x0        0x0        FSM0 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM0_RST] sets this bit and
+                                                  holds FSM0 in state zero, writing one to OCLA(0)_STATE_INT[FSM0_RST] removes the hold.
  <33>    FSM1_ENA   R/W1C   0x0        0x0        FSM1 sequencing and capturing enabled.            
  <32>    FSM0_ENA   R/W1C   0x0        0x0        FSM0 sequencing and capturing enabled.            
  <31:19> NS         ---     NS         NS         Reserved.                                         
  <18>    DDRFULL    R/W1C/H 0x0        0x0        DDR buffer wrapped. Asserted when OCLA(0)_STACK_CUR has wrapped and been re-initialized
                                                   to OCLA(0)_STACK_BASE.
- <17>    WMARK      R/W1C/H 0x0        0x0        Internal buffer watermark reached. Asserted when OCLA(0)_FIFO_DEPTH >=
+ <17>    WMARK      R/W1C/H 0x0        0x0        Internal buffer watermark reached. Asserted when OCLA(0)_FIFO_DEPTH >
                                                   OCLA(0)_FIFO_LIMIT[WMARK].
- <16>    OVERFULL   R/W1C/H 0x0        0x0        Capture ended due to FIFO overflow. Asserted when OCLA(0)_FIFO_DEPTH >=
-                                                  OCLA(0)_FIFO_LIMIT[OVERFILL].
+ <16>    OVERFULL   R/W1C/H 0x0        0x0        Capture ended due to FIFO overflow. Asserted when OCLA(0)_FIFO_DEPTH >
+                                                  OCLA(0)_FIFO_LIMIT[OVERFULL].
  <15>    TRIGFULL   R/W1C/H 0x0        0x0        Capture ended due to buffer full. Asserted when OCLA(0)_FIFO_TRIG[LIMIT] >=
                                                   OCLA(0)_FIFO_TRIG[COUNT].
  <14>    CAPTURED   R/W1C/H 0x0        0x0        Capture started. Asserted when the first capture is made. Informational only; often masked.
@@ -22157,8 +22216,8 @@ $OCLA(0)_STATE_SET   Address=(0x11800A80000A0|a<<24)   Bus=(RSL)
  <63:60> FSM1_STATE RO      0x0        NS         See OCLA(0)_STATE_INT[FSM1_STATE].                
  <59:56> FSM0_STATE RO      0x0        NS         See OCLA(0)_STATE_INT[FSM0_STATE].                
  <55:36> NS         ---     NS         NS         Reserved.                                         
- <35>    FSM1_RST   R/W1S   0x0        0x0        Writing one resets FSM1 to state zero.            
- <34>    FSM0_RST   R/W1S   0x0        0x0        Writing one resets FSM0 to state zero.            
+ <35>    FSM1_RST   R/W1S   0x0        0x0        See OCLA(0)_STATE_INT[FSM1_RST].                  
+ <34>    FSM0_RST   R/W1S   0x0        0x0        See OCLA(0)_STATE_INT[FSM0_RST].                  
  <33>    FSM1_ENA   R/W1S   0x0        0x1        See OCLA(0)_STATE_INT[FSM1_ENA].                  
  <32>    FSM0_ENA   R/W1S   0x0        0x1        See OCLA(0)_STATE_INT[FSM0_ENA].                  
  <31:19> NS         ---     NS         NS         Reserved.                                         
@@ -22231,15 +22290,15 @@ $OCLA(0)_FIFO_LIMIT   Address=(0x11800A8000240|a<<24)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:48> OVERFILL R/W     0xffff     NS         Stop level. When OCLA(0)_FIFO_DEPTH >= OVERFILL, stop capturing and set
-                                                OCLA(0)_STATE_INT[OVERFILL]. This should be set to just less than the FIFO size when
+ <63:48> OVERFULL R/W     0xffff     NS         Stop level. When OCLA(0)_FIFO_DEPTH > OVERFULL, stop capturing and set
+                                                OCLA(0)_STATE_INT[OVERFULL]. This should be set to just less than the FIFO size when
                                                 using DDR capture to insure that overflow can be detected.
- <47:32> DDR      R/W     0xffff     NS         DDR level. When OCLA(0)_FIFO_DEPTH >= DDR, FIFO entries will be removed, packed into a
+ <47:32> DDR      R/W     0xffff     NS         DDR level. When OCLA(0)_FIFO_DEPTH > DDR, FIFO entries will be removed, packed into a
                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
                                                 must be at least 28.
- <31:16> BP       R/W     0xffff     NS         Backpressure level. When OCLA(0)_FIFO_DEPTH >= BP, OCLA will signal backpressure to
+ <31:16> BP       R/W     0xffff     NS         Backpressure level. When OCLA(0)_FIFO_DEPTH > BP, OCLA will signal backpressure to
                                                 coprocessors. All-ones disables indicating backpressure.
- <15:0>  WMARK    R/W     0xffff     NS         Interrupt watermark level. When OCLA(0)_FIFO_DEPTH >= WMARK OCLA will set
+ <15:0>  WMARK    R/W     0xffff     NS         Interrupt watermark level. When OCLA(0)_FIFO_DEPTH > WMARK OCLA will set
                                                 OCLA(0)_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -27406,11 +27465,7 @@ $PCS(0..1)_MISC(0..3)_CTL_REG   Address=(0x11800B0001078+a*0x8000000+b*0x400)   
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:13> NS       ---     NS         NS         Reserved.                                         
- <12>    SGMII    RO      NS         NS         1=SGMII or 1000Base-X mode selected               
-                                                MIO_QLMx_CFG[QLM_CFG] == 2'b01
-                                                0=XAUI or PCIE mode selected
-                                                MIO_QLMx_CFG[QLM_CFG] == 2'b11
+ <63:12> NS       ---     NS         NS         Reserved.                                         
  <11>    GMXENO   R/W     0x0        0x0        GMX Enable override. When set to 1, forces GMX to 
                                                 appear disabled. The enable/disable status of GMX
                                                 is checked only at SOP of every packet.
@@ -30296,6 +30351,16 @@ $PKO_REG_FLAGS   Address=(0x1180050000000)   Bus=(RSL)
  <2>     STORE_BE  R/W     0x0        0x0        Force STORE0 byte write address to big endian     
  <1>     ENA_DWB   R/W     0x0        0x0        Set to enable DontWriteBacks                      
  <0>     ENA_PKO   R/W     0x0        0x0        Set to enable the PKO picker                      
+
+Notes:
+When set, ENA_PKO enables the PKO picker and places the PKO in normal operation.  When set,
+ENA_DWB
+enables the use of DontWriteBacks during the buffer freeing operations.  When not set,
+STORE_BE inverts
+bits[2:0] of the STORE0 byte write address.  When set, RESET causes a 4-cycle reset pulse to
+the
+entire box.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30312,6 +30377,16 @@ $PKO_REG_READ_IDX   Address=(0x1180050000008)   Bus=(RSL)
  <63:16> NS    ---     NS         NS         RESERVED                                          
  <15:8>  INC   R/W     0x0        0x0        Increment to add to current index for next index  
  <7:0>   IDX   R/W     0x0        0x0        Index to use for next memory CSR read             
+
+Notes:
+Provides the read index during a CSR read operation to any of the CSRs that are physically
+stored
+as memories.  The names of these CSRs begin with the prefix "PKO_MEM_".
+IDX[7:0] is the read index.  INC[7:0] is an increment that is added to IDX[7:0] after any CSR
+read.
+The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+contents of a CSR memory can be read with consecutive CSR read commands.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30329,6 +30404,13 @@ $PKO_REG_CMD_BUF   Address=(0x1180050000010)   Bus=(RSL)
  <22:20> POOL  R/W     0x0        0x0        Free list used to free command buffer segments    
  <19:13> NS    R/W     0x0        0x0        MBZ                                               
  <12:0>  SIZE  R/W     0x0        0x0        Number of uint64s per command buffer segment      
+
+Notes:
+Sets the command buffer parameters
+The size of the command buffer segments is measured in uint64s.  The pool specifies (1 of 8
+free
+lists to be used when freeing command buffer segments.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30345,6 +30427,38 @@ $PKO_REG_GMX_PORT_MODE   Address=(0x1180050000018)   Bus=(RSL)
  <63:6>  NS    ---     NS         NS         RESERVED                                          
  <5:3>   MODE1 R/W     0x0        0x0        # of GM1 ports = 16 >> MODE0, 0 <= MODE0 <= 4     
  <2:0>   MODE0 R/W     0x0        0x0        # of GM0 ports = 16 >> MODE0, 0 <= MODE0 <= 4     
+
+Notes:
+The system has a total of 4 + 4 + 4 + 4 + 1 ports and 4 + 4 + 1 + 1 + 1 engines (GMX0 + GMX1 +
+PCI + LOOP + AGL).
+This CSR sets the number of GMX0/GMX1 ports and amount of local storage per engine.
+It has no effect on the number of ports or amount of local storage per engine for PCI, LOOP
+and AGL.
+When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local
+storage.  Increasing the value of MODEn by 1 decreases the number of GMX ports by a power of 2
+and
+increases the local storage per PKO GMX engine by a power of 2.  If one of the modes is 5,
+then only
+one of interfaces GM0 or GM1 is present and the storage per engine of the existing interface
+is
+doubled.  Modes 0 and 1 are illegal and, if selected, are treated as mode 2.
+MODE[n] GM[n] PCI   LOOP  AGL   GM[n]                      PCI            LOOP           AGL
+ports ports ports ports storage/engine             storage/engine storage/engine
+storage/engine
+0       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+2.5kB
+1       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+2.5kB
+2       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+2.5kB
+3       2     4     4     1     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+2.5kB
+4       1     4     4     1     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
+2.5kB
+5       0     4     4     1     (   0kB                  ) 2.5kB          2.5kB
+2.5kB
+where 0 <= n <= 1
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30360,6 +30474,19 @@ $PKO_REG_QUEUE_MODE   Address=(0x1180050000048)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:2>  NS    ---     NS         NS         RESERVED                                          
  <1:0>   MODE  R/W     0x0        0x0        # of queues = 256 >> MODE, 0 <= MODE <=2          
+
+Notes:
+Sets the number of queues and amount of local storage per queue
+The system has a total of 256 queues and (256*8) words of local command storage.  This CSR
+sets the
+number of queues that are used.  Increasing the value of MODE by 1 decreases the number of
+queues
+by a power of 2 and increases the local storage per queue by a power of 2.
+MODEn queues storage/queue
+0     256     64B ( 8 words)
+1     128    128B (16 words)
+2      64    256B (32 words)
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30388,6 +30515,11 @@ $PKO_REG_ENGINE_INFLIGHT   Address=(0x1180050000050)   Bus=(RSL)
  <11:8>  ENGINE2  R/W     0x4        0x4        Maximum number of inflight packets for engine2    
  <7:4>   ENGINE1  R/W     0x4        0x4        Maximum number of inflight packets for engine1    
  <3:0>   ENGINE0  R/W     0x4        0x4        Maximum number of inflight packets for engine0    
+
+Notes:
+Sets the maximum number of inflight packets, per engine.  Values greater than 4 are illegal.
+Setting an engine's value to 0 effectively stops the engine.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30405,6 +30537,21 @@ $PKO_REG_ENGINE_THRESH   Address=(0x1180050000058)   Bus=(RSL)
  <13:0>  MASK  R/W     0x0        0x0        Mask[n]=0 disables packet send threshold for engine n
                                              Mask[n]=1 enables  packet send threshold for engine n  $PR       NS
                                              Bits <13:11> are unused
+
+Notes:
+When not enabled, packet data may be sent as soon as it is written into PKO's internal
+buffers.
+When enabled and the packet fits entirely in the PKO's internal buffer, none of the packet
+data will
+be sent until all of it has been written into the PKO's internal buffer.  Note that a packet
+is
+considered to fit entirely only if the packet's size is <= BUFFER_SIZE-8.  When enabled and
+the
+packet does not fit entirely in the PKO's internal buffer, none of the packet data will be
+sent until
+at least BUFFER_SIZE-256 bytes of the packet have been written into the PKO's internal buffer
+(note that BUFFER_SIZE is a function of PKO_REG_GMX_PORT_MODE above)
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30421,6 +30568,9 @@ $PKO_REG_TIMESTAMP   Address=(0x1180050000060)   Bus=(RSL)
  <63:4>  NS       ---     NS         NS         RESERVED                                          
  <3:0>   WQE_WORD R/W     0x2        0x2        Specifies the 8-byte word in the WQE to which a PTP
                                                 timestamp is written.  Values 0 and 1 are illegal.
+
+Notes:
+None.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30450,6 +30600,11 @@ $PKO_REG_BIST_RESULT   Address=(0x1180050000080)   Bus=(RSL)
  <7:6>   PRT_CTL RO      NS         0x0        BiST result of PRT_CTL  memories (0=pass, !0=fail)
  <5:4>   DAT_DAT RO      NS         0x0        BiST result of DAT_DAT  memories (0=pass, !0=fail)
  <3:0>   DAT_PTR RO      NS         0x0        BiST result of DAT_PTR  memories (0=pass, !0=fail)
+
+Notes:
+Access to the internal BiST results
+Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail).
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30484,6 +30639,9 @@ $PKO_REG_INT_MASK   Address=(0x1180050000090)   Bus=(RSL)
  <2>     CURRZERO R/W/H   0x0        0x0        Bit mask corresponding to PKO_REG_ERROR[2] above  
  <1>     DOORBELL R/W/H   0x0        0x0        Bit mask corresponding to PKO_REG_ERROR[1] above  
  <0>     PARITY   R/W/H   0x0        0x0        Bit mask corresponding to PKO_REG_ERROR[0] above  
+
+Notes:
+When a mask bit is set, the corresponding interrupt is enabled.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30556,6 +30714,17 @@ $PKO_REG_QUEUE_PTRS1   Address=(0x1180050000100)   Bus=(RSL)
  <63:2>  NS    ---     NS         NS         RESERVED                                          
  <1>     IDX3  R/W/H   0x0        0x0        bit<3> of Index (distance from head) in the queue 
  <0>     QID7  R/W/H   0x0        0x0        bit<7> of Queue ID                                
+
+Notes:
+This CSR is used with PKO_MEM_QUEUE_PTRS and PKO_MEM_QUEUE_QOS to allow access to queues
+128-255
+and to allow up mapping of up to 16 queues per port.  When programming queues 128-255, the
+programming sequence must first write PKO_REG_QUEUE_PTRS1 and then write PKO_MEM_QUEUE_PTRS or
+PKO_MEM_QUEUE_QOS for each queue.
+See the descriptions of PKO_MEM_QUEUE_PTRS and PKO_MEM_QUEUE_QOS for further explanation of
+queue
+programming.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30576,6 +30745,20 @@ $PKO_REG_QUEUE_PREEMPT   Address=(0x1180050000108)   Bus=(RSL)
                                                  allow this QID immediate servicing.  0=do not cause
                                                  preemption, 1=cause preemption.  Per PID, at most
                                                  1 QID can have this bit set.
+
+Notes:
+Per QID, setting both PREEMPTER=1 and PREEMPTEE=1 is illegal and sets only PREEMPTER=1.
+This CSR is used with PKO_MEM_QUEUE_PTRS and PKO_REG_QUEUE_PTRS1.  When programming queues,
+the
+programming sequence must first write PKO_REG_QUEUE_PREEMPT, then PKO_REG_QUEUE_PTRS1 and then
+PKO_MEM_QUEUE_PTRS for each queue.  Preemption is supported only on queues that are ultimately
+mapped to engines 0-7.  It is illegal to set preemptee or preempter for a queue that is
+ultimately
+mapped to engines 8-11.
+Also, PKO_REG_ENGINE_INFLIGHT must be at least 2 for any engine on which preemption is
+enabled.
+See the descriptions of PKO_MEM_QUEUE_PTRS for further explanation of queue programming.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30615,6 +30798,29 @@ $PKO_MEM_QUEUE_PTRS   Address=(0x1180050001000)   Bus=(RSL)
  <15:13> IDX      WO      NS         0x0        Index[2:0] (distance from head) in the queue array
  <12:7>  PID      WO      NS         0x0        Port ID to which this queue is mapped             
  <6:0>   QID      R/W/H   NS         0x0        Queue ID[6:0]                                     
+
+Notes:
+Sets the queue to port mapping and the initial command buffer pointer, per queue
+Each queue may map to at most one port.  No more than 16 queues may map to a port.  The set of
+queues that is mapped to a port must be a contiguous array of queues.  The port to which queue
+QID
+is mapped is port PID.  The index of queue QID in port PID's queue list is IDX.  The last
+queue in
+port PID's queue array must have its TAIL bit set.  Unused queues must be mapped to port 63.
+STATIC_Q marks queue QID as having static priority.  STATIC_P marks the port PID to which QID
+is
+mapped as having at least one queue with static priority.  If any QID that maps to PID has
+static
+priority, then all QID that map to PID must have STATIC_P set.  Queues marked as static
+priority
+must be contiguous and begin at IDX 0.  The last queue that is marked as having static
+priority
+must have its S_TAIL bit set.
+This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30633,6 +30839,22 @@ $PKO_MEM_QUEUE_QOS   Address=(0x1180050001008)   Bus=(RSL)
  <52:13> NS       ---     NS         NS         RESERVED                                          
  <12:7>  PID      WO      NS         0x0        Port ID to which this queue is mapped             
  <6:0>   QID      R/W/H   NS         0x0        Queue ID                                          
+
+Notes:
+Sets the QOS mask, per queue.  These QOS_MASK bits are logically and physically the same
+QOS_MASK
+bits in PKO_MEM_QUEUE_PTRS.  This CSR address allows the QOS_MASK bits to be written during
+PKO
+operation without affecting any other queue state.  The port to which queue QID is mapped is
+port
+PID.  Note that the queue to port mapping must be the same as was previously programmed via
+the
+PKO_MEM_QUEUE_PTRS CSR.
+This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30655,6 +30877,73 @@ $PKO_MEM_PORT_PTRS   Address=(0x1180050001010)   Bus=(RSL)
  <9:6>   EID      R/W/H   NS         0x0        Engine ID to which this port is mapped            
                                                 Legal EIDs: 0-10, 15 (15 only if port not used)
  <5:0>   PID      R/W/H   NS         0x0        Port ID[5:0]                                      
+
+Notes:
+Sets the port to engine mapping, per port.  Ports marked as static priority need not be
+contiguous,
+but they must be the lowest numbered PIDs mapped to this EID and must have QOS_MASK=0xff.  If
+EID==8
+or EID==9, then PID[1:0] is used to direct the packet to the correct port on that interface.
+EID==15 can be used for unused PKO-internal ports.
+BP_PORT==63 means that the PKO-internal port is not backpressured.
+BP_PORTs are assumed to belong to an interface as follows:
+40 <= BP_PORT < 41 -> AGL        interface
+36 <= BP_PORT < 40 -> loopback   interface
+32 <= BP_PORT < 36 -> PCIe       interface
+0  <= BP_PORT < 16 -> SGMII/Xaui interface 0
+The reset configuration is the following:
+PID EID(ext port) BP_PORT QOS_MASK STATIC_P
+-------------------------------------------
+0   0( 0)             0     0xff        0
+1   1( 1)             1     0xff        0
+2   2( 2)             2     0xff        0
+3   3( 3)             3     0xff        0
+4   0( 0)             4     0xff        0
+5   1( 1)             5     0xff        0
+6   2( 2)             6     0xff        0
+7   3( 3)             7     0xff        0
+8   0( 0)             8     0xff        0
+9   1( 1)             9     0xff        0
+10   2( 2)            10     0xff        0
+11   3( 3)            11     0xff        0
+12   0( 0)            12     0xff        0
+13   1( 1)            13     0xff        0
+14   2( 2)            14     0xff        0
+15   3( 3)            15     0xff        0
+-------------------------------------------
+16   4(16)            16     0xff        0
+17   5(17)            17     0xff        0
+18   6(18)            18     0xff        0
+19   7(19)            19     0xff        0
+20   4(16)            20     0xff        0
+21   5(17)            21     0xff        0
+22   6(18)            22     0xff        0
+23   7(19)            23     0xff        0
+24   4(16)            24     0xff        0
+25   5(17)            25     0xff        0
+26   6(18)            26     0xff        0
+27   7(19)            27     0xff        0
+28   4(16)            28     0xff        0
+29   5(17)            29     0xff        0
+30   6(18)            30     0xff        0
+31   7(19)            31     0xff        0
+-------------------------------------------
+32   8(32)            32     0xff        0
+33   8(33)            33     0xff        0
+34   8(34)            34     0xff        0
+35   8(35)            35     0xff        0
+-------------------------------------------
+36   9(36)            36     0xff        0
+37   9(37)            37     0xff        0
+38   9(38)            38     0xff        0
+39   9(39)            39     0xff        0
+-------------------------------------------
+40  10(40)            40     0xff        0
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30674,6 +30963,21 @@ $PKO_MEM_PORT_QOS   Address=(0x1180050001018)   Bus=(RSL)
  <9:6>   EID      R/W/H   NS         0x0        Engine ID to which this port is mapped            
                                                 Legal EIDs: 0-3, 8-11
  <5:0>   PID      R/W/H   NS         0x0        Port ID[5:0]                                      
+
+Notes:
+Sets the QOS mask, per port.  These QOS_MASK bits are logically and physically the same
+QOS_MASK
+bits in PKO_MEM_PORT_PTRS.  This CSR address allows the QOS_MASK bits to be written during PKO
+operation without affecting any other port state.  The engine to which port PID is mapped is
+engine
+EID.  Note that the port to engine mapping must be the same as was previously programmed via
+the
+PKO_MEM_PORT_PTRS CSR.
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30692,6 +30996,13 @@ $PKO_MEM_PORT_RATE0   Address=(0x1180050001020)   Bus=(RSL)
  <31:8>  RATE_PKT  R/W/H   NS         0x0        Rate limiting adder per packet                    
  <7:6>   NS        ---     NS         NS         RESERVED                                          
  <5:0>   PID       R/W/H   NS         0x0        Port ID[5:0]                                      
+
+Notes:
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30709,6 +31020,15 @@ $PKO_MEM_PORT_RATE1   Address=(0x1180050001028)   Bus=(RSL)
  <31:8>  RATE_LIM R/W/H   NS         0x0        Rate limiting accumulator limit                   
  <7:6>   NS       ---     NS         NS         RESERVED                                          
  <5:0>   PID      R/W/H   NS         0x0        Port ID[5:0]                                      
+
+Notes:
+Writing PKO_MEM_PORT_RATE1[PID,RATE_LIM] has the side effect of setting the corresponding
+accumulator to zero.
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30724,6 +31044,15 @@ $PKO_MEM_COUNT0   Address=(0x1180050001080)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:32> NS    ---     NS         NS         Reserved.                                         
  <31:0>  COUNT R/W1C/H NS         0x0        Total number of packets seen by PKO               
+
+Notes:
+Total number of packets seen by PKO, per port
+A write to this address will clear the entry whose index is specified as COUNT[5:0].
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30739,6 +31068,15 @@ $PKO_MEM_COUNT1   Address=(0x1180050001088)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:48> NS    ---     NS         NS         Reserved.                                         
  <47:0>  COUNT R/W1C/H NS         0x0        Total number of bytes seen by PKO                 
+
+Notes:
+Total number of bytes seen by PKO, per port
+A write to this address will clear the entry whose index is specified as COUNT[5:0].
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30756,6 +31094,13 @@ $PKO_MEM_DEBUG0   Address=(0x1180050001100)   Bus=(RSL)
  <35:22> CMD  RO/H    NS         0x0        Command word                                      
  <21:16> SEGS RO/H    NS         0x0        Number of segments/gather size                    
  <15:0>  SIZE RO/H    NS         0x0        Packet length in bytes                            
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.cmnd[63:0]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30774,6 +31119,13 @@ $PKO_MEM_DEBUG1   Address=(0x1180050001108)   Bus=(RSL)
  <58:56> POOL RO/H    NS         0x0        Pool value used for free operation                
  <55:40> SIZE RO/H    NS         0x0        Size in bytes                                     
  <39:0>  PTR  RO/H    NS         0x0        Data pointer                                      
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.curr[63:0]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30792,6 +31144,13 @@ $PKO_MEM_DEBUG2   Address=(0x1180050001110)   Bus=(RSL)
  <58:56> POOL RO/H    NS         0x0        Pool value used for free operation                
  <55:40> SIZE RO/H    NS         0x0        Size in bytes                                     
  <39:0>  PTR  RO/H    NS         0x0        Data pointer                                      
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.head[63:0]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30806,6 +31165,13 @@ $PKO_MEM_DEBUG3   Address=(0x1180050001118)   Bus=(RSL)
  Pos     Name Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:0>  DATA RO/H    NS         0x0        WorkQ data or Store0 pointer                      
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.resp[63:0]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30832,6 +31198,13 @@ $PKO_MEM_DEBUG4   Address=(0x1180050001120)   Bus=(RSL)
  <5>     WAIT        RO/H    NS         0x0        Internal state                                    
  <4:3>   MINOR       RO/H    NS         0x0        Internal state                                    
  <2:0>   MAJOR       RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.state[63:0]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30851,6 +31224,13 @@ $PKO_MEM_DEBUG5   Address=(0x1180050001128)   Bus=(RSL)
  <53:48> NXT_INFLT RO/H    NS         0x0        Internal state                                    
  <47:8>  CURR_PTR  RO/H    NS         0x0        Internal state                                    
  <7:0>   CURR_SIZ  RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.state[127:64]
+This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30877,6 +31257,13 @@ $PKO_MEM_DEBUG6   Address=(0x1180050001130)   Bus=(RSL)
  <15:12> QID_OFFMAX RO/H    NS         0x0        Internal state                                    
  <11:8>  QID_OFF    RO/H    NS         0x0        Internal state                                    
  <7:0>   QID_BASE   RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko_prt_psb.port[63:0]
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30896,6 +31283,13 @@ $PKO_MEM_DEBUG7   Address=(0x1180050001138)   Bus=(RSL)
  <44:12> BUF_PTR  RO/H    NS         0x0        Command word pointer                              
  <11:6>  QCB_WIDX RO/H    NS         0x0        Buffer write index for QCB                        
  <5:0>   QCB_RIDX RO/H    NS         0x0        Buffer read  index for QCB                        
+
+Notes:
+Internal per-queue state intended for debug use only pko_prt_qsb.state[63:0]
+This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30921,6 +31315,13 @@ $PKO_MEM_DEBUG8   Address=(0x1180050001140)   Bus=(RSL)
  <4>     S_TAIL    RO/H    NS         0x0        Static tail                                       
  <3>     STATIC_Q  RO/H    NS         0x0        Static priority                                   
  <2:0>   QOS       RO/H    NS         0x0        QOS mask to enable the queue when set             
+
+Notes:
+Internal per-queue state intended for debug use only pko_prt_qsb.state[91:64]
+This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30938,6 +31339,13 @@ $PKO_MEM_DEBUG9   Address=(0x1180050001148)   Bus=(RSL)
  <48:32> PTRS0 RO/H    NS         0x0        Internal state                                    
  <31:17> NS    ---     NS         NS         RESERVED                                          
  <16:0>  PTRS3 RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko.dat.ptr.ptrs0, pko.dat.ptr.ptrs3
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30955,6 +31363,13 @@ $PKO_MEM_DEBUG10   Address=(0x1180050001150)   Bus=(RSL)
  <48:32> PTRS1 RO/H    NS         0x0        Internal state                                    
  <31:17> NS    ---     NS         NS         RESERVED                                          
  <16:0>  PTRS2 RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko.dat.ptr.ptrs1, pko.dat.ptr.ptrs2
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30976,6 +31391,13 @@ $PKO_MEM_DEBUG11   Address=(0x1180050001158)   Bus=(RSL)
  <16>    CHK   RO/H    NS         0x0        Internal state                                    
  <15:3>  CNT   RO/H    NS         0x0        Internal state                                    
  <2:0>   MOD   RO/H    NS         0x0        Internal state                                    
+
+Notes:
+Internal per-port state intended for debug use only pko.out.sta.state[22:0]
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -30993,6 +31415,13 @@ $PKO_MEM_DEBUG12   Address=(0x1180050001160)   Bus=(RSL)
  <35:22> CMD  RO/H    NS         0x0        Command word                                      
  <21:16> SEGS RO/H    NS         0x0        Number of segments/gather size                    
  <15:0>  SIZE RO/H    NS         0x0        Packet length in bytes                            
+
+Notes:
+Internal per-port state intended for debug use only pko.out.ctl.cmnd[63:0]
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31011,6 +31440,13 @@ $PKO_MEM_DEBUG13   Address=(0x1180050001168)   Bus=(RSL)
  <58:56> POOL RO/H    NS         0x0        Pool value used for free operation                
  <55:40> SIZE RO/H    NS         0x0        Size in bytes                                     
  <39:0>  PTR  RO/H    NS         0x0        Data pointer                                      
+
+Notes:
+Internal per-port state intended for debug use only pko.out.ctl.head[63:0]
+This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31025,6 +31461,13 @@ $PKO_MEM_DEBUG14   Address=(0x1180050001170)   Bus=(RSL)
  Pos     Name Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:0>  DATA RO/H    NS         0x0        Command words                                     
+
+Notes:
+Internal per-port state intended for debug use only pko.prt.psb.save[63:0]
+This CSR is a memory of 123 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31623,6 +32066,9 @@ $RAD_REG_CTL   Address=(0x1180070000000)   Bus=(RSL)
  <5:2>   MAX_READ R/W     0x8        0x8        Maximum number of outstanding data read commands  
  <1>     STORE_LE R/W     0x0        0x0        Force STORE0 byte write address to little endian  
  <0>     RESET    WO      0x0        0x0        Reset oneshot pulse (lasts for 4 cycles)          
+
+Notes:
+MAX_READ is a throttle to control NCB usage.  Values >8 are illegal.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31641,6 +32087,15 @@ $RAD_REG_CMD_BUF   Address=(0x1180070000008)   Bus=(RSL)
  <48:46> POOL  R/W     0x0        NS         Free list used to free command buffer segments    
  <45:33> SIZE  R/W     0x0        NS         Number of uint64s per command buffer segment      
  <32:0>  PTR   R/W     0x0        NS         Initial command buffer pointer[39:7] (128B-aligned)
+
+Notes:
+Sets the command buffer parameters
+The size of the command buffer segments is measured in uint64s.  The pool specifies 1 of 8
+free
+lists to be used when freeing command buffer segments.  The PTR field is overwritten with the
+next
+pointer each time that the command buffer segment is exhausted.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31656,6 +32111,9 @@ $RAD_REG_POLYNOMIAL   Address=(0x1180070000010)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:8>  NS     ---     0x0        0x0        RESERVED                                          
  <7:0>   COEFFS R/W     0x1d       0x1d       coefficients of GF(2^8) irreducible polynomial    
+
+Notes:
+The polynomial is x^8 + C7*x^7 + C6*x^6 + C5*x^5 + C4*x^4 + C3*x^3 + C2*x^2 + C1*x^1 + C0.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31672,6 +32130,16 @@ $RAD_REG_READ_IDX   Address=(0x1180070000018)   Bus=(RSL)
  <63:32> NS    ---     NS         NS         RESERVED                                          
  <31:16> INC   R/W     0x0        0x0        Increment to add to current index for next index  
  <15:0>  IDX   R/W     0x0        0x0        Index to use for next memory CSR read             
+
+Notes:
+Provides the read index during a CSR read operation to any of the CSRs that are physically
+stored
+as memories.  The names of these CSRs begin with the prefix "RAD_MEM_".
+IDX[15:0] is the read index.  INC[15:0] is an increment that is added to IDX[15:0] after any
+CSR read.
+The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+contents of a CSR memory can be read with consecutive CSR read commands.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31690,6 +32158,11 @@ $RAD_REG_BIST_RESULT   Address=(0x1180070000080)   Bus=(RSL)
  <6>     NCB_OUB RO      NS         0x0        BiST result of the NCB_OUB memories               
  <5:4>   NCB_INB RO      NS         0x0        BiST result of the NCB_INB memories               
  <3:0>   DAT     RO      NS         0x0        BiST result of the DAT     memories               
+
+Notes:
+Access to the internal BiST results
+Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail).
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31720,6 +32193,9 @@ $RAD_REG_INT_MASK   Address=(0x1180070000090)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS       ---     NS         NS         RESERVED                                          
  <0>     DOORBELL R/W/H   0x0        0x0        Bit mask corresponding to RAD_REG_ERROR[0] above  
+
+Notes:
+When a mask bit is set, the corresponding interrupt is enabled.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31963,6 +32439,13 @@ $RAD_MEM_DEBUG0   Address=(0x1180070001000)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:0>  IWORD RO/H    NS         NS         IWord                                             
+
+Notes:
+This CSR is a memory of 32 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31977,6 +32460,13 @@ $RAD_MEM_DEBUG1   Address=(0x1180070001008)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:0>  P_DAT RO/H    NS         NS         P data                                            
+
+Notes:
+This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31991,6 +32481,13 @@ $RAD_MEM_DEBUG2   Address=(0x1180070001010)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:0>  Q_DAT RO/H    NS         NS         Q data                                            
+
+Notes:
+This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.  A read of any entry that has not been
+previously written is illegal and will result in unpredictable CSR read data.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35761,6 +36258,22 @@ $TIM_REG_FLAGS   Address=(0x1180058000000)   Bus=(RSL)
                                                When set, TIM is in normal operation.
                                                When clear, time is effectively stopped for all
                                                rings in TIM.
+
+Notes:
+TIM has a counter that causes a periodic tick every 1024 cycles. This counter is shared by all
+rings. (Each tick causes the HW to decrement the time offset (i.e. COUNT) for all enabled
+rings.)
+When ENA_TIM==0, the HW stops this shared periodic counter, so there are no more ticks, and
+there
+are no more new bucket traversals (for any ring).
+If ENA_TIM transitions 1->0, TIM will no longer create new bucket traversals, but there may
+have been previous ones. If there are ring bucket traversals that were already pending but
+not currently active (i.e. bucket traversals that need to be done by the HW, but haven't been
+yet)
+during this ENA_TIM 1->0 transition, then these bucket traversals will remain pending until
+ENA_TIM is later set to one. Bucket traversals that were already in progress will complete
+after the 1->0 ENA_TIM transition, though.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35777,6 +36290,16 @@ $TIM_REG_READ_IDX   Address=(0x1180058000008)   Bus=(RSL)
  <63:16> NS    ---     NS         NS         RESERVED                                          
  <15:8>  INC   R/W     0x0        0x0        Increment to add to current index for next index  
  <7:0>   INDEX R/W     0x0        0x0        Index to use for next memory CSR read             
+
+Notes:
+Provides the read index during a CSR read operation to any of the CSRs that are physically
+stored
+as memories.  The names of these CSRs begin with the prefix "TIM_MEM_".
+IDX[7:0] is the read index.  INC[7:0] is an increment that is added to IDX[7:0] after any CSR
+read.
+The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+contents of a CSR memory can be read with consecutive CSR read commands.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35794,6 +36317,11 @@ $TIM_REG_BIST_RESULT   Address=(0x1180058000080)   Bus=(RSL)
  <3:2>   STA   RO      NS         0x0        BiST result of the STA   memories (0=pass, !0=fail)
  <1>     NCB   RO      NS         0x0        BiST result of the NCB   memories (0=pass, !0=fail)
  <0>     CTL   RO      NS         0x0        BiST result of the CTL   memories (0=pass, !0=fail)
+
+Notes:
+Access to the internal BiST results
+Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail).
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35809,6 +36337,13 @@ $TIM_REG_ERROR   Address=(0x1180058000088)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         RESERVED                                          
  <15:0>  MASK  R/W1C/H 0x0        0x0        Bit mask indicating the rings in error            
+
+Notes:
+A ring is in error if its interval has elapsed more than once without having been serviced.
+During a CSR write to this register, the write data is used as a mask to clear the selected
+mask
+bits (mask'[15:0] = mask[15:0] & ~write_data[15:0]).
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35824,6 +36359,11 @@ $TIM_REG_INT_MASK   Address=(0x1180058000090)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         RESERVED                                          
  <15:0>  MASK  R/W/H   0x0        0x0        Bit mask corresponding to TIM_REG_ERROR.MASK above
+
+Notes:
+Note that this CSR is present only in chip revisions beginning with pass2.
+When mask bit is set, the interrupt is enabled.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35841,6 +36381,17 @@ $TIM_MEM_RING0   Address=(0x1180058001000)   Bus=(RSL)
  <54:24> BASE  R/W/H   0x0        0x0        Pointer[35:5] to bucket[0]                        
  <23:4>  BSIZE R/W/H   0x0        0x0        Number of buckets - 1                             
  <3:0>   RID   R/W/H   0x0        0x0        Ring ID                                           
+
+Notes:
+TIM_MEM_RING0 must not be written for a ring when TIM_MEM_RING1[ENA] is set for the ring.
+Every write to TIM_MEM_RING0 clears the current bucket for the ring. (The current bucket is
+readable via TIM_MEM_DEBUG2[BUCKET],TIM_MEM_DEBUG1[BUCKET].)
+BASE is a 32-byte aligned pointer[35:0].  Only pointer[35:5] are stored because pointer[4:0] =
+0.
+This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35862,6 +36413,19 @@ $TIM_MEM_RING1   Address=(0x1180058001008)   Bus=(RSL)
  <38:26> CSIZE    R/W/H   0x0        0x0        Number of words per chunk                         
  <25:4>  INTERVAL R/W/H   0x0        0x0        Timer interval - 1, measured in 1024 cycle ticks  
  <3:0>   RID      R/W/H   0x0        0x0        Ring ID                                           
+
+Notes:
+After a 1->0 transition on ENA, the HW will still complete a bucket traversal for the ring
+if it was pending or active prior to the transition. (SW must delay to ensure the completion
+of the traversal before reprogramming the ring.)
+Every write to TIM_MEM_RING1 resets the current time offset for the ring to the INTERVAL
+value.
+(The current time offset for the ring is readable via TIM_MEM_DEBUG0[COUNT].)
+CSIZE must be at least 16.  It is illegal to program CSIZE to a value that is less than 16.
+This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35888,6 +36452,13 @@ $TIM_MEM_DEBUG0   Address=(0x1180058001100)   Bus=(RSL)
                                                 is written for the ring.
  <23:22> NS       ---     NS         NS         RESERVED                                          
  <21:0>  INTERVAL RO/H    NS         0x0        Timer interval - 1                                
+
+Notes:
+Internal per-ring state intended for debug use only tim.ctl[47:0]
+This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35908,6 +36479,13 @@ $TIM_MEM_DEBUG1   Address=(0x1180058001108)   Bus=(RSL)
                                               See TIM_MEM_DEBUG2[BUCKET].
  <50:20> BASE   RO/H    NS         0x0        Pointer[35:5] to bucket[0]                        
  <19:0>  BSIZE  RO/H    NS         0x0        Number of buckets - 1                             
+
+Notes:
+Internal per-ring state intended for debug use only tim.sta[63:0]
+This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -35927,6 +36505,13 @@ $TIM_MEM_DEBUG2   Address=(0x1180058001110)   Bus=(RSL)
  <7>     NS     RO/H    NS         0x0        RESERVED                                          
  <6:0>   BUCKET RO/H    NS         0x0        Current bucket[19:13]                             
                                               See TIM_MEM_DEBUG1[BUCKET].
+
+Notes:
+Internal per-ring state intended for debug use only tim.sta[95:64]
+This CSR is a memory of 16 entries, and thus, the TIM_REG_READ_IDX CSR must be written before
+any
+CSR read operations to this address can be performed.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

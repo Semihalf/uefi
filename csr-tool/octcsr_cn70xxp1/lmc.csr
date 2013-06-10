@@ -162,31 +162,40 @@ registers:
 
 
   - name: LMC(0..0)_EXT_CONFIG
-    title: LMC NXM Failing Address Register
+    title: LMC Extended Configuration register
     address: 0x1180088000030 | a<<24
     bus: RSL
     description: This register has additional configuration and control bits for the LMC
     fields:
       - name: --
-        bits: 63..20
+        bits: 63..21
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: VREFINT_SEQ_DESKEW
+        bits: 20
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Personality bit to change the operation of what is normally the internal
+          vref training sequence into the deskew training sequence.
 
       - name: READ_ENA_BPRCH
         bits: 19
         access: R/W
         reset: 0
         typical: 0
-        description: Drive DQx for one cycle longer than normal during write operations.
+        description: Enable pad receiver one cycle longer than normal during read operations.
 
       - name: READ_ENA_FPRCH
         bits: 18
         access: R/W
         reset: 0
         typical: 0
-        description: Drive DQX starting one cycle earlier than normal during write operations.
+        description: Enable pad receiver starting one cycle earlier than normal during read operations.
 
       - name: SLOT_CTL_RESET_FORCE
         bits: 17
@@ -3485,7 +3494,9 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Deskew bypass.
+        description: |
+          When set, the deskew reset signal will go active if the vrefint/deskew training
+          sequence is in the idle state.
 
       - name: PHY_DSK_BYP
         bits: 17

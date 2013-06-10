@@ -1423,8 +1423,8 @@ registers:
         typical: --
         description: |
           Configures the PIPE/PHY configuration for PEM1 when all 4 PIPEs are enabled.
-          0: PEM1 is tied to DLM1/Lane1.   This is 2x1 PCIE with SATA.
-          1: PEM1 is tied to DLM2/Lane0.  This is 3x1 PCIe mode.
+          Only set this bit for the 3x1 PCIe mode.  In all other modes this bit needs
+          to be clear.
 
       - name: PIPE_PORT_SEL
         bits: 1..0

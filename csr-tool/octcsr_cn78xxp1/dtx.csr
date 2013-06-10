@@ -256,6 +256,36 @@ registers:
     bus: RSL
     inherits: DTX_PKI_PFE_BCST_RSP
 
+  - name: DTX_ASE_SEL(0..1)
+    title: DTX ASE Select Register
+    address: 0x11800FE000000 | ((221) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_SEL(0..1)
+
+  - name: DTX_ASE_ENA(0..1)
+    title: DTX ASE Mask Register
+    address: 0x11800FE000020 | ((221) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_ENA(0..1)
+
+  - name: DTX_ASE_DAT(0..1)
+    title: DTX ASE Raw Data Register
+    address: 0x11800FE000040 | ((221) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_DAT(0..1)
+
+  - name: DTX_ASE_CTL
+    title: DTX ASE Control Register
+    address: 0x11800FE6E8060
+    bus: RSL
+    inherits: DTX_PKI_PFE_CTL
+
+  - name: DTX_ASE_BCST_RSP
+    title: DTX ASE Control Register
+    address: 0x11800FE6E8080
+    bus: RSL
+    inherits: DTX_PKI_PFE_BCST_RSP
+
   - name: DTX_BROADCAST_SEL(0..1)
     title: DTX BROADCAST Select Register
     address: 0x11800FE7F0000 | a<<3

@@ -904,22 +904,11 @@ registers:
       All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
     fields:
       - name: --
-        bits: 63..13
+        bits: 63..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
-
-      - name: SGMII
-        bits: 12
-        access: RO
-        reset: --
-        typical: --
-        description: |
-          1=SGMII or 1000Base-X mode selected
-          MIO_QLMx_CFG[QLM_CFG] == 2'b01
-          0=XAUI or PCIE mode selected
-          MIO_QLMx_CFG[QLM_CFG] == 2'b11
 
       - name: GMXENO
         bits: 11

@@ -380,6 +380,76 @@ enums:
           mem_to_csr: "True"
         description: See PKO_PEB_ECC_DBE_STS_CMB0[PEB_DBE_CMB0].
 
+      - name: PKO_PEB_EXT_HDR_DEF_ERR
+        value: 0x50030
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_EXT_HDR_DEF_ERR].
+
+      - name: PKO_PEB_JUMP_DEF_ERR
+        value: 0x50031
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR].
+
+      - name: PKO_PEB_FCS_SOP_ERR
+        value: 0x50032
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR].
+
+      - name: PKO_PEB_PSE_FIFO_CFG_ERR
+        value: 0x50033
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_CFG_ERR].
+
+      - name: PKO_PEB_PAD_ERR
+        value: 0x50034
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_PAD_ERR].
+
+      - name: PKO_PEB_TRUNC_ERR
+        value: 0x50035
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_TRUNC_ERR].
+
+      - name: PKO_PEB_SUBD_ADDR_ERR
+        value: 0x50036
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_SUBD_ADDR_ERR].
+
+      - name: PKO_PEB_SUBD_SIZE_ERR
+        value: 0x50037
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_SUBD_SIZE_ERR].
+
+      - name: PKO_PEB_MAX_LINK_ERR
+        value: 0x50038
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_MAX_LINK_ERR].
+
+      - name: PKO_PEB_MACX_CFG_WR_ERR
+        value: 0x50039
+        attributes:
+          cib_rtl_module: "pko_peb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR].
+
       - name: PKO_SENDPKT_LMTDMA_ERR
         value: 0x500F9
         attributes:
@@ -3252,8 +3322,22 @@ registers:
         typical: 0
         description: WT_RAM ECC correction disable.
 
+      - name: SC_RAM_FLIP
+        bits: 12..11
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SC_RAM flip syndrome bits on write.
+
+      - name: SC_RAM_CDIS
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SC_RAM ECC correction disable.
+
       - name: --
-        bits: 12..0
+        bits: 9..0
         access: ---
         reset: --
         typical: --
@@ -3386,8 +3470,15 @@ registers:
         typical: --
         description: Single-bit error for WT_RAM.
 
+      - name: SC_RAM_SBE
+        bits: 46
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single-bit error for SC_RAM.
+
       - name: --
-        bits: 46..0
+        bits: 45..0
         access: ---
         reset: --
         typical: --
@@ -3543,8 +3634,15 @@ registers:
         typical: --
         description: Double-bit error for WT_RAM.
 
+      - name: SC_RAM_DBE
+        bits: 46
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Double-bit error for SC_RAM.
+
       - name: --
-        bits: 46..0
+        bits: 45..0
         access: ---
         reset: --
         typical: --
@@ -3936,8 +4034,22 @@ registers:
         typical: 0
         description: WT_RAM ECC correction disable.
 
+      - name: SC_RAM_FLIP
+        bits: 27..26
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SC_RAM flip syndrome bits on write.
+
+      - name: SC_RAM_CDIS
+        bits: 25
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SC_RAM ECC correction disable.
+
       - name: --
-        bits: 27..0
+        bits: 24..0
         access: ---
         reset: --
         typical: --
@@ -4035,8 +4147,15 @@ registers:
         typical: --
         description: Single-bit error for WT_RAM.
 
+      - name: SC_RAM_SBE
+        bits: 51
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single-bit error for SC_RAM.
+
       - name: --
-        bits: 51..0
+        bits: 50..0
         access: ---
         reset: --
         typical: --
@@ -4157,8 +4276,15 @@ registers:
         typical: --
         description: Double-bit error for WT_RAM.
 
+      - name: SC_RAM_DBE
+        bits: 51
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Double-bit error for SC_RAM.
+
       - name: --
-        bits: 51..0
+        bits: 50..0
         access: ---
         reset: --
         typical: --
@@ -4673,8 +4799,22 @@ registers:
         typical: 0
         description: WT_RAM ECC correction disable.
 
+      - name: SC_RAM_FLIP
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SC_RAM flip syndrome bits on write.
+
+      - name: SC_RAM_CDIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SC_RAM ECC correction disable.
+
       - name: --
-        bits: 3..0
+        bits: 0
         access: ---
         reset: --
         typical: --
@@ -4828,8 +4968,15 @@ registers:
         typical: --
         description: Single-bit error for WT_RAM.
 
+      - name: SC_RAM_SBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -5006,8 +5153,15 @@ registers:
         typical: --
         description: Double-bit error for WT_RAM.
 
+      - name: SC_RAM_DBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Double-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -5505,8 +5659,22 @@ registers:
         typical: 0
         description: WT_RAM ECC correction disable.
 
+      - name: SC_RAM_FLIP
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SC_RAM flip syndrome bits on write.
+
+      - name: SC_RAM_CDIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SC_RAM ECC correction disable.
+
       - name: --
-        bits: 3..0
+        bits: 0
         access: ---
         reset: --
         typical: --
@@ -5660,8 +5828,15 @@ registers:
         typical: --
         description: Single-bit error for WT_RAM.
 
+      - name: SC_RAM_SBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -5838,8 +6013,15 @@ registers:
         typical: --
         description: Double-bit error for WT_RAM.
 
+      - name: SC_RAM_DBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Double-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -6284,8 +6466,22 @@ registers:
         typical: 0
         description: WT_RAM ECC correction disable.
 
+      - name: SC_RAM_FLIP
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SC_RAM flip syndrome bits on write.
+
+      - name: SC_RAM_CDIS
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SC_RAM ECC correction disable.
+
       - name: --
-        bits: 3..0
+        bits: 0
         access: ---
         reset: --
         typical: --
@@ -6439,8 +6635,15 @@ registers:
         typical: --
         description: Single-bit error for WT_RAM.
 
+      - name: SC_RAM_SBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Single-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -6617,8 +6820,15 @@ registers:
         typical: --
         description: Double-bit error for WT_RAM.
 
+      - name: SC_RAM_DBE
+        bits: 43
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Double-bit error for SC_RAM.
+
       - name: --
-        bits: 43..0
+        bits: 42..0
         access: ---
         reset: --
         typical: --
@@ -7960,11 +8170,18 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MIN_PAD_ENA
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: --
+        description: Minimum padding is enabled for this MAC/FIFO
 
       - name: FCS_ENA
         bits: 15
@@ -8164,6 +8381,108 @@ registers:
         reset: 0x0
         typical: 0x0
         description: Red mark value. Corresponding bits in packet's data will be set when marking packet red
+
+
+  - name: PKO_PEB_ERR_INT
+    title: PKO error interrupt status register0
+    address: 0x1540000900C00
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEB_MACX_CFG_WR_ERR
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when SW writes a FIFO number to PKO_MACx_CFG when that FIFO is already assigned.
+          Throws PKO_INTSN_E::PEB_MACX_CFG_WR_ERR.
+
+      - name: PEB_MAX_LINK_ERR
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when 200 LINK segments have been followed.  Indicates likelihood of infinite
+          loop.  Throws PKO_INTSN_E::PEB_MAX_LINK_ERR.
+
+      - name: PEB_SUBD_SIZE_ERR
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when a SEND_LINK/GATHER/IMM/JUMP subD has size=0.  Throws
+          PKO_INTSN_E::PEB_SUBD_SIZE_ERR.
+
+      - name: PEB_SUBD_ADDR_ERR
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when the address of a FREE/MEM/LINK/LINK segment/JUMP/GATHER subD is 0x0.  Throws
+          PKO_INTSN_E::PEB_SUBD_ADDR_ERR.
+
+      - name: PEB_TRUNC_ERR
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when a PD has truncated data.  Throws PKO_INTSN_E::PEB_TRUNC_ERR.
+
+      - name: PEB_PAD_ERR
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when a PD has data padded to it (SEND_HDR[TOTAL] < sum(SEND_DATA[size])).  Throws
+          PKO_INTSN_E::PEB_PAD_ERR.
+
+      - name: PEB_PSE_FIFO_CFG_ERR
+        bits: 3
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when PSE sends PD information for a non-configured FIFO.  Throws
+          PKO_INTSN_E::PEB_PSE_FIFO_CFG_ERR.
+
+      - name: PEB_FCS_SOP_ERR
+        bits: 2
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when FCS SOP value greater than packet size detected.  Throws
+          PKO_INTSN_E::PEB_FCS_SOP_ERR.
+
+      - name: PEB_JUMP_DEF_ERR
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when JUMP sub-descriptor is not last in a PD.  Throws
+          PKO_INTSN_E::PEB_JUMP_DEF_ERR.
+
+      - name: PEB_EXT_HDR_DEF_ERR
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Asserted when EXT_HDR is not the second sub-descriptor in a PD.  Throws
+          PKO_INTSN_E::PEB_EXT_HDR_DEF_ERR.
 
 
   - name: PKO_PEB_ECC_CTL1

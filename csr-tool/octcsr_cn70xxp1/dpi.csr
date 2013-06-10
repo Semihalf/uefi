@@ -1012,6 +1012,9 @@ registers:
   - name: DPI_ENG(0..5)_BUF
     address: 0x1DF0000000880 + a*0x8
     bus: NCB
+    internal: |
+      The total amount of storage allocated to the 6 DPI DMA engines (via DPI_ENG*_BUF[BLKS]) must
+      not exceed 8KB.
     fields:
       - name: --
         bits: 63..37

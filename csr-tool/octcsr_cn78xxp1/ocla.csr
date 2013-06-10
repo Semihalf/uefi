@@ -190,12 +190,13 @@ registers:
         bits: 3
         access: R/W
         reset: 0
-        typical: 1
+        typical: 0
         description: |
-          Enable external triggering. When set, external triggering may be used. Must be clear on
-          all OCLAs simultaneously to insure that the external trigger can de-assert. INTERNAL: The
-          external trigger is a wire-OR with repeater flops and clock crossings, and without the bit
-          clear it would stay set forever as each block 'echos' back the same set state.
+          Enable external triggering.
+          0 = External triggering ignored.
+          1 = When the external trigger pin selected with GPIO_OCLA_EXTEN_TRIG is high it will cause
+          triggerring and set OCLA(0..4)_STATE_SET[TRIG]. The external device must de-assert the
+          signal to release the trigger (it is not edge sensitive.)
 
       - name: DEN
         bits: 2
@@ -255,14 +256,18 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: Writing one resets FSM1 to state zero.
+        description: |
+          FSM1 hold in state zero. Writing one to OCLA(0..4)_STATE_SET[FSM1_RST] sets this bit and
+          holds FSM1 in state zero, writing one to OCLA(0..4)_STATE_INT[FSM1_RST] removes the hold.
 
       - name: FSM0_RST
         bits: 34
         access: R/W1C
         reset: 0
         typical: 0
-        description: Writing one resets FSM0 to state zero.
+        description: |
+          FSM0 hold in state zero. Writing one to OCLA(0..4)_STATE_SET[FSM0_RST] sets this bit and
+          holds FSM0 in state zero, writing one to OCLA(0..4)_STATE_INT[FSM0_RST] removes the hold.
 
       - name: FSM1_ENA
         bits: 33
@@ -300,7 +305,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Internal buffer watermark reached. Asserted when OCLA(0..4)_FIFO_DEPTH >=
+          Internal buffer watermark reached. Asserted when OCLA(0..4)_FIFO_DEPTH >
           OCLA(0..4)_FIFO_LIMIT[WMARK].
 
       - name: OVERFULL
@@ -309,8 +314,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Capture ended due to FIFO overflow. Asserted when OCLA(0..4)_FIFO_DEPTH >=
-          OCLA(0..4)_FIFO_LIMIT[OVERFILL].
+          Capture ended due to FIFO overflow. Asserted when OCLA(0..4)_FIFO_DEPTH >
+          OCLA(0..4)_FIFO_LIMIT[OVERFULL].
 
       - name: TRIGFULL
         bits: 15
@@ -408,14 +413,14 @@ registers:
         access: R/W1S
         reset: 0
         typical: 0
-        description: Writing one resets FSM1 to state zero.
+        description: See OCLA(0..4)_STATE_INT[FSM1_RST].
 
       - name: FSM0_RST
         bits: 34
         access: R/W1S
         reset: 0
         typical: 0
-        description: Writing one resets FSM0 to state zero.
+        description: See OCLA(0..4)_STATE_INT[FSM0_RST].
 
       - name: FSM1_ENA
         bits: 33
@@ -581,14 +586,14 @@ registers:
     address: 0x11800A8000240 | a<<24
     bus: RSL
     fields:
-      - name: OVERFILL
+      - name: OVERFULL
         bits: 63..48
         access: R/W
         reset: all-ones
         typical: --
         description: |
-          Stop level. When OCLA(0..4)_FIFO_DEPTH >= OVERFILL, stop capturing and set
-          OCLA(0..4)_STATE_INT[OVERFILL]. This should be set to just less than the FIFO size when
+          Stop level. When OCLA(0..4)_FIFO_DEPTH > OVERFULL, stop capturing and set
+          OCLA(0..4)_STATE_INT[OVERFULL]. This should be set to just less than the FIFO size when
           using DDR capture to insure that overflow can be detected.
 
       - name: DDR
@@ -597,7 +602,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          DDR level. When OCLA(0..4)_FIFO_DEPTH >= DDR, FIFO entries will be removed, packed into a
+          DDR level. When OCLA(0..4)_FIFO_DEPTH > DDR, FIFO entries will be removed, packed into a
           cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
           must be at least 28.
 
@@ -607,7 +612,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Backpressure level. When OCLA(0..4)_FIFO_DEPTH >= BP, OCLA will signal backpressure to
+          Backpressure level. When OCLA(0..4)_FIFO_DEPTH > BP, OCLA will signal backpressure to
           coprocessors. All-ones disables indicating backpressure.
 
       - name: WMARK
@@ -616,7 +621,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Interrupt watermark level. When OCLA(0..4)_FIFO_DEPTH >= WMARK OCLA will set
+          Interrupt watermark level. When OCLA(0..4)_FIFO_DEPTH > WMARK OCLA will set
           OCLA(0..4)_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
 
 

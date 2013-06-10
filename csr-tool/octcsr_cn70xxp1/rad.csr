@@ -6,6 +6,7 @@ registers:
   - name: RAD_REG_CTL
     address: 0x1180070000000
     bus: RSL
+    internal: MAX_READ is a throttle to control NCB usage.  Values >8 are illegal.
     fields:
       - name: --
         bits: 63..7
@@ -47,6 +48,13 @@ registers:
   - name: RAD_REG_CMD_BUF
     address: 0x1180070000008
     bus: RSL
+    internal: |
+      Sets the command buffer parameters
+      The size of the command buffer segments is measured in uint64s.  The pool specifies 1 of 8
+      free
+      lists to be used when freeing command buffer segments.  The PTR field is overwritten with the
+      next
+      pointer each time that the command buffer segment is exhausted.
     fields:
       - name: --
         bits: 63..58
@@ -88,6 +96,7 @@ registers:
   - name: RAD_REG_POLYNOMIAL
     address: 0x1180070000010
     bus: RSL
+    internal: The polynomial is x^8 + C7*x^7 + C6*x^6 + C5*x^5 + C4*x^4 + C3*x^3 + C2*x^2 + C1*x^1 + C0.
     fields:
       - name: --
         bits: 63..8
@@ -107,6 +116,14 @@ registers:
   - name: RAD_REG_READ_IDX
     address: 0x1180070000018
     bus: RSL
+    internal: |
+      Provides the read index during a CSR read operation to any of the CSRs that are physically
+      stored
+      as memories.  The names of these CSRs begin with the prefix "RAD_MEM_".
+      IDX[15:0] is the read index.  INC[15:0] is an increment that is added to IDX[15:0] after any
+      CSR read.
+      The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+      contents of a CSR memory can be read with consecutive CSR read commands.
     fields:
       - name: --
         bits: 63..32
@@ -133,6 +150,9 @@ registers:
   - name: RAD_REG_BIST_RESULT
     address: 0x1180070000080
     bus: RSL
+    internal: |
+      Access to the internal BiST results
+      Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail).
     fields:
       - name: --
         bits: 63..8
@@ -192,6 +212,7 @@ registers:
   - name: RAD_REG_INT_MASK
     address: 0x1180070000090
     bus: RSL
+    internal: When a mask bit is set, the corresponding interrupt is enabled.
     fields:
       - name: --
         bits: 63..1
@@ -698,6 +719,11 @@ registers:
   - name: RAD_MEM_DEBUG0
     address: 0x1180070001000
     bus: RSL
+    internal: |
+      This CSR is a memory of 32 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.  A read of any entry that has not been
+      previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: IWORD
         bits: 63..0
@@ -710,6 +736,11 @@ registers:
   - name: RAD_MEM_DEBUG1
     address: 0x1180070001008
     bus: RSL
+    internal: |
+      This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.  A read of any entry that has not been
+      previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: P_DAT
         bits: 63..0
@@ -722,6 +753,11 @@ registers:
   - name: RAD_MEM_DEBUG2
     address: 0x1180070001010
     bus: RSL
+    internal: |
+      This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+      any
+      CSR read operations to this address can be performed.  A read of any entry that has not been
+      previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: Q_DAT
         bits: 63..0

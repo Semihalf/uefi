@@ -6670,21 +6670,21 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..17
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: VAL
-        bits: 17
+        bits: 16
         access: R/W1C/H
         reset: 0
         typical: --
         description: Set when BGX_RX_INT[PCTERR] is set.
 
       - name: STATE
-        bits: 16..8
+        bits: 15..8
         access: RO/H
         reset: 0x0
         typical: --
