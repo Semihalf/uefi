@@ -1,8 +1,8 @@
-Macriagor Mpdemon
-~~~~~~~~~~~~~~~~~
+Macriagor Mpdemon or WiFiDemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Get the latest mpDemon Firmware
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Get the latest Firmware
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Firmware and software updates are available for free from the Macraigor
 website. Be sure the software installed meets the minimum version lists
@@ -12,18 +12,12 @@ below.
 Model		Minimum Firmware
 -----		----------------
 mpDemon		3.0.4.3
+WiFiDemon	2.3-0
 ----
 
-WARNING: Firmware prior to 3.0.4.3 doesn't support CN63XX pass 2
-chips.  Be sure to use firmware 3.0.4.3 or higher.
+Macraigor website::
 
-Macraigor website with details about the mpDemon::
-
-link:http://www.macraigor.com/mpDemon.htm[]
-
-Link to the latest firmware for the mpDemon::
-
-link:http://www.macraigor.com/downloads/mpDemon_Update.zip[]
+link:http://www.macraigor.com/[]
 
 
 Setting up a Macraigor mpDemon for use with Octeon
@@ -155,13 +149,20 @@ OCDREMOTE          : JTAG speed 1
   Type Command (<Enter> will refresh screen) ->
 ----
 
+Setting up a Macraigor WiFiDemon for use with Octeon
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Configuring the BDK Host tools to use the mpDemon
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+After booting, the WiFiDemon should be ready for use. The probe
+automatically starts the EJTAG software listening on port 1000.
+Configuration of the WiFiDemon is done either through serial,
+direct keyboard/mouse connection, or through VNC.
+
+Configuring the BDK Host tools to use the mpDemon or WiFiDemon
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The environment variable *OCTEON_REMOTE_PROTOCOL* controls how the
 *bdk-remote* utility communicates with OCTEON.  Tot use the native
-capabilities of the Macraigor mpDemon, this variable should be set as
+capabilities of the Macraigor probes, this variable should be set as
 follows:
 
 [source, sh]
@@ -173,8 +174,8 @@ The different parts of this environment variable are defined below.
 
 macraigor::
 
-This is the EJTAG protocol being used. For the mpdemon, this is the best
-protocol.
+This is the EJTAG protocol being used. For the mpDemon and WiFiDemon,
+this is the best protocol.
 
 mpdemon1::
 
@@ -185,7 +186,7 @@ IPv4 address in X.X.X.X format.
 
 This is the TCP/IP port number used to connect to the mpDemon.  This
 matches the "API TCP/IP Port" configuration of the probe.  The default
-port is '1000' for the mpDemon.
+port is '1000' for Macarigor probes.
 
 1::
 
@@ -196,7 +197,7 @@ This is the EJTAG clock speed divider.  Generally the fastest speed of
 Booting the BDK
 ^^^^^^^^^^^^^^^
 
-Now that the mpDemon is configured and the *OCTEON_REMOTE_PROTOCOL*
+Now that the probe is configured and the *OCTEON_REMOTE_PROTOCOL*
 environment variable is set, the BDK can be booted on the board.  Issue
 the following *bdk-remote* command.
 
