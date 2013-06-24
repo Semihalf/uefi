@@ -356,7 +356,7 @@ registers:
             0x1 = Reference clock source for SuperSpeed PLL is from the USB pads,
                   reference clock source for HighSpeed PLL is PLL_REF_CLK.
             0x2 = Reserved.
-            0x3 = Reference clock source for both PLLs come from PLL_REF_CLK.
+            0x3 = Reserved.
           The PLL_REF_CLK is a 50MHz reference clock from an on-chip PLL.
           This value can be changed only during UPHY_RST.
           Note: If REF_CLK_SEL = 0x0, then the reference clock input cannot be
@@ -373,8 +373,7 @@ registers:
           then do not enable this function. The clocks sourced to the SuperSpeed function
           must have spread-spectrum to be compliant with the USB specification.
           The HighSpeed PLL cannot support a spread-spectrum input, so REF_CLK_SEL = 0x0
-          must enable this feature. The PLL_REF_CLK is not spread-spectrum, so REF_CLK_SEL
-          = 0x3 must enable this feature.
+          must enable this feature.
           This value may only be changed during UPHY_RST.
 
       - name: SSC_RANGE
@@ -416,11 +415,9 @@ registers:
                      52MHz, 76.8MHz, 96MHz, 104MHz.
               0x0: if the external reference clock is another supported frequency (see list
                    in MPLL_MULTIPLIER description).
-            If REF_CLK_SEL = 0x3 then:
-              0x0 is the only legal value.
           All other values are reserved.
           This value may only be changed during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting.
 
       - name: MPLL_MULTIPLIER
@@ -451,14 +448,11 @@ registers:
               0x30 = 104  MHz on the external reference clock if REF_CLK_DIV2 is 0x1
               0x28 = 125  MHz on the external reference clock
               0x19 = 200  MHz on the external reference clock
-            If REF_CLK_SEL = 0x3 then:
-              0x32 is the only legal value.
           All other values are reserved.
           This value may only be changed during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting. When REF_CLK_SEL = 0x0, this value
-          is
-          superceded by the REF_CLK_FSEL<5:3> selection.
+          is superceded by the REF_CLK_FSEL<5:3> selection.
 
       - name: REF_SSP_EN
         bits: 39
@@ -485,14 +479,12 @@ registers:
               all reference clock frequencies: 0x0 is the only legal value.
             If REF_CLK_SEL = 0x1, then:
               0x1: if external reference clock is 125MHz, 40MHz, 76.8MHz, or 200MHz.
-              0x0 or 0x: if external reference clock is 104MHz (depending on MPLL_MULTIPLIER
-          setting)
+              0x0 or 0x1: if external reference clock is 104MHz
+                          (depending on MPLL_MULTIPLIER setting)
               0x0: if external reference clock is another supported frequency,
                    (see list in MPLL_MULTIPLIER description).
-            If REF_CLK_SEL = 0x3 then:
-              0x0 is the only legal value.
           This value can be changed only during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting.
 
       - name: REF_CLK_FSEL
@@ -510,13 +502,10 @@ registers:
               0x38: external reference clock  19.2MHz
             If REF_CLK_SEL = 0x1 then:
               0x7 is the only legal value.
-            If REF_CLK_SEL = 0x3 then:
-              0x7 is the only legal value.
           All other values are reserved.
           This value may only be changed during UPHY_RST.
-          Note: When REF_CLK_SEL = 0x1 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and
-          SSC_REF_CLK_SEL
-          must all be programmed to the same frequency setting.
+          Note: When REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and
+          SSC_REF_CLK_SEL must all be programmed to the same frequency setting.
 
       - name: --
         bits: 31

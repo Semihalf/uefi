@@ -1715,7 +1715,7 @@ registers:
         typical: 0
         description: |
           Add work to disabled group. An ADDWQ was received and dropped to a group with
-          SSO_GRP(0..255)_TAQ_THR[RSVD_THR] = 0. Throws SSO_INTSN_E::SSO_ERR0_GRPDIS.
+          SSO_GRP(0..255)_IAQ_THR[RSVD_THR] = 0. Throws SSO_INTSN_E::SSO_ERR0_GRPDIS.
 
       - name: BFP
         bits: 2
@@ -2988,8 +2988,9 @@ registers:
         description: |
           Max threshold for this transitory admission queue, in buffers of 13 entries. Must be >= 3,
           must be >= [RSVD_THR], and to insure full streaming performance on this group, should be
-          at least 16 buffers. SSO may exceed this count by one buffer if and only if persistently
-          backpressured by IOBI. Must not be changed after traffic is sent to this group.
+          at least 16 buffers. SSO may exceed this count using unreserved free buffers if and only
+          if persistently backpressured by IOBI. Must not be changed after traffic is sent to this
+          group.
 
       - name: --
         bits: 31..11
@@ -3391,6 +3392,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          dv_uvm_force_compare: "True"
         description: |
           External admission queue cache lines written. Each write corresponds to 13 WAEs. Writes
           are for diagnostic use only, and defined only when neither work nor GET_WORKs are present
@@ -4268,7 +4271,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: The next entry in the IQ/AQ/DQ.
+        description: The next entry in the AQ/CQ/DQ.
 
 
   - name: SSO_TAQ(0..1279)_LINK

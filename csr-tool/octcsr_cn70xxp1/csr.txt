@@ -992,6 +992,7 @@ $AGL_GMX_TX(0..0)_PAUSE_PKT_TIME   Address=(0x11800E0000238+a*0x800)   Bus=(RSL)
  <15:0>  TIME  R/W     0x60       NS         The pause_time field placed is outbnd pause pkts  
                                              pause_time is in 512 bit-times
                                              Normally, TIME > AGL_GMX_TX_PAUSE_PKT_INTERVAL
+                                             Attribute: -exempt_keyword=True.
 
 Notes:
 Choosing proper values of AGL_GMX_TX_PAUSE_PKT_TIME[TIME] and
@@ -1035,6 +1036,7 @@ $AGL_GMX_TX(0..0)_MIN_PKT   Address=(0x11800E0000240+a*0x800)   Bus=(RSL)
  * AGL_GMX_TX_PAUSE_PKT_INTERVAL = Packet TX Pause Packet transmission interval - how often PAUSE packets will be sent
  * 
  *  
+ *  Attribute: -exempt_name_length=True.
  * 
 $AGL_GMX_TX(0..0)_PAUSE_PKT_INTERVAL   Address=(0x11800E0000248+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -1080,6 +1082,7 @@ $AGL_GMX_TX(0..0)_SOFT_PAUSE   Address=(0x11800E0000250+a*0x800)   Bus=(RSL)
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TIME  R/W     0x0        NS         Back off the TX bus for (TIME*512) bit-times      
                                              for full-duplex operation only
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1095,6 +1098,7 @@ $AGL_GMX_TX(0..0)_PAUSE_TOGO   Address=(0x11800E0000258+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TIME  RO/H    NS         NS         Amount of time remaining to backpressure          
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1580,6 +1584,7 @@ $AGL_GMX_TX_PAUSE_PKT_TYPE   Address=(0x11800E00004A8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TYPE  R/W     0x8808     0x8808     The TYPE field placed is outbnd pause pkts        
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -4203,6 +4208,56 @@ $DTX_MIO_BCST_RSP   Address=(0x11800FE000080)   Bus=(RSL)
  <63:1>  NS    ---     0x0        0x0        Reserved.                                         
  <0>     ENA   R/W     0x0        0x0        Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 -----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * DTX_RST_SEL = DTX RST Select Register
+ *  This register has the same bit fields as DTX_MIO_SEL(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_SEL(0..1).
+ * 
+$DTX_RST_SEL(0..1)   Address=(0x11800FE000000|((6) << 15)|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_RST_ENA = DTX RST Mask Register
+ *  This register has the same bit fields as DTX_MIO_ENA(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_ENA(0..1).
+ * 
+$DTX_RST_ENA(0..1)   Address=(0x11800FE000020|((6) << 15)|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_RST_DAT = DTX RST Raw Data Register
+ *  This register has the same bit fields as DTX_MIO_DAT(0..1).
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_DAT(0..1).
+ * 
+$DTX_RST_DAT(0..1)   Address=(0x11800FE000040|((6) << 15)|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_RST_CTL = DTX RST Control Register
+ *  This register has the same bit fields as DTX_MIO_CTL.
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_CTL.
+ * 
+$DTX_RST_CTL   Address=(0x11800FE030060)   Bus=(RSL)
+
+
+ * 
+ * DTX_RST_BCST_RSP = DTX RST Control Register
+ *  This register has the same bit fields as DTX_MIO_BCST_RSP.
+ * 
+ *  
+ *  Attribute: -inherits=DTX_MIO_BCST_RSP.
+ * 
+$DTX_RST_BCST_RSP   Address=(0x11800FE030080)   Bus=(RSL)
 
 
  * 
@@ -7239,6 +7294,7 @@ $GMX(0..1)_TX(0..3)_PAUSE_PKT_TIME   Address=(0x1180008000238+a*0x8000000+b*0x80
                                              packets, HiGig2 messages, or CBFC pause packets.
                                              pause_time is in 512 bit-times
                                              Normally, TIME > GMX_TX_PAUSE_PKT_INTERVAL
+                                             Attribute: -exempt_keyword=True.
 
 Notes:
 Choosing proper values of GMX_TX_PAUSE_PKT_TIME[TIME] and
@@ -7333,6 +7389,7 @@ $GMX(0..1)_TX(0..3)_SOFT_PAUSE   Address=(0x1180008000250+a*0x8000000+b*0x800)  
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TIME  R/W     0x0        NS         Back off the TX bus for (TIME*512) bit-times      
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -7352,6 +7409,7 @@ $GMX(0..1)_TX(0..3)_PAUSE_TOGO   Address=(0x1180008000258+a*0x8000000+b*0x800)  
                                                 (only valid on port0)
  <15:0>  TIME     RO/H    NS         NS         Amount of time remaining to backpressure          
                                                 From the standard 802.3 pause timer
+                                                Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -7984,6 +8042,7 @@ $GMX(0..1)_TX_PAUSE_PKT_TYPE   Address=(0x11800080004A8+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TYPE  R/W     0x8808     0x8808     The TYPE field placed is outbnd pause pkts        
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8309,6 +8368,11 @@ $GMX(0..1)_TX_XAUI_CTL   Address=(0x1180008000528+a*0x8000000)   Bus=(RSL)
                                                     (XAUI mode only)
  <0>     DIC_EN       R/W     0x0        0x1        Enable the deficit idle counter for IFG averaging 
                                                     (XAUI mode only)
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8329,6 +8393,11 @@ $GMX(0..1)_RX_XAUI_CTL   Address=(0x1180008000530+a*0x8000000)   Bus=(RSL)
                                               2=Remote Fault
                                               3=Reserved
                                               (XAUI mode only)
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8355,6 +8424,11 @@ $GMX(0..1)_RX_XAUI_BAD_COL   Address=(0x1180008000538+a*0x8000000)   Bus=(RSL)
  <31:0>  LANE_RXD RO/H    0x0        NS         When GMX_RX_INT_REG[PCTERR] is set, LANE_RXD will 
                                                 conatin the XAUI column at the time of the error.
                                                 (XAUI mode only)
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8379,6 +8453,11 @@ $GMX(0..1)_XAUI_EXT_LOOPBACK   Address=(0x1180008000540+a*0x8000000)   Bus=(RSL)
                                               value will cause loopback mode not to function
                                               correctly.
                                               (XAUI mode only)
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8405,6 +8484,11 @@ $GMX(0..1)_RX_HG2_STATUS   Address=(0x1180008000548+a*0x8000000)   Bus=(RSL)
                                                 message packet received or a function of the
                                                 enabled and current timers for CBFC packets.
                                                 Non-zero only when logical back pressure is active
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8432,6 +8516,11 @@ $GMX(0..1)_HG2_CONTROL   Address=(0x1180008000550+a*0x8000000)   Bus=(RSL)
                                                 HiGig2 physical pause message
  <15:0>  LOGL_EN  R/W     0xffff     NS         16 bit xof enables for recevied HiGig2 messages   
                                                 or CBFC packets
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8451,6 +8540,11 @@ $GMX(0..1)_TX_HG2_REG1   Address=(0x1180008000558+a*0x8000000)   Bus=(RSL)
                                               Only write in HiGig2 mode i.e. when
                                               GMX_TX_XAUI_CTL[HG_EN]=1 and
                                               GMX_RX_UDD_SKP[LEN]=16.
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8470,6 +8564,11 @@ $GMX(0..1)_TX_HG2_REG2   Address=(0x1180008000560+a*0x8000000)   Bus=(RSL)
                                               Only write in HiGig2 mode i.e. when
                                               GMX_TX_XAUI_CTL[HG_EN]=1 and
                                               GMX_RX_UDD_SKP[LEN]=16.
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8512,7 +8611,9 @@ $GMX(0..1)_PRT(0..0)_CBFC_CTL   Address=(0x1180008000580+a*0x8000000+b*0x8)   Bu
                                                GMX_RX_UDD_SKP[LEN]=16.
 
 Notes:
-XOFF for a specific port is XOFF<prt> = (PHYS_EN<prt> & PHYS_BP) | (LOGL_EN<prt> & LOGL_BP<prt>)
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8531,6 +8632,11 @@ $GMX(0..1)_TX(0..0)_CBFC_XOFF   Address=(0x11800080005A0+a*0x8000000+b*0x8)   Bu
                                              Do not write in HiGig2 mode i.e. when
                                              GMX_TX_XAUI_CTL[HG_EN]=1 and
                                              GMX_RX_UDD_SKP[LEN]=16.
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8549,6 +8655,11 @@ $GMX(0..1)_TX(0..0)_CBFC_XON   Address=(0x11800080005C0+a*0x8000000+b*0x8)   Bus
                                              Do not write in HiGig2 mode i.e. when
                                              GMX_TX_XAUI_CTL[HG_EN]=1 and
                                              GMX_RX_UDD_SKP[LEN]=16.
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8574,6 +8685,11 @@ $GMX(0..1)_RXAUI_CTL   Address=(0x1180008000740+a*0x8000000)   Bus=(RSL)
                                                  specification.
                                                  (does not obey 6.25GHz SERDES disparity)
                                                  (RXAUI mode only)
+
+Notes:
+o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -8725,21 +8841,6 @@ $GSER(0)_DLM(0..2)_REFCLK_SEL   Address=(0x1180090000008+a+b*0x80000)   Bus=(RSL
                                                   When set, selects common reference clock 1.
                                                   GSER0_DLMn_REF_USE_PAD[REF_USE_PAD] must be clear
                                                   to select either common reference clock.
------------------------------------------------------------------------------------------------------------------------------------
-
-
- * 
- * GSER_PHY_SCOPE_MASK = GSER PHY SCOPE Mask N Valid Register
- * 
- *  Starting count value of PHY Mask register
- * 
-$GSER(0)_PHY(0..2)_SCOPE_MASK(0..7)   Address=(0x1180090000120+a+b*0x80000+c*0x8)   Bus=(RSL)
------------------------------------------------------------------------------------------------------------------------------------
- Bit     Field    Field   Reset      Typical    Field                                             
- Pos     Name     Type    Value      Value      Description                                       
------------------------------------------------------------------------------------------------------------------------------------
- <63:16> NS       ---     NS         NS         Reserved.                                         
- <15:0>  MASK_VAL R/W     0x0        NS         The internal PHY MASK_VAL_N registers.            
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9349,6 +9450,7 @@ $GSER(0)_PCIE_TX_DEEMPH_GEN1   Address=(0x1180090080408+a)   Bus=(RSL)
  * GSER_PCIE_TX_DEEMPH_GEN2_3P5DB = GSER PCIE Transmit 3P5DB Deemphsis Register
  * 
  *  PCIE Tx De-emphasis at 3.5 dB.
+ *  Attribute: -exempt_name_length=True.
  * 
 $GSER(0)_PCIE_TX_DEEMPH_GEN2_3P5DB   Address=(0x1180090080410+a)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -9506,9 +9608,10 @@ $GSER(0)_PCIE_PIPE_PORT_SEL   Address=(0x1180090080460+a)   Bus=(RSL)
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:3>  NS            ---     NS         NS         Reserved.                                         
- <2>     CFG_PEM1_LANE R/W     0x0        NS         Configures the PIPE/PHY configuration for PEM1 when all 4 PIPEs are enabled.
-                                                     Only set this bit for the 3x1 PCIe mode.  In all other modes this bit needs
-                                                     to be clear.
+ <2>     CFG_PEM1_DLM2 R/W     0x0        NS         The PIPE/PHY configuration for PEM1, used as status for determining which DLM PEM1 is tied
+                                                     to.
+                                                     0: PEM1 is tied to DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
+                                                     1: PEM1 is tied to DLM2.  This is all other modes.
  <1:0>   PIPE_PORT_SEL R/W     0x0        NS         PIPE enable request.  Change only when phy_reset is asserted.
                                                      00: Disables all PIPEs
                                                      01: Enables PIPE0 only.  This is 1x4 PCIe mode.
@@ -9830,6 +9933,226 @@ $GSER(0)_SATA_REF_SSP_EN   Address=(0x1180090100600+a)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS         ---     NS         NS         Reserved.                                         
  <0>     REF_SSP_EN R/W     0x0        NS         Reference Clock Enable for the PHY.               
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_IDCODE_LO = GSER PHY ID CODE LO Register
+ * 
+ *  PHY Version Low.
+ * 
+$GSER(0)_PHY(0..2)_IDCODE_LO   Address=(0x1180090400000+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field     Field   Reset      Typical    Field                                             
+ Pos     Name      Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:16> NS        ---     NS         NS         Reserved.                                         
+ <15:0>  IDCODE_LO RO      0x74cd     NS         The PHY version low.                              
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_IDCODE_HI = GSER PHY ID CODE HI Register
+ * 
+ *  PHY Version Hi.
+ * 
+$GSER(0)_PHY(0..2)_IDCODE_HI   Address=(0x1180090400008+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field     Field   Reset      Typical    Field                                             
+ Pos     Name      Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:16> NS        ---     NS         NS         Reserved.                                         
+ <15:0>  IDCODE_HI RO      0x9223     NS         The PHY version high.                             
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE0_TX_LBERT_CTL = GSER PHY Lane 0 TX BERT Control Register
+ * 
+ *  PHY LANE0 TX LBERT Control.
+ * 
+$GSER(0)_PHY(0..2)_LANE0_TX_LBERT_CTL   Address=(0x1180090408028+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field    Field   Reset      Typical    Field                                             
+ Pos     Name     Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:15> NS       ---     NS         NS         Reserved.                                         
+ <14:5>  PAT0     R/W     0x0        NS         10-bit pattern for modes that use this field.  Ignored for
+                                                other modes.
+ <4>     TRIG_ERR R/W     0x0        NS         Single shot inversion of the LSB of the current symbol.
+                                                Any write of 1 to this bit will insert an error.
+ <3:0>   MODE     R/W     0x0        NS         Pattern to generate.  When changing modes, the field must be set to zero
+                                                first.
+                                                0: disabled
+                                                1: lfsr31     X^31 + X^28 + 1
+                                                2: lfsr23     X^23 + X^18 + 1
+                                                3: lfsr15     X^15 + X^14 + 1
+                                                4: lfsr7      X^7 + X^6 + 1
+                                                5: Fixed word (PAT0)
+                                                6: DC-balanced word (PAT0, ~PAT0)
+                                                7: Word pattern (20-bit)
+                                                15-8: Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE0_RX_LBERT_CTL = GSER PHY Lane 0 RX LBERT Control Register
+ * 
+ *  PHY LANE0 RX LBERT Control.
+ * 
+$GSER(0)_PHY(0..2)_LANE0_RX_LBERT_CTL   Address=(0x1180090408030+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:4>  NS    ---     NS         NS         Reserved.                                         
+ <3>     SYNC  R/W     0x0        NS         Synchronizes pattern matcher with incoming data.  A write of a 1
+                                             to this bit resets the error counter and starts a synchronization of
+                                             the PM.  Once this bit is set, there is no need to write the field back
+                                             to a zero.
+ <2:0>   MODE  R/W     0x0        NS         Pattern to match.  When changing modes, the field must be set to zero
+                                             first.  This field should match what was configured for the TX LBERT
+                                             Control register.
+                                             0: disabled
+                                             1: lfsr31     X^31 + X^28 + 1
+                                             2: lfsr23     X^23 + X^18 + 1
+                                             3: lfsr15     X^15 + X^14 + 1
+                                             4: lfsr7      X^7 + X^6 + 1
+                                             5: d[n] = d[n-10]
+                                             6: d[n] = !d[n-10]
+                                             7: d[n] = !d[n-20]
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE0_RX_LBERT_ERR = GSER PHY Lane 0 RX LBERT Error Register
+ * 
+ *  PHY LANE0 RX LBERT Error.
+ *  A read of this register, or a SYNC from the RX LBERT Control register
+ *  resets the error count.  If all bits in this regisert are set, the
+ *  error counter has saturated.
+ * 
+$GSER(0)_PHY(0..2)_LANE0_RX_LBERT_ERR   Address=(0x1180090408038+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:16> NS    ---     NS         NS         Reserved.                                         
+ <15>    OV14  R/W     0x0        NS         If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
+ <14:0>  COUNT R/W     0x0        NS         Current error count if OV14 field is active, then multiply count
+                                             by 128 to get the actual count.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE0_TXDEBUG = GSER PHY Lane N TX DEBUG Register
+ * 
+ *  PHY LANE0 TX DEBUG.
+ * 
+$GSER(0)_PHY(0..2)_LANE0_TXDEBUG   Address=(0x1180090408080+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field           Field   Reset      Typical    Field                                             
+ Pos     Name            Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:12> NS              ---     NS         NS         Reserved.                                         
+ <11:4>  RXDET_MEAS_TIME R/W     0x10       NS         Time to wait for rxdet measurement.               
+ <3>     DETRX_ALWAYS    R/W     0x0        NS         Always signals 1 for rx_detect ignoring analog.   
+ <2:0>   DTB_SEL         R/W     0x0        NS         Selects data to drive on the DTB.                 
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE1_TX_LBERT_CTL = GSER PHY Lane 1 TX BERT Control Register
+ * 
+ *  PHY LANE1 RX LBERT Control.
+ * 
+$GSER(0)_PHY(0..2)_LANE1_TX_LBERT_CTL   Address=(0x1180090408828+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field    Field   Reset      Typical    Field                                             
+ Pos     Name     Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:15> NS       ---     NS         NS         Reserved.                                         
+ <14:5>  PAT0     R/W     0x0        NS         10-bit pattern for modes that use this field.  Ignored for
+                                                other modes.
+ <4>     TRIG_ERR R/W     0x0        NS         Single shot inversion of the LSB of the current symbol.
+                                                Any write of 1 to this bit will insert an error.
+ <3:0>   MODE     R/W     0x0        NS         Pattern to generate.  When changing modes, the field must be set to zero
+                                                first.
+                                                0: disabled
+                                                1: lfsr31     X^31 + X^28 + 1
+                                                2: lfsr23     X^23 + X^18 + 1
+                                                3: lfsr15     X^15 + X^14 + 1
+                                                4: lfsr7      X^7 + X^6 + 1
+                                                5: Fixed word (PAT0)
+                                                6: DC-balanced word (PAT0, ~PAT0)
+                                                7: Word pattern (20-bit)
+                                                15-8: Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE1_RX_LBERT_CTL = GSER PHY Lane 1 RX LBERT Control Register
+ * 
+ *  PHY LANE1 TX LBERT Control.
+ * 
+$GSER(0)_PHY(0..2)_LANE1_RX_LBERT_CTL   Address=(0x1180090408830+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:4>  NS    ---     NS         NS         Reserved.                                         
+ <3>     SYNC  R/W     0x0        NS         Synchronizes pattern matcher with incoming data.  A write of a 1
+                                             to this bit resets the error counter and starts a synchronization of
+                                             the PM.  Once this bit is set, there is no need to write the field back
+                                             to a zero.
+ <2:0>   MODE  R/W     0x0        NS         Pattern to match.  When changing modes, the field must be set to zero
+                                             first.  This field should match what was configured for the TX LBERT
+                                             Control register.
+                                             0: disabled
+                                             1: lfsr31     X^31 + X^28 + 1
+                                             2: lfsr23     X^23 + X^18 + 1
+                                             3: lfsr15     X^15 + X^14 + 1
+                                             4: lfsr7      X^7 + X^6 + 1
+                                             5: d[n] = d[n-10]
+                                             6: d[n] = !d[n-10]
+                                             7: d[n] = !d[n-20]
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE1_RX_LBERT_ERR = GSER PHY Lane 0 RX LBERT Error Register
+ * 
+ *  PHY LANE1 RX LBERT Error.
+ *  A read of this register, or a SYNC from the RX LBERT Control register
+ *  resets the error count.  If all bits in this regisert are set, the
+ *  error counter has saturated.
+ * 
+$GSER(0)_PHY(0..2)_LANE1_RX_LBERT_ERR   Address=(0x1180090408838+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field Field   Reset      Typical    Field                                             
+ Pos     Name  Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:16> NS    ---     NS         NS         Reserved.                                         
+ <15>    OV14  R/W     0x0        NS         If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
+ <14:0>  COUNT R/W     0x0        NS         Current error count if OV14 field is active, then multiply count
+                                             by 128 to get the actual count.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
+ * GSER_PHY_LANE1_TXDEBUG = GSER PHY Lane N TX DEBUG Register
+ * 
+ *  PHY LANE1 TX DEBUG.
+ * 
+$GSER(0)_PHY(0..2)_LANE1_TXDEBUG   Address=(0x1180090408880+a+b*0x80000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field           Field   Reset      Typical    Field                                             
+ Pos     Name            Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:12> NS              ---     NS         NS         Reserved.                                         
+ <11:4>  RXDET_MEAS_TIME R/W     0x10       NS         Time to wait for rxdet measurement.               
+ <3>     DETRX_ALWAYS    R/W     0x0        NS         Always signals 1 for rx_detect ignoring analog.   
+ <2:0>   DTB_SEL         R/W     0x0        NS         Selects data to drive on the DTB.                 
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -10936,10 +11259,37 @@ $IOB_CHIP_GLB_PWR_THROTTLE   Address=(0x11800F0000808)   Bus=(RSL)
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:34> NS          ---     NS         NS         Reserved.                                         
- <33:32> PWR_BW      R/W     0x0        NS         Power BW.                                         
- <31:24> PWR_MAX     R/W     0xff       NS         Max power setting in ma/Ghz.                      
- <23:16> PWR_MIN     R/W     0x0        NS         Min power setting in ma/Ghz.                      
- <15:0>  PWR_SETTING R/W     0xffff     NS         in ma/Ghz.                                        
+ <33:32> PWR_BW      R/W     0x0        0x0        Configures the reaction time of the closed-loop feedback
+                                                   control system for the AVG_CHIP_POWER power approximation.
+                                                   Higher numbers decrease bandwidth, reducing response time,
+                                                   which could lead to greater tracking error, but reduce
+                                                   ringing.
+ <31:24> PWR_MAX     R/W     0xff       0xff       Maximum allowed CURRENT_POWER_SETTING value. PWR_MAX must
+                                                   be >= PWR_MIN.
+ <23:16> PWR_MIN     R/W     0x0        NS         Minimum allowed CURRENT_POWER_SETTING value. PWR_MIN must
+                                                   be <= PWR_MAX.
+                                                   We recommend a PWR_MIN value larger than zero to set a
+                                                   minimum performance level in case PWR_SETTING is set to
+                                                   an unreachable goal. See the CPU CP0 PowThrottle description.
+                                                   PWR_MIN = 50% of PowThrottle[MAXPOW] could be a good
+                                                   choice, for example.
+ <15:0>  PWR_SETTING R/W     0xffff     NS         A power limiter for the chip.                     
+                                                   A limiter of the power consumption of the chip. This power
+                                                   limiting is implemented by a closed-loop feedback control
+                                                   system for the AVG_CHIP_POWER power approximation. The
+                                                   direct output of the PWR_SETTING feedback control system
+                                                   is the CURRENT_POWER_SETTING value. The power consumed
+                                                   by the chip (estimated currently by the AVG_CHIP_POWER
+                                                   value) is an indirect output of the PWR_SETTING feedback
+                                                   control system.
+                                                   PWR_SETTING is not used by the hardware when PWR_MIN equals
+                                                   PWR_MAX. PWR_MIN and PWR_MAX threshold requirements always
+                                                   supercede PWR_SETTING limits. (For maximum PWR_SETTING
+                                                   feedback control freedom, set PWR_MIN=0 and PWR_MAX=0xff.)
+                                                   PWR_SETTING equal to 0 forces the chip to consume near
+                                                   minimum power. Increasing PWR_SETTING value from 0 to
+                                                   0xffff increases the power that the chip is alloed to
+                                                   consume linearly (roughly) from minimum to maximum.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -10953,10 +11303,21 @@ $IOB_CHIP_PWR_OUT   Address=(0x11800F0000818)   Bus=(RSL)
  Bit     Field          Field   Reset      Typical    Field                                             
  Pos     Name           Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:48> CMB_PWR        RO/H    0x0        NS         CMB Power number.                                 
- <47:32> CHIP_POWER     RO/H    0x0        NS         Total Chip Power number.                          
- <31:16> ROC_POWER      RO/H    0x0        NS         Total ROC Power.                                  
- <15:0>  AVG_CHIP_POWER RO/H    0x0        NS         Avg chip power.                                   
+ <63:48> CPU_PWR        RO/H    0x0        NS         An estimate of the current CPU core complex power consumption.
+                                                      The CPU core complex includes the caches and DRAM controller(s),
+                                                      as well as all CPU cores. Linearly larger values indicate linearly
+                                                      higher power consumption. This power consumption estimate is
+                                                      energy per core clock.
+ <47:32> CHIP_POWER     RO/H    0x0        NS         An estimate of the current total power consumption by the chip.
+                                                      Linearly larger values indicate linearly higher power consumption.
+                                                      CHIP_POWER is the sum of CPU_POWER and COPROC_POWER.
+ <31:16> COPROC_POWER   RO/H    0x0        NS         An estimate of the current coprocessor power consumption.
+                                                      Linearly larger values indicate linearly higher power consumption.
+                                                      This estimate is energy per core clock, and will
+                                                      generally decrease as the ratio of core to coprocessor clock
+                                                      speed increases.
+ <15:0>  AVG_CHIP_POWER RO/H    0x0        NS         An average of CHIP_POWER, calculated using an IIR filter with
+                                                      an average weight of 16K core clocks.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -10971,7 +11332,20 @@ $IOB_CHIP_CUR_PWR   Address=(0x11800F0000828)   Bus=(RSL)
  Pos     Name                  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:8>  NS                    ---     NS         NS         Reserved.                                         
- <7:0>   CURRENT_POWER_SETTING RO/H    0x0        NS         Current Power Setting.                            
+ <7:0>   CURRENT_POWER_SETTING RO/H    0x0        NS         Global throttling value currently being used.     
+                                                             Throttling can force units (CPU cores, in particular) idle for a
+                                                             portion of time, which will reduce power consumption.  When
+                                                             CURRENT_POWER_SETTING is equal to zero, the unit is idle most
+                                                             of the time and consumes minimum power. When CURRENT_POWER_SETTING
+                                                             is equal to 0xFF, units are never idled to reduce power.
+                                                             The hardware generally uses a CURRENT_POWER_SETTING value that
+                                                             is as large as possible (in order to maximize performance) subject
+                                                             to the following constraints (in priority order):
+                                                               - PWR_MIN <= CURRENT_POWER_SETTING <= PWR_MAX
+                                                               - Power limits from the PWR_SETTING feedback control system
+                                                             In the case of the CPU cores, CURRENT_POWER_SETTING effectively
+                                                             limits the CP0 PowThrottle[POWLIM] value:
+                                                               effective POWLIM = MINIMUM(CURRENT_POWER_SETTING,PowThrottle[POWLIM])
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -15991,6 +16365,7 @@ $LMC(0..0)_RLEVEL_CTL   Address=(0x11800880002A0|a<<24)   Bus=(RSL)
                                                       the largest contiguous sequence of passing settings, rounding earlier when necessary.
  <7:4>   OFFSET         R/W     0x2        0x2        The offset used when LMC(0..0)_RLEVEL_CTL[OFFSET] is set.
  <3:0>   BYTE           R/W     0x0        NS         0 <= BYTE <= 8. Byte index for which bitmask results are saved in LMC(0..0)_RLEVEL_DBG.
+                                                      Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -16125,6 +16500,7 @@ $LMC(0..0)_WLEVEL_DBG   Address=(0x1180088000308|a<<24)   Bus=(RSL)
                                                If LMC(0..0)_WLEVEL_CTL[SSET]=1, BITMASK<0>=0 means curr deskew setting failed;
                                                BITMASK<0>=1 means curr deskew setting passed.
  <3:0>   BYTE    R/W     0x0        0x0        0 <= BYTE <= 8.                                   
+                                               Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -16458,6 +16834,7 @@ $CIU_INT_SUM1   Address=(0x1070000000108)   Bus=(NCB)
                                                See MIO_BOOT_ERR
  <19>    NAND   RO/H    0x0        0x0        NAND / EMMC Controller interrupt                  
                                               See  NAND / EMMC interrupt
+                                              Attribute: -exempt_keyword=True.
  <18>    NS     ---     NS         NS         Reserved for additional Interrupts                
  <17>    USB1   RO/H    0x0        0x0        USBDRD1 Interrupt.  (CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0])
                                               See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0]
@@ -16677,6 +17054,7 @@ $CIU_INT(0..7,32..33)_EN1   Address=(0x1070000000208+a*0x10)   Bus=(NCB)
  <21>    IOB        R/W/H   0x0        0x0        IOB interrupt enable                              
  <20>    MIO        R/W/H   0x0        0x0        MIO boot interrupt enable                         
  <19>    NAND       R/W/H   0x0        0x0        NAND / EMMC Controller interrupt enable           
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W/H   0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W/H   0x0        0x0        USBDRD1 summary interrupt enable vector.          
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -17075,6 +17453,7 @@ $GPIO_INT_CLR   Address=(0x1070000000898)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> NS    ---     NS         NS         Reserved.                                         
  <15:0>  TYPE  R/W1C/H 0x0        0x0        Clear the interrupt rising edge detector          
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -17455,6 +17834,7 @@ $CIU_INT(0..3)_EN4_1   Address=(0x1070000000C88+a*0x10)   Bus=(NCB)
  <21>    IOB        R/W/H   0x0        0x0        IOB interrupt enable                              
  <20>    MIO        R/W/H   0x0        0x0        MIO boot interrupt enable                         
  <19>    NAND       R/W/H   0x0        0x0        NAND / EMMC Controller interrupt enable           
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W/H   0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W/H   0x0        0x0        USBDRD1 summary interrupt enable vector           
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -17790,8 +18170,10 @@ $MPI_CFG   Address=(0x1070000001000)   Bus=(NCB)
                                                 completion of MPI transaction
                                                 1, clock never idles, requires CS deassertion
                                                 assertion between commands
- <1>     IDLELO   R/W     0x0        0x0        If 0, SPI_CLK idles high, 1st transition is hi->lo
-                                                1, SPI_CLK idles low, 1st transition is lo->hi
+ <1>     IDLELO   R/W     0x0        0x0        0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
+                                                Guide options CPOL = 1, CPHA = 1.
+                                                1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
+                                                Guide options CPOL = 0, CPHA = 0.
  <0>     ENABLE   R/W     0x0        0x0        MPI/SPI master enable.                            
                                                 0 = UART0_DTR_L/SPI_DO, UART0_DCD_L/SPI_DI,  pins are UART pins.
                                                 1 = UART0_DTR_L/SPI_DO and UART0_DCD_L/SPI_DI pins are MPI/SPI pins.
@@ -17955,6 +18337,7 @@ $CIU_INT(0..7,32..33)_EN1_W1C   Address=(0x1070000002208+a*0x10)   Bus=(NCB)
  <20>    MIO        R/W1C/H 0x0        0x0        Write 1 to clear MIO boot interrupt enable        
  <19>    NAND       R/W1C/H 0x0        0x0        Write 1 to clear NAND / EMMC Controller interrupt 
                                                   enable
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W1C/H 0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W1C/H 0x0        0x0        Write 1s to clear USBDRD1 summary interrupt enable
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -18044,6 +18427,7 @@ $CIU_INT(0..3)_EN4_1_W1C   Address=(0x1070000002C88+a*0x10)   Bus=(NCB)
  <20>    MIO        R/W1C/H 0x0        0x0        Write 1 to clear MIO boot interrupt enable        
  <19>    NAND       R/W1C/H 0x0        0x0        Write 1 to clear NAND / EMMC Controller interrupt 
                                                   enable
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W1C/H 0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W1C/H 0x0        0x0        Write 1s to clear USBDRD1 summary interrupt enable
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -18137,6 +18521,7 @@ $CIU_INT(0..7,32..33)_EN1_W1S   Address=(0x1070000006208+a*0x10)   Bus=(NCB)
  <20>    MIO        R/W1S/H 0x0        0x0        Write 1 to set MIO boot interrupt enable          
  <19>    NAND       R/W1S/H 0x0        0x0        Write 1 to set NAND / EMMC Controller interrupt   
                                                   enable
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W1S/H 0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W1S/H 0x0        0x0        Write 1s to set USBDRD1 summary interrupt enable  
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -18229,6 +18614,7 @@ $CIU_INT(0..3)_EN4_1_W1S   Address=(0x1070000006C88+a*0x10)   Bus=(NCB)
  <20>    MIO        R/W1S/H 0x0        0x0        Write 1 to set MIO boot interrupt enable          
  <19>    NAND       R/W1S/H 0x0        0x0        Write 1 to set NAND / EMMC Controller interrupt   
                                                   enable
+                                                  Attribute: -exempt_keyword=True.
  <18>    NS         R/W1S/H 0x0        0x0        Reserved for additional Interrupts                
  <17>    USB1       R/W1S/H 0x0        0x0        Write 1s to set USBDRD1 summary interrupt enable  
  <16>    NS         ---     NS         NS         Reserved for Third UART interrupt                 
@@ -18314,6 +18700,7 @@ $CIU_SUM1_PP(0..3)_IP2   Address=(0x1070000008000+a*0x8)   Bus=(NCB)
                                                See MIO_BOOT_ERR
  <19>    NAND    RO/H    0x0        0x0        NAND / EMMC Controller interrupt                  
                                                See NAND / EMMC interrupt
+                                               Attribute: -exempt_keyword=True.
  <18>    NS      ---     NS         NS         Reserved for additional Interrupts                
  <17>    USB1    RO/H    0x0        0x0        USBDRD1 interrupts. |(CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0]).
                                                See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0].
@@ -19355,6 +19742,7 @@ $MIO_BOOT_REG_TIM0   Address=(0x1180000000040)   Bus=(RSL)
  <59:54> ALE    R/W     0x4        NS         Region 0 ALE count                                
  <53:48> PAGE   R/W     0x3f       NS         Region 0 page count                               
  <47:42> WAIT   R/W     0x3f       NS         Region 0 wait count                               
+                                              Attribute: -exempt_keyword=True.
  <41:36> PAUSE  R/W     0x11       NS         Region 0 pause count                              
  <35:30> WR_HLD R/W     0x3f       NS         Region 0 write hold count                         
  <29:24> RD_HLD R/W     0x5        NS         Region 0 read hold count                          
@@ -19386,6 +19774,7 @@ $MIO_BOOT_REG_TIM(1..7)   Address=(0x1180000000040+a*0x8)   Bus=(RSL)
  <59:54> ALE    R/W     0x3f       NS         Region @ ALE count                                
  <53:48> PAGE   R/W     0x3f       NS         Region @ page count                               
  <47:42> WAIT   R/W     0x3f       NS         Region @ wait count                               
+                                              Attribute: -exempt_keyword=True.
  <41:36> PAUSE  R/W     0x3f       NS         Region @ pause count                              
  <35:30> WR_HLD R/W     0x3f       NS         Region @ write hold count                         
  <29:24> RD_HLD R/W     0x3f       NS         Region @ read hold count                          
@@ -19543,15 +19932,15 @@ $MIO_BOOT_PIN_DEFS   Address=(0x11800000000C0)   Bus=(RSL)
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:57> NS          ---     NS         NS         Reserved.                                         
- <56>    DLM_SUPPLY  RO      NS         NS         DLM Power Supply Setting based on DLMC_VPH_SELECT_18 pin 1 = 1.8V 0 = 2.5V All others = Reserved
- <55:54> RGM_SUPPLY  RO      NS         NS         RGMii Power Supply Setting based on VDD_RGM_SUPPLY_SELECT pin 01 = 1.8V 10 = 2.5V All
+ <63:33> NS          ---     NS         NS         Reserved.                                         
+ <32>    DLM_SUPPLY  RO      NS         NS         DLM Power Supply Setting based on DLMC_VPH_SELECT_18 pin 1 = 1.8V 0 = 2.5V All others = Reserved
+ <31:30> RGM_SUPPLY  RO      NS         NS         RGMii Power Supply Setting based on VDD_RGM_SUPPLY_SELECT pin 01 = 1.8V 10 = 2.5V All
                                                    others = Reserved
- <53:51> SMI_SUPPLY  RO      NS         NS         SMI Power Supply Setting based on VDD_SMI_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+ <29:27> SMI_SUPPLY  RO      NS         NS         SMI Power Supply Setting based on VDD_SMI_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
                                                    3.3V All others = Reserved
- <50:48> IO_SUPPLY   RO      NS         NS         I/O Power Supply Setting based on VDD_IO_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
+ <26:24> IO_SUPPLY   RO      NS         NS         I/O Power Supply Setting based on VDD_IO_SUPPLY_SELECT pin 001 = 1.8V 010 = 2.5V 100 =
                                                    3.3V All others = Reserved
- <47:17> NS          ---     NS         NS         Reserved.                                         
+ <23:17> NS          ---     NS         NS         Reserved.                                         
  <16>    REF_SEL     RO      NS         NS         Reference Clock Selection based on UART0_RTS_N pin at powerup 0 = DLM_REF_CLK[1] pins div
                                                    2, must be set to 100Mhz 1 = PLL_REF_CLK pin (default), must be set to 50Mhz
  <15>    ALE         RO      0x1        0x1        Set to 1 for backward compatability               
@@ -20255,6 +20644,7 @@ $MIO_UART(0..1)_FAR   Address=(0x1180000000920+a*0x400)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS    ---     NS         NS         Reserved.                                         
  <0>     FAR   R/W     0x0        NS         FIFO Access Register                              
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -20582,6 +20972,7 @@ $MIO_TWS(0..1)_SW_TWSI   Address=(0x1180000001000+a*0x200)   Bus=(RSL)
                                               - master mode completion (contains result or
                                               error code)
                                               - TWSI config register read (contains result)
+                                              Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -20605,6 +20996,7 @@ $MIO_TWS(0..1)_TWSI_SW   Address=(0x1180000001008+a*0x200)   Bus=(RSL)
                                              - Cleared on any read by software
  <61:32> NS    ---     NS         NS         Reserved.                                         
  <31:0>  D     R/W     NS         NS         Data Field - updated on a write by the TWSI device
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -20670,6 +21062,7 @@ $MIO_TWS(0..1)_SW_TWSI_EXT   Address=(0x1180000001018+a*0x200)   Bus=(RSL)
  <63:40> NS    ---     NS         NS         Reserved.                                         
  <39:32> IA    R/W     0x0        NS         Extended Internal Address                         
  <31:0>  D     R/W/H   0x0        NS         Extended Data Field                               
+                                             Attribute: -exempt_keyword=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22154,9 +22547,7 @@ $OCLA(0)_GEN_CTL   Address=(0x11800A8000060|a<<24)   Bus=(RSL)
                                              signal to release the trigger (it is not edge sensitive.)
  <2>     DEN   R/W     0x0        0x1        Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
                                              counters may increment. When clear, the bus is always zero and internal flops may be clock
-                                             gated off to save power. Must be set for normal operation. INTERNAL: When clear, RTL must
-                                             assert that the data bus is zero, to make sure at full chip that no block is 'spamming'
-                                             non-zero OCLA data after reset.
+                                             gated off to save power. Must be set for normal operation.
  <1>     STT   R/W     0x0        NS         Store to DDR directly, bypassing L2 cache.        
  <0>     NS    ---     NS         NS         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -22179,8 +22570,8 @@ $OCLA(0)_STATE_INT   Address=(0x11800A8000080|a<<24)   Bus=(RSL)
                                                   holds FSM1 in state zero, writing one to OCLA(0)_STATE_INT[FSM1_RST] removes the hold.
  <34>    FSM0_RST   R/W1C   0x0        0x0        FSM0 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM0_RST] sets this bit and
                                                   holds FSM0 in state zero, writing one to OCLA(0)_STATE_INT[FSM0_RST] removes the hold.
- <33>    FSM1_ENA   R/W1C   0x0        0x0        FSM1 sequencing and capturing enabled.            
- <32>    FSM0_ENA   R/W1C   0x0        0x0        FSM0 sequencing and capturing enabled.            
+ <33>    FSM1_ENA   R/W1C   0x0        0x0        FSM1 sequencing enabled.                          
+ <32>    FSM0_ENA   R/W1C   0x0        0x0        FSM0 sequencing enabled.                          
  <31:19> NS         ---     NS         NS         Reserved.                                         
  <18>    DDRFULL    R/W1C/H 0x0        0x0        DDR buffer wrapped. Asserted when OCLA(0)_STACK_CUR has wrapped and been re-initialized
                                                   to OCLA(0)_STACK_BASE.
@@ -22447,16 +22838,18 @@ $OCLA(0)_CDH(0..1)_CTL   Address=(0x11800A8000600|a<<24|b<<3)   Bus=(RSL)
  <4>     DIS_STAMP R/W     0x0        0x0        Remove time stamps from data stream.              
  <3:0>   CAP_CTL   R/W     0x2        0x2        Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
                                                  mux selected by PLA1 and 0. The output is thus calulated from the equation:
-                                                 out = (    (<3> & PLA1 & PLA0)
-                                                 || (<2> & PLA1 & !PLA0)
-                                                 || (<1> & !PLA1 & PLA0)
-                                                 || (<0> & !PLA1 & !PLA0))
+                                                 fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP]
+                                                 fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP]
+                                                 out = (    (<3> & fsmcap0 & fsmcap0)
+                                                 || (<2> & fsmcap1 & !fsmcap0)
+                                                 || (<1> & !fsmcap1 & fsmcap0)
+                                                 || (<0> & !fsmcap1 & !fsmcap0))
                                                  Common examples:
                                                  0x0 = No capture
-                                                 0x2 = Capture when PLA0 requests capture
-                                                 0x4 = Capture when PLA1 requests capture
-                                                 0x6 = Capture on PLA0 | PLA1
-                                                 0x8 = Capture on PLA0 & PLA1
+                                                 0x2 = Capture when fsmcap0 requests capture
+                                                 0x4 = Capture when fsmcap1 requests capture
+                                                 0x6 = Capture on fsmcap0 | fsmcap1
+                                                 0x8 = Capture on fsmcap0 & fsmcap1
                                                  0xF = Always capture.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -22583,7 +22976,7 @@ $OCLA(0)_MAT(0..3)_THRESH   Address=(0x11800A8240000|a<<24|b<<12)   Bus=(RSL)
  * 
  * OCLA_FSM_AND_I = OCLA FSM PLA AND Tree Registers
  * 
- *  Values for PLA-AND plane. AND(0..31) represents the 32 allowed AND terms. I(0..1) for I=0
+ *  Values for PLA-AND plane. AND(0..15) represents the 15 allowed AND terms. I(0..1) for I=0
  *  indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
  *  disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
  * 
@@ -23648,8 +24041,10 @@ $PCIEEP(0..2)_CFG065   Address=(0x30000000104+a*0x100000000)   Bus=(PCICONFIGEP)
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <31:25> NS      ---     NS         NS         Reserved.                                         
- <24>    UATOMBS RO      0x0        0x0        Unsupported AtomicOp Egress Blocked Status        
- <23:21> NS      ---     NS         NS         Reserved.                                         
+ <24>    UATOMBS R/W1C/H 0x0        0x0        Unsupported AtomicOp Egress Blocked Status        
+ <23>    NS      ---     NS         NS         Reserved.                                         
+ <22>    UCIES   R/W1C/H 0x1        0x1        Uncorrectable Internal Error Status               
+ <21>    NS      ---     NS         NS         Reserved.                                         
  <20>    URES    R/W1C/H 0x0        0x0        Unsupported Request Error Status                  
  <19>    ECRCES  R/W1C/H 0x0        0x0        ECRC Error Status                                 
  <18>    MTLPS   R/W1C/H 0x0        0x0        Malformed TLP Status                              
@@ -23715,7 +24110,9 @@ $PCIEEP(0..2)_CFG067   Address=(0x3000000010C+a*0x100000000)   Bus=(PCICONFIGEP)
 -----------------------------------------------------------------------------------------------------------------------------------
  <31:25> NS      ---     NS         NS         Reserved.                                         
  <24>    UATOMBS RO      0x0        0x0        Unsupported AtomicOp Egress Blocked Severity      
- <23:21> NS      RO/H    0x2        0x2        Reserved.                                         
+ <23>    NS      ---     NS         NS         Reserved.                                         
+ <22>    UCIES   R/W     0x1        0x1        Uncorrectable Internal Error Severity             
+ <21>    NS      ---     NS         NS         Reserved.                                         
  <20>    URES    R/W     0x0        0x0        Unsupported Request Error Severity                
  <19>    ECRCES  R/W     0x0        0x0        ECRC Error Severity                               
  <18>    MTLPS   R/W     0x1        0x1        Malformed TLP Severity                            
@@ -23745,9 +24142,10 @@ $PCIEEP(0..2)_CFG068   Address=(0x30000000110+a*0x100000000)   Bus=(PCICONFIGEP)
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:14> NS     ---     NS         NS         Reserved.                                         
+ <31:15> NS     ---     NS         NS         Reserved.                                         
+ <14>    CIES   R/W1C/H 0x0        0x0        Corrected Internal Error Status                   
  <13>    ANFES  R/W1C/H 0x0        0x0        Advisory Non-Fatal Error Status                   
- <12>    RTTS   R/W1C/H 0x0        0x0        Reply Timer Timeout Status                        
+ <12>    RTTS   R/W1C/H 0x0        0x0        Replay Timer Timeout Status                       
  <11:9>  NS     ---     NS         NS         Reserved.                                         
  <8>     RNRS   R/W1C/H 0x0        0x0        REPLAY_NUM Rollover Status                        
  <7>     BDLLPS R/W1C/H 0x0        0x0        Bad DLLP Status                                   
@@ -23864,7 +24262,7 @@ $PCIEEP(0..2)_CFG074   Address=(0x30000000128+a*0x100000000)   Bus=(PCICONFIGEP)
  * 
  * PCIEEP_CFG082
  * 
- *  PCIE_CFG110 = One hundred eleventh 32-bits of PCIE type 0 config space
+ *  PCIE_CFG082 = Eighty-third 32-bits of PCIE type 0 config space
  *  (PCI Express Resizable BAR (RBAR) Capability Header)
  * 
 $PCIEEP(0..2)_CFG082   Address=(0x30000000148+a*0x100000000)   Bus=(PCICONFIGEP)
@@ -23881,7 +24279,7 @@ $PCIEEP(0..2)_CFG082   Address=(0x30000000148+a*0x100000000)   Bus=(PCICONFIGEP)
  * 
  * PCIEEP_CFG083
  * 
- *  PCIE_CFG111 = One hundred twelvth 32-bits of PCIE type 0 config space
+ *  PCIE_CFG083 = Eighty-fourth 32-bits of PCIE type 0 config space
  *  (PCI Express Resizable BAR (RBAR) Capability Register)
  * 
 $PCIEEP(0..2)_CFG083   Address=(0x3000000014C+a*0x100000000)   Bus=(PCICONFIGEP)
@@ -23903,7 +24301,7 @@ $PCIEEP(0..2)_CFG083   Address=(0x3000000014C+a*0x100000000)   Bus=(PCICONFIGEP)
  * 
  * PCIEEP_CFG084
  * 
- *  PCIE_CFG112 = One hundred thirteenth 32-bits of PCIE type 0 config space
+ *  PCIE_CFG084 = Eighty-fifth 32-bits of PCIE type 0 config space
  *  (PCI Express Resizable BAR (RBAR) Control Register)
  * 
 $PCIEEP(0..2)_CFG084   Address=(0x30000000150+a*0x100000000)   Bus=(PCICONFIGEP)
@@ -26027,8 +26425,10 @@ $PCIERC(0..2)_CFG065   Address=(0x20000000104+a*0x100000000)   Bus=(PCICONFIGRC)
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <31:25> NS      ---     NS         NS         Reserved.                                         
- <24>    UATOMBS RO      0x0        0x0        Unsupported AtomicOp Egress Blocked Status        
- <23:21> NS      ---     NS         NS         Reserved.                                         
+ <24>    UATOMBS R/W1C/H 0x0        0x0        Unsupported AtomicOp Egress Blocked Status        
+ <23>    NS      ---     NS         NS         Reserved.                                         
+ <22>    UCIES   R/W1C/H 0x1        0x1        Uncorrectable Internal Error Status               
+ <21>    NS      ---     NS         NS         Reserved.                                         
  <20>    URES    R/W1C/H 0x0        0x0        Unsupported Request Error Status                  
  <19>    ECRCES  R/W1C/H 0x0        0x0        ECRC Error Status                                 
  <18>    MTLPS   R/W1C/H 0x0        0x0        Malformed TLP Status                              
@@ -26094,7 +26494,9 @@ $PCIERC(0..2)_CFG067   Address=(0x2000000010C+a*0x100000000)   Bus=(PCICONFIGRC)
 -----------------------------------------------------------------------------------------------------------------------------------
  <31:25> NS      ---     NS         NS         Reserved.                                         
  <24>    UATOMBS RO      0x0        0x0        Unsupported AtomicOp Egress Blocked Severity      
- <23:21> NS      RO/H    0x2        0x2        Reserved.                                         
+ <23>    NS      ---     NS         NS         Reserved.                                         
+ <22>    UCIES   R/W     0x1        0x1        Uncorrectable Internal Error Severity             
+ <21>    NS      ---     NS         NS         Reserved.                                         
  <20>    URES    R/W     0x0        0x0        Unsupported Request Error Severity                
  <19>    ECRCES  R/W     0x0        0x0        ECRC Error Severity                               
  <18>    MTLPS   R/W     0x1        0x1        Malformed TLP Severity                            
@@ -26124,7 +26526,8 @@ $PCIERC(0..2)_CFG068   Address=(0x20000000110+a*0x100000000)   Bus=(PCICONFIGRC)
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <31:14> NS     ---     NS         NS         Reserved.                                         
+ <31:15> NS     ---     NS         NS         Reserved.                                         
+ <14>    CIES   R/W1C/H 0x0        0x0        Corrected Internal Error Status                   
  <13>    ANFES  R/W1C/H 0x0        0x0        Advisory Non-Fatal Error Status                   
  <12>    RTTS   R/W1C/H 0x0        0x0        Replay Timer Timeout Status                       
  <11:9>  NS     ---     NS         NS         Reserved.                                         
@@ -27681,6 +28084,11 @@ $PCSX(0..1)_CONTROL1_REG   Address=(0x11800B0000800+a*0x8000000)   Bus=(RSL)
                                                 1    1   Bits 5:2 select speed
  <5:2>   SPD      RO      0x0        0x0        Always select 10Gb/s, writes have no effect       
  <1:0>   NS       ---     NS         NS         Reserved.                                         
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27703,6 +28111,11 @@ $PCSX(0..1)_STATUS1_REG   Address=(0x11800B0000808+a*0x8000000)   Bus=(RSL)
                                                Link down status continues until SW read.
  <1>     LPABLE  RO      0x1        0x1        Always set to 1 for Low Power ablility indication 
  <0>     NS      ---     NS         NS         Reserved.                                         
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27719,6 +28132,11 @@ $PCSX(0..1)_SPD_ABIL_REG   Address=(0x11800B0000810+a*0x8000000)   Bus=(RSL)
  <63:2>  NS       ---     NS         NS         Reserved.                                         
  <1>     TENPASST RO      0x0        0x0        Always 0, no 10PASS-TS/2BASE-TL capability support
  <0>     TENGB    RO      0x1        0x1        Always 1, 10Gb/s supported                        
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27734,6 +28152,12 @@ $PCSX(0..1)_CONTROL2_REG   Address=(0x11800B0000818+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:2>  NS    ---     NS         NS         Reserved.                                         
  <1:0>   TYPE  RO      0x1        0x1        Always 2'b01, 10GBASE-X only supported            
+                                             Attribute: -exempt_keyword=True.
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27758,6 +28182,11 @@ $PCSX(0..1)_STATUS2_REG   Address=(0x11800B0000820+a*0x8000000)   Bus=(RSL)
  <2>     TENGB_W RO      0x0        0x0        Always 0, no 10GBASE-W capability                 
  <1>     TENGB_X RO      0x1        0x1        Always 1, 10GBASE-X capable                       
  <0>     TENGB_R RO      0x0        0x0        Always 0, no 10GBASE-R capability                 
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27779,6 +28208,11 @@ $PCSX(0..1)_10GBX_STATUS_REG   Address=(0x11800B0000828+a*0x8000000)   Bus=(RSL)
  <2>     L2SYNC RO/H    0x0        0x1        1=Rcv lane 2 code grp synchronized, 0=not sync'ed 
  <1>     L1SYNC RO/H    0x0        0x1        1=Rcv lane 1 code grp synchronized, 0=not sync'ed 
  <0>     L0SYNC RO/H    0x0        0x1        1=Rcv lane 0 code grp synchronized, 0=not sync'ed 
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27803,6 +28237,11 @@ $PCSX(0..1)_TX_RX_STATES_REG   Address=(0x11800B0000830+a*0x8000000)   Bus=(RSL)
  <7:5>   ALGN_ST  RO/H    0x0        NS         Lane alignment state machine state state          
  <4:3>   RX_ST    RO/H    0x0        NS         Receive state machine state state                 
  <2:0>   TX_ST    RO/H    0x0        NS         Transmit state machine state state                
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27821,6 +28260,11 @@ $PCSX(0..1)_RX_SYNC_STATES_REG   Address=(0x11800B0000838+a*0x8000000)   Bus=(RS
  <11:8>  SYNC2ST RO/H    0x0        NS         Receive lane 2 code grp sync state machine state  
  <7:4>   SYNC1ST RO/H    0x0        NS         Receive lane 1 code grp sync state machine state  
  <3:0>   SYNC0ST RO/H    0x0        NS         Receive lane 0 code grp sync state machine state  
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27841,6 +28285,11 @@ $PCSX(0..1)_TX_RX_POLARITY_REG   Address=(0x11800B0000840+a*0x8000000)   Bus=(RS
  <5:2>   XOR_TXPLRT R/W     0x0        0x0        Per lane TX polarity control                      
  <1>     RXPLRT     R/W     0x0        0x0        1 is inverted polarity, 0 is normal polarity      
  <0>     TXPLRT     R/W     0x0        0x0        1 is inverted polarity, 0 is normal polarity      
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27864,6 +28313,11 @@ $PCSX(0..1)_MISC_CTL_REG   Address=(0x11800B0000848+a*0x8000000)   Bus=(RSL)
                                                This bit represents pi_qlm1/3_cfg[1:0] pin status
  <0>     GMXENO  R/W     0x0        0x0        GMX port enable override, GMX en/dis status is held
                                                during data packet reception.
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27882,6 +28336,11 @@ $PCSX(0..1)_BIT_LOCK_STATUS_REG   Address=(0x11800B0000850+a*0x8000000)   Bus=(R
  <2>     BITLCK2 RO/H    0x0        NS         Receive Lane 2 bit lock status                    
  <1>     BITLCK1 RO/H    0x0        NS         Receive Lane 1 bit lock status                    
  <0>     BITLCK0 RO/H    0x0        NS         Receive Lane 0 bit lock status                    
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27910,6 +28369,11 @@ $PCSX(0..1)_INT_REG   Address=(0x11800B0000858+a*0x8000000)   Bus=(RSL)
                                                 in one of the 4 xaui lanes
  <1>     RXBAD    R/W1C/H 0x0        0x0        Set when RX state machine in bad state            
  <0>     TXFLT    R/W1C/H 0x0        0x0        None defined at this time, always 0x0             
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27931,6 +28395,11 @@ $PCSX(0..1)_INT_EN_REG   Address=(0x11800B0000860+a*0x8000000)   Bus=(RSL)
  <2>     RXSYNBAD_EN R/W     0x0        0x1        Enable RXSYNBAD  interrupt                        
  <1>     RXBAD_EN    R/W     0x0        0x1        Enable RXBAD  interrupt                           
  <0>     TXFLT_EN    R/W     0x0        0x1        Enable TXFLT   interrupt                          
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27967,6 +28436,11 @@ $PCSX(0..1)_LOG_ANL_REG   Address=(0x11800B0000868+a*0x8000000)   Bus=(RSL)
                                                  0    1   Packet size 4k bytes
                                                  1    0   Packet size 8k bytes
                                                  1    1   Packet size 16k bytes
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27983,6 +28457,11 @@ $PCSX(0..1)_BIST_STATUS_REG   Address=(0x11800B0000870+a*0x8000000)   Bus=(RSL)
  <63:1>  NS          ---     NS         NS         Reserved.                                         
  <0>     BIST_STATUS RO      0x0        0x0        1=bist failure, 0=bisted memory ok or bist in progress
                                                    pcsx.tx_sm.drf8x36m1_async_bist
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -28003,6 +28482,11 @@ $PCSX(0..1)_SERDES_CRDT_CNT_REG   Address=(0x11800B0000880+a*0x8000000)   Bus=(R
                                              Recommended value is 16 for all full-duplex operations.  Some clock ratios may require a
                                              larger setting of 20.
                                              Value of zero will disable the port.
+
+Notes:
+o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+documented.
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -28174,7 +28658,7 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:56> NS       ---     NS         NS         Reserved.                                         
- <55:48> PEAI_PPF R/W     0x80       0x80       TLP credits for Completion TLPs in the Peer. The  
+ <55:48> PEAI_PPF R/W     0x80       0x80       TLP credits for all inbound TLPs in the PEM. The  
                                                 value in this register should not be changed. Values
                                                 other than 0x80 can lead to unpredictable behavior.
  <47:24> NS       ---     NS         NS         Reserved.                                         
@@ -28290,16 +28774,16 @@ $PEM(0..2)_DBG_INFO_EN   Address=(0x11800C00000A0+a*0x1000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:46> NS      ---     NS         NS         Reserved.                                         
  <45>    TPCDBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[45] to generate an interrupt. 
- <44>    TPCDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[44] to generate an interrupt. 
- <43>    TPCSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[43] to generate an interrupt. 
+ <44>    TPCSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[44] to generate an interrupt. 
+ <43>    TPCDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[43] to generate an interrupt. 
  <42>    TPCSBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[42] to generate an interrupt. 
  <41>    TNFDBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[41] to generate an interrupt. 
- <40>    TNFDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[40] to generate an interrupt. 
- <39>    TNFSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[39] to generate an interrupt. 
+ <40>    TNFSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[40] to generate an interrupt. 
+ <39>    TNFDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[39] to generate an interrupt. 
  <38>    TNFSBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[38] to generate an interrupt. 
  <37>    TPFDBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[37] to generate an interrupt. 
- <36>    TPFDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[36] to generate an interrupt. 
- <35>    TPFSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[35] to generate an interrupt. 
+ <36>    TPFSBE1 R/W     0x0        0x0        Allows PEM_DBG_INFO[36] to generate an interrupt. 
+ <35>    TPFDBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[35] to generate an interrupt. 
  <34>    TPFSBE0 R/W     0x0        0x0        Allows PEM_DBG_INFO[34] to generate an interrupt. 
  <33>    DATQ_PE R/W     0x0        0x0        Allows PEM_DBG_INFO[33] to generate an interrupt. 
  <32>    HDRQ_PE R/W     0x0        0x0        Allows PEM_DBG_INFO[32] to generate an interrupt. 
@@ -32664,11 +33148,11 @@ $RST_BOOT   Address=(0x1180006001600)   Bus=(RSL)
                                                    'ref clock speed' should always be 50MHz.
  <23:21> NS          ---     NS         NS         Reserved.                                         
  <20:18> LBOOT_OCI   R/W1C   NS         NS         Last boot cause mask; resets only with DCOK.      
-                                                   <20> Warm reset due to OCI Link 2 going down.
-                                                   <19> Warm reset due to OCI Link 1 going down.
-                                                   <18> Warm reset due to OCI Link 0 going down.
+                                                   <20> Reserved.
+                                                   <19> Reserved.
+                                                   <18> Reserved.
  <17:12> LBOOT_EXT   R/W1C   NS         NS         Last boot cause mask; resets only with DCOK.      
-                                                   <17> Warm reset due to Cntl3 link-down or hot-reset.
+                                                   <17> Reserved.
                                                    <16> Warm reset due to Cntl2 link-down or hot-reset.
                                                    <15> Reserved.
                                                    <14> Cntl2 reset due to PERST2_L pin.
@@ -37423,6 +37907,7 @@ $USBDRD(0..1)_UCTL_PORT(0..0)_CR_DBG_CFG   Address=(0x1180068000050+a*0x1000000+
  *  Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
  *  This register allows indirect access to the configuration and test controls for the port@ PHY.
  *  For usage, see above description in CR_DBG_CFG.
+ *  Attribute: -exempt_name_length=True.
  * 
 $USBDRD(0..1)_UCTL_PORT(0..0)_CR_DBG_STATUS   Address=(0x1180068000058+a*0x1000000+b*0x20)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------

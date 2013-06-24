@@ -173,6 +173,7 @@ def build_csr(chip_info, register, raw):
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
                    "dv_force_no_compare",
+                   "exempt_name_length",
                    "min_stride",
                    "mem_to_csr",
                    "regtest_alias",
@@ -217,6 +218,7 @@ def build_csr(chip_info, register, raw):
                       "no_soft_reset",
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
+                      "exempt_keyword",
                       "regtest_force",
                       "uvm_default_constraint"])
         name = field["name"]

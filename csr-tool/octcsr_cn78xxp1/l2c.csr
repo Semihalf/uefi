@@ -242,6 +242,18 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RTGDBE].
 
+      - name: L2C_TAD(0..7)_INT_WRDISOCI
+        value: 0x80011 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[WRDISOCI].
+
+      - name: L2C_TAD(0..7)_INT_RDDISOCI
+        value: 0x80012 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[RDDISOCI].
+
       - name: L2C_MCI(0..3)_INT_VBFSBE
         value: 0x80800 | (a << 8)
         attributes:
@@ -902,7 +914,7 @@ registers:
         typical: 0x0
         description: |
           Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
-          correctness.
+          correctness.  Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: EXRRQ
         bits: 23..20
@@ -911,7 +923,7 @@ registers:
         typical: 0x0
         description: |
           Extra LFBs to reserve for Rxxx OCI commands beyond the 1 required for OCI protocol
-          functional correctness.
+          functional correctness.  Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: EXFWD
         bits: 19..16
@@ -920,7 +932,7 @@ registers:
         typical: 0x0
         description: |
           Extra LFBs to reserve for Fxxx/SINV OCI commands beyond the 1 required for OCI protocol
-          functional correctness.
+          functional correctness.  Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: EXVIC
         bits: 15..12
@@ -929,7 +941,7 @@ registers:
         typical: 0x0
         description: |
           Extra LFBs to reserve for VICx OCI commands beyond the 1 required for OCI protocol
-          functional correctness.
+          functional correctness.  Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: VBF_THRESH
         bits: 11..8
@@ -961,14 +973,14 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: IOFRCL
-        bits: 2
+        bits: 3
         access: R/W
         reset: 1
         typical: 0
@@ -978,11 +990,20 @@ registers:
           to be 0.
 
       - name: GKSEGNODE
-        bits: 1..0
+        bits: 2..1
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Initialized to OCI node on reset; writable by software.
+
+      - name: ENAOCI
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, do OCI processing. When clear, OCI references will cause RDDISOCI/WRDISOCI
+          interrupts (NYI).
 
 
   - name: L2C_XMC_CMD
@@ -1075,6 +1096,9 @@ registers:
 
       (2) When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store L2C_TAD(0..7)_ERR will be
       loaded.  L2C_TAD(0..7)_ERR will be not be locked for a BIGRD, however.
+
+      (3) The BIG logic only applies to local addresses.  A command for a remote address will not
+      cause a BIGRD/BIGWR on the requesting node.
     fields:
       - name: --
         bits: 63..8
@@ -1664,11 +1688,25 @@ registers:
     description: This register is for TAD-based interrupts.
     fields:
       - name: --
-        bits: 63..34
+        bits: 63..36
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: WRDISOCI
+        bits: 35
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: (NYI) Illegal Write to remote node with L2C_TAD_CTL[ENAOCI] clear.
+
+      - name: RDDISOCI
+        bits: 34
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: (NYI) Illegal Read to remote node with L2C_TAD_CTL[ENAOCI] clear.
 
       - name: RTGDBE
         bits: 33
@@ -2167,7 +2205,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: BIST failure status for LRULFB memory
+        description: Always zero for 78xx.
 
       - name: LRUFL
         bits: 16

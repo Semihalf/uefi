@@ -401,12 +401,12 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR].
 
-      - name: PKO_PEB_PSE_FIFO_CFG_ERR
+      - name: PKO_PEB_PSE_FIFO_ERR
         value: 0x50033
         attributes:
           cib_rtl_module: "pko_peb"
           intsn_lsb_mismatch: "True"
-        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_CFG_ERR].
+        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_ERR].
 
       - name: PKO_PEB_PAD_ERR
         value: 0x50034
@@ -7241,11 +7241,20 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DIS_FLSH_CACHE
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Set to disable the flush buffer's cache. This will make all fills require full memory
+          latency. For diagnostic use only.
 
       - name: PKO_PAD_MINLEN
         bits: 9..3
@@ -7259,7 +7268,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Diagnostic mode. Enable to read/write to memories in PDM through CSR interface.
+        description: Set to enable read/write to memories in PDM through CSR interface.  For diagnostic use only.
 
       - name: ALLOC_LDS
         bits: 1
@@ -8448,14 +8457,14 @@ registers:
           Asserted when a PD has data padded to it (SEND_HDR[TOTAL] < sum(SEND_DATA[size])).  Throws
           PKO_INTSN_E::PEB_PAD_ERR.
 
-      - name: PEB_PSE_FIFO_CFG_ERR
+      - name: PEB_PSE_FIFO_ERR
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
         description: |
           Asserted when PSE sends PD information for a non-configured FIFO.  Throws
-          PKO_INTSN_E::PEB_PSE_FIFO_CFG_ERR.
+          PKO_INTSN_E::PEB_PSE_FIFO_ERR.
 
       - name: PEB_FCS_SOP_ERR
         bits: 2
@@ -8483,6 +8492,339 @@ registers:
         description: |
           Asserted when EXT_HDR is not the second sub-descriptor in a PD.  Throws
           PKO_INTSN_E::PEB_EXT_HDR_DEF_ERR.
+
+
+  - name: PKO_PEB_EXT_HDR_DEF_ERR_INFO
+    title: PEB_EXT_HDR_DEF_ERR error information register
+    address: 0x1540000900C08
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_EXT_HDR_DEF_ERR] is set
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_EXT_HDR_DEF_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_EXT_HDR_DEF_ERR
+
+
+  - name: PKO_PEB_JUMP_DEF_ERR_INFO
+    title: PEB_JUMP_DEF_ERR error information register
+    address: 0x1540000900C10
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_JUMP_DEF_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_JUMP_DEF_ERR
+
+
+  - name: PKO_PEB_FCS_SOP_ERR_INFO
+    title: PEB_FCS_SOP_ERR error information register
+    address: 0x1540000900C18
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_FCS_SOP_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_FCS_SOP_ERR
+
+
+  - name: PKO_PEB_PSE_FIFO_ERR_INFO
+    title: PEB_PSE_FIFO_ERR error information register
+    address: 0x1540000900C20
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_PSE_FIFO_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_PSE_FIFO_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_PSE_FIFO_ERR
+
+
+  - name: PKO_PEB_PAD_ERR_INFO
+    title: PEB_PAD_ERR error information register
+    address: 0x1540000900C28
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_PAD_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_PAD_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_PAD_ERR
+
+
+  - name: PKO_PEB_TRUNC_ERR_INFO
+    title: PEB_TRUNC_ERR error information register
+    address: 0x1540000900C30
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_TRUNC_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_TRUNC_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_TRUNC_ERR
+
+
+  - name: PKO_PEB_SUBD_ADDR_ERR_INFO
+    title: PEB_SUBD_ADDR_ERR error information register
+    address: 0x1540000900C38
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_SUBD_ADDR_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_SUBD_ADDR_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_SUBD_ADDR_ERR
+
+
+  - name: PKO_PEB_SUBD_SIZE_ERR_INFO
+    title: PEB_SUBD_SIZE_ERR error information register
+    address: 0x1540000900C40
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_SUBD_SIZE_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_SUBD_SIZE_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_SUBD_SIZE_ERR
+
+
+  - name: PKO_PEB_MAX_LINK_ERR_INFO
+    title: PEB_MAX_LINK_ERR error information register
+    address: 0x1540000900C48
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..20
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 19
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_MAX_LINK_ERR] is set.
+
+      - name: FIFO
+        bits: 18..12
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: FIFO number associated with the captured PEB_MAX_LINK_ERR
+
+      - name: CHAN
+        bits: 11..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Channel number associated with the captured PEB_MAX_LINK_ERR
+
+
+  - name: PKO_PEB_MACX_CFG_WR_ERR_INFO
+    title: PEB_MACX_CFG_WR_ERR error information register
+    address: 0x1540000900C50
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..8
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VAL
+        bits: 7
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Asserted when PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR] is set.
+
+      - name: MAC
+        bits: 6..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: MAC number associated with the captured PEB_MACX_CFG_WR_ERR
 
 
   - name: PKO_PEB_ECC_CTL1

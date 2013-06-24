@@ -205,9 +205,7 @@ registers:
         description: |
           Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
           counters may increment. When clear, the bus is always zero and internal flops may be clock
-          gated off to save power. Must be set for normal operation. INTERNAL: When clear, RTL must
-          assert that the data bus is zero, to make sure at full chip that no block is 'spamming'
-          non-zero OCLA data after reset.
+          gated off to save power. Must be set for normal operation.
 
       - name: STT
         bits: 1
@@ -273,14 +271,14 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: FSM1 sequencing and capturing enabled.
+        description: FSM1 sequencing enabled.
 
       - name: FSM0_ENA
         bits: 32
         access: R/W1C
         reset: 0
         typical: 0
-        description: FSM0 sequencing and capturing enabled.
+        description: FSM0 sequencing enabled.
 
       - name: --
         bits: 31..19
@@ -855,16 +853,18 @@ registers:
         description: |
           Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
           mux selected by PLA1 and 0. The output is thus calulated from the equation:
-          out = (    (<3> & PLA1 & PLA0)
-          || (<2> & PLA1 & !PLA0)
-          || (<1> & !PLA1 & PLA0)
-          || (<0> & !PLA1 & !PLA0))
+          fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP]
+          fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP]
+          out = (    (<3> & fsmcap0 & fsmcap0)
+          || (<2> & fsmcap1 & !fsmcap0)
+          || (<1> & !fsmcap1 & fsmcap0)
+          || (<0> & !fsmcap1 & !fsmcap0))
           Common examples:
           0x0 = No capture
-          0x2 = Capture when PLA0 requests capture
-          0x4 = Capture when PLA1 requests capture
-          0x6 = Capture on PLA0 | PLA1
-          0x8 = Capture on PLA0 & PLA1
+          0x2 = Capture when fsmcap0 requests capture
+          0x4 = Capture when fsmcap1 requests capture
+          0x6 = Capture on fsmcap0 | fsmcap1
+          0x8 = Capture on fsmcap0 & fsmcap1
           0xF = Always capture.
 
 
@@ -1062,7 +1062,7 @@ registers:
     address: 0x11800A8300000 | a<<24 | b<<12 | c<<4 | d<<3
     bus: RSL
     description: |
-      Values for PLA-AND plane. AND(0..31) represents the 32 allowed AND terms. I(0..1) for I=0
+      Values for PLA-AND plane. AND(0..15) represents the 15 allowed AND terms. I(0..1) for I=0
       indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
       disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
     fields:

@@ -4,6 +4,7 @@
 name: ASE
 description: |
   Algorithmic Search Engine
+  INTERNAL: Internal documentation uses "Tree" where external documentation uses "RuleDB".
   http://mawiki.caveonetworks.com/wiki/index.php/78xx/ASE
 attributes:
   rtlgen: "True"
@@ -281,7 +282,7 @@ enums:
 
       - name: TAT_SBE
         value: 0x04
-        description: A single-bit error occurred in HST Tree Access Table.
+        description: A single-bit error occurred in HST RuleDB Access Table.
 
       - name: KDB_SBE
         value: 0x05
@@ -311,7 +312,7 @@ enums:
 
       - name: TAT_DBE
         value: 0x0C
-        description: A double-bit error occurred in HST Tree Access Table.
+        description: A double-bit error occurred in HST RuleDB Access Table.
 
       - name: KDB_DBE
         value: 0x0D
@@ -364,7 +365,7 @@ enums:
 
       - name: LIP_GDT_SBE
         value: 0x3
-        description: A single-bit error occurred in LIP Global Definition Table.
+        description: A single-bit error occurred in LIP Group Definition Table.
 
       - name: LIP_ISF_SBE
         value: 0x4
@@ -384,7 +385,7 @@ enums:
 
       - name: LIP_GDT_DBE
         value: 0xA
-        description: A single-bit error occurred in LIP Global Definition Table.
+        description: A single-bit error occurred in LIP Group Definition Table.
 
       - name: LIP_ISF_DBE
         value: 0xB
@@ -440,7 +441,7 @@ enums:
     values:
       - name: GDT
         value: 0x0
-        description: Global Definition Table.
+        description: Group Definition Table.
 
       - name: PHT
         value: 0x1
@@ -448,7 +449,7 @@ enums:
 
       - name: TLT
         value: 0x2
-        description: Tree Location Table.
+        description: RuleDB Location Table.
 
       - name: LRT
         value: 0x3
@@ -471,7 +472,7 @@ enums:
 
       - name: TAT
         value: 0x9
-        description: Tree Access Table.
+        description: RuleDB Access Table.
 
       - name: RFT
         value: 0xA
@@ -541,7 +542,7 @@ structs:
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when
       ASE_LUE_ERROR_LOG[ERROR_ID] == INVALID_REQ.
-      Multiple errors can occur on the same cycle, see prioritization notes below.
+      INTERNAL: Multiple errors can occur on the same cycle, see prioritization notes below.
     fields:
       - name: FIELD0
         bits: 1..0
@@ -549,34 +550,34 @@ structs:
           const: "--"
         description: |
           Meaning depends on ENGTYPE and REQSRC.
-          If ENGTYPE=0x0 and REQSRC=0x0, this field contains the Lookup Required Key Size
-          (KDTsizM1).
-          If ENGTYPE=0x0 and REQSRC=0x2, this field contains the Remote Request Tree Type.
-          For other ENGTYPE and REQSRC combinations, this field is unused.
+          INTERNAL: If ENGTYPE=0x0 and REQSRC=0x0, this field contains the Lookup Required Key Size
+          (KDTsizM1). If ENGTYPE=0x0 and REQSRC=0x2, this field contains the Remote Request Tree
+          Type. For other ENGTYPE and REQSRC combinations, this field is unused.
 
       - name: FIELD1
         bits: 3..2
         attributes:
           const: "--"
         description: |
-          Meaning depends on ENGTYPE and REQSRC. If ENGTYPE=0x0 and REQSRC=0x0, this field contains
-          the Lookup Request Key Size (KRQsizM1). If ENGTYPE=0x0 and REQSRC=0x2, this field contains
-          the Remote Request Type. For other ENGTYPE and REQSRC combinations, this field is unused.
+          Meaning depends on ENGTYPE and REQSRC.
+          INTERNAL: If ENGTYPE=0x0 and REQSRC=0x0, this field contains the Lookup Request Key Size
+          (KRQsizM1). If ENGTYPE=0x0 and REQSRC=0x2, this field contains the Remote Request Type.
+          For other ENGTYPE and REQSRC combinations, this field is unused.
 
       - name: SXID
         bits: 6..4
         attributes:
           const: "--"
-        description: Sub-Tree ID.
+        description: Sub-RuleDB ID.
 
       - name: TID
         bits: 12..7
         attributes:
           const: "--"
         description: |
-          Tree ID for the error.
-          Note that if ENGTYPE=0x1, then the most-significant bit of the TID is unavailable
-          in this report and will be masked to 0x0.
+          RuleDB ID for the error.
+          INTERNAL: Note that if ENGTYPE=0x1, then the most-significant bit of the TID is
+          unavailable in this report and will be masked to 0x0.
 
       - name: --
         bits: 15..13
@@ -594,24 +595,27 @@ structs:
         bits: 23..19
         attributes:
           const: "--"
-        description: Tree/Bucket/Rule Walk Engine ID.
+        description: |
+          Lookup Engine ID.
+          INTERNAL: Tree/Bucket/Rule Walk Engine ID, depending on ENGTYPE.
 
       - name: REQSRC
         bits: 25..24
         attributes:
           const: "--"
         description: |
-          Request source of the invalid access. Encoding depends on ENGTYPE.
-          If ENGTYPE=0x0, then:
-            0x0 = New Request
-            0x1 = Outbound Remote OCM Request from Tree Walk Engine
-            0x2 = Outbound Tree Migration Request
-            0x3 = Outbound Bucket Migration Request
-            Priority order is New>Migrate>Remote.
-          If ENGTYPE=0x1, then:
-            0x1 = Outbound Remote OCM Request from Bucket Walk Engine
-            0x2 = Outbound Remote OCM Request from Rule Walk Engine
-            others = reserved.
+          Request source of the invalid access.
+          INTERNAL: Encoding depends on ENGTYPE.
+            If ENGTYPE=0x0, then:
+             0x0 = New Request
+             0x1 = Outbound Remote OSM Request from RuleDB Walk Engine
+             0x2 = Outbound RuleDB Migration Request
+             0x3 = Outbound Bucket Migration Request
+             Priority order is New>Migrate>Remote.
+            If ENGTYPE=0x1, then:
+             0x1 = Outbound Remote OSM Request from Bucket Walk Engine
+             0x2 = Outbound Remote OSM Request from Rule Walk Engine
+             others = reserved.
 
       - name: ENGTYPE
         bits: 26
@@ -619,9 +623,9 @@ structs:
           const: "--"
         description: |
           Engine that generated the invalid request.
-          0x0 = Tree Walk Engine
+          INTERNAL: 0x0 = RuleDB Walk Engine
           0x1 = Bucket/Rule Walk Engine
-          Priority is BWE/RWE>TWE.
+          Priority is BWE/RWE > TWE.
 
       - name: --
         bits: 47..27
@@ -724,7 +728,7 @@ structs:
         bits: 29..24
         attributes:
           const: "--"
-        description: Tree ID of this error.
+        description: RuleDB ID of this error.
 
       - name: --
         bits: 38..30
@@ -990,7 +994,7 @@ structs:
           const: "--"
         description: |
           If REQTYPE=Host, this will be {BD indicator, LAP transaction ID}.
-          If REQTYPE=Lookup, this will be {Tree ID}.
+          If REQTYPE=Lookup, this will be {RuleDB ID}.
 
       - name: --
         bits: 47..41
@@ -1008,7 +1012,7 @@ structs:
         bits: 5..0
         attributes:
           const: "--"
-        description: Tree ID for the error.
+        description: RuleDB ID for the error.
 
       - name: --
         bits: 31..6
@@ -1044,7 +1048,7 @@ structs:
         bits: 5..0
         attributes:
           const: "--"
-        description: Tree ID for the error.
+        description: RuleDB ID for the error.
 
       - name: --
         bits: 47..6
@@ -1362,7 +1366,7 @@ structs:
           For PHT:
             0x0: accesses dimensions 5 to 8 using ASE_TBLDAT_PHT_COL0_S.
             0x1: accesses dimensions 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
-            0x2: accesses dimension 0, keymap, and valids using ASE_TBLDAT_PHT_COL2_S.
+            0x2: accesses dimension 0 and valids using ASE_TBLDAT_PHT_COL2_S.
             others: reserved.
           For all other tables: set to zero.
           "
@@ -1434,9 +1438,9 @@ structs:
 
   - name: ASE_TBLDAT_GDT_S
     description: |
-      Global Definition Table Entry as seen by software during 128-bit table
-      read/write accesses. Indexed by GID. Outputs information about which trees
-      to search and how to interpret the header data into key data.
+      Group Definition Table Entry as seen by software during 128-bit table
+      read/write accesses. Indexed by GID. Outputs information about which
+      RuleDBs to search and how to interpret the header data into key data.
     fields:
       - name: HID
         bits: w0(3..0)
@@ -1458,7 +1462,7 @@ structs:
 
       - name: TID3
         bits: w0(21..16)
-        description: Select 1 of 64 trees to search for SXID 0x3. Only used if NUM_SXIDS > 0x3.
+        description: Select 1 of 64 RuleDBs to search for SXID 0x3. Only used if NUM_SXIDS > 0x3.
 
       - name: --
         bits: w0(23..22)
@@ -1466,7 +1470,7 @@ structs:
 
       - name: TID2
         bits: w0(29..24)
-        description: Select 1 of 64 trees to search for SXID 0x2. Only used if NUM_SXIDS > 0x2.
+        description: Select 1 of 64 RuleDBs to search for SXID 0x2. Only used if NUM_SXIDS > 0x2.
 
       - name: --
         bits: w0(31..30)
@@ -1474,7 +1478,7 @@ structs:
 
       - name: TID1
         bits: w0(37..32)
-        description: Select 1 of 64 trees to search for SXID 0x1. Only used if NUM_SXIDS > 0x1.
+        description: Select 1 of 64 RuleDBs to search for SXID 0x1. Only used if NUM_SXIDS > 0x1.
 
       - name: --
         bits: w0(39..38)
@@ -1482,7 +1486,7 @@ structs:
 
       - name: TID0
         bits: w0(45..40)
-        description: Select 1 of 64 trees to search for SXID 0x0. Always used.
+        description: Select 1 of 64 RuleDBs to search for SXID 0x0. Always used.
 
       - name: --
         bits: w0(47..46)
@@ -1611,7 +1615,7 @@ structs:
 
       - name: TWRSPCNT
         bits: w0(50..48)
-        description: Tree Walk Response Count. 3'b000 - 8 responses 3'b001 - 1 response --- 3'b111 - 7 respones.
+        description: RuleDB Walk Response Count. 3'b000 - 8 responses 3'b001 - 1 response --- 3'b111 - 7 respones.
 
       - name: --
         bits: w0(55..51)
@@ -1799,12 +1803,8 @@ structs:
         description: 0th dimension. Starting nibble position of the field in the destination data (key data).
 
       - name: --
-        bits: w0(31..28)
+        bits: w0(47..28)
         description: Reserved.
-
-      - name: KEYMAP
-        bits: w0(47..32)
-        description: Key Mapping. A hint for maps 160 bit segments of header data to 160 bit segments of key data.
 
       - name: VAL8
         bits: w0(48)
@@ -1913,51 +1913,26 @@ structs:
       - name: PRIMODE
         bits: w0(12)
         description: |
-          "
-           Priority Mode (determines if Rule Priority is based on Rule address or on Priority
-                                  field extacted from Rule Data).
-           When primode==0, the LURSP will return the PRIORITY based on Rule Address.
-              If OCM: RULADR(33) = {8'b0,,SC(1),CLNUM(3),CLADR(16),RULOFF(4)}
-              If BPP: RULADR(33) =  RULADR(32) where: RULEADR=2B-aligned (ie: All Rules in MEM
-                                   must be 2B-aligned (see: MEM(max)=16GB/2B = RULADR(33).
-           The STRSP contains {STMIN(32)=RuleDat.PRIORITY,DATA(33)=RULADR} fields.
-           STMIN is used by LUF for MINIMUM RULE comparison for multiple subtree expansion.
-           DATA is returned as the RULE PRIORITY in the LURSP.
-           When primode==1, the LURSP will return the PRIORITY extracted from the Rule data
-           PRIORITY field(RuleDat.PRIORITY).
-           The STRSP contains {STMIN(32)=RuleDat.PRIORITY, DATA(33)={1'b0,RuleDat.PRIORITY}} fields.
-           STMIN is used by LUF for MINIMUM RULE comparison for multiple subtree expansion.
-           DATA is returned as RULE PRIORITY in LURSP packet.
-           NOTE: Based on priwidth, unused STMIN/DATA fields are zero filled.
-           (Example: if priwidth=10, then upper unused bits are zero-filled
-          STMIN<31:10>=0/DATA<32:10>=0)
-          "
+          Priority Mode.
+          When PRIMODE==0, the KEY_RSP will return Rule Address as
+            RULADR[31:0] = {zero_padding[11:0],CLADR[15:0],RULOFF[3:0]}.
+          When PRIMODE==1, the KEY_RSP will associated data extracted from the Rule data.
 
       - name: PRI48
         bits: w0(13)
         description: |
-          "
-            Enable up to 480bit priority handling for primode=1&&MATCH responses.
-            If PRI48==0x1 && PRIMODE==0x1, PRIWIDTH can be in 0..48. Otherwise PRIWIDTH must be in
-          0..32.
-                primode = 0, no change:
-                  * priwidth range is 0..32
-                  * rule_response.stmin(32) = {0,pri}, where pri is up to 32 bits from rule data
-                  * rule_response.data(33)={0,scl ,cl,addr }
-                primode=1 && MATCH
-                  * if (pri48 == 1)
-                     priwidth range is 0..48
-                     rule_response.stmin(32)= {0,pri_up}, where pri_up is the upper half priwidth
-                          bits from the rule data (rounded down for odd priwidth) (MSbs 0 filled)
-                     rule_response.data(33)={0,pri_lo}, where pri_lo is the lower half priwidth bits
-                          from the rule data (rounded up for odd priwidth) (MSbs 0 filled)
-                    else
-                     priwidth range is 0..32
-                     rule_response.stmin(32)= {0, pri}, where pri is up to 32 bits from rule data
-                      rule_response.data(33)={0, pri}, where pri is up to 32 bits from rule data
-                primode=1 && NO_MATCH
-                  no change
-          "
+          Enable up to 48-bit priority handling for primode=1&&MATCH responses.
+          If PRI48==0x1 && PRIMODE==0x1, PRIWIDTH can be in 0..48.
+          Otherwise PRIWIDTH must be in 0..32.
+
+              primode=1 && MATCH
+                * if (pri48 == 1)
+                    priwidth range is 0..48
+                    the LURSP will return up to 24 bits (half of PRIWIDTH, rounded up for odd
+                    PRIWIDTH) associated data extracted from the Rule data.
+                  else
+                    priwidth range is 0..32
+                    the LURSP will return up to 32 bits data extracted from the Rule data.
 
       - name: DIM15_FIELD1
         bits: w0(18..14)
@@ -2095,62 +2070,45 @@ structs:
   - name: ASE_TBLDAT_TAT_S
     description: |
       "
-      Tree Access Table Entry as seen by software during 128-bit table read/write accesses.
-      Indexed by TIC's hit-address. Contains the Tree Root Tnodes (1 big or 2 basic tnodes
-      per TAT entry) associated with the Key Request. Used by TWE engines to start sub-tree
-      walk(s). There are 192 entries in the TAT.
-
-      Field definitions:
-          Sub-Tree Super-Tuple Mode: Used to determine how to encode sub-tree node arc's dimmsk(9)
-      bit
-          encodings for 9x and 16x dimension support.
-             0: 1x super-tuple Mode: (MAX Dimensions=9) each bit of dimmsk<8:0> specifies 1(of
-      9(MAX) total
-                dimensions) in single-tuple.
-             1: 2x Super-tuple Mode: dimmsk<8> specifies which 1(of 2) super-tuples, where each
-      super-tuple
-                contains upto 8(max) dimensions for 16(MAX) total dimensions.
-                If STUP==1: Indicates this sub-tree supports upto 16 dimensions(max). At each
-                sub-tree node visit:
-                  if dimmsk<8>=0: dimmsk<7:0> specifies valid mask for Supertuple#0 == DIM<7:0>.
-                  if dimmsk<8>=1: dimmsk<7:0> specifies valid mask for Supertuple#1 == DIM<15:8>.
+      RuleDB Access Table Entry as seen by software during 128-bit table read/write accesses.
+      Indexed by TIC's hit-address. Contains the RuleDB starting address associated with
+      the Key Request. Used by the RuleDB engines to start sub-RuleDB walk(s). There are
+      192 entries in the TAT.
 
       INTERNAL: Copied from tat_entry_t in luc_cav_globals.svh
       "
     fields:
       - name: BIG_TNODE_LSB
         bits: w0(0)
-        description: If this entry is a Big Tree Node, this is the LSB of the Big node.
+        description: LSB of the Big Node.
 
       - name: TNODE1
         bits: w0(61..1)
-        description: Basic Tree Node 1, or if this entry is a Big Tree Node, bits <61..1> of the Big Node.
+        description: Basic Node 1.
 
       - name: TNODE0_LSBS
         bits: w0(63..62)
-        description: Basic Tree Node 0 bits <1..0>, or if this entry is a Big Tree Node, bits <63..62> of the Big Node.
+        description: Basic Node 0 bits.
 
       - name: TNODE0_MSBS
         bits: w1(58..0)
-        description: |
-          Basic Tree Node 1 bits <60..2>, or if this entry is a Big Tree Node, bits <122..64> of the
-          Big Node.
+        description: Basic Node 1 bits.
 
       - name: STUP1
         bits: w1(59)
-        description: Super-Tuple Mode for Basic Tree Node 1.
+        description: Super-Tuple Mode for Basic Node 1. Used to determine number of dimensions in a RuleDB.
 
       - name: STUP0
         bits: w1(60)
-        description: Super-Tuple Mode for Basic Tree Node 0. (And also for Big Node?).
+        description: Super-Tuple Mode for Basic Node 0. Used to determine number of dimensions in a RuleDB.
 
       - name: TNODE1_VLD
         bits: w1(61)
-        description: Basic Tree Node 1 is valid.
+        description: Basic Node 1 is valid.
 
       - name: TNODE_TYPE
         bits: w1(62)
-        description: Node Type. 1=big (123-bit), 0=basic (61-bit).
+        description: Node Type.
 
       - name: --
         bits: w1(63)
@@ -2213,7 +2171,7 @@ structs:
 
   - name: ASE_TBLDAT_TLT_S
     description: |
-      Tree Location Table Entry as seen by software during 128-bit table read/write accesses.
+      RuleDB Location Table Entry as seen by software during 128-bit table read/write accesses.
       Indexed by TID.
     fields:
       - name: TWRSPCNT
@@ -2709,7 +2667,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Flip syndrome in LUE HST Tree Access Table.
+        description: Flip syndrome in LUE HST RuleDB Access Table.
 
       - name: LUE_KDB_ECC_FLIP_SYND
         bits: 45..44
@@ -2753,7 +2711,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Disable ECC for LUE HST Tree Access Table.
+        description: Disable ECC for LUE HST RuleDB Access Table.
 
       - name: LUE_KDB_ECC_DIS
         bits: 32
@@ -2816,7 +2774,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Flip syndrome in LIP Global Definition Table.
+        description: Flip syndrome in LIP Group Definition Table.
 
       - name: LIP_ISF_ECC_FLIP_SYND
         bits: 7..6
@@ -2851,7 +2809,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Disable ECC for LIP Global Definition Table.
+        description: Disable ECC for LIP Group Definition Table.
 
       - name: LIP_ISF_ECC_DIS
         bits: 0
@@ -2891,9 +2849,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          One or more of the Rule Match Engines detected a fatal error.
-          INTERNAL: It is expected that error recovery will require resetting
+          One or more of the Lookup Engines detected a fatal error.
+          It is expected that error recovery will require resetting
           the ASE and loading corrected software into OSM.
+          INTERNAL: "Lookup engine" refers to "Rule Match Engine".
 
       - name: LUE_INVALID_REQ
         bits: 38
@@ -2901,13 +2860,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          An invalid access during a lookup request was observed.
-          The cause is one of:
-          * Remote request
-          * Migration request
-          * Insufficient key data provided for a new lookup request
-          INTERNAL: It is expected that error recovery will require resetting
+          Insufficient key data was provided for a new lookup request.
+          It is expected that error recovery will require resetting
           the ASE and loading corrected software into OSM.
+          INTERNAL: The cause could also be a remote request or migration request.
 
       - name: LUE_HR_ERR_LOG
         bits: 37
@@ -2933,20 +2889,28 @@ registers:
           Either the TAT row pointed to by the TIC entry is invalid, or
           the starting TAT row and the increment value points beyond the
           end of the TAT.
+          It is expected that error recovery will require loading
+          corrected software into the TIC.
 
       - name: LUE_TIC_MULTI_HIT
         bits: 33
         access: R/W1C/H
         reset: 0
         typical: --
-        description: A TIC lookup request resulted in multiple entries reporting a hit.
+        description: |
+          A TIC lookup request resulted in multiple entries reporting a hit.
+          It is expected that error recovery will require resetting
+          the ASE and loading corrected software into the TIC.
 
       - name: LUE_TIC_MISS
         bits: 32
         access: R/W1C/H
         reset: 0
         typical: --
-        description: A TIC lookup request did not match a valid entry.
+        description: |
+          A TIC lookup request did not match a valid entry.
+          It is expected that error recovery will require resetting
+          the ASE and loading corrected software into the TIC.
 
       - name: --
         bits: 31..8
@@ -3045,11 +3009,13 @@ registers:
       error will have its response marked as errored.
       The LUE_KDT_DBE error will not be indicated in the response packet;
       the only indication of this error is the interrupt mechanism.
-      INTERNAL: Therefore, most of these interrupts are for diagnostic use, not for error handling.
 
       For all the LUE* errors below, additional information can be obtained
       by reading the ASE_LUE_ERROR_LOG. For all the LIP*/LOP* errors below, additional
       information can be obtained by reading the ASE_LUF_ERROR_LOG CSR.
+
+      INTERNAL: Because ECC will tag associated responses as errored, most of these
+      interrupts are for diagnostic use, not for error handling.
     attributes:
       rtlgen_cib: "True"
     fields:
@@ -3125,7 +3091,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Detected Double-Bit Error on LUE HST Tree Access Table.
+          Detected Double-Bit Error on LUE HST RuleDB Access Table.
           This bit will not be set for software accesses to the TAT, it will only get set for lookup
           accesses.
 
@@ -3135,7 +3101,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Detected and corrected Single-Bit Error on LUE HST Tree Access Table.
+          Detected and corrected Single-Bit Error on LUE HST RuleDB Access Table.
           This bit will not be set for software accesses to the TAT, it will only get set for lookup
           accesses.
 
@@ -3221,7 +3187,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Detected Double-Bit Error on LIP's Global Definition Table.
+          Detected Double-Bit Error on LIP's Group Definition Table.
           This bit will not be set for software accesses to the GDT, it will only get set for lookup
           accesses.
 
@@ -3231,7 +3197,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Detected and corrected Single-Bit Error on LIP's Global Definition Table.
+          Detected and corrected Single-Bit Error on LIP's Group Definition Table.
           This bit will not be set for software accesses to the GDT, it will only get set for lookup
           accesses.
 
@@ -3606,7 +3572,8 @@ registers:
 
 
   - name: ASE_LUE_CONFIG
-    title: ASE Look-Up Engine Configuration
+    title: |
+      INTERNAL: ASE Look-Up Engine Configuration
     address: 0x11800DDC00000
     bus: RSL
     description: Configuration for LUE.
@@ -3626,11 +3593,11 @@ registers:
         description: |
           Enable Bucket Entry PFLEN Caching
 
-          When clear, if PFLEN < OCM-Line, PFLEN BE caching is disabled,
+          When clear, if PFLEN < OSM-Line, PFLEN BE caching is disabled,
           and a BEREQ is made for each PFLEN group of BEs processed.
 
-          When set, if PFLEN < OCM-Line, only a single BEREQ is made
-          for the OCM-line which caches all of the BEs.
+          When set, if PFLEN < OSM-Line, only a single BEREQ is made
+          for the OSM-line which caches all of the BEs.
 
       - name: PFAB_EN
         bits: 32
@@ -3715,7 +3682,8 @@ registers:
 
 
   - name: ASE_LUE_TWE_BWE_ENABLE
-    title: ASE LUE Tree/Bucket Walk Engine Enable
+    title: |
+      INTERNAL: ASE LUE Tree/Bucket Walk Engine Enable
     address: 0x11800DDC00008
     bus: RSL
     description: Enable tree/bucket walk engines.
@@ -4000,18 +3968,19 @@ registers:
 
 
   - name: ASE_LUE_DBG_CTL0
-    title: ASE LUE Debug Control 0
+    title: |
+      INTERNAL: ASE LUE Debug Control 0
     address: 0x11800DDC00030
     bus: RSL
     description: |
       Select engines for debug observations for the LUE's 4 16-bit debug muxes.
 
-      INTERNAL: We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
+      We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
       4 times to give Octeon better observability.
 
       And select context for observation.
 
-      INTERNAL: LUE DBGCTX is a DOR daisy-chained through the TWE and BWE engines, it can't be moved
+      LUE DBGCTX is a DOR daisy-chained through the TWE and BWE engines, it can't be moved
       to a straight Octeon-style debug bus without rewriting the whole thing.
     fields:
       - name: --
@@ -4128,14 +4097,17 @@ registers:
 
 
   - name: ASE_LUE_DBG_CTL1
-    title: ASE LUE Debug Control 1
+    title: |
+      INTERNAL: ASE LUE Debug Control 1
     address: 0x11800DDC00038
     bus: RSL
     description: |
       Select engines for debug observations for the LUE's 4 16-bit debug muxes.
-      INTERNAL: The per-engine filtering from NSP is not really worth moving to DTX-style
+
+      The per-engine filtering from NSP is not really worth moving to DTX-style
       addressing.
-      INTERNAL: We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
+
+      We are not rewiring the NSP's 16-bit debug bus. Instead we are duplicating that mux
       4 times to give Octeon better observability.
     fields:
       - name: --
@@ -4307,7 +4279,8 @@ registers:
 
 
   - name: ASE_LUE_PERF_FILT
-    title: ASE LUE Performance Event Filters
+    title: |
+      INTERNAL: ASE LUE Performance Event Filters
     address: 0x11800DDC00040
     bus: RSL
     description: Filters for performance counter events.
@@ -4361,7 +4334,6 @@ registers:
         typical: --
         description: |
           Disable Filtering.
-
           When set, overrides the setting of SEL_ID_PERF for some
           performance counter events.
 
@@ -4426,7 +4398,6 @@ registers:
         typical: --
         description: |
           BWE to monitor for performance events.
-
           Valid values are 0-19.
 
       - name: --
@@ -4443,7 +4414,6 @@ registers:
         typical: --
         description: |
           TWE to monitor for performance events.
-
           Valid values are 0-19.
 
 
@@ -4684,7 +4654,7 @@ registers:
         typical: --
         description: |
           Indicates that the counter is frozen (i.e one shot
-          event occurred) Remains frozen until the clear bit
+          event occurred). Remains frozen until the clear bit
           written.
 
       - name: CLEAR

@@ -226,6 +226,36 @@ registers:
     bus: RSL
     inherits: DTX_PKI_PFE_BCST_RSP
 
+  - name: DTX_USBH(0..0)_SEL(0..1)
+    title: DTX USBH(0..0) Select Register
+    address: 0x11800FE000000 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_SEL(0..1)
+
+  - name: DTX_USBH(0..0)_ENA(0..1)
+    title: DTX USBH(0..0) Mask Register
+    address: 0x11800FE000020 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_ENA(0..1)
+
+  - name: DTX_USBH(0..0)_DAT(0..1)
+    title: DTX USBH(0..0) Raw Data Register
+    address: 0x11800FE000040 + ((0x68 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_PKI_PFE_DAT(0..1)
+
+  - name: DTX_USBH(0..0)_CTL
+    title: DTX USBH(0..0) Control Register
+    address: 0x11800FE000060 + ((0x68 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_PKI_PFE_CTL
+
+  - name: DTX_USBH(0..0)_BCST_RSP
+    title: DTX USBH(0..0) Control Register
+    address: 0x11800FE000080 + ((0x68 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_PKI_PFE_BCST_RSP
+
   - name: DTX_L2C_CBC(0..3)_SEL(0..1)
     title: DTX L2C_CBC(0..3) Select Register
     address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
@@ -253,6 +283,36 @@ registers:
   - name: DTX_L2C_CBC(0..3)_BCST_RSP
     title: DTX L2C_CBC(0..3) Control Register
     address: 0x11800FE000080 + ((0x84 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_PKI_PFE_BCST_RSP
+
+  - name: DTX_OSM_SEL(0..1)
+    title: DTX OSM Select Register
+    address: 0x11800FE000000 | ((220) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_SEL(0..1)
+
+  - name: DTX_OSM_ENA(0..1)
+    title: DTX OSM Mask Register
+    address: 0x11800FE000020 | ((220) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_ENA(0..1)
+
+  - name: DTX_OSM_DAT(0..1)
+    title: DTX OSM Raw Data Register
+    address: 0x11800FE000040 | ((220) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_PKI_PFE_DAT(0..1)
+
+  - name: DTX_OSM_CTL
+    title: DTX OSM Control Register
+    address: 0x11800FE6E0060
+    bus: RSL
+    inherits: DTX_PKI_PFE_CTL
+
+  - name: DTX_OSM_BCST_RSP
+    title: DTX OSM Control Register
+    address: 0x11800FE6E0080
     bus: RSL
     inherits: DTX_PKI_PFE_BCST_RSP
 

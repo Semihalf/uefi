@@ -20,6 +20,7 @@ VALID_FIELD_TYPES = ["RAZ",     # Read as zero
 VALID_CSR_TYPES = ["RSL", "NCB",
                    "PEXP",          # PCIe BAR 0 address only
                    "PEXP_NCB",      # NCB-direct and PCIe BAR0 address
+                   "PEXPV_NCB",     # Virtual NCB-direct and PCIe BAR0 address
                    "PCICONFIGEP", "PCICONFIGEP0", "PCICONFIGEP1",   # PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
                    "PCICONFIGRC", "PCICONFIGRC0", "PCICONFIGRC1",   # PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
                    ]

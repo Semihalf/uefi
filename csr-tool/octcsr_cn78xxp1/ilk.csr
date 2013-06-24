@@ -1117,7 +1117,24 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..43
+        bits: 63..53
+        access: ---
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: BRST_MIN
+        bits: 52..48
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Minimum size of a data burst, as a multiple of 32-byte blocks.  0 disables the scheduling
+          enhancement.   When non-zero, must satisfy (BRST_SHRT*8) <= (BRST_MIN*32) <=
+          (BRST_MAX*64)/2
+
+      - name: --
+        bits: 47..43
         access: ---
         reset: 0x0
         typical: --
@@ -1673,7 +1690,7 @@ registers:
         typical: --
         description: |
           Minimum interval between burst control words, as a multiple of eight bytes. Supported
-          range from 8 to 512 bytes (i.e. 0 < BRST_SHRT <= 64).
+          range from 8 to 512 bytes (i.e. 4 <= BRST_SHRT <= 64).
           This field affects the ILK_RX(0..1)_STAT4[BRST_SHRT_ERR_CNT] counter. It does not affect
           correct operation of the link.
 

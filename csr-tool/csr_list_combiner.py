@@ -79,6 +79,14 @@ def combine(chip_infos):
                 current.type = "NCB"
             if (csr.type == "RSL") and (current.type == "NCB"):
                 csr.type = "NCB"
+            # FIXME: Is this true?
+            # Silently convert mismatches between virtual and non virtual
+            # PEXP. They are both access in the same way, so nobody
+            # should care
+            if (csr.type == "PEXP_NCB") and (current.type == "PEXPV_NCB"):
+                csr.type = "PEXPV_NCB"
+            if (csr.type == "PEXPV_NCB") and (current.type == "PEXP_NCB"):
+                current.type = "PEXPV_NCB"
             assert csr.type == current.type, "%s %s:%s == %s:%s" % (name, chip, csr.type, chips[0], current.type)
             assert len(csr.range) == len(current.range), "%s %s:%d == %s:%d" % (name, chip, len(csr.range), chips[0], len(current.range))
             for i in xrange(1, len(csr.address_info)):

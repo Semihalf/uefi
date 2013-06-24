@@ -7,6 +7,9 @@ registers:
     title: Control Register1
     address: 0x11800B0000800 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -93,6 +96,9 @@ registers:
     title: Status Register1
     address: 0x11800B0000808 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..8
@@ -146,6 +152,9 @@ registers:
     title: Speed ability register
     address: 0x11800B0000810 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..2
@@ -173,6 +182,9 @@ registers:
     title: Control Register2
     address: 0x11800B0000818 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..2
@@ -186,6 +198,8 @@ registers:
         access: RO
         reset: 0x1
         typical: 0x1
+        attributes:
+          exempt_keyword: "True"
         description: Always 2'b01, 10GBASE-X only supported
 
 
@@ -193,6 +207,9 @@ registers:
     title: Status Register2
     address: 0x11800B0000820 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -266,6 +283,9 @@ registers:
     title: 10gbx_status_reg
     address: 0x11800B0000828 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..13
@@ -328,6 +348,9 @@ registers:
     title: Transmit Receive States Register
     address: 0x11800B0000830 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..14
@@ -406,6 +429,9 @@ registers:
     title: Receive Sync States Register
     address: 0x11800B0000838 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -451,6 +477,9 @@ registers:
       RX lane polarity vector [3:0] = XOR_RXPLRT<9:6>  ^  {4{RXPLRT<1>}};
       TX lane polarity vector [3:0] = XOR_TXPLRT<5:2>  ^  {4{TXPLRT<0>}};
       In short keep <1:0> to 2'b00, and use <5:2> and <9:6> fields to define per lane polarities
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..10
@@ -494,6 +523,9 @@ registers:
     description: |
       PCSX Misc Control Register
       LN_SWAP for XAUI is to simplify interconnection layout between devices
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..4
@@ -543,6 +575,9 @@ registers:
     address: 0x11800B0000850 + a*0x8000000
     bus: RSL
     description: PCSX Bit Lock Status Register
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..4
@@ -591,6 +626,9 @@ registers:
       SYNC_ACQUIRED_2
       indicating an invalid code group was received on one of the 4 receive lanes.
       This interrupt should be always disabled and used only for link problem debugging help.
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..7
@@ -655,6 +693,9 @@ registers:
     address: 0x11800B0000860 + a*0x8000000
     bus: RSL
     description: PCSX Interrupt Enable Register
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..7
@@ -723,6 +764,9 @@ registers:
       For normal operation(xaui), this bit must be 0. The dropped lane is used to send rxc[3:0].
       See pcs.csr  for sgmii/1000Base-X logic analyzer mode.
       For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..7
@@ -787,6 +831,9 @@ registers:
     address: 0x11800B0000870 + a*0x8000000
     bus: RSL
     description: PCSX Bist Status Register
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..1
@@ -811,6 +858,9 @@ registers:
     description: |
       PCSX SERDES Credit Count
       INTERNAL: Do not add this register to the HRM
+    internal: |
+      o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..5

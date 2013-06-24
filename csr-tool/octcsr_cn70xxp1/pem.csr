@@ -371,7 +371,7 @@ registers:
         reset: 0x80
         typical: 0x80
         description: |
-          TLP credits for Completion TLPs in the Peer. The
+          TLP credits for all inbound TLPs in the PEM. The
           value in this register should not be changed. Values
           other than 0x80 can lead to unpredictable behavior.
 
@@ -548,14 +548,14 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[45] to generate an interrupt.
 
-      - name: TPCDBE0
+      - name: TPCSBE1
         bits: 44
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[44] to generate an interrupt.
 
-      - name: TPCSBE1
+      - name: TPCDBE0
         bits: 43
         access: R/W
         reset: 0
@@ -576,14 +576,14 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[41] to generate an interrupt.
 
-      - name: TNFDBE0
+      - name: TNFSBE1
         bits: 40
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[40] to generate an interrupt.
 
-      - name: TNFSBE1
+      - name: TNFDBE0
         bits: 39
         access: R/W
         reset: 0
@@ -604,14 +604,14 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[37] to generate an interrupt.
 
-      - name: TPFDBE0
+      - name: TPFSBE1
         bits: 36
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[36] to generate an interrupt.
 
-      - name: TPFSBE1
+      - name: TPFDBE0
         bits: 35
         access: R/W
         reset: 0

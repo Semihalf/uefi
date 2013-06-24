@@ -125,9 +125,9 @@ registers:
         typical: --
         description: |
           Last boot cause mask; resets only with DCOK.
-          <20> Warm reset due to OCI Link 2 going down.
-          <19> Warm reset due to OCI Link 1 going down.
-          <18> Warm reset due to OCI Link 0 going down.
+          <20> Reserved.
+          <19> Reserved.
+          <18> Reserved.
 
       - name: LBOOT_EXT
         bits: 17..12
@@ -136,7 +136,7 @@ registers:
         typical: --
         description: |
           Last boot cause mask; resets only with DCOK.
-          <17> Warm reset due to Cntl3 link-down or hot-reset.
+          <17> Reserved.
           <16> Warm reset due to Cntl2 link-down or hot-reset.
           <15> Reserved.
           <14> Cntl2 reset due to PERST2_L pin.

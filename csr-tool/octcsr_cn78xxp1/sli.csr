@@ -2730,7 +2730,7 @@ registers:
   - name: SLI_PKT_CNT_INT
     title: SLI Packet Counter Interrupt
     address: 0x11F0000011130
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: The packets rings that are interrupting because of Packet Counters.
     fields:
       - name: RING
@@ -2749,7 +2749,7 @@ registers:
   - name: SLI_PKT_TIME_INT
     title: SLI Packet Timer Interrupt
     address: 0x11F0000011140
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: The packets rings that are interrupting because of Packet Timers.
     fields:
       - name: RING
@@ -2768,7 +2768,7 @@ registers:
   - name: SLI_PKT_IN_INT
     title: SLI Packet Timer Interrupt Register
     address: 0x11F0000011150
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       When read by a VF, this register informs which rings owned by the VF (0 to 63) have an
       interrupt pending. In PF mode, this register returns an unpredictable value. Writing 1s to
@@ -2789,7 +2789,7 @@ registers:
   - name: SLI_PKT_INT
     title: SLI Packet Interrupt Register
     address: 0x11F0000011160
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       When read by a VF, this register informs which rings owned by the VF (0 to 63) have an
       interrupt pending. In PF mode, this register returns an unpredictable value. Writing 1s to
@@ -2807,7 +2807,7 @@ registers:
   - name: SLI_PKT_OUTPUT_WMARK
     title: SLI Packet Output Watermark Register
     address: 0x11F0000011180
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       This register sets the value that determines when backpressure is applied to the PKO. When
       SLI_PKT(0..63)_SLIST_BAOFF_DBELL[DBELL] is less than [WMARK], backpressure is sent to PKO for
@@ -2834,7 +2834,7 @@ registers:
   - name: SLI_PKT_RING_RST
     title: SLI Packet Ring Reset Register
     address: 0x11F00000111E0
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register shows which rings are in reset. See also SLI_PKT(0..63)_INPUT_CONTROL[RST].
     fields:
       - name: RST
@@ -2889,7 +2889,7 @@ registers:
   - name: SLI_PKT_MAC0_SIG0
     title: SLI Packet MAC0 Signalling CSR0 Register
     address: 0x11F0000011300
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC0 and any VF.
     fields:
       - name: DATA
@@ -2903,7 +2903,7 @@ registers:
   - name: SLI_PKT_MAC0_SIG1
     title: SLI Packet MAC0 Signalling CSR1 Register
     address: 0x11F0000011310
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC0 and any VF.
     fields:
       - name: DATA
@@ -2917,7 +2917,7 @@ registers:
   - name: SLI_PKT_MAC1_SIG0
     title: SLI Packet MAC1 Signalling CSR0 Register
     address: 0x11F0000011320
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC1 and any VF.
     fields:
       - name: DATA
@@ -2931,7 +2931,7 @@ registers:
   - name: SLI_PKT_MAC1_SIG1
     title: SLI Packet MAC1 Signalling CSR1 Register
     address: 0x11F0000011330
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC1 and any VF.
     fields:
       - name: DATA
@@ -2945,7 +2945,7 @@ registers:
   - name: SLI_PKT(0..63)_SLIST_BADDR
     title: SLI Packet Ring Scatter List Base-Address Registers
     address: 0x11F0000011400 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       This register contains the start of scatter list for output-packet pointers. This address must
       be 16-byte aligned.
@@ -2968,7 +2968,7 @@ registers:
   - name: SLI_PKT(0..63)_SLIST_BAOFF_DBELL
     title: SLI Packet Ring Scatter List Base-Address Offset and Doorbell Registers
     address: 0x11F0000011800 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the doorbell and base-address offset for next read operation.
     fields:
       - name: AOFF
@@ -2995,7 +2995,7 @@ registers:
   - name: SLI_PKT(0..63)_SLIST_FIFO_RSIZE
     title: SLI Packet Ring Scatter List FIFO and Ring Size Registers
     address: 0x11F0000011C00 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the number of scatter pointer pairs in the scatter list.
     fields:
       - name: --
@@ -3016,7 +3016,7 @@ registers:
   - name: SLI_PKT_IN_DONE(0..63)_CNTS
     title: SLI Instruction Done Ring Number Counts Registers
     address: 0x11F0000012000 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains counters for instructions completed on input rings.
     fields:
       - name: PO_INT
@@ -3074,7 +3074,7 @@ registers:
   - name: SLI_PKT(0..63)_CNTS
     title: SLI Packet Ring Counts Registers
     address: 0x11F0000012400 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the counters for output rings.
     fields:
       - name: PO_INT
@@ -3127,7 +3127,7 @@ registers:
   - name: SLI_PKT(0..63)_INSTR_BADDR
     title: SLI Packet Ring Instruction Base Address Registers
     address: 0x11F0000012800 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the start-of-instruction for input packets.
     fields:
       - name: ADDR
@@ -3148,7 +3148,7 @@ registers:
   - name: SLI_PKT(0..63)_INSTR_BAOFF_DBELL
     title: SLI Packet Ring Instruction Base Address Offset and Doorbell Registers
     address: 0x11F0000012C00 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the doorbell and base address offset for the next read.
     fields:
       - name: AOFF
@@ -3172,7 +3172,7 @@ registers:
   - name: SLI_PKT(0..63)_INSTR_FIFO_RSIZE
     title: SLI Packet Ring Instruction FIFO and Ring Size Registers
     address: 0x11F0000013000 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the FIFO field and ring size for instructions.
     fields:
       - name: MAX

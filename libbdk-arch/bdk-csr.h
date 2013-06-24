@@ -17,6 +17,7 @@ typedef enum {
    BDK_CSR_TYPE_NCB,        /**< Octeon internal address */
    BDK_CSR_TYPE_PEXP,       /**< PCIe BAR 0 address only */
    BDK_CSR_TYPE_PEXP_NCB,   /**< NCB-direct and PCIe BAR0 address */
+   BDK_CSR_TYPE_PEXPV_NCB,  /**< Virtual NCB-direct and PCIe BAR0 address */
    BDK_CSR_TYPE_PCICONFIGEP,/**< PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
    BDK_CSR_TYPE_PCICONFIGRC,/**< PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
 } bdk_csr_type_t;
@@ -67,6 +68,7 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;
@@ -107,6 +109,7 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             address |= 1ull<<63;

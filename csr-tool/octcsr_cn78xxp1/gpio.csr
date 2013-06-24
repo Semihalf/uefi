@@ -334,7 +334,7 @@ registers:
         typical: 0x0
         description: Filter count. Specifies the number of consecutive samples to change state.
 
-      - name: INT_EDGE
+      - name: INT_TYPE
         bits: 3
         access: R/W
         reset: 0

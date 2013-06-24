@@ -4054,10 +4054,10 @@ enums:
           reg_name: "PKO_PEB_ERR_INT"
         description: See PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR].
 
-      - name: PKO_PEB_PSE_FIFO_CFG_ERR
+      - name: PKO_PEB_PSE_FIFO_ERR
         value: 0x50033
         attributes:
-          bit_name: "PEB_PSE_FIFO_CFG_ERR"
+          bit_name: "PEB_PSE_FIFO_ERR"
           bit_num: "3"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_peb"
@@ -4066,7 +4066,7 @@ enums:
           major_val: "(0x50)"
           reg_addr: "(0x1540000900C00)"
           reg_name: "PKO_PEB_ERR_INT"
-        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_CFG_ERR].
+        description: See PKO_PEB_ERR_INT[PEB_PSE_FIFO_ERR].
 
       - name: PKO_PEB_PAD_ERR
         value: 0x50034
@@ -5421,6 +5421,32 @@ enums:
           reg_addr: "(0x1180080A00028+a*0x40000)"
           reg_name: "L2C_TAD(0..7)_INT"
         description: See L2C_TAD(0..7)_INT[RTGDBE].
+
+      - name: L2C_TAD(0..7)_INT_WRDISOCI
+        value: 0x80011 | (a << 8)
+        attributes:
+          bit_name: "WRDISOCI"
+          bit_num: "35"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[WRDISOCI].
+
+      - name: L2C_TAD(0..7)_INT_RDDISOCI
+        value: 0x80012 | (a << 8)
+        attributes:
+          bit_name: "RDDISOCI"
+          bit_num: "34"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[RDDISOCI].
 
       - name: L2C_MCI(0..3)_INT_VBFSBE
         value: 0x80800 | (a << 8)

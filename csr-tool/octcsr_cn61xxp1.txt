@@ -18385,16 +18385,14 @@ Pos      Name    Type     Value     Value       Description
 <15:12>  MEM_MSB_D0_R1 R/W    0x0     NS     Max Row MSB for DIMM0, RANK1/DIMM0 in Single Ranked
 <11:8>   MEM_MSB_D0_R0 R/W    0x0     NS     Max Row MSB for DIMM0, RANK0
 <7:0>    CS_MASK       R/W    0x0     NS     Chip select mask.
-                                             This mask corresponds to the chip selects for a memory
-                                             configuration.  If LMC*_CONFIG[RANK_ENA]==0 then this
-                                             mask must be set in pairs because each reference address
-                                             will assert a pair of chip selects.  If the chip
-                                             select(s) have a corresponding CS_MASK bit set, then the
-                                             reference is to non-existent memory (NXM).  LMC will alias a
-                                             NXM read reference to use the lowest, legal chip select(s)
-                                             and return 0's. LMC normally discards NXM writes, but will
-                                             also alias them when LMC*_CONTROL[NXM_WRITE_EN]=1.
-                                             CS_MASK<7:4> must all be set in 6xxx
+                                             CS_MASK[3:0] corresponds to the 4 chip selects for a memory
+                                             configuration.  If the memory configuration does not populate
+                                             a rank of memory for a chip select, the corresponding bit in
+                                             the CS_MASK field must be set, and for 6xxx devices bits
+                                             CS_MASK[7:4] must always all be set.  LMC will alias a NXM
+                                             read reference to use the lowest, legal chip select and
+                                             return 0s for data.  LMC normally discards NXM writes, but
+                                             will also alias them when LMC*_CONTROL[NXM_WRITE_EN]=1.
 Notes:
 				            Decoding for mem_msb/rank
                                                  0000: mem_msb = mem_adr[25]
@@ -33791,6 +33789,7 @@ Pos      Name    Type     Value     Value       Description
  *                  SLI_MSI_WR_MAP = SLI MSI Write MAP
  *
  * Used to write the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
+ * At reset, the mapping function is one-to-one, that is MSI_INT 1 maps to CIU_INT 1, 2 to 2, 3 to 3, etc.
  *
 
      ==============================================================

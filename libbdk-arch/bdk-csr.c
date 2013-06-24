@@ -20,6 +20,7 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
             /* Handled by inline code, we should never get here */
             bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
             break;
@@ -60,6 +61,7 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
             /* Handled by inline code, we should never get here */
             bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
             break;

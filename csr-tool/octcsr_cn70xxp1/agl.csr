@@ -1645,6 +1645,8 @@ registers:
         access: R/W
         reset: 0x60
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           The pause_time field placed is outbnd pause pkts
           pause_time is in 512 bit-times
@@ -1695,6 +1697,8 @@ registers:
       where largest_pkt_size is that largest packet that the system can send
       (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
       of the PAUSE packet (normally 64B).
+    attributes:
+      exempt_name_length: "True"
     fields:
       - name: --
         bits: 63..16
@@ -1733,6 +1737,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Back off the TX bus for (TIME*512) bit-times
           for full-duplex operation only
@@ -1755,6 +1761,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Amount of time remaining to backpressure
 
 
@@ -2363,6 +2371,8 @@ registers:
         access: R/W
         reset: 0x8808
         typical: 0x8808
+        attributes:
+          exempt_keyword: "True"
         description: The TYPE field placed is outbnd pause pkts
 
 

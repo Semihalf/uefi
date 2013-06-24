@@ -1597,6 +1597,8 @@ registers:
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UCTL_RST]
       This register allows indirect access to the configuration and test controls for the port@ PHY.
       For usage, see above description in CR_DBG_CFG.
+    attributes:
+      exempt_name_length: "True"
     fields:
       - name: --
         bits: 63..48

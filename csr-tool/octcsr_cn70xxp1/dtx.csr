@@ -136,6 +136,36 @@ registers:
         description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 
 
+  - name: DTX_RST_SEL(0..1)
+    title: DTX RST Select Register
+    address: 0x11800FE000000 | ((6) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_RST_ENA(0..1)
+    title: DTX RST Mask Register
+    address: 0x11800FE000020 | ((6) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_RST_DAT(0..1)
+    title: DTX RST Raw Data Register
+    address: 0x11800FE000040 | ((6) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_RST_CTL
+    title: DTX RST Control Register
+    address: 0x11800FE030060
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_RST_BCST_RSP
+    title: DTX RST Control Register
+    address: 0x11800FE030080
+    bus: RSL
+    inherits: DTX_MIO_BCST_RSP
+
   - name: DTX_FPA_SEL(0..1)
     title: DTX FPA Select Register
     address: 0x11800FE000000 | ((40) << 15)|a<<3

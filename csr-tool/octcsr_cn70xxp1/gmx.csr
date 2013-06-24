@@ -1853,6 +1853,8 @@ registers:
         access: R/W
         reset: 0x60
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           The pause_time field placed in outbnd 802.3 pause
           packets, HiGig2 messages, or CBFC pause packets.
@@ -1949,6 +1951,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Back off the TX bus for (TIME*512) bit-times
 
 
@@ -1979,6 +1983,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Amount of time remaining to backpressure
           From the standard 802.3 pause timer
@@ -2759,6 +2765,8 @@ registers:
         access: R/W
         reset: 0x8808
         typical: 0x8808
+        attributes:
+          exempt_keyword: "True"
         description: The TYPE field placed is outbnd pause pkts
 
 
@@ -3256,6 +3264,9 @@ registers:
   - name: GMX(0..1)_TX_XAUI_CTL
     address: 0x1180008000528 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..11
@@ -3364,6 +3375,9 @@ registers:
   - name: GMX(0..1)_RX_XAUI_CTL
     address: 0x1180008000530 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..2
@@ -3389,6 +3403,9 @@ registers:
   - name: GMX(0..1)_RX_XAUI_BAD_COL
     address: 0x1180008000538 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..40
@@ -3441,6 +3458,9 @@ registers:
   - name: GMX(0..1)_XAUI_EXT_LOOPBACK
     address: 0x1180008000540 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..5
@@ -3478,6 +3498,9 @@ registers:
     address: 0x1180008000548 + a*0x8000000
     bus: RSL
     description: "** HG2 message CSRs"
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..48
@@ -3523,6 +3546,9 @@ registers:
   - name: GMX(0..1)_HG2_CONTROL
     address: 0x1180008000550 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..19
@@ -3576,6 +3602,9 @@ registers:
   - name: GMX(0..1)_TX_HG2_REG1
     address: 0x1180008000558 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -3600,6 +3629,9 @@ registers:
   - name: GMX(0..1)_TX_HG2_REG2
     address: 0x1180008000560 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -3625,7 +3657,9 @@ registers:
     address: 0x1180008000580 + a*0x8000000 + b*0x8
     bus: RSL
     description: "** HG2 message CSRs end"
-    internal: XOFF for a specific port is XOFF<prt> = (PHYS_EN<prt> & PHYS_BP) | (LOGL_EN<prt> & LOGL_BP<prt>)
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: PHYS_EN
         bits: 63..48
@@ -3711,6 +3745,9 @@ registers:
   - name: GMX(0..1)_TX(0..0)_CBFC_XOFF
     address: 0x11800080005A0 + a*0x8000000 + b*0x8
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -3734,6 +3771,9 @@ registers:
   - name: GMX(0..1)_TX(0..0)_CBFC_XON
     address: 0x11800080005C0 + a*0x8000000 + b*0x8
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..16
@@ -3757,6 +3797,9 @@ registers:
   - name: GMX(0..1)_RXAUI_CTL
     address: 0x1180008000740 + a*0x8000000
     bus: RSL
+    internal: |
+      o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
+      documented.
     fields:
       - name: --
         bits: 63..1

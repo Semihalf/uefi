@@ -526,6 +526,8 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           NAND / EMMC Controller interrupt
           See  NAND / EMMC interrupt
@@ -1230,6 +1232,8 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: NAND / EMMC Controller interrupt enable
 
       - name: --
@@ -1848,6 +1852,8 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
+        attributes:
+          exempt_keyword: "True"
         description: Clear the interrupt rising edge detector
 
 
@@ -2788,6 +2794,8 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: NAND / EMMC Controller interrupt enable
 
       - name: --
@@ -3417,8 +3425,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If 0, SPI_CLK idles high, 1st transition is hi->lo
-          1, SPI_CLK idles low, 1st transition is lo->hi
+          0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
+          Guide options CPOL = 1, CPHA = 1.
+          1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
+          Guide options CPOL = 0, CPHA = 0.
 
       - name: ENABLE
         bits: 0
@@ -3974,6 +3984,8 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           Write 1 to clear NAND / EMMC Controller interrupt
           enable
@@ -4412,6 +4424,8 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           Write 1 to clear NAND / EMMC Controller interrupt
           enable
@@ -4856,6 +4870,8 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           Write 1 to set NAND / EMMC Controller interrupt
           enable
@@ -5300,6 +5316,8 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           Write 1 to set NAND / EMMC Controller interrupt
           enable
@@ -5639,6 +5657,8 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: |
           NAND / EMMC Controller interrupt
           See NAND / EMMC interrupt
@@ -7975,6 +7995,8 @@ registers:
         access: R/W
         reset: 0x3f
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Region 0 wait count
 
       - name: PAUSE
@@ -8079,6 +8101,8 @@ registers:
         access: R/W
         reset: 0x3f
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Region @ wait count
 
       - name: PAUSE
@@ -8388,21 +8412,21 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..57
+        bits: 63..33
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: DLM_SUPPLY
-        bits: 56
+        bits: 32
         access: RO
         reset: --
         typical: --
         description: DLM Power Supply Setting based on DLMC_VPH_SELECT_18 pin 1 = 1.8V 0 = 2.5V All others = Reserved
 
       - name: RGM_SUPPLY
-        bits: 55..54
+        bits: 31..30
         access: RO
         reset: --
         typical: --
@@ -8411,7 +8435,7 @@ registers:
           others = Reserved
 
       - name: SMI_SUPPLY
-        bits: 53..51
+        bits: 29..27
         access: RO
         reset: --
         typical: --
@@ -8420,7 +8444,7 @@ registers:
           3.3V All others = Reserved
 
       - name: IO_SUPPLY
-        bits: 50..48
+        bits: 26..24
         access: RO
         reset: --
         typical: --
@@ -8429,7 +8453,7 @@ registers:
           3.3V All others = Reserved
 
       - name: --
-        bits: 47..17
+        bits: 23..17
         access: ---
         reset: --
         typical: --
@@ -9597,6 +9621,8 @@ registers:
         access: R/W
         reset: 0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: FIFO Access Register
 
 
@@ -10123,6 +10149,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Data Field
           Used on a write when
@@ -10170,6 +10198,8 @@ registers:
         access: R/W
         reset: --
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Data Field - updated on a write by the TWSI device
 
 
@@ -10321,6 +10351,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: Extended Data Field
 
 

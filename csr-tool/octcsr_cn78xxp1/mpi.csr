@@ -165,8 +165,10 @@ registers:
         typical: 0
         description: |
           Clock idle low/clock invert.
-          0 = SPI_CK idles high, first transition is high-to-low.
-          1 = SPI_CK idles low, first transition is low-to-high.
+          0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
+          Guide options CPOL = 1, CPHA = 1.
+          1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
+          Guide options CPOL = 0, CPHA = 0.
 
       - name: ENABLE
         bits: 0

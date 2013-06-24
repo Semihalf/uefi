@@ -2154,13 +2154,27 @@ registers:
 
       - name: UATOMBS
         bits: 24
-        access: RO
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: Unsupported AtomicOp Egress Blocked Status
 
       - name: --
-        bits: 23..21
+        bits: 23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCIES
+        bits: 22
+        access: R/W1C/H
+        reset: 1
+        typical: 1
+        description: Uncorrectable Internal Error Status
+
+      - name: --
+        bits: 21
         access: ---
         reset: --
         typical: --
@@ -2432,10 +2446,24 @@ registers:
         description: Unsupported AtomicOp Egress Blocked Severity
 
       - name: --
-        bits: 23..21
-        access: RO/H
-        reset: 0x2
-        typical: 0x2
+        bits: 23
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: UCIES
+        bits: 22
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Uncorrectable Internal Error Severity
+
+      - name: --
+        bits: 21
+        access: ---
+        reset: --
+        typical: --
         description: Reserved.
 
       - name: URES
@@ -2547,11 +2575,18 @@ registers:
       (Correctable Error Status Register)
     fields:
       - name: --
-        bits: 31..14
+        bits: 31..15
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CIES
+        bits: 14
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Corrected Internal Error Status
 
       - name: ANFES
         bits: 13
@@ -2565,7 +2600,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Reply Timer Timeout Status
+        description: Replay Timer Timeout Status
 
       - name: --
         bits: 11..9
@@ -2802,7 +2837,7 @@ registers:
     address: 0x30000000148 + a*0x100000000
     bus: PCICONFIGEP
     description: |
-      PCIE_CFG110 = One hundred eleventh 32-bits of PCIE type 0 config space
+      PCIE_CFG082 = Eighty-third 32-bits of PCIE type 0 config space
       (PCI Express Resizable BAR (RBAR) Capability Header)
     fields:
       - name: NCO
@@ -2831,7 +2866,7 @@ registers:
     address: 0x3000000014C + a*0x100000000
     bus: PCICONFIGEP
     description: |
-      PCIE_CFG111 = One hundred twelvth 32-bits of PCIE type 0 config space
+      PCIE_CFG083 = Eighty-fourth 32-bits of PCIE type 0 config space
       (PCI Express Resizable BAR (RBAR) Capability Register)
     fields:
       - name: --
@@ -2866,7 +2901,7 @@ registers:
     address: 0x30000000150 + a*0x100000000
     bus: PCICONFIGEP
     description: |
-      PCIE_CFG112 = One hundred thirteenth 32-bits of PCIE type 0 config space
+      PCIE_CFG084 = Eighty-fifth 32-bits of PCIE type 0 config space
       (PCI Express Resizable BAR (RBAR) Control Register)
     fields:
       - name: --
