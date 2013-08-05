@@ -460,9 +460,6 @@ static int pko_port_init(bdk_if_handle_t handle)
     }
 
     /* Program L1 = port queue */
-    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_PQX_TOPOLOGY(pq),
-        c.s.link = lmac;
-        c.s.peb_fifo = pko_macx_cfg.s.fifo_num);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_TOPOLOGY(pq),
         c.s.prio_anchor = sq_l2;
         c.s.link = lmac;
