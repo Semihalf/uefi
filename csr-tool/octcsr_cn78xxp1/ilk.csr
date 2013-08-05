@@ -168,6 +168,10 @@ enums:
         value: 0x140C8 + a*0x100
         description: See ILK_RX_LNE(0..15)_INT[BAD_64B67B].
 
+      - name: ILK_RXLNE(0..15)_DISP_ERR
+        value: 0x140C9 + a*0x100
+        description: See ILK_RX_LNE(0..15)_INT[DISP_ERR].
+
 
 registers:
   - name: ILK_GBL_CFG
@@ -394,6 +398,8 @@ registers:
     title: ILK BIST Summary Register
     address: 0x1180014000038
     bus: RSL
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: RXF_X2P
         bits: 63
@@ -909,7 +915,7 @@ registers:
 
   - name: ILK_RX(0..1)_CHA(0..255)
     title: ILK RX Channel-Port-Kind Registers
-    address: 0x1180014002000 + a*0x1000 + b*0x8
+    address: 0x1180014002000 + a*0x0001000 + b*0x8
     bus: RSL
     fields:
       - name: --
@@ -1129,9 +1135,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Minimum size of a data burst, as a multiple of 32-byte blocks.  0 disables the scheduling
-          enhancement.   When non-zero, must satisfy (BRST_SHRT*8) <= (BRST_MIN*32) <=
-          (BRST_MAX*64)/2
+          Minimum size of a data burst, as a multiple of 32-byte blocks. 0 disables the scheduling
+          enhancement. When non-zero, must satisfy:
+          (BRST_SHRT*8) <= (BRST_MIN*32) <= (BRST_MAX*64)/2.
 
       - name: --
         bits: 47..43
@@ -1277,6 +1283,8 @@ registers:
     title: ILK TX RMATCH Registers
     address: 0x1180014010040 + a*0x4000
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..50
@@ -2589,11 +2597,18 @@ registers:
           discarded in the lane logic.
 
       - name: --
-        bits: 7..6
+        bits: 7
         access: ---
-        reset: 0x0
+        reset: 0
         typical: --
         description: Reserved.
+
+      - name: RX_DIS_DISP_CHK
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Disable the RX disparity check, see ILK_RX_LNE(0..15)_INT[DISP_ERR].
 
       - name: RX_SCRM_SYNC
         bits: 5
@@ -2648,11 +2663,19 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..9
+        bits: 63..10
         access: ---
         reset: 0x0
         typical: --
         description: Reserved.
+
+      - name: DISP_ERR
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          RX disparity error encountered. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_DISP_ERR.
 
       - name: BAD_64B67B
         bits: 8
@@ -3003,6 +3026,7 @@ registers:
 
 
   - name: ILK_LNE(0..15)_TRN_LD
+    title: ILK Lane Training Local Device Registers
     address: 0x11800140380E0 + a*0x400
     bus: RSL
     fields:
@@ -3050,6 +3074,7 @@ registers:
 
 
   - name: ILK_LNE(0..15)_TRN_LP
+    title: ILK Lane Training Link Partner Registers
     address: 0x11800140380E8 + a*0x400
     bus: RSL
     fields:
@@ -3097,6 +3122,7 @@ registers:
 
 
   - name: ILK_LNE(0..15)_TRN_CTL
+    title: ILK Lane Training Control Registers
     address: 0x11800140380F0 + a*0x400
     bus: RSL
     fields:

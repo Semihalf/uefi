@@ -1659,8 +1659,7 @@ registers:
         description: |
           "Clock Power Management
           The default value is the value you specify during hardware
-          configuration, writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          configuration."
 
       - name: L1EL
         bits: 17..15
@@ -1670,8 +1669,7 @@ registers:
         description: |
           "L1 Exit Latency
           The default value is the value you specify during hardware
-          configuration, writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          configuration."
 
       - name: L0EL
         bits: 14..12
@@ -1681,8 +1679,7 @@ registers:
         description: |
           "L0s Exit Latency
           The default value is the value you specify during hardware
-          configuration, writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          configuration."
 
       - name: ASLPMS
         bits: 11..10
@@ -1692,8 +1689,7 @@ registers:
         description: |
           "Active State Link PM Support
           The default value is the value you specify during hardware
-          configuration, writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          configuration."
 
       - name: MLW
         bits: 9..4
@@ -1703,7 +1699,7 @@ registers:
         description: |
           "Maximum Link Width
           The default value is the value you specify during hardware
-          configuration (x1, x4, x8, or x16), writable through PEM#_CFG_WR."
+          configuration (x1, x4, x8, or x16)."
 
       - name: MLS
         bits: 3..0
@@ -1711,14 +1707,12 @@ registers:
         reset: --
         typical: --
         description: |
-          "Maximum Link Speed
-          The reset value of this field is controlled by a value sent from
-          the lsb of the MIO_QLM#_SPD register.
-          qlm#_spd[0]   RST_VALUE   NOTE
-          1             0001b       2.5 GHz supported
-          0             0010b       5.0 GHz and 2.5 GHz supported
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          '"Maximum Link Speed
+          The reset value of this field is controlled by a value read from
+          the msb of the PEM CSR mode pins.
+          PEM(0..2)_CFG.MD[2]  RST_VALUE   NOTE
+          1                    0001b       2.5 GHz supported
+          0                    0010b       5.0 GHz and 2.5 GHz supported'
 
 
   - name: PCIERC(0..2)_CFG032
@@ -2463,7 +2457,7 @@ registers:
         typical: 0x0
         description: |
           Completion Timeout Value
-          o 0000b Default range: 16 ms to 55 ms
+          o 0000b Default range: 50 us to 55 ms
           o 0001b 50 us to 100 us
           o 0010b 1 ms to 10 ms
           o 0101b 16 ms to 55 ms
@@ -2512,9 +2506,9 @@ registers:
           Bit 2 5.0 GT/s
           Bit 3 8.0 GT/s (Not Supported)
           Bits 7:4 reserved
-          The reset value of this field is controlled by a value sent from
-          the lsb of the MIO_QLM#_SPD register
-          qlm#_spd[0]   RST_VALUE   NOTE
+          The reset value of this field is controlled by a value read from
+          the msb of the pi_select_mode pins.
+          pi_sel_md[2]   RST_VALUE   NOTE
           1             0001b       2.5 GHz supported
           0             0011b       5.0 GHz and 2.5 GHz supported"
 
@@ -2543,8 +2537,8 @@ registers:
       - name: CDL
         bits: 16
         access: RO/H
-        reset: 0
-        typical: 0
+        reset: 1
+        typical: 1
         description: |
           Current De-emphasis Level
           When the Link is operating at 5 GT/s speed, this bit
@@ -2681,9 +2675,9 @@ registers:
           used to set the target compliance mode speed when
           software is using the Enter Compliance bit to force a link
           into compliance mode.
-          The reset value of this field is controlled by a value sent from
-          the lsb of the MIO_QLM#_SPD register.
-          qlm#_spd[0]   RST_VALUE   NOTE
+          The reset value of this field is controlled by a value read from
+          the msb of the pi_select_mode pins.
+          pi_sel_md[2]  RST_VALUE   NOTE
           1             0001b       2.5 GHz supported
           0             0010b       5.0 GHz and 2.5 GHz supported"
 
@@ -3727,11 +3721,37 @@ registers:
           always returns a 0.
 
       - name: --
-        bits: 14..8
+        bits: 14..12
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LINK_CMD
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Link Command
+          The Link command that the PCI Express Core will be forced to
+          transmit when bit 15 (Force Link) is set.
+          Command encoding:
+          o PEM_SEND_IDLE              1h
+          o PEM_SEND_EIDLE             2h
+          o PEM_XMT_IN_EIDLE           3h
+          o PEM_MOD_COMPL_PATTERN      4h
+          o PEM_SEND_RCVR_DETECT_SEQ   5h
+          o PEM_SEND_TS1               6h
+          o PEM_SEND_TS2               7h
+          o PEM_COMPLIANCE_PATTERN     8h
+          o PEM_SEND_SDS               9h
+          o PEM_SEND_BEACON            ah
+          o PEM_SEND_N_FTS             bh
+          o PEM_NORM                   ch
+          o PEM_SEND_SKP               dh
+          o PEM_SEND_EIES              eh
+          o PEM_SEND_EIES_SYM          fh
 
       - name: LINK_NUM
         bits: 7..0
@@ -4030,25 +4050,12 @@ registers:
       PCIE_CFG454 = Four hundred fifty-fifth 32-bits of PCIE type 1 config space
       (Symbol Number Register)
     fields:
-      - name: CX_NFUNC
-        bits: 31..29
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Number of Functions (minus 1)
-          Configuration Requests targeted at function numbers above this
-          value will be returned with unsupported request
-
-      - name: TMFCWT
-        bits: 28..24
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Timer Modifier for Flow Control Watchdog Timer
-          Increases the timer value for the Flow Control watchdog timer,
-          in increments of 16 clock cycles.
+      - name: --
+        bits: 31..24
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: TMANLT
         bits: 23..19

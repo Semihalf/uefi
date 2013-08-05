@@ -590,6 +590,7 @@ enums:
           bit_name: "SEC_ERR<b>"
           bit_num: "1+b"
           blk_enum_name: "LMC_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "LMC(0)"
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
@@ -602,6 +603,7 @@ enums:
           bit_name: "DED_ERR<b>"
           bit_num: "5+b"
           blk_enum_name: "LMC_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "LMC(0)"
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
@@ -618,7 +620,8 @@ enums:
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
           reg_name: "LMC(0..0)_INT"
-        description: See LMC(0..0)_INT[DLCRAM_SEC_ERR].
+        description: |
+          Reserved.  INTERNAL:See LMC(0..0)_INT[DLCRAM_SEC_ERR].
 
       - name: LMC(0..0)_INT_DLC_DED
         value: 0x8800A + a*0x1000
@@ -630,7 +633,8 @@ enums:
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
           reg_name: "LMC(0..0)_INT"
-        description: See LMC(0..0)_INT[DLCRAM_DED_ERR].
+        description: |
+          Reserved.  INTERNAL:See LMC(0..0)_INT[DLCRAM_DED_ERR].
 
       - name: LMC(0..0)_INT_DDR_ERR
         value: 0x8800B + a*0x1000
@@ -642,7 +646,8 @@ enums:
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
           reg_name: "LMC(0..0)_INT"
-        description: See LMC(0..0)_INT[DDR_ERR].
+        description: |
+          Reserved.  INTERNAL:See LMC(0..0)_INT[DDR_ERR].
 
       - name: OCLA(0)_STATE_OVFL(0..3)
         value: 0xA8000 + a*0x1000 + b
@@ -674,6 +679,7 @@ enums:
           bit_name: "MCD<b>"
           bit_num: "9+b"
           blk_enum_name: "OCLA_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "OCLA(0)"
           major_val: "(0xA8+a)"
           reg_addr: "(0x11800A8000080|a<<24)"

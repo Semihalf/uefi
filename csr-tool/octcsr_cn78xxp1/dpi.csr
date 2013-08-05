@@ -42,6 +42,7 @@ enums:
       - name: DPI_INT_DMADBO(0..7)
         value: 0xDF002 + a
         attributes:
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[DMADBO<a>].
 
@@ -111,15 +112,17 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT3_RST].
 
-      - name: DPI_ERR_RAM_DBE(0..22)
+      - name: DPI_ERR_RAM_DBE(0..30)
         value: 0xDF015 + a
         attributes:
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
         description: See DPI_ECC_INT[RAM_DBE<a>].
 
-      - name: DPI_ERR_RAM_SBE(0..22)
-        value: 0xDF02C + a
+      - name: DPI_ERR_RAM_SBE(0..30)
+        value: 0xDF034 + a
         attributes:
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
         description: See DPI_ECC_INT[RAM_SBE<a>].
 
@@ -183,9 +186,11 @@ structs:
         bits: w0(42)
         description: Reserved for extending NLST.
 
-      - name: --
+      - name: DEALLOCE
         bits: w0(43)
-        description: Reserved.
+        description: |
+          Refer to DMA Instruction-Header Format, word0<43>. Dealloc value enable.
+          ...
 
       - name: PT
         bits: w0(45..44)
@@ -273,9 +278,11 @@ structs:
         bits: w1(47..42)
         description: Reserved for extending PTR.
 
-      - name: --
+      - name: DEALLOCV
         bits: w1(63..48)
-        description: Reserved.
+        description: |
+          See HRM.
+          Dealloc value to decrement the aura count on the instruction's final pointer return.
 
 
   - name: DPI_DMA_LOCAL_PTR_S
@@ -331,6 +338,8 @@ registers:
     address: 0x1DF0000000000
     bus: NCB
     description: This is the built-in self-test (BIST) status register.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..45
@@ -644,6 +653,8 @@ registers:
     address: 0x1DF0000000018
     bus: NCB
     description: This register allows inserting ECC errors for testing.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..48
@@ -685,14 +696,14 @@ registers:
     description: This register contains ECC error interrupt summary bits.
     fields:
       - name: --
-        bits: 63..55
+        bits: 63
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAM_DBE
-        bits: 54..32
+        bits: 62..32
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -701,14 +712,14 @@ registers:
           DPI_INTSN_E::DPI_ERR_RAM_DBE.
 
       - name: --
-        bits: 31..23
+        bits: 31
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAM_SBE
-        bits: 22..0
+        bits: 30..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
@@ -734,6 +745,68 @@ registers:
         reset: 0
         typical: 0
         description: Directs traffic to the specified NCB unit.
+
+
+  - name: DPI_SWA_Q_VMID
+    address: 0x1DF0000000030
+    bus: NCB
+    description: This register defines.
+    fields:
+      - name: VMID7
+        bits: 63..56
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 7.
+
+      - name: VMID6
+        bits: 55..48
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 6.
+
+      - name: VMID5
+        bits: 47..40
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 5.
+
+      - name: VMID4
+        bits: 39..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 4.
+
+      - name: VMID3
+        bits: 31..24
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 3.
+
+      - name: VMID2
+        bits: 23..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 2.
+
+      - name: VMID1
+        bits: 15..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 1.
+
+      - name: VMID0
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: The SWA VMID for Queue 0.
 
 
   - name: DPI_CTL

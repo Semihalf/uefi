@@ -123,6 +123,8 @@ registers:
       3 + C2*x
       2 + C1*x
       1 + C0.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..8
@@ -210,6 +212,8 @@ registers:
     description: |
       This register provides access to internal BIST results. Each bit is the BIST result of an
       individual memory (per bit, 0 = pass, 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..6

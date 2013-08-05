@@ -523,6 +523,8 @@ registers:
     address: 0x12800000000E8
     bus: NCB
     description: This register provides the result of the BIST run on the FPA memories.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..38
@@ -1055,6 +1057,7 @@ registers:
     bus: NCB
     attributes:
       arch_max: "1024"
+      dv_fc_scratch: "a=(0)"
     fields:
       - name: COUNT
         bits: 63..0

@@ -205,6 +205,8 @@ registers:
     description: |
       This register provides access to the internal timer BIST results. Each bit is the BIST result
       of an individual memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..5
@@ -485,6 +487,8 @@ registers:
     title: Free Running Cycle Count Register
     address: 0x11800580000C0
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: COUNT
         bits: 63..0

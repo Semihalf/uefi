@@ -382,6 +382,7 @@ enums:
           bit_name: "DONE"
           bit_num: "0"
           blk_enum_name: "MIO_BOOT_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "MIO_BOOT"
           major_val: "(0xA)"
           reg_addr: "(0x1180000000138+a*0x8)"
@@ -842,6 +843,7 @@ enums:
           bit_name: "REPLAY_SBE"
           bit_num: "0"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -854,6 +856,7 @@ enums:
           bit_name: "REPLAY_DBE"
           bit_num: "1"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -866,6 +869,7 @@ enums:
           bit_name: "TXFIFO_SBE"
           bit_num: "2"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -878,6 +882,7 @@ enums:
           bit_name: "TXFIFO_DBE"
           bit_num: "3"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -890,6 +895,7 @@ enums:
           bit_name: "RXFIFO_SBE"
           bit_num: "4"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -902,6 +908,7 @@ enums:
           bit_name: "RXFIFO_DBE"
           bit_num: "5"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -914,6 +921,7 @@ enums:
           bit_name: "LNK_DATA"
           bit_num: "6"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -926,6 +934,7 @@ enums:
           bit_name: "REINIT"
           bit_num: "7"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -938,6 +947,7 @@ enums:
           bit_name: "BLK_ERR"
           bit_num: "8"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -950,6 +960,7 @@ enums:
           bit_name: "STOP"
           bit_num: "9"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -962,6 +973,7 @@ enums:
           bit_name: "UP"
           bit_num: "10"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -974,6 +986,7 @@ enums:
           bit_name: "ALIGN_DONE"
           bit_num: "11"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -986,6 +999,7 @@ enums:
           bit_name: "ALIGN_FAIL"
           bit_num: "12"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -998,6 +1012,7 @@ enums:
           bit_name: "BAD_WORD"
           bit_num: "13"
           blk_enum_name: "OCX_INTSN_E"
+          exempt_natural_alignment: "a"
           major_name: "OCX"
           major_val: "(0x11)"
           reg_addr: "(0x1180011000120+a*0x8)"
@@ -1496,6 +1511,18 @@ enums:
           reg_name: "ILK_RX_LNE(0..15)_INT"
         description: See ILK_RX_LNE(0..15)_INT[BAD_64B67B].
 
+      - name: ILK_RXLNE(0..15)_DISP_ERR
+        value: 0x140C9 + a*0x100
+        attributes:
+          bit_name: "DISP_ERR"
+          bit_num: "9"
+          blk_enum_name: "ILK_INTSN_E"
+          major_name: "ILK"
+          major_val: "(0x14)"
+          reg_addr: "(0x1180014038008+a*0x400)"
+          reg_name: "ILK_RX_LNE(0..15)_INT"
+        description: See ILK_RX_LNE(0..15)_INT[DISP_ERR].
+
       - name: ILA_TX(0)_STAT_CNT_OVFL
         value: 0x17040 + a*0x100
         attributes:
@@ -1714,6 +1741,18 @@ enums:
           reg_addr: "(0x1180017038008+a*0x400)"
           reg_name: "ILA_RX_LNE(0..7)_INT"
         description: See ILA_RX_LNE(0..7)_INT[BAD_64B67B].
+
+      - name: ILA_RXLNE(0..7)_DISP_ERR
+        value: 0x170C9 + a*0x100
+        attributes:
+          bit_name: "DISP_ERR"
+          bit_num: "9"
+          blk_enum_name: "ILA_INTSN_E"
+          major_name: "ILA"
+          major_val: "(0x17)"
+          reg_addr: "(0x1180017038008+a*0x400)"
+          reg_name: "ILA_RX_LNE(0..7)_INT"
+        description: See ILA_RX_LNE(0..7)_INT[DISP_ERR].
 
       - name: SLI_MSI_RCV0(0..63)
         value: 0x1E000 + a
@@ -2660,6 +2699,7 @@ enums:
           bit_num: "1+a"
           blk_enum_name: "DFA_INTSN_E"
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
           major_name: "DFA"
           major_val: "(0x37)"
           reg_addr: "(0x1180037000028)"
@@ -2686,6 +2726,7 @@ enums:
           bit_num: "7+a"
           blk_enum_name: "DFA_INTSN_E"
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
           major_name: "DFA"
           major_val: "(0x37)"
           reg_addr: "(0x1180037000028)"
@@ -2699,6 +2740,7 @@ enums:
           bit_num: "10+a"
           blk_enum_name: "DFA_INTSN_E"
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
           major_name: "DFA"
           major_val: "(0x37)"
           reg_addr: "(0x1180037000028)"
@@ -3572,6 +3614,7 @@ enums:
           bit_num: "1+a"
           blk_enum_name: "HNA_INTSN_E"
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
           major_name: "HNA"
           major_val: "(0x47)"
           reg_addr: "(0x1180047000028)"
@@ -3598,6 +3641,7 @@ enums:
           bit_num: "7+a"
           blk_enum_name: "HNA_INTSN_E"
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
           major_name: "HNA"
           major_val: "(0x47)"
           reg_addr: "(0x1180047000028)"
@@ -3611,6 +3655,7 @@ enums:
           bit_num: "10+a"
           blk_enum_name: "HNA_INTSN_E"
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
           major_name: "HNA"
           major_val: "(0x47)"
           reg_addr: "(0x1180047000028)"
@@ -5175,7 +5220,7 @@ enums:
           reg_name: "UAHC(0)_USBSTS"
         description: See UAHC(0)_USBSTS[HSE].
 
-      - name: UCTL(0)_UAHC_IMAN(0..0)_IP
+      - name: UCTL(0)_UAHC_IMAN(0)_IP
         value: 0x68080 + a*0x1000 + b
         attributes:
           bit_name: "IP"
@@ -5186,8 +5231,8 @@ enums:
           major_name: "UCTL(0)"
           major_val: "(0x68+a)"
           reg_addr: "(0x1680000000460+a*0x10000000000+b*0x20)"
-          reg_name: "UAHC(0)_IMAN(0..0)"
-        description: See UAHC(0)_IMAN(0..0)[IP].
+          reg_name: "UAHC(0)_IMAN(0)"
+        description: See UAHC(0)_IMAN(0)[IP].
 
       - name: RAD_FIFO(0)_DOORBELL
         value: 0x70100 + a
@@ -5544,6 +5589,7 @@ enums:
           bit_name: "SEC_ERR<b>"
           bit_num: "1+b"
           blk_enum_name: "LMC_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "LMC(0..3)"
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
@@ -5556,6 +5602,7 @@ enums:
           bit_name: "DED_ERR<b>"
           bit_num: "5+b"
           blk_enum_name: "LMC_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "LMC(0..3)"
           major_val: "(0x88+a)"
           reg_addr: "(0x11800880001F0|a<<24)"
@@ -5628,6 +5675,7 @@ enums:
           bit_name: "MCD<b>"
           bit_num: "9+b"
           blk_enum_name: "OCLA_INTSN_E"
+          exempt_natural_alignment: "b"
           major_name: "OCLA(0..5)"
           major_val: "(0xA8+a)"
           reg_addr: "(0x11800A8000080|a<<24)"
@@ -7269,6 +7317,7 @@ enums:
           bit_name: "DMADBO<a>"
           bit_num: "8+a"
           blk_enum_name: "DPI_INTSN_E"
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
@@ -7419,12 +7468,13 @@ enums:
           reg_name: "DPI_INT_REG"
         description: See DPI_INT_REG[SPRT3_RST].
 
-      - name: DPI_ERR_RAM_DBE(0..22)
+      - name: DPI_ERR_RAM_DBE(0..30)
         value: 0xDF015 + a
         attributes:
           bit_name: "RAM_DBE<a>"
           bit_num: "32+a"
           blk_enum_name: "DPI_INTSN_E"
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
@@ -7432,12 +7482,13 @@ enums:
           reg_name: "DPI_ECC_INT"
         description: See DPI_ECC_INT[RAM_DBE<a>].
 
-      - name: DPI_ERR_RAM_SBE(0..22)
-        value: 0xDF02C + a
+      - name: DPI_ERR_RAM_SBE(0..30)
+        value: 0xDF034 + a
         attributes:
           bit_name: "RAM_SBE<a>"
           bit_num: "0+a"
           blk_enum_name: "DPI_INTSN_E"
+          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
@@ -7445,7 +7496,7 @@ enums:
           reg_name: "DPI_ECC_INT"
         description: See DPI_ECC_INT[RAM_SBE<a>].
 
-      - name: BGX(0..5)_CMR(0..3)_INT_PKO_PAUSE_DRP
+      - name: BGX(0..5)_CMR(0..3)_INT_PAUSE_DRP
         value: 0xE0000 + a*0x1000 + b*0x40
         attributes:
           bit_name: "PAUSE_DRP"
@@ -7458,7 +7509,7 @@ enums:
           reg_name: "BGX(0..5)_CMR(0..3)_INT"
         description: See BGX(0..5)_CMR(0..3)_INT[PAUSE_DRP].
 
-      - name: BGX(0..5)_CMR(0..3)_INT_PKO_OVERFLW
+      - name: BGX(0..5)_CMR(0..3)_INT_OVERFLW
         value: 0xE0001 + a*0x1000 + b*0x40
         attributes:
           bit_name: "OVERFLW"

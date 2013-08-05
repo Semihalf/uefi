@@ -38,10 +38,14 @@ enums:
 
       - name: CLK_SYNCE(0..1)
         value: 0x03 + a
+        attributes:
+          exempt_natural_alignment: "a"
         description: CLK_SYNCE(a); see GPIO_CLK_SYNCE(0..1).
 
       - name: MCD(0..2)
         value: 0x05 + a
+        attributes:
+          exempt_natural_alignment: "a"
         description: Multichip debug output; see TBD.
 
       - name: LMC_ECC(0..2)

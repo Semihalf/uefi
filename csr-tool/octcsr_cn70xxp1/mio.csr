@@ -807,49 +807,49 @@ registers:
     fields:
       - name: BOOTDMA
         bits: 63
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Boot bus DMA engines Interrupt enable
 
       - name: --
         bits: 62
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD per-port counter threshold interrupt enable
 
       - name: POWIQ
         bits: 60
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: POW IQ interrupt enable
 
       - name: TWSI2
         bits: 59
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: 2nd TWSI Interrupt enable
 
       - name: MPI
         bits: 58
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: MPI/SPI interrupt enable
 
       - name: PCM
         bits: 57
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PCM/TDM interrupt enable
@@ -863,7 +863,7 @@ registers:
 
       - name: TIMER
         bits: 55..52
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: General timer interrupt enables
@@ -877,28 +877,28 @@ registers:
 
       - name: IPD_DRP
         bits: 50
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD QOS packet drop interrupt enable
 
       - name: GMX_DRP
         bits: 49..48
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: GMX packet drop interrupt enable
 
       - name: RESERVED0
         bits: 47..46
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: TWSI
         bits: 45
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: TWSI Interrupt enable
@@ -912,42 +912,42 @@ registers:
 
       - name: PCI_MSI
         bits: 43..40
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: PCIe MSI enables
 
       - name: PCI_INT
         bits: 39..36
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: PCIe INTA/B/C/D enables
 
       - name: UART
         bits: 35..34
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Two UART interrupt enables
 
       - name: MBOX
         bits: 33..32
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Two mailbox/PCIe interrupt enables
 
       - name: GPIO
         bits: 31..16
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: 16 GPIO interrupt enables
 
       - name: WORKQ
         bits: 15..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: 16 work queue interrupt enables
@@ -1026,7 +1026,7 @@ registers:
 
       - name: LMC0
         bits: 52
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: LMC0 interrupt enable
@@ -1040,35 +1040,35 @@ registers:
 
       - name: PEM2
         bits: 50
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM2 interrupt enable
 
       - name: PEM1
         bits: 49
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM1 interrupt enable
 
       - name: PEM0
         bits: 48
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM0 interrupt enable
 
       - name: PTP
         bits: 47
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PTP interrupt enable
 
       - name: AGL
         bits: 46
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: AGL interrupt enable
@@ -1089,7 +1089,7 @@ registers:
 
       - name: DPI_DMA
         bits: 40
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DPI_DMA interrupt enable
@@ -1103,63 +1103,63 @@ registers:
 
       - name: AGX1
         bits: 37
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: GMX1 interrupt enable
 
       - name: AGX0
         bits: 36
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: GMX0 interrupt enable
 
       - name: DPI
         bits: 35
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DPI interrupt enable
 
       - name: SLI
         bits: 34
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: SLI interrupt enable
 
       - name: USB
         bits: 33
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DFA interrupt enable
 
       - name: KEY
         bits: 31
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: KEY interrupt enable
 
       - name: RAD
         bits: 30
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: RAD interrupt enable
 
       - name: TIM
         bits: 29
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: TIM interrupt enable
@@ -1173,63 +1173,63 @@ registers:
 
       - name: PKO
         bits: 27
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PKO interrupt enable
 
       - name: PIP
         bits: 26
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PIP interrupt enable
 
       - name: IPD
         bits: 25
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD interrupt enable
 
       - name: L2C
         bits: 24
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: L2C interrupt enable
 
       - name: POW
         bits: 23
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: POW err interrupt enable
 
       - name: FPA
         bits: 22
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: FPA interrupt enable
 
       - name: IOB
         bits: 21
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IOB interrupt enable
 
       - name: MIO
         bits: 20
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: MIO boot interrupt enable
 
       - name: NAND
         bits: 19
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         attributes:
@@ -1245,7 +1245,7 @@ registers:
 
       - name: USB1
         bits: 17
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: USBDRD1 summary interrupt enable vector.
@@ -1266,7 +1266,7 @@ registers:
 
       - name: WDOG
         bits: 3..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Watchdog summary interrupt enable vector.
@@ -1590,14 +1590,14 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..3
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 5..0
+        bits: 2..0
         access: RO
         reset: 0x0
         typical: 0x0
@@ -1871,15 +1871,15 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SEL1
+      - name: SEL
         bits: 12..8
         access: R/W/H
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for USB1
-          over-current control. With SEL1 values 20-31,
-          signal is always zero.
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) for USB0
+          over-current control. With SEL0 values 20-31, signal is always zero.
+          CSR read out for bit 12..8 will have SEL1(4..0) value.
 
       - name: --
         bits: 7..5
@@ -1888,15 +1888,15 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SEL
+      - name: SEL1
         bits: 4..0
         access: R/W/H
         reset: 0x1f
         typical: 0x0
         description: |
-          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) USB0
-          over-current control. With SEL values 20-31,
-          signal is always zero.
+          Selects the GPIO(0..19) received data (GPIO_RX_DAT[DAT]) USB1
+          over-current control. With SEL1 values 20-31, signal is always zero.
+          CSR read out for bit 4..0 will have SEL(12..8) value.
 
 
   - name: GPIO_SATA_CTL
@@ -2405,49 +2405,49 @@ registers:
     fields:
       - name: BOOTDMA
         bits: 63
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Boot bus DMA engines Interrupt        enable
 
       - name: --
         bits: 62
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Reserved.
 
       - name: IPDPPTHR
         bits: 61
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD per-port counter threshold interrupt enable
 
       - name: POWIQ
         bits: 60
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: POW IQ interrupt enable
 
       - name: TWSI2
         bits: 59
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: 2nd TWSI Interrupt enable
 
       - name: MPI
         bits: 58
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: MPI/SPI interrupt enable
 
       - name: PCM
         bits: 57
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PCM/TDM interrupt enable
@@ -2461,7 +2461,7 @@ registers:
 
       - name: TIMER
         bits: 55..52
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: General timer interrupt enables
@@ -2475,28 +2475,28 @@ registers:
 
       - name: IPD_DRP
         bits: 50
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD QOS packet drop interrupt enable
 
       - name: GMX_DRP
         bits: 49..48
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: GMX packet drop interrupt enable
 
       - name: RESERVED_0
         bits: 47..46
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: TWSI
         bits: 45
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: TWSI Interrupt enable
@@ -2510,42 +2510,42 @@ registers:
 
       - name: PCI_MSI
         bits: 43..40
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: PCIe MSI enables
 
       - name: PCI_INT
         bits: 39..36
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: PCIe INTA/B/C/D enables
 
       - name: UART
         bits: 35..34
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Two UART interrupt enables
 
       - name: MBOX
         bits: 33..32
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Two mailbox interrupt enables
 
       - name: GPIO
         bits: 31..16
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: 16 GPIO interrupt enables
 
       - name: WORKQ
         bits: 15..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: 16 work queue interrupt enables
@@ -2560,7 +2560,7 @@ registers:
     fields:
       - name: RST
         bits: 63
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: MIO RST interrupt enable
@@ -2574,7 +2574,7 @@ registers:
 
       - name: --
         bits: 59..56
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Reserved for DFM expansion
@@ -2588,7 +2588,7 @@ registers:
 
       - name: LMC0
         bits: 52
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: LMC0 interrupt enable
@@ -2602,35 +2602,35 @@ registers:
 
       - name: PEM2
         bits: 50
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM2 interrupt enable
 
       - name: PEM1
         bits: 49
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM1 interrupt enable
 
       - name: PEM0
         bits: 48
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PEM0 interrupt enable
 
       - name: PTP
         bits: 47
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PTP interrupt enable
 
       - name: AGL
         bits: 46
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: AGL interrupt enable
@@ -2651,7 +2651,7 @@ registers:
 
       - name: DPI_DMA
         bits: 40
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DPI_DMA interrupt enable
@@ -2665,133 +2665,133 @@ registers:
 
       - name: AGX1
         bits: 37
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: GMX1 interrupt enable
 
       - name: AGX0
         bits: 36
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: GMX0 interrupt enable
 
       - name: DPI
         bits: 35
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DPI interrupt enable
 
       - name: SLI
         bits: 34
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: SLI interrupt enable
 
       - name: USB
         bits: 33
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: USBDRD0 interrupt enable
 
       - name: DFA
         bits: 32
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: DFA interrupt enable
 
       - name: KEY
         bits: 31
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: KEY interrupt enable
 
       - name: RAD
         bits: 30
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: RAD interrupt enable
 
       - name: TIM
         bits: 29
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: TIM interrupt enable
 
       - name: RESERVED_1
         bits: 28
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Reserved.
 
       - name: PKO
         bits: 27
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PKO interrupt enable
 
       - name: PIP
         bits: 26
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: PIP interrupt enable
 
       - name: IPD
         bits: 25
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IPD interrupt enable
 
       - name: L2C
         bits: 24
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: L2C interrupt enable
 
       - name: POW
         bits: 23
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: POW err interrupt enable
 
       - name: FPA
         bits: 22
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: FPA interrupt enable
 
       - name: IOB
         bits: 21
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: IOB interrupt enable
 
       - name: MIO
         bits: 20
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: MIO boot interrupt enable
 
       - name: NAND
         bits: 19
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         attributes:
@@ -2807,7 +2807,7 @@ registers:
 
       - name: USB1
         bits: 17
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: USBDRD1 summary interrupt enable vector
@@ -2828,7 +2828,7 @@ registers:
 
       - name: WDOG
         bits: 3..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: Watchdog summary interrupt enable vector
@@ -5824,28 +5824,28 @@ registers:
 
       - name: BCH
         bits: 19
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: BCH interrupt enable
 
       - name: AGL_DRP
         bits: 18
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: AGL_DRP interrupt enable
 
       - name: OCLA
         bits: 17
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: OCLA interrupt enable
 
       - name: SATA
         bits: 16
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: SATA_UNTL interrupt enable
@@ -6612,28 +6612,28 @@ registers:
 
       - name: UAHC_PME_REQ_IP
         bits: 3
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Enable corresponding CIU_CIB_SATA_RAW bit.
 
       - name: UAHC_INTRQ_IP
         bits: 2
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Enable corresponding CIU_CIB_SATA_RAW bit.
 
       - name: INTSTAT_XM_BAD_DMA
         bits: 1
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Enable corresponding CIU_CIB_SATA_RAW bit.
 
       - name: INTSTAT_XS_NCB_OOB
         bits: 0
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Enable corresponding CIU_CIB_SATA_RAW bit.

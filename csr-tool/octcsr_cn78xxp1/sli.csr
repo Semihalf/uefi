@@ -405,6 +405,7 @@ registers:
       register. Writing the least-significant byte of this register causes a write operation to take
       place.
     attributes:
+      dv_fc_scratch: "ALL"
       regtest_skip: "True"
     fields:
       - name: WR_DATA
@@ -581,17 +582,21 @@ registers:
       Access to register space on the IOI (caused by window read/write operations) waits for a
       period of time specified by this register before timing out.
     fields:
-      - name: --
+      - name: OCX_TIME
         bits: 63..32
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0x7fff
+        typical: 0x7fff
+        description: |
+          When a command acknowledge or a request to fetch read-data is expected from the OCI, The
+          SLI will
+          wait this many sclks before determining the OCI is not going to respond and timeout the
+          request.
 
       - name: TIME
         bits: 31..0
         access: R/W
-        reset: 0xffff
+        reset: 0x1fff
         typical: 0xffff
         description: Time to wait. The number of coprocessor-clock cycles to wait for a window access before timing out.
 
@@ -1014,8 +1019,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          A read or write transfer did not complete within 0xFFFF coprocessor-clock cycles. Throws
-          SLI_INTSN_E::SLI_INT_RML_TO.
+          A read or write transfer to a RSL that did not complete within SLI_WINDOW_CTL[TIME] sclk
+          cycles, or
+          a notification from the OCI that is has sent a previously written command and can take
+          another within
+          SLI_WINDOW_CTL[OCX_TIME]. Throws a SLI_INTSN_E::SLI_INT_RML_TO.
 
 
   - name: SLI_INT_ENB_PORT(0..3)
@@ -1515,6 +1523,8 @@ registers:
     description: |
       This register contains results from BIST runs of MAC's memories: 0 = pass (or BIST in
       progress/never run), 1 = fail.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..32
@@ -2403,7 +2413,7 @@ registers:
   - name: SLI_PKT(0..63)_OUT_SIZE
     title: SLI Packet Out Size Register
     address: 0x11F0000010C00 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains the BSIZE and ISIZE for output packet rings.
     fields:
       - name: --
@@ -2434,7 +2444,9 @@ registers:
     title: SLI Packet Instruction Enable Register
     address: 0x11F0000011000
     bus: PEXP_NCB
-    description: This register enables the instruction fetch for a packet ring.
+    description: |
+      "This register enables the instruction fetch for a packet ring. This is the PF version also
+      see SLI_PKT#_INPUT_CONTROL[ENB]."
     fields:
       - name: ENB
         bits: 63..0
@@ -2448,7 +2460,9 @@ registers:
     title: SLI Packet Output Enable Register
     address: 0x11F0000011010
     bus: PEXP_NCB
-    description: This register enables the output packet engines.
+    description: |
+      "This register enables the output packet engines. This is the PF version. Also see
+      SLI_PKT#_OUTPUT_CONTROL[ENB]."
     fields:
       - name: ENB
         bits: 63..0
@@ -3128,7 +3142,9 @@ registers:
     title: SLI Packet Ring Instruction Base Address Registers
     address: 0x11F0000012800 + a*0x10
     bus: PEXPV_NCB
-    description: This register contains the start-of-instruction for input packets.
+    description: |
+      This register contains the start-of-instruction for input packets. The address must be
+      addressed-aligned to the size of the instruction.
     fields:
       - name: ADDR
         bits: 63..3
@@ -3209,214 +3225,6 @@ registers:
         reset: 0x0
         typical: --
         description: Instruction ring size.
-
-
-  - name: SLI_PKT(0..63)_INSTR_HEADER
-    address: 0x11F0000013400 + a*0x10
-    bus: PEXP_NCB
-    description: |
-      "SLI_PKT[0..63]_INSTR_HEADER = SLI Packet ring# Instruction Header.
-      VAlues used to build input packet header."
-    fields:
-      - name: --
-        bits: 63..44
-        access: ---
-        reset: --
-        typical: --
-        description: |
-          Reserved
-          (A R/W field in real HW, but we require SW to
-          always write zeroes.)
-
-      - name: PBP
-        bits: 43
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Enable Packet-by-packet mode.
-          Allows DPI to generate PKT_INST_HDR[PM,SL]
-          differently per DPI instruction.
-          USE_IHDR must be set whenever PBP is set.
-
-      - name: --
-        bits: 42..38
-        access: ---
-        reset: 0x0
-        typical: --
-        description: |
-          Reserved
-          (A R/W field in real HW, but we require SW to
-          always write zeroes.)
-
-      - name: RPARMODE
-        bits: 37..36
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Parse Mode. Becomes PKT_INST_HDR[PM]
-          when DPI_INST_HDR[R]==1 and PBP==0
-
-      - name: --
-        bits: 35
-        access: ---
-        reset: 0
-        typical: --
-        description: |
-          Reserved
-          (A R/W field in real HW, but we require SW to
-          always write zeroes.)
-
-      - name: RSKP_LEN
-        bits: 34..28
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Skip Length. Becomes PKT_INST_HDR[SL]
-          when DPI_INST_HDR[R]==1 and PBP==0
-
-      - name: RNGRPEXT
-        bits: 27..26
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[GRPEXT]
-          when DPI_INST_HDR[R]==1
-
-      - name: RNQOS
-        bits: 25
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NQOS]
-          when DPI_INST_HDR[R]==1
-
-      - name: RNGRP
-        bits: 24
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NGRP]
-          when DPI_INST_HDR[R]==1
-
-      - name: RNTT
-        bits: 23
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NTT]
-          when DPI_INST_HDR[R]==1
-
-      - name: RNTAG
-        bits: 22
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NTAG]
-          when DPI_INST_HDR[R]==1
-
-      - name: USE_IHDR
-        bits: 21
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          When set '1' DPI always prepends a PKT_INST_HDR
-          as part of the packet data sent to PIP/IPD,
-          regardless of DPI_INST_HDR[R]. (DPI also always
-          prepends a PKT_INST_HDR when DPI_INST_HDR[R]=1.)
-          USE_IHDR must be set whenever PBP is set.
-
-      - name: --
-        bits: 20..16
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Reserved
-          (A R/W field in real HW, but we require SW to
-          always write zeroes.)
-
-      - name: PAR_MODE
-        bits: 15..14
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Parse Mode. Becomes PKT_INST_HDR[PM]
-          when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
-
-      - name: --
-        bits: 13
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Reserved
-          (A R/W field in real HW, but we require SW to
-          always write zeroes.)
-          instruction header sent to IPD.
-
-      - name: SKP_LEN
-        bits: 12..6
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Skip Length. Becomes PKT_INST_HDR[SL]
-          when DPI_INST_HDR[R]==0 and USE_IHDR==1 and PBP==0
-
-      - name: NGRPEXT
-        bits: 5..4
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[GRPEXT]
-          when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
-
-      - name: NQOS
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NQOS]
-          when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
-
-      - name: NGRP
-        bits: 2
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NGRP]
-          when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
-
-      - name: NTT
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NTT]
-          when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
-
-      - name: NTAG
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Becomes PKT_INST_HDR[NTAG]
-          when DPI_INST_HDR[R]==0 (and USE_IHDR==1)
 
 
   - name: SLI_MSI_RCV0
@@ -3844,7 +3652,7 @@ registers:
   - name: SLI_PKT(0..63)_INPUT_CONTROL
     title: SLI Packet Input Control Register
     address: 0x11F0000014000 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is the control for read operations for gather list and instructions.
     fields:
       - name: --
@@ -4025,7 +3833,7 @@ registers:
   - name: SLI_PKT(0..63)_INT_LEVELS
     title: SLI Packet-Interrupt Levels Register
     address: 0x11F0000014400 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register contains output-packet interrupt levels.
     fields:
       - name: --
@@ -4057,7 +3865,7 @@ registers:
   - name: SLI_PKT(0..63)_OUTPUT_CONTROL
     title: SLI Packet Output Control Register
     address: 0x11F0000014800 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is the control for read operations for gather list and instructions.
     fields:
       - name: --
@@ -4198,7 +4006,7 @@ registers:
   - name: SLI_PKT(0..63)_VF_SIG
     title: SLI Packet Signalling Register
     address: 0x11F0000014C00 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. These 64 CSRs are index by VF number.
     fields:
       - name: DATA
@@ -4212,7 +4020,7 @@ registers:
   - name: SLI_MSIX(0..64)_TABLE_ADDR
     title: SLI MSI-X Table Entry Address Register
     address: 0x11F0000016000 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       "The MSI-X table must be addressed on a 8-byte aligned boundary and cannot be burst read or
       written.
@@ -4257,7 +4065,7 @@ registers:
   - name: SLI_MSIX(0..64)_TABLE_DATA
     title: SLI MSI-X Table Entry Data Register
     address: 0x11F0000016800 + a*0x10
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       The MSI-X table must be addressed on a 8-byte aligned boundary and cannot be burst read or
       written. F/PF access is the same as described for the SLI_MSIX(0..64)_TABLE_ADDR.
@@ -4288,7 +4096,7 @@ registers:
   - name: SLI_MSIX_PBA0
     title: SLI MSI-X Pending Bit Array 0 Register
     address: 0x11F0000017000
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       "The MSI-X Pending Bit Array must be addressed on a 8-byte aligned boundary and
       cannot be burst read.
@@ -4336,7 +4144,7 @@ registers:
   - name: SLI_MSIX_PBA1
     title: SLI MSI-X Pending Bit Array 1 Register
     address: 0x11F0000017010
-    bus: PEXP_NCB
+    bus: PEXPV_NCB
     description: |
       "The MSI-X pending bit array must be addressed on a 8-byte aligned boundary and cannot be
       burst read.

@@ -61,6 +61,8 @@ registers:
     description: |
       This register provides access to the internal BIST results. Each bit is the BIST result of an
       individual memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..1
@@ -249,6 +251,8 @@ registers:
     title: Loopback Channel to Port Kind Register
     address: 0x1180012000200 + a*0x8
     bus: RSL
+    attributes:
+      dv_fc_scratch: "a=(0)"
     fields:
       - name: --
         bits: 63..6

@@ -18,6 +18,8 @@ enums:
 
       - name: OCLA(0..4)_STATE_MCD(0..2)
         value: 0xA8009 + a*0x1000 + b
+        attributes:
+          exempt_natural_alignment: "b"
         description: See OCLA(0..4)_STATE_INT[MCD<b>].
 
       - name: OCLA(0..4)_STATE_FSM0_INT
@@ -128,7 +130,7 @@ registers:
         description: |
           Size of data RAM in units of 36-bit entries. This value is subject to change between chip
           passes, and software should thus use this value rather than a hard coded constant.
-          OCLA(0..3) size is 8192, OCLA(4) size is 4096.
+          OCLA(0..3) size is 4096, OCLA(4) size is 8192.
 
 
   - name: OCLA(0..4)_SFT_RST
@@ -158,6 +160,8 @@ registers:
     description: |
       This register provides access to the internal BIST results. Each bit is the BIST result of an
       individual memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..1

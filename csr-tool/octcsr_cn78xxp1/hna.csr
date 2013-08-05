@@ -18,6 +18,7 @@ enums:
         value: 0x47001 + a
         attributes:
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
         description: See HNA_ERROR[DC0PERR<a>].
 
       - name: HNA_ERROR_DC1PERR(0..2)
@@ -30,12 +31,14 @@ enums:
         value: 0x47007 + a
         attributes:
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
         description: See HNA_ERROR[DC2PERR<a>].
 
       - name: HNA_ERROR_DC3PERR(0..2)
         value: 0x4700A + a
         attributes:
           cib_rtl_module: "hna"
+          exempt_natural_alignment: "a"
         description: See HNA_ERROR[DC3PERR<a>].
 
       - name: HNA_ERROR_DLC0_OVFERR
@@ -1321,6 +1324,8 @@ registers:
     title: HNA Bist Status (per-DTC)
     address: 0x11800470007F0
     bus: RSL
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..32
@@ -1461,6 +1466,8 @@ registers:
     title: HNA Bist Status (Globals)
     address: 0x11800470007F8
     bus: RSL
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..24

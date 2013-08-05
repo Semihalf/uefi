@@ -34,8 +34,6 @@ description: |
   UAHC registers only support 64-bit or 32-bit accesses.
   Note that the CSR_ENDIAN_MODE setting only applies to UAHC registers
   accessed over NCB.
-  INTERNAL: Due to the nature of the XHCI drivers, it's likely that all
-  register accesses from XHCI will go over NCB.
 
   Access to the UAHC registers follows the same rules as registers 0x30 to 0xF8
   of the UCTL. In other words, HCLK must be enabled, UCTL_RST must be deasserted.
@@ -56,10 +54,6 @@ description: |
     0xC_0000 - 0xF_FFFF   Internal RAM 2 Debug Access
 
   For more information about the "XHCI Registers", see the XHCI specification.
-  INTERNAL: For more on "Global Registers", see Synopsys DWC_usb3 Host Controller Databook v2.50a
-  sections 6.1.3 and 6.2.
-  INTERNAL: For more on XHCI registers, see Synopsys DWC_usb3 Host Controller Databook v2.50a
-  sections 6.1.5 and 6.4.
 
   UAHC registers may also be accessed by presenting an NCB-type address over
   RSL. Registers accessed this way are statically mapped from UAHC's
@@ -70,6 +64,12 @@ description: |
   The USB PHYs have control and status registers accessible via an indirect
   mechanism using the UCTL.PORT*_CR_DBG_* registers. For more information,
   see the PHY Databook.
+  INTERNAL: Due to the nature of the XHCI drivers, it's likely that all register accesses from XHCI
+  will go over NCB.
+            For more on "Global Registers", see Synopsys DWC_usb3 Host Controller Databook v2.50a
+  sections 6.1.3 and 6.2.
+            For more on XHCI registers, see Synopsys DWC_usb3 Host Controller Databook v2.50a
+  sections 6.1.5 and 6.4.
 enums:
   - name: USBDRD_UAHC_DGCMD_CMDTYPE_E
     attributes:
@@ -478,14 +478,19 @@ registers:
             If REF_CLK_SEL = 0x0 or 0x1, then:
               0x0 is the only legal value.
             If REF_CLK_SEL = 0x2 or 0x3, then:
-              INTERNAL: 0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
-              INTERNAL:                   52MHz, 76.8MHz, 96MHz, 104MHz.
               0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
                      MPLL_MULTIPLIER description).
           All other values are reserved.
           This value may only be changed during UPHY_RST.
           Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting.
+            INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                        0x0 is the only legal value.
+                      If REF_CLK_SEL = 0x2 or 0x3, then:
+                        0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
+                                          52MHz, 76.8MHz, 96MHz, 104MHz.
+                        0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                               MPLL_MULTIPLIER description).
 
       - name: MPLL_MULTIPLIER
         bits: 46..40
@@ -497,31 +502,37 @@ registers:
           legal values are:
             If REF_CLK_SEL = 0x0 or 0x1, then:
               0x19 = 100  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x68 =  24  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x7D =  20  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x02 =  19.2MHz on DLMC_REF_CLK*
             If REF_CLK_SEL = 0x2 or 0x3, then:
-              INTERNAL: 0x02 =  19.2MHz on DLMC_REF_CLK*
-              INTERNAL: 0x7D =  20  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x68 =  24  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x64 =  25  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x60 =  26  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x41 =  38.4MHz on DLMC_REF_CLK*
-              INTERNAL: 0x7D =  40  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x34 =  48  MHz on DLMC_REF_CLK*
               0x32 =  50  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x30 =  52  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x41 =  76.8MHz on DLMC_REF_CLK*
-              INTERNAL: 0x1A =  96  MHz on DLMC_REF_CLK*
               0x19 =  100 MHz on DLMC_REF_CLK*
-              INTERNAL: 0x30 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x1
-              INTERNAL: 0x18 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x0
               0x28 =  125 MHz on DLMC_REF_CLK*
-              INTERNAL: 0x19 =  200 MHz on DLMC_REF_CLK*
           All other values are reserved.
           This value may only be changed during UPHY_RST.
           Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting.
+            INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                         0x19 = 100  MHz on DLMC_REF_CLK*
+                         0x68 =  24  MHz on DLMC_REF_CLK*
+                         0x7D =  20  MHz on DLMC_REF_CLK*
+                         0x02 =  19.2MHz on DLMC_REF_CLK*
+                      If REF_CLK_SEL = 0x2 or 0x3, then:
+                         0x02 =  19.2MHz on DLMC_REF_CLK*
+                         0x7D =  20  MHz on DLMC_REF_CLK*
+                         0x68 =  24  MHz on DLMC_REF_CLK*
+                         0x64 =  25  MHz on DLMC_REF_CLK*
+                         0x60 =  26  MHz on DLMC_REF_CLK*
+                         0x41 =  38.4MHz on DLMC_REF_CLK*
+                         0x7D =  40  MHz on DLMC_REF_CLK*
+                         0x34 =  48  MHz on DLMC_REF_CLK*
+                         0x32 =  50  MHz on DLMC_REF_CLK*
+                         0x30 =  52  MHz on DLMC_REF_CLK*
+                         0x41 =  76.8MHz on DLMC_REF_CLK*
+                         0x1A =  96  MHz on DLMC_REF_CLK*
+                         0x19 =  100 MHz on DLMC_REF_CLK*
+                         0x30 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x1
+                         0x18 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x0
+                         0x28 =  125 MHz on DLMC_REF_CLK*
+                         0x19 =  200 MHz on DLMC_REF_CLK*
 
       - name: REF_SSP_EN
         bits: 39
@@ -548,13 +559,19 @@ registers:
               all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
             If REF_CLK_SEL = 0x2 or 0x3, then:
               0x1: if DLMC_REF_CLK* is 125MHz.
-              INTERNAL: 0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
-              INTERNAL: 0x0 or 0x1 if DLMC_REF_CLK* is 104MHz (depending on MPLL_MULTIPLIER setting)
               0x0: if DLMC_REF_CLK* is another supported frequency (see list in
                    MPLL_MULTIPLIER description).
           This value can be changed only during UPHY_RST.
           Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
           must all be programmed to the same frequency setting.
+            INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                        all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+                      If REF_CLK_SEL = 0x2 or 0x3, then:
+                        0x1: if DLMC_REF_CLK* is 125MHz.
+                        0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
+                        0x0 or 0x1 if DLMC_REF_CLK* is 104MHz (depending on MPLL_MULTIPLIER setting)
+                        0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                             MPLL_MULTIPLIER description).
 
       - name: REF_CLK_FSEL
         bits: 37..32
@@ -566,9 +583,6 @@ registers:
           The legal values are:
             If REF_CLK_SEL = 0x0 or 0x1, then:
               0x27 = 100  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x2A =  24  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x31 =  20  MHz on DLMC_REF_CLK*
-              INTERNAL: 0x38 =  19.2MHz on DLMC_REF_CLK*
             If REF_CLK_SEL = 0x2 or 0x3, then:
               0x07 is the only legal value.
           All other values are reserved.
@@ -576,6 +590,13 @@ registers:
           Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
           SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
           multiplier.
+            INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                        0x27 = 100  MHz on DLMC_REF_CLK*
+                        0x2A =  24  MHz on DLMC_REF_CLK*
+                        0x31 =  20  MHz on DLMC_REF_CLK*
+                        0x38 =  19.2MHz on DLMC_REF_CLK*
+                      If REF_CLK_SEL = 0x2 or 0x3, then:
+                        0x07 is the only legal value.
 
       - name: --
         bits: 31
@@ -651,14 +672,14 @@ registers:
           0x2 = divide by 4 0x6 = divide by 24
           0x3 = divide by 6 0x7 = divide by 32
           INTERNAL: 150MHz is from the maximum of:
-          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 1, col 12.
-          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9.
-          INTERNAL:   Synopsys DWC_usb3 Databook v2.50a, table A-16, row 7, col 9.
-          INTERNAL: DEVICE>125MHz is from Synopsys DWC_usb3 Databook v2.50a, section A.12.4.
-          INTERNAL: HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.50a,
-          INTERNAL:   section A.12.5, 3rd bullet in Note on page 894.
-          INTERNAL: HOST2>90MHz was arrived at from some math: 62.5MHz +
-          INTERNAL:   (diff between row 1 and 2, col 12 of table A-16).
+                      Synopsys DWC_usb3 Databook v2.50a, table A-16, row 1, col 12.
+                      Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9.
+                      Synopsys DWC_usb3 Databook v2.50a, table A-16, row 7, col 9.
+                    DEVICE>125MHz is from Synopsys DWC_usb3 Databook v2.50a, section A.12.4.
+                    HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.50a,
+                      section A.12.5, 3rd bullet in Note on page 894.
+                    HOST2>90MHz was arrived at from some math: 62.5MHz +
+                      (diff between row 1 and 2, col 12 of table A-16).
 
       - name: --
         bits: 23..22
@@ -1211,8 +1232,8 @@ registers:
         typical: 0x3
         description: |
           HighSpeed DC voltage-level adjustment. Adjusts the HighSpeed DC level voltage.
-          A positive binary bit setting change results in a +1.25% incremental change in HighSpeed
-          DC voltage level, while a negative binary bit setting change results in a -1.25%
+          A positive binary bit setting change results in a +2.0% incremental change in HighSpeed
+          DC voltage level, while a negative binary bit setting change results in a -2.0%
           incremental change in HighSpeed DC voltage level.
           The default bit setting is intended to create a HighSpeed transmit
           DC level of approximately 400mV.
@@ -1234,9 +1255,9 @@ registers:
           Function: This bus adjusts the voltage level for the VBUS<#>
           valid threshold. To enable tuning at the board level, connect this
           bus to a register.
-          Note: A positive binary bit setting change results in a +1.5%
+          Note: A positive binary bit setting change results in a +3%
           incremental change in threshold voltage level, while a negative
-          binary bit setting change results in a 1.5% incremental change
+          binary bit setting change results in a -3% incremental change
           in threshold voltage level. "
 
       - name: VATEST_ENABLE
@@ -1360,27 +1381,27 @@ registers:
           For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
           If the USBDRD(0..1)_UCTL_CTL[REF_CLK_DIV2] is used, then (value = 10us / (2 * Tref_clk)).
           These equations are based on the SuperSpeed reference clock frequency.
-          The value of PCS_RX_LOS_MASK_VAL should be:
-                       Frequency DIV2 LOS_MASK
-              INTERNAL: 200  MHz    1    0x3E8
-                        125  MHz    0    0x4E2
-              INTERNAL: 104  MHz    0    0x410
-                        100  MHz    0    0x3E8
-              INTERNAL:  96  MHz    0    0x3C0
-              INTERNAL:  76.8MHz    1    0x180
-              INTERNAL:  52  MHz    0    0x208
-                         50  MHz    0    0x1F4
-              INTERNAL:  48  MHz    0    0x1E0
-              INTERNAL:  40  MHz    1    0x0C8
-              INTERNAL:  38.4MHz    0    0x180
-              INTERNAL:  26  MHz    0    0x104
-              INTERNAL:  25  MHz    0    0x0FA
-              INTERNAL:  24  MHz    0    0x0F0
-              INTERNAL:  20  MHz    0    0x0C8
-              INTERNAL:  19.2MHz    0    0x0C0
           Setting this bus to 0x0 disables masking.
           The value should be defined when the PHY is in reset. Changing this value during operation
           might disrupt normal operation of the link.
+          The value of PCS_RX_LOS_MASK_VAL should be:
+                       Frequency DIV2 LOS_MASK
+                        125  MHz    0    0x4E2
+                        100  MHz    0    0x3E8
+                         50  MHz    0    0x1F4
+              INTERNAL: 200  MHz    1    0x3E8
+                        104  MHz    0    0x410
+                         96  MHz    0    0x3C0
+                         76.8MHz    1    0x180
+                         52  MHz    0    0x208
+                         48  MHz    0    0x1E0
+                         40  MHz    1    0x0C8
+                         38.4MHz    0    0x180
+                         26  MHz    0    0x104
+                         25  MHz    0    0x0FA
+                         24  MHz    0    0x0F0
+                         20  MHz    0    0x0C8
+                         19.2MHz    0    0x0C0
 
       - name: PCS_TX_DEEMPH_3P5DB
         bits: 31..26
@@ -1394,11 +1415,11 @@ registers:
           derived from the following equation:
           TX de-emphasis (db) =
           20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
-          INTERNAL: Default Value is Package-Dependant.
           In general, the parameter controls are static signals to be set prior to taking the PHY
           out of reset. However, you can dynamically change these values on-the-fly for test
           purposes. In this case, changes to the transmitter to reflect the current value occur only
           after the pipeP_tx_deemph[1:0] input changes.
+          INTERNAL: Default Value is Package-Dependant.
 
       - name: PCS_TX_DEEMPH_6DB
         bits: 25..20
@@ -1413,11 +1434,11 @@ registers:
           the following equation:
           TX de-emphasis (db) =
           20 * log_base_10((128 - 2 * pcs_tx_deemph)/128)
-          INTERNAL: Default Value is Package-Dependant.
           In general, the parameter controls are static signals to be set prior to taking the PHY
           out of reset. However, you can dynamically change these values on-the-fly for test
           purposes. In this case, changes to the transmitter to reflect the current value occur only
           after the pipeP_tx_deemph[1:0] input changes.
+          INTERNAL: Default Value is Package-Dependant.
 
       - name: PCS_TX_SWING_FULL
         bits: 19..13
@@ -1428,11 +1449,11 @@ registers:
           Launch amplitude of the transmitter. Sets the launch amplitude of the transmitter. The
           values for transmit amplitude are derived from the following equation:
           TX amplitude (V) = vptx * ((pcs_tx_swing_full + 1)/128)
-          INTERNAL: Default Value is Package-Dependant.
           In general, the parameter controls are static signals to be set prior to taking the PHY
           out of reset. However, you can dynamically change these values on-the-fly for test
           purposes. In this case, changes to the transmitter to reflect the current value occur only
           after the pipeP_tx_deemph[1:0] input changes.
+          INTERNAL: Default Value is Package-Dependant.
 
       - name: LANE0_TX_TERM_OFFSET
         bits: 12..8
@@ -2901,11 +2922,11 @@ registers:
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
-      See XHCI specification v1.? section ?.
-      INTERNAL: TODO (new unreleased XHCI errata!)
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      See XHCI specification v1.? section ?.
+      INTERNAL: TODO (new unreleased XHCI errata!)
     fields:
       - name: --
         bits: 31..14
@@ -3006,11 +3027,11 @@ registers:
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
-      See XHCI specification v1.? section ?.
-      INTERNAL: TODO: (new unreleased XHCI errata!)
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      See XHCI specification v1.? section ?.
+      INTERNAL: TODO: (new unreleased XHCI errata!)
     fields:
       - name: --
         bits: 31..0
@@ -3666,10 +3687,10 @@ registers:
       this register before starting any transactions on AXI.
       When INCRBRSTENA is enabled, it has the highest priority over other burst lengths. The
       core always perform the largest burst when enabled.
+      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
       INTERNAL: The AXI cache signals are not connected in Cavium's hookup, so the *REQINFO fields
       can be ignored.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.1.
-      Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.1.
     fields:
       - name: DATRDREQINFO
         bits: 31..28
@@ -3809,8 +3830,8 @@ registers:
       operation. This register mainly contains AXI system-related configuration parameters.
       Do not change this register after the initial programming. The application must program
       this register before starting any transactions on AXI.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
     fields:
       - name: --
         bits: 31..13
@@ -3878,8 +3899,8 @@ registers:
           and there is no functional issue.
         * A larger threshold will affect the performance, since the scheduler is idle during this
           time.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
     fields:
       - name: RESERVED_0
         bits: 31..30
@@ -3984,8 +4005,8 @@ registers:
         and Retry=0 and do retry later and you have to retry immediately. For such devices,
         minimize retry due to underrun. Setting threshold and burst size guarantees this.
       * A larger Rx threshold affects the performance since the scheduler is idle during this time.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
     fields:
       - name: --
         bits: 31..30
@@ -4084,8 +4105,8 @@ registers:
     address: 0x168000000C110 + a*0x10000000000
     bus: NCB
     description: |
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
     fields:
       - name: PWRDNSCALE
         bits: 31..19
@@ -4134,10 +4155,10 @@ registers:
         typical: 0
         description: |
           Bypass SetAddress in Device Mode
+          Always set to 0.
           INTERNAL: When set, core uses the value in USBDRD(0..1)_UAHC_DCFG[DEVADDR] directly
           for comparing the device address tokens. In simulation, this can be used to avoid
           sending a SET_ADDRESS command.
-          Always set to 0.
 
       - name: U2RSTECN
         bits: 16
@@ -4190,11 +4211,11 @@ registers:
           registers), you must keep the core in reset state until PHY
           clocks are stable. This controls the bus, ram, and mac domain
           resets.
-          INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
           Note: Under soft reset, accesses to USBDRD(0..1)_UAHC_* CSRs other than
           USBDRD(0..1)_UAHC_GCTL may fail (Timeout).
           Note: This bit is for debug purposes only. Use USBDRD(0..1)_UAHC_USBCMD.HCRESET in host
           mode and USBDRD(0..1)_UAHC_DCTL[CSFTRST] in device mode for soft reset.
+          INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
 
       - name: SOFITPSYNC
         bits: 10
@@ -4217,16 +4238,16 @@ registers:
           the REF_CLK-based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0]
           based counter. To program the reference clock period inside the core, refer to
           USBDRD(0..1)_UAHC_GUCTL[REFCLKPER].
-          INTERNAL: If you do not plan to ever use this feature or the
-          USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the
-          ref_clk can be as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to
-          REF_CLK.
           Note: If you plan to enable hardware-based LPM (PORTPMSC.HLE = 1), this feature cannot be
           used. Turn off this feature by setting this bit to zero and use the
           USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
           Note: If you set this bit to 1, the USBDRD(0..1)_UAHC_GUSB2PHYCFG[U2_FREECLK_EXISTS] bit
           must be set to zero.
           This bit is only used in host-mode.
+          INTERNAL: If you do not plan to ever use this feature or the
+          USBDRD(0..1)_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature, the minimum frequence for the
+          ref_clk can be as low as 32KHz. You can connect the SUSPEND_CLK (as low as 32 KHz) to
+          REF_CLK.
 
       - name: U1U2TIMERSCALE
         bits: 9
@@ -4280,11 +4301,10 @@ registers:
           number of TxEq training sequences reduce to eight
           LFPS polling burst time reduce to 100 ns
           LFPS warm reset receive reduce to 30 us.
-          INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
-          directory
-          for the complete list.
           0x2 = no TxEq training sequences are sent. Overrides bit<4>.
           0x3 = enables bits<0> and <1> scale-down timing values.
+          INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+          directory for the complete list.
 
       - name: DISSCRAMBLE
         bits: 3
@@ -4340,9 +4360,9 @@ registers:
       debugging purposes. These registers are not intended to be used by the customer. If any
       debug assistance is needed for the silicon, contact Customer Support with a dump
       of these registers.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
-      INTERNAL: Contact Synopsys directly.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
+                Contact Synopsys directly.
     fields:
       - name: PORTSEL
         bits: 31..28
@@ -4402,8 +4422,8 @@ registers:
     address: 0x168000000C118 + a*0x10000000000
     bus: NCB
     description: |
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
     fields:
       - name: CBELT
         bits: 31..20
@@ -4477,8 +4497,8 @@ registers:
     address: 0x168000000C11C + a*0x10000000000
     bus: NCB
     description: |
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
     fields:
       - name: RESERVED_0
         bits: 31..2
@@ -4511,9 +4531,9 @@ registers:
     address: 0x168000000C120 + a*0x10000000000
     bus: NCB
     description: |
-      INTERNAL: Original name: GSNPSID = Synopsys ID
       This is a read-only register that contains the release number of the core.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.8.
+      INTERNAL: Original name: GSNPSID = Synopsys ID
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.8.
     fields:
       - name: RELEASEID
         bits: 31..0
@@ -4524,9 +4544,9 @@ registers:
           Software can use this register to configure release-specific features in the driver.
 
           INTERNAL: Synopsys ID
-          INTERNAL:   * SynopsysID[31:16] indicates Core Identification Number. 0x5533 is ASCII for
-          U3 (DWC_usb3).
-          INTERNAL:   * SynopsysID[15:0] indicates the release number. Current Release is 2.50a.
+                  * SynopsysID[31:16] indicates Core Identification Number. 0x5533 is ASCII for U3
+          (DWC_usb3).
+                  * SynopsysID[15:0] indicates the release number. Current Release is 2.50a.
 
 
   - name: USBDRD(0..1)_UAHC_GGPIO
@@ -4536,8 +4556,8 @@ registers:
     description: |
       The application can use this register for general purpose input and output ports or for
       debugging.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
     fields:
       - name: GPO
         bits: 31..16
@@ -4565,8 +4585,8 @@ registers:
         * To store the version or revision of your system
         * To store hardware configurations that are outside the core
         * As a scratch register
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
     fields:
       - name: USERID
         bits: 31..0
@@ -4584,8 +4604,8 @@ registers:
       This register provides a few options for the software to control the core behavior in the Host
       mode.
       Most of the options are used to improve host inter-operability with different devices.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
     fields:
       - name: REFCLKPER
         bits: 31..22
@@ -4789,8 +4809,8 @@ registers:
       on the AXI, then if a bus error occurs on any of these associated AXI transfers, the
       GBUSERRADDR reflects the DMA start address of 0xABCD0000 regardless of which AXI transaction
       received the error.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
     fields:
       - name: BUSADDR
         bits: 63..0
@@ -4813,8 +4833,8 @@ registers:
       instances. Software can program this register to specify how USB 3.0 ports are connected
       to SuperSpeed USB instances.
       The UAHC only implements one SuperSpeed bus-instance, so this register should always be 0.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
     fields:
       - name: --
         bits: 63..4
@@ -4838,7 +4858,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.1.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.1.
     fields:
       - name: AWIDTH
         bits: 31..24
@@ -4893,7 +4913,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.2.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.2.
     fields:
       - name: EN_DBC
         bits: 31
@@ -5014,7 +5034,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.3.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.3.
     fields:
       - name: USERID
         bits: 31..0
@@ -5120,7 +5140,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.5.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.5.
     fields:
       - name: BMU_LSP_DEPTH
         bits: 31..28
@@ -5193,7 +5213,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.6.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.6.
     fields:
       - name: --
         bits: 31..28
@@ -5245,7 +5265,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.7.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.7.
     fields:
       - name: RAM0_DEPTH
         bits: 31..16
@@ -5332,7 +5352,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.8.
+                See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.8.
     fields:
       - name: RAM2_DEPTH
         bits: 31..16
@@ -5360,9 +5380,9 @@ registers:
       debugging purposes. These registers are not intended to be used by the customer. If any
       debug assistance is needed for the silicon, contact Customer Support with a dump
       of these registers.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
-      INTERNAL: Contact Synopsys directly.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
+                Contact Synopsys directly.
     fields:
       - name: SPACEAVAILABLE
         bits: 31..16
@@ -5537,9 +5557,9 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
-      INTERNAL: This register is for Synopsys internal use only.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
+                This register is for Synopsys internal use only.
     fields:
       - name: RESERVED_0
         bits: 31..24
@@ -5595,9 +5615,9 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.7.
-      INTERNAL: This register is for Synopsys internal use only.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.7.
+                This register is for Synopsys internal use only.
     fields:
       - name: LSP_DBG
         bits: 31..0
@@ -5613,9 +5633,9 @@ registers:
     bus: NCB
     description: |
       See description in DBGFIFOSPACE.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.8.
-      INTERNAL: This register is for Synopsys internal use only.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.8.
+                This register is for Synopsys internal use only.
     fields:
       - name: ENDPT_DBG
         bits: 63..0
@@ -5636,8 +5656,8 @@ registers:
       instances. Software can program this register to specify how USB 2.0 ports are connected
       to HighSpeed USB instances.
       The UAHC only implements one HighSpeed bus-instance, so this register should always be 0.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
     fields:
       - name: --
         bits: 63..4
@@ -5666,8 +5686,8 @@ registers:
       FullSpeed/LowSpeed USB instances.
       The UAHC only implements one FullSpeed/LowSpeed bus-instance, so this register should always
       be 0.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
     fields:
       - name: --
         bits: 63..4
@@ -5694,8 +5714,8 @@ registers:
       starting any transactions on either the SoC bus or the USB.
       Per-port registers are implemented.
       Note: Do not make changes to this register after the initial programming.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
     fields:
       - name: PHYSOFTRST
         bits: 31
@@ -5901,8 +5921,8 @@ registers:
     bus: NCB
     description: |
       Reserved for future use.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
     fields:
       - name: --
         bits: 31..0
@@ -5922,8 +5942,8 @@ registers:
       starting any transactions on either the SoC bus or the USB.
       Per-port registers are implemented.
       Note: Do not make changes to this register after the initial programming.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
     fields:
       - name: PHYSOFTRST
         bits: 31
@@ -6108,7 +6128,7 @@ registers:
           One clock cycle after reset, these bits receive the value seen on the pipe3_DataBusWidth.
           This will always be 0x0.
           INTERNAL: The simulation testbench uses the coreConsultant parameter to configure the VIP.
-          INTERNAL: These bits in the coreConsultant parameter should match your PHY data width and
+                    These bits in the coreConsultant parameter should match your PHY data width and
           the pipe3_DataBusWidth port.
 
       - name: ABORTRXDETINU2
@@ -6159,7 +6179,7 @@ registers:
           defined in the PIPE3 specification.
           According to PIPE3 specification, any direct transition between P3 and P2 is illegal.
           INTERNAL: This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
-          INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to '0'
+                    Note: This bit is used by third-party SuperSpeed PHY. It should be set to '0'
           for Synopsys PHY.
 
       - name: P3EXSIGP2
@@ -6243,11 +6263,11 @@ registers:
       packet size/buffer size for each endpoint is different and application-specific, it is
       recommended that the software use the default value. One register per FIFO.
       One register per FIFO.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
-      INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
-      Databook page 238.
       Host reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
+                For more information, refer to the BMU section in Block Descriptions on Synopsys
+      Databook page 238.
     fields:
       - name: TXFSTADDR
         bits: 31..16
@@ -6255,8 +6275,18 @@ registers:
         reset: --
         typical: --
         description: |
-          Transmit FIFOn RAM start address. Contains the memory start address for TxFIFOn. The reset
-          is value derived from configuration parameters.
+          Transmit FIFOn RAM start address. Contains the memory start address for TxFIFOn.
+          Reset values:
+          Device mode:
+             TXFIFO0 : 0x0
+             TXFIFO1 : 0x42
+             TXFIFO2 : 0x1c6
+             TXFIFO3 : 0x34a
+          Host mode:
+             TXFIFO0 : 0x0
+             TXFIFO1 : 0x82
+             TXFIFO2 : 0x185
+             TXFIFO3 : 0x38a
 
       - name: TXFDEP
         bits: 15..0
@@ -6266,9 +6296,18 @@ registers:
         description: |
           TxFIFOn depth. This value is in terms of TX RAM data width.
           minimum value = 0x20, maximum value = 0x8000.
+          Reset values:
+          Device mode:
+             TXFIFO0 : 0x42
+             TXFIFO1 : 0x184
+             TXFIFO2 : 0x184
+             TXFIFO3 : 0x184
+          Host mode:
+             TXFIFO0 (FSLS) : 0x82
+             TXFIFO1 (HS)   : 0x103
+             TXFIFO2 (SS)   : 0x205
           INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
           Databook.
-          Reset value derived from configuration parameters.
 
 
   - name: USBDRD(0..1)_UAHC_GRXFIFOSIZ(0..2)
@@ -6280,11 +6319,11 @@ registers:
       below. It is recommended that software use the default value. In Host mode, per-port
       registers are implemented.
       One register per FIFO.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
-      INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
-      page 238.
       Host reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
+                For more information, see the BMU section in Block Descriptions on Synopsys Databook
+      page 238.
     fields:
       - name: RXFSTADDR
         bits: 31..16
@@ -6292,8 +6331,15 @@ registers:
         reset: --
         typical: --
         description: |
-          RxFIFOn RAM start address.  This field contains the memory start address for RxFIFOn. The
-          reset value is derived from configuration parameters.
+          RxFIFOn RAM start address.  This field contains the memory start address for RxFIFOn.
+          Device mode:
+             RXFIFO0 : 0x0
+             RXFIFO1 : 0x185
+             RXFIFO2 : 0x185
+          Host mode:
+             RXFIFO0 : 0x0
+             RXFIFO1 : 0x84
+             RXFIFO2 : 0x188
 
       - name: RXFDEP
         bits: 15..0
@@ -6303,9 +6349,16 @@ registers:
         description: |
           RxFIFOn depth. This value is in terms of RX RAM Data width.
           minimum value = 0x20. maximum value = 0x4000.
+          Device mode:
+             RXFIFO0 : 0x185
+             RXFIFO1 : 0x0
+             RXFIFO2 : 0x0
+          Host mode:
+             RXFIFO0 : 0x84
+             RXFIFO1 : 0x104
+             RXFIFO2 : 0x180
           INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
           Databook.
-          The reset value is derived from configuration parameters.
 
 
   - name: USBDRD(0..1)_UAHC_GEVNTADR(0)
@@ -6318,11 +6371,11 @@ registers:
       register after it is initialized.
       Software must only use the GEVNTCOUNTn register for event processing. The lower n bits of the
       address must be USBDRD(0..1)_UAHC_GEVNTSIZ_(0)[EVNTSIZ]-aligned.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.1.
     fields:
       - name: EVNTADR
         bits: 63..0
@@ -6345,11 +6398,11 @@ registers:
       the Event Buffer. The Event Interrupt Mask will mask the interrupt, but events are still
       queued. After configuration, software must preserve the Event Buffer Size value when
       changing the Event Interrupt Mask.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.2.
     fields:
       - name: EVNTINTMASK
         bits: 31
@@ -6394,11 +6447,11 @@ registers:
       Clock crossing delays may result in the interrupt's continual assertion after software
       acknowledges the last event. Therefore, when the interrupt line is asserted, software must
       read the GEVNTCOUNT register and only process events if the GEVNTCOUNT is greater than 0.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.7.3.
     fields:
       - name: RESERVED_0
         bits: 31..16
@@ -6427,7 +6480,7 @@ registers:
     description: |
       These registers contain the hardware configuration options selected at compile-time.
       INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.3.9.
+                See Synopsys DWC_usb3 Databook v2.20a, section 6.2.3.9.
     fields:
       - name: DCACHE_DEPTH_INFO
         bits: 31..0
@@ -6459,9 +6512,9 @@ registers:
       This register is present only when the core is configured to operate in the device mode
       (includes DRD and OTG modes). The register size corresponds to the number of Device IN
       endpoints.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.1.
     fields:
       - name: --
         bits: 31..4
@@ -6501,8 +6554,8 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
     fields:
       - name: --
         bits: 31..3
@@ -6542,8 +6595,8 @@ registers:
       The register size corresponds to the number of configured USB bus instances; for example, in
       the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
       FullSpeed/LowSpeed).
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
     fields:
       - name: --
         bits: 31..3
@@ -6582,8 +6635,8 @@ registers:
          the next request.
        * if there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant
          is always awarded; there is no idle.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
     fields:
       - name: --
         bits: 31..13
@@ -6625,8 +6678,8 @@ registers:
       addition, it enables running SOF or ITP frame timer counters completely off of the ref_clk.
       This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
       ref_clk signal.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
     fields:
       - name: GFLADJ_REFCLK_240MHZDECR_PLS1
         bits: 31
@@ -6687,10 +6740,10 @@ registers:
           (UTMI) with USB 3.0 port states is removed. Note that the
           ref_clk frequencies supported in this mode are
           16/17/19.2/20/24/39.7/40 MHz.
-          INTERNAL: The utmi_clk[0] signal of the core must be
-          connected to the FREECLK of the PHY.
           Note: If you set this bit to 1, the GUSB2PHYCFG.U2_FREECLK_EXISTS
           bit must be set to 0.
+          INTERNAL: The utmi_clk[0] signal of the core must be
+          connected to the FREECLK of the PHY.
 
       - name: RESERVED_0
         bits: 22
@@ -6779,8 +6832,8 @@ registers:
     description: |
       This register configures the core in Device mode after power-on or after certain control
       commands or enumeration. Do not make changes to this register after initial programming.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.1.
     fields:
       - name: RESERVED_0
         bits: 31..24
@@ -6894,8 +6947,8 @@ registers:
     bus: NCB
     description: |
       This register controls the
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
     fields:
       - name: RS
         bits: 31
@@ -7187,8 +7240,8 @@ registers:
     description: |
       This register controls the generation of Device-Specific events.
       If an enable bit is set to 0, the event will not be generated.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.2.
     fields:
       - name: --
         bits: 31..13
@@ -7248,7 +7301,7 @@ registers:
         typical: 0
         description: |
           This bit enables/disables the generation of the Hibernation Request Event.
-          INTERNAL: TODO: is hibernation even enabled?
+          INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature.
 
       - name: WKUPEVTEN
         bits: 4
@@ -7293,8 +7346,8 @@ registers:
     description: |
       This register indicates the status of the device controller with respect to USB-related
       events.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.3.
     fields:
       - name: --
         bits: 31..30
@@ -7459,11 +7512,11 @@ registers:
     description: |
       This register indicates the device command parameter.
       This must be programmed before or along with USBDRD(0..1)_UAHC_DGCMD.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.4.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.4.
     fields:
       - name: PARAM
         bits: 31..0
@@ -7485,11 +7538,11 @@ registers:
       send link management packets and notifications. This register contains command, control, and
       status fields relevant to the current generic command, while the USBDRD(0..1)_UAHC_DGCMDPAR
       register provides the command parameter.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.5.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.1.5.
     fields:
       - name: --
         bits: 31..16
@@ -7563,11 +7616,11 @@ registers:
     description: |
       This register indicates whether a USB endpoint is active in a given configuration or
       interface.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.1.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.1.
     fields:
       - name: USBACTEP
         bits: 31..0
@@ -7602,11 +7655,11 @@ registers:
     description: |
       This register indicates the physical endpoint command Parameter 2. It must be programmed
       before issuing the command.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.2.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.2.
     fields:
       - name: PARAM2
         bits: 31..0
@@ -7623,11 +7676,11 @@ registers:
     description: |
       This register indicates the physical endpoint command Parameter 1. It must be programmed
       before issuing the command.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.3.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.3.
     fields:
       - name: PARAM1
         bits: 31..0
@@ -7644,11 +7697,11 @@ registers:
     description: |
       This register indicates the physical endpoint command Parameter 0. It must be programmed
       before issuing the command.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.4.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.4.
     fields:
       - name: PARAM0
         bits: 31..0
@@ -7671,11 +7724,11 @@ registers:
       power-on, prior to issuing the first endpoint command, the read value of this register is
       undefined. In particular, the CMDACT bit may be set after power-on. In this case, it is safe
       to issue an endpoint command.
-      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.5.
       Reset by: IOI reset (srst_n) or USBDRD(0..1)_UCTL_CTL[UAHC_RESET] or
       USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] or
       USBDRD(0..1)_UAHC_USBCMD[HCRST] or USBDRD(0..1)_UAHC_USBCMD[LHCRST] or
       USBDRD(0..1)_UAHC_DCTL[CSFTRST].
+      INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.3.2.5.
     fields:
       - name: COMMANDPARAM
         bits: 31..16
@@ -7758,7 +7811,6 @@ registers:
             If the host aborts the data stage of a control transfer, software may receive a
             XferComplete event with the EventStatus field equal to 0. This is a valid event
             that must be processed as a part of the Control Transfer Programming Model.
-            INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.50a, Section 8.4.
           Within a Stream Event:
             [15:12]:
               - 0x2: StreamNotFound: This stream event is issued when the stream-capable endpoint
@@ -7778,6 +7830,7 @@ registers:
           In response to a End Transfer command:
             [15:12]:
               - 0x1: Indicates an invalid transfer resource was specified.
+            INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.50a, Section 8.4.
 
       - name: HIPRI_FORCERM
         bits: 11

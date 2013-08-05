@@ -127,7 +127,8 @@ def build_struct(chip_info, struct):
     if "attributes" in struct:
         check_keys("struct[attributes]", struct["attributes"], [
                    "ignore_naming_convention",  # FIXME: What is this?
-                   "allow_missing_bits"])       # Not all bits are specified, assume reserved for others
+                   "allow_missing_bits",        # Not all bits are specified, assume reserved for others
+                   "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
     for field in struct["fields"]:
         check_keys("struct[fields]", field, [
@@ -181,7 +182,10 @@ def build_csr(chip_info, register, raw):
                    "rtlgen_cib",
                    "rtlgen_soft_reset",
                    "rtlgen_tie_rst_data",
-                   "uvm_default_constraint"])
+                   "uvm_default_constraint",
+                   "dv_bist_all_fail_test",
+                   "dv_fc_scratch",
+                   "subblock"])
     #pp.pprint(register)
     # Parse the register name, description, and notes
     name_list = parseCsrName(register["name"])

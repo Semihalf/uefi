@@ -573,6 +573,8 @@ registers:
     address: 0x11800F0000018
     bus: RSL
     description: This register contains the result of the BIST run on the IOB memories.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..27
@@ -1551,6 +1553,8 @@ registers:
     address: 0x11800F0000700
     bus: RSL
     description: This register contains the result of the BIST run on the cores.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..48

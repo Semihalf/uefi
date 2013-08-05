@@ -372,7 +372,7 @@ registers:
     fields:
       - name: VAL
         bits: 63
-        access: R/W
+        access: R/W/H
         reset: --
         typical: --
         description: |
@@ -759,7 +759,7 @@ registers:
         description: |
           Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
           write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
-          = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz.
+          = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz, 10ns at 100MHz.
 
       - name: AHD
         bits: 27..24
@@ -769,7 +769,7 @@ registers:
         description: |
           Hold time of A with respect to falling edge of STROBE for read and write modes in
           PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
-          yields 40ns for a PLL_REF_CLK of 50 MHz.
+          yields 40ns for a PLL_REF_CLK of 50 MHz, 20ns at 100MHz.
 
       - name: WRSTB_WH
         bits: 23..12
@@ -783,11 +783,11 @@ registers:
       - name: RDSTB_WH
         bits: 11..8
         access: R/W
-        reset: 0x0
+        reset: 0x1
         typical: --
         description: |
           Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
-          is 20ns min. Default of 0x0 yields 20 ns at PLL_REF_CLK of 50 MHz.
+          is 20ns min. Default of 0x1 yields 40 ns at PLL_REF_CLK of 50 MHz, 20ns at 100MHz.
 
       - name: ASU
         bits: 7..4
@@ -796,8 +796,8 @@ registers:
         typical: --
         description: |
           Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
-          Timing spec of tsu_A_r and rsu_A-P is 12 ns min. Default of 0x1 yields 20 ns at
-          PLL_REF_CLK of 50 MHz.
+          Timing spec of tsu_A_r and tsu_A_p is 12 ns min. Default of 0x1 yields 40 ns at
+          PLL_REF_CLK of 50 MHz, 20ns at 100MHz.
 
       - name: SETUP
         bits: 3..0
@@ -806,8 +806,8 @@ registers:
         typical: --
         description: |
           Setup of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in PLL_REF_CLK
-          + 1 cycles. TSUCS= 16ns, TSUPG= 14ns, TSULD_R= 10ns. Default of 0x0 yields 20 ns at
-          PLL_REF_CLK of 50 MHz.
+          + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0 yields 20 ns
+          plush ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz.
 
 
   - name: MIO_FUS_PLL
@@ -860,8 +860,10 @@ registers:
         typical: --
         description: |
           Core clockout select:
-          0x0 = core clock 0x2 = PLL output
-          0x1 = PS output 0x3 = undivided core clock
+          0x0 = core clock
+          0x1 = PS output
+          0x2 = PLL output
+          0x3 = undivided core clock
 
       - name: PNR_COUT_RST
         bits: 4
@@ -880,8 +882,10 @@ registers:
         typical: --
         description: |
           PNR clockout select:
-          0x0 = coprocessor clock 0x2 = PLL output
-          0x1 = PS output 0x3 = undivided core clock
+          0x0 = coprocessor clock
+          0x1 = PS output
+          0x2 = PLL output
+          0x3 = undivided core clock
 
       - name: --
         bits: 1..0

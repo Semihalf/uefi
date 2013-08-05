@@ -7,148 +7,152 @@ attributes:
   rtlgen_clock: "csclk"
   rtlgen_reset_n: "srst_d2_n"
 enums:
-  - name: ADDR_ERR_SOURCE_E
+  - name: OSM_ADDR_ERR_SOURCE_E
     attributes:
       width: "3"
+    description: Enumerates the address error source.
     values:
       - name: "NONE"
-        value: 3'h0
+        value: 0x0
         description: No error logged.
 
       - name: DFA
-        value: 3'h1
-        description: DFA port address error (illegal bank).
+        value: 0x1
+        description: HFA port illegal bank address error.
 
       - name: HNA
-        value: 3'h2
-        description: HNA port address error (illegal bank).
+        value: 0x2
+        description: HNA port illegal bank address error.
 
       - name: TWC
-        value: 3'h3
-        description: TWC port address error (illegal bank).
+        value: 0x3
+        description: TWC port illegal bank address error.
 
       - name: BWC
-        value: 3'h4
-        description: BWC port address error (illegal bank).
+        value: 0x4
+        description: BWC port illegal bank address error.
 
       - name: RWC1
-        value: 3'h5
-        description: RWC1 port address error (illegal bank).
+        value: 0x5
+        description: RWC1 port illegal bank address error.
 
       - name: RWC2
-        value: 3'h6
-        description: RWC2 port address error (illegal bank).
+        value: 0x6
+        description: RWC2 port illegal bank address error.
 
       - name: RWC3
-        value: 3'h7
-        description: RWC3 port address error (illegal bank).
+        value: 0x7
+        description: RWC3 port illegal bank address error.
 
 
-  - name: BANK_ASSIGN_E
+  - name: OSM_BANK_ASSIGN_E
     attributes:
       width: "3"
+    description: Enumerates the bank assignment.
     values:
       - name: DISABLED
-        value: 3'h0
+        value: 0x0
         description: Bank disabled.
 
       - name: DFA
-        value: 3'h1
-        description: Bank assigned to DFA.
+        value: 0x1
+        description: Bank assigned to HFA.
 
       - name: HNA
-        value: 3'h2
+        value: 0x2
         description: Bank assigned to HNA.
 
       - name: TWC
-        value: 3'h3
+        value: 0x3
         description: Bank assigned to ASE-TWC.
 
       - name: BWC
-        value: 3'h4
+        value: 0x4
         description: Bank assigned to ASE-BWC.
 
       - name: RWC
-        value: 3'h5
+        value: 0x5
         description: Bank assigned to ASE-RWC.
 
 
-  - name: ECC_ERR_SOURCE_E
+  - name: OSM_ECC_ERR_SOURCE_E
     attributes:
       width: "5"
+    description: Enumerates the ECC error source.
     values:
       - name: "NONE"
-        value: 5'h0
+        value: 0x00
         description: No error logged.
 
       - name: DFA_SBE
-        value: 5'h1
-        description: DFA port single-bit error.
+        value: 0x01
+        description: HFA port single-bit error.
 
       - name: HNA_SBE
-        value: 5'h2
+        value: 0x02
         description: HNA port single-bit error.
 
       - name: TWC_SBE
-        value: 5'h3
+        value: 0x03
         description: TWC port single-bit error.
 
       - name: BWC_SBE
-        value: 5'h4
+        value: 0x04
         description: BWC port single-bit error.
 
       - name: RWC1_SBE
-        value: 5'h5
+        value: 0x05
         description: RWC1 port single-bit error.
 
       - name: RWC2_SBE
-        value: 5'h6
+        value: 0x06
         description: RWC2 port single-bit error.
 
       - name: RWC3_SBE
-        value: 5'h7
+        value: 0x07
         description: RWC3 port single-bit error.
 
       - name: HOST_SBE
-        value: 5'h8
+        value: 0x08
         description: Host port single-bit error.
 
       - name: DFA_DBE
-        value: 5'h9
-        description: DFA port double-bit error.
+        value: 0x09
+        description: HFA port double-bit error.
 
       - name: HNA_DBE
-        value: 5'ha
+        value: 0x0A
         description: HNA port double-bit error.
 
       - name: TWC_DBE
-        value: 5'hb
+        value: 0x0B
         description: TWC port double-bit error.
 
       - name: BWC_DBE
-        value: 5'hc
+        value: 0x0C
         description: BWC port double-bit error.
 
       - name: RWC1_DBE
-        value: 5'hd
+        value: 0x0D
         description: RWC1 port double-bit error.
 
       - name: RWC2_DBE
-        value: 5'he
+        value: 0x0E
         description: RWC2 port double-bit error.
 
       - name: RWC3_DBE
-        value: 5'hf
+        value: 0x0F
         description: RWC3 port double-bit error.
 
       - name: HOST_DBE
-        value: 5'h10
+        value: 0x10
         description: Host port double-bit error.
 
 
   - name: OSM_INTSN_E
     attributes:
       width: "20"
+    description: Enumerates the different interrupts from OSM.
     values:
       - name: OSM_INT_STAT_DFA_DBE
         value: 0xDC000
@@ -291,16 +295,14 @@ enums:
 
 registers:
   - name: OSM_INT_STAT
+    title: OSM Interrupt Status
     address: 0x11800DC000008
     bus: RSL
     description: |
-      Interrupt Status.
-      DBEs are detected. SBE's are corrected. For debugging output for ECC DBE/SBE's, see
-      OSM_INT_INFO_ECC register.
-      Address Errors happen when a requester attempts to access a bank that was not assigned to it.
-      For example, Bank 0 is assigned to DFA and HNA attempts to access it. For debugging output for
-      Address Errors, see OSM_INT_INFO_ADDR register. For current bank assignment, see
-      OSM_BANK(0..63)_CTRL register.
+      For debugging output for ECC DBE/SBEs, see OSM_INT_INFO_ECC. Address errors happen when a
+      requester attempts to access a bank that was not assigned to it. For example, Bank 0 is
+      assigned to HFA, and HNA attempts to access it. For debugging output for address errors, see
+      OSM_INT_INFO_ADDR. For current bank assignment, see OSM_BANK(0..63)_CTRL.
     attributes:
       rtlgen_cib: "True"
     fields:
@@ -316,173 +318,173 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RWC3 port address error (illegal bank).
+        description: RWC3 port illegal bank address error.
 
       - name: RWC2_ADDR_ERR
         bits: 21
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RWC2 port address error (illegal bank).
+        description: RWC2 port illegal bank address error.
 
       - name: RWC1_ADDR_ERR
         bits: 20
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RWC1 port address error (illegal bank).
+        description: RWC1 port illegal bank address error.
 
       - name: BWC_ADDR_ERR
         bits: 19
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: BWC port address error (illegal bank).
+        description: BWC port illegal bank address error.
 
       - name: TWC_ADDR_ERR
         bits: 18
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: TWC port address error (illegal bank).
+        description: TWC port illegal bank address error.
 
       - name: HNA_ADDR_ERR
         bits: 17
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: HNA port address error (illegal bank).
+        description: HNA port illegal bank address error.
 
       - name: DFA_ADDR_ERR
         bits: 16
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: DFA port address error (illegal bank).
+        description: HFA port illegal bank address error.
 
       - name: HOST_SBE
         bits: 15
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Host port single bit error.
+        description: Host port single-bit error.
 
       - name: HOST_DBE
         bits: 14
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Host port double bit error.
+        description: Host port double-bit error.
 
       - name: RWC3_SBE
         bits: 13
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC3 port single bit error.
+        description: ASE RWC3 port single-bit error.
 
       - name: RWC3_DBE
         bits: 12
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC3 port double bit error.
+        description: ASE RWC3 port double-bit error.
 
       - name: RWC2_SBE
         bits: 11
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC2 port single bit error.
+        description: ASE RWC2 port single-bit error.
 
       - name: RWC2_DBE
         bits: 10
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC2 port double bit error.
+        description: ASE RWC2 port double-bit error.
 
       - name: RWC1_SBE
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC1 port single bit error.
+        description: ASE RWC1 port single-bit error.
 
       - name: RWC1_DBE
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE RWC1 port double bit error.
+        description: ASE RWC1 port double-bit error.
 
       - name: BWC_SBE
         bits: 7
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE BWC port single bit error.
+        description: ASE BWC port single-bit error.
 
       - name: BWC_DBE
         bits: 6
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE BWC port double bit error.
+        description: ASE BWC port double-bit error.
 
       - name: TWC_SBE
         bits: 5
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE TWC port single bit error.
+        description: ASE TWC port single-bit error.
 
       - name: TWC_DBE
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: ASE TWC port double bit error.
+        description: ASE TWC port double-bit error.
 
       - name: HNA_SBE
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: HNA port single bit error.
+        description: HNA port single-bit error.
 
       - name: HNA_DBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: HNA port double bit error.
+        description: HNA port double-bit error.
 
       - name: DFA_SBE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: DFA port single bit error.
+        description: HFA port single-bit error.
 
       - name: DFA_DBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: DFA port double bit error.
+        description: HFA port double-bit error.
 
 
   - name: OSM_INT_INFO_ECC
+    title: OSM ECC Error Interrupt Information
     address: 0x11800DC000010
     bus: RSL
     description: |
-      ECC error interrupt info.
       This register can be used to debug ECC failures. Fields are captured when there are no
-      outstanding ECC errors indicated in OSM_INT_STAT register and a new ECC error arrives.
-      Prioritization for multiple events occurring at the same time is indicated by the
-      ECC_ERR_SOURCE_E enumeration: highest encoded value has highest priority. For current bank
-      assignment, see OSM_BANK(0..63)_CTRL register.
+      outstanding ECC errors indicated in OSM_INT_STAT and a new ECC error arrives. Prioritization
+      for multiple events occurring at the same time is indicated by the OSM_ECC_ERR_SOURCE_E
+      enumeration; highest encoded value has highest priority. For current bank assignment, see
+      OSM_BANK(0..63)_CTRL.
     fields:
       - name: --
         bits: 63..37
@@ -496,7 +498,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Source of ECC error, see OSM_ECC_ERR_SOURCE_E enumeration.
+        description: Source of ECC error; see OSM_ECC_ERR_SOURCE_E.
 
       - name: --
         bits: 31..16
@@ -510,18 +512,18 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: RAM Address of the ECC error.
+        description: RAM address of the ECC error.
 
 
   - name: OSM_INT_INFO_ADDR
+    title: OSM Address Error Interrupt Information
     address: 0x11800DC000018
     bus: RSL
     description: |
-      Address error interrupt info.
       This register can be used to debug address errors (illegal bank). Fields are captured when
-      there are no outstanding address errors indicated in OSM_INT_STAT register and a new address
-      error arrives. Prioritization for multiple events occurring at the same time is indicated by
-      the ADDR_ERR_SOURCE_E enumeration: highest encoded value has highest priority.
+      there are no outstanding address errors indicated in OSM_INT_STAT and a new address error
+      arrives. Prioritization for multiple events occurring at the same time is indicated by the
+      OSM_ADDR_ERR_SOURCE_E enumeration; highest encoded value has highest priority.
     fields:
       - name: --
         bits: 63..35
@@ -535,7 +537,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Source of address error, see OSM_ADDR_ERR_SOURCE_E enumeration.
+        description: Source of address error; see OSM_ADDR_ERR_SOURCE_E
 
       - name: --
         bits: 31..16
@@ -549,13 +551,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: RAM Address of the address error.
+        description: RAM address of the address error.
 
 
   - name: OSM_ECC_CTRL
+    title: OSM ECC Control Register
     address: 0x11800DC000020
     bus: RSL
-    description: ECC Control register.
+    description: ECC control register.
     fields:
       - name: --
         bits: 63..3
@@ -570,11 +573,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Flip the syndrom<1:0> bits to generate 1-bit/2-bits error for testing.
-            0x0: normal operation.
-            0x1: SBE on bit<0>.
-            0x2: SBE on bit<1>.
-            0x3: DBE on bit<1:0>.
+          Flip syndrom<1:0> bits to generate 1-bit/2-bits error for testing.
+          0x0 = Normal operation.
+          0x1 = SBE on bit<0>.
+          0x2 = SBE on bit<1>.
+          0x3 = DBE on bits<1:0>.
 
       - name: COR_DIS
         bits: 0
@@ -585,6 +588,7 @@ registers:
 
 
   - name: OSM_BANK(0..63)_CTRL
+    title: OSM Bank Control
     address: 0x11800DC001000 + a*0x8
     bus: RSL
     fields:
@@ -601,37 +605,32 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          See BANK_ASSIGN_E enumeration for encoding.
-          Port assignment for each memory bank. Memory structure is
-          64k words x 246 data bits (plus ECC). This is further
-          divided into 64 banks each containing 1k words x 246 data bits.
-          A bank can only support one access per cycle, this is implemented
-          by assigning each bank to a specific requester. Most requesters can
-          only make one request per cycle so that mostly solves the problem.
-          RWC is the only requester that can make multiple requests per cycle
-          and will need to implement its own bank-aware scheduler to prevent
-          bank conflicts. Bank assignment can be reconfigured dynamically, but
-          memory accesses to a bank must be quiesced before that bank can be
-          reassigned to another requester. A host request can access any bank,
-          arbitration logic will prevent bank conflicts for host requests.
+          Port assignment for each memory bank. Memory structure is 64k words * 246 data bits (plus
+          ECC). This is further divided into 64 banks each containing 1k words * 246 data bits. A
+          bank can only support one access per cycle, this is implemented by assigning each bank to
+          a specific requester. Most requesters can only make one request per cycle so that mostly
+          solves the problem. RWC is the only requester that can make multiple requests per cycle
+          and will need to implement its own bank-aware scheduler to prevent bank conflicts. Bank
+          assignment can be reconfigured dynamically, but memory accesses to a bank must be quiesced
+          before that bank can be reassigned to another requester. A host request can access any
+          bank; arbitration logic will prevent bank conflicts for host requests.
           Addresses: bit<15:10> = bank, bit<9:0> = offset.
-          bank0 corresponds to memory address 0x0000-0x03ff.
-          bank1 corresponds to memory address 0x0400-0x07ff.
-          bank63 corresponds to memory address 0xfc00-0xffff.
-          See BANK_ASSIGN_E enumeration for encoding.
+          Bank 0 corresponds to memory address 0x0000-0x03FF.
+          Bank 1 corresponds to memory address 0x0400-0x07FF.
+          Bank 63 corresponds to memory address 0xFC00-0xFFFF.
+          See OSM_BANK_ASSIGN_E for encoding.
 
 
   - name: OSM_MEM(0..7)_BIST_STATUS
+    title: OSM Built In Self Test Status Register
     address: 0x11800DC002000 + a*0x8
     bus: RSL
     description: |
-      Built In Self Test Status Register.
-      Results from BIST runs of OSM's memories.
-      OSM_MEM is instantiated 8 times, each instance of OSM_MEM has its own BIST_STATUS
-      register. Each OSM_MEM contains 32 BIST memory instances, so there are 32 status bits
-      per register.
-      Each BIST Memory Instance (1 BIST engine + multiple physical memories) contains
-      2 physical memories, srf1024x32m8 and srf1024x33m3.
+      Results from BIST runs of OSM's memories. OSM_MEM is instantiated 8 times, each instance of
+      OSM_MEM has its own BIST_STATUS. Each OSM_MEM contains 32 BIST memory instances, so there are
+      32 status bits per register.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..32
@@ -645,10 +644,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: BIST Status of BIST Memory Instance 31..0 in bits 31..0 respectively.
+        description: |
+          BIST status of BIST memory instance 31..0 in bits 31..0 respectively.
+          INTERNAL: Each BIST Memory Instance (1 BIST engine + multiple physical memories) contains
+          2 physical memories.
 
 
   - name: OSM_ASE_RATE_LIMIT_CTRL
+    title: OSM ASE Rate Limit Control Register
     address: 0x11800DC002100
     bus: RSL
     fields:
@@ -665,11 +668,10 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit
-          responses sent back to ASE. Each request is assigned to either phase 0 or phase 1.
-          When set, OSM will not send back-to-back responses for requests
-          with the same phase. Instead a idle cycle will be inserted between the responses.
-          This enable applies to RWC ports.
+          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
+          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
+          responses for requests on the RWC ports with the same phase. Instead, a idle cycle is
+          inserted between the responses. This enable applies to RWC ports.
 
       - name: BWC_RATE_LIMIT
         bits: 1
@@ -677,11 +679,10 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit
-          responses sent back to ASE. Each request is assigned to either phase 0 or phase 1.
-          When set, OSM will not send back-to-back responses for requests
-          with the same phase. Instead a idle cycle will be inserted between the responses.
-          This enable applies to BWC port.
+          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
+          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
+          responses for requests on the BWC port with the same phase. Instead a idle cycle is
+          inserted between the responses.
 
       - name: TWC_RATE_LIMIT
         bits: 0
@@ -689,11 +690,10 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit
-          responses sent back to ASE. Each request is assigned to either phase 0 or phase 1.
-          When set, OSM will not send back-to-back responses for requests
-          with the same phase. Instead a idle cycle will be inserted between the responses.
-          This enable applies to TWC port.
+          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
+          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
+          responses for requests on the TWC port with the same phase. Instead a idle cycle is
+          inserted between the responses.
 
 
 

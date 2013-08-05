@@ -4,9 +4,7 @@
 name: VRM
 structs:
   - name: VRM_TWS_TWSI_SW_S
-    description: |
-      SW write data to external regulator.
-      VRM_TWS_TWSI_SW_S structure:
+    description: Format for software to write data to external regulator.
     fields:
       - name: DATA
         bits: 31..0
@@ -131,7 +129,7 @@ registers:
         description: |
           Address field. The address of the remote device for a master-mode operation.
           Note that when mastering a 7-bit OP, ADDR<6:0> should not take any of the values 0x78,
-          0x79, 0x7A nor 0x7B. (These 7-bit addresses are reserved to extend to 10-bit addressing).
+          0x79, 0x7A nor 0x7B, as these 7-bit addresses are reserved to extend to 10-bit addressing.
 
       - name: IA
         bits: 39..32
@@ -251,7 +249,9 @@ registers:
         description: |
           This command will initiate a read instruction to the external voltage regulator
           into VRM_TELEMETRY_READ.
-          00 .. Do nothing , 01/11 read V , 10 read I.
+          0x0 = Do nothing.
+          0x1 or 0x3 Read V.
+          0x2 = Read I.
           Hardware clears CMND to indicate operation completed.
 
 
@@ -272,7 +272,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Holds the recived status read from the external controller only for failing status.
+        description: Holds the received status read from the external controller only for failing status.
 
       - name: VRM_CTL_CUR_STATE
         bits: 15..13
@@ -288,8 +288,9 @@ registers:
         typical: --
         description: |
           VRM_TYPE identifies the type of device connected to the chip.
-          00 : Linear type ,default or PMBus.
-          01 : VID type , ISL6367
+          0x0 = Linear type, default or PMBus.
+          0x1 = VID type, ISL6367
+          0x2-3 = Reserved.
 
       - name: BOOT_SEQ
         bits: 10
@@ -321,7 +322,7 @@ registers:
 
 
   - name: VRM(0..1)_TS_TEMP_CONV_CTL
-    title: VRM Temp Sensor anlaog block alternate SW inputs
+    title: VRM Temp Sensor Analog Alternate Conversion Register
     address: 0x118002100058 | a<<24
     bus: RSL
     fields:
@@ -337,21 +338,23 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: This will make the temp conversion SM to enter RST state.SM in RESET state,unitl RESET_SM cleared.
+        description: |
+          This will force the temperature conversion state machine into the reset state until
+          RESET_SM is cleared.
 
       - name: SW_ACCESS
         bits: 11
         access: R/W
         reset: 0
         typical: --
-        description: If set, SW controls inputs of Analog Temp sensor.
+        description: If set, software controls inputs of analog temperature sensor.
 
       - name: TS_SWITCH
         bits: 10..2
         access: R/W
         reset: 0x14e
         typical: --
-        description: These switches control temperature sensor,these provide alternate SW access.
+        description: Alternate software access to control temperature sensor switches.
 
       - name: TS_CURR2EN
         bits: 1
@@ -369,7 +372,7 @@ registers:
 
 
   - name: VRM(0..1)_TS_TEMP_CONV_RESULT
-    title: VRM Temp Sensor Result.
+    title: VRM Temp Sensor Result Register
     address: 0x118002100068 | a<<24
     bus: RSL
     fields:
@@ -385,7 +388,7 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: When set implies,N_VALUE is valid.
+        description: When set N_VALUE is valid.
 
       - name: N_VALUE
         bits: 22..12
@@ -400,8 +403,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set implies,TEMP_CORRECTED is valid.
-          This is not sticky and most likely SW will miss it.
+          When set TEMP_CORRECTED is valid.
+          This bit is pulsed on each conversion, and as such software may not be able to observe the
+          cycle in which TEMP_VALID is set.
 
       - name: TEMP_CORRECTED
         bits: 10..0
@@ -410,11 +414,11 @@ registers:
         typical: --
         description: |
           Corrected temperature read out from the temp sensor module.
-          Will always have valid data,once TEMP_VALID transitions.
+          Has valid data after TEMP_VALID transitions.
 
 
   - name: VRM(0..1)_TS_TEMP_CONV_COEFF_FSM
-    title: VRM Temp Sensor Conversion routine coefficient and fsm ctl.
+    title: VRM Temp Sensor Conversion Coefficient and FSM Register
     address: 0x118002100078 | a<<24
     bus: RSL
     fields:
@@ -446,8 +450,8 @@ registers:
         typical: --
         description: |
           Coefficient A value for polynomial fit.
-          [37]   acts as a sign bit to flip the shifted results.
-          [36:32] Bits dictate the amount of right shift.
+          <37> is a sign bit to flip the shifted results.
+          <36:32> dictates the amount of right shift.
 
       - name: --
         bits: 31..25
@@ -464,8 +468,8 @@ registers:
         description: |
           Coefficient B value for polynomial fit. It should be a positive number and between 1 and
           2.
-          [24] is the integer part should always be 1.
-          [23:16] form the fractional part.
+          <24> is the integer part should always be 1.
+          <23:16> form the fractional part.
 
       - name: --
         bits: 15..12
@@ -485,7 +489,7 @@ registers:
 
 
   - name: VRM(0..1)_TS_TEMP_NOFF_MC
-    title: VRM Temp Sensor, SW settable values for mc and noff.These would be used to bypass fused values
+    title: VRM Temp Sensor Noff Coefficient Register
     address: 0x118002100088 | a<<24
     bus: RSL
     fields:
@@ -501,7 +505,7 @@ registers:
         access: R/W
         reset: 0xbb8
         typical: --
-        description: The MC value, default is 3000 decimal.
+        description: MC value, default is 3000 decimal.
 
       - name: --
         bits: 15..11
@@ -516,12 +520,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          The N cycle count offset. It is used to subtract the appropriate count from N cycle.
-          It should be such that at 0C, the difference between NOFF and NCYCLE would be 0.
+          N cycle count offset, used to subtract the appropriate count from N cycle.
+          It should be such that at 0 degrees C, the difference between NOFF and NCYCLE is 0.
 
 
   - name: VRM(0..1)_FUSE_BYPASS
-    title: Bypass the loaded fuses.
+    title: VRM Fuse Bypass Register
     address: 0x118002100098 | a<<24
     bus: RSL
     fields:
@@ -538,27 +542,22 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If SET, will bypass VRM CTL, this HW is reponsible for controlling external voltage
-          regulator.
-          SW can then send commands to the regulator.
+          If set, bypass VRM control hardware responsible for controlling external voltage
+          regulator so software can send commands to the regulator.
 
       - name: CTL_FUSE_BYPASS
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          If SET, will bypass fuses which feed the PMBus VRM CTL.
-          Fuses that gets bypassed are v_max,v_base,max_step,slope,tran_temp.
+        description: If set, bypass V_MAX, V_BASE, MAX_STEP, SLOPE, TRAN_TEMP fuses which feed the PMBus VRM controller.
 
       - name: TS_FUSE_BYPASS
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          If SET, will bypass fuses which feed the temperature sensor.
-          Fuses bypassed with this are the MC and NOFF.
+        description: If set, bypass MC and NOFF fuses which feed the temperature sensor.
 
 
 

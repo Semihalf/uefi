@@ -8,6 +8,8 @@ registers:
     address: 0x1180040000000
     bus: RSL
     description: This register is the RNM interrupt-enable register.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..12
@@ -94,6 +96,8 @@ registers:
     address: 0x1180040000008
     bus: RSL
     description: This register is the RNM memory BIST status register, indicating status of built-in self-tests.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..2

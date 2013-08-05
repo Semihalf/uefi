@@ -18,6 +18,7 @@ enums:
         value: 0x37001 + a
         attributes:
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
         description: See DFA_ERROR[DC0PERR<a>].
 
       - name: DFA_ERROR_DC1PERR(0..2)
@@ -30,12 +31,14 @@ enums:
         value: 0x37007 + a
         attributes:
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
         description: See DFA_ERROR[DC2PERR<a>].
 
       - name: DFA_ERROR_DC3PERR(0..2)
         value: 0x3700A + a
         attributes:
           cib_rtl_module: "dfa"
+          exempt_natural_alignment: "a"
         description: See DFA_ERROR[DC3PERR<a>].
 
       - name: DFA_ERROR_DLC0_OVFERR
@@ -71,18 +74,16 @@ enums:
 
 registers:
   - name: DFA_CONFIG
+    title: HFA Configuration Register
     address: 0x1180037000000
     bus: RSL
-    description: |
-      Specify the RSL base addresses for the block
-      DFA_CONFIG = DFA Configuration Register
     fields:
       - name: --
         bits: 63..11
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DLCCLEAR_BIST
         bits: 10
@@ -90,13 +91,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all
-          previous DLC BiST state is cleared.
-          NOTES:
-          1) DLCCLEAR_BIST must be written to 1 before DLCSTART_BIST
-          is written to 1 udsing a separate CSR write.
-          2) DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST
-          0->1 until the BIST operation completes.
+          When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all previous DLC BIST state is
+          cleared. Note the following:
+          DLCCLEAR_BIST must be written to 1 before DLCSTART_BIST is written to 1 using a separate
+          CSR write.
+          DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST 0->1 until the BIST
+          operation completes.
 
       - name: DLCSTART_BIST
         bits: 9
@@ -104,15 +104,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When software writes DLCSTART_BIST=0->1, a BiST is executed
-          for the DLC sub-block RAMs which contains DCLK domain
-          asynchronous RAMs.
-          NOTES:
-          1) This bit should only be written after DCLK has been enabled
-          by software and is stable.
-          (see LMC initialization routine for details on how to enable
-          the DDR3 memory (DCLK) - which requires LMC PLL init, clock
-          divider and proper DLL initialization sequence).
+          When software writes DLCSTART_BIST=0->1, a BIST is executed for the DLC sub-block RAMs
+          which contains DCLK domain asynchronous RAMs. Note the following:
+          This bit should only be written after DCLK has been enabled by software and is stable.
+          (See LMC initialization routine for details on how to enable the DDR3 memory (DCLK)--which
+          requires LMC PLL init, clock divider, and proper DLL initialization sequence.)
 
       - name: REPL_ENA
         bits: 8
@@ -125,7 +121,7 @@ registers:
           When set, enables replication mode performance enhancement
           feature. This enables the DFA to communicate address
           replication information during memory references to the
-          memory controller.
+          me mory controller.
           For o63-P2:        This is used by the memory controller
           to support graph data in multiple banks (or bank sets), so that
           the least full bank can be selected to minimize the effects of
@@ -148,16 +144,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Cluster Cripple Mask
-          A one in each bit of the mask represents which DTE cluster to
-          cripple.
-          NOTE: o63 has only a single Cluster (therefore CLMSKCRIP[0]
-          is the only bit used.
-          o2 has 4 clusters, where all CLMSKCRIP mask bits are used.
-          SWNOTE: The MIO_FUS___DFA_CLMASK_CRIPPLE[3:0] fuse bits will
-          be forced into this register at reset. Any fuse bits that
-          contain '1' will be disallowed during a write and will always
-          be read as '1'.
+          Cluster cripple mask. A 1 in each bit of the mask represents which HTE cluster to cripple.
+          CN78XX has four clusters (therefore CLMSKCRIP<3:0> are used.)
+          The MIO_FUS_DFA_CLMASK_CRIPPLE[3:0] fuse bits are forced into this register at reset. Any
+          fuse bits that contain 1 are disallowed during a write and are always read as 1.
 
       - name: CLDTECRIP
         bits: 3..1
@@ -201,23 +191,17 @@ registers:
         reset: 1
         typical: 0
         description: |
-          DFA Clock Disable Source
-          When SET, the DFA clocks for DTE(thread engine)
-          operation are disabled (to conserve overall chip clocking
-          power when the DFA function is not used).
-          NOTE: When SET, SW MUST NEVER issue NCB-Direct CSR
-          operations to the DFA (will result in NCB Bus Timeout
-          errors).
-          NOTE: This should only be written to a different value
-          during power-on SW initialization.
-          SWNOTE: The MIO_FUS___DFA_DTE_DISABLE fuse bit will
-          be forced into this register at reset. If the fuse bit
-          contains '1', writes to DTECLKDIS are disallowed and
-          will always be read as '1'.
+          HFA clock disable source. When set, the HFA clocks for HTE (thread engine) operations are
+          disabled to conserve overall chip clocking power when the HFA function is not used.
+          When set, software must never issue IOI-direct CSR operations to the HFA (will result in
+          IOI timeout errors).
+          This should only be written to a different value during power-on software initialization.
+          The MIO_FUS_DFA_DTE_DISABLE fuse bit is forced into this register at reset. If the fuse
+          bit contains 1, write operations to DTECLKDIS are disallowed and are always read as 1.
 
 
   - name: DFA_CONTROL
-    title: DFA Control Register
+    title: HFA Control Register
     address: 0x1180037000020
     bus: RSL
     fields:
@@ -226,7 +210,7 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: SBDNUM
         bits: 11..6
@@ -261,7 +245,7 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: PMODE
         bits: 2
@@ -298,7 +282,7 @@ registers:
 
 
   - name: DFA_ERROR
-    title: DFA ERROR Register
+    title: HFA Error Register
     address: 0x1180037000028
     bus: RSL
     fields:
@@ -307,7 +291,7 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: OSMERR
         bits: 19
@@ -322,19 +306,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DFA Illegal Replication Factor Error
-          For o68: DFA only supports 1x, 2x, and 4x port replication.
-          Legal configurations for memory are to support 2 port or
-          4 port configurations.
-          The REPLERR interrupt will be set in the following illegal
-          configuration cases:
-          1) An 8x replication factor is detected for any memory reference.
-          2) A 4x replication factor is detected for any memory reference
-          when only 2 memory ports are enabled.
-          NOTE: If REPLERR is set during a DFA Graph Walk operation,
-          then the walk will prematurely terminate with RWORD0[REA]=ERR.
-          If REPLERR is set during a NCB-Direct CSR read access to DFA
-          Memory REGION, then the CSR read response data is UNPREDICTABLE.
+          HFA illegal replication factor error. HFA only supports 1*, 2*, and 4* port replication.
+          Legal configurations for memory are to support 2 port or 4 port configurations.
+          The REPLERR interrupt is set in the following illegal configuration cases:
+          An 8x replication factor is detected for any memory reference.
+          A 4x replication factor is detected for any memory reference when only 2 memory ports are
+          enabled.
+          If REPLERR is set during a HFA graph walk operation, the walk prematurely terminates with
+          RWORD0[REA]=ERR. If REPLERR is set during a IOI-direct CSR read access to HFA memory
+          region, the CSR read response data is unpredictable.
 
       - name: DFANXM
         bits: 17
@@ -342,11 +322,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DFA Non-existent Memory Access
-          For o68: DTEs (and backdoor CSR DFA Memory REGION reads)
-          have access to the following 38bit L2/DRAM address space
-          which maps to a 37bit physical DDR3 SDRAM address space.
-          see:
+          HFA nonexistent memory access. DTEs (and backdoor CSR HFA memory region reads) have access
+          to the following 38bit L2/DRAM address space, which maps to a 37-bit physical DDR3 SDRAM
+          address space.
           DR0: 0x0 0000 0000 0000 to 0x0 0000 0FFF FFFF
           maps to lower 256MB of physical DDR3 SDRAM
           DR1: 0x0 0000 2000 0000 to 0x0 0020 0FFF FFFF
@@ -366,15 +344,14 @@ registers:
           address hole (0x0000.0FFF.FFFF - 0x0000.1FFF.FFFF) or to
           an address above 0x0020.0FFF.FFFF, the DFANXM programmable
           interrupt bit will be set.
-          SWNOTE: Both the 1) SW DFA Graph compiler and the 2) SW NCB-Direct CSR
-          accesses to DFA Memory REGION MUST avoid making references
-          to these non-existent memory regions.
-          NOTE: If DFANXM is set during a DFA Graph Walk operation,
-          then the walk will prematurely terminate with RWORD0[REA]=ERR.
-          If DFANXM is set during a NCB-Direct CSR read access to DFA
-          Memory REGION, then the CSR read response data is forced to
-          128'hBADE_FEED_DEAD_BEEF_FACE_CAFE_BEAD_C0DE. (NOTE: the QW
-          being accessed, either the upper or lower QW will be returned).
+          Software Note:
+          Both the 1) software HFA graph compiler and the 2) software IOI-direct CSR accesses to HFA
+          memory region must avoid making references to these nonexistent memory regions.
+          If DFANXM is set during a HFA graph walk operation, the walk is prematurely terminated
+          with RWORD0[REA]=ERR. If DFANXM is set during a IOI-direct CSR read access to HFA memory
+          region, the CSR read response data is forced to
+          128'hBADE_FEED_DEAD_BEEF_FACE_CAFE_BEAD_C0DE. (The 64-bit doubleword being accessed,
+          either the upper or lower doubleword will be returned).
 
       - name: CNDRD
         bits: 16
@@ -400,7 +377,7 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DLC1_OVFERR
         bits: 14
@@ -408,9 +385,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DLC1 Fifo Overflow Error Detected
-          This condition should NEVER architecturally occur, and
-          is here in case HW credit/debit scheme is not working.
+          DLC1 FIFO overflow error detected. This condition should never architecturally occur, and
+          is here in case hardware credit/debit scheme is not working.
 
       - name: DLC0_OVFERR
         bits: 13
@@ -418,9 +394,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DLC0 Fifo Overflow Error Detected
-          This condition should NEVER architecturally occur, and
-          is here in case HW credit/debit scheme is not working.
+          DLC0 FIFO overflow error detected. This condition should never architecturally occur, and
+          is here in case hardware credit/debit scheme is not working.
 
       - name: DC3PERR
         bits: 12..10
@@ -428,9 +403,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Cluster#3 RAM[3:1] Parity Error Detected
-          See also DFA_DTCFADR register which contains the
-          failing addresses for the internal node cache RAMs."
+          Cluster 3 RAM[3:1] parity error detected. See also DFA_DTCFADR, which contains the failing
+          addresses for the internal node cache RAMs.
 
       - name: DC2PERR
         bits: 9..7
@@ -438,9 +412,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Cluster#2 RAM[3:1] Parity Error Detected
-          See also DFA_DTCFADR register which contains the
-          failing addresses for the internal node cache RAMs."
+          Cluster 2 RAM[3:1] parity error detected. See also DFA_DTCFADR, which contains the failing
+          addresses for the internal node cache RAMs.
 
       - name: DC1PERR
         bits: 6..4
@@ -448,9 +421,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Cluster#1 RAM[3:1] Parity Error Detected
-          See also DFA_DTCFADR register which contains the
-          failing addresses for the internal node cache RAMs."
+          Cluster 1 RAM[3:1] parity error detected. See also DFA_DTCFADR, which contains the failing
+          addresses for the internal node cache RAMs.
 
       - name: DC0PERR
         bits: 3..1
@@ -458,9 +430,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Cluster#0 RAM[3:1] Parity Error Detected
-          See also DFA_DTCFADR register which contains the
-          failing addresses for the internal node cache RAMs."
+          Cluster 0 RAM[3:1] parity error detected. See also DFA_DTCFADR register, which contains
+          the failing addresses for the graph-cache RAMs.
 
       - name: DBLOVF
         bits: 0
@@ -481,7 +452,8 @@ registers:
 
 
   - name: DFA_DEBUG0
-    title: "DFA Scoreboard Debug #0 Register"
+    title: |
+      INTERNAL: HFA Scoreboard Debug 0 Register
     address: 0x1180037000040
     bus: RSL
     description: |
@@ -529,7 +501,8 @@ registers:
 
 
   - name: DFA_DEBUG1
-    title: "DFA Scoreboard Debug #1 Register"
+    title: |
+      INTERNAL: HFA Scoreboard Debug 1 Register
     address: 0x1180037000048
     bus: RSL
     description: |
@@ -558,7 +531,7 @@ registers:
 
 
   - name: DFA_DEBUG2
-    title: "DFA Scoreboard Debug #2 Register"
+    title: HFA Scoreboard Debug 2 Register
     address: 0x1180037000050
     bus: RSL
     description: |
@@ -579,15 +552,15 @@ registers:
         reset: --
         typical: --
         description: |
-          "DFA ScoreBoard #2 Data
-          [63:45] (19) UNUSED
-          [44:42]  (3) Instruction Type
-          [41:5]  (37) rwptr[39:3]: Result Write Pointer
-          [4:0]    (5) prwcnt[4:0]: Pending Result Write Counter"
+          HFA scoreboard 2 data.
+          <63:45> (19) UNUSED
+          <44:42> (3) Instruction type
+          <41:5> (37) rwptr<39:3>: Result write pointer
+          <4:0> (5) prwcnt<4:0>: Pending result write counter
 
 
   - name: DFA_DEBUG3
-    title: "DFA Scoreboard Debug #3 Register"
+    title: HFA Scoreboard Debug 3 Register
     address: 0x1180037000058
     bus: RSL
     description: |
@@ -608,14 +581,14 @@ registers:
         reset: --
         typical: --
         description: |
-          "DFA ScoreBoard #3 Data
-          [63:52] (11) rptr[39:29]: Result Base Pointer (QW-aligned)
-          [52:16] (37) glptr[39:3]: Gather List Pointer
-          [15:0]  (16) glcnt Gather List Counter"
+          HFA scoreboard 3 data.
+          <63:52> (11) rptr<39:29>: Result base pointer (QW-aligned)
+          <52:16> (37) glptr<39:3>: Gather list pointer
+          <15:0> (16) glcnt Gather list counter
 
 
   - name: DFA_DTCFADR
-    title: DFA DTC Failing Address Register
+    title: HFA DTC Failing Address Register
     address: 0x1180037000060
     bus: RSL
     description: |
@@ -632,74 +605,68 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM3FADR
         bits: 43..32
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: |
-          DFA RAM3 Failing Address
-          If DFA_ERR[DC0PERR<2>]=1, this field indicates the
-          failing RAM3 Address. The failing address is locked
-          down until the DC0PERR<2> W1C occurs.
-          NOTE: If multiple DC0PERR<0>=1 errors are detected,
-          then the lsb cluster error information is captured.
+          HFA RAM3 failing address. If DFA_ERR[DC0PERR<2>] = 1, this field indicates the failing
+          RAM3 address. The failing address is locked down until the DC0PERR<2> W1C occurs.
+          If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+          captured.
 
       - name: --
         bits: 31..25
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM2FADR
         bits: 24..16
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: |
-          DFA RAM2 Failing Address
-          If DFA_ERR[DC0PERR<1>]=1, this field indicates the
-          failing RAM2 Address. The failing address is locked
-          down until the DC0PERR<1> W1C occurs.
-          NOTE: If multiple DC0PERR<0>=1 errors are detected,
-          then the lsb cluster error information is captured.
+          HFA RAM2 failing address. If DFA_ERR[DC0PERR<1>] = 1, this field indicates the failing
+          RAM2 address. The failing address is locked down until the DC0PERR<1> W1C occurs.
+          If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+          captured.
 
       - name: --
         bits: 15..14
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM1FADR
         bits: 13..0
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: |
-          DFA RAM1 Failing Address
-          If DFA_ERR[DC0PERR<0>]=1, this field indicates the
-          failing RAM1 Address. The failing address is locked
-          down until the DC0PERR<0> W1C occurs.
-          NOTE: If multiple DC0PERR<0>=1 errors are detected,
-          then the lsb cluster error information is captured.
+          HFA RAM1 failing address. If DFA_ERR[DC0PERR<0>] = 1, this field indicates the failing
+          RAM1 address. The failing address is locked down until the DC0PERR<0> W1C occurs.
+          If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+          captured.
 
 
   - name: DFA_PFC_GCTL
-    title: DFA Performance Counter Global Control
+    title: |
+      INTERNAL: HFA Performance Counter Global Control Register
     address: 0x1180037000080
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..31
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: VGID
         bits: 30..23
@@ -707,14 +674,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Virtual Graph Id#
-          When PMODE=1(per-graph selector), this field is used
-          to select/monitor only those events which are
-          associated with this selected VGID(virtual graph ID).
-          This field is used globally across all four performance
-          counters.
-          IMPNOTE: I implemented a global VGID across all 4 performance
-          counters to save wires/area."
+          Virtual graph ID. When PMODE = 1 (per-graph selector), this field is used to
+          select/monitor only those events which are associated with this selected VGID (virtual
+          graph ID). This field is used globally across all four performance counters.
 
       - name: PMODE
         bits: 22
@@ -722,14 +684,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Select Mode
-          0: Events are selected on a per-cluster DTE# (CLNUM/CLDTE)
-          DFA_PFCx_CTL[CLNUM,CLDTE] specifies the cluster-DTE for
-          each 1(of 4) performance counters.
-          1: Events are selected on a per-graph basis (VGID=virtual Graph ID).
-          NOTE: Only EVSEL=[0...31] can be used in conjunction with PMODE=1.
-          DFA_PFC_GCTL[VGID] specifies the Virtual graph ID used across
-          all four performance counters."
+          Select mode.
+          0: Events are selected on a per-cluster HTE number (CLNUM/CLDTE).
+          DFA_PFCx_CTL[CLNUM,CLDTE] specifies the cluster-HTE for each 1 (of 4) performance
+          counters.
+          1: Events are selected on a per-graph basis (VGID = virtual graph ID).
+          Only EVSEL = [0...31] can be used in conjunction with
+          PMODE = 1. DFA_PFC_GCTL[VGID] specifies the virtual graph ID used across all four
+          performance counters.
 
       - name: EDNODE
         bits: 21..20
@@ -793,10 +755,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #3 Read Clear
-          If this bit is set, CSR reads to the DFA_PFC3_CNT
-          will clear the count value. This allows SW to maintain
-          'cumulative' counters to avoid HW wraparound."
+          Performance counter 3 read clear. If this bit is set, CSR read operations to DFA_PFC3_CNT
+          clear the count value. This allows software to maintain 'cumulative' counters to avoid
+          hardware wraparound.
 
       - name: CNT2RCLR
         bits: 10
@@ -804,10 +765,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #2 Read Clear
-          If this bit is set, CSR reads to the DFA_PFC2_CNT
-          will clear the count value. This allows SW to maintain
-          'cumulative' counters to avoid HW wraparound."
+          Performance counter 2 read clear. If this bit is set, CSR read operations to DFA_PFC2_CNT
+          clear the count value. This allows software to maintain 'cumulative' counters to avoid
+          hardware wraparound.
 
       - name: CNT1RCLR
         bits: 9
@@ -815,10 +775,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #1 Read Clear
-          If this bit is set, CSR reads to the DFA_PFC1_CNT
-          will clear the count value. This allows SW to maintain
-          'cumulative' counters to avoid HW wraparound."
+          Performance counter 1 read clear. If this bit is set, CSR read operations to DFA_PFC1_CNT
+          clear the count value. This allows software to maintain 'cumulative' counters to avoid
+          hardware wraparound.
 
       - name: CNT0RCLR
         bits: 8
@@ -826,10 +785,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #0 Read Clear
-          If this bit is set, CSR reads to the DFA_PFC0_CNT
-          will clear the count value. This allows SW to maintain
-          'cumulative' counters to avoid HW wraparound."
+          Performance counter 0 read clear. If this bit is set, CSR read operations to DFA_PFC0_CNT
+          clear the count value. This allows software to maintain 'cumulative' counters to avoid
+          hardware wraparound.
 
       - name: CNT3WCLR
         bits: 7
@@ -837,11 +795,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #3 Write Clear
-          If this bit is set, CSR writes to the DFA_PFC3_CNT
-          will clear the count value.
-          If this bit is clear, CSR writes to the DFA_PFC3_CNT
-          will continue the count from the written value."
+          Performance counter 3 write clear. If this bit is set, CSR write operations to
+          DFA_PFC3_CNT clear the count value. If this bit is clear, CSR write operations to
+          DFA_PFC3_CNT continue the count from the written value.
 
       - name: CNT2WCLR
         bits: 6
@@ -849,11 +805,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #2 Write Clear
-          If this bit is set, CSR writes to the DFA_PFC2_CNT
-          will clear the count value.
-          If this bit is clear, CSR writes to the DFA_PFC2_CNT
-          will continue the count from the written value."
+          Performance counter 2 write clear. If this bit is set, CSR write operations to
+          DFA_PFC2_CNT clear the count value. If this bit is clear, CSR write operations to
+          DFA_PFC2_CNT continue the count from the written value.
 
       - name: CNT1WCLR
         bits: 5
@@ -861,11 +815,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #1 Write Clear
-          If this bit is set, CSR writes to the DFA_PFC1_CNT
-          will clear the count value.
-          If this bit is clear, CSR writes to the DFA_PFC1_CNT
-          will continue the count from the written value."
+          Performance counter 1 write clear. If this bit is set, CSR write operations to
+          DFA_PFC1_CNT clear the count value. If this bit is clear, CSR write operations to
+          DFA_PFC1_CNT continue the count from the written value.
 
       - name: CNT0WCLR
         bits: 4
@@ -873,65 +825,51 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #0 Write Clear
-          If this bit is set, CSR writes to the DFA_PFC0_CNT
-          will clear the count value.
-          If this bit is clear, CSR writes to the DFA_PFC0_CNT
-          will continue the count from the written value."
+          Performance counter 0 write clear. If this bit is set, CSR write operations to
+          DFA_PFC0_CNT clear the count value. If this bit is clear, CSR write operations to
+          DFA_PFC0_CNT continue the count from the written value.
 
       - name: CNT3ENA
         bits: 3
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          "Performance Counter 3 Enable
-          When this bit is set, the performance counter #3
-          is enabled."
+        description: Performance counter 3 enable. When this bit is set, the performance counter 3 is enabled.
 
       - name: CNT2ENA
         bits: 2
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          "Performance Counter 2 Enable
-          When this bit is set, the performance counter #2
-          is enabled."
+        description: Performance counter 2 enable. When this bit is set, the performance counter 2 is enabled.
 
       - name: CNT1ENA
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          "Performance Counter 1 Enable
-          When this bit is set, the performance counter #1
-          is enabled."
+        description: Performance counter 1 enable. When this bit is set, the performance counter 1 is enabled.
 
       - name: CNT0ENA
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          "Performance Counter 0 Enable
-          When this bit is set, the performance counter #0
-          is enabled."
+        description: Performance counter 0 enable. When this bit is set, the performance counter 0 is enabled.
 
 
   - name: DFA_PFC0_CTL
-    title: "DFA Performance Counter#0 Control"
+    title: |
+      INTERNAL: HFA Performance Counter 0 Control Register
     address: 0x1180037000088
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
@@ -958,36 +896,34 @@ registers:
           14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
           15: #MPHIDX detected (occur for ->LMNODE transitions)
           16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK iterations STALLED - Packet data/Result Buffer
-          18: #GWALK iterations NON-STALLED
+          17: #GWALK iterations -  stalled--packet data/result buffer
+          18: #GWALK iterations - nonstalled
           19: #CLOAD iterations
-          20: #MLOAD iterations
-          [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
-          21: #RWORD1+ writes
-          22: #cycles Cluster is busy
-          23: #GWALK Instructions
-          24: #CLOAD Instructions
-          25: #MLOAD Instructions
-          [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
-          26: #GFREE Instructions
-          27-30: RESERVED
-          31: # Node Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE,EDNODE] registers
-          //=============================================================
-          // Events [32-63] are used ONLY FOR PMODE=0(per-cluster DTE mode):
-          32: #cycles a specific cluster-DTE remains active(valid state)
-          33: #cycles a specific cluster-DTE waits for Memory Response Data
-          34: #cycles a specific cluster-DTE waits in resource stall state
-          (waiting for packet data or result buffer space)
-          35: #cycles a specific cluster-DTE waits in resource pending state
-          36-63: RESERVED
-          //============================================================="
+          20: #MLOAD iterations [NOTE: If PMODE=1 (per-graph) the MLOAD IWORD0.VGID is used to
+          discern graph number].
+          21: #RWORD1+ write operations
+          22: #cycles cluster is busy
+          23: #GWALK instructions
+          24: #CLOAD instructions
+          25: #MLOAD instructions  [NOTE: If PMODE = 1 (per-graph) the MLOAD IWORD0.VGID is used to
+          discern graph number].
+          26: #GFREE instructions
+          27-30: Reserved
+          31: # node transitions detected (see DFA_PFC_GCTL[SNODE,ENODE, EDNODE] registers
+          Events [32-63] are used only for PMODE = 0 (per-cluster HTE mode).
+          32: #cycles a specific cluster-HTE remains active (valid state)
+          33: #cycles a specific cluster-HTE waits for memory response data
+          34: #cycles a specific cluster-HTE waits in resource stall state (waiting for packet data
+          or result buffer space)
+          35: #cycles a specific cluster-HTE waits in resource pending state
+          36-63: Reserved"
 
       - name: --
         bits: 7..6
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -995,10 +931,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#0 Cluster DTE Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster's DTE# for all events
-          associated with Performance Counter#0."
+          Performance counter 0 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
+          HTE), this field is used to select/monitor the cluster's HTE number for all events
+          associated with performance counter 0.
 
       - name: CLNUM
         bits: 1..0
@@ -1006,17 +941,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#0 Cluster Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster# for all events
-          associated with Performance Counter#0."
+          Performance counter 0 cluster selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster HTE),
+          this field is used to select/monitor the cluster number for all events associated with
+          performance counter 0.
 
 
   - name: DFA_PFC0_CNT
-    title: "DFA Performance Counter #0"
+    title: |
+      INTERNAL: HFA Performance Counter 0 Register
     address: 0x1180037000090
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT0
         bits: 63..0
@@ -1024,26 +958,23 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Performance Counter #0
-          When DFA_PFC_GCTL[CNT0ENA]=1, the event selected
-          by DFA_PFC0_CTL[EVSEL] is counted.
-          See also DFA_PFC_GCTL[CNT0WCLR] and DFA_PFC_GCTL
-          [CNT0RCLR] for special clear count cases available
-          for SW data collection."
+          Performance counter 0. When DFA_PFC_GCTL[CNT0ENA] = 1, the event selected by
+          DFA_PFC0_CTL[EVSEL] is counted. See also DFA_PFC_GCTL[CNT0WCLR] and DFA_PFC_GCTL[CNT0RCLR]
+          for special clear count cases available for software data collection.
 
 
   - name: DFA_PFC1_CTL
-    title: "DFA Performance Counter#1 Control"
+    title: |
+      INTERNAL: HFA Performance Counter 1 Control Register
     address: 0x1180037000098
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
@@ -1069,30 +1000,30 @@ registers:
           14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
           15: #MPHIDX detected (occur for ->LMNODE transitions)
           16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
+          17: #GWALK STALLs detected - packet data/result buffer
+          18: #GWALK HTE cycles (all HTE-GNT[3a])
+          19: #CLOAD HTE cycles
+          20: #MLOAD HTE cycles
+          21: #cycles waiting for memory response data
           22: #cycles waiting in resource stall state (waiting for packet data or result buffer
           space)
           23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+          24: #RWORD1+ write operations
+          25: #HTE-VLD cycles
+          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers.)
+          27: #GWALK instructions
+          28: #CLOAD instructions
+          29: #MLOAD instructions
+          30: #GFREE instructions (#GFREE HTE cycles)
+          31: Reserved
+          32: #HTE-busy cycles (all HTE-GNT strobes)"
 
       - name: --
         bits: 7..6
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1100,10 +1031,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#1 Cluster DTE Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster's DTE# for all events
-          associated with Performance Counter#1."
+          Performance counter 1 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
+          HTE), this field is used to select/monitor the cluster's DTE number for all events
+          associated with performance counter 1.
 
       - name: CLNUM
         bits: 1..0
@@ -1111,17 +1041,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#1 Cluster Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster# for all events
-          associated with Performance Counter#1."
+          Performance counter 1 cluster selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster HTE),
+          this field is used to select/monitor the cluster number for all events associated with
+          performance counter 1.
 
 
   - name: DFA_PFC1_CNT
-    title: "DFA Performance Counter #1"
+    title: |
+      INTERNAL: HFA Performance Counter 1 Register
     address: 0x11800370000A0
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT1
         bits: 63..0
@@ -1129,26 +1058,23 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Performance Counter #1
-          When DFA_PFC_GCTL[CNT1ENA]=1, the event selected
-          by DFA_PFC1_CTL[EVSEL] is counted.
-          See also DFA_PFC_GCTL[CNT1WCLR] and DFA_PFC_GCTL
-          [CNT1RCLR] for special clear count cases available
-          for SW data collection."
+          Performance counter 1. When DFA_PFC_GCTL[CNT1ENA] = 1, the event selected by
+          DFA_PFC1_CTL[EVSEL] is counted. See also DFA_PFC_GCTL[CNT1WCLR] and DFA_PFC_GCTL[CNT1RCLR]
+          for special clear count cases available for software data collection.
 
 
   - name: DFA_PFC2_CTL
-    title: "DFA Performance Counter#2 Control"
+    title: |
+      INTERNAL: HFA Performance Counter 2 Control Register
     address: 0x11800370000A8
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
@@ -1174,30 +1100,30 @@ registers:
           14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
           15: #MPHIDX detected (occur for ->LMNODE transitions)
           16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
+          17: #GWALK STALLs detected--packet data/result buffer
+          18: #GWALK HTE cycles (all HTE-GNT[3a])
+          19: #CLOAD HTE cycles
+          20: #MLOAD HTE cycles
+          21: #cycles waiting for memory response data
           22: #cycles waiting in resource stall state (waiting for packet data or result buffer
           space)
           23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+          24: #RWORD1+ write operations
+          25: #HTE-VLD cycles
+          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers
+          27: #GWALK instructions
+          28: #CLOAD instructions
+          29: #MLOAD instructions
+          30: #GFREE instructions (#GFREE HTE cycles)
+          31: Reserved
+          32: #HTE-busy cycles (all HTE-GNT strobes)"
 
       - name: --
         bits: 7..6
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1205,10 +1131,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#2 Cluster DTE Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster's DTE# for all events
-          associated with Performance Counter#2."
+          Performance counter 2 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
+          HTE), this field is used to select/monitor the cluster's HTE number for all events
+          associated with performance counter 2.
 
       - name: CLNUM
         bits: 1..0
@@ -1216,17 +1141,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#2 Cluster Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster# for all events
-          associated with Performance Counter#2."
+          Performance counter 2 cluster selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster HTE),
+          this field is used to select/monitor the cluster number for all events associated with
+          performance counter 2.
 
 
   - name: DFA_PFC2_CNT
-    title: "DFA Performance Counter #2"
+    title: |
+      INTERNAL: HFA Performance Counter 2 Register
     address: 0x11800370000B0
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT2
         bits: 63..0
@@ -1234,26 +1158,23 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Performance Counter #2
-          When DFA_PFC_GCTL[CNT2ENA]=1, the event selected
-          by DFA_PFC2_CTL[EVSEL] is counted.
-          See also DFA_PFC_GCTL[CNT2WCLR] and DFA_PFC_GCTL
-          [CNT2RCLR] for special clear count cases available
-          for SW data collection."
+          Performance counter 2. When DFA_PFC_GCTL[CNT2ENA] = 1, the event selected by
+          DFA_PFC2_CTL[EVSEL] is counted. See also DFA_PFC_GCTL[CNT2WCLR] and DFA_PFC_GCTL[CNT2RCLR]
+          for special clear count cases available for software data collection.
 
 
   - name: DFA_PFC3_CTL
-    title: "DFA Performance Counter#3 Control"
+    title: |
+      INTERNAL: HFA Performance Counter 3 Control Register
     address: 0x11800370000B8
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: --
         bits: 63..14
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
@@ -1279,30 +1200,30 @@ registers:
           14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
           15: #MPHIDX detected (occur for ->LMNODE transitions)
           16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
+          17: #GWALK STALLs detected--Packet data/Result Buffer
+          18: #GWALK HTE cycles (all HTE-GNT[3a])
+          19: #CLOAD HTE cycles
+          20: #MLOAD HTE cycles
+          21: #cycles waiting for memory response data
           22: #cycles waiting in resource stall state (waiting for packet data or result buffer
           space)
           23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+          24: #RWORD1+ write operations
+          25: #HTE-VLD cycles
+          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers.)
+          27: #GWALK instructions
+          28: #CLOAD instructions
+          29: #MLOAD instructions
+          30: #GFREE instructions (#GFREE HTE cycles)
+          31: Reserved
+          32: #HTE-busy cycles (all HTE-GNT strobes)"
 
       - name: --
         bits: 7..6
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1310,10 +1231,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#3 Cluster DTE Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster's DTE# for all events
-          associated with Performance Counter#3."
+          Performance counter 3 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
+          HTE), this field is used to select/monitor the cluster's HTE number for all events
+          associated with performance counter 3.
 
       - name: CLNUM
         bits: 1..0
@@ -1321,17 +1241,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#3 Cluster Selector
-          When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
-          is used to select/monitor the cluster# for all events
-          associated with Performance Counter#3."
+          Performance counter 3 cluster selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster HTE),
+          this field is used to select/monitor the cluster number for all events associated with
+          performance counter 3.
 
 
   - name: DFA_PFC3_CNT
-    title: "DFA Performance Counter #3"
+    title: |
+      INTERNAL: HFA Performance Counter 3 Register
     address: 0x11800370000C0
     bus: RSL
-    description: "*FOR INTERNAL USE ONLY*"
     fields:
       - name: PFCNT3
         bits: 63..0
@@ -1339,32 +1258,34 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Performance Counter #3
-          When DFA_PFC_GCTL[CNT3ENA]=1, the event selected
-          by DFA_PFC3_CTL[EVSEL] is counted.
-          See also DFA_PFC_GCTL[CNT3WCLR] and DFA_PFC_GCTL
-          [CNT3RCLR] for special clear count cases available
-          for SW data collection."
+          Performance counter 3. When DFA_PFC_GCTL[CNT3ENA] = 1, the event selected by
+          DFA_PFC3_CTL[EVSEL] is counted. See also DFA_PFC_GCTL[CNT3WCLR] and DFA_PFC_GCTL[CNT3RCLR]
+          for special clear count cases available for software data collection.
 
 
   - name: DFA_BIST0
-    title: DFA Bist Status (per-DTC)
+    title: HFA BIST Status (per-DTC) Register
     address: 0x11800370007F0
     bus: RSL
+    description: |
+      This register shows the result of the BIST run on the HFA (per-DTC).
+      1 = BIST error, 0 = BIST passed, is in progress, or never ran.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..32
         access: ---
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 31..30
         access: ---
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: MRP
         bits: 29..28
@@ -1381,10 +1302,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for GFB RAM(s) (per-cluster)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GFB RAMs (per cluster)
 
       - name: STX3
         bits: 23..22
@@ -1401,30 +1319,21 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for STX2 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for STX2 RAMs
 
       - name: STX1
         bits: 19..18
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for STX1 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for STX1 RAMs
 
       - name: STX
         bits: 17..16
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for STX0 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for STX0 RAMs
 
       - name: DTX3
         bits: 15..14
@@ -1441,63 +1350,53 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for DTX2 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for DTX2 RAMs
 
       - name: DTX1
         bits: 11..10
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for DTX1 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for DTX1 RAMs
 
       - name: DTX
         bits: 9..8
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for DTX0 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for DTX0 RAMs
 
       - name: RDF
         bits: 7..4
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for RWB RAM(s) (per-cluster)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for RWB RAMs (per cluster)
 
       - name: PDB
         bits: 3..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for PDB RAM(s) (per-cluster)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for PDB RAM(s) (per cluster)
 
 
   - name: DFA_BIST1
-    title: DFA Bist Status (Globals)
+    title: HFA Bist Status (Globals) Register
     address: 0x11800370007F8
     bus: RSL
+    description: |
+      This register shows the result of the BIST run on the HFA (globals).
+      1 = BIST error, 0 = BIST passed, is in progress, or never ran.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..24
         access: ---
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: DC3RAM3
         bits: 23
@@ -1534,202 +1433,145 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          DLC1 Bist Results
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: DLC1 BIST results
 
       - name: DLC0RAM
         bits: 19
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          DLC0 Bist Results
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: DLC0 BIST results
 
       - name: DC2RAM3
         bits: 18
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#2 Bist Results for RAM3 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 2 BIST results for RAM3 RAM
 
       - name: DC2RAM2
         bits: 17
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#2 Bist Results for RAM2 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 2 BIST results for RAM2 RAM
 
       - name: DC2RAM1
         bits: 16
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#2 Bist Results for RAM1 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 2 BIST results for RAM1 RAM
 
       - name: DC1RAM3
         bits: 15
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#1 Bist Results for RAM3 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 1 BIST results for RAM3 RAM
 
       - name: DC1RAM2
         bits: 14
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#1 Bist Results for RAM2 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 1 BIST results for RAM2 RAM
 
       - name: DC1RAM1
         bits: 13
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#1 Bist Results for RAM1 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 1 BIST results for RAM1 RAM
 
       - name: RAM3
         bits: 12
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#0 Bist Results for RAM3 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 0 BIST results for RAM3 RAM
 
       - name: RAM2
         bits: 11
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#0 Bist Results for RAM2 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 0 BIST results for RAM2 RAM
 
       - name: RAM1
         bits: 10
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#0 Bist Results for RAM1 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 0 BIST results for RAM1 RAM
 
       - name: CRQ
         bits: 9
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for CRQ RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for CRQ RAM
 
       - name: GUTV
         bits: 8
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for GUTV RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GUTV RAM
 
       - name: GUTP
         bits: 7..4
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for GUTP RAMs (per-cluster)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GUTP RAMs (per-cluster)
 
       - name: NCD
         bits: 3
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for NCD RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for NCD RAM
 
       - name: GIF
         bits: 2
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for GIF RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GIF RAM
 
       - name: GIB
         bits: 1
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for GIB RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GIB RAM
 
       - name: GFU
         bits: 0
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Bist Results for GFU RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for GFU RAM
 
 
   - name: DFA_DBELL
-    title: DFA Doorbell Register
+    title: HFA Doorbell Register
     address: 0x1370000000000
     bus: NCB
     description: |
-      NOTE: To write to the DFA_DBELL register, a device would issue an IOBST directed at the DFA
-      with addr[34:33]=2'b00.
-      To read the DFA_DBELL register, a device would issue an IOBLD64 directed at the DFA with
-      addr[34:33]=2'b00.
-      NOTE: If DFA_CONFIG[DTECLKDIS]=1 (DFA-DTE clocks disabled), reads/writes to the DFA_DBELL
-      register do not take effect.
-      NOTE: If FUSE[TBD]="DFA DTE disable" is blown, reads/writes to the DFA_DBELL register do not
-      take effect.
+      To write to DFA_DBELL, a device issues an IOBST request directed at the HFA with addr[34:33] =
+      0x0. To read the DFA_DBELL register, a device issues an IOBLD64 request directed at the HFA
+      with addr[34:33] = 0x0.
+      If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90]= 'HFA HTE
+      disable' is blown, read/write operations to DFA_DBELL do not take effect.
     fields:
       - name: --
         bits: 63..20
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DBELL
         bits: 19..0
@@ -1737,40 +1579,32 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Represents the cumulative total of pending
-          DFA instructions which SW has previously written
-          into the DFA Instruction FIFO (DIF) in main memory.
-          Each DFA instruction contains a fixed size 64B
-          instruction word which is executed by the DFA HW.
-          The DBL register can hold up to 1M-1 (2^20-1)
-          pending DFA instruction requests.
-          During a read (by SW), the 'most recent' contents
-          of the DFA_DBELL register are returned at the time
-          the NCB-INB bus is driven.
-          NOTE: Since DFA HW updates this register, its
-          contents are unpredictable in SW.
+          Represents the cumulative total of pending HFA instructions that software has previously
+          written into the HFA instruction FIFO (DIF) in main memory. Each HFA instruction contains
+          a fixed size 32B instruction word which is executed by the HFA hardware.
+          The DBL register can hold up to 1M-1 (220-1) pending HFA instruction requests. During a
+          read (by software), the 'most recent' contents of the DFA_DBELL register are returned at
+          the time the IOI-INB bus is driven.
+          Since HFA hardware updates this register, its contents are unpredictable in software.
 
 
   - name: DFA_DIFRDPTR
-    title: DFA Instruction FIFO (DIF) RDPTR Register
+    title: HFA Instruction FIFO (DIF) RDPTR Register
     address: 0x1370200000000
     bus: NCB
     description: |
-      NOTE: To write to the DFA_DIFRDPTR register, a device would issue an IOBST directed at the DFA
-      with addr[34:33]=2'b01.
-      To read the DFA_DIFRDPTR register, a device would issue an IOBLD64 directed at the DFA with
-      addr[34:33]=2'b01.
-      NOTE: If DFA_CONFIG[DTECLKDIS]=1 (DFA-DTE clocks disabled), reads/writes to the DFA_DIFRDPTR
-      register do not take effect.
-      NOTE: If FUSE[TBD]="DFA DTE disable" is blown, reads/writes to the DFA_DIFRDPTR register do
-      not take effect.
+      To write to the DFA_DIFRDPTR register, a device issues an IOBST request directed at the HFA
+      with addr[34:33] = 0x1. To read the DFA_DIFRDPTR register, a device issues an IOBLD64 request
+      directed at the HFA with addr[34:33] = 0x1.
+      If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] = 'HFA HTE
+      disable' is blown, read/write operations to the DFA_DIFRDPTR register do not take effect.
     fields:
       - name: --
         bits: 63..40
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RDPTR
         bits: 39..5
@@ -1778,52 +1612,45 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Represents the 64B-aligned address of the current
-          instruction in the DFA Instruction FIFO in main
-          memory. The RDPTR must be seeded by software at
-          boot time, and is then maintained thereafter
-          by DFA HW.
-          During the seed write (by SW), RDPTR[6:5]=0,
-          since DFA instruction chunks must be 128B aligned.
-          During a read (by SW), the 'most recent' contents
-          of the RDPTR register are returned at the time
-          the NCB-INB bus is driven.
-          NOTE: Since DFA HW updates this register, its
-          contents are unpredictable in SW (unless
-          its guaranteed that no new DoorBell register
-          writes have occurred and the DoorBell register is
-          read as zero).
+          Represents the 32-byte-aligned address of the current instruction in the HFA Instruction
+          FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
+          maintained thereafter by HFA hardware. During the seed write operation (by software),
+          RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
+          operation (by software), the most-recent contents of the RDPTR register are returned at
+          the time the IOI-INB bus is driven.
+          Since HFA hardware updates this register, its contents are unpredictable in software
+          (unless it is guaranteed that no new doorbell register write operations have occurred and
+          the doorbell register is read as zero).
 
       - name: --
         bits: 4..0
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
 
   - name: DFA_DIFCTL
-    title: DFA Instruction FIFO (DIF) Control Register
+    title: HFA Instruction FIFO (DIF) Control Register
     address: 0x1370600000000
     bus: NCB
     description: |
-      NOTE: To write to the DFA_DIFCTL register, a device would issue an IOBST directed at the DFA
-      with addr[34:32]=3'b110.
-      To read the DFA_DIFCTL register, a device would issue an IOBLD64 directed at the DFA with
-      addr[34:32]=3'b110.
-      NOTE: This register is intended to ONLY be written once (at power-up). Any future writes could
-      cause the DFA and FPA HW to become unpredictable.
-      NOTE: If DFA_CONFIG[DTECLKDIS]=1 (DFA-DTE clocks disabled), reads/writes to the DFA_DIFCTL
-      register do not take effect.
-      NOTE: If FUSE[TBD]="DFA DTE disable" is blown, reads/writes to the DFA_DIFCTL register do not
-      take effect.
+      To write to the DFA_DIFCTL register, a device issues an IOBST request directed at the HFA with
+      addr[34:32] = 0x6. To read the DFA_DIFCTL register, a device issues an IOBLD64 request
+      directed at the HFA with addr[34:32] = 0x6. This register is intended to only be written once
+      (at power-up). Any future write operations could cause the HFA and FPA hardware to become
+      unpredictable.
+      If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] =  'HFA HTE
+      disable' is blown, read/write operations to the DFA_DIFCTL register do not take effect.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..42
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: AURA
         bits: 41..26
@@ -1842,37 +1669,32 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Memory Segmentation Base Address
-          For debug purposes, backdoor accesses to the DFA
-          memory are supported via NCB-Direct CSR accesses to
-          the DFA Memory REGION(if addr[34:32]=5. However due
-          to the existing NCB address decoding scheme, the
-          address only offers a 4GB extent into the DFA memory
-          REGION. Therefore, the MSEGBASE CSR field provides
-          the additional upper memory address bits to allow access
-          to the full extent of memory (128GB MAX).
-          For DFA Memory REGION read NCB-Direct CSR accesses, the
-          38bit L2/DRAM memory byte address is generated as follows:
+          Memory segmentation base address. For debug purposes, back door accesses to the HFA memory
+          are supported via IOI-direct CSR accesses to the HFA memory region (if addr[34:32]=5).
+          However due to the existing IOI address decoding scheme, the address only offers a 4GB
+          extent into the HFA memory region. Therefore, the MSEGBASE CSR field provides the
+          additional upper memory address bits to allow access to the full extent of memory (128GB
+          MAX).
+          For HFA memory region read IOI-direct CSR accesses, the 38-bit L2/DRAM memory byte address
+          is generated as follows:
           memaddr[37:0] = {DFA_DIFCTL[MSEGBASE],ncb_addr[31:3],3'b0}
-          NOTE: See the upper 6bits of the memory address are sourced
-          from DFA_DIFCTL[MSEGBASE] CSR field. The lower 4GB address
-          offset is directly referenced using the NCB address bits during
-          the reference itself.
-          NOTE: The DFA_DIFCTL[MSEGBASE] is shared amongst all references.
-          As such, if multiple PPs are accessing different segments in memory,
-          their must be a SW mutual exclusive lock during each DFA Memory
-          REGION access to avoid collisions between PPs using the same MSEGBASE
-          CSR field.
-          NOTE: See also DFA_ERROR[DFANXM] programmable interrupt which is
-          flagged if SW tries to access non-existent memory space (address hole
-          or upper unused region of 38bit address space).
+          See the upper 6 bits of the memory address are sourced from DFA_DIFCTL[MSEGBASE] CSR
+          field. The lower 4GB address offset is directly referenced using the IOI address bits
+          during the reference itself.
+          The DFA_DIFCTL[MSEGBASE] is shared amongst all references. As such, if multiple cores are
+          accessing different segments in memory, there must be a software mutual exclusive lock
+          during each HFA memory region access to avoid collisions between cores using the same
+          MSEGBASE CSR field.
+          See also DFA_ERROR[DFANXM] programmable interrupt which is flagged if software tries to
+          access non-existent memory space (address hole or upper unused region of 38bit address
+          space).
 
       - name: --
         bits: 19..13
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: LDWB
         bits: 12
@@ -1892,7 +1714,7 @@ registers:
         access: ---
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: SIZE
         bits: 8..0
@@ -1900,20 +1722,15 @@ registers:
         reset: 0x3
         typical: --
         description: |
-          "Represents the # of 64B instructions contained
-          within each DFA instruction chunk. At Power-on,
-          SW will seed the SIZE register with a fixed
-          chunk-size. (Must be at least 3)
-          DFA HW uses this field to determine the size
-          of each DFA instruction chunk, in order to:
-          a) determine when to read the next DFA
-          instruction chunk pointer which is
-          written by SW at the end of the current
-          DFA instruction chunk (see DFA description
-          of next chunk buffer Ptr for format).
-          b) determine when a DFA instruction chunk
-          can be returned to the Free Page List
-          maintained by the FPA HW."
+          Represents the number of 32-byte instructions contained within each HFA instruction chunk.
+          At power-on, software seeds the SIZE register with a fixed chunk-size (must be at least
+          0x3). HFA hardware uses this field to determine the size of each HFA instruction chunk, in
+          order to:
+          a) determine when to read the next HFA instruction chunk pointer which is written by
+          software at the end of the current HFA instruction chunk (see HFA description of next
+          chunk buffer Ptr for format).
+          b) determine when a HFA instruction chunk can be returned to the free page list maintained
+          by the FPA hardware.
 
 
   - name: DFA_MEMHIDAT

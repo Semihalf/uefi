@@ -16,6 +16,8 @@ enums:
 
       - name: MIO_BOOT_DMA(0..1)_DONE
         value: 20'h0a040 + a*0x40
+        attributes:
+          exempt_natural_alignment: "a"
         description: See MIO_BOOT_DMA_INT0/1[DONE].
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
@@ -685,12 +687,7 @@ registers:
     title: MIO Boot Compensation Register
     address: 0x11800000000B8
     bus: RSL
-    description: |
-      This register sets the termination of boot-bus output pins.
-      Reset value is as follows:
-      no pullups,                               PCTL=6, NCTL=6 (50 ohm termination)
-      pullup on boot_ad[9]                      PCTL=7, NCTL=7 (40 ohm termination)
-      pullup on boot_ad[10].                    PCTL=4, NCTL=4 (75 ohm termination)
+    description: This register sets the termination of boot-bus output pins.
     fields:
       - name: --
         bits: 63..11
@@ -704,7 +701,12 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: Boot bus PCTL
+        description: |
+          Boot bus PCTL. This controls the pull-up drive strength of the boot-bus drivers. Reset
+          value is as follows:
+          0x6 = No pullups (50ohm termination)
+          0x7 = Pullup on BOOT_AD<9> (40ohm termination)
+          0x4 = Pullup on BOOT_AD<10> (75ohm termination)
 
       - name: --
         bits: 7..3
@@ -718,7 +720,12 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: Boot bus NCTL
+        description: |
+          Boot bus NCTL. This controls the pull-down drive strength of the boot-bus drivers. Reset
+          value is as follows:
+          0x6 = No pullups (50ohm termination)
+          0x7 = Pullup on BOOT_AD<9> (40ohm termination)
+          0x4 = Pullup on BOOT_AD<10> (75ohm termination)
 
 
   - name: MIO_BOOT_PIN_DEFS
@@ -861,6 +868,8 @@ registers:
     description: |
       The boot BIST status register contains the BIST status for the MIO boot memories: 0 = pass, 1
       = fail.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..7
@@ -948,7 +957,7 @@ registers:
           DMA engine 0-1 size. SIZE is specified in number of bus transfers, where one transfer is
           equal to the following number of bytes, dependent on MIO_BOOT_DMA_TIMn[WIDTH] and
           MIO_BOOT_DMA_TIMn[DDR]:
-          WIDTH DDR Transfer Size (bytes)
+          WIDTH DDR  Transfer Size (bytes)
           0 0 2
           0 1 4
           1 0 4

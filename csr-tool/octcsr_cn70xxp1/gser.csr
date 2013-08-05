@@ -1403,10 +1403,11 @@ registers:
         reset: 0
         typical: --
         description: |
-          The PIPE/PHY configuration for PEM1, used as status for determining which DLM PEM1 is tied
-          to.
+          The PIPE/PHY configuration for PEM1 when in 4-Pipe Mode.
+          Used as status for determining which DLM PEM1 is tied to.
+          This bit should not be set in Single Pipe or 2-Pipe Mode.
           0: PEM1 is tied to DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
-          1: PEM1 is tied to DLM2.  This is all other modes.
+          1: PEM1 is tied to DLM2.  This is 2x1 PCIe mode with SATA
 
       - name: PIPE_PORT_SEL
         bits: 1..0
@@ -1416,9 +1417,12 @@ registers:
         description: |
           PIPE enable request.  Change only when phy_reset is asserted.
           00: Disables all PIPEs
-          01: Enables PIPE0 only.  This is 1x4 PCIe mode.
-          10: Enables PIPEs 0 and 1. This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
-          11: Enables PIPEs 0, 1, 2, and 3. This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
+          01: Single Pipe Mode. Enables PIPE0 only.
+              This is 1x4 PCIe mode.
+          10: 2-Pipe Mode.  Enables PIPEs 0 and 1.
+              This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
+          11: 4-Pipe Mode. Enables PIPEs 0, 1, 2, and 3.
+              This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
 
 
   - name: GSER(0)_PCIE_PIPE_PORT_LOOPBK
@@ -1941,9 +1945,44 @@ registers:
         description: The PHY version high.
 
 
+  - name: GSER(0)_PHY(0..2)_LANE0_TXDEBUG
+    title: GSER PHY Lane N TX DEBUG Register
+    address: 0x1180090408080 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE0 TX DEBUG.
+    fields:
+      - name: --
+        bits: 63..12
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXDET_MEAS_TIME
+        bits: 11..4
+        access: R/W
+        reset: 0x10
+        typical: --
+        description: Time to wait for rxdet measurement.
+
+      - name: DETRX_ALWAYS
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Always signals 1 for rx_detect ignoring analog.
+
+      - name: DTB_SEL
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Selects data to drive on the DTB.
+
+
   - name: GSER(0)_PHY(0..2)_LANE0_TX_LBERT_CTL
     title: GSER PHY Lane 0 TX BERT Control Register
-    address: 0x1180090408028 + a + b*0x80000
+    address: 0x11800904080A8 + a + b*0x80000
     bus: RSL
     description: PHY LANE0 TX LBERT Control.
     fields:
@@ -1993,19 +2032,19 @@ registers:
 
   - name: GSER(0)_PHY(0..2)_LANE0_RX_LBERT_CTL
     title: GSER PHY Lane 0 RX LBERT Control Register
-    address: 0x1180090408030 + a + b*0x80000
+    address: 0x11800904080B0 + a + b*0x80000
     bus: RSL
     description: PHY LANE0 RX LBERT Control.
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..5
         access: ---
         reset: --
         typical: --
         description: Reserved.
 
       - name: SYNC
-        bits: 3
+        bits: 4
         access: R/W
         reset: 0
         typical: --
@@ -2014,125 +2053,6 @@ registers:
           to this bit resets the error counter and starts a synchronization of
           the PM.  Once this bit is set, there is no need to write the field back
           to a zero.
-
-      - name: MODE
-        bits: 2..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Pattern to match.  When changing modes, the field must be set to zero
-          first.  This field should match what was configured for the TX LBERT
-          Control register.
-          0: disabled
-          1: lfsr31     X^31 + X^28 + 1
-          2: lfsr23     X^23 + X^18 + 1
-          3: lfsr15     X^15 + X^14 + 1
-          4: lfsr7      X^7 + X^6 + 1
-          5: d[n] = d[n-10]
-          6: d[n] = !d[n-10]
-          7: d[n] = !d[n-20]
-
-
-  - name: GSER(0)_PHY(0..2)_LANE0_RX_LBERT_ERR
-    title: GSER PHY Lane 0 RX LBERT Error Register
-    address: 0x1180090408038 + a + b*0x80000
-    bus: RSL
-    description: |
-      PHY LANE0 RX LBERT Error.
-      A read of this register, or a SYNC from the RX LBERT Control register
-      resets the error count.  If all bits in this regisert are set, the
-      error counter has saturated.
-    fields:
-      - name: --
-        bits: 63..16
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: OV14
-        bits: 15
-        access: R/W
-        reset: 0
-        typical: --
-        description: If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
-
-      - name: COUNT
-        bits: 14..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Current error count if OV14 field is active, then multiply count
-          by 128 to get the actual count.
-
-
-  - name: GSER(0)_PHY(0..2)_LANE0_TXDEBUG
-    title: GSER PHY Lane N TX DEBUG Register
-    address: 0x1180090408080 + a + b*0x80000
-    bus: RSL
-    description: PHY LANE0 TX DEBUG.
-    fields:
-      - name: --
-        bits: 63..12
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RXDET_MEAS_TIME
-        bits: 11..4
-        access: R/W
-        reset: 0x10
-        typical: --
-        description: Time to wait for rxdet measurement.
-
-      - name: DETRX_ALWAYS
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: --
-        description: Always signals 1 for rx_detect ignoring analog.
-
-      - name: DTB_SEL
-        bits: 2..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: Selects data to drive on the DTB.
-
-
-  - name: GSER(0)_PHY(0..2)_LANE1_TX_LBERT_CTL
-    title: GSER PHY Lane 1 TX BERT Control Register
-    address: 0x1180090408828 + a + b*0x80000
-    bus: RSL
-    description: PHY LANE1 RX LBERT Control.
-    fields:
-      - name: --
-        bits: 63..15
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PAT0
-        bits: 14..5
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          10-bit pattern for modes that use this field.  Ignored for
-          other modes.
-
-      - name: TRIG_ERR
-        bits: 4
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Single shot inversion of the LSB of the current symbol.
-          Any write of 1 to this bit will insert an error.
 
       - name: MODE
         bits: 3..0
@@ -2140,49 +2060,6 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Pattern to generate.  When changing modes, the field must be set to zero
-          first.
-          0: disabled
-          1: lfsr31     X^31 + X^28 + 1
-          2: lfsr23     X^23 + X^18 + 1
-          3: lfsr15     X^15 + X^14 + 1
-          4: lfsr7      X^7 + X^6 + 1
-          5: Fixed word (PAT0)
-          6: DC-balanced word (PAT0, ~PAT0)
-          7: Word pattern (20-bit)
-          15-8: Reserved.
-
-
-  - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_CTL
-    title: GSER PHY Lane 1 RX LBERT Control Register
-    address: 0x1180090408830 + a + b*0x80000
-    bus: RSL
-    description: PHY LANE1 TX LBERT Control.
-    fields:
-      - name: --
-        bits: 63..4
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: SYNC
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          Synchronizes pattern matcher with incoming data.  A write of a 1
-          to this bit resets the error counter and starts a synchronization of
-          the PM.  Once this bit is set, there is no need to write the field back
-          to a zero.
-
-      - name: MODE
-        bits: 2..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
           Pattern to match.  When changing modes, the field must be set to zero
           first.  This field should match what was configured for the TX LBERT
           Control register.
@@ -2194,14 +2071,15 @@ registers:
           5: d[n] = d[n-10]
           6: d[n] = !d[n-10]
           7: d[n] = !d[n-20]
+          15-8: Reserved.
 
 
-  - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_ERR
+  - name: GSER(0)_PHY(0..2)_LANE0_RX_LBERT_ERR
     title: GSER PHY Lane 0 RX LBERT Error Register
-    address: 0x1180090408838 + a + b*0x80000
+    address: 0x11800904080B8 + a + b*0x80000
     bus: RSL
     description: |
-      PHY LANE1 RX LBERT Error.
+      PHY LANE0 RX LBERT Error.
       A read of this register, or a SYNC from the RX LBERT Control register
       resets the error count.  If all bits in this regisert are set, the
       error counter has saturated.
@@ -2263,6 +2141,133 @@ registers:
         reset: 0x0
         typical: --
         description: Selects data to drive on the DTB.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_TX_LBERT_CTL
+    title: GSER PHY Lane 1 TX BERT Control Register
+    address: 0x11800904088A8 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE1 RX LBERT Control.
+    fields:
+      - name: --
+        bits: 63..15
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PAT0
+        bits: 14..5
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          10-bit pattern for modes that use this field.  Ignored for
+          other modes.
+
+      - name: TRIG_ERR
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Single shot inversion of the LSB of the current symbol.
+          Any write of 1 to this bit will insert an error.
+
+      - name: MODE
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Pattern to generate.  When changing modes, the field must be set to zero
+          first.
+          0: disabled
+          1: lfsr31     X^31 + X^28 + 1
+          2: lfsr23     X^23 + X^18 + 1
+          3: lfsr15     X^15 + X^14 + 1
+          4: lfsr7      X^7 + X^6 + 1
+          5: Fixed word (PAT0)
+          6: DC-balanced word (PAT0, ~PAT0)
+          7: Word pattern (20-bit)
+          15-8: Reserved.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_CTL
+    title: GSER PHY Lane 1 RX LBERT Control Register
+    address: 0x11800904088B0 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE1 TX LBERT Control.
+    fields:
+      - name: --
+        bits: 63..4
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYNC
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Synchronizes pattern matcher with incoming data.  A write of a 1
+          to this bit resets the error counter and starts a synchronization of
+          the PM.  Once this bit is set, there is no need to write the field back
+          to a zero.
+
+      - name: MODE
+        bits: 2..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Pattern to match.  When changing modes, the field must be set to zero
+          first.  This field should match what was configured for the TX LBERT
+          Control register.
+          0: disabled
+          1: lfsr31     X^31 + X^28 + 1
+          2: lfsr23     X^23 + X^18 + 1
+          3: lfsr15     X^15 + X^14 + 1
+          4: lfsr7      X^7 + X^6 + 1
+          5: d[n] = d[n-10]
+          6: d[n] = !d[n-10]
+          7: d[n] = !d[n-20]
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_ERR
+    title: GSER PHY Lane 0 RX LBERT Error Register
+    address: 0x11800904088B8 + a + b*0x80000
+    bus: RSL
+    description: |
+      PHY LANE1 RX LBERT Error.
+      A read of this register, or a SYNC from the RX LBERT Control register
+      resets the error count.  If all bits in this regisert are set, the
+      error counter has saturated.
+    fields:
+      - name: --
+        bits: 63..16
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OV14
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: --
+        description: If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
+
+      - name: COUNT
+        bits: 14..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Current error count if OV14 field is active, then multiply count
+          by 128 to get the actual count.
 
 
 

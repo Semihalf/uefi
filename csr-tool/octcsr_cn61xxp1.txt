@@ -17810,16 +17810,16 @@ Pos      Name    Type     Value     Value       Description
  <63:22> NS       RAZ      NS          NS        RESERVED
  <21>    DELAY_UNLOAD_3 R/W  0x0       0x1       When set, unload the PHY silo one cycle later
                                                  during read-leveling if LMC*_RLEVEL_RANKi[BYTE*<1:0>] = 3
-                                                 DELAY_UNLOAD_3 should normally be set, particularly at higher speeds.
- <20>    DELAY_UNLOAD_2 R/W  0x0       0x0       When set, unload the PHY silo one cycle later
+                                                 DELAY_UNLOAD_3 should normally be set.
+ <20>    DELAY_UNLOAD_2 R/W  0x0       0x1       When set, unload the PHY silo one cycle later
                                                  during read-leveling if LMC*_RLEVEL_RANKi[BYTE*<1:0>] = 2
-                                                 DELAY_UNLOAD_2 should normally not be set.
- <19>    DELAY_UNLOAD_1 R/W  0x0       0x0       When set, unload the PHY silo one cycle later
+                                                 DELAY_UNLOAD_2 should normally be set.
+ <19>    DELAY_UNLOAD_1 R/W  0x0       0x1       When set, unload the PHY silo one cycle later
                                                  during read-leveling if LMC*_RLEVEL_RANKi[BYTE*<1:0>] = 1
-                                                 DELAY_UNLOAD_1 should normally not be set.
- <18>    DELAY_UNLOAD_0 R/W  0x0       0x0       When set, unload the PHY silo one cycle later
+                                                 DELAY_UNLOAD_1 should normally be set.
+ <18>    DELAY_UNLOAD_0 R/W  0x0       0x1       When set, unload the PHY silo one cycle later
                                                  during read-leveling if LMC*_RLEVEL_RANKi[BYTE*<1:0>] = 0
-                                                 DELAY_UNLOAD_0 should normally not be set.
+                                                 DELAY_UNLOAD_0 should normally be set.
  <17:10> BITMASK  R/W      0x0         0x0       Mask to select bit lanes on which read-leveling
                                                  feedback is returned when OR_DIS is set to 1
  <9>     OR_DIS   R/W      0x0         0x0       Disable or'ing of bits in a byte lane when computing

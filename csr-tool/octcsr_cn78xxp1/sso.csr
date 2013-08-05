@@ -1433,6 +1433,8 @@ registers:
     address: 0x1670000001200
     bus: NCB
     description: Contains the BIST status for the SSO memories.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..10
@@ -1465,6 +1467,8 @@ registers:
     address: 0x1670000001208
     bus: NCB
     description: Contains the BIST status for the SSO memories.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..7
@@ -1494,6 +1498,8 @@ registers:
     address: 0x1670000001210
     bus: NCB
     description: Contains the BIST status for the SSO memories.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..9
@@ -3026,7 +3032,7 @@ registers:
       - name: WGT_LEFT
         bits: 29..24
         access: RO/H
-        reset: 0x0
+        reset: 0x1
         typical: --
         description: Cross-group arbitration credits remaining on this group.
 
@@ -3497,6 +3503,8 @@ registers:
     description: |
       These registers select which group or groups a core belongs to. There are 2 sets of masks per
       core, each with 4 registers corresponding to 64 bit slices of the 256 groups.
+    attributes:
+      dv_fc_scratch: "a=(0);b=(0);c=(0)"
     fields:
       - name: GRP_MSK
         bits: 63..0
@@ -3528,7 +3536,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Send when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL to ORDERED or ATOMIC. If
+          Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL to ORDERED or ATOMIC. If
           the register read was issued after an indexed GET_WORK, the DESCHED portion of a
           SWTAG_DESCHED cannot still be pending.
 
@@ -3636,7 +3644,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Send when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL to ORDERED or ATOMIC. If
+          Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL to ORDERED or ATOMIC. If
           the status load was issued after an indexed GET_WORK, the DESCHED portion of a
           SWTAG_DESCHED cannot still be pending.
 

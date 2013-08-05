@@ -26,7 +26,9 @@ enums:
 
       - name: PEM(0..3)
         value: 0x01 + a
-        description: PCI IO bridge a
+        attributes:
+          exempt_natural_alignment: "a"
+        description: PCI IO bridge a.
 
 
   - name: CIU_INTSN_E
@@ -110,271 +112,271 @@ enums:
       - name: CIB
         value: 0x00
         attributes:
-          see enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
         description: Internal use only
 
       - name: CIU
         value: 0x01
         attributes:
-          see enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
         description: CIU
 
       - name: CIU_TIMER
         value: 0x02
         attributes:
-          see enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
         description: Timer interrupts
 
       - name: GPIO
         value: 0x03
         attributes:
-          see enumeration: "GPIO_INTSN_E on"
+          see_enumeration: "GPIO_INTSN_E on"
         description: GPIO interrupts
 
       - name: SW
         value: 0x04
         attributes:
-          see enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
         description: Software interrupts
 
       - name: MPI
         value: 0x05
         attributes:
-          see enumeration: "MPI_INTSN_E on"
+          see_enumeration: "MPI_INTSN_E on"
         description: MPI interrupts
 
       - name: RST
         value: 0x06
         attributes:
-          see enumeration: "RST_INTSN_E on"
+          see_enumeration: "RST_INTSN_E on"
         description: Reset interrupts
 
       - name: MIO_PTP
         value: 0x07
         attributes:
-          see enumeration: "MIO_PTP_INTSN_E on"
+          see_enumeration: "MIO_PTP_INTSN_E on"
         description: PTP interrupts
 
       - name: MIO_UART
         value: 0x08
         attributes:
-          see enumeration: "MIO_UART_INTSN_E on"
+          see_enumeration: "MIO_UART_INTSN_E on"
         description: UART interrupts
 
       - name: MIO_EMM
         value: 0x09
         attributes:
-          see enumeration: "MIO_EMM_INTSN_E on"
+          see_enumeration: "MIO_EMM_INTSN_E on"
         description: eMMC interrupts
 
       - name: MIO_BOOT
         value: 0x0A
         attributes:
-          see enumeration: "MIO_BOOT_INTSN_E on"
+          see_enumeration: "MIO_BOOT_INTSN_E on"
         description: Boot-Bus interrupts
 
       - name: MIO_TWS
         value: 0x0B
         attributes:
-          see enumeration: "TWS_INTSN_E on"
+          see_enumeration: "TWS_INTSN_E on"
         description: TWSI interrupts
 
       - name: LAP(0..1)
         value: 0x0C + a
         attributes:
-          see enumeration: "LAP_INTSN_E on"
+          see_enumeration: "LAP_INTSN_E on"
         description: LAP interrupts; see .
 
       - name: MIX
         value: 0x10
         attributes:
-          see enumeration: "MIX_INTSN_E on"
+          see_enumeration: "MIX_INTSN_E on"
         description: MIX interrupts
 
       - name: OCX
         value: 0x11
         attributes:
-          see enumeration: "OCX_INTSN_E on TBD"
+          see_enumeration: "OCX_INTSN_E on TBD"
         description: OCX interrupts; see TBD
 
       - name: LBK
         value: 0x12
         attributes:
-          see enumeration: "LBK_INTSN_E on"
+          see_enumeration: "LBK_INTSN_E on"
         description: Loopback interrupts; see .
 
       - name: ILK
         value: 0x14
         attributes:
-          see enumeration: "ILK_INTSN_E on"
+          see_enumeration: "ILK_INTSN_E on"
         description: Interlaken interrupts; see .
 
       - name: ILA
         value: 0x17
         attributes:
-          see enumeration: "ILA_INTSN_E on"
+          see_enumeration: "ILA_INTSN_E on"
         description: Interlaken-LA interrupts; see .
 
       - name: SLI_MSI
         value: 0x1E
         attributes:
-          see enumeration: "SLI_INTSN_E on"
+          see_enumeration: "SLI_INTSN_E on"
         description: SLI MSI interrupts; see .
 
       - name: SLI
         value: 0x1F
         attributes:
-          see enumeration: "SLI_INTSN_E on"
+          see_enumeration: "SLI_INTSN_E on"
         description: SLI interrupts; see .
 
       - name: KEY
         value: 0x20
         attributes:
-          see enumeration: "KEY_INTSN_E on"
+          see_enumeration: "KEY_INTSN_E on"
         description: KEY interrupts; see .
 
       - name: FPA
         value: 0x28
         attributes:
-          see enumeration: "FPA_INTSN_E on"
+          see_enumeration: "FPA_INTSN_E on"
         description: FPA interrupts; see .
 
       - name: FPA_AURA
         value: 0x29
         attributes:
-          see enumeration: "FPA_INTSN_E on"
+          see_enumeration: "FPA_INTSN_E on"
         description: FPA aura interrupts; see .
 
       - name: DFA
         value: 0x37
         attributes:
-          see enumeration: "DFA_INTSN_E on TBD"
+          see_enumeration: "DFA_INTSN_E on TBD"
         description: HFA interrupts; see .
 
       - name: ZIP
         value: 0x38
         attributes:
-          see enumeration: "ZIP_INTSN_E on"
+          see_enumeration: "ZIP_INTSN_E on"
         description: ZIP interface interrupts; see .
 
       - name: PKI
         value: 0x44
         attributes:
-          see enumeration: "PKI_INTSN_E on"
+          see_enumeration: "PKI_INTSN_E on"
         description: Packet input interrupts; see .
 
       - name: HNA
         value: 0x47
         attributes:
-          see enumeration: "HNA_INTSN_E on TBD"
+          see_enumeration: "HNA_INTSN_E on TBD"
         description: HNA interrupts; see TBD.
 
       - name: PKO
         value: 0x50
         attributes:
-          see enumeration: "PKO_INTSN_E on TBD"
+          see_enumeration: "PKO_INTSN_E on TBD"
         description: PKO interrupts; see .
 
       - name: PKO_Q
         value: 0x52
         attributes:
-          see enumeration: "PKO_INTSN_E on TBD"
+          see_enumeration: "PKO_INTSN_E on TBD"
         description: PKO queue interrupts; see .
 
       - name: TIM
         value: 0x58
         attributes:
-          see enumeration: "TIM_INTSN_E on"
+          see_enumeration: "TIM_INTSN_E on"
         description: Timer interrupts; see .
 
       - name: SSO_TGQ
         value: 0x60
         attributes:
-          see enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E on"
         description: SSO group interrupts; see .
 
       - name: SSO_EXE
         value: 0x61
         attributes:
-          see enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E on"
         description: SSO group interrupts; see .
 
       - name: SSO
         value: 0x67
         attributes:
-          see enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E on"
         description: SSO interrupts; see .
 
       - name: UCTL(0)
         value: 0x68 + a
         attributes:
-          see enumeration: "UCTL_INTSN_E on"
+          see_enumeration: "UCTL_INTSN_E on"
         description: USB controller interrupts; see .
 
       - name: RAD
         value: 0x70
         attributes:
-          see enumeration: "RAD_INTSN_E on"
+          see_enumeration: "RAD_INTSN_E on"
         description: RAID interrupts; see .
 
       - name: L2C
         value: 0x80
         attributes:
-          see enumeration: "L2C_INTSN_E on TBD"
+          see_enumeration: "L2C_INTSN_E on TBD"
         description: L2C interrupts; see .
 
       - name: LMC(0..3)
         value: 0x88 + a
         attributes:
-          see enumeration: "LMC_INTSN_E on"
+          see_enumeration: "LMC_INTSN_E on"
         description: LMC interrupts; see .
 
       - name: OCLA(0..5)
         value: 0xA8 + a
         attributes:
-          see enumeration: "OCLA_INTSN_E on"
+          see_enumeration: "OCLA_INTSN_E on"
         description: OCLA interrupts; see .
 
       - name: PEM(0..3)
         value: 0xC0 + a
         attributes:
-          see enumeration: "PEM_INTSN_E on"
+          see_enumeration: "PEM_INTSN_E on"
         description: PEM interrupts; see .
 
       - name: OSM
         value: 0xDC
         attributes:
-          see enumeration: "OSM_INTSN_E on TBD"
+          see_enumeration: "OSM_INTSN_E on TBD"
         description: OSM interrupts; see TBD.
 
       - name: ASE
         value: 0xDD
         attributes:
-          see enumeration: "ASE_INTSN_E on TBD"
+          see_enumeration: "ASE_INTSN_E on TBD"
         description: ASE interrupts; see TBD.
 
       - name: DPI
         value: 0xDF
         attributes:
-          see enumeration: "DPI_INTSN_E on"
+          see_enumeration: "DPI_INTSN_E on"
         description: (DPI interrupts; see .
 
       - name: BGX(0..5)
         value: 0xE0 + a
         attributes:
-          see enumeration: "BGX_INTSN_E on TBD"
+          see_enumeration: "BGX_INTSN_E on TBD"
         description: BGX interface interrupts; see .
 
       - name: IOBN
         value: 0xF0
         attributes:
-          see enumeration: "IOBN_INTSN_E on TBD"
+          see_enumeration: "IOBN_INTSN_E on TBD"
         description: IOBN interrupts; see .
 
       - name: IOBP
         value: 0xF1
         attributes:
-          see enumeration: "IOBP_INTSN_E on TBD"
+          see_enumeration: "IOBP_INTSN_E on TBD"
         description: IOBP interrupts; see .
 
 
@@ -653,6 +655,8 @@ registers:
     title: CIU BIST Register
     address: 0x10100000001C0
     bus: NCB
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..7
@@ -974,6 +978,8 @@ registers:
     title: CIU General Timer Registers
     address: 0x1010000010000 + a*0x8
     bus: NCB
+    attributes:
+      dv_fc_scratch: "a=(0)"
     fields:
       - name: --
         bits: 63..37

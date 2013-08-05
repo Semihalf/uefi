@@ -52,58 +52,86 @@ enums:
 
       - name: OCX_LNK(0..2)_REPLAY_SBE
         value: 0x11100 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[REPLAY_SBE].
 
       - name: OCX_LNK(0..2)_REPLAY_DBE
         value: 0x11101 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[REPLAY_DBE].
 
       - name: OCX_LNK(0..2)_TXFIFO_SBE
         value: 0x11102 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[TXFIFO_SBE].
 
       - name: OCX_LNK(0..2)_TXFIFO_DBE
         value: 0x11103 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[TXFIFO_DBE].
 
       - name: OCX_LNK(0..2)_RXFIFO_SBE
         value: 0x11104 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[RXFIFO_SBE].
 
       - name: OCX_LNK(0..2)_RXFIFO_DBE
         value: 0x11105 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[RXFIFO_DBE].
 
       - name: OCX_LNK(0..2)_LNK_DATA
         value: 0x11106 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[LNK_DATA].
 
       - name: OCX_LNK(0..2)_REINIT
         value: 0x11107 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[REINIT].
 
       - name: OCX_LNK(0..2)_BLK_ERR
         value: 0x11108 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[BLK_ERR].
 
       - name: OCX_LNK(0..2)_STOP
         value: 0x11109 + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[STOP].
 
       - name: OCX_LNK(0..2)_UP
         value: 0x1110A + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[UP].
 
       - name: OCX_LNK(0..2)_ALIGN_DONE
         value: 0x1110B + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[ALIGN_DONE].
 
       - name: OCX_LNK(0..2)_ALIGN_FAIL
         value: 0x1110C + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[ALIGN_FAIL].
 
       - name: OCX_LNK(0..2)_BAD_WORD
         value: 0x1110D + a*0x100
+        attributes:
+          exempt_natural_alignment: "a"
         description: See OCX_COM_LINK(0..2)_INT[BAD_WORD].
 
 
@@ -208,11 +236,21 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..9
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LOOPBACK
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Reserved. INTERNAL: Diagnostic data loopback.Set to force outgoing link to inbound port.
+          All data and link credits are returned and appear to come from link partner. Typically
+          SERDES should be disabled during this operation.
 
       - name: REINIT
         bits: 7
@@ -532,8 +570,8 @@ registers:
         reset: 1
         typical: --
         description: |
-          Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR or OCX_PP_CMD cannot be sent
-          because Node ID is invalid. Transaction has been dropped.
+          Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
+          cannot be sent because Node ID is invalid. Transaction has been dropped.
 
       - name: WIN_REQ_TOUT
         bits: 50
@@ -541,8 +579,8 @@ registers:
         reset: 1
         typical: --
         description: |
-          Window request was dropped because it could not be send during the period specified by
-          OCX_WIN_TIMER.
+          Window or core request was dropped because it could not be send during the period
+          specified by OCX_WIN_TIMER.
 
       - name: WIN_REQ_XMIT
         bits: 49
@@ -550,9 +588,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR or OCX_WIN_CMD has been
-          scheduled for transmission. If the command was not expecting a response, then a new
-          command may be issued.
+          Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
+          has been scheduled for transmission. If the command was not expecting a response, then a
+          new command may be issued.
 
       - name: WIN_RSP
         bits: 48
@@ -560,8 +598,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          A response to a previous SLI window request or core request has been received. A new
-          command may be issued.
+          A response to a previous window request or core request has been received. A new command
+          may be issued.
 
       - name: --
         bits: 47..24

@@ -467,6 +467,8 @@ registers:
     address: 0x11800C0000018 + a*0x1000000
     bus: RSL
     description: Contains the diffrent interrupt summary bits of the PEM.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..25
@@ -2817,6 +2819,8 @@ registers:
     description: |
       "PEM#_BIST_STATUS2 = PEM BIST Status Register
       Results from BIST runs of PEM's memories."
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..20

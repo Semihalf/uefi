@@ -228,7 +228,7 @@ registers:
       - name: T_MULT
         bits: 10..7
         access: R/W
-        reset: 0x9
+        reset: --
         typical: --
         description: |
           Boot time TIM_MULT[3:0] field of SET__TM_PAR[63:0]
@@ -237,14 +237,14 @@ registers:
       - name: ADR_CYC
         bits: 6..3
         access: R/W
-        reset: 0x8
+        reset: --
         typical: --
         description: "# of column address cycles"
 
       - name: SIZE
         bits: 2..0
         access: R/W
-        reset: 0x0
+        reset: --
         typical: --
         description: bytes per page in the nand device
 

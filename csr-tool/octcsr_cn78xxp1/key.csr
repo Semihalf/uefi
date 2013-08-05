@@ -53,6 +53,8 @@ registers:
     address: 0x1180020000010
     bus: RSL
     description: KEY control and status register.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..3
@@ -81,6 +83,8 @@ registers:
     address: 0x1180020000018
     bus: RSL
     description: The KEY BIST status for memory (0 = pass, 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..2

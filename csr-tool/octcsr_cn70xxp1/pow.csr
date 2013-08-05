@@ -950,15 +950,29 @@ registers:
         typical: 0
         description: POW CAM BIST status
 
+      - name: --
+        bits: 10
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: NBR
-        bits: 10..8
+        bits: 9..8
         access: RO
         reset: 0x0
         typical: 0x0
         description: NCB receiver memory BIST status
 
+      - name: --
+        bits: 7..6
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: NBT
-        bits: 7..4
+        bits: 5..4
         access: RO
         reset: 0x0
         typical: 0x0

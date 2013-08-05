@@ -213,10 +213,11 @@ structs:
           Error code, or zero if no error. Encoded with LAP_ERR_E.
           INTERNAL: Overlaps ILK CRC bits.
 
-      - name: --
+      - name: EQNE
         bits: 22
         description: |
-          Reserved INTERNAL: Overlaps ILK CRC bits.
+          Exception queue not empty. Asserted whenever LAP0/1_QUE(0..2)_STATE[LABS_RX] for queue 2
+          is non-zero. This indicates software may want to read the received exception entry.
 
       - name: TIMEOUT
         bits: 23
@@ -541,6 +542,8 @@ registers:
     description: |
       This register provides access to the internal BIST results. Each bit is the BIST result of an
       individual memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..9
@@ -853,11 +856,10 @@ registers:
         typical: 0x0
         description: |
           Number of LABs versus size of each LAB. This register may only be changed when [ENA]=0.
-          0x0 = 96 LABs, 16 words/LAB (1024 bits)
-          0x1 = 128 LABs, 12 words/LAB (768 bits)
-          0x2 = 192 LABs, 8 words/LAB (512 bits)
-          0x3 = 256 LABs, 6 words/LAB (384 bits)
-          0x4-0x7 Reserved
+          0x0 = 128 LABs, 16 words/LAB (1024 bits)
+          0x1 = 170 LABs, 12 words/LAB (768 bits)
+          0x2 = 256 LABs, 8 words/LAB (512 bits)
+          0x3-0x7 Reserved
 
 
   - name: LAP(0..1)_ERR_CFG
@@ -1404,6 +1406,7 @@ registers:
     description: Configures exception error masking; see Errors.
     attributes:
       arch_max: "x,16"
+      dv_fc_scratch: "a;b=(0)"
       uvm_default_constraint: "True"
     fields:
       - name: DATA

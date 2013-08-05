@@ -1752,51 +1752,6 @@ structs:
 
 
 registers:
-  - name: PKO_PQ(0..31)_TOPOLOGY
-    title: PKO PSE Port Queue Topology Register
-    address: 0x1540000000000 + a*0x200
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..21
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: LINK
-        bits: 20..16
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Link index. Index of the link (a.k.a. the MAC) associated with this port queue. Note that
-          while the hardware reset state has LINK = 0, the hardware is not properly configured for
-          LINK = 0 until an explicit register write occurs.
-
-      - name: --
-        bits: 15..14
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PEB_FIFO
-        bits: 13..9
-        access: R/W
-        reset: --
-        typical: --
-        description: |
-          PEB FIFO. The PEB transmit FIFO number. (fixme: A value of 0x1F means unassigned).
-
-      - name: --
-        bits: 8..0
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-
   - name: PKO_L1_SQ(0..31)_SHAPE
     title: PKO PSE Level 1 Shaping Control Register
     address: 0x1540000000010 + a*0x200
@@ -2115,7 +2070,7 @@ registers:
           bytes or packets as specified in PKO_DQ(0..1023)_WM_CONTROL[KIND].
 
 
-  - name: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+  - name: PKO_L1_SQ(0..31)_GREEN_PACKETS
     title: PKO PSE Port Queue Green Sent Packets Register
     address: 0x1540000000080 + a*0x200
     bus: NCB
@@ -2135,7 +2090,7 @@ registers:
         description: Count. The running count of packets. Note that this count wraps.
 
 
-  - name: PKO_PQ(0..31)_GREEN_SENT_BYTES
+  - name: PKO_L1_SQ(0..31)_GREEN_BYTES
     title: PKO PSE Port Queue Green Sent Bytes Register
     address: 0x1540000000088 + a*0x200
     bus: NCB
@@ -2155,65 +2110,65 @@ registers:
         description: Count. The running count of bytes. Note that this count wraps.
 
 
-  - name: PKO_PQ(0..31)_YELLOW_SENT_PACKETS
+  - name: PKO_L1_SQ(0..31)_YELLOW_PACKETS
     title: PKO PSE Port Queue Yellow Sent Packets Register
     address: 0x1540000000090 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
-  - name: PKO_PQ(0..31)_YELLOW_SENT_BYTES
+  - name: PKO_L1_SQ(0..31)_YELLOW_BYTES
     title: PKO PSE Port Queue Yellow Sent Bytes Register
     address: 0x1540000000098 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_BYTES
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
-  - name: PKO_PQ(0..31)_RED_SENT_PACKETS
+  - name: PKO_L1_SQ(0..31)_RED_PACKETS
     title: PKO PSE Port Queue Red Sent Packets Register
     address: 0x15400000000A0 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
-  - name: PKO_PQ(0..31)_RED_SENT_BYTES
+  - name: PKO_L1_SQ(0..31)_RED_BYTES
     title: PKO PSE Port Queue Red Sent Bytes Register
     address: 0x15400000000A8 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_BYTES
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
-  - name: PKO_PQ(0..31)_DROPPED_PACKETS
+  - name: PKO_L1_SQ(0..31)_DROPPED_PACKETS
     title: PKO PSE Port Queue Dropped Packets Register
     address: 0x15400000000B0 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
-  - name: PKO_PQ(0..31)_DROPPED_BYTES
+  - name: PKO_L1_SQ(0..31)_DROPPED_BYTES
     title: PKO PSE Port Queue Dropped Bytes Register
     address: 0x15400000000B8 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_BYTES
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
-  - name: PKO_DQ(0..1023)_SENT_PACKETS
+  - name: PKO_DQ(0..1023)_PACKETS
     title: PKO PSE Descriptor Queue Sent Packets Register
     address: 0x15400000000C0 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
-  - name: PKO_DQ(0..1023)_SENT_BYTES
+  - name: PKO_DQ(0..1023)_BYTES
     title: PKO PSE Descriptor Queue Sent Bytes Register
     address: 0x15400000000C8 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_BYTES
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_DQ(0..1023)_DROPPED_PACKETS
     title: PKO PSE Descriptor Queue Dropped Packets Register
     address: 0x15400000000D0 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_PACKETS
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_DQ(0..1023)_DROPPED_BYTES
     title: PKO PSE Descriptor Queue Dropped Bytes Register
     address: 0x15400000000D8 + a*0x200
     bus: NCB
-    inherits: PKO_PQ(0..31)_GREEN_SENT_BYTES
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_L1_SQ(0..31)_SW_XOFF
     title: PKO PSE Level 1 Shaping Queue Software Controlled XOFF Register
@@ -2221,11 +2176,39 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..4
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DRAIN_IRQ
+        bits: 3
+        access: WO
+        reset: 0
+        typical: 0
+        description: DRAIN_IRQ. Enables an interrupt that will fire when the drain operation has completed.
+
+      - name: DRAIN_NULL_LINK
+        bits: 2
+        access: WO
+        reset: 0
+        typical: 0
+        description: |
+          "DRAIN_NULL_LINK. Conditions the drain path to drain through the null link (i.e. link #
+          28).
+          As such, channel credits, HW_XOFF and shaping will be disabled on the draining path until
+          the path has drained."
+
+      - name: DRAIN
+        bits: 1
+        access: WO
+        reset: 0
+        typical: 0
+        description: |
+          DRAIN. This control activates a drain path through the PSE that starts at this node and
+          ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
+          be used in combination with DRAIN_NULL_LINK and DRAIN_IRQ describe above.
 
       - name: XOFF
         bits: 0
@@ -2597,7 +2580,7 @@ registers:
       - name: LINK
         bits: 20..16
         access: R/W
-        reset: 0x0
+        reset: 0x1c
         typical: 0x0
         description: Link index. Index of the link associated with this port queue.
 
@@ -7362,6 +7345,8 @@ registers:
     title: PKO PDM Memory Data Word 0 Register
     address: 0x1540000800010
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: DATA
         bits: 63..0
@@ -7460,6 +7445,366 @@ registers:
         reset: 0
         typical: --
         description: This will be set to 1 when the read is complete and the data is valid in the data register.
+
+
+  - name: PKO_PDM_ISRD_DBG
+    title: PKO PDM ISRD INTERNAL DEBUG REGISTER
+    address: 0x1540000800090
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..44
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IN_ARB_REQS
+        bits: 43..36
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Input arbitration request signals. The order of the bits is:
+            43: Fill Response - normal path request
+            42: Fill Response - flushb path request
+            41: CP queue-open request
+            40: CP queue-closed request
+            39: CP queue-query request
+            38: CP send-packet request
+            37: PEB fill request
+            36: PEB read request
+
+      - name: IN_ARB_GNTS
+        bits: 35..29
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Input arbitration grant signals. The order of the bits is:
+            35: Fill Response grant
+            34: CP - queue-open grant
+            33: CP - queue-close grant
+            32: CP - queue-query grant
+            31: CP - send-packet grant
+            30: PEB Fill grant
+            29: PEB Read grant
+
+      - name: CMT_ARB_REQS
+        bits: 28..22
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Commit arbitration request signals. The order of the bits is:
+            28: Fill Response grant
+            27: CP - queue-open grant
+            26: CP - queue-close grant
+            25: CP - queue-query grant
+            24: CP - send-packet grant
+            23: PEB Fill grant
+            22: PEB Read grant
+
+      - name: CMT_ARB_GNTS
+        bits: 21..15
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Commit arbitration grant signals. The order of the bits is:
+            21: Fill Response grant
+            20: CP - queue-open grant
+            19: CP - queue-close grant
+            18: CP - queue-query grant
+            17: CP - send-packet grant
+            16: PEB Fill grant
+            15: PEB Read grant
+
+      - name: IN_USE
+        bits: 14..11
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          In use signals indicate the execution units are in use. The order of the bits is:
+            14: PEB fill unit
+            13: PEB read unit
+            12: CP unit
+            11: Fill Response unit
+
+      - name: HAS_CRED
+        bits: 10..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Has credit signals indicate there is sufficient credit to commit. The order of the bits
+          is:
+            10: Flush Buffer has credit
+            9: Fill Buffer has credit
+            8: DW command output fifo has credit
+            7: DR command output fifo has credit
+
+      - name: VAL_EXEC
+        bits: 6..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Valid bits for the execution units; means the unit can commit if it gets the grant of the
+          commit arb and other conditions are met.
+          The order of the bits is :
+            6: fill response unit
+            5: CP unit - queue-open
+            4: CP unit - queue-close
+            3: CP unit - queue-probe
+            2: CP unit - send-packet
+            1: PEB Fill unit
+            0: PEB Read unit
+
+
+  - name: PKO_PDM_ISRM_DBG
+    title: PKO PDM ISRM INTERNAL DEBUG REGISTER
+    address: 0x1540000800098
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..34
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IN_ARB_REQS
+        bits: 33..27
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Input arbitration request signals. The order of the bits is:
+            33: PSE ack
+            32: Fill Response - normal path request
+            31: Fill Response - flushb path request
+            30: CP queue-open
+            29: CP queue-closed
+            28: CP queue-query
+            27: CP send-packet
+
+      - name: IN_ARB_GNTS
+        bits: 26..21
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Input arbitration grant signals. The order of the bits is:
+            26: PSE ack
+            25: Fill Response
+            24: CP - queue-open
+            23: CP - queue-close
+            22: CP - queue-query
+            21: CP - send-packet
+
+      - name: CMT_ARB_REQS
+        bits: 20..15
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Commit arbitration request signals. The order of the bits is:
+            20: PSE ack
+            19: Fill Response
+            18: CP - queue-open
+            17: CP - queue-close
+            16: CP - queue-query
+            15: CP - send-packet
+
+      - name: CMT_ARB_GNTS
+        bits: 14..9
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Commit arbitration grant signals. The order of the bits is:
+            14: PSE ack
+            13: Fill Response
+            12: CP - queue-open
+            11: CP - queue-close
+            10: CP - queue-query
+            9: CP - send-packet
+
+      - name: IN_USE
+        bits: 8..6
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          In use signals indicate the execution units are in use. The order of the bits is:
+            8: (PSE) ack unit
+            7: Fill Response unit
+            6: CP unit
+
+      - name: HAS_CRED
+        bits: 5..3
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Has credit signals indicate there is sufficient credit to commit. The order of the bits
+          is:
+            5: Flush Buffer has credit
+            4: Fill Buffer has credit
+            3: MWP command output fifo has credit
+
+      - name: VAL_EXEC
+        bits: 2..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Valid bits for the execution units; means the unit can commit if it gets the grant of the
+          commit arb and other conditions are met.
+          The order of the bits is :
+            2: (PSE) ack unit
+            1: Fill response unit
+            0: CP unit - ALL
+
+
+  - name: PKO_PDM_MWPBUF_DBG
+    title: PKO PDM MWPBUF INTERNAL DEBUG REGISTER
+    address: 0x15400008000A0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CUR_STATE
+        bits: 18..16
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is current state from the pbuf controller.
+
+      - name: TRACK_RD_CNT
+        bits: 15..10
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track read count value.
+
+      - name: TRACK_WR_CNT
+        bits: 9..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track write count value.
+
+      - name: MEM_EN
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          These are the memory write/chip enable signals. The order of the bits is:
+            3: low wen
+            2: low cen
+            1: high wen
+            0: high cen
+
+
+  - name: PKO_PDM_DWPBUF_DBG
+    title: PKO PDM DWPBUF INTERNAL DEBUG REGISTER
+    address: 0x15400008000A8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CUR_STATE
+        bits: 18..16
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is current state from the pbuf controller.
+
+      - name: TRACK_RD_CNT
+        bits: 15..10
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track read count value.
+
+      - name: TRACK_WR_CNT
+        bits: 9..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track write count value.
+
+      - name: MEM_EN
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          These are the memory write/chip enable signals. The order of the bits is:
+            3: low wen
+            2: low cen
+            1: high wen
+            0: high cen
+
+
+  - name: PKO_PDM_DRPBUF_DBG
+    title: PKO PDM DRPBUF INTERNAL DEBUG REGISTER
+    address: 0x15400008000B0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..19
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CUR_STATE
+        bits: 18..16
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is current state from the pbuf controller.
+
+      - name: TRACK_RD_CNT
+        bits: 15..10
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track read count value.
+
+      - name: TRACK_WR_CNT
+        bits: 9..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: This is the track write count value.
+
+      - name: MEM_EN
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          These are the memory write/chip enable signals. The order of the bits is:
+            3: low wen
+            2: low cen
+            1: high wen
+            0: high cen
 
 
   - name: PKO_PDM_SENDPKT_LMTXX_ERR
@@ -8231,11 +8576,20 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..5
+        bits: 63..11
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: IN_FLIGHT_CNT
+        bits: 10..5
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          This field returns the number of packets currently in-flight within PEB.  Useful both
+          for reconfiguration (able to disable a FIFO when it is empty) and debugging
 
       - name: MAC_NUM
         bits: 4..0
@@ -8825,6 +9179,399 @@ registers:
         reset: 0x0
         typical: 0x0
         description: MAC number associated with the captured PEB_MACX_CFG_WR_ERR
+
+
+  - name: PKO_PEB_BIST_STATUS
+    title: PEB BIST status information register
+    address: 0x1540000900D00
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADD_WORK_FIFO
+        bits: 25
+        access: RO/H
+        reset: --
+        typical: --
+        description: ADD_WORK_FIFO RAM BIST status.
+
+      - name: PDM_PSE_BUF_RAM
+        bits: 24
+        access: RO/H
+        reset: --
+        typical: --
+        description: PDM_PSE_BUF RAM BIST status.
+
+      - name: IOBP0_FIFO_RAM
+        bits: 23
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP0_FIFO RAM BIST status.
+
+      - name: IOBP1_FIFO_RAM
+        bits: 22
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP1_FIFO RAM BIST status.
+
+      - name: STATE_MEM0
+        bits: 21
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM0 RAM BIST status.
+
+      - name: STATE_MEM1
+        bits: 20
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM1 RAM BIST status.
+
+      - name: STATE_MEM2
+        bits: 19
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM2 RAM BIST status.
+
+      - name: STATE_MEM3
+        bits: 18
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM3 RAM BIST status.
+
+      - name: IOBP1_UID_FIFO_RAM
+        bits: 17
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP1_UID_FIFO RAM BIST status.
+
+      - name: NXT_LINK_PTR_RAM
+        bits: 16
+        access: RO/H
+        reset: --
+        typical: --
+        description: NXT_LINK_PTR RAM BIST status.
+
+      - name: PD_BANK0_RAM
+        bits: 15
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK0 RAM BIST status.
+
+      - name: PD_BANK1_RAM
+        bits: 14
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK1 RAM BIST status.
+
+      - name: PD_BANK2_RAM
+        bits: 13
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK2 RAM BIST status.
+
+      - name: PD_BANK3_RAM
+        bits: 12
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK3 RAM BIST status.
+
+      - name: PD_VAR_BANK_RAM
+        bits: 11
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_VAR_BANK RAM BIST status.
+
+      - name: PDM_RESP_BUF_RAM
+        bits: 10
+        access: RO/H
+        reset: --
+        typical: --
+        description: PDM_RESP_BUF RAM BIST status.
+
+      - name: TX_FIFO_PKT_RAM
+        bits: 9
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_PKT RAM BIST status.
+
+      - name: TX_FIFO_HDR_RAM
+        bits: 8
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_HDR RAM BIST status.
+
+      - name: TX_FIFO_CRC_RAM
+        bits: 7
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_CRC RAM BIST status.
+
+      - name: TS_ADDWORK_RAM
+        bits: 6
+        access: RO/H
+        reset: --
+        typical: --
+        description: TS_ADDWORK RAM BIST status.
+
+      - name: SEND_MEM_TS_FIFO
+        bits: 5
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_TS_FIFO RAM BIST status.
+
+      - name: SEND_MEM_STDN_FIFO
+        bits: 4
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_STDN_FIFO RAM BIST status.
+
+      - name: SEND_MEM_FIFO
+        bits: 3
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_FIFO RAM BIST status.
+
+      - name: PKT_MRK_RAM
+        bits: 2
+        access: RO/H
+        reset: --
+        typical: --
+        description: PKT_MRK RAM BIST status.
+
+      - name: PEB_ST_INF_RAM
+        bits: 1
+        access: RO/H
+        reset: --
+        typical: --
+        description: PEB_ST_INF RAM BIST status.
+
+      - name: PEM_SM_JMP_RAM
+        bits: 0
+        access: RO/H
+        reset: --
+        typical: --
+        description: PEM_SM_JMP RAM BIST status. 0 = BIST passed; 1 = BIST failed.
+
+
+  - name: PKO_PEB_BIST_DONE
+    title: PEB BIST done information register
+    address: 0x1540000900D08
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..26
+        access: ---
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADD_WORK_FIFO
+        bits: 25
+        access: RO/H
+        reset: --
+        typical: --
+        description: ADD_WORK_FIFO RAM BIST done.
+
+      - name: PDM_PSE_BUF_RAM
+        bits: 24
+        access: RO/H
+        reset: --
+        typical: --
+        description: PDM_PSE_BUF RAM BIST done.
+
+      - name: IOBP0_FIFO_RAM
+        bits: 23
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP0_FIFO RAM BIST done.
+
+      - name: IOBP1_FIFO_RAM
+        bits: 22
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP1_FIFO RAM BIST done.
+
+      - name: STATE_MEM0
+        bits: 21
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM0 RAM BIST done.
+
+      - name: STATE_MEM1
+        bits: 20
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM1 RAM BIST done.
+
+      - name: STATE_MEM2
+        bits: 19
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM2 RAM BIST done.
+
+      - name: STATE_MEM3
+        bits: 18
+        access: RO/H
+        reset: --
+        typical: --
+        description: STATE_MEM3 RAM BIST done.
+
+      - name: IOBP1_UID_FIFO_RAM
+        bits: 17
+        access: RO/H
+        reset: --
+        typical: --
+        description: IOBP1_UID_FIFO RAM BIST done.
+
+      - name: NXT_LINK_PTR_RAM
+        bits: 16
+        access: RO/H
+        reset: --
+        typical: --
+        description: NXT_LINK_PTR RAM BIST done.
+
+      - name: PD_BANK0_RAM
+        bits: 15
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK0 RAM BIST done.
+
+      - name: PD_BANK1_RAM
+        bits: 14
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK1 RAM BIST done.
+
+      - name: PD_BANK2_RAM
+        bits: 13
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK2 RAM BIST done.
+
+      - name: PD_BANK3_RAM
+        bits: 12
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_BANK3 RAM BIST done.
+
+      - name: PD_VAR_BANK_RAM
+        bits: 11
+        access: RO/H
+        reset: --
+        typical: --
+        description: PD_VAR_BANK RAM BIST done.
+
+      - name: PDM_RESP_BUF_RAM
+        bits: 10
+        access: RO/H
+        reset: --
+        typical: --
+        description: PDM_RESP_BUF RAM BIST done.
+
+      - name: TX_FIFO_PKT_RAM
+        bits: 9
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_PKT RAM BIST done.
+
+      - name: TX_FIFO_HDR_RAM
+        bits: 8
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_HDR RAM BIST done.
+
+      - name: TX_FIFO_CRC_RAM
+        bits: 7
+        access: RO/H
+        reset: --
+        typical: --
+        description: TX_FIFO_CRC RAM BIST done.
+
+      - name: TS_ADDWORK_RAM
+        bits: 6
+        access: RO/H
+        reset: --
+        typical: --
+        description: TS_ADDWORK RAM BIST done.
+
+      - name: SEND_MEM_TS_FIFO
+        bits: 5
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_TS_FIFO RAM BIST done.
+
+      - name: SEND_MEM_STDN_FIFO
+        bits: 4
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_STDN_FIFO RAM BIST done.
+
+      - name: SEND_MEM_FIFO
+        bits: 3
+        access: RO/H
+        reset: --
+        typical: --
+        description: SEND_MEM_FIFO RAM BIST done.
+
+      - name: PKT_MRK_RAM
+        bits: 2
+        access: RO/H
+        reset: --
+        typical: --
+        description: PKT_MRK RAM BIST done.
+
+      - name: PEB_ST_INF_RAM
+        bits: 1
+        access: RO/H
+        reset: --
+        typical: --
+        description: PEB_ST_INF RAM BIST done.
+
+      - name: PEM_SM_JMP_RAM
+        bits: 0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          PEM_SM_JMP RAM BIST done.
+          1 = BIST complete.
+          0 = BIST in progress.
 
 
   - name: PKO_PEB_ECC_CTL1
@@ -9676,6 +10423,8 @@ registers:
     title: PKO LUT BIST Status Register
     address: 0x1540000B02018
     bus: NCB
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..2
@@ -9824,8 +10573,17 @@ registers:
     address: 0x1540000C00000
     bus: NCB
     fields:
+      - name: PTR_CNT
+        bits: 63..32
+        access: ---
+        reset: --
+        typical: --
+        description: |
+          The number of pointers currently in use for storing descriptors
+          and meta-packets plus those available in the DPFI pointer cache.
+
       - name: --
-        bits: 63..13
+        bits: 31..13
         access: ---
         reset: --
         typical: --
@@ -9945,7 +10703,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          1 = Cache flush has completed.
+          1 = Cache flush has completed. PKO_DPFI_STATUS[PTR_CNT] will read zero if all
+              outstanding pointers have been returned to the FPA.
           0 = Cache flush not enabled or in-progress.
 
 
@@ -9971,7 +10730,7 @@ registers:
           valid pointers from the pointer cache and return them to the FPA. The flush operation is
           complete when the CACHE_FLUSHED flag in the PKO_DFPI_STATUS register is set. Clearing the
           FLUSH_EN flag results in the DPFI reloading its pointer cache. This flush mechanism should
-          only be enabled when the PKO is quiescent and is intended as test/debug feature.
+          only be enabled when the PKO is quiescent and all DQs have been closed.
 
 
   - name: PKO_DPFI_FPA_AURA

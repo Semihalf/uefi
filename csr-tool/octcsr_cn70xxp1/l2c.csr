@@ -39,66 +39,68 @@ attributes:
 enums:
   - name: IOC_CMD_E
     attributes:
+      parent_block_override: "L2C"
       width: "4"
     description: Enumerates the different IOC command encodings.
     values:
       - name: IDLE
-        value: 4'b0000
-        description: Idle cyle.
+        value: 0x0
+        description: Idle cycle.
 
       - name: STORE
-        value: 4'b0001
+        value: 0x1
         description: Store of size 1-8 bytes.
 
       - name: LOAD
-        value: 4'b0010
+        value: 0x2
         description: Load of size 1-8 bytes.
 
       - name: LMTST
-        value: 4'b0011
+        value: 0x3
         description: Store of size 1-16 quadwords.
 
       - name: IOBDMA
-        value: 4'b0100
+        value: 0x4
         description: Load of size 1-16 quadwords.
 
       - name: LMTDMA
-        value: 4'b0101
-        description: Store of size 1-16 quadwords followed by Load of size 1-16 quadwords (atomic).
+        value: 0x5
+        description: Store of size 1-16 quadwords, followed by load of size 1-16 quadwords (atomic).
 
       - name: ADDR
-        value: 4'b0110
+        value: 0x6
         description: Send address only (i.e. store of size 0 quadwords).
 
       - name: SLIST
-        value: 4'b0111
+        value: 0x7
         description: Store of size 1-8 bytes, initiated by remote SLI.
 
       - name: SLILD
-        value: 4'b1000
+        value: 0x8
         description: Load of size 1-8 bytes, initiated by remote SLI.
 
 
   - name: IOR_CMD_E
     attributes:
+      parent_block_override: "L2C"
       width: "2"
     description: Enumerates the different IOR command encodings.
     values:
       - name: IDLE
-        value: 2'b00
-        description: Idle cyle.
+        value: 0x0
+        description: Idle cycle.
 
       - name: DATA
-        value: 2'b01
-        description: Response Data return for IOC_LOAD, IOC_IOBDMA, IOC_LMTDMA.
+        value: 0x1
+        description: Response data return for IOC_LOAD, IOC_IOBDMA, IOC_LMTDMA.
 
       - name: PREF
-        value: 2'b10
-        description: L1D Prefetch request to PP from coprocessor.
+        value: 0x2
+        description: L1D prefetch request to core from coprocessor.
 
       - name: SLIRSP
-        value: 2'b11
-        description: Response Data return for IOC_SLILD.
+        value: 0x3
+        description: Response data return for IOC_SLILD.
 
 
   - name: L2C_DAT_ERRPRIO_E
@@ -107,32 +109,32 @@ enums:
     description: Enumerates the different quad error priorities
     values:
       - name: NBE
-        value: 3'h0
+        value: 0x0
         description: No error.
 
       - name: FBFSBE
-        value: 3'h1
-        description: FBF Single-Bit Error.
+        value: 0x1
+        description: FBF single-bit error.
 
       - name: SBFSBE
-        value: 3'h2
-        description: SBF Single-Bit Error.
+        value: 0x2
+        description: SBF single-bit error.
 
       - name: L2DSBE
-        value: 3'h3
-        description: L2D Single-Bit Error.
+        value: 0x3
+        description: L2D single-bit error.
 
       - name: FBFDBE
-        value: 3'h4
-        description: FBF Double-Bit Error.
+        value: 0x4
+        description: FBF double-bit error.
 
       - name: SBFDBE
-        value: 3'h5
-        description: SBF Double-Bit Error.
+        value: 0x5
+        description: SBF double-bit error.
 
       - name: L2DDBE
-        value: 3'h6
-        description: L2D Double-Bit Error.
+        value: 0x6
+        description: L2D double-bit error.
 
 
   - name: L2C_INTSN_E
@@ -282,6 +284,68 @@ enums:
         description: See L2C_CBC(0..0)_INT[IOCCMDDBE].
 
 
+  - name: L2C_TAD_PRF_SEL_E
+    attributes:
+      width: "8"
+    description: Enumerates the different TAD performance counter selects.
+    values:
+      - name: "NONE"
+        value: 0x00
+        description: Nothing (disabled).
+
+      - name: L2T_HIT
+        value: 0x01
+        description: L2 Tag Hit.
+
+      - name: L2T_MISS
+        value: 0x02
+        description: L2 Tag Miss.
+
+      - name: L2T_NOALLOC
+        value: 0x03
+        description: L2 Tag No-Allocate (forced).
+
+      - name: L2_VIC
+        value: 0x04
+        description: L2 Victim.
+
+      - name: SC_FAIL
+        value: 0x05
+        description: Store-Conditional Fail.
+
+      - name: SC_PASS
+        value: 0x06
+        description: Store-Conditional Pass.
+
+      - name: LFB_OCC
+        value: 0x07
+        description: LFB Occupancy (each cycle adds number of LFBs valid).
+
+      - name: WAIT_LFB
+        value: 0x08
+        description: LFB Wait LFB (each cycle adds number of LFBs waiting for other LFBs).
+
+      - name: WAIT_VAB
+        value: 0x09
+        description: LFB Wait VAB (each cycle adds number of LFBs waiting for VAB).
+
+      - name: QD(0..0)_IDX
+        value: 0x80 | (a << 4)
+        description: Quad(0..0) index bus inuse.
+
+      - name: QD(0..0)_RDAT
+        value: 0x81 | (a << 4)
+        description: Quad(0..0) read data bus inuse.
+
+      - name: QD(0..0)_BNKS
+        value: 0x82 | (a << 4)
+        description: Quad(0..0) number of banks inuse (0-4/cycle).
+
+      - name: QD(0..0)_WDAT
+        value: 0x83 | (a << 4)
+        description: Quad(0..0) write data flops inuse (0-4/cycle).
+
+
   - name: L2C_TAG_ERRPRIO_E
     attributes:
       width: "2"
@@ -306,342 +370,344 @@ enums:
 
   - name: RSC_CMD_E
     attributes:
+      parent_block_override: "L2C"
       width: "3"
     description: Enumerates the different RSC command encodings.
     values:
       - name: NOP
-        value: 3'b000
+        value: 0x0
         description: No operation.
 
       - name: IFDN
-        value: 3'b001
+        value: 0x1
         description: Filling data, last fill, must write L1T invalid.
 
       - name: FILL
-        value: 3'b010
+        value: 0x2
         description: Filling data, but not the last.
 
       - name: FLDN
-        value: 3'b011
+        value: 0x3
         description: Filling data, last fill.
 
       - name: STDN
-        value: 3'b100
+        value: 0x4
         description: Store commit.
 
       - name: PREF
-        value: 3'b101
+        value: 0x5
         description: Prefetch from NCB/IOR.
 
       - name: SCDN
-        value: 3'b110
-        description: Store Conditional pass/commit.
+        value: 0x6
+        description: Store conditional pass/commit.
 
       - name: SCFL
-        value: 3'b111
-        description: Store Conditional fail/commit.
+        value: 0x7
+        description: Store conditional fail/commit.
 
 
   - name: XMC_CMD_E
     attributes:
+      parent_block_override: "L2C"
       width: "7"
     description: Enumerates the different XMC command encodings.
     values:
       - name: NOP
-        value: 7'b0000000
+        value: 0x00
         description: No operation.
 
       - name: LDT
-        value: 7'b0000001
-        description: don't allocate L2 or L1
+        value: 0x01
+        description: Don't allocate L2 or L1
 
       - name: LDI
-        value: 7'b0000010
-        description: don't allocate L1
+        value: 0x02
+        description: Don't allocate L1
 
       - name: PL2
-        value: 7'b0000011
-        description: pref L2
+        value: 0x03
+        description: Prefetch L2
 
       - name: RPL2
-        value: 7'b0000100
-        description: mark for replacement in L2
+        value: 0x04
+        description: Mark for replacement in L2
 
       - name: DWB
-        value: 7'b0000101
-        description: clear L2 dirty bit (no writeback) + RPL2
+        value: 0x05
+        description: Clear L2 dirty bit (no writeback) + RPL2
 
       - name: LDY
-        value: 7'b0000110
+        value: 0x06
         description: synonym for LDT
 
       - name: LDD
-        value: 7'b0001000
-        description: normal load
+        value: 0x08
+        description: Normal load
 
       - name: PSL1
-        value: 7'b0001001
-        description: pref L1, bypass L2
+        value: 0x09
+        description: Prefetch L1, bypass L2
 
       - name: LDC
-        value: 7'b0001010
+        value: 0x0A
         description: reserved, not currently implemented
 
       - name: LDE
-        value: 7'b0001011
+        value: 0x0B
         description: synonym for LDD
 
       - name: LDWB
-        value: 7'b0001101
+        value: 0x0D
         description: synonym for LDT
 
       - name: STY
-        value: 7'b0001110
+        value: 0x0E
         description: synonym for STT
 
       - name: RSTP
-        value: 7'b0001111
+        value: 0x0F
         description: synonym for STP
 
       - name: STF
-        value: 7'b0010000
-        description: full block store to L2, fill 0's
+        value: 0x10
+        description: Full block store to L2, fill zeros
 
       - name: STT
-        value: 7'b0010001
-        description: full block store bypass-L2, fill 0's
+        value: 0x11
+        description: Full block store bypass-L2, fill zeros
 
       - name: STP
-        value: 7'b0010010
-        description: partial store to L2
+        value: 0x12
+        description: Partial store to L2
 
       - name: STC
-        value: 7'b0010011
-        description: partial store to L2, if duptag valid
+        value: 0x13
+        description: Partial store to L2, if duptag valid
 
       - name: STFIL1
-        value: 7'b0010100
-        description: full block store to L2, fill 0's, self-inval L1
+        value: 0x14
+        description: Full block store to L2, fill zeros, self-inval L1
 
       - name: STTIL1
-        value: 7'b0010101
-        description: full block store bypass-L2, fill 0's, self-inval L1
+        value: 0x15
+        description: Full block store bypass-L2, fill zeros, self-inval L1
 
       - name: FAS32
-        value: 7'b0010110
+        value: 0x16
         description: fetch and swap 32b quantity, returning old data
 
       - name: FAS64
-        value: 7'b0010111
+        value: 0x17
         description: fetch and swap 64b quantity, returning old data
 
       - name: WBIL2I
-        value: 7'b0011000
-        description: writeback if dirty, invalidate, clear use bit, by index/way
+        value: 0x18
+        description: Writeback if dirty, invalidate, clear use bit, by index/way
 
       - name: LTGL2I
-        value: 7'b0011001
-        description: read tag @ index/way into CSR
+        value: 0x19
+        description: Read tag at index/way into CSR
 
       - name: STGL2I
-        value: 7'b0011010
-        description: write tag @ index/way from CSR
+        value: 0x1A
+        description: Write tag at index/way from CSR
 
       - name: WBL2I
-        value: 7'b0011011
-        description: writeback if dirty, make clean, clear use bit, by index/way
+        value: 0x1B
+        description: Writeback if dirty, make clean, clear use bit, by index/way
 
       - name: INVL2
-        value: 7'b0011100
-        description: invalidate, clear use bit, by address (dirty data is LOST)
+        value: 0x1C
+        description: Invalidate, clear use bit, by address (dirty data is LOST)
 
       - name: WBIL2
-        value: 7'b0011101
-        description: writeback if dirty, invalidate, clear use bit, by address
+        value: 0x1D
+        description: Writeback if dirty, invalidate, clear use bit, by address
 
       - name: WBL2
-        value: 7'b0011110
-        description: writeback if dirty, make clean, clear use bit, by address
+        value: 0x1E
+        description: Writeback if dirty, make clean, clear use bit, by address
 
       - name: LCKL2
-        value: 7'b0011111
-        description: set lock bit, set use bit, by address
+        value: 0x1F
+        description: Set lock bit, set use bit, by address
 
       - name: CAS32
-        value: 7'b0100010
+        value: 0x22
         description: reserved, not implemented
 
       - name: CAS64
-        value: 7'b0100011
+        value: 0x23
         description: reserved, not implemented
 
       - name: SAAM132
-        value: 7'b0100110
+        value: 0x26
         description: reserved, not implemented
 
       - name: SAAM164
-        value: 7'b0100111
+        value: 0x27
         description: reserved, not implemented
 
       - name: SET8
-        value: 7'b0101000
+        value: 0x28
         description: set 8b word to all 1's, returning old
 
       - name: SET16
-        value: 7'b0101001
+        value: 0x29
         description: set 16b word to all 1's, returning old
 
       - name: SET32
-        value: 7'b0101010
+        value: 0x2A
         description: set 32b word to all 1's, returning old
 
       - name: SET64
-        value: 7'b0101011
+        value: 0x2B
         description: set 64b word to all 1's, returning old
 
       - name: CLR8
-        value: 7'b0101100
+        value: 0x2C
         description: clear 8b word to all 0's, returning old
 
       - name: CLR16
-        value: 7'b0101101
+        value: 0x2D
         description: clear 16b word to all 0's, returning old
 
       - name: CLR32
-        value: 7'b0101110
+        value: 0x2E
         description: clear 32b word to all 0's, returning old
 
       - name: CLR64
-        value: 7'b0101111
+        value: 0x2F
         description: clear 64b word to all 0's, returning old
 
       - name: INCR8
-        value: 7'b0110000
+        value: 0x30
         description: increment 8b word, returning old
 
       - name: INCR16
-        value: 7'b0110001
+        value: 0x31
         description: increment 16b word, returning old
 
       - name: INCR32
-        value: 7'b0110010
+        value: 0x32
         description: increment 32b word, returning old
 
       - name: INCR64
-        value: 7'b0110011
+        value: 0x33
         description: increment 64b word, returning old
 
       - name: DECR8
-        value: 7'b0110100
+        value: 0x34
         description: decrement 8b word, returning old
 
       - name: DECR16
-        value: 7'b0110101
+        value: 0x35
         description: decrement 16b word, returning old
 
       - name: DECR32
-        value: 7'b0110110
+        value: 0x36
         description: decrement 32b word, returning old
 
       - name: DECR64
-        value: 7'b0110111
+        value: 0x37
         description: decrement 64b word, returning old
 
       - name: FAA32
-        value: 7'b0111010
+        value: 0x3A
         description: fetch and add 32b word, returning old
 
       - name: FAA64
-        value: 7'b0111011
+        value: 0x3B
         description: fetch and add 62b word, returning old
 
       - name: SAA32
-        value: 7'b0111110
+        value: 0x3E
         description: store and add 32b word, no return data
 
       - name: SAA64
-        value: 7'b0111111
+        value: 0x3F
         description: store and add 64b word, no return data
 
       - name: IOBLD8
-        value: 7'b1000000
-        description: I/O 1-Byte Load.
+        value: 0x40
+        description: I/O 1-byte load.
 
       - name: IOBLD16
-        value: 7'b1000001
-        description: I/O 2-Byte Load.
+        value: 0x41
+        description: I/O 2-byte load.
 
       - name: IOBLD32
-        value: 7'b1000010
-        description: I/O 4-Byte Load.
+        value: 0x42
+        description: I/O 4-byte load.
 
       - name: IOBLD64
-        value: 7'b1000011
-        description: I/O 8-Byte Load.
+        value: 0x43
+        description: I/O 8-byte load.
 
       - name: IOBST8
-        value: 7'b1000100
-        description: I/O 1-Byte Store.
+        value: 0x44
+        description: I/O 1-byte store.
 
       - name: IOBST16
-        value: 7'b1000101
-        description: I/O 2-Byte Store.
+        value: 0x45
+        description: I/O 2-byte store.
 
       - name: IOBST32
-        value: 7'b1000110
-        description: I/O 4-Byte Store.
+        value: 0x46
+        description: I/O 4-byte store.
 
       - name: IOBST64
-        value: 7'b1000111
-        description: I/O 8-Byte Store.
+        value: 0x47
+        description: I/O 8-byte store.
 
       - name: IOBADDR
-        value: 7'b1001000
-        description: I/O Send Address Only.
+        value: 0x48
+        description: I/O send address only.
 
       - name: IOBDMA
-        value: 7'b1001001
-        description: I/O Multi-Quadword Load.
+        value: 0x49
+        description: I/O multi-quadword load.
 
       - name: LMTST
-        value: 7'b1001010
-        description: I/O Multi-Quadword Store.
+        value: 0x4A
+        description: I/O multi-quadword store.
 
       - name: LMTDMA
-        value: 7'b1001011
-        description: I/O Multi-Quadword Store with Multi-Quadword Load.
+        value: 0x4B
+        description: I/O multi-quadword store with multi-quadword load.
 
       - name: IOBSTA8
-        value: 7'b1100100
-        description: I/O 1-Byte Store, with Commit.
+        value: 0x64
+        description: I/O 1-byte store, with commit.
 
       - name: IOBSTA16
-        value: 7'b1100101
-        description: I/O 2-Byte Store, with Commit.
+        value: 0x65
+        description: I/O 2-byte store, with commit.
 
       - name: IOBSTA32
-        value: 7'b1100110
-        description: I/O 4-Byte Store, with Commit.
+        value: 0x66
+        description: I/O 4-byte store, with commit.
 
       - name: IOBSTA64
-        value: 7'b1100111
-        description: I/O 8-Byte Store, with Commit.
+        value: 0x67
+        description: I/O 8-byte store, with commit.
 
       - name: IOBADDRA
-        value: 7'b1101000
-        description: I/O Send Address Only, with Commit.
+        value: 0x68
+        description: I/O send address only, with commit.
 
       - name: IOBDMAA
-        value: 7'b1101001
-        description: I/O Multi-Quadword Load, with Commit.
+        value: 0x69
+        description: I/O multi-quadword load, with commit.
 
       - name: LMTSTA
-        value: 7'b1101010
-        description: I/O Multi-Quadword Store, with Commit.
+        value: 0x6A
+        description: I/O multi-quadword store, with commit.
 
       - name: LMTDMAA
-        value: 7'b1101011
-        description: I/O Multi-Quadword Store with Multi-Quadword Load, with Commit.
+        value: 0x6B
+        description: I/O multi-quadword store with multi-quadword load, with commit.
 
 
 registers:
@@ -725,9 +791,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Defines the sample point of the LMC response data in the DCLK/RCLK crossing. For optimal
-          performance set to 10 * (DCLK period/RCLK period) - 1. To disable set to 0. All other
-          values are reserved.
+          Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+          For optimal performance set to
+          10 * (DDR-clock period/core-clock period) - 1.
+          To disable set to 0. All other values are reserved.
 
       - name: --
         bits: 5..2
@@ -848,7 +915,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Generate an ECC error in the L2D (see Note 1).
+        description: Generate an ECC error in the L2D. See note above.
 
       - name: L2TFLIP
         bits: 7..6
@@ -902,7 +969,7 @@ registers:
         typical: 0x0
         description: |
           VBF threshold. When the number of in-use VBFs exceeds this number the L2C TAD increases
-          the priority of all its writes in the LMC.
+          the priority of all its write operations in the LMC.
 
       - name: --
         bits: 7
@@ -941,7 +1008,7 @@ registers:
       Note the following:
       The ADD bus command chosen must not be a IOB-destined command or operation is UNDEFINED.
       The ADD bus command will have SID forced to IOB, DID forced to L2C, no virtualization checks
-      performed (always pass), and xmdmsk forced to 0. Note that this implies that commands which
+      performed (always pass), and xmdmsk forced to 0. Note that this implies that commands that
       REQUIRE a STORE cycle (STP, STC, SAA, FAA, FAS) should not be used or the results are
       unpredictable. The sid=IOB means that the way partitioning used for the command is
       L2C_WPAR_IOB0/1. None of L2C_QOS_IOB0/1, L2C_QOS_PP(0..31), L2C_VIRTID_IOB0/1,
@@ -952,7 +1019,7 @@ registers:
       L2C_TAD(0..0)_ECC0/1. If ECC is disabled prior to the CSR write, this provides the ability to
       read the ECC bits directly. If ECC is not disabled, this should log zeros (assuming no ECC
       errors were found in the block).
-      A write which arrives while the INUSE bit is set will block until the INUSE bit clears. This
+      A write that arrives while the INUSE bit is set will block until the INUSE bit clears. This
       gives software two options when needing to issue a stream of write operations to L2C_XMC_CMD:
       polling on the INUSE bit, or allowing hardware to handle the interlock -- at the expense of
       locking up the RSL bus for potentially tens of cycles at a time while waiting for an available
@@ -992,7 +1059,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: QOS level to use for simulated XMC request.
+        description: QOS level to use for simulated ADD bus request.
 
       - name: NODE
         bits: 43..40
@@ -1007,22 +1074,16 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address to use for simulated ADD bus request. (See note The address written to L2C_XMC_CMD
-          is a physical address. L2C performs hole removal and index aliasing (if enabled) on the
-          written address and uses that for the command. This hole removed/index aliased address is
-          what is returned on a read of the L2C_XMC_CMD register..)
+          Address to use for simulated ADD bus request. (The address written to L2C_XMC_CMD is a
+          physical address. L2C performs hole removal and index aliasing (if enabled) on the written
+          address and uses that for the command. This hole-removed/index-aliased address is what is
+          returned on a read of L2C_XMC_CMD.)
 
 
   - name: L2C_BIG_CTL
     title: Level 2 Cache Big Memory Control Register
     address: 0x1180080800030
     bus: RSL
-    description: |
-      (1) BIGRD interrupts can occur during normal operation as the PP's are allowed to prefetch to
-      non-existent memory locations.  Therefore, BIGRD is for informational purposes only.
-
-      (2) When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store L2C_TAD(0..0)_ERR will be
-      loaded.  L2C_TAD(0..0)_ERR will be not be locked for a BIGRD, however.
     fields:
       - name: --
         bits: 63..8
@@ -1037,21 +1098,27 @@ registers:
         reset: 0x9
         typical: 0x9
         description: |
-          Amount of configured DRAM
-          0 = reserved
-          1 = 512MB
-          2 = 1GB
-          3 = 2GB
-          4 = 4GB
-          5 = 8GB
-          6 = 16GB
-          7 = 32GB
-          8 = 64GB
-          9 = 128GB
-          10 = 256GB
-          11 = 512GB
-          12-15 reserved
-          Violations of this limit causes L2C to set L2C_TAD(0..0)_INT[BIGRD/BIGWR].
+          Amount of configured DRAM.
+          0x0 = reserved.
+          0x1 = 512 MB.
+          0x2 = 1 GB.
+          0x3 = 2 GB.
+          0x4 = 4 GB.
+          0x5 = 8 GB.
+          0x6 = 16 GB.
+          0x7 = 32 GB.
+          0x8 = 64 GB.
+          0x9 = 128 GB.
+          0xA = 256 GB.
+          0xB = 512 GB.
+          0xC-0xF= reserved.
+          Violations of this limit causes L2C to set L2C_INT_REG[BIGRD/BIGWR].
+          BIGRD interrupts can occur during normal operation as the cores are allowed to prefetch to
+          nonexistent memory locations. Therefore, BIGRD is for informational purposes only.
+          When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store operation, L2C_TAD(0..0)_ERR is
+          loaded. L2C_TAD(0..0)_ERR is not locked for a BIGRD, however.
+          The BIG logic only applies to local addresses. A command for a remote address does not
+          cause a BIGRD/BIGWR on the requesting node.
 
       - name: --
         bits: 3..1
@@ -1066,8 +1133,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When set, disables the BIG/HOLE logic completely. When clear, BIGWR and HOLEWR block
-          stores and BIGRD/HOLERD is reported.
+          Disable the BIG/HOLE logic. When set, the BIG/HOLE is logic disabled completely. When
+          clear, BIGWR and HOLEWR block stores and BIGRD/HOLERD is reported.
 
 
   - name: L2C_COP0_ADR
@@ -1215,7 +1282,7 @@ registers:
     title: L2C COP0 Data Access Register
     address: 0x1180080800040
     bus: RSL
-    description: Provides data access for the COP0 register specified by the L2C_COP_ADR register.
+    description: Provides data access for the COP0 register specified by the L2C_COP0_ADR register.
     fields:
       - name: DATA
         bits: 63..0
@@ -1348,7 +1415,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Way partitioning mask (1 means do not use). The read value of MASK will include bits set
+          Way partitioning mask (1 means do not use). The read value of MASK includes bits set
           because of the L2C cripple fuses.
 
 
@@ -1370,7 +1437,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Way partitioning mask (1 means do not use). The read value of MASK will include bits set
+          Way partitioning mask (1 means do not use). The read value of MASK includes bits set
           because of the L2C cripple fuses.
 
 
@@ -1526,9 +1593,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Sub-block dirty bits. 70xx does not implement true sub-block dirty bits, therefore when
-          L2C_TAD_TAG is written, it is set to all ones if DIRTY is 1, or all zeroes if DIRTY is
-          zero. LTGL2I will always result in similar legal values being loaded.
+          Sub-block dirty bits. INTERNAL: 70xx does not implement true sub-block dirty bits,
+          therefore when L2C_TAD_TAG is written, it is set to all ones if DIRTY is 1, or all zeroes
+          if DIRTY is zero. LTGL2I will always result in similar legal values being loaded.
 
       - name: --
         bits: 59..56
@@ -1728,27 +1795,27 @@ registers:
         typical: 0
         description: |
           No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-          whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. NOWAY==1
-          is (generally) not an indication that L2C failed to complete transactions. Rather, it is a
-          hint of possible performance degradation. (For example, L2C must read-modify-write DRAM
-          for every transaction that updates some, but not all, of the bytes in a cache block,
-          misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case where L2C
-          will set NOWAY: when it cannot leave a block locked in the L2 cache as part of a LCKL2
-          transaction. See L2C_TTG_ERR for logged information.
+          whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
+          bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
+          Rather, it is a hint of possible performance degradation. (For example, L2C must read-
+          modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
+          cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
+          case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
+          a LCKL2 transaction. See L2C_TTG(0..7)_ERR for logged information.
 
       - name: TAGDBE
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: TAG double-bit error occurred. See L2C_TTG_ERR for logged information.
+        description: TAG double-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
 
       - name: TAGSBE
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: TAG single-bit error occurred. See L2C_TTG_ERR for logged information.
+        description: TAG single-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
 
       - name: --
         bits: 7..6
@@ -1762,42 +1829,42 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: FBF double-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: FBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
       - name: FBFSBE
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: FBF single-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: FBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
       - name: SBFDBE
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: SBF double-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: SBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
       - name: SBFSBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: SBF single-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: SBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
       - name: L2DDBE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: L2D double-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: L2D double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
       - name: L2DSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: L2D single-bit error occurred. See L2C_TQD_ERR for logged information.
+        description: L2D single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
 
 
   - name: L2C_TAD(0..0)_PFC(0..3)
@@ -1872,8 +1939,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          XMC 'source' of request causing error. If SOURCE<6>==0, SOURCE<5:0>=PPID else SOURCE<3:0>
-          is BUSID of IOB which made the request.
+          XMC 'source' of request causing error. If SOURCE<6>==0, SOURCE<5:0> = PPID else
+          SOURCE<3:0> is BUSID of IOB which made the request.
 
       - name: NODE
         bits: 43..40
@@ -2170,7 +2237,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: BIST failure status for TAG ways 0-15
+        description: BIST failure status for TAG ways.
 
 
   - name: L2C_MCI(0..0)_INT
@@ -2191,14 +2258,14 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: VBF double-bit error occurred. See L2C_MCI_ERR for logged information.
+        description: VBF double-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
 
       - name: VBFSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: VBF single-bit error occurred. See L2C_MCI_ERR for logged information.
+        description: VBF single-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
 
 
   - name: L2C_MCI(0..0)_ERR
@@ -2299,16 +2366,18 @@ registers:
     bus: RSL
     description: |
       If clear BIST is desired, CLEAR_BIST must be written to 1 before START_BIST is written to 1
-      using a separate CSR write.
+      using a separate CSR write operation.
       CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
       completes (indicated by START_BIST returning to 0) or operation is undefined.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: START_BIST
         bits: 63
         access: R/W/H
         reset: 0
         typical: 0
-        description: When written to 1, starts BIST. Will read 1 until BIST is complete.
+        description: When written to 1, starts BIST. Remains 1 until BIST is complete.
 
       - name: CLEAR_BIST
         bits: 62
@@ -2350,28 +2419,28 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: IOCCMD double-bit error occurred. See L2C_CBC_IOCERR for logged information.
+        description: IOCCMD double-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
 
       - name: IOCCMDSBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: IOCCMD single-bit error occurred. See L2C_CBC_IOCERR for logged information.
+        description: IOCCMD single-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
 
       - name: RSDDBE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RSD double-bit error occurred. See L2C_CBC_RSDERR for logged information.
+        description: RSD double-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
 
       - name: RSDSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RSD single-bit error occurred. See L2C_CBC_RSDERR for logged information.
+        description: RSD single-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
 
 
   - name: L2C_CBC(0..0)_IOCERR
@@ -2426,7 +2495,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: XMC which had the error.
+        description: Indicates the XMC that had the error.
 
 
   - name: L2C_CBC(0..0)_RSDERR
@@ -2481,27 +2550,29 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: TAD fifo containing the error.
+        description: Indicates the TAD FIFO containing the error.
 
       - name: QWNUM
         bits: 5..4
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: QW containing the error.
+        description: Indicates the QW containing the error.
 
       - name: RSDNUM
         bits: 3..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: RSD which had the error.
+        description: Indicates the RSD that had the error.
 
 
   - name: L2C_CBC(0..0)_BIST_STATUS
     title: Level 2 Cache CBC BIST Status Registers
     address: 0x1180080E007F8 + a*0x40000
     bus: RSL
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..34

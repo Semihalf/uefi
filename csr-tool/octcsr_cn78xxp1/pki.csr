@@ -525,7 +525,7 @@ enums:
         value: 0x00
         attributes:
           beltype: "NONE"
-          creating layers: "Any"
+          creating_layers: "Any"
         description: |
           No parsing was attempted at this layer. For PCAM*_ACTION[SETTY] indicates the pointer
           should not be changed.
@@ -534,14 +534,14 @@ enums:
         value: 0x01
         attributes:
           beltype: "MISC"
-          creating layers: "--"
+          creating_layers: "--"
         description: Reserved.
 
       - name: VLAN
         value: 0x02
         attributes:
           beltype: "MISC"
-          creating layers: "--"
+          creating_layers: "--"
         description: |
           VLAN. Not used in WQE[*TY], but only in PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[SETTY] to
           indicate a VLAN behavior.
@@ -550,7 +550,7 @@ enums:
         value: 0x05
         attributes:
           beltype: "MISC"
-          creating layers: "LC"
+          creating_layers: "LC"
         description: |
           L2 parsing detected the L3 beginning location, but it did not match any known protocols.
           Also used to indicate the beginning of a 802.3 SNAP payload.
@@ -559,21 +559,21 @@ enums:
         value: 0x06
         attributes:
           beltype: "MISC"
-          creating layers: "LC"
+          creating_layers: "LC"
         description: ARP. The packet's L2 HDR TYPE field indicates ARP (i.e. equals 0x0835).
 
       - name: RARP
         value: 0x07
         attributes:
           beltype: "MISC"
-          creating layers: "LC"
+          creating_layers: "LC"
         description: RARP. The packet's L2 HDR TYPE field indicates RARP (i.e. equals 0x0806).
 
       - name: IP4
         value: 0x08
         attributes:
           beltype: "IP4"
-          creating layers: "LC or LE"
+          creating_layers: "LC or LE"
         description: |
           IPv4 without options. The IP version field is 4, and the IP HLEN field is 5.
           Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
@@ -583,7 +583,7 @@ enums:
         value: 0x09
         attributes:
           beltype: "IP4"
-          creating layers: "LC or LE"
+          creating_layers: "LC or LE"
         description: |
           IPv4 with options. The IP version field is 4, and the IP HLEN field is not 5. (Note that
           the case where HLEN < 5 is flagged in the IP malformed-header check).
@@ -594,7 +594,7 @@ enums:
         value: 0x0A
         attributes:
           beltype: "IP6"
-          creating layers: "LC or LE"
+          creating_layers: "LC or LE"
         description: |
           IPv6 without options. The IP version field is 6, and IP6_OPT below does not apply.
           Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
@@ -604,7 +604,7 @@ enums:
         value: 0x0B
         attributes:
           beltype: "IP6"
-          creating layers: "LC or LE"
+          creating_layers: "LC or LE"
         description: |
           IPv6 with options. The IP version field is 6, and the extension headers matching any of
           the following:
@@ -619,7 +619,7 @@ enums:
         value: 0x0C
         attributes:
           beltype: "MISC"
-          creating layers: "LC or LE"
+          creating_layers: "LF"
         description: |
           IPSEC (ESP/AH). The IP packet may require IPSEC decryption or tunnel handling:
           The packet is IPSEC ESP (i.e. the IPv4 protocol value or the initial IPv6 next header
@@ -631,42 +631,42 @@ enums:
         value: 0x0D
         attributes:
           beltype: "MISC"
-          creating layers: "LD or LF"
+          creating_layers: "LD or LF"
         description: Fragment. Previous layer (L3/IL3) indicated a fragment.
 
       - name: IPCOMP
         value: 0x0E
         attributes:
           beltype: "MISC"
-          creating layers: "LD or LF"
+          creating_layers: "LD or LF"
         description: IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108.
 
       - name: TCP
         value: 0x10
         attributes:
           beltype: "TCP"
-          creating layers: "LF"
+          creating_layers: "LF"
         description: TCP.
 
       - name: UDP
         value: 0x11
         attributes:
           beltype: "UDP"
-          creating layers: "LF"
+          creating_layers: "LF"
         description: UDP.
 
       - name: SCTP
         value: 0x12
         attributes:
           beltype: "SCTP"
-          creating layers: "LF"
+          creating_layers: "LF"
         description: SCTP.
 
       - name: UDP_VXLAN
         value: 0x13
         attributes:
           beltype: "UDP"
-          creating layers: "LD"
+          creating_layers: "LD"
         description: |
           UDP+VXLAN. The layer points at a UDP header immediately followed by a VXLAN header and
           inner Ethernet frame.
@@ -675,28 +675,28 @@ enums:
         value: 0x14
         attributes:
           beltype: "MISC"
-          creating layers: "LD"
+          creating_layers: "LD"
         description: GRE, but not NVGRE.
 
       - name: NVGRE
         value: 0x15
         attributes:
           beltype: "MISC"
-          creating layers: "LD"
+          creating_layers: "LD"
         description: NVGRE with following inner Ethernet frame.
 
       - name: GTP
         value: 0x16
         attributes:
           beltype: "MISC"
-          creating layers: "LG"
+          creating_layers: "LG"
         description: GTP under UDP.
 
       - name: SW28
         value: 0x1C
         attributes:
           beltype: "--"
-          creating layers: "Any"
+          creating_layers: "Any"
         description: |
           Reserved for software use. No preassigned use by hardware; only created when a layer
           matches a PCAM entry with PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[SETTY]==SW28.
@@ -705,21 +705,21 @@ enums:
         value: 0x1D
         attributes:
           beltype: "--"
-          creating layers: "Any"
+          creating_layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
       - name: SW30
         value: 0x1E
         attributes:
           beltype: "--"
-          creating layers: "Any"
+          creating_layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
       - name: SW31
         value: 0x1F
         attributes:
           beltype: "--"
-          creating layers: "Any"
+          creating_layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
 
@@ -943,8 +943,6 @@ enums:
       width: "6"
     description: |
       Enumerates the virtual-CAM type for the PKI_CL(0..3)_PCAM(0..1)_TERM(0..191)[TERM] field.
-      INTERNAL The CAM is banked for alternating accesses, so PKI_PCAM_TERM_E's LSB must toggle
-      between each sequencer access for maximum performance.
       In the table below:
       'MATCH' refers to PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191).
       'ACTION' refers to PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) for the PCAM entry that matches.
@@ -955,6 +953,8 @@ enums:
       field and type field will get set with the specified value. For example, LFTY indicates if
       ACTION[SETTY] then WQE[LFTY] will be set to ACTION[SETTY] and WQE[LFPTR] will be set to the
       current parse point.
+      INTERNAL The CAM is banked for alternating accesses, so PKI_PCAM_TERM_E's LSB must toggle
+      between each sequencer access for maximum performance.
     values:
       - name: "NONE"
         value: 0x00
@@ -1207,7 +1207,7 @@ enums:
 
       - name: DIFF
         value: 0x4
-        description: If Diffsrv is parsed, use for QPG calculation.
+        description: If LC Diffsrv is parsed, use for QPG calculation.
 
       - name: HIGIG
         value: 0x5
@@ -2901,6 +2901,7 @@ registers:
     bus: RSL
     description: BIST status register.
     attributes:
+      dv_bist_all_fail_test: "ALL"
       uvm_default_constraint: "True"
     fields:
       - name: --
@@ -2940,6 +2941,7 @@ registers:
     bus: RSL
     description: BIST status register.
     attributes:
+      dv_bist_all_fail_test: "ALL"
       uvm_default_constraint: "True"
     fields:
       - name: --
@@ -2965,6 +2967,7 @@ registers:
     bus: RSL
     description: BIST status register.
     attributes:
+      dv_bist_all_fail_test: "ALL"
       uvm_default_constraint: "True"
     fields:
       - name: --
@@ -3355,8 +3358,6 @@ registers:
     description: |
       The source and destination initial values (IVs) in tag generation provide a mechanism for each
       CN78XX to be unique.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: DST6
         bits: 63..48
@@ -3510,14 +3511,14 @@ registers:
         access: R/W
         reset: 0x600
         typical: 0x600
-        description: Byte count for max-sized frame check. See MAXLEN in Table 10-2 for adjustments to this value.
+        description: Byte count for max-sized frame check. See MAXLEN in Table 11-2 for adjustments to this value.
 
       - name: MINLEN
         bits: 15..0
         access: R/W
         reset: 0x40
         typical: 0x40
-        description: Byte count for min-sized frame check.See MINLEN in Table 10-2.
+        description: Byte count for min-sized frame check.See MINLEN in Table 11-2.
 
 
   - name: PKI_LTYPE(0..31)_MAP
@@ -3624,6 +3625,7 @@ registers:
     bus: RSL
     attributes:
       arch_max: "256"
+      dv_fc_scratch: "a=(0)"
       uvm_default_constraint: "True"
     fields:
       - name: EN
@@ -4111,7 +4113,6 @@ registers:
       INTERNAL: This register is in BE.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..16
@@ -4667,7 +4668,7 @@ registers:
         typical: 1
         description: |
           L2 length error check enable. Check if frame was received with L2 length error, see LENERR
-          in Table 10-2. This check is typically not enabled for incoming packets on the DPI ports.
+          in Table 11-2. This check is typically not enabled for incoming packets on the DPI ports.
 
       - name: LENERR_EQPAD
         bits: 28
@@ -4698,7 +4699,7 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Max frame error check enable. See MAXLEN in Table 10-2.
+        description: Max frame error check enable. See MAXLEN in Table 11-2.
 
       - name: MINERR_EN
         bits: 25
@@ -4706,15 +4707,15 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Min frame error check enable. See MINLEN in Table 10-2. This check is typically not
+          Min frame error check enable. See MINLEN in Table 11-2. This check is typically not
           enabled for incoming packets on the DPI ports.
 
-      - name: RSVDRW24
+      - name: QPG_DIS_GRPTAG
         bits: 24
         access: R/W
         reset: 0
         typical: 0
-        description: Reserved.
+        description: Disable computing group using WQE[TAG].
 
       - name: FCS_STRIP
         bits: 23
@@ -5399,8 +5400,15 @@ registers:
         typical: --
         description: Port to channel adder for calculating WQE[CHAN].
 
+      - name: GRPTAG_OK
+        bits: 47..45
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Number of WQE[TAG] bits to add into WQE[GRP] if no error is detected.
+
       - name: --
-        bits: 47..42
+        bits: 44..42
         access: ---
         reset: --
         typical: --
@@ -5412,10 +5420,17 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: SSO Group to schedule packet to and to load WQE[GRP] with if no error is detected.
+        description: SSO group to schedule packet to and to load WQE[GRP] with if no error is detected.
+
+      - name: GRPTAG_BAD
+        bits: 31..29
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Number of WQE[TAG] bits to add into WQE[GRP] if an error is detected.
 
       - name: --
-        bits: 31..26
+        bits: 28..26
         access: ---
         reset: --
         typical: --
@@ -5427,7 +5442,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: SSO Group to schedule packet to and to load WQE[GRP] with if an error is detected.
+        description: SSO group to schedule packet to and to load WQE[GRP] with if an error is detected.
 
       - name: --
         bits: 15..12

@@ -825,6 +825,8 @@ registers:
     description: |
       This register contains the BIST status for the MIX memories: 0 = pass or never run, 1 = fail.
       To read this register, a device issues an IOBLD64 instruction directed at the MIO.
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..6

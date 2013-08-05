@@ -97,9 +97,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Core clock multiplier.
-          C_MUL = (core CLK speed) / (ref clock speed)
-          'ref clock speed' should always be 50MHz.
+          Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). 'ref-clock speed'
+          should always be 50MHz.
 
       - name: PNR_MUL
         bits: 29..24
@@ -107,9 +106,11 @@ registers:
         reset: --
         typical: --
         description: |
-          Coprocessor clock multiplier.
-          PNR_MUL = (coprocessor CLK speed) /(ref clock speed)
-          'ref clock speed' should always be 50MHz.
+          Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
+          'ref-clock speed' should always be 50MHz.
+          For PCIe Gen1, the coprocessor-clock speed must be greater than 250MHz; for PCIe Gen2, the
+          coprocessor-clock speed must be greater than 500MHz; for PCIe Gen3, the coprocessor-clock
+          speed must be greater than 800MHz.
 
       - name: --
         bits: 23..21
@@ -507,10 +508,10 @@ registers:
 
 
   - name: RST_PP_POWER
-    title: RST PP Power Gating Control
+    title: RST Core Power Gating Control Register
     address: 0x1180006001700
     bus: RSL
-    description: These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).
+    description: These bits should only be changed when the corresponding core is in reset (CIU3_PP_RST).
     fields:
       - name: --
         bits: 63..48
@@ -524,11 +525,11 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: When set, corresponding PP has voltage removed to save power.
+        description: When set, corresponding core has voltage removed to save power.
 
 
   - name: RST_POWER_DBG
-    title: RST PP Power Debug Control
+    title: RST Core Power Debug Control Register
     address: 0x1180006001708
     bus: RSL
     fields:
@@ -545,7 +546,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Reserved. INTERNAL: Internal power driver strength. Resets only on Cold Reset.
+          Reserved. INTERNAL: Internal power driver strength. Resets only on cold reset.
 
 
 

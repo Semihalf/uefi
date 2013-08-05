@@ -36,43 +36,43 @@ enums:
       - name: CIU
         value: 0x00
         attributes:
-          see enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
         description: CIU
 
       - name: RST
         value: 0x06
         attributes:
-          see enumeration: "RST_INTSN_E on TBD-TECHDOC"
+          see_enumeration: "RST_INTSN_E on TBD-TECHDOC"
         description: Reset interrupts
 
       - name: USBDRD(0..1)
         value: 0x68 + a
         attributes:
-          see enumeration: "USBDRD_UCTL_INTSN_E on TBD-TECHDOC"
+          see_enumeration: "USBDRD_UCTL_INTSN_E on TBD-TECHDOC"
         description: USB controller interrupts; see .
 
       - name: SATA
         value: 0x6C
         attributes:
-          see enumeration: "SATA_UCTL_INTSN_E on TBD-TECHDOC"
+          see_enumeration: "SATA_UCTL_INTSN_E on TBD-TECHDOC"
         description: SATA controller interrupts; see .
 
       - name: L2C
         value: 0x80
         attributes:
-          see enumeration: "L2C_INTSN_E on TBD-TECHDOC-link"
+          see_enumeration: "L2C_INTSN_E on TBD-TECHDOC-link"
         description: L2C interrupts; see .
 
       - name: LMC(0)
         value: 0x88 + a
         attributes:
-          see enumeration: "LMC_INTSN_E on TBD-TECHDOC-link"
+          see_enumeration: "LMC_INTSN_E on TBD-TECHDOC-link"
         description: LMC interrupts; see .
 
       - name: OCLA(0)
         value: 0xA8 + a
         attributes:
-          see enumeration: "OCLA_INTSN_E on"
+          see_enumeration: "OCLA_INTSN_E on"
         description: OCLA interrupts; see .
 
 

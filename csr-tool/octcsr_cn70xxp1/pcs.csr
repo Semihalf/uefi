@@ -310,7 +310,7 @@ registers:
 
       - name: REM_FLT
         bits: 13..12
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -452,6 +452,8 @@ registers:
       NOTE:
       an_results_reg is don't care when AN_OVRD is set to 1. If AN_OVRD=0 and AN_CPT=1
       the an_results_reg is valid.
+    attributes:
+      dv_force_no_compare: "UVM"
     fields:
       - name: --
         bits: 63..7

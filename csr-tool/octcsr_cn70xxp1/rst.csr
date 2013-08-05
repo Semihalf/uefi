@@ -93,7 +93,7 @@ registers:
 
       - name: C_MUL
         bits: 36..30
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: |
@@ -103,7 +103,7 @@ registers:
 
       - name: PNR_MUL
         bits: 29..24
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: |
@@ -170,7 +170,7 @@ registers:
 
       - name: RBOOT_PIN
         bits: 0
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: Read-only access to REMOTE_BOOT pin.

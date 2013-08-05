@@ -435,6 +435,18 @@ registers:
           SW may also need to reprogram this register for performance
           reasons (configured as the only PEM, but as 2-lane - in
           this case, this PEM can take all of the credits).
+          NOTE: For PEM0 in EP mode, updating this field from the
+          PCIe Port via a windowed write requires 3 SLI_P credits
+          which are returned to the pool after the update.  In addition
+          a subsequent windowed write can cause an additional 3 SLI_P credits
+          to be returned to the pool resulting in a total of 6 additional credits
+          more than what this field is configured to be.
+          Therefore any update to this register from the PCIe Port when PEM0 is in EP mode,
+          SW must account for potential 6 when updating this field.
+          For example, for 4-lane mode where PEM0 gets all 128 credits,
+          this field needs to be written with a value of 122 credits.
+          This will insure that the resulting value can not end up more
+          than the 128 credits maximum.
 
 
   - name: PEM(0..2)_P2N_BAR0_START
@@ -1726,8 +1738,9 @@ registers:
         reset: --
         typical: --
         description: |
-          This field will overwrite the pin settings for speed and lane
-          configuration:
+          This field will overwrite the pin settings for speed and lane.
+          NOTE - The lower two bits of the MD field must
+          be the same across all configured PEMs!
             000 - Gen2 Speed, 2-lanes
             001 - Gen2 Speed, 1-lane
             010 - Gen2 Speed, 4-lanes

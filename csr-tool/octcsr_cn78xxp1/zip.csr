@@ -163,6 +163,8 @@ registers:
       This register controls the maximum number of in-flight X2I data fetch transactions. Writing 0
       to this register causes the ZIP module to temporarily suspend IOI accesses; it is not
       recommended for normal operation, but may be useful for diagnostics.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..6
@@ -325,6 +327,8 @@ registers:
       This register has the BIST status of memories in ZIP_CTL (instruction buffer, G/S pointer
       FIFO, input data buffer, output data buffers). Each bit is the BIST result of an individual
       memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..9
@@ -348,6 +352,8 @@ registers:
     description: |
       These register have the BIST status of memories in zip cores. Each bit is the BIST result of
       an individual memory (per bit, 0 = pass and 1 = fail).
+    attributes:
+      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..53
