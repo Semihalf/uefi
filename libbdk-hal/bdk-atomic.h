@@ -265,7 +265,6 @@ static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t in
 {
     uint64_t ret;
 
-    BDK_PUSH_OCTEON2;
     if (__builtin_constant_p(incr) && incr == 1)
     {
         __asm__ __volatile__(
@@ -284,7 +283,6 @@ static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t in
             "laad  %0,(%2),%3"
             : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (incr) : "memory");
     }
-    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -328,7 +326,6 @@ static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t in
 {
     uint32_t ret;
 
-    BDK_PUSH_OCTEON2;
     if (__builtin_constant_p(incr) && incr == 1)
     {
         __asm__ __volatile__(
@@ -347,7 +344,6 @@ static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t in
             "laa  %0,(%2),%3"
             : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (incr) : "memory");
     }
-    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -522,7 +518,6 @@ static inline uint64_t bdk_atomic_swap64_nosync(uint64_t *ptr, uint64_t new_val)
 {
     uint64_t ret;
 
-    BDK_PUSH_OCTEON2;
     if (__builtin_constant_p(new_val) && new_val == 0)
     {
         __asm__ __volatile__(
@@ -541,7 +536,6 @@ static inline uint64_t bdk_atomic_swap64_nosync(uint64_t *ptr, uint64_t new_val)
             "lawd  %0,(%2),%3"
             : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (new_val) : "memory");
     }
-    BDK_POP_OCTEON2;
 
     return (ret);
 }
@@ -563,7 +557,6 @@ static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
 {
     uint32_t ret;
 
-    BDK_PUSH_OCTEON2;
     if (__builtin_constant_p(new_val) && new_val == 0)
     {
         __asm__ __volatile__(
@@ -582,7 +575,6 @@ static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
             "law  %0,(%2),%3"
             : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (new_val) : "memory");
     }
-    BDK_POP_OCTEON2;
 
     return (ret);
 }

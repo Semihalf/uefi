@@ -435,10 +435,6 @@
 #define BDK_TLBR                        asm volatile ("tlbr" : : )
 #define BDK_TLBP                        asm volatile ("tlbp" : : )
 
-/* Macros to PUSH and POP Octeon2 ISA. */
-#define BDK_PUSH_OCTEON2    asm volatile (".set push\n.set arch=octeon2")
-#define BDK_POP_OCTEON2     asm volatile (".set pop")
-
 /* assembler macros to guarantee byte loads/stores are used */
 /* for an unaligned 16-bit access (these use AT register) */
 /* we need the hidden argument (__a) so that GCC gets the dependencies right */
