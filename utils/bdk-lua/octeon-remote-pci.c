@@ -442,6 +442,7 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
             address &= 0xffff;
             if (size == 4)
                 return bar0_read32(address);
@@ -505,6 +506,7 @@ static void pci_write_csr(bdk_csr_type_t type, int busnum, int size, uint64_t ad
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
             address &= 0xffff;
             if (size == 4)
                 bar0_write32(address, value);

@@ -208,6 +208,7 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             switch (size)
@@ -250,6 +251,7 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
     switch (type)
     {
         case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_PEXPV_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_NCB:
             switch (size)
