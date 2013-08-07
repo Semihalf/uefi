@@ -505,6 +505,7 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
         ** the width.
         */
         probe_failed = 1;
+        uint64_t bdk_nand_buffer_address = bdk_ptr_to_phys(bdk_nand_buffer);
         for (width_16 = 0; width_16 <= 1 && probe_failed; width_16++)
         {
             probe_failed = 0;
@@ -512,14 +513,15 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
             if (width_16)
                 bdk_nand_state[chip].flags |= BDK_NAND_STATE_16BIT;
             memset(bdk_nand_buffer, 0xff, 16);
-            if (bdk_nand_read_id(chip, 0x0, bdk_ptr_to_phys(bdk_nand_buffer), 16) < 16)
+            if (bdk_nand_read_id(chip, 0x0, bdk_nand_buffer_address, 16) < 16)
             {
                 if (bdk_unlikely(bdk_nand_flags & BDK_NAND_INITIALIZE_FLAGS_DEBUG))
                     bdk_dprintf("%s: Failed to probe chip %d\n", __FUNCTION__, chip);
                 probe_failed = 1;
 
             }
-            if (*(uint32_t*)bdk_nand_buffer == 0xffffffff || *(uint32_t*)bdk_nand_buffer == 0x0)
+            uint32_t probe_id = bdk_read64_uint32(bdk_nand_buffer_address);
+            if ((probe_id == 0xffffffff) || (probe_id == 0x0))
             {
                 if (bdk_unlikely(bdk_nand_flags & BDK_NAND_INITIALIZE_FLAGS_DEBUG))
                     bdk_dprintf("%s: Probe returned nothing for chip %d\n", __FUNCTION__, chip);
@@ -534,7 +536,7 @@ bdk_nand_status_t bdk_nand_initialize(bdk_nand_initialize_flags_t flags, int act
         memcpy(nand_id_buffer, bdk_nand_buffer, sizeof(nand_id_buffer));
 
         if (bdk_unlikely(bdk_nand_flags & BDK_NAND_INITIALIZE_FLAGS_DEBUG))
-            bdk_dprintf("%s: NAND chip %d has ID 0x%08llx\n", __FUNCTION__, chip, (unsigned long long int)*(uint64_t*)bdk_nand_buffer);
+            bdk_dprintf("%s: NAND chip %d has ID 0x%08lx\n", __FUNCTION__, chip, bdk_read64_uint64(bdk_nand_buffer_address));
         /* Read more than required, as in 16 bit mode only every other byte is valid. */
         if (bdk_nand_read_id(chip, 0x20, bdk_ptr_to_phys(bdk_nand_buffer), 8) < 8)
         {
