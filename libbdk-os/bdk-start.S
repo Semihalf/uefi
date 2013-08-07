@@ -173,9 +173,10 @@ __init:
     MTP1 $0
     MTP2 $0
 
-    /* Enable 64bit addressing */
+    /* Enable 64bit addressing and FP */
     MFC0    t0, COP0_STATUS
-    or      t0, 1<<7
+    or      t0, 1<<7    /* KX */
+    or      t0, 1<<29   /* CU1 */
     MTC0    t0, COP0_STATUS
 
     /* Figure out the location of code as an offset from our link address */
