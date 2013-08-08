@@ -130,23 +130,6 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
 
 
 /**
- * Iterate through the supported modes of a QLM. On first call specify
- * disabled as the last value. It will then return supported modes,
- * ending the list with disabled.
- *
- * @param node   Node to use in a Numa setup
- * @param qlm    QLM to examine
- * @param last   Previous value returned, or disabled to start list
- *
- * @return Next supported QLM mode
- */
-static bdk_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
-{
-    return BDK_QLM_MODE_DISABLED;
-}
-
-
-/**
  * Get the mode of a QLM as a human readable string
  *
  * @param qlm    QLM to examine
@@ -714,7 +697,6 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn70xx = {
     .init = qlm_init,
     .get_num = qlm_get_num,
     .get_lanes = qlm_get_lanes,
-    .get_supported_modes = qlm_get_supported_modes,
     .get_mode = qlm_get_mode,
     .set_mode = qlm_set_mode,
     .get_gbaud_mhz = qlm_get_gbaud_mhz,

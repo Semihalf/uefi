@@ -55,23 +55,6 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
     return qlm_ops->get_lanes(node, qlm);
 }
 
-
-/**
- * Iterate through the supported modes of a QLM. On first call specify
- * disabled as the last value. It will then return supported modes,
- * ending the list with disabled.
- *
- * @param node   Node to use in a Numa setup
- * @param qlm    QLM to examine
- * @param last   Previous value returned, or disabled to start list
- *
- * @return Next supported QLM mode
- */
-bdk_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
-{
-    return qlm_ops->get_supported_modes(node, qlm, last);
-}
-
 /**
  * Convert a mode into a human understandable string
  *

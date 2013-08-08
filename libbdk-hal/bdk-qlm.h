@@ -71,7 +71,6 @@ typedef struct
     void (*init)(bdk_node_t node);
     int (*get_num)(bdk_node_t node);
     int (*get_lanes)(bdk_node_t node, int qlm);
-    bdk_qlm_modes_t (*get_supported_modes)(bdk_node_t node, int qlm, bdk_qlm_modes_t last);
     bdk_qlm_modes_t (*get_mode)(bdk_node_t node, int qlm);
     int (*set_mode)(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags);
     int (*get_gbaud_mhz)(bdk_node_t node, int qlm);
@@ -105,19 +104,6 @@ extern int bdk_qlm_get_num(bdk_node_t node);
  * @return Number of lanes on the QLM
  */
 extern int bdk_qlm_get_lanes(bdk_node_t node, int qlm);
-
-/**
- * Iterate through the supported modes of a QLM. On first call specify
- * disabled as the last value. It will then return supported modes,
- * ending the list with disabled.
- *
- * @param node   Node to use in a Numa setup
- * @param qlm    QLM to examine
- * @param last   Previous value returned, or disabled to start list
- *
- * @return Next supported QLM mode
- */
-extern bdk_qlm_modes_t bdk_qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last);
 
 /**
  * Convert a mode into a human understandable string
