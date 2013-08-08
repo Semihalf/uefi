@@ -1,6 +1,39 @@
 #include <bdk.h>
 
 /**
+ * These apply to DLM0
+ */
+typedef enum
+{
+    GMX_INF_MODE_DISABLED = 0,
+    GMX_INF_MODE_SGMII = 1,     /* Other interface can be SGMII or QSGMII */
+    GMX_INF_MODE_QSGMII = 2,    /* Other interface can be SGMII or QSGMII */
+    GMX_INF_MODE_RXAUI = 3,     /* Only interface 0, interface 1 must be DISABLED */
+} gmx_inf_mode_t;
+
+/**
+ * These apply to DLM1 and DLM2 if its not in SATA mode
+ * Manual refers to lanes as follows:
+ *  DML 0 lane 0 == GSER0 lane 0
+ *  DML 0 lane 1 == GSER0 lane 1
+ *  DML 1 lane 2 == GSER1 lane 0
+ *  DML 1 lane 3 == GSER1 lane 1
+ *  DML 2 lane 4 == GSER2 lane 0
+ *  DML 2 lane 5 == GSER2 lane 1
+ */
+typedef enum
+{
+    PEM_CFG_MD_GEN2_2LANE = 0,  /* Valid for PEM0(DLM1), PEM1(DLM2) */
+    PEM_CFG_MD_GEN2_1LANE = 1,  /* Valid for PEM0(DLM1.0), PEM1(DLM1.1,DLM2.0), PEM2(DLM2.1) */
+    PEM_CFG_MD_GEN2_4LANE = 2,  /* Valid for PEM0(DLM1-2) */
+    /* Reserved */
+    PEM_CFG_MD_GEN1_2LANE = 4,  /* Valid for PEM0(DLM1), PEM1(DLM2) */
+    PEM_CFG_MD_GEN1_1LANE = 5,  /* Valid for PEM0(DLM1.0), PEM1(DLM1.1,DLM2.0), PEM2(DLM2.1) */
+    PEM_CFG_MD_GEN1_4LANE = 6,  /* Valid for PEM0(DLM1-2) */
+    /* Reserved */
+} pem_cfg_md_t;
+
+/**
  * Return the number of QLMs supported for the chip
  *
  * @return Number of QLMs
@@ -32,8 +65,8 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
             BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
             switch (inf_mode.s.mode)
             {
-                case 0: return 0; /* SGMII */
-                case 2: return 0; /* QSGMII */
+                case GMX_INF_MODE_SGMII: return 0;
+                case GMX_INF_MODE_QSGMII: return 0;
                 default: return -1;
             }
         }
@@ -44,31 +77,32 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
             BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
             switch (inf_mode.s.mode)
             {
-                case 1: return 0; /* RXAUI */
+                case GMX_INF_MODE_RXAUI: return 0;
                 default: return -1;
             }
         }
         case BDK_IF_DPI: /* Used for PCIe detection */
         {
-            bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(bdk_numa_local(), 1);
+            bdk_qlm_modes_t qlm_mode1 = bdk_qlm_get_mode(node, 1);
+            bdk_qlm_modes_t qlm_mode2 = bdk_qlm_get_mode(node, 2);
             switch (interface)
             {
-                case 0: /* PCIe0 can be DLM1, 1, 2, or 4 lanes */
-                    if ((qlm_mode == BDK_QLM_MODE_PCIE_1X2) ||
-                        (qlm_mode == BDK_QLM_MODE_PCIE_2X1) ||
-                        (qlm_mode == BDK_QLM_MODE_PCIE_1X4))
+                case 0: /* PCIe0 can be DLM1 with 1, 2, or 4 lanes */
+                    if ((qlm_mode1 == BDK_QLM_MODE_PCIE_1X4) || /* Using DLM 1-2 */
+                        (qlm_mode1 == BDK_QLM_MODE_PCIE_1X2) || /* Using DLM 1 */
+                        (qlm_mode1 == BDK_QLM_MODE_PCIE_1X1)) /* Using DLM 1, lane 0. Lane 1 not used */
                         return 1;
                     else
                         return -1;
-                case 1: /* PCIe1 can be DLM1, 1 lane */
-                    if (qlm_mode == BDK_QLM_MODE_PCIE_2X1)
+                case 1: /* PCIe1 can be DLM1 1 lane(1), DLM2 1 lane(0) or 2 lanes(0-1) */
+                    if (qlm_mode1 == BDK_QLM_MODE_PCIE_2X1)
                         return 1;
+                    else if (qlm_mode2 == BDK_QLM_MODE_PCIE_1X1)
+                        return 2;
                     else
                         return -1;
-                case 2: /* PCIe2 can be DLM2, 2 lanes */
-                    if (qlm_mode == BDK_QLM_MODE_PCIE_1X4)
-                        return -1;
-                    else if (bdk_qlm_get_mode(bdk_numa_local(), 2) == BDK_QLM_MODE_PCIE_1X2)
+                case 2: /* PCIe2 can be DLM2 1 lanes(1) */
+                    if (qlm_mode2 == BDK_QLM_MODE_PCIE_2X1)
                         return 2;
                     else
                         return -1;
@@ -108,37 +142,7 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  */
 static bdk_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm_modes_t last)
 {
-    switch (qlm)
-    {
-        case 0:
-            switch (last)
-            {
-                case BDK_QLM_MODE_DISABLED: return BDK_QLM_MODE_SGMII;
-                case BDK_QLM_MODE_SGMII:    return BDK_QLM_MODE_QSGMII;
-                case BDK_QLM_MODE_QSGMII:   return BDK_QLM_MODE_RXAUI_1X2;
-                default:                    return BDK_QLM_MODE_DISABLED;
-            }
-        case 1:
-            switch (last)
-            {
-                case BDK_QLM_MODE_DISABLED: return BDK_QLM_MODE_PCIE_1X2;
-                case BDK_QLM_MODE_PCIE_1X2: return BDK_QLM_MODE_PCIE_2X1;
-                case BDK_QLM_MODE_PCIE_2X1: return BDK_QLM_MODE_PCIE_1X4;
-                default:                    return BDK_QLM_MODE_DISABLED;
-            }
-        case 2:
-            switch (last)
-            {
-                case BDK_QLM_MODE_DISABLED: return BDK_QLM_MODE_PCIE_1X4;
-                case BDK_QLM_MODE_PCIE_1X4: return BDK_QLM_MODE_PCIE_1X2;
-                case BDK_QLM_MODE_PCIE_1X2: return BDK_QLM_MODE_SATA_2X2;
-                case BDK_QLM_MODE_SATA_2X2: return BDK_QLM_MODE_PCIE_1X1_SATA;
-                case BDK_QLM_MODE_PCIE_1X1_SATA: return BDK_QLM_MODE_SATA_PCIE_1X1;
-                default:                    return BDK_QLM_MODE_DISABLED;
-            }
-        default:
-            return BDK_QLM_MODE_DISABLED;
-    }
+    return BDK_QLM_MODE_DISABLED;
 }
 
 
@@ -151,28 +155,279 @@ static bdk_qlm_modes_t qlm_get_supported_modes(bdk_node_t node, int qlm, bdk_qlm
  */
 static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
+    BDK_CSR_INIT(phy, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm));
+    /* Return disabled if PHY is in reset */
+    if (!bdk_is_simulation() && phy.s.phy_reset)
+        return BDK_QLM_MODE_DISABLED;
     switch (qlm)
     {
         case 0:
         {
-            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
-            switch (inf_mode.s.mode)
+            BDK_CSR_INIT(inf_mode0, node, BDK_GMXX_INF_MODE(0));
+            BDK_CSR_INIT(inf_mode1, node, BDK_GMXX_INF_MODE(1));
+            switch (inf_mode0.s.mode)
             {
-                case 0: return BDK_QLM_MODE_SGMII;
-                case 1: return BDK_QLM_MODE_RXAUI_1X2;
-                case 2: return BDK_QLM_MODE_QSGMII;
-                default: return BDK_QLM_MODE_DISABLED;
+                case GMX_INF_MODE_SGMII:
+                    switch (inf_mode1.s.mode)
+                    {
+                        case GMX_INF_MODE_SGMII:    return BDK_QLM_MODE_SGMII_SGMII;
+                        case GMX_INF_MODE_QSGMII:   return BDK_QLM_MODE_SGMII_QSGMII;
+                        default:                    return BDK_QLM_MODE_SGMII_DISABLED;
+                    }
+                case GMX_INF_MODE_QSGMII:
+                    switch (inf_mode1.s.mode)
+                    {
+                        case GMX_INF_MODE_SGMII:    return BDK_QLM_MODE_QSGMII_SGMII;
+                        case GMX_INF_MODE_QSGMII:   return BDK_QLM_MODE_QSGMII_QSGMII;
+                        default:                    return BDK_QLM_MODE_QSGMII_DISABLED;
+                    }
+                case GMX_INF_MODE_RXAUI:
+                    return BDK_QLM_MODE_RXAUI_1X2;
+                default:
+                    switch (inf_mode1.s.mode)
+                    {
+                        case GMX_INF_MODE_SGMII:    return BDK_QLM_MODE_DISABLED_SGMII;
+                        case GMX_INF_MODE_QSGMII:   return BDK_QLM_MODE_DISABLED_QSGMII;
+                        default:                    return BDK_QLM_MODE_DISABLED;
+                    }
             }
         }
         case 1:
-            return BDK_QLM_MODE_DISABLED; /* FIXME: DLM1 mode */
+        {
+            BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
+            BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
+            switch (pem0_cfg.cn70xx.md)
+            {
+                case PEM_CFG_MD_GEN2_2LANE: /* Gen2 Speed, 2-lanes */
+                    return BDK_QLM_MODE_PCIE_1X2;
+                case PEM_CFG_MD_GEN2_1LANE: /* Gen2 Speed, 1-lane */
+                    if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
+                        (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                        return BDK_QLM_MODE_PCIE_2X1; /* Both PEM0 and PEM1 */
+                    else
+                        return BDK_QLM_MODE_PCIE_1X1; /* Only PEM0 */
+                case PEM_CFG_MD_GEN2_4LANE: /* Gen2 Speed, 4-lanes */
+                    return BDK_QLM_MODE_PCIE_1X4;
+                case PEM_CFG_MD_GEN1_2LANE: /* Gen1 Speed, 2-lanes */
+                    return BDK_QLM_MODE_PCIE_1X2;
+                case PEM_CFG_MD_GEN1_1LANE: /* Gen1 Speed, 1-lane */
+                    if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
+                        (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                        return BDK_QLM_MODE_PCIE_2X1; /* Both PEM0 and PEM1 */
+                    else
+                        return BDK_QLM_MODE_PCIE_1X1; /* Only PEM0 */
+                case PEM_CFG_MD_GEN1_4LANE: /* Gen1 Speed, 4-lanes */
+                    return BDK_QLM_MODE_PCIE_1X4;
+                default: /* Rsvd */
+                    return BDK_QLM_MODE_DISABLED;
+            }
+        }
         case 2:
-            return BDK_QLM_MODE_DISABLED; /* FIXME: DLM2 mode */
+        {
+            BDK_CSR_INIT(sata_cfg, node, BDK_GSERX_SATA_CFG(0));
+            BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
+            BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
+            BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+            if (sata_cfg.s.sata_en)
+                return BDK_QLM_MODE_SATA_2X1;
+            if ((pem0_cfg.cn70xx.md == PEM_CFG_MD_GEN2_4LANE) ||
+                (pem0_cfg.cn70xx.md == PEM_CFG_MD_GEN1_4LANE))
+                return BDK_QLM_MODE_PCIE_1X4;
+            if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_2LANE) ||
+                (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_2LANE))
+                return BDK_QLM_MODE_PCIE_1X2;
+            if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
+                (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+            {
+                if ((pem2_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
+                    (pem2_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                    return BDK_QLM_MODE_PCIE_2X1;
+                else
+                    return BDK_QLM_MODE_PCIE_1X1;
+            }
+            if ((pem2_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
+                (pem2_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                return BDK_QLM_MODE_PCIE_2X1;
+            return BDK_QLM_MODE_DISABLED;
+        }
         default:
             return BDK_QLM_MODE_DISABLED;
     }
 }
 
+static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
+{
+    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
+    // 1. Write GSER0_DLM0_REF_USE_PAD[REF_USE_PAD] (depending on which ref clock input is desired)
+
+    // FIXME: Select ref clock
+
+    // 2. Write GSER0_DLM0_REF_CLKDIV2[REF_CLKDIV2] (for now, see Table 3-1 in the databook for value)
+    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    /* If the reference clock is higher than 100Mhz it needs to be divied by 2 */
+    if (meas_refclock > 100000000)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
+            c.s.ref_clkdiv2 = 1);
+        meas_refclock /= 2;
+    }
+
+    // 3. Write GSER0_DLM0_MPLL_MULTIPLIER[MPLL_MULTIPLIER] (for now, see Table 3-1 in the databook for value)
+    uint64_t mult = baud_mhz * 1000000 + (meas_refclock/2);
+    mult /= meas_refclock;
+    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+
+    // 4. Write GSER0_DLM0_MPLL_HALF_RATE[MPLL_HALF_RATE] (for now, see Table 3-1 in the databook for value)
+    // Synopsys says the mpll_half_rate is deprecated
+    // Do nothing
+
+    // 5. Clear GSER0_DLM0_TEST_POWERDOWN[TEST_POWERDOWN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
+        c.s.test_powerdown = 0);
+
+    // 6. Set GSER0_DLM0_REF_SSP_EN[REF_SSP_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
+        c.s.ref_ssp_en = 1);
+
+    // 7. Set GSER0_DLM0_MPLL_EN[MPLL_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
+        c.s.mpll_en = 1);
+
+    // 8. Clear GSER0_DLM0_PHY_RESET[PHY_RESET]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
+        c.s.phy_reset = 0);
+
+    // 9. Poll until the MPLL locks
+    if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_MPLL_STATUS(0, qlm), mpll_status, ==, 1, 10000))
+    {
+        bdk_error("PLL for DLM%d failed to lock\n", qlm);
+        return -1;
+    }
+    return 0;
+}
+
+static int dlm0_setup_tx(bdk_node_t node, int qlm)
+{
+    BDK_CSR_INIT(inf_mode0, node, BDK_GMXX_INF_MODE(0));
+    BDK_CSR_INIT(inf_mode1, node, BDK_GMXX_INF_MODE(1));
+
+    /* Which lanes do we need? */
+    int need0 = (inf_mode0.s.mode != GMX_INF_MODE_DISABLED);
+    int need1 = (inf_mode1.s.mode != GMX_INF_MODE_DISABLED) ||
+                 (inf_mode0.s.mode == GMX_INF_MODE_RXAUI);
+
+    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
+    // 1. Write GSER0_DLM0_TX_RATE[TXn_RATE] (for now, see Table 3-1 in the databook for value)
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_RATE(0, qlm),
+        c.s.tx0_rate = (inf_mode0.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0;
+        c.s.tx1_rate = (inf_mode1.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0);
+
+    // 2. Set GSER0_DLM0_TX_EN[TXn_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_EN(0, qlm),
+        c.s.tx0_en = need0;
+        c.s.tx1_en = need1);
+
+    // 2.1 set GSER0_DLM0_TX_CM_EN[TXn_CM_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_CM_EN(0, qlm),
+        c.s.tx0_cm_en = need0;
+        c.s.tx1_cm_en = need1);
+
+    // 3. Set GSER0_DLM0_TX_DATA_EN[TXn_DATA_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_DATA_EN(0, qlm),
+        c.s.tx0_data_en = need0;
+        c.s.tx1_data_en = need1);
+
+    // 4. Clear GSER0_DLM0_TX_RESET[TXn_RESET]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_RESET(0, qlm),
+        c.s.tx0_reset = need0;
+        c.s.tx1_reset = need1);
+
+    // 5. Poll GSER0_DLM0_TX_STATUS[TXn_STATUS][0] and
+    //    GSER0_DLM0_TX_STATUS[TXn_CM_STATUS][0] until both are set
+    // This will prevent AGX from transmitting until the PHY is ready.
+    if (!bdk_is_simulation() && need0)
+    {
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_TX_STATUS(0, qlm), tx0_status, ==, 1, 10000))
+        {
+            bdk_error("DLM%d TX0 status fail\n", qlm);
+            return -1;
+        }
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_TX_STATUS(0, qlm), tx0_cm_status, ==, 1, 10000))
+        {
+            bdk_error("DLM%d TX0 CM status fail\n", qlm);
+            return -1;
+        }
+    }
+    if (!bdk_is_simulation() && need1)
+    {
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_TX_STATUS(0, qlm), tx1_status, ==, 1, 10000))
+        {
+            bdk_error("DLM%d TX1 status fail\n", qlm);
+            return -1;
+        }
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_TX_STATUS(0, qlm), tx1_cm_status, ==, 1, 10000))
+        {
+            bdk_error("DLM%d TX1 CM status fail\n", qlm);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+static int dlm0_setup_rx(bdk_node_t node, int qlm)
+{
+    BDK_CSR_INIT(inf_mode0, node, BDK_GMXX_INF_MODE(0));
+    BDK_CSR_INIT(inf_mode1, node, BDK_GMXX_INF_MODE(1));
+
+    /* Which lanes do we need? */
+    int need0 = (inf_mode0.s.mode != GMX_INF_MODE_DISABLED);
+    int need1 = (inf_mode1.s.mode != GMX_INF_MODE_DISABLED) ||
+                 (inf_mode0.s.mode == GMX_INF_MODE_RXAUI);
+
+    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
+    // 1. Write GSER0_DLM0_RX_RATE[RXn_RATE] (for now, see Table 3-1 in the databook for value)
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_RATE(0, qlm),
+        c.s.rx0_rate = (inf_mode0.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0;
+        c.s.rx1_rate = (inf_mode1.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0);
+
+    // 2. Set GSER0_DLM0_RX_PLL_EN[RXn_PLL_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_PLL_EN(0, qlm),
+        c.s.rx0_pll_en = need0;
+        c.s.rx1_pll_en = need1);
+
+    // 3. Set GSER0_DLM0_RX_DATA_EN[RXn_DATA_EN]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_DATA_EN(0, qlm),
+        c.s.rx0_data_en = need0;
+        c.s.rx1_data_en = need1);
+
+    // 4. Clear GSER0_DLM0_RX_RESET[RXn_RESET]
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_RESET(0, qlm),
+        c.s.rx0_reset = need0;
+        c.s.rx1_reset = need1);
+    return 0;
+}
+
+static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
+{
+    // 1. Write GSER0_DLM2_MPLL_MULTIPLIER - use values in Table 3-1 in the databook
+    // 2. Clear GSER0_DLM2_TEST_POWERDOWN
+    // 3. Clear GSER0_DLM2_PHY_RESET
+    if (dlm_setup_pll(node, qlm, baud_mhz))
+        return -1;
+    // 4. Set GSER0_SATA_CFG.SATA_EN to configure DLM2 muxing correctly
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_CFG(0),
+        c.s.sata_en = 1);
+    // 5. Clear GSER0_SATA_LANE_RST - clear either or both lane 0 & 1 resets
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_LANE_RST(0),
+        c.s.l0_rst = 0;
+        c.s.l1_rst = 0);
+    return 0;
+}
+
+static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int gen2, int root)
+{
+    return -1; // FIXME: setup dlm for pcie
+}
 
 /**
  * For chips that don't use pin strapping, this function programs
@@ -188,9 +443,167 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-    /* FIXME: Set mode */
-    bdk_error("CN70XX qlm_set_mode not implemented\n");
-    return -1;
+    switch (qlm)
+    {
+        case 0:
+        {
+            BDK_CSR_INIT(inf_mode0, node, BDK_GMXX_INF_MODE(0));
+            BDK_CSR_INIT(inf_mode1, node, BDK_GMXX_INF_MODE(1));
+            if (inf_mode0.s.en || inf_mode1.s.en)
+            {
+                bdk_error("DLM0 already configured\n");
+                return -1;
+            }
+            switch (mode)
+            {
+                case BDK_QLM_MODE_RXAUI_1X2:
+                    inf_mode0.s.mode = GMX_INF_MODE_RXAUI;
+                    inf_mode1.s.mode = GMX_INF_MODE_DISABLED;
+                    break;
+                case BDK_QLM_MODE_SGMII_SGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_SGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_SGMII;
+                    break;
+                case BDK_QLM_MODE_SGMII_QSGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_SGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_QSGMII;
+                    break;
+                case BDK_QLM_MODE_SGMII_DISABLED:
+                    inf_mode0.s.mode = GMX_INF_MODE_SGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_DISABLED;
+                    break;
+                case BDK_QLM_MODE_QSGMII_SGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_QSGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_SGMII;
+                    break;
+                case BDK_QLM_MODE_QSGMII_QSGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_QSGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_QSGMII;
+                    break;
+                case BDK_QLM_MODE_QSGMII_DISABLED:
+                    inf_mode0.s.mode = GMX_INF_MODE_QSGMII;
+                    inf_mode1.s.mode = GMX_INF_MODE_DISABLED;
+                    break;
+                case BDK_QLM_MODE_DISABLED_SGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_DISABLED;
+                    inf_mode1.s.mode = GMX_INF_MODE_SGMII;
+                    break;
+                case BDK_QLM_MODE_DISABLED_QSGMII:
+                    inf_mode0.s.mode = GMX_INF_MODE_DISABLED;
+                    inf_mode1.s.mode = GMX_INF_MODE_QSGMII;
+                    break;
+                case BDK_QLM_MODE_DISABLED:
+                    inf_mode0.s.mode = GMX_INF_MODE_DISABLED;
+                    inf_mode1.s.mode = GMX_INF_MODE_DISABLED;
+                    break;
+                default:
+                    bdk_error("DLM0 illegal mode specified\n");
+                    return -1;
+            }
+            /* Configure the mode */
+            BDK_CSR_WRITE(node, BDK_GMXX_INF_MODE(0), inf_mode0.u);
+            BDK_CSR_WRITE(node, BDK_GMXX_INF_MODE(1), inf_mode1.u);
+            /* Bringup the PLL */
+            if (dlm_setup_pll(node, qlm, baud_mhz))
+                return -1;
+            /* TX Lanes */
+            if (dlm0_setup_tx(node, qlm))
+                return -1;
+            /* RX Lanes */
+            if (dlm0_setup_rx(node, qlm))
+                return -1;
+
+            if (inf_mode0.s.mode != GMX_INF_MODE_DISABLED)
+                inf_mode0.s.en = 1;
+            if (inf_mode1.s.mode != GMX_INF_MODE_DISABLED)
+                inf_mode1.s.en = 1;
+            /* Enable the interfaces */
+            BDK_CSR_WRITE(node, BDK_GMXX_INF_MODE(0), inf_mode0.u);
+            BDK_CSR_WRITE(node, BDK_GMXX_INF_MODE(1), inf_mode1.u);
+            return 0;
+        }
+        case 1:
+        {
+            BDK_CSR_INIT(pem_cfg0, node, BDK_PEMX_CFG(0));
+            BDK_CSR_INIT(pem_cfg1, node, BDK_PEMX_CFG(1));
+            switch (mode)
+            {
+                case BDK_QLM_MODE_PCIE_1X4:
+                    /* DLM0+DLM1 is PCIE0 */
+                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_4LANE : PEM_CFG_MD_GEN2_4LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_PCIE_1X2:
+                    /* DLM0 is PCIE0 */
+                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_2LANE : PEM_CFG_MD_GEN2_2LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_PCIE_2X1:
+                    /* DLM0 is PCIE0+PCIE1 */
+                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
+                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_PCIE_1X1:
+                    /* DLM0+DLM1 is PCIE0 */
+                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_DISABLED:
+                    break;
+                default:
+                    bdk_error("DLM1 illegal mode specified\n");
+                    return -1;
+            }
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG(0), pem_cfg0.u);
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
+            return 0;
+        }
+        case 2:
+        {
+            BDK_CSR_INIT(pem_cfg1, node, BDK_PEMX_CFG(1));
+            BDK_CSR_INIT(pem_cfg2, node, BDK_PEMX_CFG(2));
+            switch (mode)
+            {
+                case BDK_QLM_MODE_SATA_2X1:
+                    /* DLM2 is SATA. PCIE2 is disabled */
+                    if (dlm2_setup_sata(node, qlm, 5000))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_PCIE_1X4:
+                    /* DLM2 is PCIE0. PCIE1-2 are disabled */
+                    /* Do nothing as setup was done with DLM 1 */
+                    break;
+                case BDK_QLM_MODE_PCIE_1X2:
+                    /* DLM2 is PCIE1. PCIE2 is disabled */
+                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_2LANE : PEM_CFG_MD_GEN2_2LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_PCIE_2X1:
+                    /* DLM2 is PCIE1 and PCIE2 */
+                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
+                    pem_cfg2.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
+                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    break;
+                case BDK_QLM_MODE_DISABLED:
+                    break;
+                default:
+                    bdk_error("DLM2 illegal mode specified\n");
+                    return -1;
+            }
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG(2), pem_cfg2.u);
+            return 0;
+        }
+        default:
+            return -1;
+    }
 }
 
 
@@ -203,38 +616,21 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    switch (qlm)
-    {
-        case 0:
-        {
-            BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(0));
-            switch (inf_mode.s.speed)
-            {
-                case 0: return 5000;    /* 5     Gbaud */
-                case 1: return 2500;    /* 2.5   Gbaud */
-                case 2: return 2500;    /* 2.5   Gbaud */
-                case 3: return 1250;    /* 1.25  Gbaud */
-                case 4: return 1250;    /* 1.25  Gbaud */
-                case 5: return 6250;    /* 6.25  Gbaud */
-                case 6: return 5000;    /* 5     Gbaud */
-                case 7: return 2500;    /* 2.5   Gbaud */
-                case 8: return 3125;    /* 3.125 Gbaud */
-                case 9: return 2500;    /* 2.5   Gbaud */
-                case 10: return 1250;   /* 1.25  Gbaud */
-                case 11: return 5000;   /* 5     Gbaud */
-                case 12: return 6250;   /* 6.25  Gbaud */
-                case 13: return 3750;   /* 3.75  Gbaud */
-                case 14: return 3125;   /* 3.125 Gbaud */
-                default: return 0;      /* Disabled */
-            }
-        }
-        case 1:
-            return 0; /* FIXME: QLM speed */
-        case 2:
-            return 0; /* FIXME: QLM speed */
-        default:
-            return 0;
-    }
+    /* Return zero if the PLL hasn't locked */
+    BDK_CSR_INIT(dlmx_mpll, node, BDK_GSERX_DLMX_MPLL_STATUS(0, qlm));
+    if (dlmx_mpll.s.mpll_status == 0)
+        return 0;
+    /* Measure the reference clock */
+    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    uint64_t mhz = meas_refclock / 1000000;
+    /* Divide it by two if the DLM is configure that way */
+    BDK_CSR_INIT(dlmx_ref_clkdiv2, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm));
+    if (dlmx_ref_clkdiv2.s.ref_clkdiv2)
+        mhz /= 2;
+    /* Multiply to get the final frequency */
+    BDK_CSR_INIT(dlmx_mpll_multiplier, node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm));
+    mhz *= dlmx_mpll_multiplier.s.mpll_multiplier;
+    return mhz;
 }
 
 
@@ -298,7 +694,7 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
  */
 static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 {
-    bdk_error("CN70XX doesn't support shallow QLM loopback\n");
+    bdk_error("Shallow loopback not supported on this chip\n");
     return -1;
 }
 

@@ -16,14 +16,12 @@ static int if_num_interfaces(bdk_node_t node)
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    if (bdk_qlm_get(node, BDK_IF_SGMII, interface) < 0)
-        return 0;
-    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         BDK_CSR_INIT(inf_mode, node, BDK_GMXX_INF_MODE(interface));
         switch (inf_mode.s.mode)
         {
-            case 0: /* Normal SGMII */
+            case 1: /* Normal SGMII */
                 return 1;
             case 2: /* Quad SGMII */
                 return 4;
@@ -31,6 +29,8 @@ static int if_num_ports(bdk_node_t node, int interface)
                 return 0;
         }
     }
+    else if (bdk_qlm_get(node, BDK_IF_SGMII, interface) < 0)
+        return 0;
     else
         return 4;
 }

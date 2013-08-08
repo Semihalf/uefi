@@ -108,8 +108,29 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_SGMII:
             result = "SGMII, each lane independent";
             break;
-        case BDK_QLM_MODE_QSGMII:
-            result = "Quad SGMII, four SGMII muliplex over each lane";
+        case BDK_QLM_MODE_SGMII_SGMII:
+            result = "Two SGMII";
+            break;
+        case BDK_QLM_MODE_SGMII_QSGMII:
+            result = "SGMII lane 0, QSGMII lane 1";
+            break;
+        case BDK_QLM_MODE_SGMII_DISABLED:
+            result = "SGMII lane 0, Disabled lane 1";
+            break;
+        case BDK_QLM_MODE_QSGMII_SGMII:
+            result = "QSGMII lane 0, SGMII lane 1";
+            break;
+        case BDK_QLM_MODE_QSGMII_QSGMII:
+            result = "Two QSGMII";
+            break;
+        case BDK_QLM_MODE_QSGMII_DISABLED:
+            result = "QSGMII lane 0, Disabled lane 1";
+            break;
+        case BDK_QLM_MODE_DISABLED_SGMII:
+            result = "Disabled lane 0, SGMII lane 1";
+            break;
+        case BDK_QLM_MODE_DISABLED_QSGMII:
+            result = "Disabled lane 0, QSGMII lane 1";
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             result = "1 XAUI, 4 lanes";
@@ -123,14 +144,8 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_RXAUI_1X2:
             result = "1 RXAUI, 2 lanes";
             break;
-        case BDK_QLM_MODE_SATA_2X2:
+        case BDK_QLM_MODE_SATA_2X1:
             result = "2 SATA, one lane each";
-            break;
-        case BDK_QLM_MODE_PCIE_1X1_SATA:
-            result = "1 lane PCIe, 1 lane SATA";
-            break;
-        case BDK_QLM_MODE_SATA_PCIE_1X1:
-            result = "1 lane SATA, 1 lane PCIe";
             break;
         case BDK_QLM_MODE_OCI:
             result = "Octeon Coherent Interconnect";
@@ -151,6 +166,23 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
 bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
 {
     return qlm_ops->get_mode(node, qlm);
+}
+
+/**
+ * For chips that don't use pin strapping, this function programs
+ * the QLM to the specified mode
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param mode     Desired mode
+ * @param baud_mhz Desired speed
+ * @param flags    Flags to specify mode specific options
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
+{
+    return qlm_ops->set_mode(node, qlm, mode, baud_mhz, flags);
 }
 
 /**
