@@ -4,7 +4,7 @@
 -- 3. Only messages below the log level are displayed.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2012 Cavium Networks
+-- * Copyright (C) 2010-2013 Cavium Networks
 --
 -- @alias logging
 require("utils")

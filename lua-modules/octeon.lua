@@ -8,7 +8,7 @@
 -- one on the target.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2012 Cavium Networks
+-- * Copyright (C) 2010-2013 Cavium Networks
 --
 require("utils")
 

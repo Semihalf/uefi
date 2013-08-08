@@ -2,7 +2,7 @@
 -- Print out a banner
 print("")
 print("Octeon Bringup and Diagnostic Kit")
-print("Copyright (C) 2010-2012 Cavium Networks")
+print("Copyright (C) 2010-2013 Cavium Networks")
 print("Version ".. require("bdk-version"))
 print("")
 
