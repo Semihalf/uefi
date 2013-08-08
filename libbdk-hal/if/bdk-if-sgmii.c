@@ -38,7 +38,10 @@ static int if_num_ports(bdk_node_t node, int interface)
 static int if_probe(bdk_if_handle_t handle)
 {
     /* Change name to be "SGMII%d.%d" */
-    snprintf(handle->name, sizeof(handle->name), "N%d.SGMII%d.%d", handle->node, handle->interface, handle->index);
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), "SGMII%d.%d", handle->interface, handle->index);
+    else
+        snprintf(handle->name, sizeof(handle->name), "N%d.SGMII%d.%d", handle->node, handle->interface, handle->index);
     handle->name[sizeof(handle->name)-1] = 0;
 
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))

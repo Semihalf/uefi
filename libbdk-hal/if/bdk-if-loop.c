@@ -18,7 +18,10 @@ static int if_num_ports(bdk_node_t node, int interface)
 static int if_probe(bdk_if_handle_t handle)
 {
     /* Change name to be "LOOP" with a single number */
-    snprintf(handle->name, sizeof(handle->name), "N%d.LOOP%d", handle->node, handle->index);
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), "LOOP%d", handle->index);
+    else
+        snprintf(handle->name, sizeof(handle->name), "N%d.LOOP%d", handle->node, handle->index);
     handle->name[sizeof(handle->name)-1] = 0;
 
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))

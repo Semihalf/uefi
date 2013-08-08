@@ -32,7 +32,10 @@ static int if_probe(bdk_if_handle_t handle)
     int result = __bdk_if_ops_xaui.if_probe(handle);
 
     /* Change name to be "HIGIG%d.%d" */
-    snprintf(handle->name, sizeof(handle->name), "N%d.HIGIG%d.%d", handle->node, handle->interface, handle->index);
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), "HIGIG%d.%d", handle->interface, handle->index);
+    else
+        snprintf(handle->name, sizeof(handle->name), "N%d.HIGIG%d.%d", handle->node, handle->interface, handle->index);
     handle->name[sizeof(handle->name)-1] = 0;
     return result;
 }

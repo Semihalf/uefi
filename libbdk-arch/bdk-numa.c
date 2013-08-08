@@ -56,5 +56,13 @@ void bdk_numa_set_running(bdk_node_t node)
     bdk_spinlock_unlock(&__bdk_numa_lock);
 }
 
-
+/**
+ * Return true if there is only one node
+ *
+ * @return
+ */
+extern int bdk_numa_is_only_one()
+{
+    return __bdk_numa_exists_mask == 1;
+}
 
