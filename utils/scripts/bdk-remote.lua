@@ -106,6 +106,23 @@ local REGISTER_NAMES = {
     [0x100 + 31*8 + 2] = "Kscratch1",
     [0x100 + 31*8 + 3] = "Kscratch2",
     [0x100 + 31*8 + 4] = "Kscratch3",
+    [0x100 +  8*8 + 1] = "BadInstr",    -- From here on only exists in Octeon 3
+    [0x100 +  8*8 + 2] = "BadInstrP",
+    [0x100 + 10*8 + 4] = "GuestCtl1",
+    [0x100 + 10*8 + 5] = "GuestCtl2",
+    [0x100 + 12*8 + 6] = "GuestCtl0",
+    [0x100 + 12*8 + 7] = "GTOoffest",
+    [0x100 + 16*8 + 5] = "Config5",
+    [0x100 + 16*8 + 6] = "CvmMemCtl2",
+    [0x100 + 16*8 + 7] = "CvmVMConfig",
+    [0x100 + 25*8 + 4] = "PerfControl2",
+    [0x100 + 25*8 + 5] = "PerfValue2",
+    [0x100 + 25*8 + 6] = "PerfControl3",
+    [0x100 + 25*8 + 7] = "PerfValue3",
+    [0x100 + 26*8 + 0] = "ErrCtl",
+    [0x100 + 27*8 + 2] = "ICacheDebug",
+    [0x100 + 28*8 + 4] = "TagLoD1",
+    [0x100 + 31*8 + 5] = "Kscratch4",
 }
 
 function remote.csr(args)

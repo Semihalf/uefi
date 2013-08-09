@@ -611,6 +611,26 @@ int octeon_remote_open(const char *remote_spec, int debug)
         UPDATE_VALID_COP0(31, 2); /* COP0_KSCRATCH1         Octeon2 - Scratch area */
         UPDATE_VALID_COP0(31, 3); /* COP0_KSCRATCH2         Octeon2 - Scratch area */
         UPDATE_VALID_COP0(31, 4); /* COP0_KSCRATCH3         Octeon2 - Scratch area */
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            UPDATE_VALID_COP0(8,1);     /* Bad instruction (Octeon 3) */
+            UPDATE_VALID_COP0(8,2);     /* Instruction prior to bad (Octeon 3) */
+            UPDATE_VALID_COP0(10,4);    /* Guest control 1 (Octeon 3) */
+            UPDATE_VALID_COP0(10,5);    /* Guest control 2 (Octeon 3) */
+            UPDATE_VALID_COP0(12,6);    /* Guest control 0 (Octeon 3) */
+            UPDATE_VALID_COP0(12,7);    /* Guest clock offset (Octeon 3) */
+            UPDATE_VALID_COP0(16,5);    /* Misc config options (Octeon 3) */
+            UPDATE_VALID_COP0(16,6);    /* Cavium memory control (Octeon 3) */
+            UPDATE_VALID_COP0(16,7);    /* Cavium VM config (Octeon 3) */
+            UPDATE_VALID_COP0(25,4);    /* Performance counter control (Octeon 3) */
+            UPDATE_VALID_COP0(25,5);    /* Performance counter (Octeon 3) */
+            UPDATE_VALID_COP0(25,6);    /* Performance counter control (Octeon 3) */
+            UPDATE_VALID_COP0(25,7);    /* Performance counter (Octeon 3) */
+            UPDATE_VALID_COP0(26,0);    /* Root error control (Octeon 3) */
+            UPDATE_VALID_COP0(27,2);    /* BIST info (Octeon 3) */
+            UPDATE_VALID_COP0(28,4);    /* D cache tagLo1 (Octeon 3) */
+            UPDATE_VALID_COP0(31,5);    /* Scratch area (Octeon 3) */
+        }
     }
 
     if (result)

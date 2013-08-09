@@ -20,16 +20,22 @@
 #define COP0_WIRED	$6,0	/* TLB number of wired entries */
 #define COP0_HWRENA	$7,0	/* rdhw instruction enable per register */
 #define COP0_BADVADDR	$8,0	/* Bad virtual address */
+#define COP0_BADINSTR   $8,1    /* Bad instruction (Octeon 3) */
+#define COP0_BADINSTRP  $8,2    /* Instruction prior to bad (Octeon 3) */
 #define COP0_COUNT	$9,0	/* Mips count register */
 #define COP0_CVMCOUNT	$9,6	/* Cavium count register */
 #define COP0_CVMCTL	$9,7	/* Cavium control */
 #define COP0_ENTRYHI	$10,0	/* TLB entryHi */
+#define COP0_GUESTCTL1  $10,4   /* Guest control 1 (Octeon 3) */
+#define COP0_GUESTCTL2  $10,5   /* Guest control 2 (Octeon 3) */
 #define COP0_COMPARE	$11,0	/* Mips compare register */
 #define COP0_POWTHROTTLE $11,6	/* Power throttle register (Octeon 2) */
 #define COP0_CVMMEMCTL	$11,7	/* Cavium memory control */
 #define COP0_STATUS	$12,0	/* Mips status register */
 #define COP0_INTCTL	$12,1	/* Useless (Vectored interrupts) */
 #define COP0_SRSCTL	$12,2	/* Useless (Shadow registers) */
+#define COP0_GUESTCTL0  $12,6   /* Guest control 0 (Octeon 3) */
+#define COP0_GTOFFEST   $12,7   /* Guest clock offset (Octeon 3) */
 #define COP0_CAUSE	$13,0	/* Mips cause register */
 #define COP0_EPC	$14,0	/* Exception program counter */
 #define COP0_PRID	$15,0	/* Processor ID */
@@ -39,7 +45,9 @@
 #define COP0_CONFIG2	$16,2	/* Misc config options */
 #define COP0_CONFIG3	$16,3	/* Misc config options */
 #define COP0_CONFIG4    $16,4   /* Misc config options (Octeon 2) */
+#define COP0_CONFIG5    $16,5   /* Misc config options (Octeon 3) */
 #define COP0_CVMMEMCTL2 $16,6   /* Cavium memory control (Octeon 3) */
+#define COP0_CVMVMCONFIG $16,7  /* Cavium VM config (Octeon 3) */
 #define COP0_WATCHLO0	$18,0	/* Address watch registers */
 #define COP0_WATCHLO1	$18,1	/* Address watch registers */
 #define COP0_WATCHHI0	$19,0	/* Address watch registers */
@@ -50,15 +58,22 @@
 #define COP0_DEBUG2     $23,6   /* Debug2 Complex breakpoints (Octeon 2) */
 #define COP0_DEPC	$24,0	/* Debug PC */
 #define COP0_PERFCONTROL0 $25,0	/* Performance counter control */
-#define COP0_PERFCONTROL1 $25,2	/* Performance counter control */
 #define COP0_PERFVALUE0	$25,1	/* Performance counter */
+#define COP0_PERFCONTROL1 $25,2	/* Performance counter control */
 #define COP0_PERFVALUE1	$25,3	/* Performance counter */
+#define COP0_PERFCONTROL2 $25,4	/* Performance counter control (Octeon 3) */
+#define COP0_PERFVALUE2	$25,5	/* Performance counter (Octeon 3) */
+#define COP0_PERFCONTROL3 $25,6	/* Performance counter control (Octeon 3) */
+#define COP0_PERFVALUE3	$25,7	/* Performance counter (Octeon 3) */
+#define COP0_ERRCTL     $26,0   /* Root error control (Octeon 3) */
 #define COP0_CACHEERRI	$27,0	/* I cache error status */
 #define COP0_CACHEERRD	$27,1	/* D cache error status */
+#define COP0_ICACHEDEBUG $27,2  /* BIST info (Octeon 3) */
 #define COP0_TAGLOI	$28,0	/* I cache tagLo */
 #define COP0_TAGLOD	$28,2	/* D cache tagLo */
 #define COP0_DATALOI	$28,1	/* I cache dataLo */
 #define COP0_DATALOD	$28,3	/* D cahce dataLo */
+#define COP0_TAGLOD1    $28,4   /* D cache tagLo1 (Octeon 3) */
 #define COP0_TAGHI	$29,2	/* ? */
 #define COP0_DATAHII	$29,1	/* ? */
 #define COP0_DATAHID	$29,3	/* ? */
@@ -67,6 +82,7 @@
 #define COP0_KSCRATCH1  $31,2   /* Scratch area (Octeon 2) */
 #define COP0_KSCRATCH2  $31,3   /* Scratch area (Octeon 2) */
 #define COP0_KSCRATCH3  $31,4   /* Scratch area (Octeon 2) */
+#define COP0_KSCRATCH4  $31,5   /* Scratch area (Octeon 3) */
 
 /* This header file can be included from a .S file.  Keep non-preprocessor
    things under !__ASSEMBLER__.  */

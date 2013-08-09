@@ -1414,6 +1414,25 @@ int octeon_remote_gdbremote(octeon_remote_funcs_t *remote_funcs)
     MACRAIGOR_COP0_NAMES[31*8 + 3] = "kscratch2";
     MACRAIGOR_COP0_NAMES[31*8 + 4] = "kscratch3";
 
+    /* Octeon 3 COP0 registers */
+    MACRAIGOR_COP0_NAMES[ 8*8 + 1] = "FIXME";    /* Bad instruction (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[ 8*8 + 2] = "FIXME";    /* Instruction prior to bad (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[10*8 + 4] = "FIXME";    /* Guest control 1 (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[10*8 + 5] = "FIXME";    /* Guest control 2 (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[12*8 + 6] = "FIXME";    /* Guest control 0 (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[12*8 + 7] = "FIXME";    /* Guest clock offset (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[16*8 + 5] = "FIXME";    /* Misc config options (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[16*8 + 6] = "FIXME";    /* Cavium memory control (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[16*8 + 7] = "FIXME";    /* Cavium VM config (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[25*8 + 4] = "FIXME";    /* Performance counter control (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[25*8 + 5] = "FIXME";    /* Performance counter (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[25*8 + 6] = "FIXME";    /* Performance counter control (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[25*8 + 7] = "FIXME";    /* Performance counter (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[26*8 + 0] = "FIXME";    /* Root error control (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[27*8 + 2] = "FIXME";    /* BIST info (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[28*8 + 4] = "FIXME";    /* D cache tagLo1 (Octeon 3) */
+    MACRAIGOR_COP0_NAMES[31*8 + 5] = "FIXME";    /* Scratch area (Octeon 3) */
+
     return 0;
 }
 
