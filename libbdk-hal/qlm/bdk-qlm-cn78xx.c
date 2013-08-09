@@ -210,6 +210,21 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
     return -1;
 }
 
+/**
+ * Return the number of PRBS errors since PRBS started running
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ *
+ * @return Number of errors
+ */
+static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+{
+    /* FIXME: PRBS errors */
+    bdk_error("CN78XX PRBS not implemented\n");
+    return -1;
+}
 
 /**
  * Enable shallow loopback on a QLM
@@ -249,6 +264,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
     .get_qlm_num = qlm_get_qlm_num,
     .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
+    .get_prbs_errors = qlm_get_prbs_errors,
     .enable_loop = qlm_enable_loop,
 };
 

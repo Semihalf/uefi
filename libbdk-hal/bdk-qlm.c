@@ -189,10 +189,20 @@ int bdk_qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 {
-    /* Force the reference to 156.25Mhz when running in simulation.
-        This supports the most speeds */
     if (bdk_is_simulation())
-        return 156250000;
+    {
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        {
+            /* CN70XX's default reference is 100Mhz */
+            return 100000000;
+        }
+        else
+        {
+            /* Force the reference to 156.25Mhz when running in simulation.
+                This supports the most speeds */
+            return 156250000;
+        }
+    }
     return qlm_ops->measure_refclock(node, qlm);
 }
 
@@ -227,6 +237,20 @@ int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t 
     return qlm_ops->enable_prbs(node, qlm, prbs, dir);
 }
 
+
+/**
+ * Return the number of PRBS errors since PRBS started running
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ *
+ * @return Number of errors
+ */
+uint64_t bdk_qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+{
+    return qlm_ops->get_prbs_errors(node, qlm, lane);
+}
 
 /**
  * Enable shallow loopback on a QLM

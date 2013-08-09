@@ -251,32 +251,33 @@ local function do_prbs(mode)
             output_line(qlm_base, "", function(qlm, lane)
                 return "Lane " .. lane
             end)
-            output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
-                if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
-                else
-                    return ""
-                end
-            end)
-            output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
-                if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
-                else
-                    return ""
-                end
-            end)
-            output_line(qlm_base, "RX cap", function(qlm, lane)
-                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
-            end)
-            output_line(qlm_base, "RX eq", function(qlm, lane)
-                return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_eq_gen2")
-            end)
+            if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+                output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
+                    if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
+                        return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
+                    else
+                        return ""
+                    end
+                end)
+                output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
+                    if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
+                        return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
+                    else
+                        return ""
+                    end
+                end)
+                output_line(qlm_base, "RX cap", function(qlm, lane)
+                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
+                end)
+                output_line(qlm_base, "RX eq", function(qlm, lane)
+                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_eq_gen2")
+                end)
+            end
             output_line(qlm_base, "PRBS Errors", function(qlm, lane)
-                local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
-                if v == 0 then
+                local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
+                if v == -1 then
                     return "No Lock"
                 else
-                    v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
                     if v == 0 then
                         return "-"
                     elseif v < 1000000 then
@@ -290,14 +291,16 @@ local function do_prbs(mode)
             end)
             output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
                 local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm)
-                local v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_lock")
-                if (v == 0) or (run_time == 0) then
+                local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
+                if (v == -1) or (run_time == 0) then
                     return "-"
                 else
                     -- Calculate the error rate as a fraction of the bits
                     -- transmitted
-                    v = octeon.c.bdk_qlm_jtag_get(qlm, lane, "prbs_err_cnt")
                     local total_bits = qlm_speed * run_time
+                    if total_bits == 0 then
+                        total_bits = 1
+                    end
                     local rate_exponent = -6 -- Since qlm_speed is in Mbps
                     local rate
                     -- If no errors then act like the next bit is an error
@@ -355,11 +358,15 @@ function qlm_tuning.run()
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
-        m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
-        m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
+        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+            m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
+            m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
+        end
         m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
-        m:item("loop1", "Shallow loopback lane 0 and 3", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 1)
-        m:item("loop3", "Shallow loopback lane 1 and 2", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 2)
+        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+            m:item("loop1", "Shallow loopback lane 0 and 3", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 1)
+            m:item("loop3", "Shallow loopback lane 1 and 2", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 2)
+        end
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
         m:item("prbs23", "PRBS-23", do_prbs, 23)

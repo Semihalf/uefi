@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+static uint64_t prbs_errors[3];
+
 /**
  * These apply to DLM0
  */
@@ -140,7 +142,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     BDK_CSR_INIT(phy, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm));
     /* Return disabled if PHY is in reset */
-    if (!bdk_is_simulation() && phy.s.phy_reset)
+    if (phy.s.phy_reset)
         return BDK_QLM_MODE_DISABLED;
     switch (qlm)
     {
@@ -256,7 +258,7 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
     }
 
     // 3. Write GSER0_DLM0_MPLL_MULTIPLIER[MPLL_MULTIPLIER] (for now, see Table 3-1 in the databook for value)
-    uint64_t mult = baud_mhz * 1000000 + (meas_refclock/2);
+    uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
     mult /= meas_refclock;
     BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
 
@@ -269,12 +271,14 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         c.s.test_powerdown = 0);
 
     // 6. Set GSER0_DLM0_REF_SSP_EN[REF_SSP_EN]
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
-        c.s.ref_ssp_en = 1);
+    if (qlm == 0)
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
+                c.s.ref_ssp_en = 1);
 
     // 7. Set GSER0_DLM0_MPLL_EN[MPLL_EN]
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
-        c.s.mpll_en = 1);
+    if (qlm == 0)
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
+            c.s.mpll_en = 1);
 
     // 8. Clear GSER0_DLM0_PHY_RESET[PHY_RESET]
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
@@ -409,7 +413,58 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 
 static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int gen2, int root)
 {
-    return -1; // FIXME: setup dlm for pcie
+    // 1. Reference Clock Source
+    //      - the QLM defaults to use the common reference clock inputs (dlm[01]c_ref_clk[np]) as opposed to the pads (dlm[0]_ref_clk[np]).
+    //      - this can be overridden by writing the GSER0_DLM0_REF_USE_PAD register.
+    // 2. Reference clock speed
+    //      - the pi_pcie_ref_spd input will cause the GSER0_DLM[12]_MPLL_MULTIPLIER to initialize with the correct value
+    //      - the GSER0_DLM[12]_MPLL_MULTIPLIER can be written with 7'd25 for a 100Mhz or 7'd40 for a 125Mhz Reference Clock
+    if (dlm_setup_pll(node, qlm, gen2 ? 5000 : 2500))
+        return -1;
+
+    // 3. Configure the PCIE PIPE
+    //      - write the GSER0_PCIE_PIPE_PORT_SEL register to configure the PCIE PIPE.
+    //      - GSER0_PCIE_PIPE_PORT_SEL[PIPE_PORT_SEL]
+    //  - GSER0_PCIE_PIPE_PORT_SEL[CFG_PEM1_DLM2]
+    //      If PEM1 is to be configured, this bit must reflect which DLM it is logically tied to.  This bit sets muxing
+    //      logic in GSER, and it used by the RST logic to determine when the MAC can come out of reset.
+    if (qlm == 1)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
+            c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
+            c.s.pipe_port_sel =
+                (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
+                (mode == BDK_QLM_MODE_PCIE_2X1) ? 2 : /* PEM0-1 */
+                (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
+                0); /* PCIe disabled */
+    }
+
+    // 4. Clear GSER0_DLM[12]_TEST_POWERDOWN
+    //      - configurations that only use DLM1 need not clear GSER0_DLM2_TEST_POWERDOWN
+    // Already done in dlm_setup_pll()
+
+    // 5. Clear GSER0_DLM[12]_PHY_RESET
+    //      - configurations that only use DLM1 need not clear GSER0_DLM2_PHY_RESET
+    // Already done in dlm_setup_pll()
+
+    // 6. Write the GSER0_PCIE_PIPE_RST register to take the appropriate PIPE out of reset
+    // - there is a PIPE[0123]_RST bit for each PIPE.  Clear (reset is active high) the appropriate bits based on the configuration.
+    if (qlm == 1)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0),
+            c.s.pipe0_rst = 0; /* PEM0 always on */
+            c.s.pipe1_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1); /* PEM1 on lane 2 */
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0),
+            c.s.pipe1_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : /* PEM1 on lane 4, PEM2 on lane 5 */
+                            (mode == BDK_QLM_MODE_PCIE_1X2) ? 0 : /* PEM1 on lane 4-5 */
+                            1; /* No PEM1 */
+            c.s.pipe2_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : /* PEM2 on lane 5 */
+                            1); /* No PEM2 */
+    }
+    return 0;
 }
 
 /**
@@ -542,6 +597,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     bdk_error("DLM1 illegal mode specified\n");
                     return -1;
             }
+            // FIXME: Lane swap?
+            pem_cfg0.cn70xx.hostmd = (flags&BDK_QLM_MODE_FLAG_ENDPOINT) ? 0 : 1;
+            pem_cfg1.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
             BDK_CSR_WRITE(node, BDK_PEMX_CFG(0), pem_cfg0.u);
             BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
             return 0;
@@ -554,7 +612,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 case BDK_QLM_MODE_SATA_2X1:
                     /* DLM2 is SATA. PCIE2 is disabled */
-                    if (dlm2_setup_sata(node, qlm, 5000))
+                    if (dlm2_setup_sata(node, qlm, 6000))
                         return -1;
                     break;
                 case BDK_QLM_MODE_PCIE_1X4:
@@ -580,6 +638,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     bdk_error("DLM2 illegal mode specified\n");
                     return -1;
             }
+            // FIXME: Lane swap?
+            pem_cfg1.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
+            pem_cfg2.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
             BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
             BDK_CSR_WRITE(node, BDK_PEMX_CFG(2), pem_cfg2.u);
             return 0;
@@ -642,8 +703,9 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
 static int qlm_reset(bdk_node_t node, int qlm)
 {
     /* FIXME: Reset QLM */
-    bdk_error("CN70XX QLM reset not implemented\n");
-    return -1;
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_TX_LBERT_CTL(0, qlm), c.s.mode = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_TX_LBERT_CTL(0, qlm), c.s.mode = 0);
+    return 0;
 }
 
 
@@ -660,11 +722,101 @@ static int qlm_reset(bdk_node_t node, int qlm)
  */
 static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir)
 {
-    /* FIXME: Enable PRBS */
-    bdk_error("CN70XX PRBS not implemented\n");
-    return -1;
+    int mode;
+    if (prbs == 31)
+        mode = 1;
+    else if (prbs == 23)
+        mode = 2;
+    else if (prbs == 15)
+        mode = 3;
+    else if (prbs == 7)
+        mode = 4;
+    else
+    {
+        bdk_error("Invalid PRBS mode %d\n", prbs);
+        return -1;
+    }
+
+    if (dir & BDK_QLM_DIRECTION_TX)
+    {
+        // 1) Program the GSER0_PHY(0..2)_LANE(1..0)_TX_LBERT_CTL
+        //      PAT0[14:5]     - 10-bit pattern
+        //      TRIG_ERR[4]    - a one shot for inserting errors
+        //      MODE[3:0]      - Pattern to generate
+        //      When changing modes, you must change to disabled first
+        //          0:    disabled
+        //          1:    lfsr31  (X^31 + X^28 + 1)
+        //          2:    lfsr23  (X^23 + X^18 + 1)
+        //          3:    lfsr15  (X^15 + X^14 + 1)
+        //          4:    lfsr7   (X^7 + X^6 + 1)
+        //          5:    Fixed Pattern (PAT0)
+        //          6:    DC Balanced {PAT0, ~PAT0}
+        //          7:    Word pattern (20-bit)
+        //          8-15: Reserved
+
+        /* Set to zero first in case already running */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_TX_LBERT_CTL(0, qlm), c.s.mode = 0);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_TX_LBERT_CTL(0, qlm), c.s.mode = 0);
+        /* Program PRBS mode. This code doesn't support the other
+            pattern modes */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_TX_LBERT_CTL(0, qlm), c.s.mode = mode);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_TX_LBERT_CTL(0, qlm), c.s.mode = mode);
+    }
+
+    if (dir & BDK_QLM_DIRECTION_RX)
+    {
+        // 2) Program the GSER0_PHY(0..2)_LANE(1..0)_RX_LBERT_CTL
+        //      SYNC[3]        - Synchronzes the pattern matcher with the incoming data.  A write of a 1 to this bit resets
+        //                      the error counter and starts a synchronization of the PM.  To run normally, there is no need
+        //                      to write this field back to a zero.
+        //      MODE[2:0]      - Pattern to generate, should match the mode in the TX_LBERT_CTL
+        //                      When changing modes, you must change to disabled first
+        //          0:    disabled
+        //          1:    lfsr31  (X^31 + X^28 + 1)
+        //          2:    lfsr23  (X^23 + X^18 + 1)
+        //          3:    lfsr15  (X^15 + X^14 + 1)
+        //          4:    lfsr7   (X^7 + X^6 + 1)
+        //          5:    d[n] = d[n-10]
+        //          6:    d[n] = !d[n-10]
+        //          7:    d[n] = !d[n-20]
+
+        /* Set to zero first in case already running */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_RX_LBERT_CTL(0, qlm), c.s.mode = 0);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_RX_LBERT_CTL(0, qlm), c.s.mode = 0);
+        /* Program PRBS mode. This code doesn't support the other
+            pattern modes */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_RX_LBERT_CTL(0, qlm), c.s.mode = mode);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_RX_LBERT_CTL(0, qlm), c.s.mode = mode);
+        /* Tell the DLM to resync */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_RX_LBERT_CTL(0, qlm), c.s.sync = 1);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_RX_LBERT_CTL(0, qlm), c.s.sync = 1);
+        prbs_errors[qlm] = 0;
+    }
+    return 0;
 }
 
+/**
+ * Return the number of PRBS errors since PRBS started running
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ *
+ * @return Number of errors
+ */
+static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+{
+    BDK_CSR_DEFINE(rx, BDK_GSERX_PHYX_LANE0_RX_LBERT_ERR(0, qlm));
+    if (lane)
+        rx.u = BDK_CSR_READ(node, BDK_GSERX_PHYX_LANE1_RX_LBERT_ERR(0, qlm));
+    else
+        rx.u = BDK_CSR_READ(node, BDK_GSERX_PHYX_LANE0_RX_LBERT_ERR(0, qlm));
+    if (rx.s.ov14)
+        prbs_errors[qlm] += rx.s.count << 7;
+    else
+        prbs_errors[qlm] += rx.s.count;
+    return prbs_errors[qlm];
+}
 
 /**
  * Enable shallow loopback on a QLM
@@ -704,6 +856,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn70xx = {
     .get_qlm_num = qlm_get_qlm_num,
     .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
+    .get_prbs_errors = qlm_get_prbs_errors,
     .enable_loop = qlm_enable_loop,
 };
 

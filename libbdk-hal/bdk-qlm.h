@@ -78,6 +78,7 @@ typedef struct
     int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface);
     int (*reset)(bdk_node_t node, int qlm);
     int (*enable_prbs)(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir);
+    uint64_t (*get_prbs_errors)(bdk_node_t node, int qlm, int lane);
     int (*enable_loop)(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
 } bdk_qlm_ops_t;
 
@@ -196,6 +197,17 @@ extern int bdk_qlm_reset(bdk_node_t node, int qlm);
  * @return Zero on success, negative on failure
  */
 extern int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir);
+
+/**
+ * Return the number of PRBS errors since PRBS started running
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ *
+ * @return Number of errors
+ */
+extern uint64_t bdk_qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane);
 
 /**
  * Enable shallow loopback on a QLM

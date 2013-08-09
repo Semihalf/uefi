@@ -11,6 +11,12 @@ end
 
 -- Chip specific configuration prompting for CN70XX
 function qlm_setup_cn70xx()
+    if ((octeon.c.bdk_qlm_get_mode(node, 0) ~= octeon.QLM_MODE_DISABLED) or
+        (octeon.c.bdk_qlm_get_mode(node, 1) ~= octeon.QLM_MODE_DISABLED) or
+        (octeon.c.bdk_qlm_get_mode(node, 2) ~= octeon.QLM_MODE_DISABLED)) then
+        assert(false, "DLMs already configured once. You must reset before reconfig")
+    end
+
     local m = menu.new("DLM0 Mode")
     m:item("xa", "RXAUI   lanes 0-1",              setup_dlm0, octeon.QLM_MODE_RXAUI_1X2,       6250, 0)
     m:item("ss", "SGMII   lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_SGMII_SQMII,     1250, 0)
@@ -22,7 +28,11 @@ function qlm_setup_cn70xx()
     m:item("ds", "Disable lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_DISABLED_SGMII,  1250, 0)
     m:item("dq", "Disable lane 0, QSGMII  lane 1", setup_dlm0, octeon.QLM_MODE_DISABLED_QSGMII, 5000, 0)
     m:item("dd", "Disable both lanes",             setup_dlm0, octeon.QLM_MODE_DISABLED,        0,    0)
+    m:item("quit", "Skip configuration")
     local net_mode = m:show()
+    if net_mode == "quit" then
+        return
+    end
 
     local m = menu.new("DLM1-2 Mode")
     m:item("1x4", "PCIe x4 lanes 2-5")
@@ -40,26 +50,26 @@ function qlm_setup_cn70xx()
         pcie_gen2 = menu.prompt_yes_no("Configure PCIe for gen2", "y")
         pcie1_root = menu.prompt_yes_no("Configure PCIe port 1 as a root complex", "y")
         flags = pcie_gen2 and octeon.QLM_MODE_FLAG_GEN2 or octeon.QLM_MODE_FLAG_GEN1
-        flags = flags + (pcie1_root and 0 or QLM_MODE_FLAG_ENDPOINT)
+        flags = flags + (pcie1_root and 0 or octeon.QLM_MODE_FLAG_ENDPOINT)
     end
 
     if pcie_mode == "1x4" then
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X4, 5000, flags))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X4, 5000, flags), "Setting DLM1 mode failed")
     elseif pcie_mode == "2x2" then
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X2, 5000, flags))
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X2, 5000, flags))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X2, 5000, flags), "Setting DLM1 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X2, 5000, flags), "Setting DLM2 mode failed")
     elseif pcie_mode == "3x1" then
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X1, 5000, flags))
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_2X1, 5000, flags))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X1, 5000, flags), "Setting DLM1 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_2X1, 5000, flags), "Setting DLM2 mode failed")
     elseif pcie_mode == "1x2" then
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X2, 5000, flags))
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X2, 5000, flags), "Setting DLM1 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags), "Setting DLM2 mode failed")
     elseif pcie_mode == "2x1" then
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_2X1, 5000, flags))
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_2X1, 5000, flags), "Setting DLM1 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags), "Setting DLM2 mode failed")
     else
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_DISABLED, 0, 0))
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_DISABLED, 0, 0))
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_DISABLED, 0, 0), "Setting DLM1 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_DISABLED, 0, 0), "Setting DLM2 mode failed")
     end
 end
 

@@ -348,6 +348,20 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
     return 0;
 }
 
+/**
+ * Return the number of PRBS errors since PRBS started running
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ *
+ * @return Number of errors
+ */
+static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+{
+    extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
+    return bdk_qlm_ops_cn61xx.get_prbs_errors(node, qlm, lane);
+}
 
 /**
  * Enable shallow loopback on a QLM
@@ -481,6 +495,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn68xx = {
     .get_qlm_num = qlm_get_qlm_num,
     .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
+    .get_prbs_errors = qlm_get_prbs_errors,
     .enable_loop = qlm_enable_loop,
 };
 
