@@ -4,18 +4,20 @@
 name: MIO_TWS
 enums:
   - name: TWS_INTSN_E
+    attributes:
+      width: "20"
     description: Enumerates the different generated interrupts.
     values:
       - name: MIO_TWS(0..1)_INT_ST
-        value: 20'h0b000 + a*0x100
+        value: 0x0B000 + a*0x100
         description: See MIO_TWS0/1_INT[ST_INT].
 
       - name: MIO_TWS(0..1)_INT_TS
-        value: 20'h0b001 + a*0x100
+        value: 0x0B001 + a*0x100
         description: See MIO_TWS0/1_INT[TS_INT].
 
       - name: MIO_TWS(0..1)_INT_CORE
-        value: 20'h0b002 + a*0x100
+        value: 0x0B002 + a*0x100
         description: See MIO_TWS0/1_INT[CORE_INT].
 
 

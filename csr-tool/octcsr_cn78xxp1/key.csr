@@ -4,14 +4,16 @@
 name: KEY
 enums:
   - name: KEY_INTSN_E
+    attributes:
+      width: "20"
     description: Enumerates the different KEY generated interrupts.
     values:
       - name: KEY_ECC_KED0_SBE
-        value: 20'h20000
+        value: 0x20000
         description: See KEY_INT_SUM[KED0_SBE].
 
       - name: KEY_ECC_KED0_DBE
-        value: 20'h20001
+        value: 0x20001
         description: See KEY_INT_SUM[KED0_DBE].
 
 

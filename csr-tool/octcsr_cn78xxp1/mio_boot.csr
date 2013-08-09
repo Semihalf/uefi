@@ -4,24 +4,26 @@
 name: MIO_BOOT
 enums:
   - name: MIO_BOOT_INTSN_E
+    attributes:
+      width: "20"
     description: Enumerates the different generated interrupts.
     values:
       - name: MIO_BOOT_ERR_ADR_ERR
-        value: 20'h0a000
+        value: 0x0A000
         description: See MIO_BOOT_ERR[ADR_ERR].
 
       - name: MIO_BOOT_ERR_WAIT_ERR
-        value: 20'h0a001
+        value: 0x0A001
         description: See MIO_BOOT_ERR[WAIT_ERR].
 
       - name: MIO_BOOT_DMA(0..1)_DONE
-        value: 20'h0a040 + a*0x40
+        value: 0x0A040 + a*0x40
         attributes:
           exempt_natural_alignment: "a"
         description: See MIO_BOOT_DMA_INT0/1[DONE].
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
-        value: 20'h0a081 + a*0x40
+        value: 0x0A081 + a*0x40
         description: See MIO_BOOT_DMA_INT0/1[DMARQ].
 
 

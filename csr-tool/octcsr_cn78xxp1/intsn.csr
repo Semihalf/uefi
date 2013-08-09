@@ -353,7 +353,7 @@ enums:
         description: See MIO_EMM_INT[SWITCH_ERR].
 
       - name: MIO_BOOT_ERR_ADR_ERR
-        value: 20'h0a000
+        value: 0x0A000
         attributes:
           bit_name: "ADR_ERR"
           bit_num: "0"
@@ -365,7 +365,7 @@ enums:
         description: See MIO_BOOT_ERR[ADR_ERR].
 
       - name: MIO_BOOT_ERR_WAIT_ERR
-        value: 20'h0a001
+        value: 0x0A001
         attributes:
           bit_name: "WAIT_ERR"
           bit_num: "1"
@@ -377,7 +377,7 @@ enums:
         description: See MIO_BOOT_ERR[WAIT_ERR].
 
       - name: MIO_BOOT_DMA(0..1)_DONE
-        value: 20'h0a040 + a*0x40
+        value: 0x0A040 + a*0x40
         attributes:
           bit_name: "DONE"
           bit_num: "0"
@@ -390,7 +390,7 @@ enums:
         description: See MIO_BOOT_DMA_INT0/1[DONE].
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
-        value: 20'h0a081 + a*0x40
+        value: 0x0A081 + a*0x40
         attributes:
           bit_name: "DMARQ"
           bit_num: "1"
@@ -402,7 +402,7 @@ enums:
         description: See MIO_BOOT_DMA_INT0/1[DMARQ].
 
       - name: MIO_TWS(0..1)_INT_ST
-        value: 20'h0b000 + a*0x100
+        value: 0x0B000 + a*0x100
         attributes:
           bit_name: "ST_INT"
           bit_num: "0"
@@ -414,7 +414,7 @@ enums:
         description: See MIO_TWS0/1_INT[ST_INT].
 
       - name: MIO_TWS(0..1)_INT_TS
-        value: 20'h0b001 + a*0x100
+        value: 0x0B001 + a*0x100
         attributes:
           bit_name: "TS_INT"
           bit_num: "1"
@@ -426,7 +426,7 @@ enums:
         description: See MIO_TWS0/1_INT[TS_INT].
 
       - name: MIO_TWS(0..1)_INT_CORE
-        value: 20'h0b002 + a*0x100
+        value: 0x0B002 + a*0x100
         attributes:
           bit_name: "CORE_INT"
           bit_num: "2"
@@ -2513,7 +2513,7 @@ enums:
         description: See SLI_MEM_INT_SUM[TLPN1_DBE].
 
       - name: KEY_ECC_KED0_SBE
-        value: 20'h20000
+        value: 0x20000
         attributes:
           bit_name: "KED0_SBE"
           bit_num: "0"
@@ -2525,7 +2525,7 @@ enums:
         description: See KEY_INT_SUM[KED0_SBE].
 
       - name: KEY_ECC_KED0_DBE
-        value: 20'h20001
+        value: 0x20001
         attributes:
           bit_name: "KED0_DBE"
           bit_num: "1"
@@ -4310,7 +4310,7 @@ enums:
         description: See PKO_DQ(0..1023)_WM_CTL_W1C[INTR].
 
       - name: TIM_ECCERR_SBE
-        value: 20'h58040
+        value: 0x58040
         attributes:
           bit_name: "SBE"
           bit_num: "0"
@@ -4323,7 +4323,7 @@ enums:
         description: See TIM_INT_ECCERR[SBE].
 
       - name: TIM_ECCERR_DBE
-        value: 20'h58041
+        value: 0x58041
         attributes:
           bit_name: "DBE"
           bit_num: "1"
@@ -4336,7 +4336,7 @@ enums:
         description: See TIM_INT_ECCERR[DBE].
 
       - name: TIM_ECCERR_CTL_SBE
-        value: 20'h58042
+        value: 0x58042
         attributes:
           bit_name: "CTL_SBE"
           bit_num: "2"
@@ -4349,7 +4349,7 @@ enums:
         description: See TIM_INT_ECCERR[CTL_SBE].
 
       - name: TIM_ECCERR_CTL_DBE
-        value: 20'h58043
+        value: 0x58043
         attributes:
           bit_name: "CTL_DBE"
           bit_num: "3"
@@ -4362,7 +4362,7 @@ enums:
         description: See TIM_INT_ECCERR[CTL_DBE].
 
       - name: TIM_RING(0..63)_SLOW
-        value: 20'h58080 + a
+        value: 0x58080 + a
         attributes:
           bit_name: "INT0<a>"
           bit_num: "0+a"

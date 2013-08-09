@@ -23,56 +23,56 @@ enums:
     description: Enumerates the different errors for returns in LAP_CTL_RTN_S[ERR]; see also LAP0/1_GEN_INT.
     values:
       - name: "NONE"
-        value: 6'd0
+        value: 0
         description: No error or LAB is still PROCESSING.
 
       - name: TERMINATE
-        value: 6'd9
+        value: 9
         description: ILA interface terminate error. A SOP-SOP can cause packets to terminate with this error code.
 
       - name: EOP_SKIP
-        value: 6'd12
+        value: 12
         description: ILA interface error at EOP. ILA received a packet with an 'Error and end of packet' indication.
 
       - name: PARITY
-        value: 6'd13
+        value: 13
         description: |
           ILA interface parity error. ILK detected a parity error in the data portion of its receive
           FIFO during this packet transfer.
 
       - name: LAB_OUT
-        value: 6'd33
+        value: 33
         description: |
           An LMTDMA was requested, but no free LABs are available. Only possible on
           LAP_SEND_LMTDMA_S operations.
 
       - name: LAB_INVALID
-        value: 6'd34
+        value: 34
         description: |
           The IOBDMA was requested to an LAB that is in the EMPTY/INVALID state. Only possible on
           LAP_RD_IOBDMA_S operations.
 
       - name: RESP_TIME
-        value: 6'd35
+        value: 35
         description: |
           The LAP0/1_TIMEOUT[RESP] timer expired and transitioned this LAB to error state. Only
           possible in non-exception queues.
 
       - name: MISMATCH
-        value: 6'd36
+        value: 36
         description: |
           The response packet did not match LAP0/1_EXP(0..15)_DATA and LAP0/1_EXP(0..15)_VALID. Not
           reported if packet also has CRC errors. Only delivered to exception queue.
 
       - name: XID_BAD
-        value: 6'd37
+        value: 37
         description: |
           The response packet's transaction ID was targeted to an LAB not in PROCESSING state. Not
           reported if packet also has CRC or MISMATCH errors. Typically indicates TCAM or
           configuration error. Only delivered to exception queue.
 
       - name: TOO_BIG
-        value: 6'd38
+        value: 38
         description: The request or response sent too much data to fit in the LAB size.
 
 

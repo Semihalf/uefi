@@ -9,31 +9,31 @@ enums:
     description: Enumerates the different TIM generated interrupts.
     values:
       - name: TIM_ECCERR_SBE
-        value: 20'h58040
+        value: 0x58040
         attributes:
           cib_rtl_module: "tim"
         description: See TIM_INT_ECCERR[SBE].
 
       - name: TIM_ECCERR_DBE
-        value: 20'h58041
+        value: 0x58041
         attributes:
           cib_rtl_module: "tim"
         description: See TIM_INT_ECCERR[DBE].
 
       - name: TIM_ECCERR_CTL_SBE
-        value: 20'h58042
+        value: 0x58042
         attributes:
           cib_rtl_module: "tim"
         description: See TIM_INT_ECCERR[CTL_SBE].
 
       - name: TIM_ECCERR_CTL_DBE
-        value: 20'h58043
+        value: 0x58043
         attributes:
           cib_rtl_module: "tim"
         description: See TIM_INT_ECCERR[CTL_DBE].
 
       - name: TIM_RING(0..63)_SLOW
-        value: 20'h58080 + a
+        value: 0x58080 + a
         attributes:
           cib_rtl_module: "tim"
         description: See TIM_INT0[INT0<a>].

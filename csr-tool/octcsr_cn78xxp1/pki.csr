@@ -47,19 +47,19 @@ enums:
     description: Enumerates the values of WQE[CHAN].
     values:
       - name: LOOPBACK_CH(0..63)
-        value: 12'h0000 | a
+        value: 0x0000 | a
         description: Loopback pipe a. The channel number comes from the PKO pipe field.
 
       - name: DPI_CH(0..63)
-        value: 12'h0100 | a
+        value: 0x0100 | a
         description: DPI ring a.
 
       - name: ILK(0..1)_CH(0..255)
-        value: 12'h0400 | a<<8 | b
+        value: 0x0400 | a<<8 | b
         description: Interlaken RX/TX a channel b.
 
       - name: BGX(0..5)_PORT(0..3)_CH(0..15)
-        value: 12'h0800 | a<<8 | b<<4 | c
+        value: 0x0800 | a<<8 | b<<4 | c
         description: |
           BGX a Port b Channel c. The channel is always 0 when used as a port number, then made non-
           zero as part of the conversion to a channel number per Channels.
@@ -3680,11 +3680,21 @@ registers:
           will be dropped. IGC(0)'s entry resets to 0xF, all other entries to 0x0.
 
       - name: --
-        bits: 31..26
+        bits: 31..27
         access: ---
         reset: --
         typical: --
         description: Reserved.
+
+      - name: RELEASE_RQD
+        bits: 26
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Release required. For diagnostic use only. INTERNAL:
+          0 = Release of r64 to r95 will occur immediately, no release microop is needed.
+          1 = Release will wait until release microop executes.
 
       - name: MLO
         bits: 25
