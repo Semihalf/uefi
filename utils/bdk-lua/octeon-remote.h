@@ -70,7 +70,7 @@ extern "C" {
 typedef struct
 {
     uint64_t regs[2][256];
-    uint64_t tlb[128][4];
+    uint64_t tlb[256][4];
 } octeon_remote_registers_t;
 
 /**

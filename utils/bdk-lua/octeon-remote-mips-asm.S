@@ -55,4 +55,5 @@ name##_begin:;                          \
 name##_end:;
 
 INCLUDE_BINARY(octeon_remote_debug_handler2, "mips-octeon2_debug_handler.bin")
+INCLUDE_BINARY(octeon_remote_debug_handler3, "mips-octeon3_debug_handler.bin")
 

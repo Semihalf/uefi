@@ -52,6 +52,7 @@
 
 #define ULL unsigned long long
 
+const int DEBUG_CORE_STATE_SIZE = 16384;
 static int installed_handler = -1;
 static uint64_t debug_handler_base = 0;
 
@@ -59,6 +60,11 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
 {
     extern void *octeon_remote_debug_handler2_begin;
     extern void *octeon_remote_debug_handler2_end;
+    extern void *octeon_remote_debug_handler3_begin;
+    extern void *octeon_remote_debug_handler3_end;
+    int is_octeon2 = OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN68XX);
+    void *handler_begin = (is_octeon2) ? &octeon_remote_debug_handler2_begin : &octeon_remote_debug_handler3_begin;
+    void *handler_end = (is_octeon2) ? &octeon_remote_debug_handler2_end : &octeon_remote_debug_handler3_end;
 
     OCTEON_REMOTE_DEBUG_CALLED("handler=%d", handler);
     if (installed_handler == (int)handler)
@@ -77,23 +83,27 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         }
         else
         {
-            /* The debug stub requires 8192 + 8192*num_cores */
+            /* The debug stub requires SIZE*(1 + num_cores) */
             if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-                debug_handler_base = 0x400000 - 8192 * (32 + 1);
+                debug_handler_base = 0x400000 - DEBUG_CORE_STATE_SIZE * (32 + 1);
             else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-                debug_handler_base = 0x100000 - 8192 * (4 + 1);
+                debug_handler_base = 0x100000 - DEBUG_CORE_STATE_SIZE * (4 + 1);
+            else if (OCTEON_IS_MODEL(OCTEON_CN70XX)) // FIXME: Cache not big enough, now what?
+                debug_handler_base = 0x80000 - DEBUG_CORE_STATE_SIZE * (4 + 1);
+            else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                debug_handler_base = 0x1000000 - DEBUG_CORE_STATE_SIZE * (48 + 1);
             else
             {
                 octeon_remote_debug(-1, "Unknown OCTEON model in octeon_remote_debug_handler_install.\n");
                 return -1;
             }
         }
-        int size = (long)&octeon_remote_debug_handler2_end - (long)&octeon_remote_debug_handler2_begin;
+        int size = (long)handler_end - (long)handler_begin;
         octeon_remote_debug(2, "Copying debug handler to 0x%llx, len=%d\n", (ULL)debug_handler_base, size);
-        octeon_remote_write_mem(debug_handler_base, &octeon_remote_debug_handler2_begin, size);
+        octeon_remote_write_mem(debug_handler_base, handler_begin, size);
 
         /* Fixup the address calculations in the debug handler */
-        uint64_t core_base = debug_handler_base + 8192;
+        uint64_t core_base = debug_handler_base + DEBUG_CORE_STATE_SIZE;
         octeon_remote_write_mem32(debug_handler_base + 16, 0x675a0000 | ((core_base>>0)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 24, 0x675a0000 | ((core_base>>15)&0x7fff));
         octeon_remote_write_mem32(debug_handler_base + 32, 0x675a0000 | ((core_base>>30)&0x7fff));
@@ -130,7 +140,7 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         int stop_type = (handler == OCTEON_REMOTE_SAVE_HANDLER) ? 2 : 0;
         int num_cores = octeon_remote_get_num_cores();
         for (int core=0; core<num_cores; core++)
-            octeon_remote_write_mem64(debug_handler_base + (core+1) * 8192, stop_type);
+            octeon_remote_write_mem64(debug_handler_base + (core+1) * DEBUG_CORE_STATE_SIZE, stop_type);
     }
 
     installed_handler = handler;
@@ -163,7 +173,7 @@ uint64_t octeon_remote_debug_handler_get_base(int core)
         return 0;
     }
 
-    result = debug_handler_base + (core+1) * 8192;
+    result = debug_handler_base + (core+1) * DEBUG_CORE_STATE_SIZE;
     OCTEON_REMOTE_DEBUG_RETURNED("0x%llx", (ULL)result);
     return result;
 }
