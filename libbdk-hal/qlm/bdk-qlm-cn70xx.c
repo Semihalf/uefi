@@ -430,12 +430,20 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     //      logic in GSER, and it used by the RST logic to determine when the MAC can come out of reset.
     if (qlm == 1)
     {
+        // Case                               PIPE_PORT_SEL
+        // -------------------------------------------------
+        // 1 x4 PCIe Configuration                 01
+        // 2 x2 PCIe Configuration                 10
+        // 3 x1 PCIe Configuration                 11
+        // 1 x2 PCIe and 2 x1 SATA Configuration   10
+        // 2 x1 PCIe and 2 x1 SATA Configuration   11
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
             c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
             c.s.pipe_port_sel =
                 (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
-                (mode == BDK_QLM_MODE_PCIE_2X1) ? 2 : /* PEM0-1 */
+                (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
                 (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
+                (mode == BDK_QLM_MODE_PCIE_2X1) ? 3 : /* PEM0-1 */
                 0); /* PCIe disabled */
     }
 
