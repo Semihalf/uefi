@@ -5,12 +5,12 @@ require("menu")
 
 local node = 0
 
-local function setup_dlmx_ref(qlm)
+local function setup_dlmx_ref(qlm, default_option)
     local m = menu.new("DLM%d Reference clock" % qlm)
     m:item("c0", "Common reference clock 0 (DLMC_REF_CLK0_P/N)")
     m:item("c1", "Common reference clock 1 (DLMC_REF_CLK1_P/N)")
     m:item("e0", "External reference clock 0 (DLM0_REF_CLK_P/N)")
-    local ref = m:show()
+    local ref = m:show(default_option)
     if ref == "c0" then
         octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).ref_use_pad = 0
         octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).refclk_sel = 0
@@ -35,9 +35,9 @@ function qlm_setup_cn70xx()
         assert(false, "DLMs already configured once. You must reset before reconfig")
     end
 
-    setup_dlmx_ref(0)
-    setup_dlmx_ref(1)
-    setup_dlmx_ref(2)
+    setup_dlmx_ref(0, "e0")
+    setup_dlmx_ref(1, "c0")
+    setup_dlmx_ref(2, "c0")
 
     local m = menu.new("DLM0 Mode")
     m:item("xa", "RXAUI   lanes 0-1",              setup_dlm0, octeon.QLM_MODE_RXAUI_1X2,       6250, 0)
@@ -50,7 +50,7 @@ function qlm_setup_cn70xx()
     m:item("ds", "Disable lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_DISABLED_SGMII,  1250, 0)
     m:item("dq", "Disable lane 0, QSGMII  lane 1", setup_dlm0, octeon.QLM_MODE_DISABLED_QSGMII, 5000, 0)
     m:item("dd", "Disable both lanes",             setup_dlm0, octeon.QLM_MODE_DISABLED,        0,    0)
-    local net_mode = m:show()
+    local net_mode = m:show("qq")
 
     local m = menu.new("DLM1-2 Mode")
     m:item("1x4", "PCIe x4 lanes 2-5")
@@ -59,7 +59,7 @@ function qlm_setup_cn70xx()
     m:item("1x2", "PCIe x2 lanes 2-3, SATA    lanes 4,5")
     m:item("2x1", "PCIe x1 lane  2,   PCIe x1 lane  3,  SATA    lanes 4,5")
     m:item("dis", "Disable lanes 2-5")
-    local pcie_mode = m:show()
+    local pcie_mode = m:show("2x1")
 
     local pcie_gen2
     local pcie1_root

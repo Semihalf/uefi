@@ -46,10 +46,22 @@ end
 -- before the key is returned.
 -- @function menu:show
 --
-local function show(m)
+local function show(m, default_choice)
     -- Allow the user to do some menu specific customization. First argument
     -- is the menu, so the script can determine which menu it is called for.
     utils.run("autorun-menu", m)
+
+    if default_choice then
+        for i=1,#m.items do
+            if m.items[i].key == default_choice then
+                default_choice = i
+                break
+            end
+        end
+    else
+        default_choice = ""
+    end
+
     while (true) do
         if m.title then
             print()
@@ -69,7 +81,7 @@ local function show(m)
 
         -- Read a number from the user
         local c = 999
-        local response = menu.prompt_string("Menu choice", "")
+        local response = menu.prompt_string("Menu choice", default_choice)
         if response then
             if response == "keys" then
                 menu.show_keys = not menu.show_keys
