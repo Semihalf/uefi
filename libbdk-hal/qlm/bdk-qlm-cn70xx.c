@@ -243,7 +243,7 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
     /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
     // 1. Write GSER0_DLM0_REF_USE_PAD[REF_USE_PAD] (depending on which ref clock input is desired)
 
-    // FIXME: Select ref clock
+    /* Reference clock was already chosen before we got here */
 
     // 2. Write GSER0_DLM0_REF_CLKDIV2[REF_CLKDIV2] (for now, see Table 3-1 in the databook for value)
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
