@@ -179,15 +179,14 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         }
         case 1:
         {
+            BDK_CSR_INIT(sata_cfg, node, BDK_GSERX_SATA_CFG(0));
             BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
-            BDK_CSR_INIT(pem1_cfg, node, BDK_PEMX_CFG(1));
             switch (pem0_cfg.cn70xx.md)
             {
                 case PEM_CFG_MD_GEN2_2LANE: /* Gen2 Speed, 2-lanes */
                     return BDK_QLM_MODE_PCIE_1X2;
                 case PEM_CFG_MD_GEN2_1LANE: /* Gen2 Speed, 1-lane */
-                    if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
-                        (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                    if (sata_cfg.s.sata_en)
                         return BDK_QLM_MODE_PCIE_2X1; /* Both PEM0 and PEM1 */
                     else
                         return BDK_QLM_MODE_PCIE_1X1; /* Only PEM0 */
@@ -196,8 +195,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 case PEM_CFG_MD_GEN1_2LANE: /* Gen1 Speed, 2-lanes */
                     return BDK_QLM_MODE_PCIE_1X2;
                 case PEM_CFG_MD_GEN1_1LANE: /* Gen1 Speed, 1-lane */
-                    if ((pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN2_1LANE) ||
-                        (pem1_cfg.cn70xx.md == PEM_CFG_MD_GEN1_1LANE))
+                    if (sata_cfg.s.sata_en)
                         return BDK_QLM_MODE_PCIE_2X1; /* Both PEM0 and PEM1 */
                     else
                         return BDK_QLM_MODE_PCIE_1X1; /* Only PEM0 */
@@ -421,6 +419,12 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     //      - the GSER0_DLM[12]_MPLL_MULTIPLIER can be written with 7'd25 for a 100Mhz or 7'd40 for a 125Mhz Reference Clock
     if (dlm_setup_pll(node, qlm, gen2 ? 5000 : 2500))
         return -1;
+    if ((qlm==1) && (mode == BDK_QLM_MODE_PCIE_1X4))
+    {
+        /* Setp DLM2 PLL at same time as DLM1 */
+        if (dlm_setup_pll(node, 2, gen2 ? 5000 : 2500))
+            return -1;
+    }
 
     // 3. Configure the PCIE PIPE
     //      - write the GSER0_PCIE_PIPE_PORT_SEL register to configure the PCIE PIPE.
@@ -670,7 +674,7 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
     /* Return zero if the PLL hasn't locked */
     BDK_CSR_INIT(dlmx_mpll, node, BDK_GSERX_DLMX_MPLL_STATUS(0, qlm));
-    if (dlmx_mpll.s.mpll_status == 0)
+    if (!bdk_is_simulation() && (dlmx_mpll.s.mpll_status == 0))
         return 0;
     /* Measure the reference clock */
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
