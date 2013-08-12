@@ -71,6 +71,7 @@ typedef enum
     GDB_PROTOCOL_MACRAIGOR,
     GDB_PROTOCOL_MAJIC,
     GDB_PROTOCOL_BDI3000,
+    GDB_PROTOCOL_TRACE32,
 } gdb_protocol_extension_t;
 
 typedef enum
@@ -770,6 +771,11 @@ static int gdbremote_open(const char *remote_spec)
         gdb_protocol = GDB_PROTOCOL_BDI3000;
         octeon_remote_debug(1, "Detected BDI3000 extensions\n");
     }
+    else if (strstr(response, "TRACE32"))
+    {
+        gdb_protocol = GDB_PROTOCOL_TRACE32;
+        octeon_remote_debug(1, "Detected TRACE32 extensions\n");
+    }
 
     /* Force core 0 to allow 64bit addressing for CSR/memory access */
     enable_64bit_addressing(0);
@@ -1040,6 +1046,13 @@ static uint64_t gdbremote_read_register(int core, int reg)
                 if (rlength > 16)
                     sscanf(response, "%s %s %s %llx", command, command, command, &result);
                 break;
+            case GDB_PROTOCOL_TRACE32:
+                sprintf(command, "eval data.quad(CP0:0x%x)", reg_id + select*32);
+                /* TRACE32 responds with a 1-16 character hex value of the register content */
+                rlength = do_monitor_command(core, command, response, sizeof(response));
+                if (rlength > 0)
+                    sscanf(response, "%llx", &result);
+                break;
         }
         return result;
     }
@@ -1111,6 +1124,10 @@ static void gdbremote_write_register(int core, int reg, uint64_t value)
                 break;
             case GDB_PROTOCOL_BDI3000:
                 sprintf(command, "RMCP0 %d 0x%llx", reg_id + select*256, (ULL)value);
+                do_monitor_command(core, command, response, sizeof(response));
+                break;
+            case GDB_PROTOCOL_TRACE32:
+                sprintf(command, "B::DATA.SET CP0:0x%x 0x%llx", reg_id + select*32, (ULL)value);
                 do_monitor_command(core, command, response, sizeof(response));
                 break;
         }
@@ -1260,6 +1277,9 @@ static int gdbremote_reset(int stop_core)
             break;
         case GDB_PROTOCOL_BDI3000:
             do_monitor_command(core, "reset halt", response, sizeof(response));
+            break;
+        case GDB_PROTOCOL_TRACE32:
+            do_monitor_command(core, "B::SYSTEM.UP", response, sizeof(response));
             break;
     }
 
