@@ -469,7 +469,7 @@ static int macraigor_open(const char *remote_spec)
     }
     __octeon_remote_num_cores = bdk_be32_to_cpu(*(uint32_t*)(response+3));
     octeon_remote_debug(2, "Probe detected %d cores\n", __octeon_remote_num_cores);
-    if ((__octeon_remote_num_cores < 1) || (__octeon_remote_num_cores > 32))
+    if ((__octeon_remote_num_cores < 1) || (__octeon_remote_num_cores > 48))
     {
         octeon_remote_debug(-1, "Illegal number of cores detected (%d)\n", __octeon_remote_num_cores);
         return -1;
