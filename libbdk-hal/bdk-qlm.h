@@ -63,7 +63,7 @@ typedef enum
  * How to do the various QLM operations changes greatly
  * between chips. Each chip has its specific operations
  * stored in the structure below. The correct structure
- * is choosen based on the chip we're running on.
+ * is chosen based on the chip we're running on.
  */
 typedef struct
 {

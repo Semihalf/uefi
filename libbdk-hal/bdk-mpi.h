@@ -37,7 +37,7 @@ extern int bdk_mpi_initialize(bdk_node_t node, int clock_rate_hz, bdk_mpi_flags_
 
 /**
  * Perform a SPI/MPI transfer. The transfer can contain tx_count
- * bytes that are transfered out, followed by rx_count bytes
+ * bytes that are transferred out, followed by rx_count bytes
  * that are read in. Both tx_count and rx_count may be zero if
  * no transfer is needed. Transmit data is sent most significant
  * byte first, unless BDK_MPI_FLAGS_LSB_FIRST is set. Receive data

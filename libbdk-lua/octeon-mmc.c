@@ -437,7 +437,7 @@ static int mmc_init(lua_State *L)
         else
         {
             //Have an MMC card, do a command 1
-            //Select the intial operating conditions
+            //Select the initial operating conditions
             do
             {
                 MMC_CMD_OR_ERROR(L, MMC_CMD_SEND_OP_COND, 0x40ff8000, 0, 0, 0, 0, 0);
