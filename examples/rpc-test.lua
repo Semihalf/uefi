@@ -8,8 +8,8 @@ end
 -- Loop the following a hundred times as a simple test
 for count=1,100 do
     print("Loop:", count)
-    print("Octeon RCLK:", octeon.c.bdk_clock_get_rate(0))
-    print("Octeon SCLK:", octeon.c.bdk_clock_get_rate(1))
+    print("Octeon RCLK:", octeon.c.bdk_clock_get_rate(0,0))
+    print("Octeon SCLK:", octeon.c.bdk_clock_get_rate(0,1))
     print("Octeon CIU_FUSE:", octeon.csr.CIU_FUSE.read())
     print("Is CN61XX?", octeon.is_model(octeon.CN61XX))
     print("Is CN68XX?", octeon.is_model(octeon.CN68XX))
