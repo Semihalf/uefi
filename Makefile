@@ -106,7 +106,8 @@ else
 endif
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
 FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
-RELEASE_DIR = "octeon-bdk-$(VERSION)"
+RELEASE_NAME = "octeon3-bdk"
+RELEASE_DIR = "$(RELEASE_NAME)-$(VERSION)"
 
 .PHONY: version
 version:
@@ -114,7 +115,7 @@ version:
 	echo "const char bdk_version_str[] = \"$(FULL_VERSION)\";" > libbdk-arch/bdk-version.c
 
 .PHONY: release
-release: all # ppc needed as well
+release: all
 	PATH=$(PATH):~creese/bin $(MAKE) -C docs lua-modules
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
@@ -154,7 +155,7 @@ release: all # ppc needed as well
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
 	# Create release tar
-	tar -zcf "octeon-bdk-$(FULL_VERSION).tgz" $(RELEASE_DIR)
+	tar -zcf "$(RELEASE_NAME)-$(FULL_VERSION).tgz" $(RELEASE_DIR)
 	rm -rf $(RELEASE_DIR)
 
 
