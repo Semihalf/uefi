@@ -22,9 +22,6 @@ then
 elif [ "${BDK_ARCH}" = "mips64" ]
 then
     LUA_BIN=${BDK_ROOT}/bin/bdk-luac-octeon
-elif [ "${BDK_ARCH}" = "ppc" ]
-then
-    LUA_BIN=${BDK_ROOT}/bin/bdk-luac-ppc
 else
     LUA_BIN=${BDK_ROOT}/bin/bdk-luac-x86
 fi

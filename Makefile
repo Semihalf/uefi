@@ -12,14 +12,6 @@ all: version
 	$(BDK_ROOT)/bin/bdk-update-all
 	$(MAKE) -C docs
 
-.PHONY: ppc
-ppc:
-	echo "Building bdk-lua-ppc (very slow)"
-	$(MAKE) -C utils/bdk-lua ppc
-	echo "Building bdk-luac-ppc (very slow)"
-	$(MAKE) -C utils/bdk-luac ppc
-	echo "Done with ppc"
-
 .PHONY: clean
 clean:
 	$(MAKE) -C libbdk clean
@@ -144,10 +136,8 @@ release: all # ppc needed as well
 	cp utils/scripts/bdk-update-romfs.py $(RELEASE_DIR)/bin/bdk-update-romfs
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
 	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-lua-ppc $(RELEASE_DIR)/bin/
 	cp utils/bdk-luac/bdk-luac-x86 $(RELEASE_DIR)/bin/
 	cp utils/bdk-luac/bdk-luac-octeon $(RELEASE_DIR)/bin/
-	cp utils/bdk-luac/bdk-luac-ppc $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	cp bin/bdk-luac $(RELEASE_DIR)/bin/bdk-luac
 	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
