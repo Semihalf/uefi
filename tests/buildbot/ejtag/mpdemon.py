@@ -14,15 +14,15 @@ def do_command(command, expected, timeout=-1):
 # Make sure the environment is setup correctly
 assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "macraigor:192.168.111.4,1000,2"
-os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS10"
+os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS8"
 
 BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-minimal.bin"
 
 # Test CSR operations
 do_command("bdk-remote csr CIU_FUSE", [
-    "CIU_FUSE\[0x0001070000000728\] = 0x00000000000003ff",
-    "\[63:10\] RESERVED_10_63       =          0 \(0x0\)",
-    "\[ 9: 0\] FUSE                 =       1023 \(0x3ff\)"
+    "CIU_FUSE\[0x0001070000000728\] = 0x000000000000000f",
+    "\[63: 4\] RESERVED_4_63        =          0 \(0x0\)",
+    "\[ 3: 0\] FUSE                 =         15 \(0xf\)"
     ])
 
 do_command("bdk-remote csr SLI_SCRATCH_1 0x1234", [])
@@ -38,8 +38,8 @@ do_command("bdk-remote csr SLI_SCRATCH_1", [
 
 do_command("bdk-remote csr CIU_FUSE 0x3 decode", [
     "CIU_FUSE\[0x0001070000000728\] = 0x0000000000000003",
-    "\[63:10\] RESERVED_10_63       =          0 \(0x0\)",
-    "\[ 9: 0\] FUSE                 =          3 \(0x3\)"
+    "\[63: 4\] RESERVED_4_63        =          0 \(0x0\)",
+    "\[ 3: 0\] FUSE                 =          3 \(0x3\)"
     ])
 
 # Boot the BDK
@@ -115,7 +115,6 @@ do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [], timeout=120)
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
     "800000000"])
 
-# Test RPC over serial using minimal image
-do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-full.bin", [], timeout=120)
-do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", [
-    "800000000"])
+# Test RPC over serial using full image
+#do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-full.bin", [], timeout=120)
+#do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(1))'", ["800000000"])
