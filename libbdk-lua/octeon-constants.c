@@ -21,6 +21,7 @@ void register_octeon_constants(lua_State* L)
     push_bdk_enum(BDK_CSR_TYPE_NCB);
     push_bdk_enum(BDK_CSR_TYPE_PEXP);
     push_bdk_enum(BDK_CSR_TYPE_PEXP_NCB);
+    push_bdk_enum(BDK_CSR_TYPE_PEXPV_NCB);
     push_bdk_enum(BDK_CSR_TYPE_PCICONFIGEP);
     push_bdk_enum(BDK_CSR_TYPE_PCICONFIGRC);
 #ifndef BDK_BUILD_HOST
