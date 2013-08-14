@@ -112,6 +112,18 @@ void __bdk_init(long base_address)
 
     if (bdk_is_boot_core())
     {
+        /* Shut off cores in reset to save power. This is a new feature in
+            Octeon 3. It is optional, but probably good practice. When taking
+            cores out of reset, it will be necessary t oclear the correct bit
+            that was set here */
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+        {
+            /* Get a list of cores in reset */
+            uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
+            /* Power off the core in reset */
+            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, reset);
+        }
+
         /* Initialize the is_simulation flag */
         if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
         {
@@ -230,6 +242,17 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     {
         reset &= ~coremask;
         BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset);
+    }
+
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* We may also need to turn power on (new in Octeon 3) */
+        uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
+        if (power & coremask)
+        {
+            reset &= ~coremask;
+            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
+        }
     }
 
     /* Wait up to 100us for the cores to boot */
