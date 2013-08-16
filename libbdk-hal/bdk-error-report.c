@@ -703,9 +703,14 @@ static void enable_dpi(bdk_node_t node)
         c.s.req_undflw = -1;
         c.s.sprt0_rst = -1;
         c.s.sprt1_rst = -1;
-        c.s.sprt2_rst = -1;
-        c.s.sprt3_rst = -1;
     );
+    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_DPI_INT_EN,
+            c.s.sprt2_rst = -1;
+            c.s.sprt3_rst = -1;
+        );
+    }
 }
 
 static void enable_fpa(bdk_node_t node)
@@ -778,28 +783,35 @@ static void enable_iob(bdk_node_t node)
 
 static void enable_ipd(bdk_node_t node)
 {
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
+            c.s.pw3_dbe = 1;
+            c.s.pw3_sbe = 1;
+            c.s.pw2_dbe = 1;
+            c.s.pw2_sbe = 1;
+            c.s.pw1_dbe = 1;
+            c.s.pw1_sbe = 1;
+            c.s.pw0_dbe = 1;
+            c.s.pw0_sbe = 1;
+            c.s.dat = 1;
+            c.s.eop = 1;
+            c.s.sop = 1;
+        );
+    }
     BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
-        c.s.bc_ovr = -1;
-        c.s.bp_sub = -1;
-        c.s.c_coll = -1;
-        c.s.cc_ovr = -1;
-        c.s.d_coll = -1;
-        c.s.dat = -1;
-        c.s.dc_ovr = -1;
-        c.s.eop = -1;
-        c.s.prc_par0 = -1;
-        c.s.prc_par1 = -1;
-        c.s.prc_par2 = -1;
-        c.s.prc_par3 = -1;
-        c.s.pw0_dbe = -1;
-        c.s.pw0_sbe = -1;
-        c.s.pw1_dbe = -1;
-        c.s.pw1_sbe = -1;
-        c.s.pw2_dbe = -1;
-        c.s.pw2_sbe = -1;
-        c.s.pw3_dbe = -1;
-        c.s.pw3_sbe = -1;
-        c.s.sop = -1;
+        c.s.pq_sub = 1;
+        c.s.pq_add = 1;
+        c.s.bc_ovr = 1;
+        c.s.d_coll = 1;
+        c.s.c_coll = 1;
+        c.s.cc_ovr = 1;
+        c.s.dc_ovr = 1;
+        c.s.bp_sub = 1;
+        c.s.prc_par3 = 1;
+        c.s.prc_par2 = 1;
+        c.s.prc_par1 = 1;
+        c.s.prc_par0 = 1;
     );
 }
 
@@ -839,19 +851,50 @@ static void enable_l2c_tad(bdk_node_t node, int tad)
 
 static void enable_l2c(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_L2C_INT_ENA,
-        c.s.bigrd = -1;
-        c.s.bigwr = -1;
-        c.s.holerd = -1;
-        c.s.holewr = -1;
-        c.s.vrtadrng = -1;
-        c.s.vrtidrng = -1;
-        c.s.vrtpe = -1;
-        c.s.vrtwr = -1;
-    );
-    int max_tads = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 1;
-    for (int tad=0; tad<max_tads; tad++)
-        enable_l2c_tad(node, tad);
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_L2C_ENX(0),
+            c.s.cbcx_int_ioccmddbe = 1;
+            c.s.cbcx_int_ioccmdsbe = 1;
+            c.s.cbcx_int_rsddbe = 1;
+            c.s.cbcx_int_rsdsbe = 1;
+            c.s.mcix_int_vbfdbe = 1;
+            c.s.mcix_int_vbfsbe = 1;
+            c.s.tadx_int_rtgdbe = 1;
+            c.s.tadx_int_rtgsbe = 1;
+            c.s.tadx_int_rddislmc = 1;
+            c.s.tadx_int_wrdislmc = 1;
+            c.s.tadx_int_bigrd = 1;
+            c.s.tadx_int_bigwr = 1;
+            c.s.tadx_int_holerd = 1;
+            c.s.tadx_int_holewr = 1;
+            c.s.tadx_int_noway = 1;
+            c.s.tadx_int_tagdbe = 1;
+            c.s.tadx_int_tagsbe = 1;
+            c.s.tadx_int_fbfdbe = 1;
+            c.s.tadx_int_fbfsbe = 1;
+            c.s.tadx_int_sbfdbe = 1;
+            c.s.tadx_int_sbfsbe = 1;
+            c.s.tadx_int_l2ddbe = 1;
+            c.s.tadx_int_l2dsbe = 1;
+        );
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_L2C_INT_ENA,
+            c.s.bigrd = -1;
+            c.s.bigwr = -1;
+            c.s.holerd = -1;
+            c.s.holewr = -1;
+            c.s.vrtadrng = -1;
+            c.s.vrtidrng = -1;
+            c.s.vrtpe = -1;
+            c.s.vrtwr = -1;
+        );
+        int max_tads = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 1;
+        for (int tad=0; tad<max_tads; tad++)
+            enable_l2c_tad(node, tad);
+    }
 }
 
 static void enable_lmc(bdk_node_t node, int lmc)
@@ -869,12 +912,22 @@ static void enable_mio(bdk_node_t node)
         c.s.adr_int = -1;
         c.s.wait_int = -1;
     );
-    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_INT_EN,
-        c.s.perst0 = -1;
-        c.s.perst1 = -1;
-        c.s.rst_link0 = -1;
-        c.s.rst_link1 = -1;
-    );
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_RST_ENX(0),
+            c.s.int_perstx = -1;
+            c.s.int_linkx = -1;
+        );
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_MIO_RST_INT_EN,
+            c.s.perst0 = -1;
+            c.s.perst1 = -1;
+            c.s.rst_link0 = -1;
+            c.s.rst_link1 = -1;
+        );
+    }
 }
 
 static void enable_nand(bdk_node_t node)
@@ -968,9 +1021,10 @@ static void enable_pko(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_PKO_REG_INT_MASK,
         c.s.currzero = -1;
         c.s.doorbell = -1;
-        c.s.loopback = -1;
         c.s.parity = -1;
     );
+    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+        BDK_CSR_MODIFY(c, node, BDK_PKO_REG_INT_MASK, c.s.loopback = -1);
 }
 
 static void enable_rad(bdk_node_t node)
@@ -1027,16 +1081,23 @@ static void enable_tim_cn6xxx(bdk_node_t node)
 
 static void enable_usb(bdk_node_t node, int usb)
 {
-    BDK_CSR_MODIFY(c, node, BDK_UCTLX_INT_ENA(usb),
-        c.s.cf_psh_f = -1;
-        c.s.ec_ovf_e = -1;
-        c.s.er_psh_f = -1;
-        c.s.oc_ovf_e = -1;
-        c.s.or_psh_f = -1;
-        c.s.pp_psh_f = -1;
-        c.s.wb_pop_e = -1;
-        c.s.wb_psh_f = -1;
-    );
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        // FIXME
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_UCTLX_INT_ENA(usb),
+            c.s.cf_psh_f = -1;
+            c.s.ec_ovf_e = -1;
+            c.s.er_psh_f = -1;
+            c.s.oc_ovf_e = -1;
+            c.s.or_psh_f = -1;
+            c.s.pp_psh_f = -1;
+            c.s.wb_pop_e = -1;
+            c.s.wb_psh_f = -1;
+        );
+    }
 }
 
 static void enable_zip(bdk_node_t node)
@@ -1062,7 +1123,7 @@ static void enable_cn6xxx(bdk_node_t node)
         c.s.rml = -1;
     );
     /* MIX is enabled in the bdk_if code */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
         enable_pcm(node);
 
     /* Interrupts off of RML */
@@ -1082,7 +1143,8 @@ static void enable_cn6xxx(bdk_node_t node)
     enable_rad(node);
     enable_sso_cn6xxx(node);
     enable_tim_cn6xxx(node);
-    enable_zip(node);
+    if (!OCTEON_IS_MODEL(OCTEON_CN70XX))
+        enable_zip(node);
 
     /* Interrupts connected to CIU SUM1 */
     BDK_CSR_MODIFY(c, node, BDK_CIU_INTX_EN1(0),
@@ -1165,16 +1227,18 @@ static void enable_cn68xx(bdk_node_t node)
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
-    if (bdk_is_simulation())
-        return;
     if (OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         enable_cn68xx(node);
         bdk_error_check = check_cn68xx;
     }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        // FIXME: CN78XX error reporting
+    }
     else
     {
-        enable_cn6xxx(node);
+        enable_cn6xxx(node); /* Also CN70XX */
         bdk_error_check = check_cn6xxx;
     }
 }
